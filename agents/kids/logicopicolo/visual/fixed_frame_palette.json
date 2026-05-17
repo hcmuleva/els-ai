@@ -1,0 +1,16 @@
+{
+  "palette_version": "LP_FIXED_V1",
+  "description": "Fixed Logico Piccolo button palette and slot order",
+  "slots": [
+    { "slot_id": "S1", "button_id": "btn-01-red", "hex": "#E74C3C", "variant": "solid" },
+    { "slot_id": "S2", "button_id": "btn-02-green", "hex": "#2ECC71", "variant": "solid" },
+    { "slot_id": "S3", "button_id": "btn-03-blue", "hex": "#3498DB", "variant": "solid" },
+    { "slot_id": "S4", "button_id": "btn-04-yellow", "hex": "#F1C40F", "variant": "solid" },
+    { "slot_id": "S5", "button_id": "btn-05-orange", "hex": "#E67E22", "variant": "solid" },
+    { "slot_id": "S6", "button_id": "btn-06-red-white-top", "hex": "#E74C3C", "variant": "white-top" },
+    { "slot_id": "S7", "button_id": "btn-07-green-white-top", "hex": "#2ECC71", "variant": "white-top" },
+    { "slot_id": "S8", "button_id": "btn-08-blue-white-top", "hex": "#3498DB", "variant": "white-top" },
+    { "slot_id": "S9", "button_id": "btn-09-yellow-white-top", "hex": "#F1C40F", "variant": "white-top" },
+    { "slot_id": "S10", "button_id": "btn-10-orange-white-top", "hex": "#E67E22", "variant": "white-top" }
+  ]
+}

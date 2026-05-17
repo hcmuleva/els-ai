@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> or <div class="page"></div> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="logico-piccolo-worksheet-system">Logico Piccolo Worksheet System</h1>
+<p>This folder contains a fixed-structure worksheet generation system for Logico Piccolo.
+It is split into three layers so content changes do not break frame compatibility.</p>
+<h2 id="folder-structure">Folder Structure</h2>
+<ul>
+<li><code>content/</code>: worksheet content contract and data templates</li>
+<li><code>visual/</code>: locked visual system (layout + fixed color buttons)</li>
+<li><code>validation/</code>: rules to verify answer and frame mapping</li>
+<li><code>results/</code>: generated worksheet files (front + flip side)</li>
+</ul>
+<h2 id="end-to-end-topic-flow">End-To-End Topic Flow</h2>
+<p>Use the system in 3 steps when a topic includes teaching content plus assessment.</p>
+<ol>
+<li>Create a topic package using <code>content/TOPIC_LEARNING_PACKAGE_TEMPLATE.md</code>.</li>
+<li>Generate worksheet content files and result HTML from that package.</li>
+<li>After worksheet completion, record level achievement using <code>content/TOPIC_ACHIEVEMENT_REPORT_TEMPLATE.md</code>.</li>
+</ol>
+<p>This allows one topic to connect:</p>
+<ul>
+<li>teaching content from text, image, audio, and video</li>
+<li>worksheet counts by difficulty: easy, medium, hard</li>
+<li>topic-level achievement measurement</li>
+</ul>
+<h2 id="core-rule">Core Rule</h2>
+<p>The frame color/button order is frozen.
+Do not change button order, button IDs, or slot mapping.
+Always place the slot button inside each item box (next to the emoji/illustration), not in a bottom strip.</p>
+<h2 id="fixed-button-set-always-in-context">Fixed Button Set (Always in Context)</h2>
+<p>Use these files from <code>visual/buttons/</code> in every worksheet:</p>
+<ol>
+<li><code>btn-01-red.svg</code></li>
+<li><code>btn-02-green.svg</code></li>
+<li><code>btn-03-blue.svg</code></li>
+<li><code>btn-04-yellow.svg</code></li>
+<li><code>btn-05-orange.svg</code></li>
+<li><code>btn-06-red-white-top.svg</code></li>
+<li><code>btn-07-green-white-top.svg</code></li>
+<li><code>btn-08-blue-white-top.svg</code></li>
+<li><code>btn-09-yellow-white-top.svg</code></li>
+<li><code>btn-10-orange-white-top.svg</code></li>
+</ol>
+<h2 id="how-to-generate-a-new-worksheet">How To Generate A New Worksheet</h2>
+<ol>
+<li>If starting from a lesson/topic, first fill <code>content/TOPIC_LEARNING_PACKAGE_TEMPLATE.md</code>.</li>
+<li>Fill <code>Worksheet Blueprint Table</code> and <code>Worksheet Pair Bank</code> in the topic package.</li>
+<li>Run:
+<code>node agent/prompts/els-system/logicopicolo/generate-topic-package.js agent/prompts/els-system/logicopicolo/content/&lt;package-file&gt;.md</code></li>
+<li>The generator will create worksheet content files in <code>content/</code> and front/flip HTML files in <code>results/</code>.</li>
+<li>Validate with <code>validation/VALIDATION_CHECKLIST.md</code>.</li>
+</ol>
+<h2 id="package-generator-contract">Package Generator Contract</h2>
+<ul>
+<li><code>Worksheet Blueprint Table</code> controls how many worksheets are created.</li>
+<li><code>pair_ids</code> must list exactly 10 pair IDs per worksheet.</li>
+<li><code>Worksheet Pair Bank</code> provides the actual left/right matches used to build worksheets.</li>
+<li>Left and right display orders are randomized deterministically from <code>worksheet_id</code>.</li>
+<li>Slot-to-button mapping remains fixed as <code>S1..S10</code>.</li>
+</ul>
+<h2 id="example-package">Example Package</h2>
+<ul>
+<li><code>content/PKG_S301_PLANT_SYSTEMS_01.md</code></li>
+<li>Generate with:
+<code>node agent/prompts/els-system/logicopicolo/generate-topic-package.js agent/prompts/els-system/logicopicolo/content/PKG_S301_PLANT_SYSTEMS_01.md</code></li>
+</ul>
+<h2 id="achievement-report-generation">Achievement Report Generation</h2>
+<p>After worksheet scores are filled into the package file's <code>Assessment Capture Template</code>, run:</p>
+<p><code>node agent/prompts/els-system/logicopicolo/update-package-scores.js agent/prompts/els-system/logicopicolo/content/&lt;package-file&gt;.md</code></p>
+<p>This updates <code>score_percent</code> and converts <code>status: evaluated</code> rows into <code>pass</code> or <code>fail</code> using the package thresholds.</p>
+<p>Then run:</p>
+<p><code>node agent/prompts/els-system/logicopicolo/generate-achievement-report.js agent/prompts/els-system/logicopicolo/content/&lt;package-file&gt;.md</code></p>
+<p>This creates a topic-level achievement report in <code>results/</code>.</p>
+<ul>
+<li>If any worksheet remains <code>pending</code>, the achieved level is generated as <code>Not Assessed</code>.</li>
+</ul>
+<h2 id="topic-package-rules">Topic Package Rules</h2>
+<ul>
+<li>A topic package may include any mix of text, image, audio, and video content.</li>
+<li>Worksheet generation counts must be explicitly defined: <code>easy_count</code>, <code>medium_count</code>, <code>hard_count</code>.</li>
+<li>Every generated worksheet must map back to a concept and source modality from the package.</li>
+<li>Topic-level achievement must be decided from worksheet performance, not by content presence alone.</li>
+</ul>
+<h2 id="required-output-per-worksheet">Required Output Per Worksheet</h2>
+<p>For each worksheet, always generate both files:</p>
+<ul>
+<li><code>&lt;worksheet_id&gt;_front.html</code></li>
+<li><code>&lt;worksheet_id&gt;_flip.html</code></li>
+</ul>
+<p>Flip side must contain the correct mapping for all 10 frame slots.
+Front side must show one fixed frame button inside each of the 10 left item boxes.
+Front side left card positions must be randomized (avoid S1..S10 visual order).
+Flip side must reuse the same board layout as front and show the correct slot button next to each right-side option.
+Flip side left card order must exactly match the randomized front-side left order.</p>
+<h2 id="example">Example</h2>
+<ul>
+<li>Topic: <code>Food Chain Matching</code></li>
+<li>Outputs:
+<ul>
+<li><code>results/WS_S301_SET02_FOOD_CHAIN_front.html</code></li>
+<li><code>results/WS_S301_SET02_FOOD_CHAIN_flip.html</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="change-guidance">Change Guidance</h2>
+<ul>
+<li>Change topic/content only: edit content file.</li>
+<li>Keep same structure output: do not edit visual layout template or slot schema.</li>
+<li>Keep fixed frame colors: do not edit <code>visual/buttons/</code> files or <code>visual/fixed_frame_palette.json</code>.</li>
+</ul>
+
+</body>
+</html>

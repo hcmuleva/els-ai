@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{worksheet_id}} Front</title>
+  <style>
+    :root {
+      --w: 794px;
+      --h: 1123px;
+      --line: #666;
+      --head-bg: #d8efcb;
+      --head-border: #80aa75;
+      --panel-bg: #f8f8f4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 18px;
+      background: #ecefe8;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+    }
+
+    .sheet {
+      width: var(--w);
+      height: var(--h);
+      margin: 0 auto;
+      background: #fff;
+      border: 1.4px solid var(--line);
+      position: relative;
+    }
+
+    .header {
+      margin: 10px;
+      border: 1px solid var(--head-border);
+      background: var(--head-bg);
+      padding: 10px 12px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .title {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .meta {
+      font-size: 12px;
+      color: #333;
+      margin-top: 2px;
+    }
+
+    .badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      background: #f3f3f3;
+    }
+
+    .board {
+      margin: 0 10px 10px;
+      height: calc(100% - 92px);
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 10px;
+    }
+
+    .left {
+      border: 1px solid var(--line);
+      background: #fff;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 10px;
+      align-content: start;
+    }
+
+    .card {
+      border: 1px dashed #bbb;
+      border-radius: 6px;
+      padding: 8px;
+      display: grid;
+      grid-template-columns: 44px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      min-height: 88px;
+    }
+
+    .icon {
+      font-size: 30px;
+      text-align: center;
+    }
+
+    .txt {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .slot {
+      font-size: 12px;
+      color: #333;
+      margin-top: 4px;
+    }
+
+    .slot-btn img {
+      width: 28px;
+      height: 28px;
+      display: block;
+    }
+
+    .right {
+      border: 1px solid var(--line);
+      background: var(--panel-bg);
+      display: grid;
+      grid-template-rows: repeat(10, 1fr);
+    }
+
+    .opt {
+      border-bottom: 1px solid var(--line);
+      padding: 6px;
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 6px;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .opt:last-child {
+      border-bottom: 0;
+    }
+
+    .oid {
+      font-weight: 700;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <article class="sheet">
+    <header class="header">
+      <div>
+        <div class="title">{{instruction}}</div>
+        <div class="meta">Worksheet ID: {{worksheet_id}} | Structure: LP_FIXED_V1 | Side: Front</div>
+      </div>
+      <div class="badge">{{set_no}}</div>
+    </header>
+    <section class="board">
+      <div class="left">
+        <!-- Must be randomized visual order (not S1..S10), while preserving fixed slot ID/button per card. -->
+        {{left_cards_with_fixed_slot_buttons}}
+      </div>
+      <aside class="right">
+        {{right_options}}
+      </aside>
+    </section>
+  </article>
+</body>
+
+</html>

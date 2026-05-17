@@ -1,0 +1,11 @@
+{
+  "name": "els-ai",
+  "private": true,
+  "workspaces": [
+    "apps/mobile",
+    "apps/backend"
+  ],
+  "scripts": {
+    "typecheck": "npm run typecheck -w apps/mobile && npm run typecheck -w apps/backend"
+  }
+}
