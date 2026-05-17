@@ -1,1 +1,1 @@
-shree ganeshay namah ji
+ shree ganeshay namah ji
