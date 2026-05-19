@@ -12,6 +12,7 @@ const PID_FILE = path.join(LOGS_DIR, 'services.pid');
 const SERVICES = [
   { name: 'auth-service', dir: 'backend/auth-service', port: 4101 },
   { name: 'quiz-service', dir: 'backend/quiz-service', port: 4002 },
+  { name: 'media-service', dir: 'backend/media-service', port: 4004 },
   { name: 'ai-service', dir: 'backend/ai-service', port: 4003 },
   { name: 'gateway', dir: 'backend/gateway', port: 4000 },
 ];

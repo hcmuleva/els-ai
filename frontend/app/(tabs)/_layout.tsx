@@ -141,7 +141,7 @@ export default function TabsLayout() {
         name="content"
         options={{
           href: tabRoutes.has('content') ? undefined : null,
-          title: 'Content',
+          title: 'Questions',
           tabBarIcon: ({ color, size }) => {
             const Icon = getTabIcon('content');
             return <Icon size={size} />;

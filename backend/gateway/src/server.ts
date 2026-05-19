@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 4000;
 const AUTH_SERVICE_URL = process.env.AUTH_SERVICE_URL || 'http://localhost:4101';
 const QUIZ_SERVICE_URL = process.env.QUIZ_SERVICE_URL || 'http://localhost:4002';
 const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:4003';
+const MEDIA_SERVICE_URL = process.env.MEDIA_SERVICE_URL || 'http://localhost:4004';
 
 const app = express();
 app.use(cors());
@@ -69,6 +70,17 @@ app.use(
     changeOrigin: true,
     pathRewrite: (path) => {
       return path.startsWith('/ai') ? path : `/ai${path}`;
+    },
+  })
+);
+
+app.use(
+  '/assets',
+  createProxyMiddleware({
+    target: MEDIA_SERVICE_URL,
+    changeOrigin: true,
+    pathRewrite: (path) => {
+      return path.startsWith('/assets') ? path : `/assets${path}`;
     },
   })
 );
