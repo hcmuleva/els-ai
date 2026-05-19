@@ -1,0 +1,252 @@
+import { StyleSheet } from 'react-native';
+
+export const FRAME_BUTTON_SIZE = 46;
+export const FRAME_SLOT_COUNT = 10;
+
+export const logicopiccoloStyles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    backgroundColor: '#f8fafc',
+  },
+  content: {
+    flex: 1,
+    padding: 14,
+    gap: 12,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#0f172a',
+  },
+  subtitle: {
+    fontSize: 13,
+    color: '#475569',
+  },
+  frameContainer: {
+    borderWidth: 4,
+    borderColor: '#2f9e44',
+    borderRadius: 22,
+    backgroundColor: '#ebfbee',
+    padding: 10,
+    shadowColor: '#0f172a',
+    shadowOpacity: 0.14,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 5,
+  },
+  frameInner: {
+    position: 'relative',
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: '#69db7c',
+    backgroundColor: '#ffffff',
+    overflow: 'hidden',
+  },
+  topBar: {
+    height: 50,
+    paddingHorizontal: 12,
+    backgroundColor: '#d8f5a2',
+    borderBottomWidth: 1,
+    borderColor: '#8ce99a',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  topBarTitle: {
+    fontSize: 14,
+    color: '#14532d',
+    fontWeight: '700',
+  },
+  flipButton: {
+    backgroundColor: '#2f9e44',
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 18,
+  },
+  flipButtonText: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  boardRow: {
+    flexDirection: 'row',
+    minHeight: 260,
+    borderBottomWidth: 2,
+    borderColor: '#dcfce7',
+  },
+  webViewWrap: {
+    flex: 1,
+    borderRightWidth: 2,
+    borderColor: '#dcfce7',
+    backgroundColor: '#ffffff',
+  },
+  webView: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+  },
+  webIframeWrap: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+  },
+  rightRail: {
+    width: 168,
+    flexDirection: 'row',
+    borderLeftWidth: 1,
+    borderColor: '#86efac',
+    backgroundColor: '#f8fafc',
+  },
+  answerColumn: {
+    width: 96,
+    borderRightWidth: 1,
+    borderColor: '#cbd5e1',
+    backgroundColor: '#ffffff',
+  },
+  answerRow: {
+    flex: 1,
+    borderBottomWidth: 1,
+    borderColor: '#e2e8f0',
+    paddingHorizontal: 6,
+    justifyContent: 'center',
+  },
+  answerRowLast: {
+    borderBottomWidth: 0,
+  },
+  answerId: {
+    fontSize: 10,
+    color: '#0f172a',
+    fontWeight: '700',
+  },
+  answerText: {
+    fontSize: 10,
+    color: '#334155',
+    marginTop: 2,
+    lineHeight: 12,
+  },
+  tray: {
+    height: 84,
+    backgroundColor: '#f1f5f9',
+    borderTopWidth: 1,
+    borderColor: '#dbeafe',
+  },
+  floatingLayer: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  buttonCircle: {
+    width: FRAME_BUTTON_SIZE,
+    height: FRAME_BUTTON_SIZE,
+    borderRadius: FRAME_BUTTON_SIZE / 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#ffffff',
+    shadowColor: '#0f172a',
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
+  },
+  buttonLabel: {
+    color: '#ffffff',
+    fontSize: 15,
+    fontWeight: '800',
+  },
+  slotColumn: {
+    width: 72,
+    backgroundColor: '#f0fdf4',
+    borderLeftWidth: 1,
+    borderColor: '#86efac',
+  },
+  slotRow: {
+    flex: 1,
+    borderBottomWidth: 1,
+    borderColor: '#86efac',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 4,
+  },
+  slotRowLast: {
+    borderBottomWidth: 0,
+  },
+  slot: {
+    width: FRAME_BUTTON_SIZE + 8,
+    height: FRAME_BUTTON_SIZE + 8,
+    borderRadius: 18,
+    borderWidth: 2,
+    borderColor: '#86efac',
+    backgroundColor: '#dcfce7',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  slotActive: {
+    borderColor: '#22c55e',
+    backgroundColor: '#bbf7d0',
+  },
+  slotOccupiedText: {
+    fontSize: 11,
+    color: '#14532d',
+    fontWeight: '700',
+  },
+  selectorWrap: {
+    gap: 8,
+  },
+  selectorTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#1e293b',
+  },
+  selectorRow: {
+    flexDirection: 'row',
+    gap: 8,
+    paddingBottom: 2,
+  },
+  thumb: {
+    width: 130,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#cbd5e1',
+    backgroundColor: '#ffffff',
+    padding: 10,
+    gap: 6,
+  },
+  thumbSelected: {
+    borderColor: '#2f9e44',
+    backgroundColor: '#f0fdf4',
+  },
+  thumbBadge: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+  },
+  thumbTitle: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#0f172a',
+  },
+  previewPanel: {
+    marginTop: 2,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    borderRadius: 12,
+    padding: 10,
+  },
+  webFallback: {
+    flex: 1,
+    padding: 8,
+    backgroundColor: '#ffffff',
+  },
+  webFallbackContent: {
+    minWidth: '100%',
+  },
+  previewTitle: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#334155',
+    marginBottom: 4,
+  },
+  previewCode: {
+    fontSize: 11,
+    color: '#475569',
+    fontFamily: 'Courier',
+  },
+});

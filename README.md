@@ -1,95 +1,47 @@
-shree ganeshay namah ji !
+# ELS-AI (Experiential Learning System)
 
-This is multi org or tenacy system
-We need ELS System for Student =KIDS, HIGHSCHOOL, and HIGHER .
-In this system we will have three types of user roles (student, teacher, parent,admin and superadmin)
-We need to create this as a monorepo having both backend(nodejs) and reactnative mobile app. Backend database is postgres (local postgres is running and full details is avaialble in .env)
-We have to store all images and document in s3 bucket(.env have full details of s3)
+Shree Ganeshay Namah 🙏
 
-Mobile app design consideration: We need top bar (top left side my company logo logo.png avaialble in root. right top side we need profile avatar and on click profile setting, profile details and logout button ). Top right before profile there is drop down (if more than one profile) to select profiles(if user created more than one profile small avatar name).
+ELS-AI is a next-generation, multi-tenant EdTech platform powered by AI. It focuses on personalized, experiential learning for students across all grades, with a specialized "Interactive Playroom" for KIDS (LKG–5th).
 
-Bottom navbar is Home, Reports Admin (If userrole is admin)
+## 🚀 Quick Links
+- **[Agent Implementation Roadmap](./docs/agents/MASTER_GUIDE.md)**: Step-by-step guide for developers and AI agents.
+- **[Architecture & Guidelines](./docs/README-AGENTS.md)**: Style guides, API specs, and quality controls.
+- **[System Design](./docs/SystemDesign.md)**: Architectural overview and diagrams.
+- **[App Structure Plan](./docs/APP_STRUCTURE_PLAN.md)**: Monorepo and file structure details.
 
-Classes consider for this system is LKG to 12th all classes
+## 🏗️ Core Architecture
+- **Monorepo**: `/backend/gateway`, `/backend/auth-service`, `/backend/quiz-service`, `/backend/ai-service` (Services) and `/frontend` (React Native app).
+- **Database**: PostgreSQL with RBAC and multi-tenancy.
+- **AI Layer**: Multi-agent system located in `/agents`.
+- **Media**: AWS S3 for all dynamic assets.
 
-SuperaDmin:
-Super admin can manage Org
-Super admin can manage User and assign roles for given orgs.
-SuperAdmin bulk import of students, teacher, subjects, classes and assign based on defined template data structure.
+## 🌟 Key Features
+- **Multi-Tenant**: Isolated data per organization.
+- **Dynamic Quiz Engine**: Drag-and-drop, Sound-match, and Memory games for kids.
+- **AI Generation**: Automated content and quiz creation reviewed by teachers.
+- **Interactive UX**: Rich animations (Reanimated) and audio feedback (Expo-AV).
 
-Admin can create a mulitple profiles for a single users (e.g. Teacher/Admin/Student/parent)
-Now this user logged into system and top right corner(just before profile), this user can select profile (any one from this Teacher/Admin/Student/parent) and center layout need to change .
+---
 
-Admin of the org can assign and create system.
+## 🛠️ Development Setup
+See the **[Master Guide](./docs/agents/MASTER_GUIDE.md)** for detailed implementation instructions.
 
-We can provide temple for all these and apply this can configure entire system.
-In the temple users, class, subject, course details will be filled or modify by admin and apply this will create all classes, courses, subjects, assigned students, teachers .
+### Starting the Microservices locally
+Start all background microservices (API Gateway, Auth, Quiz, and AI services) with a single command:
+```bash
+npm run services:start
+```
 
-ASSESSMENT APPROACH
-SELF ASSESSMENT
-ACTUAL PARTICIPANT
+Stop or restart services:
+```bash
+npm run services:stop
+npm run services:restart
+```
 
-RoadMap:
+Check the running status:
+```bash
+npm run services:status
+```
 
-Admin:
-Manage Users, Assign roles, Create Classes and Asign Student/Teacher ,
-Manage Subject and Assign students/Teachers
-Manage course: Assign Student/teacher
-
-Teacher:
-
-    Marking and evaluation:
-        Subjects,
-        Compition
-        Extra curriculam activities
-
-    Planner(classroom):
-        Period or learning lessons(when , what course/subject/unit/topic , date and time)
-        Exam:
-            Select question paper pattern (Questions:[Easy question, medium, hard] , marking, type: mock/Practice, weekly, CT, monthly )
-        Assessment:
-            Academic Student Analytics:
-                student, Subject,topic, exam , marks, class
-            Behavirorial Analytics:
-            Extra curriculam activities:
-    Content Evaluation:
-        Teacher will select generated content(content, questions,exams, projects) and teacher can edit it.  Manual vs AI (we can provide a radio button to select AI or manual changes)
-
-    Content manangement
-        in this teacher will provide
-            Subject:
-                Class:
-                Title:
-                Description:
-                Level:
-                Expect content type: Audio, Video, Text, Image
-            Expected:
-                It will generate content prompt with expected content type.
-
-    Question management
-
-Special consideraration:
-
-In this system there are following three types of layout will require in Mobile react native app (KIDS, HIGHSCHOOL, and HIGHER ) .
-
-We need to maintain main
-
-Reports And Analytics:
-
-    Teacher:
-        Analtics:
-    Student:
-        Analyze :
-            Question: Wrt course/subject/topic [ Wrong /right/not attemped].  Trends of it and indevidiual
-            Scoring: it should be ratings of course/subject/topic. Trends of it and indevidiual
-
-Report:
-Teacher, Parent, Priciple
-Frequency: daily, monthly, halfyearly
-Teacher will have follwoing style of report (teacher_report.png)
-Student Report: Same style of Student_report we need.
-
-    Report Content:
-        We need to provide detailed report
-
-        Recommendation:
+Logs are generated in `logs/*.log` for each running service.

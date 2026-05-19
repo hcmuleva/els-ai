@@ -1,11 +1,19 @@
 {
   "name": "els-ai",
   "private": true,
+  "type": "module",
   "workspaces": [
-    "apps/mobile",
-    "apps/backend"
+    "frontend",
+    "backend/gateway",
+    "backend/auth-service",
+    "backend/quiz-service",
+    "backend/ai-service"
   ],
   "scripts": {
-    "typecheck": "npm run typecheck -w apps/mobile && npm run typecheck -w apps/backend"
+    "typecheck": "npm run typecheck --workspaces",
+    "services:start": "node scripts/manage-services.js start",
+    "services:stop": "node scripts/manage-services.js stop",
+    "services:restart": "node scripts/manage-services.js restart",
+    "services:status": "node scripts/manage-services.js status"
   }
 }

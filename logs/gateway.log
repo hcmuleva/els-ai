@@ -1,0 +1,70 @@
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on http://localhost:4000
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on http://localhost:4000
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on http://localhost:4000
+(node:118543) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+1:54:35 PM [tsx] change in ./src/server.ts Rerunning...
+c1:54:35 PM [tsx] change in ./src/server.ts Rerunning...
+c1:54:35 PM [tsx] unlink in ./src/server.ts Restarting...
+cAPI Gateway listening on http://localhost:4000
+API Gateway listening on http://localhost:4000
+API Gateway listening on http://localhost:4000
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on http://localhost:4000
+1:55:05 PM [tsx] change in ./src/server.ts Rerunning...
+c1:55:05 PM [tsx] change in ./../../backend/gateway/src/server.ts Rerunning...
+c1:55:05 PM [tsx] change in ./src/server.ts Restarting...
+c1:55:05 PM [tsx] change in ./src/server.ts Rerunning...
+cAPI Gateway listening on http://localhost:4000
+API Gateway listening on http://localhost:4000
+API Gateway listening on http://localhost:4000
+API Gateway listening on http://localhost:4000
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on http://localhost:4000
+(node:156727) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+2:54:09 PM [tsx] change in ./src/server.ts Rerunning...
+c2:54:09 PM [tsx] change in ./src/server.ts Rerunning...
+c2:54:09 PM [tsx] change in ./../../backend/gateway/src/server.ts Restarting...
+c2:54:09 PM [tsx] change in ./src/server.ts Rerunning...
+c2:54:09 PM [tsx] change in ./src/server.ts Rerunning...
+cAPI Gateway listening on http://localhost:4000
+API Gateway listening on http://localhost:4000
+API Gateway listening on http://localhost:4000
+API Gateway listening on http://localhost:4000
+API Gateway listening on http://localhost:4000
+(node:266706) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on http://localhost:4000
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on http://localhost:4000
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on http://localhost:4000
