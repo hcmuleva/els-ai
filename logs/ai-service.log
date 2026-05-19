@@ -62,3 +62,40 @@ AI Service listening on http://localhost:4003
 > tsx watch src/server.ts
 
 AI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+npm error Lifecycle script `dev` failed with error:
+npm error code 15
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/ai-service
+npm error workspace ai-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/ai-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003

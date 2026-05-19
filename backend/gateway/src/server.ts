@@ -13,7 +13,7 @@ const ROOT_DIR = path.resolve(__dirname, '../../..');
 const MEDIA_DIR = path.join(ROOT_DIR, 'audio-images');
 
 const PORT = process.env.PORT || 4000;
-const AUTH_SERVICE_URL = process.env.AUTH_SERVICE_URL || 'http://localhost:4001';
+const AUTH_SERVICE_URL = process.env.AUTH_SERVICE_URL || 'http://localhost:4101';
 const QUIZ_SERVICE_URL = process.env.QUIZ_SERVICE_URL || 'http://localhost:4002';
 const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:4003';
 

@@ -38,3 +38,44 @@ Quiz Service listening on http://localhost:4002
 > tsx watch src/server.ts
 
 Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002
+npm error Lifecycle script `dev` failed with error:
+npm error code 15
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error workspace quiz-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002
+6:45:35 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+6:53:52 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002

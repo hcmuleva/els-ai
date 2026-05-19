@@ -1,51 +1,72 @@
-# Step 3: Mobile Quiz Engine (Expo & React Native)
+# Step 3: Mobile Role-Based Experience & Quiz Renderer
 
-## 1. Core Architecture
-The mobile app acts as a **Renderer Engine**. It should not have hardcoded quiz logic. Instead, it reads the `question_type` and `question_data` from the backend and renders the appropriate UI.
+## 1) Core Principle
+Frontend must be role-driven and API-driven.
+- Role-driven: layout/navigation/actions depend on `active_role`.
+- API-driven: quiz UI is rendered from `question_type` + `question_data`.
 
-### 1.1 Key Libraries
-- **Animations:** `react-native-reanimated`, `lottie-react-native`.
-- **Gestures:** `react-native-gesture-handler`.
-- **Sound:** `expo-av`.
-- **Storage:** `expo-secure-store` (for tokens).
+## 2) Profile Switching (Mandatory)
+- One user can have multiple roles.
+- Profile switch updates `active_role` in client state and backend.
+- UI changes immediately without restart.
 
-## 2. Dynamic Renderer Pattern
+Expected behavior after role change:
+1. Fetch role-specific permissions.
+2. Rebuild bottom tabs.
+3. Reload role-scoped dashboard data.
 
-### 2.1 Component Structure
-```javascript
-// components/quiz/QuizRenderer.tsx
-import DragDropRenderer from './renderers/DragDropRenderer';
-import ImageSelectRenderer from './renderers/ImageSelectRenderer';
+## 3) Role-Wise Screen Segregation
 
-const QuizRenderer = ({ question }) => {
-  switch (question.question_type) {
-    case 'drag_drop':
-      return <DragDropRenderer data={question.question_data} />;
-    case 'image_select':
-      return <ImageSelectRenderer data={question.question_data} />;
-    default:
-      return <Text>Unsupported Question Type</Text>;
-  }
-};
-```
+### Student
+- Home (assigned content)
+- Practice/Quiz
+- Reports
+- Recommendations
 
-## 3. Interactive Playroom Features (Kids Focus)
+### Teacher
+- Home
+- Planner
+- Exam/Question setup
+- Assessment dashboard
+- Content review (AI vs manual)
+- Reports
 
-### 3.1 Audio Feedback
-- **Tap Sounds:** Every button press should have a subtle "click" or "pop" sound.
-- **Success Jingle:** Play a cheerful sound and show confetti/stars on correct answers.
-- **Error Feedback:** Play a gentle "boing" or "shake" animation on wrong answers.
-- **Background Music:** Loop playful, low-volume music during the quiz.
+### Parent
+- Home
+- Child reports (academic + behavioral)
+- Recommendations
 
-### 3.2 Drag & Drop Logic
-- Use `react-native-reanimated` for smooth movement.
-- When an item is dragged over a valid target, provide haptic feedback and highlight the target.
-- On drop, if correct, snap to position and play success sound. If wrong, snap back to start.
+### Admin
+- Home
+- User/role management
+- Class/subject/course setup
+- Mapping and governance reports
 
-## 4. Implementation Checklist
-- [ ] Implement `ProfilePage` for updating user info (first_name, last_name, profile_image).
-- [ ] Implement `QuizRenderer` shell with support for `expo-av`.
-- [ ] Create `DragDropRenderer` using `react-native-reanimated`.
-- [ ] Implement `ImageSelectRenderer` with sound prompts.
-- [ ] Setup global `AuthContext` to handle refresh tokens and auto-login.
-- [ ] Ensure the UI adapts based on the selected `active_profile`.
+## 4) Navigation Matrix (Bottom Tabs)
+- Student: `Home | Practice | Reports | Recommendations`
+- Teacher: `Home | Planner | Assessment | Content | Reports`
+- Parent: `Home | Reports | Recommendations`
+- Admin: `Home | Users | Setup | Reports | Admin`
+
+No cross-role tab leakage is allowed.
+
+## 5) Dynamic Quiz Renderer
+Renderer switches by `question_type`:
+- `drag_drop`
+- `image_select`
+- extensible for future types
+
+`question_data` must be schema-validated before rendering.
+
+## 6) State & Storage
+- Tokens stored via secure storage utility.
+- `active_role` and selected learner context must persist.
+- API base URL from environment (`EXPO_PUBLIC_API_BASE_URL`), no hardcoded URLs.
+
+## 7) Completion Checklist
+- [ ] Role switch updates tabs, permissions, and data scope in one flow
+- [ ] Role-specific screen guards are enforced
+- [ ] QuizRenderer supports current question types safely
+- [ ] Audio/interaction feedback implemented for student UX
+- [ ] Active role update API integrated (`PATCH /users/:id/active-role`)
+- [ ] No hardcoded API URL in mobile modules

@@ -1,60 +1,44 @@
 # Step 4: AI Agents & Automated Generation
 
-## 1. Multi-Agent System Architecture
-Agents are specialized LLM prompts/tools that handle specific parts of the learning journey.
+## 1) Required Agent Set
+1. **Context Agent**: builds learner + class context from progress data.
+2. **Content Generator Agent**: creates age/level-appropriate teaching material.
+3. **Question Generator Agent**: converts content into quiz-compatible `question_data`.
+4. **Assessment Agent**: evaluates attempt quality and concept mastery.
+5. **Recommendation Agent**: proposes next learning path.
+6. **Report Generator Agent**: prepares role-specific summaries (student/parent/teacher/admin).
 
-### 1.1 Core Agents
-1. **Context Agent:** Analyzes student progress, strengths, and weaknesses to decide what content to generate next.
-2. **Content Generator:** Creates age-appropriate stories, text, and lesson scripts.
-3. **Question Generator:** Converts content into structured `question_data` (JSON) for the Quiz Engine.
-4. **Assessment Agent:** Evaluates student attempts and provides qualitative feedback.
-5. **Recommendation Agent:** Suggests the next topic or difficulty level.
+## 2) Generation Workflow
+1. Input: `topic`, `class_level`, `quiz_type`, `difficulty_level`, role context.
+2. Context Agent enriches prompt with student/class signals.
+3. Content + Question agents produce structured output.
+4. Validation layer checks schema and safety rules.
+5. Teacher review/edit screen allows approval or rejection.
+6. Publish marks output as available for student consumption.
 
-## 2. Quiz Generation Workflow
+## 3) Output Contract
+AI output must be valid JSON and include:
+- `quiz_metadata`
+- `questions[]`
+- role-safe language and age-safe content
+- explanation/reasoning payload where required
 
-### 2.1 The Generation Prompt
-Teachers or the system can trigger generation by providing:
-- **Topic:** (e.g., "Animal Habitats")
-- **Class Level:** (e.g., "KG")
-- **Quiz Type:** (e.g., "drag_drop")
+Rejected generation must return actionable validation errors.
 
-### 2.2 Expected AI Output (Example)
-The AI MUST return a valid JSON object that matches the `quiz_questions` schema.
+## 4) Safety and Quality Rules
+- No harmful, biased, or age-inappropriate content.
+- Encourage reasoning and conceptual understanding.
+- All generated media references must resolve to allowed asset sources.
+- Add guardrails for unsupported question types.
 
-```json
-{
-  "quiz_metadata": {
-    "title": "Where do animals live?",
-    "subject": "Nature",
-    "difficulty": "easy"
-  },
-  "questions": [
-    {
-      "type": "drag_drop",
-      "instruction": "Match the animal to its home",
-      "data": {
-        "drag_items": [
-          {"id": "fish", "image": "fish_icon_url", "sound": "glug_sound_url"},
-          {"id": "bird", "image": "bird_icon_url", "sound": "chirp_sound_url"}
-        ],
-        "drop_targets": [
-          {"id": "fish", "label": "Water"},
-          {"id": "bird", "label": "Nest"}
-        ]
-      }
-    }
-  ]
-}
-```
+## 5) Human-in-the-Loop
+- Teacher can edit prompt/result before publish.
+- Admin can define organization policy constraints.
+- Every publish action is auditable.
 
-## 3. Feedback & Iteration
-1. **AI Generates:** System creates the quiz JSON.
-2. **Teacher Reviews:** Display the generated data in a dashboard.
-3. **Teacher Modifies:** Teacher can edit labels, swap images, or change instructions.
-4. **Publish:** Once approved, the quiz is marked `is_published: true`.
-
-## 4. Implementation Checklist
-- [ ] Create system prompts for each agent in the `agents/` folder.
-- [ ] Implement a `GeneratorService` that calls LLM APIs (OpenAI/Gemini/Anthropic).
-- [ ] Build a "Review Dashboard" for teachers to validate AI-generated quizzes.
-- [ ] Setup a library of "Common Assets" (success/fail sounds, default icons) for the AI to reference.
+## 6) Completion Checklist
+- [ ] Prompt packs created for all 6 agents
+- [ ] JSON schema validation implemented before persistence
+- [ ] Teacher review workflow implemented end-to-end
+- [ ] Recommendation + report generation wired to role dashboards
+- [ ] Safety checks and fallback messaging implemented

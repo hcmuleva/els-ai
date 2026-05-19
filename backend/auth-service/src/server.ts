@@ -8,7 +8,7 @@ import { initSchemaAndSeed } from './seed.js';
 
 config();
 
-const PORT = process.env.PORT || 4001;
+const PORT = process.env.PORT || 4101;
 const app = express();
 
 app.use(cors());

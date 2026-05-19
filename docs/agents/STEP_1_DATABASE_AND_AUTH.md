@@ -19,6 +19,7 @@ CREATE TABLE users (
     profile_image TEXT,
     is_active BOOLEAN DEFAULT true,
     is_verified BOOLEAN DEFAULT false,
+    active_role VARCHAR(50),
     last_login_at TIMESTAMP,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
@@ -69,6 +70,22 @@ CREATE TABLE organizations (
 ALTER TABLE user_roles ADD COLUMN organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE;
 ```
 
+### 1.3 Permissions Baseline
+```sql
+CREATE TABLE permissions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    permission_key VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE role_permissions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    role_id UUID REFERENCES roles(id) ON DELETE CASCADE,
+    permission_id UUID REFERENCES permissions(id) ON DELETE CASCADE,
+    UNIQUE(role_id, permission_id)
+);
+```
+
 ## 2. Authentication Flow
 
 ### 2.1 Login
@@ -77,6 +94,7 @@ ALTER TABLE user_roles ADD COLUMN organization_id UUID REFERENCES organizations(
 3. Generate **Refresh Token** (Long-lived: 30d).
 4. Hash Refresh Token and store in `refresh_tokens` table.
 5. Return both tokens and user profile (including available roles/orgs).
+6. Set/return `active_role` for immediate role-based UX.
 
 ### 2.2 Token Refresh
 1. Client sends Refresh Token.
@@ -88,11 +106,19 @@ ALTER TABLE user_roles ADD COLUMN organization_id UUID REFERENCES organizations(
 - Check `Authorization: Bearer <access_token>`.
 - Decode JWT to get `user_id` and `organization_id`.
 - Verify user has required role for the specific organization.
+- Verify route permission against `role_permissions`.
 
-## 3. Implementation Checklist for Agents
+## 3. Environment Rules
+- Load auth configuration from env only (`PORT`, `JWT_*`, `DB_*`).
+- Validate required env vars on startup.
+- Fail fast when env values are missing/invalid.
+
+## 4. Implementation Checklist for Agents
 - [ ] Implement `POST /auth/register` with role selection.
 - [ ] Implement `POST /auth/login` with JWT and Refresh Token logic.
 - [ ] Implement `POST /auth/refresh` for token rotation.
+- [ ] Implement `PATCH /users/:id/active-role` with DB persistence.
 - [ ] Setup PostgreSQL migrations using an ORM (Prisma/Drizzle recommended).
 - [ ] Ensure all user data uses `snake_case`.
-- [ ] Setup `expo-secure-store` in the mobile app to persist tokens.
+- [ ] Setup secure token storage in client.
+- [ ] Add startup env validation in auth-service.

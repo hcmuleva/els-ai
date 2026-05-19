@@ -1,123 +1,77 @@
-# ELS-AI Implementation Plan (Expo + Node + Postgres)
+# ELS-AI App Structure Plan (Current + Permanent Direction)
 
-## Goal
+## 1) Objective
+Define a stable folder layout and module ownership so implementation remains consistent and non-temporary.
 
-Create a working monorepo with:
-- Expo mobile app
-- Node/Express backend
-- Local PostgreSQL integration (`els_ai_db`)
-- Multi-role users
-- Role switcher from profile icon menu
-- Role-based tab/screen layout
-- `lucide-react-native` for icons
-
-## Official Expo Installer Flow
-
-Use Expo’s recommended starter command:
-
-```bash
-npx create-expo-app@latest apps/mobile
-```
-
-Then install required mobile packages:
-
-```bash
-cd apps/mobile
-npx expo install expo-router react-native-safe-area-context react-native-screens react-native-gesture-handler react-native-reanimated
-npm install lucide-react-native
-```
-
-## Monorepo Structure
-
+## 2) Canonical Monorepo Layout
 ```txt
 els-ai/
-├── package.json
-├── apps/
-│   ├── mobile/
-│   │   ├── app/
-│   │   │   ├── _layout.tsx
-│   │   │   ├── (tabs)/
-│   │   │   │   ├── _layout.tsx
-│   │   │   │   ├── index.tsx
-│   │   │   │   ├── practice.tsx
-│   │   │   │   ├── planner.tsx
-│   │   │   │   ├── reports.tsx
-│   │   │   │   ├── content.tsx
-│   │   │   │   ├── admin.tsx
-│   │   │   │   └── settings.tsx
-│   │   └── src/
-│   │       ├── components/
-│   │       │   ├── header/ProfileMenu.tsx
-│   │       │   └── header/RoleSwitcher.tsx
-│   │       ├── context/AuthContext.tsx
-│   │       ├── config/roleTabs.ts
-│   │       └── types/roles.ts
-│   └── backend/
-│       ├── package.json
-│       └── src/
-│           ├── server.ts
-│           ├── db.ts
-│           ├── seed.ts
-│           ├── types.ts
-│           └── routes/
-│               └── users.ts
+├── backend/
+│   ├── gateway/
+│   ├── auth-service/
+│   ├── quiz-service/
+│   └── ai-service/
+├── frontend/
+│   ├── app/
+│   └── src/
+├── agents/
+├── scripts/
+├── docs/
+└── audio-images/
 ```
 
-## Role Change UX (Profile Icon)
+## 3) Module Ownership
 
-On profile icon click, open menu:
-1. Profile
-2. Settings
-3. Divider
-4. Roles section (all roles available for logged-in user)
+### 3.1 Backend
+- `gateway`: ingress routing, CORS, service proxying, static media serving
+- `auth-service`: users, roles, login/register/refresh, active-role updates
+- `quiz-service`: quiz templates, questions, attempts, scoring primitives
+- `ai-service`: generation pipelines and recommendation payloads
 
-Selecting a role updates active role in state and re-renders tabs/screens immediately.
+### 3.2 Frontend
+- `src/context`: auth/session/role context
+- `src/config`: role tab map and API config
+- `src/modules`: role-specific feature modules
+- `src/components`: shared UI building blocks
 
-## Role-Based Tabs
+## 4) Role-Driven UI Structure
+- Screen tree must be segmented by `active_role`.
+- Role switching must recompose navigation without app restart.
+- Navigation visibility is role-guarded, not just hidden visually.
 
-- Student: `Home`, `Practice`, `Reports`
-- Teacher: `Home`, `Planner`, `Reports`, `Content`
-- Parent: `Home`, `Reports`
-- Admin: `Home`, `Reports`, `Admin`
+## 5) Environment-Driven Layout (No Hardcoding)
 
-Tabs are hidden/shown dynamically from `activeRole`.
+Environment files:
+- `.env.local`
+- `.env.dev`
+- `.env.test`
+- `.env.uat`
+- `.env.production`
 
-## Backend + Postgres (Local)
+Required groups:
+- DB config (`DB_*`)
+- Service URLs (`AUTH_SERVICE_URL`, `QUIZ_SERVICE_URL`, `AI_SERVICE_URL`, `EXPO_PUBLIC_API_BASE_URL`)
+- Ports (`PORT`)
+- Security (`JWT_*`)
+- Storage (`AWS_*`, `S3_*`)
 
-Use local PostgreSQL connection with database:
-- `DB_NAME=els_ai_db`
+## 6) Service Port Baseline
+- gateway: `4000`
+- auth-service: `4101`
+- quiz-service: `4002`
+- ai-service: `4003`
 
-Tables:
-- `users`
-- `roles`
-- `user_roles` (many-to-many)
+> Ports are env-overridable; defaults are used only when env is absent.
 
-API:
-- `GET /health`
-- `GET /users/:id` (returns profile + roles)
-- `PATCH /users/:id/active-role` (sets current role if assigned)
+## 7) Permanent Stability Rules
+- Every service validates env on startup.
+- `scripts/manage-services.js` is the single entrypoint for local orchestration.
+- Port conflicts are resolved before service launch.
+- Any new service must include: health route, env validation, and gateway mapping.
 
-Seed one sample user with multiple roles (e.g. `student`, `teacher`, `parent`).
-
-## Environment
-
-Backend `.env`:
-
-```bash
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=postgres
-DB_NAME=els_ai_db
-PORT=4000
-```
-
-Mobile `.env`:
-
-```bash
-EXPO_PUBLIC_API_BASE_URL=http://localhost:4000
-```
-
-## Icon Library
-
-Use `lucide-react-native` across tab icons and profile menu actions.
+## 8) Delivery Checklist
+- [ ] Role-based navigation matrix implemented
+- [ ] Active-role persistence implemented
+- [ ] Service URLs sourced from env only
+- [ ] Gateway mappings aligned with service ownership
+- [ ] Startup and typecheck pass from repo root
