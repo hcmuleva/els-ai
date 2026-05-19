@@ -1,0 +1,64 @@
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+3:36:32 PM [tsx] change in ./src/routes/ai.ts Rerunning...
+c3:36:32 PM [tsx] change in ./src/routes/ai.ts Rerunning...
+c3:36:32 PM [tsx] change in ./src/routes/ai.ts Rerunning...
+c3:36:32 PM [tsx] change in ./src/routes/ai.ts Rerunning...
+c3:36:32 PM [tsx] change in ./src/routes/ai.ts Rerunning...
+c3:36:32 PM [tsx] unlink in ./src/routes/ai.ts Restarting...
+cAI Service listening on http://localhost:4003
+AI Service listening on http://localhost:4003
+AI Service listening on http://localhost:4003
+AI Service listening on http://localhost:4003
+AI Service listening on http://localhost:4003
+AI Service listening on http://localhost:4003
+3:36:41 PM [tsx] change in ./src/routes/ai.ts Rerunning...
+c3:36:41 PM [tsx] change in ./src/routes/ai.ts Restarting...
+3:36:41 PM [tsx] change in ./src/routes/ai.ts Rerunning...
+c3:36:41 PM [tsx] change in ./src/routes/ai.ts Rerunning...
+3:36:41 PM [tsx] change in ./src/routes/ai.ts Rerunning...
+c3:36:41 PM [tsx] change in ./../../backend/ai-service/src/routes/ai.ts Rerunning...
+cccAI Service listening on http://localhost:4003
+AI Service listening on http://localhost:4003
+AI Service listening on http://localhost:4003
+AI Service listening on http://localhost:4003
+AI Service listening on http://localhost:4003
+AI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
