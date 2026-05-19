@@ -1,56 +1,57 @@
 # ELS-AI Implementation Roadmap for Agents
 
-Shree Ganeshay Namah 🙏
+Follow this sequence for a complete, permanent implementation.
 
-This guide provides a structured, step-by-step path for implementing the **ELS-AI (Experiential Learning System)**. As an AI Agent, you should follow these steps sequentially to ensure system integrity, security, and scalability.
+## Step 0: Canonical Alignment (Must finish first)
+References:
+- `docs/SystemDesign.md`
+- `docs/README-AGENTS.md`
+- `docs/APP_STRUCTURE_PLAN.md`
+- `docs/user-layout-view.md`
 
-## 🚀 System Overview
-ELS-AI is a multi-tenant platform designed for personalized, AI-driven learning. It supports roles from Students (KIDS to HIGHER) to SuperAdmins.
+Goal:
+- Align ports, folder structure, role model, and environment rules before feature work.
 
-### Core Tech Stack
-- **Backend:** Node.js (Modular Monolith / Microservices)
-- **Database:** PostgreSQL (with JSONB for dynamic quiz data)
-- **Mobile:** Expo (React Native) with Reanimated & Expo-AV
-- **Storage:** AWS S3
-- **AI:** Multi-agent system for content & quiz generation
+## Step 1: Database & Authentication
+See: [STEP_1_DATABASE_AND_AUTH.md](./STEP_1_DATABASE_AND_AUTH.md)
 
----
+Goal:
+- Multi-role identity, token rotation, active-role persistence, tenant-ready auth.
 
-## 🗺️ Implementation Steps
+## Step 2: Backend Services & API Ownership
+See: [STEP_2_BACKEND_SERVICES.md](./STEP_2_BACKEND_SERVICES.md)
 
-### [Step 1: Database & Authentication](./STEP_1_DATABASE_AND_AUTH.md)
-- Foundation of the system.
-- Secure Auth with Refresh Token rotation.
-- Multi-tenancy isolation and RBAC.
-- **Goal:** Robust user management and secure access.
+Goal:
+- Stable gateway + service boundaries with environment-driven startup and route ownership.
 
-### [Step 2: Backend Services & Quiz Architecture](./STEP_2_BACKEND_SERVICES.md)
-- Design of the Quiz Engine using relational + JSONB.
-- Modular service structure.
-- Media asset management via S3.
-- **Goal:** A scalable learning engine that supports any quiz type.
+## Step 3: Mobile Role-Based Experience
+See: [STEP_3_MOBILE_QUIZ_ENGINE.md](./STEP_3_MOBILE_QUIZ_ENGINE.md)
 
-### [Step 3: Mobile Quiz Engine](./STEP_3_MOBILE_QUIZ_ENGINE.md)
-- Building the Renderer Engine in Expo.
-- Interactive "Playroom" features (Sounds, Animations, Haptics).
-- Dynamic UI adaptation based on user profile.
-- **Goal:** An engaging, fun, and colorful learning experience for kids.
+Goal:
+- Strict role segregation with dynamic tabs/screens per active profile.
 
-### [Step 4: AI Agents & Automated Generation](./STEP_4_AI_AGENTS_LOGIC.md)
-- Orchestrating the multi-agent system.
-- Automated quiz generation from topics.
-- Teacher review and approval workflows.
-- **Goal:** Intelligent, personalized content at scale.
+## Step 4: AI Agent Orchestration
+See: [STEP_4_AI_AGENTS_LOGIC.md](./STEP_4_AI_AGENTS_LOGIC.md)
 
----
+Goal:
+- Context-aware generation + teacher review + publish flow + reporting agents.
 
-## 🛠️ Key Standards
-- **Naming:** All database fields and API keys MUST use `snake_case`.
-- **Identity:** All primary keys MUST use `UUID`.
-- **Security:** Never store raw passwords or tokens. Use `bcrypt` and `expo-secure-store`.
-- **UX:** Prioritize audio-visual feedback for KIDS (KG-5th).
+## Step 5: Operations, Reliability, and Release
+Goal:
+- Environment safety, startup validation, observability, and release gates.
 
----
+Minimum deliverables:
+- Service health endpoints for all services
+- Automated startup with deterministic ports and conflict handling
+- Typecheck/test gates in CI
+- No hardcoded URLs/secrets/credentials
 
-## 🏁 Final Objective
-Build an "Intelligent, Human-like, and Trustworthy" platform that connects students, teachers, and parents through a seamless, interactive learning journey.
+## Global Standards
+- Use `snake_case` for DB/API payload keys.
+- Use UUID for primary IDs.
+- Do not bypass gateway contracts.
+- Role access checks must be server-enforced.
+- Validate environment configuration on startup.
+
+Companion checklist:
+- [IMPLEMENTATION_COMPLETION_CHECKLIST.md](./IMPLEMENTATION_COMPLETION_CHECKLIST.md)

@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+import { execSync, spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -10,7 +10,7 @@ const LOGS_DIR = path.join(ROOT_DIR, 'logs');
 const PID_FILE = path.join(LOGS_DIR, 'services.pid');
 
 const SERVICES = [
-  { name: 'auth-service', dir: 'backend/auth-service', port: 4001 },
+  { name: 'auth-service', dir: 'backend/auth-service', port: 4101 },
   { name: 'quiz-service', dir: 'backend/quiz-service', port: 4002 },
   { name: 'ai-service', dir: 'backend/ai-service', port: 4003 },
   { name: 'gateway', dir: 'backend/gateway', port: 4000 },
@@ -45,6 +45,71 @@ function isProcessRunning(pid) {
   }
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function getListeningPids(port) {
+  try {
+    const output = execSync(`lsof -tiTCP:${port} -sTCP:LISTEN`, {
+      stdio: ['ignore', 'pipe', 'ignore'],
+      encoding: 'utf8',
+    }).trim();
+
+    if (!output) return [];
+
+    return [...new Set(output.split('\n').map((line) => Number(line.trim())).filter((pid) => Number.isInteger(pid) && pid > 0))];
+  } catch {
+    return [];
+  }
+}
+
+async function terminatePid(pid) {
+  if (!isProcessRunning(pid)) return;
+
+  try {
+    process.kill(-pid, 'SIGTERM');
+  } catch {
+    try {
+      process.kill(pid, 'SIGTERM');
+    } catch {
+      return;
+    }
+  }
+
+  await sleep(1200);
+
+  if (!isProcessRunning(pid)) return;
+
+  try {
+    process.kill(-pid, 'SIGKILL');
+  } catch {
+    try {
+      process.kill(pid, 'SIGKILL');
+    } catch {
+      return;
+    }
+  }
+
+  await sleep(400);
+}
+
+async function freePort(port, serviceName) {
+  const listeners = getListeningPids(port).filter((pid) => pid !== process.pid);
+  if (listeners.length === 0) return;
+
+  console.log(`⚠️  Port ${port} is in use. Reclaiming it for ${serviceName}...`);
+  for (const pid of listeners) {
+    console.log(`   Killing PID ${pid} on port ${port}`);
+    await terminatePid(pid);
+  }
+
+  const remaining = getListeningPids(port);
+  if (remaining.length > 0) {
+    throw new Error(`Could not free port ${port}. Still used by: ${remaining.join(', ')}`);
+  }
+}
+
 async function startAll() {
   console.log('\n🚀 Starting all ELS-AI microservices...\n');
   ensureLogsDir();
@@ -60,13 +125,16 @@ async function startAll() {
   }
 
   if (alreadyRunning) {
-    console.log('\n❌ Start aborted. Please stop the running services first.\n');
-    process.exit(1);
+    console.log('\n⚠️  Existing ELS services detected. Stopping them first...\n');
+    await stopAll();
+    await sleep(1500);
   }
 
   const newPids = {};
 
   for (const service of SERVICES) {
+    await freePort(service.port, service.name);
+
     const logFilePath = path.join(LOGS_DIR, `${service.name}.log`);
     const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
 
@@ -90,14 +158,14 @@ async function startAll() {
   savePids(newPids);
 
   // Give processes 2 seconds to initialize, then verify
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  await sleep(2500);
 
   console.log('\n📊 Startup Verification:');
   let successCount = 0;
   for (const service of SERVICES) {
-    const pid = newPids[service.name];
-    if (isProcessRunning(pid)) {
-      console.log(`   ✅ ${service.name} is running (PID: ${pid}, Port: ${service.port})`);
+    const listeners = getListeningPids(service.port);
+    if (listeners.length > 0) {
+      console.log(`   ✅ ${service.name} is running (Port: ${service.port}, PID: ${listeners[0]})`);
       successCount++;
     } else {
       console.log(`   ❌ ${service.name} failed to start. Check logs/${service.name}.log`);
@@ -112,7 +180,7 @@ async function startAll() {
   }
 }
 
-function stopAll() {
+async function stopAll() {
   console.log('\n🛑 Stopping all ELS-AI microservices...\n');
   const pids = loadPids();
 
@@ -125,14 +193,9 @@ function stopAll() {
     if (isProcessRunning(pid)) {
       console.log(`   Stopping ${name} (PID: ${pid})...`);
       try {
-        // Kill process tree / process group if running in shell
-        process.kill(-pid, 'SIGTERM'); // negative PID kills process group
-      } catch {
-        try {
-          process.kill(pid, 'SIGTERM');
-        } catch (err) {
-          console.log(`   ⚠️ Failed to kill ${name} (PID: ${pid}): ${err.message}`);
-        }
+        await terminatePid(pid);
+      } catch (err) {
+        console.log(`   ⚠️ Failed to kill ${name} (PID: ${pid}): ${err.message}`);
       }
     } else {
       console.log(`   ℹ️  ${name} (PID: ${pid}) was already stopped.`);
@@ -157,8 +220,12 @@ function showStatus() {
 
   for (const service of SERVICES) {
     const pid = pids[service.name];
-    if (pid && isProcessRunning(pid)) {
-      console.log(`   ● ${service.name.padEnd(15)} RUNNING   (PID: ${pid.toString().padEnd(6)} | Port: ${service.port})`);
+    const listeners = getListeningPids(service.port);
+    if (listeners.length > 0) {
+      const displayPid = listeners[0].toString().padEnd(6);
+      console.log(`   ● ${service.name.padEnd(15)} RUNNING   (PID: ${displayPid} | Port: ${service.port})`);
+    } else if (pid && isProcessRunning(pid)) {
+      console.log(`   ◐ ${service.name.padEnd(15)} STARTING  (PID: ${pid.toString().padEnd(6)} | Port: ${service.port})`);
     } else {
       console.log(`   ○ ${service.name.padEnd(15)} STOPPED`);
     }
@@ -172,10 +239,10 @@ async function main() {
   if (command === 'start') {
     await startAll();
   } else if (command === 'stop') {
-    stopAll();
+    await stopAll();
   } else if (command === 'restart') {
-    stopAll();
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await stopAll();
+    await sleep(1500);
     await startAll();
   } else if (command === 'status') {
     showStatus();

@@ -14,10 +14,12 @@ export type UserWithRoles = {
   firstName: string;
   lastName: string;
   email: string;
+  mobileNumber?: string;
   activeRole: UserRole;
   roles: UserRole[];
   profileImage?: string;
   organizationId?: string;
+  isActive?: boolean;
 };
 
 export type QuizRecord = {

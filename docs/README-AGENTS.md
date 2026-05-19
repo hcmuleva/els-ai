@@ -1,70 +1,61 @@
-# ELS-AI Architecture & Agent Guidelines
+# ELS-AI Agent Implementation Guide
 
-> [!IMPORTANT]
-> **MANDATORY FOR ALL AI AGENTS:** Read and adhere strictly to the guidelines, naming conventions, and patterns documented here when extending or refactoring any part of the ELS-AI repository.
+## 1) Non-Negotiable Standards
+- Use `snake_case` for database columns and API payload keys.
+- Use UUIDs for all primary IDs.
+- Enforce role + organization-aware authorization on protected routes.
+- Do not hardcode ports, credentials, URLs, or secrets in feature code.
 
----
+## 2) Canonical Service Map (Current)
 
-## 1. Database Schema & Conventions
-All database entities use PostgreSQL. The schema initialization and seed logic are located inside `backend/auth-service/src/seed.ts`.
+| Service | Default Port | Responsibility |
+|---|---:|---|
+| gateway | 4000 | Public API entrypoint, route proxy, media serving |
+| auth-service | 4101 | Auth, users, roles, token rotation |
+| quiz-service | 4002 | Quiz templates, questions, attempts, scoring |
+| ai-service | 4003 | AI content/question generation and recommendations |
 
-### Strict Naming Rules
-*   **Column Names:** All database columns must use `snake_case` (e.g., `quiz_type`, `class_level`, `question_data`, `question_audio`, `background_music_url`).
-*   **TypeScript Fields:** Map database `snake_case` columns to matching TS object properties or ensure proper serialization. Do not mix cases inconsistently.
-*   **Active Role Updates:** User active role updates must be processed through the dedicated `/users/:id/active-role` API route which persists the role in the database before updating the client context.
+Gateway route mapping:
+- `/auth/*` -> auth-service
+- `/users/*` -> auth-service
+- `/quizzes/*` -> quiz-service
+- `/ai/*` -> ai-service
 
----
+## 3) Core API Contracts
+- `POST /auth/register`
+- `POST /auth/login`
+- `POST /auth/refresh`
+- `GET /users/:id`
+- `PATCH /users/:id/active-role`
+- `GET /quizzes`
+- `GET /quizzes/:id`
+- `POST /quizzes`
+- `POST /quizzes/:id/questions`
+- `POST /quizzes/attempts`
+- `POST /ai/generate`
 
-## 2. API Contract Standards & Routing
+## 4) Role System Rules
+- A user may have multiple roles.
+- `active_role` is persisted and drives:
+  - role-specific tabs/views
+  - API permission guards
+  - role-scoped data loading
 
-All microservices are unified by the **API Gateway** running on port `4000`. The gateway dynamically proxies routes to respective target services:
-*   `/auth/*` -> `auth-service` (Port `4001`)
-*   `/users/*` -> `auth-service` (Port `4001`)
-*   `/quizzes/*` -> `quiz-service` (Port `4002`)
-*   `/ai/*` -> `ai-service` (Port `4003`)
+Supported roles:
+- student
+- teacher
+- parent
+- admin
+- superadmin
 
-### Authentication
-*   **Login (`POST /auth/login`):** Expects `{ email, password }` and returns `{ accessToken, refreshToken, user }`.
-*   **Register (`POST /auth/register`):** Expects `{ firstName, lastName, email, password, role }`.
-*   **Refresh (`POST /auth/refresh`):** Accepts `{ refreshToken }` and returns new `{ accessToken, refreshToken }` for JWT rotation.
+## 5) Environment & Startup Rules
+- Read all configuration from env files.
+- Validate required env values on service startup.
+- Fail fast for missing config.
+- Keep environment-specific files for local/dev/test/uat/prod.
 
-### Quiz & Playroom Engine
-*   **List Quizzes (`GET /quizzes`):** Retrieves all published quiz templates.
-*   **Get Quiz Details (`GET /quizzes/:id`):** Retrieves a quiz and all its associated interactive questions.
-*   **Create Quiz (`POST /quizzes`):** Creates a quiz template record.
-*   **Add Question (`POST /quizzes/:id/questions`):** Appends questions to a quiz template.
-*   **Submit Attempt (`POST /quizzes/attempts`):** Records student scores and responses.
-
-### AI Generation
-*   **Generate Playroom (`POST /ai/generate`):** Expects `{ topic, classLevel, quizType, difficultyLevel }`. Generates matching themed quiz structures including:
-    *   `title`, `description`
-    *   `background_music_url` (ambient loops)
-    *   `theme` (primary and background color tokens)
-    *   `questions` matching types: `drag_drop` (matching cards) or `image_select` (audio prompt selections).
-
----
-
-## 3. Mobile Playroom Engine Guidelines
-
-### Cross-Platform Audio Playback
-All audio prompts, sound effects, and background loops must go through `frontend/src/utils/audio.ts` using the unified `AudioManager` wrapper. This ensures:
-*   On Native devices, uses `expo-av` for robust native audio decoding.
-*   On Web previews (`react-native-web`), falls back to HTML5 `window.Audio` cleanly.
-
-### High-Usability Kid UI
-*   **`drag_drop` Worksheets:** Rather than complex touch gestures which clash with ScrollViews, use **Tap-To-Match** interaction:
-    1. Student taps an animal card to select/highlight it (plays sound prompt).
-    2. Student taps the target home slot to place the animal there.
-*   **`image_select` Selectors:** Displays an interactive grid of visual cards, with a large, accessible volume button to play phonetic/verbal instructions.
-
-### Cross-Platform Token Storage
-Access tokens must be saved using the `storage.ts` utility which detects the runtime platform:
-*   On Mobile: uses `expo-secure-store`.
-*   On Web: falls back to `window.localStorage`.
-
----
-
-## 4. Quality Control Checklist
-Before proposing or finalizing any code changes:
-1.  **Typechecking:** Run `npm run typecheck` in the repository root to verify all workspaces compile with zero errors.
-2.  **Linting:** Ensure clean imports and proper code style according to the workspace's ESLint rules.
+## 6) Quality Gate
+Before finalizing code changes:
+1. Run `npm run typecheck`.
+2. Run workspace lint/tests when available for touched areas.
+3. Ensure no route/port regressions in gateway-service integration.

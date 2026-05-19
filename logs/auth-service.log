@@ -145,3 +145,49 @@ Auth Service listening on http://localhost:4001
 
 Database successfully migrated and seeded with organizations, roles, users, and quizzes.
 Auth Service listening on http://localhost:4001
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Database successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4001
+5:41:55 PM [tsx] change in ./src/server.ts Rerunning...
+cDatabase successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4001
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Database successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error workspace auth-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Database successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Database successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Database successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Database successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
