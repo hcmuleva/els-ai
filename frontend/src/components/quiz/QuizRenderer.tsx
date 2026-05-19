@@ -5,6 +5,7 @@ import { useAuth, API_BASE_URL } from '../../context/AuthContext';
 import { AudioManager } from '../../utils/audio';
 import DragDropRenderer from './DragDropRenderer';
 import ImageSelectRenderer from './ImageSelectRenderer';
+import ChoiceQuestionRenderer from './ChoiceQuestionRenderer';
 
 type QuizQuestion = {
   id: string;
@@ -35,6 +36,14 @@ export function resolveMediaUrl(url: string | undefined): string | undefined {
     return `${API_BASE_URL}${url}`;
   }
   return url;
+}
+
+function normalizeQuestionType(questionType: string): string {
+  if (questionType === 'image_select') return 'guess_image';
+  if (questionType === 'drag_drop') return 'drag_drop_match';
+  if (questionType === 'sound_match') return 'guess_audio';
+  if (questionType === 'memory_game') return 'multi_choice';
+  return questionType;
 }
 
 export default function QuizRenderer({ quizId, visible, onClose }: Props) {
@@ -224,7 +233,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
             </View>
 
             <View style={styles.rendererWrapper}>
-              {currentQuestion?.question_type === 'drag_drop' && (
+              {currentQuestion && normalizeQuestionType(currentQuestion.question_type) === 'drag_drop_match' && (
                 <DragDropRenderer
                   key={currentQuestion.id}
                   questionData={currentQuestion.question_data}
@@ -232,13 +241,26 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
                 />
               )}
 
-              {currentQuestion?.question_type === 'image_select' && (
+              {currentQuestion && normalizeQuestionType(currentQuestion.question_type) === 'guess_image' && (
                 <ImageSelectRenderer
                   key={currentQuestion.id}
                   questionData={currentQuestion.question_data}
                   onComplete={handleQuestionComplete}
                 />
               )}
+
+              {currentQuestion &&
+                ['guess_audio', 'true_false', 'single_choice', 'multi_choice'].includes(
+                  normalizeQuestionType(currentQuestion.question_type),
+                ) && (
+                <ChoiceQuestionRenderer
+                  key={currentQuestion.id}
+                  questionType={currentQuestion.question_type}
+                  questionAudio={currentQuestion.question_audio}
+                  questionData={currentQuestion.question_data}
+                  onComplete={handleQuestionComplete}
+                />
+                )}
             </View>
           </View>
         )}

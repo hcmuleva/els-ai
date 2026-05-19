@@ -14,14 +14,16 @@ type ImageOption = {
 type Props = {
   questionData: {
     prompt_audio?: string;
+    prompt_image?: string;
     options: ImageOption[];
   };
   onComplete: (isCorrect: boolean, responseData: any) => void;
 };
 
 export default function ImageSelectRenderer({ questionData, onComplete }: Props) {
-  const { prompt_audio, options } = questionData;
+  const { prompt_audio, prompt_image, options } = questionData;
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
+  const resolvedPromptImage = resolveMediaUrl(prompt_image);
 
   // Auto-play the animal sound prompt on mount or question load
   useEffect(() => {
@@ -62,6 +64,12 @@ export default function ImageSelectRenderer({ questionData, onComplete }: Props)
 
   return (
     <View style={styles.container}>
+      {resolvedPromptImage ? (
+        <View style={styles.promptImageCard}>
+          <Image source={{ uri: resolvedPromptImage }} style={styles.promptImage} />
+        </View>
+      ) : null}
+
       {prompt_audio && (
         <View style={styles.promptContainer}>
           <Pressable onPress={handlePlayPrompt} style={styles.speakerButton}>
@@ -112,6 +120,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
     marginVertical: 10,
+  },
+  promptImageCard: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 8,
+  },
+  promptImage: {
+    width: 220,
+    height: 150,
+    resizeMode: 'contain',
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
   },
   speakerButton: {
     width: 80,

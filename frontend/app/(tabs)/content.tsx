@@ -16,14 +16,6 @@ import {
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import { AudioManager } from '../../src/utils/audio';
 
-type QuizOption = {
-  id: string;
-  title: string;
-  class_level?: string;
-  subject?: string;
-  quiz_type?: string;
-};
-
 type QuestionItem = {
   id: string;
   quiz_id: string;
@@ -42,16 +34,24 @@ type QuestionItem = {
   created_at: string;
 };
 
-type QuestionEditorMode = 'image_select' | 'drag_drop' | 'custom';
+type QuestionEditorMode = 'choice' | 'drag_drop' | 'custom';
 
-type SupportedQuestionType = 'image_select' | 'drag_drop';
+type SupportedQuestionType =
+  | 'guess_image'
+  | 'drag_drop_match'
+  | 'guess_audio'
+  | 'true_false'
+  | 'single_choice'
+  | 'multi_choice';
 
 type OptionDraft = {
   id: string;
   image: string;
   imageLabel: string;
+  imageAssetId: string;
   audio: string;
   audioLabel: string;
+  audioAssetId: string;
   label: string;
   isCorrect: boolean;
 };
@@ -62,16 +62,24 @@ type MatchPairDraft = {
   targetLabel: string;
   image: string;
   imageLabel: string;
+  imageAssetId: string;
   audio: string;
   audioLabel: string;
+  audioAssetId: string;
 };
 
 type QuestionDraft = {
+  classLevel: string;
+  subject: string;
   questionTitle: string;
   questionInstruction: string;
   questionType: string;
+  mainImage: string;
+  mainImageLabel: string;
+  mainImageAssetId: string;
   mainAudio: string;
   mainAudioLabel: string;
+  mainAudioAssetId: string;
   points: string;
   timeLimitSeconds: string;
   sortOrder: string;
@@ -81,28 +89,66 @@ type QuestionDraft = {
 };
 
 type MediaRemovalRequest =
-  | { scope: 'question'; mode: 'create' | 'edit'; mediaType: 'audio' }
+  | { scope: 'question'; mode: 'create' | 'edit'; mediaType: 'image' | 'audio' }
   | { scope: 'option'; mode: 'create' | 'edit'; index: number; mediaType: 'image' | 'audio' }
   | { scope: 'pair'; mode: 'create' | 'edit'; index: number; mediaType: 'image' | 'audio' };
 
 type OptionRemovalRequest = { mode: 'create' | 'edit'; index: number };
+type SelectorField = 'classLevel' | 'subject' | 'filterClassLevel' | 'filterSubject';
 
 const QUESTION_TYPE_CHOICES: Array<{ value: SupportedQuestionType; label: string; description: string }> = [
   {
-    value: 'image_select',
-    label: 'Image Choice',
-    description: 'Students choose the correct option card. Use Main Audio for sound-based questions.',
+    value: 'guess_image',
+    label: 'Guess the Image',
+    description: 'Show a main image prompt and let students choose the correct image option.',
   },
   {
-    value: 'drag_drop',
+    value: 'drag_drop_match',
     label: 'Drag & Drop Match',
-    description: 'Students drag each item and drop it on the matching target.',
+    description: 'Students drag each item and drop it on the correct matching target.',
+  },
+  {
+    value: 'guess_audio',
+    label: 'Guess the Audio',
+    description: 'Play a main audio prompt and ask students to pick the correct option.',
+  },
+  {
+    value: 'true_false',
+    label: 'True / False',
+    description: 'Students answer using exactly two options: True and False.',
+  },
+  {
+    value: 'single_choice',
+    label: 'Single Choice',
+    description: 'Students pick exactly one correct answer from multiple options.',
+  },
+  {
+    value: 'multi_choice',
+    label: 'Multi Choice',
+    description: 'Students select all correct options. Score is correct only when all are selected with no wrong picks.',
   },
 ];
 
-const QUESTION_TYPE_LABELS: Record<SupportedQuestionType, string> = {
-  image_select: 'Image Choice',
+const QUESTION_TYPE_LABELS: Record<string, string> = {
+  guess_image: 'Guess the Image',
+  drag_drop_match: 'Drag & Drop Match',
+  guess_audio: 'Guess the Audio',
+  true_false: 'True / False',
+  single_choice: 'Single Choice',
+  multi_choice: 'Multi Choice',
+  image_select: 'Guess the Image',
   drag_drop: 'Drag & Drop Match',
+  sound_match: 'Guess the Audio',
+  memory_game: 'Multi Choice',
+};
+
+const QUESTION_TYPE_DEFAULT_INSTRUCTIONS: Record<SupportedQuestionType, string> = {
+  guess_image: 'Look at the main image and choose the correct option.',
+  drag_drop_match: 'Drag each item and drop it on the correct matching target.',
+  guess_audio: 'Listen to the audio and choose the correct answer.',
+  true_false: 'Read the statement carefully and choose True or False.',
+  single_choice: 'Choose one correct option.',
+  multi_choice: 'Select all correct options before submitting your answer.',
 };
 
 const toSlug = (value: string) =>
@@ -117,20 +163,49 @@ const buildAutoId = (seed: string, fallbackPrefix: string, index: number) => {
   return `${slug || fallbackPrefix}_${index + 1}`;
 };
 
+const QUESTION_TYPE_ALIASES: Record<string, SupportedQuestionType> = {
+  image_select: 'guess_image',
+  drag_drop: 'drag_drop_match',
+  sound_match: 'guess_audio',
+  memory_game: 'multi_choice',
+};
+
+const normalizeQuestionType = (value: string): string => QUESTION_TYPE_ALIASES[value] || value;
+
+const getDefaultInstructionByType = (questionType: string): string => {
+  const normalized = normalizeQuestionType(questionType);
+  return isSupportedQuestionType(normalized) ? QUESTION_TYPE_DEFAULT_INSTRUCTIONS[normalized] : '';
+};
+
 const isSupportedQuestionType = (value: unknown): value is SupportedQuestionType =>
-  value === 'image_select' || value === 'drag_drop';
+  value === 'guess_image' ||
+  value === 'drag_drop_match' ||
+  value === 'guess_audio' ||
+  value === 'true_false' ||
+  value === 'single_choice' ||
+  value === 'multi_choice';
 
 const getQuestionEditorMode = (questionType: string): QuestionEditorMode => {
-  if (questionType === 'image_select') return 'image_select';
-  if (questionType === 'drag_drop') return 'drag_drop';
+  const normalized = normalizeQuestionType(questionType);
+  if (normalized === 'drag_drop_match') return 'drag_drop';
+  if (
+    normalized === 'guess_image' ||
+    normalized === 'guess_audio' ||
+    normalized === 'true_false' ||
+    normalized === 'single_choice' ||
+    normalized === 'multi_choice'
+  ) {
+    return 'choice';
+  }
   return 'custom';
 };
 
 const getQuestionTypeLabel = (questionType: string) => {
-  if (isSupportedQuestionType(questionType)) {
-    return QUESTION_TYPE_LABELS[questionType];
+  const normalized = normalizeQuestionType(questionType);
+  if (isSupportedQuestionType(normalized)) {
+    return QUESTION_TYPE_LABELS[normalized];
   }
-  return questionType || 'Custom';
+  return QUESTION_TYPE_LABELS[questionType] || questionType || 'Custom';
 };
 
 const extractFileName = (source: string): string => {
@@ -163,30 +238,51 @@ const makeEmptyMatchPair = (): MatchPairDraft => ({
   targetLabel: '',
   image: '',
   imageLabel: '',
+  imageAssetId: '',
   audio: '',
   audioLabel: '',
+  audioAssetId: '',
 });
 
 const makeEmptyOption = (): OptionDraft => ({
   id: '',
   image: '',
   imageLabel: '',
+  imageAssetId: '',
   audio: '',
   audioLabel: '',
+  audioAssetId: '',
   label: '',
   isCorrect: false,
 });
 
-const makeInitialDraft = (questionType: string = 'image_select'): QuestionDraft => ({
+const makeTrueFalseOptions = (): OptionDraft[] => [
+  { ...makeEmptyOption(), id: 'true', label: 'True', isCorrect: true },
+  { ...makeEmptyOption(), id: 'false', label: 'False', isCorrect: false },
+];
+
+const makeDefaultOptionsByType = (questionType: string): OptionDraft[] => {
+  const normalized = normalizeQuestionType(questionType);
+  if (normalized === 'true_false') return makeTrueFalseOptions();
+  return [makeEmptyOption()];
+};
+
+const makeInitialDraft = (questionType: string = 'guess_image'): QuestionDraft => ({
+  classLevel: '',
+  subject: '',
   questionTitle: '',
-  questionInstruction: '',
+  questionInstruction: getDefaultInstructionByType(questionType),
   questionType,
+  mainImage: '',
+  mainImageLabel: '',
+  mainImageAssetId: '',
   mainAudio: '',
   mainAudioLabel: '',
+  mainAudioAssetId: '',
   points: '10',
   timeLimitSeconds: '30',
   sortOrder: '',
-  options: [makeEmptyOption()],
+  options: makeDefaultOptionsByType(questionType),
   matchPairs: [makeEmptyMatchPair()],
   rawQuestionData: {},
 });
@@ -211,11 +307,13 @@ function questionDataToOptions(questionData: unknown): OptionDraft[] {
           typeof optionRecord.image === 'string'
             ? toMediaLabel(optionRecord.image, 'image')
             : '',
+        imageAssetId: typeof optionRecord.image_asset_id === 'string' ? optionRecord.image_asset_id : '',
         audio: typeof optionRecord.audio === 'string' ? optionRecord.audio : '',
         audioLabel:
           typeof optionRecord.audio === 'string'
             ? toMediaLabel(optionRecord.audio, 'audio')
             : '',
+        audioAssetId: typeof optionRecord.audio_asset_id === 'string' ? optionRecord.audio_asset_id : '',
         label: typeof optionRecord.label === 'string' ? optionRecord.label : '',
         isCorrect: Boolean(optionRecord.is_correct),
       };
@@ -269,7 +367,14 @@ function questionDataToMatchPairs(questionData: unknown): MatchPairDraft[] {
       const id = typeof dragRecord.id === 'string' ? dragRecord.id : '';
       const itemLabel = typeof dragRecord.label === 'string' ? dragRecord.label : '';
       const image = typeof dragRecord.image === 'string' ? dragRecord.image : '';
+      const imageAssetId = typeof dragRecord.image_asset_id === 'string' ? dragRecord.image_asset_id : '';
       const audio = typeof dragRecord.sound === 'string' ? dragRecord.sound : '';
+      const audioAssetId =
+        typeof dragRecord.sound_asset_id === 'string'
+          ? dragRecord.sound_asset_id
+          : typeof dragRecord.audio_asset_id === 'string'
+            ? dragRecord.audio_asset_id
+            : '';
       const targetId = matchedTargetByDragId.get(id) || id;
       const targetLabel = dropTargetLabels.get(targetId || '') || '';
 
@@ -279,8 +384,10 @@ function questionDataToMatchPairs(questionData: unknown): MatchPairDraft[] {
         targetLabel: targetLabel || itemLabel,
         image,
         imageLabel: toMediaLabel(image, 'image'),
+        imageAssetId,
         audio,
         audioLabel: toMediaLabel(audio, 'audio'),
+        audioAssetId,
       });
     }
   }
@@ -295,6 +402,45 @@ function questionDataPromptAudio(questionData: unknown): string {
 
   const promptAudio = (questionData as Record<string, unknown>).prompt_audio;
   return typeof promptAudio === 'string' ? promptAudio : '';
+}
+
+function questionDataPromptAudioAssetId(questionData: unknown): string {
+  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
+    return '';
+  }
+  const promptAudioAssetId = (questionData as Record<string, unknown>).prompt_audio_asset_id;
+  return typeof promptAudioAssetId === 'string' ? promptAudioAssetId : '';
+}
+
+function questionDataPromptImage(questionData: unknown): string {
+  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
+    return '';
+  }
+
+  const promptImage = (questionData as Record<string, unknown>).prompt_image;
+  return typeof promptImage === 'string' ? promptImage : '';
+}
+
+function questionDataPromptImageAssetId(questionData: unknown): string {
+  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
+    return '';
+  }
+  const promptImageAssetId = (questionData as Record<string, unknown>).prompt_image_asset_id;
+  return typeof promptImageAssetId === 'string' ? promptImageAssetId : '';
+}
+
+function toPersistentMediaUrl(url: string): string {
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+  if (!trimmed.includes('X-Amz-') && !trimmed.includes('x-amz-')) {
+    return trimmed;
+  }
+  try {
+    const parsed = new URL(trimmed);
+    return `${parsed.origin}${parsed.pathname}`;
+  } catch {
+    return trimmed;
+  }
 }
 
 function draftToPayload(draft: QuestionDraft) {
@@ -312,46 +458,76 @@ function draftToPayload(draft: QuestionDraft) {
   }
 
   const mode = getQuestionEditorMode(draft.questionType);
-  const mainAudio = draft.mainAudio.trim();
+  const mainImage = toPersistentMediaUrl(draft.mainImage);
+  const mainImageAssetId = draft.mainImageAssetId.trim();
+  const mainAudio = toPersistentMediaUrl(draft.mainAudio);
+  const mainAudioAssetId = draft.mainAudioAssetId.trim();
   let questionData: unknown = {};
 
-  if (mode === 'image_select') {
+  const normalizedType = normalizeQuestionType(draft.questionType.trim());
+
+  if (mode === 'choice') {
     const preparedOptions = draft.options
       .map((option) => ({
         id: option.id.trim(),
-        image: option.image.trim(),
-        audio: option.audio.trim(),
+        image: toPersistentMediaUrl(option.image),
+        imageAssetId: option.imageAssetId.trim(),
+        audio: toPersistentMediaUrl(option.audio),
+        audioAssetId: option.audioAssetId.trim(),
         label: option.label.trim(),
         isCorrect: option.isCorrect,
       }))
       .filter((option) => option.id || option.image || option.audio || option.label);
 
-    if (preparedOptions.length < 2) {
-      throw new Error('Add at least 2 options for Image Choice.');
+    if (normalizedType === 'true_false') {
+      if (preparedOptions.length !== 2) {
+        throw new Error('True / False requires exactly 2 options.');
+      }
+    } else if (preparedOptions.length < 2) {
+      throw new Error('Add at least 2 options.');
     }
 
-    preparedOptions.forEach((option, index) => {
-      if (!option.image) {
-        throw new Error(`Add an image for option ${index + 1}.`);
-      }
-    });
-
     const correctOptionCount = preparedOptions.filter((option) => option.isCorrect).length;
-    if (correctOptionCount !== 1) {
+    if (normalizedType === 'multi_choice') {
+      if (correctOptionCount < 1) {
+        throw new Error('Mark at least one correct option for Multi Choice.');
+      }
+    } else if (correctOptionCount !== 1) {
       throw new Error('Mark exactly one option as the correct answer.');
+    }
+
+    if (normalizedType === 'guess_image') {
+      if (!mainImage) {
+        throw new Error('Add main image for Guess the Image questions.');
+      }
+      preparedOptions.forEach((option, index) => {
+        if (!option.image) {
+          throw new Error(`Add an image for option ${index + 1}.`);
+        }
+      });
+    }
+
+    if (normalizedType === 'guess_audio' && !mainAudio) {
+      throw new Error('Add main audio for Guess the Audio questions.');
     }
 
     const normalizedOptions = preparedOptions.map((option, index) => ({
       id: option.id || buildAutoId(option.label, 'option', index),
-      image: option.image,
+      image: option.image || undefined,
+      image_asset_id: option.imageAssetId || undefined,
       audio: option.audio || undefined,
+      audio_asset_id: option.audioAssetId || undefined,
       label: option.label || `Option ${index + 1}`,
       is_correct: option.isCorrect,
     }));
 
     questionData = {
       options: normalizedOptions,
-      ...(mainAudio ? { prompt_audio: mainAudio } : {}),
+      ...(normalizedType === 'guess_image' && mainImage ? { prompt_image: mainImage } : {}),
+      ...(normalizedType === 'guess_image' && mainImageAssetId ? { prompt_image_asset_id: mainImageAssetId } : {}),
+      ...(normalizedType === 'guess_audio' && mainAudio ? { prompt_audio: mainAudio } : {}),
+      ...(normalizedType === 'guess_audio' && mainAudioAssetId ? { prompt_audio_asset_id: mainAudioAssetId } : {}),
+      ...(normalizedType ? { variant: normalizedType } : {}),
     };
   } else if (mode === 'drag_drop') {
     const preparedPairs = draft.matchPairs
@@ -359,8 +535,10 @@ function draftToPayload(draft: QuestionDraft) {
         id: pair.id.trim(),
         itemLabel: pair.itemLabel.trim(),
         targetLabel: pair.targetLabel.trim(),
-        image: pair.image.trim(),
-        audio: pair.audio.trim(),
+        image: toPersistentMediaUrl(pair.image),
+        imageAssetId: pair.imageAssetId.trim(),
+        audio: toPersistentMediaUrl(pair.audio),
+        audioAssetId: pair.audioAssetId.trim(),
       }))
       .filter((pair) => pair.id || pair.itemLabel || pair.targetLabel || pair.image || pair.audio);
 
@@ -376,8 +554,10 @@ function draftToPayload(draft: QuestionDraft) {
       return {
         id,
         image: pair.image,
+        image_asset_id: pair.imageAssetId || undefined,
         label: pair.itemLabel || `Item ${index + 1}`,
         ...(pair.audio ? { sound: pair.audio } : {}),
+        ...(pair.audioAssetId ? { sound_asset_id: pair.audioAssetId } : {}),
       };
     });
 
@@ -404,10 +584,12 @@ function draftToPayload(draft: QuestionDraft) {
   }
 
   const payload: Record<string, unknown> = {
+    classLevel: draft.classLevel.trim() || undefined,
+    subject: draft.subject.trim() || undefined,
     questionTitle: draft.questionTitle.trim(),
     questionInstruction: draft.questionInstruction.trim() || undefined,
-    questionType: draft.questionType.trim(),
-    questionAudio: mainAudio || undefined,
+    questionType: normalizedType,
+    questionAudio: normalizedType === 'guess_audio' ? mainAudio || undefined : undefined,
     points,
     timeLimitSeconds,
     questionData,
@@ -486,6 +668,10 @@ async function pickAudioAsDataUrl(): Promise<PickedFile> {
   return pickFileAsDataUrl('audio/*', 'Audio upload is currently available on web. On mobile, paste audio URL manually.');
 }
 
+async function pickImageAsDataUrl(): Promise<PickedFile> {
+  return pickFileAsDataUrl('image/*', 'Image upload is currently available on web. On mobile, paste image URL manually.');
+}
+
 async function pickMediaAsDataUrl(): Promise<PickedFile> {
   return pickFileAsDataUrl(
     'image/*,audio/*',
@@ -506,11 +692,11 @@ export default function QuestionManagementScreen() {
   const [pendingMediaRemoval, setPendingMediaRemoval] = useState<MediaRemovalRequest | null>(null);
   const [pendingOptionRemoval, setPendingOptionRemoval] = useState<OptionRemovalRequest | null>(null);
   const [questions, setQuestions] = useState<QuestionItem[]>([]);
-  const [quizOptions, setQuizOptions] = useState<QuizOption[]>([]);
-  const [selectedQuizId, setSelectedQuizId] = useState('');
   const [createDraft, setCreateDraft] = useState<QuestionDraft>(makeInitialDraft());
   const [editDraft, setEditDraft] = useState<QuestionDraft>(makeInitialDraft());
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [selectorField, setSelectorField] = useState<SelectorField | null>(null);
+  const [previewQuestion, setPreviewQuestion] = useState<QuestionItem | null>(null);
   const [filters, setFilters] = useState({
     search: '',
     classLevel: '',
@@ -519,7 +705,20 @@ export default function QuestionManagementScreen() {
   });
 
   const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
-  const selectedQuiz = useMemo(() => quizOptions.find((item) => item.id === selectedQuizId), [quizOptions, selectedQuizId]);
+  const classOptions = useMemo(
+    () =>
+      [...new Set(questions.map((question) => (question.class_level || '').trim()).filter(Boolean))].sort((a, b) =>
+        a.localeCompare(b),
+      ),
+    [questions],
+  );
+  const subjectOptions = useMemo(
+    () =>
+      [...new Set(questions.map((question) => (question.subject || '').trim()).filter(Boolean))].sort((a, b) =>
+        a.localeCompare(b),
+      ),
+    [questions],
+  );
 
   const showActionBadge = useCallback((text: string) => {
     setActionBadge(text);
@@ -556,38 +755,18 @@ export default function QuestionManagementScreen() {
     setQuestions(payload.questions || []);
   }, [apiFetch, filters.category, filters.classLevel, filters.search, filters.subject]);
 
-  const loadQuizOptions = useCallback(async () => {
-    const res = await apiFetch('/quizzes/teacher/library?status=all&source=all&limit=120');
-    if (!res.ok) {
-      const errorPayload = await res.json().catch(() => ({}));
-      throw new Error(errorPayload.message || 'Failed to load quiz options');
-    }
-    const payload = await res.json();
-    const options = (payload.quizzes || []).map((quiz: any) => ({
-      id: quiz.id as string,
-      title: quiz.title as string,
-      class_level: quiz.class_level as string | undefined,
-      subject: quiz.subject as string | undefined,
-      quiz_type: quiz.quiz_type as string | undefined,
-    }));
-    setQuizOptions(options);
-    if (!selectedQuizId && options.length > 0) {
-      setSelectedQuizId(options[0].id);
-    }
-  }, [apiFetch, selectedQuizId]);
-
   const loadData = useCallback(async () => {
     if (!isTeacherView) return;
     setLoading(true);
     setMessage(null);
     try {
-      await Promise.all([loadQuestions(), loadQuizOptions()]);
+      await loadQuestions();
     } catch (error) {
       setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load question management data' });
     } finally {
       setLoading(false);
     }
-  }, [isTeacherView, loadQuestions, loadQuizOptions]);
+  }, [isTeacherView, loadQuestions]);
 
   useFocusEffect(
     useCallback(() => {
@@ -604,22 +783,80 @@ export default function QuestionManagementScreen() {
   };
 
   const setQuestionType = (questionType: SupportedQuestionType) => {
-    setCreateDraft((current) => ({ ...current, questionType }));
+    setCreateDraft((current) => ({
+      ...current,
+      questionType,
+      questionInstruction: getDefaultInstructionByType(questionType),
+      mainImage: questionType === 'guess_image' ? current.mainImage : '',
+      mainImageLabel: questionType === 'guess_image' ? current.mainImageLabel : '',
+      mainImageAssetId: questionType === 'guess_image' ? current.mainImageAssetId : '',
+      mainAudio: questionType === 'guess_audio' ? current.mainAudio : '',
+      mainAudioLabel: questionType === 'guess_audio' ? current.mainAudioLabel : '',
+      mainAudioAssetId: questionType === 'guess_audio' ? current.mainAudioAssetId : '',
+      options: makeDefaultOptionsByType(questionType),
+    }));
+  };
+
+  const uploadPickedFileToS3 = async (picked: PickedFile, mediaType: 'image' | 'audio') => {
+    const res = await apiFetch('/assets/upload', {
+      method: 'POST',
+      body: JSON.stringify({
+        dataUrl: picked.dataUrl,
+        fileName: picked.fileName,
+        mimeType: picked.mimeType,
+        mediaType,
+        context: 'question_management',
+      }),
+    });
+
+    if (!res.ok) {
+      const errorPayload = await res.json().catch(() => ({}));
+      throw new Error(errorPayload.message || 'Failed to upload media');
+    }
+
+    const payload = await res.json();
+    return {
+      url: String(payload.url || ''),
+      canonicalUrl: String(payload.canonicalUrl || ''),
+      assetId: String(payload.assetId || ''),
+      fileName: String(payload.fileName || picked.fileName || 'uploaded-file'),
+    };
   };
 
   const uploadAudioForQuestion = async (mode: 'create' | 'edit') => {
     try {
       const picked = await pickAudioAsDataUrl();
-      updateDraftField(mode, 'mainAudio', picked.dataUrl);
-      updateDraftField(mode, 'mainAudioLabel', picked.fileName);
+      const uploaded = await uploadPickedFileToS3(picked, 'audio');
+      updateDraftField(mode, 'mainAudio', uploaded.url);
+      updateDraftField(mode, 'mainAudioLabel', uploaded.fileName);
+      updateDraftField(mode, 'mainAudioAssetId', uploaded.assetId);
     } catch (error) {
       setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload audio' });
     }
   };
 
+  const uploadImageForQuestion = async (mode: 'create' | 'edit') => {
+    try {
+      const picked = await pickImageAsDataUrl();
+      const uploaded = await uploadPickedFileToS3(picked, 'image');
+      updateDraftField(mode, 'mainImage', uploaded.url);
+      updateDraftField(mode, 'mainImageLabel', uploaded.fileName);
+      updateDraftField(mode, 'mainImageAssetId', uploaded.assetId);
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload image' });
+    }
+  };
+
+  const clearQuestionImage = (mode: 'create' | 'edit') => {
+    updateDraftField(mode, 'mainImage', '');
+    updateDraftField(mode, 'mainImageLabel', '');
+    updateDraftField(mode, 'mainImageAssetId', '');
+  };
+
   const clearQuestionAudio = (mode: 'create' | 'edit') => {
     updateDraftField(mode, 'mainAudio', '');
     updateDraftField(mode, 'mainAudioLabel', '');
+    updateDraftField(mode, 'mainAudioAssetId', '');
   };
 
   const playAudioPreview = async (audioUrl: string) => {
@@ -646,8 +883,15 @@ export default function QuestionManagementScreen() {
   };
 
   const setCorrectOption = (mode: 'create' | 'edit', index: number) => {
-    const updater = (options: OptionDraft[]) =>
-      options.map((option, optionIndex) => ({ ...option, isCorrect: optionIndex === index }));
+    const activeType = normalizeQuestionType((mode === 'create' ? createDraft : editDraft).questionType);
+    const updater = (options: OptionDraft[]) => {
+      if (activeType === 'multi_choice') {
+        return options.map((option, optionIndex) =>
+          optionIndex === index ? { ...option, isCorrect: !option.isCorrect } : option,
+        );
+      }
+      return options.map((option, optionIndex) => ({ ...option, isCorrect: optionIndex === index }));
+    };
     if (mode === 'create') {
       setCreateDraft((current) => ({ ...current, options: updater(current.options) }));
     } else {
@@ -656,6 +900,11 @@ export default function QuestionManagementScreen() {
   };
 
   const addOption = (mode: 'create' | 'edit') => {
+    const activeDraft = mode === 'create' ? createDraft : editDraft;
+    if (normalizeQuestionType(activeDraft.questionType) === 'true_false') {
+      setMessage({ type: 'error', text: 'True / False always has exactly two options.' });
+      return;
+    }
     if (mode === 'create') {
       setCreateDraft((current) => ({ ...current, options: [makeEmptyOption(), ...current.options] }));
     } else {
@@ -665,6 +914,11 @@ export default function QuestionManagementScreen() {
   };
 
   const removeOption = (mode: 'create' | 'edit', index: number) => {
+    const activeDraft = mode === 'create' ? createDraft : editDraft;
+    if (normalizeQuestionType(activeDraft.questionType) === 'true_false') {
+      setMessage({ type: 'error', text: 'True / False requires both True and False options.' });
+      return;
+    }
     if (mode === 'create') {
       setCreateDraft((current) => {
         const remaining = current.options.filter((_, optionIndex) => optionIndex !== index);
@@ -683,11 +937,13 @@ export default function QuestionManagementScreen() {
       const picked = await pickMediaAsDataUrl();
       const mediaType = resolvePickedMediaKind(picked);
       if (mediaType === 'image') {
-        updateOption(mode, index, { image: picked.dataUrl, imageLabel: picked.fileName });
+        const uploaded = await uploadPickedFileToS3(picked, 'image');
+        updateOption(mode, index, { image: uploaded.url, imageLabel: uploaded.fileName, imageAssetId: uploaded.assetId });
         return;
       }
       if (mediaType === 'audio') {
-        updateOption(mode, index, { audio: picked.dataUrl, audioLabel: picked.fileName });
+        const uploaded = await uploadPickedFileToS3(picked, 'audio');
+        updateOption(mode, index, { audio: uploaded.url, audioLabel: uploaded.fileName, audioAssetId: uploaded.assetId });
         return;
       }
       setMessage({ type: 'error', text: 'Unsupported media type. Please upload image or audio.' });
@@ -698,10 +954,10 @@ export default function QuestionManagementScreen() {
 
   const clearOptionMedia = (mode: 'create' | 'edit', index: number, mediaType: 'image' | 'audio') => {
     if (mediaType === 'image') {
-      updateOption(mode, index, { image: '', imageLabel: '' });
+      updateOption(mode, index, { image: '', imageLabel: '', imageAssetId: '' });
       return;
     }
-    updateOption(mode, index, { audio: '', audioLabel: '' });
+    updateOption(mode, index, { audio: '', audioLabel: '', audioAssetId: '' });
   };
 
   const updateMatchPair = (mode: 'create' | 'edit', index: number, patch: Partial<MatchPairDraft>) => {
@@ -741,11 +997,13 @@ export default function QuestionManagementScreen() {
       const picked = await pickMediaAsDataUrl();
       const mediaType = resolvePickedMediaKind(picked);
       if (mediaType === 'image') {
-        updateMatchPair(mode, index, { image: picked.dataUrl, imageLabel: picked.fileName });
+        const uploaded = await uploadPickedFileToS3(picked, 'image');
+        updateMatchPair(mode, index, { image: uploaded.url, imageLabel: uploaded.fileName, imageAssetId: uploaded.assetId });
         return;
       }
       if (mediaType === 'audio') {
-        updateMatchPair(mode, index, { audio: picked.dataUrl, audioLabel: picked.fileName });
+        const uploaded = await uploadPickedFileToS3(picked, 'audio');
+        updateMatchPair(mode, index, { audio: uploaded.url, audioLabel: uploaded.fileName, audioAssetId: uploaded.assetId });
         return;
       }
       setMessage({ type: 'error', text: 'Unsupported media type. Please upload image or audio.' });
@@ -756,10 +1014,10 @@ export default function QuestionManagementScreen() {
 
   const clearPairMedia = (mode: 'create' | 'edit', index: number, mediaType: 'image' | 'audio') => {
     if (mediaType === 'image') {
-      updateMatchPair(mode, index, { image: '', imageLabel: '' });
+      updateMatchPair(mode, index, { image: '', imageLabel: '', imageAssetId: '' });
       return;
     }
-    updateMatchPair(mode, index, { audio: '', audioLabel: '' });
+    updateMatchPair(mode, index, { audio: '', audioLabel: '', audioAssetId: '' });
   };
 
   const requestMediaRemoval = (request: MediaRemovalRequest) => {
@@ -770,7 +1028,11 @@ export default function QuestionManagementScreen() {
     if (!pendingMediaRemoval) return;
 
     if (pendingMediaRemoval.scope === 'question') {
-      clearQuestionAudio(pendingMediaRemoval.mode);
+      if (pendingMediaRemoval.mediaType === 'image') {
+        clearQuestionImage(pendingMediaRemoval.mode);
+      } else {
+        clearQuestionAudio(pendingMediaRemoval.mode);
+      }
     } else if (pendingMediaRemoval.scope === 'option') {
       clearOptionMedia(pendingMediaRemoval.mode, pendingMediaRemoval.index, pendingMediaRemoval.mediaType);
     } else {
@@ -793,26 +1055,40 @@ export default function QuestionManagementScreen() {
   };
 
   const openCreateDialog = () => {
-    const initialType = isSupportedQuestionType(selectedQuiz?.quiz_type) ? selectedQuiz.quiz_type : 'image_select';
-    setCreateDraft(makeInitialDraft(initialType));
+    setCreateDraft(makeInitialDraft('guess_image'));
     setActionBadge(null);
     setIsCreateDialogOpen(true);
     setMessage(null);
   };
 
   const openEditDialog = (question: QuestionItem) => {
+    const resolvedMainImage = questionDataPromptImage(question.question_data);
+    const resolvedMainImageAssetId = questionDataPromptImageAssetId(question.question_data);
     const resolvedMainAudio = question.question_audio || questionDataPromptAudio(question.question_data);
+    const resolvedMainAudioAssetId = questionDataPromptAudioAssetId(question.question_data);
+    const normalizedType = normalizeQuestionType(question.question_type || 'guess_image');
+    const parsedOptions = questionDataToOptions(question.question_data);
+    const resolvedOptions =
+      normalizeQuestionType(normalizedType) === 'true_false' && parsedOptions.every((item) => !item.id && !item.label && !item.image && !item.audio)
+        ? makeTrueFalseOptions()
+        : parsedOptions;
     setEditingQuestionId(question.id);
     setEditDraft({
+      classLevel: question.class_level || '',
+      subject: question.subject || '',
       questionTitle: question.question_title || '',
-      questionInstruction: question.question_instruction || '',
-      questionType: question.question_type || 'image_select',
+      questionInstruction: question.question_instruction || getDefaultInstructionByType(normalizedType),
+      questionType: normalizedType,
+      mainImage: resolvedMainImage,
+      mainImageLabel: toMediaLabel(resolvedMainImage, 'image'),
+      mainImageAssetId: resolvedMainImageAssetId,
       mainAudio: resolvedMainAudio,
       mainAudioLabel: toMediaLabel(resolvedMainAudio, 'audio'),
+      mainAudioAssetId: resolvedMainAudioAssetId,
       points: String(question.points ?? 10),
       timeLimitSeconds: String(question.time_limit_seconds ?? 30),
       sortOrder: question.sort_order !== undefined && question.sort_order !== null ? String(question.sort_order) : '',
-      options: questionDataToOptions(question.question_data),
+      options: resolvedOptions,
       matchPairs: questionDataToMatchPairs(question.question_data),
       rawQuestionData: question.question_data || {},
     });
@@ -821,28 +1097,20 @@ export default function QuestionManagementScreen() {
   };
 
   const createQuestion = async () => {
-    if (!selectedQuizId) {
-      setMessage({ type: 'error', text: 'Select a quiz before creating a question.' });
-      return;
-    }
     setCreating(true);
     setMessage(null);
     try {
       const payload = draftToPayload(createDraft);
       const res = await apiFetch('/quizzes/questions', {
         method: 'POST',
-        body: JSON.stringify({
-          quizId: selectedQuizId,
-          ...payload,
-        }),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) {
         const errorPayload = await res.json().catch(() => ({}));
         throw new Error(errorPayload.message || 'Failed to create question');
       }
       setIsCreateDialogOpen(false);
-      const resetType = isSupportedQuestionType(selectedQuiz?.quiz_type) ? selectedQuiz.quiz_type : 'image_select';
-      setCreateDraft(makeInitialDraft(resetType));
+      setCreateDraft(makeInitialDraft('guess_image'));
       setMessage({ type: 'success', text: 'Question created successfully.' });
       await loadQuestions();
     } catch (error) {
@@ -899,6 +1167,32 @@ export default function QuestionManagementScreen() {
     }
   };
 
+  const applySelectorValue = (value: string) => {
+    if (selectorField === 'filterClassLevel') {
+      setFilters((current) => ({ ...current, classLevel: value }));
+    } else if (selectorField === 'filterSubject') {
+      setFilters((current) => ({ ...current, subject: value }));
+    } else if (selectorField === 'classLevel') {
+      if (editingQuestionId) {
+        setEditDraft((current) => ({ ...current, classLevel: value }));
+      } else {
+        setCreateDraft((current) => ({ ...current, classLevel: value }));
+      }
+    } else if (selectorField === 'subject') {
+      if (editingQuestionId) {
+        setEditDraft((current) => ({ ...current, subject: value }));
+      } else {
+        setCreateDraft((current) => ({ ...current, subject: value }));
+      }
+    }
+    setSelectorField(null);
+  };
+
+  const selectorOptions =
+    selectorField === 'classLevel' || selectorField === 'filterClassLevel' ? classOptions : subjectOptions;
+  const selectorTitle =
+    selectorField === 'classLevel' || selectorField === 'filterClassLevel' ? 'Select Standard' : 'Select Subject';
+
   if (!isTeacherView) {
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -910,6 +1204,7 @@ export default function QuestionManagementScreen() {
 
   const renderDialogContent = (mode: 'create' | 'edit') => {
     const draft = mode === 'create' ? createDraft : editDraft;
+    const normalizedQuestionType = normalizeQuestionType(draft.questionType);
     const dialogTitle = mode === 'create' ? 'Create Question' : 'Edit Question';
     const saveAction = mode === 'create' ? createQuestion : saveQuestion;
     const isSaving = mode === 'create' ? creating : savingQuestionId !== null;
@@ -937,49 +1232,24 @@ export default function QuestionManagementScreen() {
         ) : null}
         <ScrollView style={styles.dialogScroll} contentContainerStyle={styles.dialogScrollContent}>
           {mode === 'create' ? (
-            <>
-              <Text style={styles.fieldLabel}>Select Quiz</Text>
+            <View style={styles.fieldGroup}>
+              <Text style={styles.fieldLabel}>Question Type</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View style={styles.quizChipRow}>
-                  {quizOptions.map((quiz) => {
-                    const selected = quiz.id === selectedQuizId;
+                <View style={styles.typeChipRow}>
+                  {QUESTION_TYPE_CHOICES.map((choice) => {
+                    const selected = draft.questionType === choice.value;
                     return (
                       <Pressable
-                        key={quiz.id}
-                        onPress={() => setSelectedQuizId(quiz.id)}
-                        style={[styles.quizChip, selected && styles.quizChipActive]}
+                        key={choice.value}
+                        style={[styles.typeChip, selected && styles.typeChipActive]}
+                        onPress={() => setQuestionType(choice.value)}
                       >
-                        <Text style={[styles.quizChipText, selected && styles.quizChipTextActive]}>{quiz.title}</Text>
+                        <Text style={[styles.typeChipText, selected && styles.typeChipTextActive]}>{choice.label}</Text>
                       </Pressable>
                     );
                   })}
                 </View>
               </ScrollView>
-              {selectedQuiz ? (
-                <Text style={styles.metaText}>
-                  Selected: {selectedQuiz.class_level || 'Unassigned'} • {selectedQuiz.subject || 'General'}
-                </Text>
-              ) : null}
-            </>
-          ) : null}
-
-          {mode === 'create' ? (
-            <View style={styles.fieldGroup}>
-              <Text style={styles.fieldLabel}>Question Type</Text>
-              <View style={styles.typeChipRow}>
-                {QUESTION_TYPE_CHOICES.map((choice) => {
-                  const selected = draft.questionType === choice.value;
-                  return (
-                    <Pressable
-                      key={choice.value}
-                      style={[styles.typeChip, selected && styles.typeChipActive]}
-                      onPress={() => setQuestionType(choice.value)}
-                    >
-                      <Text style={[styles.typeChipText, selected && styles.typeChipTextActive]}>{choice.label}</Text>
-                    </Pressable>
-                  );
-                })}
-              </View>
               {selectedTypeChoice ? <Text style={styles.metaText}>{selectedTypeChoice.description}</Text> : null}
             </View>
           ) : null}
@@ -1012,6 +1282,25 @@ export default function QuestionManagementScreen() {
 
           <View style={styles.row}>
             <View style={styles.halfInput}>
+              <Text style={styles.fieldLabel}>Standard</Text>
+              <Pressable style={styles.selectorInput} onPress={() => setSelectorField('classLevel')}>
+                <Text style={draft.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
+                  {draft.classLevel || 'Select standard'}
+                </Text>
+              </Pressable>
+            </View>
+            <View style={styles.halfInput}>
+              <Text style={styles.fieldLabel}>Subject</Text>
+              <Pressable style={styles.selectorInput} onPress={() => setSelectorField('subject')}>
+                <Text style={draft.subject ? styles.selectorText : styles.selectorPlaceholder}>
+                  {draft.subject || 'Select subject'}
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+
+          <View style={styles.row}>
+            <View style={styles.halfInput}>
               <Text style={styles.fieldLabel}>Points</Text>
               <TextInput
                 value={draft.points}
@@ -1033,53 +1322,89 @@ export default function QuestionManagementScreen() {
             </View>
           </View>
 
-          <View style={styles.fieldGroup}>
-            <Text style={styles.fieldLabel}>
-              {editorMode === 'image_select' ? 'Main Audio (Optional)' : 'Question Audio (Optional)'}
-            </Text>
-            <View style={styles.mediaActionRow}>
-              <Pressable style={[styles.secondaryButton, styles.mediaActionButton]} onPress={() => uploadAudioForQuestion(mode)}>
-                <Text style={styles.secondaryButtonText}>Upload Audio</Text>
-              </Pressable>
-            </View>
-            {draft.mainAudio.trim() ? (
-              <View style={styles.audioPreviewCard}>
-                <View style={styles.previewHeader}>
-                  <View style={styles.previewHeaderContent}>
-                    <Text style={styles.mediaInfoLabel}>Selected Audio</Text>
-                    <Text style={styles.mediaInfoValue}>{toMediaLabel(draft.mainAudio, 'audio', draft.mainAudioLabel)}</Text>
-                  </View>
-                  <Pressable
-                    style={styles.previewRemoveButton}
-                    onPress={() => requestMediaRemoval({ scope: 'question', mode, mediaType: 'audio' })}
-                  >
-                    <Text style={styles.previewRemoveButtonText}>Remove</Text>
-                  </Pressable>
-                </View>
-                <Pressable style={[styles.secondaryButton, styles.playButton]} onPress={() => playAudioPreview(draft.mainAudio)}>
-                  <Text style={styles.secondaryButtonText}>Play Audio</Text>
+          {normalizedQuestionType === 'guess_image' ? (
+            <View style={styles.fieldGroup}>
+              <Text style={styles.fieldLabel}>Main Image (Required)</Text>
+              <View style={styles.mediaActionRow}>
+                <Pressable style={[styles.secondaryButton, styles.mediaActionButton]} onPress={() => uploadImageForQuestion(mode)}>
+                  <Text style={styles.secondaryButtonText}>Upload Image</Text>
                 </Pressable>
               </View>
-            ) : null}
-          </View>
+              {draft.mainImage.trim() ? (
+                <View style={styles.previewCard}>
+                  <View style={styles.previewHeader}>
+                    <View style={styles.previewHeaderContent}>
+                      <Text style={styles.mediaInfoLabel}>Selected Image</Text>
+                      <Text style={styles.mediaInfoValue}>{toMediaLabel(draft.mainImage, 'image', draft.mainImageLabel)}</Text>
+                    </View>
+                    <Pressable
+                      style={styles.previewRemoveButton}
+                      onPress={() => requestMediaRemoval({ scope: 'question', mode, mediaType: 'image' })}
+                    >
+                      <Text style={styles.previewRemoveButtonText}>Remove</Text>
+                    </Pressable>
+                  </View>
+                  <Image source={{ uri: resolveMediaUrl(draft.mainImage.trim()) }} style={styles.optionImagePreview} resizeMode="contain" />
+                </View>
+              ) : null}
+            </View>
+          ) : null}
 
-          {editorMode === 'image_select' ? (
+          {normalizedQuestionType === 'guess_audio' ? (
+            <View style={styles.fieldGroup}>
+              <Text style={styles.fieldLabel}>Main Audio (Required)</Text>
+              <View style={styles.mediaActionRow}>
+                <Pressable style={[styles.secondaryButton, styles.mediaActionButton]} onPress={() => uploadAudioForQuestion(mode)}>
+                  <Text style={styles.secondaryButtonText}>Upload Audio</Text>
+                </Pressable>
+              </View>
+              {draft.mainAudio.trim() ? (
+                <View style={styles.audioPreviewCard}>
+                  <View style={styles.previewHeader}>
+                    <View style={styles.previewHeaderContent}>
+                      <Text style={styles.mediaInfoLabel}>Selected Audio</Text>
+                      <Text style={styles.mediaInfoValue}>{toMediaLabel(draft.mainAudio, 'audio', draft.mainAudioLabel)}</Text>
+                    </View>
+                    <Pressable
+                      style={styles.previewRemoveButton}
+                      onPress={() => requestMediaRemoval({ scope: 'question', mode, mediaType: 'audio' })}
+                    >
+                      <Text style={styles.previewRemoveButtonText}>Remove</Text>
+                    </Pressable>
+                  </View>
+                  <Pressable style={[styles.secondaryButton, styles.playButton]} onPress={() => playAudioPreview(draft.mainAudio)}>
+                    <Text style={styles.secondaryButtonText}>Play Audio</Text>
+                  </Pressable>
+                </View>
+              ) : null}
+            </View>
+          ) : null}
+
+          {editorMode === 'choice' ? (
             <>
               <View style={styles.sectionHeader}>
                 <Text style={styles.sectionTitle}>Answer Options</Text>
-                <Pressable style={styles.smallButton} onPress={() => addOption(mode)}>
-                  <Text style={styles.smallButtonText}>+ Add Option</Text>
-                </Pressable>
+                {normalizedQuestionType === 'true_false' ? null : (
+                  <Pressable style={styles.smallButton} onPress={() => addOption(mode)}>
+                    <Text style={styles.smallButtonText}>+ Add Option</Text>
+                  </Pressable>
+                )}
               </View>
-              <Text style={styles.metaText}>Mark exactly one option as the correct answer.</Text>
+              <Text style={styles.metaText}>
+                {normalizedQuestionType === 'multi_choice'
+                  ? 'Mark all correct options.'
+                  : 'Mark exactly one option as the correct answer.'}
+              </Text>
 
               {draft.options.map((option, index) => (
                 <View key={`${mode}-option-${index}`} style={styles.optionCard}>
                   <View style={styles.cardHeaderRow}>
                     <Text style={styles.optionTitle}>Option {index + 1}</Text>
-                    <Pressable style={styles.inlineRemoveButton} onPress={() => requestOptionRemoval({ mode, index })}>
-                      <Text style={styles.inlineRemoveButtonText}>Remove Option</Text>
-                    </Pressable>
+                    {normalizedQuestionType === 'true_false' ? null : (
+                      <Pressable style={styles.inlineRemoveButton} onPress={() => requestOptionRemoval({ mode, index })}>
+                        <Text style={styles.inlineRemoveButtonText}>Remove Option</Text>
+                      </Pressable>
+                    )}
                   </View>
 
                   <View style={styles.fieldGroup}>
@@ -1094,7 +1419,13 @@ export default function QuestionManagementScreen() {
 
                   <View style={styles.mediaActionRow}>
                     <Pressable style={[styles.secondaryButton, styles.mediaActionButton]} onPress={() => uploadMediaForOption(mode, index)}>
-                      <Text style={styles.secondaryButtonText}>Upload Image / Audio</Text>
+                      <Text style={styles.secondaryButtonText}>
+                        {normalizedQuestionType === 'guess_image'
+                          ? 'Upload Option Image'
+                          : normalizedQuestionType === 'guess_audio'
+                            ? 'Upload Option Audio / Image'
+                            : 'Upload Option Image / Audio'}
+                      </Text>
                     </Pressable>
                   </View>
 
@@ -1141,7 +1472,13 @@ export default function QuestionManagementScreen() {
                     onPress={() => setCorrectOption(mode, index)}
                   >
                     <Text style={option.isCorrect ? styles.primaryButtonText : styles.secondaryButtonText}>
-                      {option.isCorrect ? 'Correct Answer' : 'Mark as Correct'}
+                      {normalizedQuestionType === 'multi_choice'
+                        ? option.isCorrect
+                          ? 'Marked Correct'
+                          : 'Mark Correct'
+                        : option.isCorrect
+                          ? 'Correct Answer'
+                          : 'Mark as Correct'}
                     </Text>
                   </Pressable>
                 </View>
@@ -1281,18 +1618,16 @@ export default function QuestionManagementScreen() {
           style={styles.input}
         />
         <View style={styles.row}>
-          <TextInput
-            value={filters.classLevel}
-            onChangeText={(value) => setFilters((current) => ({ ...current, classLevel: value }))}
-            placeholder="Standard"
-            style={[styles.input, styles.halfInput]}
-          />
-          <TextInput
-            value={filters.subject}
-            onChangeText={(value) => setFilters((current) => ({ ...current, subject: value }))}
-            placeholder="Subject"
-            style={[styles.input, styles.halfInput]}
-          />
+          <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setSelectorField('filterClassLevel')}>
+            <Text style={filters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
+              {filters.classLevel || 'Standard'}
+            </Text>
+          </Pressable>
+          <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setSelectorField('filterSubject')}>
+            <Text style={filters.subject ? styles.selectorText : styles.selectorPlaceholder}>
+              {filters.subject || 'Subject'}
+            </Text>
+          </Pressable>
         </View>
         <TextInput
           value={filters.category}
@@ -1335,6 +1670,9 @@ export default function QuestionManagementScreen() {
                     {question.question_title || 'Untitled'}
                   </Text>
                   <View style={[styles.colActions, styles.actionsRow]}>
+                    <Pressable style={styles.actionButton} onPress={() => setPreviewQuestion(question)}>
+                      <Text style={styles.actionButtonText}>View</Text>
+                    </Pressable>
                     <Pressable style={styles.actionButton} onPress={() => openEditDialog(question)}>
                       <Text style={styles.actionButtonText}>Edit</Text>
                     </Pressable>
@@ -1363,6 +1701,83 @@ export default function QuestionManagementScreen() {
 
       <Modal visible={editingQuestionId !== null} transparent animationType="fade" onRequestClose={() => setEditingQuestionId(null)}>
         <View style={styles.dialogOverlay}>{renderDialogContent('edit')}</View>
+      </Modal>
+
+      <Modal visible={selectorField !== null} transparent animationType="fade" onRequestClose={() => setSelectorField(null)}>
+        <View style={styles.dialogOverlay}>
+          <View style={styles.confirmCard}>
+            <Text style={styles.confirmTitle}>{selectorTitle}</Text>
+            <ScrollView style={styles.selectorList}>
+              <Pressable style={styles.selectorOption} onPress={() => applySelectorValue('')}>
+                <Text style={styles.selectorOptionText}>Any</Text>
+              </Pressable>
+              {selectorOptions.map((option) => (
+                <Pressable key={option} style={styles.selectorOption} onPress={() => applySelectorValue(option)}>
+                  <Text style={styles.selectorOptionText}>{option}</Text>
+                </Pressable>
+              ))}
+            </ScrollView>
+            <Pressable style={styles.secondaryButton} onPress={() => setSelectorField(null)}>
+              <Text style={styles.secondaryButtonText}>Close</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal visible={previewQuestion !== null} transparent animationType="fade" onRequestClose={() => setPreviewQuestion(null)}>
+        <View style={styles.dialogOverlay}>
+          <View style={styles.confirmCard}>
+            <Text style={styles.confirmTitle}>Question Preview</Text>
+            {previewQuestion ? (
+              <ScrollView style={styles.selectorList}>
+                <Text style={styles.previewTitle}>{previewQuestion.question_title || 'Untitled question'}</Text>
+                <Text style={styles.previewMeta}>
+                  {previewQuestion.class_level || '-'} • {previewQuestion.subject || '-'} •{' '}
+                  {getQuestionTypeLabel(previewQuestion.question_type)}
+                </Text>
+                {previewQuestion.question_instruction ? (
+                  <Text style={styles.previewInstruction}>{previewQuestion.question_instruction}</Text>
+                ) : null}
+                <Text style={styles.previewMeta}>Points: {previewQuestion.points}</Text>
+                <Text style={styles.previewMeta}>Time: {previewQuestion.time_limit_seconds}s</Text>
+
+                {questionDataPromptImage(previewQuestion.question_data).trim() ? (
+                  <View style={styles.previewMediaCard}>
+                    <Text style={styles.previewMediaLabel}>Prompt Image</Text>
+                    <Image
+                      source={{ uri: resolveMediaUrl(questionDataPromptImage(previewQuestion.question_data).trim()) }}
+                      style={styles.previewImage}
+                      resizeMode="contain"
+                    />
+                  </View>
+                ) : null}
+
+                {questionDataToOptions(previewQuestion.question_data)
+                  .filter((option) => option.image.trim())
+                  .map((option, index) => (
+                    <View key={`preview-option-${index}`} style={styles.previewMediaCard}>
+                      <Text style={styles.previewMediaLabel}>Option {index + 1}: {option.label || 'Untitled'}</Text>
+                      <Image source={{ uri: resolveMediaUrl(option.image.trim()) }} style={styles.previewImage} resizeMode="contain" />
+                    </View>
+                  ))}
+
+                {questionDataToMatchPairs(previewQuestion.question_data)
+                  .filter((pair) => pair.image.trim())
+                  .map((pair, index) => (
+                    <View key={`preview-pair-${index}`} style={styles.previewMediaCard}>
+                      <Text style={styles.previewMediaLabel}>
+                        Pair {index + 1}: {pair.itemLabel || 'Item'} → {pair.targetLabel || 'Target'}
+                      </Text>
+                      <Image source={{ uri: resolveMediaUrl(pair.image.trim()) }} style={styles.previewImage} resizeMode="contain" />
+                    </View>
+                  ))}
+              </ScrollView>
+            ) : null}
+            <Pressable style={styles.primaryButton} onPress={() => setPreviewQuestion(null)}>
+              <Text style={styles.primaryButtonText}>Done</Text>
+            </Pressable>
+          </View>
+        </View>
       </Modal>
 
       <Modal
@@ -1490,6 +1905,24 @@ const styles = StyleSheet.create({
     color: '#0f172a',
     backgroundColor: '#fff',
   },
+  selectorInput: {
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
+  selectorPlaceholder: {
+    color: '#94a3b8',
+    fontSize: 13,
+  },
+  selectorText: {
+    color: '#0f172a',
+    fontSize: 13,
+    fontWeight: '600',
+  },
   row: {
     flexDirection: 'row',
     gap: 8,
@@ -1596,7 +2029,7 @@ const styles = StyleSheet.create({
     width: 260,
   },
   colActions: {
-    width: 170,
+    width: 240,
   },
   actionsRow: {
     flexDirection: 'row',
@@ -1704,6 +2137,60 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
     marginTop: 4,
+  },
+  selectorList: {
+    maxHeight: 320,
+  },
+  selectorOption: {
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    marginBottom: 8,
+    backgroundColor: '#fff',
+  },
+  selectorOptionText: {
+    color: '#0f172a',
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  previewTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#0f172a',
+    marginBottom: 6,
+  },
+  previewMeta: {
+    fontSize: 12,
+    color: '#475569',
+    marginBottom: 4,
+  },
+  previewInstruction: {
+    fontSize: 13,
+    color: '#334155',
+    marginBottom: 8,
+    lineHeight: 18,
+  },
+  previewMediaCard: {
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    borderRadius: 10,
+    padding: 8,
+    marginBottom: 8,
+    gap: 6,
+    backgroundColor: '#f8fafc',
+  },
+  previewMediaLabel: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#334155',
+  },
+  previewImage: {
+    width: '100%',
+    height: 160,
+    borderRadius: 8,
+    backgroundColor: '#fff',
   },
   quizChipRow: {
     flexDirection: 'row',
