@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { db } from '../db.js';
 import { requireAuth } from '../middleware/auth.js';
-import { getSignedMediaUrlIfNeeded, uploadMediaToS3 } from '../services/s3.js';
+import { getSignedMediaUrlIfNeeded, toPersistentMediaUrl, uploadMediaToS3 } from '../services/s3.js';
 
 export const quizzesRouter = Router();
 
@@ -108,7 +108,88 @@ const uploadMediaSchema = z.object({
   dataUrl: z.string().trim().min(1),
   fileName: z.string().trim().min(1).max(255),
   mimeType: z.string().trim().optional(),
-  mediaType: z.enum(['image', 'audio']),
+  mediaType: z.enum(['image', 'audio', 'video']),
+});
+
+const contentTypeSchema = z.enum(['reel', 'image', 'text', 'audio', 'youtube_url', 'reel_url']);
+
+const listContentTopicsQuerySchema = z.object({
+  class_level: z.string().trim().optional(),
+  subject: z.string().trim().optional(),
+  search: z.string().trim().optional(),
+  limit: z.coerce.number().int().min(1).max(300).default(100),
+});
+const listSubjectCatalogQuerySchema = z.object({
+  class_level: z.string().trim().optional(),
+});
+
+const createContentTopicSchema = z.object({
+  classLevel: z.string().trim().min(1).max(50),
+  subject: z.string().trim().min(1).max(255),
+  title: z.string().trim().min(1).max(255),
+  coverImage: z.string().trim().optional(),
+});
+
+const updateContentTopicSchema = z
+  .object({
+    classLevel: z.string().trim().min(1).max(50).optional(),
+    subject: z.string().trim().min(1).max(255).optional(),
+    title: z.string().trim().min(1).max(255).optional(),
+    coverImage: z.string().trim().optional(),
+  })
+  .refine((value) => Object.values(value).some((item) => item !== undefined), {
+    message: 'At least one field must be provided',
+  });
+
+const contentSectionSchema = z
+  .object({
+    contentType: contentTypeSchema,
+    mediaUrl: z.string().trim().optional(),
+    externalUrl: z.string().trim().optional(),
+    textContent: z.string().trim().optional(),
+  })
+  .refine(
+    (value) => {
+      if (value.contentType === 'text') return !!value.textContent?.trim();
+      if (value.contentType === 'youtube_url' || value.contentType === 'reel_url') return !!value.externalUrl?.trim();
+      return !!value.mediaUrl?.trim();
+    },
+    { message: 'Missing required field for selected content type' },
+  );
+
+const replaceTopicSectionsSchema = z.object({
+  sections: z.array(contentSectionSchema).min(1).max(300),
+});
+const createLearningContentSchema = z.object({
+  classLevel: z.string().trim().min(1).max(50),
+  subject: z.string().trim().min(1).max(255),
+  topicId: z.string().uuid().optional(),
+  title: z.string().trim().min(1).max(255),
+  contentType: contentTypeSchema.optional(),
+  mediaUrl: z.string().trim().optional(),
+  externalUrl: z.string().trim().optional(),
+  textContent: z.string().trim().optional(),
+  sections: z.array(contentSectionSchema).min(1).max(300).optional(),
+});
+const updateLearningContentSchema = z.object({
+  classLevel: z.string().trim().min(1).max(50),
+  subject: z.string().trim().min(1).max(255),
+  title: z.string().trim().min(1).max(255),
+  contentType: contentTypeSchema.optional(),
+  mediaUrl: z.string().trim().optional(),
+  externalUrl: z.string().trim().optional(),
+  textContent: z.string().trim().optional(),
+  sections: z.array(contentSectionSchema).min(1).max(300).optional(),
+});
+const listLearningContentQuerySchema = z.object({
+  class_level: z.string().trim().optional(),
+  subject: z.string().trim().optional(),
+  topic_id: z.string().uuid().optional(),
+  search: z.string().trim().optional(),
+  limit: z.coerce.number().int().min(1).max(500).default(200),
+});
+const updateTopicAssignmentsSchema = z.object({
+  contentIds: z.array(z.string().uuid()).default([]),
 });
 
 const updateQuestionSchema = z
@@ -147,6 +228,61 @@ function getOrganizationId(req: any): string | null {
 function canBypassOwnership(req: any): boolean {
   const role = req?.user?.role;
   return role === 'admin' || role === 'superadmin';
+}
+
+function canManageTeacherContent(req: any): boolean {
+  const role = req?.user?.role;
+  return role === 'teacher' || role === 'admin' || role === 'superadmin';
+}
+
+function normalizeLearningContentSections(payload: {
+  sections?: Array<{ contentType: string; mediaUrl?: string; externalUrl?: string; textContent?: string }>;
+  contentType?: string;
+  mediaUrl?: string;
+  externalUrl?: string;
+  textContent?: string;
+}) {
+  if (Array.isArray(payload.sections) && payload.sections.length > 0) {
+    return payload.sections.map((section) => ({
+      contentType: section.contentType as z.infer<typeof contentTypeSchema>,
+      mediaUrl: section.mediaUrl?.trim() ? toPersistentMediaUrl(section.mediaUrl.trim()) : null,
+      externalUrl: section.externalUrl?.trim() || null,
+      textContent: section.textContent?.trim() || null,
+    }));
+  }
+  if (!payload.contentType) return [];
+  return [
+    {
+      contentType: payload.contentType as z.infer<typeof contentTypeSchema>,
+      mediaUrl: payload.mediaUrl?.trim() ? toPersistentMediaUrl(payload.mediaUrl.trim()) : null,
+      externalUrl: payload.externalUrl?.trim() || null,
+      textContent: payload.textContent?.trim() || null,
+    },
+  ];
+}
+
+async function ensureTopicEditPermission(
+  topicId: string,
+  orgId: string,
+  userId: string,
+  req: any,
+): Promise<{ allowed: boolean; exists: boolean }> {
+  const result = await db.query(
+    `SELECT id, created_by
+     FROM content_topics
+     WHERE id = $1
+       AND organization_id = $2::uuid`,
+    [topicId, orgId],
+  );
+  if ((result.rowCount ?? 0) === 0) {
+    return { allowed: false, exists: false };
+  }
+
+  const createdBy = result.rows[0].created_by as string | null;
+  if (canBypassOwnership(req) || !createdBy || createdBy === userId) {
+    return { allowed: true, exists: true };
+  }
+  return { allowed: false, exists: true };
 }
 
 async function ensureQuizEditPermission(
@@ -1210,6 +1346,997 @@ quizzesRouter.post('/:id/questions', requireAuth, async (req: any, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Failed to create question' });
+  }
+});
+
+quizzesRouter.get('/content/subjects', requireAuth, async (req: any, res) => {
+  const parsedQuery = listSubjectCatalogQuerySchema.safeParse(req.query);
+  if (!parsedQuery.success) {
+    return res.status(400).json({ message: 'Invalid subject filters', errors: parsedQuery.error.issues });
+  }
+  if (!canManageTeacherContent(req)) {
+    return res.status(403).json({ message: 'Forbidden: teacher/admin role required' });
+  }
+  const orgId = getOrganizationId(req);
+  if (!orgId) {
+    return res.status(400).json({ message: 'Organization not found in auth context' });
+  }
+
+  const { class_level } = parsedQuery.data;
+  const params: unknown[] = [orgId];
+  const whereClauses: string[] = ['organization_id = $1::uuid'];
+  if (class_level) {
+    params.push(class_level);
+    whereClauses.push(`class_level = $${params.length}`);
+  }
+
+  try {
+    const result = await db.query(
+      `SELECT id, title, class_level, cover_image
+       FROM subjects
+       WHERE ${whereClauses.join(' AND ')}
+       ORDER BY class_level ASC, title ASC`,
+      params,
+    );
+    const rows = await Promise.all(
+      result.rows.map(async (row) => ({
+        id: row.id as string,
+        title: row.title as string,
+        classLevel: row.class_level as string,
+        coverImage: row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image as string) : undefined,
+      })),
+    );
+    return res.json({ subjects: rows });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to fetch subject catalog' });
+  }
+});
+
+quizzesRouter.get('/content/topics', requireAuth, async (req: any, res) => {
+  const parsedQuery = listContentTopicsQuerySchema.safeParse(req.query);
+  if (!parsedQuery.success) {
+    return res.status(400).json({ message: 'Invalid content topic filters', errors: parsedQuery.error.issues });
+  }
+  if (!canManageTeacherContent(req)) {
+    return res.status(403).json({ message: 'Forbidden: teacher/admin role required' });
+  }
+
+  const orgId = getOrganizationId(req);
+  if (!orgId) {
+    return res.status(400).json({ message: 'Organization not found in auth context' });
+  }
+
+  const { class_level, subject, search, limit } = parsedQuery.data;
+  const params: unknown[] = [orgId];
+  const whereClauses: string[] = ['ct.organization_id = $1::uuid'];
+
+  if (class_level) {
+    params.push(class_level);
+    whereClauses.push(`ct.class_level = $${params.length}`);
+  }
+  if (subject) {
+    params.push(subject);
+    whereClauses.push(`ct.subject = $${params.length}`);
+  }
+  if (search) {
+    params.push(`%${search}%`);
+    const idx = params.length;
+    whereClauses.push(`(ct.title ILIKE $${idx} OR COALESCE(ct.subject, '') ILIKE $${idx})`);
+  }
+  params.push(limit);
+
+  try {
+    const result = await db.query(
+      `SELECT
+         ct.id,
+         ct.class_level,
+         ct.subject,
+         ct.title,
+         ct.cover_image,
+         ct.created_by,
+         ct.created_at,
+         ct.updated_at,
+         COALESCE(COUNT(lcs.id), 0)::int AS section_count
+       FROM content_topics ct
+       LEFT JOIN topic_content_assignments tca ON tca.topic_id = ct.id
+       LEFT JOIN learning_content_sections lcs ON lcs.content_id = tca.content_id
+       WHERE ${whereClauses.join(' AND ')}
+       GROUP BY ct.id
+       ORDER BY ct.class_level ASC, ct.subject ASC, ct.title ASC
+       LIMIT $${params.length}`,
+      params,
+    );
+
+    const topicRows = await Promise.all(
+      result.rows.map(async (row) => {
+        const signedCover = row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image as string) : null;
+        return {
+          id: row.id as string,
+          classLevel: row.class_level as string,
+          subject: row.subject as string,
+          title: row.title as string,
+          coverImage: (signedCover as string | null) || undefined,
+          sectionCount: Number(row.section_count || 0),
+          createdBy: (row.created_by as string | null) || undefined,
+          createdAt: row.created_at as string,
+          updatedAt: row.updated_at as string,
+        };
+      }),
+    );
+
+    return res.json({ topics: topicRows });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to fetch content topics' });
+  }
+});
+
+quizzesRouter.post('/content/topics', requireAuth, async (req: any, res) => {
+  const parsedBody = createContentTopicSchema.safeParse(req.body);
+  if (!parsedBody.success) {
+    return res.status(400).json({ message: 'Invalid content topic payload', errors: parsedBody.error.issues });
+  }
+  if (!canManageTeacherContent(req)) {
+    return res.status(403).json({ message: 'Forbidden: teacher/admin role required' });
+  }
+  const orgId = getOrganizationId(req);
+  const userId = req?.user?.userId;
+  if (!orgId || !userId) {
+    return res.status(400).json({ message: 'Organization/user not found in auth context' });
+  }
+
+  const { classLevel, subject, title, coverImage } = parsedBody.data;
+
+  try {
+    const duplicate = await db.query(
+      `SELECT 1
+       FROM content_topics
+       WHERE organization_id = $1::uuid
+         AND class_level = $2
+         AND subject = $3
+         AND LOWER(title) = LOWER($4)
+       LIMIT 1`,
+      [orgId, classLevel, subject, title],
+    );
+    if ((duplicate.rowCount ?? 0) > 0) {
+      return res.status(400).json({ message: 'Topic already exists for this standard and subject' });
+    }
+
+    const result = await db.query(
+      `INSERT INTO content_topics (organization_id, class_level, subject, title, cover_image, created_by)
+       VALUES ($1::uuid, $2, $3, $4, $5, $6)
+       RETURNING id, class_level, subject, title, cover_image, created_by, created_at, updated_at`,
+      [orgId, classLevel, subject, title, coverImage ? toPersistentMediaUrl(coverImage) : null, userId],
+    );
+    const row = result.rows[0];
+    const signedCover = row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image as string) : null;
+    return res.status(201).json({
+      id: row.id as string,
+      classLevel: row.class_level as string,
+      subject: row.subject as string,
+      title: row.title as string,
+      coverImage: (signedCover as string | null) || undefined,
+      sectionCount: 0,
+      createdBy: (row.created_by as string | null) || undefined,
+      createdAt: row.created_at as string,
+      updatedAt: row.updated_at as string,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to create content topic' });
+  }
+});
+
+quizzesRouter.patch('/content/topics/:topicId', requireAuth, async (req: any, res) => {
+  const topicId = req.params.topicId as string;
+  const parsedBody = updateContentTopicSchema.safeParse(req.body);
+  if (!topicId) {
+    return res.status(400).json({ message: 'Invalid topic id' });
+  }
+  if (!parsedBody.success) {
+    return res.status(400).json({ message: 'Invalid update payload', errors: parsedBody.error.issues });
+  }
+  if (!canManageTeacherContent(req)) {
+    return res.status(403).json({ message: 'Forbidden: teacher/admin role required' });
+  }
+
+  const orgId = getOrganizationId(req);
+  const userId = req?.user?.userId;
+  if (!orgId || !userId) {
+    return res.status(400).json({ message: 'Organization/user not found in auth context' });
+  }
+
+  try {
+    const permission = await ensureTopicEditPermission(topicId, orgId, userId, req);
+    if (!permission.exists) {
+      return res.status(404).json({ message: 'Topic not found' });
+    }
+    if (!permission.allowed) {
+      return res.status(403).json({ message: 'Forbidden: not allowed to edit this topic' });
+    }
+
+    const existing = await db.query(
+      `SELECT class_level, subject, title
+       FROM content_topics
+       WHERE id = $1
+         AND organization_id = $2::uuid
+       LIMIT 1`,
+      [topicId, orgId],
+    );
+    const existingRow = existing.rows[0];
+    const nextClassLevel = parsedBody.data.classLevel ?? (existingRow?.class_level as string);
+    const nextSubject = parsedBody.data.subject ?? (existingRow?.subject as string);
+    const nextTitle = parsedBody.data.title ?? (existingRow?.title as string);
+
+    const duplicate = await db.query(
+      `SELECT 1
+       FROM content_topics
+       WHERE organization_id = $1::uuid
+         AND class_level = $2
+         AND subject = $3
+         AND LOWER(title) = LOWER($4)
+         AND id <> $5
+       LIMIT 1`,
+      [orgId, nextClassLevel, nextSubject, nextTitle, topicId],
+    );
+    if ((duplicate.rowCount ?? 0) > 0) {
+      return res.status(400).json({ message: 'Topic already exists for this standard and subject' });
+    }
+
+    const updates: string[] = ['updated_at = NOW()'];
+    const params: unknown[] = [];
+    if (parsedBody.data.classLevel !== undefined) {
+      params.push(parsedBody.data.classLevel);
+      updates.push(`class_level = $${params.length}`);
+    }
+    if (parsedBody.data.subject !== undefined) {
+      params.push(parsedBody.data.subject);
+      updates.push(`subject = $${params.length}`);
+    }
+    if (parsedBody.data.title !== undefined) {
+      params.push(parsedBody.data.title);
+      updates.push(`title = $${params.length}`);
+    }
+    if (parsedBody.data.coverImage !== undefined) {
+      params.push(parsedBody.data.coverImage ? toPersistentMediaUrl(parsedBody.data.coverImage) : null);
+      updates.push(`cover_image = $${params.length}`);
+    }
+    params.push(topicId, orgId);
+
+    const result = await db.query(
+      `UPDATE content_topics
+       SET ${updates.join(', ')}
+       WHERE id = $${params.length - 1}
+         AND organization_id = $${params.length}::uuid
+       RETURNING id, class_level, subject, title, cover_image, created_by, created_at, updated_at`,
+      params,
+    );
+    const row = result.rows[0];
+    const countResult = await db.query(
+      `SELECT COUNT(lcs.id)::int AS count
+       FROM topic_content_assignments tca
+       LEFT JOIN learning_content_sections lcs ON lcs.content_id = tca.content_id
+       WHERE tca.topic_id = $1`,
+      [topicId],
+    );
+    const signedCover = row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image as string) : null;
+    return res.json({
+      id: row.id as string,
+      classLevel: row.class_level as string,
+      subject: row.subject as string,
+      title: row.title as string,
+      coverImage: (signedCover as string | null) || undefined,
+      sectionCount: Number(countResult.rows[0]?.count || 0),
+      createdBy: (row.created_by as string | null) || undefined,
+      createdAt: row.created_at as string,
+      updatedAt: row.updated_at as string,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to update content topic' });
+  }
+});
+
+quizzesRouter.delete('/content/topics/:topicId', requireAuth, async (req: any, res) => {
+  const topicId = req.params.topicId as string;
+  if (!topicId) {
+    return res.status(400).json({ message: 'Invalid topic id' });
+  }
+  if (!canManageTeacherContent(req)) {
+    return res.status(403).json({ message: 'Forbidden: teacher/admin role required' });
+  }
+
+  const orgId = getOrganizationId(req);
+  const userId = req?.user?.userId;
+  if (!orgId || !userId) {
+    return res.status(400).json({ message: 'Organization/user not found in auth context' });
+  }
+
+  try {
+    const permission = await ensureTopicEditPermission(topicId, orgId, userId, req);
+    if (!permission.exists) {
+      return res.status(404).json({ message: 'Topic not found' });
+    }
+    if (!permission.allowed) {
+      return res.status(403).json({ message: 'Forbidden: not allowed to delete this topic' });
+    }
+
+    await db.query(
+      `DELETE FROM content_topics
+       WHERE id = $1
+         AND organization_id = $2::uuid`,
+      [topicId, orgId],
+    );
+    return res.status(204).send();
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to delete content topic' });
+  }
+});
+
+quizzesRouter.get('/content/topics/:topicId/details', requireAuth, async (req: any, res) => {
+  const topicId = req.params.topicId as string;
+  if (!topicId) {
+    return res.status(400).json({ message: 'Invalid topic id' });
+  }
+  if (!canManageTeacherContent(req)) {
+    return res.status(403).json({ message: 'Forbidden: teacher/admin role required' });
+  }
+  const orgId = getOrganizationId(req);
+  if (!orgId) {
+    return res.status(400).json({ message: 'Organization not found in auth context' });
+  }
+
+  try {
+    const topicResult = await db.query(
+      `SELECT id, class_level, subject, title, cover_image, created_by, created_at, updated_at
+       FROM content_topics
+       WHERE id = $1
+         AND organization_id = $2::uuid
+       LIMIT 1`,
+      [topicId, orgId],
+    );
+    if ((topicResult.rowCount ?? 0) === 0) {
+      return res.status(404).json({ message: 'Topic not found' });
+    }
+
+    const sectionsResult = await db.query(
+      `SELECT
+         COALESCE(lcs.id::text, lc.id::text) AS id,
+         lc.id AS content_id,
+         COALESCE(lcs.section_order, 1) AS section_order,
+         COALESCE(lcs.content_type, lc.content_type) AS content_type,
+         COALESCE(lcs.media_url, lc.media_url) AS media_url,
+         COALESCE(lcs.external_url, lc.external_url) AS external_url,
+         COALESCE(lcs.text_content, lc.text_content) AS text_content,
+         COALESCE(lcs.created_at, lc.created_at) AS created_at,
+         COALESCE(lcs.updated_at, lc.updated_at) AS updated_at
+       FROM topic_content_assignments tca
+       INNER JOIN learning_contents lc ON lc.id = tca.content_id
+       LEFT JOIN learning_content_sections lcs ON lcs.content_id = lc.id
+       WHERE tca.topic_id = $1
+       ORDER BY tca.sort_order ASC, lcs.section_order ASC, lcs.created_at ASC`,
+      [topicId],
+    );
+
+    const topic = topicResult.rows[0];
+    const signedCover = topic.cover_image ? await getSignedMediaUrlIfNeeded(topic.cover_image as string) : null;
+    const sections = await Promise.all(
+      sectionsResult.rows.map(async (row) => ({
+        id: (row.id as string) || (row.content_id as string),
+        contentId: row.content_id as string,
+        sectionOrder: Number(row.section_order || 0),
+        contentType: row.content_type as string,
+        mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url as string) : undefined,
+        externalUrl: (row.external_url as string | null) || undefined,
+        textContent: (row.text_content as string | null) || undefined,
+        createdAt: row.created_at as string,
+        updatedAt: row.updated_at as string,
+      })),
+    );
+
+    return res.json({
+      topic: {
+        id: topic.id as string,
+        classLevel: topic.class_level as string,
+        subject: topic.subject as string,
+        title: topic.title as string,
+        coverImage: (signedCover as string | null) || undefined,
+        createdBy: (topic.created_by as string | null) || undefined,
+        createdAt: topic.created_at as string,
+        updatedAt: topic.updated_at as string,
+      },
+      sections,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to fetch topic details' });
+  }
+});
+
+quizzesRouter.put('/content/topics/:topicId/sections', requireAuth, async (req: any, res) => {
+  const topicId = req.params.topicId as string;
+  const parsedBody = replaceTopicSectionsSchema.safeParse(req.body);
+  if (!topicId) {
+    return res.status(400).json({ message: 'Invalid topic id' });
+  }
+  if (!parsedBody.success) {
+    return res.status(400).json({ message: 'Invalid sections payload', errors: parsedBody.error.issues });
+  }
+  if (!canManageTeacherContent(req)) {
+    return res.status(403).json({ message: 'Forbidden: teacher/admin role required' });
+  }
+
+  const orgId = getOrganizationId(req);
+  const userId = req?.user?.userId;
+  if (!orgId || !userId) {
+    return res.status(400).json({ message: 'Organization/user not found in auth context' });
+  }
+
+  const permission = await ensureTopicEditPermission(topicId, orgId, userId, req);
+  if (!permission.exists) {
+    return res.status(404).json({ message: 'Topic not found' });
+  }
+  if (!permission.allowed) {
+    return res.status(403).json({ message: 'Forbidden: not allowed to update this topic' });
+  }
+
+  const sections = parsedBody.data.sections;
+  const client = await db.connect();
+  try {
+    await client.query('BEGIN');
+    await client.query(`DELETE FROM topic_content_sections WHERE topic_id = $1`, [topicId]);
+
+    for (let i = 0; i < sections.length; i += 1) {
+      const section = sections[i];
+      await client.query(
+        `INSERT INTO topic_content_sections (topic_id, section_order, content_type, media_url, external_url, text_content)
+         VALUES ($1, $2, $3, $4, $5, $6)`,
+        [
+          topicId,
+          i + 1,
+          section.contentType,
+          section.mediaUrl ? toPersistentMediaUrl(section.mediaUrl) : null,
+          section.externalUrl || null,
+          section.textContent || null,
+        ],
+      );
+    }
+    await client.query('COMMIT');
+
+    const detailsResult = await db.query(
+      `SELECT id, section_order, content_type, media_url, external_url, text_content, created_at, updated_at
+       FROM topic_content_sections
+       WHERE topic_id = $1
+       ORDER BY section_order ASC`,
+      [topicId],
+    );
+    const resolvedSections = await Promise.all(
+      detailsResult.rows.map(async (row) => ({
+        id: row.id as string,
+        sectionOrder: Number(row.section_order || 0),
+        contentType: row.content_type as string,
+        mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url as string) : undefined,
+        externalUrl: (row.external_url as string | null) || undefined,
+        textContent: (row.text_content as string | null) || undefined,
+        createdAt: row.created_at as string,
+        updatedAt: row.updated_at as string,
+      })),
+    );
+    return res.json({ sections: resolvedSections });
+  } catch (error) {
+    await client.query('ROLLBACK');
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to save content sections' });
+  } finally {
+    client.release();
+  }
+});
+
+quizzesRouter.post('/content/items', requireAuth, async (req: any, res) => {
+  const parsedBody = createLearningContentSchema.safeParse(req.body);
+  if (!parsedBody.success) {
+    return res.status(400).json({ message: 'Invalid content payload', errors: parsedBody.error.issues });
+  }
+  if (!canManageTeacherContent(req)) {
+    return res.status(403).json({ message: 'Forbidden: teacher/admin role required' });
+  }
+  const orgId = getOrganizationId(req);
+  const userId = req?.user?.userId;
+  if (!orgId || !userId) {
+    return res.status(400).json({ message: 'Organization/user not found in auth context' });
+  }
+
+  const { classLevel, subject, topicId, title } = parsedBody.data;
+  const sections = normalizeLearningContentSections(parsedBody.data);
+  if (sections.length === 0) {
+    return res.status(400).json({ message: 'At least one valid section is required' });
+  }
+
+  try {
+    if (topicId) {
+      const topicCheck = await db.query(
+        `SELECT 1 FROM content_topics WHERE id = $1 AND organization_id = $2::uuid LIMIT 1`,
+        [topicId, orgId],
+      );
+      if ((topicCheck.rowCount ?? 0) === 0) {
+        return res.status(404).json({ message: 'Topic not found for assignment' });
+      }
+    }
+
+    const client = await db.connect();
+    try {
+      await client.query('BEGIN');
+      const contentResult = await client.query(
+        `INSERT INTO learning_contents (organization_id, class_level, subject, title, content_type, media_url, external_url, text_content, created_by)
+         VALUES ($1::uuid, $2, $3, $4, $5, $6, $7, $8, $9)
+         RETURNING id, class_level, subject, title, content_type, media_url, external_url, text_content, created_by, created_at, updated_at`,
+        [
+          orgId,
+          classLevel,
+          subject,
+          title,
+          sections.length > 1 ? 'multi_section' : sections[0].contentType,
+          sections[0].mediaUrl,
+          sections[0].externalUrl,
+          sections[0].textContent,
+          userId,
+        ],
+      );
+      const created = contentResult.rows[0];
+
+      for (let i = 0; i < sections.length; i += 1) {
+        const section = sections[i];
+        await client.query(
+          `INSERT INTO learning_content_sections (content_id, section_order, content_type, media_url, external_url, text_content)
+           VALUES ($1, $2, $3, $4, $5, $6)`,
+          [created.id, i + 1, section.contentType, section.mediaUrl, section.externalUrl, section.textContent],
+        );
+      }
+
+      if (topicId) {
+        await client.query(
+          `INSERT INTO topic_content_assignments (topic_id, content_id, sort_order)
+           VALUES ($1, $2, 0)
+           ON CONFLICT (topic_id, content_id) DO NOTHING`,
+          [topicId, created.id],
+        );
+      }
+
+      await client.query('COMMIT');
+      return res.status(201).json({
+        id: created.id as string,
+        classLevel: created.class_level as string,
+        subject: created.subject as string,
+        title: created.title as string,
+        contentType: created.content_type as string,
+        sectionCount: sections.length,
+        mediaUrl: created.media_url ? await getSignedMediaUrlIfNeeded(created.media_url as string) : undefined,
+        externalUrl: (created.external_url as string | null) || undefined,
+        textContent: (created.text_content as string | null) || undefined,
+        createdBy: (created.created_by as string | null) || undefined,
+        createdAt: created.created_at as string,
+        updatedAt: created.updated_at as string,
+      });
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to create content item' });
+  }
+});
+
+quizzesRouter.get('/content/items', requireAuth, async (req: any, res) => {
+  const parsedQuery = listLearningContentQuerySchema.safeParse(req.query);
+  if (!parsedQuery.success) {
+    return res.status(400).json({ message: 'Invalid content filters', errors: parsedQuery.error.issues });
+  }
+  if (!canManageTeacherContent(req)) {
+    return res.status(403).json({ message: 'Forbidden: teacher/admin role required' });
+  }
+  const orgId = getOrganizationId(req);
+  if (!orgId) {
+    return res.status(400).json({ message: 'Organization not found in auth context' });
+  }
+
+  const { class_level, subject, topic_id, search, limit } = parsedQuery.data;
+  const params: unknown[] = [orgId];
+  const whereClauses: string[] = ['lc.organization_id = $1::uuid'];
+
+  if (class_level) {
+    params.push(class_level);
+    whereClauses.push(`lc.class_level = $${params.length}`);
+  }
+  if (subject) {
+    params.push(subject);
+    whereClauses.push(`lc.subject = $${params.length}`);
+  }
+  if (search) {
+    params.push(`%${search}%`);
+    const idx = params.length;
+    whereClauses.push(`(lc.title ILIKE $${idx} OR COALESCE(lc.text_content, '') ILIKE $${idx})`);
+  }
+  if (topic_id) {
+    params.push(topic_id);
+    whereClauses.push(
+      `EXISTS (SELECT 1 FROM topic_content_assignments tca WHERE tca.topic_id = $${params.length} AND tca.content_id = lc.id)`,
+    );
+  }
+  params.push(limit);
+
+  try {
+    const result = await db.query(
+      `SELECT
+         lc.id,
+         lc.class_level,
+         lc.subject,
+         lc.title,
+         lc.content_type,
+         lc.media_url,
+         lc.external_url,
+         lc.text_content,
+         lc.created_by,
+         lc.created_at,
+         lc.updated_at,
+         COALESCE(sec.count, 0)::int AS section_count,
+         COALESCE(
+           jsonb_agg(
+             DISTINCT jsonb_build_object(
+               'topicId', ct.id,
+               'title', ct.title,
+               'classLevel', ct.class_level,
+               'subject', ct.subject
+             )
+           ) FILTER (WHERE ct.id IS NOT NULL),
+           '[]'::jsonb
+         ) AS assigned_topics
+       FROM learning_contents lc
+       LEFT JOIN (
+         SELECT content_id, COUNT(*)::int AS count
+         FROM learning_content_sections
+         GROUP BY content_id
+       ) sec ON sec.content_id = lc.id
+       LEFT JOIN topic_content_assignments tca ON tca.content_id = lc.id
+       LEFT JOIN content_topics ct ON ct.id = tca.topic_id AND ct.organization_id = lc.organization_id
+       WHERE ${whereClauses.join(' AND ')}
+       GROUP BY lc.id, sec.count
+       ORDER BY lc.created_at DESC
+       LIMIT $${params.length}`,
+      params,
+    );
+
+    const items = await Promise.all(
+      result.rows.map(async (row) => ({
+        id: row.id as string,
+        classLevel: row.class_level as string,
+        subject: row.subject as string,
+        title: row.title as string,
+        contentType: row.content_type as string,
+        sectionCount: Number(row.section_count || 0),
+        mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url as string) : undefined,
+        externalUrl: (row.external_url as string | null) || undefined,
+        textContent: (row.text_content as string | null) || undefined,
+        assignedTopics: (row.assigned_topics as Array<{ topicId: string; title: string; classLevel: string; subject: string }>) || [],
+        createdBy: (row.created_by as string | null) || undefined,
+        createdAt: row.created_at as string,
+        updatedAt: row.updated_at as string,
+      })),
+    );
+    return res.json({ items });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to list content items' });
+  }
+});
+
+quizzesRouter.get('/content/items/:contentId', requireAuth, async (req: any, res) => {
+  const contentId = req.params.contentId as string;
+  if (!contentId) return res.status(400).json({ message: 'Invalid content id' });
+  if (!canManageTeacherContent(req)) {
+    return res.status(403).json({ message: 'Forbidden: teacher/admin role required' });
+  }
+  const orgId = getOrganizationId(req);
+  if (!orgId) return res.status(400).json({ message: 'Organization not found in auth context' });
+
+  try {
+    const contentResult = await db.query(
+      `SELECT id, class_level, subject, title, content_type, media_url, external_url, text_content, created_by, created_at, updated_at
+       FROM learning_contents
+       WHERE id = $1
+         AND organization_id = $2::uuid
+       LIMIT 1`,
+      [contentId, orgId],
+    );
+    if ((contentResult.rowCount ?? 0) === 0) {
+      return res.status(404).json({ message: 'Content item not found' });
+    }
+    const sectionsResult = await db.query(
+      `SELECT id, section_order, content_type, media_url, external_url, text_content, created_at, updated_at
+       FROM learning_content_sections
+       WHERE content_id = $1
+       ORDER BY section_order ASC`,
+      [contentId],
+    );
+    let sections = await Promise.all(
+      sectionsResult.rows.map(async (row) => ({
+        id: row.id as string,
+        sectionOrder: Number(row.section_order || 0),
+        contentType: row.content_type as string,
+        mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url as string) : undefined,
+        externalUrl: (row.external_url as string | null) || undefined,
+        textContent: (row.text_content as string | null) || undefined,
+        createdAt: row.created_at as string,
+        updatedAt: row.updated_at as string,
+      })),
+    );
+    const row = contentResult.rows[0];
+    if (sections.length === 0) {
+      sections = [
+        {
+          id: row.id as string,
+          sectionOrder: 1,
+          contentType: row.content_type as string,
+          mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url as string) : undefined,
+          externalUrl: (row.external_url as string | null) || undefined,
+          textContent: (row.text_content as string | null) || undefined,
+          createdAt: row.created_at as string,
+          updatedAt: row.updated_at as string,
+        },
+      ];
+    }
+    return res.json({
+      id: row.id as string,
+      classLevel: row.class_level as string,
+      subject: row.subject as string,
+      title: row.title as string,
+      contentType: row.content_type as string,
+      sectionCount: sections.length,
+      mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url as string) : undefined,
+      externalUrl: (row.external_url as string | null) || undefined,
+      textContent: (row.text_content as string | null) || undefined,
+      sections,
+      createdBy: (row.created_by as string | null) || undefined,
+      createdAt: row.created_at as string,
+      updatedAt: row.updated_at as string,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to fetch content item' });
+  }
+});
+
+quizzesRouter.put('/content/items/:contentId', requireAuth, async (req: any, res) => {
+  const contentId = req.params.contentId as string;
+  const parsedBody = updateLearningContentSchema.safeParse(req.body);
+  if (!contentId) {
+    return res.status(400).json({ message: 'Invalid content id' });
+  }
+  if (!parsedBody.success) {
+    return res.status(400).json({ message: 'Invalid content payload', errors: parsedBody.error.issues });
+  }
+  if (!canManageTeacherContent(req)) {
+    return res.status(403).json({ message: 'Forbidden: teacher/admin role required' });
+  }
+  const orgId = getOrganizationId(req);
+  if (!orgId) {
+    return res.status(400).json({ message: 'Organization not found in auth context' });
+  }
+
+  const { classLevel, subject, title } = parsedBody.data;
+  const sections = normalizeLearningContentSections(parsedBody.data);
+  if (sections.length === 0) {
+    return res.status(400).json({ message: 'At least one valid section is required' });
+  }
+
+  try {
+    const existing = await db.query(
+      `SELECT id
+       FROM learning_contents
+       WHERE id = $1
+         AND organization_id = $2::uuid
+       LIMIT 1`,
+      [contentId, orgId],
+    );
+    if ((existing.rowCount ?? 0) === 0) {
+      return res.status(404).json({ message: 'Content item not found' });
+    }
+
+    const client = await db.connect();
+    try {
+      await client.query('BEGIN');
+      const updated = await client.query(
+        `UPDATE learning_contents
+         SET class_level = $1,
+             subject = $2,
+             title = $3,
+             content_type = $4,
+             media_url = $5,
+             external_url = $6,
+             text_content = $7,
+             updated_at = NOW()
+         WHERE id = $8
+           AND organization_id = $9::uuid
+         RETURNING id, class_level, subject, title, content_type, media_url, external_url, text_content, created_by, created_at, updated_at`,
+        [
+          classLevel,
+          subject,
+          title,
+          sections.length > 1 ? 'multi_section' : sections[0].contentType,
+          sections[0].mediaUrl,
+          sections[0].externalUrl,
+          sections[0].textContent,
+          contentId,
+          orgId,
+        ],
+      );
+      await client.query(`DELETE FROM learning_content_sections WHERE content_id = $1`, [contentId]);
+      for (let i = 0; i < sections.length; i += 1) {
+        const section = sections[i];
+        await client.query(
+          `INSERT INTO learning_content_sections (content_id, section_order, content_type, media_url, external_url, text_content)
+           VALUES ($1, $2, $3, $4, $5, $6)`,
+          [contentId, i + 1, section.contentType, section.mediaUrl, section.externalUrl, section.textContent],
+        );
+      }
+      await client.query('COMMIT');
+      const row = updated.rows[0];
+      return res.json({
+        id: row.id as string,
+        classLevel: row.class_level as string,
+        subject: row.subject as string,
+        title: row.title as string,
+        contentType: row.content_type as string,
+        sectionCount: sections.length,
+        mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url as string) : undefined,
+        externalUrl: (row.external_url as string | null) || undefined,
+        textContent: (row.text_content as string | null) || undefined,
+        createdBy: (row.created_by as string | null) || undefined,
+        createdAt: row.created_at as string,
+        updatedAt: row.updated_at as string,
+      });
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to update content item' });
+  }
+});
+
+quizzesRouter.delete('/content/items/:contentId', requireAuth, async (req: any, res) => {
+  const contentId = req.params.contentId as string;
+  if (!contentId) {
+    return res.status(400).json({ message: 'Invalid content id' });
+  }
+  if (!canManageTeacherContent(req)) {
+    return res.status(403).json({ message: 'Forbidden: teacher/admin role required' });
+  }
+  const orgId = getOrganizationId(req);
+  if (!orgId) {
+    return res.status(400).json({ message: 'Organization not found in auth context' });
+  }
+
+  try {
+    const result = await db.query(
+      `DELETE FROM learning_contents
+       WHERE id = $1
+         AND organization_id = $2::uuid`,
+      [contentId, orgId],
+    );
+    if ((result.rowCount ?? 0) === 0) {
+      return res.status(404).json({ message: 'Content item not found' });
+    }
+    return res.status(204).send();
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to delete content item' });
+  }
+});
+
+quizzesRouter.get('/content/topics/:topicId/assignments', requireAuth, async (req: any, res) => {
+  const topicId = req.params.topicId as string;
+  if (!topicId) {
+    return res.status(400).json({ message: 'Invalid topic id' });
+  }
+  if (!canManageTeacherContent(req)) {
+    return res.status(403).json({ message: 'Forbidden: teacher/admin role required' });
+  }
+  const orgId = getOrganizationId(req);
+  if (!orgId) {
+    return res.status(400).json({ message: 'Organization not found in auth context' });
+  }
+
+  try {
+    const topicCheck = await db.query(
+      `SELECT 1 FROM content_topics WHERE id = $1 AND organization_id = $2::uuid LIMIT 1`,
+      [topicId, orgId],
+    );
+    if ((topicCheck.rowCount ?? 0) === 0) {
+      return res.status(404).json({ message: 'Topic not found' });
+    }
+
+    const result = await db.query(
+      `SELECT content_id
+       FROM topic_content_assignments
+       WHERE topic_id = $1
+       ORDER BY sort_order ASC, created_at ASC`,
+      [topicId],
+    );
+    return res.json({ contentIds: result.rows.map((row) => row.content_id as string) });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to fetch topic assignments' });
+  }
+});
+
+quizzesRouter.put('/content/topics/:topicId/assignments', requireAuth, async (req: any, res) => {
+  const topicId = req.params.topicId as string;
+  const parsedBody = updateTopicAssignmentsSchema.safeParse(req.body);
+  if (!topicId) {
+    return res.status(400).json({ message: 'Invalid topic id' });
+  }
+  if (!parsedBody.success) {
+    return res.status(400).json({ message: 'Invalid assignment payload', errors: parsedBody.error.issues });
+  }
+  if (!canManageTeacherContent(req)) {
+    return res.status(403).json({ message: 'Forbidden: teacher/admin role required' });
+  }
+  const orgId = getOrganizationId(req);
+  const userId = req?.user?.userId;
+  if (!orgId || !userId) {
+    return res.status(400).json({ message: 'Organization/user not found in auth context' });
+  }
+
+  try {
+    const permission = await ensureTopicEditPermission(topicId, orgId, userId, req);
+    if (!permission.exists) return res.status(404).json({ message: 'Topic not found' });
+    if (!permission.allowed) return res.status(403).json({ message: 'Forbidden: not allowed to update this topic' });
+
+    const uniqueIds = [...new Set(parsedBody.data.contentIds)];
+    if (uniqueIds.length > 0) {
+      const validateResult = await db.query(
+        `SELECT COUNT(*)::int AS count
+         FROM learning_contents
+         WHERE organization_id = $1::uuid
+           AND id = ANY($2::uuid[])`,
+        [orgId, uniqueIds],
+      );
+      if (Number(validateResult.rows[0]?.count || 0) !== uniqueIds.length) {
+        return res.status(400).json({ message: 'One or more selected content items are invalid' });
+      }
+    }
+
+    const client = await db.connect();
+    try {
+      await client.query('BEGIN');
+      await client.query(`DELETE FROM topic_content_assignments WHERE topic_id = $1`, [topicId]);
+      for (let i = 0; i < uniqueIds.length; i += 1) {
+        await client.query(
+          `INSERT INTO topic_content_assignments (topic_id, content_id, sort_order)
+           VALUES ($1, $2, $3)`,
+          [topicId, uniqueIds[i], i + 1],
+        );
+      }
+      await client.query('COMMIT');
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+
+    return res.json({ topicId, contentIds: uniqueIds });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to update topic assignments' });
   }
 });
 
