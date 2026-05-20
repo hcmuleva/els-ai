@@ -119,10 +119,10 @@ export async function initSchemaAndSeed() {
 
     // Also seed subjects if they are missing
     const subjectsCheck = await db.query("SELECT 1 FROM subjects LIMIT 1");
-    if (subjectsCheck.rowCount === 0) {
+    if ((subjectsCheck.rowCount ?? 0) === 0) {
       // Find ELS Academy organization ID
       const orgRes = await db.query("SELECT id FROM organizations WHERE subdomain = 'els-academy' LIMIT 1");
-      if (orgRes.rowCount > 0) {
+      if ((orgRes.rowCount ?? 0) > 0) {
         const orgId = orgRes.rows[0].id;
         await db.query(
           `INSERT INTO subjects (organization_id, cover_image, title, description, author, author_user_id, is_external_author, class_level)

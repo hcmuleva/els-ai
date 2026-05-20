@@ -871,3 +871,470 @@ and security updates please upgrade to node >=22.
 More information can be found at: https://a.co/c895JFp
 (Use `node --trace-warnings ...` to show where the warning was created)
 Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:34784) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+7:56:32 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+c(node:38744) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+9:31:13 PM [tsx] change in ./src/server.ts Restarting...
+c(node:3085) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+9:31:28 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+c(node:3252) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+9:31:56 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+c(node:3578) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+9:32:54 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+c(node:4228) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+9:38:45 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+c(node:8594) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:9310) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+9:49:54 PM [tsx] change in ./src/server.ts Restarting...
+c(node:15929) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+9:50:03 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+c(node:16070) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+9:50:35 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+c(node:16427) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+9:51:05 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+c(node:16766) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+error: column "organization_id" does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:1269:24) {
+  length: 115,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '85',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3721',
+  routine: 'errorMissingColumn'
+}
+error: column "organization_id" does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:1269:24) {
+  length: 115,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '85',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3721',
+  routine: 'errorMissingColumn'
+}
+error: column "organization_id" does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:1269:24) {
+  length: 115,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '85',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3721',
+  routine: 'errorMissingColumn'
+}
+error: column "organization_id" does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:1269:24) {
+  length: 115,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '85',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3721',
+  routine: 'errorMissingColumn'
+}
+error: column "organization_id" does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:1269:24) {
+  length: 115,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '85',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3721',
+  routine: 'errorMissingColumn'
+}
+9:58:02 PM [tsx] change in ./src/server.ts Restarting...
+c(node:21563) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Database tables not ready yet, retrying in 2 seconds...
+Database tables not ready yet, retrying in 2 seconds...
+Database tables not ready yet, retrying in 2 seconds...
+Database tables not ready yet, retrying in 2 seconds...
+Quiz Service bootstrap failed: error: column u.organization_id does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/server.ts:56:7) {
+  length: 469,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "c.organization_id".',
+  position: undefined,
+  internalPosition: '198',
+  internalQuery: 'UPDATE classrooms c\n' +
+    '            SET organization_id = u.organization_id\n' +
+    '            FROM users u\n' +
+    '            WHERE c.organization_id IS NULL\n' +
+    '              AND u.id = c.created_by\n' +
+    '              AND u.organization_id IS NOT NULL',
+  where: 'PL/pgSQL function inline_code_block line 9 at SQL statement',
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+9:58:16 PM [tsx] change in ./src/server.ts Rerunning...
+c(node:21746) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Database tables not ready yet, retrying in 2 seconds...
+Database tables not ready yet, retrying in 2 seconds...
+Database tables not ready yet, retrying in 2 seconds...
+Database tables not ready yet, retrying in 2 seconds...
+Quiz Service bootstrap failed: error: column u.organization_id does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/server.ts:56:7) {
+  length: 502,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "c.organization_id".',
+  position: undefined,
+  internalPosition: '223',
+  internalQuery: '\n' +
+    '              UPDATE classrooms c\n' +
+    '              SET organization_id = u.organization_id\n' +
+    '              FROM users u\n' +
+    '              WHERE c.organization_id IS NULL\n' +
+    '                AND u.id = c.created_by\n' +
+    '                AND u.organization_id IS NOT NULL\n' +
+    '            ',
+  where: 'PL/pgSQL function inline_code_block line 14 at EXECUTE',
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+10:02:00 PM [tsx] change in ./src/server.ts Rerunning...
+c(node:24440) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+error: column "organization_id" does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:1269:24) {
+  length: 115,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '85',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3721',
+  routine: 'errorMissingColumn'
+}
+error: column "organization_id" does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:1269:24) {
+  length: 115,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '85',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3721',
+  routine: 'errorMissingColumn'
+}
+error: column "organization_id" does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:1269:24) {
+  length: 115,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '85',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3721',
+  routine: 'errorMissingColumn'
+}
+error: column "organization_id" does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:1269:24) {
+  length: 115,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '85',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3721',
+  routine: 'errorMissingColumn'
+}
+10:05:48 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+c(node:27247) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+10:10:24 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+c(node:30462) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:47933) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002

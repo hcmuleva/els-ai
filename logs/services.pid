@@ -1,7 +1,7 @@
 {
-  "auth-service": 77801,
-  "quiz-service": 77804,
-  "media-service": 77830,
-  "ai-service": 77856,
-  "gateway": 77859
+  "auth-service": 47827,
+  "quiz-service": 47830,
+  "media-service": 47833,
+  "ai-service": 47882,
+  "gateway": 47908
 }

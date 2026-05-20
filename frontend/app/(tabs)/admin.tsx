@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { ScreenTemplate } from '../../src/components/ScreenTemplate';
+import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import { UserRole } from '../../src/types/roles';
 
@@ -140,28 +141,6 @@ const EMPTY_SUBJECT_FORM: SubjectFormState = {
 };
 
 const pairKey = (pair: AssignmentPair) => `${pair.classLevel}::${pair.subject}`;
-const STANDARD_OPTIONS = [
-  { value: 'LKG', label: 'LKG' },
-  { value: 'UKG', label: 'UKG' },
-  { value: '1', label: '1 - First' },
-  { value: '2', label: '2 - Second' },
-  { value: '3', label: '3 - Third' },
-  { value: '4', label: '4 - Fourth' },
-  { value: '5', label: '5 - Fifth' },
-  { value: '6', label: '6 - Sixth' },
-  { value: '7', label: '7 - Seventh' },
-  { value: '8', label: '8 - Eighth' },
-  { value: '9', label: '9 - Ninth' },
-  { value: '10', label: '10 - Tenth' },
-  { value: '11', label: '11 - Eleventh' },
-  { value: '12', label: '12 - Twelfth' },
-];
-
-const getStandardLabel = (value?: string) => {
-  if (!value) return '-';
-  const option = STANDARD_OPTIONS.find((item) => item.value === value);
-  return option ? option.label : value;
-};
 
 const getAvatarInitials = (label: string) =>
   label
@@ -1824,7 +1803,7 @@ const styles = StyleSheet.create({
     width: 340,
   },
   colAction: {
-    width: 240,
+    width: 200,
   },
   actionCell: {
     flexDirection: 'row',

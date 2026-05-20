@@ -453,3 +453,24 @@ Auth Service listening on http://localhost:4101
 
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+8:01:31 PM [tsx] change in ./src/seed.ts Restarting...
+cSchema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
