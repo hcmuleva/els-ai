@@ -10,6 +10,8 @@ export async function initSchemaAndSeed() {
     DROP TABLE IF EXISTS quiz_questions CASCADE;
     DROP TABLE IF EXISTS quizzes CASCADE;
     DROP TABLE IF EXISTS refresh_tokens CASCADE;
+    DROP TABLE IF EXISTS teacher_standard_subjects CASCADE;
+    DROP TABLE IF EXISTS parent_student_links CASCADE;
     DROP TABLE IF EXISTS user_roles CASCADE;
     DROP TABLE IF EXISTS roles CASCADE;
     DROP TABLE IF EXISTS users CASCADE;
@@ -40,6 +42,7 @@ export async function initSchemaAndSeed() {
       gender VARCHAR(20),
       date_of_birth DATE,
       education TEXT,
+      class_level VARCHAR(50),
       profile_image TEXT,
       is_active BOOLEAN DEFAULT true,
       is_verified BOOLEAN DEFAULT false,
@@ -83,6 +86,31 @@ export async function initSchemaAndSeed() {
       expires_at TIMESTAMP NOT NULL,
       revoked BOOLEAN DEFAULT false,
       created_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
+  // 5.1 Parent-Student links
+  await db.query(`
+    CREATE TABLE parent_student_links (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      parent_user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+      student_user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+      created_at TIMESTAMP DEFAULT NOW(),
+      UNIQUE(parent_user_id, student_user_id, organization_id)
+    );
+  `);
+
+  // 5.2 Teacher standard-subject assignments
+  await db.query(`
+    CREATE TABLE teacher_standard_subjects (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      teacher_user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+      class_level VARCHAR(50) NOT NULL,
+      subject VARCHAR(100) NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      UNIQUE(teacher_user_id, organization_id, class_level, subject)
     );
   `);
 
@@ -192,6 +220,7 @@ export async function initSchemaAndSeed() {
       email: 'super@els.ai',
       activeRole: 'student',
       assignedRoles: [...roles],
+      classLevel: null,
     },
     {
       firstName: 'ELS',
@@ -199,6 +228,7 @@ export async function initSchemaAndSeed() {
       email: 'student@els.ai',
       activeRole: 'student',
       assignedRoles: ['student'],
+      classLevel: 'Class 1',
     },
     {
       firstName: 'ELS',
@@ -206,6 +236,7 @@ export async function initSchemaAndSeed() {
       email: 'teacher@els.ai',
       activeRole: 'teacher',
       assignedRoles: ['teacher'],
+      classLevel: null,
     },
     {
       firstName: 'ELS',
@@ -213,15 +244,16 @@ export async function initSchemaAndSeed() {
       email: 'parent@els.ai',
       activeRole: 'parent',
       assignedRoles: ['parent'],
+      classLevel: null,
     },
   ] as const;
 
   for (const seedUser of userSeeds) {
     const userInsert = await db.query(
-      `INSERT INTO users(first_name, last_name, email, password_hash, active_role)
-       VALUES($1, $2, $3, $4, $5)
+      `INSERT INTO users(first_name, last_name, email, password_hash, active_role, class_level)
+       VALUES($1, $2, $3, $4, $5, $6)
        RETURNING id`,
-      [seedUser.firstName, seedUser.lastName, seedUser.email, passwordHash, seedUser.activeRole]
+      [seedUser.firstName, seedUser.lastName, seedUser.email, passwordHash, seedUser.activeRole, seedUser.classLevel || null]
     );
     const userId = userInsert.rows[0].id;
 
