@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
+import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { useAuth } from '../../src/context/AuthContext';
 
 type QuizType =
@@ -43,6 +44,10 @@ type AssessmentDraft = {
   difficultyLevel: Difficulty;
   hasTimeLimit: boolean;
   timeLimitMinutes: string;
+};
+type SubjectCatalogItem = {
+  classLevel: string;
+  subject: string;
 };
 
 const QUIZ_TYPE_LABELS: Record<string, string> = {
@@ -100,8 +105,7 @@ export default function QuizExamCreatorScreen() {
   const [quizSelectedQuestionIds, setQuizSelectedQuestionIds] = useState<string[]>([]);
   const [examSelectedQuestionIds, setExamSelectedQuestionIds] = useState<string[]>([]);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const [catalogClassLevels, setCatalogClassLevels] = useState<string[]>([]);
-  const [catalogSubjects, setCatalogSubjects] = useState<string[]>([]);
+  const [subjectCatalogItems, setSubjectCatalogItems] = useState<SubjectCatalogItem[]>([]);
 
   const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
 
@@ -119,14 +123,20 @@ export default function QuizExamCreatorScreen() {
   const loadSubjectCatalog = useCallback(async () => {
     if (!isTeacherView) return;
     try {
-      const res = await apiFetch('/quizzes/catalog/subjects');
+      const res = await apiFetch('/quizzes/content/subjects');
       if (res.ok) {
         const payload = await res.json();
-        setCatalogClassLevels((payload.classLevels || []) as string[]);
-        setCatalogSubjects((payload.subjects || []) as string[]);
+        const items = Array.isArray(payload.subjects) ? payload.subjects : [];
+        const mappedItems = items
+          .map((item: any) => ({
+            classLevel: String(item.classLevel || item.class_level || '').trim(),
+            subject: String(item.title || item.subject || '').trim(),
+          }))
+          .filter((item: SubjectCatalogItem) => item.classLevel && item.subject);
+        setSubjectCatalogItems(mappedItems);
       }
     } catch {
-      // silently fail - fallback to question bank derived options
+      // silently fail
     }
   }, [apiFetch, isTeacherView]);
 
@@ -157,17 +167,17 @@ export default function QuizExamCreatorScreen() {
     }, [loadSubjectCatalog, loadQuestionBank]),
   );
 
-  const classOptions = useMemo(() => {
-    const fromCatalog = catalogClassLevels;
-    const fromBank = [...new Set(questionBank.map((q) => (q.class_level || '').trim()).filter(Boolean))];
-    return [...new Set([...fromCatalog, ...fromBank])].sort((a, b) => a.localeCompare(b));
-  }, [catalogClassLevels, questionBank]);
+  const classOptions = useMemo(() => STANDARD_OPTIONS.map((item) => item.value), []);
 
   const subjectOptions = useMemo(() => {
-    const fromCatalog = catalogSubjects;
-    const fromBank = [...new Set(questionBank.map((q) => (q.subject || '').trim()).filter(Boolean))];
-    return [...new Set([...fromCatalog, ...fromBank])].sort((a, b) => a.localeCompare(b));
-  }, [catalogSubjects, questionBank]);
+    return [
+      ...new Set(
+        subjectCatalogItems
+          .filter((item) => !currentDraft.classLevel || item.classLevel === currentDraft.classLevel)
+          .map((item) => item.subject),
+      ),
+    ].sort((a, b) => a.localeCompare(b));
+  }, [currentDraft.classLevel, subjectCatalogItems]);
 
   const filteredQuestionBank = useMemo(() => {
     const keyword = questionBankSearch.trim().toLowerCase();
@@ -332,11 +342,11 @@ export default function QuizExamCreatorScreen() {
   };
 
   const selectorOptions = selectorField === 'classLevel' ? classOptions : subjectOptions;
-  const selectorTitle = selectorField === 'classLevel' ? 'Select Class' : 'Select Subject';
+  const selectorTitle = selectorField === 'classLevel' ? 'Select Standard' : 'Select Subject';
 
   const applySelectorValue = (value: string) => {
     if (selectorField === 'classLevel') {
-      setCurrentDraft({ classLevel: value });
+      setCurrentDraft({ classLevel: value, subject: '' });
     } else if (selectorField === 'subject') {
       setCurrentDraft({ subject: value });
     }
@@ -407,12 +417,19 @@ export default function QuizExamCreatorScreen() {
         <View style={styles.row}>
           <Pressable style={[styles.dropdownField, styles.halfInput]} onPress={() => setSelectorField('classLevel')}>
             <Text style={currentDraft.classLevel ? styles.dropdownText : styles.dropdownPlaceholder}>
-              {currentDraft.classLevel || 'Class Selector'}
+              {currentDraft.classLevel ? getStandardLabel(currentDraft.classLevel) : 'Standard Selector'}
             </Text>
           </Pressable>
-          <Pressable style={[styles.dropdownField, styles.halfInput]} onPress={() => setSelectorField('subject')}>
+          <Pressable
+            style={[styles.dropdownField, styles.halfInput, !currentDraft.classLevel && styles.dropdownFieldDisabled]}
+            onPress={() => {
+              if (!currentDraft.classLevel) return;
+              setSelectorField('subject');
+            }}
+            disabled={!currentDraft.classLevel}
+          >
             <Text style={currentDraft.subject ? styles.dropdownText : styles.dropdownPlaceholder}>
-              {currentDraft.subject || 'Subject Selector'}
+              {currentDraft.subject || (currentDraft.classLevel ? 'Subject Selector' : 'Select class first')}
             </Text>
           </Pressable>
         </View>
@@ -574,7 +591,7 @@ export default function QuizExamCreatorScreen() {
               </Pressable>
               {selectorOptions.map((option) => (
                 <Pressable key={option} style={styles.optionRow} onPress={() => applySelectorValue(option)}>
-                  <Text style={styles.optionText}>{option}</Text>
+                  <Text style={styles.optionText}>{selectorField === 'classLevel' ? getStandardLabel(option) : option}</Text>
                 </Pressable>
               ))}
             </ScrollView>
@@ -697,6 +714,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 12,
     backgroundColor: '#fff',
+  },
+  dropdownFieldDisabled: {
+    opacity: 0.6,
   },
   dropdownPlaceholder: {
     color: '#94a3b8',
@@ -864,7 +884,7 @@ const styles = StyleSheet.create({
     width: 80,
   },
   colActions: {
-    width: 210,
+    width: 180,
   },
   actionsRow: {
     flexDirection: 'row',

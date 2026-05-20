@@ -138,12 +138,12 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="content"
+        name="manage"
         options={{
-          href: tabRoutes.has('content') ? undefined : null,
-          title: 'Topic',
+          href: tabRoutes.has('manage') ? undefined : null,
+          title: 'Manage',
           tabBarIcon: ({ color, size }) => {
-            const Icon = getTabIcon('content');
+            const Icon = getTabIcon('manage');
             return <Icon size={size} />;
           },
         }}

@@ -13,6 +13,7 @@ import {
   View,
 } from 'react-native';
 
+import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import { AudioManager } from '../../src/utils/audio';
 
@@ -103,7 +104,9 @@ type ContentSelectorField =
   | 'topicClassLevel'
   | 'topicSubject'
   | 'assignTargetClassLevel'
-  | 'assignTargetSubject';
+  | 'assignTargetSubject'
+  | 'quizFilterClassLevel'
+  | 'quizFilterSubject';
 
 type SubjectCatalogItem = {
   id: string;
@@ -153,6 +156,10 @@ type QuizItem = {
   is_published: boolean;
   total_questions: number;
   created_at: string;
+};
+type QuizCatalogItem = {
+  classLevel: string;
+  subject: string;
 };
 
 type TopicDraft = {
@@ -697,6 +704,28 @@ function draftToPayload(draft: QuestionDraft) {
     questionData = draft.rawQuestionData ?? {};
   }
 
+  if (questionData && typeof questionData === 'object' && !Array.isArray(questionData)) {
+    const rawMeta =
+      draft.rawQuestionData &&
+      typeof draft.rawQuestionData === 'object' &&
+      !Array.isArray(draft.rawQuestionData) &&
+      '_meta' in (draft.rawQuestionData as Record<string, unknown>)
+        ? (draft.rawQuestionData as Record<string, unknown>)._meta
+        : undefined;
+    const existingMeta =
+      rawMeta && typeof rawMeta === 'object' && !Array.isArray(rawMeta) ? (rawMeta as Record<string, unknown>) : {};
+    const classLevel = draft.classLevel.trim();
+    const subject = draft.subject.trim();
+    questionData = {
+      ...(questionData as Record<string, unknown>),
+      _meta: {
+        ...existingMeta,
+        classLevel: classLevel || null,
+        subject: subject || null,
+      },
+    };
+  }
+
   const payload: Record<string, unknown> = {
     classLevel: draft.classLevel.trim() || undefined,
     subject: draft.subject.trim() || undefined,
@@ -824,6 +853,9 @@ export default function QuestionManagementScreen() {
   const [savingTopic, setSavingTopic] = useState(false);
   const [deletingTopicId, setDeletingTopicId] = useState<string | null>(null);
   const [selectedTopic, setSelectedTopic] = useState<ContentTopic | null>(null);
+  const [topicActionMenuTopic, setTopicActionMenuTopic] = useState<ContentTopic | null>(null);
+  const [topicContentActionItem, setTopicContentActionItem] = useState<LearningContentItem | null>(null);
+  const [contentLibraryActionItem, setContentLibraryActionItem] = useState<LearningContentItem | null>(null);
   const [topicSections, setTopicSections] = useState<TopicContentSection[]>([]);
   const [topicContentItems, setTopicContentItems] = useState<LearningContentItem[]>([]);
   const [loadingTopicDetails, setLoadingTopicDetails] = useState(false);
@@ -849,8 +881,14 @@ export default function QuestionManagementScreen() {
   const [savingAssignments, setSavingAssignments] = useState(false);
   const [topicQuizzes, setTopicQuizzes] = useState<QuizItem[]>([]);
   const [allOrgQuizzes, setAllOrgQuizzes] = useState<QuizItem[]>([]);
+  const [quizCatalogItems, setQuizCatalogItems] = useState<QuizCatalogItem[]>([]);
   const [loadingTopicQuizzes, setLoadingTopicQuizzes] = useState(false);
-  const [savingQuizAssignment, setSavingQuizAssignment] = useState<string | null>(null);
+  const [isQuizDialogOpen, setIsQuizDialogOpen] = useState(false);
+  const [quizDialogFilters, setQuizDialogFilters] = useState({ classLevel: '', subject: '', search: '' });
+  const [selectedQuizIds, setSelectedQuizIds] = useState<string[]>([]);
+  const [savingQuizSelections, setSavingQuizSelections] = useState(false);
+  const [previewQuiz, setPreviewQuiz] = useState<QuizItem | null>(null);
+  const [questionActionItem, setQuestionActionItem] = useState<QuestionItem | null>(null);
   const [previewQuestion, setPreviewQuestion] = useState<QuestionItem | null>(null);
   const [filters, setFilters] = useState({
     search: '',
@@ -860,26 +898,10 @@ export default function QuestionManagementScreen() {
   });
 
   const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
-  const classOptions = useMemo(
-    () =>
-      [...new Set(questions.map((question) => (question.class_level || '').trim()).filter(Boolean))].sort((a, b) =>
-        a.localeCompare(b),
-      ),
-    [questions],
-  );
-  const subjectOptions = useMemo(
-    () =>
-      [...new Set(questions.map((question) => (question.subject || '').trim()).filter(Boolean))].sort((a, b) =>
-        a.localeCompare(b),
-      ),
-    [questions],
-  );
+  const classOptions = useMemo(() => STANDARD_OPTIONS.map((item) => item.value), []);
   const contentClassOptions = useMemo(
-    () =>
-      [...new Set(subjectCatalog.map((item) => item.classLevel.trim()).filter(Boolean))].sort((a, b) =>
-        a.localeCompare(b),
-      ),
-    [subjectCatalog],
+    () => STANDARD_OPTIONS.map((item) => item.value),
+    [],
   );
   const contentSubjectOptions = useMemo(() => {
     const filtered = subjectCatalog.filter(
@@ -911,6 +933,35 @@ export default function QuestionManagementScreen() {
         )
         .sort((a, b) => a.title.localeCompare(b.title)),
     [assignTopicFilters.classLevel, assignTopicFilters.search, assignTopicFilters.subject, topics],
+  );
+  const filteredQuizOptions = useMemo(
+    () =>
+      allOrgQuizzes
+        .filter(
+          (quiz) =>
+            (!quizDialogFilters.classLevel || (quiz.class_level || '').trim() === quizDialogFilters.classLevel.trim()) &&
+            (!quizDialogFilters.subject || (quiz.subject || '').trim() === quizDialogFilters.subject.trim()) &&
+            (!quizDialogFilters.search.trim() ||
+              `${quiz.title} ${quiz.subject || ''}`.toLowerCase().includes(quizDialogFilters.search.trim().toLowerCase())),
+        )
+        .sort((a, b) => a.title.localeCompare(b.title)),
+    [allOrgQuizzes, quizDialogFilters.classLevel, quizDialogFilters.search, quizDialogFilters.subject],
+  );
+  const quizClassOptions = useMemo(
+    () => STANDARD_OPTIONS.map((item) => item.value),
+    [],
+  );
+  const quizSubjectOptions = useMemo(
+    () =>
+      [
+        ...new Set(
+          quizCatalogItems
+            .filter((item) => !quizDialogFilters.classLevel || item.classLevel.trim() === quizDialogFilters.classLevel.trim())
+            .map((item) => item.subject.trim())
+            .filter(Boolean),
+        ),
+      ].sort((a, b) => a.localeCompare(b)),
+    [quizCatalogItems, quizDialogFilters.classLevel],
   );
 
   const showActionBadge = useCallback((text: string) => {
@@ -956,6 +1007,22 @@ export default function QuestionManagementScreen() {
     }
     const payload = await res.json();
     setSubjectCatalog((payload.subjects || []) as SubjectCatalogItem[]);
+  }, [apiFetch]);
+
+  const loadQuizCatalog = useCallback(async () => {
+    const res = await apiFetch('/quizzes/catalog/subjects');
+    if (!res.ok) {
+      return;
+    }
+    const payload = await res.json();
+    const items = Array.isArray(payload.items) ? payload.items : [];
+    const mapped = items
+      .map((item: any) => ({
+        classLevel: String(item.class_level || '').trim(),
+        subject: String(item.subject || '').trim(),
+      }))
+      .filter((item: QuizCatalogItem) => item.classLevel && item.subject);
+    setQuizCatalogItems(mapped);
   }, [apiFetch]);
 
   const loadTopics = useCallback(async () => {
@@ -1334,16 +1401,18 @@ export default function QuestionManagementScreen() {
   const loadTopicQuizzes = async (topicId: string) => {
     setLoadingTopicQuizzes(true);
     try {
-      const [assignedRes, allRes] = await Promise.all([
+      const [assignedRes, libraryRes] = await Promise.all([
         apiFetch(`/quizzes/content/topics/${topicId}/quizzes`),
-        apiFetch(`/quizzes?limit=200`),
+        apiFetch(`/quizzes/teacher/library?status=all&limit=200`),
       ]);
       if (assignedRes.ok) {
         const payload = await assignedRes.json();
-        setTopicQuizzes((payload.quizzes || []) as QuizItem[]);
+        const assigned = (payload.quizzes || []) as QuizItem[];
+        setTopicQuizzes(assigned);
+        setSelectedQuizIds(assigned.map((quiz) => quiz.id));
       }
-      if (allRes.ok) {
-        const payload = await allRes.json();
+      if (libraryRes.ok) {
+        const payload = await libraryRes.json();
         setAllOrgQuizzes((payload.quizzes || []) as QuizItem[]);
       }
     } catch {
@@ -1353,39 +1422,42 @@ export default function QuestionManagementScreen() {
     }
   };
 
-  const assignQuizToTopic = async (quizId: string) => {
-    if (!selectedTopic) return;
-    setSavingQuizAssignment(quizId);
-    try {
-      const res = await apiFetch(`/quizzes/content/topics/${selectedTopic.id}/quizzes/${quizId}`, { method: 'PUT' });
-      if (!res.ok) {
-        const errorPayload = await res.json().catch(() => ({}));
-        throw new Error(errorPayload.message || 'Failed to assign quiz to topic');
-      }
-      await loadTopicQuizzes(selectedTopic.id);
-      setMessage({ type: 'success', text: 'Quiz assigned to topic successfully.' });
-    } catch (error) {
-      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to assign quiz' });
-    } finally {
-      setSavingQuizAssignment(null);
+  const openQuizAssignmentDialog = async (topicOverride?: ContentTopic) => {
+    const topic = topicOverride || selectedTopic;
+    if (!topic) return;
+    if (!selectedTopic || selectedTopic.id !== topic.id) {
+      await loadTopicDetails(topic.id);
     }
+    setIsQuizDialogOpen(true);
+    setQuizDialogFilters({ classLevel: topic.classLevel || '', subject: topic.subject || '', search: '' });
+    await Promise.all([loadQuizCatalog(), loadTopicQuizzes(topic.id)]);
   };
 
-  const unassignQuizFromTopic = async (quizId: string) => {
+  const toggleQuizSelection = (quizId: string) => {
+    setSelectedQuizIds((current) =>
+      current.includes(quizId) ? current.filter((id) => id !== quizId) : [...current, quizId],
+    );
+  };
+
+  const saveSelectedQuizzesToTopic = async () => {
     if (!selectedTopic) return;
-    setSavingQuizAssignment(quizId);
+    setSavingQuizSelections(true);
     try {
-      const res = await apiFetch(`/quizzes/content/topics/${selectedTopic.id}/quizzes/${quizId}`, { method: 'DELETE' });
+      const res = await apiFetch(`/quizzes/content/topics/${selectedTopic.id}/quizzes`, {
+        method: 'PUT',
+        body: JSON.stringify({ quizIds: selectedQuizIds }),
+      });
       if (!res.ok) {
         const errorPayload = await res.json().catch(() => ({}));
-        throw new Error(errorPayload.message || 'Failed to unassign quiz from topic');
+        throw new Error(errorPayload.message || 'Failed to save quiz assignments');
       }
       await loadTopicQuizzes(selectedTopic.id);
-      setMessage({ type: 'success', text: 'Quiz unassigned from topic.' });
+      setIsQuizDialogOpen(false);
+      setMessage({ type: 'success', text: 'Quiz assignments saved successfully.' });
     } catch (error) {
-      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to unassign quiz' });
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to save quiz assignments' });
     } finally {
-      setSavingQuizAssignment(null);
+      setSavingQuizSelections(false);
     }
   };
 
@@ -1431,7 +1503,7 @@ export default function QuestionManagementScreen() {
     const run = async () => {
       setLoadingTopics(true);
       try {
-        await loadSubjectCatalog();
+        await Promise.all([loadSubjectCatalog(), loadQuizCatalog()]);
         await loadTopics();
       } catch (error) {
         if (!cancelled) {
@@ -1447,7 +1519,7 @@ export default function QuestionManagementScreen() {
     return () => {
       cancelled = true;
     };
-  }, [activeLearningTab, isTeacherView, loadSubjectCatalog, loadTopics]);
+  }, [activeLearningTab, isTeacherView, loadQuizCatalog, loadSubjectCatalog, loadTopics]);
 
   useEffect(() => {
     if (!isTeacherView || activeLearningTab !== 'content') return;
@@ -1467,6 +1539,24 @@ export default function QuestionManagementScreen() {
       mounted = false;
     };
   }, [activeLearningTab, isTeacherView, loadContentItems, loadSubjectCatalog, loadTopics]);
+
+  useEffect(() => {
+    if (!isTeacherView || activeLearningTab !== 'question') return;
+    let mounted = true;
+    const run = async () => {
+      try {
+        await loadSubjectCatalog();
+      } catch (error) {
+        if (mounted) {
+          setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load subject catalog' });
+        }
+      }
+    };
+    run();
+    return () => {
+      mounted = false;
+    };
+  }, [activeLearningTab, isTeacherView, loadSubjectCatalog]);
 
   const updateDraftField = (mode: 'create' | 'edit', key: keyof QuestionDraft, value: any) => {
     if (mode === 'create') {
@@ -1863,14 +1953,14 @@ export default function QuestionManagementScreen() {
 
   const applySelectorValue = (value: string) => {
     if (selectorField === 'filterClassLevel') {
-      setFilters((current) => ({ ...current, classLevel: value }));
+      setFilters((current) => ({ ...current, classLevel: value, subject: '' }));
     } else if (selectorField === 'filterSubject') {
       setFilters((current) => ({ ...current, subject: value }));
     } else if (selectorField === 'classLevel') {
       if (editingQuestionId) {
-        setEditDraft((current) => ({ ...current, classLevel: value }));
+        setEditDraft((current) => ({ ...current, classLevel: value, subject: '' }));
       } else {
-        setCreateDraft((current) => ({ ...current, classLevel: value }));
+        setCreateDraft((current) => ({ ...current, classLevel: value, subject: '' }));
       }
     } else if (selectorField === 'subject') {
       if (editingQuestionId) {
@@ -1908,6 +1998,10 @@ export default function QuestionManagementScreen() {
       setAssignTopicFilters((current) => ({ ...current, classLevel: value, subject: '' }));
     } else if (contentSelectorField === 'assignTargetSubject') {
       setAssignTopicFilters((current) => ({ ...current, subject: value }));
+    } else if (contentSelectorField === 'quizFilterClassLevel') {
+      setQuizDialogFilters((current) => ({ ...current, classLevel: value, subject: '' }));
+    } else if (contentSelectorField === 'quizFilterSubject') {
+      setQuizDialogFilters((current) => ({ ...current, subject: value }));
     } else if (contentSelectorField === 'topicClassLevel') {
       setTopicDraft((current) => ({ ...current, classLevel: value, subject: '' }));
     } else if (contentSelectorField === 'topicSubject') {
@@ -1931,6 +2025,30 @@ export default function QuestionManagementScreen() {
       subject: topic.subject,
       coverImage: topic.coverImage || '',
     });
+  };
+
+  const runTopicAction = async (
+    topic: ContentTopic,
+    action: 'details' | 'create_content' | 'assign_quiz' | 'edit' | 'delete',
+  ) => {
+    setTopicActionMenuTopic(null);
+    if (action === 'details') {
+      await Promise.all([loadTopicDetails(topic.id), loadTopicQuizzes(topic.id)]);
+      return;
+    }
+    if (action === 'create_content') {
+      await openCreateContentDialog(topic);
+      return;
+    }
+    if (action === 'assign_quiz') {
+      await openQuizAssignmentDialog(topic);
+      return;
+    }
+    if (action === 'edit') {
+      openEditTopicDialog(topic);
+      return;
+    }
+    await deleteTopic(topic.id);
   };
 
   const deleteTopic = async (topicId: string) => {
@@ -1986,17 +2104,21 @@ export default function QuestionManagementScreen() {
     );
   };
 
-  const openCreateContentDialog = () => {
-    if (!selectedTopic) return;
+  const openCreateContentDialog = async (topicOverride?: ContentTopic) => {
+    const topic = topicOverride || selectedTopic;
+    if (!topic) return;
+    if (!selectedTopic || selectedTopic.id !== topic.id) {
+      await loadTopicDetails(topic.id);
+    }
     setActiveLearningTab('content');
     setContentModeTab('create');
-    setCreateTopicSearch(selectedTopic.title);
+    setCreateTopicSearch(topic.title);
     setContentCreateSections([makeEmptyTopicSection()]);
     setEditingContentId(null);
     setContentCreateMeta({
-      classLevel: selectedTopic.classLevel,
-      subject: selectedTopic.subject,
-      topicId: selectedTopic.id,
+      classLevel: topic.classLevel,
+      subject: topic.subject,
+      topicId: topic.id,
       title: '',
     });
     setIsCreateContentDialogOpen(true);
@@ -2064,40 +2186,61 @@ export default function QuestionManagementScreen() {
     }
   };
 
+  const questionSubjectClassLevel =
+    selectorField === 'filterSubject'
+      ? filters.classLevel
+      : editingQuestionId
+        ? editDraft.classLevel
+        : createDraft.classLevel;
+  const questionSubjectOptions = subjectCatalog
+    .filter((item) => !questionSubjectClassLevel || item.classLevel.trim() === questionSubjectClassLevel.trim())
+    .map((item) => item.title.trim())
+    .filter((value, index, arr) => value && arr.indexOf(value) === index)
+    .sort((a, b) => a.localeCompare(b));
   const selectorOptions =
-    selectorField === 'classLevel' || selectorField === 'filterClassLevel' ? classOptions : subjectOptions;
+    selectorField === 'classLevel' || selectorField === 'filterClassLevel' ? classOptions : questionSubjectOptions;
   const selectorTitle =
     selectorField === 'classLevel' || selectorField === 'filterClassLevel' ? 'Select Standard' : 'Select Subject';
+  const isQuestionStandardSelector = selectorField === 'classLevel' || selectorField === 'filterClassLevel';
   const contentSelectorOptions =
-    contentSelectorField === 'contentFilterClassLevel' ||
-    contentSelectorField === 'topicClassLevel' ||
-    contentSelectorField === 'assignTargetClassLevel'
-      ? contentClassOptions
-      : subjectCatalog
-          .filter((item) => {
-            const classLevelFilter =
-              contentSelectorField === 'topicSubject'
-                ? topicDraft.classLevel
-                : contentSelectorField === 'assignTargetSubject'
-                  ? assignTopicFilters.classLevel
-                : activeLearningTab === 'content'
-                  ? contentModeTab === 'create'
-                    ? contentCreateMeta.classLevel
-                    : contentItemFilters.classLevel
-                  : contentFilters.classLevel;
-            return !classLevelFilter || item.classLevel === classLevelFilter;
-          })
-          .map((item) => item.title)
-          .filter((value, index, arr) => value && arr.indexOf(value) === index)
-          .sort((a, b) => a.localeCompare(b));
+    contentSelectorField === 'quizFilterClassLevel'
+      ? quizClassOptions
+      : contentSelectorField === 'quizFilterSubject'
+        ? quizSubjectOptions
+        : contentSelectorField === 'contentFilterClassLevel' ||
+            contentSelectorField === 'topicClassLevel' ||
+            contentSelectorField === 'assignTargetClassLevel'
+          ? contentClassOptions
+          : subjectCatalog
+              .filter((item) => {
+                const classLevelFilter =
+                  contentSelectorField === 'topicSubject'
+                    ? topicDraft.classLevel
+                    : contentSelectorField === 'assignTargetSubject'
+                      ? assignTopicFilters.classLevel
+                      : activeLearningTab === 'content'
+                        ? contentModeTab === 'create'
+                          ? contentCreateMeta.classLevel
+                          : contentItemFilters.classLevel
+                        : contentFilters.classLevel;
+                return !classLevelFilter || item.classLevel === classLevelFilter;
+              })
+              .map((item) => item.title)
+              .filter((value, index, arr) => value && arr.indexOf(value) === index)
+              .sort((a, b) => a.localeCompare(b));
   const contentSelectorTitle =
     contentSelectorField === 'contentFilterClassLevel' ||
     contentSelectorField === 'topicClassLevel' ||
-    contentSelectorField === 'assignTargetClassLevel'
+    contentSelectorField === 'assignTargetClassLevel' ||
+    contentSelectorField === 'quizFilterClassLevel'
       ? 'Select Standard'
       : 'Select Subject';
+  const isContentStandardSelector =
+    contentSelectorField === 'contentFilterClassLevel' ||
+    contentSelectorField === 'topicClassLevel' ||
+    contentSelectorField === 'assignTargetClassLevel' ||
+    contentSelectorField === 'quizFilterClassLevel';
   const isTopicSelectorActive = contentSelectorField === 'topicClassLevel' || contentSelectorField === 'topicSubject';
-
   if (!isTeacherView) {
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -2190,7 +2333,7 @@ export default function QuestionManagementScreen() {
               <Text style={styles.fieldLabel}>Standard</Text>
               <Pressable style={styles.selectorInput} onPress={() => setSelectorField('classLevel')}>
                 <Text style={draft.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
-                  {draft.classLevel || 'Select standard'}
+                  {draft.classLevel ? getStandardLabel(draft.classLevel) : 'Select standard'}
                 </Text>
               </Pressable>
             </View>
@@ -2535,7 +2678,7 @@ export default function QuestionManagementScreen() {
             <View style={styles.row}>
               <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setContentSelectorField('contentFilterClassLevel')}>
                 <Text style={contentFilters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
-                  {contentFilters.classLevel || 'Standard'}
+                  {contentFilters.classLevel ? getStandardLabel(contentFilters.classLevel) : 'Standard'}
                 </Text>
               </Pressable>
               <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setContentSelectorField('contentFilterSubject')}>
@@ -2578,23 +2721,9 @@ export default function QuestionManagementScreen() {
                         {topic.title}
                       </Text>
                       <Text style={[styles.tableCell, styles.colCategory]}>{topic.sectionCount}</Text>
-                      <View style={[styles.colActions, styles.actionsRow]}>
-                        <Pressable style={styles.actionButton} onPress={() => loadTopicDetails(topic.id)}>
-                          <Text style={styles.actionButtonText}>Details</Text>
-                        </Pressable>
-                        <Pressable style={styles.actionButton} onPress={() => openEditTopicDialog(topic)}>
-                          <Text style={styles.actionButtonText}>Edit</Text>
-                        </Pressable>
-                        <Pressable
-                          style={[styles.actionButton, styles.deleteButton]}
-                          onPress={() => deleteTopic(topic.id)}
-                          disabled={deletingTopicId === topic.id}
-                        >
-                          {deletingTopicId === topic.id ? (
-                            <ActivityIndicator color="#fff" />
-                          ) : (
-                            <Text style={[styles.actionButtonText, styles.deleteButtonText]}>Delete</Text>
-                          )}
+                      <View style={[styles.colActions, styles.actionsCell]}>
+                        <Pressable style={styles.topicActionsTrigger} onPress={() => setTopicActionMenuTopic(topic)}>
+                          <Text style={styles.topicActionsTriggerText}>Actions</Text>
                         </Pressable>
                       </View>
                     </View>
@@ -2604,76 +2733,6 @@ export default function QuestionManagementScreen() {
             )}
           </View>
 
-          {selectedTopic ? (
-            <View style={styles.card}>
-              <View style={styles.topicDetailHeader}>
-                <View style={styles.topicDetailTitleRow}>
-                  <Text style={styles.cardTitle}>{selectedTopic.title}</Text>
-                  <Text style={styles.metaText}>
-                    {selectedTopic.classLevel} • {selectedTopic.subject}
-                  </Text>
-                </View>
-                <View style={styles.topicDetailActions}>
-                  <Pressable style={styles.secondaryButton} onPress={openCreateContentDialog}>
-                    <Text style={styles.secondaryButtonText}>Create Content</Text>
-                  </Pressable>
-                  <Pressable
-                    style={styles.primaryButton}
-                    onPress={() => {
-                      setActiveLearningTab('quiz');
-                      loadTopicQuizzes(selectedTopic.id);
-                    }}
-                  >
-                    <Text style={styles.primaryButtonText}>Quiz</Text>
-                  </Pressable>
-                </View>
-              </View>
-              {selectedTopic.coverImage ? (
-                <Image source={{ uri: resolveMediaUrl(selectedTopic.coverImage) }} style={styles.topicCoverImage} resizeMode="cover" />
-              ) : null}
-
-              <Text style={styles.cardTitle}>Contents ({topicContentItems.length})</Text>
-              {loadingTopicDetails ? (
-                <ActivityIndicator size="small" color="#1d4ed8" />
-              ) : topicContentItems.length === 0 ? (
-                <Text style={styles.emptyText}>No content assigned yet.</Text>
-              ) : (
-                <ScrollView horizontal>
-                  <View>
-                    <View style={[styles.tableRow, styles.tableHeader]}>
-                      <Text style={[styles.tableCell, styles.colQuestion]}>Title</Text>
-                      <Text style={[styles.tableCell, styles.colCategory]}>Type</Text>
-                      <Text style={[styles.tableCell, styles.colCategory]}>Sections</Text>
-                      <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
-                    </View>
-                    {topicContentItems.map((item) => (
-                      <View key={item.id} style={styles.tableRow}>
-                        <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
-                          {item.title}
-                        </Text>
-                        <Text style={[styles.tableCell, styles.colCategory]}>{item.contentType}</Text>
-                        <Text style={[styles.tableCell, styles.colCategory]}>{item.sectionCount || 1}</Text>
-                        <View style={[styles.colActions, styles.actionsRow]}>
-                          <Pressable style={styles.actionButton} onPress={() => openPreviewContentModal(item)}>
-                            <Text style={styles.actionButtonText}>Preview</Text>
-                          </Pressable>
-                          <Pressable style={styles.actionButton} onPress={() => openEditContentModal(item)}>
-                            <Text style={styles.actionButtonText}>Edit</Text>
-                          </Pressable>
-                          <Pressable
-                            style={[styles.actionButton, styles.deleteButton]}
-                            onPress={() => removeContentAssignment(item.id)}
-                          >
-                            <Text style={[styles.actionButtonText, styles.deleteButtonText]}>Remove</Text>
-                          </Pressable>
-                        </View>
-                      </View>
-                    ))}
-                  </View>
-                </ScrollView>
-              )}
-            </View>
-          ) : null}
         </>
       ) : null}
 
@@ -2737,23 +2796,9 @@ export default function QuestionManagementScreen() {
                           <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>{item.title}</Text>
                           <Text style={[styles.tableCell, styles.colCategory]}>{item.contentType}</Text>
                           <Text style={[styles.tableCell, styles.colCategory]}>{item.sectionCount || 1}</Text>
-                          <View style={[styles.colActions, styles.actionsRow]}>
-                            <Pressable style={styles.actionButton} onPress={() => openPreviewContentModal(item)}>
-                              <Text style={styles.actionButtonText}>Preview</Text>
-                            </Pressable>
-                            <Pressable style={styles.actionButton} onPress={() => openEditContentModal(item)}>
-                              <Text style={styles.actionButtonText}>Edit</Text>
-                            </Pressable>
-                            <Pressable
-                              style={[styles.actionButton, styles.deleteButton]}
-                              onPress={() => deleteContentItem(item.id)}
-                              disabled={deletingContentId === item.id}
-                            >
-                              {deletingContentId === item.id ? (
-                                <ActivityIndicator color="#fff" />
-                              ) : (
-                                <Text style={[styles.actionButtonText, styles.deleteButtonText]}>Delete</Text>
-                              )}
+                          <View style={[styles.colActions, styles.actionsCell]}>
+                            <Pressable style={styles.topicActionsTrigger} onPress={() => setContentLibraryActionItem(item)}>
+                              <Text style={styles.topicActionsTriggerText}>Actions</Text>
                             </Pressable>
                           </View>
                         </View>
@@ -2773,7 +2818,7 @@ export default function QuestionManagementScreen() {
                     onPress={() => setContentSelectorField('contentFilterClassLevel')}
                   >
                     <Text style={contentItemFilters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
-                      {contentItemFilters.classLevel || 'Standard'}
+                      {contentItemFilters.classLevel ? getStandardLabel(contentItemFilters.classLevel) : 'Standard'}
                     </Text>
                   </Pressable>
                   <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setContentSelectorField('contentFilterSubject')}>
@@ -2821,7 +2866,7 @@ export default function QuestionManagementScreen() {
                       onPress={() => setContentSelectorField('assignTargetClassLevel')}
                     >
                       <Text style={assignTopicFilters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
-                        {assignTopicFilters.classLevel || 'Target Standard'}
+                        {assignTopicFilters.classLevel ? getStandardLabel(assignTopicFilters.classLevel) : 'Target Standard'}
                       </Text>
                     </Pressable>
                     <Pressable
@@ -2901,7 +2946,7 @@ export default function QuestionManagementScreen() {
             <View style={styles.row}>
               <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setSelectorField('filterClassLevel')}>
                 <Text style={filters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
-                  {filters.classLevel || 'Standard'}
+                  {filters.classLevel ? getStandardLabel(filters.classLevel) : 'Standard'}
                 </Text>
               </Pressable>
               <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setSelectorField('filterSubject')}>
@@ -2950,23 +2995,9 @@ export default function QuestionManagementScreen() {
                       <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
                         {question.question_title || 'Untitled'}
                       </Text>
-                      <View style={[styles.colActions, styles.actionsRow]}>
-                        <Pressable style={styles.actionButton} onPress={() => setPreviewQuestion(question)}>
-                          <Text style={styles.actionButtonText}>View</Text>
-                        </Pressable>
-                        <Pressable style={styles.actionButton} onPress={() => openEditDialog(question)}>
-                          <Text style={styles.actionButtonText}>Edit</Text>
-                        </Pressable>
-                        <Pressable
-                          style={[styles.actionButton, styles.deleteButton]}
-                          onPress={() => deleteQuestion(question.id)}
-                          disabled={deletingQuestionId === question.id}
-                        >
-                          {deletingQuestionId === question.id ? (
-                            <ActivityIndicator color="#fff" />
-                          ) : (
-                            <Text style={[styles.actionButtonText, styles.deleteButtonText]}>Delete</Text>
-                          )}
+                      <View style={[styles.colActions, styles.actionsCell]}>
+                        <Pressable style={styles.topicActionsTrigger} onPress={() => setQuestionActionItem(question)}>
+                          <Text style={styles.topicActionsTriggerText}>Actions</Text>
                         </Pressable>
                       </View>
                     </View>
@@ -2991,138 +3022,381 @@ export default function QuestionManagementScreen() {
       ) : null}
 
       {activeLearningTab === 'quiz' ? (
-        <>
-          <View style={styles.card}>
-            <View style={styles.sectionHeader}>
-              <Text style={styles.cardTitle}>
-                {selectedTopic ? `Quizzes for: ${selectedTopic.title}` : 'Quiz Workspace'}
-              </Text>
-              <Pressable style={styles.secondaryButton} onPress={() => router.push('/exam')}>
-                <Text style={styles.secondaryButtonText}>Open Quiz Builder</Text>
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Quiz Workspace</Text>
+          <Text style={styles.metaText}>
+            Build and manage quizzes here. Topic quiz assignment is now available only from the Topic tab.
+          </Text>
+          <Pressable style={styles.primaryButton} onPress={() => router.push('/exam')}>
+            <Text style={styles.primaryButtonText}>Open Quiz Builder</Text>
+          </Pressable>
+        </View>
+      ) : null}
+
+      <Modal
+        visible={selectedTopic !== null}
+        transparent
+        animationType="fade"
+        presentationStyle="overFullScreen"
+        statusBarTranslucent
+        onRequestClose={() => setSelectedTopic(null)}
+      >
+        <Pressable style={styles.dialogOverlay} onPress={() => setSelectedTopic(null)}>
+          <Pressable style={styles.topicDialogCard} onPress={() => {}}>
+            <View style={styles.dialogHeader}>
+              <Text style={styles.dialogTitle}>Topic Details</Text>
+            </View>
+            <ScrollView style={styles.dialogScroll} contentContainerStyle={styles.dialogScrollContent}>
+              {selectedTopic ? (
+                <>
+                  <View style={styles.topicDetailHeader}>
+                    <View style={styles.topicDetailTitleRow}>
+                      <Text style={styles.cardTitle}>{selectedTopic.title}</Text>
+                      <Text style={styles.metaText}>
+                        {selectedTopic.classLevel} • {selectedTopic.subject}
+                      </Text>
+                    </View>
+                  </View>
+                  {selectedTopic.coverImage ? (
+                    <Image source={{ uri: resolveMediaUrl(selectedTopic.coverImage) }} style={styles.topicCoverImage} resizeMode="cover" />
+                  ) : null}
+                  <Text style={styles.cardTitle}>Contents ({topicContentItems.length})</Text>
+                  {loadingTopicDetails ? (
+                    <ActivityIndicator size="small" color="#1d4ed8" />
+                  ) : topicContentItems.length === 0 ? (
+                    <Text style={styles.emptyText}>No content assigned yet.</Text>
+                  ) : (
+                    <ScrollView horizontal>
+                      <View>
+                        <View style={[styles.tableRow, styles.tableHeader]}>
+                          <Text style={[styles.tableCell, styles.colQuestion]}>Title</Text>
+                          <Text style={[styles.tableCell, styles.colCategory]}>Type</Text>
+                          <Text style={[styles.tableCell, styles.colCategory]}>Sections</Text>
+                          <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
+                        </View>
+                        {topicContentItems.map((item) => (
+                          <View key={item.id} style={styles.tableRow}>
+                            <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
+                              {item.title}
+                            </Text>
+                            <Text style={[styles.tableCell, styles.colCategory]}>{item.contentType}</Text>
+                            <Text style={[styles.tableCell, styles.colCategory]}>{item.sectionCount || 1}</Text>
+                            <View style={[styles.colActions, styles.actionsCell]}>
+                              <Pressable style={styles.topicActionsTrigger} onPress={() => setTopicContentActionItem(item)}>
+                                <Text style={styles.topicActionsTriggerText}>Actions</Text>
+                              </Pressable>
+                            </View>
+                          </View>
+                        ))}
+                      </View>
+                    </ScrollView>
+                  )}
+
+                  <View style={styles.sectionHeader}>
+                    <Text style={styles.cardTitle}>Assigned Quizzes ({topicQuizzes.length})</Text>
+                    <Pressable style={styles.secondaryButton} onPress={() => openQuizAssignmentDialog(selectedTopic)}>
+                      <Text style={styles.secondaryButtonText}>Assign Quizzes</Text>
+                    </Pressable>
+                  </View>
+                  {loadingTopicQuizzes ? (
+                    <ActivityIndicator size="small" color="#1d4ed8" />
+                  ) : topicQuizzes.length === 0 ? (
+                    <Text style={styles.emptyText}>No quizzes assigned yet.</Text>
+                  ) : (
+                    topicQuizzes.map((quiz) => (
+                      <View key={`topic-quiz-${quiz.id}`} style={styles.optionCard}>
+                        <View style={styles.cardHeaderRow}>
+                          <Text style={styles.optionTitle}>{quiz.title}</Text>
+                          <Pressable style={styles.inlineRemoveButton} onPress={() => setPreviewQuiz(quiz)}>
+                            <Text style={styles.inlineRemoveButtonText}>Preview</Text>
+                          </Pressable>
+                        </View>
+                        <Text style={styles.metaText}>
+                          {(quiz.class_level || '-')} • {quiz.subject || '-'} • {quiz.quiz_type} • Q: {quiz.total_questions}
+                        </Text>
+                      </View>
+                    ))
+                  )}
+                </>
+              ) : null}
+            </ScrollView>
+            <View style={styles.dialogActions}>
+              <Pressable style={styles.secondaryButton} onPress={() => setSelectedTopic(null)}>
+                <Text style={styles.secondaryButtonText}>Close</Text>
               </Pressable>
             </View>
-            <Text style={styles.metaText}>
-              Build quizzes in the Exam Builder, then assign them to this topic below.
-            </Text>
-          </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
 
-          {selectedTopic ? (
-            <>
-              <View style={styles.card}>
-                <View style={styles.sectionHeader}>
-                  <Text style={styles.cardTitle}>Assigned Quizzes ({topicQuizzes.length})</Text>
-                  <Pressable
-                    style={styles.secondaryButton}
-                    onPress={() => loadTopicQuizzes(selectedTopic.id)}
-                    disabled={loadingTopicQuizzes}
-                  >
-                    {loadingTopicQuizzes ? (
-                      <ActivityIndicator color="#1d4ed8" />
-                    ) : (
-                      <Text style={styles.secondaryButtonText}>Refresh</Text>
-                    )}
-                  </Pressable>
-                </View>
-                {topicQuizzes.length === 0 ? (
-                  <Text style={styles.emptyText}>No quizzes assigned to this topic yet.</Text>
-                ) : (
-                  <ScrollView horizontal>
-                    <View>
-                      <View style={[styles.tableRow, styles.tableHeader]}>
-                        <Text style={[styles.tableCell, styles.colQuestion]}>Title</Text>
-                        <Text style={[styles.tableCell, styles.colCategory]}>Type</Text>
-                        <Text style={[styles.tableCell, styles.colCategory]}>Questions</Text>
-                        <Text style={[styles.tableCell, styles.colCategory]}>Published</Text>
-                        <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
-                      </View>
-                      {topicQuizzes.map((quiz) => (
-                        <View key={quiz.id} style={styles.tableRow}>
-                          <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
-                            {quiz.title}
-                          </Text>
-                          <Text style={[styles.tableCell, styles.colCategory]}>{quiz.quiz_type}</Text>
-                          <Text style={[styles.tableCell, styles.colCategory]}>{quiz.total_questions}</Text>
-                          <Text style={[styles.tableCell, styles.colCategory]}>
-                            {quiz.is_published ? '✓ Yes' : '✗ No'}
-                          </Text>
-                          <View style={[styles.colActions, styles.actionsRow]}>
-                            <Pressable
-                              style={[styles.actionButton, styles.deleteButton]}
-                              onPress={() => unassignQuizFromTopic(quiz.id)}
-                              disabled={savingQuizAssignment === quiz.id}
-                            >
-                              {savingQuizAssignment === quiz.id ? (
-                                <ActivityIndicator color="#b91c1c" />
-                              ) : (
-                                <Text style={[styles.actionButtonText, styles.deleteButtonText]}>Unassign</Text>
-                              )}
-                            </Pressable>
-                          </View>
-                        </View>
-                      ))}
-                    </View>
-                  </ScrollView>
-                )}
-              </View>
+      <Modal
+        visible={topicActionMenuTopic !== null}
+        transparent
+        animationType="fade"
+        presentationStyle="overFullScreen"
+        statusBarTranslucent
+        onRequestClose={() => setTopicActionMenuTopic(null)}
+      >
+        <Pressable style={styles.actionMenuOverlay} onPress={() => setTopicActionMenuTopic(null)}>
+          <Pressable style={styles.actionMenuCard} onPress={() => {}}>
+            <Text style={styles.actionMenuTitle}>Actions</Text>
+            {topicActionMenuTopic ? (
+              <Text style={styles.actionMenuMeta}>
+                {topicActionMenuTopic.title} • {topicActionMenuTopic.classLevel} • {topicActionMenuTopic.subject}
+              </Text>
+            ) : null}
+            <Pressable style={styles.actionMenuItem} onPress={() => topicActionMenuTopic && runTopicAction(topicActionMenuTopic, 'details')}>
+              <Text style={styles.actionMenuItemText}>View Details</Text>
+            </Pressable>
+            <Pressable style={styles.actionMenuItem} onPress={() => topicActionMenuTopic && runTopicAction(topicActionMenuTopic, 'create_content')}>
+              <Text style={styles.actionMenuItemText}>Create Content</Text>
+            </Pressable>
+            <Pressable style={styles.actionMenuItem} onPress={() => topicActionMenuTopic && runTopicAction(topicActionMenuTopic, 'assign_quiz')}>
+              <Text style={styles.actionMenuItemText}>Assign Quizzes</Text>
+            </Pressable>
+            <Pressable style={styles.actionMenuItem} onPress={() => topicActionMenuTopic && runTopicAction(topicActionMenuTopic, 'edit')}>
+              <Text style={styles.actionMenuItemText}>Edit Topic</Text>
+            </Pressable>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={() => topicActionMenuTopic && runTopicAction(topicActionMenuTopic, 'delete')}
+              disabled={!!deletingTopicId}
+            >
+              {deletingTopicId ? <ActivityIndicator color="#dc2626" /> : <Text style={styles.actionMenuDangerText}>Delete Topic</Text>}
+            </Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
 
-              <View style={styles.card}>
-                <Text style={styles.cardTitle}>Assign Existing Quiz</Text>
-                <Text style={styles.metaText}>Select a quiz from your library to assign to this topic.</Text>
-                {loadingTopicQuizzes ? (
-                  <ActivityIndicator size="small" color="#1d4ed8" />
-                ) : (
-                  (() => {
-                    const assignedIds = new Set(topicQuizzes.map((q) => q.id));
-                    const unassigned = allOrgQuizzes.filter((q) => !assignedIds.has(q.id));
-                    return unassigned.length === 0 ? (
-                      <Text style={styles.emptyText}>
-                        All available quizzes are already assigned, or no quizzes exist yet.
-                      </Text>
-                    ) : (
-                      <ScrollView horizontal>
-                        <View>
-                          <View style={[styles.tableRow, styles.tableHeader]}>
-                            <Text style={[styles.tableCell, styles.colQuestion]}>Title</Text>
-                            <Text style={[styles.tableCell, styles.colCategory]}>Type</Text>
-                            <Text style={[styles.tableCell, styles.colCategory]}>Questions</Text>
-                            <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
-                          </View>
-                          {unassigned.map((quiz) => (
-                            <View key={quiz.id} style={styles.tableRow}>
-                              <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
-                                {quiz.title}
-                              </Text>
-                              <Text style={[styles.tableCell, styles.colCategory]}>{quiz.quiz_type}</Text>
-                              <Text style={[styles.tableCell, styles.colCategory]}>{quiz.total_questions}</Text>
-                              <View style={[styles.colActions, styles.actionsRow]}>
-                                <Pressable
-                                  style={styles.actionButton}
-                                  onPress={() => assignQuizToTopic(quiz.id)}
-                                  disabled={savingQuizAssignment === quiz.id}
-                                >
-                                  {savingQuizAssignment === quiz.id ? (
-                                    <ActivityIndicator color="#1d4ed8" />
-                                  ) : (
-                                    <Text style={styles.actionButtonText}>Assign</Text>
-                                  )}
-                                </Pressable>
-                              </View>
-                            </View>
-                          ))}
-                        </View>
-                      </ScrollView>
-                    );
-                  })()
-                )}
-              </View>
-            </>
-          ) : (
-            <View style={styles.card}>
-              <Text style={styles.emptyText}>Select a topic first to manage its quizzes.</Text>
+      <Modal
+        visible={topicContentActionItem !== null}
+        transparent
+        animationType="fade"
+        presentationStyle="overFullScreen"
+        statusBarTranslucent
+        onRequestClose={() => setTopicContentActionItem(null)}
+      >
+        <Pressable style={styles.actionMenuOverlay} onPress={() => setTopicContentActionItem(null)}>
+          <Pressable style={styles.actionMenuCard} onPress={() => {}}>
+            <Text style={styles.actionMenuTitle}>Actions</Text>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={() => {
+                if (!topicContentActionItem) return;
+                openPreviewContentModal(topicContentActionItem);
+                setTopicContentActionItem(null);
+              }}
+            >
+              <Text style={styles.actionMenuItemText}>Preview</Text>
+            </Pressable>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={() => {
+                if (!topicContentActionItem) return;
+                openEditContentModal(topicContentActionItem);
+                setTopicContentActionItem(null);
+              }}
+            >
+              <Text style={styles.actionMenuItemText}>Edit</Text>
+            </Pressable>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={async () => {
+                if (!topicContentActionItem) return;
+                await removeContentAssignment(topicContentActionItem.id);
+                setTopicContentActionItem(null);
+              }}
+            >
+              <Text style={styles.actionMenuDangerText}>Remove</Text>
+            </Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
+      <Modal
+        visible={contentLibraryActionItem !== null}
+        transparent
+        animationType="fade"
+        presentationStyle="overFullScreen"
+        statusBarTranslucent
+        onRequestClose={() => setContentLibraryActionItem(null)}
+      >
+        <Pressable style={styles.actionMenuOverlay} onPress={() => setContentLibraryActionItem(null)}>
+          <Pressable style={styles.actionMenuCard} onPress={() => {}}>
+            <Text style={styles.actionMenuTitle}>Actions</Text>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={() => {
+                if (!contentLibraryActionItem) return;
+                openPreviewContentModal(contentLibraryActionItem);
+                setContentLibraryActionItem(null);
+              }}
+            >
+              <Text style={styles.actionMenuItemText}>Preview</Text>
+            </Pressable>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={() => {
+                if (!contentLibraryActionItem) return;
+                openEditContentModal(contentLibraryActionItem);
+                setContentLibraryActionItem(null);
+              }}
+            >
+              <Text style={styles.actionMenuItemText}>Edit</Text>
+            </Pressable>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={async () => {
+                if (!contentLibraryActionItem) return;
+                await deleteContentItem(contentLibraryActionItem.id);
+                setContentLibraryActionItem(null);
+              }}
+              disabled={!!deletingContentId}
+            >
+              {deletingContentId ? <ActivityIndicator color="#dc2626" /> : <Text style={styles.actionMenuDangerText}>Delete</Text>}
+            </Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
+      <Modal
+        visible={questionActionItem !== null}
+        transparent
+        animationType="fade"
+        presentationStyle="overFullScreen"
+        statusBarTranslucent
+        onRequestClose={() => setQuestionActionItem(null)}
+      >
+        <Pressable style={styles.actionMenuOverlay} onPress={() => setQuestionActionItem(null)}>
+          <Pressable style={styles.actionMenuCard} onPress={() => {}}>
+            <Text style={styles.actionMenuTitle}>Actions</Text>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={() => {
+                if (!questionActionItem) return;
+                setPreviewQuestion(questionActionItem);
+                setQuestionActionItem(null);
+              }}
+            >
+              <Text style={styles.actionMenuItemText}>View</Text>
+            </Pressable>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={() => {
+                if (!questionActionItem) return;
+                openEditDialog(questionActionItem);
+                setQuestionActionItem(null);
+              }}
+            >
+              <Text style={styles.actionMenuItemText}>Edit</Text>
+            </Pressable>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={async () => {
+                if (!questionActionItem) return;
+                await deleteQuestion(questionActionItem.id);
+                setQuestionActionItem(null);
+              }}
+              disabled={!!deletingQuestionId}
+            >
+              {deletingQuestionId ? <ActivityIndicator color="#dc2626" /> : <Text style={styles.actionMenuDangerText}>Delete</Text>}
+            </Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
+      <Modal
+        visible={isQuizDialogOpen}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setIsQuizDialogOpen(false)}
+      >
+        <Pressable style={styles.dialogOverlay} onPress={() => setIsQuizDialogOpen(false)}>
+          <Pressable style={styles.dialogCard} onPress={() => {}}>
+            <View style={styles.dialogHeader}>
+              <Text style={styles.dialogTitle}>
+                {selectedTopic ? `Assign Quizzes • ${selectedTopic.title}` : 'Assign Quizzes'}
+              </Text>
             </View>
-          )}
-        </>
-      ) : null}
+            <ScrollView style={styles.dialogScroll} contentContainerStyle={styles.dialogScrollContent}>
+              <View style={styles.row}>
+                <Pressable
+                  style={[styles.selectorInput, styles.halfInput]}
+                  onPress={() => setContentSelectorField('quizFilterClassLevel')}
+                >
+                  <Text style={quizDialogFilters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
+                    {quizDialogFilters.classLevel ? getStandardLabel(quizDialogFilters.classLevel) : 'Standard'}
+                  </Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.selectorInput, styles.halfInput, !quizDialogFilters.classLevel && styles.disabledButton]}
+                  onPress={() => {
+                    if (!quizDialogFilters.classLevel) return;
+                    setContentSelectorField('quizFilterSubject');
+                  }}
+                  disabled={!quizDialogFilters.classLevel}
+                >
+                  <Text style={quizDialogFilters.subject ? styles.selectorText : styles.selectorPlaceholder}>
+                    {quizDialogFilters.subject || (quizDialogFilters.classLevel ? 'Subject' : 'Select standard first')}
+                  </Text>
+                </Pressable>
+              </View>
+              <TextInput
+                value={quizDialogFilters.search}
+                onChangeText={(value) => setQuizDialogFilters((current) => ({ ...current, search: value }))}
+                placeholder="Search by quiz title or subject"
+                style={styles.input}
+              />
+              <Text style={styles.metaText}>
+                Selected: {selectedQuizIds.length}
+              </Text>
+              {loadingTopicQuizzes ? (
+                <ActivityIndicator size="small" color="#1d4ed8" />
+              ) : filteredQuizOptions.length === 0 ? (
+                <Text style={styles.emptyText}>No quizzes found.</Text>
+              ) : (
+                filteredQuizOptions.map((quiz) => {
+                  const selected = selectedQuizIds.includes(quiz.id);
+                  return (
+                    <Pressable
+                      key={`quiz-pick-${quiz.id}`}
+                      style={[styles.optionCard, selected && styles.topicSelectCardActive]}
+                      onPress={() => toggleQuizSelection(quiz.id)}
+                    >
+                      <View style={styles.cardHeaderRow}>
+                        <Text style={styles.optionTitle}>{quiz.title}</Text>
+                        <View style={styles.row}>
+                          <Pressable
+                            style={styles.inlineRemoveButton}
+                            onPress={(event) => {
+                              event.stopPropagation();
+                              setPreviewQuiz(quiz);
+                            }}
+                          >
+                            <Text style={styles.inlineRemoveButtonText}>Preview</Text>
+                          </Pressable>
+                          <Text style={selected ? styles.typeChipTextActive : styles.metaText}>{selected ? 'Selected' : 'Select'}</Text>
+                        </View>
+                      </View>
+                      <Text style={styles.metaText}>
+                        {(quiz.class_level || '-')} • {quiz.subject || '-'} • {quiz.quiz_type} • Q: {quiz.total_questions}
+                      </Text>
+                    </Pressable>
+                  );
+                })
+              )}
+            </ScrollView>
+            <View style={styles.dialogActions}>
+              <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={() => setIsQuizDialogOpen(false)}>
+                <Text style={styles.secondaryButtonText}>Cancel</Text>
+              </Pressable>
+              <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={saveSelectedQuizzesToTopic} disabled={savingQuizSelections}>
+                {savingQuizSelections ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Save Quizzes</Text>}
+              </Pressable>
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
 
       <Modal
         visible={isCreateContentDialogOpen}
@@ -3133,8 +3407,14 @@ export default function QuestionManagementScreen() {
           setEditingContentId(null);
         }}
       >
-        <View style={styles.dialogOverlay}>
-          <View style={styles.dialogCard}>
+        <Pressable
+          style={styles.dialogOverlay}
+          onPress={() => {
+            setIsCreateContentDialogOpen(false);
+            setEditingContentId(null);
+          }}
+        >
+          <Pressable style={styles.dialogCard} onPress={() => {}}>
             <View style={styles.dialogHeader}>
               <Text style={styles.dialogTitle}>{editingContentId ? 'Edit Content' : 'Create Content'}</Text>
             </View>
@@ -3145,7 +3425,7 @@ export default function QuestionManagementScreen() {
                   onPress={() => setContentSelectorField('contentFilterClassLevel')}
                 >
                   <Text style={contentCreateMeta.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
-                    {contentCreateMeta.classLevel || 'Standard'}
+                    {contentCreateMeta.classLevel ? getStandardLabel(contentCreateMeta.classLevel) : 'Standard'}
                   </Text>
                 </Pressable>
                 <Pressable
@@ -3283,6 +3563,28 @@ export default function QuestionManagementScreen() {
                 {savingContentCreate ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>{editingContentId ? 'Save' : 'Create Content'}</Text>}
               </Pressable>
             </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
+      <Modal visible={previewQuiz !== null} transparent animationType="fade" onRequestClose={() => setPreviewQuiz(null)}>
+        <View style={styles.dialogOverlay}>
+          <View style={styles.confirmCard}>
+            <Text style={styles.confirmTitle}>Quiz Preview</Text>
+            {previewQuiz ? (
+              <ScrollView style={styles.selectorList}>
+                <Text style={styles.previewTitle}>{previewQuiz.title}</Text>
+                <Text style={styles.previewMeta}>
+                  {previewQuiz.class_level || '-'} • {previewQuiz.subject || '-'} • {previewQuiz.quiz_type}
+                </Text>
+                <Text style={styles.previewMeta}>Questions: {previewQuiz.total_questions}</Text>
+                <Text style={styles.previewMeta}>Status: {previewQuiz.is_published ? 'Published' : 'Draft'}</Text>
+                <Text style={styles.previewMeta}>Created: {new Date(previewQuiz.created_at).toLocaleString()}</Text>
+              </ScrollView>
+            ) : null}
+            <Pressable style={styles.primaryButton} onPress={() => setPreviewQuiz(null)}>
+              <Text style={styles.primaryButtonText}>Close</Text>
+            </Pressable>
           </View>
         </View>
       </Modal>
@@ -3330,7 +3632,7 @@ export default function QuestionManagementScreen() {
               </Pressable>
               {contentSelectorOptions.map((option) => (
                 <Pressable key={option} style={styles.selectorOption} onPress={() => applyContentSelectorValue(option)}>
-                  <Text style={styles.selectorOptionText}>{option}</Text>
+                  <Text style={styles.selectorOptionText}>{isContentStandardSelector ? getStandardLabel(option) : option}</Text>
                 </Pressable>
               ))}
             </ScrollView>
@@ -3365,7 +3667,7 @@ export default function QuestionManagementScreen() {
                 <Text style={styles.fieldLabel}>Standard *</Text>
                 <Pressable style={styles.selectorInput} onPress={() => setContentSelectorField('topicClassLevel')}>
                   <Text style={topicDraft.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
-                    {topicDraft.classLevel || 'Select standard'}
+                    {topicDraft.classLevel ? getStandardLabel(topicDraft.classLevel) : 'Select standard'}
                   </Text>
                 </Pressable>
               </View>
@@ -3548,7 +3850,7 @@ export default function QuestionManagementScreen() {
               </Pressable>
               {selectorOptions.map((option) => (
                 <Pressable key={option} style={styles.selectorOption} onPress={() => applySelectorValue(option)}>
-                  <Text style={styles.selectorOptionText}>{option}</Text>
+                  <Text style={styles.selectorOptionText}>{isQuestionStandardSelector ? getStandardLabel(option) : option}</Text>
                 </Pressable>
               ))}
             </ScrollView>
@@ -3868,6 +4170,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#e2e8f0',
     alignItems: 'center',
     minHeight: 48,
+    overflow: 'visible',
   },
   tableHeader: {
     backgroundColor: '#f1f5f9',
@@ -3893,35 +4196,80 @@ const styles = StyleSheet.create({
     width: 260,
   },
   colActions: {
-    width: 320,
+    width: 180,
   },
-  actionsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    flexWrap: 'wrap',
+  actionsCell: {
+    alignItems: 'flex-end',
     paddingHorizontal: 10,
     paddingVertical: 6,
+    overflow: 'visible',
   },
-  actionButton: {
+  topicActionsTrigger: {
     borderWidth: 1,
-    borderColor: '#93c5fd',
-    backgroundColor: '#eff6ff',
+    borderColor: '#f5b66c',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    alignSelf: 'flex-start',
+  },
+  topicActionsTriggerText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#d97706',
+  },
+  actionMenuOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(15, 23, 42, 0.25)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+  },
+  actionMenuCard: {
+    width: '100%',
+    maxWidth: 320,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    borderRadius: 12,
+    padding: 10,
+    gap: 4,
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+  },
+  actionMenuTitle: {
+    fontSize: 17,
+    fontWeight: '700',
+    color: '#0f172a',
+    paddingHorizontal: 8,
+    paddingTop: 2,
+  },
+  actionMenuMeta: {
+    fontSize: 12,
+    color: '#64748b',
+    paddingHorizontal: 8,
+    paddingBottom: 4,
+  },
+  actionMenuItem: {
     borderRadius: 8,
     paddingHorizontal: 10,
-    paddingVertical: 6,
+    paddingVertical: 10,
   },
-  actionButtonText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#1d4ed8',
+  actionMenuItemText: {
+    fontSize: 14,
+    color: '#111827',
+    fontWeight: '500',
   },
-  deleteButton: {
-    borderColor: '#fca5a5',
-    backgroundColor: '#fee2e2',
+  actionMenuDangerText: {
+    fontSize: 14,
+    color: '#dc2626',
+    fontWeight: '600',
   },
   deleteButtonText: {
     color: '#b91c1c',
+    fontWeight: '700',
   },
   dialogOverlay: {
     flex: 1,
