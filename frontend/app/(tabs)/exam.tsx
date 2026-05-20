@@ -100,6 +100,8 @@ export default function QuizExamCreatorScreen() {
   const [quizSelectedQuestionIds, setQuizSelectedQuestionIds] = useState<string[]>([]);
   const [examSelectedQuestionIds, setExamSelectedQuestionIds] = useState<string[]>([]);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [catalogClassLevels, setCatalogClassLevels] = useState<string[]>([]);
+  const [catalogSubjects, setCatalogSubjects] = useState<string[]>([]);
 
   const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
 
@@ -113,6 +115,20 @@ export default function QuizExamCreatorScreen() {
     }
     setExamDraft((current) => ({ ...current, ...patch }));
   };
+
+  const loadSubjectCatalog = useCallback(async () => {
+    if (!isTeacherView) return;
+    try {
+      const res = await apiFetch('/quizzes/catalog/subjects');
+      if (res.ok) {
+        const payload = await res.json();
+        setCatalogClassLevels((payload.classLevels || []) as string[]);
+        setCatalogSubjects((payload.subjects || []) as string[]);
+      }
+    } catch {
+      // silently fail - fallback to question bank derived options
+    }
+  }, [apiFetch, isTeacherView]);
 
   const loadQuestionBank = useCallback(async () => {
     if (!isTeacherView) return;
@@ -136,24 +152,22 @@ export default function QuizExamCreatorScreen() {
 
   useFocusEffect(
     useCallback(() => {
+      loadSubjectCatalog();
       loadQuestionBank();
-    }, [loadQuestionBank]),
+    }, [loadSubjectCatalog, loadQuestionBank]),
   );
 
-  const classOptions = useMemo(
-    () =>
-      [...new Set(questionBank.map((question) => (question.class_level || '').trim()).filter(Boolean))].sort((a, b) =>
-        a.localeCompare(b),
-      ),
-    [questionBank],
-  );
-  const subjectOptions = useMemo(
-    () =>
-      [...new Set(questionBank.map((question) => (question.subject || '').trim()).filter(Boolean))].sort((a, b) =>
-        a.localeCompare(b),
-      ),
-    [questionBank],
-  );
+  const classOptions = useMemo(() => {
+    const fromCatalog = catalogClassLevels;
+    const fromBank = [...new Set(questionBank.map((q) => (q.class_level || '').trim()).filter(Boolean))];
+    return [...new Set([...fromCatalog, ...fromBank])].sort((a, b) => a.localeCompare(b));
+  }, [catalogClassLevels, questionBank]);
+
+  const subjectOptions = useMemo(() => {
+    const fromCatalog = catalogSubjects;
+    const fromBank = [...new Set(questionBank.map((q) => (q.subject || '').trim()).filter(Boolean))];
+    return [...new Set([...fromCatalog, ...fromBank])].sort((a, b) => a.localeCompare(b));
+  }, [catalogSubjects, questionBank]);
 
   const filteredQuestionBank = useMemo(() => {
     const keyword = questionBankSearch.trim().toLowerCase();

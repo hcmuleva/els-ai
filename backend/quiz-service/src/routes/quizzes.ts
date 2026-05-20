@@ -382,6 +382,28 @@ async function signQuestionRowsMedia(rows: Record<string, unknown>[]) {
   return Promise.all(rows.map((row) => signQuestionRowMedia(row, cache)));
 }
 
+// Teacher-accessible catalog: fetch all class levels & subjects from admin-created subjects table
+quizzesRouter.get('/catalog/subjects', requireAuth, async (req: any, res) => {
+  const orgId = getOrganizationId(req);
+  if (!orgId) return res.status(400).json({ message: 'Organization not found in auth context' });
+
+  try {
+    const result = await db.query(
+      `SELECT class_level, title AS subject
+       FROM subjects
+       WHERE organization_id = $1::uuid
+       ORDER BY class_level ASC, title ASC`,
+      [orgId],
+    );
+    const classLevels = [...new Set(result.rows.map((r: any) => r.class_level as string))];
+    const subjects = [...new Set(result.rows.map((r: any) => r.subject as string))];
+    return res.json({ classLevels, subjects, items: result.rows });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to fetch subject catalog' });
+  }
+});
+
 quizzesRouter.post('/uploads/media', requireAuth, async (req: any, res) => {
   const parsedBody = uploadMediaSchema.safeParse(req.body);
   if (!parsedBody.success) {
@@ -1701,31 +1723,51 @@ quizzesRouter.get('/content/topics/:topicId/details', requireAuth, async (req: a
       return res.status(404).json({ message: 'Topic not found' });
     }
 
-    const sectionsResult = await db.query(
+    const contentItemsResult = await db.query(
       `SELECT
-         COALESCE(lcs.id::text, lc.id::text) AS id,
-         lc.id AS content_id,
-         COALESCE(lcs.section_order, 1) AS section_order,
-         COALESCE(lcs.content_type, lc.content_type) AS content_type,
-         COALESCE(lcs.media_url, lc.media_url) AS media_url,
-         COALESCE(lcs.external_url, lc.external_url) AS external_url,
-         COALESCE(lcs.text_content, lc.text_content) AS text_content,
-         COALESCE(lcs.created_at, lc.created_at) AS created_at,
-         COALESCE(lcs.updated_at, lc.updated_at) AS updated_at
+         lc.id,
+         lc.class_level,
+         lc.subject,
+         lc.title,
+         lc.content_type,
+         lc.media_url,
+         lc.external_url,
+         lc.text_content,
+         lc.created_by,
+         lc.created_at,
+         lc.updated_at,
+         tca.sort_order
        FROM topic_content_assignments tca
        INNER JOIN learning_contents lc ON lc.id = tca.content_id
-       LEFT JOIN learning_content_sections lcs ON lcs.content_id = lc.id
        WHERE tca.topic_id = $1
-       ORDER BY tca.sort_order ASC, lcs.section_order ASC, lcs.created_at ASC`,
+       ORDER BY tca.sort_order ASC, tca.created_at ASC`,
       [topicId],
     );
 
     const topic = topicResult.rows[0];
     const signedCover = topic.cover_image ? await getSignedMediaUrlIfNeeded(topic.cover_image as string) : null;
-    const sections = await Promise.all(
-      sectionsResult.rows.map(async (row) => ({
-        id: (row.id as string) || (row.content_id as string),
-        contentId: row.content_id as string,
+
+    const contentIds = contentItemsResult.rows.map((row) => row.id);
+    let sectionsRows: any[] = [];
+    if (contentIds.length > 0) {
+      const sectionsResult = await db.query(
+        `SELECT id, content_id, section_order, content_type, media_url, external_url, text_content, created_at, updated_at
+         FROM learning_content_sections
+         WHERE content_id = ANY($1::uuid[])
+         ORDER BY content_id, section_order ASC, created_at ASC`,
+        [contentIds],
+      );
+      sectionsRows = sectionsResult.rows;
+    }
+
+    const sectionsGroupedByContentId: Record<string, any[]> = {};
+    for (const row of sectionsRows) {
+      const cId = row.content_id;
+      if (!sectionsGroupedByContentId[cId]) {
+        sectionsGroupedByContentId[cId] = [];
+      }
+      sectionsGroupedByContentId[cId].push({
+        id: row.id as string,
         sectionOrder: Number(row.section_order || 0),
         contentType: row.content_type as string,
         mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url as string) : undefined,
@@ -1733,8 +1775,49 @@ quizzesRouter.get('/content/topics/:topicId/details', requireAuth, async (req: a
         textContent: (row.text_content as string | null) || undefined,
         createdAt: row.created_at as string,
         updatedAt: row.updated_at as string,
-      })),
+      });
+    }
+
+    const contentItems = await Promise.all(
+      contentItemsResult.rows.map(async (row) => {
+        const cId = row.id as string;
+        let sections = sectionsGroupedByContentId[cId] || [];
+        if (sections.length === 0) {
+          sections = [
+            {
+              id: row.id as string,
+              sectionOrder: 1,
+              contentType: row.content_type as string,
+              mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url as string) : undefined,
+              externalUrl: (row.external_url as string | null) || undefined,
+              textContent: (row.text_content as string | null) || undefined,
+              createdAt: row.created_at as string,
+              updatedAt: row.updated_at as string,
+            },
+          ];
+        }
+        return {
+          id: cId,
+          classLevel: row.class_level as string,
+          subject: row.subject as string,
+          title: row.title as string,
+          contentType: row.content_type as string,
+          sectionCount: sections.length,
+          mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url as string) : undefined,
+          externalUrl: (row.external_url as string | null) || undefined,
+          textContent: (row.text_content as string | null) || undefined,
+          sections,
+          createdBy: (row.created_by as string | null) || undefined,
+          createdAt: row.created_at as string,
+          updatedAt: row.updated_at as string,
+        };
+      }),
     );
+
+    const flatSections: any[] = [];
+    for (const item of contentItems) {
+      flatSections.push(...item.sections);
+    }
 
     return res.json({
       topic: {
@@ -1747,7 +1830,8 @@ quizzesRouter.get('/content/topics/:topicId/details', requireAuth, async (req: a
         createdAt: topic.created_at as string,
         updatedAt: topic.updated_at as string,
       },
-      sections,
+      contentItems,
+      sections: flatSections,
     });
   } catch (error) {
     console.error(error);
@@ -2386,5 +2470,81 @@ quizzesRouter.post('/attempts', requireAuth, async (req: any, res) => {
     await db.query('ROLLBACK');
     console.error(error);
     return res.status(500).json({ message: 'Failed to save quiz attempt' });
+  }
+});
+
+// --- Quiz-Topic Assignment Endpoints ---
+
+// GET quizzes assigned to a topic
+quizzesRouter.get('/content/topics/:topicId/quizzes', requireAuth, async (req: any, res) => {
+  const topicId = req.params.topicId as string;
+  if (!topicId) return res.status(400).json({ message: 'Invalid topic id' });
+  if (!canManageTeacherContent(req)) return res.status(403).json({ message: 'Forbidden' });
+  const orgId = getOrganizationId(req);
+  if (!orgId) return res.status(400).json({ message: 'Organization not found in auth context' });
+
+  try {
+    const result = await db.query(
+      `SELECT id, title, quiz_type, class_level, subject, is_published, total_questions, created_at
+       FROM quizzes
+       WHERE organization_id = $1::uuid AND topic_id = $2
+       ORDER BY created_at DESC`,
+      [orgId, topicId],
+    );
+    return res.json({ quizzes: result.rows });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to fetch topic quizzes' });
+  }
+});
+
+// PUT assign a quiz to a topic (pass quizId to assign, null to unassign)
+quizzesRouter.put('/content/topics/:topicId/quizzes/:quizId', requireAuth, async (req: any, res) => {
+  const { topicId, quizId } = req.params;
+  if (!topicId || !quizId) return res.status(400).json({ message: 'Invalid topic or quiz id' });
+  if (!canManageTeacherContent(req)) return res.status(403).json({ message: 'Forbidden' });
+  const orgId = getOrganizationId(req);
+  if (!orgId) return res.status(400).json({ message: 'Organization not found in auth context' });
+
+  try {
+    // Verify topic belongs to org
+    const topicCheck = await db.query(
+      `SELECT 1 FROM content_topics WHERE id = $1 AND organization_id = $2::uuid LIMIT 1`,
+      [topicId, orgId],
+    );
+    if ((topicCheck.rowCount ?? 0) === 0) return res.status(404).json({ message: 'Topic not found' });
+
+    // Verify quiz belongs to org
+    const quizCheck = await db.query(
+      `SELECT 1 FROM quizzes WHERE id = $1 AND organization_id = $2::uuid LIMIT 1`,
+      [quizId, orgId],
+    );
+    if ((quizCheck.rowCount ?? 0) === 0) return res.status(404).json({ message: 'Quiz not found' });
+
+    await db.query(`UPDATE quizzes SET topic_id = $1, updated_at = NOW() WHERE id = $2`, [topicId, quizId]);
+    return res.json({ message: 'Quiz assigned to topic successfully', topicId, quizId });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to assign quiz to topic' });
+  }
+});
+
+// DELETE unassign a quiz from a topic
+quizzesRouter.delete('/content/topics/:topicId/quizzes/:quizId', requireAuth, async (req: any, res) => {
+  const { quizId } = req.params;
+  if (!quizId) return res.status(400).json({ message: 'Invalid quiz id' });
+  if (!canManageTeacherContent(req)) return res.status(403).json({ message: 'Forbidden' });
+  const orgId = getOrganizationId(req);
+  if (!orgId) return res.status(400).json({ message: 'Organization not found in auth context' });
+
+  try {
+    await db.query(
+      `UPDATE quizzes SET topic_id = NULL, updated_at = NOW() WHERE id = $1 AND organization_id = $2::uuid`,
+      [quizId, orgId],
+    );
+    return res.json({ message: 'Quiz unassigned from topic successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to unassign quiz from topic' });
   }
 });
