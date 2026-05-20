@@ -316,3 +316,140 @@ Auth Service listening on http://localhost:4101
 
 Database successfully migrated and seeded with organizations, roles, users, and quizzes.
 Auth Service listening on http://localhost:4101
+3:39:27 PM [tsx] change in ./src/routes/users.ts Restarting...
+cDatabase successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+3:39:58 PM [tsx] change in ./src/routes/users.ts Restarting...
+cDatabase successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+3:40:06 PM [tsx] change in ./src/seed.ts Restarting...
+cDatabase successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Auth Service bootstrap failed: error: relation "assets" already exists
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed.ts:175:3)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:27:3) {
+  length: 100,
+  severity: 'ERROR',
+  code: '42P07',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heap.c',
+  line: '1162',
+  routine: 'heap_create_with_catalog'
+}
+3:49:46 PM [tsx] change in ./src/seed.ts Rerunning...
+cDatabase successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error workspace auth-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Database successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Database successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Database successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+3:59:41 PM [tsx] change in ./src/routes/users.ts Restarting...
+cDatabase successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+4:13:39 PM [tsx] change in ./src/routes/users.ts Restarting...
+cDatabase successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+4:13:48 PM [tsx] change in ./src/routes/users.ts Restarting...
+cDatabase successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+4:14:42 PM [tsx] change in ./src/routes/users.ts Restarting...
+cDatabase successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+4:14:52 PM [tsx] change in ./src/seed.ts Restarting...
+cDatabase successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+4:18:03 PM [tsx] change in ./src/routes/users.ts Restarting...
+cDatabase successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error workspace auth-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Database successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+4:58:04 PM [tsx] change in ./src/seed.ts Restarting...
+cDatabase successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Database successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+5:22:41 PM [tsx] change in ./src/seed.ts Restarting...
+cDatabase successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Database successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Database successfully migrated and seeded with organizations, roles, users, and quizzes.
+Auth Service listening on http://localhost:4101
+6:00:56 PM [tsx] change in ./src/seed.ts Restarting...
+cSchema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+6:16:43 PM [tsx] change in ./src/seed.ts Restarting...
+cSchema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101

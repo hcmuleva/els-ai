@@ -2,21 +2,57 @@ import bcrypt from 'bcryptjs';
 import { db } from './db.js';
 
 export async function initSchemaAndSeed() {
-  // Drop old tables to start fresh with UUIDs
-  await db.query(`
-    DROP TABLE IF EXISTS question_attempts CASCADE;
-    DROP TABLE IF EXISTS student_attempts CASCADE;
-    DROP TABLE IF EXISTS assets CASCADE;
-    DROP TABLE IF EXISTS quiz_questions CASCADE;
-    DROP TABLE IF EXISTS quizzes CASCADE;
-    DROP TABLE IF EXISTS refresh_tokens CASCADE;
-    DROP TABLE IF EXISTS teacher_standard_subjects CASCADE;
-    DROP TABLE IF EXISTS parent_student_links CASCADE;
-    DROP TABLE IF EXISTS user_roles CASCADE;
-    DROP TABLE IF EXISTS roles CASCADE;
-    DROP TABLE IF EXISTS users CASCADE;
-    DROP TABLE IF EXISTS organizations CASCADE;
+  const forceReset = process.env.RESET_DB_ON_START === 'true';
+  const existingSchema = await db.query(`
+    SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.tables
+      WHERE table_schema = 'public'
+        AND table_name = 'organizations'
+    ) AS exists
   `);
+  const schemaExists = Boolean(existingSchema.rows[0]?.exists);
+
+  if (schemaExists && !forceReset) {
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS learning_content_sections (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        content_id UUID REFERENCES learning_contents(id) ON DELETE CASCADE,
+        section_order INTEGER NOT NULL,
+        content_type VARCHAR(50) NOT NULL,
+        media_url TEXT,
+        external_url TEXT,
+        text_content TEXT,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      );
+    `);
+    console.log('Schema already exists. Skipping destructive seed.');
+    return;
+  }
+
+  if (forceReset) {
+    // Explicit opt-in reset only
+    await db.query(`
+      DROP TABLE IF EXISTS question_attempts CASCADE;
+      DROP TABLE IF EXISTS student_attempts CASCADE;
+      DROP TABLE IF EXISTS topic_content_sections CASCADE;
+      DROP TABLE IF EXISTS content_topics CASCADE;
+      DROP TABLE IF EXISTS topic_content_assignments CASCADE;
+      DROP TABLE IF EXISTS learning_content_sections CASCADE;
+      DROP TABLE IF EXISTS learning_contents CASCADE;
+      DROP TABLE IF EXISTS quiz_questions CASCADE;
+      DROP TABLE IF EXISTS quizzes CASCADE;
+      DROP TABLE IF EXISTS refresh_tokens CASCADE;
+      DROP TABLE IF EXISTS subjects CASCADE;
+      DROP TABLE IF EXISTS teacher_standard_subjects CASCADE;
+      DROP TABLE IF EXISTS parent_student_links CASCADE;
+      DROP TABLE IF EXISTS user_roles CASCADE;
+      DROP TABLE IF EXISTS roles CASCADE;
+      DROP TABLE IF EXISTS users CASCADE;
+      DROP TABLE IF EXISTS organizations CASCADE;
+    `);
+  }
 
   // 1. Organizations
   await db.query(`
@@ -114,6 +150,99 @@ export async function initSchemaAndSeed() {
     );
   `);
 
+  // 5.3 Subject catalog by standard
+  await db.query(`
+    CREATE TABLE subjects (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+      cover_image TEXT,
+      title VARCHAR(255) NOT NULL,
+      description TEXT,
+      author VARCHAR(255),
+      author_user_id UUID REFERENCES users(id) ON DELETE SET NULL,
+      is_external_author BOOLEAN DEFAULT false,
+      class_level VARCHAR(50) NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW(),
+      UNIQUE(organization_id, class_level, title)
+    );
+  `);
+
+  // 5.4 Content topics
+  await db.query(`
+    CREATE TABLE content_topics (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+      class_level VARCHAR(50) NOT NULL,
+      subject VARCHAR(255) NOT NULL,
+      title VARCHAR(255) NOT NULL,
+      cover_image TEXT,
+      created_by UUID REFERENCES users(id) ON DELETE SET NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW(),
+      UNIQUE(organization_id, class_level, subject, title)
+    );
+  `);
+
+  // 5.5 Topic content sections
+  await db.query(`
+    CREATE TABLE topic_content_sections (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      topic_id UUID REFERENCES content_topics(id) ON DELETE CASCADE,
+      section_order INTEGER NOT NULL,
+      content_type VARCHAR(50) NOT NULL,
+      media_url TEXT,
+      external_url TEXT,
+      text_content TEXT,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
+  // 5.6 Reusable learning content library
+  await db.query(`
+    CREATE TABLE learning_contents (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+      class_level VARCHAR(50) NOT NULL,
+      subject VARCHAR(255) NOT NULL,
+      title VARCHAR(255) NOT NULL,
+      content_type VARCHAR(50) NOT NULL,
+      media_url TEXT,
+      external_url TEXT,
+      text_content TEXT,
+      created_by UUID REFERENCES users(id) ON DELETE SET NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
+  await db.query(`
+    CREATE TABLE learning_content_sections (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      content_id UUID REFERENCES learning_contents(id) ON DELETE CASCADE,
+      section_order INTEGER NOT NULL,
+      content_type VARCHAR(50) NOT NULL,
+      media_url TEXT,
+      external_url TEXT,
+      text_content TEXT,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
+  // 5.7 Topic to content assignments
+  await db.query(`
+    CREATE TABLE topic_content_assignments (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      topic_id UUID REFERENCES content_topics(id) ON DELETE CASCADE,
+      content_id UUID REFERENCES learning_contents(id) ON DELETE CASCADE,
+      sort_order INTEGER NOT NULL DEFAULT 0,
+      created_at TIMESTAMP DEFAULT NOW(),
+      UNIQUE(topic_id, content_id)
+    );
+  `);
+
   // 6. Quizzes
   await db.query(`
     CREATE TABLE quizzes (
@@ -154,19 +283,7 @@ export async function initSchemaAndSeed() {
     );
   `);
 
-  // 8. Assets (Centralized Media)
-  await db.query(`
-    CREATE TABLE assets (
-      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
-      asset_type VARCHAR(50), -- image, audio, video
-      file_url TEXT NOT NULL,
-      metadata JSONB DEFAULT '{}',
-      created_at TIMESTAMP DEFAULT NOW()
-    );
-  `);
-
-  // 9. Student Attempts
+  // 8. Student Attempts
   await db.query(`
     CREATE TABLE student_attempts (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -178,7 +295,7 @@ export async function initSchemaAndSeed() {
     );
   `);
 
-  // 10. Question Attempts
+  // 9. Question Attempts
   await db.query(`
     CREATE TABLE question_attempts (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -228,7 +345,7 @@ export async function initSchemaAndSeed() {
       email: 'student@els.ai',
       activeRole: 'student',
       assignedRoles: ['student'],
-      classLevel: 'Class 1',
+      classLevel: '1',
     },
     {
       firstName: 'ELS',
@@ -266,6 +383,32 @@ export async function initSchemaAndSeed() {
       );
     }
   }
+
+  await db.query(
+    `INSERT INTO subjects (organization_id, cover_image, title, description, author, author_user_id, is_external_author, class_level)
+     VALUES
+     ($1, $2, $3, $4, $5, NULL, true, $6),
+     ($1, $7, $8, $9, $10, NULL, true, $11),
+     ($1, $12, $13, $14, $15, NULL, true, $16)`,
+    [
+      orgId,
+      null,
+      'English',
+      'Basic language and reading skills',
+      'ELS Team',
+      '1',
+      null,
+      'Mathematics',
+      'Numbers, counting, and arithmetic foundations',
+      'ELS Team',
+      '2',
+      null,
+      'Environmental Studies',
+      'Early exposure to nature and surroundings',
+      'ELS Team',
+      'LKG',
+    ],
+  );
 
   // 4. Seed Sample Quizzes
   // BGM audio URLs pointing to local static media

@@ -7,14 +7,14 @@ type UploadMediaInput = {
   dataUrl: string;
   fileName: string;
   mimeType?: string;
-  mediaType: 'image' | 'audio';
+  mediaType: 'image' | 'audio' | 'video';
 };
 
 type UploadMediaResult = {
   url: string;
   key: string;
   fileName: string;
-  mediaType: 'image' | 'audio';
+  mediaType: 'image' | 'audio' | 'video';
   mimeType: string;
 };
 
@@ -43,6 +43,10 @@ const MIME_EXTENSION_MAP: Record<string, string> = {
   'audio/aac': 'aac',
   'audio/mp4': 'm4a',
   'audio/x-m4a': 'm4a',
+  'video/mp4': 'mp4',
+  'video/webm': 'webm',
+  'video/quicktime': 'mov',
+  'video/x-msvideo': 'avi',
 };
 
 function assertS3Configured() {
@@ -74,12 +78,15 @@ function parseDataUrl(dataUrl: string, overrideMimeType?: string) {
   return { mimeType, body };
 }
 
-function ensureMediaType(mimeType: string, mediaType: 'image' | 'audio') {
+function ensureMediaType(mimeType: string, mediaType: 'image' | 'audio' | 'video') {
   if (mediaType === 'image' && !mimeType.startsWith('image/')) {
     throw new Error('Uploaded file is not an image.');
   }
   if (mediaType === 'audio' && !mimeType.startsWith('audio/')) {
     throw new Error('Uploaded file is not an audio file.');
+  }
+  if (mediaType === 'video' && !mimeType.startsWith('video/')) {
+    throw new Error('Uploaded file is not a video file.');
   }
 }
 
@@ -90,10 +97,13 @@ function getExtension(mimeType: string, originalName: string) {
   if (fromName && /^[a-z0-9]{2,8}$/.test(fromName)) {
     return fromName;
   }
-  return mimeType.startsWith('image/') ? 'png' : 'bin';
+  if (mimeType.startsWith('image/')) return 'png';
+  if (mimeType.startsWith('audio/')) return 'mp3';
+  if (mimeType.startsWith('video/')) return 'mp4';
+  return 'bin';
 }
 
-function buildS3Key(organizationId: string, mediaType: 'image' | 'audio', fileName: string, mimeType: string) {
+function buildS3Key(organizationId: string, mediaType: 'image' | 'audio' | 'video', fileName: string, mimeType: string) {
   const now = new Date();
   const year = now.getUTCFullYear();
   const month = String(now.getUTCMonth() + 1).padStart(2, '0');

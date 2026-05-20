@@ -65,6 +65,38 @@ const upsertTeacherAssignmentsSchema = z.object({
     }),
   ),
 });
+const listSubjectsQuerySchema = z.object({
+  search: z.string().trim().optional(),
+  classLevel: z.string().trim().optional(),
+  limit: z.coerce.number().int().min(1).max(500).default(200),
+});
+const authorSearchQuerySchema = z.object({
+  mobileNumber: z.string().trim().optional(),
+  search: z.string().trim().optional(),
+  limit: z.coerce.number().int().min(1).max(200).default(30),
+});
+const createSubjectSchema = z.object({
+  coverImage: z.string().trim().optional(),
+  title: z.string().trim().min(1).max(255),
+  description: z.string().trim().optional(),
+  isExternalAuthor: z.boolean().optional(),
+  authorName: z.string().trim().max(255).optional(),
+  authorUserId: z.string().uuid().nullable().optional(),
+  classLevel: z.string().trim().min(1).max(50),
+});
+const updateSubjectSchema = z
+  .object({
+    coverImage: z.string().trim().optional(),
+    title: z.string().trim().min(1).max(255).optional(),
+    description: z.string().trim().optional(),
+    isExternalAuthor: z.boolean().optional(),
+    authorName: z.string().trim().max(255).optional(),
+    authorUserId: z.string().uuid().nullable().optional(),
+    classLevel: z.string().trim().min(1).max(50).optional(),
+  })
+  .refine((value) => Object.values(value).some((item) => item !== undefined), {
+    message: 'At least one field must be provided',
+  });
 
 async function getUserWithRoles(userId: string, organizationId?: string): Promise<UserWithRoles | null> {
   const userResult = await db.query(
@@ -161,6 +193,51 @@ async function userHasRoleInOrg(userId: string, organizationId: string, roleName
     [userId, organizationId, roleName],
   );
   return (result.rowCount ?? 0) > 0;
+}
+
+type SubjectRow = {
+  id: string;
+  cover_image: string | null;
+  title: string;
+  description: string | null;
+  author: string | null;
+  class_level: string;
+  author_user_id: string | null;
+  is_external_author: boolean;
+  created_at: string;
+  updated_at: string;
+  author_first_name: string | null;
+  author_last_name: string | null;
+  author_mobile_number: string | null;
+  author_profile_image: string | null;
+};
+
+function mapSubjectRow(row: SubjectRow) {
+  const hasInternalAuthor = !row.is_external_author && !!row.author_user_id;
+  const internalAuthorName = [row.author_first_name || '', row.author_last_name || ''].join(' ').trim();
+  const authorDisplayName = hasInternalAuthor ? internalAuthorName || undefined : row.author || undefined;
+
+  return {
+    id: row.id,
+    coverImage: row.cover_image || undefined,
+    title: row.title,
+    description: row.description || undefined,
+    classLevel: row.class_level,
+    isExternalAuthor: row.is_external_author,
+    author: authorDisplayName,
+    authorUserId: row.author_user_id || undefined,
+    authorUser: hasInternalAuthor
+      ? {
+          id: row.author_user_id as string,
+          firstName: row.author_first_name || '',
+          lastName: row.author_last_name || '',
+          mobileNumber: row.author_mobile_number || undefined,
+          profileImage: row.author_profile_image || undefined,
+        }
+      : undefined,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
 }
 
 export const usersRouter = Router();
@@ -856,6 +933,430 @@ usersRouter.put('/teachers/:id/assignments', requireAuth, async (req: Authentica
     await client.query('ROLLBACK');
     console.error(error);
     return res.status(500).json({ message: 'Failed to assign standards and subjects to teacher' });
+  } finally {
+    client.release();
+  }
+});
+
+usersRouter.get('/authors/search', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const parsedQuery = authorSearchQuerySchema.safeParse(req.query);
+  if (!parsedQuery.success) {
+    return res.status(400).json({ message: 'Invalid author search filters', errors: parsedQuery.error.issues });
+  }
+
+  const organizationId = getRequestOrganizationId(req);
+  if (!organizationId) {
+    return res.status(400).json({ message: 'Organization not found in auth context' });
+  }
+  if (!(await hasAdminAccess(req))) {
+    return res.status(403).json({ message: 'Forbidden: admin role required' });
+  }
+
+  const { mobileNumber, search, limit } = parsedQuery.data;
+  const params: unknown[] = [organizationId];
+  const whereClauses: string[] = ['ur.organization_id = $1::uuid', 'u.deleted_at IS NULL', 'u.is_active = true'];
+
+  if (mobileNumber) {
+    params.push(`%${mobileNumber}%`);
+    whereClauses.push(`COALESCE(u.mobile_number, '') ILIKE $${params.length}`);
+  }
+  if (search) {
+    params.push(`%${search}%`);
+    const idx = params.length;
+    whereClauses.push(
+      `(concat_ws(' ', u.first_name, u.last_name) ILIKE $${idx}
+        OR u.email ILIKE $${idx}
+        OR COALESCE(u.mobile_number, '') ILIKE $${idx})`,
+    );
+  }
+  params.push(limit);
+
+  try {
+    const result = await db.query(
+      `SELECT DISTINCT
+         u.id,
+         u.first_name,
+         u.last_name,
+         u.email,
+         u.mobile_number,
+         u.profile_image
+       FROM users u
+       INNER JOIN user_roles ur ON ur.user_id = u.id
+       WHERE ${whereClauses.join(' AND ')}
+       ORDER BY u.first_name, u.last_name
+       LIMIT $${params.length}`,
+      params,
+    );
+
+    return res.json({
+      authors: result.rows.map((row) => ({
+        id: row.id as string,
+        firstName: row.first_name as string,
+        lastName: row.last_name as string,
+        email: row.email as string,
+        mobileNumber: (row.mobile_number as string | null) || undefined,
+        profileImage: (row.profile_image as string | null) || undefined,
+      })),
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to search authors' });
+  }
+});
+
+usersRouter.get('/subjects', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const parsedQuery = listSubjectsQuerySchema.safeParse(req.query);
+  if (!parsedQuery.success) {
+    return res.status(400).json({ message: 'Invalid subject filters', errors: parsedQuery.error.issues });
+  }
+
+  const organizationId = getRequestOrganizationId(req);
+  if (!organizationId) {
+    return res.status(400).json({ message: 'Organization not found in auth context' });
+  }
+  if (!(await hasAdminAccess(req))) {
+    return res.status(403).json({ message: 'Forbidden: admin role required' });
+  }
+
+  const { search, classLevel, limit } = parsedQuery.data;
+  const params: unknown[] = [organizationId];
+  const whereClauses: string[] = ['s.organization_id = $1::uuid'];
+
+  if (search) {
+    params.push(`%${search}%`);
+    const idx = params.length;
+    whereClauses.push(
+      `(s.title ILIKE $${idx}
+        OR COALESCE(s.description, '') ILIKE $${idx}
+        OR COALESCE(s.author, '') ILIKE $${idx}
+        OR concat_ws(' ', COALESCE(au.first_name, ''), COALESCE(au.last_name, '')) ILIKE $${idx}
+        OR COALESCE(au.mobile_number, '') ILIKE $${idx})`,
+    );
+  }
+  if (classLevel) {
+    params.push(classLevel);
+    whereClauses.push(`s.class_level = $${params.length}`);
+  }
+  params.push(limit);
+
+  try {
+    const result = await db.query(
+      `SELECT
+         s.id,
+         s.cover_image,
+         s.title,
+         s.description,
+         s.author,
+         s.class_level,
+         s.author_user_id,
+         s.is_external_author,
+         s.created_at,
+         s.updated_at,
+         au.first_name AS author_first_name,
+         au.last_name AS author_last_name,
+         au.mobile_number AS author_mobile_number,
+         au.profile_image AS author_profile_image
+       FROM subjects s
+       LEFT JOIN users au ON au.id = s.author_user_id
+       WHERE ${whereClauses.join(' AND ')}
+       ORDER BY s.class_level ASC, s.title ASC
+       LIMIT $${params.length}`,
+      params,
+    );
+    return res.json({
+      subjects: result.rows.map((row) => mapSubjectRow(row as SubjectRow)),
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to fetch subjects' });
+  }
+});
+
+usersRouter.post('/subjects', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const parsedBody = createSubjectSchema.safeParse(req.body);
+  if (!parsedBody.success) {
+    return res.status(400).json({ message: 'Invalid subject payload', errors: parsedBody.error.issues });
+  }
+
+  const organizationId = getRequestOrganizationId(req);
+  if (!organizationId) {
+    return res.status(400).json({ message: 'Organization not found in auth context' });
+  }
+  if (!(await hasAdminAccess(req))) {
+    return res.status(403).json({ message: 'Forbidden: admin role required' });
+  }
+
+  const { coverImage, title, description, classLevel } = parsedBody.data;
+  const isExternalAuthor = parsedBody.data.isExternalAuthor ?? false;
+  const authorUserId = isExternalAuthor ? null : parsedBody.data.authorUserId || null;
+  const authorName = isExternalAuthor ? parsedBody.data.authorName || null : null;
+
+  try {
+    const duplicateCheck = await db.query(
+      `SELECT 1 FROM subjects
+       WHERE organization_id = $1::uuid
+         AND class_level = $2
+         AND LOWER(title) = LOWER($3)
+       LIMIT 1`,
+      [organizationId, classLevel, title],
+    );
+    if ((duplicateCheck.rowCount ?? 0) > 0) {
+      return res.status(400).json({ message: 'Subject already exists for this standard' });
+    }
+
+    if (authorUserId) {
+      const authorExists = await db.query(
+        `SELECT 1
+         FROM user_roles ur
+         WHERE ur.organization_id = $1::uuid
+           AND ur.user_id = $2::uuid
+         LIMIT 1`,
+        [organizationId, authorUserId],
+      );
+      if ((authorExists.rowCount ?? 0) === 0) {
+        return res.status(400).json({ message: 'Selected author does not belong to your organization' });
+      }
+    }
+
+    const insertResult = await db.query(
+      `INSERT INTO subjects (organization_id, cover_image, title, description, author, author_user_id, is_external_author, class_level)
+       VALUES ($1::uuid, $2, $3, $4, $5, $6::uuid, $7, $8)
+       RETURNING id`,
+      [organizationId, coverImage || null, title, description || null, authorName, authorUserId, isExternalAuthor, classLevel],
+    );
+    const subjectId = insertResult.rows[0]?.id as string;
+    const result = await db.query(
+      `SELECT
+         s.id,
+         s.cover_image,
+         s.title,
+         s.description,
+         s.author,
+         s.class_level,
+         s.author_user_id,
+         s.is_external_author,
+         s.created_at,
+         s.updated_at,
+         au.first_name AS author_first_name,
+         au.last_name AS author_last_name,
+         au.mobile_number AS author_mobile_number,
+         au.profile_image AS author_profile_image
+       FROM subjects s
+       LEFT JOIN users au ON au.id = s.author_user_id
+       WHERE s.id = $1
+       LIMIT 1`,
+      [subjectId],
+    );
+    return res.status(201).json(mapSubjectRow(result.rows[0] as SubjectRow));
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to create subject' });
+  }
+});
+
+usersRouter.patch('/subjects/:id', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const subjectId = getSingleParam(req.params.id);
+  const parsedBody = updateSubjectSchema.safeParse(req.body);
+  if (!subjectId) {
+    return res.status(400).json({ message: 'Invalid subject id' });
+  }
+  if (!parsedBody.success) {
+    return res.status(400).json({ message: 'Invalid subject payload', errors: parsedBody.error.issues });
+  }
+
+  const organizationId = getRequestOrganizationId(req);
+  if (!organizationId) {
+    return res.status(400).json({ message: 'Organization not found in auth context' });
+  }
+  if (!(await hasAdminAccess(req))) {
+    return res.status(403).json({ message: 'Forbidden: admin role required' });
+  }
+
+  const existingResult = await db.query(
+    `SELECT
+       id,
+       title,
+       class_level,
+       author,
+       author_user_id,
+       is_external_author
+     FROM subjects
+     WHERE id = $1
+       AND organization_id = $2::uuid
+     LIMIT 1`,
+    [subjectId, organizationId],
+  );
+  if ((existingResult.rowCount ?? 0) === 0) {
+    return res.status(404).json({ message: 'Subject not found' });
+  }
+
+  const existing = existingResult.rows[0];
+  const { coverImage, title, description, classLevel } = parsedBody.data;
+  const effectiveTitle = title ?? (existing.title as string);
+  const effectiveClassLevel = classLevel ?? (existing.class_level as string);
+
+  const duplicateCheck = await db.query(
+    `SELECT 1 FROM subjects
+     WHERE organization_id = $1::uuid
+       AND class_level = $2
+       AND LOWER(title) = LOWER($3)
+       AND id <> $4
+     LIMIT 1`,
+    [organizationId, effectiveClassLevel, effectiveTitle, subjectId],
+  );
+  if ((duplicateCheck.rowCount ?? 0) > 0) {
+    return res.status(400).json({ message: 'Subject already exists for this standard' });
+  }
+
+  let nextIsExternalAuthor = (existing.is_external_author as boolean) ?? false;
+  if (parsedBody.data.isExternalAuthor !== undefined) {
+    nextIsExternalAuthor = parsedBody.data.isExternalAuthor;
+  }
+
+  let nextAuthorUserId = (existing.author_user_id as string | null) || null;
+  let nextAuthorName = (existing.author as string | null) || null;
+  if (parsedBody.data.authorUserId !== undefined) {
+    nextAuthorUserId = parsedBody.data.authorUserId || null;
+  }
+  if (parsedBody.data.authorName !== undefined) {
+    nextAuthorName = parsedBody.data.authorName || null;
+  }
+  if (nextIsExternalAuthor) {
+    nextAuthorUserId = null;
+  } else {
+    nextAuthorName = null;
+  }
+
+  if (nextAuthorUserId) {
+    const authorExists = await db.query(
+      `SELECT 1
+       FROM user_roles ur
+       WHERE ur.organization_id = $1::uuid
+         AND ur.user_id = $2::uuid
+       LIMIT 1`,
+      [organizationId, nextAuthorUserId],
+    );
+    if ((authorExists.rowCount ?? 0) === 0) {
+      return res.status(400).json({ message: 'Selected author does not belong to your organization' });
+    }
+  }
+
+  const updates: string[] = ['updated_at = NOW()'];
+  const params: unknown[] = [];
+  if (coverImage !== undefined) {
+    params.push(coverImage || null);
+    updates.push(`cover_image = $${params.length}`);
+  }
+  if (title !== undefined) {
+    params.push(title);
+    updates.push(`title = $${params.length}`);
+  }
+  if (description !== undefined) {
+    params.push(description || null);
+    updates.push(`description = $${params.length}`);
+  }
+  if (classLevel !== undefined) {
+    params.push(classLevel);
+    updates.push(`class_level = $${params.length}`);
+  }
+
+  params.push(nextAuthorName, nextAuthorUserId, nextIsExternalAuthor);
+  updates.push(`author = $${params.length - 2}`);
+  updates.push(`author_user_id = $${params.length - 1}::uuid`);
+  updates.push(`is_external_author = $${params.length}`);
+
+  params.push(subjectId, organizationId);
+
+  try {
+    await db.query(
+      `UPDATE subjects
+       SET ${updates.join(', ')}
+       WHERE id = $${params.length - 1}
+         AND organization_id = $${params.length}::uuid`,
+      params,
+    );
+
+    const result = await db.query(
+      `SELECT
+         s.id,
+         s.cover_image,
+         s.title,
+         s.description,
+         s.author,
+         s.class_level,
+         s.author_user_id,
+         s.is_external_author,
+         s.created_at,
+         s.updated_at,
+         au.first_name AS author_first_name,
+         au.last_name AS author_last_name,
+         au.mobile_number AS author_mobile_number,
+         au.profile_image AS author_profile_image
+       FROM subjects s
+       LEFT JOIN users au ON au.id = s.author_user_id
+       WHERE s.id = $1
+       LIMIT 1`,
+      [subjectId],
+    );
+    return res.json(mapSubjectRow(result.rows[0] as SubjectRow));
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to update subject' });
+  }
+});
+
+usersRouter.delete('/subjects/:id', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const subjectId = getSingleParam(req.params.id);
+  if (!subjectId) {
+    return res.status(400).json({ message: 'Invalid subject id' });
+  }
+
+  const organizationId = getRequestOrganizationId(req);
+  if (!organizationId) {
+    return res.status(400).json({ message: 'Organization not found in auth context' });
+  }
+  if (!(await hasAdminAccess(req))) {
+    return res.status(403).json({ message: 'Forbidden: admin role required' });
+  }
+
+  const client = await db.connect();
+  try {
+    await client.query('BEGIN');
+    const subjectResult = await client.query(
+      `SELECT class_level, title
+       FROM subjects
+       WHERE id = $1
+         AND organization_id = $2::uuid
+       LIMIT 1`,
+      [subjectId, organizationId],
+    );
+    if ((subjectResult.rowCount ?? 0) === 0) {
+      await client.query('ROLLBACK');
+      return res.status(404).json({ message: 'Subject not found' });
+    }
+
+    const classLevel = subjectResult.rows[0]?.class_level as string;
+    const title = subjectResult.rows[0]?.title as string;
+
+    await client.query(
+      `DELETE FROM subjects
+       WHERE id = $1
+         AND organization_id = $2::uuid`,
+      [subjectId, organizationId],
+    );
+    await client.query(
+      `DELETE FROM teacher_standard_subjects
+       WHERE organization_id = $1::uuid
+         AND class_level = $2
+         AND subject = $3`,
+      [organizationId, classLevel, title],
+    );
+    await client.query('COMMIT');
+    return res.status(204).send();
+  } catch (error) {
+    await client.query('ROLLBACK');
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to delete subject' });
   } finally {
     client.release();
   }

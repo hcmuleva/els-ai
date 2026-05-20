@@ -20,6 +20,19 @@ app.get('/health', (_req, res) => {
 app.use('/quizzes', quizzesRouter);
 
 async function bootstrap() {
+  await db.query(`
+    CREATE TABLE IF NOT EXISTS learning_content_sections (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      content_id UUID REFERENCES learning_contents(id) ON DELETE CASCADE,
+      section_order INTEGER NOT NULL,
+      content_type VARCHAR(50) NOT NULL,
+      media_url TEXT,
+      external_url TEXT,
+      text_content TEXT,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
   app.listen(PORT, () => {
     console.log(`Quiz Service listening on http://localhost:${PORT}`);
   });

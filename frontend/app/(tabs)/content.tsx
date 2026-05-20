@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import {
   ActivityIndicator,
   Image,
@@ -95,6 +95,85 @@ type MediaRemovalRequest =
 
 type OptionRemovalRequest = { mode: 'create' | 'edit'; index: number };
 type SelectorField = 'classLevel' | 'subject' | 'filterClassLevel' | 'filterSubject';
+type LearningTab = 'topic' | 'content' | 'question' | 'exam' | 'quiz';
+type ContentModeTab = 'create' | 'assign';
+type ContentSelectorField =
+  | 'contentFilterClassLevel'
+  | 'contentFilterSubject'
+  | 'topicClassLevel'
+  | 'topicSubject'
+  | 'assignTargetClassLevel'
+  | 'assignTargetSubject';
+
+type SubjectCatalogItem = {
+  id: string;
+  title: string;
+  classLevel: string;
+  coverImage?: string;
+};
+
+type ContentTopic = {
+  id: string;
+  classLevel: string;
+  subject: string;
+  title: string;
+  coverImage?: string;
+  sectionCount: number;
+};
+
+type TopicContentSection = {
+  id: string;
+  sectionOrder: number;
+  contentType: 'reel' | 'image' | 'text' | 'audio' | 'youtube_url' | 'reel_url';
+  mediaUrl?: string;
+  externalUrl?: string;
+  textContent?: string;
+};
+
+type LearningContentItem = {
+  id: string;
+  classLevel: string;
+  subject: string;
+  title: string;
+  contentType: string;
+  sectionCount?: number;
+  mediaUrl?: string;
+  externalUrl?: string;
+  textContent?: string;
+  sections?: TopicContentSection[];
+  assignedTopics?: Array<{ topicId: string; title: string; classLevel: string; subject: string }>;
+};
+
+type TopicDraft = {
+  title: string;
+  classLevel: string;
+  subject: string;
+  coverImage: string;
+};
+
+type TopicSectionDraft = {
+  id: string;
+  contentType: 'reel' | 'image' | 'text' | 'audio' | 'youtube_url' | 'reel_url';
+  mediaUrl: string;
+  mediaLabel: string;
+  externalUrl: string;
+  textContent: string;
+};
+
+const CONTENT_TYPE_CHOICES: Array<{ value: TopicSectionDraft['contentType']; label: string }> = [
+  { value: 'reel', label: 'Reel (Video Upload)' },
+  { value: 'image', label: 'Image Upload' },
+  { value: 'text', label: 'Text' },
+  { value: 'audio', label: 'Audio Upload' },
+  { value: 'youtube_url', label: 'Youtube URL' },
+  { value: 'reel_url', label: 'Reel URL' },
+];
+const CREATE_CONTENT_TYPE_CHOICES: Array<{ value: 'media' | 'text' | 'youtube_url' | 'reel_url'; label: string }> = [
+  { value: 'media', label: 'Media Upload' },
+  { value: 'text', label: 'Text' },
+  { value: 'youtube_url', label: 'Youtube URL' },
+  { value: 'reel_url', label: 'Reel URL' },
+];
 
 const QUESTION_TYPE_CHOICES: Array<{ value: SupportedQuestionType; label: string; description: string }> = [
   {
@@ -286,6 +365,30 @@ const makeInitialDraft = (questionType: string = 'guess_image'): QuestionDraft =
   matchPairs: [makeEmptyMatchPair()],
   rawQuestionData: {},
 });
+
+const makeInitialTopicDraft = (): TopicDraft => ({
+  title: '',
+  classLevel: '',
+  subject: '',
+  coverImage: '',
+});
+
+const buildClientId = () => `section-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+const makeEmptyTopicSection = (): TopicSectionDraft => ({
+  id: buildClientId(),
+  contentType: 'text',
+  mediaUrl: '',
+  mediaLabel: '',
+  externalUrl: '',
+  textContent: '',
+});
+
+const isMediaContentType = (contentType: TopicSectionDraft['contentType']) =>
+  contentType === 'image' || contentType === 'audio' || contentType === 'reel';
+
+const getCreateSectionChoiceValue = (contentType: TopicSectionDraft['contentType']) =>
+  isMediaContentType(contentType) ? 'media' : contentType;
 
 function questionDataToOptions(questionData: unknown): OptionDraft[] {
   if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
@@ -681,6 +784,7 @@ async function pickMediaAsDataUrl(): Promise<PickedFile> {
 
 export default function QuestionManagementScreen() {
   const { user, apiFetch } = useAuth();
+  const router = useRouter();
   const actionBadgeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
@@ -696,6 +800,41 @@ export default function QuestionManagementScreen() {
   const [editDraft, setEditDraft] = useState<QuestionDraft>(makeInitialDraft());
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [selectorField, setSelectorField] = useState<SelectorField | null>(null);
+  const [activeLearningTab, setActiveLearningTab] = useState<LearningTab>('topic');
+  const [contentModeTab, setContentModeTab] = useState<ContentModeTab>('create');
+  const [contentSelectorField, setContentSelectorField] = useState<ContentSelectorField | null>(null);
+  const [contentFilters, setContentFilters] = useState({ classLevel: '', subject: '' });
+  const [subjectCatalog, setSubjectCatalog] = useState<SubjectCatalogItem[]>([]);
+  const [topics, setTopics] = useState<ContentTopic[]>([]);
+  const [loadingTopics, setLoadingTopics] = useState(false);
+  const [topicDraft, setTopicDraft] = useState<TopicDraft>(makeInitialTopicDraft());
+  const [topicDialogMode, setTopicDialogMode] = useState<'create' | 'edit' | null>(null);
+  const [editingTopicId, setEditingTopicId] = useState<string | null>(null);
+  const [savingTopic, setSavingTopic] = useState(false);
+  const [deletingTopicId, setDeletingTopicId] = useState<string | null>(null);
+  const [selectedTopic, setSelectedTopic] = useState<ContentTopic | null>(null);
+  const [topicSections, setTopicSections] = useState<TopicContentSection[]>([]);
+  const [loadingTopicDetails, setLoadingTopicDetails] = useState(false);
+  const [isSectionDialogOpen, setIsSectionDialogOpen] = useState(false);
+  const [sectionDrafts, setSectionDrafts] = useState<TopicSectionDraft[]>([makeEmptyTopicSection()]);
+  const [savingSections, setSavingSections] = useState(false);
+  const [uploadingTopicCover, setUploadingTopicCover] = useState(false);
+  const [uploadingSectionMediaId, setUploadingSectionMediaId] = useState<string | null>(null);
+  const [contentCreateSections, setContentCreateSections] = useState<TopicSectionDraft[]>([makeEmptyTopicSection()]);
+  const [contentCreateMeta, setContentCreateMeta] = useState({ classLevel: '', subject: '', topicId: '', title: '' });
+  const [isCreateContentDialogOpen, setIsCreateContentDialogOpen] = useState(false);
+  const [editingContentId, setEditingContentId] = useState<string | null>(null);
+  const [previewContentItem, setPreviewContentItem] = useState<LearningContentItem | null>(null);
+  const [savingContentCreate, setSavingContentCreate] = useState(false);
+  const [deletingContentId, setDeletingContentId] = useState<string | null>(null);
+  const [loadingContentItems, setLoadingContentItems] = useState(false);
+  const [contentItems, setContentItems] = useState<LearningContentItem[]>([]);
+  const [contentItemFilters, setContentItemFilters] = useState({ classLevel: '', subject: '', topicId: '' });
+  const [selectedAssignContentIds, setSelectedAssignContentIds] = useState<string[]>([]);
+  const [assignTargetTopicId, setAssignTargetTopicId] = useState('');
+  const [createTopicSearch, setCreateTopicSearch] = useState('');
+  const [assignTopicFilters, setAssignTopicFilters] = useState({ classLevel: '', subject: '', search: '' });
+  const [savingAssignments, setSavingAssignments] = useState(false);
   const [previewQuestion, setPreviewQuestion] = useState<QuestionItem | null>(null);
   const [filters, setFilters] = useState({
     search: '',
@@ -718,6 +857,44 @@ export default function QuestionManagementScreen() {
         a.localeCompare(b),
       ),
     [questions],
+  );
+  const contentClassOptions = useMemo(
+    () =>
+      [...new Set(subjectCatalog.map((item) => item.classLevel.trim()).filter(Boolean))].sort((a, b) =>
+        a.localeCompare(b),
+      ),
+    [subjectCatalog],
+  );
+  const contentSubjectOptions = useMemo(() => {
+    const filtered = subjectCatalog.filter(
+      (item) => !contentFilters.classLevel || item.classLevel.trim() === contentFilters.classLevel.trim(),
+    );
+    return [...new Set(filtered.map((item) => item.title.trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+  }, [contentFilters.classLevel, subjectCatalog]);
+  const createContentTopicOptions = useMemo(
+    () =>
+      topics
+        .filter(
+          (topic) =>
+            (!contentCreateMeta.classLevel || topic.classLevel === contentCreateMeta.classLevel) &&
+            (!contentCreateMeta.subject || topic.subject === contentCreateMeta.subject) &&
+            (!createTopicSearch.trim() || topic.title.toLowerCase().includes(createTopicSearch.trim().toLowerCase())),
+        )
+        .sort((a, b) => a.title.localeCompare(b.title)),
+    [contentCreateMeta.classLevel, contentCreateMeta.subject, createTopicSearch, topics],
+  );
+  const assignTargetTopicOptions = useMemo(
+    () =>
+      topics
+        .filter(
+          (topic) =>
+            (!assignTopicFilters.classLevel || topic.classLevel === assignTopicFilters.classLevel) &&
+            (!assignTopicFilters.subject || topic.subject === assignTopicFilters.subject) &&
+            (!assignTopicFilters.search.trim() ||
+              topic.title.toLowerCase().includes(assignTopicFilters.search.trim().toLowerCase())),
+        )
+        .sort((a, b) => a.title.localeCompare(b.title)),
+    [assignTopicFilters.classLevel, assignTopicFilters.search, assignTopicFilters.subject, topics],
   );
 
   const showActionBadge = useCallback((text: string) => {
@@ -755,6 +932,381 @@ export default function QuestionManagementScreen() {
     setQuestions(payload.questions || []);
   }, [apiFetch, filters.category, filters.classLevel, filters.search, filters.subject]);
 
+  const loadSubjectCatalog = useCallback(async () => {
+    const res = await apiFetch('/quizzes/content/subjects');
+    if (!res.ok) {
+      const errorPayload = await res.json().catch(() => ({}));
+      throw new Error(errorPayload.message || 'Failed to load subject catalog');
+    }
+    const payload = await res.json();
+    setSubjectCatalog((payload.subjects || []) as SubjectCatalogItem[]);
+  }, [apiFetch]);
+
+  const loadTopics = useCallback(async () => {
+    const query = new URLSearchParams();
+    query.set('limit', '200');
+    if (contentFilters.classLevel.trim()) query.set('class_level', contentFilters.classLevel.trim());
+    if (contentFilters.subject.trim()) query.set('subject', contentFilters.subject.trim());
+
+    const res = await apiFetch(`/quizzes/content/topics?${query.toString()}`);
+    if (!res.ok) {
+      const errorPayload = await res.json().catch(() => ({}));
+      throw new Error(errorPayload.message || 'Failed to load topics');
+    }
+    const payload = await res.json();
+    setTopics((payload.topics || []) as ContentTopic[]);
+  }, [apiFetch, contentFilters.classLevel, contentFilters.subject]);
+
+  const loadTopicDetails = useCallback(
+    async (topicId: string) => {
+      setLoadingTopicDetails(true);
+      try {
+        const res = await apiFetch(`/quizzes/content/topics/${topicId}/details`);
+        if (!res.ok) {
+          const errorPayload = await res.json().catch(() => ({}));
+          throw new Error(errorPayload.message || 'Failed to load topic details');
+        }
+        const payload = await res.json();
+        setSelectedTopic(payload.topic as ContentTopic);
+        setTopicSections((payload.sections || []) as TopicContentSection[]);
+      } catch (error) {
+        setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load topic details' });
+      } finally {
+        setLoadingTopicDetails(false);
+      }
+    },
+    [apiFetch],
+  );
+
+  const uploadTopicCover = async () => {
+    try {
+      setUploadingTopicCover(true);
+      const picked = await pickImageAsDataUrl();
+      const uploaded = await uploadPickedFileToS3(picked, 'image');
+      setTopicDraft((current) => ({ ...current, coverImage: uploaded.url }));
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload topic cover' });
+    } finally {
+      setUploadingTopicCover(false);
+    }
+  };
+
+  const uploadSectionMedia = async (sectionId: string, contentType: TopicSectionDraft['contentType']) => {
+    try {
+      setUploadingSectionMediaId(sectionId);
+      let picked: PickedFile;
+      let mediaType: 'image' | 'audio' | 'video' = 'image';
+      if (contentType === 'audio') {
+        picked = await pickAudioAsDataUrl();
+        mediaType = 'audio';
+      } else if (contentType === 'reel') {
+        picked = await pickFileAsDataUrl(
+          'video/*',
+          'Video upload is currently available on web. On mobile, provide Reel URL.',
+        );
+        mediaType = 'video';
+      } else {
+        picked = await pickImageAsDataUrl();
+        mediaType = 'image';
+      }
+      const uploaded = await uploadPickedFileToS3(picked, mediaType);
+      setSectionDrafts((current) =>
+        current.map((section) =>
+          section.id === sectionId
+            ? { ...section, mediaUrl: uploaded.url, mediaLabel: uploaded.fileName, externalUrl: '', textContent: '' }
+            : section,
+        ),
+      );
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload section media' });
+    } finally {
+      setUploadingSectionMediaId(null);
+    }
+  };
+
+  const updateCreateSection = (sectionId: string, patch: Partial<TopicSectionDraft>) => {
+    setContentCreateSections((current) =>
+      current.map((section) => {
+        if (section.id !== sectionId) return section;
+        const next = { ...section, ...patch };
+        if (patch.contentType) {
+          if (patch.contentType === 'text') {
+            next.mediaUrl = '';
+            next.mediaLabel = '';
+            next.externalUrl = '';
+          } else if (patch.contentType === 'youtube_url' || patch.contentType === 'reel_url') {
+            next.mediaUrl = '';
+            next.mediaLabel = '';
+            next.textContent = '';
+          } else {
+            next.externalUrl = '';
+            next.textContent = '';
+          }
+        }
+        return next;
+      }),
+    );
+  };
+
+  const addCreateSection = () => {
+    setContentCreateSections((current) => [...current, makeEmptyTopicSection()]);
+  };
+
+  const removeCreateSection = (sectionId: string) => {
+    setContentCreateSections((current) => (current.length <= 1 ? current : current.filter((item) => item.id !== sectionId)));
+  };
+
+  const uploadCreateContentMedia = async (sectionId: string) => {
+    try {
+      setUploadingSectionMediaId(sectionId);
+      const picked = await pickFileAsDataUrl(
+        'image/*,audio/*,video/*',
+        'Media upload is currently available on web. On mobile, provide URL-based content.',
+      );
+      const lowerMime = picked.mimeType.toLowerCase();
+      const lowerName = picked.fileName.toLowerCase();
+      const mediaType: 'image' | 'audio' | 'video' = lowerMime.startsWith('video/')
+        || /\.(mp4|mov|m4v|webm|mkv)$/.test(lowerName)
+        ? 'video'
+        : lowerMime.startsWith('audio/') || /\.(mp3|wav|ogg|aac|m4a|flac)$/.test(lowerName)
+          ? 'audio'
+          : 'image';
+      const uploaded = await uploadPickedFileToS3(picked, mediaType);
+      updateCreateSection(sectionId, {
+        contentType: mediaType === 'video' ? 'reel' : mediaType === 'audio' ? 'audio' : 'image',
+        mediaUrl: uploaded.url,
+        mediaLabel: uploaded.fileName,
+        externalUrl: '',
+        textContent: '',
+      });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload content media' });
+    } finally {
+      setUploadingSectionMediaId(null);
+    }
+  };
+
+  const saveTopic = async () => {
+    if (!topicDraft.title.trim() || !topicDraft.classLevel.trim() || !topicDraft.subject.trim()) {
+      setMessage({ type: 'error', text: 'Topic title, standard and subject are required.' });
+      return;
+    }
+    setSavingTopic(true);
+    try {
+      const payload = {
+        title: topicDraft.title.trim(),
+        classLevel: topicDraft.classLevel.trim(),
+        subject: topicDraft.subject.trim(),
+        coverImage: toPersistentMediaUrl(topicDraft.coverImage.trim()) || undefined,
+      };
+      const endpoint = topicDialogMode === 'edit' && editingTopicId ? `/quizzes/content/topics/${editingTopicId}` : '/quizzes/content/topics';
+      const method = topicDialogMode === 'edit' ? 'PATCH' : 'POST';
+      const res = await apiFetch(endpoint, { method, body: JSON.stringify(payload) });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to save topic');
+      }
+      setTopicDialogMode(null);
+      setEditingTopicId(null);
+      setTopicDraft(makeInitialTopicDraft());
+      await loadTopics();
+      setMessage({ type: 'success', text: topicDialogMode === 'edit' ? 'Topic updated successfully.' : 'Topic created successfully.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to save topic' });
+    } finally {
+      setSavingTopic(false);
+    }
+  };
+
+  const saveTopicSections = async () => {
+    if (!selectedTopic) return;
+    const normalizedSections = sectionDrafts.map((section) => ({
+      contentType: section.contentType,
+      mediaUrl: section.mediaUrl.trim() ? toPersistentMediaUrl(section.mediaUrl.trim()) : undefined,
+      externalUrl: section.externalUrl.trim() || undefined,
+      textContent: section.textContent.trim() || undefined,
+    }));
+    const missing = normalizedSections.some((section) => {
+      if (section.contentType === 'text') return !section.textContent;
+      if (section.contentType === 'youtube_url' || section.contentType === 'reel_url') return !section.externalUrl;
+      return !section.mediaUrl;
+    });
+    if (missing) {
+      setMessage({ type: 'error', text: 'Each section needs required content based on type.' });
+      return;
+    }
+
+    setSavingSections(true);
+    try {
+      const res = await apiFetch(`/quizzes/content/topics/${selectedTopic.id}/sections`, {
+        method: 'PUT',
+        body: JSON.stringify({ sections: normalizedSections }),
+      });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to save content sections');
+      }
+      const payload = await res.json();
+      setTopicSections((payload.sections || []) as TopicContentSection[]);
+      setIsSectionDialogOpen(false);
+      setSectionDrafts([makeEmptyTopicSection()]);
+      await loadTopics();
+      setMessage({ type: 'success', text: 'Topic content saved successfully.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to save content sections' });
+    } finally {
+      setSavingSections(false);
+    }
+  };
+
+  const loadContentItems = useCallback(async () => {
+    const query = new URLSearchParams();
+    query.set('limit', '300');
+    if (contentItemFilters.classLevel.trim()) query.set('class_level', contentItemFilters.classLevel.trim());
+    if (contentItemFilters.subject.trim()) query.set('subject', contentItemFilters.subject.trim());
+    if (contentItemFilters.topicId.trim()) query.set('topic_id', contentItemFilters.topicId.trim());
+    const res = await apiFetch(`/quizzes/content/items?${query.toString()}`);
+    if (!res.ok) {
+      const errorPayload = await res.json().catch(() => ({}));
+      throw new Error(errorPayload.message || 'Failed to load content items');
+    }
+    const payload = await res.json();
+    setContentItems((payload.items || []) as LearningContentItem[]);
+  }, [apiFetch, contentItemFilters.classLevel, contentItemFilters.subject, contentItemFilters.topicId]);
+
+  const createSingleContentItem = async () => {
+    if (!contentCreateMeta.classLevel.trim() || !contentCreateMeta.subject.trim()) {
+      setMessage({ type: 'error', text: 'Standard, subject and topic are required.' });
+      return;
+    }
+    if (!editingContentId && !contentCreateMeta.topicId.trim()) {
+      setMessage({ type: 'error', text: 'Standard, subject and topic are required.' });
+      return;
+    }
+    if (!contentCreateMeta.title.trim()) {
+      setMessage({ type: 'error', text: 'Content title is required.' });
+      return;
+    }
+    const normalizedSections = contentCreateSections.map((section) => ({
+      contentType: section.contentType,
+      mediaUrl: section.mediaUrl.trim() ? toPersistentMediaUrl(section.mediaUrl.trim()) : undefined,
+      externalUrl: section.externalUrl.trim() || undefined,
+      textContent: section.textContent.trim() || undefined,
+    }));
+    const invalidIndex = normalizedSections.findIndex((section) => {
+      if (section.contentType === 'text') return !section.textContent;
+      if (section.contentType === 'youtube_url' || section.contentType === 'reel_url') return !section.externalUrl;
+      return !section.mediaUrl;
+    });
+    if (invalidIndex > -1) {
+      setMessage({ type: 'error', text: `Section ${invalidIndex + 1} is incomplete. Fill required fields.` });
+      return;
+    }
+
+    setSavingContentCreate(true);
+    try {
+      if (editingContentId) {
+        const res = await apiFetch(`/quizzes/content/items/${editingContentId}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            classLevel: contentCreateMeta.classLevel.trim(),
+            subject: contentCreateMeta.subject.trim(),
+            title: contentCreateMeta.title.trim(),
+            sections: normalizedSections,
+          }),
+        });
+        if (!res.ok) {
+          const errorPayload = await res.json().catch(() => ({}));
+          throw new Error(errorPayload.message || 'Failed to update content');
+        }
+        setIsCreateContentDialogOpen(false);
+        setEditingContentId(null);
+        setContentCreateSections([makeEmptyTopicSection()]);
+        await loadContentItems();
+        setMessage({ type: 'success', text: 'Content updated successfully.' });
+        return;
+      }
+
+      const res = await apiFetch('/quizzes/content/items', {
+        method: 'POST',
+        body: JSON.stringify({
+          classLevel: contentCreateMeta.classLevel.trim(),
+          subject: contentCreateMeta.subject.trim(),
+          topicId: contentCreateMeta.topicId.trim(),
+          title: contentCreateMeta.title.trim(),
+          sections: normalizedSections,
+        }),
+      });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to create content');
+      }
+      setIsCreateContentDialogOpen(false);
+      setContentCreateSections([makeEmptyTopicSection()]);
+      setContentCreateMeta((current) => ({ ...current, title: '' }));
+      await Promise.all([loadTopicDetails(contentCreateMeta.topicId), loadTopics(), loadContentItems()]);
+      setMessage({ type: 'success', text: 'Content created successfully.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to create content' });
+    } finally {
+      setSavingContentCreate(false);
+    }
+  };
+
+  const toggleAssignContent = (contentId: string) => {
+    setSelectedAssignContentIds((current) =>
+      current.includes(contentId) ? current.filter((id) => id !== contentId) : [...current, contentId],
+    );
+  };
+
+  const assignContentsToTopic = async () => {
+    if (!assignTargetTopicId.trim()) {
+      setMessage({ type: 'error', text: 'Select target topic for assignment.' });
+      return;
+    }
+    setSavingAssignments(true);
+    try {
+      const existingRes = await apiFetch(`/quizzes/content/topics/${assignTargetTopicId}/assignments`);
+      const existingPayload = existingRes.ok ? await existingRes.json() : { contentIds: [] };
+      const mergedIds = [...new Set([...(existingPayload.contentIds || []), ...selectedAssignContentIds])];
+      const res = await apiFetch(`/quizzes/content/topics/${assignTargetTopicId}/assignments`, {
+        method: 'PUT',
+        body: JSON.stringify({ contentIds: mergedIds }),
+      });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to assign content');
+      }
+      setSelectedAssignContentIds([]);
+      await Promise.all([loadTopics(), loadContentItems()]);
+      if (selectedTopic?.id === assignTargetTopicId) {
+        await loadTopicDetails(assignTargetTopicId);
+      }
+      setMessage({ type: 'success', text: 'Selected content assigned successfully.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to assign content' });
+    } finally {
+      setSavingAssignments(false);
+    }
+  };
+
+  const deleteContentItem = async (contentId: string) => {
+    setDeletingContentId(contentId);
+    try {
+      const res = await apiFetch(`/quizzes/content/items/${contentId}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to delete content');
+      }
+      await Promise.all([loadContentItems(), loadTopics()]);
+      setMessage({ type: 'success', text: 'Content deleted successfully.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to delete content' });
+    } finally {
+      setDeletingContentId(null);
+    }
+  };
+
   const loadData = useCallback(async () => {
     if (!isTeacherView) return;
     setLoading(true);
@@ -773,6 +1325,49 @@ export default function QuestionManagementScreen() {
       loadData();
     }, [loadData]),
   );
+
+  useEffect(() => {
+    if (!isTeacherView || activeLearningTab !== 'topic') return;
+    let cancelled = false;
+    const run = async () => {
+      setLoadingTopics(true);
+      try {
+        await loadSubjectCatalog();
+        await loadTopics();
+      } catch (error) {
+        if (!cancelled) {
+          setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load content topics' });
+        }
+      } finally {
+        if (!cancelled) {
+          setLoadingTopics(false);
+        }
+      }
+    };
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [activeLearningTab, isTeacherView, loadSubjectCatalog, loadTopics]);
+
+  useEffect(() => {
+    if (!isTeacherView || activeLearningTab !== 'content') return;
+    let mounted = true;
+    const run = async () => {
+      try {
+        setLoadingContentItems(true);
+        await Promise.all([loadSubjectCatalog(), loadTopics(), loadContentItems()]);
+      } catch (error) {
+        if (mounted) setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load content data' });
+      } finally {
+        if (mounted) setLoadingContentItems(false);
+      }
+    };
+    run();
+    return () => {
+      mounted = false;
+    };
+  }, [activeLearningTab, isTeacherView, loadContentItems, loadSubjectCatalog, loadTopics]);
 
   const updateDraftField = (mode: 'create' | 'edit', key: keyof QuestionDraft, value: any) => {
     if (mode === 'create') {
@@ -797,7 +1392,7 @@ export default function QuestionManagementScreen() {
     }));
   };
 
-  const uploadPickedFileToS3 = async (picked: PickedFile, mediaType: 'image' | 'audio') => {
+  const uploadPickedFileToS3 = async (picked: PickedFile, mediaType: 'image' | 'audio' | 'video') => {
     const res = await apiFetch('/assets/upload', {
       method: 'POST',
       body: JSON.stringify({
@@ -1188,10 +1783,221 @@ export default function QuestionManagementScreen() {
     setSelectorField(null);
   };
 
+  const applyContentSelectorValue = (value: string) => {
+    if (contentSelectorField === 'contentFilterClassLevel') {
+      if (activeLearningTab === 'content') {
+        if (contentModeTab === 'create') {
+          setContentCreateMeta((current) => ({ ...current, classLevel: value, subject: '', topicId: '' }));
+          setCreateTopicSearch('');
+        } else {
+          setContentItemFilters((current) => ({ ...current, classLevel: value, subject: '', topicId: '' }));
+        }
+      } else {
+        setContentFilters((current) => ({ ...current, classLevel: value, subject: '' }));
+      }
+    } else if (contentSelectorField === 'contentFilterSubject') {
+      if (activeLearningTab === 'content') {
+        if (contentModeTab === 'create') {
+          setContentCreateMeta((current) => ({ ...current, subject: value, topicId: '' }));
+        } else {
+          setContentItemFilters((current) => ({ ...current, subject: value }));
+        }
+      } else {
+        setContentFilters((current) => ({ ...current, subject: value }));
+      }
+    } else if (contentSelectorField === 'assignTargetClassLevel') {
+      setAssignTopicFilters((current) => ({ ...current, classLevel: value, subject: '' }));
+    } else if (contentSelectorField === 'assignTargetSubject') {
+      setAssignTopicFilters((current) => ({ ...current, subject: value }));
+    } else if (contentSelectorField === 'topicClassLevel') {
+      setTopicDraft((current) => ({ ...current, classLevel: value, subject: '' }));
+    } else if (contentSelectorField === 'topicSubject') {
+      setTopicDraft((current) => ({ ...current, subject: value }));
+    }
+    setContentSelectorField(null);
+  };
+
+  const openCreateTopicDialog = () => {
+    setTopicDialogMode('create');
+    setEditingTopicId(null);
+    setTopicDraft(makeInitialTopicDraft());
+  };
+
+  const openEditTopicDialog = (topic: ContentTopic) => {
+    setTopicDialogMode('edit');
+    setEditingTopicId(topic.id);
+    setTopicDraft({
+      title: topic.title,
+      classLevel: topic.classLevel,
+      subject: topic.subject,
+      coverImage: topic.coverImage || '',
+    });
+  };
+
+  const deleteTopic = async (topicId: string) => {
+    setDeletingTopicId(topicId);
+    try {
+      const res = await apiFetch(`/quizzes/content/topics/${topicId}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to delete topic');
+      }
+      if (selectedTopic?.id === topicId) {
+        setSelectedTopic(null);
+        setTopicSections([]);
+      }
+      await loadTopics();
+      setMessage({ type: 'success', text: 'Topic deleted successfully.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to delete topic' });
+    } finally {
+      setDeletingTopicId(null);
+    }
+  };
+
+  const addSectionDraft = () => {
+    setSectionDrafts((current) => [...current, makeEmptyTopicSection()]);
+  };
+
+  const removeSectionDraft = (sectionId: string) => {
+    setSectionDrafts((current) => (current.length <= 1 ? current : current.filter((section) => section.id !== sectionId)));
+  };
+
+  const updateSectionDraft = (sectionId: string, patch: Partial<TopicSectionDraft>) => {
+    setSectionDrafts((current) =>
+      current.map((section) => {
+        if (section.id !== sectionId) return section;
+        const next = { ...section, ...patch };
+        if (patch.contentType) {
+          if (patch.contentType === 'text') {
+            next.mediaUrl = '';
+            next.mediaLabel = '';
+            next.externalUrl = '';
+          } else if (patch.contentType === 'youtube_url' || patch.contentType === 'reel_url') {
+            next.mediaUrl = '';
+            next.mediaLabel = '';
+            next.textContent = '';
+          } else {
+            next.externalUrl = '';
+            next.textContent = '';
+          }
+        }
+        return next;
+      }),
+    );
+  };
+
+  const openCreateContentDialog = () => {
+    if (!selectedTopic) return;
+    setActiveLearningTab('content');
+    setContentModeTab('create');
+    setCreateTopicSearch(selectedTopic.title);
+    setContentCreateSections([makeEmptyTopicSection()]);
+    setEditingContentId(null);
+    setContentCreateMeta({
+      classLevel: selectedTopic.classLevel,
+      subject: selectedTopic.subject,
+      topicId: selectedTopic.id,
+      title: '',
+    });
+    setIsCreateContentDialogOpen(true);
+  };
+
+  const openCreateContentModal = () => {
+    setEditingContentId(null);
+    setContentCreateSections([makeEmptyTopicSection()]);
+    setContentCreateMeta((current) => ({ ...current, title: '', topicId: current.topicId || '' }));
+    setIsCreateContentDialogOpen(true);
+  };
+
+  const openEditContentModal = async (item: LearningContentItem) => {
+    try {
+      const res = await apiFetch(`/quizzes/content/items/${item.id}`);
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to load content details');
+      }
+      const payload = (await res.json()) as LearningContentItem;
+      setEditingContentId(item.id);
+      setContentCreateMeta({
+        classLevel: payload.classLevel,
+        subject: payload.subject,
+        topicId: '',
+        title: payload.title,
+      });
+      const sections = (payload.sections || []).length
+        ? (payload.sections || []).map((section) => ({
+            id: buildClientId(),
+            contentType: section.contentType,
+            mediaUrl: section.mediaUrl || '',
+            mediaLabel: section.mediaUrl ? extractFileName(section.mediaUrl) : '',
+            externalUrl: section.externalUrl || '',
+            textContent: section.textContent || '',
+          }))
+        : [
+            {
+              id: buildClientId(),
+              contentType: (payload.contentType as TopicSectionDraft['contentType']) || 'text',
+              mediaUrl: payload.mediaUrl || '',
+              mediaLabel: payload.mediaUrl ? extractFileName(payload.mediaUrl) : '',
+              externalUrl: payload.externalUrl || '',
+              textContent: payload.textContent || '',
+            },
+          ];
+      setContentCreateSections(sections);
+      setIsCreateContentDialogOpen(true);
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to open content editor' });
+    }
+  };
+
+  const openPreviewContentModal = async (item: LearningContentItem) => {
+    try {
+      const res = await apiFetch(`/quizzes/content/items/${item.id}`);
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to load content preview');
+      }
+      const payload = (await res.json()) as LearningContentItem;
+      setPreviewContentItem(payload);
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to preview content' });
+    }
+  };
+
   const selectorOptions =
     selectorField === 'classLevel' || selectorField === 'filterClassLevel' ? classOptions : subjectOptions;
   const selectorTitle =
     selectorField === 'classLevel' || selectorField === 'filterClassLevel' ? 'Select Standard' : 'Select Subject';
+  const contentSelectorOptions =
+    contentSelectorField === 'contentFilterClassLevel' ||
+    contentSelectorField === 'topicClassLevel' ||
+    contentSelectorField === 'assignTargetClassLevel'
+      ? contentClassOptions
+      : subjectCatalog
+          .filter((item) => {
+            const classLevelFilter =
+              contentSelectorField === 'topicSubject'
+                ? topicDraft.classLevel
+                : contentSelectorField === 'assignTargetSubject'
+                  ? assignTopicFilters.classLevel
+                : activeLearningTab === 'content'
+                  ? contentModeTab === 'create'
+                    ? contentCreateMeta.classLevel
+                    : contentItemFilters.classLevel
+                  : contentFilters.classLevel;
+            return !classLevelFilter || item.classLevel === classLevelFilter;
+          })
+          .map((item) => item.title)
+          .filter((value, index, arr) => value && arr.indexOf(value) === index)
+          .sort((a, b) => a.localeCompare(b));
+  const contentSelectorTitle =
+    contentSelectorField === 'contentFilterClassLevel' ||
+    contentSelectorField === 'topicClassLevel' ||
+    contentSelectorField === 'assignTargetClassLevel'
+      ? 'Select Standard'
+      : 'Select Subject';
+  const isTopicSelectorActive = contentSelectorField === 'topicClassLevel' || contentSelectorField === 'topicSubject';
 
   if (!isTeacherView) {
     return (
@@ -1598,8 +2404,22 @@ export default function QuestionManagementScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.title}>Question Management</Text>
-      <Text style={styles.subtitle}>Create and edit questions with type-based forms and media preview.</Text>
+      <Text style={styles.title}>Learning Studio</Text>
+      <Text style={styles.subtitle}>Manage topic and content workflows with cleaner create/assign flows.</Text>
+
+      <View style={styles.tabRow}>
+        {(['topic', 'content', 'question', 'exam', 'quiz'] as LearningTab[]).map((tab) => (
+          <Pressable
+            key={tab}
+            style={[styles.tabButton, activeLearningTab === tab && styles.tabButtonActive]}
+            onPress={() => setActiveLearningTab(tab)}
+          >
+            <Text style={[styles.tabButtonText, activeLearningTab === tab && styles.tabButtonTextActive]}>
+              {tab === 'topic' ? 'Topic' : tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
 
       {message && (
         <View style={[styles.messageCard, message.type === 'success' ? styles.successCard : styles.errorCard]}>
@@ -1609,101 +2429,874 @@ export default function QuestionManagementScreen() {
         </View>
       )}
 
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Filters</Text>
-        <TextInput
-          value={filters.search}
-          onChangeText={(value) => setFilters((current) => ({ ...current, search: value }))}
-          placeholder="Search question/quiz title"
-          style={styles.input}
-        />
-        <View style={styles.row}>
-          <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setSelectorField('filterClassLevel')}>
-            <Text style={filters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
-              {filters.classLevel || 'Standard'}
-            </Text>
-          </Pressable>
-          <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setSelectorField('filterSubject')}>
-            <Text style={filters.subject ? styles.selectorText : styles.selectorPlaceholder}>
-              {filters.subject || 'Subject'}
-            </Text>
-          </Pressable>
-        </View>
-        <TextInput
-          value={filters.category}
-          onChangeText={(value) => setFilters((current) => ({ ...current, category: value }))}
-          placeholder="Question type"
-          style={styles.input}
-        />
-        <View style={styles.row}>
-          <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={loadData} disabled={loading}>
-            {loading ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Apply Filters</Text>}
-          </Pressable>
-          <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={openCreateDialog}>
-            <Text style={styles.primaryButtonText}>Create Question</Text>
-          </Pressable>
-        </View>
-      </View>
+      {activeLearningTab === 'topic' ? (
+        <>
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Content Filters</Text>
+            <View style={styles.row}>
+              <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setContentSelectorField('contentFilterClassLevel')}>
+                <Text style={contentFilters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
+                  {contentFilters.classLevel || 'Standard'}
+                </Text>
+              </Pressable>
+              <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setContentSelectorField('contentFilterSubject')}>
+                <Text style={contentFilters.subject ? styles.selectorText : styles.selectorPlaceholder}>
+                  {contentFilters.subject || 'Subject'}
+                </Text>
+              </Pressable>
+            </View>
+            <View style={styles.row}>
+              <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={loadTopics} disabled={loadingTopics}>
+                {loadingTopics ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Apply Filters</Text>}
+              </Pressable>
+              <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={openCreateTopicDialog}>
+                <Text style={styles.primaryButtonText}>Create Topic</Text>
+              </Pressable>
+            </View>
+          </View>
 
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Questions Table ({questions.length})</Text>
-        {loading ? (
-          <ActivityIndicator size="small" color="#1d4ed8" />
-        ) : questions.length === 0 ? (
-          <Text style={styles.emptyText}>No questions found.</Text>
-        ) : (
-          <ScrollView horizontal>
-            <View>
-              <View style={[styles.tableRow, styles.tableHeader]}>
-                <Text style={[styles.tableCell, styles.colStandard]}>Standard</Text>
-                <Text style={[styles.tableCell, styles.colSubject]}>Subject</Text>
-                <Text style={[styles.tableCell, styles.colCategory]}>Question Type</Text>
-                <Text style={[styles.tableCell, styles.colQuestion]}>Question</Text>
-                <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
-              </View>
-              {questions.map((question) => (
-                <View key={question.id} style={styles.tableRow}>
-                  <Text style={[styles.tableCell, styles.colStandard]}>{question.class_level || '-'}</Text>
-                  <Text style={[styles.tableCell, styles.colSubject]}>{question.subject || '-'}</Text>
-                  <Text style={[styles.tableCell, styles.colCategory]}>{getQuestionTypeLabel(question.question_type)}</Text>
-                  <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
-                    {question.question_title || 'Untitled'}
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Topics ({topics.length})</Text>
+            {loadingTopics ? (
+              <ActivityIndicator size="small" color="#1d4ed8" />
+            ) : topics.length === 0 ? (
+              <Text style={styles.emptyText}>No topics found for selected filters.</Text>
+            ) : (
+              <ScrollView horizontal>
+                <View>
+                  <View style={[styles.tableRow, styles.tableHeader]}>
+                    <Text style={[styles.tableCell, styles.colStandard]}>Standard</Text>
+                    <Text style={[styles.tableCell, styles.colSubject]}>Subject</Text>
+                    <Text style={[styles.tableCell, styles.colQuestion]}>Topic</Text>
+                    <Text style={[styles.tableCell, styles.colCategory]}>Sections</Text>
+                    <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
+                  </View>
+                  {topics.map((topic) => (
+                    <View key={topic.id} style={styles.tableRow}>
+                      <Text style={[styles.tableCell, styles.colStandard]}>{topic.classLevel}</Text>
+                      <Text style={[styles.tableCell, styles.colSubject]}>{topic.subject}</Text>
+                      <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
+                        {topic.title}
+                      </Text>
+                      <Text style={[styles.tableCell, styles.colCategory]}>{topic.sectionCount}</Text>
+                      <View style={[styles.colActions, styles.actionsRow]}>
+                        <Pressable style={styles.actionButton} onPress={() => loadTopicDetails(topic.id)}>
+                          <Text style={styles.actionButtonText}>Details</Text>
+                        </Pressable>
+                        <Pressable style={styles.actionButton} onPress={() => openEditTopicDialog(topic)}>
+                          <Text style={styles.actionButtonText}>Edit</Text>
+                        </Pressable>
+                        <Pressable
+                          style={[styles.actionButton, styles.deleteButton]}
+                          onPress={() => deleteTopic(topic.id)}
+                          disabled={deletingTopicId === topic.id}
+                        >
+                          {deletingTopicId === topic.id ? (
+                            <ActivityIndicator color="#fff" />
+                          ) : (
+                            <Text style={[styles.actionButtonText, styles.deleteButtonText]}>Delete</Text>
+                          )}
+                        </Pressable>
+                      </View>
+                    </View>
+                  ))}
+                </View>
+              </ScrollView>
+            )}
+          </View>
+
+          {selectedTopic ? (
+            <View style={styles.card}>
+              <View style={styles.sectionHeader}>
+                <View>
+                  <Text style={styles.cardTitle}>{selectedTopic.title}</Text>
+                  <Text style={styles.metaText}>
+                    {selectedTopic.classLevel} • {selectedTopic.subject}
                   </Text>
-                  <View style={[styles.colActions, styles.actionsRow]}>
-                    <Pressable style={styles.actionButton} onPress={() => setPreviewQuestion(question)}>
-                      <Text style={styles.actionButtonText}>View</Text>
-                    </Pressable>
-                    <Pressable style={styles.actionButton} onPress={() => openEditDialog(question)}>
-                      <Text style={styles.actionButtonText}>Edit</Text>
+                </View>
+                <View style={styles.topicDetailActions}>
+                  <Pressable style={styles.secondaryButton} onPress={openCreateContentDialog}>
+                    <Text style={styles.secondaryButtonText}>Create Content</Text>
+                  </Pressable>
+                  <Pressable style={styles.primaryButton} onPress={() => setActiveLearningTab('quiz')}>
+                    <Text style={styles.primaryButtonText}>Quiz</Text>
+                  </Pressable>
+                </View>
+              </View>
+              {selectedTopic.coverImage ? (
+                <Image source={{ uri: resolveMediaUrl(selectedTopic.coverImage) }} style={styles.topicCoverImage} resizeMode="cover" />
+              ) : null}
+
+              <Text style={styles.cardTitle}>Contents ({topicSections.length})</Text>
+              {loadingTopicDetails ? (
+                <ActivityIndicator size="small" color="#1d4ed8" />
+              ) : topicSections.length === 0 ? (
+                <Text style={styles.emptyText}>No content assigned yet.</Text>
+              ) : (
+                <ScrollView horizontal>
+                  <View>
+                    <View style={[styles.tableRow, styles.tableHeader]}>
+                      <Text style={[styles.tableCell, styles.colCategory]}>#</Text>
+                      <Text style={[styles.tableCell, styles.colCategory]}>Type</Text>
+                      <Text style={[styles.tableCell, styles.colQuestion]}>Content</Text>
+                    </View>
+                    {topicSections.map((section) => (
+                      <View key={section.id} style={styles.tableRow}>
+                        <Text style={[styles.tableCell, styles.colCategory]}>{section.sectionOrder}</Text>
+                        <Text style={[styles.tableCell, styles.colCategory]}>{section.contentType}</Text>
+                        <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
+                          {section.textContent || section.externalUrl || section.mediaUrl || '-'}
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
+                </ScrollView>
+              )}
+            </View>
+          ) : null}
+        </>
+      ) : null}
+
+      {activeLearningTab === 'content' ? (
+        <>
+          <View style={styles.card}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.cardTitle}>Content Workspace</Text>
+              <View style={styles.inlineActions}>
+                <Pressable
+                  style={[styles.secondaryButton, contentModeTab === 'create' && styles.tabButtonActive]}
+                  onPress={() => setContentModeTab('create')}
+                >
+                  <Text style={styles.secondaryButtonText}>Create Content</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.secondaryButton, contentModeTab === 'assign' && styles.tabButtonActive]}
+                  onPress={() => setContentModeTab('assign')}
+                >
+                  <Text style={styles.secondaryButtonText}>Assign Content</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+
+          {contentModeTab === 'create' ? (
+            <>
+              <View style={styles.card}>
+                <Text style={styles.cardTitle}>Create Content</Text>
+                <Text style={styles.metaText}>Use dialog-based content creation.</Text>
+                <Pressable style={styles.primaryButton} onPress={openCreateContentModal}>
+                  <Text style={styles.primaryButtonText}>Create Content</Text>
+                </Pressable>
+              </View>
+              <View style={styles.card}>
+                <View style={styles.sectionHeader}>
+                  <Text style={styles.cardTitle}>Contents ({contentItems.length})</Text>
+                  <Pressable style={styles.secondaryButton} onPress={loadContentItems} disabled={loadingContentItems}>
+                    {loadingContentItems ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Refresh</Text>}
+                  </Pressable>
+                </View>
+                {loadingContentItems ? (
+                  <ActivityIndicator size="small" color="#1d4ed8" />
+                ) : contentItems.length === 0 ? (
+                  <Text style={styles.emptyText}>No content created yet.</Text>
+                ) : (
+                  <ScrollView horizontal>
+                    <View>
+                      <View style={[styles.tableRow, styles.tableHeader]}>
+                        <Text style={[styles.tableCell, styles.colStandard]}>Standard</Text>
+                        <Text style={[styles.tableCell, styles.colSubject]}>Subject</Text>
+                        <Text style={[styles.tableCell, styles.colQuestion]}>Title</Text>
+                        <Text style={[styles.tableCell, styles.colCategory]}>Type</Text>
+                        <Text style={[styles.tableCell, styles.colCategory]}>Sections</Text>
+                        <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
+                      </View>
+                      {contentItems.map((item) => (
+                        <View key={item.id} style={styles.tableRow}>
+                          <Text style={[styles.tableCell, styles.colStandard]}>{item.classLevel}</Text>
+                          <Text style={[styles.tableCell, styles.colSubject]}>{item.subject}</Text>
+                          <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>{item.title}</Text>
+                          <Text style={[styles.tableCell, styles.colCategory]}>{item.contentType}</Text>
+                          <Text style={[styles.tableCell, styles.colCategory]}>{item.sectionCount || 1}</Text>
+                          <View style={[styles.colActions, styles.actionsRow]}>
+                            <Pressable style={styles.actionButton} onPress={() => openPreviewContentModal(item)}>
+                              <Text style={styles.actionButtonText}>Preview</Text>
+                            </Pressable>
+                            <Pressable style={styles.actionButton} onPress={() => openEditContentModal(item)}>
+                              <Text style={styles.actionButtonText}>Edit</Text>
+                            </Pressable>
+                            <Pressable
+                              style={[styles.actionButton, styles.deleteButton]}
+                              onPress={() => deleteContentItem(item.id)}
+                              disabled={deletingContentId === item.id}
+                            >
+                              {deletingContentId === item.id ? (
+                                <ActivityIndicator color="#fff" />
+                              ) : (
+                                <Text style={[styles.actionButtonText, styles.deleteButtonText]}>Delete</Text>
+                              )}
+                            </Pressable>
+                          </View>
+                        </View>
+                      ))}
+                    </View>
+                  </ScrollView>
+                )}
+              </View>
+            </>
+          ) : (
+            <>
+              <View style={styles.card}>
+                <Text style={styles.cardTitle}>Assign Filters</Text>
+                <View style={styles.row}>
+                  <Pressable
+                    style={[styles.selectorInput, styles.halfInput]}
+                    onPress={() => setContentSelectorField('contentFilterClassLevel')}
+                  >
+                    <Text style={contentItemFilters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
+                      {contentItemFilters.classLevel || 'Standard'}
+                    </Text>
+                  </Pressable>
+                  <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setContentSelectorField('contentFilterSubject')}>
+                    <Text style={contentItemFilters.subject ? styles.selectorText : styles.selectorPlaceholder}>
+                      {contentItemFilters.subject || 'Subject'}
+                    </Text>
+                  </Pressable>
+                </View>
+                <View style={styles.fieldGroup}>
+                  <Text style={styles.fieldLabel}>Filter Topic</Text>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <View style={styles.typeChipRow}>
+                      <Pressable
+                        style={[styles.typeChip, !contentItemFilters.topicId && styles.typeChipActive]}
+                        onPress={() => setContentItemFilters((current) => ({ ...current, topicId: '' }))}
+                      >
+                        <Text style={[styles.typeChipText, !contentItemFilters.topicId && styles.typeChipTextActive]}>All Topics</Text>
+                      </Pressable>
+                      {topics.map((topic) => {
+                        const selected = contentItemFilters.topicId === topic.id;
+                        return (
+                          <Pressable
+                            key={`filter-topic-${topic.id}`}
+                            style={[styles.typeChip, selected && styles.typeChipActive]}
+                            onPress={() => setContentItemFilters((current) => ({ ...current, topicId: topic.id }))}
+                          >
+                            <Text style={[styles.typeChipText, selected && styles.typeChipTextActive]}>{topic.title}</Text>
+                          </Pressable>
+                        );
+                      })}
+                    </View>
+                  </ScrollView>
+                </View>
+                <Pressable style={styles.secondaryButton} onPress={loadContentItems} disabled={loadingContentItems}>
+                  {loadingContentItems ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Apply Filters</Text>}
+                </Pressable>
+              </View>
+
+              <View style={styles.card}>
+                <Text style={styles.cardTitle}>Select Contents ({selectedAssignContentIds.length})</Text>
+                <View style={styles.fieldGroup}>
+                  <View style={styles.row}>
+                    <Pressable
+                      style={[styles.selectorInput, styles.halfInput]}
+                      onPress={() => setContentSelectorField('assignTargetClassLevel')}
+                    >
+                      <Text style={assignTopicFilters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
+                        {assignTopicFilters.classLevel || 'Target Standard'}
+                      </Text>
                     </Pressable>
                     <Pressable
-                      style={[styles.actionButton, styles.deleteButton]}
-                      onPress={() => deleteQuestion(question.id)}
-                      disabled={deletingQuestionId === question.id}
+                      style={[styles.selectorInput, styles.halfInput]}
+                      onPress={() => setContentSelectorField('assignTargetSubject')}
                     >
-                      {deletingQuestionId === question.id ? (
-                        <ActivityIndicator color="#fff" />
-                      ) : (
-                        <Text style={[styles.actionButtonText, styles.deleteButtonText]}>Delete</Text>
-                      )}
+                      <Text style={assignTopicFilters.subject ? styles.selectorText : styles.selectorPlaceholder}>
+                        {assignTopicFilters.subject || 'Target Subject'}
+                      </Text>
                     </Pressable>
                   </View>
+                  <TextInput
+                    value={assignTopicFilters.search}
+                    onChangeText={(value) => setAssignTopicFilters((current) => ({ ...current, search: value }))}
+                    placeholder="Search target topic"
+                    style={styles.input}
+                  />
+                  <View style={styles.topicSelectList}>
+                    {assignTargetTopicOptions.length === 0 ? (
+                      <Text style={styles.emptyText}>No target topics found.</Text>
+                    ) : (
+                      assignTargetTopicOptions.map((topic) => {
+                        const selected = assignTargetTopicId === topic.id;
+                        return (
+                          <Pressable
+                            key={`assign-topic-${topic.id}`}
+                            style={[styles.topicSelectCard, selected && styles.topicSelectCardActive]}
+                            onPress={() => setAssignTargetTopicId(topic.id)}
+                          >
+                            <Text style={[styles.optionTitle, selected && styles.typeChipTextActive]}>{topic.title}</Text>
+                            <Text style={styles.metaText}>
+                              {topic.classLevel} • {topic.subject}
+                            </Text>
+                          </Pressable>
+                        );
+                      })
+                    )}
+                  </View>
+                </View>
+                {contentItems.map((item) => {
+                  const selected = selectedAssignContentIds.includes(item.id);
+                  return (
+                    <Pressable
+                      key={item.id}
+                      style={[styles.optionCard, selected && styles.topicSelectCardActive]}
+                      onPress={() => toggleAssignContent(item.id)}
+                    >
+                      <View style={styles.cardHeaderRow}>
+                        <Text style={styles.optionTitle}>{item.title}</Text>
+                        <Text style={selected ? styles.typeChipTextActive : styles.metaText}>{selected ? 'Selected' : 'Select'}</Text>
+                      </View>
+                      <Text style={styles.metaText}>
+                        {item.classLevel} • {item.subject} • {item.contentType}
+                      </Text>
+                    </Pressable>
+                  );
+                })}
+                <Pressable style={styles.primaryButton} onPress={assignContentsToTopic} disabled={savingAssignments}>
+                  {savingAssignments ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Assign Selected Content</Text>}
+                </Pressable>
+              </View>
+            </>
+          )}
+        </>
+      ) : null}
+
+      {activeLearningTab === 'question' ? (
+        <>
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Filters</Text>
+            <TextInput
+              value={filters.search}
+              onChangeText={(value) => setFilters((current) => ({ ...current, search: value }))}
+              placeholder="Search question/quiz title"
+              style={styles.input}
+            />
+            <View style={styles.row}>
+              <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setSelectorField('filterClassLevel')}>
+                <Text style={filters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
+                  {filters.classLevel || 'Standard'}
+                </Text>
+              </Pressable>
+              <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setSelectorField('filterSubject')}>
+                <Text style={filters.subject ? styles.selectorText : styles.selectorPlaceholder}>
+                  {filters.subject || 'Subject'}
+                </Text>
+              </Pressable>
+            </View>
+            <TextInput
+              value={filters.category}
+              onChangeText={(value) => setFilters((current) => ({ ...current, category: value }))}
+              placeholder="Question type"
+              style={styles.input}
+            />
+            <View style={styles.row}>
+              <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={loadData} disabled={loading}>
+                {loading ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Apply Filters</Text>}
+              </Pressable>
+              <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={openCreateDialog}>
+                <Text style={styles.primaryButtonText}>Create Question</Text>
+              </Pressable>
+            </View>
+          </View>
+
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Questions Table ({questions.length})</Text>
+            {loading ? (
+              <ActivityIndicator size="small" color="#1d4ed8" />
+            ) : questions.length === 0 ? (
+              <Text style={styles.emptyText}>No questions found.</Text>
+            ) : (
+              <ScrollView horizontal>
+                <View>
+                  <View style={[styles.tableRow, styles.tableHeader]}>
+                    <Text style={[styles.tableCell, styles.colStandard]}>Standard</Text>
+                    <Text style={[styles.tableCell, styles.colSubject]}>Subject</Text>
+                    <Text style={[styles.tableCell, styles.colCategory]}>Question Type</Text>
+                    <Text style={[styles.tableCell, styles.colQuestion]}>Question</Text>
+                    <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
+                  </View>
+                  {questions.map((question) => (
+                    <View key={question.id} style={styles.tableRow}>
+                      <Text style={[styles.tableCell, styles.colStandard]}>{question.class_level || '-'}</Text>
+                      <Text style={[styles.tableCell, styles.colSubject]}>{question.subject || '-'}</Text>
+                      <Text style={[styles.tableCell, styles.colCategory]}>{getQuestionTypeLabel(question.question_type)}</Text>
+                      <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
+                        {question.question_title || 'Untitled'}
+                      </Text>
+                      <View style={[styles.colActions, styles.actionsRow]}>
+                        <Pressable style={styles.actionButton} onPress={() => setPreviewQuestion(question)}>
+                          <Text style={styles.actionButtonText}>View</Text>
+                        </Pressable>
+                        <Pressable style={styles.actionButton} onPress={() => openEditDialog(question)}>
+                          <Text style={styles.actionButtonText}>Edit</Text>
+                        </Pressable>
+                        <Pressable
+                          style={[styles.actionButton, styles.deleteButton]}
+                          onPress={() => deleteQuestion(question.id)}
+                          disabled={deletingQuestionId === question.id}
+                        >
+                          {deletingQuestionId === question.id ? (
+                            <ActivityIndicator color="#fff" />
+                          ) : (
+                            <Text style={[styles.actionButtonText, styles.deleteButtonText]}>Delete</Text>
+                          )}
+                        </Pressable>
+                      </View>
+                    </View>
+                  ))}
+                </View>
+              </ScrollView>
+            )}
+          </View>
+        </>
+      ) : null}
+
+      {activeLearningTab === 'exam' ? (
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Exam Workspace</Text>
+          <Text style={styles.metaText}>
+            Exam flow can be aligned with content topics in the next step.
+          </Text>
+          <Pressable style={styles.primaryButton} onPress={() => router.push('/exam')}>
+            <Text style={styles.primaryButtonText}>Open Exam Builder</Text>
+          </Pressable>
+        </View>
+      ) : null}
+
+      {activeLearningTab === 'quiz' ? (
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Quiz Workspace</Text>
+          <Text style={styles.metaText}>
+            Use the existing quiz builder from Exam page for full setup. This tab is reserved for content-linked quiz workflow.
+          </Text>
+          <Pressable style={styles.primaryButton} onPress={() => router.push('/exam')}>
+            <Text style={styles.primaryButtonText}>Open Quiz/Exam Builder</Text>
+          </Pressable>
+        </View>
+      ) : null}
+
+      <Modal
+        visible={isCreateContentDialogOpen}
+        transparent
+        animationType="fade"
+        onRequestClose={() => {
+          setIsCreateContentDialogOpen(false);
+          setEditingContentId(null);
+        }}
+      >
+        <View style={styles.dialogOverlay}>
+          <View style={styles.dialogCard}>
+            <View style={styles.dialogHeader}>
+              <Text style={styles.dialogTitle}>{editingContentId ? 'Edit Content' : 'Create Content'}</Text>
+            </View>
+            <ScrollView style={styles.dialogScroll} contentContainerStyle={styles.dialogScrollContent}>
+              <View style={styles.row}>
+                <Pressable
+                  style={[styles.selectorInput, styles.halfInput]}
+                  onPress={() => setContentSelectorField('contentFilterClassLevel')}
+                >
+                  <Text style={contentCreateMeta.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
+                    {contentCreateMeta.classLevel || 'Standard'}
+                  </Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.selectorInput, styles.halfInput]}
+                  onPress={() => setContentSelectorField('contentFilterSubject')}
+                >
+                  <Text style={contentCreateMeta.subject ? styles.selectorText : styles.selectorPlaceholder}>
+                    {contentCreateMeta.subject || 'Subject'}
+                  </Text>
+                </Pressable>
+              </View>
+              {!editingContentId ? (
+                <>
+                  <TextInput
+                    value={createTopicSearch}
+                    onChangeText={setCreateTopicSearch}
+                    placeholder="Search topic by name"
+                    style={styles.input}
+                  />
+                  <View style={styles.fieldGroup}>
+                    <Text style={styles.fieldLabel}>Topic *</Text>
+                    <View style={styles.topicSelectList}>
+                      {createContentTopicOptions.length === 0 ? (
+                        <Text style={styles.emptyText}>No topics found for selected filters.</Text>
+                      ) : (
+                        createContentTopicOptions.map((topic) => {
+                          const selected = contentCreateMeta.topicId === topic.id;
+                          return (
+                            <Pressable
+                              key={topic.id}
+                              style={[styles.topicSelectCard, selected && styles.topicSelectCardActive]}
+                              onPress={() => setContentCreateMeta((current) => ({ ...current, topicId: topic.id }))}
+                            >
+                              <Text style={[styles.optionTitle, selected && styles.typeChipTextActive]}>{topic.title}</Text>
+                              <Text style={styles.metaText}>
+                                {topic.classLevel} • {topic.subject}
+                              </Text>
+                            </Pressable>
+                          );
+                        })
+                      )}
+                    </View>
+                  </View>
+                </>
+              ) : null}
+              <View style={styles.fieldGroup}>
+                <Text style={styles.fieldLabel}>Content Title *</Text>
+                <TextInput
+                  value={contentCreateMeta.title}
+                  onChangeText={(value) => setContentCreateMeta((current) => ({ ...current, title: value }))}
+                  placeholder="Enter content title"
+                  style={styles.input}
+                />
+              </View>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.fieldLabel}>Sections</Text>
+                <Pressable style={styles.smallButton} onPress={addCreateSection}>
+                  <Text style={styles.smallButtonText}>+ Add Section</Text>
+                </Pressable>
+              </View>
+              {contentCreateSections.map((section, index) => {
+                const activeChoice = getCreateSectionChoiceValue(section.contentType);
+                return (
+                  <View key={section.id} style={styles.optionCard}>
+                    <View style={styles.cardHeaderRow}>
+                      <Text style={styles.optionTitle}>Section {index + 1}</Text>
+                      <Pressable style={styles.inlineRemoveButton} onPress={() => removeCreateSection(section.id)}>
+                        <Text style={styles.inlineRemoveButtonText}>Remove</Text>
+                      </Pressable>
+                    </View>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                      <View style={styles.typeChipRow}>
+                        {CREATE_CONTENT_TYPE_CHOICES.map((choice) => {
+                          const selected = activeChoice === choice.value;
+                          return (
+                            <Pressable
+                              key={`${section.id}-${choice.value}`}
+                              style={[styles.typeChip, selected && styles.typeChipActive]}
+                              onPress={() =>
+                                updateCreateSection(section.id, { contentType: choice.value === 'media' ? 'image' : choice.value })
+                              }
+                            >
+                              <Text style={[styles.typeChipText, selected && styles.typeChipTextActive]}>{choice.label}</Text>
+                            </Pressable>
+                          );
+                        })}
+                      </View>
+                    </ScrollView>
+
+                    {activeChoice === 'text' ? (
+                      <TextInput
+                        value={section.textContent}
+                        onChangeText={(value) => updateCreateSection(section.id, { textContent: value })}
+                        placeholder="Enter content text"
+                        multiline
+                        style={[styles.input, styles.richTextInput]}
+                      />
+                    ) : activeChoice === 'youtube_url' || activeChoice === 'reel_url' ? (
+                      <TextInput
+                        value={section.externalUrl}
+                        onChangeText={(value) => updateCreateSection(section.id, { externalUrl: value })}
+                        placeholder="Enter URL"
+                        autoCapitalize="none"
+                        style={styles.input}
+                      />
+                    ) : (
+                      <View style={styles.fieldGroup}>
+                        <Pressable style={styles.secondaryButton} onPress={() => uploadCreateContentMedia(section.id)}>
+                          {uploadingSectionMediaId === section.id ? (
+                            <ActivityIndicator color="#1d4ed8" />
+                          ) : (
+                            <Text style={styles.secondaryButtonText}>Upload Media (Image / Audio / Video)</Text>
+                          )}
+                        </Pressable>
+                        {section.mediaUrl ? (
+                          <Text style={styles.metaText}>{toMediaLabel(section.mediaUrl, 'media', section.mediaLabel)}</Text>
+                        ) : null}
+                      </View>
+                    )}
+                  </View>
+                );
+              })}
+            </ScrollView>
+            <View style={styles.dialogActions}>
+              <Pressable
+                style={[styles.secondaryButton, styles.halfInput]}
+                onPress={() => {
+                  setIsCreateContentDialogOpen(false);
+                  setEditingContentId(null);
+                }}
+              >
+                <Text style={styles.secondaryButtonText}>Cancel</Text>
+              </Pressable>
+              <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={createSingleContentItem} disabled={savingContentCreate}>
+                {savingContentCreate ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>{editingContentId ? 'Save' : 'Create Content'}</Text>}
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal visible={previewContentItem !== null} transparent animationType="fade" onRequestClose={() => setPreviewContentItem(null)}>
+        <View style={styles.dialogOverlay}>
+          <View style={styles.confirmCard}>
+            <Text style={styles.confirmTitle}>Content Preview</Text>
+            {previewContentItem ? (
+              <ScrollView style={styles.selectorList}>
+                <Text style={styles.previewTitle}>{previewContentItem.title}</Text>
+                <Text style={styles.previewMeta}>
+                  {previewContentItem.classLevel} • {previewContentItem.subject} • {(previewContentItem.sectionCount || previewContentItem.sections?.length || 1)} sections
+                </Text>
+                {(previewContentItem.sections || []).map((section, index) => (
+                  <View key={`preview-content-section-${section.id}-${index}`} style={styles.previewMediaCard}>
+                    <Text style={styles.previewMediaLabel}>Section {section.sectionOrder || index + 1} • {section.contentType}</Text>
+                    {section.textContent ? <Text style={styles.previewInstruction}>{section.textContent}</Text> : null}
+                    {section.externalUrl ? <Text style={styles.previewMeta}>{section.externalUrl}</Text> : null}
+                    {section.mediaUrl ? (
+                      section.contentType === 'image' ? (
+                        <Image source={{ uri: resolveMediaUrl(section.mediaUrl) }} style={styles.previewImage} resizeMode="contain" />
+                      ) : (
+                        <Text style={styles.previewMeta}>{section.mediaUrl}</Text>
+                      )
+                    ) : null}
+                  </View>
+                ))}
+              </ScrollView>
+            ) : null}
+            <Pressable style={styles.primaryButton} onPress={() => setPreviewContentItem(null)}>
+              <Text style={styles.primaryButtonText}>Done</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal visible={contentSelectorField !== null} transparent animationType="fade" onRequestClose={() => setContentSelectorField(null)}>
+        <View style={styles.dialogOverlay}>
+          <View style={styles.confirmCard}>
+            <Text style={styles.confirmTitle}>{contentSelectorTitle}</Text>
+            <ScrollView style={styles.selectorList}>
+              <Pressable style={styles.selectorOption} onPress={() => applyContentSelectorValue('')}>
+                <Text style={styles.selectorOptionText}>Any</Text>
+              </Pressable>
+              {contentSelectorOptions.map((option) => (
+                <Pressable key={option} style={styles.selectorOption} onPress={() => applyContentSelectorValue(option)}>
+                  <Text style={styles.selectorOptionText}>{option}</Text>
+                </Pressable>
+              ))}
+            </ScrollView>
+            <Pressable style={styles.secondaryButton} onPress={() => setContentSelectorField(null)}>
+              <Text style={styles.secondaryButtonText}>Close</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        visible={topicDialogMode !== null && !isTopicSelectorActive}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setTopicDialogMode(null)}
+      >
+        <View style={styles.dialogOverlay}>
+          <View style={styles.topicDialogCard}>
+            <View style={styles.topicDialogBody}>
+            <Text style={styles.dialogTitle}>{topicDialogMode === 'edit' ? 'Edit Topic' : 'Create Topic'}</Text>
+            <View style={styles.fieldGroup}>
+              <Text style={styles.fieldLabel}>Topic Title *</Text>
+              <TextInput
+                value={topicDraft.title}
+                onChangeText={(value) => setTopicDraft((current) => ({ ...current, title: value }))}
+                placeholder="Enter topic title"
+                style={styles.input}
+              />
+            </View>
+            <View style={styles.row}>
+              <View style={styles.halfInput}>
+                <Text style={styles.fieldLabel}>Standard *</Text>
+                <Pressable style={styles.selectorInput} onPress={() => setContentSelectorField('topicClassLevel')}>
+                  <Text style={topicDraft.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
+                    {topicDraft.classLevel || 'Select standard'}
+                  </Text>
+                </Pressable>
+              </View>
+              <View style={styles.halfInput}>
+                <Text style={styles.fieldLabel}>Subject *</Text>
+                <Pressable style={styles.selectorInput} onPress={() => setContentSelectorField('topicSubject')}>
+                  <Text style={topicDraft.subject ? styles.selectorText : styles.selectorPlaceholder}>
+                    {topicDraft.subject || 'Select subject'}
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+            <View style={styles.fieldGroup}>
+              <Text style={styles.fieldLabel}>Topic Image</Text>
+              <View style={styles.mediaActionRow}>
+                <Pressable style={[styles.secondaryButton, styles.mediaActionButton]} onPress={uploadTopicCover}>
+                  {uploadingTopicCover ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Upload Image</Text>}
+                </Pressable>
+              </View>
+              {topicDraft.coverImage.trim() ? (
+                <View style={styles.previewCard}>
+                  <View style={styles.previewHeader}>
+                    <View style={styles.previewHeaderContent}>
+                      <Text style={styles.mediaInfoLabel}>Selected Image</Text>
+                      <Text style={styles.mediaInfoValue}>{toMediaLabel(topicDraft.coverImage, 'image')}</Text>
+                    </View>
+                    <Pressable
+                      style={styles.previewRemoveButton}
+                      onPress={() => setTopicDraft((current) => ({ ...current, coverImage: '' }))}
+                    >
+                      <Text style={styles.previewRemoveButtonText}>Remove</Text>
+                    </Pressable>
+                  </View>
+                  <Image source={{ uri: resolveMediaUrl(topicDraft.coverImage) }} style={styles.optionImagePreview} resizeMode="cover" />
+                </View>
+              ) : null}
+            </View>
+            </View>
+            <View style={styles.dialogActions}>
+              <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={() => setTopicDialogMode(null)}>
+                <Text style={styles.secondaryButtonText}>Cancel</Text>
+              </Pressable>
+              <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={saveTopic} disabled={savingTopic}>
+                {savingTopic ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Save Topic</Text>}
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal visible={isSectionDialogOpen} transparent animationType="fade" onRequestClose={() => setIsSectionDialogOpen(false)}>
+        <View style={styles.dialogOverlay}>
+          <View style={styles.dialogCard}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.dialogTitle}>Create Content Sections</Text>
+              <Pressable style={styles.smallButton} onPress={addSectionDraft}>
+                <Text style={styles.smallButtonText}>+ Add Section</Text>
+              </Pressable>
+            </View>
+            <ScrollView style={styles.dialogScroll} contentContainerStyle={styles.dialogScrollContent}>
+              {sectionDrafts.map((section, index) => (
+                <View key={section.id} style={styles.optionCard}>
+                  <View style={styles.cardHeaderRow}>
+                    <Text style={styles.optionTitle}>Section {index + 1}</Text>
+                    <Pressable style={styles.inlineRemoveButton} onPress={() => removeSectionDraft(section.id)}>
+                      <Text style={styles.inlineRemoveButtonText}>Remove</Text>
+                    </Pressable>
+                  </View>
+
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <View style={styles.typeChipRow}>
+                      {CONTENT_TYPE_CHOICES.map((choice) => {
+                        const selected = section.contentType === choice.value;
+                        return (
+                          <Pressable
+                            key={`${section.id}-${choice.value}`}
+                            style={[styles.typeChip, selected && styles.typeChipActive]}
+                            onPress={() => updateSectionDraft(section.id, { contentType: choice.value })}
+                          >
+                            <Text style={[styles.typeChipText, selected && styles.typeChipTextActive]}>{choice.label}</Text>
+                          </Pressable>
+                        );
+                      })}
+                    </View>
+                  </ScrollView>
+
+                  {section.contentType === 'text' ? (
+                    <TextInput
+                      value={section.textContent}
+                      onChangeText={(value) => updateSectionDraft(section.id, { textContent: value })}
+                      placeholder="Enter rich text content"
+                      multiline
+                      style={[styles.input, styles.richTextInput]}
+                    />
+                  ) : null}
+
+                  {section.contentType === 'youtube_url' || section.contentType === 'reel_url' ? (
+                    <TextInput
+                      value={section.externalUrl}
+                      onChangeText={(value) => updateSectionDraft(section.id, { externalUrl: value })}
+                      placeholder="Enter URL"
+                      autoCapitalize="none"
+                      style={styles.input}
+                    />
+                  ) : null}
+
+                  {section.contentType === 'image' || section.contentType === 'audio' || section.contentType === 'reel' ? (
+                    <View style={styles.fieldGroup}>
+                      <View style={styles.mediaActionRow}>
+                        <Pressable
+                          style={[styles.secondaryButton, styles.mediaActionButton]}
+                          onPress={() => uploadSectionMedia(section.id, section.contentType)}
+                        >
+                          {uploadingSectionMediaId === section.id ? (
+                            <ActivityIndicator color="#1d4ed8" />
+                          ) : (
+                            <Text style={styles.secondaryButtonText}>
+                              {section.contentType === 'image'
+                                ? 'Upload Image'
+                                : section.contentType === 'audio'
+                                  ? 'Upload Audio'
+                                  : 'Upload Reel'}
+                            </Text>
+                          )}
+                        </Pressable>
+                      </View>
+                      {section.mediaUrl.trim() ? (
+                        <View style={styles.previewCard}>
+                          <View style={styles.previewHeader}>
+                            <View style={styles.previewHeaderContent}>
+                              <Text style={styles.mediaInfoLabel}>Selected Media</Text>
+                              <Text style={styles.mediaInfoValue}>{toMediaLabel(section.mediaUrl, 'media')}</Text>
+                            </View>
+                            <Pressable
+                              style={styles.previewRemoveButton}
+                              onPress={() => updateSectionDraft(section.id, { mediaUrl: '', mediaLabel: '' })}
+                            >
+                              <Text style={styles.previewRemoveButtonText}>Remove</Text>
+                            </Pressable>
+                          </View>
+                          {section.contentType === 'image' ? (
+                            <Image source={{ uri: resolveMediaUrl(section.mediaUrl) }} style={styles.optionImagePreview} resizeMode="contain" />
+                          ) : (
+                            <Text style={styles.metaText}>{section.mediaLabel || section.mediaUrl}</Text>
+                          )}
+                        </View>
+                      ) : null}
+                    </View>
+                  ) : null}
                 </View>
               ))}
+            </ScrollView>
+            <View style={styles.dialogActions}>
+              <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={() => setIsSectionDialogOpen(false)}>
+                <Text style={styles.secondaryButtonText}>Cancel</Text>
+              </Pressable>
+              <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={saveTopicSections} disabled={savingSections}>
+                {savingSections ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Save Content</Text>}
+              </Pressable>
             </View>
-          </ScrollView>
-        )}
-      </View>
+          </View>
+        </View>
+      </Modal>
 
-      <Modal visible={isCreateDialogOpen} transparent animationType="fade" onRequestClose={() => setIsCreateDialogOpen(false)}>
+      <Modal visible={isCreateDialogOpen && activeLearningTab === 'question'} transparent animationType="fade" onRequestClose={() => setIsCreateDialogOpen(false)}>
         <View style={styles.dialogOverlay}>{renderDialogContent('create')}</View>
       </Modal>
 
-      <Modal visible={editingQuestionId !== null} transparent animationType="fade" onRequestClose={() => setEditingQuestionId(null)}>
+      <Modal visible={editingQuestionId !== null && activeLearningTab === 'question'} transparent animationType="fade" onRequestClose={() => setEditingQuestionId(null)}>
         <View style={styles.dialogOverlay}>{renderDialogContent('edit')}</View>
       </Modal>
 
-      <Modal visible={selectorField !== null} transparent animationType="fade" onRequestClose={() => setSelectorField(null)}>
+      <Modal visible={selectorField !== null && activeLearningTab === 'question'} transparent animationType="fade" onRequestClose={() => setSelectorField(null)}>
         <View style={styles.dialogOverlay}>
           <View style={styles.confirmCard}>
             <Text style={styles.confirmTitle}>{selectorTitle}</Text>
@@ -1724,7 +3317,7 @@ export default function QuestionManagementScreen() {
         </View>
       </Modal>
 
-      <Modal visible={previewQuestion !== null} transparent animationType="fade" onRequestClose={() => setPreviewQuestion(null)}>
+      <Modal visible={previewQuestion !== null && activeLearningTab === 'question'} transparent animationType="fade" onRequestClose={() => setPreviewQuestion(null)}>
         <View style={styles.dialogOverlay}>
           <View style={styles.confirmCard}>
             <Text style={styles.confirmTitle}>Question Preview</Text>
@@ -1781,7 +3374,7 @@ export default function QuestionManagementScreen() {
       </Modal>
 
       <Modal
-        visible={pendingMediaRemoval !== null}
+        visible={pendingMediaRemoval !== null && activeLearningTab === 'question'}
         transparent
         animationType="fade"
         onRequestClose={() => setPendingMediaRemoval(null)}
@@ -1805,7 +3398,7 @@ export default function QuestionManagementScreen() {
       </Modal>
 
       <Modal
-        visible={pendingOptionRemoval !== null}
+        visible={pendingOptionRemoval !== null && activeLearningTab === 'question'}
         transparent
         animationType="fade"
         onRequestClose={() => setPendingOptionRemoval(null)}
@@ -1838,7 +3431,32 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
-    gap: 12,
+    gap: 14,
+  },
+  tabRow: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  tabButton: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    paddingVertical: 9,
+    alignItems: 'center',
+  },
+  tabButtonActive: {
+    borderColor: '#93c5fd',
+    backgroundColor: '#eff6ff',
+  },
+  tabButtonText: {
+    color: '#475569',
+    fontWeight: '700',
+    fontSize: 12,
+  },
+  tabButtonTextActive: {
+    color: '#1d4ed8',
   },
   title: {
     fontSize: 24,
@@ -1854,8 +3472,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: '#e2e8f0',
-    padding: 12,
-    gap: 10,
+    padding: 14,
+    gap: 12,
   },
   cardTitle: {
     fontSize: 15,
@@ -1869,6 +3487,10 @@ const styles = StyleSheet.create({
   },
   fieldGroup: {
     gap: 6,
+  },
+  richTextInput: {
+    minHeight: 120,
+    textAlignVertical: 'top',
   },
   readonlyTag: {
     alignSelf: 'flex-start',
@@ -1925,7 +3547,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    gap: 8,
+    gap: 10,
   },
   mediaActionRow: {
     flexDirection: 'row',
@@ -2029,13 +3651,15 @@ const styles = StyleSheet.create({
     width: 260,
   },
   colActions: {
-    width: 240,
+    width: 320,
   },
   actionsRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 10,
+    flexWrap: 'wrap',
     paddingHorizontal: 10,
+    paddingVertical: 6,
   },
   actionButton: {
     borderWidth: 1,
@@ -2060,7 +3684,7 @@ const styles = StyleSheet.create({
   dialogOverlay: {
     flex: 1,
     backgroundColor: 'rgba(15, 23, 42, 0.45)',
-    padding: 16,
+    padding: 20,
     justifyContent: 'center',
   },
   dialogCard: {
@@ -2070,6 +3694,20 @@ const styles = StyleSheet.create({
     borderColor: '#e2e8f0',
     maxHeight: '90%',
     overflow: 'hidden',
+  },
+  topicDialogCard: {
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    width: '100%',
+    maxWidth: 680,
+    alignSelf: 'center',
+    overflow: 'hidden',
+  },
+  topicDialogBody: {
+    padding: 16,
+    gap: 12,
   },
   dialogHeader: {
     flexDirection: 'row',
@@ -2110,8 +3748,8 @@ const styles = StyleSheet.create({
   },
   dialogActions: {
     flexDirection: 'row',
-    gap: 8,
-    padding: 14,
+    gap: 10,
+    padding: 16,
     borderTopWidth: 1,
     borderTopColor: '#e2e8f0',
   },
@@ -2120,8 +3758,8 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     borderWidth: 1,
     borderColor: '#e2e8f0',
-    padding: 14,
-    gap: 10,
+    padding: 16,
+    gap: 12,
   },
   confirmTitle: {
     fontSize: 17,
@@ -2147,7 +3785,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 10,
     paddingHorizontal: 10,
-    marginBottom: 8,
+    marginBottom: 10,
     backgroundColor: '#fff',
   },
   selectorOptionText: {
@@ -2246,7 +3884,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 4,
+    marginTop: 6,
+    gap: 14,
+  },
+  topicDetailActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
+    minWidth: 220,
+  },
+  inlineActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
+  },
+  topicCoverImage: {
+    width: '100%',
+    height: 180,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    backgroundColor: '#e2e8f0',
   },
   sectionTitle: {
     fontSize: 13,
@@ -2272,7 +3934,29 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8fbff',
     borderRadius: 10,
     padding: 10,
+    gap: 10,
+  },
+  topicSelectList: {
+    borderWidth: 1,
+    borderColor: '#dbeafe',
+    borderRadius: 10,
+    backgroundColor: '#f8fbff',
+    padding: 10,
     gap: 8,
+    maxHeight: 240,
+  },
+  topicSelectCard: {
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    gap: 3,
+  },
+  topicSelectCardActive: {
+    borderColor: '#60a5fa',
+    backgroundColor: '#eff6ff',
   },
   cardHeaderRow: {
     flexDirection: 'row',
