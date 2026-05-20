@@ -14,7 +14,82 @@ export async function initSchemaAndSeed() {
   const schemaExists = Boolean(existingSchema.rows[0]?.exists);
 
   if (schemaExists && !forceReset) {
+    // Ensure all newer tables are created if they are missing
     await db.query(`
+      CREATE TABLE IF NOT EXISTS parent_student_links (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        parent_user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+        student_user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+        created_at TIMESTAMP DEFAULT NOW(),
+        UNIQUE(parent_user_id, student_user_id, organization_id)
+      );
+
+      CREATE TABLE IF NOT EXISTS teacher_standard_subjects (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        teacher_user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+        class_level VARCHAR(50) NOT NULL,
+        subject VARCHAR(100) NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW(),
+        UNIQUE(teacher_user_id, organization_id, class_level, subject)
+      );
+
+      CREATE TABLE IF NOT EXISTS subjects (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+        cover_image TEXT,
+        title VARCHAR(255) NOT NULL,
+        description TEXT,
+        author VARCHAR(255),
+        author_user_id UUID REFERENCES users(id) ON DELETE SET NULL,
+        is_external_author BOOLEAN DEFAULT false,
+        class_level VARCHAR(50) NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW(),
+        UNIQUE(organization_id, class_level, title)
+      );
+
+      CREATE TABLE IF NOT EXISTS content_topics (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+        class_level VARCHAR(50) NOT NULL,
+        subject VARCHAR(255) NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        cover_image TEXT,
+        created_by UUID REFERENCES users(id) ON DELETE SET NULL,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW(),
+        UNIQUE(organization_id, class_level, subject, title)
+      );
+
+      CREATE TABLE IF NOT EXISTS topic_content_sections (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        topic_id UUID REFERENCES content_topics(id) ON DELETE CASCADE,
+        section_order INTEGER NOT NULL,
+        content_type VARCHAR(50) NOT NULL,
+        media_url TEXT,
+        external_url TEXT,
+        text_content TEXT,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      );
+
+      CREATE TABLE IF NOT EXISTS learning_contents (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+        class_level VARCHAR(50) NOT NULL,
+        subject VARCHAR(255) NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        content_type VARCHAR(50) NOT NULL,
+        media_url TEXT,
+        external_url TEXT,
+        text_content TEXT,
+        created_by UUID REFERENCES users(id) ON DELETE SET NULL,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      );
+
       CREATE TABLE IF NOT EXISTS learning_content_sections (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         content_id UUID REFERENCES learning_contents(id) ON DELETE CASCADE,
@@ -26,7 +101,46 @@ export async function initSchemaAndSeed() {
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
       );
+
+      CREATE TABLE IF NOT EXISTS topic_content_assignments (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        topic_id UUID REFERENCES content_topics(id) ON DELETE CASCADE,
+        content_id UUID REFERENCES learning_contents(id) ON DELETE CASCADE,
+        sort_order INTEGER NOT NULL DEFAULT 0,
+        created_at TIMESTAMP DEFAULT NOW(),
+        UNIQUE(topic_id, content_id)
+      );
     `);
+
+    // Add topic_id column to quizzes if not present (migration for existing installs)
+    await db.query(`
+      ALTER TABLE quizzes ADD COLUMN IF NOT EXISTS topic_id UUID REFERENCES content_topics(id) ON DELETE SET NULL;
+    `);
+
+    // Also seed subjects if they are missing
+    const subjectsCheck = await db.query("SELECT 1 FROM subjects LIMIT 1");
+    if (subjectsCheck.rowCount === 0) {
+      // Find ELS Academy organization ID
+      const orgRes = await db.query("SELECT id FROM organizations WHERE subdomain = 'els-academy' LIMIT 1");
+      if (orgRes.rowCount > 0) {
+        const orgId = orgRes.rows[0].id;
+        await db.query(
+          `INSERT INTO subjects (organization_id, cover_image, title, description, author, author_user_id, is_external_author, class_level)
+           VALUES
+           ($1, $2, $3, $4, $5, NULL, true, $6),
+           ($1, $7, $8, $9, $10, NULL, true, $11),
+           ($1, $12, $13, $14, $15, NULL, true, $16)
+           ON CONFLICT (organization_id, class_level, title) DO NOTHING`,
+          [
+            orgId,
+            null, 'English', 'Basic language and reading skills', 'ELS Team', '1',
+            null, 'Mathematics', 'Numbers, counting, and arithmetic foundations', 'ELS Team', '2',
+            null, 'Environmental Studies', 'Early exposure to nature and surroundings', 'ELS Team', 'LKG'
+          ]
+        );
+      }
+    }
+
     console.log('Schema already exists. Skipping destructive seed.');
     return;
   }
