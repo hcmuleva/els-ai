@@ -53,6 +53,17 @@ app.use(
 );
 
 app.use(
+  '/students',
+  createProxyMiddleware({
+    target: AUTH_SERVICE_URL,
+    changeOrigin: true,
+    pathRewrite: (path) => {
+      return path.startsWith('/students') ? path : `/students${path}`;
+    },
+  })
+);
+
+app.use(
   '/quizzes',
   createProxyMiddleware({
     target: QUIZ_SERVICE_URL,

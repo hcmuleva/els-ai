@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import {
-  ActivityIndicator, Modal, Platform, ScrollView,
+  ActivityIndicator, Modal, Platform, Pressable, ScrollView,
   StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
 import Animated, {
@@ -12,6 +12,7 @@ import Svg, { Circle, Line } from 'react-native-svg';
 import { Star, Flame, BookOpen, Trophy, Zap, TrendingUp, X, ChevronRight, Clock } from 'lucide-react-native';
 
 import { useAuth } from '../../src/context/AuthContext';
+import { useStudentProfile } from '../../src/context/StudentProfileContext';
 import { getStandardLabel } from '../../src/constants/standards';
 import {
   CHART_DATA, SUBJECT_DETAILS, STUDENT_SUMMARY, BADGES_DATA,
@@ -262,8 +263,732 @@ function SubjectModal({ subject, onClose }: { subject: SubjectDetail; onClose: (
 }
 
 // ── Main Screen ───────────────────────────────────────────────────────────────
+// ── PARENT REPORTS ────────────────────────────────────────────────────────────
+const CHILD_COLORS_PR = ['#4A90E2', '#7DC67A', '#FF7043', '#9B8EC4', '#E6A020'];
+const ACT_ICON: Record<string, string> = { content: '📖', quiz: '🧩', assignment: '📝' };
+const STATUS_CLR: Record<string, string> = { completed: '#4CAF50', attempted: '#E6A020', pending: '#9A9AB0' };
+const DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+function fmtSec(sec: number) {
+  if (sec >= 3600) return `${Math.floor(sec / 3600)}h ${Math.floor((sec % 3600) / 60)}m`;
+  if (sec >= 60) return `${Math.floor(sec / 60)}m`;
+  return `${sec}s`;
+}
+
+function scoreGrade(pct: number): { label: string; color: string; bg: string } {
+  if (pct >= 90) return { label: 'Excellent', color: '#4CAF50', bg: '#E8F5E9' };
+  if (pct >= 75) return { label: 'Good', color: '#4A90E2', bg: '#D6EAFF' };
+  if (pct >= 50) return { label: 'Average', color: '#E6A020', bg: '#FFF5CC' };
+  return { label: 'Needs Work', color: '#FF7043', bg: '#FFE8D6' };
+}
+
+// Proper labeled bar chart with y-axis, gridlines, value labels
+function ProperBarChart({
+  data, color, unit = '', yTicks = 4, height = 120,
+}: {
+  data: { label: string; value: number }[];
+  color: string;
+  unit?: string;
+  yTicks?: number;
+  height?: number;
+}) {
+  const maxVal = Math.max(...data.map((d) => d.value), 1);
+  // Round up max to a nice number
+  const niceMax = Math.ceil(maxVal / yTicks) * yTicks || yTicks;
+  const ticks = Array.from({ length: yTicks + 1 }, (_, i) => Math.round((niceMax / yTicks) * i));
+  const BAR_H = height;
+  const Y_LABEL_W = 32;
+  const hasData = data.some((d) => d.value > 0);
+
+  return (
+    <View style={{ paddingTop: 4 }}>
+      <View style={{ flexDirection: 'row' }}>
+        {/* Y-axis */}
+        <View style={{ width: Y_LABEL_W, height: BAR_H, justifyContent: 'space-between', alignItems: 'flex-end', paddingRight: 6 }}>
+          {[...ticks].reverse().map((t) => (
+            <Text key={t} style={{ fontSize: 9, color: '#B0B0C8', fontWeight: '600' }}>
+              {t}{unit}
+            </Text>
+          ))}
+        </View>
+        {/* Chart area */}
+        <View style={{ flex: 1, height: BAR_H, position: 'relative' }}>
+          {/* Horizontal gridlines */}
+          {ticks.map((t, i) => (
+            <View
+              key={t}
+              style={{
+                position: 'absolute', left: 0, right: 0,
+                bottom: i === 0 ? 0 : (t / niceMax) * BAR_H,
+                height: 1,
+                backgroundColor: i === 0 ? '#D8D8E8' : '#F0F0F8',
+              }}
+            />
+          ))}
+          {/* Bars */}
+          <View style={{ flexDirection: 'row', alignItems: 'flex-end', height: '100%', gap: 4, paddingBottom: 1 }}>
+            {data.map((d, i) => {
+              const barH = niceMax > 0 ? Math.max(d.value > 0 ? 4 : 0, (d.value / niceMax) * (BAR_H - 2)) : 0;
+              return (
+                <View key={i} style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
+                  {d.value > 0 && (
+                    <Text style={{ fontSize: 8, fontWeight: '800', color: color, marginBottom: 2 }}>
+                      {d.value}{unit}
+                    </Text>
+                  )}
+                  <View style={{ width: '75%', height: barH, borderRadius: 5, backgroundColor: d.value > 0 ? color : '#F0F0F8', opacity: d.value > 0 ? 1 : 0.5 }} />
+                </View>
+              );
+            })}
+          </View>
+        </View>
+      </View>
+      {/* X-axis labels */}
+      <View style={{ flexDirection: 'row', marginLeft: Y_LABEL_W, marginTop: 6, gap: 4 }}>
+        {data.map((d, i) => (
+          <Text key={i} style={{ flex: 1, textAlign: 'center', fontSize: 9, color: '#9A9AB0', fontWeight: '700' }}>
+            {d.label}
+          </Text>
+        ))}
+      </View>
+      {!hasData && (
+        <Text style={{ textAlign: 'center', fontSize: 12, color: '#C8C8D8', fontWeight: '600', marginTop: 8 }}>
+          No data yet
+        </Text>
+      )}
+    </View>
+  );
+}
+
+// 7-day streak calendar grid
+function StreakCalendar({ activeDates, streakDays }: { activeDates: string[]; streakDays: number }) {
+  const today = new Date();
+  const days = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(today);
+    d.setDate(today.getDate() - (6 - i));
+    return { date: d.toISOString().split('T')[0], label: DAY_LABELS[d.getDay() === 0 ? 6 : d.getDay() - 1] };
+  });
+  const activeSet = new Set(activeDates);
+  return (
+    <View style={{ flexDirection: 'row', gap: 6 }}>
+      {days.map(({ date, label }) => {
+        const active = activeSet.has(date);
+        const isToday = date === today.toISOString().split('T')[0];
+        return (
+          <View key={date} style={{ flex: 1, alignItems: 'center', gap: 4 }}>
+            <View style={{
+              width: '100%', aspectRatio: 1, borderRadius: 10,
+              backgroundColor: active ? '#4A90E2' : isToday ? '#EBF4FF' : '#F4F4FB',
+              alignItems: 'center', justifyContent: 'center',
+              borderWidth: isToday && !active ? 1.5 : 0,
+              borderColor: '#4A90E2',
+            }}>
+              <Text style={{ fontSize: 14, fontWeight: '900', color: active ? '#fff' : isToday ? '#4A90E2' : '#D0D0E0' }}>
+                {active ? '✓' : '–'}
+              </Text>
+            </View>
+            <Text style={{ fontSize: 9, color: active ? '#4A90E2' : '#C0C0D0', fontWeight: '700' }}>{label}</Text>
+          </View>
+        );
+      })}
+    </View>
+  );
+}
+
+// ── Quiz attempt detail types ─────────────────────────────────────────────────
+type QuizAttemptDetail = {
+  attempt: { id: string; quizTitle: string; classLevel: string | null; completedAt: string; scorePct: number; correctCount: number; totalQuestions: number };
+  questions: Array<{
+    questionId: string; questionTitle: string | null; questionInstruction: string | null;
+    questionType: string; questionData: { options?: Array<{ id: string; label?: string; is_correct?: boolean }>; [k: string]: unknown };
+    sortOrder: number | null; isCorrect: boolean;
+    responseData: { selected_id?: string; selected_ids?: string[]; [k: string]: unknown };
+  }>;
+};
+
+// ── Section tab definitions ───────────────────────────────────────────────────
+const PR_SECTIONS = [
+  { key: 'overview',     label: '📊 Overview' },
+  { key: 'calendar',     label: '📅 Days' },
+  { key: 'time',         label: '⏱ Time' },
+  { key: 'completion',   label: '📈 Progress' },
+  { key: 'quizzes',      label: '🧩 Quizzes' },
+  { key: 'assignments',  label: '📝 Tasks' },
+  { key: 'activity',     label: '🗂 Activity' },
+];
+
+function ParentReports() {
+  const {
+    linkedStudents, activeStudent,
+    loadingStudents, loadingActivity,
+    activity, analytics, quizAttempts, assignments, upcomingClassrooms,
+    switchToStudent, refreshAll,
+  } = useStudentProfile();
+  const { apiFetch } = useAuth();
+
+  // Quiz modals state
+  const [showAllQuizzes, setShowAllQuizzes] = useState(false);
+  const [quizDetail, setQuizDetail]         = useState<QuizAttemptDetail | null>(null);
+  const [loadingDetail, setLoadingDetail]   = useState(false);
+  const [activeTab, setActiveTab]           = useState('overview');
+
+  // Section Y-offset map for smooth scroll
+  const scrollRef = useRef<ScrollView>(null);
+  const sectionRefs = useRef<Record<string, React.ElementRef<typeof View> | null>>({});
+  const sectionOffsets = useRef<Record<string, number>>({});
+
+  const scrollToSection = (key: string) => {
+    setActiveTab(key);
+    const node = sectionRefs.current[key];
+    if (node && scrollRef.current) {
+      // @ts-ignore
+      node.measureLayout(scrollRef.current, (_x: number, y: number) => {
+        scrollRef.current?.scrollTo({ y: Math.max(0, y - 8), animated: true });
+      }, () => {
+        const y = sectionOffsets.current[key];
+        if (y !== undefined) scrollRef.current?.scrollTo({ y: Math.max(0, y - 8), animated: true });
+      });
+    } else {
+      const y = sectionOffsets.current[key];
+      if (y !== undefined) scrollRef.current?.scrollTo({ y: Math.max(0, y - 8), animated: true });
+    }
+  };
+
+  const openQuizDetail = async (attemptId: string) => {
+    if (!activeStudent) return;
+    setLoadingDetail(true);
+    setQuizDetail(null);
+    setShowAllQuizzes(false);
+    try {
+      const res = await apiFetch(`/students/${activeStudent.id}/quiz-attempts/${attemptId}`);
+      if (res.ok) setQuizDetail(await res.json());
+    } catch { /* silent */ } finally { setLoadingDetail(false); }
+  };
+
+  const sum = analytics?.summary;
+  const daily = analytics?.daily ?? [];
+
+  const today = new Date();
+  const last7 = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(today);
+    d.setDate(today.getDate() - (6 - i));
+    return {
+      date: d.toISOString().split('T')[0],
+      label: DAY_LABELS[d.getDay() === 0 ? 6 : d.getDay() - 1].slice(0, 2),
+    };
+  });
+
+  const timeChartData = last7.map(({ date, label }) => {
+    const row = daily.find((r) => r.date?.toString().split('T')[0] === date);
+    return { label, value: Math.round((row?.totalTimeSeconds ?? 0) / 60) };
+  });
+
+  const completionChartData = last7.map(({ date, label }) => {
+    const row = daily.find((r) => r.date?.toString().split('T')[0] === date);
+    return { label, value: Math.round(row?.completionRate ?? 0) };
+  });
+
+  const activeDates = daily
+    .filter((r) => (r.attemptedCount ?? 0) > 0)
+    .map((r) => r.date?.toString().split('T')[0] ?? '');
+
+  const pendingAssignments = assignments.filter((a) => a.status === 'pending');
+  const submittedAssignments = assignments.filter((a) => a.status !== 'pending');
+
+  return (
+    <View style={pr.screen}>
+      {/* ── TOP BAR + STICKY TABS (always visible) ── */}
+      <View style={[pr.topBar, { paddingTop: Platform.OS === 'ios' ? 52 : 18 }]}>
+        <View>
+          <Text style={pr.topBarSub}>Learning Reports</Text>
+          <Text style={pr.topBarTitle}>
+            {activeStudent ? `${activeStudent.firstName}'s Progress` : 'My Children'}
+          </Text>
+        </View>
+        <Pressable style={pr.refreshBtn} onPress={refreshAll}>
+          <Text style={pr.refreshBtnText}>↻</Text>
+        </Pressable>
+      </View>
+
+      {/* ── STICKY SECTION TABS ── */}
+      {activeStudent && (
+        <View style={pr.stickyTabs}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 6, paddingHorizontal: 12, paddingVertical: 8 }}>
+            {PR_SECTIONS.map((s) => (
+              <Pressable key={s.key} onPress={() => scrollToSection(s.key)}
+                style={[pr.stickyTab, activeTab === s.key && pr.stickyTabActive]}>
+                <Text style={[pr.stickyTabText, activeTab === s.key && pr.stickyTabTextActive]}>
+                  {s.label}
+                </Text>
+              </Pressable>
+            ))}
+          </ScrollView>
+        </View>
+      )}
+
+      {loadingStudents ? (
+        <View style={pr.centerBlock}><ActivityIndicator color="#4A90E2" size="large" /></View>
+      ) : !activeStudent ? (
+        <View style={pr.centerBlock}>
+          <Text style={{ fontSize: 48, textAlign: 'center' }}>👨‍👩‍👧</Text>
+          <Text style={pr.emptyTitle}>No children linked yet</Text>
+          <Text style={pr.emptySub}>Ask your school admin to link your children to your account.</Text>
+        </View>
+      ) : (
+        <ScrollView
+          ref={scrollRef}
+          style={{ flex: 1 }}
+          contentContainerStyle={pr.scroll}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* ── CHILD SWITCHER (in scroll) ── */}
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}
+            style={pr.switcherBar}
+            contentContainerStyle={{ gap: 10, paddingHorizontal: 16, paddingVertical: 10 }}>
+            {linkedStudents.map((child, idx) => {
+              const isActive = child.id === activeStudent?.id;
+              const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
+              return (
+                <Pressable key={child.id} onPress={() => switchToStudent(child.id)}
+                  style={[pr.childChip, isActive ? { backgroundColor: cc } : { backgroundColor: '#fff', borderWidth: 1.5, borderColor: cc }]}>
+                  <View style={[pr.childChipAvatar, { backgroundColor: isActive ? 'rgba(255,255,255,0.2)' : cc + '22' }]}>
+                    <Text style={{ fontSize: 16 }}>{idx % 2 === 0 ? '🧒' : '👧'}</Text>
+                  </View>
+                  <View>
+                    <Text style={[pr.childChipName, { color: isActive ? '#fff' : '#1a1a2e' }]}>{child.firstName}</Text>
+                    <Text style={[pr.childChipSub, { color: isActive ? 'rgba(255,255,255,0.7)' : '#9A9AB0' }]}>
+                      {child.classLevel ? `Class ${child.classLevel}` : 'No class'}
+                    </Text>
+                  </View>
+                  {isActive && <View style={pr.activeChipDot} />}
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+          {/* ── OVERVIEW SECTION ── */}
+          <View ref={(r) => { sectionRefs.current['overview'] = r; }} onLayout={(e) => { sectionOffsets.current['overview'] = e.nativeEvent.layout.y; }}>
+          <View style={pr.heroBanner}>
+            <View style={pr.heroLeft}>
+              <Text style={pr.heroSup}>📊 Overall Progress</Text>
+              <Text style={pr.heroScore}>{sum ? sum.completionRate.toFixed(0) : 0}%</Text>
+              <Text style={pr.heroLabel}>completion rate</Text>
+              <View style={pr.heroTrack}>
+                <View style={[pr.heroFill, { width: `${Math.min(100, sum?.completionRate ?? 0)}%` }]} />
+              </View>
+              <Text style={pr.heroMeta}>Class {activeStudent.classLevel ?? '—'} · {activeStudent.firstName}</Text>
+            </View>
+            <View style={pr.heroRight}>
+              <View style={pr.streakBadge}>
+                <Text style={pr.streakNum}>{sum?.streakDays ?? 0}</Text>
+                <Text style={pr.streakFire}>🔥</Text>
+                <Text style={pr.streakLabel}>day streak</Text>
+              </View>
+            </View>
+          </View>
+
+          {/* ── 4-STAT ROW ── */}
+          {sum && (
+            <View style={pr.statRow}>
+              {([
+                { emoji: '📝', val: sum.attemptedCount, label: 'Attempted', color: '#4A90E2', bg: '#D6EAFF' },
+                { emoji: '✅', val: sum.completedCount, label: 'Completed', color: '#4CAF50', bg: '#D6F5D6' },
+                { emoji: '⏭', val: sum.notAttemptedCount, label: 'Skipped',  color: '#FF7043', bg: '#FFE8D6' },
+                { emoji: '⏱', val: fmtSec(sum.totalTimeSeconds), label: 'Time', color: '#9B8EC4', bg: '#EDE4FF' },
+              ] as Array<{ emoji: string; val: string | number; label: string; color: string; bg: string }>).map((st) => (
+                <View key={st.label} style={[pr.statCard, { backgroundColor: st.bg }]}>
+                  <Text style={pr.statEmoji}>{st.emoji}</Text>
+                  <Text style={[pr.statVal, { color: st.color }]}>{st.val}</Text>
+                  <Text style={pr.statLabel}>{st.label}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+
+          </View>{/* end overview section */}
+
+          {/* ── CALENDAR SECTION ── */}
+          <View ref={(r) => { sectionRefs.current['calendar'] = r; }} onLayout={(e) => { sectionOffsets.current['calendar'] = e.nativeEvent.layout.y; }}>
+          <View style={pr.rowHeader}>
+            <Text style={pr.rowTitle}>📅 Active Days — Last 7</Text>
+            <Text style={pr.rowChip}>{activeDates.length}/7 days active</Text>
+          </View>
+          <View style={pr.card}>
+            <StreakCalendar activeDates={activeDates} streakDays={sum?.streakDays ?? 0} />
+            <View style={pr.cardFooter}>
+              <Text style={pr.cardFooterText}>Consistency score</Text>
+              <Text style={[pr.cardFooterVal, { color: '#4A90E2' }]}>{sum ? sum.consistencyScore.toFixed(0) : 0}%</Text>
+            </View>
+          </View>
+
+          </View>{/* end calendar section */}
+
+          {/* ── TIME SECTION ── */}
+          <View ref={(r) => { sectionRefs.current['time'] = r; }} onLayout={(e) => { sectionOffsets.current['time'] = e.nativeEvent.layout.y; }}>
+          <View style={pr.rowHeader}>
+            <Text style={pr.rowTitle}>⏱ Time Spent per Day</Text>
+            <Text style={pr.rowChip}>{fmtSec(sum?.totalTimeSeconds ?? 0)} total</Text>
+          </View>
+          <View style={pr.card}>
+            <ProperBarChart
+              data={timeChartData}
+              color="#4A90E2"
+              unit="m"
+              yTicks={4}
+              height={110}
+            />
+            <Text style={pr.chartNote}>Minutes spent learning each day (last 7 days)</Text>
+          </View>
+
+          </View>{/* end time section */}
+
+          {/* ── COMPLETION SECTION ── */}
+          <View ref={(r) => { sectionRefs.current['completion'] = r; }} onLayout={(e) => { sectionOffsets.current['completion'] = e.nativeEvent.layout.y; }}>
+          <View style={pr.rowHeader}>
+            <Text style={pr.rowTitle}>📈 Daily Completion Rate</Text>
+            <Text style={pr.rowChip}>avg {sum ? sum.completionRate.toFixed(0) : 0}%</Text>
+          </View>
+          <View style={pr.card}>
+            <ProperBarChart
+              data={completionChartData}
+              color="#7DC67A"
+              unit="%"
+              yTicks={4}
+              height={110}
+            />
+            <Text style={pr.chartNote}>Percentage of activities completed each day</Text>
+          </View>
+
+          </View>{/* end completion section */}
+
+          {/* ── QUIZZES SECTION ── */}
+          <View ref={(r) => { sectionRefs.current['quizzes'] = r; }} onLayout={(e) => { sectionOffsets.current['quizzes'] = e.nativeEvent.layout.y; }}>
+
+          {/* ── ACTIVE CLASSROOMS ── */}
+          {upcomingClassrooms.length > 0 && (
+            <>
+              <View style={pr.rowHeader}>
+                <Text style={pr.rowTitle}>📚 Active Classrooms</Text>
+                <View style={[pr.liveBadge]}><Text style={pr.liveBadgeText}>● Live</Text></View>
+              </View>
+              {upcomingClassrooms.map((cls, idx) => {
+                const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
+                return (
+                  <View key={cls.id} style={pr.classCard}>
+                    <View style={[pr.classIconBox, { backgroundColor: cc + '22' }]}>
+                      <Text style={{ fontSize: 22 }}>📚</Text>
+                    </View>
+                    <View style={pr.classInfo}>
+                      <Text style={pr.classTitle} numberOfLines={1}>{cls.title}</Text>
+                      <Text style={pr.classMeta}>Class {cls.classLevel}</Text>
+                      {cls.description && <Text style={pr.classDesc} numberOfLines={1}>{cls.description}</Text>}
+                    </View>
+                    <View style={[pr.classStatusBadge, { backgroundColor: '#D6F5D6' }]}>
+                      <Text style={[pr.classStatusText, { color: '#4CAF50' }]}>Active</Text>
+                    </View>
+                  </View>
+                );
+              })}
+            </>
+          )}
+
+          {/* ── QUIZ RESULTS ── */}
+          <View style={pr.rowHeader}>
+            <Text style={pr.rowTitle}>🧩 Quiz Results</Text>
+            <Text style={pr.rowChip}>{quizAttempts.length} attempt{quizAttempts.length !== 1 ? 's' : ''}</Text>
+          </View>
+          {loadingActivity ? (
+            <ActivityIndicator color="#4A90E2" style={{ marginVertical: 12 }} />
+          ) : quizAttempts.length === 0 ? (
+            <View style={pr.emptyCard}><Text style={pr.emptyCardText}>No quiz attempts yet — encourage {activeStudent.firstName} to try a quiz!</Text></View>
+          ) : (
+            <>
+              {quizAttempts.slice(0, 4).map((attempt) => {
+                const grade = scoreGrade(attempt.scorePct);
+                return (
+                  <Pressable key={attempt.id} style={pr.quizCard} onPress={() => openQuizDetail(attempt.id)}>
+                    <View style={[pr.quizIconBox, { backgroundColor: '#EDE4FF' }]}>
+                      <Text style={{ fontSize: 22 }}>🧩</Text>
+                    </View>
+                    <View style={pr.quizInfo}>
+                      <Text style={pr.quizTitle} numberOfLines={1}>{attempt.quizTitle}</Text>
+                      <Text style={pr.quizMeta}>
+                        {attempt.correctCount}/{attempt.totalQuestions} correct · {new Date(attempt.attemptedAt).toLocaleDateString()}
+                      </Text>
+                      <View style={pr.quizProgressTrack}>
+                        <View style={[pr.quizProgressFill, { width: `${attempt.scorePct}%`, backgroundColor: grade.color }]} />
+                      </View>
+                    </View>
+                    <View style={[pr.scoreBadge, { backgroundColor: grade.bg }]}>
+                      <Text style={[pr.scoreNum, { color: grade.color }]}>{attempt.scorePct}%</Text>
+                      <Text style={[pr.scoreLabel, { color: grade.color }]}>{grade.label}</Text>
+                    </View>
+                  </Pressable>
+                );
+              })}
+              {quizAttempts.length > 4 && (
+                <Pressable style={pr.viewAllBtn} onPress={() => setShowAllQuizzes(true)}>
+                  <Text style={pr.viewAllBtnText}>View All {quizAttempts.length} Attempts ›</Text>
+                </Pressable>
+              )}
+            </>
+          )}
+          </View>{/* end quizzes section */}
+
+          {/* ── ASSIGNMENTS SECTION ── */}
+          <View ref={(r) => { sectionRefs.current['assignments'] = r; }} onLayout={(e) => { sectionOffsets.current['assignments'] = e.nativeEvent.layout.y; }}>
+          <View style={pr.rowHeader}>
+            <Text style={pr.rowTitle}>📝 Assignments</Text>
+            {pendingAssignments.length > 0 && (
+              <View style={[pr.liveBadge, { backgroundColor: '#FFE8D6' }]}>
+                <Text style={[pr.liveBadgeText, { color: '#FF7043' }]}>{pendingAssignments.length} pending</Text>
+              </View>
+            )}
+          </View>
+
+          {pendingAssignments.length > 0 && (
+            <>
+              <Text style={pr.groupLabel}>⏳ Pending</Text>
+              {pendingAssignments.map((a) => (
+                <View key={a.id} style={pr.assignCard}>
+                  <View style={[pr.assignIconBox, { backgroundColor: '#FFE8D6' }]}>
+                    <Text style={{ fontSize: 20 }}>📝</Text>
+                  </View>
+                  <View style={pr.assignInfo}>
+                    <Text style={pr.assignTitle} numberOfLines={1}>{a.title || 'Untitled Assignment'}</Text>
+                    <Text style={pr.assignMeta}>Not submitted yet</Text>
+                  </View>
+                  <View style={[pr.assignStatusBadge, { backgroundColor: '#FFE8D6' }]}>
+                    <Text style={[pr.assignStatusText, { color: '#FF7043' }]}>Pending</Text>
+                  </View>
+                </View>
+              ))}
+            </>
+          )}
+
+          {submittedAssignments.length > 0 && (
+            <>
+              <Text style={[pr.groupLabel, pendingAssignments.length > 0 ? { marginTop: 14 } : {}]}>✅ Submitted</Text>
+              {submittedAssignments.slice(0, 5).map((a) => {
+                const grade = a.grade !== undefined ? scoreGrade(a.grade) : null;
+                return (
+                  <View key={a.id} style={pr.assignCard}>
+                    <View style={[pr.assignIconBox, { backgroundColor: '#D6F5D6' }]}>
+                      <Text style={{ fontSize: 20 }}>✅</Text>
+                    </View>
+                    <View style={pr.assignInfo}>
+                      <Text style={pr.assignTitle} numberOfLines={1}>{a.title || 'Untitled Assignment'}</Text>
+                      <Text style={pr.assignMeta}>
+                        {a.submittedAt ? new Date(a.submittedAt).toLocaleDateString() : 'Submitted'}
+                        {a.grade !== undefined ? ` · Grade: ${a.grade}%` : ''}
+                      </Text>
+                      {a.feedback && <Text style={pr.assignFeedback} numberOfLines={1}>{a.feedback}</Text>}
+                    </View>
+                    {grade && (
+                      <View style={[pr.scoreBadge, { backgroundColor: grade.bg }]}>
+                        <Text style={[pr.scoreNum, { color: grade.color, fontSize: 14 }]}>{a.grade}%</Text>
+                      </View>
+                    )}
+                  </View>
+                );
+              })}
+            </>
+          )}
+
+          {assignments.length === 0 && (
+            <View style={pr.emptyCard}><Text style={pr.emptyCardText}>No assignments found for {activeStudent.firstName}.</Text></View>
+          )}
+
+          </View>{/* end assignments section */}
+
+          {/* ── ACTIVITY SECTION ── */}
+          <View ref={(r) => { sectionRefs.current['activity'] = r; }} onLayout={(e) => { sectionOffsets.current['activity'] = e.nativeEvent.layout.y; }}>
+          <View style={pr.rowHeader}>
+            <Text style={pr.rowTitle}>🗂 Recent Activity</Text>
+            <Text style={pr.rowChip}>{activity.length} total</Text>
+          </View>
+          {loadingActivity ? (
+            <ActivityIndicator color="#4A90E2" style={{ marginVertical: 12 }} />
+          ) : activity.length === 0 ? (
+            <View style={pr.emptyCard}><Text style={pr.emptyCardText}>No activity recorded yet.</Text></View>
+          ) : (
+            activity.slice(0, 8).map((item) => {
+              const dotColor = STATUS_CLR[item.status] ?? '#9A9AB0';
+              return (
+                <View key={item.id} style={pr.actCard}>
+                  <View style={[pr.actIconBox, { backgroundColor: dotColor + '22' }]}>
+                    <Text style={{ fontSize: 18 }}>{ACT_ICON[item.activityType] ?? '📌'}</Text>
+                  </View>
+                  <View style={pr.actInfo}>
+                    <Text style={pr.actTitle} numberOfLines={1}>{item.referenceTitle ?? item.activityType}</Text>
+                    <Text style={pr.actMeta}>
+                      {item.activityDate}
+                      {item.score !== undefined ? ` · Score: ${item.score}%` : ''}
+                    </Text>
+                  </View>
+                  <View style={{ alignItems: 'flex-end', gap: 4 }}>
+                    <View style={[pr.statusPill, { backgroundColor: dotColor + '22' }]}>
+                      <Text style={[pr.statusPillText, { color: dotColor }]}>{item.status}</Text>
+                    </View>
+                    {item.timeSpentSeconds > 0 && (
+                      <Text style={pr.actTime}>{fmtSec(item.timeSpentSeconds)}</Text>
+                    )}
+                  </View>
+                </View>
+              );
+            })
+          )}
+          </View>{/* end activity section */}
+        </ScrollView>
+      )}
+
+      {/* ── VIEW ALL QUIZZES MODAL ── */}
+      <Modal visible={showAllQuizzes} animationType="slide" transparent onRequestClose={() => setShowAllQuizzes(false)}>
+        <View style={pr.modalOverlay}>
+          <View style={pr.modalSheet}>
+            <View style={pr.modalHeader}>
+              <View>
+                <Text style={pr.modalTitle}>All Quiz Attempts</Text>
+                <Text style={pr.modalSub}>{activeStudent?.firstName} · {quizAttempts.length} total</Text>
+              </View>
+              <Pressable style={pr.modalClose} onPress={() => setShowAllQuizzes(false)}>
+                <Text style={{ fontSize: 20, color: '#9A9AB0' }}>✕</Text>
+              </Pressable>
+            </View>
+            <ScrollView contentContainerStyle={{ paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
+              {quizAttempts.map((attempt, idx) => {
+                const grade = scoreGrade(attempt.scorePct);
+                return (
+                  <Pressable key={attempt.id} style={pr.modalQuizRow} onPress={() => openQuizDetail(attempt.id)}>
+                    <View style={pr.modalQuizNum}>
+                      <Text style={{ fontSize: 12, fontWeight: '800', color: '#9A9AB0' }}>#{idx + 1}</Text>
+                    </View>
+                    <View style={pr.quizInfo}>
+                      <Text style={pr.quizTitle} numberOfLines={1}>{attempt.quizTitle}</Text>
+                      <Text style={pr.quizMeta}>
+                        {attempt.correctCount}/{attempt.totalQuestions} correct · {new Date(attempt.attemptedAt).toLocaleDateString()}
+                      </Text>
+                    </View>
+                    <View style={[pr.scoreBadge, { backgroundColor: grade.bg }]}>
+                      <Text style={[pr.scoreNum, { color: grade.color }]}>{attempt.scorePct}%</Text>
+                      <Text style={[pr.scoreLabel, { color: grade.color }]}>{grade.label}</Text>
+                    </View>
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
+
+      {/* ── QUIZ DETAIL MODAL ── */}
+      <Modal visible={!!quizDetail || loadingDetail} animationType="slide" transparent onRequestClose={() => setQuizDetail(null)}>
+        <View style={pr.modalOverlay}>
+          <View style={pr.modalSheet}>
+            {loadingDetail ? (
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 60 }}>
+                <ActivityIndicator size="large" color="#4A90E2" />
+                <Text style={{ marginTop: 12, color: '#9A9AB0', fontWeight: '600' }}>Loading questions…</Text>
+              </View>
+            ) : quizDetail ? (
+              <>
+                <View style={pr.modalHeader}>
+                  <View style={{ flex: 1, paddingRight: 12 }}>
+                    <Text style={pr.modalTitle} numberOfLines={2}>{quizDetail.attempt.quizTitle}</Text>
+                    <Text style={pr.modalSub}>
+                      {quizDetail.attempt.correctCount}/{quizDetail.attempt.totalQuestions} correct · {quizDetail.attempt.scorePct}%
+                      {' · '}{new Date(quizDetail.attempt.completedAt).toLocaleDateString()}
+                    </Text>
+                  </View>
+                  <Pressable style={pr.modalClose} onPress={() => setQuizDetail(null)}>
+                    <Text style={{ fontSize: 20, color: '#9A9AB0' }}>✕</Text>
+                  </Pressable>
+                </View>
+                <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
+                  {quizDetail.questions.map((q, i) => {
+                    const options = (q.questionData.options ?? []) as Array<{ id: string; label?: string; is_correct?: boolean }>;
+                    const selectedId = q.responseData.selected_id;
+                    const selectedIds = Array.isArray(q.responseData.selected_ids) ? q.responseData.selected_ids as string[] : [];
+                    const selectedAny = selectedId ?? selectedIds[0];
+                    const selectedLabel = options.find((o) => o.id === selectedAny)?.label ?? selectedAny ?? '—';
+                    const correctOption = options.find((o) => o.is_correct);
+                    const correctLabel = correctOption?.label ?? correctOption?.id ?? '—';
+                    const bannerBg = q.isCorrect ? '#E8F5E9' : '#FFF3F0';
+                    const bannerColor = q.isCorrect ? '#2E7D32' : '#C62828';
+                    return (
+                      <View key={q.questionId} style={pr.detailQuestionCard}>
+                        {/* Colored top banner */}
+                        <View style={[pr.detailQuestionBanner, { backgroundColor: bannerBg }]}>
+                          <Text style={{ fontSize: 13, fontWeight: '800', color: bannerColor, opacity: 0.7 }}>
+                            Question {i + 1}
+                          </Text>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: q.isCorrect ? '#4CAF50' : '#FF5252', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 }}>
+                            <Text style={{ fontSize: 13, fontWeight: '900', color: '#fff' }}>
+                              {q.isCorrect ? '✓ Correct' : '✗ Wrong'}
+                            </Text>
+                          </View>
+                        </View>
+                        {/* Question body */}
+                        <View style={pr.detailQuestionInner}>
+                          <Text style={pr.detailQTitle}>{q.questionTitle ?? q.questionInstruction ?? `Question ${i + 1}`}</Text>
+                          {q.questionInstruction && q.questionTitle && (
+                            <Text style={{ fontSize: 12, color: '#9A9AB0', fontWeight: '500', marginTop: 2, marginBottom: 4 }}>{q.questionInstruction}</Text>
+                          )}
+                          {options.length > 0 && (
+                            <View style={{ gap: 8, marginTop: 12 }}>
+                              {options.map((o) => {
+                                const isSelected = o.id === selectedAny || selectedIds.includes(o.id);
+                                const isCor = o.is_correct === true;
+                                let optBg = '#F8F9FC';
+                                let optBorder = '#EAECF0';
+                                let optTextColor = '#374151';
+                                let iconEl: string | null = null;
+                                if (isCor && isSelected) { optBg = '#E8F5E9'; optBorder = '#4CAF50'; optTextColor = '#1B5E20'; iconEl = '✓'; }
+                                else if (isCor) { optBg = '#E8F5E9'; optBorder = '#4CAF50'; optTextColor = '#1B5E20'; iconEl = '✓'; }
+                                else if (isSelected) { optBg = '#FFF3F0'; optBorder = '#FF5252'; optTextColor = '#B71C1C'; iconEl = '✗'; }
+                                return (
+                                  <View key={o.id} style={[pr.detailOption, { backgroundColor: optBg, borderColor: optBorder }]}>
+                                    <Text style={[pr.detailOptionText, { color: optTextColor }]}>{o.label ?? o.id}</Text>
+                                    {iconEl && (
+                                      <View style={{ width: 24, height: 24, borderRadius: 12, backgroundColor: isCor ? '#4CAF50' : '#FF5252', alignItems: 'center', justifyContent: 'center' }}>
+                                        <Text style={{ fontSize: 13, color: '#fff', fontWeight: '900' }}>{iconEl}</Text>
+                                      </View>
+                                    )}
+                                  </View>
+                                );
+                              })}
+                            </View>
+                          )}
+                          {!q.isCorrect && options.length > 0 && (
+                            <View style={[pr.detailAnswerRow, { marginTop: 12 }]}>
+                              <Text style={pr.detailAnswerLabel}>You answered: </Text>
+                              <Text style={[pr.detailAnswerVal, { color: '#FF5252' }]}>{selectedLabel}</Text>
+                              <Text style={[pr.detailAnswerLabel, { marginLeft: 10 }]}>Correct: </Text>
+                              <Text style={[pr.detailAnswerVal, { color: '#4CAF50' }]}>{correctLabel}</Text>
+                            </View>
+                          )}
+                        </View>
+                      </View>
+                    );
+                  })}
+                </ScrollView>
+              </>
+            ) : null}
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+}
+
 export default function ReportsScreen() {
   const { user, apiFetch } = useAuth();
+  const {
+    linkedStudents, activeStudent,
+    loadingStudents, loadingActivity, loadingAnalytics,
+    activity: studentActivity, analytics: studentAnalytics,
+    switchToStudent,
+  } = useStudentProfile();
 
   const [loading, setLoading]         = useState(true);
   const [error, setError]             = useState('');
@@ -342,92 +1067,7 @@ export default function ReportsScreen() {
 
   // ── PARENT VIEW ───────────────────────────────────────────────────────────
   if (isParentView) {
-    const childName = user?.firstName ? `${user.firstName}'s` : "Your child's";
-    const completionPct = classroom?.completionPct ?? 0;
-    const quizzesDone   = classroom?.quizzes?.filter((q) => q.status === 'completed').length ?? 0;
-    const totalQuizzes  = classroom?.quizzes?.length ?? 0;
-    const contentCount  = classroom?.contents?.length ?? 0;
-    const pendingTasks  = classroom?.assignments?.filter((a) => a.status !== 'submitted').length ?? 0;
-
-    return (
-      <ScrollView style={s.screen} contentContainerStyle={s.scroll}>
-        {/* Header */}
-        <View style={[s.topBar, { paddingTop: Platform.OS === 'ios' ? 2 : 8 }]}>
-          <View>
-            <Text style={s.greetingSub}>Learning Overview</Text>
-            <Text style={s.greetingName}>{childName} Progress</Text>
-          </View>
-        </View>
-
-        {error ? <Text style={[s.errorText, { margin: 16 }]}>{error}</Text> : null}
-
-        {/* Hero progress card */}
-        <View style={[s.parentHero, { backgroundColor: '#9B8EC4' }]}>
-          <View style={s.parentHeroTop}>
-            <Text style={s.parentHeroTitle}>Overall Progress</Text>
-            <Text style={s.parentHeroPct}>{completionPct}%</Text>
-          </View>
-          <View style={s.parentProgressTrack}>
-            <View style={[s.parentProgressFill, { width: `${Math.min(100, completionPct)}%` }]} />
-          </View>
-          <Text style={s.parentHeroSub}>
-            {classroom ? `Enrolled in: ${classroom.title}` : 'No active classroom'}
-          </Text>
-        </View>
-
-        {/* Stats strip */}
-        <View style={s.statsStrip}>
-          {[
-            { val: quizzesDone,   total: totalQuizzes, label: 'Quizzes Done',   color: '#FF7043', bg: '#FFE8D6' },
-            { val: contentCount,  total: null,          label: 'Lessons',         color: '#4A90E2', bg: '#D6EAFF' },
-            { val: pendingTasks,  total: null,          label: 'Pending Tasks',  color: '#E6A817', bg: '#FFF5CC' },
-          ].map((st) => (
-            <View key={st.label} style={[s.parentStat, { backgroundColor: st.bg }]}>
-              <Text style={[s.parentStatVal, { color: st.color }]}>
-                {st.val}{st.total !== null ? `/${st.total}` : ''}
-              </Text>
-              <Text style={s.parentStatLabel}>{st.label}</Text>
-            </View>
-          ))}
-        </View>
-
-        {/* Subject breakdown */}
-        {SUBJECT_DETAILS.length > 0 && (
-          <>
-            <Text style={s.secTitle}>Subject Progress</Text>
-            {SUBJECT_DETAILS.map((sub) => (
-              <View key={sub.key} style={s.parentSubjectRow}>
-                <View style={[s.parentSubjectDot, { backgroundColor: sub.color }]} />
-                <Text style={s.parentSubjectName}>{sub.label}</Text>
-                <View style={s.parentSubjectTrack}>
-                  <View style={[s.parentSubjectFill, { width: `${sub.progressPct}%`, backgroundColor: sub.color }]} />
-                </View>
-                <Text style={[s.parentSubjectScore, { color: sub.color }]}>{sub.progressPct}%</Text>
-              </View>
-            ))}
-          </>
-        )}
-
-        {/* Recent activity */}
-        <Text style={[s.secTitle, { marginTop: 16 }]}>Recent Activity</Text>
-        <View style={s.activityList}>
-          {recentActivity.map((item) => (
-            <View key={item.id} style={s.activityRow}>
-              <View style={[s.activityDot, { backgroundColor: item.type === 'quiz' ? '#FF7043' : '#4A90E2' }]}>
-                <Text style={{ fontSize: 12 }}>{item.type === 'quiz' ? '✏' : '📖'}</Text>
-              </View>
-              <View style={s.activityBody}>
-                <Text style={s.activityTitle}>{item.title}</Text>
-                <Text style={s.activityWhen}>{item.when}</Text>
-              </View>
-              <View style={[s.xpPill, { backgroundColor: '#D6F5D6' }]}>
-                <Text style={[s.xpPillText, { color: '#1A6B1A' }]}>+{item.xp} XP</Text>
-              </View>
-            </View>
-          ))}
-        </View>
-      </ScrollView>
-    );
+    return <ParentReports />;
   }
 
   // ── TEACHER VIEW ───────────────────────────────────────────────────────────
@@ -700,6 +1340,11 @@ const s = StyleSheet.create({
   errorText:   { fontSize: 13, color: '#FF7043', paddingHorizontal: 20, marginTop: 12 },
 
   // ── Parent view ──────────────────────────────────────────────────────────
+  childChip: { flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, borderWidth: 1.5 },
+  childChipEmoji: { fontSize: 16 },
+  childChipName: { fontSize: 13, fontWeight: '800' },
+  childChipBadge: { borderRadius: 999, paddingHorizontal: 7, paddingVertical: 2 },
+  childChipBadgeText: { fontSize: 10, fontWeight: '800' },
   parentHero:         { marginHorizontal: 16, marginBottom: 16, borderRadius: 22, padding: 20, gap: 10 },
   parentHeroTop:      { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' },
   parentHeroTitle:    { fontSize: 14, fontWeight: '700', color: 'rgba(255,255,255,0.85)' },
@@ -867,6 +1512,154 @@ const s = StyleSheet.create({
   badgeItem:   { alignItems: 'center', gap: 5, width: 64 },
   badgeCircle: { width: 54, height: 54, borderRadius: 27, alignItems: 'center', justifyContent: 'center' },
   badgeLabel:  { fontSize: 10, fontWeight: '700', color: '#5A5A7A', textAlign: 'center' },
+  emptyBlock: { alignItems: 'center', paddingVertical: 24, paddingHorizontal: 24, gap: 8 },
+  emptyTitle: { fontSize: 16, fontWeight: '800', color: '#1a1a2e', textAlign: 'center' },
+  emptyBody:  { fontSize: 13, fontWeight: '500', color: '#9A9AB0', textAlign: 'center', lineHeight: 20 },
+});
+
+// ── ParentReports Styles ──────────────────────────────────────────────────────
+const pr = StyleSheet.create({
+  screen: { flex: 1, backgroundColor: '#F8F9FC' },
+  scroll: { paddingBottom: 48, paddingTop: 0 },
+
+  // Top bar — matches student dashboard
+  topBar: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, paddingBottom: 14, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  topBarSub:   { fontSize: 11, fontWeight: '700', color: '#9A9AB0', letterSpacing: 0.8, textTransform: 'uppercase' },
+  topBarTitle: { fontSize: 22, fontWeight: '900', color: '#1a1a2e', marginTop: 2 },
+  refreshBtn:  { width: 36, height: 36, borderRadius: 18, backgroundColor: '#EDE4FF', alignItems: 'center', justifyContent: 'center' },
+  refreshBtnText: { fontSize: 18, fontWeight: '700', color: '#7B4FCA' },
+
+  // Child switcher bar
+  switcherBar: { backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  childChip:   { flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 14, paddingHorizontal: 12, paddingVertical: 8, height: 56 },
+  childChipAvatar: { width: 30, height: 30, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
+  childChipName:   { fontSize: 12, fontWeight: '800' },
+  childChipSub:    { fontSize: 9, fontWeight: '600', marginTop: 0 },
+  activeChipDot:   { width: 6, height: 6, borderRadius: 3, backgroundColor: 'rgba(255,255,255,0.6)', marginLeft: 2 },
+
+  // Center (loading / no children)
+  centerBlock: { alignItems: 'center', paddingVertical: 60, paddingHorizontal: 32, gap: 12 },
+  emptyTitle:  { fontSize: 18, fontWeight: '900', color: '#1a1a2e', textAlign: 'center' },
+  emptySub:    { fontSize: 13, color: '#9A9AB0', fontWeight: '500', textAlign: 'center', lineHeight: 20 },
+
+  // Hero banner — matches student dashboard heroBanner
+  heroBanner: { marginHorizontal: 16, marginTop: 0, marginBottom: 8, borderRadius: 22, backgroundColor: '#4A90E2', padding: 20, flexDirection: 'row', alignItems: 'center', gap: 12, shadowColor: '#4A90E2', shadowOpacity: 0.35, shadowOffset: { width: 0, height: 6 }, shadowRadius: 14, elevation: 5 },
+  heroLeft:   { flex: 1, gap: 4 },
+  heroRight:  { justifyContent: 'center' },
+  heroSup:    { fontSize: 10, fontWeight: '800', color: 'rgba(255,255,255,0.65)', letterSpacing: 1, textTransform: 'uppercase' },
+  heroScore:  { fontSize: 48, fontWeight: '900', color: '#fff', lineHeight: 54 },
+  heroLabel:  { fontSize: 12, color: 'rgba(255,255,255,0.7)', fontWeight: '600' },
+  heroTrack:  { height: 6, backgroundColor: 'rgba(255,255,255,0.25)', borderRadius: 999, overflow: 'hidden', marginTop: 6 },
+  heroFill:   { height: '100%', backgroundColor: '#fff', borderRadius: 999 },
+  heroMeta:   { fontSize: 11, color: 'rgba(255,255,255,0.55)', fontWeight: '600', marginTop: 4 },
+  streakBadge: { backgroundColor: 'rgba(255,255,255,0.18)', borderRadius: 18, padding: 14, alignItems: 'center', gap: 2, minWidth: 72 },
+  streakNum:   { fontSize: 28, fontWeight: '900', color: '#fff' },
+  streakFire:  { fontSize: 18 },
+  streakLabel: { fontSize: 9, color: 'rgba(255,255,255,0.55)', fontWeight: '700', textTransform: 'uppercase' },
+
+  // 4-stat row
+  statRow:   { flexDirection: 'row', gap: 8, paddingHorizontal: 16, marginBottom: 8 },
+  statCard:  { flex: 1, borderRadius: 16, paddingVertical: 12, paddingHorizontal: 6, alignItems: 'center', gap: 4 },
+  statEmoji: { fontSize: 20 },
+  statVal:   { fontSize: 15, fontWeight: '900' },
+  statLabel: { fontSize: 8, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase', textAlign: 'center' },
+
+  // Section row header — matches student dashboard rowHeader
+  rowHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, marginTop: 20, marginBottom: 10 },
+  rowTitle:  { fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
+  rowChip:   { fontSize: 12, fontWeight: '700', color: '#4A90E2' },
+
+  // Card — matches student dashboard gameCard shadow
+  card: { marginHorizontal: 16, backgroundColor: '#fff', borderRadius: 20, padding: 16, borderWidth: 1, borderColor: '#F0F0F8', shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.5, shadowRadius: 8, elevation: 2 },
+  cardFooter: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 12, paddingTop: 10, borderTopWidth: 1, borderTopColor: '#F4F4FB' },
+  cardFooterText: { fontSize: 12, color: '#9A9AB0', fontWeight: '600' },
+  cardFooterVal:  { fontSize: 14, fontWeight: '900' },
+  chartNote: { fontSize: 10, color: '#B0B8CC', fontWeight: '600', marginTop: 10, textAlign: 'center' },
+
+  // Live badge
+  liveBadge:     { backgroundColor: '#D6F5D6', borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
+  liveBadgeText: { fontSize: 11, fontWeight: '800', color: '#4CAF50' },
+
+  // Classroom card — matches gameCard
+  classCard:       { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', marginHorizontal: 16, marginBottom: 10, borderRadius: 18, padding: 14, gap: 12, borderWidth: 1, borderColor: '#F0F0F8', shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.4, shadowRadius: 6, elevation: 2 },
+  classIconBox:    { width: 48, height: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  classInfo:       { flex: 1, gap: 2 },
+  classTitle:      { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  classMeta:       { fontSize: 11, color: '#9A9AB0', fontWeight: '600' },
+  classDesc:       { fontSize: 11, color: '#B0B8CC', fontWeight: '500', marginTop: 2 },
+  classStatusBadge: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5 },
+  classStatusText:  { fontSize: 11, fontWeight: '800' },
+
+  // Quiz result card
+  quizCard:          { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', marginHorizontal: 16, marginBottom: 10, borderRadius: 18, padding: 14, gap: 12, borderWidth: 1, borderColor: '#F0F0F8', shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.4, shadowRadius: 6, elevation: 2 },
+  quizIconBox:       { width: 48, height: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  quizInfo:          { flex: 1, gap: 3 },
+  quizTitle:         { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  quizMeta:          { fontSize: 11, color: '#9A9AB0', fontWeight: '600' },
+  quizProgressTrack: { height: 5, backgroundColor: '#F0F0F8', borderRadius: 999, overflow: 'hidden', marginTop: 4 },
+  quizProgressFill:  { height: '100%', borderRadius: 999 },
+  scoreBadge:        { borderRadius: 14, padding: 10, alignItems: 'center', minWidth: 68 },
+  scoreNum:          { fontSize: 18, fontWeight: '900' },
+  scoreLabel:        { fontSize: 9, fontWeight: '800', textTransform: 'uppercase', marginTop: 2 },
+
+  // Assignments
+  groupLabel:    { fontSize: 11, fontWeight: '800', color: '#9A9AB0', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 6, marginHorizontal: 16 },
+  assignCard:    { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', marginHorizontal: 16, marginBottom: 8, borderRadius: 18, padding: 14, gap: 12, borderWidth: 1, borderColor: '#F0F0F8', shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.4, shadowRadius: 6, elevation: 2 },
+  assignIconBox: { width: 44, height: 44, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  assignInfo:    { flex: 1, gap: 3 },
+  assignTitle:   { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  assignMeta:    { fontSize: 11, color: '#9A9AB0', fontWeight: '600' },
+  assignFeedback: { fontSize: 11, color: '#4CAF50', fontWeight: '600', marginTop: 2 },
+  assignStatusBadge: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5 },
+  assignStatusText:  { fontSize: 11, fontWeight: '800' },
+
+  // Activity log
+  actCard:    { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', marginHorizontal: 16, marginBottom: 8, borderRadius: 18, padding: 14, gap: 12, borderWidth: 1, borderColor: '#F0F0F8', shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 6, elevation: 1 },
+  actIconBox: { width: 44, height: 44, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  actInfo:    { flex: 1, gap: 2 },
+  actTitle:   { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
+  actMeta:    { fontSize: 11, color: '#9A9AB0', fontWeight: '600' },
+  actTime:    { fontSize: 11, fontWeight: '800', color: '#4A90E2' },
+  statusPill:     { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
+  statusPillText: { fontSize: 10, fontWeight: '800' },
+
+  // Empty state inline card
+  emptyCard:     { marginHorizontal: 16, backgroundColor: '#fff', borderRadius: 16, padding: 18, alignItems: 'center', borderWidth: 1, borderColor: '#F0F0F8', marginBottom: 4 },
+  emptyCardText: { fontSize: 13, color: '#B0B8CC', fontWeight: '600', textAlign: 'center', lineHeight: 20 },
+
+  // Sticky section tabs
+  stickyTabs:         { backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8', zIndex: 10 },
+  stickyTab:          { paddingHorizontal: 14, paddingVertical: 7, borderRadius: 999, backgroundColor: '#F4F4FB' },
+  stickyTabActive:    { backgroundColor: '#4A90E2' },
+  stickyTabText:      { fontSize: 12, fontWeight: '700', color: '#9A9AB0' },
+  stickyTabTextActive:{ color: '#fff' },
+
+  // View all / modals
+  viewAllBtn:     { marginHorizontal: 16, marginBottom: 8, backgroundColor: '#EDE4FF', borderRadius: 14, paddingVertical: 14, alignItems: 'center' },
+  viewAllBtnText: { fontSize: 14, fontWeight: '800', color: '#7B4FCA' },
+  modalOverlay:   { flex: 1, backgroundColor: 'rgba(10,10,30,0.5)', justifyContent: 'flex-end' },
+  modalSheet:     { backgroundColor: '#fff', borderTopLeftRadius: 28, borderTopRightRadius: 28, maxHeight: '88%', overflow: 'hidden' },
+  modalHeader:    { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20, borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  modalTitle:     { fontSize: 18, fontWeight: '900', color: '#1a1a2e' },
+  modalSub:       { fontSize: 12, color: '#9A9AB0', fontWeight: '600', marginTop: 2 },
+  modalClose:     { width: 36, height: 36, borderRadius: 18, backgroundColor: '#F4F4FB', alignItems: 'center', justifyContent: 'center' },
+  modalQuizRow:   { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: '#F4F4FB' },
+  modalQuizNum:   { width: 28, alignItems: 'center' },
+
+  // Quiz detail
+  detailQuestionCard: { backgroundColor: '#fff', borderRadius: 20, marginBottom: 14, overflow: 'hidden', borderWidth: 1, borderColor: '#F0F0F8', shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.35, shadowRadius: 8, elevation: 3 },
+  detailQuestionInner: { padding: 16 },
+  detailQuestionBanner: { paddingHorizontal: 16, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  detailQHeader:      { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 },
+  detailQNum:         { fontSize: 12, fontWeight: '900', color: '#9A9AB0' },
+  detailQBadge:       { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
+  detailQBadgeText:   { fontSize: 11, fontWeight: '800' },
+  detailQTitle:       { fontSize: 15, fontWeight: '700', color: '#1a1a2e', lineHeight: 22 },
+  detailOption:       { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1.5, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 10 },
+  detailOptionText:   { fontSize: 14, fontWeight: '600', flex: 1 },
+  detailAnswerRow:    { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', marginTop: 10, paddingTop: 10, borderTopWidth: 1, borderTopColor: '#F0F0F8' },
+  detailAnswerLabel:  { fontSize: 12, color: '#9A9AB0', fontWeight: '600' },
+  detailAnswerVal:    { fontSize: 12, fontWeight: '800' },
 });
 
 // ── Modal Styles ──────────────────────────────────────────────────────────────

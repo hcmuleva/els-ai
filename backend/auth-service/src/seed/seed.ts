@@ -16,6 +16,53 @@ export async function initSchemaAndSeed() {
   if (schemaExists && !forceReset) {
     // Ensure all newer tables are created if they are missing
     await db.query(`
+      CREATE TABLE IF NOT EXISTS student_activity (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        student_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+        activity_type VARCHAR(50) NOT NULL,
+        reference_id UUID,
+        reference_title VARCHAR(255),
+        status VARCHAR(50) DEFAULT 'attempted',
+        score INTEGER,
+        time_spent_seconds INTEGER DEFAULT 0,
+        activity_date DATE DEFAULT CURRENT_DATE,
+        created_at TIMESTAMP DEFAULT NOW()
+      );
+
+      CREATE TABLE IF NOT EXISTS student_analytics (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        student_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+        analytics_date DATE NOT NULL DEFAULT CURRENT_DATE,
+        streak_days INTEGER DEFAULT 0,
+        consistency_score NUMERIC(5,2) DEFAULT 0,
+        attempted_count INTEGER DEFAULT 0,
+        not_attempted_count INTEGER DEFAULT 0,
+        completed_count INTEGER DEFAULT 0,
+        completion_rate NUMERIC(5,2) DEFAULT 0,
+        total_time_seconds INTEGER DEFAULT 0,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW(),
+        UNIQUE(student_id, analytics_date)
+      );
+
+      CREATE TABLE IF NOT EXISTS assignment_submissions (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        student_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+        assignment_ref_id UUID,
+        assignment_title VARCHAR(255),
+        file_url TEXT,
+        submission_status VARCHAR(50) DEFAULT 'pending',
+        submitted_at TIMESTAMP,
+        graded_at TIMESTAMP,
+        grade INTEGER,
+        feedback TEXT,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      );
+
       CREATE TABLE IF NOT EXISTS parent_student_links (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         parent_user_id UUID REFERENCES users(id) ON DELETE CASCADE,
@@ -151,6 +198,92 @@ export async function initSchemaAndSeed() {
     if ((orgRes.rowCount ?? 0) > 0) {
       const orgId = orgRes.rows[0].id;
       await seedTopicsAndContent(orgId);
+
+      // Seed Ramesh / Rahul / Mohan if missing
+      const rameshCheck = await db.query("SELECT id FROM users WHERE email = 'ramesh@els.ai' LIMIT 1");
+      if ((rameshCheck.rowCount ?? 0) === 0) {
+        const passwordHash = await bcrypt.hash('welcome', 10);
+        const parentRoleRes = await db.query("SELECT id FROM roles WHERE role_name = 'parent' LIMIT 1");
+        const studentRoleRes = await db.query("SELECT id FROM roles WHERE role_name = 'student' LIMIT 1");
+        const parentRoleId = parentRoleRes.rows[0]?.id;
+        const studentRoleId = studentRoleRes.rows[0]?.id;
+
+        const ramesh = await db.query(
+          `INSERT INTO users(first_name, last_name, email, mobile_number, password_hash, active_role)
+           VALUES('Ramesh', 'Kumar', 'ramesh@els.ai', '9876543210', $1, 'parent') RETURNING id`,
+          [passwordHash],
+        );
+        const rameshId = ramesh.rows[0].id;
+        await db.query(`INSERT INTO user_roles(user_id, role_id, organization_id) VALUES($1,$2,$3) ON CONFLICT DO NOTHING`, [rameshId, parentRoleId, orgId]);
+
+        const rahul = await db.query(
+          `INSERT INTO users(first_name, last_name, email, mobile_number, password_hash, active_role, class_level)
+           VALUES('Rahul', 'Kumar', 'rahul@els.ai', '9876543211', $1, 'student', '1') RETURNING id`,
+          [passwordHash],
+        );
+        const rahulId = rahul.rows[0].id;
+        await db.query(`INSERT INTO user_roles(user_id, role_id, organization_id) VALUES($1,$2,$3) ON CONFLICT DO NOTHING`, [rahulId, studentRoleId, orgId]);
+
+        const mohan = await db.query(
+          `INSERT INTO users(first_name, last_name, email, mobile_number, password_hash, active_role, class_level)
+           VALUES('Mohan', 'Kumar', 'mohan@els.ai', '9876543212', $1, 'student', '2') RETURNING id`,
+          [passwordHash],
+        );
+        const mohanId = mohan.rows[0].id;
+        await db.query(`INSERT INTO user_roles(user_id, role_id, organization_id) VALUES($1,$2,$3) ON CONFLICT DO NOTHING`, [mohanId, studentRoleId, orgId]);
+
+        await db.query(
+          `INSERT INTO parent_student_links(parent_user_id, student_user_id, organization_id)
+           VALUES($1,$2,$3),($1,$4,$3) ON CONFLICT DO NOTHING`,
+          [rameshId, rahulId, orgId, mohanId],
+        );
+
+        // Sample activity for Rahul
+        const rahulActivities = [
+          { type: 'content', title: 'Alphabets A-E', status: 'completed', score: null, time: 480, days: 6 },
+          { type: 'quiz',    title: 'Vowels & Consonants Quiz', status: 'completed', score: 90, time: 300, days: 5 },
+          { type: 'content', title: 'Numbers 1-20', status: 'completed', score: null, time: 360, days: 4 },
+          { type: 'assignment', title: 'Write your name', status: 'completed', score: 85, time: 600, days: 3 },
+          { type: 'content', title: 'Colours & Shapes', status: 'completed', score: null, time: 420, days: 2 },
+          { type: 'quiz',    title: 'Shapes Quiz', status: 'attempted', score: 70, time: 240, days: 1 },
+          { type: 'content', title: 'Fruits & Vegetables', status: 'completed', score: null, time: 300, days: 0 },
+        ];
+        for (const act of rahulActivities) {
+          await db.query(
+            `INSERT INTO student_activity(student_id, organization_id, activity_type, reference_title, status, score, time_spent_seconds, activity_date)
+             VALUES($1,$2,$3,$4,$5,$6,$7, CURRENT_DATE - $8::int)`,
+            [rahulId, orgId, act.type, act.title, act.status, act.score, act.time, act.days],
+          );
+        }
+
+        // Sample activity for Mohan
+        const mohanActivities = [
+          { type: 'content', title: 'Addition & Subtraction', status: 'completed', score: null, time: 540, days: 6 },
+          { type: 'quiz',    title: 'Maths Quiz 1', status: 'completed', score: 80, time: 360, days: 5 },
+          { type: 'content', title: 'Plants and Animals', status: 'completed', score: null, time: 420, days: 4 },
+          { type: 'assignment', title: 'Draw a plant', status: 'pending', score: null, time: 0, days: 3 },
+          { type: 'content', title: 'Sentence Formation', status: 'completed', score: null, time: 300, days: 2 },
+          { type: 'quiz',    title: 'English Grammar Quiz', status: 'completed', score: 95, time: 270, days: 1 },
+          { type: 'content', title: 'Multiplication Basics', status: 'attempted', score: null, time: 180, days: 0 },
+        ];
+        for (const act of mohanActivities) {
+          await db.query(
+            `INSERT INTO student_activity(student_id, organization_id, activity_type, reference_title, status, score, time_spent_seconds, activity_date)
+             VALUES($1,$2,$3,$4,$5,$6,$7, CURRENT_DATE - $8::int)`,
+            [mohanId, orgId, act.type, act.title, act.status, act.score, act.time, act.days],
+          );
+        }
+
+        await db.query(
+          `INSERT INTO student_analytics(student_id, organization_id, analytics_date, streak_days, consistency_score, attempted_count, completed_count, completion_rate, total_time_seconds)
+           VALUES($1,$2,CURRENT_DATE,7,92.5,7,6,85.71,2700),
+                 ($3,$2,CURRENT_DATE,5,78.3,6,5,83.33,2070)
+           ON CONFLICT (student_id, analytics_date) DO NOTHING`,
+          [rahulId, orgId, mohanId],
+        );
+
+        console.log('Seeded Ramesh, Rahul, Mohan successfully.');
+      }
     }
 
     console.log('Schema already exists. Skipping destructive seed.');
@@ -172,6 +305,9 @@ export async function initSchemaAndSeed() {
       DROP TABLE IF EXISTS refresh_tokens CASCADE;
       DROP TABLE IF EXISTS subjects CASCADE;
       DROP TABLE IF EXISTS teacher_standard_subjects CASCADE;
+      DROP TABLE IF EXISTS assignment_submissions CASCADE;
+      DROP TABLE IF EXISTS student_analytics CASCADE;
+      DROP TABLE IF EXISTS student_activity CASCADE;
       DROP TABLE IF EXISTS parent_student_links CASCADE;
       DROP TABLE IF EXISTS user_roles CASCADE;
       DROP TABLE IF EXISTS roles CASCADE;
@@ -248,6 +384,60 @@ export async function initSchemaAndSeed() {
       expires_at TIMESTAMP NOT NULL,
       revoked BOOLEAN DEFAULT false,
       created_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
+  // 5.0 Student activity tracking
+  await db.query(`
+    CREATE TABLE student_activity (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      student_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+      activity_type VARCHAR(50) NOT NULL,
+      reference_id UUID,
+      reference_title VARCHAR(255),
+      status VARCHAR(50) DEFAULT 'attempted',
+      score INTEGER,
+      time_spent_seconds INTEGER DEFAULT 0,
+      activity_date DATE DEFAULT CURRENT_DATE,
+      created_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
+  await db.query(`
+    CREATE TABLE student_analytics (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      student_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+      analytics_date DATE NOT NULL DEFAULT CURRENT_DATE,
+      streak_days INTEGER DEFAULT 0,
+      consistency_score NUMERIC(5,2) DEFAULT 0,
+      attempted_count INTEGER DEFAULT 0,
+      not_attempted_count INTEGER DEFAULT 0,
+      completed_count INTEGER DEFAULT 0,
+      completion_rate NUMERIC(5,2) DEFAULT 0,
+      total_time_seconds INTEGER DEFAULT 0,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW(),
+      UNIQUE(student_id, analytics_date)
+    );
+  `);
+
+  await db.query(`
+    CREATE TABLE assignment_submissions (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      student_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+      assignment_ref_id UUID,
+      assignment_title VARCHAR(255),
+      file_url TEXT,
+      submission_status VARCHAR(50) DEFAULT 'pending',
+      submitted_at TIMESTAMP,
+      graded_at TIMESTAMP,
+      grade INTEGER,
+      feedback TEXT,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
     );
   `);
 
@@ -509,6 +699,106 @@ export async function initSchemaAndSeed() {
         [userId, roleId, orgId]
       );
     }
+  }
+
+  // ── MULTI-CHILD DEMO: Ramesh (parent) → Rahul (Class 1) + Mohan (Class 2) ──
+  const rameshInsert = await db.query(
+    `INSERT INTO users(first_name, last_name, email, mobile_number, password_hash, active_role)
+     VALUES('Ramesh', 'Kumar', 'ramesh@els.ai', '9876543210', $1, 'parent')
+     RETURNING id`,
+    [passwordHash],
+  );
+  const rameshId = rameshInsert.rows[0].id as string;
+  await db.query(
+    `INSERT INTO user_roles(user_id, role_id, organization_id) VALUES($1, $2, $3)`,
+    [rameshId, roleIdMap['parent'], orgId],
+  );
+
+  const rahulInsert = await db.query(
+    `INSERT INTO users(first_name, last_name, email, mobile_number, password_hash, active_role, class_level)
+     VALUES('Rahul', 'Kumar', 'rahul@els.ai', '9876543211', $1, 'student', '1')
+     RETURNING id`,
+    [passwordHash],
+  );
+  const rahulId = rahulInsert.rows[0].id as string;
+  await db.query(
+    `INSERT INTO user_roles(user_id, role_id, organization_id) VALUES($1, $2, $3)`,
+    [rahulId, roleIdMap['student'], orgId],
+  );
+
+  const mohanInsert = await db.query(
+    `INSERT INTO users(first_name, last_name, email, mobile_number, password_hash, active_role, class_level)
+     VALUES('Mohan', 'Kumar', 'mohan@els.ai', '9876543212', $1, 'student', '2')
+     RETURNING id`,
+    [passwordHash],
+  );
+  const mohanId = mohanInsert.rows[0].id as string;
+  await db.query(
+    `INSERT INTO user_roles(user_id, role_id, organization_id) VALUES($1, $2, $3)`,
+    [mohanId, roleIdMap['student'], orgId],
+  );
+
+  // Link Ramesh → Rahul + Mohan
+  await db.query(
+    `INSERT INTO parent_student_links(parent_user_id, student_user_id, organization_id)
+     VALUES($1, $2, $3), ($1, $4, $3)`,
+    [rameshId, rahulId, orgId, mohanId],
+  );
+
+  // Sample activity: Rahul (Class 1) — last 7 days
+  const activityDaysRahul = [6, 5, 4, 3, 2, 1, 0];
+  const rahulActivities = [
+    { type: 'content', title: 'Alphabets A-E', status: 'completed', score: null, time: 480 },
+    { type: 'quiz', title: 'Vowels & Consonants Quiz', status: 'completed', score: 90, time: 300 },
+    { type: 'content', title: 'Numbers 1-20', status: 'completed', score: null, time: 360 },
+    { type: 'assignment', title: 'Write your name', status: 'completed', score: 85, time: 600 },
+    { type: 'content', title: 'Colours & Shapes', status: 'completed', score: null, time: 420 },
+    { type: 'quiz', title: 'Shapes Quiz', status: 'attempted', score: 70, time: 240 },
+    { type: 'content', title: 'Fruits & Vegetables', status: 'completed', score: null, time: 300 },
+  ];
+  for (let i = 0; i < rahulActivities.length; i++) {
+    const act = rahulActivities[i];
+    const daysAgo = activityDaysRahul[i];
+    await db.query(
+      `INSERT INTO student_activity(student_id, organization_id, activity_type, reference_title, status, score, time_spent_seconds, activity_date)
+       VALUES($1, $2, $3, $4, $5, $6, $7, CURRENT_DATE - $8::int)`,
+      [rahulId, orgId, act.type, act.title, act.status, act.score, act.time, daysAgo],
+    );
+  }
+
+  // Sample activity: Mohan (Class 2) — last 7 days
+  const mohanActivities = [
+    { type: 'content', title: 'Addition & Subtraction', status: 'completed', score: null, time: 540 },
+    { type: 'quiz', title: 'Maths Quiz 1', status: 'completed', score: 80, time: 360 },
+    { type: 'content', title: 'Plants and Animals', status: 'completed', score: null, time: 420 },
+    { type: 'assignment', title: 'Draw a plant', status: 'pending', score: null, time: 0 },
+    { type: 'content', title: 'Sentence Formation', status: 'completed', score: null, time: 300 },
+    { type: 'quiz', title: 'English Grammar Quiz', status: 'completed', score: 95, time: 270 },
+    { type: 'content', title: 'Multiplication Basics', status: 'attempted', score: null, time: 180 },
+  ];
+  for (let i = 0; i < mohanActivities.length; i++) {
+    const act = mohanActivities[i];
+    const daysAgo = activityDaysRahul[i];
+    await db.query(
+      `INSERT INTO student_activity(student_id, organization_id, activity_type, reference_title, status, score, time_spent_seconds, activity_date)
+       VALUES($1, $2, $3, $4, $5, $6, $7, CURRENT_DATE - $8::int)`,
+      [mohanId, orgId, act.type, act.title, act.status, act.score, act.time, daysAgo],
+    );
+  }
+
+  // Seed analytics for both students (last 7 days each)
+  const analyticsSeeds = [
+    { studentId: rahulId, streak: 7, consistency: 92.5, attempted: 7, completed: 6, notAttempted: 0, totalTime: 2700 },
+    { studentId: mohanId, streak: 5, consistency: 78.3, attempted: 6, completed: 5, notAttempted: 1, totalTime: 2070 },
+  ];
+  for (const a of analyticsSeeds) {
+    const completionRate = a.attempted > 0 ? Math.round((a.completed / a.attempted) * 100 * 100) / 100 : 0;
+    await db.query(
+      `INSERT INTO student_analytics(student_id, organization_id, analytics_date, streak_days, consistency_score, attempted_count, not_attempted_count, completed_count, completion_rate, total_time_seconds)
+       VALUES($1, $2, CURRENT_DATE, $3, $4, $5, $6, $7, $8, $9)
+       ON CONFLICT (student_id, analytics_date) DO NOTHING`,
+      [a.studentId, orgId, a.streak, a.consistency, a.attempted, a.notAttempted, a.completed, completionRate, a.totalTime],
+    );
   }
 
   await db.query(

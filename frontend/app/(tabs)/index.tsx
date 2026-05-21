@@ -5,10 +5,197 @@ import {
 } from 'react-native';
 import { Redirect, router } from 'expo-router';
 import { useFocusEffect } from 'expo-router';
-import { Bell, Star, Users, BookOpen, TrendingUp, Calendar, ChevronRight } from 'lucide-react-native';
+import { Bell, Star, Users, BookOpen, TrendingUp, Calendar, ChevronRight, Clock, Zap, CheckCircle } from 'lucide-react-native';
 
 import { useAuth } from '../../src/context/AuthContext';
+import { useStudentProfile } from '../../src/context/StudentProfileContext';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
+
+// ── Child avatar chips (CONST colors) ────────────────────────────────────────
+const CHILD_COLORS = ['#4A90E2', '#7DC67A', '#FF7043', '#9B8EC4', '#E6A020'];
+const ACTIVITY_ICON: Record<string, string> = { content: '📖', quiz: '🧩', assignment: '📝' };
+const STATUS_COLOR: Record<string, string> = { completed: '#4CAF50', attempted: '#E6A020', pending: '#9A9AB0' };
+
+// ── ParentDashboard ───────────────────────────────────────────────────────────
+// Standalone component so it can freely use useStudentProfile hooks
+function ParentDashboard() {
+  const { user } = useAuth();
+  const {
+    linkedStudents, activeStudent,
+    loadingStudents, loadingActivity,
+    activity, analytics,
+    switchToStudent, refreshAll,
+  } = useStudentProfile();
+
+  const fmt = (s: number) => s >= 3600
+    ? `${Math.floor(s / 3600)}h ${Math.floor((s % 3600) / 60)}m`
+    : `${Math.floor(s / 60)}m`;
+
+  return (
+    <View style={s.screen}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={s.scroll}>
+
+        {/* Top bar */}
+        <View style={[s.topBar, { paddingTop: Platform.OS === 'ios' ? 2 : 8 }]}>
+          <View>
+            <Text style={s.greetingSub}>Hello,</Text>
+            <Text style={s.greetingName}>{user?.firstName ?? 'Parent'} 👋</Text>
+          </View>
+          <Pressable style={s.bellWrap} onPress={refreshAll}>
+            <Bell size={15} color="#1a1a2e" />
+          </Pressable>
+        </View>
+
+        {/* ── Profile switcher: horizontal avatar row ── */}
+        <View style={s.profileSwitcherWrap}>
+          <Text style={s.profileSwitcherLabel}>My Children</Text>
+          {loadingStudents ? (
+            <ActivityIndicator color="#9B8EC4" size="small" style={{ marginTop: 8 }} />
+          ) : linkedStudents.length === 0 ? (
+            <View style={s.emptyBlock}>
+              <Text style={{ fontSize: 36, textAlign: 'center' }}>👧</Text>
+              <Text style={s.emptyTitle}>No children linked yet</Text>
+              <Text style={s.emptyBody}>Ask your school admin to link your account.</Text>
+            </View>
+          ) : (
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.avatarScroll} contentContainerStyle={{ gap: 16, paddingHorizontal: 16, paddingVertical: 8 }}>
+              {linkedStudents.map((child, idx) => {
+                const isActive = child.id === activeStudent?.id;
+                const chipColor = CHILD_COLORS[idx % CHILD_COLORS.length];
+                return (
+                  <Pressable key={child.id} style={s.avatarItem} onPress={() => switchToStudent(child.id)}>
+                    <View style={[s.avatarCircle, { backgroundColor: chipColor, borderWidth: isActive ? 3 : 0, borderColor: '#1a1a2e' }]}>
+                      <Text style={s.avatarEmoji}>{idx % 2 === 0 ? '🧒' : '👧'}</Text>
+                    </View>
+                    <Text style={[s.avatarName, isActive && { fontWeight: '900', color: '#1a1a2e' }]} numberOfLines={1}>
+                      {child.firstName}
+                    </Text>
+                    {isActive && <View style={[s.avatarActiveDot, { backgroundColor: chipColor }]} />}
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
+          )}
+        </View>
+
+        {/* ── Active child detail card ── */}
+        {activeStudent && (
+          <>
+            <View style={s.activeChildHeader}>
+              <View>
+                <Text style={s.activeChildName}>{activeStudent.firstName} {activeStudent.lastName}</Text>
+                <Text style={s.activeChildMeta}>
+                  {activeStudent.classLevel ? `Class ${activeStudent.classLevel}` : 'No class assigned'}
+                </Text>
+              </View>
+              <Pressable style={s.viewReportBtn} onPress={() => router.push('/(tabs)/reports')}>
+                <Text style={s.viewReportBtnText}>Full Report ›</Text>
+              </Pressable>
+            </View>
+
+            {/* Analytics strip */}
+            {analytics?.summary && (
+              <View style={s.statsStrip}>
+                <View style={[s.statPill, { backgroundColor: '#D6EAFF' }]}>
+                  <Zap size={13} color="#4A90E2" />
+                  <Text style={[s.statPillVal, { color: '#4A90E2' }]}>{analytics.summary.streakDays}🔥</Text>
+                  <Text style={s.statPillLbl}>Streak</Text>
+                </View>
+                <View style={[s.statPill, { backgroundColor: '#D6F5D6' }]}>
+                  <CheckCircle size={13} color="#4CAF50" />
+                  <Text style={[s.statPillVal, { color: '#4CAF50' }]}>{analytics.summary.completionRate.toFixed(0)}%</Text>
+                  <Text style={s.statPillLbl}>Done</Text>
+                </View>
+                <View style={[s.statPill, { backgroundColor: '#FFF5CC' }]}>
+                  <Star size={13} color="#E6A020" />
+                  <Text style={[s.statPillVal, { color: '#E6A020' }]}>{analytics.summary.attemptedCount}</Text>
+                  <Text style={s.statPillLbl}>Attempted</Text>
+                </View>
+                <View style={[s.statPill, { backgroundColor: '#EDE4FF' }]}>
+                  <Clock size={13} color="#9B8EC4" />
+                  <Text style={[s.statPillVal, { color: '#9B8EC4' }]}>{fmt(analytics.summary.totalTimeSeconds)}</Text>
+                  <Text style={s.statPillLbl}>Time</Text>
+                </View>
+              </View>
+            )}
+
+            {/* Subject breakdown */}
+            {analytics?.breakdown && Object.keys(analytics.breakdown).length > 0 && (
+              <>
+                <View style={s.rowHeader}>
+                  <Text style={s.rowTitle}>Activity Breakdown</Text>
+                </View>
+                <View style={s.breakdownRow}>
+                  {Object.entries(analytics.breakdown).map(([type, data]) => (
+                    <View key={type} style={s.breakdownCard}>
+                      <Text style={s.breakdownEmoji}>{ACTIVITY_ICON[type] ?? '📌'}</Text>
+                      <Text style={s.breakdownCount}>{data.count}</Text>
+                      <Text style={s.breakdownLabel}>{type.charAt(0).toUpperCase() + type.slice(1)}</Text>
+                      {data.avgScore !== null && (
+                        <Text style={s.breakdownScore}>avg {data.avgScore}%</Text>
+                      )}
+                    </View>
+                  ))}
+                </View>
+              </>
+            )}
+
+            {/* Recent activity */}
+            <View style={s.rowHeader}>
+              <Text style={s.rowTitle}>Recent Activity</Text>
+              <Pressable onPress={() => router.push('/(tabs)/reports')}>
+                <Text style={s.rowLink}>See All</Text>
+              </Pressable>
+            </View>
+            {loadingActivity ? (
+              <ActivityIndicator color="#4A90E2" style={{ marginVertical: 16 }} />
+            ) : activity.length === 0 ? (
+              <View style={s.emptyBlock}>
+                <Text style={s.emptyTitle}>No activity yet</Text>
+              </View>
+            ) : (
+              activity.slice(0, 6).map((item) => (
+                <View key={item.id} style={s.activityRow}>
+                  <View style={[s.activityDot, { backgroundColor: STATUS_COLOR[item.status] ?? '#9A9AB0' }]} />
+                  <View style={s.activityInfo}>
+                    <Text style={s.activityTitle} numberOfLines={1}>
+                      {ACTIVITY_ICON[item.activityType] ?? '📌'} {item.referenceTitle ?? item.activityType}
+                    </Text>
+                    <Text style={s.activityMeta}>
+                      {item.status} • {item.activityDate}
+                      {item.score !== undefined ? ` • ${item.score}%` : ''}
+                    </Text>
+                  </View>
+                  {item.timeSpentSeconds > 0 && (
+                    <Text style={s.activityTime}>{fmt(item.timeSpentSeconds)}</Text>
+                  )}
+                </View>
+              ))
+            )}
+          </>
+        )}
+
+        {/* Quick actions */}
+        <View style={s.rowHeader}>
+          <Text style={s.rowTitle}>Quick Actions</Text>
+        </View>
+        <View style={s.quickActionsGrid}>
+          {[
+            { label: 'Reports',   emoji: '📊', color: '#D6EAFF', textColor: '#1A4DA2', route: '/(tabs)/reports' as const },
+            { label: 'Classroom', emoji: '📚', color: '#FFE8D6', textColor: '#B04A1A', route: '/(tabs)/reports' as const },
+            { label: 'Progress',  emoji: '📈', color: '#D6F5D6', textColor: '#1A6B1A', route: '/(tabs)/reports' as const },
+            { label: 'Schedule',  emoji: '📅', color: '#EDE4FF', textColor: '#5A3A9A', route: '/(tabs)/reports' as const },
+          ].map((qa) => (
+            <Pressable key={qa.label} style={[s.quickActionTile, { backgroundColor: qa.color }]} onPress={() => router.push(qa.route)}>
+              <Text style={{ fontSize: 28 }}>{qa.emoji}</Text>
+              <Text style={[s.quickActionLabel, { color: qa.textColor }]}>{qa.label}</Text>
+            </Pressable>
+          ))}
+        </View>
+      </ScrollView>
+    </View>
+  );
+}
 
 // ── Parent types ──────────────────────────────────────────────────────────────
 type ChildInfo = {
@@ -98,98 +285,7 @@ export default function HomeScreen() {
 
   // ── Parent view ───────────────────────────────────────────────────────────
   if (role === 'parent') {
-    return (
-      <View style={s.screen}>
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={s.scroll}>
-          {/* Top bar */}
-          <View style={[s.topBar, { paddingTop: Platform.OS === 'ios' ? 2 : 8 }]}>
-            <View>
-              <Text style={s.greetingSub}>Hello,</Text>
-              <Text style={s.greetingName}>{user?.firstName ?? 'Parent'} 👋</Text>
-            </View>
-            <Pressable style={s.bellWrap}>
-              <Bell size={15} color="#1a1a2e" />
-            </Pressable>
-          </View>
-
-          {/* Hero banner */}
-          <View style={[s.heroBanner, { backgroundColor: '#9B8EC4' }]}>
-            <View style={s.heroLeft}>
-              <Text style={s.heroSub}>Parent Dashboard</Text>
-              <Text style={s.heroTitle}>Track your child's learning journey</Text>
-              <Pressable style={[s.heroBtn, { backgroundColor: 'rgba(255,255,255,0.25)' }]} onPress={() => router.push('/(tabs)/reports')}>
-                <Text style={s.heroBtnText}>View Reports ›</Text>
-              </Pressable>
-            </View>
-            <View style={[s.heroAvatar, { backgroundColor: 'rgba(255,255,255,0.18)' }]}>
-              <Text style={{ fontSize: 28 }}>👨‍👩‍👧</Text>
-            </View>
-          </View>
-
-          {/* Children section */}
-          <View style={s.rowHeader}>
-            <Text style={s.rowTitle}>My Children</Text>
-            <Pressable onPress={() => router.push('/(tabs)/reports')}>
-              <Text style={s.rowLink}>See Reports</Text>
-            </Pressable>
-          </View>
-          {loading ? (
-            <View style={s.loadingBlock}>
-              <ActivityIndicator color="#9B8EC4" />
-            </View>
-          ) : children.length === 0 ? (
-            <View style={s.emptyBlock}>
-              <Text style={{ fontSize: 40, textAlign: 'center' }}>👧</Text>
-              <Text style={s.emptyTitle}>No children linked yet</Text>
-              <Text style={s.emptyBody}>Ask your school admin to link your account to your child's profile.</Text>
-            </View>
-          ) : (
-            children.map((child) => (
-              <Pressable
-                key={child.id}
-                style={s.childCard}
-                onPress={() => router.push('/(tabs)/reports')}
-              >
-                <View style={s.childAvatar}>
-                  <Text style={{ fontSize: 24 }}>🧒</Text>
-                </View>
-                <View style={s.childInfo}>
-                  <Text style={s.childName}>{child.firstName} {child.lastName}</Text>
-                  <Text style={s.childMeta}>{child.classLevel ? `Class ${child.classLevel}` : 'No class assigned'}</Text>
-                  {child.completionPct !== undefined && (
-                    <View style={s.childProgressWrap}>
-                      <View style={s.childProgressTrack}>
-                        <View style={[s.childProgressFill, { width: `${child.completionPct}%` }]} />
-                      </View>
-                      <Text style={s.childProgressPct}>{child.completionPct}%</Text>
-                    </View>
-                  )}
-                </View>
-                <ChevronRight size={16} color="#9A9AB0" />
-              </Pressable>
-            ))
-          )}
-
-          {/* Quick actions */}
-          <View style={s.rowHeader}>
-            <Text style={s.rowTitle}>Quick Actions</Text>
-          </View>
-          <View style={s.quickActionsGrid}>
-            {[
-              { label: 'Reports',    emoji: '📊', color: '#D6EAFF', textColor: '#1A4DA2', route: '/(tabs)/reports' as const },
-              { label: 'Classroom',  emoji: '📚', color: '#FFE8D6', textColor: '#B04A1A', route: '/(tabs)/reports' as const },
-              { label: 'Progress',   emoji: '📈', color: '#D6F5D6', textColor: '#1A6B1A', route: '/(tabs)/reports' as const },
-              { label: 'Schedule',   emoji: '📅', color: '#EDE4FF', textColor: '#5A3A9A', route: '/(tabs)/reports' as const },
-            ].map((qa) => (
-              <Pressable key={qa.label} style={[s.quickActionTile, { backgroundColor: qa.color }]} onPress={() => router.push(qa.route)}>
-                <Text style={{ fontSize: 28 }}>{qa.emoji}</Text>
-                <Text style={[s.quickActionLabel, { color: qa.textColor }]}>{qa.label}</Text>
-              </Pressable>
-            ))}
-          </View>
-        </ScrollView>
-      </View>
-    );
+    return <ParentDashboard />;
   }
 
   return (
@@ -551,6 +647,47 @@ const s = StyleSheet.create({
   emptyBody:     { fontSize: 13, fontWeight: '500', color: '#9A9AB0', textAlign: 'center', lineHeight: 20 },
 
   // ── Parent-specific ──────────────────────────────────────────────────────
+  profileSwitcherWrap: { marginHorizontal: 16, marginBottom: 4, marginTop: 4 },
+  profileSwitcherLabel: { fontSize: 12, fontWeight: '800', color: '#9A9AB0', letterSpacing: 0.8, textTransform: 'uppercase', marginBottom: 4, marginLeft: 2 },
+  avatarScroll: { marginHorizontal: -16 },
+  avatarItem: { alignItems: 'center', gap: 4, width: 64 },
+  avatarCircle: {
+    width: 56, height: 56, borderRadius: 28,
+    alignItems: 'center', justifyContent: 'center',
+    shadowColor: '#000', shadowOpacity: 0.1, shadowOffset: { width: 0, height: 2 }, shadowRadius: 6, elevation: 3,
+  },
+  avatarEmoji: { fontSize: 26 },
+  avatarName: { fontSize: 11, fontWeight: '600', color: '#6B7280', textAlign: 'center' },
+  avatarActiveDot: { width: 8, height: 8, borderRadius: 4 },
+
+  activeChildHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 16, marginTop: 12, marginBottom: 6 },
+  activeChildName: { fontSize: 18, fontWeight: '900', color: '#1a1a2e' },
+  activeChildMeta: { fontSize: 12, color: '#9A9AB0', fontWeight: '600', marginTop: 2 },
+  viewReportBtn: { backgroundColor: '#4A90E2', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 7 },
+  viewReportBtnText: { fontSize: 12, fontWeight: '800', color: '#fff' },
+
+  statsStrip: { flexDirection: 'row', gap: 8, marginHorizontal: 16, marginBottom: 8 },
+  statPill: { flex: 1, borderRadius: 14, paddingVertical: 10, paddingHorizontal: 6, alignItems: 'center', gap: 4 },
+  statPillVal: { fontSize: 15, fontWeight: '900' },
+  statPillLbl: { fontSize: 9, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' },
+
+  breakdownRow: { flexDirection: 'row', gap: 10, marginHorizontal: 16, marginBottom: 8 },
+  breakdownCard: {
+    flex: 1, backgroundColor: '#fff', borderRadius: 16, padding: 12, alignItems: 'center', gap: 2,
+    shadowColor: '#000', shadowOpacity: 0.05, shadowOffset: { width: 0, height: 2 }, shadowRadius: 5, elevation: 1,
+  },
+  breakdownEmoji: { fontSize: 22 },
+  breakdownCount: { fontSize: 20, fontWeight: '900', color: '#1a1a2e' },
+  breakdownLabel: { fontSize: 10, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' },
+  breakdownScore: { fontSize: 10, fontWeight: '700', color: '#4CAF50', marginTop: 2 },
+
+  activityRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginHorizontal: 16, marginBottom: 8, backgroundColor: '#fff', borderRadius: 14, padding: 12, shadowColor: '#000', shadowOpacity: 0.04, shadowOffset: { width: 0, height: 1 }, shadowRadius: 4, elevation: 1 },
+  activityDot: { width: 10, height: 10, borderRadius: 5, flexShrink: 0 },
+  activityInfo: { flex: 1, gap: 2 },
+  activityTitle: { fontSize: 13, fontWeight: '700', color: '#1a1a2e' },
+  activityMeta: { fontSize: 11, color: '#9A9AB0', fontWeight: '500' },
+  activityTime: { fontSize: 11, fontWeight: '700', color: '#4A90E2' },
+
   childCard: {
     flexDirection: 'row', alignItems: 'center', gap: 12,
     marginHorizontal: 16, marginBottom: 10,
