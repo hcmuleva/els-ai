@@ -14,7 +14,7 @@ import { RoleTabItem, UserRole } from '../types/roles';
 export const roleTabs: Record<UserRole, RoleTabItem[]> = {
   student: [
     { route: 'index', label: 'Home', icon: House },
-    { route: 'practice', label: 'Practice', icon: BookOpen },
+    { route: 'classroom', label: 'Classroom', icon: BookOpen },
     { route: 'reports', label: 'Reports', icon: ChartColumn },
   ],
   teacher: [
@@ -43,7 +43,7 @@ export const roleTabs: Record<UserRole, RoleTabItem[]> = {
 };
 
 export const hiddenTabRoutes = [
-  'practice',
+  'classroom',
   'planner',
   'exam',
   'logicopiccolo',

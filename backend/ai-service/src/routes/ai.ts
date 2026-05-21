@@ -6,7 +6,7 @@ export const aiRouter = Router();
 
 const generateSchema = z.object({
   topic: z.string().min(1),
-  classLevel: z.string().default('KG'),
+  classLevel: z.string().default('LKG'),
   quizType: z.enum(['drag_drop', 'image_select']),
   difficultyLevel: z.string().default('Easy'),
 });
