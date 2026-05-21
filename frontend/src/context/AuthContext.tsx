@@ -165,7 +165,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
       });
 
       if (res.ok) {
-        const updatedUser = await res.json();
+        const data = await res.json();
+        const updatedUser = data.user || data;
+        if (data.accessToken && data.refreshToken) {
+          await setStorageItem('accessToken', data.accessToken);
+          await setStorageItem('refreshToken', data.refreshToken);
+        }
         await setStorageItem('user', JSON.stringify(updatedUser));
         setUser(updatedUser);
       } else {

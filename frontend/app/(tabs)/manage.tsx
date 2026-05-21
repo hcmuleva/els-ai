@@ -127,6 +127,7 @@ type ContentTopic = {
 type TopicContentSection = {
   id: string;
   sectionOrder: number;
+  title?: string;
   contentType: 'reel' | 'image' | 'text' | 'audio' | 'youtube_url' | 'reel_url';
   mediaUrl?: string;
   externalUrl?: string;
@@ -171,6 +172,7 @@ type TopicDraft = {
 
 type TopicSectionDraft = {
   id: string;
+  title?: string;
   contentType: 'reel' | 'image' | 'text' | 'audio' | 'youtube_url' | 'reel_url';
   mediaUrl: string;
   mediaLabel: string;
@@ -395,6 +397,7 @@ const buildClientId = () => `section-${Date.now()}-${Math.random().toString(36).
 
 const makeEmptyTopicSection = (): TopicSectionDraft => ({
   id: buildClientId(),
+  title: '',
   contentType: 'text',
   mediaUrl: '',
   mediaLabel: '',
@@ -873,6 +876,45 @@ export default function QuestionManagementScreen() {
   const [deletingContentId, setDeletingContentId] = useState<string | null>(null);
   const [loadingContentItems, setLoadingContentItems] = useState(false);
   const [contentItems, setContentItems] = useState<LearningContentItem[]>([]);
+  const [topicPage, setTopicPage] =   useState(0);
+  const [contentPage, setContentPage] = useState(0);
+  const [questionPage, setQuestionPage] = useState(0);
+  const [topicContentPage, setTopicContentPage] = useState(0);
+  const renderPagination = (
+    currentPage: number,
+    totalItems: number,
+    pageSize: number,
+    onPageChange: (newPage: number) => void
+  ) => {
+    const totalPages = Math.ceil(totalItems / pageSize);
+    if (totalPages <= 1) return null;
+
+    return (
+      <View style={styles.paginationRow}>
+        <Pressable
+          style={[styles.paginationButton, currentPage === 0 && styles.paginationButtonDisabled]}
+          onPress={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 0}
+        >
+          <Text style={[styles.paginationButtonText, currentPage === 0 && styles.paginationButtonTextDisabled]}>
+            Previous
+          </Text>
+        </Pressable>
+        <Text style={styles.paginationText}>
+          Page {currentPage + 1} of {totalPages}
+        </Text>
+        <Pressable
+          style={[styles.paginationButton, currentPage >= totalPages - 1 && styles.paginationButtonDisabled]}
+          onPress={() => onPageChange(currentPage + 1)}
+          disabled={currentPage >= totalPages - 1}
+        >
+          <Text style={[styles.paginationButtonText, currentPage >= totalPages - 1 && styles.paginationButtonTextDisabled]}>
+            Next
+          </Text>
+        </Pressable>
+      </View>
+    );
+  };
   const [contentItemFilters, setContentItemFilters] = useState({ classLevel: '', subject: '', topicId: '' });
   const [selectedAssignContentIds, setSelectedAssignContentIds] = useState<string[]>([]);
   const [assignTargetTopicId, setAssignTargetTopicId] = useState('');
@@ -997,6 +1039,7 @@ export default function QuestionManagementScreen() {
     }
     const payload = await res.json();
     setQuestions(payload.questions || []);
+    setQuestionPage(0);
   }, [apiFetch, filters.category, filters.classLevel, filters.search, filters.subject]);
 
   const loadSubjectCatalog = useCallback(async () => {
@@ -1038,6 +1081,7 @@ export default function QuestionManagementScreen() {
     }
     const payload = await res.json();
     setTopics((payload.topics || []) as ContentTopic[]);
+    setTopicPage(0);
   }, [apiFetch, contentFilters.classLevel, contentFilters.subject]);
 
   const loadTopicDetails = useCallback(
@@ -1053,6 +1097,7 @@ export default function QuestionManagementScreen() {
         setSelectedTopic(payload.topic as ContentTopic);
         setTopicSections((payload.sections || []) as TopicContentSection[]);
         setTopicContentItems((payload.contentItems || []) as LearningContentItem[]);
+        setTopicContentPage(0);
       } catch (error) {
         setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load topic details' });
       } finally {
@@ -1205,6 +1250,7 @@ export default function QuestionManagementScreen() {
   const saveTopicSections = async () => {
     if (!selectedTopic) return;
     const normalizedSections = sectionDrafts.map((section) => ({
+      title: section.title?.trim() || undefined,
       contentType: section.contentType,
       mediaUrl: section.mediaUrl.trim() ? toPersistentMediaUrl(section.mediaUrl.trim()) : undefined,
       externalUrl: section.externalUrl.trim() || undefined,
@@ -1256,6 +1302,7 @@ export default function QuestionManagementScreen() {
     }
     const payload = await res.json();
     setContentItems((payload.items || []) as LearningContentItem[]);
+    setContentPage(0);
   }, [apiFetch, contentItemFilters.classLevel, contentItemFilters.subject, contentItemFilters.topicId]);
 
   const createSingleContentItem = async () => {
@@ -2147,8 +2194,9 @@ export default function QuestionManagementScreen() {
         title: payload.title,
       });
       const sections = (payload.sections || []).length
-        ? (payload.sections || []).map((section) => ({
+        ? (payload.sections || []).map((section: any) => ({
             id: buildClientId(),
+            title: section.title || '',
             contentType: section.contentType,
             mediaUrl: section.mediaUrl || '',
             mediaLabel: section.mediaUrl ? extractFileName(section.mediaUrl) : '',
@@ -2158,6 +2206,7 @@ export default function QuestionManagementScreen() {
         : [
             {
               id: buildClientId(),
+              title: '',
               contentType: (payload.contentType as TopicSectionDraft['contentType']) || 'text',
               mediaUrl: payload.mediaUrl || '',
               mediaLabel: payload.mediaUrl ? extractFileName(payload.mediaUrl) : '',
@@ -2276,6 +2325,13 @@ export default function QuestionManagementScreen() {
         {actionBadge ? (
           <View style={styles.actionBadge}>
             <Text style={styles.actionBadgeText}>{actionBadge}</Text>
+          </View>
+        ) : null}
+        {message ? (
+          <View style={[styles.messageCard, message.type === 'success' ? styles.successCard : styles.errorCard, { marginHorizontal: 20, marginBottom: 12 }]}>
+            <Text style={[styles.messageText, message.type === 'success' ? styles.successText : styles.errorText]}>
+              {message.text}
+            </Text>
           </View>
         ) : null}
         <ScrollView style={styles.dialogScroll} contentContainerStyle={styles.dialogScrollContent}>
@@ -2704,32 +2760,35 @@ export default function QuestionManagementScreen() {
             ) : topics.length === 0 ? (
               <Text style={styles.emptyText}>No topics found for selected filters.</Text>
             ) : (
-              <ScrollView horizontal>
-                <View>
-                  <View style={[styles.tableRow, styles.tableHeader]}>
-                    <Text style={[styles.tableCell, styles.colStandard]}>Standard</Text>
-                    <Text style={[styles.tableCell, styles.colSubject]}>Subject</Text>
-                    <Text style={[styles.tableCell, styles.colQuestion]}>Topic</Text>
-                    <Text style={[styles.tableCell, styles.colCategory]}>Sections</Text>
-                    <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
-                  </View>
-                  {topics.map((topic) => (
-                    <View key={topic.id} style={styles.tableRow}>
-                      <Text style={[styles.tableCell, styles.colStandard]}>{topic.classLevel}</Text>
-                      <Text style={[styles.tableCell, styles.colSubject]}>{topic.subject}</Text>
-                      <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
-                        {topic.title}
-                      </Text>
-                      <Text style={[styles.tableCell, styles.colCategory]}>{topic.sectionCount}</Text>
-                      <View style={[styles.colActions, styles.actionsCell]}>
-                        <Pressable style={styles.topicActionsTrigger} onPress={() => setTopicActionMenuTopic(topic)}>
-                          <Text style={styles.topicActionsTriggerText}>Actions</Text>
-                        </Pressable>
-                      </View>
+              <>
+                <ScrollView horizontal>
+                  <View>
+                    <View style={[styles.tableRow, styles.tableHeader]}>
+                      <Text style={[styles.tableCell, styles.colStandard]}>Standard</Text>
+                      <Text style={[styles.tableCell, styles.colSubject]}>Subject</Text>
+                      <Text style={[styles.tableCell, styles.colQuestion]}>Topic</Text>
+                      <Text style={[styles.tableCell, styles.colCategory]}>Sections</Text>
+                      <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
                     </View>
-                  ))}
-                </View>
-              </ScrollView>
+                    {topics.slice(topicPage * 20, (topicPage + 1) * 20).map((topic) => (
+                      <View key={topic.id} style={styles.tableRow}>
+                        <Text style={[styles.tableCell, styles.colStandard]}>{getStandardLabel(topic.classLevel)}</Text>
+                        <Text style={[styles.tableCell, styles.colSubject]}>{topic.subject}</Text>
+                        <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
+                          {topic.title}
+                        </Text>
+                        <Text style={[styles.tableCell, styles.colCategory]}>{topic.sectionCount}</Text>
+                        <View style={[styles.colActions, styles.actionsCell]}>
+                          <Pressable style={styles.topicActionsTrigger} onPress={() => setTopicActionMenuTopic(topic)}>
+                            <Text style={styles.topicActionsTriggerText}>Actions</Text>
+                          </Pressable>
+                        </View>
+                      </View>
+                    ))}
+                  </View>
+                </ScrollView>
+                {renderPagination(topicPage, topics.length, 20, setTopicPage)}
+              </>
             )}
           </View>
 
@@ -2779,32 +2838,35 @@ export default function QuestionManagementScreen() {
                 ) : contentItems.length === 0 ? (
                   <Text style={styles.emptyText}>No content created yet.</Text>
                 ) : (
-                  <ScrollView horizontal>
-                    <View>
-                      <View style={[styles.tableRow, styles.tableHeader]}>
-                        <Text style={[styles.tableCell, styles.colStandard]}>Standard</Text>
-                        <Text style={[styles.tableCell, styles.colSubject]}>Subject</Text>
-                        <Text style={[styles.tableCell, styles.colQuestion]}>Title</Text>
-                        <Text style={[styles.tableCell, styles.colCategory]}>Type</Text>
-                        <Text style={[styles.tableCell, styles.colCategory]}>Sections</Text>
-                        <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
-                      </View>
-                      {contentItems.map((item) => (
-                        <View key={item.id} style={styles.tableRow}>
-                          <Text style={[styles.tableCell, styles.colStandard]}>{item.classLevel}</Text>
-                          <Text style={[styles.tableCell, styles.colSubject]}>{item.subject}</Text>
-                          <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>{item.title}</Text>
-                          <Text style={[styles.tableCell, styles.colCategory]}>{item.contentType}</Text>
-                          <Text style={[styles.tableCell, styles.colCategory]}>{item.sectionCount || 1}</Text>
-                          <View style={[styles.colActions, styles.actionsCell]}>
-                            <Pressable style={styles.topicActionsTrigger} onPress={() => setContentLibraryActionItem(item)}>
-                              <Text style={styles.topicActionsTriggerText}>Actions</Text>
-                            </Pressable>
-                          </View>
+                  <>
+                    <ScrollView horizontal>
+                      <View>
+                        <View style={[styles.tableRow, styles.tableHeader]}>
+                          <Text style={[styles.tableCell, styles.colStandard]}>Standard</Text>
+                          <Text style={[styles.tableCell, styles.colSubject]}>Subject</Text>
+                          <Text style={[styles.tableCell, styles.colQuestion]}>Title</Text>
+                          <Text style={[styles.tableCell, styles.colCategory]}>Type</Text>
+                          <Text style={[styles.tableCell, styles.colCategory]}>Sections</Text>
+                          <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
                         </View>
-                      ))}
-                    </View>
-                  </ScrollView>
+                        {contentItems.slice(contentPage * 20, (contentPage + 1) * 20).map((item) => (
+                          <View key={item.id} style={styles.tableRow}>
+                            <Text style={[styles.tableCell, styles.colStandard]}>{getStandardLabel(item.classLevel)}</Text>
+                            <Text style={[styles.tableCell, styles.colSubject]}>{item.subject}</Text>
+                            <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>{item.title}</Text>
+                            <Text style={[styles.tableCell, styles.colCategory]}>{item.contentType}</Text>
+                            <Text style={[styles.tableCell, styles.colCategory]}>{item.sectionCount || 1}</Text>
+                            <View style={[styles.colActions, styles.actionsCell]}>
+                              <Pressable style={styles.topicActionsTrigger} onPress={() => setContentLibraryActionItem(item)}>
+                                <Text style={styles.topicActionsTriggerText}>Actions</Text>
+                              </Pressable>
+                            </View>
+                          </View>
+                        ))}
+                      </View>
+                    </ScrollView>
+                    {renderPagination(contentPage, contentItems.length, 20, setContentPage)}
+                  </>
                 )}
               </View>
             </>
@@ -2978,32 +3040,35 @@ export default function QuestionManagementScreen() {
             ) : questions.length === 0 ? (
               <Text style={styles.emptyText}>No questions found.</Text>
             ) : (
-              <ScrollView horizontal>
-                <View>
-                  <View style={[styles.tableRow, styles.tableHeader]}>
-                    <Text style={[styles.tableCell, styles.colStandard]}>Standard</Text>
-                    <Text style={[styles.tableCell, styles.colSubject]}>Subject</Text>
-                    <Text style={[styles.tableCell, styles.colCategory]}>Question Type</Text>
-                    <Text style={[styles.tableCell, styles.colQuestion]}>Question</Text>
-                    <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
-                  </View>
-                  {questions.map((question) => (
-                    <View key={question.id} style={styles.tableRow}>
-                      <Text style={[styles.tableCell, styles.colStandard]}>{question.class_level || '-'}</Text>
-                      <Text style={[styles.tableCell, styles.colSubject]}>{question.subject || '-'}</Text>
-                      <Text style={[styles.tableCell, styles.colCategory]}>{getQuestionTypeLabel(question.question_type)}</Text>
-                      <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
-                        {question.question_title || 'Untitled'}
-                      </Text>
-                      <View style={[styles.colActions, styles.actionsCell]}>
-                        <Pressable style={styles.topicActionsTrigger} onPress={() => setQuestionActionItem(question)}>
-                          <Text style={styles.topicActionsTriggerText}>Actions</Text>
-                        </Pressable>
-                      </View>
+              <>
+                <ScrollView horizontal>
+                  <View>
+                    <View style={[styles.tableRow, styles.tableHeader]}>
+                      <Text style={[styles.tableCell, styles.colStandard]}>Standard</Text>
+                      <Text style={[styles.tableCell, styles.colSubject]}>Subject</Text>
+                      <Text style={[styles.tableCell, styles.colCategory]}>Question Type</Text>
+                      <Text style={[styles.tableCell, styles.colQuestion]}>Question</Text>
+                      <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
                     </View>
-                  ))}
-                </View>
-              </ScrollView>
+                    {questions.slice(questionPage * 20, (questionPage + 1) * 20).map((question) => (
+                      <View key={question.id} style={styles.tableRow}>
+                        <Text style={[styles.tableCell, styles.colStandard]}>{getStandardLabel(question.class_level)}</Text>
+                        <Text style={[styles.tableCell, styles.colSubject]}>{question.subject || '-'}</Text>
+                        <Text style={[styles.tableCell, styles.colCategory]}>{getQuestionTypeLabel(question.question_type)}</Text>
+                        <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
+                          {question.question_title || 'Untitled'}
+                        </Text>
+                        <View style={[styles.colActions, styles.actionsCell]}>
+                          <Pressable style={styles.topicActionsTrigger} onPress={() => setQuestionActionItem(question)}>
+                            <Text style={styles.topicActionsTriggerText}>Actions</Text>
+                          </Pressable>
+                        </View>
+                      </View>
+                    ))}
+                  </View>
+                </ScrollView>
+                {renderPagination(questionPage, questions.length, 20, setQuestionPage)}
+              </>
             )}
           </View>
         </>
@@ -3066,30 +3131,33 @@ export default function QuestionManagementScreen() {
                   ) : topicContentItems.length === 0 ? (
                     <Text style={styles.emptyText}>No content assigned yet.</Text>
                   ) : (
-                    <ScrollView horizontal>
-                      <View>
-                        <View style={[styles.tableRow, styles.tableHeader]}>
-                          <Text style={[styles.tableCell, styles.colQuestion]}>Title</Text>
-                          <Text style={[styles.tableCell, styles.colCategory]}>Type</Text>
-                          <Text style={[styles.tableCell, styles.colCategory]}>Sections</Text>
-                          <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
-                        </View>
-                        {topicContentItems.map((item) => (
-                          <View key={item.id} style={styles.tableRow}>
-                            <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
-                              {item.title}
-                            </Text>
-                            <Text style={[styles.tableCell, styles.colCategory]}>{item.contentType}</Text>
-                            <Text style={[styles.tableCell, styles.colCategory]}>{item.sectionCount || 1}</Text>
-                            <View style={[styles.colActions, styles.actionsCell]}>
-                              <Pressable style={styles.topicActionsTrigger} onPress={() => setTopicContentActionItem(item)}>
-                                <Text style={styles.topicActionsTriggerText}>Actions</Text>
-                              </Pressable>
-                            </View>
+                    <>
+                      <ScrollView horizontal>
+                        <View>
+                          <View style={[styles.tableRow, styles.tableHeader]}>
+                            <Text style={[styles.tableCell, styles.colQuestion]}>Title</Text>
+                            <Text style={[styles.tableCell, styles.colCategory]}>Type</Text>
+                            <Text style={[styles.tableCell, styles.colCategory]}>Sections</Text>
+                            <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
                           </View>
-                        ))}
-                      </View>
-                    </ScrollView>
+                          {topicContentItems.slice(topicContentPage * 20, (topicContentPage + 1) * 20).map((item) => (
+                            <View key={item.id} style={styles.tableRow}>
+                              <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
+                                {item.title}
+                              </Text>
+                              <Text style={[styles.tableCell, styles.colCategory]}>{item.contentType}</Text>
+                              <Text style={[styles.tableCell, styles.colCategory]}>{item.sectionCount || 1}</Text>
+                              <View style={[styles.colActions, styles.actionsCell]}>
+                                <Pressable style={styles.topicActionsTrigger} onPress={() => setTopicContentActionItem(item)}>
+                                  <Text style={styles.topicActionsTriggerText}>Actions</Text>
+                                </Pressable>
+                              </View>
+                            </View>
+                          ))}
+                        </View>
+                      </ScrollView>
+                      {renderPagination(topicContentPage, topicContentItems.length, 20, setTopicContentPage)}
+                    </>
                   )}
 
                   <View style={styles.sectionHeader}>
@@ -3736,6 +3804,14 @@ export default function QuestionManagementScreen() {
                       <Text style={styles.inlineRemoveButtonText}>Remove</Text>
                     </Pressable>
                   </View>
+
+                  <Text style={styles.inputLabel}>Section Title (Optional)</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="e.g. Introduction"
+                    value={section.title || ''}
+                    onChangeText={(val) => updateSectionDraft(section.id, { title: val })}
+                  />
 
                   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     <View style={styles.typeChipRow}>
@@ -4636,6 +4712,40 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 8,
     alignItems: 'center',
+  },
+  paginationRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#e2e8f0',
+    marginTop: 8,
+  },
+  paginationButton: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  paginationButtonDisabled: {
+    borderColor: '#f1f5f9',
+    backgroundColor: '#f8fafc',
+  },
+  paginationButtonText: {
+    fontSize: 12,
+    color: '#0f172a',
+    fontWeight: '600',
+  },
+  paginationButtonTextDisabled: {
+    color: '#94a3b8',
+  },
+  paginationText: {
+    fontSize: 12,
+    color: '#475569',
+    fontWeight: '500',
   },
   metaText: {
     fontSize: 12,

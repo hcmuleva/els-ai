@@ -1,8 +1,11 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 import { db } from '../db.js';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'els-secret-key-super-secure';
 import { UserRole, UserWithRoles } from '../types.js';
 import { AuthenticatedRequest, requireAuth } from './auth.js';
 
@@ -1430,7 +1433,32 @@ usersRouter.patch('/:id/active-role', requireAuth, async (req: AuthenticatedRequ
     );
 
     const updatedUser = await getUserWithRoles(userId, organizationId || undefined);
-    return res.json(updatedUser);
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const tokenPayload = {
+      userId: updatedUser.id,
+      organizationId: updatedUser.organizationId || '',
+      email: updatedUser.email,
+      role: updatedUser.activeRole,
+    };
+
+    const accessToken = jwt.sign(tokenPayload, JWT_SECRET, { expiresIn: '15m' });
+    const rawRefreshToken = jwt.sign({ userId: updatedUser.id }, JWT_SECRET, { expiresIn: '30d' });
+    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+
+    await db.query(
+      `INSERT INTO refresh_tokens (user_id, token_hash, expires_at)
+       VALUES ($1, $2, $3)`,
+      [updatedUser.id, rawRefreshToken, expiresAt]
+    );
+
+    return res.json({
+      accessToken,
+      refreshToken: rawRefreshToken,
+      user: updatedUser,
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });

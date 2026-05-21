@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Modal, Pressable, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-import { X, Award, ChevronRight } from 'lucide-react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { Modal, Pressable, StyleSheet, Text, View, ActivityIndicator, Image, Platform } from 'react-native';
+import { X, Award, ChevronRight, Play } from 'lucide-react-native';
 import { useAuth, API_BASE_URL } from '../../context/AuthContext';
 import { AudioManager } from '../../utils/audio';
 import DragDropRenderer from './DragDropRenderer';
@@ -55,6 +55,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
   const [attempts, setAttempts] = useState<any[]>([]);
   const [showResultScreen, setShowResultScreen] = useState(false);
   const [savingAttempt, setSavingAttempt] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
 
   // Load quiz details on open
   useEffect(() => {
@@ -67,18 +68,6 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
         if (res.ok) {
           const data = await res.json();
           setQuiz(data);
-          // Play background music ONLY if there is no sound-based quiz question
-          if (data.background_music_url) {
-            const hasSoundQuestion = data.questions?.some(
-              (q: any) => q.question_audio || q.question_data?.prompt_audio
-            );
-            if (!hasSoundQuestion) {
-              const bgmUrl = resolveMediaUrl(data.background_music_url);
-              if (bgmUrl) {
-                await AudioManager.playBGM(bgmUrl);
-              }
-            }
-          }
         }
       } catch (e) {
         console.warn('Failed to load quiz', e);
@@ -93,6 +82,33 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
       AudioManager.stopBGM();
     };
   }, [quizId, visible]);
+
+  // Handle starting the quiz (requires explicit interaction for web BGM play)
+  const handleStartGame = async () => {
+    if (!quiz) return;
+    setHasStarted(true);
+
+    // Default BGM if not provided but we still want the playful vibe for kids
+    const bgmUrlRaw = quiz.background_music_url || '/media/bg-audio/eliveta-kids-happy-music-474162.mp3';
+    
+    // Check if there are any sound-based questions
+    const hasSoundQuestion = quiz.questions?.some(
+      (q: any) => (q.question_audio && q.question_audio !== 'null') || 
+                  (q.question_data?.prompt_audio && q.question_data.prompt_audio !== 'null')
+    );
+
+    // Only play BGM if there are NO sound questions
+    if (!hasSoundQuestion && bgmUrlRaw) {
+      const bgmUrl = resolveMediaUrl(bgmUrlRaw);
+      if (bgmUrl) {
+        try {
+          await AudioManager.playBGM(bgmUrl);
+        } catch (e) {
+          console.warn('Failed to play BGM, browser policy likely blocked it:', e);
+        }
+      }
+    }
+  };
 
   if (!visible) return null;
 
@@ -163,8 +179,69 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
 
   const handleClose = () => {
     AudioManager.stopBGM();
+    setHasStarted(false);
+    setShowResultScreen(false);
+    setCurrentQuestionIndex(0);
+    setCorrectCount(0);
+    setAttempts([]);
     onClose();
   };
+
+  // Rendering Loading Screen
+  if (loading) {
+    return (
+      <Modal visible={visible} animationType="slide" presentationStyle="fullScreen" onRequestClose={handleClose}>
+        <View style={styles.modalContainer}>
+          <View style={styles.header}>
+            <Pressable onPress={handleClose} style={styles.closeButton}>
+              <X size={20} color="#475569" />
+            </Pressable>
+          </View>
+          <View style={styles.loadingWrapper}>
+            <ActivityIndicator size="large" color="#a855f7" />
+            <Text style={styles.loadingText}>Loading Playroom...</Text>
+          </View>
+        </View>
+      </Modal>
+    );
+  }
+
+  // Rendering Intro Screen (To get user interaction for Audio Playback)
+  if (!hasStarted) {
+    return (
+      <Modal visible={visible} animationType="slide" presentationStyle="fullScreen" onRequestClose={handleClose}>
+        <View style={styles.introContainer}>
+          <View style={styles.headerTransparent}>
+            <Pressable onPress={handleClose} style={styles.closeButtonLight}>
+              <X size={24} color="#64748b" />
+            </Pressable>
+          </View>
+          
+          <View style={styles.introContent}>
+            <View style={styles.introCard}>
+              <View style={styles.characterContainer}>
+                {/* Cute Character Placeholder */}
+                <View style={styles.characterCircle}>
+                  <Text style={{fontSize: 60}}>🦒</Text>
+                </View>
+              </View>
+              
+              <Text style={styles.introSubtitle}>Let's be smart together!</Text>
+              <Text style={styles.introTitle}>{quiz?.title}</Text>
+              
+              <View style={styles.levelBadge}>
+                <Text style={styles.levelBadgeText}>{totalQuestions} Levels</Text>
+              </View>
+
+              <Pressable style={styles.startButton} onPress={handleStartGame}>
+                <Text style={styles.startButtonText}>Play Now</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    );
+  }
 
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="fullScreen" onRequestClose={handleClose}>
@@ -177,50 +254,51 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
 
           {!showResultScreen && quiz && (
             <View style={styles.progressContainer}>
+              <Text style={styles.progressLabel}>Level {currentQuestionIndex + 1}</Text>
               <View style={styles.progressBarBackground}>
                 <View
                   style={[
                     styles.progressBarFill,
-                    { width: `${((currentQuestionIndex + 1) / totalQuestions) * 100}%` },
+                    { width: `${((currentQuestionIndex) / totalQuestions) * 100}%` },
                   ]}
                 />
               </View>
-              <Text style={styles.progressText}>
-                {currentQuestionIndex + 1} / {totalQuestions}
-              </Text>
             </View>
           )}
 
           <View style={styles.dummyHeaderRight} />
         </View>
 
-        {loading ? (
-          <View style={styles.loadingWrapper}>
-            <ActivityIndicator size="large" color="#6366f1" />
-            <Text style={styles.loadingText}>Loading Playroom...</Text>
-          </View>
-        ) : showResultScreen ? (
+        {showResultScreen ? (
           /* Result/Score Screen */
           <View style={styles.resultContainer}>
+            <View style={styles.successBadge}>
+              <Text style={styles.successBadgeText}>Level Passed!</Text>
+            </View>
+            
             <View style={styles.resultCard}>
-              <Award size={80} color="#eab308" />
-              <Text style={styles.resultTitle}>Quiz Completed!</Text>
-              <Text style={styles.resultSubtitle}>{quiz?.title}</Text>
+              <Text style={{fontSize: 80, marginBottom: 20}}>🎉</Text>
+              <Text style={styles.resultTitle}>Congratulations!</Text>
+              <Text style={styles.resultSubtitle}>You chose the right answers!{"\n"}Let's play another one!</Text>
 
               <View style={styles.scoreBox}>
                 <Text style={styles.scoreText}>
                   {correctCount} / {totalQuestions}
                 </Text>
-                <Text style={styles.scoreLabel}>Correct Answers</Text>
+                <Text style={styles.scoreLabel}>Correct</Text>
               </View>
 
               {savingAttempt ? (
                 <Text style={styles.savingText}>Saving your accomplishments...</Text>
               ) : (
-                <Pressable onPress={handleClose} style={styles.finishButton}>
-                  <Text style={styles.finishButtonText}>Finish Playroom</Text>
-                  <ChevronRight size={18} color="#ffffff" />
-                </Pressable>
+                <View style={{width: '100%', gap: 12}}>
+                  <Pressable onPress={handleClose} style={styles.finishButton}>
+                    <Text style={styles.finishButtonText}>Next</Text>
+                  </Pressable>
+                  <Pressable onPress={handleClose} style={styles.restButton}>
+                    <Text style={styles.restButtonText}>No, I want to take a rest</Text>
+                  </Pressable>
+                </View>
               )}
             </View>
           </View>
@@ -229,7 +307,9 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
           <View style={styles.gameWrapper}>
             <View style={styles.instructionCard}>
               <Text style={styles.questionTitle}>{currentQuestion?.question_title}</Text>
-              <Text style={styles.questionInstruction}>{currentQuestion?.question_instruction}</Text>
+              {currentQuestion?.question_instruction ? (
+                <Text style={styles.questionInstruction}>{currentQuestion?.question_instruction}</Text>
+              ) : null}
             </View>
 
             <View style={styles.rendererWrapper}>
@@ -270,52 +350,153 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
 }
 
 const styles = StyleSheet.create({
+  introContainer: {
+    flex: 1,
+    backgroundColor: '#ede9fe', // Light purple bg
+  },
+  headerTransparent: {
+    padding: 20,
+    alignItems: 'flex-start',
+  },
+  closeButtonLight: {
+    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+    elevation: 2,
+  },
+  introContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  introCard: {
+    backgroundColor: '#fff',
+    borderRadius: 30,
+    padding: 30,
+    width: '100%',
+    maxWidth: 400,
+    alignItems: 'center',
+    shadowColor: '#a855f7',
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 10 },
+    shadowRadius: 20,
+    elevation: 5,
+  },
+  characterContainer: {
+    marginBottom: 20,
+  },
+  characterCircle: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#fef08a',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 4,
+    borderColor: '#fff',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 10,
+  },
+  introSubtitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#a855f7',
+    textTransform: 'uppercase',
+    marginBottom: 8,
+  },
+  introTitle: {
+    fontSize: 24,
+    fontWeight: '900',
+    color: '#1e293b',
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  levelBadge: {
+    backgroundColor: '#dcfce3',
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 20,
+    marginBottom: 30,
+  },
+  levelBadgeText: {
+    color: '#16a34a',
+    fontWeight: '800',
+    fontSize: 12,
+  },
+  startButton: {
+    backgroundColor: '#f97316', // Orange
+    width: '100%',
+    paddingVertical: 18,
+    borderRadius: 24,
+    alignItems: 'center',
+    shadowColor: '#f97316',
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 10,
+    elevation: 4,
+  },
+  startButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '800',
+  },
+
   modalContainer: {
     flex: 1,
-    backgroundColor: '#f8fafc',
+    backgroundColor: '#dbeafe', // light blue background
   },
   header: {
-    height: 60,
+    height: 70,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderColor: '#e2e8f0',
-    backgroundColor: '#ffffff',
+    paddingHorizontal: 20,
+    backgroundColor: 'transparent',
+    marginTop: Platform.OS === 'ios' ? 40 : 10,
   },
   closeButton: {
-    padding: 6,
-    borderRadius: 8,
-    backgroundColor: '#f1f5f9',
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 2,
   },
   progressContainer: {
     flex: 1,
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 10,
-    maxWidth: '70%',
+    maxWidth: '60%',
+  },
+  progressLabel: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#1e293b',
+    marginBottom: 6,
   },
   progressBarBackground: {
-    height: 10,
-    flex: 1,
-    backgroundColor: '#e2e8f0',
-    borderRadius: 5,
+    height: 12,
+    width: '100%',
+    backgroundColor: '#bfdbfe',
+    borderRadius: 6,
     overflow: 'hidden',
   },
   progressBarFill: {
     height: '100%',
-    backgroundColor: '#22c55e',
-    borderRadius: 5,
-  },
-  progressText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#475569',
+    backgroundColor: '#4f46e5',
+    borderRadius: 6,
   },
   dummyHeaderRight: {
-    width: 32,
+    width: 40,
   },
   loadingWrapper: {
     flex: 1,
@@ -324,107 +505,136 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   loadingText: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: 15,
+    fontWeight: '700',
     color: '#64748b',
   },
   gameWrapper: {
     flex: 1,
   },
   instructionCard: {
-    padding: 16,
-    backgroundColor: '#ffffff',
-    borderBottomWidth: 1,
-    borderColor: '#e2e8f0',
+    padding: 20,
+    alignItems: 'center',
   },
   questionTitle: {
-    fontSize: 18,
-    fontWeight: '800',
-    color: '#0f172a',
+    fontSize: 22,
+    fontWeight: '900',
+    color: '#1e293b',
     textAlign: 'center',
+    marginBottom: 8,
   },
   questionInstruction: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#475569',
     textAlign: 'center',
-    marginTop: 4,
+    fontWeight: '500',
   },
   rendererWrapper: {
     flex: 1,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
+  
   resultContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
+    backgroundColor: '#bbf7d0', // Light green bg for win
+  },
+  successBadge: {
+    backgroundColor: '#86efac',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 30,
+    marginBottom: -20,
+    zIndex: 10,
+    borderWidth: 3,
+    borderColor: '#fff',
+  },
+  successBadgeText: {
+    color: '#166534',
+    fontWeight: '800',
+    fontSize: 14,
   },
   resultCard: {
     backgroundColor: '#ffffff',
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
-    padding: 30,
+    borderRadius: 30,
+    padding: 40,
     alignItems: 'center',
     width: '100%',
     maxWidth: 400,
-    gap: 16,
-    shadowColor: '#0f172a',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 4,
+    shadowColor: '#22c55e',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+    elevation: 8,
   },
   resultTitle: {
-    fontSize: 22,
-    fontWeight: '800',
-    color: '#0f172a',
+    fontSize: 26,
+    fontWeight: '900',
+    color: '#1e293b',
+    marginBottom: 10,
   },
   resultSubtitle: {
-    fontSize: 14,
-    color: '#475569',
+    fontSize: 15,
+    color: '#64748b',
     textAlign: 'center',
+    fontWeight: '500',
+    lineHeight: 22,
+    marginBottom: 24,
   },
   scoreBox: {
     alignItems: 'center',
-    backgroundColor: '#f8fafc',
+    backgroundColor: '#f1f5f9',
     paddingVertical: 16,
-    paddingHorizontal: 30,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: '#cbd5e1',
-    width: '100%',
-    marginVertical: 10,
+    paddingHorizontal: 40,
+    borderRadius: 20,
+    marginBottom: 30,
   },
   scoreText: {
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: '900',
-    color: '#6366f1',
+    color: '#f97316',
   },
   scoreLabel: {
-    fontSize: 12,
-    fontWeight: '600',
+    fontSize: 13,
+    fontWeight: '700',
     color: '#64748b',
+    textTransform: 'uppercase',
     marginTop: 4,
   },
   savingText: {
-    fontSize: 12,
+    fontSize: 13,
     color: '#64748b',
     fontStyle: 'italic',
+    fontWeight: '500',
   },
   finishButton: {
-    backgroundColor: '#6366f1',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 12,
+    backgroundColor: '#f97316',
+    paddingVertical: 18,
+    borderRadius: 24,
     width: '100%',
-    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#f97316',
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 10,
+    elevation: 4,
   },
   finishButtonText: {
     color: '#ffffff',
-    fontWeight: '700',
+    fontWeight: '800',
+    fontSize: 16,
+  },
+  restButton: {
+    paddingVertical: 16,
+    width: '100%',
+    alignItems: 'center',
+  },
+  restButtonText: {
+    color: '#94a3b8',
+    fontWeight: '600',
     fontSize: 14,
   },
 });

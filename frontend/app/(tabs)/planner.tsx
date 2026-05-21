@@ -168,6 +168,9 @@ export default function PlannerScreen() {
   const [form, setForm] = useState<ClassroomFormState>(EMPTY_FORM);
   const [selectorField, setSelectorField] = useState<SelectorField | null>(null);
   const [quizFilters, setQuizFilters] = useState({ subject: '', category: '', difficulty: '', search: '' });
+  const [isAssignContentOpen, setIsAssignContentOpen] = useState(false);
+  const [isAssignQuizOpen, setIsAssignQuizOpen] = useState(false);
+  const [contentSearch, setContentSearch] = useState('');
   const [pendingDelete, setPendingDelete] = useState<ClassroomSummary | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
@@ -247,10 +250,15 @@ export default function PlannerScreen() {
     [form.classLevel, subjectCatalog],
   );
 
-  const filteredContents = useMemo(
-    () => contentItems.filter((item) => !form.classLevel || item.classLevel === form.classLevel),
-    [contentItems, form.classLevel],
-  );
+  const filteredContents = useMemo(() => {
+    return contentItems
+      .filter((item) => !form.classLevel || item.classLevel === form.classLevel)
+      .filter((item) => {
+        const keyword = contentSearch.trim().toLowerCase();
+        if (!keyword) return true;
+        return `${item.title} ${item.subject} ${item.contentType}`.toLowerCase().includes(keyword);
+      });
+  }, [contentItems, form.classLevel, contentSearch]);
 
   const filteredQuizzes = useMemo(
     () =>
@@ -272,6 +280,7 @@ export default function PlannerScreen() {
   const openCreate = () => {
     setEditingClassroomId(null);
     setQuizFilters({ subject: '', category: '', difficulty: '', search: '' });
+    setContentSearch('');
     setForm({ ...EMPTY_FORM, assignments: [makeAssignment()] });
     setIsFormOpen(true);
   };
@@ -300,6 +309,7 @@ export default function PlannerScreen() {
 
       setEditingClassroomId(classroomId);
       setQuizFilters({ subject: '', category: '', difficulty: '', search: '' });
+      setContentSearch('');
       setForm({
         title: classroom.title || '',
         description: classroom.description || '',
@@ -559,7 +569,7 @@ export default function PlannerScreen() {
                 />
               </View>
 
-              <View style={styles.row}>
+              <View style={styles.rowWrap}>
                 <Pressable
                   style={[styles.typeChip, form.scheduleType === 'instant' && styles.typeChipActive]}
                   onPress={() => setFormPatch({ scheduleType: 'instant' })}
@@ -583,7 +593,7 @@ export default function PlannerScreen() {
                 />
               ) : null}
 
-              <View style={styles.row}>
+              <View style={styles.rowWrap}>
                 {(['draft', 'active', 'completed'] as ClassroomStatus[]).map((status) => (
                   <Pressable
                     key={status}
@@ -595,78 +605,44 @@ export default function PlannerScreen() {
                 ))}
               </View>
 
-              <Text style={styles.cardTitle}>Assign Content ({form.selectedContentIds.length})</Text>
-              {filteredContents.length === 0 ? (
-                <Text style={styles.emptyText}>No content available for selected class.</Text>
-              ) : (
-                filteredContents.map((item) => {
-                  const selected = form.selectedContentIds.includes(item.id);
-                  return (
-                    <Pressable
-                      key={`content-${item.id}`}
-                      style={[styles.optionCard, selected && styles.optionCardActive]}
-                      onPress={() => setFormPatch({ selectedContentIds: toggleId(form.selectedContentIds, item.id) })}
-                    >
-                      <Text style={styles.optionTitle}>{item.title}</Text>
-                      <Text style={styles.metaText}>{getStandardLabel(item.classLevel)} • {item.subject} • {item.contentType}</Text>
-                    </Pressable>
-                  );
-                })
-              )}
-
-              <Text style={styles.cardTitle}>Assign Quizzes ({form.selectedQuizIds.length})</Text>
-              <View style={styles.row}>
+              <Text style={styles.sectionTitle}>Classroom Resources</Text>
+              <View style={styles.resourceButtonsRow}>
                 <Pressable
-                  style={[styles.selectorInput, styles.halfInput, !form.classLevel && styles.disabledButton]}
-                  onPress={() => {
-                    if (!form.classLevel) return;
-                    setSelectorField('quizSubject');
-                  }}
+                  style={[
+                    styles.resourceButton,
+                    !form.classLevel && styles.disabledButton,
+                    form.selectedContentIds.length > 0 && styles.resourceButtonActive
+                  ]}
                   disabled={!form.classLevel}
+                  onPress={() => setIsAssignContentOpen(true)}
                 >
-                  <Text style={quizFilters.subject ? styles.selectorText : styles.selectorPlaceholder}>
-                    {quizFilters.subject || (form.classLevel ? 'Filter Subject' : 'Select class first')}
+                  <Text style={[
+                    styles.resourceButtonText,
+                    form.selectedContentIds.length > 0 && styles.resourceButtonTextActive
+                  ]}>
+                    📚 Content ({form.selectedContentIds.length})
                   </Text>
                 </Pressable>
-                <TextInput
-                  value={quizFilters.search}
-                  onChangeText={(value) => setQuizFilters((current) => ({ ...current, search: value }))}
-                  placeholder="Search quiz"
-                  style={[styles.input, styles.halfInput]}
-                />
+
+                <Pressable
+                  style={[
+                    styles.resourceButton,
+                    !form.classLevel && styles.disabledButton,
+                    form.selectedQuizIds.length > 0 && styles.resourceButtonActive
+                  ]}
+                  disabled={!form.classLevel}
+                  onPress={() => setIsAssignQuizOpen(true)}
+                >
+                  <Text style={[
+                    styles.resourceButtonText,
+                    form.selectedQuizIds.length > 0 && styles.resourceButtonTextActive
+                  ]}>
+                    ✏️ Quizzes ({form.selectedQuizIds.length})
+                  </Text>
+                </Pressable>
               </View>
-              <View style={styles.row}>
-                <TextInput
-                  value={quizFilters.category}
-                  onChangeText={(value) => setQuizFilters((current) => ({ ...current, category: value }))}
-                  placeholder="Category"
-                  style={[styles.input, styles.halfInput]}
-                />
-                <TextInput
-                  value={quizFilters.difficulty}
-                  onChangeText={(value) => setQuizFilters((current) => ({ ...current, difficulty: value }))}
-                  placeholder="Difficulty"
-                  style={[styles.input, styles.halfInput]}
-                />
-              </View>
-              {filteredQuizzes.length === 0 ? (
-                <Text style={styles.emptyText}>No quizzes match current filters.</Text>
-              ) : (
-                filteredQuizzes.map((quiz) => {
-                  const selected = form.selectedQuizIds.includes(quiz.id);
-                  return (
-                    <Pressable
-                      key={`quiz-${quiz.id}`}
-                      style={[styles.optionCard, selected && styles.optionCardActive]}
-                      onPress={() => setFormPatch({ selectedQuizIds: toggleId(form.selectedQuizIds, quiz.id) })}
-                    >
-                      <Text style={styles.optionTitle}>{quiz.title}</Text>
-                      <Text style={styles.metaText}>
-                        {getStandardLabel(quiz.class_level || '')} • {quiz.subject || '-'} • {quiz.quiz_type || '-'} • {quiz.difficulty_level || '-'}
-                      </Text>
-                    </Pressable>
-                  );
-                })
+              {!form.classLevel && (
+                <Text style={styles.infoText}>* Please select a Standard/Class first to assign resources.</Text>
               )}
 
               <View style={styles.sectionHeader}>
@@ -716,20 +692,22 @@ export default function PlannerScreen() {
                   <Pressable style={styles.secondaryButton} onPress={() => uploadAssignmentAttachment(assignment.id)}>
                     <Text style={styles.secondaryButtonText}>Upload Attachment</Text>
                   </Pressable>
-                  <View style={styles.row}>
+                  <View style={styles.assignmentCheckboxRow}>
                     <Pressable
                       style={[styles.typeChip, assignment.isTimeBound && styles.typeChipActive]}
                       onPress={() => updateAssignment(assignment.id, { isTimeBound: !assignment.isTimeBound })}
                     >
-                      <Text style={[styles.typeChipText, assignment.isTimeBound && styles.typeChipTextActive]}>Is Time Bound</Text>
+                      <Text style={[styles.typeChipText, assignment.isTimeBound && styles.typeChipTextActive]}>⏰ Time Bound Assignment</Text>
                     </Pressable>
+                  </View>
+                  {assignment.isTimeBound && (
                     <TextInput
                       value={assignment.dueDate}
                       onChangeText={(value) => updateAssignment(assignment.id, { dueDate: value })}
-                      placeholder="Due Date (optional, ISO/local)"
-                      style={[styles.input, styles.halfInput]}
+                      placeholder="Due Date & Time (e.g. 2026-05-25T10:30)"
+                      style={styles.input}
                     />
-                  </View>
+                  )}
                 </View>
               ))}
             </ScrollView>
@@ -744,6 +722,132 @@ export default function PlannerScreen() {
             </View>
           </Pressable>
         </Pressable>
+      </Modal>
+
+      {/* Assign Content Modal */}
+      <Modal visible={isAssignContentOpen} transparent animationType="slide" onRequestClose={() => setIsAssignContentOpen(false)}>
+        <View style={styles.dialogOverlay}>
+          <View style={styles.subModalCard}>
+            <View style={styles.dialogHeader}>
+              <Text style={styles.dialogTitle}>Assign Learning Content</Text>
+            </View>
+            <View style={styles.searchFilterBar}>
+              <TextInput
+                value={contentSearch}
+                onChangeText={setContentSearch}
+                placeholder="Search learning content..."
+                style={styles.input}
+              />
+            </View>
+            <ScrollView style={styles.subModalScroll} contentContainerStyle={styles.dialogScrollContent}>
+              {filteredContents.length === 0 ? (
+                <Text style={styles.emptyText}>No content found matching criteria.</Text>
+              ) : (
+                filteredContents.map((item) => {
+                  const selected = form.selectedContentIds.includes(item.id);
+                  return (
+                    <Pressable
+                      key={`content-assign-${item.id}`}
+                      style={[styles.optionCard, selected && styles.optionCardActive]}
+                      onPress={() => setFormPatch({ selectedContentIds: toggleId(form.selectedContentIds, item.id) })}
+                    >
+                      <View style={styles.checkboxRow}>
+                        <View style={[styles.checkbox, selected && styles.checkboxSelected]}>
+                          {selected && <Text style={styles.checkboxTick}>✓</Text>}
+                        </View>
+                        <View style={styles.optionInfo}>
+                          <Text style={styles.optionTitle}>{item.title}</Text>
+                          <Text style={styles.metaText}>{getStandardLabel(item.classLevel)} • {item.subject} • {item.contentType}</Text>
+                        </View>
+                      </View>
+                    </Pressable>
+                  );
+                })
+              )}
+            </ScrollView>
+            <View style={styles.dialogActions}>
+              <Pressable style={styles.primaryButton} onPress={() => setIsAssignContentOpen(false)}>
+                <Text style={styles.primaryButtonText}>Done ({form.selectedContentIds.length} Selected)</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Assign Quiz Modal */}
+      <Modal visible={isAssignQuizOpen} transparent animationType="slide" onRequestClose={() => setIsAssignQuizOpen(false)}>
+        <View style={styles.dialogOverlay}>
+          <View style={styles.subModalCard}>
+            <View style={styles.dialogHeader}>
+              <Text style={styles.dialogTitle}>Assign Quizzes</Text>
+            </View>
+            <View style={styles.quizFiltersContainer}>
+              <View style={styles.row}>
+                <Pressable
+                  style={[styles.selectorInput, styles.halfInput]}
+                  onPress={() => setSelectorField('quizSubject')}
+                >
+                  <Text style={quizFilters.subject ? styles.selectorText : styles.selectorPlaceholder}>
+                    {quizFilters.subject || 'Filter Subject'}
+                  </Text>
+                </Pressable>
+                <TextInput
+                  value={quizFilters.search}
+                  onChangeText={(value) => setQuizFilters((current) => ({ ...current, search: value }))}
+                  placeholder="Search title..."
+                  style={[styles.input, styles.halfInput]}
+                />
+              </View>
+              <View style={styles.row}>
+                <TextInput
+                  value={quizFilters.category}
+                  onChangeText={(value) => setQuizFilters((current) => ({ ...current, category: value }))}
+                  placeholder="Category"
+                  style={[styles.input, styles.halfInput]}
+                />
+                <TextInput
+                  value={quizFilters.difficulty}
+                  onChangeText={(value) => setQuizFilters((current) => ({ ...current, difficulty: value }))}
+                  placeholder="Difficulty"
+                  style={[styles.input, styles.halfInput]}
+                />
+              </View>
+            </View>
+            <ScrollView style={styles.subModalScroll} contentContainerStyle={styles.dialogScrollContent}>
+              {filteredQuizzes.length === 0 ? (
+                <Text style={styles.emptyText}>No quizzes found matching criteria.</Text>
+              ) : (
+                filteredQuizzes.map((quiz) => {
+                  const selected = form.selectedQuizIds.includes(quiz.id);
+                  return (
+                    <Pressable
+                      key={`quiz-assign-${quiz.id}`}
+                      style={[styles.optionCard, selected && styles.optionCardActive]}
+                      onPress={() => setFormPatch({ selectedQuizIds: toggleId(form.selectedQuizIds, quiz.id) })}
+                    >
+                      <View style={styles.checkboxRow}>
+                        <View style={[styles.checkbox, selected && styles.checkboxSelected]}>
+                          {selected && <Text style={styles.checkboxTick}>✓</Text>}
+                        </View>
+                        <View style={styles.optionInfo}>
+                          <Text style={styles.optionTitle}>{quiz.title}</Text>
+                          <Text style={styles.metaText}>
+                            {getStandardLabel(quiz.class_level || '')} • {quiz.subject || '-'} • {quiz.quiz_type || '-'} • {quiz.difficulty_level || '-'}
+                          </Text>
+                        </View>
+                      </View>
+                    </Pressable>
+                  );
+                })
+              )}
+            </ScrollView>
+            <View style={styles.dialogActions}>
+              <Pressable style={styles.primaryButton} onPress={() => setIsAssignQuizOpen(false)}>
+                <Text style={styles.primaryButtonText}>Done ({form.selectedQuizIds.length} Selected)</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
       </Modal>
 
       <Modal visible={selectorField !== null} transparent animationType="fade" onRequestClose={() => setSelectorField(null)}>
@@ -871,7 +975,7 @@ const styles = StyleSheet.create({
     borderColor: '#cbd5e1',
     borderRadius: 10,
     paddingHorizontal: 12,
-    paddingVertical: 10,
+    paddingVertical: 12,
     fontSize: 13,
     color: '#0f172a',
     backgroundColor: '#fff',
@@ -883,6 +987,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 12,
     backgroundColor: '#fff',
+    justifyContent: 'center',
   },
   selectorText: {
     color: '#0f172a',
@@ -1038,7 +1143,7 @@ const styles = StyleSheet.create({
     color: '#0f172a',
   },
   dialogScroll: {
-    maxHeight: '75%',
+    flex: 1,
   },
   dialogScrollContent: {
     padding: 16,
@@ -1070,5 +1175,102 @@ const styles = StyleSheet.create({
   selectorOptionText: {
     fontSize: 14,
     color: '#0f172a',
+  },
+  rowWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  subModalCard: {
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    height: '80%',
+    overflow: 'hidden',
+  },
+  subModalScroll: {
+    flex: 1,
+  },
+  sectionTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#334155',
+    marginTop: 8,
+  },
+  resourceButtonsRow: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  resourceButton: {
+    flex: 1,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    backgroundColor: '#f8fafc',
+    paddingVertical: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  resourceButtonActive: {
+    borderColor: '#93c5fd',
+    backgroundColor: '#eff6ff',
+  },
+  resourceButtonText: {
+    color: '#475569',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  resourceButtonTextActive: {
+    color: '#1d4ed8',
+  },
+  infoText: {
+    fontSize: 11,
+    color: '#64748b',
+    fontStyle: 'italic',
+  },
+  checkboxRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderWidth: 2,
+    borderColor: '#cbd5e1',
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checkboxSelected: {
+    borderColor: '#2563eb',
+    backgroundColor: '#2563eb',
+  },
+  checkboxTick: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: '900',
+    lineHeight: 14,
+  },
+  optionInfo: {
+    flex: 1,
+    gap: 2,
+  },
+  quizFiltersContainer: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f1f5f9',
+    gap: 10,
+  },
+  searchFilterBar: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f1f5f9',
+  },
+  assignmentCheckboxRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

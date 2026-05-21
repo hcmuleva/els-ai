@@ -4,7 +4,7 @@ import express from 'express';
 import { db } from './db.js';
 import { authRouter } from './routes/auth.js';
 import { usersRouter } from './routes/users.js';
-import { initSchemaAndSeed } from './seed.js';
+import { initSchemaAndSeed } from './seed/seed.js';
 
 config();
 

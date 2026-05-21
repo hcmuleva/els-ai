@@ -3,6 +3,7 @@ import { useFocusEffect } from 'expo-router';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useAuth } from '../../src/context/AuthContext';
+import { getStandardLabel } from '../../src/constants/standards';
 
 type TeacherOverview = {
   summary: {
@@ -116,7 +117,7 @@ export default function AssessmentDashboardScreen() {
             {overview?.classPerformance?.length ? (
               overview.classPerformance.map((classRow) => (
                 <View key={classRow.class_level} style={styles.row}>
-                  <Text style={styles.label}>{classRow.class_level}</Text>
+                  <Text style={styles.label}>{getStandardLabel(classRow.class_level)}</Text>
                   <Text style={styles.classValue}>
                     {Number(classRow.average_score_pct).toFixed(1)}% ({classRow.attempts} attempts)
                   </Text>

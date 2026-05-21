@@ -61,15 +61,19 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="practice"
+        name="classroom"
         options={{
-          href: tabRoutes.has('practice') ? undefined : null,
-          title: 'Practice',
+          href: tabRoutes.has('classroom') ? undefined : null,
+          title: 'Classroom',
           tabBarIcon: ({ color, size }) => {
-            const Icon = getTabIcon('practice');
+            const Icon = getTabIcon('classroom');
             return <Icon size={size} />;
           },
         }}
+      />
+      <Tabs.Screen
+        name="practice"
+        options={{ href: null, title: 'Practice' }}
       />
       <Tabs.Screen
         name="planner"
