@@ -1,0 +1,788 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body,html{font-family:'Nunito',sans-serif}
+  .preview-wrap{background:var(--color-background-tertiary);padding:24px 12px;min-height:100vh}
+  .section-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-secondary);margin:32px 0 12px;padding:0 4px}
+  .phones-row{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;align-items:flex-start}
+  .phone{flex-shrink:0;width:260px;background:#fff;border-radius:32px;border:1px solid var(--color-border-tertiary);overflow:hidden;font-family:'Nunito',sans-serif}
+  .phone-label{font-size:10px;font-weight:700;color:var(--color-text-secondary);text-align:center;padding:6px 0 2px;letter-spacing:.05em;text-transform:uppercase}
+
+  /* ── STATUS BAR ── */
+  .status-bar{height:24px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-size:10px;font-weight:700;color:#1a1a2e}
+
+  /* ── KIDS COLORS ── */
+  --kids-bg:#F0F4FF;
+  --blue:#4A90E2;
+  --coral:#FF7043;
+  --green:#7DC67A;
+  --purple:#9B8EC4;
+  --amber:#E6A020;
+  --yellow:#F5C842;
+  --card-blue:#D6EAFF;
+  --card-pink:#FFE4EE;
+  --card-green:#D6F5D6;
+  --card-yellow:#FFF5CC;
+  --card-peach:#FFE8D6;
+  --card-purple:#EDE4FF;
+  --card-mint:#D6F5F0;
+
+  /* ── SCREEN BG ── */
+  .kids-bg{background:#F0F4FF}
+  .purple-bg{background:#F0EEFF}
+  .green-bg{background:#E8F7E8}
+  .white-bg{background:#fff}
+
+  /* ── TOP BAR ── */
+  .top-bar{padding:14px 16px 10px;display:flex;align-items:center;justify-content:space-between}
+  .greeting-sub{font-size:11px;color:#7A7A9A;font-weight:600}
+  .greeting-name{font-size:18px;color:#1a1a2e;font-weight:900;line-height:1.1}
+  .bell-btn{width:32px;height:32px;border-radius:50%;background:#fff;border:1px solid #EBEBF5;display:flex;align-items:center;justify-content:center;position:relative}
+  .bell-dot{width:8px;height:8px;background:#F44336;border-radius:50%;position:absolute;top:4px;right:4px}
+  .xp-chip{background:#4A90E2;border-radius:999px;padding:4px 10px;display:flex;align-items:center;gap:4px;font-size:11px;font-weight:800;color:#fff}
+
+  /* ── CARDS ── */
+  .card{border-radius:20px;padding:14px;background:#fff;margin:0 16px 10px}
+  .card-sm{border-radius:16px;padding:12px}
+
+  /* HERO BANNER */
+  .hero-banner{margin:0 16px 12px;border-radius:20px;background:#4A90E2;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;min-height:78px}
+  .hero-text{color:#fff}
+  .hero-text .ht1{font-size:11px;opacity:.8;font-weight:600}
+  .hero-text .ht2{font-size:14px;font-weight:900;line-height:1.2;max-width:130px}
+  .hero-char{width:56px;height:56px;background:rgba(255,255,255,.18);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px}
+
+  /* SUBJECT TILES */
+  .subject-header{display:flex;justify-content:space-between;align-items:center;padding:0 16px;margin-bottom:8px}
+  .subject-header span{font-size:14px;font-weight:800;color:#1a1a2e}
+  .subject-header a{font-size:11px;color:#4A90E2;font-weight:700}
+  .tiles-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px;margin-bottom:12px}
+  .tile{border-radius:24px;padding:14px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer}
+  .tile-icon{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px}
+  .tile-label{font-size:12px;font-weight:800;color:#1a1a2e}
+
+  /* STORY CARD */
+  .story-card{margin:0 16px 12px;border-radius:18px;background:#FFF5CC;padding:12px 14px;display:flex;align-items:center;justify-content:space-between}
+  .story-text .st1{font-size:13px;font-weight:900;color:#1a1a2e;line-height:1.2}
+  .story-meta{display:flex;align-items:center;gap:8px;margin-top:4px}
+  .story-meta span{font-size:10px;color:#7A7A9A;font-weight:600}
+  .story-char{font-size:36px}
+
+  /* BOTTOM NAV */
+  .bottom-nav{background:#fff;border-top:1px solid #EBEBF5;padding:8px 0 12px;display:flex;justify-content:space-around}
+  .nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;min-width:44px;padding:2px 4px}
+  .nav-item .ni-icon{font-size:18px;color:#C8C8D8}
+  .nav-item .ni-label{font-size:9px;color:#C8C8D8;font-weight:700}
+  .nav-item.active .ni-icon,.nav-item.active .ni-label{color:#4A90E2}
+  .nav-pill{background:#4A90E2;border-radius:999px;padding:4px 14px;display:flex;flex-direction:column;align-items:center;gap:1px}
+  .nav-pill .ni-icon,.nav-pill .ni-label{color:#fff!important}
+
+  /* SECTION TITLE */
+  .sec-title{font-size:14px;font-weight:900;color:#1a1a2e;padding:2px 16px 8px}
+
+  /* ── QUIZ SCREEN ── */
+  .quiz-bg{background:#D6EAFF;min-height:400px}
+  .quiz-topbar{padding:14px 16px 8px;display:flex;align-items:center;justify-content:space-between}
+  .quiz-topbar .back-btn{width:30px;height:30px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;color:#1a1a2e}
+  .quiz-topbar .level-chip{font-size:12px;font-weight:800;color:#1a1a2e}
+  .quiz-chars{display:flex;justify-content:center;gap:8px;padding:8px 16px 0;font-size:52px}
+  .listen-chip{margin:12px 16px 0;background:#fff;border-radius:999px;padding:6px 14px;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#4A90E2}
+  .question-text{margin:10px 16px;font-size:14px;font-weight:700;color:#1a1a2e;line-height:1.5}
+  .blank{display:inline-block;width:28px;height:3px;background:#4A90E2;border-radius:2px;vertical-align:middle;margin:0 4px}
+  .answer-pills{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px;margin-bottom:12px}
+  .a-pill{border-radius:999px;padding:7px 16px;font-size:12px;font-weight:700;border:2px solid #EBEBF5;background:#fff;color:#1a1a2e;cursor:pointer}
+  .a-pill.selected{background:#D6EAFF;border-color:#4A90E2;color:#2C6BC9}
+  .a-pill.correct{background:#E8F5E9;border-color:#4CAF50;color:#2E7D32}
+  .cta-btn{margin:0 16px 14px;width:calc(100% - 32px);background:#FF7043;color:#fff;border:none;border-radius:999px;height:48px;font-size:15px;font-weight:900;font-family:'Nunito',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .cta-btn-blue{background:#4A90E2}
+  .cta-btn-green{background:#7DC67A}
+
+  /* ── CELEBRATION ── */
+  .celeb-chip{margin:14px auto 10px;background:#fff;border-radius:999px;padding:7px 18px;display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#4CAF50;width:fit-content}
+  .celeb-char{text-align:center;font-size:64px;line-height:1;margin:4px 0 8px}
+  .celeb-title{text-align:center;font-size:22px;font-weight:900;color:#1a1a2e;padding:0 16px}
+  .celeb-sub{text-align:center;font-size:12px;color:#7A7A9A;padding:6px 24px 12px;line-height:1.5;font-weight:600}
+  .celeb-secondary{text-align:center;font-size:11px;color:#7A7A9A;padding:6px 0 4px;font-weight:700;cursor:pointer}
+  .celeb-footer{text-align:center;font-size:10px;color:#C8C8D8;padding:8px 0 12px;font-weight:700}
+
+  /* ── PROFILE ── */
+  .profile-avatar-wrap{display:flex;flex-direction:column;align-items:center;padding:16px 0 12px}
+  .avatar-ring{width:74px;height:74px;border-radius:50%;border:3px solid #4A90E2;display:flex;align-items:center;justify-content:center;font-size:38px;background:#D6EAFF;position:relative}
+  .avatar-cam{position:absolute;bottom:0;right:0;width:22px;height:22px;background:#4A90E2;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff}
+  .profile-name{font-size:18px;font-weight:900;color:#1a1a2e;margin-top:8px}
+  .star-row{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:800;color:#E6A020;margin-top:2px}
+  .tier-row{display:flex;gap:6px;padding:8px 16px;overflow-x:auto;margin-bottom:8px}
+  .tier-chip{border-radius:999px;padding:5px 14px;font-size:11px;font-weight:800;border:1.5px solid #EBEBF5;color:#7A7A9A;white-space:nowrap;flex-shrink:0}
+  .tier-chip.active-tier{background:#FF7043;color:#fff;border-color:#FF7043}
+  .badge-card{margin:0 16px 10px;background:#fff;border-radius:18px;padding:12px 14px;border:1px solid #EBEBF5}
+  .badge-card-title{font-size:13px;font-weight:800;color:#1a1a2e;margin-bottom:10px}
+  .badge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .badge-item{display:flex;flex-direction:column;align-items:center;gap:3px}
+  .badge-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;border:1.5px solid #EBEBF5}
+  .badge-item span{font-size:9px;color:#7A7A9A;font-weight:700;text-align:center}
+
+  /* ── LEADERBOARD ── */
+  .lb-header{background:#E6A020;padding:14px 16px 32px;position:relative}
+  .lb-title{font-size:16px;font-weight:900;color:#fff;margin-bottom:12px}
+  .podium{display:flex;justify-content:center;align-items:flex-end;gap:8px;padding-top:4px}
+  .podium-item{display:flex;flex-direction:column;align-items:center;gap:4px}
+  .podium-avatar{width:42px;height:42px;border-radius:50%;border:2px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:22px;background:rgba(255,255,255,.2)}
+  .podium-block{border-radius:8px 8px 0 0;width:52px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff}
+  .podium-name{font-size:9px;font-weight:700;color:#fff;text-align:center}
+  .lb-list{padding:12px 16px;background:#fff;margin-top:-2px;border-radius:20px 20px 0 0}
+  .lb-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F7F7FC}
+  .lb-rank{font-size:13px;font-weight:800;color:#7A7A9A;min-width:20px}
+  .lb-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;background:#F0F4FF;flex-shrink:0}
+  .lb-info{flex:1}
+  .lb-name{font-size:12px;font-weight:800;color:#1a1a2e}
+  .lb-pts{font-size:10px;color:#7A7A9A;font-weight:600}
+  .lb-delta{font-size:10px;font-weight:800;padding:2px 6px;border-radius:6px}
+  .lb-up{color:#4CAF50;background:#E8F5E9}
+  .lb-down{color:#F44336;background:#FFEBEE}
+  .lb-row.me-row{background:#FFF5CC;border-radius:10px;padding:8px 10px;border-bottom:none;margin:2px -4px}
+
+  /* ── PARENT ── */
+  .parent-bg{background:#F7F7FC}
+  .child-summary-card{margin:0 16px 10px;border-radius:20px;background:#fff;border:1px solid #EBEBF5;padding:14px}
+  .child-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .child-avatar{width:44px;height:44px;border-radius:50%;background:#D6EAFF;border:2px solid #4A90E2;display:flex;align-items:center;justify-content:center;font-size:22px}
+  .child-info .cn{font-size:14px;font-weight:900;color:#1a1a2e}
+  .child-info .cs{font-size:11px;color:#7A7A9A;font-weight:600}
+  .stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .stat-cell{background:#F7F7FC;border-radius:12px;padding:10px 8px;text-align:center}
+  .stat-cell .sv{font-size:18px;font-weight:900;color:#1a1a2e}
+  .stat-cell .sl{font-size:9px;color:#7A7A9A;font-weight:700;margin-top:2px}
+  .progress-row-wrap{padding:0 16px 10px}
+  .pr-label{display:flex;justify-content:space-between;margin-bottom:4px}
+  .pr-label span{font-size:11px;font-weight:700;color:#1a1a2e}
+  .pr-label .pr-pct{color:#4A90E2}
+  .pr-track{height:8px;background:#EBEBF5;border-radius:999px;overflow:hidden}
+  .pr-fill{height:100%;border-radius:999px}
+
+  /* ── DISCOVERY / GAME PICKER ── */
+  .game-card{margin:0 16px 8px;border-radius:18px;padding:14px;display:flex;align-items:center;gap:10px}
+  .game-icon{width:50px;height:50px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+  .game-info .gi-title{font-size:13px;font-weight:900;color:#1a1a2e}
+  .game-info .gi-sub{font-size:10px;color:#7A7A9A;font-weight:600;margin-top:2px}
+  .game-play{margin-left:auto;background:#4A90E2;color:#fff;border:none;border-radius:999px;padding:6px 14px;font-size:11px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px}
+
+  /* SEARCH */
+  .search-bar{margin:0 16px 12px;background:#fff;border-radius:14px;border:1.5px solid #EBEBF5;padding:10px 14px;display:flex;align-items:center;gap:8px;color:#C8C8D8;font-size:12px;font-weight:600}
+
+  /* AUDIO PLAYER */
+  .audio-card{margin:0 16px 10px;background:#FFF5CC;border-radius:18px;padding:12px 14px}
+  .audio-title{font-size:13px;font-weight:900;color:#1a1a2e;margin-bottom:4px}
+  .audio-meta{font-size:10px;color:#7A7A9A;font-weight:600;margin-bottom:10px}
+  .audio-progress{height:4px;background:#EBEBF5;border-radius:999px;overflow:hidden;margin-bottom:4px}
+  .audio-fill{height:100%;width:18%;background:#FF7043;border-radius:999px}
+  .audio-times{display:flex;justify-content:space-between;font-size:9px;color:#7A7A9A;font-weight:700}
+  .audio-controls{display:flex;align-items:center;justify-content:center;margin-top:10px}
+  .play-btn-lg{width:44px;height:44px;border-radius:50%;background:#7DC67A;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff}
+
+  /* SPLASH */
+  .splash-inner{display:flex;flex-direction:column;align-items:center;padding:20px 16px;text-align:center}
+  .splash-logo{font-size:32px;font-weight:900;color:#4A90E2;letter-spacing:-1px;margin-bottom:4px}
+  .splash-hero{font-size:56px;margin:12px 0 4px}
+  .splash-chars{font-size:32px;margin-bottom:12px}
+  .splash-tagline{font-size:18px;font-weight:900;color:#1a1a2e;line-height:1.3;margin-bottom:6px}
+  .splash-sub{font-size:12px;color:#7A7A9A;font-weight:600;line-height:1.5;margin-bottom:20px;max-width:200px}
+  .splash-cta{width:100%;background:#4A90E2;color:#fff;border:none;border-radius:999px;height:48px;font-size:15px;font-weight:900;font-family:'Nunito',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+</style>
+
+<div class="preview-wrap">
+
+  <div class="section-label">Kids Screens</div>
+  <div class="phones-row">
+
+    <!-- K-01 SPLASH -->
+    <div>
+      <div class="phone-label">K-01 · Splash</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▓▓▓ WiFi</span></div>
+        <div class="white-bg" style="padding-bottom:16px">
+          <div class="splash-inner">
+            <div class="splash-logo">ELS<span style="color:#FF7043">·AI</span></div>
+            <div class="splash-hero">🦒📚</div>
+            <div style="font-size:32px;font-weight:900;color:#4A90E2;letter-spacing:-1px;margin-bottom:10px">LEARN</div>
+            <div class="splash-tagline">A Fun Way to<br>Learn New Things!</div>
+            <div class="splash-sub">Discover fun lessons, games &amp; activities made just for curious young minds</div>
+            <button class="splash-cta"><span>Start Learning</span><span style="font-size:16px">›››</span></button>
+            <div style="display:flex;gap:8px;margin-top:16px">
+              <span style="font-size:10px;color:#4A90E2;font-weight:800;background:#EBF4FF;padding:4px 10px;border-radius:999px">#MathFun</span>
+              <span style="font-size:10px;color:#FF7043;font-weight:800;background:#FFF3EE;padding:4px 10px;border-radius:999px">#BrainGames</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-03 HOME -->
+    <div>
+      <div class="phone-label">K-03 · Home Dashboard</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▓▓▓ WiFi</span></div>
+        <div class="kids-bg" style="padding-bottom:8px">
+          <div class="top-bar">
+            <div>
+              <div class="greeting-sub">Hello Little</div>
+              <div class="greeting-name">Joy Lobo 👋</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div class="xp-chip">⭐ 12000</div>
+              <div class="bell-btn"><i class="ti ti-bell" style="font-size:15px;color:#1a1a2e" aria-hidden="true"></i><div class="bell-dot"></div></div>
+            </div>
+          </div>
+          <!-- hero banner -->
+          <div class="hero-banner">
+            <div class="hero-text">
+              <div class="ht1">Online class in</div>
+              <div class="ht2">next 20 minutes</div>
+              <div style="margin-top:6px;background:rgba(255,255,255,.2);border-radius:999px;padding:3px 10px;display:inline-block;font-size:10px;font-weight:700;color:#fff">Join Now ›</div>
+            </div>
+            <div class="hero-char">👩‍🏫</div>
+          </div>
+          <!-- subjects -->
+          <div class="subject-header"><span>Subjects</span><a href="#">See All</a></div>
+          <div class="tiles-grid">
+            <div class="tile" style="background:#FFE8D6">
+              <div class="tile-icon" style="background:#FFD4B5">🦊</div>
+              <div class="tile-label">Numbers</div>
+            </div>
+            <div class="tile" style="background:#D6EAFF">
+              <div class="tile-icon" style="background:#B5D4FF">🐧</div>
+              <div class="tile-label">Alphabets</div>
+            </div>
+            <div class="tile" style="background:#D6F5D6">
+              <div class="tile-icon" style="background:#B2E5B2">🐾</div>
+              <div class="tile-label">Animals</div>
+            </div>
+            <div class="tile" style="background:#EDE4FF">
+              <div class="tile-icon" style="background:#D9CCFF">🎨</div>
+              <div class="tile-label">Colors</div>
+            </div>
+          </div>
+          <!-- story card -->
+          <div class="sec-title">Featured Story</div>
+          <div class="story-card">
+            <div class="story-text">
+              <div class="st1">Story Of<br>Baby Dinosaur</div>
+              <div class="story-meta">
+                <span>⏱ 15 Minutes</span>
+                <span>22 Aug</span>
+              </div>
+              <div style="margin-top:6px">
+                <button style="background:#FF7043;color:#fff;border:none;border-radius:999px;padding:4px 12px;font-size:10px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">▶ Play</button>
+              </div>
+            </div>
+            <div class="story-char">🦕</div>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-item">
+            <div class="nav-pill">
+              <i class="ti ti-home ni-icon" aria-hidden="true"></i>
+              <div class="ni-label">Home</div>
+            </div>
+          </div>
+          <div class="nav-item"><i class="ti ti-chart-bar ni-icon" aria-hidden="true"></i><div class="ni-label">Insights</div></div>
+          <div class="nav-item"><i class="ti ti-book ni-icon" aria-hidden="true"></i><div class="ni-label">Library</div></div>
+          <div class="nav-item"><i class="ti ti-settings ni-icon" aria-hidden="true"></i><div class="ni-label">Settings</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-06 QUIZ -->
+    <div>
+      <div class="phone-label">K-06 · Quiz Screen</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▓▓▓ WiFi</span></div>
+        <div class="quiz-bg" style="padding-bottom:8px">
+          <div class="quiz-topbar">
+            <div class="back-btn">‹</div>
+            <div class="level-chip">Level 2</div>
+            <div style="font-size:18px;color:#7A7A9A">⋮</div>
+          </div>
+          <div class="quiz-chars">🐸🐸</div>
+          <div style="text-align:center;margin-top:4px">
+            <div class="listen-chip">🔊 listen the sentence</div>
+          </div>
+          <div class="question-text">
+            Sarah and her friend play <span class="blank"></span> at home.
+          </div>
+          <div class="answer-pills">
+            <div class="a-pill selected">music</div>
+            <div class="a-pill correct">game</div>
+            <div class="a-pill">football</div>
+            <div class="a-pill">doll</div>
+            <div class="a-pill">rope skipping</div>
+          </div>
+          <div style="height:10px"></div>
+          <button class="cta-btn">Answer</button>
+          <!-- streak mini -->
+          <div style="padding:0 16px 8px;display:flex;align-items:center;gap:8px">
+            <div style="background:#FF9800;border-radius:999px;padding:4px 12px;font-size:10px;font-weight:800;color:#fff">🔥 7 Day Streak</div>
+            <div style="flex:1;height:6px;background:#fff;border-radius:999px;overflow:hidden">
+              <div style="width:70%;height:100%;background:linear-gradient(90deg,#4A90E2,#9B8EC4);border-radius:999px"></div>
+            </div>
+            <span style="font-size:10px;font-weight:800;color:#4A90E2">70 XP</span>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ti ti-home ni-icon" aria-hidden="true"></i><div class="ni-label">Home</div></div>
+          <div class="nav-item"><div class="nav-pill"><i class="ti ti-puzzle ni-icon" aria-hidden="true"></i><div class="ni-label">Quiz</div></div></div>
+          <div class="nav-item"><i class="ti ti-trophy ni-icon" aria-hidden="true"></i><div class="ni-label">Rank</div></div>
+          <div class="nav-item"><i class="ti ti-user ni-icon" aria-hidden="true"></i><div class="ni-label">Profile</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-07 CELEBRATION -->
+    <div>
+      <div class="phone-label">K-07 · Celebration</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▓▓▓ WiFi</span></div>
+        <div style="background:#E8F7E8;padding-bottom:12px;min-height:400px">
+          <div class="celeb-chip">✅ Level 2 passed</div>
+          <div class="celeb-char">🎉🐸🎊</div>
+          <div class="celeb-title">Congratulations!</div>
+          <div class="celeb-sub">You chose the right answer!<br>Let's play another one!</div>
+          <!-- score summary -->
+          <div style="margin:0 16px 12px;background:#fff;border-radius:18px;padding:12px 14px">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">
+              <div style="background:#F0F4FF;border-radius:12px;padding:8px">
+                <div style="font-size:18px;font-weight:900;color:#4A90E2">95%</div>
+                <div style="font-size:9px;color:#7A7A9A;font-weight:700">Score</div>
+              </div>
+              <div style="background:#FFF5CC;border-radius:12px;padding:8px">
+                <div style="font-size:18px;font-weight:900;color:#E6A020">+50</div>
+                <div style="font-size:9px;color:#7A7A9A;font-weight:700">XP Earned</div>
+              </div>
+              <div style="background:#E8F7E8;border-radius:12px;padding:8px">
+                <div style="font-size:18px;font-weight:900;color:#4CAF50">8</div>
+                <div style="font-size:9px;color:#7A7A9A;font-weight:700">Correct</div>
+              </div>
+            </div>
+          </div>
+          <button class="cta-btn cta-btn-green">Next Level ›</button>
+          <div class="celeb-secondary">No, I want to take a rest</div>
+          <div class="celeb-footer">∧ Swipe up to see full score</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ROW 2: Profile, Leaderboard, Audio -->
+  <div class="phones-row" style="margin-top:8px">
+
+    <!-- K-09 PROFILE -->
+    <div>
+      <div class="phone-label">K-09 · Profile</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▓▓▓ WiFi</span></div>
+        <div class="white-bg">
+          <div style="padding:12px 16px 6px;display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px;color:#C8C8D8">‹</span>
+            <span style="font-size:14px;font-weight:900;color:#1a1a2e">Kids Profile</span>
+          </div>
+          <div class="profile-avatar-wrap">
+            <div class="avatar-ring">🧑‍🎓<div class="avatar-cam">📷</div></div>
+            <div class="profile-name">Maheen Hassan</div>
+            <div class="star-row">⭐ <span>12,000 pts</span></div>
+          </div>
+          <div class="tier-row">
+            <div class="tier-chip active-tier">Bronze</div>
+            <div class="tier-chip">Silver</div>
+            <div class="tier-chip">Gold</div>
+            <div class="tier-chip">Platinum</div>
+            <div class="tier-chip">Diamond</div>
+          </div>
+          <div class="badge-card">
+            <div class="badge-card-title">My Badges</div>
+            <div class="badge-grid">
+              <div class="badge-item"><div class="badge-icon" style="background:#D6EAFF">💎</div><span>Learner</span></div>
+              <div class="badge-item"><div class="badge-icon" style="background:#FFE4EE">❤️</div><span>Kind</span></div>
+              <div class="badge-item"><div class="badge-icon" style="background:#FFF5CC">👑</div><span>Top 10</span></div>
+              <div class="badge-item"><div class="badge-icon" style="background:#D6F5D6">🌿</div><span>Nature</span></div>
+              <div class="badge-item"><div class="badge-icon" style="background:#EDE4FF">🔮</div><span>Magic</span></div>
+              <div class="badge-item"><div class="badge-icon" style="background:#F0F4FF;opacity:.4">🏆</div><span style="opacity:.4">Locked</span></div>
+            </div>
+          </div>
+          <!-- buy coins -->
+          <div style="margin:0 16px 10px;background:#EBF4FF;border-radius:18px;padding:12px 14px;display:flex;align-items:center;gap:10px">
+            <div>
+              <div style="font-size:13px;font-weight:900;color:#1a1a2e">💫 100 Coins</div>
+              <div style="font-size:10px;color:#7A7A9A;font-weight:600">Starter Pack · Only $5</div>
+            </div>
+            <button style="margin-left:auto;background:#4A90E2;color:#fff;border:none;border-radius:999px;padding:7px 16px;font-size:11px;font-weight:900;font-family:'Nunito',sans-serif;cursor:pointer">Buy ›</button>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ti ti-home ni-icon" aria-hidden="true"></i><div class="ni-label">Home</div></div>
+          <div class="nav-item"><i class="ti ti-message-circle ni-icon" aria-hidden="true"></i><div class="ni-label">AI Chat</div></div>
+          <div class="nav-item"><div class="nav-pill"><i class="ti ti-user ni-icon" aria-hidden="true"></i><div class="ni-label">Profile</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div>
+      <div class="phone-label">K-10 · Leaderboard</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▓▓▓ WiFi</span></div>
+        <div style="background:#E6A020">
+          <div style="padding:14px 16px 6px;display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px;color:rgba(255,255,255,.7)">‹</span>
+            <span style="font-size:15px;font-weight:900;color:#fff">Learning Leaderboard 🏆</span>
+          </div>
+          <div style="display:flex;gap:8px;padding:6px 16px 0">
+            <div style="background:rgba(255,255,255,.2);border-radius:10px;padding:6px 10px;text-align:center;flex:1">
+              <div style="font-size:16px;font-weight:900;color:#fff">28h 35m</div>
+              <div style="font-size:9px;color:rgba(255,255,255,.8);font-weight:700">Total Learn Time</div>
+            </div>
+            <div style="background:rgba(255,255,255,.2);border-radius:10px;padding:6px 10px;text-align:center;flex:1">
+              <div style="font-size:16px;font-weight:900;color:#fff">10/10</div>
+              <div style="font-size:9px;color:rgba(255,255,255,.8);font-weight:700">Lessons Done</div>
+            </div>
+          </div>
+          <div class="podium" style="padding:12px 16px">
+            <div class="podium-item">
+              <div class="podium-avatar">🐦</div>
+              <div class="podium-name">Noah</div>
+              <div class="podium-block" style="background:#4A90E2;height:44px">2</div>
+            </div>
+            <div class="podium-item">
+              <div class="podium-avatar" style="border-color:#fff;width:50px;height:50px;font-size:28px">🦅</div>
+              <div class="podium-name">Oliver</div>
+              <div class="podium-block" style="background:#4A4A4A;height:60px">1</div>
+            </div>
+            <div class="podium-item">
+              <div class="podium-avatar">🐺</div>
+              <div class="podium-name">Emma</div>
+              <div class="podium-block" style="background:#8B5E3C;height:34px">3</div>
+            </div>
+          </div>
+        </div>
+        <div class="lb-list">
+          <div class="lb-row"><div class="lb-rank">04</div><div class="lb-avatar">🐯</div><div class="lb-info"><div class="lb-name">Jennifer</div><div class="lb-pts">💙 780 pts</div></div><div class="lb-delta lb-up">+3 ▲</div></div>
+          <div class="lb-row"><div class="lb-rank">05</div><div class="lb-avatar">🐻</div><div class="lb-info"><div class="lb-name">William</div><div class="lb-pts">💙 756 pts</div></div><div class="lb-delta lb-down">-1 ▼</div></div>
+          <div class="lb-row me-row"><div class="lb-rank" style="color:#E6A020">06</div><div class="lb-avatar">😊</div><div class="lb-info"><div class="lb-name" style="color:#E6A020">You (Maheen)</div><div class="lb-pts">💙 698 pts</div></div><div class="lb-delta lb-down">-2 ▼</div></div>
+          <div class="lb-row"><div class="lb-rank">07</div><div class="lb-avatar">🐱</div><div class="lb-info"><div class="lb-name">Emery</div><div class="lb-pts">💙 636 pts</div></div><div class="lb-delta lb-down">-1 ▼</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUDIO / STORY PLAYER -->
+    <div>
+      <div class="phone-label">K-05 · Story Player</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▓▓▓ WiFi</span></div>
+        <div class="white-bg" style="padding-bottom:16px">
+          <div style="padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #EBEBF5">
+            <span style="font-size:18px;color:#C8C8D8">‹</span>
+            <span style="font-size:14px;font-weight:900;color:#1a1a2e">Story Of Baby Dinosaur</span>
+          </div>
+          <div class="audio-card">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+              <div style="font-size:44px">🦕</div>
+              <div>
+                <div class="audio-title">Story Of Baby Dinosaur</div>
+                <div class="audio-meta">⏱ 15 Minutes · Nature Series</div>
+              </div>
+            </div>
+            <div class="audio-progress"><div class="audio-fill"></div></div>
+            <div class="audio-times"><span>1:23</span><span>15:00</span></div>
+            <div class="audio-controls">
+              <button style="width:36px;height:36px;border-radius:50%;background:#F7F7FC;border:none;font-size:16px;cursor:pointer;margin:0 6px">⏮</button>
+              <button class="play-btn-lg">▶</button>
+              <button style="width:36px;height:36px;border-radius:50%;background:#F7F7FC;border:none;font-size:16px;cursor:pointer;margin:0 6px">⏭</button>
+            </div>
+          </div>
+          <div class="sec-title" style="margin-top:4px">More Stories</div>
+          <div style="display:flex;gap:8px;padding:0 16px;overflow-x:auto">
+            <div style="flex-shrink:0;width:110px;background:#FFF5CC;border-radius:14px;padding:10px">
+              <div style="font-size:28px;margin-bottom:4px">🦁</div>
+              <div style="font-size:10px;font-weight:800;color:#1a1a2e;line-height:1.2">The Happy<br>Lion</div>
+              <div style="font-size:9px;color:#7A7A9A;font-weight:600;margin-top:2px">14 min</div>
+            </div>
+            <div style="flex-shrink:0;width:110px;background:#D6F5D6;border-radius:14px;padding:10px">
+              <div style="font-size:28px;margin-bottom:4px">🐢</div>
+              <div style="font-size:10px;font-weight:800;color:#1a1a2e;line-height:1.2">Timmy the<br>Turtle</div>
+              <div style="font-size:9px;color:#7A7A9A;font-weight:600;margin-top:2px">10 min</div>
+            </div>
+            <div style="flex-shrink:0;width:110px;background:#FFE4EE;border-radius:14px;padding:10px">
+              <div style="font-size:28px;margin-bottom:4px">🐰</div>
+              <div style="font-size:10px;font-weight:800;color:#1a1a2e;line-height:1.2">Bunny's Big<br>Day</div>
+              <div style="font-size:9px;color:#7A7A9A;font-weight:600;margin-top:2px">8 min</div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ti ti-home ni-icon" aria-hidden="true"></i><div class="ni-label">Home</div></div>
+          <div class="nav-item"><div class="nav-pill"><i class="ti ti-book ni-icon" aria-hidden="true"></i><div class="ni-label">Library</div></div></div>
+          <div class="nav-item"><i class="ti ti-user ni-icon" aria-hidden="true"></i><div class="ni-label">Profile</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GAME PICKER -->
+    <div>
+      <div class="phone-label">K-10 · Game Picker</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▓▓▓ WiFi</span></div>
+        <div class="purple-bg" style="padding-bottom:16px">
+          <div class="top-bar" style="padding-bottom:4px">
+            <div>
+              <div class="greeting-sub">Hello, Maheen!</div>
+              <div class="greeting-name" style="font-size:15px">Let's be smart together!</div>
+            </div>
+            <div class="xp-chip">⭐ 12000</div>
+          </div>
+          <div style="text-align:center;font-size:44px;padding:4px 0 10px">🟣</div>
+          <div class="search-bar"><i class="ti ti-search" style="font-size:15px" aria-hidden="true"></i> I want to play...</div>
+          <div class="sec-title">Games</div>
+          <div class="game-card" style="background:#fff;border:1px solid #EBEBF5">
+            <div class="game-icon" style="background:#D6EAFF">🅰🅱</div>
+            <div class="game-info"><div class="gi-title">Guess Words</div><div class="gi-sub">12 levels</div></div>
+            <button class="game-play"><i class="ti ti-player-play" style="font-size:12px" aria-hidden="true"></i> Play</button>
+          </div>
+          <div class="game-card" style="background:#fff;border:1px solid #EBEBF5">
+            <div class="game-icon" style="background:#EDE4FF">🧩</div>
+            <div class="game-info"><div class="gi-title">Draw Puzzle</div><div class="gi-sub">8 levels</div></div>
+            <button class="game-play"><i class="ti ti-player-play" style="font-size:12px" aria-hidden="true"></i> Play</button>
+          </div>
+          <div class="game-card" style="background:#fff;border:1px solid #EBEBF5">
+            <div class="game-icon" style="background:#FFF5CC">🔤</div>
+            <div class="game-info"><div class="gi-title">Word Puzzle</div><div class="gi-sub">6 levels</div></div>
+            <button class="game-play"><i class="ti ti-player-play" style="font-size:12px" aria-hidden="true"></i> Play</button>
+          </div>
+          <div class="game-card" style="background:#fff;border:1px solid #EBEBF5">
+            <div class="game-icon" style="background:#D6F5D6">🎨</div>
+            <div class="game-info"><div class="gi-title">Coloring Page</div><div class="gi-sub">Unlimited</div></div>
+            <button class="game-play"><i class="ti ti-player-play" style="font-size:12px" aria-hidden="true"></i> Play</button>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ti ti-home ni-icon" aria-hidden="true"></i><div class="ni-label">Home</div></div>
+          <div class="nav-item"><div class="nav-pill"><i class="ti ti-puzzle ni-icon" aria-hidden="true"></i><div class="ni-label">Games</div></div></div>
+          <div class="nav-item"><i class="ti ti-trophy ni-icon" aria-hidden="true"></i><div class="ni-label">Rank</div></div>
+          <div class="nav-item"><i class="ti ti-user ni-icon" aria-hidden="true"></i><div class="ni-label">Profile</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ROW 3: PARENT + TEACHER -->
+  <div class="section-label">Parent & Teacher Screens</div>
+  <div class="phones-row">
+
+    <!-- PARENT HOME -->
+    <div>
+      <div class="phone-label">P-02 · Parent Dashboard</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▓▓▓ WiFi</span></div>
+        <div class="parent-bg" style="padding-bottom:16px">
+          <div class="top-bar">
+            <div><div class="greeting-sub">Hello</div><div class="greeting-name" style="font-size:18px">Parents 👋</div></div>
+            <div class="bell-btn"><i class="ti ti-bell" style="font-size:15px;color:#1a1a2e" aria-hidden="true"></i><div class="bell-dot"></div></div>
+          </div>
+          <!-- child summary -->
+          <div class="child-summary-card">
+            <div class="child-row">
+              <div class="child-avatar">🧒</div>
+              <div class="child-info">
+                <div class="cn">Joy Lobo</div>
+                <div class="cs">Joy's Latest Activities</div>
+              </div>
+              <button style="margin-left:auto;background:#EBF4FF;color:#4A90E2;border:none;border-radius:999px;padding:5px 12px;font-size:10px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">View All</button>
+            </div>
+            <div class="stat-row">
+              <div class="stat-cell"><div class="sv">5</div><div class="sl">Lessons Done</div></div>
+              <div class="stat-cell"><div class="sv" style="color:#FF7043">🔥7</div><div class="sl">Day Streak</div></div>
+              <div class="stat-cell"><div class="sv" style="color:#E6A020">⭐95%</div><div class="sl">Avg Score</div></div>
+            </div>
+          </div>
+          <!-- progress -->
+          <div style="padding:4px 16px 8px;font-size:13px;font-weight:800;color:#1a1a2e">Weekly Progress</div>
+          <div class="progress-row-wrap">
+            <div class="pr-label"><span>Numbers</span><span class="pr-pct">80%</span></div>
+            <div class="pr-track"><div class="pr-fill" style="width:80%;background:#4A90E2"></div></div>
+          </div>
+          <div class="progress-row-wrap">
+            <div class="pr-label"><span>Alphabets</span><span class="pr-pct">65%</span></div>
+            <div class="pr-track"><div class="pr-fill" style="width:65%;background:#FF7043"></div></div>
+          </div>
+          <div class="progress-row-wrap">
+            <div class="pr-label"><span>Animals</span><span class="pr-pct">90%</span></div>
+            <div class="pr-track"><div class="pr-fill" style="width:90%;background:#7DC67A"></div></div>
+          </div>
+          <!-- recent activity feed -->
+          <div style="padding:4px 16px 8px;font-size:13px;font-weight:800;color:#1a1a2e">Recent Activity</div>
+          <div style="padding:0 16px">
+            <div style="background:#fff;border-radius:14px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px;border:1px solid #EBEBF5">
+              <div style="font-size:22px">📐</div>
+              <div><div style="font-size:12px;font-weight:800;color:#1a1a2e">Completed Numbers Quiz</div><div style="font-size:10px;color:#7A7A9A;font-weight:600">Today · 10 min ago</div></div>
+              <div style="margin-left:auto;font-size:12px;font-weight:800;color:#4CAF50">+50 XP</div>
+            </div>
+            <div style="background:#fff;border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:10px;border:1px solid #EBEBF5">
+              <div style="font-size:22px">📖</div>
+              <div><div style="font-size:12px;font-weight:800;color:#1a1a2e">Read Baby Dinosaur Story</div><div style="font-size:10px;color:#7A7A9A;font-weight:600">Today · 30 min ago</div></div>
+              <div style="margin-left:auto;font-size:12px;font-weight:800;color:#4CAF50">+20 XP</div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-item"><div class="nav-pill"><i class="ti ti-home ni-icon" aria-hidden="true"></i><div class="ni-label">Home</div></div></div>
+          <div class="nav-item"><i class="ti ti-chart-bar ni-icon" aria-hidden="true"></i><div class="ni-label">Progress</div></div>
+          <div class="nav-item"><i class="ti ti-bell ni-icon" aria-hidden="true"></i><div class="ni-label">Alerts</div></div>
+          <div class="nav-item"><i class="ti ti-settings ni-icon" aria-hidden="true"></i><div class="ni-label">Settings</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEACHER DASHBOARD -->
+    <div>
+      <div class="phone-label">T-02 · Teacher Dashboard</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▓▓▓ WiFi</span></div>
+        <div style="background:#F7F7FC;padding-bottom:16px">
+          <div class="top-bar">
+            <div><div class="greeting-sub">Good Morning</div><div class="greeting-name" style="font-size:18px">Ms. Sarah 👩‍🏫</div></div>
+            <div class="bell-btn"><i class="ti ti-bell" style="font-size:15px;color:#1a1a2e" aria-hidden="true"></i></div>
+          </div>
+          <!-- stats row -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px;margin-bottom:10px">
+            <div style="background:#fff;border-radius:16px;padding:12px;border:1px solid #EBEBF5">
+              <div style="font-size:22px;font-weight:900;color:#4A90E2">28</div>
+              <div style="font-size:10px;color:#7A7A9A;font-weight:700">Total Students</div>
+            </div>
+            <div style="background:#fff;border-radius:16px;padding:12px;border:1px solid #EBEBF5">
+              <div style="font-size:22px;font-weight:900;color:#7DC67A">22</div>
+              <div style="font-size:10px;color:#7A7A9A;font-weight:700">Active Today</div>
+            </div>
+            <div style="background:#fff;border-radius:16px;padding:12px;border:1px solid #EBEBF5">
+              <div style="font-size:22px;font-weight:900;color:#FF7043">78%</div>
+              <div style="font-size:10px;color:#7A7A9A;font-weight:700">Avg Score</div>
+            </div>
+            <div style="background:#fff;border-radius:16px;padding:12px;border:1px solid #EBEBF5">
+              <div style="font-size:22px;font-weight:900;color:#E6A020">3</div>
+              <div style="font-size:10px;color:#7A7A9A;font-weight:700">Need Attention</div>
+            </div>
+          </div>
+          <!-- quick actions -->
+          <div style="padding:0 16px;margin-bottom:10px;display:flex;gap:8px">
+            <button style="flex:1;background:#4A90E2;color:#fff;border:none;border-radius:12px;padding:10px;font-size:11px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">+ Assign Lesson</button>
+            <button style="flex:1;background:#fff;color:#4A90E2;border:1.5px solid #4A90E2;border-radius:12px;padding:10px;font-size:11px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">View Reports</button>
+          </div>
+          <!-- student list -->
+          <div style="padding:0 16px 4px;font-size:13px;font-weight:800;color:#1a1a2e">Students</div>
+          <div style="padding:0 16px">
+            <div style="background:#fff;border-radius:14px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;gap:8px;border:1px solid #EBEBF5">
+              <div style="width:34px;height:34px;border-radius:50%;background:#D6EAFF;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🧒</div>
+              <div style="flex:1">
+                <div style="font-size:12px;font-weight:800;color:#1a1a2e">Joy Lobo</div>
+                <div style="height:5px;background:#EBEBF5;border-radius:999px;margin-top:4px;overflow:hidden"><div style="width:85%;height:100%;background:#4A90E2;border-radius:999px"></div></div>
+              </div>
+              <div style="font-size:11px;font-weight:800;color:#4A90E2">85%</div>
+            </div>
+            <div style="background:#fff;border-radius:14px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;gap:8px;border:1px solid #EBEBF5">
+              <div style="width:34px;height:34px;border-radius:50%;background:#D6F5D6;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🧒</div>
+              <div style="flex:1">
+                <div style="font-size:12px;font-weight:800;color:#1a1a2e">Aanya Sharma</div>
+                <div style="height:5px;background:#EBEBF5;border-radius:999px;margin-top:4px;overflow:hidden"><div style="width:72%;height:100%;background:#7DC67A;border-radius:999px"></div></div>
+              </div>
+              <div style="font-size:11px;font-weight:800;color:#7DC67A">72%</div>
+            </div>
+            <div style="background:#FFEBEE;border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:8px;border:1px solid #FFCDD2">
+              <div style="width:34px;height:34px;border-radius:50%;background:#FFE4EE;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🧒</div>
+              <div style="flex:1">
+                <div style="font-size:12px;font-weight:800;color:#1a1a2e">Ravi Kumar</div>
+                <div style="height:5px;background:#EBEBF5;border-radius:999px;margin-top:4px;overflow:hidden"><div style="width:38%;height:100%;background:#F44336;border-radius:999px"></div></div>
+              </div>
+              <div style="font-size:11px;font-weight:800;color:#F44336">38% ⚠</div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-item"><div class="nav-pill"><i class="ti ti-home ni-icon" aria-hidden="true"></i><div class="ni-label">Home</div></div></div>
+          <div class="nav-item"><i class="ti ti-users ni-icon" aria-hidden="true"></i><div class="ni-label">Class</div></div>
+          <div class="nav-item"><i class="ti ti-chart-bar ni-icon" aria-hidden="true"></i><div class="ni-label">Reports</div></div>
+          <div class="nav-item"><i class="ti ti-user ni-icon" aria-hidden="true"></i><div class="ni-label">Profile</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+    <div>
+      <div class="phone-label">A-02 · Admin Overview</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▓▓▓ WiFi</span></div>
+        <div style="background:#F7F7FC;padding-bottom:16px">
+          <div class="top-bar">
+            <div><div class="greeting-sub">Admin Panel</div><div class="greeting-name" style="font-size:16px">ELS-AI Overview</div></div>
+            <div class="bell-btn"><i class="ti ti-bell" style="font-size:15px;color:#1a1a2e" aria-hidden="true"></i><div class="bell-dot"></div></div>
+          </div>
+          <!-- kpi cards -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px;margin-bottom:10px">
+            <div style="background:#fff;border-radius:16px;padding:12px;border:1px solid #EBEBF5">
+              <div style="font-size:10px;color:#7A7A9A;font-weight:700;margin-bottom:4px">Total Users</div>
+              <div style="font-size:22px;font-weight:900;color:#1a1a2e">1,204</div>
+              <div style="font-size:10px;color:#4CAF50;font-weight:700">+12% this week</div>
+            </div>
+            <div style="background:#fff;border-radius:16px;padding:12px;border:1px solid #EBEBF5">
+              <div style="font-size:10px;color:#7A7A9A;font-weight:700;margin-bottom:4px">Active Today</div>
+              <div style="font-size:22px;font-weight:900;color:#4A90E2">342</div>
+              <div style="font-size:10px;color:#4A90E2;font-weight:700">28% of total</div>
+            </div>
+            <div style="background:#fff;border-radius:16px;padding:12px;border:1px solid #EBEBF5">
+              <div style="font-size:10px;color:#7A7A9A;font-weight:700;margin-bottom:4px">Lessons</div>
+              <div style="font-size:22px;font-weight:900;color:#E6A020">86</div>
+              <div style="font-size:10px;color:#7A7A9A;font-weight:700">Published</div>
+            </div>
+            <div style="background:#fff;border-radius:16px;padding:12px;border:1px solid #EBEBF5">
+              <div style="font-size:10px;color:#7A7A9A;font-weight:700;margin-bottom:4px">Revenue</div>
+              <div style="font-size:22px;font-weight:900;color:#7DC67A">$8.4k</div>
+              <div style="font-size:10px;color:#4CAF50;font-weight:700">+5% vs last mo</div>
+            </div>
+          </div>
+          <!-- audience split -->
+          <div style="margin:0 16px 10px;background:#fff;border-radius:16px;padding:12px 14px;border:1px solid #EBEBF5">
+            <div style="font-size:12px;font-weight:800;color:#1a1a2e;margin-bottom:8px">Audience Split</div>
+            <div style="display:flex;height:10px;border-radius:999px;overflow:hidden;gap:2px;margin-bottom:8px">
+              <div style="flex:6;background:#4A90E2;border-radius:4px"></div>
+              <div style="flex:2.5;background:#FF7043;border-radius:4px"></div>
+              <div style="flex:1;background:#7DC67A;border-radius:4px"></div>
+              <div style="flex:.5;background:#E6A020;border-radius:4px"></div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <div style="font-size:9px;font-weight:700;color:#4A90E2">⬛ Kids 60%</div>
+              <div style="font-size:9px;font-weight:700;color:#FF7043">⬛ Parents 25%</div>
+              <div style="font-size:9px;font-weight:700;color:#7DC67A">⬛ Teachers 10%</div>
+              <div style="font-size:9px;font-weight:700;color:#E6A020">⬛ Admin 5%</div>
+            </div>
+          </div>
+          <!-- alert -->
+          <div style="margin:0 16px 10px;background:#FFF3E0;border-radius:14px;padding:10px 12px;border:1px solid #FFE0B2;display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px">⚠️</span>
+            <div>
+              <div style="font-size:11px;font-weight:800;color:#E65100">Content Sync Pending</div>
+              <div style="font-size:10px;color:#7A7A9A;font-weight:600">3 lessons awaiting review</div>
+            </div>
+            <button style="margin-left:auto;background:#FF7043;color:#fff;border:none;border-radius:8px;padding:4px 10px;font-size:10px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">Fix</button>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-item"><div class="nav-pill"><i class="ti ti-home ni-icon" aria-hidden="true"></i><div class="ni-label">Overview</div></div></div>
+          <div class="nav-item"><i class="ti ti-users ni-icon" aria-hidden="true"></i><div class="ni-label">Users</div></div>
+          <div class="nav-item"><i class="ti ti-file ni-icon" aria-hidden="true"></i><div class="ni-label">Content</div></div>
+          <div class="nav-item"><i class="ti ti-chart-bar ni-icon" aria-hidden="true"></i><div class="ni-label">Analytics</div></div>
+          <div class="nav-item"><i class="ti ti-settings ni-icon" aria-hidden="true"></i><div class="ni-label">Settings</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

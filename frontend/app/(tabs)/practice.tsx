@@ -6,6 +6,16 @@ import { getStandardLabel, STANDARD_OPTIONS } from '../../src/constants/standard
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
 
+type ContentSection = {
+  id: string;
+  sectionOrder: number;
+  title?: string;
+  contentType: string;
+  mediaUrl?: string;
+  externalUrl?: string;
+  textContent?: string;
+};
+
 type LearningContentItem = {
   id: string;
   title: string;
@@ -16,6 +26,7 @@ type LearningContentItem = {
   externalUrl?: string;
   textContent?: string;
   status?: 'not_started' | 'in_progress' | 'completed';
+  sections?: ContentSection[];
 };
 
 type ClassroomQuiz = {
@@ -171,12 +182,12 @@ export default function PracticeScreen() {
   );
 
   const loadStudentClassLevel = useCallback(async () => {
-    if (!user?.id) return '';
+    if (!user?.id || user.activeRole !== 'student') return '';
     const res = await apiFetch(`/users/${user.id}`);
     if (!res.ok) return '';
     const profile = await res.json();
     return (profile.classLevel as string) || '';
-  }, [apiFetch, user?.id]);
+  }, [apiFetch, user?.id, user?.activeRole]);
 
   const loadData = useCallback(async () => {
     if (!isAuthenticated) return;
@@ -540,32 +551,59 @@ export default function PracticeScreen() {
               <Text style={styles.itemMeta}>
                 {previewContent?.subject || '-'} • {previewContent?.contentType.replace('_', ' ')}
               </Text>
-              {(previewContent?.mediaUrl && isImageUrl(resolveMediaUrl(previewContent.mediaUrl))) ||
-              (previewContent?.externalUrl && isImageUrl(resolveMediaUrl(previewContent.externalUrl))) ? (
-                <Image
-                  source={{
-                    uri: previewContent?.mediaUrl && isImageUrl(resolveMediaUrl(previewContent.mediaUrl))
-                      ? resolveMediaUrl(previewContent.mediaUrl)
-                      : resolveMediaUrl(previewContent?.externalUrl),
-                  }}
-                  style={styles.contentModalImage}
-                  resizeMode="contain"
-                />
-              ) : null}
-              {previewContent?.textContent ? <Text style={styles.modalBody}>{previewContent.textContent}</Text> : null}
-              {previewContent?.mediaUrl && !isImageUrl(resolveMediaUrl(previewContent.mediaUrl)) ? (
-                <Pressable style={styles.secondaryButton} onPress={() => openExternalResource(previewContent.mediaUrl || '')}>
-                  <Text style={styles.secondaryButtonText}>Open Media</Text>
-                </Pressable>
-              ) : null}
-              {previewContent?.externalUrl ? (
-                <Pressable style={styles.secondaryButton} onPress={() => openExternalResource(previewContent.externalUrl || '')}>
-                  <Text style={styles.secondaryButtonText}>Open Link</Text>
-                </Pressable>
-              ) : null}
-              {!previewContent?.textContent && !previewContent?.mediaUrl && !previewContent?.externalUrl ? (
-                <Text style={styles.emptyText}>No content details available.</Text>
-              ) : null}
+              {previewContent?.sections && previewContent.sections.length > 0 ? (
+                previewContent.sections.map((section, idx) => (
+                  <View key={section.id || idx} style={styles.sectionCard}>
+                    <Text style={styles.sectionLabel}>
+                      {section.title ? section.title : `Section ${section.sectionOrder || idx + 1}`}
+                      {' — '}{section.contentType.replace('_', ' ')}
+                    </Text>
+                    {section.textContent ? <Text style={styles.modalBody}>{section.textContent}</Text> : null}
+                    {section.mediaUrl && isImageUrl(resolveMediaUrl(section.mediaUrl)) ? (
+                      <Image source={{ uri: resolveMediaUrl(section.mediaUrl) }} style={styles.contentModalImage} resizeMode="contain" />
+                    ) : null}
+                    {section.mediaUrl && !isImageUrl(resolveMediaUrl(section.mediaUrl)) ? (
+                      <Pressable style={styles.secondaryButton} onPress={() => openExternalResource(section.mediaUrl || '')}>
+                        <Text style={styles.secondaryButtonText}>Open Media</Text>
+                      </Pressable>
+                    ) : null}
+                    {section.externalUrl ? (
+                      <Pressable style={styles.secondaryButton} onPress={() => openExternalResource(section.externalUrl || '')}>
+                        <Text style={styles.secondaryButtonText}>Open Link</Text>
+                      </Pressable>
+                    ) : null}
+                  </View>
+                ))
+              ) : (
+                <>
+                  {(previewContent?.mediaUrl && isImageUrl(resolveMediaUrl(previewContent.mediaUrl))) ||
+                  (previewContent?.externalUrl && isImageUrl(resolveMediaUrl(previewContent.externalUrl))) ? (
+                    <Image
+                      source={{
+                        uri: previewContent?.mediaUrl && isImageUrl(resolveMediaUrl(previewContent.mediaUrl))
+                          ? resolveMediaUrl(previewContent.mediaUrl)
+                          : resolveMediaUrl(previewContent?.externalUrl),
+                      }}
+                      style={styles.contentModalImage}
+                      resizeMode="contain"
+                    />
+                  ) : null}
+                  {previewContent?.textContent ? <Text style={styles.modalBody}>{previewContent.textContent}</Text> : null}
+                  {previewContent?.mediaUrl && !isImageUrl(resolveMediaUrl(previewContent.mediaUrl)) ? (
+                    <Pressable style={styles.secondaryButton} onPress={() => openExternalResource(previewContent.mediaUrl || '')}>
+                      <Text style={styles.secondaryButtonText}>Open Media</Text>
+                    </Pressable>
+                  ) : null}
+                  {previewContent?.externalUrl ? (
+                    <Pressable style={styles.secondaryButton} onPress={() => openExternalResource(previewContent.externalUrl || '')}>
+                      <Text style={styles.secondaryButtonText}>Open Link</Text>
+                    </Pressable>
+                  ) : null}
+                  {!previewContent?.textContent && !previewContent?.mediaUrl && !previewContent?.externalUrl ? (
+                    <Text style={styles.emptyText}>No content details available.</Text>
+                  ) : null}
+                </>
+              )}
             </ScrollView>
             <Pressable style={styles.secondaryButton} onPress={() => setPreviewContent(null)}>
               <Text style={styles.secondaryButtonText}>Close</Text>
@@ -938,6 +976,20 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#334155',
     lineHeight: 18,
+  },
+  sectionCard: {
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    backgroundColor: '#f8fafc',
+    padding: 10,
+    gap: 6,
+    marginTop: 8,
+  },
+  sectionLabel: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#1d4ed8',
   },
   contentModalImage: {
     width: '100%',

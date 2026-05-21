@@ -53,6 +53,8 @@ async function bootstrap() {
         );
       `);
       await db.query(`ALTER TABLE classrooms ADD COLUMN IF NOT EXISTS organization_id UUID;`);
+      await db.query(`ALTER TABLE learning_content_sections ADD COLUMN IF NOT EXISTS title VARCHAR(255);`);
+      await db.query(`ALTER TABLE topic_content_sections ADD COLUMN IF NOT EXISTS title VARCHAR(255);`);
       await db.query(`
         DO $$
         BEGIN

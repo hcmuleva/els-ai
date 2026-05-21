@@ -143,6 +143,7 @@ const updateContentTopicSchema = z
 
 const contentSectionSchema = z
   .object({
+    title: z.string().trim().max(255).optional(),
     contentType: contentTypeSchema,
     mediaUrl: z.string().trim().optional(),
     externalUrl: z.string().trim().optional(),
@@ -365,7 +366,7 @@ async function ensureQuizEditPermission(
   );
   if ((quizResult.rowCount ?? 0) === 0) {
     return { allowed: false, exists: false };
-  }d  
+  }
   return { allowed: true, exists: true };
 }
 
@@ -2875,11 +2876,12 @@ quizzesRouter.put('/content/topics/:topicId/sections', requireAuth, async (req: 
     for (let i = 0; i < sections.length; i += 1) {
       const section = sections[i];
       await client.query(
-        `INSERT INTO topic_content_sections (topic_id, section_order, content_type, media_url, external_url, text_content)
-         VALUES ($1, $2, $3, $4, $5, $6)`,
+        `INSERT INTO topic_content_sections (topic_id, section_order, title, content_type, media_url, external_url, text_content)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
         [
           topicId,
           i + 1,
+          section.title?.trim() || null,
           section.contentType,
           section.mediaUrl ? toPersistentMediaUrl(section.mediaUrl) : null,
           section.externalUrl || null,
@@ -2975,8 +2977,8 @@ quizzesRouter.post('/content/items', requireAuth, async (req: any, res) => {
         const section = sections[i];
         await client.query(
           `INSERT INTO learning_content_sections (content_id, section_order, title, content_type, media_url, external_url, text_content)
-           VALUES (           ,           , $3, $4, $5, $6, $7)`,
-          [created.id, i + 1, section.title, section.contentType, section.mediaUrl, section.externalUrl, section.textContent],
+           VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+          [created.id, i + 1, section.title?.trim() || null, section.contentType, section.mediaUrl ? toPersistentMediaUrl(section.mediaUrl) : null, section.externalUrl || null, section.textContent || null],
         );
       }
 
@@ -3266,8 +3268,8 @@ quizzesRouter.put('/content/items/:contentId', requireAuth, async (req: any, res
         const section = sections[i];
         await client.query(
           `INSERT INTO learning_content_sections (content_id, section_order, title, content_type, media_url, external_url, text_content)
-           VALUES (           ,           , $3, $4, $5, $6, $7)`,
-          [contentId, i + 1, section.title, section.contentType, section.mediaUrl, section.externalUrl, section.textContent],
+           VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+          [contentId, i + 1, section.title?.trim() || null, section.contentType, section.mediaUrl ? toPersistentMediaUrl(section.mediaUrl) : null, section.externalUrl || null, section.textContent || null],
         );
       }
       await client.query('COMMIT');

@@ -1,9 +1,12 @@
-import { useCallback, useMemo, useState } from 'react';
-import { ActivityIndicator, Image, Linking, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { ActivityIndicator, Dimensions, Image, Linking, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { ChevronRight, Play, Star, BookOpen, Clock, X, Trophy } from 'lucide-react-native';
 import { Video, ResizeMode } from 'expo-av';
 import { WebView } from 'react-native-webview';
+
+import AudioPlayer from '../../src/components/media/AudioPlayer';
+import DocumentViewer from '../../src/components/media/DocumentViewer';
 
 import { getStandardLabel, STANDARD_OPTIONS } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
@@ -163,7 +166,23 @@ export default function ClassroomScreen() {
   const [submissionAttachmentUrl, setSubmissionAttachmentUrl] = useState('');
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
+  // Viewer scroll-based playback tracking
+  const [viewerScrollY, setViewerScrollY] = useState(0);
+  const sectionYsRef = useRef<Record<string, number>>({});
+  const SCREEN_H = Dimensions.get('window').height;
 
+  const isMediaInView = (key: string) => {
+    const y = sectionYsRef.current[key] ?? -1;
+    if (y < 0) return true; // not measured yet — allow play on first section
+    return y >= viewerScrollY && y < viewerScrollY + SCREEN_H * 0.9;
+  };
+
+  // Reset scroll tracking when navigating to a new content item
+  const openContentAt = (idx: number | null) => {
+    sectionYsRef.current = {};
+    setViewerScrollY(0);
+    setPreviewContentIndex(idx);
+  };
 
   const loadClassrooms = useCallback(
     async (classLevelOverride?: string) => {
@@ -196,12 +215,12 @@ export default function ClassroomScreen() {
   );
 
   const loadStudentClassLevel = useCallback(async () => {
-    if (!user?.id) return '';
+    if (!user?.id || user.activeRole !== 'student') return '';
     const res = await apiFetch(`/users/${user.id}`);
     if (!res.ok) return '';
     const profile = await res.json();
     return (profile.classLevel as string) || '';
-  }, [apiFetch, user?.id]);
+  }, [apiFetch, user?.id, user?.activeRole]);
 
   const loadData = useCallback(async () => {
     if (!isAuthenticated) return;
@@ -394,21 +413,21 @@ export default function ClassroomScreen() {
                 <View style={[styles.categoryIconBg, { backgroundColor: '#e0e7ff' }]}>
                    <BookOpen size={24} color="#4f46e5" />
                 </View>
-                <Text style={styles.categoryTitle}>Stories</Text>
+                <Text style={styles.categoryTitle}>Content</Text>
               </Pressable>
               
               <Pressable style={[styles.categoryCard, activeTab === 'quiz' && styles.categoryCardActive]} onPress={() => setActiveTab('quiz')}>
                 <View style={[styles.categoryIconBg, { backgroundColor: '#fce7f3' }]}>
                    <Trophy size={24} color="#db2777" />
                 </View>
-                <Text style={styles.categoryTitle}>Games</Text>
+                <Text style={styles.categoryTitle}>Quiz</Text>
               </Pressable>
 
               <Pressable style={[styles.categoryCard, activeTab === 'assignments' && styles.categoryCardActive]} onPress={() => setActiveTab('assignments')}>
                 <View style={[styles.categoryIconBg, { backgroundColor: '#ffedd5' }]}>
                    <Clock size={24} color="#ea580c" />
                 </View>
-                <Text style={styles.categoryTitle}>Tasks</Text>
+                <Text style={styles.categoryTitle}>Assignment</Text>
               </Pressable>
             </View>
 
@@ -418,7 +437,7 @@ export default function ClassroomScreen() {
             {activeTab === 'content' ? (
               <View>
                 <View style={styles.sectionHeader}>
-                  <Text style={styles.sectionTitle}>More Stories</Text>
+                  <Text style={styles.sectionTitle}>Content</Text>
                   <Text style={styles.seeAllText}>See All</Text>
                 </View>
 
@@ -430,32 +449,29 @@ export default function ClassroomScreen() {
                     const externalUrl = resolveMediaUrl(content.externalUrl);
                     const previewImageUrl = isImageUrl(mediaUrl) ? mediaUrl : isImageUrl(externalUrl) ? externalUrl : '';
                     const showImage = Boolean(previewImageUrl);
-                    
-                    const colors = ['#fef3c7', '#dbeafe', '#fce7f3', '#dcfce3'];
-                    const bgColor = colors[idx % colors.length];
+
+                    const cardColors = ['#D6EAFF', '#FFE8D6', '#D6F5D6', '#EDE4FF', '#FFF5CC'];
+                    const emojis = ['📖', '🎨', '🌿', '🔮', '🌟'];
+                    const bgColor = cardColors[idx % cardColors.length];
+                    const emoji = emojis[idx % emojis.length];
 
                     return (
                       <Pressable key={content.id} style={[styles.storyCard, { backgroundColor: bgColor }]} onPress={() => setPreviewContentIndex(idx)}>
                         <View style={styles.storyContent}>
-                          <Text style={styles.storyLabel}>Mystical Stories</Text>
+                          <Text style={styles.storyLabel}>{content.subject || content.contentType || 'Content'}</Text>
                           <Text style={styles.storyTitle}>{content.title}</Text>
-                          
                           <View style={styles.storyMetaRow}>
-                            <Pressable style={styles.playMiniBtn}>
-                              <Play size={12} color="#4f46e5" fill="#4f46e5" />
-                              <Text style={styles.playMiniBtnText}>Play</Text>
+                            <Pressable style={styles.playMiniBtn} onPress={() => setPreviewContentIndex(idx)}>
+                              <Play size={11} color="#fff" fill="#fff" />
+                              <Text style={styles.playMiniBtnText}>Open</Text>
                             </Pressable>
-                            <View style={styles.timeBadge}>
-                              <Clock size={12} color="#64748b" />
-                              <Text style={styles.timeText}>15 min</Text>
-                            </View>
                           </View>
                         </View>
                         {showImage ? (
-                          <Image source={{ uri: previewImageUrl }} style={styles.storyImage} resizeMode="contain" />
+                          <Image source={{ uri: previewImageUrl }} style={styles.storyImage} resizeMode="cover" />
                         ) : (
                           <View style={styles.storyImagePlaceholder}>
-                             <BookOpen size={40} color="rgba(0,0,0,0.1)" />
+                            <Text style={{ fontSize: 38 }}>{emoji}</Text>
                           </View>
                         )}
                       </Pressable>
@@ -475,23 +491,20 @@ export default function ClassroomScreen() {
                 {selectedClassroom.quizzes.length === 0 ? (
                   <Text style={styles.emptyText}>No games assigned yet.</Text>
                 ) : (
-                  selectedClassroom.quizzes.map((quiz, idx) => {
+                  selectedClassroom.quizzes.map((quiz) => {
                     const isCompleted = quiz.status === 'completed';
-                    
                     return (
                       <View key={quiz.id} style={styles.gameCard}>
+                        <View style={[styles.gameIconBox, { backgroundColor: '#FFE8D6' }]}>
+                          <Trophy size={20} color="#FF7043" />
+                        </View>
                         <View style={styles.gameInfo}>
                           <Text style={styles.gameTitle}>{quiz.title}</Text>
-                          <Text style={styles.gameSubtitle}>Play & match the puzzles</Text>
+                          <Text style={styles.gameSubtitle}>{quiz.totalQuestions} questions · {quiz.difficultyLevel || 'Standard'}</Text>
                         </View>
-                        <Pressable 
-                          style={styles.playButton} 
-                          onPress={() => setSelectedQuizId(quiz.id)}
-                        >
+                        <Pressable style={styles.playButton} onPress={() => setSelectedQuizId(quiz.id)}>
+                          <Play size={12} color="#fff" fill="#fff" />
                           <Text style={styles.playButtonText}>{isCompleted ? 'Replay' : 'Play'}</Text>
-                          <View style={styles.playIconCircle}>
-                            <Play size={10} color="#4f46e5" fill="#4f46e5" />
-                          </View>
                         </Pressable>
                       </View>
                     );
@@ -594,120 +607,261 @@ export default function ClassroomScreen() {
 
       {/* Fullscreen Content Viewer Modal */}
       <Modal visible={previewContentIndex !== null} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setPreviewContentIndex(null)}>
-        <View style={styles.viewerContainer}>
-          <View style={styles.viewerHeader}>
-            <View style={styles.viewerHeaderTitleContainer}>
-              <View style={styles.viewerBadgeRow}>
-                <View style={styles.viewerBadge}>
-                  <Text style={styles.viewerBadgeText}>{previewContent?.subject || 'Learning'}</Text>
+        {(() => {
+          const EMOJIS   = ['🦕', '🦁', '🐢', '🦒', '🌟', '🦊', '🐧', '🎨'];
+          const BG_CARDS = ['#FAFAC8', '#D6EAFF', '#D6F5D6', '#FFE8D6', '#EDE4FF'];
+          const TYPE_CONFIG: Record<string, { label: string; emoji: string; accentColor: string; bgColor: string }> = {
+            video:    { label: '🎬 Video',      emoji: '🎬', accentColor: '#FF7043', bgColor: '#FFE8D6' },
+            audio:    { label: '🎵 Audio',      emoji: '🎵', accentColor: '#9B8EC4', bgColor: '#EDE4FF' },
+            image:    { label: '🖼️ Image',      emoji: '🖼️', accentColor: '#4A90E2', bgColor: '#D6EAFF' },
+            text:     { label: '📖 Reading',    emoji: '📖', accentColor: '#7DC67A', bgColor: '#D6F5D6' },
+            youtube:  { label: '▶️ YouTube',    emoji: '▶️', accentColor: '#FF4444', bgColor: '#FFE8D6' },
+            document: { label: '📄 Document',   emoji: '📄', accentColor: '#4A90E2', bgColor: '#D6EAFF' },
+            link:     { label: '🔗 Resource',   emoji: '🔗', accentColor: '#E6A817', bgColor: '#FFF5CC' },
+          };
+
+          const curIdx   = previewContentIndex ?? 0;
+          const contents = selectedClassroom?.contents ?? [];
+          const content  = previewContent;
+          const fallbackEmoji = EMOJIS[curIdx % EMOJIS.length];
+          const fallbackBg    = BG_CARDS[curIdx % BG_CARDS.length];
+
+          // Detect primary content type across sections
+          const sections = content?.sections?.length ? content.sections : [content];
+          const detectType = (s: typeof sections[0]) => {
+            if (!s) return 'text';
+            const mUrl = resolveMediaUrl(s?.mediaUrl);
+            const eUrl = resolveMediaUrl(s?.externalUrl);
+            const url = mUrl || eUrl || '';
+            if (isYouTubeUrl(url)) return 'youtube';
+            if (isImageUrl(url)) return 'image';
+            if (url.match(/\.(mp4|mov|webm|avi)/i)) return 'video';
+            if (url.match(/\.(mp3|wav|ogg|aac|m4a|flac)/i)) return 'audio';
+            if (url.match(/\.(pdf|doc|docx|xls|xlsx|ppt|pptx)/i)) return 'document';
+            if (eUrl && !isImageUrl(eUrl)) return 'link';
+            return 'text';
+          };
+          const primaryType = detectType(sections[0]);
+          const typeCfg = TYPE_CONFIG[primaryType] ?? { label: '📖 Content', emoji: fallbackEmoji, accentColor: '#4A90E2', bgColor: fallbackBg };
+
+          return (
+            <View style={styles.viewerContainer}>
+
+              {/* ── Header ── */}
+              <View style={[styles.vHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+                <Pressable onPress={() => setPreviewContentIndex(null)} style={styles.vBackBtn}>
+                  <Text style={styles.vBackArrow}>‹</Text>
+                </Pressable>
+                <View style={styles.vHeaderMid}>
+                  <View style={[styles.vTypeBadge, { backgroundColor: `${typeCfg.accentColor}18` }]}>
+                    <Text style={[styles.vTypeBadgeText, { color: typeCfg.accentColor }]}>{typeCfg.label}</Text>
+                  </View>
+                  <Text style={styles.vHeaderTitle} numberOfLines={1}>{content?.title || 'Content'}</Text>
                 </View>
-                <View style={styles.viewerTrackerBadge}>
-                  <Text style={styles.viewerTrackerText}>Content {previewContentIndex !== null ? previewContentIndex + 1 : 1} of {selectedClassroom?.contents?.length || 1}</Text>
+                <View style={[styles.vCounter, { backgroundColor: `${typeCfg.accentColor}15` }]}>
+                  <Text style={[styles.vCounterTxt, { color: typeCfg.accentColor }]}>{curIdx + 1}/{contents.length}</Text>
                 </View>
               </View>
-              <Text style={styles.viewerTitle} numberOfLines={1}>{previewContent?.title || 'Story Time!'}</Text>
-            </View>
-            <Pressable onPress={() => setPreviewContentIndex(null)} style={styles.viewerCloseBtn}>
-              <X size={24} color="#1e293b" />
-            </Pressable>
-          </View>
-          
-          <ScrollView contentContainerStyle={styles.viewerContentScroll}>
-            {(previewContent?.sections?.length ? previewContent.sections : [previewContent]).map((section, idx) => {
-              if (!section) return null;
-              
-              const targetUrl = section?.mediaUrl 
-                ? resolveMediaUrl(section.mediaUrl) 
-                : resolveMediaUrl(section?.externalUrl);
 
-              return (
-                <View key={section.id || idx} style={styles.viewerSectionBlock}>
-                  {section.title ? (
-                    <Text style={styles.viewerSectionTitle}>{section.title}</Text>
-                  ) : null}
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.vScroll}
+                scrollEventThrottle={100}
+                onScroll={(e) => setViewerScrollY(e.nativeEvent.contentOffset.y)}
+              >
 
-                  {targetUrl && isImageUrl(targetUrl) ? (
-                    <View style={styles.viewerImageWrapper}>
-                      <Image
-                        source={{ uri: targetUrl }}
-                        style={styles.viewerImage}
-                        resizeMode="cover"
-                      />
+                {/* ── Hero info card ── */}
+                <View style={[styles.vHeroCard, { backgroundColor: typeCfg.bgColor }]}>
+                  <View style={styles.vHeroRow}>
+                    <View style={styles.vHeroLeft}>
+                      <Text style={styles.vHeroTitle}>{content?.title || 'Content'}</Text>
+                      <Text style={styles.vHeroSub}>{content?.subject || 'General'}</Text>
+                      {content?.sections && content.sections.length > 1 && (
+                        <View style={[styles.vSectionCountBadge, { backgroundColor: `${typeCfg.accentColor}20` }]}>
+                          <Text style={[styles.vSectionCountText, { color: typeCfg.accentColor }]}>
+                            {content.sections.length} sections
+                          </Text>
+                        </View>
+                      )}
                     </View>
-                  ) : null}
+                    <Text style={{ fontSize: 64 }}>{typeCfg.emoji}</Text>
+                  </View>
+                  {/* Nav arrows inside hero */}
+                  <View style={styles.vHeroNav}>
+                    <Pressable
+                      style={[styles.vHeroNavBtn, !hasPrevContent && { opacity: 0.3 }]}
+                      disabled={!hasPrevContent}
+                      onPress={() => openContentAt(curIdx > 0 ? curIdx - 1 : null)}
+                    >
+                      <Text style={styles.vHeroNavArrow}>‹ Prev</Text>
+                    </Pressable>
+                    <View style={[styles.vHeroDivider, { backgroundColor: `${typeCfg.accentColor}30` }]} />
+                    <Pressable
+                      style={[styles.vHeroNavBtn, !hasNextContent && { opacity: 0.3 }]}
+                      disabled={!hasNextContent}
+                      onPress={() => openContentAt(curIdx + 1 < contents.length ? curIdx + 1 : null)}
+                    >
+                      <Text style={styles.vHeroNavArrow}>Next ›</Text>
+                    </Pressable>
+                  </View>
+                </View>
 
-                  {targetUrl && isYouTubeUrl(targetUrl) ? (
-                    <View style={styles.viewerVideoWrapper}>
-                      <View style={styles.tvFrame}>
-                        {Platform.OS === 'web' ? (
-                          <iframe
-                            src={getYouTubeEmbedUrl(targetUrl) + '&controls=1&modestbranding=1&showinfo=0'}
-                            style={{ width: '100%', height: '100%', border: 'none' }}
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
+                {/* ── Sections ── */}
+                {sections.map((section, idx) => {
+                  if (!section) return null;
+                  const mUrl = resolveMediaUrl(section.mediaUrl);
+                  const eUrl = resolveMediaUrl(section.externalUrl);
+                  const url  = mUrl || eUrl || '';
+                  const sType = detectType(section);
+                  const sCfg  = TYPE_CONFIG[sType] ?? typeCfg;
+
+                  const mediaKey = `s-${curIdx}-${idx}`;
+
+                  return (
+                    <View
+                      key={(section as any).id || idx}
+                      style={styles.vSection}
+                      onLayout={(e) => {
+                        sectionYsRef.current[mediaKey] = e.nativeEvent.layout.y;
+                      }}
+                    >
+                      {/* Section title with type chip */}
+                      {(section as any).title ? (
+                        <View style={styles.vSectionTitleRow}>
+                          <View style={[styles.vSectionChip, { backgroundColor: `${sCfg.accentColor}15` }]}>
+                            <Text style={[styles.vSectionChipTxt, { color: sCfg.accentColor }]}>{sCfg.emoji}</Text>
+                          </View>
+                          <Text style={styles.vSectionTitleTxt}>{(section as any).title}</Text>
+                        </View>
+                      ) : idx > 0 ? (
+                        <View style={styles.vSectionTitleRow}>
+                          <View style={[styles.vSectionChip, { backgroundColor: `${sCfg.accentColor}15` }]}>
+                            <Text style={[styles.vSectionChipTxt, { color: sCfg.accentColor }]}>{sCfg.emoji}</Text>
+                          </View>
+                          <Text style={styles.vSectionTitleTxt}>Section {idx + 1}</Text>
+                        </View>
+                      ) : null}
+
+                      {/* IMAGE */}
+                      {url && isImageUrl(url) && (
+                        <View style={styles.vImgWrap}>
+                          <Image source={{ uri: url }} style={styles.vImg} resizeMode="cover" />
+                        </View>
+                      )}
+
+                      {/* YOUTUBE */}
+                      {url && isYouTubeUrl(url) && (
+                        <View style={styles.vVideoWrap}>
+                          <View style={[styles.vVideoFrame, { borderColor: `${sCfg.accentColor}30` }]}>
+                            {Platform.OS === 'web' ? (
+                              <iframe
+                                src={getYouTubeEmbedUrl(url) + `&controls=1&modestbranding=1${isMediaInView(mediaKey) ? '&autoplay=1' : ''}`}
+                                style={{ width: '100%', height: '100%', border: 'none', borderRadius: 16 }}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                              />
+                            ) : (
+                              <WebView
+                                source={{ uri: getYouTubeEmbedUrl(url) + `&controls=1${isMediaInView(mediaKey) ? '&autoplay=1' : ''}` }}
+                                style={{ width: '100%', height: '100%', borderRadius: 16 }}
+                                allowsFullscreenVideo
+                                allowsInlineMediaPlayback
+                                mediaPlaybackRequiresUserAction={false}
+                              />
+                            )}
+                          </View>
+                        </View>
+                      )}
+
+                      {/* AUDIO */}
+                      {url && url.match(/\.(mp3|wav|ogg|aac|m4a|flac)/i) && (
+                        <AudioPlayer
+                          uri={url}
+                          title={content?.title || 'Audio'}
+                          subtitle={content?.subject ? `⏱ 15 Minutes · ${content.subject}` : '⏱ 15 Minutes'}
+                          emoji="🎵"
+                          accentColor={sCfg.accentColor}
+                          bgColor={sCfg.bgColor ?? '#EDE4FF'}
+                          hasPrev={hasPrevContent}
+                          hasNext={hasNextContent}
+                          onPrev={() => openContentAt(curIdx > 0 ? curIdx - 1 : null)}
+                          onNext={() => openContentAt(curIdx + 1 < contents.length ? curIdx + 1 : null)}
+                        />
+                      )}
+
+                      {/* VIDEO (non-YouTube, non-audio) */}
+                      {url && !isImageUrl(url) && !isYouTubeUrl(url) && !url.match(/\.(mp3|wav|ogg|aac|m4a|flac)/i) && url.match(/\.(mp4|mov|webm|avi)/i) && (
+                        <View style={styles.vVideoWrap}>
+                          <View style={[styles.vVideoFrame, { borderColor: `${sCfg.accentColor}30` }]}>
+                            <Video
+                              source={{ uri: url }}
+                              useNativeControls
+                              shouldPlay={isMediaInView(mediaKey)}
+                              resizeMode={ResizeMode.CONTAIN}
+                              style={{ width: '100%', height: '100%' }}
+                            />
+                          </View>
+                        </View>
+                      )}
+
+                      {/* TEXT */}
+                      {section.textContent ? (
+                        <View style={styles.vTextBlock}>
+                          <Text style={styles.vTextBody}>{section.textContent}</Text>
+                        </View>
+                      ) : null}
+
+                      {/* DOCUMENT / EXTERNAL LINK */}
+                      {eUrl && !isYouTubeUrl(eUrl) && !isImageUrl(eUrl) && !url.match(/\.(mp4|mov|webm|mp3|wav|ogg|aac|m4a|flac)/i) ? (
+                        eUrl.match(/\.(pdf|doc|docx|xls|xlsx|ppt|pptx|zip|rar)/i) ? (
+                          <DocumentViewer
+                            uri={eUrl}
+                            title={content?.title}
+                            accentColor={sCfg.accentColor}
+                            bgColor={sCfg.bgColor}
                           />
                         ) : (
-                          <WebView
-                            source={{ uri: getYouTubeEmbedUrl(targetUrl) + '&controls=1&modestbranding=1&showinfo=0' }}
-                            style={{ width: '100%', height: '100%' }}
-                            allowsFullscreenVideo
-                            allowsInlineMediaPlayback
-                          />
-                        )}
-                      </View>
+                          <Pressable
+                            style={[styles.vLinkBtn, { backgroundColor: `${sCfg.accentColor}12`, borderColor: `${sCfg.accentColor}30` }]}
+                            onPress={() => openExternalResource(eUrl)}
+                          >
+                            <Text style={[styles.vLinkBtnTxt, { color: sCfg.accentColor }]}>🔗 Open Resource</Text>
+                          </Pressable>
+                        )
+                      ) : null}
                     </View>
-                  ) : null}
+                  );
+                })}
 
-                  {targetUrl && !isImageUrl(targetUrl) && !isYouTubeUrl(targetUrl) ? (
-                    <View style={styles.viewerVideoWrapper}>
-                      <View style={styles.tvFrame}>
-                        <Video
-                          source={{ uri: targetUrl }}
-                          useNativeControls
-                          resizeMode={ResizeMode.COVER}
-                          style={{ width: '100%', height: '100%' }}
-                        />
-                      </View>
-                    </View>
-                  ) : null}
-
-                  {section.textContent ? (
-                    <View style={styles.viewerTextCard}>
-                      <Text style={styles.viewerTextContent}>{section.textContent}</Text>
-                    </View>
-                  ) : null}
-
-                  {section.externalUrl && !isYouTubeUrl(resolveMediaUrl(section.externalUrl) || '') && !isImageUrl(resolveMediaUrl(section.externalUrl) || '') ? (
-                    <View style={styles.actionContainer}>
-                      <Pressable style={styles.bigPrimaryButton} onPress={() => openExternalResource(section.externalUrl || '')}>
-                        <Text style={styles.bigPrimaryButtonText}>Open External Link</Text>
-                      </Pressable>
-                    </View>
-                  ) : null}
-                </View>
-              );
-            })}
-          </ScrollView>
-
-          {/* Navigation Footer */}
-          <View style={styles.viewerFooter}>
-            <Pressable 
-              style={[styles.navButton, !hasPrevContent && styles.navButtonDisabled]} 
-              disabled={!hasPrevContent}
-              onPress={() => setPreviewContentIndex(prev => prev !== null ? prev - 1 : null)}
-            >
-              <Text style={[styles.navButtonText, !hasPrevContent && styles.navButtonTextDisabled]}>Previous</Text>
-            </Pressable>
-            <Pressable 
-              style={[styles.navButtonPrimary, !hasNextContent && styles.navButtonDisabled]} 
-              disabled={!hasNextContent}
-              onPress={() => setPreviewContentIndex(prev => prev !== null ? prev + 1 : null)}
-            >
-              <Text style={styles.navButtonPrimaryText}>Next Content</Text>
-              <ChevronRight size={16} color="#fff" />
-            </Pressable>
-          </View>
-        </View>
+                {/* ── More content ── */}
+                {contents.length > 1 && (
+                  <View style={styles.vMoreWrap}>
+                    <Text style={styles.vMoreTitle}>More Content</Text>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.vMoreScroll}>
+                      {contents.map((c, i) => {
+                        if (i === curIdx) return null;
+                        const cBg    = BG_CARDS[i % BG_CARDS.length];
+                        const cEmoji = EMOJIS[i % EMOJIS.length];
+                        const cm = resolveMediaUrl(c.mediaUrl);
+                        const ce = resolveMediaUrl(c.externalUrl);
+                        const img = isImageUrl(cm) ? cm : isImageUrl(ce) ? ce : '';
+                        return (
+                          <Pressable key={c.id} style={[styles.vMoreCard, { backgroundColor: cBg }]} onPress={() => setPreviewContentIndex(i)}>
+                            {img
+                              ? <Image source={{ uri: img }} style={styles.vMoreCardImg} resizeMode="cover" />
+                              : <Text style={styles.vMoreCardEmoji}>{cEmoji}</Text>}
+                            <Text style={styles.vMoreCardTitle} numberOfLines={2}>{c.title}</Text>
+                            <Text style={styles.vMoreCardMeta}>{c.subject || 'Content'}</Text>
+                          </Pressable>
+                        );
+                      })}
+                    </ScrollView>
+                  </View>
+                )}
+              </ScrollView>
+            </View>
+          );
+        })()}
       </Modal>
 
       {/* Assignment Modal */}
@@ -771,74 +925,75 @@ export default function ClassroomScreen() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: '#f1f5f9',
+    backgroundColor: '#F0F4FF',
   },
   container: {
     flex: 1,
   },
   content: {
-    padding: 20,
+    padding: 16,
     paddingBottom: 40,
   },
   welcomeSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 24,
-    marginTop: 10,
+    marginBottom: 16,
+    marginTop: 8,
   },
   welcomeSubtitle: {
-    fontSize: 14,
-    color: '#64748b',
-    fontWeight: '500',
+    fontSize: 12,
+    color: '#7A7A9A',
+    fontWeight: '600',
   },
   welcomeTitle: {
-    fontSize: 24,
-    fontWeight: '800',
-    color: '#1e293b',
+    fontSize: 20,
+    fontWeight: '900',
+    color: '#1a1a2e',
   },
   pointsBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#3b82f6',
+    backgroundColor: '#4A90E2',
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 20,
+    borderRadius: 999,
     gap: 4,
   },
   pointsText: {
     color: '#fff',
-    fontWeight: '700',
-    fontSize: 14,
+    fontWeight: '800',
+    fontSize: 13,
   },
   quoteBanner: {
-    backgroundColor: '#dbeafe',
+    backgroundColor: '#D6EAFF',
     borderRadius: 20,
-    padding: 20,
+    padding: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 16,
   },
   quoteContent: {
     flex: 1,
     paddingRight: 10,
   },
   quoteLabel: {
-    fontSize: 12,
-    color: '#64748b',
+    fontSize: 11,
+    color: '#7A7A9A',
     textTransform: 'uppercase',
     fontWeight: '700',
-    marginBottom: 6,
+    letterSpacing: 0.5,
+    marginBottom: 4,
   },
   quoteText: {
-    fontSize: 18,
-    color: '#1e293b',
+    fontSize: 14,
+    color: '#1a1a2e',
     fontWeight: '800',
-    lineHeight: 24,
+    lineHeight: 20,
   },
   quoteCharacterPlaceholder: {
-    width: 60,
-    height: 60,
+    width: 52,
+    height: 52,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -846,116 +1001,116 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 14,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '800',
-    color: '#1e293b',
+    fontSize: 16,
+    fontWeight: '900',
+    color: '#1a1a2e',
   },
   seeAllText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#94a3b8',
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#4A90E2',
   },
   classSwitcher: {
     backgroundColor: '#fff',
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
+    borderRadius: 999,
+    borderWidth: 1.5,
+    borderColor: '#B5D4FF',
   },
   classSwitcherText: {
     fontSize: 12,
-    fontWeight: '700',
-    color: '#475569',
+    fontWeight: '800',
+    color: '#4A90E2',
   },
   categoriesRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: 12,
+    gap: 10,
   },
   categoryCard: {
     flex: 1,
     backgroundColor: '#fff',
     borderRadius: 16,
-    padding: 16,
+    padding: 14,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: 'transparent',
-    shadowColor: '#64748b',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
+    borderColor: '#EBEBF5',
   },
   categoryCardActive: {
-    borderColor: '#4f46e5',
+    borderColor: '#4A90E2',
+    backgroundColor: '#EBF4FF',
   },
   categoryIconBg: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 8,
   },
   categoryTitle: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: '#1e293b',
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#1a1a2e',
   },
   spacer: {
-    height: 24,
+    height: 16,
   },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 12,
   },
+  // Content / story cards
   storyCard: {
-    borderRadius: 24,
-    padding: 20,
+    borderRadius: 20,
+    padding: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 12,
   },
   storyContent: {
     flex: 1,
-    paddingRight: 16,
+    paddingRight: 12,
   },
   storyLabel: {
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: '700',
-    color: '#b45309',
-    marginBottom: 8,
+    color: '#7A7A9A',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 6,
   },
   storyTitle: {
-    fontSize: 18,
-    fontWeight: '800',
-    color: '#1e293b',
-    marginBottom: 16,
+    fontSize: 15,
+    fontWeight: '900',
+    color: '#1a1a2e',
+    marginBottom: 12,
+    lineHeight: 20,
   },
   storyMetaRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 8,
   },
   playMiniBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingHorizontal: 10,
+    backgroundColor: '#FF7043',
+    paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 12,
+    borderRadius: 999,
     gap: 4,
   },
   playMiniBtnText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#4f46e5',
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#fff',
   },
   timeBadge: {
     flexDirection: 'row',
@@ -963,87 +1118,99 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   timeText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600',
-    color: '#64748b',
+    color: '#7A7A9A',
   },
   storyImage: {
-    width: 100,
-    height: 100,
-  },
-  storyImagePlaceholder: {
     width: 80,
     height: 80,
-    backgroundColor: 'rgba(255,255,255,0.4)',
-    borderRadius: 40,
+    borderRadius: 16,
+  },
+  storyImagePlaceholder: {
+    width: 72,
+    height: 72,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  // Quiz / game cards
   gameCard: {
     backgroundColor: '#fff',
-    borderRadius: 20,
-    padding: 16,
+    borderRadius: 18,
+    padding: 14,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
+    marginBottom: 10,
+    borderWidth: 1.5,
+    borderColor: '#EBEBF5',
+    gap: 12,
+  },
+  gameIconBox: {
+    width: 44,
+    height: 44,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   gameInfo: {
     flex: 1,
   },
   gameTitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '800',
-    color: '#1e293b',
-    marginBottom: 4,
+    color: '#1a1a2e',
+    marginBottom: 2,
   },
   gameSubtitle: {
-    fontSize: 13,
-    color: '#64748b',
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#7A7A9A',
   },
   playButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#4f46e5',
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    backgroundColor: '#FF7043',
+    paddingHorizontal: 14,
+    paddingVertical: 9,
     borderRadius: 999,
-    gap: 8,
+    gap: 6,
   },
   playButtonText: {
     color: '#fff',
-    fontWeight: '700',
-    fontSize: 14,
+    fontWeight: '800',
+    fontSize: 13,
   },
   playIconCircle: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+    width: 18,
+    height: 18,
+    borderRadius: 9,
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
   },
+  // Task / assignment cards
   taskCard: {
     backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
+    borderRadius: 18,
+    padding: 14,
+    marginBottom: 10,
+    borderWidth: 1.5,
+    borderColor: '#EBEBF5',
   },
   taskHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 8,
+    marginBottom: 6,
   },
   taskTitle: {
     flex: 1,
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#1e293b',
-    marginRight: 12,
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#1a1a2e',
+    marginRight: 10,
   },
   taskMeta: {
     fontSize: 12,
@@ -1051,55 +1218,55 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   taskButton: {
-    backgroundColor: '#f1f5f9',
+    backgroundColor: '#EBF4FF',
     paddingVertical: 10,
-    borderRadius: 10,
+    borderRadius: 999,
     alignItems: 'center',
   },
   taskButtonText: {
-    color: '#0f172a',
-    fontWeight: '600',
+    color: '#4A90E2',
+    fontWeight: '700',
     fontSize: 13,
   },
   statusPill: {
     paddingHorizontal: 8,
     paddingVertical: 4,
-    borderRadius: 8,
+    borderRadius: 999,
   },
-  statusPillSuccess: { backgroundColor: '#dcfce3' },
-  statusPillWarning: { backgroundColor: '#fef3c7' },
-  statusPillDanger: { backgroundColor: '#fee2e2' },
-  statusPillText: { fontSize: 10, fontWeight: '700' },
-  statusPillSuccessText: { color: '#166534' },
-  statusPillWarningText: { color: '#92400e' },
-  statusPillDangerText: { color: '#991b1b' },
+  statusPillSuccess: { backgroundColor: '#D6F5D6' },
+  statusPillWarning: { backgroundColor: '#FFF5CC' },
+  statusPillDanger: { backgroundColor: '#FFE4EE' },
+  statusPillText: { fontSize: 10, fontWeight: '800' },
+  statusPillSuccessText: { color: '#2E7D32' },
+  statusPillWarningText: { color: '#B45309' },
+  statusPillDangerText: { color: '#C62828' },
 
-  // Viewer Screen Styles (Replaces Full Modal)
+  // ── CONTENT VIEWER ────────────────────────────────────────────────────────
   viewerContainer: {
     flex: 1,
-    backgroundColor: '#f1f5f9',
+    backgroundColor: '#F0F4FF',
   },
   viewerHeader: {
-    paddingTop: Platform.OS === 'ios' ? 50 : 20,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
+    paddingTop: Platform.OS === 'ios' ? 52 : 18,
+    paddingBottom: 16,
+    paddingHorizontal: 16,
     backgroundColor: '#fff',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
+    borderBottomColor: '#EBEBF5',
   },
   viewerHeaderTitleContainer: {
     flex: 1,
-    marginRight: 16,
+    marginRight: 12,
   },
   viewerBadge: {
-    backgroundColor: '#dbeafe',
+    backgroundColor: '#D6EAFF',
     alignSelf: 'flex-start',
     paddingHorizontal: 10,
     paddingVertical: 4,
-    borderRadius: 12,
+    borderRadius: 999,
   },
   viewerBadgeRow: {
     flexDirection: 'row',
@@ -1108,32 +1275,34 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   viewerTrackerBadge: {
-    backgroundColor: '#f1f5f9',
+    backgroundColor: '#F0F4FF',
     paddingHorizontal: 10,
     paddingVertical: 4,
-    borderRadius: 12,
+    borderRadius: 999,
   },
   viewerTrackerText: {
-    color: '#475569',
+    color: '#7A7A9A',
     fontSize: 10,
     fontWeight: '700',
-    textTransform: 'uppercase',
   },
   viewerBadgeText: {
-    color: '#2563eb',
+    color: '#4A90E2',
     fontSize: 10,
     fontWeight: '800',
     textTransform: 'uppercase',
   },
   viewerTitle: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: '900',
-    color: '#1e293b',
+    color: '#1a1a2e',
   },
   viewerCloseBtn: {
-    padding: 12,
-    backgroundColor: '#f8fafc',
-    borderRadius: 24,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#F0F4FF',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   viewerContentScroll: {
     padding: 24,
@@ -1173,16 +1342,14 @@ const styles = StyleSheet.create({
   tvFrame: {
     width: '100%',
     aspectRatio: 16 / 9,
-    backgroundColor: '#1e293b',
-    borderRadius: 24,
-    borderWidth: 2,
-    borderColor: '#334155',
+    backgroundColor: '#1a1a2e',
+    borderRadius: 20,
     overflow: 'hidden',
-    shadowColor: '#4f46e5',
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 0, height: 8 },
-    shadowRadius: 15,
-    elevation: 5,
+    shadowColor: '#4A90E2',
+    shadowOpacity: 0.18,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 14,
+    elevation: 4,
   },
   viewerTextCard: {
     backgroundColor: '#fff',
@@ -1202,43 +1369,48 @@ const styles = StyleSheet.create({
   },
   viewerFooter: {
     backgroundColor: '#fff',
-    padding: 20,
-    paddingBottom: Platform.OS === 'ios' ? 40 : 20,
+    padding: 16,
+    paddingBottom: Platform.OS === 'ios' ? 36 : 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     borderTopWidth: 1,
-    borderTopColor: '#e2e8f0',
+    borderTopColor: '#EBEBF5',
+    gap: 12,
   },
   navButton: {
     paddingVertical: 12,
     paddingHorizontal: 20,
-    borderRadius: 16,
-    backgroundColor: '#f1f5f9',
+    borderRadius: 999,
+    backgroundColor: '#F0F4FF',
+    borderWidth: 1.5,
+    borderColor: '#B5D4FF',
   },
   navButtonDisabled: {
-    opacity: 0.5,
+    opacity: 0.4,
   },
   navButtonText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '700',
-    color: '#475569',
+    color: '#4A90E2',
   },
   navButtonTextDisabled: {
-    color: '#94a3b8',
+    color: '#B5D4FF',
   },
   navButtonPrimary: {
-    paddingVertical: 12,
+    flex: 1,
+    paddingVertical: 13,
     paddingHorizontal: 20,
-    borderRadius: 16,
-    backgroundColor: '#4f46e5',
+    borderRadius: 999,
+    backgroundColor: '#4A90E2',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: 6,
   },
   navButtonPrimaryText: {
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: 14,
+    fontWeight: '800',
     color: '#fff',
   },
   dotsContainer: {
@@ -1311,7 +1483,7 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: '#4f46e5',
+    backgroundColor: '#4A90E2',
   },
   
   // Full screenish modals
@@ -1368,51 +1540,52 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   bigPrimaryButton: {
-    backgroundColor: '#4f46e5',
-    paddingVertical: 16,
-    borderRadius: 16,
+    backgroundColor: '#4A90E2',
+    paddingVertical: 15,
+    borderRadius: 999,
     alignItems: 'center',
   },
   bigPrimaryButtonText: {
     color: '#fff',
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: 15,
+    fontWeight: '800',
   },
-  
+
   taskDetailCard: {
-    backgroundColor: '#f8fafc',
+    backgroundColor: '#F0F4FF',
     padding: 16,
     borderRadius: 16,
     marginBottom: 20,
   },
   taskDetailText: {
-    fontSize: 15,
-    color: '#334155',
-    lineHeight: 24,
+    fontSize: 14,
+    color: '#1a1a2e',
+    lineHeight: 22,
     marginBottom: 8,
   },
   taskLink: {
-    color: '#4f46e5',
-    fontWeight: '600',
+    color: '#4A90E2',
+    fontWeight: '700',
     fontSize: 14,
     marginTop: 8,
   },
   inputLabel: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#1e293b',
-    marginBottom: 8,
-    marginLeft: 4,
+    fontSize: 13,
+    fontWeight: '800',
+    color: '#1a1a2e',
+    marginBottom: 6,
+    marginLeft: 2,
   },
   textArea: {
-    backgroundColor: '#f8fafc',
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
+    backgroundColor: '#F0F4FF',
+    borderWidth: 1.5,
+    borderColor: '#B5D4FF',
     borderRadius: 16,
-    padding: 16,
-    minHeight: 120,
-    fontSize: 15,
-    marginBottom: 20,
+    padding: 14,
+    minHeight: 110,
+    fontSize: 14,
+    color: '#1a1a2e',
+    marginBottom: 16,
   },
   uploadRow: {
     flexDirection: 'row',
@@ -1420,23 +1593,24 @@ const styles = StyleSheet.create({
   },
   inputFlex: {
     flex: 1,
-    backgroundColor: '#f8fafc',
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
-    borderRadius: 16,
+    backgroundColor: '#F0F4FF',
+    borderWidth: 1.5,
+    borderColor: '#B5D4FF',
+    borderRadius: 999,
     paddingHorizontal: 16,
-    fontSize: 15,
+    fontSize: 14,
+    color: '#1a1a2e',
   },
   uploadBtn: {
-    backgroundColor: '#f1f5f9',
-    paddingHorizontal: 20,
+    backgroundColor: '#D6EAFF',
+    paddingHorizontal: 18,
     justifyContent: 'center',
-    borderRadius: 16,
+    borderRadius: 999,
   },
   uploadBtnText: {
-    color: '#4f46e5',
-    fontWeight: '600',
-    fontSize: 14,
+    color: '#4A90E2',
+    fontWeight: '800',
+    fontSize: 13,
   },
   modalFooter: {
     padding: 20,
@@ -1470,4 +1644,71 @@ const styles = StyleSheet.create({
   messageText: { fontSize: 13, fontWeight: '600', textAlign: 'center' },
   successText: { color: '#166534' },
   errorText: { color: '#991b1b' },
+
+  // ── Viewer modal ──────────────────────────────────────────────────────────
+  vHeader: {
+    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingBottom: 12,
+    backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#F0F0F8', gap: 10,
+  },
+  vBackBtn:   { width: 36, height: 36, borderRadius: 18, backgroundColor: '#F4F5FF', alignItems: 'center', justifyContent: 'center' },
+  vBackArrow: { fontSize: 22, fontWeight: '900', color: '#1a1a2e', lineHeight: 26 },
+  vHeaderMid: { flex: 1, gap: 2 },
+  vTypeBadge: { alignSelf: 'flex-start', borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
+  vTypeBadgeText: { fontSize: 10, fontWeight: '800', letterSpacing: 0.3 },
+  vHeaderTitle: { fontSize: 15, fontWeight: '900', color: '#1a1a2e' },
+  vCounter:   { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
+  vCounterTxt:{ fontSize: 11, fontWeight: '800' },
+
+  vScroll: { paddingBottom: 40 },
+
+  // Hero card
+  vHeroCard: { margin: 16, borderRadius: 24, padding: 20, marginBottom: 8 },
+  vHeroRow:  { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 },
+  vHeroLeft: { flex: 1 },
+  vHeroTitle:{ fontSize: 20, fontWeight: '900', color: '#1a1a2e', lineHeight: 28, marginBottom: 4 },
+  vHeroSub:  { fontSize: 12, fontWeight: '500', color: '#7A7A9A' },
+  vSectionCountBadge: { alignSelf: 'flex-start', marginTop: 8, borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
+  vSectionCountText:  { fontSize: 11, fontWeight: '700' },
+  vHeroNav:  { flexDirection: 'row', alignItems: 'center', borderTopWidth: 1, borderTopColor: 'rgba(0,0,0,0.06)', paddingTop: 14 },
+  vHeroNavBtn: { flex: 1, alignItems: 'center', paddingVertical: 4 },
+  vHeroNavArrow: { fontSize: 14, fontWeight: '800', color: '#5A5A7A' },
+  vHeroDivider:{ width: 1, height: 20, alignSelf: 'center' },
+
+  // Sections
+  vSection: { marginHorizontal: 16, marginBottom: 16 },
+  vSectionTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 },
+  vSectionChip: { width: 28, height: 28, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
+  vSectionChipTxt: { fontSize: 14 },
+  vSectionTitleTxt: { fontSize: 15, fontWeight: '800', color: '#1a1a2e' },
+
+  // Image
+  vImgWrap: { borderRadius: 20, overflow: 'hidden' },
+  vImg:     { width: '100%', height: 220 },
+
+  // Video / YouTube
+  vVideoWrap:  { borderRadius: 20, overflow: 'hidden', marginBottom: 4 },
+  vVideoFrame: { width: '100%', height: 220, borderRadius: 20, overflow: 'hidden', backgroundColor: '#0a0a0a', borderWidth: 2 },
+
+  // Text
+  vTextBlock: {
+    backgroundColor: '#F8F9FF', borderRadius: 16, padding: 20,
+  },
+  vTextBody: { fontSize: 16, color: '#1a1a2e', lineHeight: 28, fontWeight: '500' },
+
+  // Link
+  vLinkBtn: {
+    borderRadius: 16, paddingVertical: 14, alignItems: 'center',
+    borderWidth: 1.5,
+  },
+  vLinkBtnTxt: { fontSize: 14, fontWeight: '800' },
+
+  // More content
+  vMoreWrap:  { marginTop: 8 },
+  vMoreTitle: { fontSize: 17, fontWeight: '900', color: '#1a1a2e', paddingHorizontal: 16, marginBottom: 12 },
+  vMoreScroll:{ paddingHorizontal: 16, gap: 12, paddingBottom: 4 },
+  vMoreCard:  { width: 140, borderRadius: 20, padding: 14, gap: 6 },
+  vMoreCardImg:  { width: '100%', height: 72, borderRadius: 12 },
+  vMoreCardEmoji:{ fontSize: 34 },
+  vMoreCardTitle:{ fontSize: 12, fontWeight: '800', color: '#1a1a2e', lineHeight: 17 },
+  vMoreCardMeta: { fontSize: 10, fontWeight: '500', color: '#9A9AB0' },
 });

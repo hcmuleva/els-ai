@@ -1319,6 +1319,7 @@ export default function QuestionManagementScreen() {
       return;
     }
     const normalizedSections = contentCreateSections.map((section) => ({
+      title: section.title?.trim() || undefined,
       contentType: section.contentType,
       mediaUrl: section.mediaUrl.trim() ? toPersistentMediaUrl(section.mediaUrl.trim()) : undefined,
       externalUrl: section.externalUrl.trim() || undefined,
@@ -3564,6 +3565,13 @@ export default function QuestionManagementScreen() {
                         <Text style={styles.inlineRemoveButtonText}>Remove</Text>
                       </Pressable>
                     </View>
+                    <Text style={styles.fieldLabel}>Section Title (Optional)</Text>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="e.g. Introduction"
+                      value={section.title || ''}
+                      onChangeText={(val) => updateCreateSection(section.id, { title: val })}
+                    />
                     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                       <View style={styles.typeChipRow}>
                         {CREATE_CONTENT_TYPE_CHOICES.map((choice) => {
@@ -3669,7 +3677,7 @@ export default function QuestionManagementScreen() {
                 </Text>
                 {(previewContentItem.sections || []).map((section, index) => (
                   <View key={`preview-content-section-${section.id}-${index}`} style={styles.previewMediaCard}>
-                    <Text style={styles.previewMediaLabel}>Section {section.sectionOrder || index + 1} • {section.contentType}</Text>
+                    <Text style={styles.previewMediaLabel}>{section.title ? `${section.title} — ` : `Section ${section.sectionOrder || index + 1} — `}{section.contentType}</Text>
                     {section.textContent ? <Text style={styles.previewInstruction}>{section.textContent}</Text> : null}
                     {section.externalUrl ? <Text style={styles.previewMeta}>{section.externalUrl}</Text> : null}
                     {section.mediaUrl ? (
@@ -3805,7 +3813,7 @@ export default function QuestionManagementScreen() {
                     </Pressable>
                   </View>
 
-                  <Text style={styles.inputLabel}>Section Title (Optional)</Text>
+                  <Text style={styles.fieldLabel}>Section Title (Optional)</Text>
                   <TextInput
                     style={styles.input}
                     placeholder="e.g. Introduction"
