@@ -620,30 +620,54 @@ export default function PracticeScreen() {
               {assignmentModal?.description ? <Text style={styles.modalBody}>{assignmentModal.description}</Text> : null}
               {assignmentModal?.instructions ? <Text style={styles.modalBody}>{assignmentModal.instructions}</Text> : null}
               {assignmentModal?.attachmentUrl ? <Text style={styles.modalLink}>{assignmentModal.attachmentUrl}</Text> : null}
-              <TextInput
-                value={submissionText}
-                onChangeText={setSubmissionText}
-                placeholder="Write your submission notes"
-                style={styles.input}
-                multiline
-              />
-              <TextInput
-                value={submissionAttachmentUrl}
-                onChangeText={setSubmissionAttachmentUrl}
-                placeholder="Submission attachment URL"
-                style={styles.input}
-              />
-              <Pressable style={styles.secondaryButton} onPress={uploadSubmissionAttachment}>
-                <Text style={styles.secondaryButtonText}>Upload Attachment</Text>
-              </Pressable>
+              {assignmentModal?.status === 'submitted' ? (
+                <View style={{ backgroundColor: '#D6F5D6', borderRadius: 16, padding: 16, margin: 4, gap: 8 }}>
+                  <Text style={{ fontSize: 15, fontWeight: '900', color: '#2E7D32' }}>✅ Already Submitted</Text>
+                  {assignmentModal.submission?.submittedAt && (
+                    <Text style={{ fontSize: 12, color: '#4CAF50', fontWeight: '600' }}>
+                      {new Date(assignmentModal.submission.submittedAt).toLocaleString()}
+                    </Text>
+                  )}
+                  {submissionText ? (
+                    <>
+                      <Text style={{ fontSize: 12, fontWeight: '700', color: '#4B5563', marginTop: 4 }}>Your Answer:</Text>
+                      <Text style={{ fontSize: 13, color: '#374151', lineHeight: 20 }}>{submissionText}</Text>
+                    </>
+                  ) : null}
+                  {submissionAttachmentUrl ? (
+                    <Text style={{ fontSize: 12, color: '#4A90E2', fontWeight: '600' }}>📎 Attachment submitted</Text>
+                  ) : null}
+                </View>
+              ) : (
+                <>
+                  <TextInput
+                    value={submissionText}
+                    onChangeText={setSubmissionText}
+                    placeholder="Write your submission notes"
+                    style={styles.input}
+                    multiline
+                  />
+                  <TextInput
+                    value={submissionAttachmentUrl}
+                    onChangeText={setSubmissionAttachmentUrl}
+                    placeholder="Submission attachment URL"
+                    style={styles.input}
+                  />
+                  <Pressable style={styles.secondaryButton} onPress={uploadSubmissionAttachment}>
+                    <Text style={styles.secondaryButtonText}>Upload Attachment</Text>
+                  </Pressable>
+                </>
+              )}
             </ScrollView>
             <View style={styles.modalActions}>
               <Pressable style={[styles.secondaryButton, styles.halfButton]} onPress={() => setAssignmentModal(null)}>
                 <Text style={styles.secondaryButtonText}>Close</Text>
               </Pressable>
-              <Pressable style={[styles.primaryButton, styles.halfButton]} onPress={submitAssignment} disabled={savingSubmission}>
-                {savingSubmission ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Submit</Text>}
-              </Pressable>
+              {assignmentModal?.status !== 'submitted' && (
+                <Pressable style={[styles.primaryButton, styles.halfButton]} onPress={submitAssignment} disabled={savingSubmission}>
+                  {savingSubmission ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Submit</Text>}
+                </Pressable>
+              )}
             </View>
           </View>
         </View>

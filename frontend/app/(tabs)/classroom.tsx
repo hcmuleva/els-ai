@@ -886,35 +886,58 @@ export default function ClassroomScreen() {
                 ) : null}
               </View>
 
-              <Text style={styles.inputLabel}>Your Work</Text>
-              <TextInput
-                value={submissionText}
-                onChangeText={setSubmissionText}
-                placeholder="Write your answer here..."
-                style={styles.textArea}
-                multiline
-                textAlignVertical="top"
-              />
-              
-              <Text style={styles.inputLabel}>Attach a File (URL)</Text>
-              <View style={styles.uploadRow}>
-                <TextInput
-                  value={submissionAttachmentUrl}
-                  onChangeText={setSubmissionAttachmentUrl}
-                  placeholder="https://..."
-                  style={styles.inputFlex}
-                />
-                <Pressable style={styles.uploadBtn} onPress={uploadSubmissionAttachment}>
-                  <Text style={styles.uploadBtnText}>Upload</Text>
-                </Pressable>
-              </View>
+              {assignmentModal?.status === 'submitted' ? (
+                <View style={{ backgroundColor: '#D6F5D6', borderRadius: 16, padding: 16, gap: 8 }}>
+                  <Text style={{ fontSize: 15, fontWeight: '900', color: '#2E7D32' }}>✅ Submitted</Text>
+                  {assignmentModal.submission?.submittedAt && (
+                    <Text style={{ fontSize: 12, color: '#4CAF50', fontWeight: '600' }}>
+                      {new Date(assignmentModal.submission.submittedAt).toLocaleString()}
+                    </Text>
+                  )}
+                  {submissionText ? (
+                    <>
+                      <Text style={{ fontSize: 12, fontWeight: '700', color: '#4B5563', marginTop: 4 }}>Your Answer:</Text>
+                      <Text style={{ fontSize: 13, color: '#374151', lineHeight: 20 }}>{submissionText}</Text>
+                    </>
+                  ) : null}
+                  {submissionAttachmentUrl ? (
+                    <Text style={{ fontSize: 12, color: '#4A90E2', fontWeight: '600', marginTop: 4 }}>📎 Attachment submitted</Text>
+                  ) : null}
+                </View>
+              ) : (
+                <>
+                  <Text style={styles.inputLabel}>Your Work</Text>
+                  <TextInput
+                    value={submissionText}
+                    onChangeText={setSubmissionText}
+                    placeholder="Write your answer here..."
+                    style={styles.textArea}
+                    multiline
+                    textAlignVertical="top"
+                  />
+                  <Text style={styles.inputLabel}>Attach a File (URL)</Text>
+                  <View style={styles.uploadRow}>
+                    <TextInput
+                      value={submissionAttachmentUrl}
+                      onChangeText={setSubmissionAttachmentUrl}
+                      placeholder="https://..."
+                      style={styles.inputFlex}
+                    />
+                    <Pressable style={styles.uploadBtn} onPress={uploadSubmissionAttachment}>
+                      <Text style={styles.uploadBtnText}>Upload</Text>
+                    </Pressable>
+                  </View>
+                </>
+              )}
 
             </ScrollView>
-            <View style={styles.modalFooter}>
-              <Pressable style={styles.bigPrimaryButton} onPress={submitAssignment} disabled={savingSubmission}>
-                {savingSubmission ? <ActivityIndicator color="#fff" /> : <Text style={styles.bigPrimaryButtonText}>Submit Task</Text>}
-              </Pressable>
-            </View>
+            {assignmentModal?.status !== 'submitted' && (
+              <View style={styles.modalFooter}>
+                <Pressable style={styles.bigPrimaryButton} onPress={submitAssignment} disabled={savingSubmission}>
+                  {savingSubmission ? <ActivityIndicator color="#fff" /> : <Text style={styles.bigPrimaryButtonText}>Submit Task</Text>}
+                </Pressable>
+              </View>
+            )}
           </View>
         </View>
       </Modal>

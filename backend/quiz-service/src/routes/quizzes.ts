@@ -1232,7 +1232,9 @@ quizzesRouter.post('/students/classrooms/:classroomId/assignments/:assignmentId/
 
   try {
     const userResult = await db.query(
-      `SELECT active_role FROM users WHERE id = $1 AND organization_id = $2::uuid LIMIT 1`,
+      `SELECT u.active_role FROM users u
+       INNER JOIN user_roles ur ON ur.user_id = u.id
+       WHERE u.id = $1 AND ur.organization_id = $2::uuid LIMIT 1`,
       [userId, orgId],
     );
     if ((userResult.rowCount ?? 0) === 0) return res.status(404).json({ message: 'User not found' });

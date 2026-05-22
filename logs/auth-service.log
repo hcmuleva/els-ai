@@ -1067,3 +1067,25 @@ Auth Service listening on http://localhost:4101
 Class 1 English topics and content already seeded.
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:13:23 PM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:13:49 PM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101

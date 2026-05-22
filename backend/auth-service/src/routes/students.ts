@@ -357,30 +357,49 @@ studentsRouter.get('/:id/assignments', requireAuth, async (req: AuthenticatedReq
   }
 
   try {
+    // All assignments in the student's classrooms, LEFT JOIN to get submission if exists
     const params: unknown[] = [studentId, organizationId];
-    const where = ['student_id = $1', 'organization_id = $2::uuid'];
-    if (status) {
-      params.push(status);
-      where.push(`submission_status = $${params.length}`);
+    let statusFilter = '';
+    if (status === 'pending') {
+      statusFilter = 'AND cas.id IS NULL';
+    } else if (status === 'submitted') {
+      statusFilter = 'AND cas.id IS NOT NULL';
     }
 
     const result = await db.query(
-      `SELECT id, assignment_title, file_url, submission_status, submitted_at, grade, feedback, created_at
-       FROM assignment_submissions
-       WHERE ${where.join(' AND ')}
-       ORDER BY created_at DESC LIMIT 50`,
+      `SELECT
+         ca.id,
+         ca.title,
+         ca.description,
+         ca.attachment_url AS file_url,
+         ca.due_date,
+         ca.created_at,
+         cas.id            AS submission_id,
+         cas.submission_text,
+         cas.submitted_at,
+         CASE WHEN cas.id IS NOT NULL THEN 'submitted' ELSE 'pending' END AS status
+       FROM classroom_assignments ca
+       INNER JOIN classrooms c ON c.id = ca.classroom_id
+       INNER JOIN users u ON u.id = $1 AND u.class_level = c.class_level
+       LEFT JOIN classroom_assignment_submissions cas
+              ON cas.classroom_assignment_id = ca.id AND cas.student_id = $1
+       WHERE c.organization_id = $2::uuid
+       ${statusFilter}
+       ORDER BY ca.created_at DESC
+       LIMIT 50`,
       params,
     );
 
     return res.json({
       assignments: result.rows.map((row) => ({
         id: row.id as string,
-        title: (row.assignment_title as string | null) || '',
+        title: (row.title as string | null) || '',
+        description: (row.description as string | null) || undefined,
         fileUrl: (row.file_url as string | null) || undefined,
-        status: row.submission_status as string,
+        dueDate: (row.due_date as string | null) || undefined,
+        status: row.status as string,
         submittedAt: (row.submitted_at as string | null) || undefined,
-        grade: (row.grade as number | null) ?? undefined,
-        feedback: (row.feedback as string | null) || undefined,
+        submissionText: (row.submission_text as string | null) || undefined,
         createdAt: row.created_at as string,
       })),
     });

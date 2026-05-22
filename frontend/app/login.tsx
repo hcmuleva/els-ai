@@ -17,10 +17,10 @@ const ARTWORKS: Array<{ emoji: string; size: number; top?: number; bottom?: numb
 ];
 
 const DEMO_ACCOUNTS = [
-  { label: 'Super',   email: 'super@els.ai',   emoji: '⭐' },
-  { label: 'Teacher', email: 'teacher@els.ai', emoji: '🍎' },
-  { label: 'Student', email: 'student@els.ai', emoji: '🎒' },
-  { label: 'Parent',  email: 'parent@els.ai',  emoji: '👨‍👩‍👧' },
+  { label: 'Rahul',   email: 'rahul@els.ai',   emoji: '🎒', role: 'Student', color: '#4A90E2', bg: '#D6EAFF' },
+  { label: 'Ramesh',  email: 'ramesh@els.ai',  emoji: '👨‍👩‍👧', role: 'Parent',  color: '#7DC67A', bg: '#D6F5D6' },
+  { label: 'Teacher', email: 'teacher@els.ai', emoji: '🍎', role: 'Teacher', color: '#FF7043', bg: '#FFE8D6' },
+  { label: 'Super',   email: 'super@els.ai',   emoji: '⭐', role: 'Admin',   color: '#9B8EC4', bg: '#EDE4FF' },
 ];
 
 export default function LoginScreen() {
@@ -152,18 +152,28 @@ export default function LoginScreen() {
           <View style={s.demoSection}>
             <View style={s.demoLabelRow}>
               <View style={s.demoLine} />
-              <Text style={s.demoLabel}>Quick Demo</Text>
+              <Text style={s.demoLabel}>Quick Demo Login</Text>
               <View style={s.demoLine} />
             </View>
             <View style={s.demoGrid}>
               {DEMO_ACCOUNTS.map((d) => (
                 <Pressable
                   key={d.label}
-                  style={s.demoBtn}
-                  onPress={() => { setIdentifier(d.email); setPassword('welcome'); }}
+                  style={[s.demoBtn, { backgroundColor: d.bg, borderColor: d.color + '40' }]}
+                  onPress={async () => {
+                    setIdentifier(d.email);
+                    setPassword('welcome');
+                    setError('');
+                    setLoading(true);
+                    const result = await signIn(d.email, 'welcome');
+                    setLoading(false);
+                    if (result.success) router.replace('/(tabs)');
+                    else setError(result.error || 'Login failed');
+                  }}
                 >
                   <Text style={s.demoBtnEmoji}>{d.emoji}</Text>
-                  <Text style={s.demoBtnLabel}>{d.label}</Text>
+                  <Text style={[s.demoBtnName, { color: d.color }]}>{d.label}</Text>
+                  <Text style={[s.demoBtnRole, { color: d.color + 'BB' }]}>{d.role}</Text>
                 </Pressable>
               ))}
             </View>
@@ -265,10 +275,11 @@ const s = StyleSheet.create({
   demoLabel:    { fontSize: 11, fontWeight: '700', color: '#B0B8CC' },
   demoGrid:     { flexDirection: 'row', gap: 8 },
   demoBtn: {
-    flex: 1, alignItems: 'center', gap: 4,
-    backgroundColor: '#F8F9FF', borderRadius: 14,
-    paddingVertical: 10, borderWidth: 1, borderColor: '#EBEBF8',
+    flex: 1, alignItems: 'center', gap: 3,
+    borderRadius: 16, paddingVertical: 12,
+    borderWidth: 1.5,
   },
-  demoBtnEmoji: { fontSize: 22 },
-  demoBtnLabel: { fontSize: 11, fontWeight: '700', color: '#5A5A7A' },
+  demoBtnEmoji: { fontSize: 24 },
+  demoBtnName:  { fontSize: 13, fontWeight: '900' },
+  demoBtnRole:  { fontSize: 10, fontWeight: '700' },
 });
