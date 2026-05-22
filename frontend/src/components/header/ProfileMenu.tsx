@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { LogOut, Settings, User } from 'lucide-react-native';
 
@@ -29,13 +29,11 @@ export function ProfileMenu({ isOpen, onToggle, onClose }: ProfileMenuProps) {
 
   return (
     <View style={styles.wrapper}>
-      {/* Avatar trigger */}
-      <Pressable onPress={onToggle} style={[styles.avatar, { backgroundColor: avatarBg }]}>
-        <Text style={styles.avatarText}>{initials}</Text>
-      </Pressable>
-
-      {isOpen && (
-        <View style={styles.menu}>
+      {/* Invisible backdrop to close on outside tap */}
+      <Modal visible={isOpen} transparent animationType="none" onRequestClose={onClose}>
+        <Pressable style={styles.backdrop} onPress={onClose} />
+        <View style={styles.menuAbsolute}>
+          <View style={styles.menu}>
           {/* User card */}
           <View style={[styles.userCard, { borderLeftColor: avatarBg }]}>
             <View style={[styles.avatarSm, { backgroundColor: avatarBg }]}>
@@ -86,14 +84,30 @@ export function ProfileMenu({ isOpen, onToggle, onClose }: ProfileMenuProps) {
             </View>
             <Text style={styles.logoutText}>Log Out</Text>
           </Pressable>
+          </View>
         </View>
-      )}
+      </Modal>
+
+      {/* Avatar trigger */}
+      <Pressable onPress={onToggle} style={[styles.avatar, { backgroundColor: avatarBg }]}>
+        <Text style={styles.avatarText}>{initials}</Text>
+      </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   wrapper: { position: 'relative' },
+
+  backdrop: {
+    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+  },
+
+  menuAbsolute: {
+    position: 'absolute',
+    top: 56, right: 12,
+    zIndex: 200,
+  },
 
   avatar: {
     width: 34, height: 34, borderRadius: 17,
@@ -102,8 +116,6 @@ const styles = StyleSheet.create({
   avatarText: { fontSize: 13, fontWeight: '900', color: '#fff' },
 
   menu: {
-    position: 'absolute',
-    right: 0, top: 44,
     width: 230,
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
@@ -115,7 +127,6 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
     shadowOffset: { width: 0, height: 6 },
     elevation: 8,
-    zIndex: 100,
     gap: 4,
   },
 

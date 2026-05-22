@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { ChevronDown } from 'lucide-react-native';
 
@@ -27,21 +27,24 @@ export function RoleSwitcher({ isOpen, onToggle, onClose }: RoleSwitcherProps) {
         <ChevronDown size={14} />
       </Pressable>
 
-      {isOpen ? (
-        <View style={styles.menu}>
-          {user?.roles.map((role) => (
-            <Pressable
-              key={role}
-              onPress={() => handleRoleChange(role)}
-              style={[styles.roleButton, user.activeRole === role && styles.roleButtonActive]}
-            >
-              <Text style={[styles.roleText, user.activeRole === role && styles.roleTextActive]}>
-                {role.toUpperCase()}
-              </Text>
-            </Pressable>
-          ))}
+      <Modal visible={isOpen} transparent animationType="none" onRequestClose={onClose}>
+        <Pressable style={styles.backdrop} onPress={onClose} />
+        <View style={styles.menuAbsolute}>
+          <View style={styles.menu}>
+            {user?.roles.map((role) => (
+              <Pressable
+                key={role}
+                onPress={() => handleRoleChange(role)}
+                style={[styles.roleButton, user.activeRole === role && styles.roleButtonActive]}
+              >
+                <Text style={[styles.roleText, user.activeRole === role && styles.roleTextActive]}>
+                  {role.toUpperCase()}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
         </View>
-      ) : null}
+      </Modal>
     </View>
   );
 }
@@ -49,6 +52,14 @@ export function RoleSwitcher({ isOpen, onToggle, onClose }: RoleSwitcherProps) {
 const styles = StyleSheet.create({
   wrapper: {
     position: 'relative',
+  },
+  backdrop: {
+    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+  },
+  menuAbsolute: {
+    position: 'absolute',
+    top: 56, right: 60,
+    zIndex: 200,
   },
   trigger: {
     borderWidth: 1.5,
@@ -68,9 +79,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   menu: {
-    position: 'absolute',
-    top: 42,
-    right: 0,
     width: 150,
     backgroundColor: '#ffffff',
     borderWidth: 1,
