@@ -51,12 +51,14 @@ kubectl -n els-ai cp ./els-ai.dump "$POD:/tmp/els-ai.dump"
 kubectl -n els-ai exec -it "$POD" -- sh -c 'pg_restore -U "$POSTGRES_USER" -d "$POSTGRES_DB" --clean --if-exists /tmp/els-ai.dump'
 ```
 
-## 5) Migrate local media assets (`audio-images`)
+## 5) Migrate local media assets (`audio-images` + `assets`)
 
 ```bash
 POD=$(kubectl -n els-ai get pod -l app=gateway -o jsonpath='{.items[0].metadata.name}')
 kubectl -n els-ai cp ./audio-images/. "$POD:/app/audio-images"
+kubectl -n els-ai cp ./assets/. "$POD:/app/assets"
 kubectl -n els-ai exec -it "$POD" -- ls /app/audio-images
+kubectl -n els-ai exec -it "$POD" -- ls /app/assets
 ```
 
 ## 6) Verify ingress paths

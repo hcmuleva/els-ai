@@ -27,6 +27,8 @@ spec:
           volumeMounts:
             - name: media-assets
               mountPath: /app/audio-images
+            - name: media-assets
+              mountPath: /app/assets
           readinessProbe:
             httpGet:
               path: /health
