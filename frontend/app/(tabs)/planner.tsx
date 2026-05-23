@@ -178,6 +178,7 @@ export default function PlannerScreen() {
   const [contentSearch, setContentSearch] = useState('');
   const [contentSubjectFilter, setContentSubjectFilter] = useState('');
   const [pendingDelete, setPendingDelete] = useState<ClassroomSummary | null>(null);
+  const [pendingEndClassroom, setPendingEndClassroom] = useState<ClassroomSummary | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [modalTab, setModalTab] = useState<ModalTab>('setup');
 
@@ -511,7 +512,15 @@ export default function PlannerScreen() {
       setMessage({ type: 'success', text: 'Class ended and moved to history.' });
     } catch (error) {
       setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to end class' });
-    } finally { setEndingClassroomId(null); }
+    } finally {
+      setEndingClassroomId(null);
+      setPendingEndClassroom(null);
+    }
+  };
+
+  const confirmEndClassroom = async () => {
+    if (!pendingEndClassroom) return;
+    await endClassroom(pendingEndClassroom.id);
   };
 
   // ── Load history ──────────────────────────────────────────────────────────
@@ -524,6 +533,16 @@ export default function PlannerScreen() {
   };
 
   const openHistory = () => { setIsHistoryOpen(true); loadHistory(); };
+
+  const getDateTimeParts = (iso?: string | null) => {
+    if (!iso) return { date: '—', time: '—' };
+    const dt = new Date(iso);
+    if (Number.isNaN(dt.getTime())) return { date: '—', time: '—' };
+    return {
+      date: dt.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }),
+      time: dt.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }),
+    };
+  };
 
   // ── Restart class ─────────────────────────────────────────────────────────
   const restartClassroom = async (classroomId: string) => {
@@ -573,6 +592,9 @@ export default function PlannerScreen() {
     completed: { bg: '#F0F0F8', text: '#6B6B8A', label: 'Done' },
     draft:     { bg: '#D6EAFF', text: '#1A4DA2', label: 'Draft' },
   };
+  const viewportWidth = Dimensions.get('window').width;
+  const classCardWidth = viewportWidth >= 720 ? '48.5%' : '100%';
+  const historyCardWidth = viewportWidth >= 760 ? '48.5%' : '100%';
 
   return (
     <ScrollView style={p.screen} contentContainerStyle={p.scroll}>
@@ -616,57 +638,80 @@ export default function PlannerScreen() {
           </Pressable>
         </View>
       ) : (
-        classrooms.map((item, idx) => {
-          const pal     = CARD_PALETTES[idx % CARD_PALETTES.length];
-          const IconComp = CARD_ICONS[idx % CARD_ICONS.length];
-          const tag   = STATUS_TAG[item.status];
-          return (
-            <View key={item.id} style={[p.classCard, { backgroundColor: pal.light }]}>
-              {/* Top row: icon art box + title + status */}
-              <View style={p.classCardTop}>
-                <View style={[p.classArtBox, { backgroundColor: `${pal.bg}22` }]}>
-                  <IconComp size={24} color={pal.bg} />
+        <View style={p.classCardGrid}>
+          {classrooms.map((item, idx) => {
+            const pal = CARD_PALETTES[idx % CARD_PALETTES.length];
+            const IconComp = CARD_ICONS[idx % CARD_ICONS.length];
+            const tag = STATUS_TAG[item.status];
+            const startMeta = getDateTimeParts(item.startTime);
+            return (
+              <View key={item.id} style={[p.classCard, { backgroundColor: pal.light, width: classCardWidth }]}>
+                {/* Top row: icon art box + title + status */}
+                <View style={p.classCardTop}>
+                  <View style={[p.classArtBox, { backgroundColor: `${pal.bg}22` }]}>
+                    <IconComp size={24} color={pal.bg} />
+                  </View>
+                  <View style={p.classCardInfo}>
+                    <Text style={p.classCardTitle} numberOfLines={1}>{item.title}</Text>
+                    <View style={p.classModeRow}>
+                      <View style={p.classModeChip}>
+                        <Text style={p.classModeChipLabel}>Class</Text>
+                        <Text style={p.classModeChipValue}>{getStandardLabel(item.classLevel)}</Text>
+                      </View>
+                      <View style={p.classModeChip}>
+                        <Text style={p.classModeChipLabel}>Mode</Text>
+                        <Text style={p.classModeChipValue}>{item.scheduleType === 'instant' ? 'Instant' : 'Scheduled'}</Text>
+                      </View>
+                    </View>
+                  </View>
+                  <View style={[p.statusTag, { backgroundColor: tag.bg }]}>
+                    <Text style={[p.statusTagText, { color: tag.text }]}>{tag.label}</Text>
+                  </View>
                 </View>
-                <View style={p.classCardInfo}>
-                  <Text style={p.classCardTitle} numberOfLines={1}>{item.title}</Text>
-                  <Text style={p.classCardMeta}>
-                    {getStandardLabel(item.classLevel)} · {item.durationMinutes} min · {item.scheduleType === 'instant' ? 'Instant' : 'Scheduled'}
-                  </Text>
-                </View>
-                <View style={[p.statusTag, { backgroundColor: tag.bg }]}>
-                  <Text style={[p.statusTagText, { color: tag.text }]}>{tag.label}</Text>
-                </View>
-              </View>
 
-              {/* Counts inline */}
-              <Text style={p.classCardCounts}>
-                {item.contentCount} content · {item.quizCount} quizzes · {item.assignmentCount} tasks
-              </Text>
+                <View style={p.classTimingRow}>
+                  <View style={p.classTimingItem}>
+                    <Text style={p.classMetaLabel}>Duration</Text>
+                    <Text style={p.classMetaValue}>{item.durationMinutes} min</Text>
+                  </View>
+                  <View style={p.classTimingItem}>
+                    <Text style={p.classMetaLabel}>Start</Text>
+                    <Text style={p.classMetaValue}>{item.scheduleType === 'instant' ? 'Instant' : startMeta.date}</Text>
+                    {item.scheduleType !== 'instant' && <Text style={p.classTimingSub}>{startMeta.time}</Text>}
+                  </View>
+                </View>
 
-              {/* Actions */}
-              <View style={p.classCardFooter}>
-                <Pressable style={[p.footerBtn, { backgroundColor: '#EBF4FF' }]} onPress={() => setDetailsClassroomId(item.id)}>
-                  <Text style={[p.footerBtnText, { color: '#1A4DA2' }]}>Details</Text>
-                </Pressable>
-                <Pressable style={[p.footerBtn, { backgroundColor: `${pal.bg}18` }]} onPress={() => openEdit(item.id)}>
-                  <Text style={[p.footerBtnText, { color: pal.bg }]}>Edit</Text>
-                </Pressable>
-                {item.status !== 'completed' && (
-                  <Pressable style={[p.footerBtn, { backgroundColor: '#FEF0ED' }]} onPress={() => endClassroom(item.id)} disabled={endingClassroomId === item.id}>
-                    {endingClassroomId === item.id
-                      ? <ActivityIndicator size="small" color="#FF7043" />
-                      : <Text style={[p.footerBtnText, { color: '#E05A3A' }]}>End Class</Text>}
+                <View style={p.classCountsRow}>
+                  <View style={p.classCountChip}><Text style={p.classCountChipText}>{item.contentCount} content</Text></View>
+                  <View style={p.classCountChip}><Text style={p.classCountChipText}>{item.quizCount} quizzes</Text></View>
+                  <View style={p.classCountChip}><Text style={p.classCountChipText}>{item.assignmentCount} tasks</Text></View>
+                </View>
+
+                {/* Actions */}
+                <View style={p.classCardFooter}>
+                  <Pressable style={[p.footerBtn, { backgroundColor: '#EBF4FF' }]} onPress={() => setDetailsClassroomId(item.id)}>
+                    <Text numberOfLines={1} style={[p.footerBtnText, { color: '#1A4DA2' }]}>Details</Text>
                   </Pressable>
-                )}
-                <Pressable style={p.footerBtnGhost} onPress={() => setPendingDelete(item)} disabled={deletingClassroomId === item.id}>
-                  {deletingClassroomId === item.id
-                    ? <ActivityIndicator size="small" color="#FF7043" />
-                    : <Text style={p.footerBtnDelete}>Delete</Text>}
-                </Pressable>
+                  <Pressable style={[p.footerBtn, { backgroundColor: `${pal.bg}18` }]} onPress={() => openEdit(item.id)}>
+                    <Text numberOfLines={1} style={[p.footerBtnText, { color: pal.bg }]}>Edit</Text>
+                  </Pressable>
+                  {item.status !== 'completed' && (
+                    <Pressable style={[p.footerBtn, { backgroundColor: '#FEF0ED' }]} onPress={() => setPendingEndClassroom(item)} disabled={endingClassroomId === item.id}>
+                      {endingClassroomId === item.id
+                        ? <ActivityIndicator size="small" color="#FF7043" />
+                        : <Text numberOfLines={1} style={[p.footerBtnText, { color: '#E05A3A' }]}>End Class</Text>}
+                    </Pressable>
+                  )}
+                  <Pressable style={p.footerBtnGhost} onPress={() => setPendingDelete(item)} disabled={deletingClassroomId === item.id}>
+                    {deletingClassroomId === item.id
+                      ? <ActivityIndicator size="small" color="#FF7043" />
+                      : <Text numberOfLines={1} style={p.footerBtnDelete}>Delete</Text>}
+                  </Pressable>
+                </View>
               </View>
-            </View>
-          );
-        })
+            );
+          })}
+        </View>
       )}
 
       {/* ── Create / Edit Modal (full-screen slide) ── */}
@@ -1079,12 +1124,39 @@ export default function PlannerScreen() {
             <Text style={{ fontSize: 40, textAlign: 'center' }}>🗑</Text>
             <Text style={p.confirmTitle}>Delete Classroom?</Text>
             <Text style={p.confirmSub}>"{pendingDelete?.title}" will be permanently removed.</Text>
-            <View style={{ flexDirection: 'row', gap: 10, marginTop: 16 }}>
+            <View style={p.confirmActions}>
               <Pressable style={p.confirmCancelBtn} onPress={() => setPendingDelete(null)}>
                 <Text style={p.confirmCancelText}>Cancel</Text>
               </Pressable>
               <Pressable style={p.confirmDeleteBtn} onPress={confirmDelete}>
                 <Text style={p.confirmDeleteText}>Delete</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* ── End class confirm ── */}
+      <Modal visible={pendingEndClassroom !== null} transparent animationType="fade" onRequestClose={() => setPendingEndClassroom(null)}>
+        <View style={p.pickerOverlay}>
+          <View style={p.confirmCard}>
+            <Text style={{ fontSize: 40, textAlign: 'center' }}>⏹</Text>
+            <Text style={p.confirmTitle}>End this class?</Text>
+            <Text style={p.confirmSub}>
+              "{pendingEndClassroom?.title}" will be moved to history and marked as ended.
+            </Text>
+            <View style={p.confirmActions}>
+              <Pressable style={p.confirmCancelBtn} onPress={() => setPendingEndClassroom(null)}>
+                <Text style={p.confirmCancelText}>Cancel</Text>
+              </Pressable>
+              <Pressable
+                style={[p.confirmDeleteBtn, p.confirmEndBtn]}
+                onPress={confirmEndClassroom}
+                disabled={endingClassroomId === pendingEndClassroom?.id}
+              >
+                {endingClassroomId === pendingEndClassroom?.id
+                  ? <ActivityIndicator size="small" color="#fff" />
+                  : <Text style={p.confirmDeleteText}>End Class</Text>}
               </Pressable>
             </View>
           </View>
@@ -1117,37 +1189,73 @@ export default function PlannerScreen() {
             </View>
           ) : (
             <ScrollView contentContainerStyle={p.historyList}>
-              {historyRooms.map((room: any, idx: number) => (
-                <View key={room.id} style={p.historyCard}>
-                  <View style={p.historyCardTop}>
-                    <View style={p.historyCardIcon}>
-                      <School size={22} color="#4A90E2" />
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={p.historyCardTitle} numberOfLines={1}>{room.title}</Text>
-                      <Text style={p.historyCardMeta}>
-                        {room.class_level ? getStandardLabel(room.class_level) : '–'}
-                        {room.ended_at ? ` · Ended ${new Date(room.ended_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}` : ''}
-                      </Text>
-                      <View style={p.historyChipRow}>
-                        <View style={[p.historyChip, { flexDirection: 'row', gap: 4 }]}><Users size={10} color="#5A7AB0" /><Text style={p.historyChipText}>{room.student_count} students</Text></View>
-                        <View style={[p.historyChip, { flexDirection: 'row', gap: 4 }]}><Trophy size={10} color="#5A7AB0" /><Text style={p.historyChipText}>{room.quiz_count} quizzes</Text></View>
-                        <View style={[p.historyChip, { flexDirection: 'row', gap: 4 }]}><ClipboardList size={10} color="#5A7AB0" /><Text style={p.historyChipText}>{room.assignment_count} tasks</Text></View>
+              {historyRooms.map((room: any, idx: number) => {
+                const startedAt = getDateTimeParts(room.start_time);
+                const endedAt = getDateTimeParts(room.ended_at);
+                return (
+                  <View key={room.id} style={[p.historyCard, { width: historyCardWidth }]}>
+                    <View style={p.historyCardTop}>
+                      <View style={p.historyCardIcon}>
+                        <School size={22} color="#4A90E2" />
+                      </View>
+                      <View style={p.historyCardBody}>
+                        <Text style={p.historyCardTitle} numberOfLines={1}>{room.title}</Text>
+                        <View style={p.historyModeRow}>
+                          <View style={p.historyModeChip}>
+                            <Text style={p.historyModeChipLabel}>Class</Text>
+                            <Text style={p.historyModeChipValue}>{room.class_level ? getStandardLabel(room.class_level) : '—'}</Text>
+                          </View>
+                          <View style={p.historyModeChip}>
+                            <Text style={p.historyModeChipLabel}>Mode</Text>
+                            <Text style={p.historyModeChipValue}>{room.schedule_type === 'instant' ? 'Instant' : 'Scheduled'}</Text>
+                          </View>
+                        </View>
                       </View>
                     </View>
+
+                    <View style={p.historyMetaGrid}>
+                      <View style={p.historyMetaItem}>
+                        <Text style={p.historyMetaLabel}>Started</Text>
+                        <View style={p.historyMetaRow}>
+                          <Calendar size={11} color="#7A869F" />
+                          <Text style={p.historyMetaRowText}>{startedAt.date}</Text>
+                        </View>
+                        <View style={p.historyMetaRow}>
+                          <Clock size={11} color="#7A869F" />
+                          <Text style={p.historyMetaRowText}>{startedAt.time}</Text>
+                        </View>
+                      </View>
+                      <View style={p.historyMetaItem}>
+                        <Text style={p.historyMetaLabel}>Ended</Text>
+                        <View style={p.historyMetaRow}>
+                          <Calendar size={11} color="#7A869F" />
+                          <Text style={p.historyMetaRowText}>{endedAt.date}</Text>
+                        </View>
+                        <View style={p.historyMetaRow}>
+                          <Clock size={11} color="#7A869F" />
+                          <Text style={p.historyMetaRowText}>{endedAt.time}</Text>
+                        </View>
+                      </View>
+                    </View>
+
+                    <View style={p.historyChipRow}>
+                      <View style={[p.historyChip, { flexDirection: 'row', gap: 4 }]}><Users size={10} color="#5A7AB0" /><Text style={p.historyChipText}>{room.student_count} students</Text></View>
+                      <View style={[p.historyChip, { flexDirection: 'row', gap: 4 }]}><Trophy size={10} color="#5A7AB0" /><Text style={p.historyChipText}>{room.quiz_count} quizzes</Text></View>
+                      <View style={[p.historyChip, { flexDirection: 'row', gap: 4 }]}><ClipboardList size={10} color="#5A7AB0" /><Text style={p.historyChipText}>{room.assignment_count} tasks</Text></View>
+                    </View>
+                    <View style={p.historyCardFooter}>
+                      <Pressable style={p.historyDetailBtn} onPress={() => { setIsHistoryOpen(false); setDetailsClassroomId(room.id); }}>
+                        <Text style={p.historyDetailBtnText}>View Details</Text>
+                      </Pressable>
+                      <Pressable style={p.historyRestartBtn} onPress={() => restartClassroom(room.id)} disabled={restartingId === room.id}>
+                        {restartingId === room.id
+                          ? <ActivityIndicator size="small" color="#4A90E2" />
+                          : <Text style={p.historyRestartBtnText}>Restart</Text>}
+                      </Pressable>
+                    </View>
                   </View>
-                  <View style={p.historyCardFooter}>
-                    <Pressable style={p.historyDetailBtn} onPress={() => { setIsHistoryOpen(false); setDetailsClassroomId(room.id); }}>
-                      <Text style={p.historyDetailBtnText}>View Details</Text>
-                    </Pressable>
-                    <Pressable style={p.historyRestartBtn} onPress={() => restartClassroom(room.id)} disabled={restartingId === room.id}>
-                      {restartingId === room.id
-                        ? <ActivityIndicator size="small" color="#4A90E2" />
-                        : <Text style={p.historyRestartBtnText}>Restart</Text>}
-                    </Pressable>
-                  </View>
-                </View>
-              ))}
+                );
+              })}
             </ScrollView>
           )}
         </View>
@@ -1204,27 +1312,44 @@ const p = StyleSheet.create({
   emptyBtnText:{ color: '#fff', fontWeight: '800', fontSize: 14 },
 
   // ── Classroom card ──
+  classCardGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, paddingHorizontal: 16, paddingBottom: 4 },
   classCard: {
-    marginHorizontal: 16, marginBottom: 14,
-    borderRadius: 24, padding: 18,
+    marginBottom: 2,
+    borderRadius: 22, padding: 16,
     shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.07, shadowRadius: 12, elevation: 3,
-    gap: 14,
+    gap: 12,
   },
-  classCardTop:    { flexDirection: 'row', alignItems: 'center', gap: 14 },
+  classCardTop:    { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
   classArtBox:     { width: 56, height: 56, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
   classArtEmoji:   { fontSize: 30 },
-  classCardInfo:    { flex: 1, gap: 3 },
+  classCardInfo:    { flex: 1, gap: 5 },
   classCardTitle:   { fontSize: 15, fontWeight: '800', color: '#1a1a2e' },
+  classModeRow:     { flexDirection: 'column', gap: 4, alignItems: 'flex-start' },
+  classModeChip:    { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  classModeChipLabel: { fontSize: 10, fontWeight: '700', color: '#7A869F', textTransform: 'uppercase' },
+  classModeChipValue: { fontSize: 11, fontWeight: '800', color: '#334155' },
   classCardMeta:    { fontSize: 12, color: '#9A9AB0', fontWeight: '500' },
-  classCardCounts:  { fontSize: 12, color: '#9A9AB0', fontWeight: '500' },
-  statusTag:        { borderRadius: 999, paddingHorizontal: 9, paddingVertical: 3 },
+  classMetaGrid:    { flexDirection: 'row', flexWrap: 'wrap', columnGap: 10, rowGap: 6, marginTop: 2 },
+  classMetaItem:    { flexBasis: '48%', flexGrow: 1, minWidth: 96 },
+  classTimingRow:   { flexDirection: 'row', gap: 10 },
+  classTimingItem:  { flex: 1, minWidth: 0 },
+  classTimingSub:   { fontSize: 10, fontWeight: '600', color: '#64748B', marginTop: 1 },
+  classDetailGrid:  { flexDirection: 'row', flexWrap: 'wrap', columnGap: 10, rowGap: 8 },
+  classDetailItem:  { flexBasis: '48%', flexGrow: 1, minWidth: 96 },
+  classMetaLabel:   { fontSize: 10, color: '#7A869F', fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.35 },
+  classMetaValue:   { fontSize: 12, color: '#334155', fontWeight: '700', marginTop: 1 },
+  classCardCounts:  { fontSize: 12, color: '#667085', fontWeight: '600' },
+  classCountsRow:   { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: -2 },
+  classCountChip:   { borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.45)', paddingHorizontal: 9, paddingVertical: 4 },
+  classCountChipText: { fontSize: 11, fontWeight: '700', color: '#4B5563' },
+  statusTag:        { borderRadius: 999, paddingHorizontal: 9, paddingVertical: 3, alignSelf: 'flex-start' },
   statusTagText:    { fontSize: 10, fontWeight: '800' },
-  classCardFooter:  { flexDirection: 'row', gap: 10, paddingTop: 4 },
-  footerBtn:        { flex: 1, borderRadius: 12, paddingVertical: 9, alignItems: 'center' },
-  footerBtnText:    { fontSize: 13, fontWeight: '800' },
-  footerBtnGhost:   { flex: 1, borderRadius: 12, paddingVertical: 9, alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.04)' },
-  footerBtnDelete:  { fontSize: 13, fontWeight: '600', color: '#9A9AB0' },
+  classCardFooter:  { flexDirection: 'row', gap: 6, paddingTop: 2 },
+  footerBtn:        { flex: 1, minWidth: 0, borderRadius: 12, paddingVertical: 9, alignItems: 'center' },
+  footerBtnText:    { fontSize: 11, fontWeight: '800' },
+  footerBtnGhost:   { flex: 1, minWidth: 0, borderRadius: 12, paddingVertical: 9, alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.04)' },
+  footerBtnDelete:  { fontSize: 11, fontWeight: '700', color: '#9A9AB0' },
 
   // ── Full-screen modal ──
   modalScreen:       { flex: 1, backgroundColor: '#F5F7FF' },
@@ -1398,9 +1523,11 @@ const p = StyleSheet.create({
   confirmCard:        { backgroundColor: '#fff', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 24, alignItems: 'center', gap: 6 },
   confirmTitle:       { fontSize: 18, fontWeight: '900', color: '#1a1a2e', textAlign: 'center' },
   confirmSub:         { fontSize: 13, color: '#9A9AB0', textAlign: 'center', lineHeight: 20 },
+  confirmActions:     { width: '100%', flexDirection: 'row', gap: 10, marginTop: 16 },
   confirmCancelBtn:   { flex: 1, borderRadius: 12, borderWidth: 1, borderColor: '#D0D8F0', paddingVertical: 13, alignItems: 'center' },
   confirmCancelText:  { fontWeight: '700', color: '#9A9AB0', fontSize: 14 },
   confirmDeleteBtn:   { flex: 1, borderRadius: 12, backgroundColor: '#FF7043', paddingVertical: 13, alignItems: 'center' },
+  confirmEndBtn:      { backgroundColor: '#E05A3A' },
   confirmDeleteText:  { fontWeight: '800', color: '#fff', fontSize: 14 },
 
   // ── History button in header
@@ -1417,17 +1544,29 @@ const p = StyleSheet.create({
   historyCenter:     { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 10, paddingTop: 60 },
   historyEmptyTitle: { fontSize: 18, fontWeight: '900', color: '#1a1a2e' },
   historyEmptyText:  { fontSize: 13, color: '#9A9AB0', textAlign: 'center' },
-  historyList:       { padding: 16, gap: 12, paddingBottom: 40 },
+  historyList:       { flexDirection: 'row', flexWrap: 'wrap', padding: 16, gap: 12, paddingBottom: 40 },
 
   historyCard:       { backgroundColor: '#fff', borderRadius: 20, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2, overflow: 'hidden' },
-  historyCardTop:    { flexDirection: 'row', alignItems: 'flex-start', gap: 14, padding: 16, paddingBottom: 10 },
+  historyCardTop:    { flexDirection: 'row', alignItems: 'flex-start', gap: 14, padding: 16, paddingBottom: 8 },
   historyCardIcon:   { width: 46, height: 46, borderRadius: 13, backgroundColor: '#EEF4FF', alignItems: 'center', justifyContent: 'center' },
+  historyCardBody:   { flex: 1, gap: 6 },
   historyCardTitle:  { fontSize: 15, fontWeight: '800', color: '#1a1a2e', lineHeight: 22 },
+  historyModeRow:    { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  historyModeChip:   { borderRadius: 999, backgroundColor: '#F2F6FF', paddingHorizontal: 9, paddingVertical: 4, flexDirection: 'row', alignItems: 'center', gap: 4 },
+  historyModeChipLabel: { fontSize: 10, fontWeight: '700', color: '#7A869F', textTransform: 'uppercase' },
+  historyModeChipValue: { fontSize: 11, fontWeight: '800', color: '#334155' },
   historyCardMeta:   { fontSize: 12, color: '#9A9AB0', fontWeight: '500', marginTop: 2 },
-  historyChipRow:    { flexDirection: 'row', gap: 6, marginTop: 6, flexWrap: 'wrap' },
+  historyMetaGrid:   { flexDirection: 'row', columnGap: 10, rowGap: 8, paddingHorizontal: 16, marginTop: 2 },
+  historyMetaItem:   { flexBasis: '48%', flexGrow: 1, minWidth: 130 },
+  historyMetaItemWide: { flexBasis: '100%' },
+  historyMetaLabel:  { fontSize: 10, fontWeight: '800', color: '#7A869F', textTransform: 'uppercase', letterSpacing: 0.4 },
+  historyMetaValue:  { fontSize: 12, fontWeight: '700', color: '#334155', marginTop: 1 },
+  historyMetaRow:    { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 2 },
+  historyMetaRowText:{ fontSize: 11, fontWeight: '600', color: '#475569' },
+  historyChipRow:    { flexDirection: 'row', gap: 6, marginTop: 8, flexWrap: 'wrap', paddingHorizontal: 16 },
   historyChip:       { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3, backgroundColor: '#F0F4FF' },
   historyChipText:   { fontSize: 11, fontWeight: '700', color: '#5A7AB0' },
-  historyCardFooter: { flexDirection: 'row', gap: 8, paddingHorizontal: 16, paddingBottom: 14, paddingTop: 4 },
+  historyCardFooter: { flexDirection: 'row', gap: 8, paddingHorizontal: 16, paddingBottom: 14, paddingTop: 10 },
   historyDetailBtn:  { flex: 1, borderRadius: 12, backgroundColor: '#EBF4FF', paddingVertical: 10, alignItems: 'center' },
   historyDetailBtnText: { fontSize: 13, fontWeight: '800', color: '#1A4DA2' },
   historyRestartBtn: { flex: 1, borderRadius: 12, backgroundColor: '#D6F5D6', paddingVertical: 10, alignItems: 'center' },

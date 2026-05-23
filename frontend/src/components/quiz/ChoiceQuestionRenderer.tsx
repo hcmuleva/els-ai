@@ -155,7 +155,7 @@ export default function ChoiceQuestionRenderer({ questionType, questionAudio, qu
           const showWrong = submitted && selected && !option.is_correct;
           const anim = pressAnims[options.indexOf(option)] ?? new Animated.Value(1);
           return (
-            <Animated.View key={option.id} style={{ flex: 1, transform: [{ scale: anim }] }} >
+            <Animated.View key={option.id} style={[styles.optionWrap, { transform: [{ scale: anim }] }]} >
               <Pressable
                 disabled={submitted}
                 onPress={() => handleSingleChoice(option.id, options.indexOf(option))}
@@ -167,7 +167,6 @@ export default function ChoiceQuestionRenderer({ questionType, questionAudio, qu
                   showWrong && styles.tfPillWrong,
                 ]}
               >
-                <Text style={styles.tfEmoji}>{isTrue ? '👍' : '👎'}</Text>
                 <Text style={styles.tfLabel}>{option.label?.toUpperCase() ?? (isTrue ? 'TRUE' : 'FALSE')}</Text>
                 {submitted && selected && (
                   <View style={[styles.tfFeedback, option.is_correct ? styles.tfFeedbackOk : styles.tfFeedbackBad]}>
@@ -186,18 +185,20 @@ export default function ChoiceQuestionRenderer({ questionType, questionAudio, qu
   if (isGuessAudio) {
     return (
       <ScrollView contentContainerStyle={styles.audioContainer} showsVerticalScrollIndicator={false}>
-        <Animated.View style={{ transform: [{ scale: speakerPulse }] }}>
-          <Pressable onPress={playPrompt} style={styles.speakerOrb}>
-            <View style={styles.speakerRing} />
-            <Volume2 size={46} color="#fff" />
-          </Pressable>
-        </Animated.View>
-        <Text style={styles.speakerHint}>Tap to hear again</Text>
+        <View style={styles.audioCenterBlock}>
+          <Animated.View style={{ transform: [{ scale: speakerPulse }] }}>
+            <Pressable onPress={playPrompt} style={styles.speakerOrb}>
+              <View style={styles.speakerRing} />
+              <Volume2 size={46} color="#fff" />
+            </Pressable>
+          </Animated.View>
+          <Text style={styles.speakerHint}>Tap to hear again</Text>
+        </View>
         <View style={styles.pillsWrap}>
           {options.map((option, i) => {
             const anim = pressAnims[i] ?? new Animated.Value(1);
             return (
-              <Animated.View key={option.id} style={{ transform: [{ scale: anim }] }}>
+              <Animated.View key={option.id} style={[styles.optionWrap, { transform: [{ scale: anim }] }]}>
                 <Pressable
                   disabled={submitted}
                   onPress={() => handleSingleChoice(option.id, i)}
@@ -229,7 +230,7 @@ export default function ChoiceQuestionRenderer({ questionType, questionAudio, qu
           const optImage = resolveMediaUrl(option.image);
           const optAudio = resolveMediaUrl(option.audio);
           return (
-            <Animated.View key={option.id} style={{ transform: [{ scale: anim }] }}>
+            <Animated.View key={option.id} style={[styles.optionWrap, { transform: [{ scale: anim }] }]}>
               <Pressable
                 disabled={submitted}
                 onPress={() => isMultiChoice ? handleMultiChoiceToggle(option.id, i) : handleSingleChoice(option.id, i)}
@@ -279,11 +280,11 @@ export default function ChoiceQuestionRenderer({ questionType, questionAudio, qu
 const styles = StyleSheet.create({
   // ── TRUE / FALSE ──────────────────────────────────────────────────────────
   tfContainer: {
-    flexDirection: 'row', gap: 12, paddingHorizontal: 12, paddingTop: 8, paddingBottom: 16,
+    flexDirection: 'row', flexWrap: 'wrap', gap: 10, paddingHorizontal: 2, paddingTop: 6, paddingBottom: 12,
   },
   tfPill: {
-    borderRadius: 20, borderWidth: 2.5, paddingVertical: 18,
-    alignItems: 'center', justifyContent: 'center', gap: 8,
+    borderRadius: 18, borderWidth: 2, paddingVertical: 14, paddingHorizontal: 12,
+    alignItems: 'center', justifyContent: 'center',
     backgroundColor: '#fff', borderColor: '#EBEBF5', position: 'relative',
     shadowColor: '#000', shadowOpacity: 0.06, shadowOffset: { width: 0, height: 3 },
     shadowRadius: 8, elevation: 2,
@@ -293,9 +294,8 @@ const styles = StyleSheet.create({
   tfPillSelected: { backgroundColor: '#D6EAFF', borderColor: '#4A90E2' },
   tfPillCorrect: { backgroundColor: '#E8F5E9', borderColor: '#4CAF50' },
   tfPillWrong: { backgroundColor: '#FFEBEE', borderColor: '#F44336' },
-  tfEmoji: { fontSize: 36 },
-  tfPillFill: { flex: 1 },
-  tfLabel: { fontSize: 18, fontWeight: '900', color: '#1a1a2e', textTransform: 'uppercase' },
+  tfPillFill: { width: '100%' },
+  tfLabel: { fontSize: 16, fontWeight: '900', color: '#1a1a2e', textTransform: 'uppercase' },
   tfFeedback: {
     position: 'absolute', top: 10, right: 10,
     width: 28, height: 28, borderRadius: 14,
@@ -307,7 +307,13 @@ const styles = StyleSheet.create({
 
   // ── AUDIO ─────────────────────────────────────────────────────────────────
   audioContainer: {
-    alignItems: 'center', paddingTop: 12, paddingBottom: 24, gap: 14, paddingHorizontal: 16,
+    alignItems: 'stretch', paddingTop: 10, paddingBottom: 20, gap: 12, paddingHorizontal: 4,
+  },
+  audioCenterBlock: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    marginBottom: 2,
   },
   speakerOrb: {
     width: 100, height: 100, borderRadius: 50,
@@ -324,25 +330,33 @@ const styles = StyleSheet.create({
 
   // ── PILLS (shared) ────────────────────────────────────────────────────────
   pillsWrap: {
-    flexDirection: 'row', flexWrap: 'wrap', gap: 8, justifyContent: 'center', width: '100%',
+    gap: 10,
+    width: '100%',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  optionWrap: {
+    width: '48%',
   },
   pill: {
-    flexDirection: 'row', alignItems: 'center', gap: 8,
-    paddingHorizontal: 18, paddingVertical: 10,
-    borderRadius: 999, borderWidth: 2, borderColor: '#EBEBF5',
+    flexDirection: 'row', alignItems: 'center', gap: 10,
+    paddingHorizontal: 14, paddingVertical: 12,
+    borderRadius: 16, borderWidth: 2, borderColor: '#EBEBF5',
     backgroundColor: '#fff',
     shadowColor: '#000', shadowOpacity: 0.05, shadowOffset: { width: 0, height: 2 },
     shadowRadius: 5, elevation: 1,
+    width: '100%',
   },
   pillWithImage: { paddingVertical: 10, paddingHorizontal: 14 },
   pillSelected: { backgroundColor: '#D6EAFF', borderColor: '#4A90E2' },
   pillCorrect: { backgroundColor: '#E8F5E9', borderColor: '#4CAF50' },
   pillWrong: { backgroundColor: '#FFEBEE', borderColor: '#F44336' },
-  pillText: { fontSize: 14, fontWeight: '700', color: '#1a1a2e' },
+  pillText: { fontSize: 14, fontWeight: '700', color: '#1a1a2e', flexShrink: 1, lineHeight: 20 },
   pillTextSelected: { color: '#2C6BC9' },
   pillTextCorrect: { color: '#2E7D32' },
   pillTextWrong: { color: '#C62828' },
-  pillImage: { width: 36, height: 36 },
+  pillImage: { width: 28, height: 28 },
   pillAudioBtn: {
     width: 28, height: 28, borderRadius: 14,
     backgroundColor: '#EBF4FF', alignItems: 'center', justifyContent: 'center',
@@ -359,7 +373,7 @@ const styles = StyleSheet.create({
 
   // ── CHOICE CONTAINER ──────────────────────────────────────────────────────
   choiceContainer: {
-    paddingHorizontal: 12, paddingTop: 4, paddingBottom: 24, gap: 14, alignItems: 'center',
+    paddingHorizontal: 4, paddingTop: 4, paddingBottom: 20, gap: 12, alignItems: 'stretch',
   },
   inlineAudioBtn: {
     flexDirection: 'row', alignItems: 'center', gap: 8,
@@ -371,7 +385,7 @@ const styles = StyleSheet.create({
 
   // ── SUBMIT BUTTON ─────────────────────────────────────────────────────────
   submitBtn: {
-    backgroundColor: '#FF7043', height: 52, borderRadius: 999,
+    backgroundColor: '#FF7043', height: 50, borderRadius: 14,
     alignItems: 'center', justifyContent: 'center', width: '100%',
     shadowColor: '#FF7043', shadowOpacity: 0.35, shadowOffset: { width: 0, height: 5 },
     shadowRadius: 12, elevation: 4,

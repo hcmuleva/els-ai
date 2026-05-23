@@ -33,6 +33,7 @@ type UseDragLogicParams = {
   slotRect: Rect | null;
   trayRect: Rect | null;
   dragBounds?: Rect | null;
+  resetKey?: string | number;
 };
 
 type DragMapping = Record<number, string | null>;
@@ -44,6 +45,7 @@ export function useDragLogic({
   slotRect,
   trayRect,
   dragBounds,
+  resetKey,
 }: UseDragLogicParams) {
   const [slots, setSlots] = useState<SlotState[]>([]);
   const [hoveredSlotId, setHoveredSlotId] = useState<number | null>(null);
@@ -76,7 +78,7 @@ export function useDragLogic({
 
     const rowHeight = slotRect.height / slotCount;
     const nextSlots: SlotState[] = Array.from({ length: slotCount }, (_, index) => ({
-      id: index,
+      id: index + 1,
       center: {
         x: slotRect.x + slotRect.width / 2,
         y: slotRect.y + rowHeight * (index + 0.5),
@@ -108,7 +110,7 @@ export function useDragLogic({
 
     setMapping(nextMapping);
     setHoveredSlotId(null);
-  }, [buttonSize, buttons, slotCount, slotRect, trayRect]);
+  }, [buttonSize, buttons, slotCount, slotRect, trayRect, resetKey]);
 
   const animateButtonTo = (buttonId: string, point: Point) => {
     Animated.spring(pans.current[buttonId], {

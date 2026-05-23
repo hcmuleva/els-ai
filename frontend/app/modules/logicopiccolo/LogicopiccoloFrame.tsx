@@ -1,299 +1,424 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useMemo, useState } from 'react';
-import { LayoutChangeEvent, Platform, Pressable, Text, useWindowDimensions, View } from 'react-native';
-import { WebView } from 'react-native-webview';
+import { Image, Modal, Platform, Pressable, Text, View } from 'react-native';
 
-import { frameButtons } from './generated/buttons';
-import { worksheetModels } from './generated/worksheets';
-import { DraggableButton } from './DraggableButton';
-import { SlotColumn } from './SlotColumn';
-import { FRAME_BUTTON_SIZE, FRAME_SLOT_COUNT, logicopiccoloStyles } from './styles';
-import { useDragLogic } from './useDragLogic';
-import { WorksheetSelector } from './WorksheetSelector';
+import { useAuth } from '../../../src/context/AuthContext';
+import { buildLogicoTenSlotPositions, LOGICO_CARD_HEIGHT, LOGICO_CARD_WIDTH, LOGICO_LAYOUT_SPLIT } from './sourceframe/constants/logicoLayout';
+import { Frame } from './sourceframe/components/frame/Frame';
+import { ButtonIdentity, Card } from './sourceframe/types';
+import { LOGICO_BUTTON_SET } from './sourceframe/utils/colors';
+import { logicopiccoloStyles } from './styles';
+import { useGameStore } from './sourceframe/store/gameStore';
 
-type Rect = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+type SavedWorksheetSetup = {
+  name: string;
+  imageUrl: string;
+  imageStorageKey?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  buttonSlotMap: Record<string, number>;
+  updatedAt: string;
 };
 
-const WORKSHEET_BASE_WIDTH = 794;
-const WORKSHEET_BASE_HEIGHT = 1123;
-const SLOT_COLUMN_WIDTH = 72;
-const ANSWER_COLUMN_WIDTH = 96;
+const WORKSHEET_SETUPS_STORAGE_KEY = 'logicopiccolo_saved_worksheet_setups';
+const WORKSHEET_IMAGE_DB_NAME = 'logicopiccolo_worksheet_images_v1';
+const WORKSHEET_IMAGE_STORE_NAME = 'images';
 
 export function LogicopiccoloFrame() {
-  const { width } = useWindowDimensions();
-  const frameButtonSize = width < 430 ? 34 : FRAME_BUTTON_SIZE;
-  const [selectedWorksheetId, setSelectedWorksheetId] = useState(worksheetModels[0]?.id ?? '');
-  const [showBack, setShowBack] = useState(false);
+  const { user } = useAuth();
+  const {
+    currentCard,
+    placements,
+    showAnswer,
+    setCurrentCard,
+    resetPlacements,
+    toggleAnswerFlip,
+    checkAnswer,
+  } = useGameStore();
+  const isTeacherAdmin = user?.activeRole === 'teacher';
 
-  const [boardRect, setBoardRect] = useState<Rect | null>(null);
-  const [rightRailLocalRect, setRightRailLocalRect] = useState<Rect | null>(null);
-  const [slotLocalRect, setSlotLocalRect] = useState<Rect | null>(null);
-  const [slotRect, setSlotRect] = useState<Rect | null>(null);
-  const [trayRect, setTrayRect] = useState<Rect | null>(null);
-  const [worksheetPaneWidth, setWorksheetPaneWidth] = useState(0);
-
-  const dragBounds = useMemo<Rect | null>(() => {
-    if (!boardRect || !trayRect) {
-      return null;
-    }
-
-    return {
-      x: boardRect.x,
-      y: boardRect.y,
-      width: boardRect.width,
-      height: trayRect.y + trayRect.height - boardRect.y,
-    };
-  }, [boardRect, trayRect]);
-
-  const selectedWorksheet = useMemo(() => {
-    if (!worksheetModels.length) {
-      return null;
-    }
-
-    return worksheetModels.find((worksheet) => worksheet.id === selectedWorksheetId) ?? worksheetModels[0];
-  }, [selectedWorksheetId]);
-
-  const boardHeight = useMemo(() => {
-    const estimatedFrameWidth = Math.max(300, width - 56);
-    const effectivePaneWidth = Math.max(
-      220,
-      worksheetPaneWidth || estimatedFrameWidth - SLOT_COLUMN_WIDTH - ANSWER_COLUMN_WIDTH - 6,
-    );
-    const sheetScale = Math.min(1, effectivePaneWidth / WORKSHEET_BASE_WIDTH);
-    const scaledSheetHeight = Math.ceil(WORKSHEET_BASE_HEIGHT * sheetScale) + 16;
-    return Math.max(420, scaledSheetHeight);
-  }, [width, worksheetPaneWidth]);
-  const currentWorksheetHtml = showBack ? selectedWorksheet?.backHtml : selectedWorksheet?.frontHtml;
-  const worksheetHtml = useMemo(() => normalizeWorksheetHtml(currentWorksheetHtml ?? ''), [currentWorksheetHtml]);
-  const worksheetOptions = useMemo(() => {
-    return extractWorksheetOptions(currentWorksheetHtml || selectedWorksheet?.frontHtml || '');
-  }, [currentWorksheetHtml, selectedWorksheet?.frontHtml]);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState('');
+  const [uploadedImageName, setUploadedImageName] = useState('');
+  const [uploadedImageSize, setUploadedImageSize] = useState<{ width: number; height: number } | null>(null);
+  const [savedSetups, setSavedSetups] = useState<SavedWorksheetSetup[]>([]);
+  const [previewImageUrls, setPreviewImageUrls] = useState<Record<string, string>>({});
+  const [selectedSetupName, setSelectedSetupName] = useState<string | null>(null);
+  const [isFrameOpen, setIsFrameOpen] = useState(false);
+  const [score, setScore] = useState<{ correct: number; total: number } | null>(null);
 
   useEffect(() => {
-    if (!boardRect || !rightRailLocalRect || !slotLocalRect) {
-      return;
-    }
-
-    setSlotRect({
-      x: boardRect.x + rightRailLocalRect.x + slotLocalRect.x,
-      y: boardRect.y + rightRailLocalRect.y + slotLocalRect.y,
-      width: slotLocalRect.width,
-      height: slotLocalRect.height,
-    });
-  }, [boardRect, rightRailLocalRect, slotLocalRect]);
-
-  if (!selectedWorksheet) {
-    return (
-      <View style={logicopiccoloStyles.screen}>
-        <View style={logicopiccoloStyles.content}>
-          <Text style={logicopiccoloStyles.title}>Logicopiccolo</Text>
-          <Text style={logicopiccoloStyles.subtitle}>No worksheet assets found. Run sync:logicopiccolo-assets.</Text>
-        </View>
-      </View>
-    );
-  }
-
-  const { slots, hoveredSlotId, mapping, pans, getResponder } = useDragLogic({
-    buttons: frameButtons,
-    slotCount: FRAME_SLOT_COUNT,
-    buttonSize: frameButtonSize,
-    slotRect,
-    trayRect,
-    dragBounds,
-  });
-
-  const labelByButtonId = useMemo(() => {
-    return frameButtons.reduce<Record<string, string>>((acc, button) => {
-      acc[button.id] = button.label;
-      return acc;
-    }, {});
+    getSavedWorksheetSetups().then(setSavedSetups);
   }, []);
 
-  const onBoardLayout = (event: LayoutChangeEvent) => {
-    const { x, y, width, height } = event.nativeEvent.layout;
-    setBoardRect({ x, y, width, height });
+  useEffect(() => {
+    let active = true;
+    Promise.all(
+      savedSetups.map(async (setup) => {
+        const imageUrl = await resolveSetupImageUrl(setup);
+        return [setup.name, imageUrl] as const;
+      }),
+    ).then((entries) => {
+      if (!active) return;
+      setPreviewImageUrls(Object.fromEntries(entries));
+    });
+    return () => {
+      active = false;
+    };
+  }, [savedSetups]);
+
+  const selectedSetup = useMemo(() => {
+    return savedSetups.find((setup) => setup.name === selectedSetupName) ?? null;
+  }, [savedSetups, selectedSetupName]);
+
+  const refreshSaved = async () => {
+    const setups = await getSavedWorksheetSetups();
+    setSavedSetups(setups);
   };
 
-  const onSlotLayout = (event: LayoutChangeEvent) => {
-    const { x, y, width, height } = event.nativeEvent.layout;
-    setSlotLocalRect({ x, y, width, height });
+  const loadSetupForPlay = async (setup: SavedWorksheetSetup) => {
+    const imageUrl = await resolveSetupImageUrl(setup);
+    if (!imageUrl) return;
+    setCurrentCard(
+      buildCardFromSetup(setup.name, imageUrl, setup.buttonSlotMap, setup.imageWidth, setup.imageHeight),
+    );
+    setUploadedImageUrl(imageUrl);
+    setUploadedImageName(setup.name);
+    setUploadedImageSize({
+      width: setup.imageWidth ?? LOGICO_CARD_WIDTH,
+      height: setup.imageHeight ?? LOGICO_CARD_HEIGHT,
+    });
+    setSelectedSetupName(setup.name);
+    resetPlacements();
+    setScore(null);
+    setIsFrameOpen(true);
   };
 
-  const onRightRailLayout = (event: LayoutChangeEvent) => {
-    const { x, y, width, height } = event.nativeEvent.layout;
-    setRightRailLocalRect({ x, y, width, height });
+  const handleCreateCard = () => {
+    if (Platform.OS !== 'web' || typeof document === 'undefined') return;
+
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = () => {
+      const file = input.files?.[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = typeof reader.result === 'string' ? reader.result : '';
+        if (!result) return;
+        setUploadedImageUrl(result);
+        setUploadedImageName(file.name);
+        const probe = new window.Image();
+        probe.onload = () => {
+          const size = { width: probe.width, height: probe.height };
+          setUploadedImageSize(size);
+          setCurrentCard(
+            buildCardFromSetup(
+              file.name,
+              result,
+              defaultButtonSlotMap(),
+              size.width,
+              size.height,
+            ),
+          );
+          setSelectedSetupName(null);
+          resetPlacements();
+          setScore(null);
+          setIsFrameOpen(true);
+        };
+        probe.src = result;
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
   };
 
-  const onTrayLayout = (event: LayoutChangeEvent) => {
-    const { x, y, width, height } = event.nativeEvent.layout;
-    setTrayRect({ x, y, width, height });
+  const handleSaveArrangement = async () => {
+    if (!currentCard) return;
+    const buttonSlotMap = getButtonSlotMapFromPlacements(placements);
+    const missing = LOGICO_BUTTON_SET.filter(
+      (button) => !Number.isInteger(buttonSlotMap[`${button.color}-${button.variant}`]),
+    );
+    if (missing.length) return;
+
+    const setupName = await promptSetupName();
+    if (!setupName) return;
+
+    const setups = await saveWorksheetSetup({
+      name: setupName,
+      imageUrl: uploadedImageUrl || currentCard.imageUrl || '',
+      imageWidth: uploadedImageSize?.width ?? LOGICO_CARD_WIDTH,
+      imageHeight: uploadedImageSize?.height ?? LOGICO_CARD_HEIGHT,
+      buttonSlotMap,
+    });
+    setSavedSetups(setups);
+    setSelectedSetupName(setupName);
+    setUploadedImageName(setupName);
   };
 
-  const onWorksheetPaneLayout = (event: LayoutChangeEvent) => {
-    const { width: paneWidth } = event.nativeEvent.layout;
-    if (paneWidth > 0 && Math.abs(paneWidth - worksheetPaneWidth) > 1) {
-      setWorksheetPaneWidth(paneWidth);
-    }
+  const handleCheckAnswer = () => {
+    const result = checkAnswer();
+    setScore({ correct: result.correct, total: result.total });
   };
 
   return (
     <View style={logicopiccoloStyles.screen}>
       <View style={logicopiccoloStyles.content}>
-        <Text style={logicopiccoloStyles.title}>Logicopiccolo</Text>
-        <Text style={logicopiccoloStyles.subtitle}>Teacher preview using generated worksheet and button assets.</Text>
+        <View style={logicopiccoloStyles.previewPanel}>
+          <Text style={logicopiccoloStyles.previewTitle}>Cards</Text>
+          {isTeacherAdmin && (
+            <Pressable style={logicopiccoloStyles.flipButton} onPress={handleCreateCard}>
+              <Text style={logicopiccoloStyles.flipButtonText}>+ Create Card</Text>
+            </Pressable>
+          )}
 
-        <WorksheetSelector
-          worksheets={worksheetModels}
-          selectedWorksheetId={selectedWorksheetId}
-          onSelect={(worksheetId) => {
-            setSelectedWorksheetId(worksheetId);
-            setShowBack(false);
-          }}
-        />
+          <View style={logicopiccoloStyles.cardGrid}>
+            {savedSetups.map((setup) => (
+              <Pressable
+                key={setup.name}
+                style={logicopiccoloStyles.cardTile}
+                onPress={() => loadSetupForPlay(setup)}
+              >
+                {previewImageUrls[setup.name] ? (
+                  <Image source={{ uri: previewImageUrls[setup.name] }} style={logicopiccoloStyles.cardTileImage} resizeMode="cover" />
+                ) : (
+                  <View style={logicopiccoloStyles.cardTilePlaceholder}>
+                    <Text style={logicopiccoloStyles.cardTilePlaceholderText}>No Preview</Text>
+                  </View>
+                )}
+                <Text style={logicopiccoloStyles.cardTileTitle} numberOfLines={2}>{setup.name}</Text>
+              </Pressable>
+            ))}
+          </View>
 
-        <View style={logicopiccoloStyles.frameContainer}>
-          <View style={logicopiccoloStyles.frameInner}>
-            <View style={logicopiccoloStyles.topBar}>
-              <Text style={logicopiccoloStyles.topBarTitle}>{selectedWorksheet.title}</Text>
-              <Pressable style={logicopiccoloStyles.flipButton} onPress={() => setShowBack((prev) => !prev)}>
-                <Text style={logicopiccoloStyles.flipButtonText}>Flip</Text>
+          {savedSetups.length === 0 && (
+            <Text style={logicopiccoloStyles.previewCode}>No saved cards yet.</Text>
+          )}
+
+          {isTeacherAdmin && (
+            <Pressable style={logicopiccoloStyles.flipButton} onPress={refreshSaved}>
+              <Text style={logicopiccoloStyles.flipButtonText}>Refresh Cards</Text>
+            </Pressable>
+          )}
+        </View>
+      </View>
+
+      <Modal
+        visible={isFrameOpen}
+        animationType="slide"
+        presentationStyle="fullScreen"
+        onRequestClose={() => setIsFrameOpen(false)}
+      >
+        <View style={logicopiccoloStyles.screen}>
+          <View style={logicopiccoloStyles.content}>
+            <View style={logicopiccoloStyles.headerBar}>
+              <Pressable style={logicopiccoloStyles.headerBtn} onPress={() => setIsFrameOpen(false)}>
+                <Text style={[logicopiccoloStyles.headerBtnText, { color: '#F1C84D' }]}>← Cards</Text>
+              </Pressable>
+              <Text style={logicopiccoloStyles.headerTitle} numberOfLines={1}>
+                {selectedSetup?.name || currentCard?.title || 'logicopiccolo'}
+              </Text>
+              <Pressable style={logicopiccoloStyles.headerBtn} onPress={toggleAnswerFlip}>
+                <Text style={[logicopiccoloStyles.headerBtnText, { color: '#66d16f' }]}>
+                  {showAnswer ? 'Hide Clip' : 'Clip'}
+                </Text>
               </Pressable>
             </View>
 
-            <View style={[logicopiccoloStyles.boardRow, { height: boardHeight }]} onLayout={onBoardLayout}>
-              <View style={logicopiccoloStyles.webViewWrap} onLayout={onWorksheetPaneLayout}>
-                {Platform.OS === 'web' ? (
-                  <View style={logicopiccoloStyles.webIframeWrap}>
-                    <WebWorksheetIFrame html={worksheetHtml} />
-                  </View>
-                ) : (
-                  <WebView
-                    style={logicopiccoloStyles.webView}
-                    originWhitelist={['*']}
-                    source={{ html: worksheetHtml }}
-                    scrollEnabled={false}
-                    nestedScrollEnabled={false}
-                    bounces={false}
-                    scalesPageToFit={false}
-                  />
-                )}
-              </View>
-
-                <View style={logicopiccoloStyles.rightRail} onLayout={onRightRailLayout}>
-                <View style={logicopiccoloStyles.answerColumn}>
-                  {slots.map((slot, index) => {
-                    const option = worksheetOptions[index];
-                    return (
-                      <View
-                        key={`answer-${slot.id}`}
-                        style={[logicopiccoloStyles.answerRow, index === slots.length - 1 && logicopiccoloStyles.answerRowLast]}
-                      >
-                        <Text style={logicopiccoloStyles.answerId}>{option?.id || `R${slot.id + 1}`}</Text>
-                        <Text style={logicopiccoloStyles.answerText} numberOfLines={2}>
-                          {option?.text || '-'}
-                        </Text>
-                      </View>
-                    );
-                  })}
-                </View>
-
-                <SlotColumn
-                  slots={slots}
-                  hoveredSlotId={hoveredSlotId}
-                  labelByButtonId={labelByButtonId}
-                  placeholderSize={frameButtonSize}
-                  onLayout={onSlotLayout}
-                />
-              </View>
+            <View style={logicopiccoloStyles.frameHost}>
+              <Frame />
             </View>
 
-            <View style={logicopiccoloStyles.tray} onLayout={onTrayLayout} />
+            <View style={logicopiccoloStyles.previewPanel}>
+              {!isTeacherAdmin && (
+                <Pressable style={logicopiccoloStyles.flipButton} onPress={handleCheckAnswer}>
+                  <Text style={logicopiccoloStyles.flipButtonText}>Check Answer</Text>
+                </Pressable>
+              )}
 
-            <View pointerEvents="box-none" style={logicopiccoloStyles.floatingLayer}>
-              {frameButtons.map((button) => {
-                const pan = pans[button.id];
-                if (!pan) {
-                  return null;
-                }
+              {isTeacherAdmin && (
+                <Pressable style={logicopiccoloStyles.flipButton} onPress={handleSaveArrangement}>
+                  <Text style={logicopiccoloStyles.flipButtonText}>Save Arrangement</Text>
+                </Pressable>
+              )}
 
-                return (
-                  <DraggableButton
-                    key={button.id}
-                    button={button}
-                    pan={pan}
-                    responder={getResponder(button.id)}
-                    size={frameButtonSize}
-                  />
-                );
-              })}
+              {score && (
+                <Text style={logicopiccoloStyles.previewTitle}>
+                  Score: {score.correct}/{score.total}
+                </Text>
+              )}
             </View>
           </View>
         </View>
-
-        <View style={logicopiccoloStyles.previewPanel}>
-          <Text style={logicopiccoloStyles.previewTitle}>Preview Mapping (slot {'->'} button)</Text>
-          <Text style={logicopiccoloStyles.previewCode}>{JSON.stringify(mapping, null, 2)}</Text>
-        </View>
-      </View>
+      </Modal>
     </View>
   );
 }
 
-function normalizeWorksheetHtml(html: string) {
-  if (!html) {
-    return html;
+function defaultButtonSlotMap() {
+  const map: Record<string, number> = {};
+  LOGICO_BUTTON_SET.forEach((button, index) => {
+    map[`${button.color}-${button.variant}`] = index + 1;
+  });
+  return map;
+}
+
+function buildCardFromSetup(
+  name: string,
+  imageUrl: string,
+  buttonSlotMap: Record<string, number>,
+  imageWidth?: number,
+  imageHeight?: number,
+): Card {
+  const questions = LOGICO_BUTTON_SET.map((button, index) => {
+    const key = `${button.color}-${button.variant}`;
+    return {
+      id: index + 1,
+      question: key,
+      answer: '',
+      color: button.color,
+      variant: button.variant,
+      targetSlot: buttonSlotMap[key] ?? index + 1,
+    };
+  });
+
+  return {
+    id: `logicopiccolo-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+    title: name,
+    description: 'logicopiccolo worksheet',
+    difficulty: 'medium',
+    category: 'Logicopiccolo',
+    imageUrl,
+    questions,
+    optionSlots: Array.from({ length: 10 }, (_, i) => ({ id: i + 1, value: '' })),
+    frameConfig: {
+      totalSlots: 10,
+      allowedColors: ['red', 'blue', 'green', 'yellow', 'orange'],
+      cardAspectRatio: (imageWidth && imageHeight) ? imageWidth / imageHeight : LOGICO_CARD_WIDTH / LOGICO_CARD_HEIGHT,
+      slotPositions: buildLogicoTenSlotPositions(),
+      useAlignedLayout: true,
+      layoutTemplate: 'logico-10-right',
+      layoutSplit: LOGICO_LAYOUT_SPLIT,
+    },
+    createdAt: new Date(),
+    plays: 0,
+    successRate: 0,
+  };
+}
+
+function getButtonSlotMapFromPlacements(placements: Map<number, ButtonIdentity>) {
+  const result: Record<string, number> = {};
+  placements.forEach((button, slotId) => {
+    result[`${button.color}-${button.variant ?? 'solid'}`] = slotId;
+  });
+  return result;
+}
+
+async function promptSetupName() {
+  if (Platform.OS === 'web' && typeof window !== 'undefined') {
+    const value = window.prompt('Enter worksheet setup name');
+    const trimmed = value?.trim();
+    return trimmed || null;
+  }
+  return null;
+}
+
+async function getSavedWorksheetSetups(): Promise<SavedWorksheetSetup[]> {
+  const raw = await AsyncStorage.getItem(WORKSHEET_SETUPS_STORAGE_KEY);
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+async function saveWorksheetSetup(setup: Omit<SavedWorksheetSetup, 'updatedAt'>): Promise<SavedWorksheetSetup[]> {
+  const existing = await getSavedWorksheetSetups();
+  const usesDataUrl = Platform.OS === 'web' && /^data:image\//i.test(setup.imageUrl);
+
+  let imageUrl = setup.imageUrl;
+  let imageStorageKey = setup.imageStorageKey;
+  if (usesDataUrl) {
+    const key = `logicopiccolo:${setup.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+    const persisted = await saveWorksheetImageToDb(key, setup.imageUrl);
+    if (persisted) {
+      imageUrl = '';
+      imageStorageKey = key;
+    }
   }
 
-  let next = html;
+  const record: SavedWorksheetSetup = {
+    ...setup,
+    imageUrl,
+    imageStorageKey,
+    updatedAt: new Date().toISOString(),
+  };
 
-  if (!next.includes('data-logicopiccolo-frame-fit')) {
-    next = next.replace(
-      /<head>/i,
-      `<head><style data-logicopiccolo-frame-fit>html, body { width: 100%; max-width: 100%; overflow: hidden; background: #fff; } body { margin: 0; padding: 0; } .sheet { margin: 0 !important; transform-origin: top left; } .board { grid-template-columns: 1fr !important; } .right { display: none !important; }</style>`,
-    );
-  }
-
-  if (!next.includes('data-logicopiccolo-fit-script')) {
-    next = next.replace(
-      /<\/body>/i,
-      `<script data-logicopiccolo-fit-script>(function(){function fitSheet(){var sheet=document.querySelector('.sheet');if(!sheet){return;}sheet.style.transform='scale(1)';sheet.style.margin='0';var viewportWidth=Math.max(document.documentElement.clientWidth||0,window.innerWidth||0);var sheetWidth=sheet.offsetWidth||794;var scale=Math.min(1,viewportWidth/sheetWidth);sheet.style.transform='scale('+scale+')';sheet.style.transformOrigin='top left';document.body.style.minHeight=Math.ceil((sheet.offsetHeight||0)*scale)+'px';}window.addEventListener('resize',fitSheet);window.addEventListener('load',fitSheet);fitSheet();})();</script></body>`,
-    );
-  }
-
+  const next = [record, ...existing.filter((item) => item.name !== record.name)];
+  await AsyncStorage.setItem(WORKSHEET_SETUPS_STORAGE_KEY, JSON.stringify(next));
   return next;
 }
 
-function extractWorksheetOptions(html: string): Array<{ id: string; text: string }> {
-  if (!html) {
-    return [];
-  }
-
-  const options: Array<{ id: string; text: string }> = [];
-  const optionRegex = /<div class="opt">\s*<div class="oid">([^<]+)<\/div>\s*<div>([\s\S]*?)<\/div>\s*<\/div>/g;
-  let match: RegExpExecArray | null;
-
-  while ((match = optionRegex.exec(html)) !== null) {
-    options.push({
-      id: decodeHtmlText(match[1]).trim(),
-      text: decodeHtmlText(match[2]).replace(/\s+/g, ' ').trim(),
-    });
-  }
-
-  return options;
+async function resolveSetupImageUrl(setup: SavedWorksheetSetup) {
+  if (setup.imageUrl) return setup.imageUrl;
+  if (!setup.imageStorageKey) return '';
+  return (await getWorksheetImageFromDb(setup.imageStorageKey)) ?? '';
 }
 
-function decodeHtmlText(input: string): string {
-  return input
-    .replace(/<[^>]*>/g, '')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&#39;/g, "'")
-    .replace(/&quot;/g, '"');
+async function openWorksheetImageDb() {
+  if (Platform.OS !== 'web' || typeof window === 'undefined' || !window.indexedDB) {
+    return null;
+  }
+
+  return await new Promise<IDBDatabase | null>((resolve, reject) => {
+    const request = window.indexedDB.open(WORKSHEET_IMAGE_DB_NAME, 1);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(WORKSHEET_IMAGE_STORE_NAME)) {
+        db.createObjectStore(WORKSHEET_IMAGE_STORE_NAME, { keyPath: 'id' });
+      }
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function saveWorksheetImageToDb(id: string, dataUrl: string) {
+  try {
+    const db = await openWorksheetImageDb();
+    if (!db) return false;
+    await new Promise<void>((resolve, reject) => {
+      const tx = db.transaction(WORKSHEET_IMAGE_STORE_NAME, 'readwrite');
+      tx.objectStore(WORKSHEET_IMAGE_STORE_NAME).put({ id, dataUrl, updatedAt: new Date().toISOString() });
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(tx.error);
+    });
+    db.close();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function getWorksheetImageFromDb(id: string) {
+  try {
+    const db = await openWorksheetImageDb();
+    if (!db) return null;
+    const dataUrl = await new Promise<string | null>((resolve, reject) => {
+      const tx = db.transaction(WORKSHEET_IMAGE_STORE_NAME, 'readonly');
+      const request = tx.objectStore(WORKSHEET_IMAGE_STORE_NAME).get(id);
+      request.onsuccess = () => resolve(request.result?.dataUrl ?? null);
+      request.onerror = () => reject(request.error);
+    });
+    db.close();
+    return dataUrl;
+  } catch {
+    return null;
+  }
 }
 
 function WebWorksheetIFrame({ html }: { html: string }) {

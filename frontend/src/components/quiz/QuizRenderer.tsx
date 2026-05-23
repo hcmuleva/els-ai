@@ -16,6 +16,7 @@ import { AudioManager } from '../../utils/audio';
 import DragDropRenderer from './DragDropRenderer';
 import ImageSelectRenderer from './ImageSelectRenderer';
 import ChoiceQuestionRenderer from './ChoiceQuestionRenderer';
+import LogicoQuestionRenderer from './LogicoQuestionRenderer';
 
 type QuizQuestion = {
   id: string;
@@ -90,6 +91,10 @@ const QUESTION_THEMES: Record<string, QuestionTheme> = {
     bg: '#D6EAFF', cardBg: '#EBF4FF', accent: '#4A90E2',
     textColor: '#2C6BC9', emoji: '🎯', label: 'Match them up!',
   },
+  logico: {
+    bg: '#D6EAFF', cardBg: '#EBF4FF', accent: '#4A90E2',
+    textColor: '#2C6BC9', emoji: '🧩', label: 'Align the Logico clips!',
+  },
 };
 
 function getQuestionTheme(questionType: string): QuestionTheme {
@@ -111,23 +116,10 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
   const [hasStarted, setHasStarted] = useState(false);
 
 
-  const pulseAnim = useRef(new Animated.Value(1)).current;
   const cardSlideAnim = useRef(new Animated.Value(30)).current;
   const cardOpacityAnim = useRef(new Animated.Value(0)).current;
   const answerFadeAnim = useRef(new Animated.Value(0)).current;
   const answerSlideAnim = useRef(new Animated.Value(20)).current;
-
-  // Intro play-button pulse
-  useEffect(() => {
-    const pulse = Animated.loop(
-      Animated.sequence([
-        Animated.timing(pulseAnim, { toValue: 1.06, duration: 750, useNativeDriver: true }),
-        Animated.timing(pulseAnim, { toValue: 1, duration: 750, useNativeDriver: true }),
-      ]),
-    );
-    pulse.start();
-    return () => pulse.stop();
-  }, []);
 
   // Slide-in animation per question
   useEffect(() => {
@@ -211,6 +203,9 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
 
   const currentQuestion = quiz?.questions?.[currentQuestionIndex];
   const totalQuestions = quiz?.questions?.length || 0;
+  const isLogicoQuestion = Boolean(
+    currentQuestion && normalizeQuestionType(currentQuestion.question_type) === 'logico',
+  );
   const currentTheme = currentQuestion
     ? getQuestionTheme(currentQuestion.question_type)
     : QUESTION_THEMES['single_choice'];
@@ -228,6 +223,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
       case 'guess_image': return 'Pick the right image';
       case 'guess_audio': return 'What did you hear?';
       case 'true_false': return 'Is this true or false?';
+      case 'logico': return 'Place clips in correct slots';
       default: return 'Choose your answer';
     }
   };
@@ -335,7 +331,6 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
             <Pressable onPress={handleClose} style={styles.introCloseBtn}>
               <X size={20} color="#64748b" />
             </Pressable>
-
           </View>
 
           <View style={styles.introBody}>
@@ -361,11 +356,11 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
               </View>
             </View>
 
-            <Animated.View style={[styles.playBtnWrap, { transform: [{ scale: pulseAnim }] }]}>
+            <View style={styles.playBtnWrap}>
               <Pressable style={styles.playBtn} onPress={handleStartGame}>
                 <Text style={styles.playBtnText}>▶  Play Now!</Text>
               </Pressable>
-            </Animated.View>
+            </View>
 
             <Text style={styles.introHint}>Tap play to start your adventure</Text>
           </View>
@@ -472,34 +467,31 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
           /* ── QUESTION VIEW ── */
           <>
             <View style={styles.questionView}>
-              {/* Listen / type chip */}
-              <View style={styles.listenChipWrap}>
-                <View style={styles.listenChip}>
-                  <Text style={styles.listenChipText}>
-                    {currentTheme.emoji}  {currentTheme.label}
-                  </Text>
-                </View>
-              </View>
-
-              {/* Question card slides in */}
-              <Animated.View
-                style={{ transform: [{ translateY: cardSlideAnim }], opacity: cardOpacityAnim }}
-              >
-                <View style={styles.questionCard}>
-                  <Text style={styles.questionTitle}>{currentQuestion?.question_title}</Text>
-                  {currentQuestion?.question_instruction ? (
-                    <Text style={styles.questionInstruction}>
-                      {currentQuestion.question_instruction}
-                    </Text>
-                  ) : null}
-
-                </View>
-              </Animated.View>
+              {!isLogicoQuestion && (
+                <Animated.View
+                  style={{ transform: [{ translateY: cardSlideAnim }], opacity: cardOpacityAnim }}
+                >
+                  <View style={styles.questionCard}>
+                    <View style={styles.questionTypePill}>
+                      <Text style={styles.questionTypePillText}>
+                        {currentTheme.emoji}  {currentTheme.label}
+                      </Text>
+                    </View>
+                    <Text style={styles.questionTitle}>{currentQuestion?.question_title}</Text>
+                    {currentQuestion?.question_instruction ? (
+                      <Text style={styles.questionInstruction}>
+                        {currentQuestion.question_instruction}
+                      </Text>
+                    ) : null}
+                  </View>
+                </Animated.View>
+              )}
 
               {/* Answer section - staggered fade in, no divider */}
               <Animated.View
                 style={[
                   styles.answerSection,
+                  isLogicoQuestion && styles.answerSectionLogico,
                   { opacity: answerFadeAnim, transform: [{ translateY: answerSlideAnim }] },
                 ]}
               >
@@ -533,6 +525,14 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
                         theme={currentTheme}
                       />
                     )}
+                  {currentQuestion && normalizeQuestionType(currentQuestion.question_type) === 'logico' && (
+                    <LogicoQuestionRenderer
+                      key={currentQuestion.id}
+                      questionData={currentQuestion.question_data}
+                      onComplete={handleQuestionComplete}
+                      theme={currentTheme}
+                    />
+                  )}
                 </View>
               </Animated.View>
             </View>
@@ -603,7 +603,7 @@ const styles = StyleSheet.create({
   mascotEmoji: { fontSize: 58 },
   floatStar: { position: 'absolute', fontSize: 20 },
   introTagline: {
-    fontSize: 11, fontWeight: '800', color: '#4A90E2',
+    fontSize: 12, fontWeight: '800', color: '#4A90E2',
     textTransform: 'uppercase', letterSpacing: 1.2,
   },
   introTitle: { fontSize: 22, fontWeight: '900', color: '#1a1a2e', textAlign: 'center', lineHeight: 30 },
@@ -611,13 +611,13 @@ const styles = StyleSheet.create({
   badge: { backgroundColor: '#EBF4FF', paddingHorizontal: 14, paddingVertical: 7, borderRadius: 999 },
   badgeGreen: { backgroundColor: '#E8F7E8' },
   badgeText: { fontSize: 12, fontWeight: '800', color: '#4A90E2' },
-  playBtnWrap: { width: '100%' },
+  playBtnWrap: { width: '100%', alignItems: 'center' },
   playBtn: {
-    backgroundColor: '#FF7043', paddingVertical: 18, borderRadius: 999, alignItems: 'center',
+    backgroundColor: '#FF7043', width: '82%', paddingVertical: 13, borderRadius: 999, alignItems: 'center',
     shadowColor: '#FF7043', shadowOpacity: 0.38, shadowOffset: { width: 0, height: 6 },
     shadowRadius: 14, elevation: 5,
   },
-  playBtnText: { color: '#fff', fontSize: 18, fontWeight: '900', letterSpacing: 0.3 },
+  playBtnText: { color: '#fff', fontSize: 15, fontWeight: '900', letterSpacing: 0.2 },
   introHint: { fontSize: 12, color: '#7A7A9A', fontWeight: '600' },
 
   // ── GAME CONTAINER ────────────────────────────────────────────────────────
@@ -658,22 +658,22 @@ const styles = StyleSheet.create({
   dotActive: { width: 24, height: 8, borderRadius: 4, backgroundColor: '#4A90E2' },
 
   // ── QUESTION VIEW ─────────────────────────────────────────────────────────
-  questionView: { flex: 1, paddingHorizontal: 16, gap: 10, paddingTop: 4, justifyContent: 'center' },
-  listenChipWrap: { alignItems: 'center' },
-  listenChip: {
-    backgroundColor: '#fff', borderRadius: 999, paddingHorizontal: 16, paddingVertical: 7,
-    borderWidth: 1.5, borderColor: '#EBEBF5',
-    shadowColor: '#000', shadowOpacity: 0.04, shadowOffset: { width: 0, height: 1 },
-    shadowRadius: 3, elevation: 1,
-  },
-  listenChipText: { fontSize: 12, fontWeight: '800', color: '#4A90E2' },
-
+  questionView: { flex: 1, paddingHorizontal: 12, gap: 8, paddingTop: 4, paddingBottom: 6, justifyContent: 'flex-start' },
   questionCard: {
     backgroundColor: '#fff', borderRadius: 20, padding: 14,
-    alignItems: 'center', gap: 6,
+    alignItems: 'center', gap: 8,
     shadowColor: '#4A90E2', shadowOpacity: 0.1, shadowOffset: { width: 0, height: 4 },
     shadowRadius: 12, elevation: 3,
   },
+  questionTypePill: {
+    backgroundColor: '#EBF4FF',
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderWidth: 1,
+    borderColor: '#D7E7FF',
+  },
+  questionTypePillText: { fontSize: 11, fontWeight: '800', color: '#4A90E2' },
   questionTitle: {
     fontSize: 15, fontWeight: '800', color: '#1a1a2e',
     lineHeight: 22, textAlign: 'center',
@@ -683,8 +683,9 @@ const styles = StyleSheet.create({
   },
 
   // ── ANSWER SECTION ────────────────────────────────────────────────────────
-  answerSection: { flex: 1 },
-  rendererArea: { flex: 1 },
+  answerSection: { flex: 1, minHeight: 0 },
+  answerSectionLogico: { paddingTop: 2 },
+  rendererArea: { flex: 1, minHeight: 0 },
 
   // ── STREAK STRIP ─────────────────────────────────────────────────────────
   streakStrip: {

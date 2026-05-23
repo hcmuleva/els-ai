@@ -1,11 +1,26 @@
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
-import { ChevronRight, Globe, Moon, Bell, Shield, Info, MessageCircle, Star, Trash2 } from 'lucide-react-native';
+import {
+  ChevronRight,
+  Moon,
+  Bell,
+  Globe,
+  BarChart3,
+  Clock3,
+  MessageCircle,
+  Info,
+  Star,
+  Shield,
+  Trash2,
+  Settings,
+  Volume2,
+  type LucideIcon,
+} from 'lucide-react-native';
 
 import { useAuth } from '../../src/context/AuthContext';
 
 type SettingRow = {
-  emoji: string;
+  Icon: LucideIcon;
   label: string;
   sub?: string;
   type: 'nav' | 'toggle' | 'danger';
@@ -18,32 +33,32 @@ const SECTIONS: { title: string; rows: SettingRow[] }[] = [
   {
     title: 'Preferences',
     rows: [
-      { emoji: '🌙', label: 'Dark Mode',          sub: 'Easy on your eyes at night',  type: 'toggle', key: 'darkMode',       color: '#9B8EC4', bg: '#EDE4FF' },
-      { emoji: '🔔', label: 'Push Notifications',  sub: 'Assignments, quizzes & more', type: 'toggle', key: 'notifications',  color: '#FF7043', bg: '#FFE8D6' },
-      { emoji: '🔊', label: 'Sound Effects',        sub: 'Play sounds in quizzes',      type: 'toggle', key: 'sounds',         color: '#4A90E2', bg: '#D6EAFF' },
+      { Icon: Moon, label: 'Dark Mode',          sub: 'Easy on your eyes at night',  type: 'toggle', key: 'darkMode',       color: '#9B8EC4', bg: '#EDE4FF' },
+      { Icon: Bell, label: 'Push Notifications',  sub: 'Assignments, quizzes & more', type: 'toggle', key: 'notifications',  color: '#FF7043', bg: '#FFE8D6' },
+      { Icon: Volume2, label: 'Sound Effects',        sub: 'Play sounds in quizzes',      type: 'toggle', key: 'sounds',         color: '#4A90E2', bg: '#D6EAFF' },
     ],
   },
   {
     title: 'Learning',
     rows: [
-      { emoji: '🌍', label: 'Language',          sub: 'English',                    type: 'nav', color: '#7DC67A', bg: '#D6F5D6' },
-      { emoji: '📊', label: 'Difficulty Level',  sub: 'Beginner → Advanced',        type: 'nav', color: '#E6A817', bg: '#FFF5CC' },
-      { emoji: '⏰', label: 'Daily Goal',         sub: '20 minutes / day',           type: 'nav', color: '#FF7043', bg: '#FFE8D6' },
+      { Icon: Globe, label: 'Language',          sub: 'English',                    type: 'nav', color: '#7DC67A', bg: '#D6F5D6' },
+      { Icon: BarChart3, label: 'Difficulty Level',  sub: 'Beginner → Advanced',        type: 'nav', color: '#E6A817', bg: '#FFF5CC' },
+      { Icon: Clock3, label: 'Daily Goal',         sub: '20 minutes / day',           type: 'nav', color: '#FF7043', bg: '#FFE8D6' },
     ],
   },
   {
     title: 'Support',
     rows: [
-      { emoji: '💬', label: 'Help & Feedback',   sub: 'Send us a message',           type: 'nav', color: '#4A90E2', bg: '#D6EAFF' },
-      { emoji: 'ℹ️', label: 'About ELS·AI',       sub: 'Version 1.0.0',              type: 'nav', color: '#9B8EC4', bg: '#EDE4FF' },
-      { emoji: '⭐', label: 'Rate the App',       sub: 'Share your experience',      type: 'nav', color: '#E6A817', bg: '#FFF5CC' },
-      { emoji: '🔒', label: 'Privacy Policy',     sub: 'How we protect your data',   type: 'nav', color: '#7DC67A', bg: '#D6F5D6' },
+      { Icon: MessageCircle, label: 'Help & Feedback',   sub: 'Send us a message',           type: 'nav', color: '#4A90E2', bg: '#D6EAFF' },
+      { Icon: Info, label: 'About ELS·AI',       sub: 'Version 1.0.0',              type: 'nav', color: '#9B8EC4', bg: '#EDE4FF' },
+      { Icon: Star, label: 'Rate the App',       sub: 'Share your experience',      type: 'nav', color: '#E6A817', bg: '#FFF5CC' },
+      { Icon: Shield, label: 'Privacy Policy',     sub: 'How we protect your data',   type: 'nav', color: '#7DC67A', bg: '#D6F5D6' },
     ],
   },
   {
     title: 'Danger Zone',
     rows: [
-      { emoji: '🗑️', label: 'Clear App Data',    sub: 'Resets local cache',          type: 'danger', color: '#FF4444', bg: '#FFF0F0' },
+      { Icon: Trash2, label: 'Clear App Data',    sub: 'Resets local cache',          type: 'danger', color: '#FF4444', bg: '#FFF0F0' },
     ],
   },
 ];
@@ -64,7 +79,9 @@ export default function SettingsScreen() {
 
       {/* ─── Header card ───────────────────────────────────────────────── */}
       <View style={s.headerCard}>
-        <Text style={s.headerEmoji}>⚙️</Text>
+        <View style={s.headerIconWrap}>
+          <Settings size={24} color="#fff" />
+        </View>
         <View>
           <Text style={s.headerTitle}>Settings</Text>
           <Text style={s.headerSub}>Signed in as {user?.email ?? ''}</Text>
@@ -83,7 +100,7 @@ export default function SettingsScreen() {
                 onPress={() => row.type === 'toggle' && row.key ? flip(row.key) : undefined}
               >
                 <View style={[s.iconBox, { backgroundColor: row.bg ?? '#F4F5FF' }]}>
-                  <Text style={{ fontSize: 18 }}>{row.emoji}</Text>
+                  <row.Icon size={18} color={row.color ?? '#7A7A9A'} />
                 </View>
                 <View style={s.rowInfo}>
                   <Text style={[s.rowLabel, row.type === 'danger' && { color: '#FF4444' }]}>
@@ -108,7 +125,7 @@ export default function SettingsScreen() {
         </View>
       ))}
 
-      <Text style={s.footerText}>ELS·AI © 2026 · Made with ❤️ for young minds</Text>
+      <Text style={s.footerText}>ELS·AI © 2026 · Made for young minds</Text>
 
     </ScrollView>
   );
@@ -123,7 +140,14 @@ const s = StyleSheet.create({
     marginHorizontal: 16, marginTop: 12, marginBottom: 20,
     backgroundColor: '#4A90E2', borderRadius: 20, padding: 16,
   },
-  headerEmoji: { fontSize: 36 },
+  headerIconWrap: {
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   headerTitle: { fontSize: 20, fontWeight: '900', color: '#fff' },
   headerSub:   { fontSize: 12, fontWeight: '500', color: 'rgba(255,255,255,0.8)', marginTop: 2 },
 

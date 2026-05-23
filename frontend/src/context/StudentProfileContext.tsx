@@ -205,7 +205,7 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
 
   const fetchQuizAttempts = useCallback(async (studentId: string) => {
     try {
-      const res = await apiFetch(`/students/${studentId}/quiz-attempts?limit=20`);
+      const res = await apiFetch(`/students/${studentId}/quiz-attempts?limit=100`);
       if (res.ok) { const d = await res.json(); setQuizAttempts(d.attempts || []); }
     } catch { /* silent */ }
   }, [apiFetch]);

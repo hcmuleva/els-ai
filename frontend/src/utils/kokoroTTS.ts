@@ -5,7 +5,9 @@ import * as Speech from 'expo-speech';
 const TTS_BASE =
   (process.env.EXPO_PUBLIC_TTS_URL ?? '').length > 0
     ? process.env.EXPO_PUBLIC_TTS_URL
-    : 'http://localhost:5001';
+    : typeof window !== 'undefined'
+      ? '/els-ai/tts'
+      : 'http://localhost:5001';
 
 const VOICE = 'af_heart';
 const OPTION_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];

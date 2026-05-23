@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { LayoutChangeEvent, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { LayoutChangeEvent, Modal, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   Easing, useAnimatedStyle, useSharedValue, withTiming,
 } from 'react-native-reanimated';
@@ -24,38 +24,13 @@ const TAB_COLORS: Record<string, string> = {
   practice:      '#7DC67A',
 };
 
-const PILL_H     = 46;
+const SLOT_H     = 52;
 const ICON_SIZE  = 20;
-const BAR_H_PAD  = 16;
-const BAR_V_PAD  = 10;
-const MAX_FIXED  = 4;   // at or below this count, fill the bar; above → scroll mode
-
-// ── TabItem ───────────────────────────────────────────────────────────────────
-function TabItem({
-  label, icon: Icon, active, color, onPress, onLongPress,
-}: {
-  label: string;
-  icon: React.ComponentType<{ size: number; color: string; strokeWidth?: number }>;
-  active: boolean;
-  color: string;
-  onPress: () => void;
-  onLongPress: () => void;
-}) {
-  return (
-    <Pressable
-      onPress={onPress}
-      onLongPress={onLongPress}
-      style={s.slot}
-      accessibilityRole="button"
-      accessibilityLabel={label}
-    >
-      <Icon size={ICON_SIZE} color={active ? '#FFFFFF' : '#9A9AB0'} strokeWidth={active ? 2.5 : 2} />
-      {active && (
-        <Animated.Text style={s.label} numberOfLines={1}>{label}</Animated.Text>
-      )}
-    </Pressable>
-  );
-}
+const BAR_H_PAD  = 12;
+const BAR_V_PAD  = 6;
+const PILL_INSET = 6;
+// Max tabs shown inline (not counting the More button)
+const MAX_INLINE = 2;
 
 // ── More panel item ───────────────────────────────────────────────────────────
 function MoreItem({
@@ -88,53 +63,39 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
   const activeRole = user?.activeRole ?? 'student';
   const visibleRoutes = new Set(roleTabs[activeRole]?.map((r) => r.route) ?? []);
 
-  const [barWidth, setBarWidth]  = useState(0);
-  const [moreOpen, setMoreOpen]  = useState(false);
-  const scrollRef = useRef<ScrollView>(null);
+  const [barWidth, setBarWidth] = useState(0);
+  const [moreOpen, setMoreOpen] = useState(false);
 
-  const visibleTabs      = state.routes.filter((r) => visibleRoutes.has(r.name));
-  const tabCount         = visibleTabs.length;
-  const activeRouteName  = state.routes[state.index]?.name ?? '';
-  const activeColor      = TAB_COLORS[activeRouteName] ?? '#4A90E2';
+  const visibleTabs     = state.routes.filter((r) => visibleRoutes.has(r.name));
+  const activeRouteName = state.routes[state.index]?.name ?? '';
 
-  // Decide fixed vs scroll mode
-  const scrollMode = tabCount > MAX_FIXED;
+  // Split: primary tabs (inline) vs overflow (in More panel)
+  const hasMore     = visibleTabs.length > MAX_INLINE;
+  const primaryTabs = hasMore ? visibleTabs.slice(0, MAX_INLINE) : visibleTabs;
+  // Total slots = primary tabs + (More button if needed)
+  const slotCount   = primaryTabs.length + (hasMore ? 1 : 0);
 
-  // In scroll mode: show primary tabs (all) in a horizontal scroll view with fixed slot width
-  // In fixed mode: spread evenly across bar width
-  const MIN_SLOT_W = 80;
+  // Is the active route one of the primary tabs?
+  const primaryIndex = primaryTabs.findIndex((r) => r.name === activeRouteName);
+  // If active is overflow tab, highlight More slot
+  const activeSlotIndex = primaryIndex >= 0 ? primaryIndex : (hasMore ? slotCount - 1 : 0);
+  const activeColor = primaryIndex >= 0
+    ? (TAB_COLORS[activeRouteName] ?? '#4A90E2')
+    : '#9A9AB0';
 
-  // For fixed mode pill calculation
-  const contentW    = Math.max(barWidth - BAR_H_PAD * 2, 0);
-  const fixedSlotW  = tabCount > 0 ? contentW / tabCount : 0;
-  const activeVisibleIndex = visibleTabs.findIndex((r) => r.name === activeRouteName);
-
-  // For scroll mode: each slot is MIN_SLOT_W, pill tracks by index
-  const scrollSlotW = MIN_SLOT_W;
-  const pillWFixed  = fixedSlotW - 8;
-  const pillWScroll = scrollSlotW - 10;
-  const PILL_W_SML  = PILL_H; // collapsed circle
+  const contentW = Math.max(barWidth - BAR_H_PAD * 2, 0);
+  const slotW    = slotCount > 0 ? contentW / slotCount : 0;
 
   const slideX = useSharedValue(0);
-  const pillW  = useSharedValue(PILL_W_SML);
+  const pillW  = useSharedValue(0);
 
   useEffect(() => {
-    if (!scrollMode) {
-      if (contentW === 0 || tabCount === 0) return;
-      const pw = fixedSlotW - 8;
-      const targetX = BAR_H_PAD + activeVisibleIndex * fixedSlotW + fixedSlotW / 2 - pw / 2;
-      slideX.value = withTiming(targetX, { duration: 260, easing: Easing.out(Easing.cubic) });
-      pillW.value  = withTiming(pw, { duration: 240, easing: Easing.out(Easing.cubic) });
-    } else {
-      const pw = scrollSlotW - 10;
-      const targetX = activeVisibleIndex * scrollSlotW + scrollSlotW / 2 - pw / 2;
-      slideX.value = withTiming(targetX, { duration: 260, easing: Easing.out(Easing.cubic) });
-      pillW.value  = withTiming(pw, { duration: 240, easing: Easing.out(Easing.cubic) });
-      // Scroll active tab into view
-      const scrollOffset = Math.max(0, activeVisibleIndex * scrollSlotW - (barWidth / 2 - scrollSlotW / 2));
-      scrollRef.current?.scrollTo({ x: scrollOffset, animated: true });
-    }
-  }, [activeVisibleIndex, contentW, tabCount, scrollMode, barWidth]);
+    if (barWidth === 0 || slotCount === 0) return;
+    const targetX = BAR_H_PAD + activeSlotIndex * slotW + PILL_INSET;
+    const pw = Math.max(slotW - PILL_INSET * 2, 0);
+    slideX.value = withTiming(targetX, { duration: 250, easing: Easing.out(Easing.cubic) });
+    pillW.value  = withTiming(pw,      { duration: 230, easing: Easing.out(Easing.cubic) });
+  }, [activeSlotIndex, slotW, barWidth, slotCount]);
 
   const pillStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: slideX.value }],
@@ -162,7 +123,7 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
         <Pressable style={s.moreBackdrop} onPress={() => setMoreOpen(false)}>
           <View style={s.morePanel} onStartShouldSetResponder={() => true}>
             <View style={s.morePanelHandle} />
-            <Text style={s.morePanelTitle}>More</Text>
+            <Text style={s.morePanelTitle}>All Tabs</Text>
             {visibleTabs.map((route) => {
               const roleTab = roleTabs[activeRole]?.find((r) => r.route === route.name);
               const label   = roleTab?.label ?? descriptors[route.key]?.options?.title ?? route.name;
@@ -185,84 +146,49 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
       </Modal>
 
       {/* ── Tab bar ── */}
-      <View style={s.bar} onLayout={onBarLayout}>
-        {scrollMode ? (
-          /* ─── Scroll mode ─── */
-          <ScrollView
-            ref={scrollRef}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={{ flex: 1 }}
-            contentContainerStyle={[s.scrollContent, { paddingHorizontal: BAR_H_PAD }]}
-          >
-            {/* Pill inside scroll content */}
-            <Animated.View
-              style={[s.pill, { backgroundColor: activeColor }, pillStyle]}
-              pointerEvents="none"
-            />
+      <View style={s.barOuter} onLayout={onBarLayout}>
+        {/* Sliding pill */}
+        <Animated.View
+          style={[s.pill, { backgroundColor: activeColor, top: BAR_V_PAD, height: SLOT_H }, pillStyle]}
+          pointerEvents="none"
+        />
 
-            {visibleTabs.map((route) => {
-              const isFocused = route.name === activeRouteName;
-              const roleTab   = roleTabs[activeRole]?.find((r) => r.route === route.name);
-              const label     = roleTab?.label ?? descriptors[route.key]?.options?.title ?? route.name;
-              const IconC     = roleTab?.icon as React.ComponentType<{ size: number; color: string; strokeWidth?: number }> | undefined;
-              const color     = TAB_COLORS[route.name] ?? '#4A90E2';
-              if (!IconC) return null;
-              return (
-                <Pressable
-                  key={route.key}
-                  onPress={() => navigate(route)}
-                  onLongPress={() => navigation.emit({ type: 'tabLongPress', target: route.key })}
-                  style={[s.scrollSlot, { width: scrollSlotW }]}
-                  accessibilityRole="button"
-                  accessibilityLabel={label}
-                >
-                  <IconC size={ICON_SIZE} color={isFocused ? '#fff' : '#9A9AB0'} strokeWidth={isFocused ? 2.5 : 2} />
-                  {isFocused && (
-                    <Text style={s.label} numberOfLines={1}>{label}</Text>
-                  )}
-                </Pressable>
-              );
-            })}
+        <View style={s.fixedRow}>
+          {/* Primary inline tabs */}
+          {primaryTabs.map((route) => {
+            const isFocused = route.name === activeRouteName;
+            const roleTab   = roleTabs[activeRole]?.find((r) => r.route === route.name);
+            const label     = roleTab?.label ?? descriptors[route.key]?.options?.title ?? route.name;
+            const IconC     = roleTab?.icon as React.ComponentType<{ size: number; color: string; strokeWidth?: number }> | undefined;
+            if (!IconC) return null;
+            return (
+              <Pressable
+                key={route.key}
+                onPress={() => navigate(route)}
+                onLongPress={() => navigation.emit({ type: 'tabLongPress', target: route.key })}
+                style={s.fixedSlot}
+                accessibilityRole="button"
+                accessibilityLabel={label}
+              >
+                <IconC size={ICON_SIZE} color={isFocused ? '#fff' : '#9A9AB0'} strokeWidth={isFocused ? 2.5 : 2} />
+                <Text style={[s.slotLabel, isFocused ? s.slotLabelActive : s.slotLabelInactive]} numberOfLines={1}>{label}</Text>
+              </Pressable>
+            );
+          })}
 
-            {/* "More" / all-tabs button */}
+          {/* More button */}
+          {hasMore && (
             <Pressable
-              style={[s.scrollSlot, { width: scrollSlotW }]}
+              style={s.fixedSlot}
               onPress={() => setMoreOpen(true)}
               accessibilityRole="button"
               accessibilityLabel="More"
             >
-              <MoreHorizontal size={ICON_SIZE} color="#9A9AB0" strokeWidth={2} />
-              <Text style={[s.label, { color: '#9A9AB0', fontSize: 11 }]}>All</Text>
+              <MoreHorizontal size={ICON_SIZE} color={primaryIndex < 0 ? '#fff' : '#9A9AB0'} strokeWidth={2} />
+              <Text style={[s.slotLabel, primaryIndex < 0 ? s.slotLabelActive : s.slotLabelInactive]}>More</Text>
             </Pressable>
-          </ScrollView>
-        ) : (
-          /* ─── Fixed mode ─── */
-          <>
-            <Animated.View
-              style={[s.pill, { backgroundColor: activeColor }, pillStyle]}
-              pointerEvents="none"
-            />
-            {visibleTabs.map((route) => {
-              const isFocused = route.name === activeRouteName;
-              const roleTab   = roleTabs[activeRole]?.find((r) => r.route === route.name);
-              const label     = roleTab?.label ?? descriptors[route.key]?.options?.title ?? route.name;
-              const IconC     = roleTab?.icon as React.ComponentType<{ size: number; color: string; strokeWidth?: number }> | undefined;
-              if (!IconC) return null;
-              return (
-                <TabItem
-                  key={route.key}
-                  label={label}
-                  icon={IconC}
-                  active={isFocused}
-                  color={TAB_COLORS[route.name] ?? '#4A90E2'}
-                  onPress={() => navigate(route)}
-                  onLongPress={() => navigation.emit({ type: 'tabLongPress', target: route.key })}
-                />
-              );
-            })}
-          </>
-        )}
+          )}
+        </View>
       </View>
     </View>
   );
@@ -272,8 +198,7 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
 const s = StyleSheet.create({
   safeArea: {
     backgroundColor: '#FFFFFF',
-    paddingBottom: Platform.OS === 'ios' ? 26 : 10,
-    paddingTop: 2,
+    paddingBottom: Platform.OS === 'ios' ? 26 : 8,
     shadowColor: '#1a1a3e',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.05,
@@ -282,7 +207,7 @@ const s = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: '#F0F0F8',
   },
-  bar: {
+  barOuter: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: BAR_V_PAD,
@@ -291,42 +216,36 @@ const s = StyleSheet.create({
   },
   pill: {
     position: 'absolute',
-    top: BAR_V_PAD,
-    height: PILL_H,
     borderRadius: 999,
     zIndex: 0,
     left: 0,
   },
-  slot: {
+  fixedRow: {
     flex: 1,
-    height: PILL_H,
+    flexDirection: 'row',
+    paddingHorizontal: BAR_H_PAD,
+  },
+  fixedSlot: {
+    flex: 1,
+    height: SLOT_H,
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'row',
-    gap: 6,
-    zIndex: 1,
-    paddingHorizontal: 6,
-  },
-  scrollContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'relative',
-    minHeight: PILL_H + BAR_V_PAD * 2,
-  },
-  scrollSlot: {
-    height: PILL_H,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    gap: 5,
+    gap: 3,
     zIndex: 1,
   },
-  label: {
-    fontSize: 12,
-    fontWeight: '800',
-    color: '#FFFFFF',
+  slotLabel: {
     includeFontPadding: false,
-    letterSpacing: 0.2,
+    letterSpacing: 0.1,
+  },
+  slotLabelActive: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+  slotLabelInactive: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#9A9AB0',
   },
   // ── More panel ──
   moreBackdrop: {

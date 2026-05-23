@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: els-ai-config
+  namespace: els-ai
+data:
+  NODE_ENV: "production"
+  PORT: "4000"
+  AUTH_SERVICE_URL: "http://auth-service:4101"
+  QUIZ_SERVICE_URL: "http://quiz-service:4002"
+  AI_SERVICE_URL: "http://ai-service:4003"
+  MEDIA_SERVICE_URL: "http://media-service:4004"
+  LOCAL_MEDIA_DIR: "/app/audio-images"
+  DB_HOST: "postgres"
+  DB_PORT: "5432"
+  DB_NAME: "els_ai_db"
+  JWT_EXPIRES_IN: "30d"
+  JWT_REFRESH_EXPIRES_IN: "30d"
+  USE_S3: "true"
+  AWS_REGION: "ap-southeast-2"
+  EXPO_PUBLIC_API_BASE_URL: "https://emeelan.in/els-ai/api"
+  EXPO_PUBLIC_TTS_URL: "https://emeelan.in/els-ai/tts"

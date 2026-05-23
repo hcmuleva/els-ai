@@ -1,6 +1,22 @@
-import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { LogOut, ChevronRight, Shield, Star, Flame, BookOpen, Award, Lock, Mail, Bell } from 'lucide-react-native';
+import {
+  LogOut,
+  ChevronRight,
+  Star,
+  Flame,
+  BookOpen,
+  Award,
+  Lock,
+  Mail,
+  Bell,
+  GraduationCap,
+  UserRound,
+  Users,
+  Shield,
+  Check,
+  type LucideIcon,
+} from 'lucide-react-native';
 
 import { useAuth } from '../../src/context/AuthContext';
 import { UserRole } from '../../src/types/roles';
@@ -13,12 +29,12 @@ const ROLE_COLORS: Record<string, string> = {
   superadmin: '#E6A817',
 };
 
-const ROLE_EMOJIS: Record<string, string> = {
-  student:    '🎒',
-  teacher:    '🍎',
-  parent:     '👨‍👩‍👧',
-  admin:      '🛡️',
-  superadmin: '⭐',
+const ROLE_ICONS: Record<string, LucideIcon> = {
+  student: GraduationCap,
+  teacher: UserRound,
+  parent: Users,
+  admin: Shield,
+  superadmin: Star,
 };
 
 export default function ProfileScreen() {
@@ -54,7 +70,10 @@ export default function ProfileScreen() {
 
         {/* Role badge */}
         <View style={s.roleBadge}>
-          <Text style={s.roleBadgeEmoji}>{ROLE_EMOJIS[user?.activeRole ?? 'student']}</Text>
+          {(() => {
+            const RoleIcon = ROLE_ICONS[user?.activeRole ?? 'student'] ?? UserRound;
+            return <RoleIcon size={14} color="#fff" />;
+          })()}
           <Text style={s.roleBadgeText}>{user?.activeRole?.toUpperCase() ?? ''}</Text>
         </View>
       </View>
@@ -90,14 +109,21 @@ export default function ProfileScreen() {
                   style={[s.roleRow, idx < arr.length - 1 && s.roleRowBorder]}
                 >
                   <View style={[s.roleIcon, { backgroundColor: `${color}18` }]}>
-                    <Text style={{ fontSize: 18 }}>{ROLE_EMOJIS[role] ?? '👤'}</Text>
+                    {(() => {
+                      const RoleIcon = ROLE_ICONS[role] ?? UserRound;
+                      return <RoleIcon size={18} color={color} />;
+                    })()}
                   </View>
                   <View style={s.roleInfo}>
                     <Text style={s.roleName}>{role.charAt(0).toUpperCase() + role.slice(1)}</Text>
                     <Text style={s.roleDesc}>{isActive ? 'Currently active' : 'Tap to switch'}</Text>
                   </View>
                   {isActive
-                    ? <View style={[s.activeCheck, { backgroundColor: color }]}><Text style={s.activeCheckText}>✓</Text></View>
+                    ? (
+                      <View style={[s.activeCheck, { backgroundColor: color }]}>
+                        <Check size={13} color="#fff" strokeWidth={3} />
+                      </View>
+                    )
                     : <ChevronRight size={16} color="#C0C8D8" />}
                 </Pressable>
               );
@@ -169,7 +195,6 @@ const s = StyleSheet.create({
     borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5,
     marginTop: 4,
   },
-  roleBadgeEmoji: { fontSize: 14 },
   roleBadgeText:  { fontSize: 11, fontWeight: '800', color: '#fff', letterSpacing: 0.5 },
 
   // Stats
@@ -211,7 +236,6 @@ const s = StyleSheet.create({
     width: 24, height: 24, borderRadius: 12,
     alignItems: 'center', justifyContent: 'center',
   },
-  activeCheckText: { fontSize: 13, fontWeight: '900', color: '#fff' },
 
   // Menu card
   menuCard: {

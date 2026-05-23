@@ -626,7 +626,7 @@ export default function ClassroomScreen() {
                 {historySelectedId ? historySelected?.title ?? 'Class Details' : 'Previous Classes'}
               </Text>
               <Text style={clStyles.historySubtitle}>
-                {historySelectedId ? 'Tap a quiz to replay' : 'Your completed classroom sessions'}
+                {historySelectedId ? 'Tap a quiz to play or replay' : 'Your completed classroom sessions'}
               </Text>
             </View>
             {historySelectedId && (
@@ -714,7 +714,9 @@ export default function ClassroomScreen() {
                     <Trophy size={16} color="#FF7043" />
                     <Text style={clStyles.historySectionTitle}>Quizzes</Text>
                   </View>
-                  {historySelected.quizzes.map((quiz) => (
+                  {historySelected.quizzes.map((quiz) => {
+                    const canReplay = quiz.status === 'completed';
+                    return (
                     <View key={quiz.id} style={clStyles.historyQuizCard}>
                       <View style={clStyles.historyQuizInfo}>
                         <Text style={clStyles.historyQuizTitle} numberOfLines={1}>{quiz.title}</Text>
@@ -728,10 +730,11 @@ export default function ClassroomScreen() {
                       </View>
                       <Pressable style={clStyles.replayBtn} onPress={() => setSelectedQuizId(quiz.id)}>
                         <Play size={14} color="#fff" fill="#fff" />
-                        <Text style={clStyles.replayBtnText}>Replay</Text>
+                        <Text style={clStyles.replayBtnText}>{canReplay ? 'Replay' : 'Play'}</Text>
                       </Pressable>
                     </View>
-                  ))}
+                  );
+                  })}
                 </View>
               )}
 

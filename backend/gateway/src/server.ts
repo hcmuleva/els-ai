@@ -10,9 +10,10 @@ config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '../../..');
-const MEDIA_DIR = path.join(ROOT_DIR, 'audio-images');
+const MEDIA_DIR = process.env.LOCAL_MEDIA_DIR || path.join(ROOT_DIR, 'audio-images');
 
 const PORT = process.env.PORT || 4000;
+const NODE_ENV = process.env.NODE_ENV || 'development';
 const AUTH_SERVICE_URL = process.env.AUTH_SERVICE_URL || 'http://localhost:4101';
 const QUIZ_SERVICE_URL = process.env.QUIZ_SERVICE_URL || 'http://localhost:4002';
 const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:4003';
@@ -97,5 +98,5 @@ app.use(
 );
 
 app.listen(PORT, () => {
-  console.log(`API Gateway listening on http://localhost:${PORT}`);
+  console.log(`API Gateway listening on port ${PORT} (${NODE_ENV})`);
 });

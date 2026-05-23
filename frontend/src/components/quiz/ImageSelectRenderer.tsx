@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, View, Animated } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View, Animated, ScrollView } from 'react-native';
 import { Volume2 } from 'lucide-react-native';
 import { AudioManager } from '../../utils/audio';
 import { resolveMediaUrl } from './QuizRenderer';
@@ -99,7 +99,7 @@ export default function ImageSelectRenderer({ questionData, onComplete, theme }:
   const LETTERS = ['A', 'B', 'C', 'D'];
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
       {resolvedPromptImage ? (
         <View style={styles.promptSection}>
           <Text style={styles.promptLabel}>Find the match</Text>
@@ -122,12 +122,7 @@ export default function ImageSelectRenderer({ questionData, onComplete, theme }:
         </View>
       )}
 
-      {/* separator */}
-      <View style={styles.optionsSeparator}>
-        <View style={styles.sepLine} />
-        <Text style={styles.sepLabel}>Choose the right one</Text>
-        <View style={styles.sepLine} />
-      </View>
+      <Text style={styles.sepLabel}>Choose the right one</Text>
 
       <View style={styles.optionsGrid}>
         {options.map((option, i) => {
@@ -140,7 +135,11 @@ export default function ImageSelectRenderer({ questionData, onComplete, theme }:
           return (
             <Animated.View
               key={option.id}
-              style={[styles.optionCardWrap, { transform: [{ translateX: shakeX }] }]}
+              style={[
+                styles.optionCardWrap,
+                styles.optionCardWrapRegular,
+                { transform: [{ translateX: shakeX }] },
+              ]}
             >
               <Pressable
                 disabled={selectedOptionId !== null}
@@ -173,13 +172,13 @@ export default function ImageSelectRenderer({ questionData, onComplete, theme }:
           );
         })}
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 12, paddingTop: 8, gap: 10,
+    paddingHorizontal: 4, paddingTop: 4, paddingBottom: 16, gap: 10,
   },
   promptSection: { gap: 4 },
   promptLabel: {
@@ -192,33 +191,30 @@ const styles = StyleSheet.create({
     shadowColor: '#000', shadowOpacity: 0.08,
     shadowOffset: { width: 0, height: 4 }, shadowRadius: 10, elevation: 3,
   },
-  promptImage: { width: '100%', height: 110 },
-  optionsSeparator: {
-    flexDirection: 'row', alignItems: 'center', gap: 8,
-  },
-  sepLine: { flex: 1, height: 1, backgroundColor: '#B5D4FF' },
-  sepLabel: { fontSize: 11, fontWeight: '700', color: '#4A90E2' },
+  promptImage: { width: '100%', height: 86 },
+  sepLabel: { fontSize: 12, fontWeight: '700', color: '#4A90E2', textAlign: 'center' },
   speakerSection: { alignItems: 'center', gap: 10 },
   speakerOrb: {
-    width: 96, height: 96, borderRadius: 48,
+    width: 86, height: 86, borderRadius: 43,
     backgroundColor: '#4A90E2', alignItems: 'center', justifyContent: 'center',
     shadowColor: '#4A90E2', shadowOpacity: 0.35, shadowOffset: { width: 0, height: 6 },
     shadowRadius: 18, elevation: 6,
   },
   speakerHint: { fontSize: 14, fontWeight: '700' },
   optionsGrid: {
-    flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'center',
+    flexDirection: 'row', flexWrap: 'wrap', gap: 8, justifyContent: 'space-between',
   },
-  optionCardWrap: { width: '46%' },
+  optionCardWrap: {},
+  optionCardWrapRegular: { width: '48%' },
   optionCard: {
-    borderRadius: 18, padding: 8, aspectRatio: 0.85,
+    borderRadius: 16, padding: 8, minHeight: 114,
     alignItems: 'center', justifyContent: 'center',
     gap: 4, position: 'relative',
     shadowColor: '#000', shadowOpacity: 0.05,
     shadowOffset: { width: 0, height: 3 }, shadowRadius: 8, elevation: 2,
   },
-  optionImage: { width: '65%', height: '65%', resizeMode: 'contain' },
-  optionLabel: { fontSize: 12, fontWeight: '800', color: '#1e293b', textAlign: 'center' },
+  optionImage: { width: '56%', height: 52, resizeMode: 'contain' },
+  optionLabel: { fontSize: 12, fontWeight: '800', color: '#1e293b', textAlign: 'center', lineHeight: 16 },
   letterBadge: {
     position: 'absolute', top: 4, left: 4,
     width: 18, height: 18, borderRadius: 9,

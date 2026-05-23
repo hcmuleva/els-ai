@@ -464,10 +464,6 @@ export default function SubjectScreen() {
                   });
                   return (
                     <Pressable key={topic.id} style={sc.topicCard} onPress={openTopic}>
-                      {/* Left accent strip */}
-                      <View style={[sc.topicAccentStrip, { backgroundColor: ss.accent }]} />
-
-                      {/* Content */}
                       <View style={sc.topicCardBody}>
                         <View style={sc.topicCardLeft}>
                           <View style={[sc.topicSubjectChip, { backgroundColor: ss.bg }]}>
@@ -490,12 +486,11 @@ export default function SubjectScreen() {
                           ) : (
                             <SvgXml xml={subjectAnimal(subject)} width={64} height={64} />
                           )}
+                          {/* Small circle arrow */}
+                          <View style={[sc.topicOpenCircle, { backgroundColor: ss.accent }]}>
+                            <ArrowRight size={11} color="#fff" />
+                          </View>
                         </View>
-                      </View>
-
-                      {/* Open button */}
-                      <View style={[sc.topicOpenBtn, { backgroundColor: ss.accent }]}>
-                        <ArrowRight size={14} color="#fff" />
                       </View>
                     </Pressable>
                   );
@@ -617,20 +612,18 @@ const sc = StyleSheet.create({
   subjectCount:   { fontSize: 12, fontWeight: '700', color: '#9A9AB0' },
 
   topicCard: {
-    backgroundColor: '#fff', borderRadius: 20, marginBottom: 14, overflow: 'hidden',
-    flexDirection: 'row', alignItems: 'stretch',
+    backgroundColor: '#fff', borderRadius: 20, marginBottom: 14,
     shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.07, shadowRadius: 10, elevation: 3,
   },
-  topicAccentStrip: { width: 4 },
-  topicCardBody:    { flex: 1, flexDirection: 'row', alignItems: 'center', padding: 14, gap: 12 },
+  topicCardBody:    { flexDirection: 'row', alignItems: 'center', padding: 14, gap: 12 },
   topicCardLeft:    { flex: 1, gap: 6 },
   topicSubjectChip: { flexDirection: 'row', alignItems: 'center', gap: 4, alignSelf: 'flex-start', borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
   topicSubjectChipText: { fontSize: 10, fontWeight: '800' },
   topicCardTitle:   { fontSize: 15, fontWeight: '800', color: '#1a1a2e', lineHeight: 21 },
   topicCardMeta:    { flexDirection: 'row', alignItems: 'center', gap: 4 },
   topicCardMetaText:{ fontSize: 12, color: '#9A9AB0', fontWeight: '600' },
-  topicThumbWrap:   { width: 80, height: 80, borderRadius: 14, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 },
-  topicThumbImg:    { width: '100%', height: '100%' },
-  topicOpenBtn:     { width: 36, alignItems: 'center', justifyContent: 'center' },
+  topicThumbWrap:   { width: 80, height: 80, borderRadius: 14, alignItems: 'center', justifyContent: 'center', overflow: 'visible', flexShrink: 0, position: 'relative' },
+  topicThumbImg:    { width: 80, height: 80, borderRadius: 14 },
+  topicOpenCircle:  { position: 'absolute', bottom: -6, right: -6, width: 26, height: 26, borderRadius: 999, alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.15, shadowRadius: 3, elevation: 3 },
 });

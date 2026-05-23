@@ -496,6 +496,16 @@ function ParentReports() {
     } catch { /* silent */ }
   };
 
+  const getDateTimeParts = (iso?: string | null) => {
+    if (!iso) return { date: '—', time: '—' };
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return { date: '—', time: '—' };
+    return {
+      date: d.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }),
+      time: d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }),
+    };
+  };
+
   const sum = analytics?.summary;
   const daily = analytics?.daily ?? [];
 
@@ -804,6 +814,7 @@ function ParentReports() {
             <>
               {quizAttempts.slice(0, 4).map((attempt) => {
                 const grade = scoreGrade(attempt.scorePct);
+                const attended = getDateTimeParts(attempt.attemptedAt);
                 return (
                   <Pressable key={attempt.id} style={pr.quizCard} onPress={() => openQuizDetail(attempt.id)}>
                     <View style={[pr.quizIconBox, { backgroundColor: '#EDE4FF' }]}>
@@ -811,9 +822,19 @@ function ParentReports() {
                     </View>
                     <View style={pr.quizInfo}>
                       <Text style={pr.quizTitle} numberOfLines={1}>{attempt.quizTitle}</Text>
-                      <Text style={pr.quizMeta}>
-                        {attempt.correctCount}/{attempt.totalQuestions} correct · {new Date(attempt.attemptedAt).toLocaleDateString()}
-                      </Text>
+                      <Text style={pr.quizMeta}>{attempt.correctCount}/{attempt.totalQuestions} correct</Text>
+                      <View style={pr.metaInfoStack}>
+                        <View style={pr.metaInfoRow}>
+                          <Calendar size={12} color="#9A9AB0" />
+                          <Text style={pr.metaInfoLabel}>Date:</Text>
+                          <Text style={pr.metaInfoValue}>{attended.date}</Text>
+                        </View>
+                        <View style={pr.metaInfoRow}>
+                          <Clock size={12} color="#9A9AB0" />
+                          <Text style={pr.metaInfoLabel}>Time:</Text>
+                          <Text style={pr.metaInfoValue}>{attended.time}</Text>
+                        </View>
+                      </View>
                       <View style={pr.quizProgressTrack}>
                         <View style={[pr.quizProgressFill, { width: `${attempt.scorePct}%`, backgroundColor: grade.color }]} />
                       </View>
@@ -870,6 +891,7 @@ function ParentReports() {
               <Text style={[pr.groupLabel, pendingAssignments.length > 0 ? { marginTop: 14 } : {}]}>✅ Submitted</Text>
               {submittedAssignments.slice(0, 5).map((a) => {
                 const grade = a.grade !== undefined ? scoreGrade(a.grade) : null;
+                const submitted = getDateTimeParts(a.submittedAt);
                 return (
                   <View key={a.id} style={pr.assignCard}>
                     <View style={[pr.assignIconBox, { backgroundColor: '#D6F5D6' }]}>
@@ -877,10 +899,22 @@ function ParentReports() {
                     </View>
                     <View style={pr.assignInfo}>
                       <Text style={pr.assignTitle} numberOfLines={1}>{a.title || 'Untitled Assignment'}</Text>
-                      <Text style={pr.assignMeta}>
-                        {a.submittedAt ? new Date(a.submittedAt).toLocaleDateString() : 'Submitted'}
-                        {a.grade !== undefined ? ` · Grade: ${a.grade}%` : ''}
-                      </Text>
+                      {a.submittedAt ? (
+                        <View style={pr.metaInfoStack}>
+                          <View style={pr.metaInfoRow}>
+                            <Calendar size={12} color="#9A9AB0" />
+                            <Text style={pr.metaInfoLabel}>Date:</Text>
+                            <Text style={pr.metaInfoValue}>{submitted.date}</Text>
+                          </View>
+                          <View style={pr.metaInfoRow}>
+                            <Clock size={12} color="#9A9AB0" />
+                            <Text style={pr.metaInfoLabel}>Time:</Text>
+                            <Text style={pr.metaInfoValue}>{submitted.time}</Text>
+                          </View>
+                        </View>
+                      ) : (
+                        <Text style={pr.assignMeta}>Submitted</Text>
+                      )}
                       {a.feedback && <Text style={pr.assignFeedback} numberOfLines={1}>{a.feedback}</Text>}
                     </View>
                     {grade && (
@@ -957,6 +991,7 @@ function ParentReports() {
             <ScrollView contentContainerStyle={{ paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
               {quizAttempts.map((attempt, idx) => {
                 const grade = scoreGrade(attempt.scorePct);
+                const attended = getDateTimeParts(attempt.attemptedAt);
                 return (
                   <Pressable key={attempt.id} style={pr.modalQuizRow} onPress={() => openQuizDetail(attempt.id)}>
                     <View style={pr.modalQuizNum}>
@@ -964,9 +999,19 @@ function ParentReports() {
                     </View>
                     <View style={pr.quizInfo}>
                       <Text style={pr.quizTitle} numberOfLines={1}>{attempt.quizTitle}</Text>
-                      <Text style={pr.quizMeta}>
-                        {attempt.correctCount}/{attempt.totalQuestions} correct · {new Date(attempt.attemptedAt).toLocaleDateString()}
-                      </Text>
+                      <Text style={pr.quizMeta}>{attempt.correctCount}/{attempt.totalQuestions} correct</Text>
+                      <View style={pr.metaInfoStack}>
+                        <View style={pr.metaInfoRow}>
+                          <Calendar size={12} color="#9A9AB0" />
+                          <Text style={pr.metaInfoLabel}>Date:</Text>
+                          <Text style={pr.metaInfoValue}>{attended.date}</Text>
+                        </View>
+                        <View style={pr.metaInfoRow}>
+                          <Clock size={12} color="#9A9AB0" />
+                          <Text style={pr.metaInfoLabel}>Time:</Text>
+                          <Text style={pr.metaInfoValue}>{attended.time}</Text>
+                        </View>
+                      </View>
                     </View>
                     <View style={[pr.scoreBadge, { backgroundColor: grade.bg }]}>
                       <Text style={[pr.scoreNum, { color: grade.color }]}>{attempt.scorePct}%</Text>
@@ -1108,18 +1153,32 @@ function ParentReports() {
               </View>
             ) : quizDetail ? (
               <>
+                {(() => {
+                  const attended = getDateTimeParts(quizDetail.attempt.completedAt);
+                  return (
                 <View style={pr.modalHeader}>
                   <View style={{ flex: 1, paddingRight: 12 }}>
                     <Text style={pr.modalTitle} numberOfLines={2}>{quizDetail.attempt.quizTitle}</Text>
-                    <Text style={pr.modalSub}>
-                      {quizDetail.attempt.correctCount}/{quizDetail.attempt.totalQuestions} correct · {quizDetail.attempt.scorePct}%
-                      {' · '}{new Date(quizDetail.attempt.completedAt).toLocaleDateString()}
-                    </Text>
+                    <Text style={pr.modalSub}>{quizDetail.attempt.correctCount}/{quizDetail.attempt.totalQuestions} correct · {quizDetail.attempt.scorePct}%</Text>
+                    <View style={pr.modalMetaStack}>
+                      <View style={pr.modalMetaRow}>
+                        <Calendar size={12} color="#9A9AB0" />
+                        <Text style={pr.modalMetaLabel}>Date:</Text>
+                        <Text style={pr.modalMetaValue}>{attended.date}</Text>
+                      </View>
+                      <View style={pr.modalMetaRow}>
+                        <Clock size={12} color="#9A9AB0" />
+                        <Text style={pr.modalMetaLabel}>Time:</Text>
+                        <Text style={pr.modalMetaValue}>{attended.time}</Text>
+                      </View>
+                    </View>
                   </View>
                   <Pressable style={pr.modalClose} onPress={() => setQuizDetail(null)}>
                     <X size={18} color="#9A9AB0" />
                   </Pressable>
                 </View>
+                  );
+                })()}
                 <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
                   {quizDetail.questions.map((q, i) => {
                     const options = (q.questionData.options ?? []) as Array<{ id: string; label?: string; is_correct?: boolean }>;
@@ -1819,6 +1878,10 @@ const pr = StyleSheet.create({
   quizInfo:          { flex: 1, gap: 3 },
   quizTitle:         { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
   quizMeta:          { fontSize: 11, color: '#9A9AB0', fontWeight: '600' },
+  metaInfoStack:     { gap: 2, marginTop: 2 },
+  metaInfoRow:       { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  metaInfoLabel:     { fontSize: 10, fontWeight: '800', color: '#9A9AB0', minWidth: 34 },
+  metaInfoValue:     { fontSize: 10, fontWeight: '700', color: '#64748b', flexShrink: 1 },
   quizProgressTrack: { height: 5, backgroundColor: '#F0F0F8', borderRadius: 999, overflow: 'hidden', marginTop: 4 },
   quizProgressFill:  { height: '100%', borderRadius: 999 },
   scoreBadge:        { borderRadius: 14, padding: 10, alignItems: 'center', minWidth: 68 },
@@ -1865,6 +1928,10 @@ const pr = StyleSheet.create({
   modalHeader:    { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20, borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
   modalTitle:     { fontSize: 18, fontWeight: '900', color: '#1a1a2e' },
   modalSub:       { fontSize: 12, color: '#9A9AB0', fontWeight: '600', marginTop: 2 },
+  modalMetaStack: { gap: 2, marginTop: 4 },
+  modalMetaRow:   { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  modalMetaLabel: { fontSize: 11, fontWeight: '800', color: '#9A9AB0', minWidth: 36 },
+  modalMetaValue: { fontSize: 11, fontWeight: '700', color: '#64748b', flexShrink: 1 },
   modalClose:     { width: 36, height: 36, borderRadius: 18, backgroundColor: '#F4F4FB', alignItems: 'center', justifyContent: 'center' },
   modalQuizRow:   { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: '#F4F4FB' },
   modalQuizNum:   { width: 28, alignItems: 'center' },

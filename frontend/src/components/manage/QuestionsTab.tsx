@@ -57,6 +57,7 @@ const QTYPE_CONFIG: Record<string, QtypeCfg> = {
   true_false:      { Icon: CheckSquare,          label: 'True / False',  color: '#E6A817', bg: '#FFF5CC' },
   single_choice:   { Icon: Layers,              label: 'Single Choice', color: '#FF7043', bg: '#FFE8D6' },
   multi_choice:    { Icon: ListChecks,          label: 'Multi Choice',  color: '#E91E8C', bg: '#FFE0F0' },
+  logico:          { Icon: ListChecks,          label: 'Logico',        color: '#0f766e', bg: '#DCFCE7' },
 };
 function qtypeCfg(t: string): QtypeCfg {
   return QTYPE_CONFIG[t] ?? { Icon: HelpCircle, label: t || 'Question', color: '#9A9AB0', bg: '#F4F4FB' };
@@ -178,6 +179,10 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
   const promptImage = (data as any)?.prompt_image || '';
   const promptAudio = (data as any)?.prompt_audio || question.question_audio || '';
   const options: any[] = (data as any)?.options ?? [];
+  const optionSlots: any[] = Array.isArray((data as any)?.option_slots) ? (data as any).option_slots : [];
+  const buttonSlotMap = ((data as any)?.button_slot_map && typeof (data as any).button_slot_map === 'object')
+    ? (data as any).button_slot_map as Record<string, number>
+    : {};
   const dragItems: any[]  = (data as any)?.drag_items ?? [];
   const dropTargets: any[] = (data as any)?.drop_targets ?? [];
   const matchRules: any[]  = (data as any)?.match_rules ?? [];
@@ -257,6 +262,30 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
               <InlineAudio url={resolveUrl(promptAudio)} label="Play audio prompt" accentColor="#9B8EC4" />
             </View>
           ) : null}
+
+          {question.question_type === 'logico' && (
+            <View style={q.detailSection}>
+              <Text style={q.detailSectionTitle}>Logico Mapping</Text>
+              {Array.from({ length: 10 }, (_, index) => {
+                const slotId = index + 1;
+                const mappedButton = Object.entries(buttonSlotMap).find(([, slot]) => Number(slot) === slotId)?.[0] ?? '';
+                const optionLabel =
+                  optionSlots.find((slot) => Number(slot?.id) === slotId)?.value ||
+                  `Position ${slotId}`;
+                return (
+                  <View key={`logico-slot-${slotId}`} style={q.optionRow}>
+                    <View style={q.optionDot}>
+                      <Text style={q.optionDotText}>{slotId}</Text>
+                    </View>
+                    <Text style={q.optionText}>{String(optionLabel)}</Text>
+                    <View style={q.correctBadge}>
+                      <Text style={q.correctBadgeText}>{mappedButton || 'Unmapped'}</Text>
+                    </View>
+                  </View>
+                );
+              })}
+            </View>
+          )}
 
           {/* Options */}
           {options.length > 0 && (

@@ -11,4 +11,4 @@ logs/
 *.log
 venv/
 __pycache__/
-**/venv/
+**/.venv/

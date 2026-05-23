@@ -414,6 +414,7 @@ export default function HomeScreen() {
               ))}
             </View>
 
+
             {/* ── FEATURED STORY ──────────────────────────── */}
             <Text style={s.secTitle}>Featured Story</Text>
             <Pressable style={s.storyCard} onPress={() => router.push('/(tabs)/classroom')}>
@@ -740,4 +741,26 @@ const s = StyleSheet.create({
   quickActionTile:  { width: '47%', borderRadius: Radius.xl, paddingVertical: 18, paddingHorizontal: 14, alignItems: 'center', gap: 8, ...Shadow.sm },
   quickActionIcon:  { width: 44, height: 44, borderRadius: Radius.md, alignItems: 'center', justifyContent: 'center' },
   quickActionLabel: { fontSize: 13, fontWeight: '800' },
+
+  logicoCard: {
+    marginHorizontal: 16,
+    marginBottom: 20,
+    borderRadius: Radius.xl,
+    backgroundColor: '#4A90E2',
+    padding: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    ...Shadow.sm,
+  },
+  logicoCardIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: Radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.24)',
+  },
+  logicoCardTitle: { color: '#fff', fontSize: 14, fontWeight: '900' },
+  logicoCardSubtitle: { color: 'rgba(255,255,255,0.85)', fontSize: 11, fontWeight: '600', marginTop: 2 },
 });

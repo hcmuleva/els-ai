@@ -5,9 +5,9 @@
 import { useEffect, useState, useCallback } from 'react';
 import {
   ActivityIndicator, Modal, Platform, Pressable,
-  ScrollView, StyleSheet, Text, View,
+  ScrollView, StyleSheet, Text, View, Image, Linking, TextInput,
 } from 'react-native';
-import Svg, { Rect, Text as SvgText, G, Circle } from 'react-native-svg';
+import Svg, { Rect, Text as SvgText, G, Circle, SvgXml } from 'react-native-svg';
 import {
   ChevronLeft, Users, CheckCircle, ClipboardList, Target,
   BookOpen, Trophy, LayoutList, BarChart2, Calendar, Clock,
@@ -15,10 +15,13 @@ import {
   Pencil, Plus, TrendingUp,
 } from 'lucide-react-native';
 import { getStandardLabel } from '../../constants/standards';
+import { API_BASE_URL } from '../../context/AuthContext';
+import { OWL } from '../../assets/svgs';
 import StudentRemarkSheet, { Achievement, StudentRemarkData } from './StudentRemarkSheet';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type DetailTab = 'overview' | 'students' | 'analytics';
+type StudentFilter = 'all' | 'not_remarked' | 'remarked' | 'task_completed' | 'task_pending' | 'quiz_completed' | 'quiz_pending';
 
 type Student = {
   studentId: string; name: string; email?: string;
@@ -38,6 +41,53 @@ type ClassroomDetail = {
 
 type Summary = { joinedCount: number; quizDoneCount: number; assignmentDoneCount: number; completionPct: number };
 type ApiFetch = (path: string, options?: RequestInit) => Promise<Response>;
+type StudentQuizAttempt = {
+  attemptId: string;
+  quizId: string;
+  quizTitle: string;
+  score: number;
+  totalPoints: number;
+  completedAt?: string | null;
+  questionAttempts: Array<{
+    questionId: string;
+    questionTitle: string;
+    questionType?: string;
+    questionInstruction?: string;
+    questionData?: any;
+    isCorrect: boolean;
+    responseData?: unknown;
+    timeSpentSeconds?: number | null;
+  }>;
+};
+type StudentAssignmentDetail = {
+  assignmentId: string;
+  title: string;
+  description?: string;
+  instructions?: string;
+  dueDate?: string | null;
+  submissionText?: string;
+  attachmentUrl?: string;
+  submittedAt?: string | null;
+};
+type StudentDetailPayload = {
+  quizzes: StudentQuizAttempt[];
+  assignments: StudentAssignmentDetail[];
+};
+
+function resolveMediaUrl(url?: string) {
+  if (!url) return '';
+  if (url.startsWith('/media')) return `${API_BASE_URL}${url}`;
+  return url;
+}
+
+function normalizeQuestionType(type?: string) {
+  if (!type) return '';
+  if (type === 'image_select') return 'guess_image';
+  if (type === 'drag_drop') return 'drag_drop_match';
+  if (type === 'sound_match') return 'guess_audio';
+  if (type === 'memory_game') return 'multi_choice';
+  return type;
+}
 
 // ── Mini bar chart (SVG) ──────────────────────────────────────────────────────
 function MiniBarChart({ data, color = '#4A90E2', maxVal = 5 }: {
@@ -111,9 +161,11 @@ function ProgressBar({ value, total, color }: { value: number; total: number; co
 }
 
 // ── Student row ───────────────────────────────────────────────────────────────
-function StudentRow({ student, totalAssignments, totalQuizzes, onRemark }: {
+function StudentRow({ student, totalAssignments, totalQuizzes, onRemark, onQuizDetails, onAssignmentDetails }: {
   student: Student; totalAssignments: number; totalQuizzes: number;
   onRemark: (s: Student) => void;
+  onQuizDetails: (s: Student) => void;
+  onAssignmentDetails: (s: Student) => void;
 }) {
   const quizOk  = totalQuizzes > 0 && student.quizzesCompleted >= totalQuizzes;
   const asnOk   = totalAssignments > 0 && student.assignmentsSubmitted >= totalAssignments;
@@ -213,22 +265,25 @@ function StudentRow({ student, totalAssignments, totalQuizzes, onRemark }: {
       )}
 
       {/* Remark button */}
-      <Pressable
-        style={[ds.remarkBtn, hasRemark && ds.remarkBtnFilled]}
-        onPress={() => onRemark(student)}
-      >
-        {hasRemark
-          ? <Pencil size={12} color="#fff" />
-          : <Plus size={12} color="#4A90E2" />}
-        <Text style={[ds.remarkBtnText, hasRemark && ds.remarkBtnTextFilled]}>
-          {hasRemark ? 'Edit Remark' : 'Add Remark'}
-        </Text>
-        {avgScore > 0 && (
-          <View style={ds.remarkScore}>
-            <Text style={[ds.remarkScoreText, hasRemark && { color: 'rgba(255,255,255,0.9)' }]}>{avgScore.toFixed(1)}/5</Text>
-          </View>
-        )}
-      </Pressable>
+      <View style={ds.studentActionRow}>
+        <Pressable
+          style={[ds.secondaryActionBtn, ds.remarkActionBtn, hasRemark && ds.remarkActionBtnFilled]}
+          onPress={() => onRemark(student)}
+        >
+          {hasRemark
+            ? <Pencil size={11} color="#fff" />
+            : <Plus size={11} color="#7C2D12" />}
+          <Text style={[ds.secondaryActionBtnText, ds.remarkActionBtnText, hasRemark && ds.secondaryActionBtnTextFilled]}>
+            {hasRemark ? 'Edit Remark' : 'Add Remark'}
+          </Text>
+        </Pressable>
+        <Pressable style={ds.secondaryActionBtn} onPress={() => onQuizDetails(student)}>
+          <Text style={ds.secondaryActionBtnText}>Quiz Details</Text>
+        </Pressable>
+        <Pressable style={ds.secondaryActionBtn} onPress={() => onAssignmentDetails(student)}>
+          <Text style={ds.secondaryActionBtnText}>Assignment Details</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -249,6 +304,14 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
   const [summary, setSummary]     = useState<Summary | null>(null);
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [remarkStudent, setRemarkStudent] = useState<Student | null>(null);
+  const [detailStudent, setDetailStudent] = useState<Student | null>(null);
+  const [detailTab, setDetailTab] = useState<'quiz' | 'assignment'>('quiz');
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [studentDetails, setStudentDetails] = useState<StudentDetailPayload | null>(null);
+  const [selectedQuizAttemptId, setSelectedQuizAttemptId] = useState<string | null>(null);
+  const [studentSearch, setStudentSearch] = useState('');
+  const [studentPage, setStudentPage] = useState(0);
+  const [studentFilter, setStudentFilter] = useState<StudentFilter>('all');
 
   const loadData = useCallback(async () => {
     if (!classroomId) return;
@@ -285,6 +348,144 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
     await loadData();
   };
 
+  const openStudentDetails = async (student: Student, mode: 'quiz' | 'assignment') => {
+    if (!classroomId) return;
+    setDetailStudent(student);
+    setDetailTab(mode);
+    setDetailLoading(true);
+    setSelectedQuizAttemptId(null);
+    try {
+      const res = await apiFetch(`/quizzes/classrooms/${classroomId}/students/${student.studentId}/details`);
+      if (res.ok) {
+        const payload = (await res.json()) as StudentDetailPayload;
+        setStudentDetails(payload);
+      } else {
+        setStudentDetails({ quizzes: [], assignments: [] });
+      }
+    } catch {
+      setStudentDetails({ quizzes: [], assignments: [] });
+    } finally {
+      setDetailLoading(false);
+    }
+  };
+
+  const closeStudentDetails = () => {
+    setDetailStudent(null);
+    setStudentDetails(null);
+    setSelectedQuizAttemptId(null);
+  };
+
+  const openAttachment = async (url?: string) => {
+    if (!url) return;
+    try {
+      await Linking.openURL(url);
+    } catch {
+      // ignore
+    }
+  };
+
+  const renderAttemptAnswer = (qa: StudentQuizAttempt['questionAttempts'][number], index: number) => {
+    const normalizedType = normalizeQuestionType(qa.questionType);
+    const responseData = (qa.responseData as any) || {};
+    const questionData = (qa.questionData as any) || {};
+
+    if (normalizedType === 'logico') {
+      const promptImage = resolveMediaUrl(questionData.prompt_image);
+      const placements = (responseData.placements || {}) as Record<string, string>;
+      const expectedMap = (questionData.button_slot_map || responseData.expected || {}) as Record<string, number>;
+      const optionSlots = Array.isArray(questionData.option_slots) ? questionData.option_slots : [];
+      return (
+        <View key={`${qa.questionId}-${index}`} style={ds.answerCard}>
+          <View style={[ds.answerCardBanner, { backgroundColor: qa.isCorrect ? '#E8F5E9' : '#FFF3F0' }]}>
+            <Text style={ds.answerCardBannerTitle}>Question {index + 1}</Text>
+            <Text style={[ds.answerCardBadge, { backgroundColor: qa.isCorrect ? '#4CAF50' : '#FF5252' }]}>
+              {qa.isCorrect ? 'Correct' : 'Wrong'}
+            </Text>
+          </View>
+          <View style={ds.answerRow}>
+            <Text style={ds.answerTitle}>{qa.questionTitle || 'Question'}</Text>
+            {promptImage ? <Image source={{ uri: promptImage }} style={ds.answerPromptImage} resizeMode="contain" /> : null}
+            <View style={ds.mappingTable}>
+              {Array.from({ length: 10 }, (_, i) => i + 1).map((slotId) => {
+                const selected = placements[String(slotId)] || placements[slotId as any] || '—';
+                const expected = Object.entries(expectedMap).find(([, s]) => Number(s) === slotId)?.[0] || '—';
+                const slotLabel = optionSlots.find((x: any) => Number(x?.id) === slotId)?.value || `Slot ${slotId}`;
+                return (
+                  <View key={`${qa.questionId}-slot-${slotId}`} style={ds.mappingRow}>
+                    <Text style={ds.mappingSlot}>{slotId}</Text>
+                    <Text style={ds.mappingLabel} numberOfLines={1}>{slotLabel}</Text>
+                    <Text style={ds.mappingSelected} numberOfLines={1}>{selected}</Text>
+                    <Text style={ds.mappingExpected} numberOfLines={1}>{expected}</Text>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+        </View>
+      );
+    }
+
+    if (normalizedType === 'drag_drop_match') {
+      const matches = Array.isArray(responseData.matches) ? responseData.matches : [];
+      return (
+        <View key={`${qa.questionId}-${index}`} style={ds.answerCard}>
+          <View style={[ds.answerCardBanner, { backgroundColor: qa.isCorrect ? '#E8F5E9' : '#FFF3F0' }]}>
+            <Text style={ds.answerCardBannerTitle}>Question {index + 1}</Text>
+            <Text style={[ds.answerCardBadge, { backgroundColor: qa.isCorrect ? '#4CAF50' : '#FF5252' }]}>
+              {qa.isCorrect ? 'Correct' : 'Wrong'}
+            </Text>
+          </View>
+          <View style={ds.answerRow}>
+            <Text style={ds.answerTitle}>{qa.questionTitle || 'Question'}</Text>
+            {matches.map((m: any, idx: number) => (
+              <Text key={`${qa.questionId}-m-${idx}`} style={ds.answerPayload}>
+                {m?.target || 'Target'} → {m?.item || 'Item'} ({m?.is_correct ? 'Correct' : 'Wrong'})
+              </Text>
+            ))}
+          </View>
+        </View>
+      );
+    }
+
+    const options = Array.isArray(questionData.options) ? questionData.options : [];
+    const selectedIds = Array.isArray(responseData.selected_ids)
+      ? responseData.selected_ids
+      : responseData.selected_id
+        ? [responseData.selected_id]
+        : [];
+    const selectedLabels = options
+      .filter((o: any) => selectedIds.includes(o.id))
+      .map((o: any) => o.label || o.id);
+    const correctLabels = options
+      .filter((o: any) => o.is_correct)
+      .map((o: any) => o.label || o.id);
+    const promptImage = resolveMediaUrl(questionData.prompt_image);
+
+    return (
+      <View key={`${qa.questionId}-${index}`} style={ds.answerCard}>
+        <View style={[ds.answerCardBanner, { backgroundColor: qa.isCorrect ? '#E8F5E9' : '#FFF3F0' }]}>
+          <Text style={ds.answerCardBannerTitle}>Question {index + 1}</Text>
+          <Text style={[ds.answerCardBadge, { backgroundColor: qa.isCorrect ? '#4CAF50' : '#FF5252' }]}>
+            {qa.isCorrect ? 'Correct' : 'Wrong'}
+          </Text>
+        </View>
+        <View style={ds.answerRow}>
+          <Text style={ds.answerTitle}>{qa.questionTitle || 'Question'}</Text>
+          {!!qa.questionInstruction && <Text style={ds.chartSub}>{qa.questionInstruction}</Text>}
+          {promptImage ? <Image source={{ uri: promptImage }} style={ds.answerPromptImage} resizeMode="contain" /> : null}
+          <View style={ds.choiceRow}>
+            <Text style={ds.choiceLabel}>Selected:</Text>
+            <Text style={ds.choiceValue}>{selectedLabels.length ? selectedLabels.join(', ') : '—'}</Text>
+          </View>
+          <View style={ds.choiceRow}>
+            <Text style={ds.choiceLabel}>Correct:</Text>
+            <Text style={[ds.choiceValue, { color: '#1A6B1A' }]}>{correctLabels.length ? correctLabels.join(', ') : '—'}</Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
   const fmtDuration = (mins: number) => {
     if (!mins) return '–';
     if (mins < 60) return `${mins}m`;
@@ -292,6 +493,15 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
   };
   const fmtDate = (iso?: string) =>
     iso ? new Date(iso).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) : '–';
+  const getDateTimeParts = (iso?: string | null) => {
+    if (!iso) return { date: '—', time: '—' };
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return { date: '—', time: '—' };
+    return {
+      date: d.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }),
+      time: d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }),
+    };
+  };
 
   const TABS: [DetailTab, React.ComponentType<{ size?: number; color?: string }>, string][] = [
     ['overview',  LayoutList, 'Overview'],
@@ -302,8 +512,58 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
   const scoreData = students.map((s) => ({ label: s.name, value: Number(s.avgScore.toFixed(1)) }));
   const quizData  = students.map((s) => ({ label: s.name, value: s.quizzesCompleted }));
   const asnData   = students.map((s) => ({ label: s.name, value: s.assignmentsSubmitted }));
+  const STUDENTS_PAGE_SIZE = 10;
+  const totalAssignments = classroom?.totalAssignments ?? 0;
+  const totalQuizzes = classroom?.totalQuizzes ?? 0;
+  const studentFilters: Array<{ key: StudentFilter; label: string }> = [
+    { key: 'all', label: 'All' },
+    { key: 'not_remarked', label: 'Not Remarked' },
+    { key: 'remarked', label: 'Remarked' },
+    { key: 'task_completed', label: 'Task Completed' },
+    { key: 'task_pending', label: 'Task Pending' },
+    { key: 'quiz_completed', label: 'Quiz Completed' },
+    { key: 'quiz_pending', label: 'Quiz Pending' },
+  ];
+
+  const sortedFilteredStudents = students
+    .filter((student) => {
+      const q = studentSearch.trim().toLowerCase();
+      if (!q) return true;
+      return `${student.name} ${student.email || ''}`.toLowerCase().includes(q);
+    })
+    .filter((student) => {
+      const hasRemark = Boolean(student.remark?.remarkText || (student.remark?.scorePerformance ?? 0) > 0);
+      const taskCompleted = totalAssignments > 0 && student.assignmentsSubmitted >= totalAssignments;
+      const taskPending = totalAssignments > 0 && student.assignmentsSubmitted < totalAssignments;
+      const quizCompleted = totalQuizzes > 0 && student.quizzesCompleted >= totalQuizzes;
+      const quizPending = totalQuizzes > 0 && student.quizzesCompleted < totalQuizzes;
+
+      if (studentFilter === 'not_remarked') return !hasRemark;
+      if (studentFilter === 'remarked') return hasRemark;
+      if (studentFilter === 'task_completed') return taskCompleted;
+      if (studentFilter === 'task_pending') return taskPending;
+      if (studentFilter === 'quiz_completed') return quizCompleted;
+      if (studentFilter === 'quiz_pending') return quizPending;
+      return true;
+    })
+    .sort((a, b) => {
+      const aHasRemark = Boolean(a.remark?.remarkText || (a.remark?.scorePerformance ?? 0) > 0);
+      const bHasRemark = Boolean(b.remark?.remarkText || (b.remark?.scorePerformance ?? 0) > 0);
+      if (aHasRemark !== bHasRemark) return aHasRemark ? 1 : -1;
+      return a.name.localeCompare(b.name);
+    });
+
+  const studentTotalPages = Math.max(1, Math.ceil(sortedFilteredStudents.length / STUDENTS_PAGE_SIZE));
+  const paginatedStudents = sortedFilteredStudents.slice(
+    studentPage * STUDENTS_PAGE_SIZE,
+    studentPage * STUDENTS_PAGE_SIZE + STUDENTS_PAGE_SIZE,
+  );
 
   const isLive = classroom?.status === 'active';
+
+  useEffect(() => {
+    setStudentPage(0);
+  }, [studentSearch, studentFilter, students.length, tab]);
 
   return (
     <Modal visible={!!classroomId} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
@@ -449,10 +709,31 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
                 <View style={ds.listHeaderRow}>
                   <Users size={14} color="#9A9AB0" />
                   <Text style={ds.listHeader}>
-                    {students.length} student{students.length !== 1 ? 's' : ''} participated
+                    {sortedFilteredStudents.length} student{sortedFilteredStudents.length !== 1 ? 's' : ''} found
                   </Text>
                 </View>
-                {students.length === 0 ? (
+                <TextInput
+                  value={studentSearch}
+                  onChangeText={setStudentSearch}
+                  placeholder="Search student by name or email"
+                  placeholderTextColor="#94a3b8"
+                  style={ds.studentSearchInput}
+                />
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={ds.studentFilterRow}>
+                  {studentFilters.map((filter) => {
+                    const active = studentFilter === filter.key;
+                    return (
+                      <Pressable
+                        key={filter.key}
+                        style={[ds.studentFilterChip, active && ds.studentFilterChipActive]}
+                        onPress={() => setStudentFilter(filter.key)}
+                      >
+                        <Text style={[ds.studentFilterChipText, active && ds.studentFilterChipTextActive]}>{filter.label}</Text>
+                      </Pressable>
+                    );
+                  })}
+                </ScrollView>
+                {sortedFilteredStudents.length === 0 ? (
                   <View style={ds.emptyWrap}>
                     <View style={ds.emptyIconBox}>
                       <Users size={36} color="#9A9AB0" />
@@ -460,14 +741,35 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
                     <Text style={ds.emptyTitle}>No students yet</Text>
                     <Text style={ds.emptySub}>Students who submit assignments or complete quizzes will appear here.</Text>
                   </View>
-                ) : students.map((s) => (
+                ) : paginatedStudents.map((s) => (
                   <StudentRow
                     key={s.studentId} student={s}
                     totalAssignments={classroom?.totalAssignments ?? 0}
                     totalQuizzes={classroom?.totalQuizzes ?? 0}
                     onRemark={setRemarkStudent}
+                    onQuizDetails={(student) => openStudentDetails(student, 'quiz')}
+                    onAssignmentDetails={(student) => openStudentDetails(student, 'assignment')}
                   />
                 ))}
+                {sortedFilteredStudents.length > STUDENTS_PAGE_SIZE && (
+                  <View style={ds.studentsPaginationRow}>
+                    <Pressable
+                      style={[ds.studentsPageBtn, studentPage === 0 && ds.studentsPageBtnDisabled]}
+                      onPress={() => setStudentPage((p) => Math.max(0, p - 1))}
+                      disabled={studentPage === 0}
+                    >
+                      <Text style={[ds.studentsPageBtnText, studentPage === 0 && ds.studentsPageBtnTextDisabled]}>Prev</Text>
+                    </Pressable>
+                    <Text style={ds.studentsPageIndicator}>Page {studentPage + 1} / {studentTotalPages}</Text>
+                    <Pressable
+                      style={[ds.studentsPageBtn, studentPage >= studentTotalPages - 1 && ds.studentsPageBtnDisabled]}
+                      onPress={() => setStudentPage((p) => Math.min(studentTotalPages - 1, p + 1))}
+                      disabled={studentPage >= studentTotalPages - 1}
+                    >
+                      <Text style={[ds.studentsPageBtnText, studentPage >= studentTotalPages - 1 && ds.studentsPageBtnTextDisabled]}>Next</Text>
+                    </Pressable>
+                  </View>
+                )}
               </>
             )}
 
@@ -558,6 +860,231 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
         )}
       </View>
 
+      <Modal visible={!!detailStudent} animationType="slide" presentationStyle="pageSheet" onRequestClose={closeStudentDetails}>
+        <View style={ds.detailModalScreen}>
+          <View style={[ds.detailModalHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+            <Pressable onPress={closeStudentDetails} style={ds.backBtn}>
+              <ChevronLeft size={24} color="#1a1a2e" />
+            </Pressable>
+            <View style={{ flex: 1 }}>
+              <Text style={ds.headerSub}>Student Classroom Details</Text>
+              <Text style={ds.headerTitle} numberOfLines={1}>{detailStudent?.name ?? ''}</Text>
+            </View>
+          </View>
+
+          <View style={ds.detailSwitchRow}>
+            <Pressable style={[ds.detailSwitchBtn, detailTab === 'quiz' && ds.detailSwitchBtnActive]} onPress={() => setDetailTab('quiz')}>
+              <Text style={[ds.detailSwitchBtnText, detailTab === 'quiz' && ds.detailSwitchBtnTextActive]}>Quiz Attempts</Text>
+            </Pressable>
+            <Pressable style={[ds.detailSwitchBtn, detailTab === 'assignment' && ds.detailSwitchBtnActive]} onPress={() => setDetailTab('assignment')}>
+              <Text style={[ds.detailSwitchBtnText, detailTab === 'assignment' && ds.detailSwitchBtnTextActive]}>Assignment Submissions</Text>
+            </Pressable>
+          </View>
+
+          {detailLoading ? (
+            <View style={ds.centerWrap}>
+              <ActivityIndicator size="large" color="#4A90E2" />
+            </View>
+          ) : (
+            <ScrollView contentContainerStyle={ds.content} showsVerticalScrollIndicator={false}>
+              {detailTab === 'quiz' ? (
+                (studentDetails?.quizzes?.length ?? 0) === 0 ? (
+                  <View style={ds.emptyWrap}>
+                    <View style={ds.emptyIconBox}>
+                      <Trophy size={36} color="#9A9AB0" />
+                    </View>
+                    <Text style={ds.emptyTitle}>No attempted quizzes</Text>
+                    <Text style={ds.emptySub}>This student has not attempted any classroom quiz yet.</Text>
+                  </View>
+                ) : (
+                  selectedQuizAttemptId ? (
+                    (() => {
+                      const selectedAttempt = studentDetails!.quizzes.find((q) => q.attemptId === selectedQuizAttemptId);
+                      if (!selectedAttempt) return null;
+                      const selectedAttemptAt = getDateTimeParts(selectedAttempt.completedAt);
+                      const selectedAttemptPct = selectedAttempt.totalPoints > 0
+                        ? Math.round((selectedAttempt.score / selectedAttempt.totalPoints) * 100)
+                        : 0;
+                      return (
+                        <>
+                          <View style={ds.detailCard}>
+                            <Pressable style={ds.quizDetailBackRow} onPress={() => setSelectedQuizAttemptId(null)}>
+                              <Text style={ds.quizDetailBackText}>← Back to all quizzes</Text>
+                            </Pressable>
+                            <View style={ds.detailGrid}>
+                              <View style={[ds.detailItem, ds.detailItemWide]}>
+                                <Text style={ds.detailFieldLabel}>Quiz Title</Text>
+                                <Text style={ds.detailFieldValueStrong}>{selectedAttempt.quizTitle}</Text>
+                              </View>
+                              <View style={ds.detailItem}>
+                                <Text style={ds.detailFieldLabel}>Result</Text>
+                                <Text style={ds.detailFieldValue}>{selectedAttempt.score}/{selectedAttempt.totalPoints} correct</Text>
+                              </View>
+                              <View style={ds.detailItem}>
+                                <Text style={ds.detailFieldLabel}>Score</Text>
+                                <Text style={ds.detailFieldValue}>{selectedAttemptPct}%</Text>
+                              </View>
+                              <View style={ds.detailItem}>
+                                <Text style={ds.detailFieldLabel}>Date</Text>
+                                <View style={ds.inlineValueRow}>
+                                  <Calendar size={12} color="#64748b" />
+                                  <Text style={ds.inlineValueText}>{selectedAttemptAt.date}</Text>
+                                </View>
+                              </View>
+                              <View style={ds.detailItem}>
+                                <Text style={ds.detailFieldLabel}>Time</Text>
+                                <View style={ds.inlineValueRow}>
+                                  <Clock size={12} color="#64748b" />
+                                  <Text style={ds.inlineValueText}>{selectedAttemptAt.time}</Text>
+                                </View>
+                              </View>
+                            </View>
+                          </View>
+                          <View style={ds.detailStack}>
+                            {selectedAttempt.questionAttempts.map((qa, idx) => renderAttemptAnswer(qa, idx))}
+                          </View>
+                        </>
+                      );
+                    })()
+                  ) : studentDetails!.quizzes.map((attempt, idx) => {
+                    const attemptAt = getDateTimeParts(attempt.completedAt);
+                    const attemptPct = attempt.totalPoints > 0 ? Math.round((attempt.score / attempt.totalPoints) * 100) : 0;
+                    return (
+                      <Pressable key={attempt.attemptId} style={ds.quizListCard} onPress={() => setSelectedQuizAttemptId(attempt.attemptId)}>
+                        <View style={ds.quizAttemptHeader}>
+                          <View style={ds.quizAttemptNumber}>
+                            <Text style={ds.quizAttemptNumberText}>#{idx + 1}</Text>
+                          </View>
+                          <View style={ds.quizAttemptContent}>
+                            <View style={ds.detailGrid}>
+                              <View style={[ds.detailItem, ds.detailItemWide]}>
+                                <Text style={ds.detailFieldLabel}>Quiz Title</Text>
+                                <Text style={ds.detailFieldValueStrong} numberOfLines={1}>{attempt.quizTitle}</Text>
+                              </View>
+                              <View style={ds.detailItem}>
+                                <Text style={ds.detailFieldLabel}>Result</Text>
+                                <Text style={ds.detailFieldValue}>{attempt.score}/{attempt.totalPoints} correct</Text>
+                              </View>
+                              <View style={ds.detailItem}>
+                                <Text style={ds.detailFieldLabel}>Score</Text>
+                                <Text style={ds.detailFieldValue}>{attemptPct}%</Text>
+                              </View>
+                              <View style={ds.detailItem}>
+                                <Text style={ds.detailFieldLabel}>Date</Text>
+                                <View style={ds.inlineValueRow}>
+                                  <Calendar size={12} color="#64748b" />
+                                  <Text style={ds.inlineValueText}>{attemptAt.date}</Text>
+                                </View>
+                              </View>
+                              <View style={ds.detailItem}>
+                                <Text style={ds.detailFieldLabel}>Time</Text>
+                                <View style={ds.inlineValueRow}>
+                                  <Clock size={12} color="#64748b" />
+                                  <Text style={ds.inlineValueText}>{attemptAt.time}</Text>
+                                </View>
+                              </View>
+                            </View>
+                          </View>
+                        </View>
+                        <View style={ds.quizListViewBtn}>
+                          <Text style={ds.quizListViewBtnText}>View Questions</Text>
+                        </View>
+                      </Pressable>
+                    );
+                  })
+                )
+              ) : (
+                (studentDetails?.assignments?.length ?? 0) === 0 ? (
+                  <View style={ds.emptyWrap}>
+                    <View style={ds.emptyIconBox}>
+                      <ClipboardList size={36} color="#9A9AB0" />
+                    </View>
+                    <Text style={ds.emptyTitle}>No assignments</Text>
+                    <Text style={ds.emptySub}>No assignment records found for this student in this classroom.</Text>
+                  </View>
+                ) : (
+                  studentDetails!.assignments.map((item) => {
+                    const description = item.description?.trim() || '';
+                    const instructions = item.instructions?.trim() || '';
+                    const showDescription = !!description && description.toLowerCase() !== (item.title || '').trim().toLowerCase();
+                    const showInstructions = !!instructions
+                      && instructions.toLowerCase() !== (item.title || '').trim().toLowerCase()
+                      && instructions.toLowerCase() !== description.toLowerCase();
+                    const submittedAt = getDateTimeParts(item.submittedAt);
+                    const submissionText = item.submissionText?.trim() || '';
+                    return (
+                      <View key={item.assignmentId} style={ds.detailCard}>
+                        <View style={ds.detailGrid}>
+                          <View style={[ds.detailItem, ds.detailItemWide]}>
+                            <Text style={ds.detailFieldLabel}>Assignment Title</Text>
+                            <Text style={ds.detailFieldValueStrong}>{item.title}</Text>
+                          </View>
+                          {showDescription && (
+                            <View style={[ds.detailItem, ds.detailItemWide]}>
+                              <Text style={ds.detailFieldLabel}>Assignment Description</Text>
+                              <Text style={ds.detailFieldValue}>{description}</Text>
+                            </View>
+                          )}
+                          {showInstructions && (
+                            <View style={[ds.detailItem, ds.detailItemWide]}>
+                              <Text style={ds.detailFieldLabel}>Teacher Instructions</Text>
+                              <Text style={ds.detailFieldValue}>{instructions}</Text>
+                            </View>
+                          )}
+                          {item.submittedAt ? (
+                            <>
+                              <View style={ds.detailItem}>
+                                <Text style={ds.detailFieldLabel}>Date</Text>
+                                <View style={ds.inlineValueRow}>
+                                  <Calendar size={12} color="#64748b" />
+                                  <Text style={ds.inlineValueText}>{submittedAt.date}</Text>
+                                </View>
+                              </View>
+                              <View style={ds.detailItem}>
+                                <Text style={ds.detailFieldLabel}>Time</Text>
+                                <View style={ds.inlineValueRow}>
+                                  <Clock size={12} color="#64748b" />
+                                  <Text style={ds.inlineValueText}>{submittedAt.time}</Text>
+                                </View>
+                              </View>
+                              <View style={[ds.detailItem, ds.detailItemWide]}>
+                                <Text style={ds.detailFieldLabel}>Student Written Submission</Text>
+                                <Text style={submissionText ? ds.submissionText : ds.detailFieldValue}>
+                                  {submissionText || 'No written response submitted by student.'}
+                                </Text>
+                              </View>
+                              {!!item.attachmentUrl && (
+                                <View style={[ds.detailItem, ds.detailItemWide]}>
+                                  <Text style={ds.detailFieldLabel}>Student Attachment</Text>
+                                  {/\.(png|jpg|jpeg|gif|webp)$/i.test(item.attachmentUrl) ? (
+                                    <Image source={{ uri: item.attachmentUrl }} style={ds.assignmentPreviewImage} resizeMode="cover" />
+                                  ) : null}
+                                  <Pressable style={[ds.secondaryActionBtn, ds.attachmentBtn]} onPress={() => openAttachment(item.attachmentUrl)}>
+                                    <Text style={ds.secondaryActionBtnText}>Download Attachment</Text>
+                                  </Pressable>
+                                </View>
+                              )}
+                            </>
+                          ) : (
+                            <View style={[ds.detailItem, ds.detailItemWide, ds.notSubmittedCard]}>
+                              <SvgXml xml={OWL} width={64} height={64} />
+                              <Text style={ds.notSubmittedTitle}>Not submitted yet</Text>
+                              <Text style={ds.notSubmittedSub}>
+                                This student has not submitted this assignment yet.
+                              </Text>
+                            </View>
+                          )}
+                        </View>
+                      </View>
+                    );
+                  })
+                )
+              )}
+            </ScrollView>
+          )}
+        </View>
+      </Modal>
+
       {/* Student remark sheet */}
       <StudentRemarkSheet
         visible={!!remarkStudent}
@@ -640,6 +1167,28 @@ const ds = StyleSheet.create({
   // List header
   listHeaderRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 12 },
   listHeader:    { fontSize: 13, fontWeight: '700', color: '#9A9AB0' },
+  studentSearchInput: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 13,
+    color: '#1e293b',
+    marginBottom: 10,
+  },
+  studentFilterRow: { gap: 8, paddingRight: 8, marginBottom: 10 },
+  studentFilterChip: { borderRadius: 999, borderWidth: 1, borderColor: '#E2E8F0', backgroundColor: '#fff', paddingHorizontal: 12, paddingVertical: 7 },
+  studentFilterChipActive: { backgroundColor: '#D6EAFF', borderColor: '#9BC6FF' },
+  studentFilterChipText: { fontSize: 11, fontWeight: '700', color: '#5A6A8A' },
+  studentFilterChipTextActive: { color: '#1A4DA2' },
+  studentsPaginationRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 6, marginBottom: 4 },
+  studentsPageBtn: { backgroundColor: '#EBF4FF', borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8, minWidth: 70, alignItems: 'center' },
+  studentsPageBtnDisabled: { backgroundColor: '#F1F5F9' },
+  studentsPageBtnText: { fontSize: 12, fontWeight: '800', color: '#1A4DA2' },
+  studentsPageBtnTextDisabled: { color: '#94a3b8' },
+  studentsPageIndicator: { fontSize: 12, fontWeight: '700', color: '#64748b' },
 
   emptyWrap:   { alignItems: 'center', paddingVertical: 60, gap: 12 },
   emptyIconBox:{ width: 80, height: 80, borderRadius: 24, backgroundColor: '#F0F0F8', alignItems: 'center', justifyContent: 'center' },
@@ -675,6 +1224,85 @@ const ds = StyleSheet.create({
   remarkBtnTextFilled:{ color: '#fff' },
   remarkScore:        { borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.2)', paddingHorizontal: 8, paddingVertical: 2 },
   remarkScoreText:    { fontSize: 11, fontWeight: '800', color: '#4A90E2' },
+  studentActionRow:   { flexDirection: 'row', gap: 8, marginTop: 10 },
+  secondaryActionBtn: { flex: 1, borderRadius: 10, borderWidth: 1, borderColor: '#D6EAFF', backgroundColor: '#EBF4FF', paddingVertical: 8, paddingHorizontal: 6, minHeight: 36, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 4 },
+  secondaryActionBtnFilled: { backgroundColor: '#4A90E2', borderColor: '#4A90E2' },
+  secondaryActionBtnText: { fontSize: 11, fontWeight: '800', color: '#1A4DA2', textAlign: 'center', lineHeight: 14 },
+  secondaryActionBtnTextFilled: { color: '#fff' },
+  remarkActionBtn: { backgroundColor: '#FFF7ED', borderColor: '#FDBA74' },
+  remarkActionBtnFilled: { backgroundColor: '#C2410C', borderColor: '#C2410C' },
+  remarkActionBtnText: { color: '#9A3412' },
+
+  detailModalScreen: { flex: 1, backgroundColor: '#F5F7FF' },
+  detailModalHeader: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 14, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  detailSwitchRow: { flexDirection: 'row', gap: 8, paddingHorizontal: 16, paddingVertical: 10, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  detailSwitchBtn: { flex: 1, borderRadius: 999, backgroundColor: '#F0F0F8', paddingVertical: 8, alignItems: 'center' },
+  detailSwitchBtnActive: { backgroundColor: '#D6EAFF' },
+  detailSwitchBtnText: { fontSize: 12, fontWeight: '700', color: '#5A6A8A' },
+  detailSwitchBtnTextActive: { color: '#1A4DA2' },
+  detailCard: { backgroundColor: '#fff', borderRadius: 18, borderWidth: 1, borderColor: '#E2E8F0', padding: 14, marginBottom: 12, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.04, shadowRadius: 6, elevation: 1 },
+  detailStack: { gap: 12 },
+  detailFieldBlock: { marginTop: 2 },
+  quizAttemptHeader: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
+  quizAttemptContent: { flex: 1 },
+  detailGrid: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 10, rowGap: 10 },
+  detailItem: { flexBasis: '48%', flexGrow: 1, minWidth: 130 },
+  detailItemWide: { flexBasis: '100%' },
+  quizAttemptNumber: { width: 30, height: 30, borderRadius: 15, backgroundColor: '#F1F5F9', alignItems: 'center', justifyContent: 'center' },
+  quizAttemptNumberText: { fontSize: 11, fontWeight: '800', color: '#64748b' },
+  quizListCard: { backgroundColor: '#fff', borderRadius: 18, borderWidth: 1, borderColor: '#E2E8F0', padding: 14, marginBottom: 12, gap: 10, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.04, shadowRadius: 6, elevation: 1 },
+  quizListMeta: { fontSize: 11, color: '#475569', marginTop: 1, lineHeight: 16, fontWeight: '700' },
+  detailFieldLabel: { fontSize: 10, fontWeight: '800', color: '#64748b', textTransform: 'uppercase', letterSpacing: 0.45, marginBottom: 2 },
+  detailFieldValue: { fontSize: 12, color: '#475569', lineHeight: 18 },
+  detailFieldValueStrong: { fontSize: 13, color: '#1f2937', lineHeight: 19, fontWeight: '800' },
+  inlineValueRow: { flexDirection: 'row', alignItems: 'center', gap: 5, minHeight: 20 },
+  inlineValueText: { fontSize: 12, color: '#334155', fontWeight: '700', flexShrink: 1 },
+  dateTimeStack: { gap: 6, marginTop: 6, backgroundColor: '#F8FAFC', borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 10, paddingHorizontal: 8, paddingVertical: 7 },
+  dateTimeRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  dateTimeLabel: { fontSize: 10, fontWeight: '800', color: '#64748b', minWidth: 34 },
+  dateTimeValue: { fontSize: 10, color: '#334155', fontWeight: '700', flexShrink: 1 },
+  quizListScoreBadge: { borderRadius: 999, backgroundColor: '#EBF4FF', paddingHorizontal: 10, paddingVertical: 5, alignSelf: 'flex-start', marginTop: 2 },
+  quizListScoreText: { fontSize: 11, fontWeight: '900', color: '#1A4DA2' },
+  quizListViewBtn: { borderRadius: 10, backgroundColor: '#F8FAFC', borderWidth: 1, borderColor: '#E2E8F0', paddingVertical: 8, alignItems: 'center', marginTop: 2 },
+  quizListViewBtnText: { fontSize: 11, fontWeight: '800', color: '#1A4DA2' },
+  quizDetailBackRow: { marginBottom: 10, alignSelf: 'flex-start' },
+  quizDetailBackText: { fontSize: 12, fontWeight: '800', color: '#1A4DA2' },
+  answerCard: { borderRadius: 14, borderWidth: 1, borderColor: '#E2E8F0', overflow: 'hidden', backgroundColor: '#fff' },
+  answerCardBanner: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 8 },
+  answerCardBannerTitle: { fontSize: 11, fontWeight: '800', color: '#64748b' },
+  answerCardBadge: { color: '#fff', fontSize: 11, fontWeight: '900', borderRadius: 999, overflow: 'hidden', paddingHorizontal: 10, paddingVertical: 4 },
+  answerRow: { backgroundColor: '#F8F9FF', borderRadius: 10, padding: 12, gap: 6 },
+  answerTitle: { fontSize: 12, fontWeight: '800', color: '#1a1a2e' },
+  answerStatus: { fontSize: 11, fontWeight: '800' },
+  answerPayload: { fontSize: 11, color: '#334155', fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace' },
+  answerPromptImage: { width: '100%', height: 130, borderRadius: 8, backgroundColor: '#E2E8F0', marginTop: 4 },
+  choiceRow: { flexDirection: 'row', gap: 6, alignItems: 'flex-start' },
+  choiceLabel: { fontSize: 11, fontWeight: '800', color: '#334155', minWidth: 56 },
+  choiceValue: { fontSize: 11, color: '#1e293b', flex: 1 },
+  mappingTable: { marginTop: 6, borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 8, overflow: 'hidden' },
+  mappingRow: { flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#F1F5F9', paddingHorizontal: 6, paddingVertical: 6, gap: 6 },
+  mappingSlot: { width: 20, fontSize: 11, fontWeight: '900', color: '#334155', textAlign: 'center' },
+  mappingLabel: { flex: 1, fontSize: 10, color: '#475569' },
+  mappingSelected: { flex: 1, fontSize: 10, color: '#1e293b', fontWeight: '700' },
+  mappingExpected: { flex: 1, fontSize: 10, color: '#1A6B1A', fontWeight: '700' },
+  assignmentAttachmentWrap: { gap: 10, marginTop: 12 },
+  attachmentBtn: { marginTop: 8, minHeight: 34 },
+  notSubmittedCard: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+    gap: 6,
+  },
+  notSubmittedTitle: { fontSize: 13, fontWeight: '800', color: '#334155' },
+  notSubmittedSub: { fontSize: 11, color: '#64748b', textAlign: 'center', lineHeight: 16, maxWidth: 240 },
+  submissionBox: { marginTop: 8, backgroundColor: '#F8FAFC', borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 12, padding: 12 },
+  submissionText: { fontSize: 12, color: '#334155', lineHeight: 18 },
+  assignmentPreviewImage: { width: '100%', height: 160, borderRadius: 10, backgroundColor: '#E2E8F0' },
 
   // Table
   tableCard:    { borderRadius: 14, overflow: 'hidden', borderWidth: 1, borderColor: '#F0F0F8' },

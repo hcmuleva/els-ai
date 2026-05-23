@@ -35,7 +35,10 @@ export function ProfileMenu({ isOpen, onToggle, onClose }: ProfileMenuProps) {
         <View style={styles.menuAbsolute}>
           <View style={styles.menu}>
           {/* User card */}
-          <View style={[styles.userCard, { borderLeftColor: avatarBg }]}>
+          <Pressable
+            onPress={() => { router.push('/(tabs)/profile'); onClose(); }}
+            style={styles.userCard}
+          >
             <View style={[styles.avatarSm, { backgroundColor: avatarBg }]}>
               <Text style={styles.avatarSmText}>{initials}</Text>
             </View>
@@ -45,7 +48,7 @@ export function ProfileMenu({ isOpen, onToggle, onClose }: ProfileMenuProps) {
               </Text>
               <Text style={styles.userEmail} numberOfLines={1}>{user?.email ?? ''}</Text>
             </View>
-          </View>
+          </Pressable>
 
           {/* Role badge */}
           <View style={[styles.roleBadge, { backgroundColor: `${avatarBg}18` }]}>
@@ -53,8 +56,6 @@ export function ProfileMenu({ isOpen, onToggle, onClose }: ProfileMenuProps) {
               {user?.activeRole?.toUpperCase() ?? ''}
             </Text>
           </View>
-
-          <View style={styles.divider} />
 
           {/* Menu items */}
           {profileMenuItems.map((item) => (
@@ -71,8 +72,6 @@ export function ProfileMenu({ isOpen, onToggle, onClose }: ProfileMenuProps) {
               <Text style={styles.menuItemText}>{item.label}</Text>
             </Pressable>
           ))}
-
-          <View style={styles.divider} />
 
           {/* Logout */}
           <Pressable
@@ -134,8 +133,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', gap: 10,
     backgroundColor: '#F8F9FF',
     borderRadius: 14, padding: 10,
-    borderLeftWidth: 3,
-    marginBottom: 4,
+    marginBottom: 8,
   },
   avatarSm: {
     width: 36, height: 36, borderRadius: 18,
@@ -154,11 +152,9 @@ const styles = StyleSheet.create({
   },
   roleText: { fontSize: 10, fontWeight: '800', letterSpacing: 0.5 },
 
-  divider: { height: 1, backgroundColor: '#F0F0F8', marginVertical: 4 },
-
   menuItem: {
     flexDirection: 'row', alignItems: 'center', gap: 10,
-    paddingVertical: 6,
+    paddingVertical: 7,
   },
   menuIconWrap: {
     width: 30, height: 30, borderRadius: 10,

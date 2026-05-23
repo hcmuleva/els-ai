@@ -12,6 +12,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import { WebView } from 'react-native-webview';
 
 import { FolderOpen, Video, HelpCircle, BookOpen as BookOpenIcon, Trophy as TrophyIcon, ListChecks, SplitSquareHorizontal, Eye as EyeIcon, Volume2, CheckSquare } from 'lucide-react-native';
 import SelectorModal from '../../src/components/SelectorModal';
@@ -21,6 +22,7 @@ import { AudioManager } from '../../src/utils/audio';
 import TopicsTab from '../../src/components/manage/TopicsTab';
 import ContentTab from '../../src/components/manage/ContentTab';
 import QuestionsTab from '../../src/components/manage/QuestionsTab';
+import { frameButtons } from '../modules/logicopiccolo/generated/buttons';
 
 type QuestionItem = {
   id: string;
@@ -40,7 +42,7 @@ type QuestionItem = {
   created_at: string;
 };
 
-type QuestionEditorMode = 'choice' | 'drag_drop' | 'custom';
+type QuestionEditorMode = 'choice' | 'drag_drop' | 'logico' | 'custom';
 
 type SupportedQuestionType =
   | 'guess_image'
@@ -48,10 +50,12 @@ type SupportedQuestionType =
   | 'guess_audio'
   | 'true_false'
   | 'single_choice'
-  | 'multi_choice';
+  | 'multi_choice'
+  | 'logico';
 
 type OptionDraft = {
   id: string;
+  slotPosition: number;
   image: string;
   imageLabel: string;
   imageAssetId: string;
@@ -231,6 +235,11 @@ const QUESTION_TYPE_CHOICES: Array<{ value: SupportedQuestionType; label: string
     label: 'Multi Choice',
     description: 'Students select all correct options. Score is correct only when all are selected with no wrong picks.',
   },
+  {
+    value: 'logico',
+    label: 'Logico',
+    description: 'Upload a worksheet image and map each Logico button to slot positions 1 to 10.',
+  },
 ];
 
 const QUESTION_TYPE_LABELS: Record<string, string> = {
@@ -240,6 +249,7 @@ const QUESTION_TYPE_LABELS: Record<string, string> = {
   true_false: 'True / False',
   single_choice: 'Single Choice',
   multi_choice: 'Multi Choice',
+  logico: 'Logico',
   image_select: 'Guess the Image',
   drag_drop: 'Drag & Drop Match',
   sound_match: 'Guess the Audio',
@@ -253,6 +263,7 @@ const QUESTION_TYPE_DEFAULT_INSTRUCTIONS: Record<SupportedQuestionType, string> 
   true_false: 'Read the statement carefully and choose True or False.',
   single_choice: 'Choose one correct option.',
   multi_choice: 'Select all correct options before submitting your answer.',
+  logico: 'Match each Logico button with the correct option position from top to bottom.',
 };
 
 const toSlug = (value: string) =>
@@ -287,10 +298,12 @@ const isSupportedQuestionType = (value: unknown): value is SupportedQuestionType
   value === 'guess_audio' ||
   value === 'true_false' ||
   value === 'single_choice' ||
-  value === 'multi_choice';
+  value === 'multi_choice' ||
+  value === 'logico';
 
 const getQuestionEditorMode = (questionType: string): QuestionEditorMode => {
   const normalized = normalizeQuestionType(questionType);
+  if (normalized === 'logico') return 'logico';
   if (normalized === 'drag_drop_match') return 'drag_drop';
   if (
     normalized === 'guess_image' ||
@@ -336,6 +349,9 @@ const toMediaLabel = (source: string, fallback: string, explicitLabel?: string) 
   return extractFileName(source);
 };
 
+const LOGICO_BUTTON_ORDER = frameButtons.map((button) => button.id);
+const LOGICO_BUTTON_COLOR_MAP = Object.fromEntries(frameButtons.map((button) => [button.id, button.color]));
+
 const makeEmptyMatchPair = (): MatchPairDraft => ({
   id: '',
   itemLabel: '',
@@ -350,6 +366,7 @@ const makeEmptyMatchPair = (): MatchPairDraft => ({
 
 const makeEmptyOption = (): OptionDraft => ({
   id: '',
+  slotPosition: 1,
   image: '',
   imageLabel: '',
   imageAssetId: '',
@@ -361,13 +378,23 @@ const makeEmptyOption = (): OptionDraft => ({
 });
 
 const makeTrueFalseOptions = (): OptionDraft[] => [
-  { ...makeEmptyOption(), id: 'true', label: 'True', isCorrect: true },
-  { ...makeEmptyOption(), id: 'false', label: 'False', isCorrect: false },
+  { ...makeEmptyOption(), id: 'true', slotPosition: 1, label: 'True', isCorrect: true },
+  { ...makeEmptyOption(), id: 'false', slotPosition: 2, label: 'False', isCorrect: false },
 ];
+
+const makeLogicoOptions = (): OptionDraft[] =>
+  LOGICO_BUTTON_ORDER.map((buttonId, index) => ({
+    ...makeEmptyOption(),
+    id: buttonId,
+    slotPosition: index + 1,
+    label: '',
+    isCorrect: true,
+  }));
 
 const makeDefaultOptionsByType = (questionType: string): OptionDraft[] => {
   const normalized = normalizeQuestionType(questionType);
   if (normalized === 'true_false') return makeTrueFalseOptions();
+  if (normalized === 'logico') return makeLogicoOptions();
   return [makeEmptyOption()];
 };
 
@@ -429,8 +456,10 @@ function questionDataToOptions(questionData: unknown): OptionDraft[] {
   return options.map((item) => {
     if (item && typeof item === 'object' && !Array.isArray(item)) {
       const optionRecord = item as Record<string, unknown>;
+      const rawSlotPosition = Number(optionRecord.slot_position);
       return {
         id: typeof optionRecord.id === 'string' ? optionRecord.id : '',
+        slotPosition: Number.isInteger(rawSlotPosition) && rawSlotPosition > 0 ? rawSlotPosition : 1,
         image: typeof optionRecord.image === 'string' ? optionRecord.image : '',
         imageLabel:
           typeof optionRecord.image === 'string'
@@ -448,6 +477,46 @@ function questionDataToOptions(questionData: unknown): OptionDraft[] {
       };
     }
     return makeEmptyOption();
+  });
+}
+
+function questionDataToLogicoOptions(questionData: unknown): OptionDraft[] {
+  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
+    return makeLogicoOptions();
+  }
+
+  const data = questionData as Record<string, unknown>;
+  const buttonSlotMapRaw = data.button_slot_map;
+  const optionSlotsRaw = data.option_slots;
+
+  const buttonSlotMap: Record<string, number> =
+    buttonSlotMapRaw && typeof buttonSlotMapRaw === 'object' && !Array.isArray(buttonSlotMapRaw)
+      ? Object.fromEntries(
+          Object.entries(buttonSlotMapRaw).map(([buttonId, slot]) => [buttonId, Number(slot)]).filter(([, slot]) => Number.isInteger(slot)),
+        )
+      : {};
+
+  const optionSlotLabelById = new Map<number, string>();
+  if (Array.isArray(optionSlotsRaw)) {
+    optionSlotsRaw.forEach((slot) => {
+      if (!slot || typeof slot !== 'object' || Array.isArray(slot)) return;
+      const record = slot as Record<string, unknown>;
+      const slotId = Number(record.id);
+      if (!Number.isInteger(slotId)) return;
+      optionSlotLabelById.set(slotId, typeof record.value === 'string' ? record.value : '');
+    });
+  }
+
+  return LOGICO_BUTTON_ORDER.map((buttonId, index) => {
+    const slotPosition = buttonSlotMap[buttonId];
+    const safeSlot = Number.isInteger(slotPosition) && slotPosition >= 1 && slotPosition <= 10 ? slotPosition : index + 1;
+    return {
+      ...makeEmptyOption(),
+      id: buttonId,
+      slotPosition: safeSlot,
+      label: optionSlotLabelById.get(safeSlot) ?? '',
+      isCorrect: true,
+    };
   });
 }
 
@@ -572,6 +641,36 @@ function toPersistentMediaUrl(url: string): string {
   }
 }
 
+const normalizeLogicoButtonId = (id: string) => id.trim().toLowerCase();
+
+const getLogicoButtonColor = (buttonId: string) => {
+  const normalized = normalizeLogicoButtonId(buttonId);
+  return LOGICO_BUTTON_COLOR_MAP[normalized] || '#4b5563';
+};
+
+const isRingButton = (buttonId: string) => normalizeLogicoButtonId(buttonId).includes('-ring');
+
+function LogicoButtonBadge({ buttonId, size = 26 }: { buttonId: string; size?: number }) {
+  const color = getLogicoButtonColor(buttonId);
+  return (
+    <View
+      style={[
+        qFormS.logicoButtonCircle,
+        { width: size, height: size, borderRadius: size / 2, backgroundColor: color },
+      ]}
+    >
+      {isRingButton(buttonId) ? (
+        <View
+          style={[
+            qFormS.logicoButtonRingInner,
+            { width: size * 0.44, height: size * 0.44, borderRadius: (size * 0.44) / 2 },
+          ]}
+        />
+      ) : null}
+    </View>
+  );
+}
+
 function draftToPayload(draft: QuestionDraft) {
   if (!draft.questionTitle.trim()) {
     throw new Error('Question title is required.');
@@ -599,6 +698,7 @@ function draftToPayload(draft: QuestionDraft) {
     const preparedOptions = draft.options
       .map((option) => ({
         id: option.id.trim(),
+        slotPosition: Number(option.slotPosition),
         image: toPersistentMediaUrl(option.image),
         imageAssetId: option.imageAssetId.trim(),
         audio: toPersistentMediaUrl(option.audio),
@@ -642,6 +742,7 @@ function draftToPayload(draft: QuestionDraft) {
 
     const normalizedOptions = preparedOptions.map((option, index) => ({
       id: option.id || buildAutoId(option.label, 'option', index),
+      slot_position: option.slotPosition || index + 1,
       image: option.image || undefined,
       image_asset_id: option.imageAssetId || undefined,
       audio: option.audio || undefined,
@@ -657,6 +758,50 @@ function draftToPayload(draft: QuestionDraft) {
       ...(normalizedType === 'guess_audio' && mainAudio ? { prompt_audio: mainAudio } : {}),
       ...(normalizedType === 'guess_audio' && mainAudioAssetId ? { prompt_audio_asset_id: mainAudioAssetId } : {}),
       ...(normalizedType ? { variant: normalizedType } : {}),
+    };
+  } else if (mode === 'logico') {
+    if (!mainImage) {
+      throw new Error('Add worksheet image for Logico questions.');
+    }
+
+    const mappings = draft.options.map((option, index) => ({
+      buttonId: normalizeLogicoButtonId(option.id || LOGICO_BUTTON_ORDER[index] || ''),
+      slotPosition: Number(option.slotPosition),
+      label: option.label.trim(),
+    }));
+
+    if (mappings.some((item) => !item.buttonId)) {
+      throw new Error('Each Logico button mapping must have a valid button id.');
+    }
+    if (mappings.length !== LOGICO_BUTTON_ORDER.length) {
+      throw new Error('Logico questions require mapping for all 10 buttons.');
+    }
+    if (mappings.some((item) => !Number.isInteger(item.slotPosition) || item.slotPosition < 1 || item.slotPosition > 10)) {
+      throw new Error('Each Logico button must be mapped to a position from 1 to 10.');
+    }
+
+    const uniqueSlots = new Set(mappings.map((item) => item.slotPosition));
+    if (uniqueSlots.size !== 10) {
+      throw new Error('Logico button positions must be unique (1 to 10).');
+    }
+
+    const buttonSlotMap = Object.fromEntries(mappings.map((item) => [item.buttonId, item.slotPosition]));
+    const optionSlots = Array.from({ length: 10 }, (_, index) => {
+      const slotId = index + 1;
+      const mapped = mappings.find((item) => item.slotPosition === slotId);
+      return {
+        id: slotId,
+        value: mapped?.label || '',
+      };
+    });
+
+    questionData = {
+      variant: 'logico',
+      prompt_image: mainImage,
+      ...(mainImageAssetId ? { prompt_image_asset_id: mainImageAssetId } : {}),
+      button_slot_map: buttonSlotMap,
+      option_slots: optionSlots,
+      logico_buttons: LOGICO_BUTTON_ORDER,
     };
   } else if (mode === 'drag_drop') {
     const preparedPairs = draft.matchPairs
@@ -762,6 +907,21 @@ function resolveMediaUrl(url: string | undefined): string {
     return `${API_BASE_URL}${url}`;
   }
   return url;
+}
+
+function getYouTubeEmbedUrl(url: string): string | null {
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+  ];
+  for (const re of patterns) {
+    const m = url.match(re);
+    if (m) return `https://www.youtube.com/embed/${m[1]}?rel=0&playsinline=1`;
+  }
+  return null;
+}
+
+function isVideoContentType(type: string): boolean {
+  return ['video', 'youtube_url', 'youtube', 'video_url'].includes(type.toLowerCase());
 }
 
 type PickedFile = { dataUrl: string; fileName: string; mimeType: string };
@@ -1625,9 +1785,9 @@ export default function QuestionManagementScreen() {
       ...current,
       questionType,
       questionInstruction: getDefaultInstructionByType(questionType),
-      mainImage: questionType === 'guess_image' ? current.mainImage : '',
-      mainImageLabel: questionType === 'guess_image' ? current.mainImageLabel : '',
-      mainImageAssetId: questionType === 'guess_image' ? current.mainImageAssetId : '',
+      mainImage: questionType === 'guess_image' || questionType === 'logico' ? current.mainImage : '',
+      mainImageLabel: questionType === 'guess_image' || questionType === 'logico' ? current.mainImageLabel : '',
+      mainImageAssetId: questionType === 'guess_image' || questionType === 'logico' ? current.mainImageAssetId : '',
       mainAudio: questionType === 'guess_audio' ? current.mainAudio : '',
       mainAudioLabel: questionType === 'guess_audio' ? current.mainAudioLabel : '',
       mainAudioAssetId: questionType === 'guess_audio' ? current.mainAudioAssetId : '',
@@ -1906,7 +2066,10 @@ export default function QuestionManagementScreen() {
     const resolvedMainAudio = question.question_audio || questionDataPromptAudio(question.question_data ?? {});
     const resolvedMainAudioAssetId = questionDataPromptAudioAssetId(question.question_data ?? {});
     const normalizedType = normalizeQuestionType(question.question_type || 'guess_image');
-    const parsedOptions = questionDataToOptions(question.question_data ?? {});
+    const parsedOptions =
+      normalizedType === 'logico'
+        ? questionDataToLogicoOptions(question.question_data ?? {})
+        : questionDataToOptions(question.question_data ?? {});
     const resolvedOptions =
       normalizeQuestionType(normalizedType) === 'true_false' && parsedOptions.every((item) => !item.id && !item.label && !item.image && !item.audio)
         ? makeTrueFalseOptions()
@@ -2319,21 +2482,47 @@ export default function QuestionManagementScreen() {
       mode === 'create' ? setIsCreateDialogOpen(false) : setEditingQuestionId(null);
     };
     const editorMode = getQuestionEditorMode(draft.questionType);
-    const hasOptions = editorMode === 'choice';
+    const isLogicoMode = editorMode === 'logico';
+    const hasOptions = editorMode === 'choice' || isLogicoMode;
     const hasPairs   = editorMode === 'drag_drop';
-    const tab2Label  = hasPairs ? 'Pairs' : 'Options';
+    const tab2Label  = hasPairs ? 'Pairs' : isLogicoMode ? 'Mappings' : 'Options';
+    const logicoSlotStats = isLogicoMode
+      ? draft.options.reduce(
+          (acc, option) => {
+            const slot = Number(option.slotPosition);
+            const isValid = Number.isInteger(slot) && slot >= 1 && slot <= 10;
+            if (!isValid) {
+              acc.invalidCount += 1;
+              return acc;
+            }
+            acc.slotCounts.set(slot, (acc.slotCounts.get(slot) || 0) + 1);
+            return acc;
+          },
+          { slotCounts: new Map<number, number>(), invalidCount: 0 },
+        )
+      : null;
+    const duplicateLogicoSlots = logicoSlotStats
+      ? Array.from(logicoSlotStats.slotCounts.entries())
+          .filter(([, count]) => count > 1)
+          .map(([slot]) => slot)
+      : [];
+    const hasLogicoMappingBlocker = Boolean(
+      isLogicoMode &&
+      ((logicoSlotStats?.invalidCount || 0) > 0 || duplicateLogicoSlots.length > 0),
+    );
+    const canSave = !isSaving && !hasLogicoMappingBlocker;
 
     const QTYPES_EMOJI: Record<string, string> = {
       guess_image: '', drag_drop_match: '', guess_audio: '',
-      true_false: '', single_choice: '', multi_choice: '',
+      true_false: '', single_choice: '', multi_choice: '', logico: '',
     };
     const QTYPES_COLOR: Record<string, string> = {
       guess_image: '#4A90E2', drag_drop_match: '#9B8EC4', guess_audio: '#7DC67A',
-      true_false: '#E6A817', single_choice: '#FF7043', multi_choice: '#E91E8C',
+      true_false: '#E6A817', single_choice: '#FF7043', multi_choice: '#E91E8C', logico: '#0f766e',
     };
     const QTYPES_BG: Record<string, string> = {
       guess_image: '#D6EAFF', drag_drop_match: '#EDE4FF', guess_audio: '#D6F5D6',
-      true_false: '#FFF5CC', single_choice: '#FFE8D6', multi_choice: '#FFE0F0',
+      true_false: '#FFF5CC', single_choice: '#FFE8D6', multi_choice: '#FFE0F0', logico: '#DCFCE7',
     };
 
     return (
@@ -2349,7 +2538,7 @@ export default function QuestionManagementScreen() {
               <Text style={qFormS.subTitle}>{getQuestionTypeLabel(draft.questionType)}</Text>
             ) : null}
           </View>
-          <Pressable style={qFormS.saveBtn} onPress={saveAction} disabled={isSaving}>
+          <Pressable style={[qFormS.saveBtn, !canSave && qFormS.saveBtnDisabled]} onPress={saveAction} disabled={!canSave}>
             {isSaving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={qFormS.saveBtnText}>Save</Text>}
           </Pressable>
         </View>
@@ -2466,12 +2655,14 @@ export default function QuestionManagementScreen() {
               </View>
             </View>
 
-            {normalizedQuestionType === 'guess_image' ? (
+            {normalizedQuestionType === 'guess_image' || normalizedQuestionType === 'logico' ? (
               <View style={qFormS.group}>
-                <Text style={qFormS.groupLabel}>PROMPT IMAGE</Text>
+                <Text style={qFormS.groupLabel}>{normalizedQuestionType === 'logico' ? 'WORKSHEET IMAGE' : 'PROMPT IMAGE'}</Text>
                 <View style={qFormS.fieldCard}>
                   <Pressable style={qFormS.uploadBtn} onPress={() => uploadImageForQuestion(mode)}>
-                    <Text style={qFormS.uploadBtnText}>⬆ Upload Prompt Image</Text>
+                    <Text style={qFormS.uploadBtnText}>
+                      {normalizedQuestionType === 'logico' ? '⬆ Upload Worksheet Image' : '⬆ Upload Prompt Image'}
+                    </Text>
                   </Pressable>
                   {draft.mainImage.trim() ? (
                     <View style={qFormS.mediaRow}>
@@ -2520,70 +2711,128 @@ export default function QuestionManagementScreen() {
           <ScrollView contentContainerStyle={qFormS.tabContent}>
             <View style={qFormS.secGroup}>
               <View style={qFormS.secHeader}>
-                <Text style={qFormS.secTitle}>Answer Options</Text>
-                {normalizedQuestionType !== 'true_false' ? (
+                <Text style={qFormS.secTitle}>{isLogicoMode ? 'Logico Button Mapping' : 'Answer Options'}</Text>
+                {!isLogicoMode && normalizedQuestionType !== 'true_false' ? (
                   <Pressable style={qFormS.addBtn} onPress={() => addOption(mode)}>
                     <Text style={qFormS.addBtnText}>+ Add</Text>
                   </Pressable>
                 ) : null}
               </View>
-              <Text style={qFormS.secHint}>
-                {normalizedQuestionType === 'multi_choice' ? 'Mark all correct options.' : 'Mark exactly one correct option.'}
-              </Text>
-              {draft.options.map((option, index) => (
-                <View key={`${mode}-opt-${index}`} style={qFormS.optBlock}>
-                  <View style={qFormS.optBlockHeader}>
-                    <View style={[qFormS.optNumBadge, option.isCorrect && { backgroundColor: '#7DC67A' }]}>
-                      <Text style={[qFormS.optNum, option.isCorrect && { color: '#fff' }]}>{index + 1}</Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <TextInput value={option.label}
-                        onChangeText={(v) => updateOption(mode, index, { label: v })}
-                        placeholder={`Option ${index + 1} label`} style={qFormS.optInput} placeholderTextColor="#B0B8D0" />
-                    </View>
-                    <Pressable
-                      style={[qFormS.correctBtn, option.isCorrect && qFormS.correctBtnActive]}
-                      onPress={() => setCorrectOption(mode, index)}>
-                      <Text style={[qFormS.correctBtnText, option.isCorrect && qFormS.correctBtnTextActive]}>
-                        {option.isCorrect ? '✓' : '○'}
+              {isLogicoMode ? (
+                <>
+                  <Text style={qFormS.secHint}>Assign each Logico button to one unique option position (1-10).</Text>
+                  {draft.mainImage.trim() ? (
+                    <Image
+                      source={{ uri: resolveMediaUrl(draft.mainImage.trim()) }}
+                      style={qFormS.logicoWorksheetPreview}
+                      resizeMode="contain"
+                    />
+                  ) : null}
+                  {hasLogicoMappingBlocker ? (
+                    <View style={qFormS.logicoBlockerBanner}>
+                      <Text style={qFormS.logicoBlockerText}>
+                        {(logicoSlotStats?.invalidCount || 0) > 0
+                          ? 'All positions must be between 1 and 10.'
+                          : `Duplicate positions found: ${duplicateLogicoSlots.join(', ')}.`}
                       </Text>
-                    </Pressable>
-                    {normalizedQuestionType !== 'true_false' ? (
-                      <Pressable onPress={() => requestOptionRemoval({ mode, index })} style={qFormS.removeBtn}>
-                        <Text style={qFormS.removeBtnText}>✕</Text>
-                      </Pressable>
-                    ) : null}
-                  </View>
-                  <View style={{ paddingHorizontal: 14, paddingBottom: 12 }}>
-                    <Pressable style={qFormS.uploadBtn} onPress={() => uploadMediaForOption(mode, index)}>
-                      <Text style={qFormS.uploadBtnText}>
-                        {normalizedQuestionType === 'guess_audio' ? '⬆ Upload Option Audio / Image' : '⬆ Upload Option Image / Audio'}
-                      </Text>
-                    </Pressable>
-                    {option.image.trim() ? (
-                      <View style={[qFormS.mediaRow, { marginTop: 8 }]}>
-                        <Image source={{ uri: resolveMediaUrl(option.image.trim()) }} style={qFormS.mediaThumb} resizeMode="cover" />
-                        <Text style={qFormS.mediaName} numberOfLines={1}>{toMediaLabel(option.image, 'image', option.imageLabel)}</Text>
-                        <Pressable onPress={() => requestMediaRemoval({ scope: 'option', mode, index, mediaType: 'image' })} style={qFormS.removeBtn}>
-                          <Text style={qFormS.removeBtnText}>✕</Text>
-                        </Pressable>
+                    </View>
+                  ) : null}
+                  <View style={qFormS.logicoGrid}>
+                    {draft.options.map((option, index) => (
+                      <View key={`${mode}-logico-${option.id || index}`} style={qFormS.logicoCard}>
+                        <View style={qFormS.logicoButtonCell}>
+                          <LogicoButtonBadge buttonId={option.id} />
+                          <Text style={qFormS.logicoButtonLabel}>{frameButtons.find((button) => button.id === option.id)?.label || option.id}</Text>
+                        </View>
+                        <View style={qFormS.logicoSlotCell}>
+                          <Text style={qFormS.fieldLabel}>Position</Text>
+                          <TextInput
+                            value={String(option.slotPosition || '')}
+                            onChangeText={(value) => {
+                              const parsed = Number(value.replace(/[^0-9]/g, ''));
+                              updateOption(mode, index, { slotPosition: Number.isFinite(parsed) ? parsed : 0 });
+                            }}
+                            keyboardType="numeric"
+                            placeholder="1-10"
+                            placeholderTextColor="#B0B8D0"
+                            style={qFormS.logicoSlotInput}
+                          />
+                        </View>
+                        <View style={qFormS.logicoLabelCell}>
+                          <Text style={qFormS.fieldLabel}>Option label (optional)</Text>
+                          <TextInput
+                            value={option.label}
+                            onChangeText={(value) => updateOption(mode, index, { label: value })}
+                            placeholder="e.g. Elephant"
+                            placeholderTextColor="#B0B8D0"
+                            style={qFormS.optInput}
+                          />
+                        </View>
                       </View>
-                    ) : null}
-                    {option.audio.trim() ? (
-                      <View style={[qFormS.mediaRow, { marginTop: 8 }]}>
-                        <Text style={qFormS.audioIcon}>🎵</Text>
-                        <Text style={[qFormS.mediaName, { flex: 1 }]} numberOfLines={1}>{toMediaLabel(option.audio, 'audio', option.audioLabel)}</Text>
-                        <Pressable onPress={() => playAudioPreview(option.audio)} style={qFormS.playBtn}>
-                          <Text style={qFormS.playBtnText}>▶</Text>
-                        </Pressable>
-                        <Pressable onPress={() => requestMediaRemoval({ scope: 'option', mode, index, mediaType: 'audio' })} style={qFormS.removeBtn}>
-                          <Text style={qFormS.removeBtnText}>✕</Text>
-                        </Pressable>
-                      </View>
-                    ) : null}
+                    ))}
                   </View>
-                </View>
-              ))}
+                </>
+              ) : (
+                <>
+                  <Text style={qFormS.secHint}>
+                    {normalizedQuestionType === 'multi_choice' ? 'Mark all correct options.' : 'Mark exactly one correct option.'}
+                  </Text>
+                  {draft.options.map((option, index) => (
+                    <View key={`${mode}-opt-${index}`} style={qFormS.optBlock}>
+                      <View style={qFormS.optBlockHeader}>
+                        <View style={[qFormS.optNumBadge, option.isCorrect && { backgroundColor: '#7DC67A' }]}>
+                          <Text style={[qFormS.optNum, option.isCorrect && { color: '#fff' }]}>{index + 1}</Text>
+                        </View>
+                        <View style={{ flex: 1 }}>
+                          <TextInput value={option.label}
+                            onChangeText={(v) => updateOption(mode, index, { label: v })}
+                            placeholder={`Option ${index + 1} label`} style={qFormS.optInput} placeholderTextColor="#B0B8D0" />
+                        </View>
+                        <Pressable
+                          style={[qFormS.correctBtn, option.isCorrect && qFormS.correctBtnActive]}
+                          onPress={() => setCorrectOption(mode, index)}>
+                          <Text style={[qFormS.correctBtnText, option.isCorrect && qFormS.correctBtnTextActive]}>
+                            {option.isCorrect ? '✓' : '○'}
+                          </Text>
+                        </Pressable>
+                        {normalizedQuestionType !== 'true_false' ? (
+                          <Pressable onPress={() => requestOptionRemoval({ mode, index })} style={qFormS.removeBtn}>
+                            <Text style={qFormS.removeBtnText}>✕</Text>
+                          </Pressable>
+                        ) : null}
+                      </View>
+                      <View style={{ paddingHorizontal: 14, paddingBottom: 12 }}>
+                        <Pressable style={qFormS.uploadBtn} onPress={() => uploadMediaForOption(mode, index)}>
+                          <Text style={qFormS.uploadBtnText}>
+                            {normalizedQuestionType === 'guess_audio' ? '⬆ Upload Option Audio / Image' : '⬆ Upload Option Image / Audio'}
+                          </Text>
+                        </Pressable>
+                        {option.image.trim() ? (
+                          <View style={[qFormS.mediaRow, { marginTop: 8 }]}>
+                            <Image source={{ uri: resolveMediaUrl(option.image.trim()) }} style={qFormS.mediaThumb} resizeMode="cover" />
+                            <Text style={qFormS.mediaName} numberOfLines={1}>{toMediaLabel(option.image, 'image', option.imageLabel)}</Text>
+                            <Pressable onPress={() => requestMediaRemoval({ scope: 'option', mode, index, mediaType: 'image' })} style={qFormS.removeBtn}>
+                              <Text style={qFormS.removeBtnText}>✕</Text>
+                            </Pressable>
+                          </View>
+                        ) : null}
+                        {option.audio.trim() ? (
+                          <View style={[qFormS.mediaRow, { marginTop: 8 }]}>
+                            <Text style={qFormS.audioIcon}>🎵</Text>
+                            <Text style={[qFormS.mediaName, { flex: 1 }]} numberOfLines={1}>{toMediaLabel(option.audio, 'audio', option.audioLabel)}</Text>
+                            <Pressable onPress={() => playAudioPreview(option.audio)} style={qFormS.playBtn}>
+                              <Text style={qFormS.playBtnText}>▶</Text>
+                            </Pressable>
+                            <Pressable onPress={() => requestMediaRemoval({ scope: 'option', mode, index, mediaType: 'audio' })} style={qFormS.removeBtn}>
+                              <Text style={qFormS.removeBtnText}>✕</Text>
+                            </Pressable>
+                          </View>
+                        ) : null}
+                      </View>
+                    </View>
+                  ))}
+                </>
+              )}
             </View>
           </ScrollView>
         )}
@@ -2678,7 +2927,7 @@ export default function QuestionManagementScreen() {
                 </View>
                 <View style={qFormS.previewStat}>
                   <Text style={qFormS.previewStatVal}>{hasOptions ? draft.options.length : hasPairs ? draft.matchPairs.length : '–'}</Text>
-                  <Text style={qFormS.previewStatLabel}>{hasPairs ? 'pairs' : 'opts'}</Text>
+                  <Text style={qFormS.previewStatLabel}>{hasPairs ? 'pairs' : isLogicoMode ? 'maps' : 'opts'}</Text>
                 </View>
               </View>
               {draft.questionInstruction ? (
@@ -2689,15 +2938,31 @@ export default function QuestionManagementScreen() {
               {draft.mainImage.trim() ? (
                 <Image source={{ uri: resolveMediaUrl(draft.mainImage.trim()) }} style={qFormS.previewImage} resizeMode="contain" />
               ) : null}
-              {hasOptions && draft.options.map((opt, i) => (
-                <View key={i} style={[qFormS.previewOptRow, opt.isCorrect && { borderColor: '#7DC67A', borderWidth: 1.5 }]}>
-                  <View style={[qFormS.previewOptDot, { backgroundColor: opt.isCorrect ? '#7DC67A' : '#E0E4F0' }]}>
-                    <Text style={{ color: opt.isCorrect ? '#fff' : '#9A9AB0', fontSize: 11, fontWeight: '800' }}>{i + 1}</Text>
-                  </View>
-                  <Text style={qFormS.previewOptText}>{opt.label || `Option ${i + 1}`}</Text>
-                  {opt.isCorrect ? <Text style={qFormS.previewCorrectBadge}>✓</Text> : null}
+              {isLogicoMode ? (
+                <View style={qFormS.logicoPreviewWrap}>
+                  {Array.from({ length: 10 }, (_, index) => {
+                    const slotId = index + 1;
+                    const mapped = draft.options.find((option) => Number(option.slotPosition) === slotId);
+                    return (
+                      <View key={`logico-preview-slot-${slotId}`} style={qFormS.logicoPreviewRow}>
+                        <Text style={qFormS.logicoPreviewSlotText}>{slotId}</Text>
+                        <Text style={qFormS.logicoPreviewOptionText}>{mapped?.label || `Position ${slotId}`}</Text>
+                        {mapped ? <LogicoButtonBadge buttonId={mapped.id} /> : <View style={qFormS.logicoPreviewEmptyButton} />}
+                      </View>
+                    );
+                  })}
                 </View>
-              ))}
+              ) : hasOptions ? (
+                draft.options.map((opt, i) => (
+                  <View key={i} style={[qFormS.previewOptRow, opt.isCorrect && { borderColor: '#7DC67A', borderWidth: 1.5 }]}>
+                    <View style={[qFormS.previewOptDot, { backgroundColor: opt.isCorrect ? '#7DC67A' : '#E0E4F0' }]}>
+                      <Text style={{ color: opt.isCorrect ? '#fff' : '#9A9AB0', fontSize: 11, fontWeight: '800' }}>{i + 1}</Text>
+                    </View>
+                    <Text style={qFormS.previewOptText}>{opt.label || `Option ${i + 1}`}</Text>
+                    {opt.isCorrect ? <Text style={qFormS.previewCorrectBadge}>✓</Text> : null}
+                  </View>
+                ))
+              ) : null}
               {hasPairs && draft.matchPairs.map((pair, i) => (
                 <View key={i} style={qFormS.previewPairRow}>
                   <Text style={qFormS.previewPairText}>{pair.itemLabel || `Item ${i + 1}`}</Text>
@@ -3579,10 +3844,35 @@ export default function QuestionManagementScreen() {
                   <View key={`preview-content-section-${section.id}-${index}`} style={styles.previewMediaCard}>
                     <Text style={styles.previewMediaLabel}>{section.title ? `${section.title} — ` : `Section ${section.sectionOrder || index + 1} — `}{section.contentType}</Text>
                     {section.textContent ? <Text style={styles.previewInstruction}>{section.textContent}</Text> : null}
-                    {section.externalUrl ? <Text style={styles.previewMeta}>{section.externalUrl}</Text> : null}
+                    {section.externalUrl ? (() => {
+                      const embedUrl = getYouTubeEmbedUrl(section.externalUrl);
+                      if (embedUrl || isVideoContentType(section.contentType)) {
+                        const src = embedUrl ?? (isVideoContentType(section.contentType) ? getYouTubeEmbedUrl(section.externalUrl) ?? section.externalUrl : section.externalUrl);
+                        return embedUrl ? (
+                          <WebView
+                            source={{ uri: embedUrl }}
+                            style={styles.previewVideoEmbed}
+                            allowsFullscreenVideo
+                            javaScriptEnabled
+                          />
+                        ) : (
+                          <Text style={styles.previewMeta}>{section.externalUrl}</Text>
+                        );
+                      }
+                      return <Text style={styles.previewMeta}>{section.externalUrl}</Text>;
+                    })() : null}
                     {section.mediaUrl ? (
                       section.contentType === 'image' ? (
                         <Image source={{ uri: resolveMediaUrl(section.mediaUrl) }} style={styles.previewImage} resizeMode="contain" />
+                      ) : isVideoContentType(section.contentType) ? (
+                        (() => {
+                          const embedUrl = getYouTubeEmbedUrl(section.mediaUrl);
+                          return embedUrl ? (
+                            <WebView source={{ uri: embedUrl }} style={styles.previewVideoEmbed} allowsFullscreenVideo javaScriptEnabled />
+                          ) : (
+                            <Text style={styles.previewMeta}>{section.mediaUrl}</Text>
+                          );
+                        })()
                       ) : (
                         <Text style={styles.previewMeta}>{section.mediaUrl}</Text>
                       )
@@ -3778,14 +4068,33 @@ export default function QuestionManagementScreen() {
                   </View>
                 ) : null}
 
-                {questionDataToOptions(previewQuestion.question_data)
-                  .filter((option) => option.image.trim())
-                  .map((option, index) => (
-                    <View key={`preview-option-${index}`} style={styles.previewMediaCard}>
-                      <Text style={styles.previewMediaLabel}>Option {index + 1}: {option.label || 'Untitled'}</Text>
-                      <Image source={{ uri: resolveMediaUrl(option.image.trim()) }} style={styles.previewImage} resizeMode="contain" />
+                {normalizeQuestionType(previewQuestion.question_type) === 'logico' ? (
+                  <View style={styles.previewMediaCard}>
+                    <Text style={styles.previewMediaLabel}>Logico Mapping Preview</Text>
+                    <View style={qFormS.logicoPreviewWrap}>
+                      {Array.from({ length: 10 }, (_, index) => {
+                        const slotId = index + 1;
+                        const mapped = questionDataToLogicoOptions(previewQuestion.question_data).find((option) => option.slotPosition === slotId);
+                        return (
+                          <View key={`preview-logico-${slotId}`} style={qFormS.logicoPreviewRow}>
+                            <Text style={qFormS.logicoPreviewSlotText}>{slotId}</Text>
+                            <Text style={qFormS.logicoPreviewOptionText}>{mapped?.label || `Position ${slotId}`}</Text>
+                            {mapped ? <LogicoButtonBadge buttonId={mapped.id} /> : <View style={qFormS.logicoPreviewEmptyButton} />}
+                          </View>
+                        );
+                      })}
                     </View>
-                  ))}
+                  </View>
+                ) : (
+                  questionDataToOptions(previewQuestion.question_data)
+                    .filter((option) => option.image.trim())
+                    .map((option, index) => (
+                      <View key={`preview-option-${index}`} style={styles.previewMediaCard}>
+                        <Text style={styles.previewMediaLabel}>Option {index + 1}: {option.label || 'Untitled'}</Text>
+                        <Image source={{ uri: resolveMediaUrl(option.image.trim()) }} style={styles.previewImage} resizeMode="contain" />
+                      </View>
+                    ))
+                )}
 
                 {questionDataToMatchPairs(previewQuestion.question_data)
                   .filter((pair) => pair.image.trim())
@@ -4336,6 +4645,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#fff',
   },
+  previewVideoEmbed: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+    marginBottom: 8,
+    backgroundColor: '#000',
+  },
   quizChipRow: {
     flexDirection: 'row',
     gap: 8,
@@ -4602,6 +4918,7 @@ const qFormS = StyleSheet.create({
   titleText:{ fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
   subTitle: { fontSize: 11, color: '#9A9AB0', fontWeight: '600', marginTop: 2 },
   saveBtn:  { backgroundColor: '#4A90E2', borderRadius: 10, paddingHorizontal: 18, paddingVertical: 8 },
+  saveBtnDisabled: { opacity: 0.5 },
   saveBtnText:{ color: '#fff', fontWeight: '800', fontSize: 13 },
 
   tabBar:        { flexDirection: 'row', backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
@@ -4665,6 +4982,23 @@ const qFormS = StyleSheet.create({
   correctBtnTextActive:{ color: '#7DC67A' },
   pairHeaderRow:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
   pairNum:        { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
+  logicoWorksheetPreview:{ width: '100%', height: 180, borderRadius: 10, backgroundColor: '#F8FAFC', marginBottom: 10 },
+  logicoBlockerBanner:{ backgroundColor: '#FEE2E2', borderWidth: 1, borderColor: '#FCA5A5', borderRadius: 10, paddingHorizontal: 10, paddingVertical: 8, marginBottom: 10 },
+  logicoBlockerText:{ fontSize: 12, fontWeight: '700', color: '#B91C1C' },
+  logicoGrid:{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  logicoCard:{ width: '48%', borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 10, padding: 10, gap: 8, backgroundColor: '#FFFFFF' },
+  logicoButtonCell:{ gap: 8, alignItems: 'center', justifyContent: 'center' },
+  logicoButtonLabel:{ fontSize: 12, fontWeight: '700', color: '#334155', textAlign: 'center' },
+  logicoSlotCell: { gap: 4 },
+  logicoSlotInput:{ fontSize: 14, color: '#1a1a2e', fontWeight: '700', backgroundColor: '#F8F9FF', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 8, borderWidth: 1, borderColor: '#ECEEF4', textAlign: 'center' },
+  logicoLabelCell:{ flex: 1, gap: 4 },
+  logicoButtonCircle:{ borderWidth: 2, borderColor: '#1f2937', alignItems: 'center', justifyContent: 'center' },
+  logicoButtonRingInner:{ backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#9ca3af' },
+  logicoPreviewWrap:{ marginHorizontal: 14, marginBottom: 14, borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 12, overflow: 'hidden' },
+  logicoPreviewRow:{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 10, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: '#F1F5F9' },
+  logicoPreviewSlotText:{ width: 24, fontSize: 12, fontWeight: '800', color: '#334155', textAlign: 'center' },
+  logicoPreviewOptionText:{ flex: 1, fontSize: 12, fontWeight: '600', color: '#1e293b' },
+  logicoPreviewEmptyButton:{ width: 26, height: 26, borderRadius: 13, backgroundColor: '#E2E8F0', borderWidth: 1, borderColor: '#CBD5E1' },
 
   previewCard:    { backgroundColor: '#fff', borderRadius: 20, overflow: 'hidden' },
   previewHero:    { flexDirection: 'row', alignItems: 'flex-start', gap: 14, padding: 20 },
