@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 COPY backend ./backend
 COPY audio-images ./audio-images
+COPY assets ./assets
 
 RUN npm ci
 RUN npm run build --workspace ${SERVICE_WORKSPACE}
@@ -18,6 +19,7 @@ ENV NODE_ENV=production
 COPY package.json package-lock.json ./
 COPY --from=build /app/backend ./backend
 COPY --from=build /app/audio-images ./audio-images
+COPY --from=build /app/assets ./assets
 
 RUN npm ci --omit=dev --workspace ${SERVICE_WORKSPACE} --include-workspace-root
 

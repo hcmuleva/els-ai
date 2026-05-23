@@ -11,6 +11,7 @@ data:
   AI_SERVICE_URL: "http://ai-service:4003"
   MEDIA_SERVICE_URL: "http://media-service:4004"
   LOCAL_MEDIA_DIR: "/app/audio-images"
+  LOCAL_ASSETS_DIR: "/app/assets"
   DB_HOST: "postgres"
   DB_PORT: "5432"
   DB_NAME: "els_ai_db"
