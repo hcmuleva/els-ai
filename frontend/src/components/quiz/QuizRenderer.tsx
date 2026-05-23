@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Modal,
   Pressable,
@@ -10,8 +10,7 @@ import {
   Animated,
   ScrollView,
 } from 'react-native';
-import { X, Volume2, VolumeX } from 'lucide-react-native';
-import { kokoroSpeak, kokoroSpeakWithOptions, kokoroStop } from '../../utils/kokoroTTS';
+import { X } from 'lucide-react-native';
 import { useAuth, API_BASE_URL } from '../../context/AuthContext';
 import { AudioManager } from '../../utils/audio';
 import DragDropRenderer from './DragDropRenderer';
@@ -98,11 +97,7 @@ function getQuestionTheme(questionType: string): QuestionTheme {
   return QUESTION_THEMES[normalized] ?? QUESTION_THEMES['single_choice'];
 }
 
-// Thin wrappers so call sites stay the same
-function ttsSpeak(text: string) { kokoroSpeak(text); }
-function ttsSpeakWithOptions(questionText: string, options: Array<{ label?: string }>) {
-  kokoroSpeakWithOptions(questionText, options);
-}
+
 
 export default function QuizRenderer({ quizId, visible, onClose }: Props) {
   const { apiFetch } = useAuth();
@@ -114,7 +109,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
   const [showResultScreen, setShowResultScreen] = useState(false);
   const [savingAttempt, setSavingAttempt] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
-  const [ttsEnabled, setTtsEnabled] = useState(true);
+
 
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const cardSlideAnim = useRef(new Animated.Value(30)).current;
@@ -155,40 +150,9 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
     ]).start();
   }, [currentQuestionIndex, hasStarted, showResultScreen]);
 
-  // Auto-read question + options when question changes
-  useEffect(() => {
-    if (!ttsEnabled || !hasStarted || showResultScreen || !quiz) return;
-    const q = quiz.questions[currentQuestionIndex];
-    if (!q) return;
-    const parts: string[] = [];
-    if (q.question_title) parts.push(q.question_title);
-    if (q.question_instruction) parts.push(q.question_instruction);
-    const text = parts.join('. ');
-    // Only read labeled options for choice-type questions (not image/drag-drop)
-    const normalized = normalizeQuestionType(q.question_type);
-    const isChoiceBased = ['single_choice', 'multi_choice', 'true_false', 'guess_audio'].includes(normalized);
-    const options: Array<{ label?: string }> = isChoiceBased ? (q.question_data?.options ?? []) : [];
-    const delay = setTimeout(() => ttsSpeakWithOptions(text, options), 400);
-    return () => clearTimeout(delay);
-  }, [currentQuestionIndex, hasStarted, showResultScreen, ttsEnabled, quiz]);
 
-  // Stop TTS when modal closes
-  useEffect(() => {
-    if (!visible) kokoroStop();
-  }, [visible]);
 
-  const speakQuestion = useCallback(() => {
-    if (!quiz) return;
-    const q = quiz.questions[currentQuestionIndex];
-    if (!q) return;
-    const parts: string[] = [];
-    if (q.question_title) parts.push(q.question_title);
-    if (q.question_instruction) parts.push(q.question_instruction);
-    const normalized = normalizeQuestionType(q.question_type);
-    const isChoiceBased = ['single_choice', 'multi_choice', 'true_false', 'guess_audio'].includes(normalized);
-    const options: Array<{ label?: string }> = isChoiceBased ? (q.question_data?.options ?? []) : [];
-    ttsSpeakWithOptions(parts.join('. '), options);
-  }, [quiz, currentQuestionIndex]);
+
 
   // Load quiz details on open
   useEffect(() => {
@@ -220,9 +184,6 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
   const handleStartGame = async () => {
     if (!quiz) return;
     setHasStarted(true);
-    if (ttsEnabled) {
-      ttsSpeak(`Let's play! ${quiz.title}! ${quiz.questions.length} questions. Are you ready? Let's go!`);
-    }
 
     // Default BGM if not provided but we still want the playful vibe for kids
     const bgmUrlRaw = quiz.background_music_url || '/media/bg-audio/eliveta-kids-happy-music-474162.mp3';
@@ -276,24 +237,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
     if (isCorrect) {
       setCorrectCount(nextCorrectCount);
     }
-    if (ttsEnabled) {
-      const correctPhrases = [
-        'Excellent! That is right!',
-        'Awesome! You got it!',
-        'Brilliant! Well done!',
-        'Super! That is correct!',
-        'You are a star! Correct!',
-      ];
-      const wrongPhrases = [
-        'Oops! Not quite. Keep going!',
-        'Almost! Do not give up!',
-        "That's okay! Let's try the next one!",
-        'Good try! Keep it up!',
-      ];
-      const phrases = isCorrect ? correctPhrases : wrongPhrases;
-      const phrase = phrases[Math.floor(Math.random() * phrases.length)];
-      ttsSpeak(phrase);
-    }
+
 
     const newAttempts = [
       ...attempts,
@@ -320,15 +264,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
     setShowResultScreen(true);
     setSavingAttempt(true);
     AudioManager.stopBGM();
-    if (ttsEnabled) {
-      const pct = Math.round((finalCorrectCount / Math.max(totalQuestions, 1)) * 100);
-      const celebration = pct >= 85
-        ? `Amazing! You scored ${pct} percent! You are a superstar!`
-        : pct >= 50
-          ? `Great job! You scored ${pct} percent! Keep practising!`
-          : `Good effort! You scored ${pct} percent! You will do better next time!`;
-      setTimeout(() => ttsSpeak(celebration), 800);
-    }
+
 
     // Play local win or lose sound effect depending on performance
     const winThreshold = Math.ceil(totalQuestions / 2);
@@ -399,11 +335,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
             <Pressable onPress={handleClose} style={styles.introCloseBtn}>
               <X size={20} color="#64748b" />
             </Pressable>
-            <Pressable onPress={() => setTtsEnabled((v) => !v)} style={styles.introTtsBtn}>
-              {ttsEnabled
-                ? <Volume2 size={18} color="#4A90E2" />
-                : <VolumeX size={18} color="#94a3b8" />}
-            </Pressable>
+
           </View>
 
           <View style={styles.introBody}>
@@ -458,14 +390,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
             </View>
           )}
           <View style={styles.headerRight}>
-            <Pressable
-              onPress={() => { setTtsEnabled((v) => { if (v) kokoroStop(); return !v; }); }}
-              style={styles.ttsToggleBtn}
-            >
-              {ttsEnabled
-                ? <Volume2 size={16} color="#4A90E2" />
-                : <VolumeX size={16} color="#94a3b8" />}
-            </Pressable>
+
             <View style={styles.xpChip}>
               <Text style={styles.xpText}>⭐ {correctCount * 10}</Text>
             </View>
@@ -567,12 +492,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
                       {currentQuestion.question_instruction}
                     </Text>
                   ) : null}
-                  {ttsEnabled && (
-                    <Pressable onPress={speakQuestion} style={styles.speakBtn}>
-                      <Volume2 size={14} color="#4A90E2" />
-                      <Text style={styles.speakBtnText}>Read again</Text>
-                    </Pressable>
-                  )}
+
                 </View>
               </Animated.View>
 
@@ -659,12 +579,7 @@ const styles = StyleSheet.create({
   blob2: { width: 180, height: 180, backgroundColor: '#FF7043', bottom: 80, left: -50 },
   blob3: { width: 120, height: 120, backgroundColor: '#7DC67A', top: 200, left: -20 },
   introTopBar: { paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  introTtsBtn: {
-    width: 40, height: 40, borderRadius: 20, backgroundColor: '#fff',
-    alignItems: 'center', justifyContent: 'center',
-    shadowColor: '#000', shadowOpacity: 0.07, shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 5, elevation: 2,
-  },
+
   introCloseBtn: {
     width: 40, height: 40, borderRadius: 20, backgroundColor: '#fff',
     alignItems: 'center', justifyContent: 'center',
@@ -724,23 +639,13 @@ const styles = StyleSheet.create({
   },
   levelChipText: { fontSize: 13, fontWeight: '900', color: '#1a1a2e' },
   headerRight: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  ttsToggleBtn: {
-    width: 34, height: 34, borderRadius: 17, backgroundColor: '#fff',
-    alignItems: 'center', justifyContent: 'center',
-    shadowColor: '#000', shadowOpacity: 0.06, shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4, elevation: 2,
-  },
+
   xpChip: {
     backgroundColor: '#4A90E2', paddingHorizontal: 12, paddingVertical: 6,
     borderRadius: 999, flexDirection: 'row', alignItems: 'center', gap: 4,
   },
   xpText: { fontSize: 12, fontWeight: '800', color: '#fff' },
-  speakBtn: {
-    flexDirection: 'row', alignItems: 'center', gap: 4,
-    backgroundColor: '#EBF4FF', borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5,
-    marginTop: 4,
-  },
-  speakBtnText: { fontSize: 11, fontWeight: '700', color: '#4A90E2' },
+
   progressRow: {
     paddingHorizontal: 16, paddingBottom: 10,
   },

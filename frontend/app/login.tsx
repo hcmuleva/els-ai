@@ -1,28 +1,92 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Redirect, router } from 'expo-router';
 import {
-  Image, KeyboardAvoidingView, Platform,
-  Pressable, ScrollView, StyleSheet, Text, TextInput, View,
+  Animated,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  ViewStyle,
 } from 'react-native';
-import { Eye, EyeOff } from 'lucide-react-native';
+import {
+  Eye, EyeOff,
+  GraduationCap, Users, BookOpen, ShieldCheck,
+  Zap, TrendingUp,
+} from 'lucide-react-native';
+import { SvgXml } from 'react-native-svg';
 
 import { useAuth } from '../src/context/AuthContext';
+import { Colors, Radius, Shadow } from '../src/theme';
+import { AVATAR_THINKING } from '../src/assets/svgs';
 
-// ── Floating artwork blobs ────────────────────────────────────────────────────
-const ARTWORKS: Array<{ emoji: string; size: number; top?: number; bottom?: number; left?: number; right?: number; rotate: string }> = [
-  { emoji: '🦒', size: 48, top: 12,    left: 10,  rotate: '-10deg' },
-  { emoji: '📚', size: 40, top: 8,     right: 10, rotate: '8deg'   },
-  { emoji: '🐧', size: 36, bottom: 10, left: 8,   rotate: '-6deg'  },
-  { emoji: '🎨', size: 36, bottom: 8,  right: 8,  rotate: '10deg'  },
+// ── Types ─────────────────────────────────────────────────────────────────────
+type IconComponent = React.ComponentType<{ size: number; color: string }>;
+
+type DemoAccount = {
+  label: string;
+  email: string;
+  Icon: IconComponent;
+  role: string;
+  color: string;
+  bg: string;
+};
+
+type FeatureItem = {
+  Icon: IconComponent;
+  label: string;
+};
+
+// ── Data ──────────────────────────────────────────────────────────────────────
+const DEMO_ACCOUNTS: DemoAccount[] = [
+  { label: 'Student', email: 'rahul@els.ai',   Icon: GraduationCap, role: 'Student', color: Colors.primary, bg: Colors.primaryLight },
+  { label: 'Parent',  email: 'ramesh@els.ai',  Icon: Users,         role: 'Parent',  color: Colors.success, bg: Colors.successLight },
+  { label: 'Teacher', email: 'teacher@els.ai', Icon: BookOpen,      role: 'Teacher', color: Colors.accent,  bg: Colors.accentLight  },
+  { label: 'Admin',   email: 'super@els.ai',   Icon: ShieldCheck,   role: 'Admin',   color: Colors.purple,  bg: Colors.purpleLight  },
 ];
 
-const DEMO_ACCOUNTS = [
-  { label: 'Rahul',   email: 'rahul@els.ai',   emoji: '🎒', role: 'Student', color: '#4A90E2', bg: '#D6EAFF' },
-  { label: 'Ramesh',  email: 'ramesh@els.ai',  emoji: '👨‍👩‍👧', role: 'Parent',  color: '#7DC67A', bg: '#D6F5D6' },
-  { label: 'Teacher', email: 'teacher@els.ai', emoji: '🍎', role: 'Teacher', color: '#FF7043', bg: '#FFE8D6' },
-  { label: 'Super',   email: 'super@els.ai',   emoji: '⭐', role: 'Admin',   color: '#9B8EC4', bg: '#EDE4FF' },
+const FEATURES: FeatureItem[] = [
+  { Icon: BookOpen,   label: 'Smart Lessons'  },
+  { Icon: TrendingUp, label: 'Track Progress' },
+  { Icon: Zap,        label: 'Fun Quizzes'    },
 ];
 
+// ── Animated Pressable ────────────────────────────────────────────────────────
+// wrapperStyle → applied to Pressable (layout: flex, sizing)
+// style        → applied to Animated.View (visual: bg, border, padding)
+function AnimatedPressable({ onPress, disabled, style, wrapperStyle, children }: {
+  onPress: () => void;
+  disabled?: boolean;
+  style?: StyleProp<ViewStyle>;
+  wrapperStyle?: StyleProp<ViewStyle>;
+  children: React.ReactNode;
+}) {
+  const scale = useRef(new Animated.Value(1)).current;
+  return (
+    <Pressable
+      onPress={onPress}
+      disabled={disabled}
+      style={wrapperStyle}
+      onPressIn={() => {
+        Animated.spring(scale, { toValue: 0.97, useNativeDriver: true, speed: 30, bounciness: 2 }).start();
+      }}
+      onPressOut={() => {
+        Animated.spring(scale, { toValue: 1, useNativeDriver: true, speed: 30, bounciness: 2 }).start();
+      }}
+    >
+      <Animated.View style={[style, { transform: [{ scale }] }]}>
+        {children}
+      </Animated.View>
+    </Pressable>
+  );
+}
+
+// ── Main Screen ───────────────────────────────────────────────────────────────
 export default function LoginScreen() {
   const { isAuthenticated, signIn } = useAuth();
   const [identifier, setIdentifier]     = useState('');
@@ -36,11 +100,23 @@ export default function LoginScreen() {
   const handleLogin = async () => {
     if (!identifier.trim()) { setError('Please enter your email.'); return; }
     if (!password.trim())   { setError('Please enter your password.'); return; }
-    setError(''); setLoading(true);
+    setError('');
+    setLoading(true);
     const result = await signIn(identifier, password);
     setLoading(false);
     if (result.success) router.replace('/(tabs)');
     else setError(result.error || 'Invalid credentials');
+  };
+
+  const handleDemoLogin = async (email: string) => {
+    setIdentifier(email);
+    setPassword('welcome');
+    setError('');
+    setLoading(true);
+    const result = await signIn(email, 'welcome');
+    setLoading(false);
+    if (result.success) router.replace('/(tabs)');
+    else setError(result.error || 'Login failed');
   };
 
   return (
@@ -53,57 +129,49 @@ export default function LoginScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        {/* ─── Hero artwork area ─────────────────────────────────────── */}
+        {/* ─── Hero ───────────────────────────────────────────── */}
         <View style={s.hero}>
-          {/* BG blobs */}
+          {/* Background blobs */}
           <View style={[s.blob, s.blobBlue]}  />
           <View style={[s.blob, s.blobCoral]} />
           <View style={[s.blob, s.blobGreen]} />
 
-          {/* Floating emojis */}
-          {ARTWORKS.map((a, i) => (
-            <View
-              key={i}
-              style={[
-                s.floatEmoji,
-                {
-                  ...(a.top    !== undefined ? { top:    a.top    } : {}),
-                  ...(a.bottom !== undefined ? { bottom: a.bottom } : {}),
-                  ...(a.left   !== undefined ? { left:   a.left   } : {}),
-                  ...(a.right  !== undefined ? { right:  a.right  } : {}),
-                  transform: [{ rotate: a.rotate }],
-                },
-              ]}
-            >
-              <Text style={{ fontSize: a.size }}>{a.emoji}</Text>
-            </View>
-          ))}
-
-          {/* Logo + brand */}
-          <View style={s.brand}>
-            <Image source={require('../assets/emeelan-logo.png')} style={s.logo} />
-            <View style={s.brandName}>
-              <Text style={s.brandEls}>ELS</Text>
-              <Text style={s.brandDot}>·</Text>
-              <Text style={s.brandAi}>AI</Text>
-            </View>
-          </View>
-
-          <Text style={s.heroTagline}>A Fun Way to{'\n'}Learn New Things! 🚀</Text>
-
-          {/* Hashtag pills */}
-          <View style={s.hashRow}>
-            {['#MathFun', '#BrainGames', '#KidsLearn'].map((h) => (
-              <View key={h} style={s.hashPill}>
-                <Text style={s.hashText}>{h}</Text>
+          <View style={s.heroRow}>
+            {/* Left: brand + tagline + pills */}
+            <View style={s.heroLeft}>
+              <View style={s.brand}>
+                <Image
+                  source={require('../assets/emeelan-logo.png')}
+                  style={s.logo}
+                  resizeMode="contain"
+                />
+                <View style={s.brandName}>
+                  <Text style={s.brandEls}>ELS</Text>
+                  <Text style={s.brandDot}>·</Text>
+                  <Text style={s.brandAi}>AI</Text>
+                </View>
               </View>
-            ))}
+              <Text style={s.heroTagline}>A Smarter Way{'\n'}to Learn</Text>
+              <View style={s.featureRow}>
+                {FEATURES.map(({ Icon, label }) => (
+                  <View key={label} style={s.featurePill}>
+                    <Icon size={11} color={Colors.primary} />
+                    <Text style={s.featurePillText}>{label}</Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+
+            {/* Right: mascot */}
+            <View style={s.heroMascot}>
+              <SvgXml xml={AVATAR_THINKING} width={140} height={140} />
+            </View>
           </View>
         </View>
 
-        {/* ─── Login card ────────────────────────────────────────────── */}
+        {/* ─── Card ───────────────────────────────────────────── */}
         <View style={s.card}>
-          <Text style={s.cardTitle}>Welcome Back! 👋</Text>
+          <Text style={s.cardTitle}>Welcome Back</Text>
           <Text style={s.cardSub}>Sign in to continue your journey</Text>
 
           {/* Email */}
@@ -113,7 +181,7 @@ export default function LoginScreen() {
               value={identifier}
               onChangeText={setIdentifier}
               placeholder="you@example.com"
-              placeholderTextColor="#B0B8CC"
+              placeholderTextColor={Colors.textDisabled}
               style={s.input}
               autoCapitalize="none"
               keyboardType="email-address"
@@ -128,53 +196,52 @@ export default function LoginScreen() {
                 value={password}
                 onChangeText={setPassword}
                 placeholder="••••••••"
-                placeholderTextColor="#B0B8CC"
+                placeholderTextColor={Colors.textDisabled}
                 style={s.pwInput}
                 secureTextEntry={!showPassword}
                 autoCapitalize="none"
               />
               <Pressable onPress={() => setShowPassword((v) => !v)} style={s.eyeBtn}>
                 {showPassword
-                  ? <EyeOff size={18} color="#9A9AB0" />
-                  : <Eye    size={18} color="#9A9AB0" />}
+                  ? <EyeOff size={18} color={Colors.textMuted} />
+                  : <Eye    size={18} color={Colors.textMuted} />}
               </Pressable>
             </View>
           </View>
 
-          {error ? <Text style={s.error}>{error}</Text> : null}
+          {/* Error */}
+          {error ? (
+            <View style={s.errorBox}>
+              <Text style={s.errorText}>{error}</Text>
+            </View>
+          ) : null}
 
           {/* Login button */}
-          <Pressable onPress={handleLogin} style={s.loginBtn} disabled={loading}>
-            <Text style={s.loginBtnText}>{loading ? 'Signing in…' : 'Start Learning »'}</Text>
-          </Pressable>
+          <AnimatedPressable onPress={handleLogin} disabled={loading} style={s.loginBtn}>
+            <Text style={s.loginBtnText}>{loading ? 'Signing in…' : 'Start Learning'}</Text>
+          </AnimatedPressable>
 
-          {/* Demo accounts */}
+          {/* Demo section */}
           <View style={s.demoSection}>
             <View style={s.demoLabelRow}>
               <View style={s.demoLine} />
-              <Text style={s.demoLabel}>Quick Demo Login</Text>
+              <Text style={s.demoLabel}>Try a Demo Account</Text>
               <View style={s.demoLine} />
             </View>
             <View style={s.demoGrid}>
               {DEMO_ACCOUNTS.map((d) => (
-                <Pressable
+                <AnimatedPressable
                   key={d.label}
-                  style={[s.demoBtn, { backgroundColor: d.bg, borderColor: d.color + '40' }]}
-                  onPress={async () => {
-                    setIdentifier(d.email);
-                    setPassword('welcome');
-                    setError('');
-                    setLoading(true);
-                    const result = await signIn(d.email, 'welcome');
-                    setLoading(false);
-                    if (result.success) router.replace('/(tabs)');
-                    else setError(result.error || 'Login failed');
-                  }}
+                  wrapperStyle={s.demoBtnWrapper}
+                  style={[s.demoBtn, { backgroundColor: d.bg, borderColor: d.color + '30' }]}
+                  onPress={() => handleDemoLogin(d.email)}
                 >
-                  <Text style={s.demoBtnEmoji}>{d.emoji}</Text>
+                  <View style={[s.demoIconWrap, { backgroundColor: d.color + '18' }]}>
+                    <d.Icon size={16} color={d.color} />
+                  </View>
                   <Text style={[s.demoBtnName, { color: d.color }]}>{d.label}</Text>
-                  <Text style={[s.demoBtnRole, { color: d.color + 'BB' }]}>{d.role}</Text>
-                </Pressable>
+                  <Text style={[s.demoBtnRole, { color: d.color + 'AA' }]}>{d.role}</Text>
+                </AnimatedPressable>
               ))}
             </View>
           </View>
@@ -184,102 +251,117 @@ export default function LoginScreen() {
   );
 }
 
+// ── Styles ────────────────────────────────────────────────────────────────────
 const s = StyleSheet.create({
-  root:   { flex: 1, backgroundColor: '#F0F4FF' },
+  root:   { flex: 1, backgroundColor: Colors.background },
   scroll: { flexGrow: 1 },
 
-  // ── Hero ──────────────────────────────────────────────────────────────────
+  // ── Hero ─────────────────────────────────────────────────────────────────
   hero: {
-    height: 260, position: 'relative',
-    alignItems: 'center', justifyContent: 'center',
+    height: 280,
+    position: 'relative',
+    justifyContent: 'center',
     overflow: 'hidden',
   },
-  blob: {
-    position: 'absolute', borderRadius: 999,
-  },
-  blobBlue:  { width: 200, height: 200, backgroundColor: 'rgba(74,144,226,0.18)', top: -60,  left: -60  },
-  blobCoral: { width: 160, height: 160, backgroundColor: 'rgba(255,112,67,0.14)',  top: -20,  right: -40 },
-  blobGreen: { width: 140, height: 140, backgroundColor: 'rgba(125,198,122,0.14)', bottom: -40, left: 60 },
+  blob:      { position: 'absolute', borderRadius: 999 },
+  blobBlue:  { width: 220, height: 220, backgroundColor: 'rgba(74,127,224,0.12)',  top: -80,  left: -60   },
+  blobCoral: { width: 180, height: 180, backgroundColor: 'rgba(255,123,84,0.10)',  top: -30,  right: -50  },
+  blobGreen: { width: 160, height: 160, backgroundColor: 'rgba(82,183,136,0.09)',  bottom: -50, left: 60  },
 
-  floatEmoji: { position: 'absolute' },
+  heroRow:    { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 24 },
+  heroLeft:   { flex: 1, paddingRight: 8 },
+  heroMascot: { width: 140, height: 140 },
 
-  brand: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 },
-  logo:  { width: 42, height: 42, borderRadius: 12 },
-  brandName: { flexDirection: 'row', alignItems: 'center', gap: 1 },
-  brandEls:  { fontSize: 28, fontWeight: '900', color: '#4A90E2', letterSpacing: 1 },
-  brandDot:  { fontSize: 28, fontWeight: '900', color: '#FF7043' },
-  brandAi:   { fontSize: 28, fontWeight: '900', color: '#FF7043', letterSpacing: 1 },
+  brand:     { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 10 },
+  logo:      { width: 38, height: 38, borderRadius: Radius.md },
+  brandName: { flexDirection: 'row', alignItems: 'center' },
+  brandEls:  { fontSize: 26, fontWeight: '900', color: Colors.primary, letterSpacing: 1.5 },
+  brandDot:  { fontSize: 26, fontWeight: '900', color: Colors.accent, marginHorizontal: 2 },
+  brandAi:   { fontSize: 26, fontWeight: '900', color: Colors.accent, letterSpacing: 1.5 },
 
   heroTagline: {
-    fontSize: 18, fontWeight: '900', color: '#1a1a2e',
-    textAlign: 'center', lineHeight: 26, marginBottom: 14,
+    fontSize: 18, fontWeight: '900', color: Colors.text,
+    textAlign: 'left', lineHeight: 26, marginBottom: 14,
   },
 
-  hashRow:  { flexDirection: 'row', gap: 8 },
-  hashPill: {
-    backgroundColor: 'rgba(74,144,226,0.12)',
-    borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5,
+  featureRow:      { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  featurePill:     {
+    flexDirection: 'row', alignItems: 'center', gap: 4,
+    backgroundColor: 'rgba(74,127,224,0.09)',
+    borderRadius: Radius.full, paddingHorizontal: 9, paddingVertical: 4,
   },
-  hashText: { fontSize: 11, fontWeight: '700', color: '#4A90E2' },
+  featurePillText: { fontSize: 10, fontWeight: '700', color: Colors.primary },
 
-  // ── Card ──────────────────────────────────────────────────────────────────
+  // ── Card ─────────────────────────────────────────────────────────────────
   card: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.surface,
     borderTopLeftRadius: 32, borderTopRightRadius: 32,
-    padding: 28, paddingBottom: 40,
-    gap: 4,
-    shadowColor: '#1a1a3e',
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.06,
-    shadowRadius: 16,
-    elevation: 8,
+    padding: 28, paddingBottom: 48,
+    ...Shadow.lg,
   },
-  cardTitle: { fontSize: 22, fontWeight: '900', color: '#1a1a2e', marginBottom: 2 },
-  cardSub:   { fontSize: 13, fontWeight: '500', color: '#9A9AB0', marginBottom: 14 },
+  cardTitle: { fontSize: 24, fontWeight: '900', color: Colors.text, marginBottom: 4 },
+  cardSub:   { fontSize: 14, fontWeight: '500', color: Colors.textMuted, marginBottom: 20 },
 
-  // Fields
-  fieldWrap:  { gap: 6, marginBottom: 10 },
-  fieldLabel: { fontSize: 12, fontWeight: '700', color: '#5A5A7A' },
+  // ── Fields ───────────────────────────────────────────────────────────────
+  fieldWrap:  { marginBottom: 14 },
+  fieldLabel: { fontSize: 12, fontWeight: '700', color: Colors.textSecondary, marginBottom: 6 },
   input: {
-    backgroundColor: '#F8F9FF', borderRadius: 14,
-    borderWidth: 1.5, borderColor: '#EBEBF8',
+    backgroundColor: Colors.surfaceAlt,
+    borderRadius: Radius.md,
+    borderWidth: 1.5, borderColor: Colors.border,
     paddingHorizontal: 16, paddingVertical: 13,
-    fontSize: 14, color: '#1a1a2e',
+    fontSize: 14, color: Colors.text,
   },
   pwWrap: {
     flexDirection: 'row', alignItems: 'center',
-    backgroundColor: '#F8F9FF', borderRadius: 14,
-    borderWidth: 1.5, borderColor: '#EBEBF8',
+    backgroundColor: Colors.surfaceAlt, borderRadius: Radius.md,
+    borderWidth: 1.5, borderColor: Colors.border,
     paddingHorizontal: 16,
   },
-  pwInput: { flex: 1, paddingVertical: 13, fontSize: 14, color: '#1a1a2e' },
-  eyeBtn:  { paddingLeft: 8, paddingVertical: 6 },
+  pwInput: { flex: 1, paddingVertical: 13, fontSize: 14, color: Colors.text },
+  eyeBtn:  { paddingLeft: 10, paddingVertical: 8 },
 
-  error: { fontSize: 12, fontWeight: '700', color: '#FF4444', marginTop: 2 },
+  // ── Error ────────────────────────────────────────────────────────────────
+  errorBox:  {
+    backgroundColor: Colors.errorLight, borderRadius: Radius.sm,
+    paddingHorizontal: 12, paddingVertical: 8, marginBottom: 8,
+  },
+  errorText: { fontSize: 12, fontWeight: '600', color: Colors.error },
 
+  // ── Login button ─────────────────────────────────────────────────────────
   loginBtn: {
-    backgroundColor: '#4A90E2', borderRadius: 16,
-    paddingVertical: 15, alignItems: 'center',
+    backgroundColor: Colors.primary,
+    borderRadius: Radius.lg,
+    paddingVertical: 16,
+    alignItems: 'center',
     marginTop: 6,
-    shadowColor: '#4A90E2',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.35, shadowRadius: 12, elevation: 6,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.28,
+    shadowRadius: 12,
+    elevation: 5,
   },
   loginBtnText: { fontSize: 16, fontWeight: '900', color: '#FFFFFF', letterSpacing: 0.5 },
 
-  // Demo
-  demoSection:  { marginTop: 20 },
-  demoLabelRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 },
-  demoLine:     { flex: 1, height: 1, backgroundColor: '#F0F0F8' },
-  demoLabel:    { fontSize: 11, fontWeight: '700', color: '#B0B8CC' },
-  demoGrid:     { flexDirection: 'row', gap: 8 },
+  // ── Demo section ─────────────────────────────────────────────────────────
+  demoSection:  { marginTop: 24 },
+  demoLabelRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 14 },
+  demoLine:     { flex: 1, height: 1, backgroundColor: Colors.borderLight },
+  demoLabel:    { fontSize: 11, fontWeight: '700', color: Colors.textDisabled },
+  demoGrid:       { flexDirection: 'row', gap: 8 },
+  demoBtnWrapper: { flex: 1 },
   demoBtn: {
-    flex: 1, alignItems: 'center', gap: 3,
-    borderRadius: 16, paddingVertical: 12,
+    flex: 1, alignItems: 'center', gap: 4,
+    borderRadius: Radius.lg, paddingVertical: 12, paddingHorizontal: 4,
     borderWidth: 1.5,
+    ...Shadow.sm,
   },
-  demoBtnEmoji: { fontSize: 24 },
-  demoBtnName:  { fontSize: 13, fontWeight: '900' },
-  demoBtnRole:  { fontSize: 10, fontWeight: '700' },
+  demoIconWrap: {
+    width: 34, height: 34, borderRadius: Radius.sm,
+    alignItems: 'center', justifyContent: 'center',
+  },
+  demoBtnText: {},
+  demoBtnName: { fontSize: 11, fontWeight: '800' },
+  demoBtnRole: { fontSize: 9, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 0.3 },
 });

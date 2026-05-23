@@ -138,6 +138,130 @@ async function bootstrap() {
           UNIQUE(classroom_assignment_id, student_id)
         );
       `);
+
+      // ── Classroom lifecycle: ended_at timestamp ────────────────────────────
+      await db.query(`ALTER TABLE classrooms ADD COLUMN IF NOT EXISTS ended_at TIMESTAMP;`);
+      // ── Remark media (image/doc visible to parents) ────────────────────────
+      await db.query(`ALTER TABLE classroom_student_remarks ADD COLUMN IF NOT EXISTS remark_media_url TEXT;`);
+
+      // ── Teacher remarks + scores per student per classroom ─────────────────
+      await db.query(`
+        CREATE TABLE IF NOT EXISTS classroom_student_remarks (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          classroom_id UUID REFERENCES classrooms(id) ON DELETE CASCADE,
+          student_id UUID NOT NULL,
+          teacher_id UUID NOT NULL,
+          remark_text TEXT,
+          parent_note TEXT,
+          score_behavior INTEGER CHECK (score_behavior BETWEEN 1 AND 5),
+          score_confidence INTEGER CHECK (score_confidence BETWEEN 1 AND 5),
+          score_participation INTEGER CHECK (score_participation BETWEEN 1 AND 5),
+          score_performance INTEGER CHECK (score_performance BETWEEN 1 AND 5),
+          created_at TIMESTAMP DEFAULT NOW(),
+          updated_at TIMESTAMP DEFAULT NOW(),
+          UNIQUE(classroom_id, student_id)
+        );
+      `);
+
+      // ── Pre-configured achievement catalogue ───────────────────────────────
+      await db.query(`
+        CREATE TABLE IF NOT EXISTS achievements (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          organization_id UUID,
+          name VARCHAR(100) NOT NULL,
+          emoji VARCHAR(20) NOT NULL,
+          description TEXT,
+          color VARCHAR(20) NOT NULL DEFAULT '#4A90E2',
+          is_global BOOLEAN NOT NULL DEFAULT false,
+          created_at TIMESTAMP DEFAULT NOW()
+        );
+      `);
+
+      // ── Student achievement grants (one per student+classroom+achievement) ──
+      await db.query(`
+        CREATE TABLE IF NOT EXISTS student_achievements (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          student_id UUID NOT NULL,
+          classroom_id UUID REFERENCES classrooms(id) ON DELETE CASCADE,
+          achievement_id UUID REFERENCES achievements(id) ON DELETE CASCADE,
+          granted_by UUID NOT NULL,
+          granted_at TIMESTAMP DEFAULT NOW()
+        );
+      `);
+      // ── Deduplicate global achievements and map grants to canonical rows ───
+      await db.query(`
+        WITH ranked AS (
+          SELECT id,
+                 FIRST_VALUE(id) OVER (
+                   PARTITION BY COALESCE(organization_id::text, 'global'),
+                                LOWER(name),
+                                is_global
+                   ORDER BY created_at ASC, id ASC
+                 ) AS keep_id
+          FROM achievements
+        ),
+        remap AS (
+          SELECT id, keep_id
+          FROM ranked
+          WHERE id <> keep_id
+        )
+        UPDATE student_achievements sa
+        SET achievement_id = remap.keep_id
+        FROM remap
+        WHERE sa.achievement_id = remap.id;
+      `);
+      await db.query(`
+        WITH ranked AS (
+          SELECT id,
+                 ROW_NUMBER() OVER (
+                   PARTITION BY COALESCE(organization_id::text, 'global'),
+                                LOWER(name),
+                                is_global
+                   ORDER BY created_at ASC, id ASC
+                 ) AS rn
+          FROM achievements
+        )
+        DELETE FROM achievements a
+        USING ranked r
+        WHERE a.id = r.id AND r.rn > 1;
+      `);
+      await db.query(`
+        CREATE UNIQUE INDEX IF NOT EXISTS idx_achievements_unique_identity
+          ON achievements (
+            COALESCE(organization_id::text, 'global'),
+            LOWER(name),
+            is_global
+          );
+      `);
+      // ── Deduplicate grants and enforce uniqueness ──────────────────────────
+      await db.query(`
+        DELETE FROM student_achievements sa
+        USING student_achievements dupe
+        WHERE sa.ctid < dupe.ctid
+          AND sa.student_id = dupe.student_id
+          AND sa.classroom_id = dupe.classroom_id
+          AND sa.achievement_id = dupe.achievement_id;
+      `);
+      await db.query(`
+        CREATE UNIQUE INDEX IF NOT EXISTS idx_student_achievements_unique
+          ON student_achievements (student_id, classroom_id, achievement_id);
+      `);
+
+      // ── Seed global achievements (once) ───────────────────────────────────
+      await db.query(`
+        INSERT INTO achievements (name, emoji, description, color, is_global)
+        VALUES
+          ('Best Performer',     '🏆', 'Outstanding performance in class',              '#E6A817', true),
+          ('Top Scorer',         '⭐', 'Highest quiz score in the session',             '#FF7043', true),
+          ('Consistent Learner', '📚', 'Regularly completes tasks and quizzes',         '#4A90E2', true),
+          ('Creative Thinker',   '💡', 'Shows creative problem-solving',                '#9B8EC4', true),
+          ('Quick Solver',       '⚡', 'Completes assignments faster than average',     '#7DC67A', true),
+          ('Team Player',        '🤝', 'Collaborates and helps classmates',             '#E91E8C', true),
+          ('Star Student',       '🌟', 'All-round excellent student',                   '#FF9800', true),
+          ('Most Improved',      '📈', 'Showed the most improvement this session',      '#00BCD4', true)
+        ON CONFLICT DO NOTHING;
+      `);
+
       break;
     } catch (error) {
       retries--;

@@ -1,9 +1,46 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
-import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import {
+  PenLine,
+  GraduationCap,
+  Trophy,
+  Search,
+  RotateCw,
+  Clock,
+  BookOpen,
+  Layers,
+  ListChecks,
+  SplitSquareHorizontal,
+  Volume2,
+  CheckSquare,
+  Eye,
+  Plus,
+  Minus,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  Check,
+  Filter,
+  Zap,
+  School,
+} from 'lucide-react-native';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { useAuth } from '../../src/context/AuthContext';
+import { Colors, Radius, Shadow } from '../../src/theme';
+import SelectorModal from '../../src/components/SelectorModal';
 
 type QuizType =
   | 'drag_drop'
@@ -51,15 +88,15 @@ type SubjectCatalogItem = {
 };
 
 const QUIZ_TYPE_LABELS: Record<string, string> = {
-  drag_drop_match: 'Drag & Drop Match',
-  guess_image: 'Guess the Image',
-  guess_audio: 'Guess the Audio',
+  drag_drop_match: 'Drag & Drop',
+  guess_image: 'Guess Image',
+  guess_audio: 'Guess Audio',
   true_false: 'True / False',
   single_choice: 'Single Choice',
   multi_choice: 'Multi Choice',
-  drag_drop: 'Drag & Drop Match',
-  image_select: 'Guess the Image',
-  sound_match: 'Guess the Audio',
+  drag_drop: 'Drag & Drop',
+  image_select: 'Guess Image',
+  sound_match: 'Guess Audio',
   memory_game: 'Multi Choice',
 };
 
@@ -74,6 +111,24 @@ const INITIAL_DRAFT: AssessmentDraft = {
 };
 
 const DIFFICULTIES: Difficulty[] = ['Easy', 'Medium', 'Hard'];
+
+const DIFF_CONFIG: Record<Difficulty, { color: string; bg: string; label: string }> = {
+  Easy:   { color: '#16a34a', bg: '#dcfce7', label: 'Easy' },
+  Medium: { color: '#d97706', bg: '#fef3c7', label: 'Medium' },
+  Hard:   { color: '#dc2626', bg: '#fee2e2', label: 'Hard' },
+};
+
+const QUESTION_TYPE_FILTERS = [
+  { value: '', label: 'All Types' },
+  { value: 'single_choice',  label: 'Single Choice' },
+  { value: 'multi_choice',   label: 'Multi Choice' },
+  { value: 'true_false',     label: 'True / False' },
+  { value: 'drag_drop_match',label: 'Drag & Drop' },
+  { value: 'guess_image',    label: 'Guess Image' },
+  { value: 'guess_audio',    label: 'Guess Audio' },
+];
+
+const PAGE_SIZE = 10;
 
 function normalizeQuestionType(type: string): QuizType {
   if (type === 'drag_drop' || type === 'drag_drop_match') return 'drag_drop_match';
@@ -90,34 +145,43 @@ function inferQuizType(questions: QuestionBankItem[]): QuizType {
   return normalizeQuestionType(questions[0].question_type || 'single_choice');
 }
 
+function QuestionTypeIcon({ type, size = 14, color = '#5A6A8A' }: { type: string; size?: number; color?: string }) {
+  const norm = normalizeQuestionType(type);
+  if (norm === 'drag_drop_match') return <SplitSquareHorizontal size={size} color={color} />;
+  if (norm === 'guess_image')     return <Eye size={size} color={color} />;
+  if (norm === 'guess_audio')     return <Volume2 size={size} color={color} />;
+  if (norm === 'true_false')      return <CheckSquare size={size} color={color} />;
+  if (norm === 'multi_choice')    return <ListChecks size={size} color={color} />;
+  return <Layers size={size} color={color} />;
+}
+
 export default function QuizExamCreatorScreen() {
   const { user, apiFetch } = useAuth();
-  const [activeMode, setActiveMode] = useState<CreationMode>('quiz');
-  const [bankTab, setBankTab] = useState<BankTab>('question');
-  const [questionBankSearch, setQuestionBankSearch] = useState('');
-  const [loadingQuestionBank, setLoadingQuestionBank] = useState(false);
-  const [creating, setCreating] = useState(false);
-  const [selectorField, setSelectorField] = useState<SelectorField | null>(null);
-  const [viewQuestion, setViewQuestion] = useState<QuestionBankItem | null>(null);
-  const [questionBank, setQuestionBank] = useState<QuestionBankItem[]>([]);
-  const [quizDraft, setQuizDraft] = useState<AssessmentDraft>(INITIAL_DRAFT);
-  const [examDraft, setExamDraft] = useState<AssessmentDraft>(INITIAL_DRAFT);
+  const [activeMode, setActiveMode]                       = useState<CreationMode>('quiz');
+  const [bankTab, setBankTab]                             = useState<BankTab>('question');
+  const [questionBankSearch, setQuestionBankSearch]       = useState('');
+  const [bankTypeFilter, setBankTypeFilter]               = useState('');
+  const [loadingQuestionBank, setLoadingQuestionBank]     = useState(false);
+  const [creating, setCreating]                           = useState(false);
+  const [selectorField, setSelectorField]                 = useState<SelectorField | null>(null);
+  const [bankPage, setBankPage]                           = useState(0);
+  const [viewQuestion, setViewQuestion]                   = useState<QuestionBankItem | null>(null);
+  const [questionBank, setQuestionBank]                   = useState<QuestionBankItem[]>([]);
+  const [quizDraft, setQuizDraft]                         = useState<AssessmentDraft>(INITIAL_DRAFT);
+  const [examDraft, setExamDraft]                         = useState<AssessmentDraft>(INITIAL_DRAFT);
   const [quizSelectedQuestionIds, setQuizSelectedQuestionIds] = useState<string[]>([]);
   const [examSelectedQuestionIds, setExamSelectedQuestionIds] = useState<string[]>([]);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const [subjectCatalogItems, setSubjectCatalogItems] = useState<SubjectCatalogItem[]>([]);
+  const [message, setMessage]                             = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [subjectCatalogItems, setSubjectCatalogItems]     = useState<SubjectCatalogItem[]>([]);
 
   const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
 
-  const currentDraft = activeMode === 'quiz' ? quizDraft : examDraft;
-  const currentSelectedIds = activeMode === 'quiz' ? quizSelectedQuestionIds : examSelectedQuestionIds;
+  const currentDraft          = activeMode === 'quiz' ? quizDraft : examDraft;
+  const currentSelectedIds    = activeMode === 'quiz' ? quizSelectedQuestionIds : examSelectedQuestionIds;
 
   const setCurrentDraft = (patch: Partial<AssessmentDraft>) => {
-    if (activeMode === 'quiz') {
-      setQuizDraft((current) => ({ ...current, ...patch }));
-      return;
-    }
-    setExamDraft((current) => ({ ...current, ...patch }));
+    if (activeMode === 'quiz') { setQuizDraft((c) => ({ ...c, ...patch })); return; }
+    setExamDraft((c) => ({ ...c, ...patch }));
   };
 
   const loadSubjectCatalog = useCallback(async () => {
@@ -127,30 +191,24 @@ export default function QuizExamCreatorScreen() {
       if (res.ok) {
         const payload = await res.json();
         const items = Array.isArray(payload.subjects) ? payload.subjects : [];
-        const mappedItems = items
-          .map((item: any) => ({
-            classLevel: String(item.classLevel || item.class_level || '').trim(),
-            subject: String(item.title || item.subject || '').trim(),
-          }))
-          .filter((item: SubjectCatalogItem) => item.classLevel && item.subject);
-        setSubjectCatalogItems(mappedItems);
+        setSubjectCatalogItems(
+          items
+            .map((item: any) => ({
+              classLevel: String(item.classLevel || item.class_level || '').trim(),
+              subject:    String(item.title || item.subject || '').trim(),
+            }))
+            .filter((item: SubjectCatalogItem) => item.classLevel && item.subject),
+        );
       }
-    } catch {
-      // silently fail
-    }
+    } catch { /* silently fail */ }
   }, [apiFetch, isTeacherView]);
 
   const loadQuestionBank = useCallback(async () => {
     if (!isTeacherView) return;
     setLoadingQuestionBank(true);
     try {
-      const query = new URLSearchParams();
-      query.set('limit', '300');
-      const res = await apiFetch(`/quizzes/question-bank?${query.toString()}`);
-      if (!res.ok) {
-        const errorPayload = await res.json().catch(() => ({}));
-        throw new Error(errorPayload.message || 'Failed to load question bank');
-      }
+      const res = await apiFetch('/quizzes/question-bank?limit=300');
+      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).message || 'Failed to load question bank');
       const payload = await res.json();
       setQuestionBank(payload.questions || []);
     } catch (error) {
@@ -167,59 +225,50 @@ export default function QuizExamCreatorScreen() {
     }, [loadSubjectCatalog, loadQuestionBank]),
   );
 
-  const classOptions = useMemo(() => STANDARD_OPTIONS.map((item) => item.value), []);
-
-  const subjectOptions = useMemo(() => {
-    return [
+  const classOptions   = useMemo(() => STANDARD_OPTIONS.map((item) => item.value), []);
+  const subjectOptions = useMemo(
+    () => [
       ...new Set(
         subjectCatalogItems
           .filter((item) => !currentDraft.classLevel || item.classLevel === currentDraft.classLevel)
           .map((item) => item.subject),
       ),
-    ].sort((a, b) => a.localeCompare(b));
-  }, [currentDraft.classLevel, subjectCatalogItems]);
+    ].sort((a, b) => a.localeCompare(b)),
+    [currentDraft.classLevel, subjectCatalogItems],
+  );
 
   const filteredQuestionBank = useMemo(() => {
     const keyword = questionBankSearch.trim().toLowerCase();
-    return questionBank.filter((question) => {
-      if (currentDraft.classLevel && question.class_level !== currentDraft.classLevel) return false;
-      if (currentDraft.subject && question.subject !== currentDraft.subject) return false;
+    return questionBank.filter((q) => {
+      if (currentDraft.classLevel && q.class_level !== currentDraft.classLevel) return false;
+      if (currentDraft.subject && q.subject !== currentDraft.subject) return false;
+      if (bankTypeFilter && normalizeQuestionType(q.question_type) !== bankTypeFilter) return false;
       if (!keyword) return true;
-      const haystack = [question.quiz_title, question.question_title, question.question_instruction, question.question_type]
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase();
-      return haystack.includes(keyword);
+      return [q.quiz_title, q.question_title, q.question_instruction, q.question_type]
+        .filter(Boolean).join(' ').toLowerCase().includes(keyword);
     });
-  }, [currentDraft.classLevel, currentDraft.subject, questionBank, questionBankSearch]);
+  }, [currentDraft.classLevel, currentDraft.subject, bankTypeFilter, questionBank, questionBankSearch]);
 
   const selectedQuestionMap = useMemo(() => {
     const map = new Map<string, QuestionBankItem>();
-    questionBank.forEach((question) => map.set(question.id, question));
+    questionBank.forEach((q) => map.set(q.id, q));
     return map;
   }, [questionBank]);
 
   const selectedQuestions = useMemo(
-    () =>
-      currentSelectedIds
-        .map((id) => selectedQuestionMap.get(id))
-        .filter((question): question is QuestionBankItem => Boolean(question)),
+    () => currentSelectedIds.map((id) => selectedQuestionMap.get(id)).filter((q): q is QuestionBankItem => Boolean(q)),
     [currentSelectedIds, selectedQuestionMap],
   );
 
   const selectedPointsTotal = useMemo(
-    () => selectedQuestions.reduce((sum, question) => sum + (Number(question.points) || 0), 0),
+    () => selectedQuestions.reduce((sum, q) => sum + (Number(q.points) || 0), 0),
     [selectedQuestions],
   );
 
   const toggleQuestionSelection = (questionId: string) => {
     const updater = (current: string[]) =>
       current.includes(questionId) ? current.filter((id) => id !== questionId) : [...current, questionId];
-
-    if (activeMode === 'quiz') {
-      setQuizSelectedQuestionIds(updater);
-      return;
-    }
+    if (activeMode === 'quiz') { setQuizSelectedQuestionIds(updater); return; }
     setExamSelectedQuestionIds(updater);
   };
 
@@ -242,12 +291,8 @@ export default function QuizExamCreatorScreen() {
 
     setCreating(true);
     setMessage(null);
-
     try {
-      const selected = currentSelectedIds
-        .map((id) => selectedQuestionMap.get(id))
-        .filter((question): question is QuestionBankItem => Boolean(question));
-
+      const selected = currentSelectedIds.map((id) => selectedQuestionMap.get(id)).filter((q): q is QuestionBankItem => Boolean(q));
       const createRes = await apiFetch('/quizzes', {
         method: 'POST',
         body: JSON.stringify({
@@ -271,16 +316,11 @@ export default function QuizExamCreatorScreen() {
         }),
       });
 
-      if (!createRes.ok) {
-        const errorPayload = await createRes.json().catch(() => ({}));
-        throw new Error(errorPayload.message || `Failed to create ${activeMode}`);
-      }
+      if (!createRes.ok) throw new Error((await createRes.json().catch(() => ({}))).message || `Failed to create ${activeMode}`);
 
       const createdAssessment = await createRes.json();
       const createdQuizId = String(createdAssessment.id || '');
-      if (!createdQuizId) {
-        throw new Error('Created item id not returned from server.');
-      }
+      if (!createdQuizId) throw new Error('Created item id not returned from server.');
 
       let addedQuestionCount = 0;
       const failedQuestionIds: string[] = [];
@@ -290,12 +330,8 @@ export default function QuizExamCreatorScreen() {
           method: 'POST',
           body: JSON.stringify({ sourceQuestionId }),
         });
-        if (!reuseRes.ok) {
-          failedQuestionIds.push(sourceQuestionId);
-          continue;
-        }
+        if (!reuseRes.ok) { failedQuestionIds.push(sourceQuestionId); continue; }
         addedQuestionCount += 1;
-
         if (activeMode === 'quiz') {
           const reusedQuestion = await reuseRes.json();
           const reusedQuestionId = String(reusedQuestion.id || '');
@@ -309,30 +345,20 @@ export default function QuizExamCreatorScreen() {
       }
 
       const verifyRes = await apiFetch(`/quizzes/${createdQuizId}`);
-      if (!verifyRes.ok) {
-        throw new Error('Quiz/Exam was created but failed to verify attached questions.');
-      }
+      if (!verifyRes.ok) throw new Error('Quiz/Exam was created but failed to verify attached questions.');
       const verifyPayload = await verifyRes.json().catch(() => ({}));
       const attachedQuestions = Array.isArray(verifyPayload.questions) ? verifyPayload.questions.length : addedQuestionCount;
 
-      if (attachedQuestions === 0) {
-        throw new Error('Created successfully, but no selected questions were attached. Please retry question selection.');
-      }
+      if (attachedQuestions === 0) throw new Error('Created successfully, but no selected questions were attached. Please retry question selection.');
 
-      if (activeMode === 'quiz') {
-        setQuizDraft(INITIAL_DRAFT);
-        setQuizSelectedQuestionIds([]);
-      } else {
-        setExamDraft(INITIAL_DRAFT);
-        setExamSelectedQuestionIds([]);
-      }
+      if (activeMode === 'quiz') { setQuizDraft(INITIAL_DRAFT); setQuizSelectedQuestionIds([]); }
+      else { setExamDraft(INITIAL_DRAFT); setExamSelectedQuestionIds([]); }
       setBankTab('question');
       setMessage({
         type: 'success',
-        text:
-          activeMode === 'quiz'
-            ? `Quiz created and published with ${attachedQuestions} question(s). Question points were set to 0.${failedQuestionIds.length ? ` ${failedQuestionIds.length} question(s) failed to attach.` : ''}`
-            : `Exam created with ${attachedQuestions} question(s) and question points preserved.${failedQuestionIds.length ? ` ${failedQuestionIds.length} question(s) failed to attach.` : ''}`,
+        text: activeMode === 'quiz'
+          ? `Quiz created and published with ${attachedQuestions} question(s).${failedQuestionIds.length ? ` ${failedQuestionIds.length} failed to attach.` : ''}`
+          : `Exam created with ${attachedQuestions} question(s), points preserved.${failedQuestionIds.length ? ` ${failedQuestionIds.length} failed to attach.` : ''}`,
       });
     } catch (error) {
       setMessage({ type: 'error', text: error instanceof Error ? error.message : `Failed to create ${activeMode}` });
@@ -342,285 +368,409 @@ export default function QuizExamCreatorScreen() {
   };
 
   const selectorOptions = selectorField === 'classLevel' ? classOptions : subjectOptions;
-  const selectorTitle = selectorField === 'classLevel' ? 'Select Standard' : 'Select Subject';
+  const selectorTitle   = selectorField === 'classLevel' ? 'Select Standard' : 'Select Subject';
 
   const applySelectorValue = (value: string) => {
-    if (selectorField === 'classLevel') {
-      setCurrentDraft({ classLevel: value, subject: '' });
-    } else if (selectorField === 'subject') {
-      setCurrentDraft({ subject: value });
-    }
+    if (selectorField === 'classLevel') setCurrentDraft({ classLevel: value, subject: '' });
+    else if (selectorField === 'subject') setCurrentDraft({ subject: value });
     setSelectorField(null);
   };
 
+  const rowsToRender   = bankTab === 'question' ? filteredQuestionBank : selectedQuestions;
+  const totalPages     = Math.max(1, Math.ceil(rowsToRender.length / PAGE_SIZE));
+  const pagedRows      = rowsToRender.slice(bankPage * PAGE_SIZE, (bankPage + 1) * PAGE_SIZE);
+
   if (!isTeacherView) {
     return (
-      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-        <Text style={styles.title}>Quiz / Exam Creator</Text>
-        <Text style={styles.errorText}>You do not have permission to create quizzes or exams.</Text>
-      </ScrollView>
+      <View style={s.container}>
+        <View style={s.content}>
+          <Text style={s.pageTitle}>Quiz / Exam Creator</Text>
+          <Text style={s.errorText}>You do not have permission to create quizzes or exams.</Text>
+        </View>
+      </View>
     );
   }
 
-  const rowsToRender = bankTab === 'question' ? filteredQuestionBank : selectedQuestions;
-
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.title}>Quiz / Exam Creator</Text>
-      <Text style={styles.subtitle}>Create Quiz or Exam using question bank selection.</Text>
+    <ScrollView style={s.container} contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+      {/* ── Page Header ── */}
+      <View style={s.pageHeader}>
+        <View style={s.pageHeaderLeft}>
+          <Text style={s.pageTitle}>Assessment Creator</Text>
+          <Text style={s.pageSubtitle}>Build quizzes & exams from your question bank</Text>
+        </View>
+        <View style={s.pageHeaderIcon}>
+          {activeMode === 'quiz' ? <Trophy size={28} color="#4A90E2" /> : <GraduationCap size={28} color="#9B8EC4" />}
+        </View>
+      </View>
 
       {message && (
-        <View style={[styles.messageCard, message.type === 'success' ? styles.successCard : styles.errorCard]}>
-          <Text style={[styles.messageText, message.type === 'success' ? styles.successText : styles.errorText]}>
-            {message.text}
-          </Text>
+        <View style={[s.messageCard, message.type === 'success' ? s.successCard : s.errorCard]}>
+          <Text style={[s.messageText, message.type === 'success' ? s.successText : s.errorText]}>{message.text}</Text>
         </View>
       )}
 
-      <View style={styles.modeTabs}>
+      {/* ── Mode Tabs ── */}
+      <View style={s.modeTabs}>
         <Pressable
-          style={[styles.modeTab, activeMode === 'quiz' && styles.modeTabActive]}
-          onPress={() => {
-            setActiveMode('quiz');
-            setBankTab('question');
-          }}
+          style={[s.modeTab, activeMode === 'quiz' && s.modeTabActive]}
+          onPress={() => { setActiveMode('quiz'); setBankTab('question'); }}
         >
-          <Text style={[styles.modeTabText, activeMode === 'quiz' && styles.modeTabTextActive]}>Create Quiz</Text>
+          <Trophy size={16} color={activeMode === 'quiz' ? '#4A90E2' : '#9A9AB0'} />
+          <Text style={[s.modeTabText, activeMode === 'quiz' && s.modeTabTextActive]}>Create Quiz</Text>
         </Pressable>
         <Pressable
-          style={[styles.modeTab, activeMode === 'exam' && styles.modeTabActive]}
-          onPress={() => {
-            setActiveMode('exam');
-            setBankTab('question');
-          }}
+          style={[s.modeTab, activeMode === 'exam' && s.modeTabExam]}
+          onPress={() => { setActiveMode('exam'); setBankTab('question'); }}
         >
-          <Text style={[styles.modeTabText, activeMode === 'exam' && styles.modeTabTextActive]}>Create Exam</Text>
+          <GraduationCap size={16} color={activeMode === 'exam' ? '#9B8EC4' : '#9A9AB0'} />
+          <Text style={[s.modeTabText, activeMode === 'exam' && s.modeTabTextExam]}>Create Exam</Text>
         </Pressable>
       </View>
 
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>{activeMode === 'quiz' ? 'Create Quiz' : 'Create Exam'}</Text>
-        <TextInput
-          value={currentDraft.title}
-          onChangeText={(title) => setCurrentDraft({ title })}
-          placeholder={activeMode === 'quiz' ? 'Quiz title' : 'Exam title'}
-          style={styles.input}
-        />
-        <TextInput
-          value={currentDraft.description}
-          onChangeText={(description) => setCurrentDraft({ description })}
-          placeholder="Description"
-          style={styles.input}
-          multiline
-        />
-
-        <View style={styles.row}>
-          <Pressable style={[styles.dropdownField, styles.halfInput]} onPress={() => setSelectorField('classLevel')}>
-            <Text style={currentDraft.classLevel ? styles.dropdownText : styles.dropdownPlaceholder}>
-              {currentDraft.classLevel ? getStandardLabel(currentDraft.classLevel) : 'Standard Selector'}
-            </Text>
-          </Pressable>
-          <Pressable
-            style={[styles.dropdownField, styles.halfInput, !currentDraft.classLevel && styles.dropdownFieldDisabled]}
-            onPress={() => {
-              if (!currentDraft.classLevel) return;
-              setSelectorField('subject');
-            }}
-            disabled={!currentDraft.classLevel}
-          >
-            <Text style={currentDraft.subject ? styles.dropdownText : styles.dropdownPlaceholder}>
-              {currentDraft.subject || (currentDraft.classLevel ? 'Subject Selector' : 'Select class first')}
-            </Text>
-          </Pressable>
+      {/* ── Create Form Card ── */}
+      <View style={s.card}>
+        <View style={s.cardHeaderRow}>
+          <View style={[s.cardHeaderIcon, { backgroundColor: activeMode === 'quiz' ? '#D6EAFF' : '#EDE4FF' }]}>
+            {activeMode === 'quiz' ? <PenLine size={18} color="#4A90E2" /> : <BookOpen size={18} color="#9B8EC4" />}
+          </View>
+          <View>
+            <Text style={s.cardTitle}>{activeMode === 'quiz' ? 'Quiz Details' : 'Exam Details'}</Text>
+            <Text style={s.cardSubtitle}>{activeMode === 'quiz' ? 'Published immediately for students' : 'Graded assessment with points'}</Text>
+          </View>
         </View>
 
-        <View style={styles.chipsRow}>
-          {DIFFICULTIES.map((difficulty) => (
-            <Pressable
-              key={difficulty}
-              style={[styles.chip, currentDraft.difficultyLevel === difficulty && styles.chipActive]}
-              onPress={() => setCurrentDraft({ difficultyLevel: difficulty })}
-            >
-              <Text style={[styles.chipText, currentDraft.difficultyLevel === difficulty && styles.chipTextActive]}>
-                {difficulty}
+        <View style={s.fieldGroup}>
+          <Text style={s.fieldLabel}>{activeMode === 'quiz' ? 'Quiz Title' : 'Exam Title'} *</Text>
+          <TextInput
+            value={currentDraft.title}
+            onChangeText={(title) => setCurrentDraft({ title })}
+            placeholder={activeMode === 'quiz' ? 'e.g. Chapter 3 Review' : 'e.g. Mid-Term Exam 2025'}
+            style={s.input}
+            placeholderTextColor="#A0A8C0"
+          />
+        </View>
+
+        <View style={s.fieldGroup}>
+          <Text style={s.fieldLabel}>Description</Text>
+          <TextInput
+            value={currentDraft.description}
+            onChangeText={(description) => setCurrentDraft({ description })}
+            placeholder="Optional description"
+            style={[s.input, s.multilineInput]}
+            multiline
+            placeholderTextColor="#A0A8C0"
+          />
+        </View>
+
+        <View style={s.row}>
+          <View style={[s.fieldGroup, { flex: 1 }]}>
+            <Text style={s.fieldLabel}>Standard</Text>
+            <Pressable style={s.dropdownField} onPress={() => setSelectorField('classLevel')}>
+              <Text style={currentDraft.classLevel ? s.dropdownText : s.dropdownPlaceholder}>
+                {currentDraft.classLevel ? getStandardLabel(currentDraft.classLevel) : 'Select Standard'}
               </Text>
+              <ChevronDown size={14} color="#9A9AB0" />
             </Pressable>
-          ))}
+          </View>
+          <View style={[s.fieldGroup, { flex: 1 }]}>
+            <Text style={s.fieldLabel}>Subject</Text>
+            <Pressable
+              style={[s.dropdownField, !currentDraft.classLevel && s.dropdownFieldDisabled]}
+              onPress={() => { if (currentDraft.classLevel) setSelectorField('subject'); }}
+              disabled={!currentDraft.classLevel}
+            >
+              <Text style={currentDraft.subject ? s.dropdownText : s.dropdownPlaceholder}>
+                {currentDraft.subject || (currentDraft.classLevel ? 'Select Subject' : 'Select class first')}
+              </Text>
+              <ChevronDown size={14} color="#9A9AB0" />
+            </Pressable>
+          </View>
+        </View>
+
+        <View style={s.fieldGroup}>
+          <Text style={s.fieldLabel}>Difficulty</Text>
+          <View style={s.chipsRow}>
+            {DIFFICULTIES.map((diff) => {
+              const cfg = DIFF_CONFIG[diff];
+              const isActive = currentDraft.difficultyLevel === diff;
+              return (
+                <Pressable
+                  key={diff}
+                  style={[s.diffChip, isActive && { backgroundColor: cfg.bg, borderColor: cfg.color }]}
+                  onPress={() => setCurrentDraft({ difficultyLevel: diff })}
+                >
+                  {isActive && <Zap size={11} color={cfg.color} fill={cfg.color} />}
+                  <Text style={[s.diffChipText, isActive && { color: cfg.color }]}>{cfg.label}</Text>
+                </Pressable>
+              );
+            })}
+          </View>
         </View>
 
         <Pressable
-          style={styles.checkboxRow}
+          style={s.checkboxRow}
           onPress={() => setCurrentDraft({ hasTimeLimit: !currentDraft.hasTimeLimit })}
         >
-          <View style={[styles.checkbox, currentDraft.hasTimeLimit && styles.checkboxChecked]}>
-            {currentDraft.hasTimeLimit ? <Text style={styles.checkboxTick}>✓</Text> : null}
+          <View style={[s.checkbox, currentDraft.hasTimeLimit && s.checkboxChecked]}>
+            {currentDraft.hasTimeLimit && <Check size={11} color="#fff" />}
           </View>
-          <Text style={styles.checkboxLabel}>Add time limit</Text>
+          <Clock size={14} color="#5A6A8A" />
+          <Text style={s.checkboxLabel}>Add time limit</Text>
         </Pressable>
 
-        {currentDraft.hasTimeLimit ? (
-          <TextInput
-            value={currentDraft.timeLimitMinutes}
-            onChangeText={(timeLimitMinutes) => setCurrentDraft({ timeLimitMinutes })}
-            placeholder="Time in minutes"
-            keyboardType="numeric"
-            style={styles.input}
-          />
-        ) : null}
+        {currentDraft.hasTimeLimit && (
+          <View style={s.fieldGroup}>
+            <TextInput
+              value={currentDraft.timeLimitMinutes}
+              onChangeText={(timeLimitMinutes) => setCurrentDraft({ timeLimitMinutes })}
+              placeholder="Time in minutes"
+              keyboardType="numeric"
+              style={s.input}
+              placeholderTextColor="#A0A8C0"
+            />
+          </View>
+        )}
 
-        <View style={styles.summaryCard}>
-          <Text style={styles.summaryTitle}>Selection Summary</Text>
-          <Text style={styles.summaryText}>Questions selected: {currentSelectedIds.length}</Text>
+        {/* Summary */}
+        <View style={[s.summaryCard, activeMode === 'exam' && s.summaryCardExam]}>
+          <View style={s.summaryRow}>
+            <Text style={s.summaryLabel}>Questions selected</Text>
+            <Text style={s.summaryValue}>{currentSelectedIds.length}</Text>
+          </View>
           {activeMode === 'exam' ? (
-            <Text style={styles.summaryText}>Total points (exam): {selectedPointsTotal}</Text>
+            <View style={s.summaryRow}>
+              <Text style={s.summaryLabel}>Total points</Text>
+              <Text style={s.summaryValue}>{selectedPointsTotal}</Text>
+            </View>
           ) : (
-            <Text style={styles.summaryText}>Quiz mode ignores question points.</Text>
+            <View style={s.summaryRow}>
+              <Text style={s.summaryNote}>Quiz mode: question points are ignored</Text>
+            </View>
           )}
         </View>
 
-        <Pressable style={styles.primaryButton} onPress={createAssessment} disabled={creating}>
+        <Pressable style={[s.createBtn, activeMode === 'exam' && s.createBtnExam]} onPress={createAssessment} disabled={creating}>
           {creating ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <Text style={styles.primaryButtonText}>{activeMode === 'quiz' ? 'Create Quiz' : 'Create Exam'}</Text>
+            <>
+              {activeMode === 'quiz' ? <Trophy size={16} color="#fff" /> : <GraduationCap size={16} color="#fff" />}
+              <Text style={s.createBtnText}>{activeMode === 'quiz' ? 'Create & Publish Quiz' : 'Create Exam'}</Text>
+            </>
           )}
         </Pressable>
       </View>
 
-      <View style={styles.card}>
-        <View style={styles.cardHeaderRow}>
-          <Text style={styles.cardTitle}>Question Bank & {activeMode === 'quiz' ? 'Quiz Bank' : 'Exam Bank'}</Text>
-          <Pressable style={styles.secondaryButtonSmall} onPress={loadQuestionBank} disabled={loadingQuestionBank}>
-            {loadingQuestionBank ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Refresh</Text>}
+      {/* ── Question Bank Card ── */}
+      <View style={s.card}>
+        <View style={s.bankHeaderRow}>
+          <View>
+            <Text style={s.cardTitle}>Question Bank</Text>
+            <Text style={s.cardSubtitle}>{questionBank.length} questions available</Text>
+          </View>
+          <Pressable style={s.refreshBtn} onPress={loadQuestionBank} disabled={loadingQuestionBank}>
+            {loadingQuestionBank
+              ? <ActivityIndicator size="small" color="#4A90E2" />
+              : <RotateCw size={16} color="#4A90E2" />}
           </Pressable>
         </View>
 
-        <TextInput
-          value={questionBankSearch}
-          onChangeText={setQuestionBankSearch}
-          placeholder="Search questions"
-          style={styles.input}
-        />
+        {/* Search */}
+        <View style={s.searchRow}>
+          <Search size={15} color="#9A9AB0" />
+          <TextInput
+            value={questionBankSearch}
+            onChangeText={setQuestionBankSearch}
+            placeholder="Search questions…"
+            style={s.searchInput}
+            placeholderTextColor="#A0A8C0"
+          />
+          {questionBankSearch !== '' && (
+            <Pressable onPress={() => { setQuestionBankSearch(''); setBankPage(0); }}>
+              <X size={15} color="#9A9AB0" />
+            </Pressable>
+          )}
+        </View>
 
-        <View style={styles.modeTabs}>
+        {/* Question type filter chips */}
+        <View>
+          <View style={s.filterRow}>
+            <Filter size={13} color="#5A6A8A" />
+            <Text style={s.filterLabel}>Filter by type</Text>
+          </View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.typeFilterChips}>
+            {QUESTION_TYPE_FILTERS.map((f) => {
+              const isActive = bankTypeFilter === f.value;
+              return (
+                <Pressable
+                  key={f.value}
+                  style={[s.typeFilterChip, isActive && s.typeFilterChipActive]}
+                  onPress={() => { setBankTypeFilter(isActive ? '' : f.value); setBankPage(0); }}
+                >
+                  <Text style={[s.typeFilterChipText, isActive && s.typeFilterChipTextActive]}>{f.label}</Text>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+        </View>
+
+        {/* Bank/Selected tabs */}
+        <View style={s.bankTabs}>
           <Pressable
-            style={[styles.modeTab, bankTab === 'question' && styles.modeTabActive]}
-            onPress={() => setBankTab('question')}
+            style={[s.bankTab, bankTab === 'question' && s.bankTabActive]}
+            onPress={() => { setBankTab('question'); setBankPage(0); }}
           >
-            <Text style={[styles.modeTabText, bankTab === 'question' && styles.modeTabTextActive]}>Question Bank</Text>
+            <Text style={[s.bankTabText, bankTab === 'question' && s.bankTabTextActive]}>
+              All Questions {bankTypeFilter ? `(${filteredQuestionBank.length})` : `(${questionBank.length})`}
+            </Text>
           </Pressable>
           <Pressable
-            style={[styles.modeTab, bankTab === 'selected' && styles.modeTabActive]}
-            onPress={() => setBankTab('selected')}
+            style={[s.bankTab, bankTab === 'selected' && s.bankTabActive]}
+            onPress={() => { setBankTab('selected'); setBankPage(0); }}
           >
-            <Text style={[styles.modeTabText, bankTab === 'selected' && styles.modeTabTextActive]}>
-              {activeMode === 'quiz' ? 'Quiz Bank' : 'Exam Bank'} ({currentSelectedIds.length})
+            <Text style={[s.bankTabText, bankTab === 'selected' && s.bankTabTextActive]}>
+              {activeMode === 'quiz' ? 'Quiz' : 'Exam'} Selected ({currentSelectedIds.length})
             </Text>
           </Pressable>
         </View>
 
+        {/* Question list */}
         {loadingQuestionBank ? (
-          <ActivityIndicator size="small" color="#1d4ed8" />
+          <View style={s.bankEmpty}>
+            <ActivityIndicator size="large" color="#4A90E2" />
+            <Text style={s.bankEmptyText}>Loading questions…</Text>
+          </View>
         ) : rowsToRender.length === 0 ? (
-          <Text style={styles.emptyText}>{bankTab === 'question' ? 'No questions found.' : 'No questions selected yet.'}</Text>
+          <View style={s.bankEmpty}>
+            <BookOpen size={40} color="#D0D8F0" />
+            <Text style={s.bankEmptyText}>
+              {bankTab === 'question' ? 'No questions match the filter.' : 'No questions selected yet.'}
+            </Text>
+          </View>
         ) : (
-          <ScrollView horizontal>
-            <View>
-              <View style={[styles.tableRow, styles.tableHeader]}>
-                <Text style={[styles.tableCell, styles.colStandard]}>Class</Text>
-                <Text style={[styles.tableCell, styles.colSubject]}>Subject</Text>
-                <Text style={[styles.tableCell, styles.colCategory]}>Question Type</Text>
-                <Text style={[styles.tableCell, styles.colQuestion]}>Question</Text>
-                <Text style={[styles.tableCell, styles.colMeta]}>Points</Text>
-                <Text style={[styles.tableCell, styles.colMeta]}>Qn Time</Text>
-                <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
-              </View>
-              {rowsToRender.map((question) => {
-                const isSelected = currentSelectedIds.includes(question.id);
-                return (
-                  <View key={`${bankTab}-${question.id}`} style={styles.tableRow}>
-                    <Text style={[styles.tableCell, styles.colStandard]}>{question.class_level || '-'}</Text>
-                    <Text style={[styles.tableCell, styles.colSubject]}>{question.subject || '-'}</Text>
-                    <Text style={[styles.tableCell, styles.colCategory]}>
-                      {QUIZ_TYPE_LABELS[normalizeQuestionType(question.question_type)] || question.question_type}
-                    </Text>
-                    <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
-                      {question.question_title || 'Untitled'}
-                    </Text>
-                    <Text style={[styles.tableCell, styles.colMeta]}>
-                      {activeMode === 'quiz' && bankTab === 'selected' ? 'Ignored' : question.points}
-                    </Text>
-                    <Text style={[styles.tableCell, styles.colMeta]}>{Math.ceil((question.time_limit_seconds || 0) / 60)}m</Text>
-                    <View style={[styles.colActions, styles.actionsRow]}>
-                      {bankTab === 'question' ? (
-                        <Pressable
-                          style={[styles.actionButton, isSelected ? styles.removeActionButton : styles.addActionButton]}
-                          onPress={() => toggleQuestionSelection(question.id)}
-                        >
-                          <Text style={[styles.actionButtonText, isSelected ? styles.removeActionButtonText : styles.addActionButtonText]}>
-                            {isSelected ? 'Remove' : 'Add'}
-                          </Text>
-                        </Pressable>
-                      ) : (
-                        <Pressable
-                          style={[styles.actionButton, styles.removeActionButton]}
-                          onPress={() => toggleQuestionSelection(question.id)}
-                        >
-                          <Text style={[styles.actionButtonText, styles.removeActionButtonText]}>Remove</Text>
-                        </Pressable>
-                      )}
-                      <Pressable style={[styles.actionButton, styles.viewActionButton]} onPress={() => setViewQuestion(question)}>
-                        <Text style={[styles.actionButtonText, styles.viewActionButtonText]}>View Question</Text>
+          <View style={s.questionList}>
+            {pagedRows.map((question) => {
+              const isSelected = currentSelectedIds.includes(question.id);
+              const typeLabel = QUIZ_TYPE_LABELS[normalizeQuestionType(question.question_type)] || question.question_type;
+              return (
+                <View key={`${bankTab}-${question.id}`} style={[s.questionCard, isSelected && s.questionCardSelected]}>
+                  {/* Top meta row */}
+                  <View style={s.questionMeta}>
+                    <View style={s.questionBadge}><Text style={s.questionBadgeText}>{question.class_level || '—'}</Text></View>
+                    {question.subject ? <View style={[s.questionBadge, { backgroundColor: '#EDE4FF' }]}><Text style={[s.questionBadgeText, { color: '#7B5EA7' }]}>{question.subject}</Text></View> : null}
+                    <View style={[s.questionBadge, s.typeBadge]}>
+                      <QuestionTypeIcon type={question.question_type} size={10} color="#4A90E2" />
+                      <Text style={[s.questionBadgeText, { color: '#4A90E2' }]}>{typeLabel}</Text>
+                    </View>
+                  </View>
+                  {/* Title */}
+                  <Text style={s.questionTitle} numberOfLines={2}>
+                    {question.question_title || 'Untitled Question'}
+                  </Text>
+                  {/* Bottom row: points + time + actions */}
+                  <View style={s.questionFooter}>
+                    <View style={s.questionStats}>
+                      <View style={s.statChip}>
+                        <Zap size={10} color="#E6A817" fill="#E6A817" />
+                        <Text style={s.statChipText}>
+                          {activeMode === 'quiz' && bankTab === 'selected' ? 'Ignored' : `${question.points} pts`}
+                        </Text>
+                      </View>
+                      <View style={s.statChip}>
+                        <Clock size={10} color="#5A6A8A" />
+                        <Text style={s.statChipText}>{Math.ceil((question.time_limit_seconds || 0) / 60)}m</Text>
+                      </View>
+                    </View>
+                    <View style={s.questionActions}>
+                      <Pressable style={s.viewBtn} onPress={() => setViewQuestion(question)}>
+                        <Eye size={13} color="#4A90E2" />
+                      </Pressable>
+                      <Pressable
+                        style={[s.toggleBtn, isSelected ? s.toggleBtnRemove : s.toggleBtnAdd]}
+                        onPress={() => toggleQuestionSelection(question.id)}
+                      >
+                        {isSelected
+                          ? <Minus size={13} color="#dc2626" />
+                          : <Plus  size={13} color="#16a34a" />}
+                        <Text style={[s.toggleBtnText, isSelected ? s.toggleBtnTextRemove : s.toggleBtnTextAdd]}>
+                          {isSelected ? 'Remove' : 'Add'}
+                        </Text>
                       </Pressable>
                     </View>
                   </View>
-                );
-              })}
-            </View>
-          </ScrollView>
+                </View>
+              );
+            })}
+          </View>
+        )}
+
+        {/* Pagination bar */}
+        {rowsToRender.length > PAGE_SIZE && (
+          <View style={s.paginationBar}>
+            <Pressable
+              style={[s.pageBtn, bankPage === 0 && s.pageBtnDisabled]}
+              onPress={() => setBankPage((p) => Math.max(0, p - 1))}
+              disabled={bankPage === 0}
+            >
+              <ChevronLeft size={16} color={bankPage === 0 ? '#C0C8D8' : '#4A90E2'} />
+              <Text style={[s.pageBtnText, bankPage === 0 && s.pageBtnTextDisabled]}>Prev</Text>
+            </Pressable>
+            <Text style={s.pageIndicator}>Page {bankPage + 1} / {totalPages}</Text>
+            <Pressable
+              style={[s.pageBtn, bankPage >= totalPages - 1 && s.pageBtnDisabled]}
+              onPress={() => setBankPage((p) => Math.min(totalPages - 1, p + 1))}
+              disabled={bankPage >= totalPages - 1}
+            >
+              <Text style={[s.pageBtnText, bankPage >= totalPages - 1 && s.pageBtnTextDisabled]}>Next</Text>
+              <ChevronRight size={16} color={bankPage >= totalPages - 1 ? '#C0C8D8' : '#4A90E2'} />
+            </Pressable>
+          </View>
         )}
       </View>
 
-      <Modal visible={selectorField !== null} transparent animationType="fade" onRequestClose={() => setSelectorField(null)}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
-            <Text style={styles.cardTitle}>{selectorTitle}</Text>
-            <ScrollView style={styles.modalList}>
-              <Pressable style={styles.optionRow} onPress={() => applySelectorValue('')}>
-                <Text style={styles.optionText}>Any</Text>
-              </Pressable>
-              {selectorOptions.map((option) => (
-                <Pressable key={option} style={styles.optionRow} onPress={() => applySelectorValue(option)}>
-                  <Text style={styles.optionText}>{selectorField === 'classLevel' ? getStandardLabel(option) : option}</Text>
-                </Pressable>
-              ))}
-            </ScrollView>
-            <Pressable style={styles.primaryButton} onPress={() => setSelectorField(null)}>
-              <Text style={styles.primaryButtonText}>Done</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+      {/* ── Selector Modal ── */}
+      <SelectorModal
+        visible={selectorField !== null}
+        title={selectorTitle}
+        options={selectorOptions.map((o) => ({ label: selectorField === 'classLevel' ? getStandardLabel(o) : o, value: o }))}
+        selected={selectorField === 'classLevel' ? currentDraft.classLevel : currentDraft.subject}
+        isSubject={selectorField === 'subject'}
+        onSelect={applySelectorValue}
+        onClose={() => setSelectorField(null)}
+      />
 
+      {/* ── Question Preview Modal ── */}
       <Modal visible={viewQuestion !== null} transparent animationType="fade" onRequestClose={() => setViewQuestion(null)}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
-            <Text style={styles.cardTitle}>Question Preview</Text>
-            <ScrollView style={styles.modalList}>
-              <Text style={styles.previewTitle}>{viewQuestion?.question_title || 'Untitled'}</Text>
-              <Text style={styles.itemMeta}>
-                {viewQuestion?.class_level || '-'} • {viewQuestion?.subject || '-'} •{' '}
-                {QUIZ_TYPE_LABELS[normalizeQuestionType(viewQuestion?.question_type || '')] || viewQuestion?.question_type}
-              </Text>
-              <Text style={styles.itemMeta}>Points: {viewQuestion?.points ?? 0}</Text>
-              <Text style={styles.itemMeta}>Question Time: {Math.ceil((viewQuestion?.time_limit_seconds || 0) / 60)} minutes</Text>
-              {viewQuestion?.question_instruction ? <Text style={styles.previewBody}>{viewQuestion.question_instruction}</Text> : null}
-              <Text style={styles.previewLabel}>Source Quiz</Text>
-              <Text style={styles.previewBody}>{viewQuestion?.quiz_title || '-'}</Text>
+        <View style={s.modalOverlay}>
+          <View style={s.modalCard}>
+            <View style={s.modalHeader}>
+              <Text style={s.modalTitle}>Question Preview</Text>
+              <Pressable onPress={() => setViewQuestion(null)} style={s.modalCloseBtn}>
+                <X size={18} color="#5A6A8A" />
+              </Pressable>
+            </View>
+            <ScrollView style={s.modalList}>
+              <Text style={s.previewTitle}>{viewQuestion?.question_title || 'Untitled'}</Text>
+              <View style={s.previewMetaRow}>
+                <View style={s.questionBadge}><Text style={s.questionBadgeText}>{viewQuestion?.class_level || '—'}</Text></View>
+                {viewQuestion?.subject ? <View style={[s.questionBadge, { backgroundColor: '#EDE4FF' }]}><Text style={[s.questionBadgeText, { color: '#7B5EA7' }]}>{viewQuestion.subject}</Text></View> : null}
+                <View style={[s.questionBadge, s.typeBadge]}>
+                  <Text style={[s.questionBadgeText, { color: '#4A90E2' }]}>
+                    {QUIZ_TYPE_LABELS[normalizeQuestionType(viewQuestion?.question_type || '')] || viewQuestion?.question_type}
+                  </Text>
+                </View>
+              </View>
+              <View style={s.previewStatRow}>
+                <View style={s.statChip}><Zap size={11} color="#E6A817" fill="#E6A817" /><Text style={s.statChipText}>{viewQuestion?.points ?? 0} pts</Text></View>
+                <View style={s.statChip}><Clock size={11} color="#5A6A8A" /><Text style={s.statChipText}>{Math.ceil((viewQuestion?.time_limit_seconds || 0) / 60)}m</Text></View>
+              </View>
+              {viewQuestion?.question_instruction ? (
+                <Text style={s.previewBody}>{viewQuestion.question_instruction}</Text>
+              ) : null}
+              <Text style={s.previewFieldLabel}>Source Quiz</Text>
+              <Text style={s.previewBody}>{viewQuestion?.quiz_title || '—'}</Text>
             </ScrollView>
-            <Pressable style={styles.primaryButton} onPress={() => setViewQuestion(null)}>
-              <Text style={styles.primaryButtonText}>Close</Text>
-            </Pressable>
           </View>
         </View>
       </Modal>
@@ -628,355 +778,155 @@ export default function QuizExamCreatorScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f8fafc',
-  },
-  content: {
-    padding: 16,
-    gap: 12,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#0f172a',
-  },
-  subtitle: {
-    fontSize: 13,
-    color: '#475569',
-  },
-  messageCard: {
-    borderRadius: 10,
-    borderWidth: 1,
-    padding: 10,
-  },
-  successCard: {
-    backgroundColor: '#ecfdf5',
-    borderColor: '#86efac',
-  },
-  errorCard: {
-    backgroundColor: '#fef2f2',
-    borderColor: '#fecaca',
-  },
-  messageText: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  successText: {
-    color: '#166534',
-  },
-  errorText: {
-    color: '#b91c1c',
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
-    padding: 12,
-    gap: 10,
-  },
-  cardTitle: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#0f172a',
-  },
-  cardHeaderRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: 8,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#cbd5e1',
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    fontSize: 13,
-    color: '#0f172a',
-    backgroundColor: '#fff',
-  },
-  row: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-  halfInput: {
-    flex: 1,
-  },
-  dropdownField: {
-    borderWidth: 1,
-    borderColor: '#cbd5e1',
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 12,
-    backgroundColor: '#fff',
-  },
-  dropdownFieldDisabled: {
-    opacity: 0.6,
-  },
-  dropdownPlaceholder: {
-    color: '#94a3b8',
-    fontSize: 13,
-  },
-  dropdownText: {
-    color: '#0f172a',
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  chipsRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  chip: {
-    borderWidth: 1,
-    borderColor: '#cbd5e1',
-    borderRadius: 999,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    backgroundColor: '#f8fafc',
-  },
-  chipActive: {
-    borderColor: '#93c5fd',
-    backgroundColor: '#eff6ff',
-  },
-  chipText: {
-    fontSize: 11,
-    color: '#334155',
-    fontWeight: '600',
-  },
-  chipTextActive: {
-    color: '#1d4ed8',
-  },
-  checkboxRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    paddingVertical: 4,
-  },
-  checkbox: {
-    width: 18,
-    height: 18,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#94a3b8',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
-  checkboxChecked: {
-    borderColor: '#1d4ed8',
-    backgroundColor: '#1d4ed8',
-  },
-  checkboxTick: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: '800',
-  },
-  checkboxLabel: {
-    fontSize: 13,
-    color: '#0f172a',
-    fontWeight: '600',
-  },
-  summaryCard: {
-    borderWidth: 1,
-    borderColor: '#dbeafe',
-    backgroundColor: '#eff6ff',
-    borderRadius: 10,
-    padding: 10,
-    gap: 4,
-  },
-  summaryTitle: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: '#1e3a8a',
-  },
-  summaryText: {
-    fontSize: 12,
-    color: '#1e3a8a',
-  },
-  modeTabs: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-  modeTab: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#cbd5e1',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    paddingVertical: 9,
-    alignItems: 'center',
-  },
-  modeTabActive: {
-    borderColor: '#93c5fd',
-    backgroundColor: '#eff6ff',
-  },
-  modeTabText: {
-    color: '#475569',
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  modeTabTextActive: {
-    color: '#1d4ed8',
-  },
-  primaryButton: {
-    backgroundColor: '#1d4ed8',
-    borderRadius: 10,
-    paddingVertical: 10,
-    alignItems: 'center',
-  },
-  primaryButtonText: {
-    color: '#fff',
-    fontWeight: '700',
-    fontSize: 13,
-  },
-  secondaryButtonSmall: {
-    borderWidth: 1,
-    borderColor: '#93c5fd',
-    borderRadius: 8,
-    backgroundColor: '#eff6ff',
-    paddingVertical: 7,
-    paddingHorizontal: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  secondaryButtonText: {
-    color: '#1d4ed8',
-    fontWeight: '700',
-    fontSize: 12,
-  },
-  tableRow: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
-    alignItems: 'center',
-    minHeight: 48,
-  },
-  tableHeader: {
-    backgroundColor: '#f1f5f9',
-    borderTopWidth: 1,
-    borderTopColor: '#e2e8f0',
-  },
-  tableCell: {
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    fontSize: 12,
-    color: '#334155',
-  },
-  colStandard: {
-    width: 110,
-  },
-  colSubject: {
-    width: 120,
-  },
-  colCategory: {
-    width: 140,
-  },
-  colQuestion: {
-    width: 260,
-  },
-  colMeta: {
-    width: 80,
-  },
-  colActions: {
-    width: 180,
-  },
-  actionsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    paddingHorizontal: 10,
-  },
-  actionButton: {
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 9,
-    paddingVertical: 6,
-  },
-  addActionButton: {
-    borderColor: '#86efac',
-    backgroundColor: '#ecfdf5',
-  },
-  addActionButtonText: {
-    color: '#166534',
-  },
-  removeActionButton: {
-    borderColor: '#fca5a5',
-    backgroundColor: '#fee2e2',
-  },
-  removeActionButtonText: {
-    color: '#b91c1c',
-  },
-  viewActionButton: {
-    borderColor: '#93c5fd',
-    backgroundColor: '#eff6ff',
-  },
-  viewActionButtonText: {
-    color: '#1d4ed8',
-  },
-  actionButtonText: {
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  emptyText: {
-    fontSize: 13,
-    color: '#64748b',
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(15, 23, 42, 0.45)',
-    padding: 16,
-    justifyContent: 'center',
-  },
-  modalCard: {
-    backgroundColor: '#fff',
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
-    padding: 12,
-    maxHeight: '90%',
-    gap: 10,
-  },
-  modalList: {
-    maxHeight: 430,
-  },
-  optionRow: {
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    marginBottom: 8,
-  },
-  optionText: {
-    color: '#0f172a',
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  itemMeta: {
-    fontSize: 12,
-    color: '#475569',
-  },
-  previewTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#0f172a',
-    marginBottom: 6,
-  },
-  previewLabel: {
-    marginTop: 10,
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#334155',
-  },
-  previewBody: {
-    fontSize: 13,
-    color: '#334155',
-    lineHeight: 18,
-  },
+const s = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#F5F7FF' },
+  content: { padding: 16, gap: 16, paddingBottom: Platform.OS === 'ios' ? 40 : 24 },
+
+  // Page header
+  pageHeader:     { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 4 },
+  pageHeaderLeft: { flex: 1 },
+  pageHeaderIcon: { width: 52, height: 52, borderRadius: 16, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center', shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.07, shadowRadius: 6, elevation: 2 },
+  pageTitle:      { fontSize: 22, fontWeight: '900', color: '#1a1a2e' },
+  pageSubtitle:   { fontSize: 12, color: '#9A9AB0', fontWeight: '500', marginTop: 2 },
+
+  // Mode tabs
+  modeTabs: { flexDirection: 'row', gap: 10 },
+  modeTab: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, backgroundColor: '#fff', borderRadius: 14, borderWidth: 1.5, borderColor: '#E8ECF8', paddingVertical: 11, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
+  modeTabActive: { borderColor: '#93c5fd', backgroundColor: '#EBF4FF' },
+  modeTabExam:   { borderColor: '#C4B0E8', backgroundColor: '#F0EAFF' },
+  modeTabText:        { fontSize: 13, fontWeight: '700', color: '#9A9AB0' },
+  modeTabTextActive:  { color: '#4A90E2' },
+  modeTabTextExam:    { color: '#9B8EC4' },
+
+  // Card
+  card: { backgroundColor: '#fff', borderRadius: 20, padding: 18, gap: 14, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 },
+  cardHeaderRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  cardHeaderIcon: { width: 44, height: 44, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  cardTitle:    { fontSize: 15, fontWeight: '800', color: '#1a1a2e' },
+  cardSubtitle: { fontSize: 11, color: '#9A9AB0', fontWeight: '500', marginTop: 1 },
+
+  // Fields
+  fieldGroup: { gap: 6 },
+  fieldLabel: { fontSize: 12, fontWeight: '800', color: '#5A6A8A', textTransform: 'uppercase', letterSpacing: 0.5 },
+  input: { backgroundColor: '#F8F9FF', borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 11, fontSize: 14, color: '#1a1a2e' },
+  multilineInput: { minHeight: 72, textAlignVertical: 'top', paddingTop: 12 },
+  row: { flexDirection: 'row', gap: 10 },
+
+  dropdownField: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#F8F9FF', borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 11 },
+  dropdownFieldDisabled: { opacity: 0.5 },
+  dropdownText: { fontSize: 13, color: '#1a1a2e', fontWeight: '600', flex: 1 },
+  dropdownPlaceholder: { fontSize: 13, color: '#A0A8C0', flex: 1 },
+
+  // Difficulty chips
+  chipsRow:    { flexDirection: 'row', gap: 8 },
+  diffChip:    { flexDirection: 'row', alignItems: 'center', gap: 5, borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 999, paddingHorizontal: 14, paddingVertical: 7, backgroundColor: '#F8F9FF' },
+  diffChipText:{ fontSize: 12, fontWeight: '700', color: '#9A9AB0' },
+
+  // Time limit checkbox
+  checkboxRow: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 2 },
+  checkbox: { width: 20, height: 20, borderRadius: 6, borderWidth: 1.5, borderColor: '#D0D8F0', alignItems: 'center', justifyContent: 'center', backgroundColor: '#F8F9FF' },
+  checkboxChecked: { borderColor: '#4A90E2', backgroundColor: '#4A90E2' },
+  checkboxLabel: { fontSize: 13, fontWeight: '600', color: '#1a1a2e' },
+
+  // Summary card
+  summaryCard: { backgroundColor: '#EBF4FF', borderRadius: 14, padding: 14, gap: 6 },
+  summaryCardExam: { backgroundColor: '#F0EAFF' },
+  summaryRow:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  summaryLabel:{ fontSize: 13, fontWeight: '600', color: '#4A6A8A' },
+  summaryValue:{ fontSize: 15, fontWeight: '900', color: '#1a1a2e' },
+  summaryNote: { fontSize: 12, color: '#7B9AB0', fontStyle: 'italic' },
+
+  // Create button
+  createBtn:      { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, backgroundColor: '#4A90E2', borderRadius: 14, paddingVertical: 14 },
+  createBtnExam:  { backgroundColor: '#9B8EC4' },
+  createBtnText:  { color: '#fff', fontWeight: '800', fontSize: 14 },
+
+  // Bank header
+  bankHeaderRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  refreshBtn: { width: 38, height: 38, borderRadius: 10, backgroundColor: '#EBF4FF', alignItems: 'center', justifyContent: 'center' },
+
+  // Search
+  searchRow: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: '#F8F9FF', borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 10 },
+  searchInput: { flex: 1, fontSize: 13, color: '#1a1a2e', paddingVertical: 0 },
+
+  // Type filter
+  filterRow: { flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 8 },
+  filterLabel: { fontSize: 11, fontWeight: '700', color: '#5A6A8A' },
+  typeFilterChips: { gap: 7, paddingBottom: 4 },
+  typeFilterChip: { borderRadius: 999, paddingHorizontal: 12, paddingVertical: 6, borderWidth: 1.5, borderColor: '#E0E4F0', backgroundColor: '#F8F9FF' },
+  typeFilterChipActive: { borderColor: '#4A90E2', backgroundColor: '#EBF4FF' },
+  typeFilterChipText: { fontSize: 11, fontWeight: '700', color: '#9A9AB0' },
+  typeFilterChipTextActive: { color: '#4A90E2' },
+
+  // Bank tabs
+  bankTabs:         { flexDirection: 'row', backgroundColor: '#F5F7FF', borderRadius: 10, padding: 3 },
+  bankTab:          { flex: 1, paddingVertical: 8, alignItems: 'center', borderRadius: 8 },
+  bankTabActive:    { backgroundColor: '#fff', shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 3, elevation: 1 },
+  bankTabText:      { fontSize: 12, fontWeight: '700', color: '#9A9AB0' },
+  bankTabTextActive:{ color: '#1a1a2e' },
+
+  // Question list
+  bankEmpty:     { alignItems: 'center', paddingVertical: 40, gap: 10 },
+  bankEmptyText: { fontSize: 13, color: '#9A9AB0', textAlign: 'center' },
+  questionList:  { gap: 10 },
+
+  questionCard: {
+    backgroundColor: '#F8F9FF', borderRadius: 14, padding: 14, gap: 8,
+    borderWidth: 1.5, borderColor: '#E8ECF8',
+  },
+  questionCardSelected: { borderColor: '#86BFFF', backgroundColor: '#F0F7FF' },
+
+  questionMeta:    { flexDirection: 'row', flexWrap: 'wrap', gap: 5 },
+  questionBadge:   { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3, backgroundColor: '#E8ECF8' },
+  questionBadgeText:{ fontSize: 10, fontWeight: '700', color: '#5A6A8A' },
+  typeBadge:       { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: '#EBF4FF' },
+  questionTitle:   { fontSize: 13, fontWeight: '700', color: '#1a1a2e', lineHeight: 19 },
+
+  questionFooter:  { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 },
+  questionStats:   { flexDirection: 'row', gap: 8 },
+  statChip:        { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  statChipText:    { fontSize: 11, fontWeight: '600', color: '#7A8AA0' },
+
+  questionActions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  viewBtn: { width: 32, height: 32, borderRadius: 8, backgroundColor: '#EBF4FF', alignItems: 'center', justifyContent: 'center' },
+  toggleBtn:          { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 7, borderWidth: 1.5 },
+  toggleBtnAdd:       { borderColor: '#86efac', backgroundColor: '#ecfdf5' },
+  toggleBtnRemove:    { borderColor: '#fca5a5', backgroundColor: '#fee2e2' },
+  toggleBtnText:      { fontSize: 12, fontWeight: '700' },
+  toggleBtnTextAdd:   { color: '#166534' },
+  toggleBtnTextRemove:{ color: '#b91c1c' },
+
+  // Modal
+  modalOverlay:  { flex: 1, backgroundColor: 'rgba(15,23,42,0.45)', justifyContent: 'center', padding: 20 },
+  modalCard:     { backgroundColor: '#fff', borderRadius: 20, padding: 18, maxHeight: '88%', gap: 12 },
+  modalHeader:   { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  modalTitle:    { fontSize: 16, fontWeight: '800', color: '#1a1a2e' },
+  modalCloseBtn: { width: 32, height: 32, borderRadius: 8, backgroundColor: '#F5F7FF', alignItems: 'center', justifyContent: 'center' },
+  modalList:     { maxHeight: 400 },
+  optionRow:    { borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 10, paddingVertical: 11, paddingHorizontal: 14, marginBottom: 8 },
+  optionText:   { color: '#1a1a2e', fontSize: 13, fontWeight: '600' },
+
+  previewTitle:     { fontSize: 16, fontWeight: '800', color: '#1a1a2e', marginBottom: 8 },
+  previewMetaRow:   { flexDirection: 'row', gap: 6, flexWrap: 'wrap', marginBottom: 8 },
+  previewStatRow:   { flexDirection: 'row', gap: 10, marginBottom: 12 },
+  previewFieldLabel:{ fontSize: 11, fontWeight: '800', color: '#9A9AB0', textTransform: 'uppercase', marginTop: 10, marginBottom: 4 },
+  previewBody:      { fontSize: 13, color: '#334155', lineHeight: 20 },
+
+  // Pagination
+  paginationBar:        { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 14, borderTopWidth: 1, borderTopColor: '#F0F4FF', marginTop: 4 },
+  pageBtn:              { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 10, backgroundColor: '#EBF4FF' },
+  pageBtnDisabled:      { backgroundColor: '#F4F5FF' },
+  pageBtnText:          { fontSize: 12, fontWeight: '700', color: '#4A90E2' },
+  pageBtnTextDisabled:  { color: '#C0C8D8' },
+  pageIndicator:        { fontSize: 12, fontWeight: '700', color: '#5A6A8A' },
+
+
+
+  // Messages
+  messageCard: { borderRadius: 12, borderWidth: 1, padding: 12 },
+  successCard: { backgroundColor: '#ecfdf5', borderColor: '#86efac' },
+  errorCard:   { backgroundColor: '#fef2f2', borderColor: '#fecaca' },
+  messageText: { fontSize: 13, fontWeight: '600' },
+  successText: { color: '#166534' },
+  errorText:   { color: '#b91c1c' },
 });

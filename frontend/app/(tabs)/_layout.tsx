@@ -195,6 +195,14 @@ export default function TabsLayout() {
           title: 'Settings',
         }}
       />
+      <Tabs.Screen
+        name="subject"
+        options={{
+          href: null,
+          title: 'Subjects',
+          headerShown: false,
+        }}
+      />
     </Tabs>
   );
 }

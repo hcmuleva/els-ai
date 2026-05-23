@@ -1,14 +1,17 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Dimensions, Image, Linking, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useFocusEffect } from 'expo-router';
-import { ChevronRight, Play, Star, BookOpen, Clock, X, Trophy } from 'lucide-react-native';
+import { ChevronRight, Play, Star, BookOpen, Clock, X, Trophy, GraduationCap, Layers, ClipboardList, CheckCircle, AlertCircle, School, FileText, Telescope, Video as VideoIcon, Headphones, Image as ImageIcon, Link, Calendar } from 'lucide-react-native';
+import { SvgXml } from 'react-native-svg';
+import { Colors, Radius, Shadow } from '../../src/theme';
+import { GIRAFFE, OWL, PENGUIN, ELEPHANT, BUTTERFLY } from '../../src/assets/svgs';
 import { Video, ResizeMode } from 'expo-av';
 import { WebView } from 'react-native-webview';
 
 import AudioPlayer from '../../src/components/media/AudioPlayer';
 import DocumentViewer from '../../src/components/media/DocumentViewer';
 
-import { getStandardLabel, STANDARD_OPTIONS } from '../../src/constants/standards';
+import { getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
 
@@ -74,7 +77,6 @@ type ClassroomItem = {
   assignments: ClassroomAssignment[];
 };
 
-type SelectorField = 'class';
 type StudentTab = 'content' | 'quiz' | 'assignments';
 type PickedFile = { dataUrl: string; fileName: string; mimeType: string };
 
@@ -153,10 +155,7 @@ export default function ClassroomScreen() {
   const { apiFetch, isAuthenticated, user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [savingSubmission, setSavingSubmission] = useState(false);
-  const [selectorField, setSelectorField] = useState<SelectorField | null>(null);
   const [classrooms, setClassrooms] = useState<ClassroomItem[]>([]);
-  const [classLevels, setClassLevels] = useState<string[]>(STANDARD_OPTIONS.map((item) => item.value));
-  const [selectedClassLevel, setSelectedClassLevel] = useState('');
   const [selectedClassroomId, setSelectedClassroomId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<StudentTab>('content');
   const [selectedQuizId, setSelectedQuizId] = useState<string | null>(null);
@@ -165,6 +164,10 @@ export default function ClassroomScreen() {
   const [submissionText, setSubmissionText] = useState('');
   const [submissionAttachmentUrl, setSubmissionAttachmentUrl] = useState('');
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [isHistoryOpen, setIsHistoryOpen]           = useState(false);
+  const [historyLoading, setHistoryLoading]          = useState(false);
+  const [historyClassrooms, setHistoryClassrooms]    = useState<ClassroomItem[]>([]);
+  const [historySelectedId, setHistorySelectedId]    = useState<string | null>(null);
 
   // Viewer scroll-based playback tracking
   const [viewerScrollY, setViewerScrollY] = useState(0);
@@ -185,60 +188,65 @@ export default function ClassroomScreen() {
   };
 
   const loadClassrooms = useCallback(
-    async (classLevelOverride?: string) => {
-      const classLevel = classLevelOverride ?? selectedClassLevel;
-      const query = new URLSearchParams();
-      if (classLevel) query.set('class_level', classLevel);
-      const res = await apiFetch(`/quizzes/students/classrooms?${query.toString()}`);
+    async () => {
+      const res = await apiFetch('/quizzes/students/classrooms');
       if (!res.ok) {
         const payload = await res.json().catch(() => ({}));
         throw new Error(payload.message || 'Failed to load classroom data');
       }
       const payload = await res.json();
       const loadedClassrooms = (payload.classrooms || []) as ClassroomItem[];
-      const loadedLevels = (payload.classLevels || []) as string[];
-      const currentLevel = (payload.currentClassLevel as string) || classLevel || loadedLevels[0] || '';
 
       setClassrooms(loadedClassrooms);
-      setClassLevels(
-        loadedLevels.length > 0
-          ? loadedLevels
-          : [...new Set(loadedClassrooms.map((item) => item.classLevel).filter(Boolean))],
-      );
-      setSelectedClassLevel(currentLevel);
       setSelectedClassroomId((current) => {
         if (current && loadedClassrooms.some((item) => item.id === current)) return current;
-        return loadedClassrooms[0]?.id || null;
+        return null;
       });
     },
-    [apiFetch, selectedClassLevel],
+    [apiFetch],
   );
-
-  const loadStudentClassLevel = useCallback(async () => {
-    if (!user?.id || user.activeRole !== 'student') return '';
-    const res = await apiFetch(`/users/${user.id}`);
-    if (!res.ok) return '';
-    const profile = await res.json();
-    return (profile.classLevel as string) || '';
-  }, [apiFetch, user?.id, user?.activeRole]);
 
   const loadData = useCallback(async () => {
     if (!isAuthenticated) return;
     setLoading(true);
     setMessage(null);
     try {
-      const profileClass = await loadStudentClassLevel();
-      await loadClassrooms(profileClass);
+      await loadClassrooms();
     } catch (error) {
       setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load classrooms' });
     } finally {
       setLoading(false);
     }
-  }, [isAuthenticated, loadClassrooms, loadStudentClassLevel]);
+  }, [isAuthenticated, loadClassrooms]);
+
+  const loadHistory = async () => {
+    setHistoryLoading(true);
+    try {
+      const res = await apiFetch('/quizzes/students/classrooms');
+      if (res.ok) {
+        const d = await res.json();
+        const all = (d.classrooms ?? []) as ClassroomItem[];
+        setHistoryClassrooms(all.filter((c) => c.status === 'completed'));
+      }
+    } finally { setHistoryLoading(false); }
+  };
+
+  const openHistory = () => { setIsHistoryOpen(true); loadHistory(); };
+
+  // Active classrooms = non-completed
+  const activeClassrooms = useMemo(
+    () => classrooms.filter((c) => c.status !== 'completed'),
+    [classrooms],
+  );
 
   const selectedClassroom = useMemo(
-    () => classrooms.find((item) => item.id === selectedClassroomId) || classrooms[0] || null,
-    [classrooms, selectedClassroomId],
+    () => classrooms.find((item) => item.id === selectedClassroomId) || activeClassrooms[0] || null,
+    [classrooms, selectedClassroomId, activeClassrooms],
+  );
+
+  const historySelected = useMemo(
+    () => historyClassrooms.find((c) => c.id === historySelectedId) ?? null,
+    [historyClassrooms, historySelectedId],
   );
 
   const previewContent = previewContentIndex !== null && selectedClassroom 
@@ -336,7 +344,7 @@ export default function ClassroomScreen() {
         const payload = await res.json().catch(() => ({}));
         throw new Error(payload.message || 'Failed to submit assignment');
       }
-      await loadClassrooms(selectedClassLevel);
+      await loadClassrooms();
       setAssignmentModal(null);
       setMessage({ type: 'success', text: 'Assignment submitted successfully.' });
     } catch (error) {
@@ -348,6 +356,7 @@ export default function ClassroomScreen() {
 
   useFocusEffect(
     useCallback(() => {
+      setSelectedClassroomId(null);   // Always return to list on tab focus
       loadData();
     }, [loadData])
   );
@@ -356,37 +365,14 @@ export default function ClassroomScreen() {
     <View style={styles.screen}>
       <ScrollView style={styles.container} contentContainerStyle={styles.content}>
         
-        {/* Welcome Section */}
-        <View style={styles.welcomeSection}>
-          <View>
-            <Text style={styles.welcomeSubtitle}>Good Afternoon!</Text>
-            <Text style={styles.welcomeTitle}>{user?.firstName} {user?.lastName}</Text>
-          </View>
-          <View style={styles.pointsBadge}>
-            <Star size={14} color="#fcd34d" fill="#fcd34d" />
-            <Text style={styles.pointsText}>1200</Text>
-          </View>
-        </View>
 
-        {/* Motivational Banner */}
-        <View style={styles.quoteBanner}>
-          <View style={styles.quoteContent}>
-            <Text style={styles.quoteLabel}>Today's good habit</Text>
-            <Text style={styles.quoteText}>"Kindness makes the world a better place."</Text>
-          </View>
-          {/* A cute illustrative character could go here */}
-          <View style={styles.quoteCharacterPlaceholder}>
-            <Text style={{fontSize: 50}}>🦉</Text>
-          </View>
-        </View>
 
-        {/* Class Selector Header */}
+        {/* Header */}
         <View style={styles.headerRow}>
-          <Text style={styles.sectionTitle}>My Classroom</Text>
-          <Pressable style={styles.classSwitcher} onPress={() => setSelectorField('class')}>
-            <Text style={styles.classSwitcherText}>
-              {selectedClassLevel ? getStandardLabel(selectedClassLevel) : 'Select Class'}
-            </Text>
+          <Text style={styles.sectionTitle}>My Classes</Text>
+          <Pressable style={clStyles.historyBtnSmall} onPress={openHistory}>
+            <Clock size={13} color="#5A6A8A" />
+            <Text style={clStyles.historyBtnSmallText}>History</Text>
           </Pressable>
         </View>
 
@@ -401,12 +387,73 @@ export default function ClassroomScreen() {
             <ActivityIndicator size="large" color="#4f46e5" />
             <Text style={styles.loadingText}>Loading Playroom...</Text>
           </View>
-        ) : !selectedClassroom ? (
+        ) : activeClassrooms.length === 0 ? (
           <View style={styles.centerWrapper}>
-            <Text style={styles.emptyText}>No classroom sessions available for this class.</Text>
+            <SvgXml xml={PENGUIN} width={96} height={96} />
+            <Text style={[styles.emptyText, { marginTop: 12, fontSize: 15, fontWeight: '700', color: '#1a1a2e' }]}>No active sessions yet</Text>
+            <Text style={[styles.emptyText, { marginTop: 4 }]}>Your teacher hasn't started a class yet.</Text>
+            <Pressable style={clStyles.historyLinkBtn} onPress={openHistory}>
+              <Text style={clStyles.historyLinkText}>View Previous Classes</Text>
+            </Pressable>
           </View>
         ) : (
           <>
+            {/* ── Active Classrooms List ── */}
+            {!selectedClassroomId || !activeClassrooms.find((c) => c.id === selectedClassroomId) ? (
+              <View style={clStyles.listSection}>
+                <Text style={clStyles.listSectionLabel}>{activeClassrooms.length} active session{activeClassrooms.length !== 1 ? 's' : ''}</Text>
+                {activeClassrooms.map((room, idx) => {
+                  const BG_COLORS    = ['#D6EAFF', '#D6F5D6', '#FFE8D6', '#EDE4FF', '#FFF5CC'];
+                  const ICON_COLORS  = ['#4A90E2', '#4CAF50', '#FF7043', '#9B8EC4', '#E6A817'];
+                  const ICON_COMPS   = [BookOpen, School, Star, Layers, Telescope];
+                  const bg           = BG_COLORS[idx % BG_COLORS.length];
+                  const iconColor    = ICON_COLORS[idx % ICON_COLORS.length];
+                  const IconComp     = ICON_COMPS[idx % ICON_COMPS.length];
+                  const pending = room.assignments.filter((a) => a.status !== 'submitted').length;
+                  return (
+                    <Pressable key={room.id} style={[clStyles.roomCard, { backgroundColor: '#fff' }]}
+                      onPress={() => setSelectedClassroomId(room.id)}>
+                      <View style={[clStyles.roomCardArt, { backgroundColor: bg }]}>
+                        <IconComp size={26} color={iconColor} />
+                      </View>
+                      <View style={clStyles.roomCardInfo}>
+                        <Text style={clStyles.roomCardTitle} numberOfLines={1}>{room.title}</Text>
+                        <Text style={clStyles.roomCardMeta}>
+                          {getStandardLabel(room.classLevel)} · {room.scheduleType === 'instant' ? 'Instant' : 'Scheduled'}
+                        </Text>
+                        <View style={clStyles.roomCardChips}>
+                          <View style={clStyles.roomChip}>
+                            <BookOpen size={10} color="#5A7AB0" />
+                            <Text style={clStyles.roomChipText}>{room.contents.length}</Text>
+                          </View>
+                          <View style={clStyles.roomChip}>
+                            <Trophy size={10} color="#5A7AB0" />
+                            <Text style={clStyles.roomChipText}>{room.quizzes.length} quiz</Text>
+                          </View>
+                          {pending > 0 && (
+                            <View style={[clStyles.roomChip, { backgroundColor: '#FFE8D6' }]}>
+                              <AlertCircle size={10} color="#E65100" />
+                              <Text style={[clStyles.roomChipText, { color: '#E65100' }]}>{pending} due</Text>
+                            </View>
+                          )}
+                        </View>
+                      </View>
+                      <View style={clStyles.roomCardProgress}>
+                        <Text style={clStyles.roomCardPct}>{room.completionPct}%</Text>
+                        <Text style={clStyles.roomCardPctLabel}>done</Text>
+                        <ChevronRight size={16} color="#9A9AB0" style={{ marginTop: 4 }} />
+                      </View>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            ) : (
+              <>
+                {/* Back to list */}
+                <Pressable style={clStyles.backToList} onPress={() => setSelectedClassroomId(null)}>
+                  <Text style={clStyles.backToListText}>‹ All Classes</Text>
+                </Pressable>
+
             {/* Quick Categories Row */}
             <View style={styles.categoriesRow}>
               <Pressable style={[styles.categoryCard, activeTab === 'content' && styles.categoryCardActive]} onPress={() => setActiveTab('content')}>
@@ -451,9 +498,9 @@ export default function ClassroomScreen() {
                     const showImage = Boolean(previewImageUrl);
 
                     const cardColors = ['#D6EAFF', '#FFE8D6', '#D6F5D6', '#EDE4FF', '#FFF5CC'];
-                    const emojis = ['📖', '🎨', '🌿', '🔮', '🌟'];
+                    const CONTENT_SVGS = [GIRAFFE, OWL, ELEPHANT, BUTTERFLY, PENGUIN];
                     const bgColor = cardColors[idx % cardColors.length];
-                    const emoji = emojis[idx % emojis.length];
+                    const contentSvg = CONTENT_SVGS[idx % CONTENT_SVGS.length];
 
                     return (
                       <Pressable key={content.id} style={[styles.storyCard, { backgroundColor: bgColor }]} onPress={() => setPreviewContentIndex(idx)}>
@@ -471,7 +518,7 @@ export default function ClassroomScreen() {
                           <Image source={{ uri: previewImageUrl }} style={styles.storyImage} resizeMode="cover" />
                         ) : (
                           <View style={styles.storyImagePlaceholder}>
-                            <Text style={{ fontSize: 38 }}>{emoji}</Text>
+                            <SvgXml xml={contentSvg} width={52} height={52} />
                           </View>
                         )}
                       </Pressable>
@@ -561,9 +608,156 @@ export default function ClassroomScreen() {
                 )}
               </View>
             ) : null}
+              </>
+            )}
           </>
         )}
       </ScrollView>
+
+      {/* ── History Modal ── */}
+      <Modal visible={isHistoryOpen} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => { setIsHistoryOpen(false); setHistorySelectedId(null); }}>
+        <View style={clStyles.historyScreen}>
+          <View style={[clStyles.historyHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+            <Pressable onPress={() => { setIsHistoryOpen(false); setHistorySelectedId(null); }} style={clStyles.historyBackBtn}>
+              <Text style={clStyles.historyBackArrow}>‹</Text>
+            </Pressable>
+            <View style={{ flex: 1 }}>
+              <Text style={clStyles.historyTitle}>
+                {historySelectedId ? historySelected?.title ?? 'Class Details' : 'Previous Classes'}
+              </Text>
+              <Text style={clStyles.historySubtitle}>
+                {historySelectedId ? 'Tap a quiz to replay' : 'Your completed classroom sessions'}
+              </Text>
+            </View>
+            {historySelectedId && (
+              <Pressable onPress={() => setHistorySelectedId(null)} style={clStyles.historyBackToListBtn}>
+                <Text style={clStyles.historyBackToListText}>All Classes</Text>
+              </Pressable>
+            )}
+          </View>
+
+          {historyLoading ? (
+            <View style={clStyles.historyCenter}>
+              <ActivityIndicator size="large" color="#4A90E2" />
+              <Text style={{ color: '#9A9AB0', marginTop: 8 }}>Loading history…</Text>
+            </View>
+          ) : !historySelectedId ? (
+            /* ── Classroom list ── */
+            historyClassrooms.length === 0 ? (
+              <View style={clStyles.historyCenter}>
+                <SvgXml xml={OWL} width={88} height={88} />
+                <Text style={clStyles.historyEmptyTitle}>No history yet</Text>
+                <Text style={clStyles.historyEmptySub}>Completed classes will appear here.</Text>
+              </View>
+            ) : (
+              <ScrollView contentContainerStyle={clStyles.historyList}>
+                {historyClassrooms.map((room, idx) => {
+                  const BG_COLORS   = ['#D6EAFF', '#D6F5D6', '#FFE8D6', '#EDE4FF', '#FFF5CC'];
+                  const ICON_COLORS = ['#4A90E2', '#4CAF50', '#FF7043', '#9B8EC4', '#E6A817'];
+                  const ICON_COMPS  = [School, BookOpen, Layers, Trophy, Star];
+                  const IconComp    = ICON_COMPS[idx % ICON_COMPS.length];
+                  return (
+                    <Pressable key={room.id} style={clStyles.historyCard} onPress={() => setHistorySelectedId(room.id)}>
+                      <View style={[clStyles.historyCardIcon, { backgroundColor: BG_COLORS[idx % BG_COLORS.length] }]}>
+                        <IconComp size={22} color={ICON_COLORS[idx % ICON_COLORS.length]} />
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <Text style={clStyles.historyCardTitle} numberOfLines={1}>{room.title}</Text>
+                        <Text style={clStyles.historyCardMeta}>{getStandardLabel(room.classLevel)}</Text>
+                        <View style={clStyles.historyCardChips}>
+                          <View style={clStyles.historyChip}>
+                            <Trophy size={9} color="#5A7AB0" />
+                            <Text style={clStyles.historyChipText}>{room.quizzes.length} quiz</Text>
+                          </View>
+                          <View style={clStyles.historyChip}>
+                            <ClipboardList size={9} color="#5A7AB0" />
+                            <Text style={clStyles.historyChipText}>{room.assignments.length} task</Text>
+                          </View>
+                          <View style={[clStyles.historyChip, { backgroundColor: '#D6F5D6' }]}>
+                            <Text style={[clStyles.historyChipText, { color: '#1A6B1A' }]}>{room.completionPct}% done</Text>
+                          </View>
+                        </View>
+                      </View>
+                      <ChevronRight size={18} color="#9A9AB0" />
+                    </Pressable>
+                  );
+                })}
+              </ScrollView>
+            )
+          ) : historySelected ? (
+            /* ── Single history classroom detail ── */
+            <ScrollView contentContainerStyle={clStyles.historyDetail}>
+              {/* Stats */}
+              <View style={clStyles.historyStatsRow}>
+                <View style={clStyles.historyStat}>
+                  <Text style={clStyles.historyStatVal}>{historySelected.contents.length}</Text>
+                  <Text style={clStyles.historyStatLabel}>Content</Text>
+                </View>
+                <View style={clStyles.historyStat}>
+                  <Text style={clStyles.historyStatVal}>{historySelected.quizzes.length}</Text>
+                  <Text style={clStyles.historyStatLabel}>Quizzes</Text>
+                </View>
+                <View style={clStyles.historyStat}>
+                  <Text style={clStyles.historyStatVal}>{historySelected.assignments.length}</Text>
+                  <Text style={clStyles.historyStatLabel}>Tasks</Text>
+                </View>
+                <View style={clStyles.historyStat}>
+                  <Text style={[clStyles.historyStatVal, { color: '#4A90E2' }]}>{historySelected.completionPct}%</Text>
+                  <Text style={clStyles.historyStatLabel}>Done</Text>
+                </View>
+              </View>
+
+              {/* Quizzes — with replay */}
+              {historySelected.quizzes.length > 0 && (
+                <View style={clStyles.historySection}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                    <Trophy size={16} color="#FF7043" />
+                    <Text style={clStyles.historySectionTitle}>Quizzes</Text>
+                  </View>
+                  {historySelected.quizzes.map((quiz) => (
+                    <View key={quiz.id} style={clStyles.historyQuizCard}>
+                      <View style={clStyles.historyQuizInfo}>
+                        <Text style={clStyles.historyQuizTitle} numberOfLines={1}>{quiz.title}</Text>
+                        <Text style={clStyles.historyQuizMeta}>{quiz.totalQuestions} questions · {quiz.subject}</Text>
+                        {quiz.status === 'completed' && quiz.score !== undefined && (
+                          <View style={[clStyles.historyScoreBadge, { flexDirection: 'row', alignItems: 'center', gap: 4 }]}>
+                            <Star size={10} color="#E6A817" fill="#E6A817" />
+                            <Text style={clStyles.historyScoreText}>Score: {quiz.score}</Text>
+                          </View>
+                        )}
+                      </View>
+                      <Pressable style={clStyles.replayBtn} onPress={() => setSelectedQuizId(quiz.id)}>
+                        <Play size={14} color="#fff" fill="#fff" />
+                        <Text style={clStyles.replayBtnText}>Replay</Text>
+                      </Pressable>
+                    </View>
+                  ))}
+                </View>
+              )}
+
+              {/* Assignments — view only */}
+              {historySelected.assignments.length > 0 && (
+                <View style={clStyles.historySection}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                    <ClipboardList size={16} color="#4A90E2" />
+                    <Text style={clStyles.historySectionTitle}>Assignments</Text>
+                  </View>
+                  {historySelected.assignments.map((assignment) => (
+                    <View key={assignment.id} style={clStyles.historyAssignCard}>
+                      <Text style={clStyles.historyAssignTitle} numberOfLines={1}>{assignment.title}</Text>
+                      <View style={[clStyles.historyChip, { backgroundColor: assignment.status === 'submitted' ? '#D6F5D6' : '#FFE8D6' }]}>
+                        <Text style={[clStyles.historyChipText, { color: assignment.status === 'submitted' ? '#1A6B1A' : '#E65100' }]}>
+                          {assignment.status === 'submitted' ? 'Submitted' : assignment.status.toUpperCase()}
+                        </Text>
+                      </View>
+                    </View>
+                  ))}
+                </View>
+              )}
+            </ScrollView>
+          ) : null}
+        </View>
+      </Modal>
 
       {selectedQuizId && (
         <QuizRenderer
@@ -571,60 +765,33 @@ export default function ClassroomScreen() {
           visible={selectedQuizId !== null}
           onClose={() => {
             setSelectedQuizId(null);
-            loadClassrooms(selectedClassLevel);
+            loadClassrooms();
           }}
         />
       )}
 
-      {/* Class Selector Modal */}
-      <Modal visible={selectorField !== null} transparent animationType="fade" onRequestClose={() => setSelectorField(null)}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Select Class</Text>
-              <Pressable onPress={() => setSelectorField(null)} style={styles.closeBtn}>
-                <X size={20} color="#64748b" />
-              </Pressable>
-            </View>
-            <ScrollView style={styles.selectorList}>
-              {classLevels.map((level) => (
-                <Pressable
-                  key={level}
-                  style={styles.selectorOption}
-                  onPress={() => {
-                    setSelectorField(null);
-                    loadClassrooms(level);
-                  }}
-                >
-                  <Text style={styles.selectorOptionText}>{getStandardLabel(level)}</Text>
-                  {selectedClassLevel === level && <View style={styles.radioDot} />}
-                </Pressable>
-              ))}
-            </ScrollView>
-          </View>
-        </View>
-      </Modal>
+
 
       {/* Fullscreen Content Viewer Modal */}
       <Modal visible={previewContentIndex !== null} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setPreviewContentIndex(null)}>
         {(() => {
-          const EMOJIS   = ['🦕', '🦁', '🐢', '🦒', '🌟', '🦊', '🐧', '🎨'];
           const BG_CARDS = ['#FAFAC8', '#D6EAFF', '#D6F5D6', '#FFE8D6', '#EDE4FF'];
-          const TYPE_CONFIG: Record<string, { label: string; emoji: string; accentColor: string; bgColor: string }> = {
-            video:    { label: '🎬 Video',      emoji: '🎬', accentColor: '#FF7043', bgColor: '#FFE8D6' },
-            audio:    { label: '🎵 Audio',      emoji: '🎵', accentColor: '#9B8EC4', bgColor: '#EDE4FF' },
-            image:    { label: '🖼️ Image',      emoji: '🖼️', accentColor: '#4A90E2', bgColor: '#D6EAFF' },
-            text:     { label: '📖 Reading',    emoji: '📖', accentColor: '#7DC67A', bgColor: '#D6F5D6' },
-            youtube:  { label: '▶️ YouTube',    emoji: '▶️', accentColor: '#FF4444', bgColor: '#FFE8D6' },
-            document: { label: '📄 Document',   emoji: '📄', accentColor: '#4A90E2', bgColor: '#D6EAFF' },
-            link:     { label: '🔗 Resource',   emoji: '🔗', accentColor: '#E6A817', bgColor: '#FFF5CC' },
+          type TypeCfgEntry = { label: string; IconComp: React.ComponentType<{ size?: number; color?: string }>; accentColor: string; bgColor: string };
+          const TYPE_CONFIG: Record<string, TypeCfgEntry> = {
+            video:    { label: 'Video',    IconComp: VideoIcon,  accentColor: '#FF7043', bgColor: '#FFE8D6' },
+            audio:    { label: 'Audio',    IconComp: Headphones, accentColor: '#9B8EC4', bgColor: '#EDE4FF' },
+            image:    { label: 'Image',    IconComp: ImageIcon,  accentColor: '#4A90E2', bgColor: '#D6EAFF' },
+            text:     { label: 'Reading',  IconComp: BookOpen,   accentColor: '#7DC67A', bgColor: '#D6F5D6' },
+            youtube:  { label: 'YouTube',  IconComp: Play,       accentColor: '#FF4444', bgColor: '#FFE8D6' },
+            document: { label: 'Document', IconComp: FileText,   accentColor: '#4A90E2', bgColor: '#D6EAFF' },
+            link:     { label: 'Resource', IconComp: Link,       accentColor: '#E6A817', bgColor: '#FFF5CC' },
           };
 
           const curIdx   = previewContentIndex ?? 0;
           const contents = selectedClassroom?.contents ?? [];
           const content  = previewContent;
-          const fallbackEmoji = EMOJIS[curIdx % EMOJIS.length];
           const fallbackBg    = BG_CARDS[curIdx % BG_CARDS.length];
+          const CONTENT_SVGS_VIEWER = [GIRAFFE, OWL, ELEPHANT, BUTTERFLY, PENGUIN];
 
           // Detect primary content type across sections
           const sections = content?.sections?.length ? content.sections : [content];
@@ -642,7 +809,7 @@ export default function ClassroomScreen() {
             return 'text';
           };
           const primaryType = detectType(sections[0]);
-          const typeCfg = TYPE_CONFIG[primaryType] ?? { label: '📖 Content', emoji: fallbackEmoji, accentColor: '#4A90E2', bgColor: fallbackBg };
+          const typeCfg = TYPE_CONFIG[primaryType] ?? { label: 'Content', IconComp: BookOpen, accentColor: '#4A90E2', bgColor: fallbackBg };
 
           return (
             <View style={styles.viewerContainer}>
@@ -684,7 +851,9 @@ export default function ClassroomScreen() {
                         </View>
                       )}
                     </View>
-                    <Text style={{ fontSize: 64 }}>{typeCfg.emoji}</Text>
+                    <View style={[styles.vHeroIconBox, { backgroundColor: `${typeCfg.accentColor}18` }]}>
+                      <typeCfg.IconComp size={40} color={typeCfg.accentColor} />
+                    </View>
                   </View>
                   {/* Nav arrows inside hero */}
                   <View style={styles.vHeroNav}>
@@ -729,14 +898,14 @@ export default function ClassroomScreen() {
                       {(section as any).title ? (
                         <View style={styles.vSectionTitleRow}>
                           <View style={[styles.vSectionChip, { backgroundColor: `${sCfg.accentColor}15` }]}>
-                            <Text style={[styles.vSectionChipTxt, { color: sCfg.accentColor }]}>{sCfg.emoji}</Text>
+                            <sCfg.IconComp size={14} color={sCfg.accentColor} />
                           </View>
                           <Text style={styles.vSectionTitleTxt}>{(section as any).title}</Text>
                         </View>
                       ) : idx > 0 ? (
                         <View style={styles.vSectionTitleRow}>
                           <View style={[styles.vSectionChip, { backgroundColor: `${sCfg.accentColor}15` }]}>
-                            <Text style={[styles.vSectionChipTxt, { color: sCfg.accentColor }]}>{sCfg.emoji}</Text>
+                            <sCfg.IconComp size={14} color={sCfg.accentColor} />
                           </View>
                           <Text style={styles.vSectionTitleTxt}>Section {idx + 1}</Text>
                         </View>
@@ -778,7 +947,7 @@ export default function ClassroomScreen() {
                         <AudioPlayer
                           uri={url}
                           title={content?.title || 'Audio'}
-                          subtitle={content?.subject ? `⏱ 15 Minutes · ${content.subject}` : '⏱ 15 Minutes'}
+                          subtitle={content?.subject ? `15 Minutes · ${content.subject}` : '15 Minutes'}
                           emoji="🎵"
                           accentColor={sCfg.accentColor}
                           bgColor={sCfg.bgColor ?? '#EDE4FF'}
@@ -825,7 +994,8 @@ export default function ClassroomScreen() {
                             style={[styles.vLinkBtn, { backgroundColor: `${sCfg.accentColor}12`, borderColor: `${sCfg.accentColor}30` }]}
                             onPress={() => openExternalResource(eUrl)}
                           >
-                            <Text style={[styles.vLinkBtnTxt, { color: sCfg.accentColor }]}>🔗 Open Resource</Text>
+                            <Link size={14} color={sCfg.accentColor} />
+                    <Text style={[styles.vLinkBtnTxt, { color: sCfg.accentColor }]}>Open Resource</Text>
                           </Pressable>
                         )
                       ) : null}
@@ -840,8 +1010,8 @@ export default function ClassroomScreen() {
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.vMoreScroll}>
                       {contents.map((c, i) => {
                         if (i === curIdx) return null;
-                        const cBg    = BG_CARDS[i % BG_CARDS.length];
-                        const cEmoji = EMOJIS[i % EMOJIS.length];
+                        const cBg  = BG_CARDS[i % BG_CARDS.length];
+                        const cSvg = CONTENT_SVGS_VIEWER[i % CONTENT_SVGS_VIEWER.length];
                         const cm = resolveMediaUrl(c.mediaUrl);
                         const ce = resolveMediaUrl(c.externalUrl);
                         const img = isImageUrl(cm) ? cm : isImageUrl(ce) ? ce : '';
@@ -849,7 +1019,7 @@ export default function ClassroomScreen() {
                           <Pressable key={c.id} style={[styles.vMoreCard, { backgroundColor: cBg }]} onPress={() => setPreviewContentIndex(i)}>
                             {img
                               ? <Image source={{ uri: img }} style={styles.vMoreCardImg} resizeMode="cover" />
-                              : <Text style={styles.vMoreCardEmoji}>{cEmoji}</Text>}
+                              : <SvgXml xml={cSvg} width={44} height={44} />}
                             <Text style={styles.vMoreCardTitle} numberOfLines={2}>{c.title}</Text>
                             <Text style={styles.vMoreCardMeta}>{c.subject || 'Content'}</Text>
                           </Pressable>
@@ -865,80 +1035,178 @@ export default function ClassroomScreen() {
       </Modal>
 
       {/* Assignment Modal */}
-      <Modal visible={assignmentModal !== null} transparent animationType="slide" onRequestClose={() => setAssignmentModal(null)}>
-        <View style={styles.fullModalOverlay}>
-          <View style={styles.fullModalCard}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>{assignmentModal?.title || 'Task'}</Text>
-              <Pressable onPress={() => setAssignmentModal(null)} style={styles.closeBtn}>
-                <X size={20} color="#64748b" />
-              </Pressable>
+      <Modal visible={assignmentModal !== null} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setAssignmentModal(null)}>
+        <View style={aStyles.screen}>
+          {/* Header */}
+          <View style={[aStyles.header, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+            <Pressable onPress={() => setAssignmentModal(null)} style={aStyles.backBtn}>
+              <X size={20} color="#1a1a2e" />
+            </Pressable>
+            <View style={{ flex: 1 }}>
+              <Text style={aStyles.headerLabel}>Assignment</Text>
+              <Text style={aStyles.headerTitle} numberOfLines={1}>{assignmentModal?.title || 'Task'}</Text>
             </View>
-            <ScrollView contentContainerStyle={{padding: 20}}>
-              
-              <View style={styles.taskDetailCard}>
-                {assignmentModal?.description ? <Text style={styles.taskDetailText}>{assignmentModal.description}</Text> : null}
-                {assignmentModal?.instructions ? <Text style={styles.taskDetailText}>{assignmentModal.instructions}</Text> : null}
-                {assignmentModal?.attachmentUrl ? (
-                  <Pressable onPress={() => openExternalResource(assignmentModal.attachmentUrl!)}>
-                    <Text style={styles.taskLink}>View Attachment</Text>
-                  </Pressable>
-                ) : null}
+            {assignmentModal?.status === 'submitted' ? (
+              <View style={[aStyles.statusBadgeSubmitted, { flexDirection: 'row', alignItems: 'center', gap: 4 }]}>
+                <CheckCircle size={12} color="#1A6B1A" />
+                <Text style={aStyles.statusBadgeText}>Submitted</Text>
               </View>
+            ) : assignmentModal?.status === 'overdue' ? (
+              <View style={aStyles.statusBadgeOverdue}><Text style={aStyles.statusBadgeText}>⚠ Overdue</Text></View>
+            ) : (
+              <View style={aStyles.statusBadgePending}><Text style={aStyles.statusBadgeText}>📋 Pending</Text></View>
+            )}
+          </View>
 
-              {assignmentModal?.status === 'submitted' ? (
-                <View style={{ backgroundColor: '#D6F5D6', borderRadius: 16, padding: 16, gap: 8 }}>
-                  <Text style={{ fontSize: 15, fontWeight: '900', color: '#2E7D32' }}>✅ Submitted</Text>
-                  {assignmentModal.submission?.submittedAt && (
-                    <Text style={{ fontSize: 12, color: '#4CAF50', fontWeight: '600' }}>
-                      {new Date(assignmentModal.submission.submittedAt).toLocaleString()}
-                    </Text>
-                  )}
-                  {submissionText ? (
+          <ScrollView contentContainerStyle={aStyles.scrollContent} showsVerticalScrollIndicator={false}>
+
+            {/* Meta row: due date + time bound */}
+            <View style={aStyles.metaRow}>
+              <View style={aStyles.metaChip}>
+                <Calendar size={13} color="#5A6A8A" />
+                <Text style={aStyles.metaChipText}>
+                  {assignmentModal?.dueDate
+                    ? `Due ${new Date(assignmentModal.dueDate).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}`
+                    : 'No due date'}
+                </Text>
+              </View>
+              {assignmentModal?.isTimeBound && (
+                <View style={aStyles.metaChip}>
+                  <Clock size={13} color="#5A6A8A" />
+                  <Text style={aStyles.metaChipText}>Time-bound</Text>
+                </View>
+              )}
+            </View>
+
+            {/* Description */}
+            {(assignmentModal?.description || assignmentModal?.instructions) ? (
+              <View style={aStyles.section}>
+                <Text style={aStyles.sectionLabel}>Description</Text>
+                <View style={aStyles.sectionCard}>
+                  {assignmentModal?.description ? (
+                    <Text style={aStyles.sectionText}>{assignmentModal.description}</Text>
+                  ) : null}
+                  {assignmentModal?.instructions ? (
                     <>
-                      <Text style={{ fontSize: 12, fontWeight: '700', color: '#4B5563', marginTop: 4 }}>Your Answer:</Text>
-                      <Text style={{ fontSize: 13, color: '#374151', lineHeight: 20 }}>{submissionText}</Text>
+                      {assignmentModal?.description ? <View style={aStyles.sectionDivider} /> : null}
+                      <Text style={aStyles.sectionSubLabel}>Instructions</Text>
+                      <Text style={aStyles.sectionText}>{assignmentModal.instructions}</Text>
                     </>
                   ) : null}
+                </View>
+              </View>
+            ) : null}
+
+            {/* Teacher attachment */}
+            {assignmentModal?.attachmentUrl ? (
+              <View style={aStyles.section}>
+                <Text style={aStyles.sectionLabel}>Reference Material</Text>
+                <Pressable style={aStyles.attachmentRow} onPress={() => openExternalResource(assignmentModal.attachmentUrl!)}>
+                  <View style={aStyles.attachmentIcon}><Link size={18} color="#4A90E2" /></View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={aStyles.attachmentTitle}>View Attachment</Text>
+                    <Text style={aStyles.attachmentUrl} numberOfLines={1}>{assignmentModal.attachmentUrl}</Text>
+                  </View>
+                  <Text style={aStyles.attachmentArrow}>›</Text>
+                </Pressable>
+              </View>
+            ) : null}
+
+            {/* ── Submitted view ── */}
+            {assignmentModal?.status === 'submitted' ? (
+              <View style={aStyles.section}>
+                <Text style={aStyles.sectionLabel}>✅ Your Submission</Text>
+                <View style={aStyles.submittedCard}>
+                  <View style={aStyles.submittedBanner}>
+                    <Text style={aStyles.submittedBannerTitle}>Assignment Submitted</Text>
+                    {assignmentModal.submission?.submittedAt ? (
+                      <Text style={aStyles.submittedBannerDate}>
+                        {new Date(assignmentModal.submission.submittedAt).toLocaleString(undefined, {
+                          day: 'numeric', month: 'short', year: 'numeric',
+                          hour: '2-digit', minute: '2-digit',
+                        })}
+                      </Text>
+                    ) : null}
+                  </View>
+                  {submissionText ? (
+                    <View style={aStyles.submittedField}>
+                      <Text style={aStyles.submittedFieldLabel}>Your Answer</Text>
+                      <Text style={aStyles.submittedFieldValue}>{submissionText}</Text>
+                    </View>
+                  ) : null}
                   {submissionAttachmentUrl ? (
-                    <Text style={{ fontSize: 12, color: '#4A90E2', fontWeight: '600', marginTop: 4 }}>📎 Attachment submitted</Text>
+                    <View style={aStyles.submittedField}>
+                      <Text style={aStyles.submittedFieldLabel}>Attached File</Text>
+                      <Pressable onPress={() => openExternalResource(submissionAttachmentUrl)}>
+                        <Text style={aStyles.submittedAttachLink}>View submitted file</Text>
+                      </Pressable>
+                    </View>
                   ) : null}
                 </View>
-              ) : (
-                <>
-                  <Text style={styles.inputLabel}>Your Work</Text>
+              </View>
+            ) : (
+              /* ── Submission form ── */
+              <View style={aStyles.section}>
+                <Text style={aStyles.sectionLabel}>✏️ Your Submission</Text>
+
+                {/* Answer text */}
+                <View style={aStyles.fieldGroup}>
+                  <Text style={aStyles.fieldLabel}>Answer / Notes</Text>
+                  <Text style={aStyles.fieldHint}>Write your answer, observations, or notes for this task.</Text>
                   <TextInput
                     value={submissionText}
                     onChangeText={setSubmissionText}
-                    placeholder="Write your answer here..."
-                    style={styles.textArea}
+                    placeholder="Start writing your answer here…"
+                    style={aStyles.textArea}
                     multiline
                     textAlignVertical="top"
+                    placeholderTextColor="#B0B8D0"
                   />
-                  <Text style={styles.inputLabel}>Attach a File (URL)</Text>
-                  <View style={styles.uploadRow}>
+                </View>
+
+                {/* Attachment */}
+                <View style={aStyles.fieldGroup}>
+                  <Text style={aStyles.fieldLabel}>Attachment (optional)</Text>
+                  <Text style={aStyles.fieldHint}>Upload a file or paste a link to your work.</Text>
+                  <View style={aStyles.uploadRow}>
                     <TextInput
                       value={submissionAttachmentUrl}
                       onChangeText={setSubmissionAttachmentUrl}
-                      placeholder="https://..."
-                      style={styles.inputFlex}
+                      placeholder="https://… or tap Upload"
+                      style={aStyles.urlInput}
+                      autoCapitalize="none"
+                      placeholderTextColor="#B0B8D0"
                     />
-                    <Pressable style={styles.uploadBtn} onPress={uploadSubmissionAttachment}>
-                      <Text style={styles.uploadBtnText}>Upload</Text>
-                    </Pressable>
                   </View>
-                </>
-              )}
-
-            </ScrollView>
-            {assignmentModal?.status !== 'submitted' && (
-              <View style={styles.modalFooter}>
-                <Pressable style={styles.bigPrimaryButton} onPress={submitAssignment} disabled={savingSubmission}>
-                  {savingSubmission ? <ActivityIndicator color="#fff" /> : <Text style={styles.bigPrimaryButtonText}>Submit Task</Text>}
-                </Pressable>
+                  <Pressable style={aStyles.uploadFileBtn} onPress={uploadSubmissionAttachment}>
+                    <Text style={aStyles.uploadFileBtnText}>Upload File</Text>
+                  </Pressable>
+                  {submissionAttachmentUrl ? (
+                    <View style={aStyles.attachPreviewRow}>
+                      <FileText size={13} color="#1A4DA2" />
+                      <Text style={aStyles.attachPreviewText} numberOfLines={1}>{submissionAttachmentUrl}</Text>
+                      <Pressable onPress={() => setSubmissionAttachmentUrl('')}>
+                        <X size={14} color="#FF7043" />
+                      </Pressable>
+                    </View>
+                  ) : null}
+                </View>
               </View>
             )}
-          </View>
+
+            <View style={{ height: 100 }} />
+          </ScrollView>
+
+          {/* Footer submit button */}
+          {assignmentModal?.status !== 'submitted' && (
+            <View style={aStyles.footer}>
+              <Pressable style={aStyles.submitBtn} onPress={submitAssignment} disabled={savingSubmission}>
+                {savingSubmission
+                  ? <ActivityIndicator color="#fff" />
+                  : <Text style={aStyles.submitBtnText}>Submit Assignment</Text>}
+              </Pressable>
+            </View>
+          )}
         </View>
       </Modal>
     </View>
@@ -1685,6 +1953,7 @@ const styles = StyleSheet.create({
   vScroll: { paddingBottom: 40 },
 
   // Hero card
+  vHeroIconBox: { width: 72, height: 72, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
   vHeroCard: { margin: 16, borderRadius: 24, padding: 20, marginBottom: 8 },
   vHeroRow:  { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 },
   vHeroLeft: { flex: 1 },
@@ -1720,7 +1989,8 @@ const styles = StyleSheet.create({
 
   // Link
   vLinkBtn: {
-    borderRadius: 16, paddingVertical: 14, alignItems: 'center',
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
+    borderRadius: 16, paddingVertical: 14,
     borderWidth: 1.5,
   },
   vLinkBtnTxt: { fontSize: 14, fontWeight: '800' },
@@ -1734,4 +2004,139 @@ const styles = StyleSheet.create({
   vMoreCardEmoji:{ fontSize: 34 },
   vMoreCardTitle:{ fontSize: 12, fontWeight: '800', color: '#1a1a2e', lineHeight: 17 },
   vMoreCardMeta: { fontSize: 10, fontWeight: '500', color: '#9A9AB0' },
+});
+
+// ── Assignment full-screen modal styles ────────────────────────────────────────
+const aStyles = StyleSheet.create({
+  screen:      { flex: 1, backgroundColor: '#F5F7FF' },
+
+  header:      { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 14, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  backBtn:     { width: 36, height: 36, alignItems: 'center', justifyContent: 'center', borderRadius: 18, backgroundColor: '#F5F7FF' },
+  headerLabel: { fontSize: 10, fontWeight: '800', color: '#9A9AB0', textTransform: 'uppercase', letterSpacing: 0.8 },
+  headerTitle: { fontSize: 16, fontWeight: '900', color: '#1a1a2e', marginTop: 1 },
+
+  statusBadgeSubmitted: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5, backgroundColor: '#D6F5D6' },
+  statusBadgeOverdue:   { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5, backgroundColor: '#FFE8D6' },
+  statusBadgePending:   { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5, backgroundColor: '#EEF4FF' },
+  statusBadgeText:      { fontSize: 11, fontWeight: '800', color: '#1a1a2e' },
+
+  scrollContent: { padding: 16, gap: 16 },
+
+  metaRow:       { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
+  metaChip:      { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: '#fff', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 7, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 1 },
+  metaChipEmoji: { fontSize: 13 },
+  metaChipText:  { fontSize: 12, fontWeight: '700', color: '#5A6A8A' },
+
+  section:       { gap: 8 },
+  sectionLabel:  { fontSize: 11, fontWeight: '800', color: '#9A9AB0', textTransform: 'uppercase', letterSpacing: 0.8, paddingLeft: 2 },
+  sectionCard:   { backgroundColor: '#fff', borderRadius: 16, padding: 16, gap: 6, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 1 },
+  sectionText:   { fontSize: 14, color: '#1a1a2e', lineHeight: 22, fontWeight: '500' },
+  sectionSubLabel:{ fontSize: 11, fontWeight: '800', color: '#9A9AB0', textTransform: 'uppercase', letterSpacing: 0.5, marginTop: 4 },
+  sectionDivider:{ height: 1, backgroundColor: '#F0F0F8', marginVertical: 6 },
+
+  attachmentRow:    { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: '#fff', borderRadius: 16, padding: 14, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 1 },
+  attachmentIcon:   { width: 42, height: 42, borderRadius: 12, backgroundColor: '#EEF4FF', alignItems: 'center', justifyContent: 'center' },
+  attachmentTitle:  { fontSize: 14, fontWeight: '800', color: '#1A4DA2' },
+  attachmentUrl:    { fontSize: 11, color: '#9A9AB0', marginTop: 2 },
+  attachmentArrow:  { fontSize: 22, color: '#9A9AB0', fontWeight: '300' },
+
+  submittedCard:        { backgroundColor: '#fff', borderRadius: 20, overflow: 'hidden', shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 },
+  submittedBanner:      { backgroundColor: '#D6F5D6', padding: 16, gap: 3 },
+  submittedBannerTitle: { fontSize: 16, fontWeight: '900', color: '#1A6B1A' },
+  submittedBannerDate:  { fontSize: 12, fontWeight: '600', color: '#4CAF50' },
+  submittedField:       { padding: 14, borderBottomWidth: 1, borderBottomColor: '#F5F7FF', gap: 5 },
+  submittedFieldLabel:  { fontSize: 11, fontWeight: '800', color: '#9A9AB0', textTransform: 'uppercase', letterSpacing: 0.5 },
+  submittedFieldValue:  { fontSize: 14, color: '#1a1a2e', lineHeight: 22, fontWeight: '500' },
+  submittedAttachLink:  { fontSize: 13, color: '#4A90E2', fontWeight: '700' },
+
+  fieldGroup:  { backgroundColor: '#fff', borderRadius: 16, padding: 16, gap: 8, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 1 },
+  fieldLabel:  { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
+  fieldHint:   { fontSize: 12, color: '#9A9AB0', fontWeight: '500', lineHeight: 18, marginBottom: 2 },
+  textArea:    { backgroundColor: '#F8F9FF', borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 12, padding: 14, minHeight: 120, fontSize: 14, color: '#1a1a2e', lineHeight: 22 },
+  uploadRow:   { gap: 8 },
+  urlInput:    { backgroundColor: '#F8F9FF', borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 11, fontSize: 13, color: '#1a1a2e' },
+  uploadFileBtn:    { borderRadius: 12, borderWidth: 1.5, borderColor: '#D6EAFF', backgroundColor: '#F5F9FF', paddingVertical: 12, alignItems: 'center' },
+  uploadFileBtnText:{ fontSize: 13, fontWeight: '700', color: '#4A90E2' },
+  attachPreviewRow: { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: '#EEF4FF', borderRadius: 10, padding: 10 },
+  attachPreviewText:{ flex: 1, fontSize: 12, color: '#1A4DA2', fontWeight: '500' },
+  attachClearBtn:   { fontSize: 13, fontWeight: '800', color: '#FF7043' },
+
+  footer:        { padding: 16, paddingBottom: Platform.OS === 'ios' ? 32 : 16, backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: '#F0F0F8' },
+  submitBtn:     { backgroundColor: '#4A90E2', borderRadius: 16, paddingVertical: 16, alignItems: 'center' },
+  submitBtnText: { color: '#fff', fontSize: 15, fontWeight: '900', letterSpacing: 0.3 },
+});
+
+// ── Classroom list + history styles ───────────────────────────────────────────
+const clStyles = StyleSheet.create({
+  // Header additions
+  historyBtnSmall:     { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 12, borderWidth: 1.5, borderColor: '#D0D8F0', paddingHorizontal: 10, paddingVertical: 6 },
+  historyBtnSmallText: { fontSize: 11, fontWeight: '700', color: '#5A6A8A' },
+
+  historyLinkBtn:  { marginTop: 12, borderRadius: 12, backgroundColor: '#EBF4FF', paddingHorizontal: 16, paddingVertical: 10 },
+  historyLinkText: { fontSize: 13, fontWeight: '800', color: '#1A4DA2' },
+
+  // Active classroom list
+  listSection:      { paddingBottom: 8 },
+  listSectionLabel: { fontSize: 12, fontWeight: '700', color: '#9A9AB0', marginBottom: 10, paddingHorizontal: 4 },
+
+  roomCard:     { flexDirection: 'row', alignItems: 'flex-start', gap: 14, borderRadius: 20, padding: 16, marginBottom: 12, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.07, shadowRadius: 10, elevation: 3 },
+  roomCardArt:  { width: 52, height: 52, borderRadius: 14, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+  roomCardInfo: { flex: 1 },
+  roomCardTitle:{ fontSize: 15, fontWeight: '800', color: '#1a1a2e', lineHeight: 22 },
+  roomCardMeta: { fontSize: 12, color: '#9A9AB0', fontWeight: '500', marginTop: 2 },
+  roomCardChips:{ flexDirection: 'row', gap: 6, marginTop: 6, flexWrap: 'wrap' },
+  roomChip:     { flexDirection: 'row', alignItems: 'center', gap: 4, borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3, backgroundColor: '#F0F4FF' },
+  roomChipText: { fontSize: 11, fontWeight: '700', color: '#5A7AB0' },
+  roomCardProgress: { alignItems: 'center', gap: 2, flexShrink: 0 },
+  roomCardPct:  { fontSize: 18, fontWeight: '900', color: '#4A90E2' },
+  roomCardPctLabel: { fontSize: 9, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' },
+
+  backToList:     { flexDirection: 'row', alignItems: 'center', gap: 4, paddingVertical: 8, marginBottom: 6 },
+  backToListText: { fontSize: 13, fontWeight: '700', color: '#4A90E2' },
+
+  // History full-screen modal
+  historyScreen:    { flex: 1, backgroundColor: '#F5F7FF' },
+  historyHeader:    { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 14, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  historyBackBtn:   { width: 36, height: 36, borderRadius: 18, backgroundColor: '#F5F7FF', alignItems: 'center', justifyContent: 'center' },
+  historyBackArrow: { fontSize: 28, color: '#1a1a2e', fontWeight: '300', lineHeight: 34 },
+  historyTitle:     { fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
+  historySubtitle:  { fontSize: 11, color: '#9A9AB0', fontWeight: '500', marginTop: 1 },
+  historyBackToListBtn: { borderRadius: 10, backgroundColor: '#EBF4FF', paddingHorizontal: 12, paddingVertical: 6 },
+  historyBackToListText:{ fontSize: 12, fontWeight: '700', color: '#1A4DA2' },
+
+  historyCenter:    { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 8, paddingTop: 60 },
+  historyEmptyTitle:{ fontSize: 18, fontWeight: '900', color: '#1a1a2e' },
+  historyEmptySub:  { fontSize: 13, color: '#9A9AB0', textAlign: 'center' },
+  historyList:      { padding: 16, gap: 10, paddingBottom: 40 },
+
+  historyCard:      { flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: '#fff', borderRadius: 18, padding: 14, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 6, elevation: 2 },
+  historyCardIcon:  { width: 48, height: 48, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  historyCardTitle: { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  historyCardMeta:  { fontSize: 12, color: '#9A9AB0', fontWeight: '500', marginTop: 1 },
+  historyCardChips: { flexDirection: 'row', gap: 6, marginTop: 6, flexWrap: 'wrap' },
+  historyChip:      { flexDirection: 'row', alignItems: 'center', gap: 4, borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3, backgroundColor: '#F0F4FF' },
+  historyChipText:  { fontSize: 10, fontWeight: '700', color: '#5A7AB0' },
+
+  // History single classroom detail
+  historyDetail:    { padding: 16, paddingBottom: 48 },
+  historyStatsRow:  { flexDirection: 'row', gap: 10, marginBottom: 16 },
+  historyStat:      { flex: 1, backgroundColor: '#fff', borderRadius: 14, padding: 12, alignItems: 'center', gap: 3, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 1 },
+  historyStatVal:   { fontSize: 22, fontWeight: '900', color: '#1a1a2e' },
+  historyStatLabel: { fontSize: 10, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' },
+
+  historySection:      { backgroundColor: '#fff', borderRadius: 18, padding: 16, marginBottom: 14, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 1 },
+  historySectionTitle: { fontSize: 14, fontWeight: '900', color: '#1a1a2e' },
+
+  historyQuizCard:  { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
+  historyQuizInfo:  { flex: 1 },
+  historyQuizTitle: { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
+  historyQuizMeta:  { fontSize: 11, color: '#9A9AB0', fontWeight: '500', marginTop: 2 },
+  historyScoreBadge:{ marginTop: 4, backgroundColor: '#FFF5CC', borderRadius: 999, paddingHorizontal: 8, paddingVertical: 2, alignSelf: 'flex-start' },
+  historyScoreText: { fontSize: 11, fontWeight: '800', color: '#E6A817' },
+
+  replayBtn:      { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: '#4A90E2', borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8 },
+  replayBtnText:  { fontSize: 12, fontWeight: '800', color: '#fff' },
+
+  historyAssignCard: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
+  historyAssignTitle:{ fontSize: 13, fontWeight: '700', color: '#1a1a2e', flex: 1, marginRight: 8 },
 });

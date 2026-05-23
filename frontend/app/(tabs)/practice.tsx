@@ -3,6 +3,7 @@ import { ActivityIndicator, Image, Linking, Modal, Platform, Pressable, ScrollVi
 import { useFocusEffect } from 'expo-router';
 
 import { getStandardLabel, STANDARD_OPTIONS } from '../../src/constants/standards';
+import SelectorModal from '../../src/components/SelectorModal';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
 
@@ -518,30 +519,15 @@ export default function PracticeScreen() {
         />
       )}
 
-      <Modal visible={selectorField !== null} transparent animationType="fade" onRequestClose={() => setSelectorField(null)}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
-            <Text style={styles.cardTitle}>Select Class</Text>
-            <ScrollView style={styles.selectorList}>
-              {classLevels.map((level) => (
-                <Pressable
-                  key={level}
-                  style={styles.selectorOption}
-                  onPress={() => {
-                    setSelectorField(null);
-                    loadClassrooms(level);
-                  }}
-                >
-                  <Text style={styles.selectorOptionText}>{getStandardLabel(level)}</Text>
-                </Pressable>
-              ))}
-            </ScrollView>
-            <Pressable style={styles.secondaryButton} onPress={() => setSelectorField(null)}>
-              <Text style={styles.secondaryButtonText}>Close</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+      <SelectorModal
+        visible={selectorField !== null}
+        title="Select Class"
+        options={classLevels.map((level) => ({ label: getStandardLabel(level), value: level }))}
+        selected={selectedClassLevel}
+        showAny={false}
+        onSelect={(level) => { setSelectorField(null); loadClassrooms(level); }}
+        onClose={() => setSelectorField(null)}
+      />
 
       <Modal visible={previewContent !== null} transparent animationType="fade" onRequestClose={() => setPreviewContent(null)}>
         <View style={styles.modalOverlay}>

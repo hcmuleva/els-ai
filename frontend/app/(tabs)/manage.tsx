@@ -13,9 +13,14 @@ import {
   View,
 } from 'react-native';
 
+import { FolderOpen, Video, HelpCircle, BookOpen as BookOpenIcon, Trophy as TrophyIcon, ListChecks, SplitSquareHorizontal, Eye as EyeIcon, Volume2, CheckSquare } from 'lucide-react-native';
+import SelectorModal from '../../src/components/SelectorModal';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import { AudioManager } from '../../src/utils/audio';
+import TopicsTab from '../../src/components/manage/TopicsTab';
+import ContentTab from '../../src/components/manage/ContentTab';
+import QuestionsTab from '../../src/components/manage/QuestionsTab';
 
 type QuestionItem = {
   id: string;
@@ -835,6 +840,7 @@ export default function QuestionManagementScreen() {
   const [deletingQuestionId, setDeletingQuestionId] = useState<string | null>(null);
   const [editingQuestionId, setEditingQuestionId] = useState<string | null>(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [questionFormTab, setQuestionFormTab] = useState<'setup' | 'options' | 'preview'>('setup');
   const [actionBadge, setActionBadge] = useState<string | null>(null);
   const [pendingMediaRemoval, setPendingMediaRemoval] = useState<MediaRemovalRequest | null>(null);
   const [pendingOptionRemoval, setPendingOptionRemoval] = useState<OptionRemovalRequest | null>(null);
@@ -1551,7 +1557,7 @@ export default function QuestionManagementScreen() {
     const run = async () => {
       setLoadingTopics(true);
       try {
-        await Promise.all([loadSubjectCatalog(), loadQuizCatalog()]);
+        await Promise.all([loadSubjectCatalog(), loadQuizCatalog(), loadContentItems()]);
         await loadTopics();
       } catch (error) {
         if (!cancelled) {
@@ -1567,7 +1573,7 @@ export default function QuestionManagementScreen() {
     return () => {
       cancelled = true;
     };
-  }, [activeLearningTab, isTeacherView, loadQuizCatalog, loadSubjectCatalog, loadTopics]);
+  }, [activeLearningTab, isTeacherView, loadQuizCatalog, loadSubjectCatalog, loadTopics, loadContentItems]);
 
   useEffect(() => {
     if (!isTeacherView || activeLearningTab !== 'content') return;
@@ -1890,16 +1896,17 @@ export default function QuestionManagementScreen() {
     setCreateDraft(makeInitialDraft('guess_image'));
     setActionBadge(null);
     setIsCreateDialogOpen(true);
+    setQuestionFormTab('setup');
     setMessage(null);
   };
 
-  const openEditDialog = (question: QuestionItem) => {
-    const resolvedMainImage = questionDataPromptImage(question.question_data);
-    const resolvedMainImageAssetId = questionDataPromptImageAssetId(question.question_data);
-    const resolvedMainAudio = question.question_audio || questionDataPromptAudio(question.question_data);
-    const resolvedMainAudioAssetId = questionDataPromptAudioAssetId(question.question_data);
+  const openEditDialog = (question: QuestionItem & { question_data?: unknown }) => {
+    const resolvedMainImage = questionDataPromptImage(question.question_data ?? {});
+    const resolvedMainImageAssetId = questionDataPromptImageAssetId(question.question_data ?? {});
+    const resolvedMainAudio = question.question_audio || questionDataPromptAudio(question.question_data ?? {});
+    const resolvedMainAudioAssetId = questionDataPromptAudioAssetId(question.question_data ?? {});
     const normalizedType = normalizeQuestionType(question.question_type || 'guess_image');
-    const parsedOptions = questionDataToOptions(question.question_data);
+    const parsedOptions = questionDataToOptions(question.question_data ?? {});
     const resolvedOptions =
       normalizeQuestionType(normalizedType) === 'true_false' && parsedOptions.every((item) => !item.id && !item.label && !item.image && !item.audio)
         ? makeTrueFalseOptions()
@@ -1921,10 +1928,11 @@ export default function QuestionManagementScreen() {
       timeLimitSeconds: String(question.time_limit_seconds ?? 30),
       sortOrder: question.sort_order !== undefined && question.sort_order !== null ? String(question.sort_order) : '',
       options: resolvedOptions,
-      matchPairs: questionDataToMatchPairs(question.question_data),
-      rawQuestionData: question.question_data || {},
+      matchPairs: questionDataToMatchPairs(question.question_data ?? {}),
+      rawQuestionData: question.question_data ?? {},
     });
     setActionBadge(null);
+    setQuestionFormTab('setup');
     setMessage(null);
   };
 
@@ -2303,7 +2311,7 @@ export default function QuestionManagementScreen() {
   const renderDialogContent = (mode: 'create' | 'edit') => {
     const draft = mode === 'create' ? createDraft : editDraft;
     const normalizedQuestionType = normalizeQuestionType(draft.questionType);
-    const dialogTitle = mode === 'create' ? 'Create Question' : 'Edit Question';
+    const dialogTitle = mode === 'create' ? 'New Question' : 'Edit Question';
     const saveAction = mode === 'create' ? createQuestion : saveQuestion;
     const isSaving = mode === 'create' ? creating : savingQuestionId !== null;
     const closeAction = () => {
@@ -2311,382 +2319,395 @@ export default function QuestionManagementScreen() {
       mode === 'create' ? setIsCreateDialogOpen(false) : setEditingQuestionId(null);
     };
     const editorMode = getQuestionEditorMode(draft.questionType);
-    const selectedTypeChoice = QUESTION_TYPE_CHOICES.find((choice) => choice.value === draft.questionType);
+    const hasOptions = editorMode === 'choice';
+    const hasPairs   = editorMode === 'drag_drop';
+    const tab2Label  = hasPairs ? 'Pairs' : 'Options';
+
+    const QTYPES_EMOJI: Record<string, string> = {
+      guess_image: '', drag_drop_match: '', guess_audio: '',
+      true_false: '', single_choice: '', multi_choice: '',
+    };
+    const QTYPES_COLOR: Record<string, string> = {
+      guess_image: '#4A90E2', drag_drop_match: '#9B8EC4', guess_audio: '#7DC67A',
+      true_false: '#E6A817', single_choice: '#FF7043', multi_choice: '#E91E8C',
+    };
+    const QTYPES_BG: Record<string, string> = {
+      guess_image: '#D6EAFF', drag_drop_match: '#EDE4FF', guess_audio: '#D6F5D6',
+      true_false: '#FFF5CC', single_choice: '#FFE8D6', multi_choice: '#FFE0F0',
+    };
 
     return (
-      <View style={styles.dialogCard}>
-        <View style={styles.dialogHeader}>
-          <Text style={styles.dialogTitle}>{dialogTitle}</Text>
-          {mode === 'edit' ? (
-            <View style={styles.readonlyTag}>
-              <Text style={styles.readonlyTagText}>{getQuestionTypeLabel(draft.questionType)}</Text>
-            </View>
-          ) : null}
-        </View>
-        {actionBadge ? (
-          <View style={styles.actionBadge}>
-            <Text style={styles.actionBadgeText}>{actionBadge}</Text>
+      <View style={qFormS.screen}>
+        {/* Header */}
+        <View style={[qFormS.header, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+          <Pressable onPress={closeAction} style={qFormS.backBtn}>
+            <Text style={qFormS.backArrow}>‹</Text>
+          </Pressable>
+          <View style={{ flex: 1 }}>
+            <Text style={qFormS.titleText}>{dialogTitle}</Text>
+            {mode === 'edit' ? (
+              <Text style={qFormS.subTitle}>{getQuestionTypeLabel(draft.questionType)}</Text>
+            ) : null}
           </View>
+          <Pressable style={qFormS.saveBtn} onPress={saveAction} disabled={isSaving}>
+            {isSaving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={qFormS.saveBtnText}>Save</Text>}
+          </Pressable>
+        </View>
+
+        {/* Tab bar */}
+        <View style={qFormS.tabBar}>
+          {([
+            ['setup', '⚙ Setup'],
+            ...(hasOptions || hasPairs ? [['options', tab2Label] as [string, string]] : []),
+            ['preview', '👁 Preview'],
+          ] as [string, string][]).map(([key, label]) => (
+            <Pressable key={key} style={[qFormS.tab, questionFormTab === key && qFormS.tabActive]}
+              onPress={() => setQuestionFormTab(key as 'setup' | 'options' | 'preview')}>
+              <Text style={[qFormS.tabText, questionFormTab === key && qFormS.tabTextActive]}>{label}</Text>
+            </Pressable>
+          ))}
+        </View>
+
+        {/* Toast */}
+        {actionBadge ? (
+          <View style={qFormS.toast}><Text style={qFormS.toastText}>{actionBadge}</Text></View>
         ) : null}
         {message ? (
-          <View style={[styles.messageCard, message.type === 'success' ? styles.successCard : styles.errorCard, { marginHorizontal: 20, marginBottom: 12 }]}>
-            <Text style={[styles.messageText, message.type === 'success' ? styles.successText : styles.errorText]}>
-              {message.text}
-            </Text>
+          <View style={[qFormS.toast, message.type === 'error' ? qFormS.toastError : qFormS.toastSuccess]}>
+            <Text style={[qFormS.toastText, message.type === 'error' ? qFormS.toastErrorText : qFormS.toastSuccessText]}>{message.text}</Text>
           </View>
         ) : null}
-        <ScrollView style={styles.dialogScroll} contentContainerStyle={styles.dialogScrollContent}>
-          {mode === 'create' ? (
-            <View style={styles.fieldGroup}>
-              <Text style={styles.fieldLabel}>Question Type</Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View style={styles.typeChipRow}>
-                  {QUESTION_TYPE_CHOICES.map((choice) => {
-                    const selected = draft.questionType === choice.value;
-                    return (
-                      <Pressable
-                        key={choice.value}
-                        style={[styles.typeChip, selected && styles.typeChipActive]}
-                        onPress={() => setQuestionType(choice.value)}
-                      >
-                        <Text style={[styles.typeChipText, selected && styles.typeChipTextActive]}>{choice.label}</Text>
+
+        {/* SETUP TAB */}
+        {questionFormTab === 'setup' && (
+          <ScrollView contentContainerStyle={qFormS.tabContent}>
+            {mode === 'create' ? (
+              <View style={qFormS.group}>
+                <Text style={qFormS.groupLabel}>QUESTION TYPE</Text>
+                <View style={qFormS.fieldCard}>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingVertical: 4 }}>
+                    {QUESTION_TYPE_CHOICES.map((choice) => {
+                      const sel = draft.questionType === choice.value;
+                      const ec = QTYPES_COLOR[choice.value] ?? '#4A90E2';
+                      const eb = QTYPES_BG[choice.value] ?? '#D6EAFF';
+                      const ee = QTYPES_EMOJI[choice.value] ?? '❓';
+                      return (
+                        <Pressable key={choice.value}
+                          style={[qFormS.qtypeChip, sel && { backgroundColor: eb, borderColor: ec }]}
+                          onPress={() => setQuestionType(choice.value)}>
+                          <Text style={qFormS.qtypeEmoji}>{ee}</Text>
+                          <Text style={[qFormS.qtypeLabel, sel && { color: ec, fontWeight: '800' }]}>{choice.label}</Text>
+                        </Pressable>
+                      );
+                    })}
+                  </ScrollView>
+                  {QUESTION_TYPE_CHOICES.find((c) => c.value === draft.questionType) ? (
+                    <Text style={qFormS.qtypeDesc}>{QUESTION_TYPE_CHOICES.find((c) => c.value === draft.questionType)!.description}</Text>
+                  ) : null}
+                </View>
+              </View>
+            ) : null}
+
+            <View style={qFormS.group}>
+              <Text style={qFormS.groupLabel}>BASIC INFO</Text>
+              <View style={qFormS.fieldCard}>
+                <Text style={qFormS.fieldLabel}>Question Title</Text>
+                <TextInput value={draft.questionTitle}
+                  onChangeText={(v) => updateDraftField(mode, 'questionTitle', v)}
+                  placeholder="e.g. What animal says Moo?" style={qFormS.input} placeholderTextColor="#B0B8D0" />
+                <View style={qFormS.divider} />
+                <Text style={qFormS.fieldLabel}>Instruction (optional)</Text>
+                <TextInput value={draft.questionInstruction}
+                  onChangeText={(v) => updateDraftField(mode, 'questionInstruction', v)}
+                  placeholder="e.g. Listen and choose the correct animal"
+                  style={[qFormS.input, { minHeight: 52 }]} multiline placeholderTextColor="#B0B8D0" />
+              </View>
+            </View>
+
+            <View style={qFormS.group}>
+              <Text style={qFormS.groupLabel}>CLASS SETTINGS</Text>
+              <View style={qFormS.fieldCard}>
+                <Text style={qFormS.fieldLabel}>Standard / Class</Text>
+                <Pressable style={qFormS.selectorRow} onPress={() => setSelectorField('classLevel')}>
+                  <Text style={draft.classLevel ? qFormS.selectorVal : qFormS.selectorPlaceholder}>
+                    {draft.classLevel ? getStandardLabel(draft.classLevel) : 'Select Standard'}
+                  </Text>
+                  <Text style={{ color: '#B0B8D0', fontSize: 16 }}>›</Text>
+                </Pressable>
+                <View style={qFormS.divider} />
+                <Text style={qFormS.fieldLabel}>Subject</Text>
+                <Pressable style={qFormS.selectorRow} onPress={() => setSelectorField('subject')}>
+                  <Text style={draft.subject ? qFormS.selectorVal : qFormS.selectorPlaceholder}>
+                    {draft.subject || 'Select Subject'}
+                  </Text>
+                  <Text style={{ color: '#B0B8D0', fontSize: 16 }}>›</Text>
+                </Pressable>
+              </View>
+            </View>
+
+            <View style={qFormS.group}>
+              <Text style={qFormS.groupLabel}>SCORING</Text>
+              <View style={qFormS.fieldCard}>
+                <View style={qFormS.twoCol}>
+                  <View style={{ flex: 1 }}>
+                    <Text style={qFormS.fieldLabel}>Points</Text>
+                    <TextInput value={draft.points}
+                      onChangeText={(v) => updateDraftField(mode, 'points', v)}
+                      placeholder="10" style={qFormS.input} keyboardType="numeric" placeholderTextColor="#B0B8D0" />
+                  </View>
+                  <View style={qFormS.colDivider} />
+                  <View style={{ flex: 1 }}>
+                    <Text style={qFormS.fieldLabel}>Time Limit (s)</Text>
+                    <TextInput value={draft.timeLimitSeconds}
+                      onChangeText={(v) => updateDraftField(mode, 'timeLimitSeconds', v)}
+                      placeholder="30" style={qFormS.input} keyboardType="numeric" placeholderTextColor="#B0B8D0" />
+                  </View>
+                </View>
+              </View>
+            </View>
+
+            {normalizedQuestionType === 'guess_image' ? (
+              <View style={qFormS.group}>
+                <Text style={qFormS.groupLabel}>PROMPT IMAGE</Text>
+                <View style={qFormS.fieldCard}>
+                  <Pressable style={qFormS.uploadBtn} onPress={() => uploadImageForQuestion(mode)}>
+                    <Text style={qFormS.uploadBtnText}>⬆ Upload Prompt Image</Text>
+                  </Pressable>
+                  {draft.mainImage.trim() ? (
+                    <View style={qFormS.mediaRow}>
+                      <Image source={{ uri: resolveMediaUrl(draft.mainImage.trim()) }} style={qFormS.mediaThumb} resizeMode="contain" />
+                      <View style={{ flex: 1 }}>
+                        <Text style={qFormS.mediaName} numberOfLines={2}>{toMediaLabel(draft.mainImage, 'image', draft.mainImageLabel)}</Text>
+                      </View>
+                      <Pressable onPress={() => requestMediaRemoval({ scope: 'question', mode, mediaType: 'image' })} style={qFormS.removeBtn}>
+                        <Text style={qFormS.removeBtnText}>✕</Text>
                       </Pressable>
-                    );
-                  })}
-                </View>
-              </ScrollView>
-              {selectedTypeChoice ? <Text style={styles.metaText}>{selectedTypeChoice.description}</Text> : null}
-            </View>
-          ) : null}
-          {editorMode === 'custom' ? (
-            <Text style={styles.errorText}>
-              This question type is not supported in this visual form yet.
-            </Text>
-          ) : null}
-
-          <View style={styles.fieldGroup}>
-            <Text style={styles.fieldLabel}>Question Title</Text>
-            <TextInput
-              value={draft.questionTitle}
-              onChangeText={(value) => updateDraftField(mode, 'questionTitle', value)}
-              placeholder="Enter question title"
-              style={styles.input}
-            />
-          </View>
-
-          <View style={styles.fieldGroup}>
-            <Text style={styles.fieldLabel}>Instruction for Students (Optional)</Text>
-            <TextInput
-              value={draft.questionInstruction}
-              onChangeText={(value) => updateDraftField(mode, 'questionInstruction', value)}
-              placeholder="Example: Listen and choose the correct animal"
-              style={styles.input}
-              multiline
-            />
-          </View>
-
-          <View style={styles.row}>
-            <View style={styles.halfInput}>
-              <Text style={styles.fieldLabel}>Standard</Text>
-              <Pressable style={styles.selectorInput} onPress={() => setSelectorField('classLevel')}>
-                <Text style={draft.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
-                  {draft.classLevel ? getStandardLabel(draft.classLevel) : 'Select standard'}
-                </Text>
-              </Pressable>
-            </View>
-            <View style={styles.halfInput}>
-              <Text style={styles.fieldLabel}>Subject</Text>
-              <Pressable style={styles.selectorInput} onPress={() => setSelectorField('subject')}>
-                <Text style={draft.subject ? styles.selectorText : styles.selectorPlaceholder}>
-                  {draft.subject || 'Select subject'}
-                </Text>
-              </Pressable>
-            </View>
-          </View>
-
-          <View style={styles.row}>
-            <View style={styles.halfInput}>
-              <Text style={styles.fieldLabel}>Points</Text>
-              <TextInput
-                value={draft.points}
-                onChangeText={(value) => updateDraftField(mode, 'points', value)}
-                placeholder="10"
-                style={styles.input}
-                keyboardType="numeric"
-              />
-            </View>
-            <View style={styles.halfInput}>
-              <Text style={styles.fieldLabel}>Time Limit (seconds)</Text>
-              <TextInput
-                value={draft.timeLimitSeconds}
-                onChangeText={(value) => updateDraftField(mode, 'timeLimitSeconds', value)}
-                placeholder="30"
-                style={styles.input}
-                keyboardType="numeric"
-              />
-            </View>
-          </View>
-
-          {normalizedQuestionType === 'guess_image' ? (
-            <View style={styles.fieldGroup}>
-              <Text style={styles.fieldLabel}>Main Image (Required)</Text>
-              <View style={styles.mediaActionRow}>
-                <Pressable style={[styles.secondaryButton, styles.mediaActionButton]} onPress={() => uploadImageForQuestion(mode)}>
-                  <Text style={styles.secondaryButtonText}>Upload Image</Text>
-                </Pressable>
-              </View>
-              {draft.mainImage.trim() ? (
-                <View style={styles.previewCard}>
-                  <View style={styles.previewHeader}>
-                    <View style={styles.previewHeaderContent}>
-                      <Text style={styles.mediaInfoLabel}>Selected Image</Text>
-                      <Text style={styles.mediaInfoValue}>{toMediaLabel(draft.mainImage, 'image', draft.mainImageLabel)}</Text>
                     </View>
-                    <Pressable
-                      style={styles.previewRemoveButton}
-                      onPress={() => requestMediaRemoval({ scope: 'question', mode, mediaType: 'image' })}
-                    >
-                      <Text style={styles.previewRemoveButtonText}>Remove</Text>
-                    </Pressable>
-                  </View>
-                  <Image source={{ uri: resolveMediaUrl(draft.mainImage.trim()) }} style={styles.optionImagePreview} resizeMode="contain" />
+                  ) : null}
                 </View>
-              ) : null}
-            </View>
-          ) : null}
-
-          {normalizedQuestionType === 'guess_audio' ? (
-            <View style={styles.fieldGroup}>
-              <Text style={styles.fieldLabel}>Main Audio (Required)</Text>
-              <View style={styles.mediaActionRow}>
-                <Pressable style={[styles.secondaryButton, styles.mediaActionButton]} onPress={() => uploadAudioForQuestion(mode)}>
-                  <Text style={styles.secondaryButtonText}>Upload Audio</Text>
-                </Pressable>
               </View>
-              {draft.mainAudio.trim() ? (
-                <View style={styles.audioPreviewCard}>
-                  <View style={styles.previewHeader}>
-                    <View style={styles.previewHeaderContent}>
-                      <Text style={styles.mediaInfoLabel}>Selected Audio</Text>
-                      <Text style={styles.mediaInfoValue}>{toMediaLabel(draft.mainAudio, 'audio', draft.mainAudioLabel)}</Text>
+            ) : null}
+
+            {normalizedQuestionType === 'guess_audio' ? (
+              <View style={qFormS.group}>
+                <Text style={qFormS.groupLabel}>PROMPT AUDIO</Text>
+                <View style={qFormS.fieldCard}>
+                  <Pressable style={qFormS.uploadBtn} onPress={() => uploadAudioForQuestion(mode)}>
+                    <Text style={qFormS.uploadBtnText}>⬆ Upload Prompt Audio</Text>
+                  </Pressable>
+                  {draft.mainAudio.trim() ? (
+                    <View style={qFormS.mediaRow}>
+                      <Text style={qFormS.audioIcon}>🎵</Text>
+                      <View style={{ flex: 1 }}>
+                        <Text style={qFormS.mediaName} numberOfLines={2}>{toMediaLabel(draft.mainAudio, 'audio', draft.mainAudioLabel)}</Text>
+                      </View>
+                      <Pressable onPress={() => playAudioPreview(draft.mainAudio)} style={qFormS.playBtn}>
+                        <Text style={qFormS.playBtnText}>▶ Play</Text>
+                      </Pressable>
+                      <Pressable onPress={() => requestMediaRemoval({ scope: 'question', mode, mediaType: 'audio' })} style={qFormS.removeBtn}>
+                        <Text style={qFormS.removeBtnText}>✕</Text>
+                      </Pressable>
                     </View>
-                    <Pressable
-                      style={styles.previewRemoveButton}
-                      onPress={() => requestMediaRemoval({ scope: 'question', mode, mediaType: 'audio' })}
-                    >
-                      <Text style={styles.previewRemoveButtonText}>Remove</Text>
-                    </Pressable>
-                  </View>
-                  <Pressable style={[styles.secondaryButton, styles.playButton]} onPress={() => playAudioPreview(draft.mainAudio)}>
-                    <Text style={styles.secondaryButtonText}>Play Audio</Text>
-                  </Pressable>
+                  ) : null}
                 </View>
-              ) : null}
-            </View>
-          ) : null}
-
-          {editorMode === 'choice' ? (
-            <>
-              <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>Answer Options</Text>
-                {normalizedQuestionType === 'true_false' ? null : (
-                  <Pressable style={styles.smallButton} onPress={() => addOption(mode)}>
-                    <Text style={styles.smallButtonText}>+ Add Option</Text>
-                  </Pressable>
-                )}
               </View>
-              <Text style={styles.metaText}>
-                {normalizedQuestionType === 'multi_choice'
-                  ? 'Mark all correct options.'
-                  : 'Mark exactly one option as the correct answer.'}
+            ) : null}
+          </ScrollView>
+        )}
+
+        {/* OPTIONS TAB */}
+        {questionFormTab === 'options' && hasOptions && (
+          <ScrollView contentContainerStyle={qFormS.tabContent}>
+            <View style={qFormS.secGroup}>
+              <View style={qFormS.secHeader}>
+                <Text style={qFormS.secTitle}>Answer Options</Text>
+                {normalizedQuestionType !== 'true_false' ? (
+                  <Pressable style={qFormS.addBtn} onPress={() => addOption(mode)}>
+                    <Text style={qFormS.addBtnText}>+ Add</Text>
+                  </Pressable>
+                ) : null}
+              </View>
+              <Text style={qFormS.secHint}>
+                {normalizedQuestionType === 'multi_choice' ? 'Mark all correct options.' : 'Mark exactly one correct option.'}
               </Text>
-
               {draft.options.map((option, index) => (
-                <View key={`${mode}-option-${index}`} style={styles.optionCard}>
-                  <View style={styles.cardHeaderRow}>
-                    <Text style={styles.optionTitle}>Option {index + 1}</Text>
-                    {normalizedQuestionType === 'true_false' ? null : (
-                      <Pressable style={styles.inlineRemoveButton} onPress={() => requestOptionRemoval({ mode, index })}>
-                        <Text style={styles.inlineRemoveButtonText}>Remove Option</Text>
-                      </Pressable>
-                    )}
-                  </View>
-
-                  <View style={styles.fieldGroup}>
-                    <Text style={styles.fieldLabel}>Option Label</Text>
-                    <TextInput
-                      value={option.label}
-                      onChangeText={(value) => updateOption(mode, index, { label: value })}
-                      placeholder="Example: Lion"
-                      style={styles.input}
-                    />
-                  </View>
-
-                  <View style={styles.mediaActionRow}>
-                    <Pressable style={[styles.secondaryButton, styles.mediaActionButton]} onPress={() => uploadMediaForOption(mode, index)}>
-                      <Text style={styles.secondaryButtonText}>
-                        {normalizedQuestionType === 'guess_image'
-                          ? 'Upload Option Image'
-                          : normalizedQuestionType === 'guess_audio'
-                            ? 'Upload Option Audio / Image'
-                            : 'Upload Option Image / Audio'}
+                <View key={`${mode}-opt-${index}`} style={qFormS.optBlock}>
+                  <View style={qFormS.optBlockHeader}>
+                    <View style={[qFormS.optNumBadge, option.isCorrect && { backgroundColor: '#7DC67A' }]}>
+                      <Text style={[qFormS.optNum, option.isCorrect && { color: '#fff' }]}>{index + 1}</Text>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <TextInput value={option.label}
+                        onChangeText={(v) => updateOption(mode, index, { label: v })}
+                        placeholder={`Option ${index + 1} label`} style={qFormS.optInput} placeholderTextColor="#B0B8D0" />
+                    </View>
+                    <Pressable
+                      style={[qFormS.correctBtn, option.isCorrect && qFormS.correctBtnActive]}
+                      onPress={() => setCorrectOption(mode, index)}>
+                      <Text style={[qFormS.correctBtnText, option.isCorrect && qFormS.correctBtnTextActive]}>
+                        {option.isCorrect ? '✓' : '○'}
                       </Text>
                     </Pressable>
-                  </View>
-
-                  {option.image.trim() ? (
-                    <View style={styles.previewCard}>
-                      <View style={styles.previewHeader}>
-                        <View style={styles.previewHeaderContent}>
-                          <Text style={styles.mediaInfoLabel}>Image</Text>
-                          <Text style={styles.mediaInfoValue}>{toMediaLabel(option.image, 'image', option.imageLabel)}</Text>
-                        </View>
-                        <Pressable
-                          style={styles.previewRemoveButton}
-                          onPress={() => requestMediaRemoval({ scope: 'option', mode, index, mediaType: 'image' })}
-                        >
-                          <Text style={styles.previewRemoveButtonText}>Remove</Text>
-                        </Pressable>
-                      </View>
-                      <Image source={{ uri: resolveMediaUrl(option.image.trim()) }} style={styles.optionImagePreview} resizeMode="contain" />
-                    </View>
-                  ) : null}
-
-                  {option.audio.trim() ? (
-                    <View style={styles.audioPreviewCard}>
-                      <View style={styles.previewHeader}>
-                        <View style={styles.previewHeaderContent}>
-                          <Text style={styles.mediaInfoLabel}>Audio</Text>
-                          <Text style={styles.mediaInfoValue}>{toMediaLabel(option.audio, 'audio', option.audioLabel)}</Text>
-                        </View>
-                        <Pressable
-                          style={styles.previewRemoveButton}
-                          onPress={() => requestMediaRemoval({ scope: 'option', mode, index, mediaType: 'audio' })}
-                        >
-                          <Text style={styles.previewRemoveButtonText}>Remove</Text>
-                        </Pressable>
-                      </View>
-                      <Pressable style={[styles.secondaryButton, styles.playButton]} onPress={() => playAudioPreview(option.audio)}>
-                        <Text style={styles.secondaryButtonText}>Play Option Audio</Text>
+                    {normalizedQuestionType !== 'true_false' ? (
+                      <Pressable onPress={() => requestOptionRemoval({ mode, index })} style={qFormS.removeBtn}>
+                        <Text style={qFormS.removeBtnText}>✕</Text>
                       </Pressable>
-                    </View>
-                  ) : null}
-
-                  <Pressable
-                    style={[option.isCorrect ? styles.primaryButton : styles.secondaryButton, styles.fullWidthButton]}
-                    onPress={() => setCorrectOption(mode, index)}
-                  >
-                    <Text style={option.isCorrect ? styles.primaryButtonText : styles.secondaryButtonText}>
-                      {normalizedQuestionType === 'multi_choice'
-                        ? option.isCorrect
-                          ? 'Marked Correct'
-                          : 'Mark Correct'
-                        : option.isCorrect
-                          ? 'Correct Answer'
-                          : 'Mark as Correct'}
-                    </Text>
-                  </Pressable>
+                    ) : null}
+                  </View>
+                  <View style={{ paddingHorizontal: 14, paddingBottom: 12 }}>
+                    <Pressable style={qFormS.uploadBtn} onPress={() => uploadMediaForOption(mode, index)}>
+                      <Text style={qFormS.uploadBtnText}>
+                        {normalizedQuestionType === 'guess_audio' ? '⬆ Upload Option Audio / Image' : '⬆ Upload Option Image / Audio'}
+                      </Text>
+                    </Pressable>
+                    {option.image.trim() ? (
+                      <View style={[qFormS.mediaRow, { marginTop: 8 }]}>
+                        <Image source={{ uri: resolveMediaUrl(option.image.trim()) }} style={qFormS.mediaThumb} resizeMode="cover" />
+                        <Text style={qFormS.mediaName} numberOfLines={1}>{toMediaLabel(option.image, 'image', option.imageLabel)}</Text>
+                        <Pressable onPress={() => requestMediaRemoval({ scope: 'option', mode, index, mediaType: 'image' })} style={qFormS.removeBtn}>
+                          <Text style={qFormS.removeBtnText}>✕</Text>
+                        </Pressable>
+                      </View>
+                    ) : null}
+                    {option.audio.trim() ? (
+                      <View style={[qFormS.mediaRow, { marginTop: 8 }]}>
+                        <Text style={qFormS.audioIcon}>🎵</Text>
+                        <Text style={[qFormS.mediaName, { flex: 1 }]} numberOfLines={1}>{toMediaLabel(option.audio, 'audio', option.audioLabel)}</Text>
+                        <Pressable onPress={() => playAudioPreview(option.audio)} style={qFormS.playBtn}>
+                          <Text style={qFormS.playBtnText}>▶</Text>
+                        </Pressable>
+                        <Pressable onPress={() => requestMediaRemoval({ scope: 'option', mode, index, mediaType: 'audio' })} style={qFormS.removeBtn}>
+                          <Text style={qFormS.removeBtnText}>✕</Text>
+                        </Pressable>
+                      </View>
+                    ) : null}
+                  </View>
                 </View>
               ))}
-            </>
-          ) : null}
+            </View>
+          </ScrollView>
+        )}
 
-          {editorMode === 'drag_drop' ? (
-            <>
-              <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>Match Pairs</Text>
-                <Pressable style={styles.smallButton} onPress={() => addMatchPair(mode)}>
-                  <Text style={styles.smallButtonText}>+ Add Pair</Text>
+        {/* PAIRS TAB */}
+        {questionFormTab === 'options' && hasPairs && (
+          <ScrollView contentContainerStyle={qFormS.tabContent}>
+            <View style={qFormS.secGroup}>
+              <View style={qFormS.secHeader}>
+                <Text style={qFormS.secTitle}>🔀 Match Pairs</Text>
+                <Pressable style={qFormS.addBtn} onPress={() => addMatchPair(mode)}>
+                  <Text style={qFormS.addBtnText}>+ Add</Text>
                 </Pressable>
               </View>
-              <Text style={styles.metaText}>Each pair creates one draggable item and one matching target.</Text>
-
+              <Text style={qFormS.secHint}>Each pair: one draggable item ↔ one matching target.</Text>
               {draft.matchPairs.map((pair, index) => (
-                <View key={`${mode}-pair-${index}`} style={styles.optionCard}>
-                  <Text style={styles.optionTitle}>Pair {index + 1}</Text>
-
-                  <View style={styles.fieldGroup}>
-                    <Text style={styles.fieldLabel}>Draggable Item Name</Text>
-                    <TextInput
-                      value={pair.itemLabel}
-                      onChangeText={(value) => updateMatchPair(mode, index, { itemLabel: value })}
-                      placeholder="Example: Lion"
-                      style={styles.input}
-                    />
-                  </View>
-
-                  <View style={styles.fieldGroup}>
-                    <Text style={styles.fieldLabel}>Matching Target Label</Text>
-                    <TextInput
-                      value={pair.targetLabel}
-                      onChangeText={(value) => updateMatchPair(mode, index, { targetLabel: value })}
-                      placeholder="Example: Den (Forest)"
-                      style={styles.input}
-                    />
-                  </View>
-
-                  <View style={styles.mediaActionRow}>
-                    <Pressable style={[styles.secondaryButton, styles.mediaActionButton]} onPress={() => uploadMediaForMatchPair(mode, index)}>
-                      <Text style={styles.secondaryButtonText}>Upload Image / Audio</Text>
+                <View key={`${mode}-pair-${index}`} style={qFormS.optBlock}>
+                  <View style={qFormS.pairHeaderRow}>
+                    <Text style={qFormS.pairNum}>Pair {index + 1}</Text>
+                    <Pressable onPress={() => removeMatchPair(mode, index)} style={qFormS.removeBtnWide}>
+                      <Text style={qFormS.removeBtnText}>✕ Remove</Text>
                     </Pressable>
                   </View>
-
-                  {pair.image.trim() ? (
-                    <View style={styles.previewCard}>
-                      <View style={styles.previewHeader}>
-                        <View style={styles.previewHeaderContent}>
-                          <Text style={styles.mediaInfoLabel}>Image</Text>
-                          <Text style={styles.mediaInfoValue}>{toMediaLabel(pair.image, 'image', pair.imageLabel)}</Text>
-                        </View>
-                        <Pressable
-                          style={styles.previewRemoveButton}
-                          onPress={() => requestMediaRemoval({ scope: 'pair', mode, index, mediaType: 'image' })}
-                        >
-                          <Text style={styles.previewRemoveButtonText}>Remove</Text>
-                        </Pressable>
-                      </View>
-                      <Image source={{ uri: resolveMediaUrl(pair.image.trim()) }} style={styles.optionImagePreview} resizeMode="contain" />
+                  <View style={{ paddingHorizontal: 14, paddingBottom: 14, gap: 10 }}>
+                    <View>
+                      <Text style={qFormS.fieldLabel}>Item (draggable)</Text>
+                      <TextInput value={pair.itemLabel}
+                        onChangeText={(v) => updateMatchPair(mode, index, { itemLabel: v })}
+                        placeholder="e.g. Lion" style={qFormS.optInput} placeholderTextColor="#B0B8D0" />
                     </View>
-                  ) : null}
-
-                  {pair.audio.trim() ? (
-                    <View style={styles.audioPreviewCard}>
-                      <View style={styles.previewHeader}>
-                        <View style={styles.previewHeaderContent}>
-                          <Text style={styles.mediaInfoLabel}>Audio</Text>
-                          <Text style={styles.mediaInfoValue}>{toMediaLabel(pair.audio, 'audio', pair.audioLabel)}</Text>
-                        </View>
-                        <Pressable
-                          style={styles.previewRemoveButton}
-                          onPress={() => requestMediaRemoval({ scope: 'pair', mode, index, mediaType: 'audio' })}
-                        >
-                          <Text style={styles.previewRemoveButtonText}>Remove</Text>
-                        </Pressable>
-                      </View>
-                      <Pressable style={[styles.secondaryButton, styles.playButton]} onPress={() => playAudioPreview(pair.audio)}>
-                        <Text style={styles.secondaryButtonText}>Play Item Audio</Text>
-                      </Pressable>
+                    <View>
+                      <Text style={qFormS.fieldLabel}>Target (matching)</Text>
+                      <TextInput value={pair.targetLabel}
+                        onChangeText={(v) => updateMatchPair(mode, index, { targetLabel: v })}
+                        placeholder="e.g. Den" style={qFormS.optInput} placeholderTextColor="#B0B8D0" />
                     </View>
-                  ) : null}
-
-                  <View style={styles.row}>
-                    <Pressable style={[styles.actionDangerButton, styles.fullWidthButton]} onPress={() => removeMatchPair(mode, index)}>
-                      <Text style={styles.deleteButtonText}>Remove Pair</Text>
+                    <Pressable style={qFormS.uploadBtn} onPress={() => uploadMediaForMatchPair(mode, index)}>
+                      <Text style={qFormS.uploadBtnText}>⬆ Upload Image / Audio</Text>
                     </Pressable>
+                    {pair.image.trim() ? (
+                      <View style={qFormS.mediaRow}>
+                        <Image source={{ uri: resolveMediaUrl(pair.image.trim()) }} style={qFormS.mediaThumb} resizeMode="cover" />
+                        <Text style={qFormS.mediaName} numberOfLines={1}>{toMediaLabel(pair.image, 'image', pair.imageLabel)}</Text>
+                        <Pressable onPress={() => requestMediaRemoval({ scope: 'pair', mode, index, mediaType: 'image' })} style={qFormS.removeBtn}>
+                          <Text style={qFormS.removeBtnText}>✕</Text>
+                        </Pressable>
+                      </View>
+                    ) : null}
+                    {pair.audio.trim() ? (
+                      <View style={qFormS.mediaRow}>
+                        <Text style={qFormS.audioIcon}>🎵</Text>
+                        <Text style={[qFormS.mediaName, { flex: 1 }]} numberOfLines={1}>{toMediaLabel(pair.audio, 'audio', pair.audioLabel)}</Text>
+                        <Pressable onPress={() => playAudioPreview(pair.audio)} style={qFormS.playBtn}>
+                          <Text style={qFormS.playBtnText}>▶</Text>
+                        </Pressable>
+                        <Pressable onPress={() => requestMediaRemoval({ scope: 'pair', mode, index, mediaType: 'audio' })} style={qFormS.removeBtn}>
+                          <Text style={qFormS.removeBtnText}>✕</Text>
+                        </Pressable>
+                      </View>
+                    ) : null}
                   </View>
                 </View>
               ))}
-            </>
-          ) : null}
-        </ScrollView>
-        <View style={styles.dialogActions}>
-          <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={closeAction}>
-            <Text style={styles.secondaryButtonText}>Cancel</Text>
-          </Pressable>
-          <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={saveAction} disabled={isSaving}>
-            {isSaving ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Save</Text>}
-          </Pressable>
-        </View>
+            </View>
+          </ScrollView>
+        )}
+
+        {/* PREVIEW TAB */}
+        {questionFormTab === 'preview' && (
+          <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
+            <View style={qFormS.previewCard}>
+              <View style={[qFormS.previewHero, { backgroundColor: QTYPES_BG[normalizedQuestionType] ?? '#D6EAFF' }]}>
+                <Text style={{ fontSize: 42 }}>{QTYPES_EMOJI[normalizedQuestionType] ?? '❓'}</Text>
+                <View style={{ flex: 1 }}>
+                  <View style={[qFormS.previewTypeBadge, { backgroundColor: `${QTYPES_COLOR[normalizedQuestionType] ?? '#4A90E2'}25` }]}>
+                    <Text style={[qFormS.previewTypeBadgeText, { color: QTYPES_COLOR[normalizedQuestionType] ?? '#4A90E2' }]}>
+                      {getQuestionTypeLabel(draft.questionType)}
+                    </Text>
+                  </View>
+                  <Text style={qFormS.previewTitle}>{draft.questionTitle || 'Untitled Question'}</Text>
+                  {draft.classLevel ? <Text style={qFormS.previewMeta}>{getStandardLabel(draft.classLevel)} · {draft.subject}</Text> : null}
+                </View>
+              </View>
+              <View style={qFormS.previewStats}>
+                <View style={qFormS.previewStat}>
+                  <Text style={qFormS.previewStatVal}>{draft.points || '–'}</Text>
+                  <Text style={qFormS.previewStatLabel}>pts</Text>
+                </View>
+                <View style={qFormS.previewStat}>
+                  <Text style={qFormS.previewStatVal}>{draft.timeLimitSeconds || '–'}s</Text>
+                  <Text style={qFormS.previewStatLabel}>time</Text>
+                </View>
+                <View style={qFormS.previewStat}>
+                  <Text style={qFormS.previewStatVal}>{hasOptions ? draft.options.length : hasPairs ? draft.matchPairs.length : '–'}</Text>
+                  <Text style={qFormS.previewStatLabel}>{hasPairs ? 'pairs' : 'opts'}</Text>
+                </View>
+              </View>
+              {draft.questionInstruction ? (
+                <View style={qFormS.previewInstBlock}>
+                  <Text style={qFormS.previewInstText}>💬 {draft.questionInstruction}</Text>
+                </View>
+              ) : null}
+              {draft.mainImage.trim() ? (
+                <Image source={{ uri: resolveMediaUrl(draft.mainImage.trim()) }} style={qFormS.previewImage} resizeMode="contain" />
+              ) : null}
+              {hasOptions && draft.options.map((opt, i) => (
+                <View key={i} style={[qFormS.previewOptRow, opt.isCorrect && { borderColor: '#7DC67A', borderWidth: 1.5 }]}>
+                  <View style={[qFormS.previewOptDot, { backgroundColor: opt.isCorrect ? '#7DC67A' : '#E0E4F0' }]}>
+                    <Text style={{ color: opt.isCorrect ? '#fff' : '#9A9AB0', fontSize: 11, fontWeight: '800' }}>{i + 1}</Text>
+                  </View>
+                  <Text style={qFormS.previewOptText}>{opt.label || `Option ${i + 1}`}</Text>
+                  {opt.isCorrect ? <Text style={qFormS.previewCorrectBadge}>✓</Text> : null}
+                </View>
+              ))}
+              {hasPairs && draft.matchPairs.map((pair, i) => (
+                <View key={i} style={qFormS.previewPairRow}>
+                  <Text style={qFormS.previewPairText}>{pair.itemLabel || `Item ${i + 1}`}</Text>
+                  <Text style={{ color: '#9A9AB0', fontWeight: '700' }}>↔</Text>
+                  <Text style={qFormS.previewPairText}>{pair.targetLabel || `Target ${i + 1}`}</Text>
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+        )}
       </View>
     );
   };
@@ -2702,33 +2723,51 @@ export default function QuestionManagementScreen() {
           : 'this item';
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.title}>Learning Studio</Text>
-      <Text style={styles.subtitle}>Manage topic and content workflows with cleaner create/assign flows.</Text>
-
-      <View style={styles.tabRow}>
+    <View style={{ flex: 1, backgroundColor: '#F5F7FF' }}>
+      {/* ── Tab bar ── */}
+      <View style={styles.newTabBar}>
         {(['topic', 'content', 'question', 'exam', 'quiz'] as LearningTab[]).map((tab) => (
           <Pressable
             key={tab}
-            style={[styles.tabButton, activeLearningTab === tab && styles.tabButtonActive]}
+            style={[styles.newTab, activeLearningTab === tab && styles.newTabActive]}
             onPress={() => setActiveLearningTab(tab)}
           >
-            <Text style={[styles.tabButtonText, activeLearningTab === tab && styles.tabButtonTextActive]}>
-              {tab === 'topic' ? 'Topic' : tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+              {tab === 'topic'    && <FolderOpen size={13} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
+              {tab === 'content'  && <Video size={13} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
+              {tab === 'question' && <HelpCircle size={13} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
+              {tab === 'exam'     && <BookOpenIcon size={13} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
+              {tab === 'quiz'     && <TrophyIcon size={13} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
+              <Text style={[styles.newTabText, activeLearningTab === tab && styles.newTabTextActive]}>
+                {tab === 'topic' ? 'Topic' : tab === 'content' ? 'Content' : tab === 'question' ? 'Questions' : tab === 'exam' ? 'Exam' : 'Quiz'}
+              </Text>
+            </View>
           </Pressable>
         ))}
       </View>
 
-      {message && (
-        <View style={[styles.messageCard, message.type === 'success' ? styles.successCard : styles.errorCard]}>
-          <Text style={[styles.messageText, message.type === 'success' ? styles.successText : styles.errorText]}>
-            {message.text}
-          </Text>
-        </View>
-      )}
-
       {activeLearningTab === 'topic' ? (
+        <TopicsTab
+          topics={topics}
+          loading={loadingTopics}
+          filters={contentFilters}
+          contentItems={contentItems}
+          apiFetch={apiFetch}
+          onFiltersChange={(f) => setContentFilters(f)}
+          onApplyFilters={loadTopics}
+          onTopicAction={(topic, action) => {
+            if (action === 'delete') runTopicAction(topic, 'delete');
+          }}
+          onRefresh={() => { loadTopics(); loadContentItems(); }}
+          onUploadCover={async () => {
+            const picked = await pickImageAsDataUrl();
+            const uploaded = await uploadPickedFileToS3(picked, 'image');
+            return uploaded.url;
+          }}
+          message={message}
+        />
+      ) : null}
+      {(false as boolean) && activeLearningTab === ('topic_legacy' as LearningTab) ? (
         <>
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Content Filters</Text>
@@ -2797,6 +2836,38 @@ export default function QuestionManagementScreen() {
       ) : null}
 
       {activeLearningTab === 'content' ? (
+        <ContentTab
+          contentItems={contentItems}
+          loadingContent={loadingContentItems}
+          deletingContentId={deletingContentId}
+          filters={{ classLevel: contentFilters.classLevel, subject: contentFilters.subject }}
+          topics={topics.map((t) => ({ id: t.id, title: t.title, classLevel: t.classLevel, subject: t.subject }))}
+          apiFetch={apiFetch}
+          onFiltersChange={(f) => setContentFilters((p) => ({ ...p, ...f }))}
+          onApplyFilters={loadContentItems}
+          onDeleteContent={(id) => deleteContentItem(id)}
+          onRefresh={() => { loadContentItems(); loadTopics(); }}
+          onUploadMedia={async (_draftId) => {
+            const picked = await pickFileAsDataUrl(
+              'image/*,audio/*,video/*',
+              'Media upload is currently available on web. On mobile, provide URL-based content.',
+            );
+            const lm = picked.mimeType.toLowerCase();
+            const ln = picked.fileName.toLowerCase();
+            const mediaType: 'image' | 'audio' | 'video' = lm.startsWith('video/') || /\.(mp4|mov|m4v|webm|mkv)$/.test(ln)
+              ? 'video'
+              : lm.startsWith('audio/') || /\.(mp3|wav|ogg|aac|m4a|flac)$/.test(ln)
+                ? 'audio'
+                : 'image';
+            const uploaded = await uploadPickedFileToS3(picked, mediaType);
+            const contentType: 'reel_url' | 'audio' | 'image' | 'youtube_url' | 'text' =
+              mediaType === 'video' ? 'reel_url' : mediaType === 'audio' ? 'audio' : 'image';
+            return { url: uploaded.url, contentType };
+          }}
+          message={message}
+        />
+      ) : null}
+      {(false as boolean) && activeLearningTab === ('content_legacy' as LearningTab) ? (
         <>
           <View style={styles.card}>
             <View style={styles.sectionHeader}>
@@ -2997,6 +3068,23 @@ export default function QuestionManagementScreen() {
       ) : null}
 
       {activeLearningTab === 'question' ? (
+        <QuestionsTab
+          questions={questions}
+          loading={loading}
+          deletingQuestionId={deletingQuestionId}
+          filters={filters}
+          apiFetch={apiFetch}
+          onFiltersChange={(patch) => setFilters((p) => ({ ...p, ...patch }))}
+          onApplyFilters={loadData}
+          onOpenCreate={openCreateDialog}
+          onQuestionAction={(q, action) => {
+            if (action === 'edit') { openEditDialog(q as QuestionItem); }
+            else if (action === 'delete') { deleteQuestion(q.id); }
+          }}
+          message={message}
+        />
+      ) : null}
+      {(false as boolean) && activeLearningTab === ('question_legacy' as LearningTab) ? (
         <>
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Filters</Text>
@@ -3076,127 +3164,30 @@ export default function QuestionManagementScreen() {
       ) : null}
 
       {activeLearningTab === 'exam' ? (
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Exam Workspace</Text>
-          <Text style={styles.metaText}>
-            Exam flow can be aligned with content topics in the next step.
-          </Text>
-          <Pressable style={styles.primaryButton} onPress={() => router.push('/exam')}>
-            <Text style={styles.primaryButtonText}>Open Exam Builder</Text>
-          </Pressable>
-        </View>
+        <ScrollView contentContainerStyle={{ padding: 16 }}>
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Exam Workspace</Text>
+            <Text style={styles.metaText}>Exam flow can be aligned with content topics in the next step.</Text>
+            <Pressable style={styles.primaryButton} onPress={() => router.push('/exam')}>
+              <Text style={styles.primaryButtonText}>Open Exam Builder</Text>
+            </Pressable>
+          </View>
+        </ScrollView>
       ) : null}
 
       {activeLearningTab === 'quiz' ? (
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Quiz Workspace</Text>
-          <Text style={styles.metaText}>
-            Build and manage quizzes here. Topic quiz assignment is now available only from the Topic tab.
-          </Text>
-          <Pressable style={styles.primaryButton} onPress={() => router.push('/exam')}>
-            <Text style={styles.primaryButtonText}>Open Quiz Builder</Text>
-          </Pressable>
-        </View>
+        <ScrollView contentContainerStyle={{ padding: 16 }}>
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Quiz Workspace</Text>
+            <Text style={styles.metaText}>Build and manage quizzes here.</Text>
+            <Pressable style={styles.primaryButton} onPress={() => router.push('/exam')}>
+              <Text style={styles.primaryButtonText}>Open Quiz Builder</Text>
+            </Pressable>
+          </View>
+        </ScrollView>
       ) : null}
 
-      <Modal
-        visible={selectedTopic !== null}
-        transparent
-        animationType="fade"
-        presentationStyle="overFullScreen"
-        statusBarTranslucent
-        onRequestClose={() => setSelectedTopic(null)}
-      >
-        <Pressable style={styles.dialogOverlay} onPress={() => setSelectedTopic(null)}>
-          <Pressable style={styles.topicDialogCard} onPress={() => {}}>
-            <View style={styles.dialogHeader}>
-              <Text style={styles.dialogTitle}>Topic Details</Text>
-            </View>
-            <ScrollView style={styles.dialogScroll} contentContainerStyle={styles.dialogScrollContent}>
-              {selectedTopic ? (
-                <>
-                  <View style={styles.topicDetailHeader}>
-                    <View style={styles.topicDetailTitleRow}>
-                      <Text style={styles.cardTitle}>{selectedTopic.title}</Text>
-                      <Text style={styles.metaText}>
-                        {selectedTopic.classLevel} • {selectedTopic.subject}
-                      </Text>
-                    </View>
-                  </View>
-                  {selectedTopic.coverImage ? (
-                    <Image source={{ uri: resolveMediaUrl(selectedTopic.coverImage) }} style={styles.topicCoverImage} resizeMode="cover" />
-                  ) : null}
-                  <Text style={styles.cardTitle}>Contents ({topicContentItems.length})</Text>
-                  {loadingTopicDetails ? (
-                    <ActivityIndicator size="small" color="#1d4ed8" />
-                  ) : topicContentItems.length === 0 ? (
-                    <Text style={styles.emptyText}>No content assigned yet.</Text>
-                  ) : (
-                    <>
-                      <ScrollView horizontal>
-                        <View>
-                          <View style={[styles.tableRow, styles.tableHeader]}>
-                            <Text style={[styles.tableCell, styles.colQuestion]}>Title</Text>
-                            <Text style={[styles.tableCell, styles.colCategory]}>Type</Text>
-                            <Text style={[styles.tableCell, styles.colCategory]}>Sections</Text>
-                            <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
-                          </View>
-                          {topicContentItems.slice(topicContentPage * 20, (topicContentPage + 1) * 20).map((item) => (
-                            <View key={item.id} style={styles.tableRow}>
-                              <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
-                                {item.title}
-                              </Text>
-                              <Text style={[styles.tableCell, styles.colCategory]}>{item.contentType}</Text>
-                              <Text style={[styles.tableCell, styles.colCategory]}>{item.sectionCount || 1}</Text>
-                              <View style={[styles.colActions, styles.actionsCell]}>
-                                <Pressable style={styles.topicActionsTrigger} onPress={() => setTopicContentActionItem(item)}>
-                                  <Text style={styles.topicActionsTriggerText}>Actions</Text>
-                                </Pressable>
-                              </View>
-                            </View>
-                          ))}
-                        </View>
-                      </ScrollView>
-                      {renderPagination(topicContentPage, topicContentItems.length, 20, setTopicContentPage)}
-                    </>
-                  )}
-
-                  <View style={styles.sectionHeader}>
-                    <Text style={styles.cardTitle}>Assigned Quizzes ({topicQuizzes.length})</Text>
-                    <Pressable style={styles.secondaryButton} onPress={() => openQuizAssignmentDialog(selectedTopic)}>
-                      <Text style={styles.secondaryButtonText}>Assign Quizzes</Text>
-                    </Pressable>
-                  </View>
-                  {loadingTopicQuizzes ? (
-                    <ActivityIndicator size="small" color="#1d4ed8" />
-                  ) : topicQuizzes.length === 0 ? (
-                    <Text style={styles.emptyText}>No quizzes assigned yet.</Text>
-                  ) : (
-                    topicQuizzes.map((quiz) => (
-                      <View key={`topic-quiz-${quiz.id}`} style={styles.optionCard}>
-                        <View style={styles.cardHeaderRow}>
-                          <Text style={styles.optionTitle}>{quiz.title}</Text>
-                          <Pressable style={styles.inlineRemoveButton} onPress={() => setPreviewQuiz(quiz)}>
-                            <Text style={styles.inlineRemoveButtonText}>Preview</Text>
-                          </Pressable>
-                        </View>
-                        <Text style={styles.metaText}>
-                          {(quiz.class_level || '-')} • {quiz.subject || '-'} • {quiz.quiz_type} • Q: {quiz.total_questions}
-                        </Text>
-                      </View>
-                    ))
-                  )}
-                </>
-              ) : null}
-            </ScrollView>
-            <View style={styles.dialogActions}>
-              <Pressable style={styles.secondaryButton} onPress={() => setSelectedTopic(null)}>
-                <Text style={styles.secondaryButtonText}>Close</Text>
-              </Pressable>
-            </View>
-          </Pressable>
-        </Pressable>
-      </Modal>
+      {/* Topic details modal is now handled inside TopicsTab component */}
 
       <Modal
         visible={topicActionMenuTopic !== null}
@@ -3374,98 +3365,7 @@ export default function QuestionManagementScreen() {
         </Pressable>
       </Modal>
 
-      <Modal
-        visible={isQuizDialogOpen}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setIsQuizDialogOpen(false)}
-      >
-        <Pressable style={styles.dialogOverlay} onPress={() => setIsQuizDialogOpen(false)}>
-          <Pressable style={styles.dialogCard} onPress={() => {}}>
-            <View style={styles.dialogHeader}>
-              <Text style={styles.dialogTitle}>
-                {selectedTopic ? `Assign Quizzes • ${selectedTopic.title}` : 'Assign Quizzes'}
-              </Text>
-            </View>
-            <ScrollView style={styles.dialogScroll} contentContainerStyle={styles.dialogScrollContent}>
-              <View style={styles.row}>
-                <Pressable
-                  style={[styles.selectorInput, styles.halfInput]}
-                  onPress={() => setContentSelectorField('quizFilterClassLevel')}
-                >
-                  <Text style={quizDialogFilters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
-                    {quizDialogFilters.classLevel ? getStandardLabel(quizDialogFilters.classLevel) : 'Standard'}
-                  </Text>
-                </Pressable>
-                <Pressable
-                  style={[styles.selectorInput, styles.halfInput, !quizDialogFilters.classLevel && styles.disabledButton]}
-                  onPress={() => {
-                    if (!quizDialogFilters.classLevel) return;
-                    setContentSelectorField('quizFilterSubject');
-                  }}
-                  disabled={!quizDialogFilters.classLevel}
-                >
-                  <Text style={quizDialogFilters.subject ? styles.selectorText : styles.selectorPlaceholder}>
-                    {quizDialogFilters.subject || (quizDialogFilters.classLevel ? 'Subject' : 'Select standard first')}
-                  </Text>
-                </Pressable>
-              </View>
-              <TextInput
-                value={quizDialogFilters.search}
-                onChangeText={(value) => setQuizDialogFilters((current) => ({ ...current, search: value }))}
-                placeholder="Search by quiz title or subject"
-                style={styles.input}
-              />
-              <Text style={styles.metaText}>
-                Selected: {selectedQuizIds.length}
-              </Text>
-              {loadingTopicQuizzes ? (
-                <ActivityIndicator size="small" color="#1d4ed8" />
-              ) : filteredQuizOptions.length === 0 ? (
-                <Text style={styles.emptyText}>No quizzes found.</Text>
-              ) : (
-                filteredQuizOptions.map((quiz) => {
-                  const selected = selectedQuizIds.includes(quiz.id);
-                  return (
-                    <Pressable
-                      key={`quiz-pick-${quiz.id}`}
-                      style={[styles.optionCard, selected && styles.topicSelectCardActive]}
-                      onPress={() => toggleQuizSelection(quiz.id)}
-                    >
-                      <View style={styles.cardHeaderRow}>
-                        <Text style={styles.optionTitle}>{quiz.title}</Text>
-                        <View style={styles.row}>
-                          <Pressable
-                            style={styles.inlineRemoveButton}
-                            onPress={(event) => {
-                              event.stopPropagation();
-                              setPreviewQuiz(quiz);
-                            }}
-                          >
-                            <Text style={styles.inlineRemoveButtonText}>Preview</Text>
-                          </Pressable>
-                          <Text style={selected ? styles.typeChipTextActive : styles.metaText}>{selected ? 'Selected' : 'Select'}</Text>
-                        </View>
-                      </View>
-                      <Text style={styles.metaText}>
-                        {(quiz.class_level || '-')} • {quiz.subject || '-'} • {quiz.quiz_type} • Q: {quiz.total_questions}
-                      </Text>
-                    </Pressable>
-                  );
-                })
-              )}
-            </ScrollView>
-            <View style={styles.dialogActions}>
-              <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={() => setIsQuizDialogOpen(false)}>
-                <Text style={styles.secondaryButtonText}>Cancel</Text>
-              </Pressable>
-              <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={saveSelectedQuizzesToTopic} disabled={savingQuizSelections}>
-                {savingQuizSelections ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Save Quizzes</Text>}
-              </Pressable>
-            </View>
-          </Pressable>
-        </Pressable>
-      </Modal>
+      {/* Assign quiz modal is now handled inside TopicsTab component */}
 
       <Modal
         visible={isCreateContentDialogOpen}
@@ -3698,101 +3598,17 @@ export default function QuestionManagementScreen() {
         </View>
       </Modal>
 
-      <Modal visible={contentSelectorField !== null} transparent animationType="fade" onRequestClose={() => setContentSelectorField(null)}>
-        <View style={styles.dialogOverlay}>
-          <View style={styles.confirmCard}>
-            <Text style={styles.confirmTitle}>{contentSelectorTitle}</Text>
-            <ScrollView style={styles.selectorList}>
-              <Pressable style={styles.selectorOption} onPress={() => applyContentSelectorValue('')}>
-                <Text style={styles.selectorOptionText}>Any</Text>
-              </Pressable>
-              {contentSelectorOptions.map((option) => (
-                <Pressable key={option} style={styles.selectorOption} onPress={() => applyContentSelectorValue(option)}>
-                  <Text style={styles.selectorOptionText}>{isContentStandardSelector ? getStandardLabel(option) : option}</Text>
-                </Pressable>
-              ))}
-            </ScrollView>
-            <Pressable style={styles.secondaryButton} onPress={() => setContentSelectorField(null)}>
-              <Text style={styles.secondaryButtonText}>Close</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+      <SelectorModal
+        visible={contentSelectorField !== null}
+        title={contentSelectorTitle}
+        options={contentSelectorOptions.map((o) => ({ label: isContentStandardSelector ? getStandardLabel(o) : o, value: o }))}
+        selected={''}
+        isSubject={!isContentStandardSelector}
+        onSelect={applyContentSelectorValue}
+        onClose={() => setContentSelectorField(null)}
+      />
 
-      <Modal
-        visible={topicDialogMode !== null && !isTopicSelectorActive}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setTopicDialogMode(null)}
-      >
-        <View style={styles.dialogOverlay}>
-          <View style={styles.topicDialogCard}>
-            <View style={styles.topicDialogBody}>
-            <Text style={styles.dialogTitle}>{topicDialogMode === 'edit' ? 'Edit Topic' : 'Create Topic'}</Text>
-            <View style={styles.fieldGroup}>
-              <Text style={styles.fieldLabel}>Topic Title *</Text>
-              <TextInput
-                value={topicDraft.title}
-                onChangeText={(value) => setTopicDraft((current) => ({ ...current, title: value }))}
-                placeholder="Enter topic title"
-                style={styles.input}
-              />
-            </View>
-            <View style={styles.row}>
-              <View style={styles.halfInput}>
-                <Text style={styles.fieldLabel}>Standard *</Text>
-                <Pressable style={styles.selectorInput} onPress={() => setContentSelectorField('topicClassLevel')}>
-                  <Text style={topicDraft.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
-                    {topicDraft.classLevel ? getStandardLabel(topicDraft.classLevel) : 'Select standard'}
-                  </Text>
-                </Pressable>
-              </View>
-              <View style={styles.halfInput}>
-                <Text style={styles.fieldLabel}>Subject *</Text>
-                <Pressable style={styles.selectorInput} onPress={() => setContentSelectorField('topicSubject')}>
-                  <Text style={topicDraft.subject ? styles.selectorText : styles.selectorPlaceholder}>
-                    {topicDraft.subject || 'Select subject'}
-                  </Text>
-                </Pressable>
-              </View>
-            </View>
-            <View style={styles.fieldGroup}>
-              <Text style={styles.fieldLabel}>Topic Image</Text>
-              <View style={styles.mediaActionRow}>
-                <Pressable style={[styles.secondaryButton, styles.mediaActionButton]} onPress={uploadTopicCover}>
-                  {uploadingTopicCover ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Upload Image</Text>}
-                </Pressable>
-              </View>
-              {topicDraft.coverImage.trim() ? (
-                <View style={styles.previewCard}>
-                  <View style={styles.previewHeader}>
-                    <View style={styles.previewHeaderContent}>
-                      <Text style={styles.mediaInfoLabel}>Selected Image</Text>
-                      <Text style={styles.mediaInfoValue}>{toMediaLabel(topicDraft.coverImage, 'image')}</Text>
-                    </View>
-                    <Pressable
-                      style={styles.previewRemoveButton}
-                      onPress={() => setTopicDraft((current) => ({ ...current, coverImage: '' }))}
-                    >
-                      <Text style={styles.previewRemoveButtonText}>Remove</Text>
-                    </Pressable>
-                  </View>
-                  <Image source={{ uri: resolveMediaUrl(topicDraft.coverImage) }} style={styles.optionImagePreview} resizeMode="cover" />
-                </View>
-              ) : null}
-            </View>
-            </View>
-            <View style={styles.dialogActions}>
-              <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={() => setTopicDialogMode(null)}>
-                <Text style={styles.secondaryButtonText}>Cancel</Text>
-              </Pressable>
-              <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={saveTopic} disabled={savingTopic}>
-                {savingTopic ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Save Topic</Text>}
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal>
+      {/* Topic create/edit modal is now handled inside TopicsTab component */}
 
       <Modal visible={isSectionDialogOpen} transparent animationType="fade" onRequestClose={() => setIsSectionDialogOpen(false)}>
         <View style={styles.dialogOverlay}>
@@ -3916,34 +3732,23 @@ export default function QuestionManagementScreen() {
         </View>
       </Modal>
 
-      <Modal visible={isCreateDialogOpen && activeLearningTab === 'question'} transparent animationType="fade" onRequestClose={() => setIsCreateDialogOpen(false)}>
-        <View style={styles.dialogOverlay}>{renderDialogContent('create')}</View>
+      <Modal visible={isCreateDialogOpen && activeLearningTab === 'question'} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setIsCreateDialogOpen(false)}>
+        {renderDialogContent('create')}
       </Modal>
 
-      <Modal visible={editingQuestionId !== null && activeLearningTab === 'question'} transparent animationType="fade" onRequestClose={() => setEditingQuestionId(null)}>
-        <View style={styles.dialogOverlay}>{renderDialogContent('edit')}</View>
+      <Modal visible={editingQuestionId !== null && activeLearningTab === 'question'} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setEditingQuestionId(null)}>
+        {renderDialogContent('edit')}
       </Modal>
 
-      <Modal visible={selectorField !== null && activeLearningTab === 'question'} transparent animationType="fade" onRequestClose={() => setSelectorField(null)}>
-        <View style={styles.dialogOverlay}>
-          <View style={styles.confirmCard}>
-            <Text style={styles.confirmTitle}>{selectorTitle}</Text>
-            <ScrollView style={styles.selectorList}>
-              <Pressable style={styles.selectorOption} onPress={() => applySelectorValue('')}>
-                <Text style={styles.selectorOptionText}>Any</Text>
-              </Pressable>
-              {selectorOptions.map((option) => (
-                <Pressable key={option} style={styles.selectorOption} onPress={() => applySelectorValue(option)}>
-                  <Text style={styles.selectorOptionText}>{isQuestionStandardSelector ? getStandardLabel(option) : option}</Text>
-                </Pressable>
-              ))}
-            </ScrollView>
-            <Pressable style={styles.secondaryButton} onPress={() => setSelectorField(null)}>
-              <Text style={styles.secondaryButtonText}>Close</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+      <SelectorModal
+        visible={selectorField !== null && activeLearningTab === 'question'}
+        title={selectorTitle}
+        options={selectorOptions.map((o) => ({ label: isQuestionStandardSelector ? getStandardLabel(o) : o, value: o }))}
+        selected={''}
+        isSubject={!isQuestionStandardSelector}
+        onSelect={applySelectorValue}
+        onClose={() => setSelectorField(null)}
+      />
 
       <Modal visible={previewQuestion !== null && activeLearningTab === 'question'} transparent animationType="fade" onRequestClose={() => setPreviewQuestion(null)}>
         <View style={styles.dialogOverlay}>
@@ -4048,7 +3853,7 @@ export default function QuestionManagementScreen() {
           </View>
         </View>
       </Modal>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -4085,6 +3890,33 @@ const styles = StyleSheet.create({
   },
   tabButtonTextActive: {
     color: '#1d4ed8',
+  },
+  // New tab bar (revamped)
+  newTabBar: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F0F8',
+    paddingHorizontal: 4,
+  },
+  newTab: {
+    flex: 1,
+    paddingVertical: 13,
+    alignItems: 'center',
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
+  },
+  newTabActive: {
+    borderBottomColor: '#4A90E2',
+  },
+  newTabText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#9A9AB0',
+  },
+  newTabTextActive: {
+    color: '#4A90E2',
+    fontWeight: '800',
   },
   title: {
     fontSize: 24,
@@ -4759,4 +4591,98 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#64748b',
   },
+});
+
+// ── Question form full-screen styles ──────────────────────────────────────────
+const qFormS = StyleSheet.create({
+  screen:   { flex: 1, backgroundColor: '#F5F7FF' },
+  header:   { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 12, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  backBtn:  { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
+  backArrow:{ fontSize: 28, color: '#1a1a2e', fontWeight: '300', lineHeight: 34 },
+  titleText:{ fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
+  subTitle: { fontSize: 11, color: '#9A9AB0', fontWeight: '600', marginTop: 2 },
+  saveBtn:  { backgroundColor: '#4A90E2', borderRadius: 10, paddingHorizontal: 18, paddingVertical: 8 },
+  saveBtnText:{ color: '#fff', fontWeight: '800', fontSize: 13 },
+
+  tabBar:        { flexDirection: 'row', backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  tab:           { flex: 1, paddingVertical: 12, alignItems: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
+  tabActive:     { borderBottomColor: '#4A90E2' },
+  tabText:       { fontSize: 13, fontWeight: '600', color: '#9A9AB0' },
+  tabTextActive: { color: '#4A90E2', fontWeight: '800' },
+
+  toast:            { marginHorizontal: 16, marginTop: 8, borderRadius: 10, padding: 10, borderWidth: 1, borderColor: '#E0E4F0', backgroundColor: '#F0F4FF' },
+  toastText:        { fontSize: 13, fontWeight: '600', color: '#1a1a2e', textAlign: 'center' },
+  toastError:       { backgroundColor: '#FFE8E8', borderColor: '#FF7043' },
+  toastErrorText:   { color: '#B91C1C' },
+  toastSuccess:     { backgroundColor: '#D6F5D6', borderColor: '#7DC67A' },
+  toastSuccessText: { color: '#1A6B1A' },
+
+  tabContent: { padding: 16, gap: 16, paddingBottom: 40 },
+  group:      { gap: 8 },
+  groupLabel: { fontSize: 10, fontWeight: '800', color: '#9A9AB0', letterSpacing: 1, textTransform: 'uppercase', paddingLeft: 4 },
+  fieldCard:  { backgroundColor: '#fff', borderRadius: 16, padding: 14, gap: 10, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
+  fieldLabel: { fontSize: 11, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase', letterSpacing: 0.5 },
+  input:      { fontSize: 14, color: '#1a1a2e', fontWeight: '500', paddingVertical: 6 },
+  divider:    { height: 1, backgroundColor: '#F0F0F8' },
+  selectorRow:{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 6 },
+  selectorVal:{ fontSize: 14, color: '#1a1a2e', fontWeight: '500' },
+  selectorPlaceholder: { fontSize: 14, color: '#B0B8D0' },
+  twoCol:     { flexDirection: 'row', gap: 10, alignItems: 'flex-start' },
+  colDivider: { width: 1, backgroundColor: '#F0F0F8', alignSelf: 'stretch', marginVertical: 4 },
+
+  qtypeChip:  { flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: '#F0F0F8', borderWidth: 1.5, borderColor: 'transparent' },
+  qtypeEmoji: { fontSize: 16 },
+  qtypeLabel: { fontSize: 12, fontWeight: '600', color: '#9A9AB0' },
+  qtypeDesc:  { fontSize: 12, color: '#9A9AB0', fontStyle: 'italic', lineHeight: 18, paddingTop: 4 },
+
+  uploadBtn:     { borderRadius: 8, borderWidth: 1, borderColor: '#D6EAFF', backgroundColor: '#F5F9FF', paddingVertical: 10, alignItems: 'center' },
+  uploadBtnText: { fontSize: 13, fontWeight: '700', color: '#4A90E2' },
+  mediaRow:      { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 8 },
+  mediaThumb:    { width: 56, height: 44, borderRadius: 8, backgroundColor: '#F0F0F8' },
+  mediaName:     { fontSize: 12, color: '#9A9AB0', fontWeight: '500' },
+  audioIcon:     { fontSize: 22 },
+  playBtn:       { borderRadius: 8, backgroundColor: '#D6EAFF', paddingHorizontal: 10, paddingVertical: 6 },
+  playBtnText:   { fontSize: 12, fontWeight: '700', color: '#1A4DA2' },
+  removeBtn:     { width: 28, height: 28, borderRadius: 8, backgroundColor: '#FFE8E8', alignItems: 'center', justifyContent: 'center' },
+  removeBtnWide: { borderRadius: 8, backgroundColor: '#FFE8E8', paddingHorizontal: 10, paddingVertical: 6 },
+  removeBtnText: { fontSize: 11, fontWeight: '800', color: '#FF7043' },
+
+  secGroup:   { backgroundColor: '#fff', borderRadius: 16, overflow: 'hidden' },
+  secHeader:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  secTitle:   { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  secHint:    { fontSize: 12, color: '#9A9AB0', paddingHorizontal: 14, paddingVertical: 8 },
+  addBtn:     { backgroundColor: '#D6EAFF', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 },
+  addBtnText: { fontSize: 12, fontWeight: '800', color: '#1A4DA2' },
+
+  optBlock:       { borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
+  optBlockHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 10, paddingVertical: 10 },
+  optNumBadge:    { width: 28, height: 28, borderRadius: 14, backgroundColor: '#E0E4F0', alignItems: 'center', justifyContent: 'center' },
+  optNum:         { fontSize: 12, fontWeight: '800', color: '#9A9AB0' },
+  optInput:       { fontSize: 14, color: '#1a1a2e', fontWeight: '500', backgroundColor: '#F8F9FF', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6, borderWidth: 1, borderColor: '#ECEEF4' },
+  correctBtn:     { width: 32, height: 32, borderRadius: 8, backgroundColor: '#F0F0F8', alignItems: 'center', justifyContent: 'center' },
+  correctBtnActive:{ backgroundColor: '#D6F5D6' },
+  correctBtnText: { fontSize: 15, color: '#9A9AB0', fontWeight: '700' },
+  correctBtnTextActive:{ color: '#7DC67A' },
+  pairHeaderRow:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
+  pairNum:        { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
+
+  previewCard:    { backgroundColor: '#fff', borderRadius: 20, overflow: 'hidden' },
+  previewHero:    { flexDirection: 'row', alignItems: 'flex-start', gap: 14, padding: 20 },
+  previewTypeBadge:    { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 3, alignSelf: 'flex-start', marginBottom: 6 },
+  previewTypeBadgeText:{ fontSize: 11, fontWeight: '700' },
+  previewTitle:   { fontSize: 17, fontWeight: '900', color: '#1a1a2e', lineHeight: 24 },
+  previewMeta:    { fontSize: 12, color: '#9A9AB0', marginTop: 4 },
+  previewStats:   { flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#F5F7FF' },
+  previewStat:    { flex: 1, alignItems: 'center', paddingVertical: 14, borderRightWidth: 1, borderRightColor: '#F5F7FF', gap: 2 },
+  previewStatVal: { fontSize: 20, fontWeight: '900', color: '#1a1a2e' },
+  previewStatLabel:{ fontSize: 10, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' },
+  previewInstBlock:{ margin: 14, backgroundColor: '#F8F9FF', borderRadius: 12, padding: 12 },
+  previewInstText: { fontSize: 13, color: '#5A6A8A', lineHeight: 20 },
+  previewImage:   { width: '100%', height: 180, marginBottom: 8 },
+  previewOptRow:  { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF', borderRadius: 0 },
+  previewOptDot:  { width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  previewOptText: { flex: 1, fontSize: 14, fontWeight: '600', color: '#1a1a2e' },
+  previewCorrectBadge:{ fontSize: 14, color: '#7DC67A', fontWeight: '800' },
+  previewPairRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF', justifyContent: 'space-between' },
+  previewPairText:{ fontSize: 13, fontWeight: '700', color: '#1a1a2e', flex: 1, textAlign: 'center' },
 });

@@ -1,6 +1,6 @@
 import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { LogOut, ChevronRight, Shield, Star, Flame, BookOpen, Award } from 'lucide-react-native';
+import { LogOut, ChevronRight, Shield, Star, Flame, BookOpen, Award, Lock, Mail, Bell } from 'lucide-react-native';
 
 import { useAuth } from '../../src/context/AuthContext';
 import { UserRole } from '../../src/types/roles';
@@ -110,13 +110,13 @@ export default function ProfileScreen() {
       <Text style={s.sectionTitle}>Account</Text>
       <View style={s.menuCard}>
         {[
-          { emoji: '🔒', label: 'Change Password', sub: 'Update your password' },
-          { emoji: '📧', label: 'Update Email',     sub: user?.email ?? '' },
-          { emoji: '🔔', label: 'Notifications',    sub: 'Manage alerts' },
+          { Icon: Lock, label: 'Change Password', sub: 'Update your password', color: '#4A90E2' },
+          { Icon: Mail, label: 'Update Email',     sub: user?.email ?? '',      color: '#7DC67A' },
+          { Icon: Bell, label: 'Notifications',    sub: 'Manage alerts',        color: '#E6A817' },
         ].map((item, idx, arr) => (
           <Pressable key={item.label} style={[s.menuRow, idx < arr.length - 1 && s.menuBorder]}>
-            <View style={s.menuIconBox}>
-              <Text style={{ fontSize: 18 }}>{item.emoji}</Text>
+            <View style={[s.menuIconBox, { backgroundColor: `${item.color}18` }]}>
+              <item.Icon size={18} color={item.color} />
             </View>
             <View style={s.menuInfo}>
               <Text style={s.menuLabel}>{item.label}</Text>

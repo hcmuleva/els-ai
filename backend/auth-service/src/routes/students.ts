@@ -603,6 +603,95 @@ studentsRouter.get('/:id/upcoming-classrooms', requireAuth, async (req: Authenti
   }
 });
 
+// ── GET /students/:id/classroom-remarks — parent/student view of all classroom remarks+achievements ──
+studentsRouter.get('/:id/classroom-remarks', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const studentId = getSingleParam(req.params.id);
+  const organizationId = getRequestOrganizationId(req);
+  if (!studentId) return res.status(400).json({ message: 'Invalid student id' });
+
+  const isAdmin = req.user?.role === 'admin' || req.user?.role === 'superadmin';
+  const isSelf  = req.user?.userId === studentId;
+  if (!isAdmin && !isSelf) {
+    const parentCheck = await db.query(
+      `SELECT 1 FROM parent_student_links WHERE parent_user_id=$1 AND student_user_id=$2 AND organization_id=$3::uuid LIMIT 1`,
+      [req.user?.userId, studentId, organizationId],
+    );
+    if ((parentCheck.rowCount ?? 0) === 0) return res.status(403).json({ message: 'Forbidden' });
+  }
+
+  try {
+    // Active classrooms with their remark for this student
+    const activeRes = await db.query(
+      `SELECT c.id, c.title, c.class_level, c.status, c.created_at,
+              r.remark_text, r.parent_note, r.remark_media_url,
+              r.score_behavior, r.score_confidence, r.score_participation, r.score_performance
+       FROM classrooms c
+       LEFT JOIN classroom_student_remarks r ON r.classroom_id = c.id AND r.student_id = $1
+       WHERE c.organization_id = $2::uuid AND c.status = 'active'
+         AND c.class_level = (SELECT class_level FROM users WHERE id = $1 LIMIT 1)
+       ORDER BY c.created_at DESC`,
+      [studentId, organizationId],
+    );
+
+    // Completed classrooms
+    const histRes = await db.query(
+      `SELECT c.id, c.title, c.class_level, c.status, c.created_at, c.ended_at,
+              r.remark_text, r.parent_note, r.remark_media_url,
+              r.score_behavior, r.score_confidence, r.score_participation, r.score_performance
+       FROM classrooms c
+       LEFT JOIN classroom_student_remarks r ON r.classroom_id = c.id AND r.student_id = $1
+       WHERE c.organization_id = $2::uuid AND c.status = 'completed'
+         AND c.class_level = (SELECT class_level FROM users WHERE id = $1 LIMIT 1)
+       ORDER BY c.ended_at DESC NULLS LAST
+       LIMIT 20`,
+      [studentId, organizationId],
+    );
+
+    // Achievements for this student across all classrooms
+    const achievRes = await db.query(
+      `SELECT sa.classroom_id, a.id, a.name, a.emoji, a.color, a.description, sa.granted_at
+       FROM student_achievements sa
+       JOIN achievements a ON a.id = sa.achievement_id
+       WHERE sa.student_id = $1
+       ORDER BY sa.granted_at DESC`,
+      [studentId],
+    );
+
+    // Group achievements by classroom
+    const achievByClass: Record<string, any[]> = {};
+    for (const row of achievRes.rows) {
+      const cid = row.classroom_id as string;
+      if (!achievByClass[cid]) achievByClass[cid] = [];
+      achievByClass[cid].push({ id: row.id, name: row.name, emoji: row.emoji, color: row.color, description: row.description, grantedAt: row.granted_at });
+    }
+
+    const mapRow = (row: any) => ({
+      id: row.id as string,
+      title: row.title as string,
+      classLevel: row.class_level as string,
+      status: row.status as string,
+      createdAt: row.created_at as string,
+      endedAt: row.ended_at as string | null,
+      remarkText: row.remark_text as string | null,
+      parentNote: row.parent_note as string | null,
+      remarkMediaUrl: row.remark_media_url as string | null,
+      scoreBehavior: row.score_behavior as number | null,
+      scoreConfidence: row.score_confidence as number | null,
+      scoreParticipation: row.score_participation as number | null,
+      scorePerformance: row.score_performance as number | null,
+      achievements: achievByClass[row.id as string] ?? [],
+    });
+
+    return res.json({
+      active:    activeRes.rows.map(mapRow),
+      completed: histRes.rows.map(mapRow),
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to fetch classroom remarks' });
+  }
+});
+
 // ── Helper: recompute daily analytics ───────────────────────────────────────
 async function recomputeDailyAnalytics(studentId: string, organizationId: string) {
   try {

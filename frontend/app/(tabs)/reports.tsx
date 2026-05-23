@@ -2,17 +2,24 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import {
   ActivityIndicator, Modal, Platform, Pressable, ScrollView,
-  StyleSheet, Text, TouchableOpacity, View,
+  StyleSheet, Text, TouchableOpacity, View, Image, Linking,
 } from 'react-native';
 import Animated, {
   useSharedValue, useAnimatedStyle,
   withTiming, withDelay, withSpring, Easing,
 } from 'react-native-reanimated';
 import Svg, { Circle, Line } from 'react-native-svg';
-import { Star, Flame, BookOpen, Trophy, Zap, TrendingUp, X, ChevronRight, Clock } from 'lucide-react-native';
+import {
+  Star, BookOpen, Trophy, Zap, TrendingUp, X, ChevronRight, Clock,
+  BarChart2, Calendar, Timer, School, Layers, ClipboardList,
+  Activity, RotateCw, User, Users, CheckCircle, SkipForward, Flame,
+} from 'lucide-react-native';
+import { SvgXml } from 'react-native-svg';
 
 import { useAuth } from '../../src/context/AuthContext';
-import { useStudentProfile } from '../../src/context/StudentProfileContext';
+import { Colors, Radius, Shadow } from '../../src/theme';
+import { OWL, PENGUIN, ELEPHANT, BUTTERFLY, GIRAFFE } from '../../src/assets/svgs';
+import { useStudentProfile, type ClassroomRemarkItem } from '../../src/context/StudentProfileContext';
 import { getStandardLabel } from '../../src/constants/standards';
 import {
   CHART_DATA, SUBJECT_DETAILS, STUDENT_SUMMARY, BADGES_DATA,
@@ -150,7 +157,8 @@ function ScoreSparkline({ scores, color }: { scores: number[]; color: string }) 
 
 // ── Subject Detail Modal ──────────────────────────────────────────────────────
 function SubjectModal({ subject, onClose }: { subject: SubjectDetail; onClose: () => void }) {
-  const typeIcon = { lesson: '📖', quiz: '🧩', assignment: '📝' } as const;
+  const typeIconMap: Record<string, IconComp2> = { lesson: BookOpen, quiz: Layers, assignment: ClipboardList };
+  const typeColor: Record<string, string> = { lesson: '#4A90E2', quiz: '#FF7043', assignment: '#4CAF50' };
   const typeBg   = { lesson: '#D6EAFF', quiz: '#FFE8D6', assignment: '#D6F5D6' } as const;
 
   return (
@@ -160,7 +168,7 @@ function SubjectModal({ subject, onClose }: { subject: SubjectDetail; onClose: (
           {/* Header */}
           <View style={[m.sheetHeader, { backgroundColor: subject.bg }]}>
             <View style={m.sheetHeaderLeft}>
-              <Text style={m.sheetEmoji}>{subject.emoji}</Text>
+              <SvgXml xml={BUTTERFLY} width={36} height={36} />
               <View>
                 <Text style={m.sheetTitle}>{subject.label}</Text>
                 <Text style={m.sheetSub}>{subject.completedLessons} of {subject.totalLessons} completed</Text>
@@ -225,7 +233,7 @@ function SubjectModal({ subject, onClose }: { subject: SubjectDetail; onClose: (
               return (
                 <View key={t.id} style={[m.topicRow, idx < subject.topics.length - 1 && m.topicBorder]}>
                   <View style={[m.topicIcon, { backgroundColor: typeBg[t.type] }]}>
-                    <Text style={{ fontSize: 14 }}>{typeIcon[t.type]}</Text>
+                    {(() => { const TIcon = typeIconMap[t.type] ?? BookOpen; return <TIcon size={14} color={typeColor[t.type] ?? '#4A90E2'} />; })()}
                   </View>
                   <View style={m.topicInfo}>
                     <Text style={[m.topicTitle, !done && { color: '#B0B8D0' }]}>{t.title}</Text>
@@ -265,7 +273,12 @@ function SubjectModal({ subject, onClose }: { subject: SubjectDetail; onClose: (
 // ── Main Screen ───────────────────────────────────────────────────────────────
 // ── PARENT REPORTS ────────────────────────────────────────────────────────────
 const CHILD_COLORS_PR = ['#4A90E2', '#7DC67A', '#FF7043', '#9B8EC4', '#E6A020'];
-const ACT_ICON: Record<string, string> = { content: '📖', quiz: '🧩', assignment: '📝' };
+type IconComp2 = React.ComponentType<{ size: number; color: string }>;
+const ACT_ICON_MAP: Record<string, IconComp2> = { content: BookOpen, quiz: Layers, assignment: ClipboardList };
+function ActIcon({ type, size = 18, color }: { type: string; size?: number; color: string }) {
+  const Icon = ACT_ICON_MAP[type] ?? BookOpen;
+  return <Icon size={size} color={color} />;
+}
 const STATUS_CLR: Record<string, string> = { completed: '#4CAF50', attempted: '#E6A020', pending: '#9A9AB0' };
 const DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -280,6 +293,13 @@ function scoreGrade(pct: number): { label: string; color: string; bg: string } {
   if (pct >= 75) return { label: 'Good', color: '#4A90E2', bg: '#D6EAFF' };
   if (pct >= 50) return { label: 'Average', color: '#E6A020', bg: '#FFF5CC' };
   return { label: 'Needs Work', color: '#FF7043', bg: '#FFE8D6' };
+}
+
+function getClassroomAvgScore(item: ClassroomRemarkItem): number {
+  const vals = [item.scoreBehavior, item.scoreConfidence, item.scoreParticipation, item.scorePerformance]
+    .filter((v): v is number => typeof v === 'number' && v >= 0);
+  if (!vals.length) return 0;
+  return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
 }
 
 // Proper labeled bar chart with y-axis, gridlines, value labels
@@ -407,28 +427,32 @@ type QuizAttemptDetail = {
 };
 
 // ── Section tab definitions ───────────────────────────────────────────────────
-const PR_SECTIONS = [
-  { key: 'overview',     label: '📊 Overview' },
-  { key: 'calendar',     label: '📅 Days' },
-  { key: 'time',         label: '⏱ Time' },
-  { key: 'completion',   label: '📈 Progress' },
-  { key: 'quizzes',      label: '🧩 Quizzes' },
-  { key: 'assignments',  label: '📝 Tasks' },
-  { key: 'activity',     label: '🗂 Activity' },
+type IconComp = React.ComponentType<{ size: number; color: string }>;
+const PR_SECTIONS: Array<{ key: string; label: string; Icon: IconComp }> = [
+  { key: 'overview',    label: 'Overview',  Icon: BarChart2     },
+  { key: 'calendar',   label: 'Days',       Icon: Calendar      },
+  { key: 'time',       label: 'Time',       Icon: Timer         },
+  { key: 'completion', label: 'Progress',   Icon: TrendingUp    },
+  { key: 'classroom',  label: 'Classroom',  Icon: School        },
+  { key: 'quizzes',    label: 'Quizzes',    Icon: Layers        },
+  { key: 'assignments',label: 'Tasks',      Icon: ClipboardList },
+  { key: 'activity',   label: 'Activity',   Icon: Activity      },
 ];
 
 function ParentReports() {
   const {
     linkedStudents, activeStudent,
     loadingStudents, loadingActivity,
-    activity, analytics, quizAttempts, assignments, upcomingClassrooms,
+    activity, analytics, quizAttempts, assignments, upcomingClassrooms, classroomRemarks,
     switchToStudent, refreshAll,
   } = useStudentProfile();
   const { apiFetch } = useAuth();
 
   // Quiz modals state
   const [showAllQuizzes, setShowAllQuizzes] = useState(false);
+  const [showAllClassrooms, setShowAllClassrooms] = useState(false);
   const [quizDetail, setQuizDetail]         = useState<QuizAttemptDetail | null>(null);
+  const [classroomDetail, setClassroomDetail] = useState<ClassroomRemarkItem | null>(null);
   const [loadingDetail, setLoadingDetail]   = useState(false);
   const [activeTab, setActiveTab]           = useState('overview');
 
@@ -465,6 +489,13 @@ function ParentReports() {
     } catch { /* silent */ } finally { setLoadingDetail(false); }
   };
 
+  const openClassroomMedia = async (url?: string | null) => {
+    if (!url) return;
+    try {
+      await Linking.openURL(url);
+    } catch { /* silent */ }
+  };
+
   const sum = analytics?.summary;
   const daily = analytics?.daily ?? [];
 
@@ -494,6 +525,26 @@ function ParentReports() {
 
   const pendingAssignments = assignments.filter((a) => a.status === 'pending');
   const submittedAssignments = assignments.filter((a) => a.status !== 'pending');
+  const activeClassrooms = classroomRemarks.active;
+  const completedClassrooms = classroomRemarks.completed;
+  const classroomCards = activeClassrooms.length > 0
+    ? activeClassrooms
+    : upcomingClassrooms.map((c) => ({
+        id: c.id,
+        title: c.title,
+        classLevel: c.classLevel,
+        status: c.status,
+        createdAt: new Date().toISOString(),
+        endedAt: null,
+        remarkText: null,
+        parentNote: null,
+        remarkMediaUrl: null,
+        scoreBehavior: null,
+        scoreConfidence: null,
+        scoreParticipation: null,
+        scorePerformance: null,
+        achievements: [],
+      } as ClassroomRemarkItem));
 
   return (
     <View style={pr.screen}>
@@ -506,7 +557,7 @@ function ParentReports() {
           </Text>
         </View>
         <Pressable style={pr.refreshBtn} onPress={refreshAll}>
-          <Text style={pr.refreshBtnText}>↻</Text>
+          <RotateCw size={16} color="#7B4FCA" />
         </Pressable>
       </View>
 
@@ -515,14 +566,18 @@ function ParentReports() {
         <View style={pr.stickyTabs}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ gap: 6, paddingHorizontal: 12, paddingVertical: 8 }}>
-            {PR_SECTIONS.map((s) => (
-              <Pressable key={s.key} onPress={() => scrollToSection(s.key)}
-                style={[pr.stickyTab, activeTab === s.key && pr.stickyTabActive]}>
-                <Text style={[pr.stickyTabText, activeTab === s.key && pr.stickyTabTextActive]}>
-                  {s.label}
-                </Text>
-              </Pressable>
-            ))}
+            {PR_SECTIONS.map((sec) => {
+              const isActive = activeTab === sec.key;
+              return (
+                <Pressable key={sec.key} onPress={() => scrollToSection(sec.key)}
+                  style={[pr.stickyTab, isActive && pr.stickyTabActive]}>
+                  <sec.Icon size={12} color={isActive ? '#4A90E2' : '#9A9AB0'} />
+                  <Text style={[pr.stickyTabText, isActive && pr.stickyTabTextActive]}>
+                    {sec.label}
+                  </Text>
+                </Pressable>
+              );
+            })}
           </ScrollView>
         </View>
       )}
@@ -531,7 +586,7 @@ function ParentReports() {
         <View style={pr.centerBlock}><ActivityIndicator color="#4A90E2" size="large" /></View>
       ) : !activeStudent ? (
         <View style={pr.centerBlock}>
-          <Text style={{ fontSize: 48, textAlign: 'center' }}>👨‍👩‍👧</Text>
+          <SvgXml xml={PENGUIN} width={96} height={96} />
           <Text style={pr.emptyTitle}>No children linked yet</Text>
           <Text style={pr.emptySub}>Ask your school admin to link your children to your account.</Text>
         </View>
@@ -553,7 +608,7 @@ function ParentReports() {
                 <Pressable key={child.id} onPress={() => switchToStudent(child.id)}
                   style={[pr.childChip, isActive ? { backgroundColor: cc } : { backgroundColor: '#fff', borderWidth: 1.5, borderColor: cc }]}>
                   <View style={[pr.childChipAvatar, { backgroundColor: isActive ? 'rgba(255,255,255,0.2)' : cc + '22' }]}>
-                    <Text style={{ fontSize: 16 }}>{idx % 2 === 0 ? '🧒' : '👧'}</Text>
+                    <User size={14} color={isActive ? '#fff' : cc} />
                   </View>
                   <View>
                     <Text style={[pr.childChipName, { color: isActive ? '#fff' : '#1a1a2e' }]}>{child.firstName}</Text>
@@ -570,7 +625,10 @@ function ParentReports() {
           <View ref={(r) => { sectionRefs.current['overview'] = r; }} onLayout={(e) => { sectionOffsets.current['overview'] = e.nativeEvent.layout.y; }}>
           <View style={pr.heroBanner}>
             <View style={pr.heroLeft}>
-              <Text style={pr.heroSup}>📊 Overall Progress</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                <BarChart2 size={11} color="rgba(255,255,255,0.65)" />
+                <Text style={pr.heroSup}>Overall Progress</Text>
+              </View>
               <Text style={pr.heroScore}>{sum ? sum.completionRate.toFixed(0) : 0}%</Text>
               <Text style={pr.heroLabel}>completion rate</Text>
               <View style={pr.heroTrack}>
@@ -581,7 +639,7 @@ function ParentReports() {
             <View style={pr.heroRight}>
               <View style={pr.streakBadge}>
                 <Text style={pr.streakNum}>{sum?.streakDays ?? 0}</Text>
-                <Text style={pr.streakFire}>🔥</Text>
+                <Zap size={18} color="#F5C842" fill="#F5C842" />
                 <Text style={pr.streakLabel}>day streak</Text>
               </View>
             </View>
@@ -591,13 +649,13 @@ function ParentReports() {
           {sum && (
             <View style={pr.statRow}>
               {([
-                { emoji: '📝', val: sum.attemptedCount, label: 'Attempted', color: '#4A90E2', bg: '#D6EAFF' },
-                { emoji: '✅', val: sum.completedCount, label: 'Completed', color: '#4CAF50', bg: '#D6F5D6' },
-                { emoji: '⏭', val: sum.notAttemptedCount, label: 'Skipped',  color: '#FF7043', bg: '#FFE8D6' },
-                { emoji: '⏱', val: fmtSec(sum.totalTimeSeconds), label: 'Time', color: '#9B8EC4', bg: '#EDE4FF' },
-              ] as Array<{ emoji: string; val: string | number; label: string; color: string; bg: string }>).map((st) => (
+                { Icon: Layers,        val: sum.attemptedCount,              label: 'Attempted', color: '#4A90E2', bg: '#D6EAFF' },
+                { Icon: CheckCircle,   val: sum.completedCount,              label: 'Completed', color: '#4CAF50', bg: '#D6F5D6' },
+                { Icon: SkipForward,   val: sum.notAttemptedCount,           label: 'Skipped',   color: '#FF7043', bg: '#FFE8D6' },
+                { Icon: Clock,         val: fmtSec(sum.totalTimeSeconds),    label: 'Time',      color: '#9B8EC4', bg: '#EDE4FF' },
+              ] as Array<{ Icon: IconComp; val: string | number; label: string; color: string; bg: string }>).map((st) => (
                 <View key={st.label} style={[pr.statCard, { backgroundColor: st.bg }]}>
-                  <Text style={pr.statEmoji}>{st.emoji}</Text>
+                  <st.Icon size={18} color={st.color} />
                   <Text style={[pr.statVal, { color: st.color }]}>{st.val}</Text>
                   <Text style={pr.statLabel}>{st.label}</Text>
                 </View>
@@ -610,7 +668,7 @@ function ParentReports() {
           {/* ── CALENDAR SECTION ── */}
           <View ref={(r) => { sectionRefs.current['calendar'] = r; }} onLayout={(e) => { sectionOffsets.current['calendar'] = e.nativeEvent.layout.y; }}>
           <View style={pr.rowHeader}>
-            <Text style={pr.rowTitle}>📅 Active Days — Last 7</Text>
+            <Text style={pr.rowTitle}>Active Days — Last 7</Text>
             <Text style={pr.rowChip}>{activeDates.length}/7 days active</Text>
           </View>
           <View style={pr.card}>
@@ -626,7 +684,7 @@ function ParentReports() {
           {/* ── TIME SECTION ── */}
           <View ref={(r) => { sectionRefs.current['time'] = r; }} onLayout={(e) => { sectionOffsets.current['time'] = e.nativeEvent.layout.y; }}>
           <View style={pr.rowHeader}>
-            <Text style={pr.rowTitle}>⏱ Time Spent per Day</Text>
+            <Text style={pr.rowTitle}>Time Spent per Day</Text>
             <Text style={pr.rowChip}>{fmtSec(sum?.totalTimeSeconds ?? 0)} total</Text>
           </View>
           <View style={pr.card}>
@@ -645,7 +703,7 @@ function ParentReports() {
           {/* ── COMPLETION SECTION ── */}
           <View ref={(r) => { sectionRefs.current['completion'] = r; }} onLayout={(e) => { sectionOffsets.current['completion'] = e.nativeEvent.layout.y; }}>
           <View style={pr.rowHeader}>
-            <Text style={pr.rowTitle}>📈 Daily Completion Rate</Text>
+            <Text style={pr.rowTitle}>Daily Completion Rate</Text>
             <Text style={pr.rowChip}>avg {sum ? sum.completionRate.toFixed(0) : 0}%</Text>
           </View>
           <View style={pr.card}>
@@ -661,46 +719,87 @@ function ParentReports() {
 
           </View>{/* end completion section */}
 
+          {/* ── CLASSROOM SECTION ── */}
+          <View ref={(r) => { sectionRefs.current['classroom'] = r; }} onLayout={(e) => { sectionOffsets.current['classroom'] = e.nativeEvent.layout.y; }}>
+          <View style={pr.rowHeader}>
+            <Text style={pr.rowTitle}>Classroom Status</Text>
+            <Text style={pr.rowChip}>{classroomCards.length} active</Text>
+          </View>
+          {classroomCards.length === 0 ? (
+            <View style={pr.emptyCard}><SvgXml xml={GIRAFFE} width={56} height={56} /><Text style={pr.emptyCardText}>No classroom updates yet.</Text></View>
+          ) : (
+            classroomCards.map((cls, idx) => {
+              const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
+              const avg = getClassroomAvgScore(cls);
+              const grade = scoreGrade(avg);
+              return (
+                <Pressable key={cls.id} style={pr.classCard} onPress={() => setClassroomDetail(cls)}>
+                  <View style={[pr.classIconBox, { backgroundColor: cc + '22' }]}>
+                    <Text style={{ fontSize: 22 }}>📚</Text>
+                  </View>
+                  <View style={pr.classInfo}>
+                    <Text style={pr.classTitle} numberOfLines={1}>{cls.title}</Text>
+                    <Text style={pr.classMeta}>Class {cls.classLevel} · {cls.status}</Text>
+                    <Text style={pr.classDesc} numberOfLines={1}>
+                      {cls.remarkText ? `Teacher: ${cls.remarkText}` : 'Tap to see class insights and teacher notes'}
+                    </Text>
+                  </View>
+                  <View style={{ alignItems: 'flex-end', gap: 6 }}>
+                    <View style={[pr.classStatusBadge, { backgroundColor: cls.status === 'active' ? '#D6F5D6' : '#F0F0F8' }]}>
+                      <Text style={[pr.classStatusText, { color: cls.status === 'active' ? '#4CAF50' : '#9A9AB0' }]}>
+                        {cls.status === 'active' ? 'Active' : cls.status}
+                      </Text>
+                    </View>
+                    {avg > 0 && (
+                      <View style={[pr.smallGradeBadge, { backgroundColor: grade.bg }]}>
+                        <Text style={[pr.smallGradeText, { color: grade.color }]}>{avg}%</Text>
+                      </View>
+                    )}
+                  </View>
+                </Pressable>
+              );
+            })
+          )}
+
+          {completedClassrooms.length > 0 && (
+            <>
+              <View style={pr.rowHeader}>
+                <Text style={pr.rowTitle}>📚 Classroom History</Text>
+                <Text style={pr.rowChip}>{completedClassrooms.length} ended</Text>
+              </View>
+              {completedClassrooms.slice(0, 3).map((cls, idx) => (
+                <Pressable key={`${cls.id}-${idx}`} style={pr.historyCard} onPress={() => setClassroomDetail(cls)}>
+                  <View style={pr.historyDot} />
+                  <View style={{ flex: 1 }}>
+                    <Text style={pr.historyTitle} numberOfLines={1}>{cls.title}</Text>
+                    <Text style={pr.historyMeta}>
+                      Ended {cls.endedAt ? new Date(cls.endedAt).toLocaleDateString() : '—'} · Class {cls.classLevel}
+                    </Text>
+                  </View>
+                  <Text style={pr.historyCta}>View</Text>
+                </Pressable>
+              ))}
+              {completedClassrooms.length > 3 && (
+                <Pressable style={pr.viewAllBtn} onPress={() => setShowAllClassrooms(true)}>
+                  <Text style={pr.viewAllBtnText}>View Classroom History ›</Text>
+                </Pressable>
+              )}
+            </>
+          )}
+          </View>{/* end classroom section */}
+
           {/* ── QUIZZES SECTION ── */}
           <View ref={(r) => { sectionRefs.current['quizzes'] = r; }} onLayout={(e) => { sectionOffsets.current['quizzes'] = e.nativeEvent.layout.y; }}>
 
-          {/* ── ACTIVE CLASSROOMS ── */}
-          {upcomingClassrooms.length > 0 && (
-            <>
-              <View style={pr.rowHeader}>
-                <Text style={pr.rowTitle}>📚 Active Classrooms</Text>
-                <View style={[pr.liveBadge]}><Text style={pr.liveBadgeText}>● Live</Text></View>
-              </View>
-              {upcomingClassrooms.map((cls, idx) => {
-                const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
-                return (
-                  <View key={cls.id} style={pr.classCard}>
-                    <View style={[pr.classIconBox, { backgroundColor: cc + '22' }]}>
-                      <Text style={{ fontSize: 22 }}>📚</Text>
-                    </View>
-                    <View style={pr.classInfo}>
-                      <Text style={pr.classTitle} numberOfLines={1}>{cls.title}</Text>
-                      <Text style={pr.classMeta}>Class {cls.classLevel}</Text>
-                      {cls.description && <Text style={pr.classDesc} numberOfLines={1}>{cls.description}</Text>}
-                    </View>
-                    <View style={[pr.classStatusBadge, { backgroundColor: '#D6F5D6' }]}>
-                      <Text style={[pr.classStatusText, { color: '#4CAF50' }]}>Active</Text>
-                    </View>
-                  </View>
-                );
-              })}
-            </>
-          )}
-
           {/* ── QUIZ RESULTS ── */}
           <View style={pr.rowHeader}>
-            <Text style={pr.rowTitle}>🧩 Quiz Results</Text>
+            <Text style={pr.rowTitle}>Quiz Results</Text>
             <Text style={pr.rowChip}>{quizAttempts.length} attempt{quizAttempts.length !== 1 ? 's' : ''}</Text>
           </View>
           {loadingActivity ? (
             <ActivityIndicator color="#4A90E2" style={{ marginVertical: 12 }} />
           ) : quizAttempts.length === 0 ? (
-            <View style={pr.emptyCard}><Text style={pr.emptyCardText}>No quiz attempts yet — encourage {activeStudent.firstName} to try a quiz!</Text></View>
+            <View style={pr.emptyCard}><SvgXml xml={OWL} width={56} height={56} /><Text style={pr.emptyCardText}>No quiz attempts yet — encourage {activeStudent.firstName} to try a quiz!</Text></View>
           ) : (
             <>
               {quizAttempts.slice(0, 4).map((attempt) => {
@@ -708,7 +807,7 @@ function ParentReports() {
                 return (
                   <Pressable key={attempt.id} style={pr.quizCard} onPress={() => openQuizDetail(attempt.id)}>
                     <View style={[pr.quizIconBox, { backgroundColor: '#EDE4FF' }]}>
-                      <Text style={{ fontSize: 22 }}>🧩</Text>
+                      <Layers size={22} color="#9B8EC4" />
                     </View>
                     <View style={pr.quizInfo}>
                       <Text style={pr.quizTitle} numberOfLines={1}>{attempt.quizTitle}</Text>
@@ -738,7 +837,7 @@ function ParentReports() {
           {/* ── ASSIGNMENTS SECTION ── */}
           <View ref={(r) => { sectionRefs.current['assignments'] = r; }} onLayout={(e) => { sectionOffsets.current['assignments'] = e.nativeEvent.layout.y; }}>
           <View style={pr.rowHeader}>
-            <Text style={pr.rowTitle}>📝 Assignments</Text>
+            <Text style={pr.rowTitle}>Assignments</Text>
             {pendingAssignments.length > 0 && (
               <View style={[pr.liveBadge, { backgroundColor: '#FFE8D6' }]}>
                 <Text style={[pr.liveBadgeText, { color: '#FF7043' }]}>{pendingAssignments.length} pending</Text>
@@ -752,7 +851,7 @@ function ParentReports() {
               {pendingAssignments.map((a) => (
                 <View key={a.id} style={pr.assignCard}>
                   <View style={[pr.assignIconBox, { backgroundColor: '#FFE8D6' }]}>
-                    <Text style={{ fontSize: 20 }}>📝</Text>
+                    <ClipboardList size={20} color="#FF7043" />
                   </View>
                   <View style={pr.assignInfo}>
                     <Text style={pr.assignTitle} numberOfLines={1}>{a.title || 'Untitled Assignment'}</Text>
@@ -774,7 +873,7 @@ function ParentReports() {
                 return (
                   <View key={a.id} style={pr.assignCard}>
                     <View style={[pr.assignIconBox, { backgroundColor: '#D6F5D6' }]}>
-                      <Text style={{ fontSize: 20 }}>✅</Text>
+                      <CheckCircle size={20} color="#4CAF50" />
                     </View>
                     <View style={pr.assignInfo}>
                       <Text style={pr.assignTitle} numberOfLines={1}>{a.title || 'Untitled Assignment'}</Text>
@@ -796,7 +895,7 @@ function ParentReports() {
           )}
 
           {assignments.length === 0 && (
-            <View style={pr.emptyCard}><Text style={pr.emptyCardText}>No assignments found for {activeStudent.firstName}.</Text></View>
+            <View style={pr.emptyCard}><SvgXml xml={ELEPHANT} width={56} height={56} /><Text style={pr.emptyCardText}>No assignments found for {activeStudent.firstName}.</Text></View>
           )}
 
           </View>{/* end assignments section */}
@@ -804,20 +903,20 @@ function ParentReports() {
           {/* ── ACTIVITY SECTION ── */}
           <View ref={(r) => { sectionRefs.current['activity'] = r; }} onLayout={(e) => { sectionOffsets.current['activity'] = e.nativeEvent.layout.y; }}>
           <View style={pr.rowHeader}>
-            <Text style={pr.rowTitle}>🗂 Recent Activity</Text>
+            <Text style={pr.rowTitle}>Recent Activity</Text>
             <Text style={pr.rowChip}>{activity.length} total</Text>
           </View>
           {loadingActivity ? (
             <ActivityIndicator color="#4A90E2" style={{ marginVertical: 12 }} />
           ) : activity.length === 0 ? (
-            <View style={pr.emptyCard}><Text style={pr.emptyCardText}>No activity recorded yet.</Text></View>
+            <View style={pr.emptyCard}><SvgXml xml={BUTTERFLY} width={56} height={56} /><Text style={pr.emptyCardText}>No activity recorded yet.</Text></View>
           ) : (
             activity.slice(0, 8).map((item) => {
               const dotColor = STATUS_CLR[item.status] ?? '#9A9AB0';
               return (
                 <View key={item.id} style={pr.actCard}>
                   <View style={[pr.actIconBox, { backgroundColor: dotColor + '22' }]}>
-                    <Text style={{ fontSize: 18 }}>{ACT_ICON[item.activityType] ?? '📌'}</Text>
+                    <ActIcon type={item.activityType} size={18} color={dotColor} />
                   </View>
                   <View style={pr.actInfo}>
                     <Text style={pr.actTitle} numberOfLines={1}>{item.referenceTitle ?? item.activityType}</Text>
@@ -852,7 +951,7 @@ function ParentReports() {
                 <Text style={pr.modalSub}>{activeStudent?.firstName} · {quizAttempts.length} total</Text>
               </View>
               <Pressable style={pr.modalClose} onPress={() => setShowAllQuizzes(false)}>
-                <Text style={{ fontSize: 20, color: '#9A9AB0' }}>✕</Text>
+                <X size={18} color="#9A9AB0" />
               </Pressable>
             </View>
             <ScrollView contentContainerStyle={{ paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
@@ -881,6 +980,123 @@ function ParentReports() {
         </View>
       </Modal>
 
+      {/* ── VIEW ALL CLASSROOM HISTORY MODAL ── */}
+      <Modal visible={showAllClassrooms} animationType="slide" transparent onRequestClose={() => setShowAllClassrooms(false)}>
+        <View style={pr.modalOverlay}>
+          <View style={pr.modalSheet}>
+            <View style={pr.modalHeader}>
+              <View>
+                <Text style={pr.modalTitle}>Classroom History</Text>
+                <Text style={pr.modalSub}>{activeStudent?.firstName} · {completedClassrooms.length} ended classes</Text>
+              </View>
+              <Pressable style={pr.modalClose} onPress={() => setShowAllClassrooms(false)}>
+                <X size={18} color="#9A9AB0" />
+              </Pressable>
+            </View>
+            <ScrollView contentContainerStyle={{ paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
+              {completedClassrooms.map((cls, idx) => (
+                <Pressable key={cls.id} style={pr.modalQuizRow} onPress={() => { setShowAllClassrooms(false); setClassroomDetail(cls); }}>
+                  <View style={pr.modalQuizNum}>
+                    <Text style={{ fontSize: 12, fontWeight: '800', color: '#9A9AB0' }}>#{idx + 1}</Text>
+                  </View>
+                  <View style={pr.quizInfo}>
+                    <Text style={pr.quizTitle} numberOfLines={1}>{cls.title}</Text>
+                    <Text style={pr.quizMeta}>
+                      Ended {cls.endedAt ? new Date(cls.endedAt).toLocaleDateString() : '—'} · Class {cls.classLevel}
+                    </Text>
+                  </View>
+                  <View style={pr.classStatusBadge}>
+                    <Text style={[pr.classStatusText, { color: '#4A90E2' }]}>Details</Text>
+                  </View>
+                </Pressable>
+              ))}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
+
+      {/* ── CLASSROOM DETAIL MODAL ── */}
+      <Modal visible={!!classroomDetail} animationType="slide" transparent onRequestClose={() => setClassroomDetail(null)}>
+        <View style={pr.modalOverlay}>
+          <View style={pr.modalSheet}>
+            {classroomDetail && (
+              <>
+                <View style={pr.modalHeader}>
+                  <View style={{ flex: 1, paddingRight: 12 }}>
+                    <Text style={pr.modalTitle} numberOfLines={2}>{classroomDetail.title}</Text>
+                    <Text style={pr.modalSub}>
+                      Class {classroomDetail.classLevel} · {classroomDetail.status}
+                      {classroomDetail.endedAt ? ` · ${new Date(classroomDetail.endedAt).toLocaleDateString()}` : ''}
+                    </Text>
+                  </View>
+                  <Pressable style={pr.modalClose} onPress={() => setClassroomDetail(null)}>
+                    <X size={18} color="#9A9AB0" />
+                  </Pressable>
+                </View>
+                <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32, gap: 12 }} showsVerticalScrollIndicator={false}>
+                  <View style={pr.detailPanel}>
+                    <Text style={pr.detailPanelTitle}>Classroom performance</Text>
+                    <ProperBarChart
+                      data={[
+                        { label: 'Beh', value: classroomDetail.scoreBehavior ?? 0 },
+                        { label: 'Conf', value: classroomDetail.scoreConfidence ?? 0 },
+                        { label: 'Part', value: classroomDetail.scoreParticipation ?? 0 },
+                        { label: 'Perf', value: classroomDetail.scorePerformance ?? 0 },
+                      ]}
+                      color="#4A90E2"
+                      unit="%"
+                      yTicks={4}
+                      height={100}
+                    />
+                  </View>
+
+                  <View style={pr.detailPanel}>
+                    <Text style={pr.detailPanelTitle}>Teacher remarks</Text>
+                    <Text style={pr.detailBodyText}>
+                      {classroomDetail.remarkText || 'No teacher remark added yet.'}
+                    </Text>
+                    {classroomDetail.parentNote && (
+                      <>
+                        <Text style={[pr.detailPanelTitle, { marginTop: 10 }]}>Note for parent</Text>
+                        <Text style={pr.detailBodyText}>{classroomDetail.parentNote}</Text>
+                      </>
+                    )}
+                  </View>
+
+                  <View style={pr.detailPanel}>
+                    <Text style={pr.detailPanelTitle}>Achievements</Text>
+                    {classroomDetail.achievements.length === 0 ? (
+                      <Text style={pr.detailBodyText}>No achievements recorded yet.</Text>
+                    ) : (
+                      <View style={pr.achievementWrap}>
+                        {classroomDetail.achievements.map((a) => (
+                          <View key={a.id} style={[pr.achievementChip, { backgroundColor: `${a.color}22` }]}>
+                            <Text style={pr.achievementEmoji}>{a.emoji}</Text>
+                            <Text style={[pr.achievementText, { color: a.color }]} numberOfLines={1}>{a.name}</Text>
+                          </View>
+                        ))}
+                      </View>
+                    )}
+                  </View>
+
+                  {classroomDetail.remarkMediaUrl && (
+                    <View style={pr.detailPanel}>
+                      <Text style={pr.detailPanelTitle}>Teacher shared media</Text>
+                      {/\.(png|jpe?g|gif|webp)$/i.test(classroomDetail.remarkMediaUrl) && (
+                        <Image source={{ uri: classroomDetail.remarkMediaUrl }} style={pr.mediaPreview} resizeMode="cover" />
+                      )}
+                      <Pressable style={pr.mediaBtn} onPress={() => openClassroomMedia(classroomDetail.remarkMediaUrl)}>
+                        <Text style={pr.mediaBtnText}>Open Media</Text>
+                      </Pressable>
+                    </View>
+                  )}
+                </ScrollView>
+              </>
+            )}
+          </View>
+        </View>
+      </Modal>
+
       {/* ── QUIZ DETAIL MODAL ── */}
       <Modal visible={!!quizDetail || loadingDetail} animationType="slide" transparent onRequestClose={() => setQuizDetail(null)}>
         <View style={pr.modalOverlay}>
@@ -901,7 +1117,7 @@ function ParentReports() {
                     </Text>
                   </View>
                   <Pressable style={pr.modalClose} onPress={() => setQuizDetail(null)}>
-                    <Text style={{ fontSize: 20, color: '#9A9AB0' }}>✕</Text>
+                    <X size={18} color="#9A9AB0" />
                   </Pressable>
                 </View>
                 <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
@@ -1077,7 +1293,7 @@ export default function ReportsScreen() {
         <View style={[s.topBar, { paddingTop: Platform.OS === 'ios' ? 2 : 8 }]}>
           <View>
             <Text style={s.greetingSub}>Teacher Dashboard</Text>
-            <Text style={s.greetingName}>{user?.firstName ?? 'Teacher'} 🍎</Text>
+            <Text style={s.greetingName}>{user?.firstName ?? 'Teacher'}</Text>
           </View>
           <View style={s.xpChip}><TrendingUp size={13} color="#fff" /><Text style={s.xpLabel}>Reports</Text></View>
         </View>
@@ -1295,7 +1511,7 @@ export default function ReportsScreen() {
           {recentActivity.map((act, idx, arr) => (
             <View key={act.id} style={[s.actRow, idx < arr.length - 1 && s.actBorder]}>
               <View style={[s.actIcon, { backgroundColor: act.type === 'quiz' ? '#FFE8D6' : '#D6EAFF' }]}>
-                <Text style={{ fontSize: 18 }}>{act.type === 'quiz' ? '🧩' : '📖'}</Text>
+                <ActIcon type={act.type} size={18} color={act.type === 'quiz' ? '#FF7043' : '#4A90E2'} />
               </View>
               <View style={s.actInfo}>
                 <Text style={s.actTitle} numberOfLines={1}>{act.title}</Text>
@@ -1589,6 +1805,13 @@ const pr = StyleSheet.create({
   classDesc:       { fontSize: 11, color: '#B0B8CC', fontWeight: '500', marginTop: 2 },
   classStatusBadge: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5 },
   classStatusText:  { fontSize: 11, fontWeight: '800' },
+  smallGradeBadge:  { borderRadius: 10, paddingHorizontal: 8, paddingVertical: 2 },
+  smallGradeText:   { fontSize: 10, fontWeight: '800' },
+  historyCard:      { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: '#fff', marginHorizontal: 16, marginBottom: 8, borderRadius: 14, paddingHorizontal: 14, paddingVertical: 12, borderWidth: 1, borderColor: '#F0F0F8' },
+  historyDot:       { width: 10, height: 10, borderRadius: 5, backgroundColor: '#4A90E2' },
+  historyTitle:     { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
+  historyMeta:      { fontSize: 11, color: '#9A9AB0', fontWeight: '600', marginTop: 2 },
+  historyCta:       { fontSize: 12, color: '#4A90E2', fontWeight: '800' },
 
   // Quiz result card
   quizCard:          { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', marginHorizontal: 16, marginBottom: 10, borderRadius: 18, padding: 14, gap: 12, borderWidth: 1, borderColor: '#F0F0F8', shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.4, shadowRadius: 6, elevation: 2 },
@@ -1629,7 +1852,7 @@ const pr = StyleSheet.create({
 
   // Sticky section tabs
   stickyTabs:         { backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8', zIndex: 10 },
-  stickyTab:          { paddingHorizontal: 14, paddingVertical: 7, borderRadius: 999, backgroundColor: '#F4F4FB' },
+  stickyTab:          { flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 12, paddingVertical: 7, borderRadius: 999, backgroundColor: '#F4F4FB' },
   stickyTabActive:    { backgroundColor: '#4A90E2' },
   stickyTabText:      { fontSize: 12, fontWeight: '700', color: '#9A9AB0' },
   stickyTabTextActive:{ color: '#fff' },
@@ -1660,6 +1883,16 @@ const pr = StyleSheet.create({
   detailAnswerRow:    { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', marginTop: 10, paddingTop: 10, borderTopWidth: 1, borderTopColor: '#F0F0F8' },
   detailAnswerLabel:  { fontSize: 12, color: '#9A9AB0', fontWeight: '600' },
   detailAnswerVal:    { fontSize: 12, fontWeight: '800' },
+  detailPanel:        { backgroundColor: '#fff', borderWidth: 1, borderColor: '#F0F0F8', borderRadius: 16, padding: 12 },
+  detailPanelTitle:   { fontSize: 13, fontWeight: '800', color: '#1a1a2e', marginBottom: 4 },
+  detailBodyText:     { fontSize: 12, color: '#4B5563', fontWeight: '500', lineHeight: 18 },
+  achievementWrap:    { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 8 },
+  achievementChip:    { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 999, paddingHorizontal: 10, paddingVertical: 6, maxWidth: '100%' },
+  achievementEmoji:   { fontSize: 14 },
+  achievementText:    { fontSize: 11, fontWeight: '700', maxWidth: 200 },
+  mediaPreview:       { width: '100%', height: 160, borderRadius: 12, marginTop: 8, backgroundColor: '#F4F4FB' },
+  mediaBtn:           { backgroundColor: '#EDE4FF', borderRadius: 12, alignItems: 'center', paddingVertical: 10, marginTop: 10 },
+  mediaBtnText:       { fontSize: 12, fontWeight: '800', color: '#7B4FCA' },
 });
 
 // ── Modal Styles ──────────────────────────────────────────────────────────────

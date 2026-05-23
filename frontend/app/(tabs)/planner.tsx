@@ -1,10 +1,12 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import { ActivityIndicator, Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { ChevronDown, ChevronUp, GripVertical } from 'lucide-react-native';
+import { ChevronDown, ChevronUp, GripVertical, Clock, BookOpen, Trophy, ClipboardList, Settings, Eye, Zap, Calendar, Users, CheckCircle, School } from 'lucide-react-native';
+import SelectorModal from '../../src/components/SelectorModal';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { useAuth } from '../../src/context/AuthContext';
+import ClassDetailsScreen from '../../src/components/classroom/ClassDetailsScreen';
 
 type ModalTab = 'setup' | 'sections' | 'preview';
 
@@ -178,6 +180,14 @@ export default function PlannerScreen() {
   const [pendingDelete, setPendingDelete] = useState<ClassroomSummary | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [modalTab, setModalTab] = useState<ModalTab>('setup');
+
+  // ── History + Class Details ────────────────────────────────────────────────
+  const [isHistoryOpen, setIsHistoryOpen]         = useState(false);
+  const [historyLoading, setHistoryLoading]        = useState(false);
+  const [historyRooms, setHistoryRooms]            = useState<any[]>([]);
+  const [endingClassroomId, setEndingClassroomId]  = useState<string | null>(null);
+  const [detailsClassroomId, setDetailsClassroomId]= useState<string | null>(null);
+  const [restartingId, setRestartingId]            = useState<string | null>(null);
 
   const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
 
@@ -491,6 +501,44 @@ export default function PlannerScreen() {
     }
   };
 
+  // ── End class ─────────────────────────────────────────────────────────────
+  const endClassroom = async (classroomId: string) => {
+    setEndingClassroomId(classroomId);
+    try {
+      const res = await apiFetch(`/quizzes/classrooms/${classroomId}/end`, { method: 'PATCH' });
+      if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.message || 'Failed'); }
+      await loadClassrooms();
+      setMessage({ type: 'success', text: 'Class ended and moved to history.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to end class' });
+    } finally { setEndingClassroomId(null); }
+  };
+
+  // ── Load history ──────────────────────────────────────────────────────────
+  const loadHistory = async () => {
+    setHistoryLoading(true);
+    try {
+      const res = await apiFetch('/quizzes/classrooms/history');
+      if (res.ok) { const d = await res.json(); setHistoryRooms(d.classrooms ?? []); }
+    } finally { setHistoryLoading(false); }
+  };
+
+  const openHistory = () => { setIsHistoryOpen(true); loadHistory(); };
+
+  // ── Restart class ─────────────────────────────────────────────────────────
+  const restartClassroom = async (classroomId: string) => {
+    setRestartingId(classroomId);
+    try {
+      const res = await apiFetch(`/quizzes/classrooms/${classroomId}/restart`, { method: 'PATCH' });
+      if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.message || 'Failed'); }
+      setIsHistoryOpen(false);
+      await loadClassrooms();
+      setMessage({ type: 'success', text: 'Class restarted successfully!' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to restart class' });
+    } finally { setRestartingId(null); }
+  };
+
   const selectorOptions = selectorField === 'classLevel' ? classLevelOptions : subjectOptions;
 
   const applySelectorValue = (value: string) => {
@@ -519,11 +567,11 @@ export default function PlannerScreen() {
     { bg: '#E6A817', light: '#FFF5CC' },
     { bg: '#F06292', light: '#FFE0EC' },
   ];
-  const CARD_EMOJIS = ['📚', '🎓', '🌟', '🎯', '🔭', '🎨', '🧪', '🏆'];
+  const CARD_ICONS = [BookOpen, School, Trophy, ClipboardList, BookOpen, Trophy, Settings, CheckCircle];
   const STATUS_TAG: Record<ClassroomStatus, { bg: string; text: string; label: string }> = {
     active:    { bg: '#D6F5D6', text: '#1A6B1A', label: '● Live' },
-    completed: { bg: '#F0F0F8', text: '#6B6B8A', label: '✓ Done' },
-    draft:     { bg: '#D6EAFF', text: '#1A4DA2', label: '⊘ Draft' },
+    completed: { bg: '#F0F0F8', text: '#6B6B8A', label: 'Done' },
+    draft:     { bg: '#D6EAFF', text: '#1A4DA2', label: 'Draft' },
   };
 
   return (
@@ -531,10 +579,14 @@ export default function PlannerScreen() {
 
       {/* ── Header ── */}
       <View style={[p.header, { paddingTop: Platform.OS === 'ios' ? 2 : 8 }]}>
-        <View>
-          <Text style={p.headerTitle}>Classroom Planner</Text>
-          <Text style={p.headerSub}>Build and schedule your classroom sessions</Text>
+        <View style={{ flex: 1 }}>
+          <Text style={p.headerTitle}>My Classes</Text>
+          <Text style={p.headerSub}>Manage and schedule your classroom sessions</Text>
         </View>
+        <Pressable style={p.historyBtn} onPress={openHistory}>
+          <Clock size={13} color="#5A6A8A" />
+          <Text style={p.historyBtnText}>History</Text>
+        </Pressable>
         <Pressable style={p.createBtn} onPress={openCreate}>
           <Text style={p.createBtnText}>+ New</Text>
         </Pressable>
@@ -556,7 +608,7 @@ export default function PlannerScreen() {
         </View>
       ) : classrooms.length === 0 ? (
         <View style={p.emptyWrap}>
-          <Text style={{ fontSize: 52, textAlign: 'center' }}>📋</Text>
+          <School size={56} color="#D0D8F0" />
           <Text style={p.emptyTitle}>No classrooms yet</Text>
           <Text style={p.emptySub}>Tap "+ New" to create your first classroom session</Text>
           <Pressable style={p.emptyBtn} onPress={openCreate}>
@@ -565,15 +617,15 @@ export default function PlannerScreen() {
         </View>
       ) : (
         classrooms.map((item, idx) => {
-          const pal   = CARD_PALETTES[idx % CARD_PALETTES.length];
-          const emoji = CARD_EMOJIS[idx % CARD_EMOJIS.length];
+          const pal     = CARD_PALETTES[idx % CARD_PALETTES.length];
+          const IconComp = CARD_ICONS[idx % CARD_ICONS.length];
           const tag   = STATUS_TAG[item.status];
           return (
             <View key={item.id} style={[p.classCard, { backgroundColor: pal.light }]}>
-              {/* Top row: emoji art box + title + status */}
+              {/* Top row: icon art box + title + status */}
               <View style={p.classCardTop}>
                 <View style={[p.classArtBox, { backgroundColor: `${pal.bg}22` }]}>
-                  <Text style={p.classArtEmoji}>{emoji}</Text>
+                  <IconComp size={24} color={pal.bg} />
                 </View>
                 <View style={p.classCardInfo}>
                   <Text style={p.classCardTitle} numberOfLines={1}>{item.title}</Text>
@@ -593,14 +645,23 @@ export default function PlannerScreen() {
 
               {/* Actions */}
               <View style={p.classCardFooter}>
+                <Pressable style={[p.footerBtn, { backgroundColor: '#EBF4FF' }]} onPress={() => setDetailsClassroomId(item.id)}>
+                  <Text style={[p.footerBtnText, { color: '#1A4DA2' }]}>Details</Text>
+                </Pressable>
                 <Pressable style={[p.footerBtn, { backgroundColor: `${pal.bg}18` }]} onPress={() => openEdit(item.id)}>
                   <Text style={[p.footerBtnText, { color: pal.bg }]}>Edit</Text>
                 </Pressable>
+                {item.status !== 'completed' && (
+                  <Pressable style={[p.footerBtn, { backgroundColor: '#FEF0ED' }]} onPress={() => endClassroom(item.id)} disabled={endingClassroomId === item.id}>
+                    {endingClassroomId === item.id
+                      ? <ActivityIndicator size="small" color="#FF7043" />
+                      : <Text style={[p.footerBtnText, { color: '#E05A3A' }]}>End Class</Text>}
+                  </Pressable>
+                )}
                 <Pressable style={p.footerBtnGhost} onPress={() => setPendingDelete(item)} disabled={deletingClassroomId === item.id}>
                   {deletingClassroomId === item.id
                     ? <ActivityIndicator size="small" color="#FF7043" />
-                    : <Text style={p.footerBtnDelete}>Delete</Text>
-                  }
+                    : <Text style={p.footerBtnDelete}>Delete</Text>}
                 </Pressable>
               </View>
             </View>
@@ -627,13 +688,16 @@ export default function PlannerScreen() {
 
           {/* Tab bar */}
           <View style={p.modalTabBar}>
-            {([['setup', '⚙ Setup'], ['sections', '📚 Sections'], ['preview', '👁 Preview']] as [ModalTab, string][]).map(([tab, label]) => (
+            {([['setup', 'Setup', Settings], ['sections', 'Sections', BookOpen], ['preview', 'Preview', Eye]] as [ModalTab, string, any][]).map(([tab, label, TabIcon]) => (
               <Pressable
                 key={tab}
                 style={[p.modalTab, modalTab === tab && p.modalTabActive]}
                 onPress={() => setModalTab(tab)}
               >
-                <Text style={[p.modalTabText, modalTab === tab && p.modalTabTextActive]}>{label}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                  <TabIcon size={13} color={modalTab === tab ? '#4A90E2' : '#9A9AB0'} />
+                  <Text style={[p.modalTabText, modalTab === tab && p.modalTabTextActive]}>{label}</Text>
+                </View>
               </Pressable>
             ))}
           </View>
@@ -671,9 +735,12 @@ export default function PlannerScreen() {
                 <View style={p.fieldCard}>
                   <Text style={p.fieldLabel}>Schedule Type</Text>
                   <View style={p.chipRow}>
-                    {([['instant', '⚡ Instant'], ['scheduled', '📅 Scheduled']] as [ScheduleType, string][]).map(([v, l]) => (
+                    {([['instant', 'Instant', Zap], ['scheduled', 'Scheduled', Calendar]] as [ScheduleType, string, any][]).map(([v, l, ChipIcon]) => (
                       <Pressable key={v} style={[p.chip, form.scheduleType === v && p.chipActive]} onPress={() => setFormPatch({ scheduleType: v })}>
-                        <Text style={[p.chipText, form.scheduleType === v && p.chipTextActive]}>{l}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                          <ChipIcon size={12} color={form.scheduleType === v ? '#4A90E2' : '#9A9AB0'} />
+                          <Text style={[p.chipText, form.scheduleType === v && p.chipTextActive]}>{l}</Text>
+                        </View>
                       </Pressable>
                     ))}
                   </View>
@@ -713,7 +780,7 @@ export default function PlannerScreen() {
 
               <View style={p.secGroup}>
                 <View style={p.secGroupHeader}>
-                  <Text style={p.secGroupTitle}>📚 Learning Content</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><BookOpen size={14} color="#4A90E2" /><Text style={p.secGroupTitle}>Learning Content</Text></View>
                   <Pressable style={[p.addSecBtn, !form.classLevel && { opacity: 0.4 }]} disabled={!form.classLevel} onPress={() => setIsAssignContentOpen(true)}>
                     <Text style={p.addSecBtnText}>+ Add</Text>
                   </Pressable>
@@ -744,7 +811,7 @@ export default function PlannerScreen() {
 
               <View style={p.secGroup}>
                 <View style={p.secGroupHeader}>
-                  <Text style={p.secGroupTitle}>✏ Quizzes</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><Trophy size={14} color="#FF7043" /><Text style={p.secGroupTitle}>Quizzes</Text></View>
                   <Pressable style={[p.addSecBtn, !form.classLevel && { opacity: 0.4 }]} disabled={!form.classLevel} onPress={() => setIsAssignQuizOpen(true)}>
                     <Text style={p.addSecBtnText}>+ Add</Text>
                   </Pressable>
@@ -775,7 +842,7 @@ export default function PlannerScreen() {
 
               <View style={p.secGroup}>
                 <View style={p.secGroupHeader}>
-                  <Text style={p.secGroupTitle}>📋 Assignments</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><ClipboardList size={14} color="#9B8EC4" /><Text style={p.secGroupTitle}>Assignments</Text></View>
                   <Pressable style={p.addSecBtn} onPress={() => setForm((c) => ({ ...c, assignments: [...c.assignments, makeAssignment()] }))}>
                     <Text style={p.addSecBtnText}>+ Add</Text>
                   </Pressable>
@@ -832,7 +899,7 @@ export default function PlannerScreen() {
                 <View style={p.previewBody}>
                   {form.selectedContentIds.length > 0 && (
                     <>
-                      <Text style={p.previewSectionTitle}>📚 Content</Text>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 6 }}><BookOpen size={13} color="#4A90E2" /><Text style={p.previewSectionTitle}>Content</Text></View>
                       {form.selectedContentIds.map((cid, cidx) => {
                         const c = contentItems.find((x) => x.id === cid);
                         if (!c) return null;
@@ -850,7 +917,7 @@ export default function PlannerScreen() {
                   )}
                   {form.selectedQuizIds.length > 0 && (
                     <>
-                      <Text style={[p.previewSectionTitle, { marginTop: 12 }]}>✏ Quizzes</Text>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 12, marginBottom: 6 }}><Trophy size={13} color="#FF7043" /><Text style={p.previewSectionTitle}>Quizzes</Text></View>
                       {form.selectedQuizIds.map((qid, qidx) => {
                         const q = quizItems.find((x) => x.id === qid);
                         if (!q) return null;
@@ -868,7 +935,7 @@ export default function PlannerScreen() {
                   )}
                   {form.assignments.filter((a) => a.title).length > 0 && (
                     <>
-                      <Text style={[p.previewSectionTitle, { marginTop: 12 }]}>📋 Assignments</Text>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 12, marginBottom: 6 }}><ClipboardList size={13} color="#9B8EC4" /><Text style={p.previewSectionTitle}>Assignments</Text></View>
                       {form.assignments.filter((a) => a.title).map((a, aidx) => (
                         <View key={a.id} style={p.previewItem}>
                           <View style={[p.previewItemDot, { backgroundColor: '#9B8EC4' }]}><Text style={{ color: '#fff', fontSize: 10, fontWeight: '800' }}>{aidx + 1}</Text></View>
@@ -882,7 +949,7 @@ export default function PlannerScreen() {
                   )}
                   {form.selectedContentIds.length === 0 && form.selectedQuizIds.length === 0 && form.assignments.every((a) => !a.title) && (
                     <View style={p.previewEmpty}>
-                      <Text style={{ fontSize: 36 }}>📭</Text>
+                      <BookOpen size={36} color="#D0D8F0" />
                       <Text style={p.previewEmptyText}>No sections added yet. Go to the Sections tab to add content, quizzes, and assignments.</Text>
                     </View>
                   )}
@@ -995,26 +1062,15 @@ export default function PlannerScreen() {
       </Modal>
 
       {/* ── Selector (class level / subject) ── */}
-      <Modal visible={selectorField !== null} transparent animationType="fade" onRequestClose={() => setSelectorField(null)}>
-        <Pressable style={p.pickerOverlay} onPress={() => setSelectorField(null)}>
-          <View style={p.selectorSheet}>
-            <Text style={p.selectorTitle}>{selectorField === 'classLevel' ? 'Select Standard' : 'Select Subject'}</Text>
-            <ScrollView style={{ maxHeight: 320 }}>
-              <Pressable style={p.selectorItem} onPress={() => applySelectorValue('')}>
-                <Text style={p.selectorItemText}>Any</Text>
-              </Pressable>
-              {selectorOptions.map((opt) => (
-                <Pressable key={opt} style={p.selectorItem} onPress={() => applySelectorValue(opt)}>
-                  <Text style={p.selectorItemText}>{selectorField === 'classLevel' ? getStandardLabel(opt) : opt}</Text>
-                </Pressable>
-              ))}
-            </ScrollView>
-            <Pressable style={p.selectorCloseBtn} onPress={() => setSelectorField(null)}>
-              <Text style={p.selectorCloseTxt}>Close</Text>
-            </Pressable>
-          </View>
-        </Pressable>
-      </Modal>
+      <SelectorModal
+        visible={selectorField !== null}
+        title={selectorField === 'classLevel' ? 'Select Standard' : 'Select Subject'}
+        options={selectorOptions.map((o) => ({ label: selectorField === 'classLevel' ? getStandardLabel(o) : o, value: o }))}
+        selected={selectorField === 'classLevel' ? form.classLevel : ''}
+        isSubject={selectorField !== 'classLevel'}
+        onSelect={applySelectorValue}
+        onClose={() => setSelectorField(null)}
+      />
 
       {/* ── Delete confirm ── */}
       <Modal visible={pendingDelete !== null} transparent animationType="fade" onRequestClose={() => setPendingDelete(null)}>
@@ -1034,6 +1090,86 @@ export default function PlannerScreen() {
           </View>
         </View>
       </Modal>
+
+      {/* ── History Modal ── */}
+      <Modal visible={isHistoryOpen} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setIsHistoryOpen(false)}>
+        <View style={p.historyScreen}>
+          <View style={[p.historyHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+            <Pressable onPress={() => setIsHistoryOpen(false)} style={p.historyBackBtn}>
+              <Text style={p.historyBackArrow}>‹</Text>
+            </Pressable>
+            <View style={{ flex: 1 }}>
+              <Text style={p.historyTitle}>Previous Classes</Text>
+              <Text style={p.historySubtitle}>All your ended classroom sessions</Text>
+            </View>
+          </View>
+
+          {historyLoading ? (
+            <View style={p.historyCenter}>
+              <ActivityIndicator size="large" color="#4A90E2" />
+              <Text style={{ color: '#9A9AB0', marginTop: 8 }}>Loading history…</Text>
+            </View>
+          ) : historyRooms.length === 0 ? (
+            <View style={p.historyCenter}>
+              <Text style={{ fontSize: 48 }}>🕐</Text>
+              <Text style={p.historyEmptyTitle}>No history yet</Text>
+              <Text style={p.historyEmptyText}>Ended classes will appear here.</Text>
+            </View>
+          ) : (
+            <ScrollView contentContainerStyle={p.historyList}>
+              {historyRooms.map((room: any, idx: number) => (
+                <View key={room.id} style={p.historyCard}>
+                  <View style={p.historyCardTop}>
+                    <View style={p.historyCardIcon}>
+                      <School size={22} color="#4A90E2" />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Text style={p.historyCardTitle} numberOfLines={1}>{room.title}</Text>
+                      <Text style={p.historyCardMeta}>
+                        {room.class_level ? getStandardLabel(room.class_level) : '–'}
+                        {room.ended_at ? ` · Ended ${new Date(room.ended_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}` : ''}
+                      </Text>
+                      <View style={p.historyChipRow}>
+                        <View style={[p.historyChip, { flexDirection: 'row', gap: 4 }]}><Users size={10} color="#5A7AB0" /><Text style={p.historyChipText}>{room.student_count} students</Text></View>
+                        <View style={[p.historyChip, { flexDirection: 'row', gap: 4 }]}><Trophy size={10} color="#5A7AB0" /><Text style={p.historyChipText}>{room.quiz_count} quizzes</Text></View>
+                        <View style={[p.historyChip, { flexDirection: 'row', gap: 4 }]}><ClipboardList size={10} color="#5A7AB0" /><Text style={p.historyChipText}>{room.assignment_count} tasks</Text></View>
+                      </View>
+                    </View>
+                  </View>
+                  <View style={p.historyCardFooter}>
+                    <Pressable style={p.historyDetailBtn} onPress={() => { setIsHistoryOpen(false); setDetailsClassroomId(room.id); }}>
+                      <Text style={p.historyDetailBtnText}>View Details</Text>
+                    </Pressable>
+                    <Pressable style={p.historyRestartBtn} onPress={() => restartClassroom(room.id)} disabled={restartingId === room.id}>
+                      {restartingId === room.id
+                        ? <ActivityIndicator size="small" color="#4A90E2" />
+                        : <Text style={p.historyRestartBtnText}>Restart</Text>}
+                    </Pressable>
+                  </View>
+                </View>
+              ))}
+            </ScrollView>
+          )}
+        </View>
+      </Modal>
+
+      {/* ── Class Details Screen ── */}
+      <ClassDetailsScreen
+        classroomId={detailsClassroomId}
+        apiFetch={apiFetch}
+        onClose={() => setDetailsClassroomId(null)}
+        onUploadMedia={async () => {
+          const picked = await pickFileAsDataUrl('image/*');
+          const res = await apiFetch('/quizzes/uploads/media', {
+            method: 'POST',
+            body: JSON.stringify({ dataUrl: picked.dataUrl, fileName: picked.fileName, mimeType: picked.mimeType, mediaType: 'image' }),
+          });
+          if (!res.ok) throw new Error('Upload failed');
+          const payload = await res.json();
+          return { url: payload.url };
+        }}
+      />
+
     </ScrollView>
   );
 }
@@ -1256,12 +1392,7 @@ const p = StyleSheet.create({
   checkTick:          { color: '#fff', fontSize: 11, fontWeight: '900' },
 
   // ── Selector sheet ──
-  selectorSheet:    { backgroundColor: '#fff', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20, paddingBottom: 30 },
-  selectorTitle:    { fontSize: 16, fontWeight: '900', color: '#1a1a2e', marginBottom: 12 },
-  selectorItem:     { paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  selectorItemText: { fontSize: 14, color: '#1a1a2e', fontWeight: '500' },
-  selectorCloseBtn: { marginTop: 12, backgroundColor: '#F0F0F8', borderRadius: 12, paddingVertical: 12, alignItems: 'center' },
-  selectorCloseTxt: { fontSize: 14, fontWeight: '700', color: '#9A9AB0' },
+
 
   // ── Delete confirm ──
   confirmCard:        { backgroundColor: '#fff', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 24, alignItems: 'center', gap: 6 },
@@ -1271,4 +1402,34 @@ const p = StyleSheet.create({
   confirmCancelText:  { fontWeight: '700', color: '#9A9AB0', fontSize: 14 },
   confirmDeleteBtn:   { flex: 1, borderRadius: 12, backgroundColor: '#FF7043', paddingVertical: 13, alignItems: 'center' },
   confirmDeleteText:  { fontWeight: '800', color: '#fff', fontSize: 14 },
+
+  // ── History button in header
+  historyBtn:     { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 12, borderWidth: 1.5, borderColor: '#D0D8F0', paddingHorizontal: 12, paddingVertical: 8, marginRight: 8 },
+  historyBtnText: { fontSize: 12, fontWeight: '700', color: '#5A6A8A' },
+
+  // ── History full-screen modal
+  historyScreen:     { flex: 1, backgroundColor: '#F5F7FF' },
+  historyHeader:     { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 14, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  historyBackBtn:    { width: 36, height: 36, borderRadius: 18, backgroundColor: '#F5F7FF', alignItems: 'center', justifyContent: 'center' },
+  historyBackArrow:  { fontSize: 28, color: '#1a1a2e', fontWeight: '300', lineHeight: 34 },
+  historyTitle:      { fontSize: 18, fontWeight: '900', color: '#1a1a2e' },
+  historySubtitle:   { fontSize: 12, color: '#9A9AB0', fontWeight: '500', marginTop: 1 },
+  historyCenter:     { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 10, paddingTop: 60 },
+  historyEmptyTitle: { fontSize: 18, fontWeight: '900', color: '#1a1a2e' },
+  historyEmptyText:  { fontSize: 13, color: '#9A9AB0', textAlign: 'center' },
+  historyList:       { padding: 16, gap: 12, paddingBottom: 40 },
+
+  historyCard:       { backgroundColor: '#fff', borderRadius: 20, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2, overflow: 'hidden' },
+  historyCardTop:    { flexDirection: 'row', alignItems: 'flex-start', gap: 14, padding: 16, paddingBottom: 10 },
+  historyCardIcon:   { width: 46, height: 46, borderRadius: 13, backgroundColor: '#EEF4FF', alignItems: 'center', justifyContent: 'center' },
+  historyCardTitle:  { fontSize: 15, fontWeight: '800', color: '#1a1a2e', lineHeight: 22 },
+  historyCardMeta:   { fontSize: 12, color: '#9A9AB0', fontWeight: '500', marginTop: 2 },
+  historyChipRow:    { flexDirection: 'row', gap: 6, marginTop: 6, flexWrap: 'wrap' },
+  historyChip:       { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3, backgroundColor: '#F0F4FF' },
+  historyChipText:   { fontSize: 11, fontWeight: '700', color: '#5A7AB0' },
+  historyCardFooter: { flexDirection: 'row', gap: 8, paddingHorizontal: 16, paddingBottom: 14, paddingTop: 4 },
+  historyDetailBtn:  { flex: 1, borderRadius: 12, backgroundColor: '#EBF4FF', paddingVertical: 10, alignItems: 'center' },
+  historyDetailBtnText: { fontSize: 13, fontWeight: '800', color: '#1A4DA2' },
+  historyRestartBtn: { flex: 1, borderRadius: 12, backgroundColor: '#D6F5D6', paddingVertical: 10, alignItems: 'center' },
+  historyRestartBtnText: { fontSize: 13, fontWeight: '800', color: '#1A6B1A' },
 });

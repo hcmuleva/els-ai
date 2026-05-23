@@ -744,11 +744,18 @@ quizzesRouter.get('/classrooms', requireAuth, async (req: any, res) => {
   }
 
   const orgId = getOrganizationId(req);
+  const userId = req?.user?.userId as string | undefined;
   if (!orgId) return res.status(400).json({ message: 'Organization not found in auth context' });
 
   const { class_level, status, search, limit } = parsedQuery.data;
   const params: unknown[] = [orgId];
   const whereClauses: string[] = ['c.organization_id = $1::uuid'];
+
+  // Teachers only see their own classrooms; admins see all
+  if (!canBypassOwnership(req) && userId) {
+    params.push(userId);
+    whereClauses.push(`c.created_by = $${params.length}`);
+  }
 
   if (class_level) {
     params.push(class_level);
@@ -757,6 +764,9 @@ quizzesRouter.get('/classrooms', requireAuth, async (req: any, res) => {
   if (status) {
     params.push(status);
     whereClauses.push(`c.status = $${params.length}`);
+  } else {
+    // By default exclude completed (ended) classrooms — they live in history
+    whereClauses.push(`c.status != 'completed'`);
   }
   if (search) {
     params.push(`%${search}%`);
@@ -816,6 +826,41 @@ quizzesRouter.get('/classrooms', requireAuth, async (req: any, res) => {
     return res.status(500).json({ message: 'Failed to fetch classrooms' });
   }
 });
+
+// GET /classrooms/history — All completed classrooms for this teacher
+quizzesRouter.get('/classrooms/history', requireAuth, async (req: any, res) => {
+  if (!canManageTeacherContent(req)) return res.status(403).json({ message: 'Forbidden' });
+  const orgId = getOrganizationId(req);
+  const userId = req?.user?.userId as string | undefined;
+  if (!orgId || !userId) return res.status(400).json({ message: 'Auth context missing' });
+
+  try {
+    const r = await db.query(
+      `SELECT c.id, c.title, c.class_level, c.schedule_type, c.start_time, c.ended_at,
+              c.duration_minutes, c.status, c.created_at,
+              COALESCE(COUNT(DISTINCT cc.content_id), 0)::int AS content_count,
+              COALESCE(COUNT(DISTINCT cq.quiz_id), 0)::int     AS quiz_count,
+              COALESCE(COUNT(DISTINCT ca.id), 0)::int          AS assignment_count,
+              COALESCE((SELECT COUNT(DISTINCT student_id) FROM classroom_assignment_submissions cas2
+                        JOIN classroom_assignments ca2 ON ca2.id = cas2.classroom_assignment_id
+                        WHERE ca2.classroom_id = c.id), 0)::int AS student_count
+       FROM classrooms c
+       LEFT JOIN classroom_contents   cc ON cc.classroom_id = c.id
+       LEFT JOIN classroom_quizzes    cq ON cq.classroom_id = c.id
+       LEFT JOIN classroom_assignments ca ON ca.classroom_id = c.id
+       WHERE c.organization_id = $1::uuid AND c.created_by = $2 AND c.status = 'completed'
+       GROUP BY c.id
+       ORDER BY c.ended_at DESC NULLS LAST
+       LIMIT 100`,
+      [orgId, userId],
+    );
+    return res.json({ classrooms: r.rows });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: 'Failed to fetch history' });
+  }
+});
+
 
 quizzesRouter.get('/classrooms/:classroomId', requireAuth, async (req: any, res) => {
   const classroomId = req.params.classroomId as string;
@@ -1134,6 +1179,425 @@ quizzesRouter.delete('/classrooms/:classroomId', requireAuth, async (req: any, r
   }
 });
 
+// ═══════════════════════════════════════════════════════════════════════════
+// CLASSROOM LIFECYCLE — END / HISTORY / RESTART
+// ═══════════════════════════════════════════════════════════════════════════
+
+// PATCH /classrooms/:id/end  — Mark classroom as completed
+quizzesRouter.patch('/classrooms/:classroomId/end', requireAuth, async (req: any, res) => {
+  const { classroomId } = req.params;
+  if (!canManageTeacherContent(req)) return res.status(403).json({ message: 'Forbidden' });
+  const orgId = getOrganizationId(req);
+  const userId = req?.user?.userId as string | undefined;
+  if (!orgId || !userId) return res.status(400).json({ message: 'Auth context missing' });
+
+  try {
+    const r = await db.query(
+      `UPDATE classrooms SET status = 'completed', ended_at = NOW(), updated_at = NOW()
+       WHERE id = $1 AND organization_id = $2::uuid AND created_by = $3
+       RETURNING id, title, status, ended_at`,
+      [classroomId, orgId, userId],
+    );
+    if ((r.rowCount ?? 0) === 0) return res.status(404).json({ message: 'Classroom not found or not yours' });
+    return res.json({ classroom: r.rows[0] });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: 'Failed to end classroom' });
+  }
+});
+
+
+// PATCH /classrooms/:id/restart — Clone as new active classroom
+quizzesRouter.patch('/classrooms/:classroomId/restart', requireAuth, async (req: any, res) => {
+  const { classroomId } = req.params;
+  if (!canManageTeacherContent(req)) return res.status(403).json({ message: 'Forbidden' });
+  const orgId = getOrganizationId(req);
+  const userId = req?.user?.userId as string | undefined;
+  if (!orgId || !userId) return res.status(400).json({ message: 'Auth context missing' });
+
+  try {
+    const src = await db.query(
+      `SELECT * FROM classrooms WHERE id = $1 AND organization_id = $2::uuid`,
+      [classroomId, orgId],
+    );
+    if (src.rows.length === 0) return res.status(404).json({ message: 'Classroom not found' });
+    const orig = src.rows[0];
+
+    const newRoom = await db.query(
+      `INSERT INTO classrooms (organization_id, title, description, schedule_type, start_time, duration_minutes, class_level, created_by, status)
+       VALUES ($1::uuid, $2, $3, 'instant', NOW(), $4, $5, $6, 'active')
+       RETURNING id, title, status`,
+      [orgId, `${orig.title} (Restarted)`, orig.description, orig.duration_minutes, orig.class_level, userId],
+    );
+    const newId = newRoom.rows[0].id;
+
+    // Copy content + quizzes + assignments
+    await db.query(`INSERT INTO classroom_contents (classroom_id, content_id, sort_order) SELECT $1, content_id, sort_order FROM classroom_contents WHERE classroom_id = $2`, [newId, classroomId]);
+    await db.query(`INSERT INTO classroom_quizzes (classroom_id, quiz_id, sort_order) SELECT $1, quiz_id, sort_order FROM classroom_quizzes WHERE classroom_id = $2`, [newId, classroomId]);
+    await db.query(
+      `INSERT INTO classroom_assignments (classroom_id, title, description, attachment_url, instructions, due_date, is_time_bound)
+       SELECT $1, title, description, attachment_url, instructions, due_date, is_time_bound FROM classroom_assignments WHERE classroom_id = $2`,
+      [newId, classroomId],
+    );
+
+    return res.json({ classroom: newRoom.rows[0] });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: 'Failed to restart classroom' });
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CLASS DETAILS — STUDENT PARTICIPATION STATS
+// ═══════════════════════════════════════════════════════════════════════════
+
+// GET /classrooms/:id/class-details — Per-student stats for a classroom
+quizzesRouter.get('/classrooms/:classroomId/class-details', requireAuth, async (req: any, res) => {
+  const { classroomId } = req.params;
+  if (!canManageTeacherContent(req)) return res.status(403).json({ message: 'Forbidden' });
+  const orgId = getOrganizationId(req);
+  if (!orgId) return res.status(400).json({ message: 'Auth context missing' });
+
+  try {
+    // Classroom meta
+    const cr = await db.query(
+      `SELECT c.id, c.title, c.class_level, c.schedule_type, c.start_time, c.ended_at,
+              c.duration_minutes, c.status, c.created_at,
+              COALESCE(COUNT(DISTINCT cq.quiz_id), 0)::int  AS quiz_count,
+              COALESCE(COUNT(DISTINCT ca.id), 0)::int       AS assignment_count,
+              COALESCE(COUNT(DISTINCT cc.content_id), 0)::int AS content_count
+       FROM classrooms c
+       LEFT JOIN classroom_quizzes cq ON cq.classroom_id = c.id
+       LEFT JOIN classroom_assignments ca ON ca.classroom_id = c.id
+       LEFT JOIN classroom_contents cc ON cc.classroom_id = c.id
+       WHERE c.id = $1 AND c.organization_id = $2::uuid
+       GROUP BY c.id`,
+      [classroomId, orgId],
+    );
+    if (cr.rows.length === 0) return res.status(404).json({ message: 'Classroom not found' });
+    const classroom = cr.rows[0];
+
+    // Students who participated via assignment/quiz/remark/achievement
+    const studentsRes = await db.query(
+      `WITH participants AS (
+         SELECT cas.student_id
+         FROM classroom_assignment_submissions cas
+         JOIN classroom_assignments ca ON ca.id = cas.classroom_assignment_id
+         WHERE ca.classroom_id = $1
+         UNION
+         SELECT sa.student_id
+         FROM student_attempts sa
+         JOIN classroom_quizzes cq ON cq.quiz_id = sa.quiz_id
+         WHERE cq.classroom_id = $1
+         UNION
+         SELECT csr.student_id
+         FROM classroom_student_remarks csr
+         WHERE csr.classroom_id = $1
+         UNION
+         SELECT sacha.student_id
+         FROM student_achievements sacha
+         WHERE sacha.classroom_id = $1
+       )
+       SELECT p.student_id,
+              TRIM(CONCAT(u.first_name, ' ', COALESCE(u.last_name, ''))) AS student_name,
+              u.email AS student_email,
+              COALESCE((
+                SELECT COUNT(DISTINCT cas2.classroom_assignment_id)::int
+                FROM classroom_assignment_submissions cas2
+                JOIN classroom_assignments ca2 ON ca2.id = cas2.classroom_assignment_id
+                WHERE ca2.classroom_id = $1 AND cas2.student_id = p.student_id
+              ), 0) AS assignments_submitted
+       FROM participants p
+       LEFT JOIN users u ON u.id = p.student_id
+       ORDER BY student_name ASC NULLS LAST`,
+      [classroomId],
+    );
+
+    // Quiz attempts per student
+    const quizRes = await db.query(
+      `SELECT sa.student_id, COUNT(DISTINCT sa.quiz_id)::int AS quizzes_completed,
+              ROUND(AVG(sa.score)::numeric, 1) AS avg_score
+       FROM student_attempts sa
+       JOIN classroom_quizzes cq ON cq.quiz_id = sa.quiz_id AND cq.classroom_id = $1
+       GROUP BY sa.student_id`,
+      [classroomId],
+    );
+    const quizMap: Record<string, { quizzes_completed: number; avg_score: number }> = {};
+    for (const row of quizRes.rows) {
+      quizMap[row.student_id] = { quizzes_completed: Number(row.quizzes_completed), avg_score: Number(row.avg_score) };
+    }
+
+    // Remarks per student
+    const remarkRes = await db.query(
+      `SELECT DISTINCT ON (student_id)
+         student_id, id, remark_text, parent_note, remark_media_url,
+         score_behavior, score_confidence, score_participation, score_performance, updated_at
+       FROM classroom_student_remarks
+       WHERE classroom_id = $1
+       ORDER BY student_id, updated_at DESC, created_at DESC`,
+      [classroomId],
+    );
+    const remarkMap: Record<string, any> = {};
+    for (const row of remarkRes.rows) remarkMap[row.student_id] = row;
+
+    // Achievements per student
+    const achievRes = await db.query(
+      `WITH grouped AS (
+         SELECT student_id, achievement_id, COUNT(*)::int AS award_count
+         FROM student_achievements
+         WHERE classroom_id = $1
+         GROUP BY student_id, achievement_id
+       )
+       SELECT g.student_id,
+              json_agg(
+                json_build_object(
+                  'id', a.id,
+                  'name', a.name,
+                  'emoji', a.emoji,
+                  'color', a.color,
+                  'count', g.award_count
+                )
+                ORDER BY a.name ASC
+              ) AS achievements
+       FROM grouped g
+       JOIN achievements a ON a.id = g.achievement_id
+       GROUP BY g.student_id`,
+      [classroomId],
+    );
+    const achievMap: Record<string, any[]> = {};
+    for (const row of achievRes.rows) achievMap[row.student_id] = row.achievements;
+
+    const students = studentsRes.rows.map((s: any) => {
+      const rawRemark = remarkMap[s.student_id];
+      const mappedRemark = rawRemark ? {
+        id: rawRemark.id as string | undefined,
+        remarkText: (rawRemark.remark_text as string | null) ?? null,
+        parentNote: (rawRemark.parent_note as string | null) ?? null,
+        remarkMediaUrl: (rawRemark.remark_media_url as string | null) ?? null,
+        scoreBehavior: rawRemark.score_behavior !== null ? Number(rawRemark.score_behavior) : null,
+        scoreConfidence: rawRemark.score_confidence !== null ? Number(rawRemark.score_confidence) : null,
+        scoreParticipation: rawRemark.score_participation !== null ? Number(rawRemark.score_participation) : null,
+        scorePerformance: rawRemark.score_performance !== null ? Number(rawRemark.score_performance) : null,
+      } : null;
+      return ({
+      studentId: s.student_id,
+      name: (s.student_name && s.student_name.trim()) || s.student_email || 'Unknown Student',
+      email: s.student_email,
+      assignmentsSubmitted: Number(s.assignments_submitted),
+      quizzesCompleted: quizMap[s.student_id]?.quizzes_completed ?? 0,
+      avgScore: quizMap[s.student_id]?.avg_score ?? 0,
+      remark: mappedRemark,
+      achievements: achievMap[s.student_id] ?? [],
+    });
+    });
+
+    const totalAssignments = Number(classroom.assignment_count);
+    const totalQuizzes     = Number(classroom.quiz_count);
+    const totalContents    = Number(classroom.content_count);
+    const joinedCount      = students.length;
+
+    return res.json({
+      classroom: {
+        id: classroom.id, title: classroom.title, classLevel: classroom.class_level,
+        scheduleType: classroom.schedule_type, startTime: classroom.start_time,
+        endedAt: classroom.ended_at, durationMinutes: Number(classroom.duration_minutes),
+        status: classroom.status, createdAt: classroom.created_at,
+        totalAssignments, totalQuizzes, totalContents,
+      },
+      students,
+      summary: {
+        joinedCount,
+        quizDoneCount:    students.filter((s) => s.quizzesCompleted > 0).length,
+        assignmentDoneCount: students.filter((s) => s.assignmentsSubmitted > 0).length,
+        completionPct: joinedCount > 0 ? Math.round((students.filter((s) => s.assignmentsSubmitted >= totalAssignments && s.quizzesCompleted >= totalQuizzes).length / joinedCount) * 100) : 0,
+      },
+    });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: 'Failed to fetch class details' });
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// TEACHER REMARKS & SCORES
+// ═══════════════════════════════════════════════════════════════════════════
+
+// PUT /classrooms/:id/remarks/:studentId — Upsert remark + scores
+quizzesRouter.put('/classrooms/:classroomId/remarks/:studentId', requireAuth, async (req: any, res) => {
+  const { classroomId, studentId } = req.params;
+  if (!canManageTeacherContent(req)) return res.status(403).json({ message: 'Forbidden' });
+  const userId = req?.user?.userId as string | undefined;
+  if (!userId) return res.status(400).json({ message: 'Auth context missing' });
+
+  const { remarkText, parentNote, scoreBehavior, scoreConfidence, scoreParticipation, scorePerformance, remarkMediaUrl } = req.body;
+  const normalizeScore = (v: unknown) => {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return null;
+    const rounded = Math.round(n);
+    return rounded >= 1 && rounded <= 5 ? rounded : null;
+  };
+  const normalizedBehavior = normalizeScore(scoreBehavior);
+  const normalizedConfidence = normalizeScore(scoreConfidence);
+  const normalizedParticipation = normalizeScore(scoreParticipation);
+  const normalizedPerformance = normalizeScore(scorePerformance);
+
+  try {
+    const updated = await db.query(
+      `UPDATE classroom_student_remarks
+       SET remark_text = $4,
+           parent_note = $5,
+           remark_media_url = $6,
+           score_behavior = $7,
+           score_confidence = $8,
+           score_participation = $9,
+           score_performance = $10,
+           teacher_id = $3,
+           updated_at = NOW()
+       WHERE classroom_id = $1 AND student_id = $2
+       RETURNING *`,
+      [classroomId, studentId, userId, remarkText ?? null, parentNote ?? null, remarkMediaUrl ?? null,
+       normalizedBehavior, normalizedConfidence, normalizedParticipation, normalizedPerformance],
+    );
+    if ((updated.rowCount ?? 0) > 0) {
+      return res.json({ remark: updated.rows[0] });
+    }
+
+    const inserted = await db.query(
+      `INSERT INTO classroom_student_remarks
+         (classroom_id, student_id, teacher_id, remark_text, parent_note, remark_media_url,
+          score_behavior, score_confidence, score_participation, score_performance, updated_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NOW())
+       RETURNING *`,
+      [classroomId, studentId, userId, remarkText ?? null, parentNote ?? null, remarkMediaUrl ?? null,
+       normalizedBehavior, normalizedConfidence, normalizedParticipation, normalizedPerformance],
+    );
+    return res.json({ remark: inserted.rows[0] });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: 'Failed to save remark' });
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ACHIEVEMENTS
+// ═══════════════════════════════════════════════════════════════════════════
+
+// GET /achievements — catalogue
+quizzesRouter.get('/achievements', requireAuth, async (req: any, res) => {
+  try {
+    const r = await db.query(
+      `SELECT DISTINCT ON (LOWER(name))
+         id, name, emoji, description, color
+       FROM achievements
+       WHERE is_global = true
+       ORDER BY LOWER(name), created_at ASC, id ASC`,
+    );
+    return res.json({ achievements: r.rows });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: 'Failed to fetch achievements' });
+  }
+});
+
+// POST /achievements/grant — Grant achievement to student in a classroom
+quizzesRouter.post('/achievements/grant', requireAuth, async (req: any, res) => {
+  if (!canManageTeacherContent(req)) return res.status(403).json({ message: 'Forbidden' });
+  const userId = req?.user?.userId as string | undefined;
+  if (!userId) return res.status(400).json({ message: 'Auth context missing' });
+
+  const { studentId, classroomId, achievementId } = req.body;
+  if (!studentId || !classroomId || !achievementId) return res.status(400).json({ message: 'studentId, classroomId, achievementId required' });
+
+  try {
+    const canonicalAchievement = await db.query(
+      `WITH selected AS (
+         SELECT LOWER(name) AS nm, is_global, organization_id
+         FROM achievements
+         WHERE id = $1
+         LIMIT 1
+       )
+       SELECT a.id
+       FROM achievements a
+       JOIN selected s ON LOWER(a.name) = s.nm
+                      AND a.is_global = s.is_global
+                      AND COALESCE(a.organization_id::text, 'global') = COALESCE(s.organization_id::text, 'global')
+       ORDER BY a.created_at ASC, a.id ASC
+       LIMIT 1`,
+      [achievementId],
+    );
+    if ((canonicalAchievement.rowCount ?? 0) === 0) {
+      return res.status(404).json({ message: 'Achievement not found' });
+    }
+    const canonicalAchievementId = canonicalAchievement.rows[0].id as string;
+
+    const r = await db.query(
+      `INSERT INTO student_achievements (student_id, classroom_id, achievement_id, granted_by)
+       VALUES ($1, $2, $3, $4)
+       ON CONFLICT (student_id, classroom_id, achievement_id)
+       DO UPDATE SET granted_by = EXCLUDED.granted_by, granted_at = NOW()
+       RETURNING id, granted_at`,
+      [studentId, classroomId, canonicalAchievementId, userId],
+    );
+    return res.json({ grant: r.rows[0] });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: 'Failed to grant achievement' });
+  }
+});
+
+// GET /classrooms/:id/achievements — All achievements granted in a classroom
+quizzesRouter.get('/classrooms/:classroomId/achievements', requireAuth, async (req: any, res) => {
+  const { classroomId } = req.params;
+  try {
+    const r = await db.query(
+      `SELECT sa.id, sa.student_id, sa.granted_at, a.name, a.emoji, a.color, a.description,
+              TRIM(CONCAT(u.first_name, ' ', COALESCE(u.last_name, ''))) AS student_name
+       FROM student_achievements sa
+       JOIN achievements a ON a.id = sa.achievement_id
+       LEFT JOIN users u ON u.id = sa.student_id
+       WHERE sa.classroom_id = $1
+       ORDER BY sa.granted_at DESC`,
+      [classroomId],
+    );
+    return res.json({ achievements: r.rows });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: 'Failed to fetch classroom achievements' });
+  }
+});
+
+// GET /students/my-achievements — Student's own full achievement history
+quizzesRouter.get('/students/my-achievements', requireAuth, async (req: any, res) => {
+  const userId = req?.user?.userId as string | undefined;
+  if (!userId) return res.status(400).json({ message: 'Auth context missing' });
+
+  try {
+    const r = await db.query(
+      `SELECT sa.id, sa.granted_at, sa.classroom_id, c.title AS classroom_title,
+              a.name, a.emoji, a.color, a.description
+       FROM student_achievements sa
+       JOIN achievements a ON a.id = sa.achievement_id
+       LEFT JOIN classrooms c ON c.id = sa.classroom_id
+       WHERE sa.student_id = $1
+       ORDER BY sa.granted_at DESC`,
+      [userId],
+    );
+
+    // Group by achievement name for counts
+    const grouped: Record<string, { name: string; emoji: string; color: string; description: string; count: number; items: any[] }> = {};
+    for (const row of r.rows) {
+      if (!grouped[row.name]) grouped[row.name] = { name: row.name, emoji: row.emoji, color: row.color, description: row.description, count: 0, items: [] };
+      grouped[row.name].count++;
+      grouped[row.name].items.push({ id: row.id, grantedAt: row.granted_at, classroomTitle: row.classroom_title });
+    }
+
+    return res.json({ total: r.rows.length, achievements: Object.values(grouped), history: r.rows });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: 'Failed to fetch achievements' });
+  }
+});
+
 quizzesRouter.post('/classrooms/:classroomId/content', requireAuth, async (req: any, res) => {
   const classroomId = req.params.classroomId as string;
   const parsedBody = addClassroomContentSchema.safeParse(req.body);
@@ -1273,6 +1737,110 @@ quizzesRouter.post('/students/classrooms/:classroomId/assignments/:assignmentId/
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Failed to submit assignment' });
+  }
+});
+
+// ── GET /students/subjects  — subjects + topics for the student's class level ──
+quizzesRouter.get('/students/subjects', requireAuth, async (req: any, res) => {
+  const orgId = getOrganizationId(req);
+  const userId = req?.user?.userId as string | undefined;
+  if (!orgId || !userId) return res.status(400).json({ message: 'Organization/user not found' });
+
+  try {
+    // Get student's class level
+    const userRow = await db.query(
+      `SELECT class_level FROM users WHERE id = $1 LIMIT 1`, [userId],
+    );
+    const classLevel = userRow.rows[0]?.class_level as string | null;
+    if (!classLevel) return res.json({ subjects: [], classLevel: null });
+
+    // Get all topics for this class level
+    const result = await db.query(
+      `SELECT
+         ct.id, ct.class_level, ct.subject, ct.title, ct.cover_image,
+         ct.created_at, ct.updated_at,
+         COUNT(DISTINCT tca.content_id) AS content_count
+       FROM content_topics ct
+       LEFT JOIN topic_content_assignments tca ON tca.topic_id = ct.id
+       WHERE ct.organization_id = $1::uuid
+         AND ct.class_level = $2
+       GROUP BY ct.id
+       ORDER BY ct.subject, ct.title`,
+      [orgId, classLevel],
+    );
+
+    // Group by subject
+    const subjectMap: Record<string, { subject: string; topics: unknown[] }> = {};
+    for (const row of result.rows) {
+      const sub = row.subject as string;
+      if (!subjectMap[sub]) subjectMap[sub] = { subject: sub, topics: [] };
+      subjectMap[sub].topics.push({
+        id: row.id as string,
+        classLevel: row.class_level as string,
+        subject: sub,
+        title: row.title as string,
+        coverImage: row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image as string) : null,
+        contentCount: Number(row.content_count || 0),
+        createdAt: row.created_at as string,
+        updatedAt: row.updated_at as string,
+      });
+    }
+
+    return res.json({
+      classLevel,
+      subjects: Object.values(subjectMap),
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to fetch subjects' });
+  }
+});
+
+// ── GET /students/subjects/:topicId — topic detail with content ────────────────
+quizzesRouter.get('/students/subjects/:topicId', requireAuth, async (req: any, res) => {
+  const orgId = getOrganizationId(req);
+  const topicId = req.params.topicId as string;
+  if (!orgId || !topicId) return res.status(400).json({ message: 'Invalid params' });
+
+  try {
+    const topicRow = await db.query(
+      `SELECT id, class_level, subject, title, cover_image FROM content_topics
+       WHERE id = $1 AND organization_id = $2::uuid LIMIT 1`,
+      [topicId, orgId],
+    );
+    if ((topicRow.rowCount ?? 0) === 0) return res.status(404).json({ message: 'Topic not found' });
+    const topic = topicRow.rows[0];
+
+    const contentResult = await db.query(
+      `SELECT lc.id, lc.title, lc.content_type, lc.media_url, lc.external_url, lc.text_content, tca.sort_order
+       FROM topic_content_assignments tca
+       INNER JOIN learning_contents lc ON lc.id = tca.content_id
+       WHERE tca.topic_id = $1
+       ORDER BY tca.sort_order ASC, tca.created_at ASC`,
+      [topicId],
+    );
+
+    return res.json({
+      topic: {
+        id: topic.id as string,
+        classLevel: topic.class_level as string,
+        subject: topic.subject as string,
+        title: topic.title as string,
+        coverImage: topic.cover_image ? await getSignedMediaUrlIfNeeded(topic.cover_image as string) : null,
+      },
+      contents: contentResult.rows.map((row) => ({
+        id: row.id as string,
+        title: row.title as string,
+        contentType: row.content_type as string,
+        mediaUrl: (row.media_url as string | null) || undefined,
+        externalUrl: (row.external_url as string | null) || undefined,
+        textContent: (row.text_content as string | null) || undefined,
+        sortOrder: Number(row.sort_order || 0),
+      })),
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Failed to fetch topic detail' });
   }
 });
 
@@ -1686,7 +2254,6 @@ quizzesRouter.get('/questions', requireAuth, async (req: any, res) => {
          qq.time_limit_seconds,
          qq.points,
          qq.sort_order,
-         qq.question_data,
          qq.created_at
        FROM quiz_questions qq
        LEFT JOIN quizzes q ON q.id = qq.quiz_id
@@ -1695,11 +2262,49 @@ quizzesRouter.get('/questions', requireAuth, async (req: any, res) => {
        LIMIT $${params.length}`,
       params,
     );
-    const signedRows = await signQuestionRowsMedia(result.rows as Record<string, unknown>[]);
-    return res.json({ questions: signedRows });
+    return res.json({ questions: result.rows });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Failed to fetch questions' });
+  }
+});
+
+quizzesRouter.get('/questions/:questionId', requireAuth, async (req: any, res) => {
+  const orgId = getOrganizationId(req);
+  if (!orgId) return res.status(400).json({ message: 'Organization not found in auth context' });
+
+  const { questionId } = req.params;
+  try {
+    const result = await db.query(
+      `SELECT
+         qq.id,
+         qq.quiz_id,
+         COALESCE(q.title, 'Question Bank') AS quiz_title,
+         COALESCE(q.class_level, qq.question_data->'_meta'->>'classLevel') AS class_level,
+         COALESCE(q.subject, qq.question_data->'_meta'->>'subject') AS subject,
+         COALESCE(q.quiz_type, qq.question_type) AS quiz_type,
+         qq.question_type,
+         qq.question_title,
+         qq.question_instruction,
+         qq.question_audio,
+         qq.time_limit_seconds,
+         qq.points,
+         qq.sort_order,
+         qq.question_data,
+         qq.created_at
+       FROM quiz_questions qq
+       LEFT JOIN quizzes q ON q.id = qq.quiz_id
+       WHERE qq.id = $1
+         AND (q.organization_id = $2::uuid OR COALESCE(qq.question_data->'_meta'->>'organizationId', '') = $2::text)`,
+      [questionId, orgId],
+    );
+    if ((result.rowCount ?? 0) === 0) return res.status(404).json({ message: 'Question not found' });
+    const cache = new Map<string, Promise<string>>();
+    const signed = await signQuestionRowMedia(result.rows[0] as Record<string, unknown>, cache);
+    return res.json({ question: signed });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to fetch question' });
   }
 });
 
@@ -2460,10 +3065,13 @@ quizzesRouter.get('/content/topics', requireAuth, async (req: any, res) => {
          ct.created_by,
          ct.created_at,
          ct.updated_at,
-         COALESCE(COUNT(lcs.id), 0)::int AS section_count
+         COALESCE(
+           (SELECT COUNT(*) FROM topic_content_assignments tca2 WHERE tca2.topic_id = ct.id), 0
+         )::int AS content_count,
+         COALESCE(
+           (SELECT COUNT(*) FROM quizzes q WHERE q.topic_id = ct.id), 0
+         )::int AS quiz_count
        FROM content_topics ct
-       LEFT JOIN topic_content_assignments tca ON tca.topic_id = ct.id
-       LEFT JOIN learning_content_sections lcs ON lcs.content_id = tca.content_id
        WHERE ${whereClauses.join(' AND ')}
        GROUP BY ct.id
        ORDER BY ct.class_level ASC, ct.subject ASC, ct.title ASC
@@ -2480,7 +3088,9 @@ quizzesRouter.get('/content/topics', requireAuth, async (req: any, res) => {
           subject: row.subject as string,
           title: row.title as string,
           coverImage: (signedCover as string | null) || undefined,
-          sectionCount: Number(row.section_count || 0),
+          sectionCount: 0,
+          contentCount: Number(row.content_count || 0),
+          quizCount: Number(row.quiz_count || 0),
           createdBy: (row.created_by as string | null) || undefined,
           createdAt: row.created_at as string,
           updatedAt: row.updated_at as string,

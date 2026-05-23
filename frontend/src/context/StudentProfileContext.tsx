@@ -60,6 +60,23 @@ export type UpcomingClassroom = {
   description?: string;
 };
 
+export type ClassroomRemarkItem = {
+  id: string;
+  title: string;
+  classLevel: string;
+  status: string;
+  createdAt: string;
+  endedAt?: string | null;
+  remarkText?: string | null;
+  parentNote?: string | null;
+  remarkMediaUrl?: string | null;
+  scoreBehavior?: number | null;
+  scoreConfidence?: number | null;
+  scoreParticipation?: number | null;
+  scorePerformance?: number | null;
+  achievements: Array<{ id: string; name: string; emoji: string; color: string; description?: string; grantedAt?: string }>;
+};
+
 export type ActivityItem = {
   id: string;
   activityType: 'content' | 'quiz' | 'assignment';
@@ -105,6 +122,7 @@ type StudentProfileContextType = {
   quizAttempts: QuizAttempt[];
   assignments: AssignmentItem[];
   upcomingClassrooms: UpcomingClassroom[];
+  classroomRemarks: { active: ClassroomRemarkItem[]; completed: ClassroomRemarkItem[] };
   switchToStudent: (studentId: string) => void;
   refreshAll: () => void;
   logActivity: (payload: {
@@ -140,6 +158,7 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
   const [quizAttempts, setQuizAttempts] = useState<QuizAttempt[]>([]);
   const [assignments, setAssignments] = useState<AssignmentItem[]>([]);
   const [upcomingClassrooms, setUpcomingClassrooms] = useState<UpcomingClassroom[]>([]);
+  const [classroomRemarks, setClassroomRemarks] = useState<{ active: ClassroomRemarkItem[]; completed: ClassroomRemarkItem[] }>({ active: [], completed: [] });
 
   const isParent = user?.activeRole === 'parent';
   const isStudent = user?.activeRole === 'student';
@@ -205,6 +224,13 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
     } catch { /* silent */ }
   }, [apiFetch]);
 
+  const fetchClassroomRemarks = useCallback(async (studentId: string) => {
+    try {
+      const res = await apiFetch(`/students/${studentId}/classroom-remarks`);
+      if (res.ok) { const d = await res.json(); setClassroomRemarks({ active: d.active ?? [], completed: d.completed ?? [] }); }
+    } catch { /* silent */ }
+  }, [apiFetch]);
+
   // Fetch analytics for active student
   const fetchAnalytics = useCallback(async (studentId: string) => {
     setLoadingAnalytics(true);
@@ -251,6 +277,7 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
       fetchQuizAttempts(activeStudentId),
       fetchAssignments(activeStudentId),
       fetchUpcoming(activeStudentId),
+      fetchClassroomRemarks(activeStudentId),
     ]).finally(() => { loadingRef.current = false; });
   }, [activeStudentId]);
 
@@ -263,6 +290,7 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
     setQuizAttempts([]);
     setAssignments([]);
     setUpcomingClassrooms([]);
+    setClassroomRemarks({ active: [], completed: [] });
     setActiveStudentId(studentId);
     AsyncStorage.setItem(SELECTED_STUDENT_KEY, studentId).catch(() => {});
   }, [activeStudentId]);
@@ -275,8 +303,9 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
       fetchQuizAttempts(activeStudentId);
       fetchAssignments(activeStudentId);
       fetchUpcoming(activeStudentId);
+      fetchClassroomRemarks(activeStudentId);
     }
-  }, [isParent, activeStudentId, fetchLinkedStudents, fetchActivity, fetchAnalytics, fetchQuizAttempts, fetchAssignments, fetchUpcoming]);
+  }, [isParent, activeStudentId, fetchLinkedStudents, fetchActivity, fetchAnalytics, fetchQuizAttempts, fetchAssignments, fetchUpcoming, fetchClassroomRemarks]);
 
   const logActivity = useCallback(async (payload: {
     activityType: 'content' | 'quiz' | 'assignment';
@@ -324,6 +353,7 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
         quizAttempts,
         assignments,
         upcomingClassrooms,
+        classroomRemarks,
         switchToStudent,
         refreshAll,
         logActivity,

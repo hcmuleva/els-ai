@@ -1089,3 +1089,28 @@ Auth Service listening on http://localhost:4101
 cClass 1 English topics and content already seeded.
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
+6:08:28 PM [tsx] change in ./src/routes/students.ts Rerunning...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error workspace auth-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
