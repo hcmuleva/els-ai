@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { ScreenTemplate } from '../../src/components/ScreenTemplate';
+import SelectorModal from '../../src/components/SelectorModal';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import { UserRole } from '../../src/types/roles';
@@ -1395,33 +1396,15 @@ export default function AdminScreen() {
         </View>
       </Modal>
 
-      <Modal
+      <SelectorModal
         visible={standardSelectorTarget !== null}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setStandardSelectorTarget(null)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
-            <Text style={styles.cardTitle}>Select Standard</Text>
-            <ScrollView style={styles.transferList}>
-              {standardSelectorTarget === 'parentStudentClassLevel' ? (
-                <Pressable style={styles.selectorOption} onPress={() => applyStandardSelection('')}>
-                  <Text style={styles.selectorOptionText}>Any</Text>
-                </Pressable>
-              ) : null}
-              {STANDARD_OPTIONS.map((standard) => (
-                <Pressable key={standard.value} style={styles.selectorOption} onPress={() => applyStandardSelection(standard.value)}>
-                  <Text style={styles.selectorOptionText}>{standard.label}</Text>
-                </Pressable>
-              ))}
-            </ScrollView>
-            <Pressable style={styles.secondaryButton} onPress={() => setStandardSelectorTarget(null)}>
-              <Text style={styles.secondaryButtonText}>Close</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+        title="Select Standard"
+        options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
+        selected={''}
+        showAny={standardSelectorTarget === 'parentStudentClassLevel'}
+        onSelect={applyStandardSelection}
+        onClose={() => setStandardSelectorTarget(null)}
+      />
 
       <Modal visible={teacherModalUser !== null} transparent animationType="fade" onRequestClose={() => setTeacherModalUser(null)}>
         <View style={styles.modalOverlay}>

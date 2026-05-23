@@ -13,6 +13,8 @@ export type AppUser = {
   firstName: string;
   lastName: string;
   email: string;
+  mobileNumber?: string;
+  classLevel?: string;
   roles: UserRole[];
   activeRole: UserRole;
   profileImage?: string;

@@ -3,8 +3,19 @@ import { ActivityIndicator, Image, Linking, Modal, Platform, Pressable, ScrollVi
 import { useFocusEffect } from 'expo-router';
 
 import { getStandardLabel, STANDARD_OPTIONS } from '../../src/constants/standards';
+import SelectorModal from '../../src/components/SelectorModal';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
+
+type ContentSection = {
+  id: string;
+  sectionOrder: number;
+  title?: string;
+  contentType: string;
+  mediaUrl?: string;
+  externalUrl?: string;
+  textContent?: string;
+};
 
 type LearningContentItem = {
   id: string;
@@ -16,6 +27,7 @@ type LearningContentItem = {
   externalUrl?: string;
   textContent?: string;
   status?: 'not_started' | 'in_progress' | 'completed';
+  sections?: ContentSection[];
 };
 
 type ClassroomQuiz = {
@@ -171,12 +183,12 @@ export default function PracticeScreen() {
   );
 
   const loadStudentClassLevel = useCallback(async () => {
-    if (!user?.id) return '';
+    if (!user?.id || user.activeRole !== 'student') return '';
     const res = await apiFetch(`/users/${user.id}`);
     if (!res.ok) return '';
     const profile = await res.json();
     return (profile.classLevel as string) || '';
-  }, [apiFetch, user?.id]);
+  }, [apiFetch, user?.id, user?.activeRole]);
 
   const loadData = useCallback(async () => {
     if (!isAuthenticated) return;
@@ -507,30 +519,15 @@ export default function PracticeScreen() {
         />
       )}
 
-      <Modal visible={selectorField !== null} transparent animationType="fade" onRequestClose={() => setSelectorField(null)}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
-            <Text style={styles.cardTitle}>Select Class</Text>
-            <ScrollView style={styles.selectorList}>
-              {classLevels.map((level) => (
-                <Pressable
-                  key={level}
-                  style={styles.selectorOption}
-                  onPress={() => {
-                    setSelectorField(null);
-                    loadClassrooms(level);
-                  }}
-                >
-                  <Text style={styles.selectorOptionText}>{getStandardLabel(level)}</Text>
-                </Pressable>
-              ))}
-            </ScrollView>
-            <Pressable style={styles.secondaryButton} onPress={() => setSelectorField(null)}>
-              <Text style={styles.secondaryButtonText}>Close</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+      <SelectorModal
+        visible={selectorField !== null}
+        title="Select Class"
+        options={classLevels.map((level) => ({ label: getStandardLabel(level), value: level }))}
+        selected={selectedClassLevel}
+        showAny={false}
+        onSelect={(level) => { setSelectorField(null); loadClassrooms(level); }}
+        onClose={() => setSelectorField(null)}
+      />
 
       <Modal visible={previewContent !== null} transparent animationType="fade" onRequestClose={() => setPreviewContent(null)}>
         <View style={styles.modalOverlay}>
@@ -540,32 +537,59 @@ export default function PracticeScreen() {
               <Text style={styles.itemMeta}>
                 {previewContent?.subject || '-'} • {previewContent?.contentType.replace('_', ' ')}
               </Text>
-              {(previewContent?.mediaUrl && isImageUrl(resolveMediaUrl(previewContent.mediaUrl))) ||
-              (previewContent?.externalUrl && isImageUrl(resolveMediaUrl(previewContent.externalUrl))) ? (
-                <Image
-                  source={{
-                    uri: previewContent?.mediaUrl && isImageUrl(resolveMediaUrl(previewContent.mediaUrl))
-                      ? resolveMediaUrl(previewContent.mediaUrl)
-                      : resolveMediaUrl(previewContent?.externalUrl),
-                  }}
-                  style={styles.contentModalImage}
-                  resizeMode="contain"
-                />
-              ) : null}
-              {previewContent?.textContent ? <Text style={styles.modalBody}>{previewContent.textContent}</Text> : null}
-              {previewContent?.mediaUrl && !isImageUrl(resolveMediaUrl(previewContent.mediaUrl)) ? (
-                <Pressable style={styles.secondaryButton} onPress={() => openExternalResource(previewContent.mediaUrl || '')}>
-                  <Text style={styles.secondaryButtonText}>Open Media</Text>
-                </Pressable>
-              ) : null}
-              {previewContent?.externalUrl ? (
-                <Pressable style={styles.secondaryButton} onPress={() => openExternalResource(previewContent.externalUrl || '')}>
-                  <Text style={styles.secondaryButtonText}>Open Link</Text>
-                </Pressable>
-              ) : null}
-              {!previewContent?.textContent && !previewContent?.mediaUrl && !previewContent?.externalUrl ? (
-                <Text style={styles.emptyText}>No content details available.</Text>
-              ) : null}
+              {previewContent?.sections && previewContent.sections.length > 0 ? (
+                previewContent.sections.map((section, idx) => (
+                  <View key={section.id || idx} style={styles.sectionCard}>
+                    <Text style={styles.sectionLabel}>
+                      {section.title ? section.title : `Section ${section.sectionOrder || idx + 1}`}
+                      {' — '}{section.contentType.replace('_', ' ')}
+                    </Text>
+                    {section.textContent ? <Text style={styles.modalBody}>{section.textContent}</Text> : null}
+                    {section.mediaUrl && isImageUrl(resolveMediaUrl(section.mediaUrl)) ? (
+                      <Image source={{ uri: resolveMediaUrl(section.mediaUrl) }} style={styles.contentModalImage} resizeMode="contain" />
+                    ) : null}
+                    {section.mediaUrl && !isImageUrl(resolveMediaUrl(section.mediaUrl)) ? (
+                      <Pressable style={styles.secondaryButton} onPress={() => openExternalResource(section.mediaUrl || '')}>
+                        <Text style={styles.secondaryButtonText}>Open Media</Text>
+                      </Pressable>
+                    ) : null}
+                    {section.externalUrl ? (
+                      <Pressable style={styles.secondaryButton} onPress={() => openExternalResource(section.externalUrl || '')}>
+                        <Text style={styles.secondaryButtonText}>Open Link</Text>
+                      </Pressable>
+                    ) : null}
+                  </View>
+                ))
+              ) : (
+                <>
+                  {(previewContent?.mediaUrl && isImageUrl(resolveMediaUrl(previewContent.mediaUrl))) ||
+                  (previewContent?.externalUrl && isImageUrl(resolveMediaUrl(previewContent.externalUrl))) ? (
+                    <Image
+                      source={{
+                        uri: previewContent?.mediaUrl && isImageUrl(resolveMediaUrl(previewContent.mediaUrl))
+                          ? resolveMediaUrl(previewContent.mediaUrl)
+                          : resolveMediaUrl(previewContent?.externalUrl),
+                      }}
+                      style={styles.contentModalImage}
+                      resizeMode="contain"
+                    />
+                  ) : null}
+                  {previewContent?.textContent ? <Text style={styles.modalBody}>{previewContent.textContent}</Text> : null}
+                  {previewContent?.mediaUrl && !isImageUrl(resolveMediaUrl(previewContent.mediaUrl)) ? (
+                    <Pressable style={styles.secondaryButton} onPress={() => openExternalResource(previewContent.mediaUrl || '')}>
+                      <Text style={styles.secondaryButtonText}>Open Media</Text>
+                    </Pressable>
+                  ) : null}
+                  {previewContent?.externalUrl ? (
+                    <Pressable style={styles.secondaryButton} onPress={() => openExternalResource(previewContent.externalUrl || '')}>
+                      <Text style={styles.secondaryButtonText}>Open Link</Text>
+                    </Pressable>
+                  ) : null}
+                  {!previewContent?.textContent && !previewContent?.mediaUrl && !previewContent?.externalUrl ? (
+                    <Text style={styles.emptyText}>No content details available.</Text>
+                  ) : null}
+                </>
+              )}
             </ScrollView>
             <Pressable style={styles.secondaryButton} onPress={() => setPreviewContent(null)}>
               <Text style={styles.secondaryButtonText}>Close</Text>
@@ -582,30 +606,54 @@ export default function PracticeScreen() {
               {assignmentModal?.description ? <Text style={styles.modalBody}>{assignmentModal.description}</Text> : null}
               {assignmentModal?.instructions ? <Text style={styles.modalBody}>{assignmentModal.instructions}</Text> : null}
               {assignmentModal?.attachmentUrl ? <Text style={styles.modalLink}>{assignmentModal.attachmentUrl}</Text> : null}
-              <TextInput
-                value={submissionText}
-                onChangeText={setSubmissionText}
-                placeholder="Write your submission notes"
-                style={styles.input}
-                multiline
-              />
-              <TextInput
-                value={submissionAttachmentUrl}
-                onChangeText={setSubmissionAttachmentUrl}
-                placeholder="Submission attachment URL"
-                style={styles.input}
-              />
-              <Pressable style={styles.secondaryButton} onPress={uploadSubmissionAttachment}>
-                <Text style={styles.secondaryButtonText}>Upload Attachment</Text>
-              </Pressable>
+              {assignmentModal?.status === 'submitted' ? (
+                <View style={{ backgroundColor: '#D6F5D6', borderRadius: 16, padding: 16, margin: 4, gap: 8 }}>
+                  <Text style={{ fontSize: 15, fontWeight: '900', color: '#2E7D32' }}>✅ Already Submitted</Text>
+                  {assignmentModal.submission?.submittedAt && (
+                    <Text style={{ fontSize: 12, color: '#4CAF50', fontWeight: '600' }}>
+                      {new Date(assignmentModal.submission.submittedAt).toLocaleString()}
+                    </Text>
+                  )}
+                  {submissionText ? (
+                    <>
+                      <Text style={{ fontSize: 12, fontWeight: '700', color: '#4B5563', marginTop: 4 }}>Your Answer:</Text>
+                      <Text style={{ fontSize: 13, color: '#374151', lineHeight: 20 }}>{submissionText}</Text>
+                    </>
+                  ) : null}
+                  {submissionAttachmentUrl ? (
+                    <Text style={{ fontSize: 12, color: '#4A90E2', fontWeight: '600' }}>📎 Attachment submitted</Text>
+                  ) : null}
+                </View>
+              ) : (
+                <>
+                  <TextInput
+                    value={submissionText}
+                    onChangeText={setSubmissionText}
+                    placeholder="Write your submission notes"
+                    style={styles.input}
+                    multiline
+                  />
+                  <TextInput
+                    value={submissionAttachmentUrl}
+                    onChangeText={setSubmissionAttachmentUrl}
+                    placeholder="Submission attachment URL"
+                    style={styles.input}
+                  />
+                  <Pressable style={styles.secondaryButton} onPress={uploadSubmissionAttachment}>
+                    <Text style={styles.secondaryButtonText}>Upload Attachment</Text>
+                  </Pressable>
+                </>
+              )}
             </ScrollView>
             <View style={styles.modalActions}>
               <Pressable style={[styles.secondaryButton, styles.halfButton]} onPress={() => setAssignmentModal(null)}>
                 <Text style={styles.secondaryButtonText}>Close</Text>
               </Pressable>
-              <Pressable style={[styles.primaryButton, styles.halfButton]} onPress={submitAssignment} disabled={savingSubmission}>
-                {savingSubmission ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Submit</Text>}
-              </Pressable>
+              {assignmentModal?.status !== 'submitted' && (
+                <Pressable style={[styles.primaryButton, styles.halfButton]} onPress={submitAssignment} disabled={savingSubmission}>
+                  {savingSubmission ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Submit</Text>}
+                </Pressable>
+              )}
             </View>
           </View>
         </View>
@@ -938,6 +986,20 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#334155',
     lineHeight: 18,
+  },
+  sectionCard: {
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    backgroundColor: '#f8fafc',
+    padding: 10,
+    gap: 6,
+    marginTop: 8,
+  },
+  sectionLabel: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#1d4ed8',
   },
   contentModalImage: {
     width: '100%',

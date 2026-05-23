@@ -2,7 +2,17 @@ import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useSt
 import { AppUser, UserRole } from '../types/roles';
 import { getStorageItem, setStorageItem, deleteStorageItem } from '../utils/storage';
 
-export const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL || 'http://localhost:4000';
+const trimTrailingSlash = (url: string) => url.replace(/\/+$/, '');
+
+const resolveApiBaseUrl = () => {
+  const configuredUrl = process.env.EXPO_PUBLIC_API_BASE_URL || process.env.EXPO_PUBLIC_API_URL;
+  if (configuredUrl && configuredUrl.trim().length > 0) return trimTrailingSlash(configuredUrl.trim());
+
+  if (typeof window !== 'undefined') return '/els-ai/api';
+  return 'http://localhost:4000';
+};
+
+export const API_BASE_URL = resolveApiBaseUrl();
 
 type AuthContextValue = {
   user: AppUser | null;

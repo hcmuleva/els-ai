@@ -1,0 +1,7 @@
+# Requires Python 3.10–3.12 (kokoro does not support 3.13+)
+# Setup: python3.12 -m venv .venv && .venv/bin/pip install -r requirements.txt
+kokoro>=0.9.4
+soundfile>=0.12.1
+fastapi>=0.115.0
+uvicorn>=0.32.0
+numpy>=1.24.0

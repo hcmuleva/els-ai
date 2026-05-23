@@ -20,7 +20,7 @@ export const roleTabs: Record<UserRole, RoleTabItem[]> = {
   teacher: [
     { route: 'planner', label: 'Planner', icon: SquareLibrary },
     { route: 'exam', label: 'Exam', icon: FileText },
-    { route: 'logicopiccolo', label: 'Logicopiccolo', icon: Puzzle },
+    { route: 'logicopiccolo', label: 'Logico', icon: Puzzle },
     { route: 'manage', label: 'Manage', icon: FileText },
     { route: 'assessment', label: 'Assess', icon: ChartColumn },
     { route: 'evaluation', label: 'Eval', icon: BookOpen },

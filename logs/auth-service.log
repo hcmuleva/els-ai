@@ -474,3 +474,643 @@ Auth Service listening on http://localhost:4101
 
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Seeding Class 1 English topics and content...
+Seeded Class 1 English topics, content, and quizzes successfully!
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error workspace auth-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:00:06 AM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:00:32 AM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:00:42 AM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:01:34 AM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:02:38 AM [tsx] change in ./src/server.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:02:43 AM [tsx] change in ./src/server.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error workspace auth-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:16:15 AM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Seeded Ramesh, Rahul, Mohan successfully.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:23:19 AM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 170,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '78',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 170,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '78',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 170,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '78',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 170,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '78',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 170,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '78',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 170,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '78',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 170,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '78',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 170,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '78',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 170,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '78',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 170,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '78',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 170,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '78',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 170,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '78',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 170,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '78',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 170,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '78',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 170,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '78',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+12:44:47 AM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 171,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '747',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 171,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '747',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 171,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '747',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 171,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '747',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 171,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '747',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 171,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '747',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+error: column sa.created_at does not exist
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/routes/students.ts:413:20) {
+  length: 171,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "q.created_at".',
+  position: '747',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3732',
+  routine: 'errorMissingColumn'
+}
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error workspace auth-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:53:52 AM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:54:11 AM [tsx] change in ./src/routes/students.ts Rerunning...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:13:23 PM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:13:49 PM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+6:08:28 PM [tsx] change in ./src/routes/students.ts Rerunning...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error workspace auth-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101

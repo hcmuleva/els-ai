@@ -4,6 +4,7 @@ import express from 'express';
 import { db } from './db.js';
 import { authRouter } from './routes/auth.js';
 import { usersRouter } from './routes/users.js';
+import { studentsRouter } from './routes/students.js';
 import { initSchemaAndSeed } from './seed/seed.js';
 
 config();
@@ -21,6 +22,7 @@ app.get('/health', (_req, res) => {
 
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
+app.use('/students', studentsRouter);
 
 async function bootstrap() {
   // Seeding run from auth-service since it owns the users database initialization

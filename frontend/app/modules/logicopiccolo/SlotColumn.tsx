@@ -8,6 +8,8 @@ type SlotColumnProps = {
   hoveredSlotId: number | null;
   labelByButtonId?: Record<string, string>;
   placeholderSize: number;
+  showClip?: boolean;
+  expectedBySlotId?: Record<number, string>;
   onLayout?: (event: LayoutChangeEvent) => void;
 };
 
@@ -16,6 +18,8 @@ export function SlotColumn({
   hoveredSlotId,
   labelByButtonId,
   placeholderSize,
+  showClip = false,
+  expectedBySlotId,
   onLayout,
 }: SlotColumnProps) {
   return (
@@ -23,6 +27,7 @@ export function SlotColumn({
       {slots.map((slot, index) => {
         const isHighlighted = hoveredSlotId === slot.id;
         const occupiedLabel = slot.occupiedBy ? labelByButtonId?.[slot.occupiedBy] ?? slot.occupiedBy : '-';
+        const expected = expectedBySlotId?.[slot.id];
         return (
           <View
             key={slot.id}
@@ -39,7 +44,9 @@ export function SlotColumn({
                 isHighlighted && logicopiccoloStyles.slotActive,
               ]}
             >
-              <Text style={logicopiccoloStyles.slotOccupiedText}>{occupiedLabel}</Text>
+              <Text style={logicopiccoloStyles.slotOccupiedText}>
+                {showClip && expected ? labelByButtonId?.[expected] ?? expected : occupiedLabel}
+              </Text>
             </View>
           </View>
         );

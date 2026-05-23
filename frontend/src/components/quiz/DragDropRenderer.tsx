@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, View, PanResponder, Animated } from 'react-native';
-import { Check, Info, RotateCcw } from 'lucide-react-native';
+import { Check, RotateCcw } from 'lucide-react-native';
 import { AudioManager } from '../../utils/audio';
 import { resolveMediaUrl } from './QuizRenderer';
+import type { QuestionTheme } from './QuizRenderer';
 
 type DragItem = {
   id: string;
@@ -28,9 +29,10 @@ type Props = {
     match_rules: MatchRule[];
   };
   onComplete: (isCorrect: boolean, responseData: any) => void;
+  theme?: QuestionTheme;
 };
 
-export default function DragDropRenderer({ questionData, onComplete }: Props) {
+export default function DragDropRenderer({ questionData, onComplete, theme }: Props) {
   const { drag_items, drop_targets, match_rules } = questionData;
   const [matches, setMatches] = useState<Record<string, string>>({}); // target_id -> item_id
   const [placedItems, setPlacedItems] = useState<Set<string>>(new Set()); // set of item_ids placed
@@ -77,7 +79,7 @@ export default function DragDropRenderer({ questionData, onComplete }: Props) {
 
   const handleDrop = (itemId: string, x: number, y: number) => {
     let foundTargetId: string | null = null;
-    
+
     // Find if drop coordinate lies inside any target slot boundary
     Object.keys(targetLayouts).forEach((targetId) => {
       const layout = targetLayouts[targetId];
@@ -160,8 +162,8 @@ export default function DragDropRenderer({ questionData, onComplete }: Props) {
       });
     });
 
-    const resultSoundPath = allCorrect 
-      ? '/media/sound-effects/correct.mp3' 
+    const resultSoundPath = allCorrect
+      ? '/media/sound-effects/correct.mp3'
       : '/media/sound-effects/incorrect.mp3';
     const resolvedResultSound = resolveMediaUrl(resultSoundPath);
     if (resolvedResultSound) {
@@ -178,7 +180,7 @@ export default function DragDropRenderer({ questionData, onComplete }: Props) {
       onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: (evt) => {
         setActiveDragId(item.id);
-        
+
         // Play animal sound when selected
         if (item.sound) {
           const resolvedSound = resolveMediaUrl(item.sound);
@@ -214,15 +216,10 @@ export default function DragDropRenderer({ questionData, onComplete }: Props) {
 
   return (
     <View ref={containerRef} onLayout={onContainerLayout} style={styles.container}>
-      <View style={styles.helpRow}>
-        <Info size={16} color="#6366f1" />
-        <Text style={styles.helpText}>Drag an animal to its matching home target!</Text>
-      </View>
-
       <View style={styles.gameBoard}>
         {/* Left Column: Draggable Items */}
         <View style={styles.column}>
-          <Text style={styles.columnHeader}>Animals</Text>
+          <Text style={styles.columnHeader}>Drag These</Text>
           <View style={styles.list}>
             {drag_items.map((item) => {
               const isPlaced = placedItems.has(item.id);
@@ -259,7 +256,7 @@ export default function DragDropRenderer({ questionData, onComplete }: Props) {
 
         {/* Right Column: Drop Targets */}
         <View style={styles.column}>
-          <Text style={styles.columnHeader}>Homes</Text>
+          <Text style={styles.columnHeader}>Drop Here</Text>
           <View style={styles.list}>
             {drop_targets.map((target) => {
               const filledItemId = matches[target.id];
@@ -317,12 +314,14 @@ export default function DragDropRenderer({ questionData, onComplete }: Props) {
 
       <View style={styles.footer}>
         <Pressable onPress={handleReset} style={styles.resetButton}>
-          <RotateCcw size={16} color="#475569" />
+          <RotateCcw size={16} color="#78350f" />
           <Text style={styles.resetButtonText}>Reset</Text>
         </Pressable>
-
-        <Pressable onPress={handleSubmit} style={styles.submitButton}>
-          <Text style={styles.submitButtonText}>Check Answers</Text>
+        <Pressable
+          onPress={handleSubmit}
+          style={[styles.submitButton, { backgroundColor: '#FF7043' }]}
+        >
+          <Text style={styles.submitButtonText}>Check Answers ✓</Text>
         </Pressable>
       </View>
     </View>
@@ -331,72 +330,54 @@ export default function DragDropRenderer({ questionData, onComplete }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 16,
-    gap: 16,
-    position: 'relative',
-  },
-  helpRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    backgroundColor: '#eff6ff',
     padding: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#bfdbfe',
-  },
-  helpText: {
-    fontSize: 12,
-    color: '#1e40af',
-    fontWeight: '600',
+    gap: 10,
+    position: 'relative',
   },
   gameBoard: {
     flexDirection: 'row',
-    gap: 16,
-    flex: 1,
+    gap: 10,
   },
   column: {
     flex: 1,
-    gap: 10,
+    gap: 6,
   },
   columnHeader: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#334155',
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#4A90E2',
     textAlign: 'center',
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: 0.6,
   },
   list: {
-    flex: 1,
-    gap: 14,
+    gap: 6,
   },
   itemCard: {
     backgroundColor: '#ffffff',
     borderWidth: 2,
-    borderColor: '#e2e8f0',
-    borderRadius: 16,
-    padding: 12,
+    borderColor: '#B5D4FF',
+    borderRadius: 14,
+    padding: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#0f172a',
+    shadowColor: '#4A90E2',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
     elevation: 2,
     position: 'relative',
-    height: 90,
+    height: 70,
   },
   itemCardDragging: {
-    opacity: 0.8,
-    borderColor: '#6366f1',
+    opacity: 0.7,
+    borderColor: '#4A90E2',
     borderStyle: 'dashed',
   },
   itemCardPlaced: {
-    opacity: 0.4,
-    backgroundColor: '#f8fafc',
-    borderColor: '#cbd5e1',
+    opacity: 0.38,
+    backgroundColor: '#EBF4FF',
+    borderColor: '#B5D4FF',
   },
   placeholderBox: {
     width: '100%',
@@ -407,8 +388,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   itemImage: {
-    width: 50,
-    height: 50,
+    width: 38,
+    height: 38,
     resizeMode: 'contain',
   },
   itemLabel: {
@@ -429,29 +410,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   targetSlot: {
-    flex: 1,
-    backgroundColor: '#f8fafc',
+    height: 70,
+    backgroundColor: '#EBF4FF',
     borderWidth: 2,
     borderStyle: 'dashed',
-    borderColor: '#cbd5e1',
-    borderRadius: 16,
+    borderColor: '#B5D4FF',
+    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 8,
+    padding: 6,
   },
   targetSlotHighlight: {
-    borderColor: '#6366f1',
-    backgroundColor: '#e0e7ff',
+    borderColor: '#4A90E2',
+    backgroundColor: '#D6EAFF',
   },
   targetSlotFilled: {
     borderStyle: 'solid',
-    borderColor: '#10b981',
+    borderColor: '#22c55e',
     backgroundColor: '#f0fdf4',
   },
   emptySlotLabel: {
     fontSize: 12,
-    fontWeight: '700',
-    color: '#64748b',
+    fontWeight: '800',
+    color: '#4A90E2',
     textAlign: 'center',
   },
   filledContent: {
@@ -460,8 +441,8 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   slotImage: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
     resizeMode: 'contain',
   },
   slotLabel: {
@@ -478,61 +459,40 @@ const styles = StyleSheet.create({
   },
   floatingDragCard: {
     position: 'absolute',
-    width: 90,
-    height: 90,
+    width: 70,
+    height: 70,
     backgroundColor: '#ffffff',
     borderWidth: 2,
-    borderColor: '#6366f1',
-    borderRadius: 16,
-    padding: 8,
+    borderColor: '#4A90E2',
+    borderRadius: 14,
+    padding: 6,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#6366f1',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
+    shadowColor: '#4A90E2',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
     elevation: 10,
     zIndex: 9999,
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: 12,
-    marginTop: 10,
+    gap: 10,
+    marginTop: 6,
   },
   resetButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    backgroundColor: '#f1f5f9',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    gap: 6,
-    borderWidth: 1,
-    borderColor: '#cbd5e1',
+    paddingVertical: 10, paddingHorizontal: 16, borderRadius: 999,
+    backgroundColor: '#EBF4FF', alignItems: 'center',
+    justifyContent: 'center', flexDirection: 'row', gap: 6,
+    borderWidth: 1.5, borderColor: '#B5D4FF',
   },
-  resetButtonText: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: '#475569',
-  },
+  resetButtonText: { fontSize: 13, fontWeight: '800', color: '#2C6BC9' },
   submitButton: {
-    flex: 1,
-    paddingVertical: 12,
-    borderRadius: 12,
-    backgroundColor: '#6366f1',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#6366f1',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-    elevation: 3,
+    flex: 1, paddingVertical: 14, borderRadius: 999,
+    alignItems: 'center', justifyContent: 'center',
+    shadowColor: '#FF7043', shadowOpacity: 0.35, shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 10, elevation: 4,
   },
-  submitButtonText: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: '#ffffff',
-  },
+  submitButtonText: { fontSize: 15, fontWeight: '900', color: '#ffffff' },
 });

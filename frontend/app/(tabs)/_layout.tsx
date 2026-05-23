@@ -3,8 +3,10 @@ import { useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Circle } from 'lucide-react-native';
 
+import { NotificationBell } from '../../src/components/header/NotificationBell';
 import { ProfileMenu } from '../../src/components/header/ProfileMenu';
 import { RoleSwitcher } from '../../src/components/header/RoleSwitcher';
+import CustomTabBar from '../../src/components/nav/CustomTabBar';
 import { roleTabs } from '../../src/config/roleTabs';
 import { useAuth } from '../../src/context/AuthContext';
 
@@ -25,12 +27,25 @@ export default function TabsLayout() {
 
   return (
     <Tabs
+      tabBar={(props) => <CustomTabBar {...props} />}
       screenOptions={{
         headerTitle: '',
+        headerStyle: {
+          backgroundColor: '#FFFFFF',
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 1,
+          borderBottomColor: '#F0F0F8',
+        } as any,
+        headerShadowVisible: false,
         headerLeft: () => (
           <View style={styles.brandWrapper}>
             <Image source={require('../../assets/emeelan-logo.png')} style={styles.logo} />
-            <Text style={styles.brandText}>ELS</Text>
+            <View style={styles.brandTextRow}>
+              <Text style={styles.brandEls}>ELS</Text>
+              <Text style={styles.brandDot}>·</Text>
+              <Text style={styles.brandAi}>AI</Text>
+            </View>
           </View>
         ),
         headerRight: () => (
@@ -40,6 +55,7 @@ export default function TabsLayout() {
               onToggle={() => setOpenMenu((prev) => (prev === 'role' ? null : 'role'))}
               onClose={() => setOpenMenu(null)}
             />
+            <NotificationBell />
             <ProfileMenu
               isOpen={openMenu === 'profile'}
               onToggle={() => setOpenMenu((prev) => (prev === 'profile' ? null : 'profile'))}
@@ -47,6 +63,8 @@ export default function TabsLayout() {
             />
           </View>
         ),
+        animation: 'fade',
+        tabBarHideOnKeyboard: true,
       }}
     >
       <Tabs.Screen
@@ -177,6 +195,14 @@ export default function TabsLayout() {
           title: 'Settings',
         }}
       />
+      <Tabs.Screen
+        name="subject"
+        options={{
+          href: null,
+          title: 'Subjects',
+          headerShown: false,
+        }}
+      />
     </Tabs>
   );
 }
@@ -186,22 +212,39 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginRight: 8,
+    marginRight: 12,
   },
   brandWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 12,
+    marginLeft: 14,
     gap: 8,
   },
   logo: {
-    width: 28,
-    height: 28,
-    borderRadius: 4,
+    width: 32,
+    height: 32,
+    borderRadius: 8,
   },
-  brandText: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#0f172a',
+  brandTextRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 1,
+  },
+  brandEls: {
+    fontSize: 18,
+    fontWeight: '900',
+    color: '#4A90E2',
+    letterSpacing: 0.5,
+  },
+  brandDot: {
+    fontSize: 18,
+    fontWeight: '900',
+    color: '#FF7043',
+  },
+  brandAi: {
+    fontSize: 18,
+    fontWeight: '900',
+    color: '#FF7043',
+    letterSpacing: 0.5,
   },
 });

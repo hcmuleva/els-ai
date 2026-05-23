@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { ChevronDown } from 'lucide-react-native';
 
@@ -27,21 +27,24 @@ export function RoleSwitcher({ isOpen, onToggle, onClose }: RoleSwitcherProps) {
         <ChevronDown size={14} />
       </Pressable>
 
-      {isOpen ? (
-        <View style={styles.menu}>
-          {user?.roles.map((role) => (
-            <Pressable
-              key={role}
-              onPress={() => handleRoleChange(role)}
-              style={[styles.roleButton, user.activeRole === role && styles.roleButtonActive]}
-            >
-              <Text style={[styles.roleText, user.activeRole === role && styles.roleTextActive]}>
-                {role.toUpperCase()}
-              </Text>
-            </Pressable>
-          ))}
+      <Modal visible={isOpen} transparent animationType="none" onRequestClose={onClose}>
+        <Pressable style={styles.backdrop} onPress={onClose} />
+        <View style={styles.menuAbsolute}>
+          <View style={styles.menu}>
+            {user?.roles.map((role) => (
+              <Pressable
+                key={role}
+                onPress={() => handleRoleChange(role)}
+                style={[styles.roleButton, user.activeRole === role && styles.roleButtonActive]}
+              >
+                <Text style={[styles.roleText, user.activeRole === role && styles.roleTextActive]}>
+                  {role.toUpperCase()}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
         </View>
-      ) : null}
+      </Modal>
     </View>
   );
 }
@@ -50,56 +53,60 @@ const styles = StyleSheet.create({
   wrapper: {
     position: 'relative',
   },
+  backdrop: {
+    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+  },
+  menuAbsolute: {
+    position: 'absolute',
+    top: 56, right: 60,
+    zIndex: 200,
+  },
   trigger: {
-    borderWidth: 1,
-    borderColor: '#cbd5e1',
-    borderRadius: 8,
-    paddingHorizontal: 10,
+    borderWidth: 1.5,
+    borderColor: '#E8EFFE',
+    borderRadius: 999,
+    paddingHorizontal: 12,
     paddingVertical: 6,
-    minWidth: 112,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#ffffff',
+    gap: 5,
+    backgroundColor: '#F0F4FF',
   },
   triggerText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#0f172a',
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#4A90E2',
+    letterSpacing: 0.5,
   },
   menu: {
-    position: 'absolute',
-    top: 38,
-    right: 0,
-    width: 140,
+    width: 150,
     backgroundColor: '#ffffff',
     borderWidth: 1,
-    borderColor: '#e2e8f0',
-    borderRadius: 10,
+    borderColor: '#F0F0F8',
+    borderRadius: 16,
     padding: 8,
     zIndex: 20,
-    shadowColor: '#000000',
-    shadowOpacity: 0.12,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 4,
+    shadowColor: '#4A90E2',
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 6,
   },
   roleButton: {
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 7,
-    marginBottom: 6,
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginBottom: 4,
+    backgroundColor: '#F8F9FF',
   },
   roleButtonActive: {
-    backgroundColor: '#1d4ed8',
-    borderColor: '#1d4ed8',
+    backgroundColor: '#4A90E2',
   },
   roleText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#1f2937',
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#5A5A7A',
+    textAlign: 'center',
   },
   roleTextActive: {
     color: '#ffffff',
