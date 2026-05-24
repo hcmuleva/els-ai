@@ -135,22 +135,25 @@ print_started_services_table() {
 stop_service() {
   local service="$1"
   local force="${2:-false}"
-  local tmp_dir="/tmp/$service"
+  local tmp_dir="$SCRIPT_DIR/logs/tmp/$service"
   local pid_file="$tmp_dir/service.pid"
+  local legacy_pid_file="/tmp/$service/service.pid"
   local pid=""
 
-  if [ -f "$pid_file" ]; then
-    pid="$(cat "$pid_file" 2>/dev/null || true)"
-    if [ -n "$pid" ] && is_pid_running "$pid"; then
-      if [ "$force" = "true" ]; then
-        kill -9 "$pid" 2>/dev/null || true
-      else
-        kill "$pid" 2>/dev/null || true
+  for current_pid_file in "$pid_file" "$legacy_pid_file"; do
+    if [ -f "$current_pid_file" ]; then
+      pid="$(cat "$current_pid_file" 2>/dev/null || true)"
+      if [ -n "$pid" ] && is_pid_running "$pid"; then
+        if [ "$force" = "true" ]; then
+          kill -9 "$pid" 2>/dev/null || true
+        else
+          kill "$pid" 2>/dev/null || true
+        fi
+        echo "Stopped $service (pid: $pid)"
       fi
-      echo "Stopped $service (pid: $pid)"
+      rm -f "$current_pid_file"
     fi
-    rm -f "$pid_file"
-  fi
+  done
 
   local extra_pids
   extra_pids="$(find_service_pids "$service")"
@@ -163,12 +166,28 @@ stop_service() {
       echo "Stopped remaining processes for $service"
     fi
   fi
+
+  local service_port
+  service_port="$(get_service_config_port "$service")"
+  if [ -n "$service_port" ] && [ "$service_port" != "N/A" ]; then
+    local port_pids
+    port_pids="$(lsof -tiTCP:"$service_port" -sTCP:LISTEN 2>/dev/null || true)"
+    if [ -n "$port_pids" ]; then
+      if [ "$force" = "true" ]; then
+        echo "$port_pids" | xargs kill -9 2>/dev/null || true
+      else
+        echo "$port_pids" | xargs kill 2>/dev/null || true
+      fi
+      echo "Stopped processes listening on port $service_port for $service"
+    fi
+  fi
 }
 
 start_service() {
   local service="$1"
+  local root_dir="$SCRIPT_DIR"
   local service_dir="$SCRIPT_DIR/$service"
-  local tmp_dir="/tmp/$service"
+  local tmp_dir="$root_dir/logs/tmp/$service"
   local pid_file="$tmp_dir/service.pid"
   local log_file="$tmp_dir/service.log"
   local err_file="$tmp_dir/service.error.log"
@@ -185,8 +204,14 @@ start_service() {
     fi
   fi
 
+  local build_failed="false"
   (
     cd "$service_dir" || exit 1
+    npm run build --if-present >>"$log_file" 2>>"$err_file" || build_failed="true"
+    if [ "$build_failed" = "true" ]; then
+      exit 1
+    fi
+
     if [ -n "$IP_ADDRESS" ]; then
       HOST="$IP_ADDRESS" nohup npm start >>"$log_file" 2>>"$err_file" &
     else
@@ -197,6 +222,13 @@ start_service() {
 
   local new_pid
   new_pid="$(cat "$pid_file" 2>/dev/null || true)"
+  sleep 1
+  if [ -z "$new_pid" ] || ! is_pid_running "$new_pid"; then
+    echo "Failed to start $service. Check: $err_file"
+    rm -f "$pid_file"
+    return
+  fi
+
   local host_info=""
   if [ -n "$IP_ADDRESS" ]; then
     host_info=" (IP: $IP_ADDRESS)"

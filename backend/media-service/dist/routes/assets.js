@@ -7,7 +7,7 @@ const uploadAssetSchema = z.object({
     dataUrl: z.string().trim().min(1),
     fileName: z.string().trim().min(1).max(255),
     mimeType: z.string().trim().optional(),
-    mediaType: z.enum(['image', 'audio']),
+    mediaType: z.enum(['image', 'audio', 'video']),
     context: z.string().trim().optional(),
 });
 const resolveUrlSchema = z.object({
@@ -64,7 +64,8 @@ assetsRouter.post('/upload', requireAuth, async (req, res) => {
         const isClientError = message.includes('Invalid upload format') ||
             message.includes('Invalid upload payload') ||
             message.includes('not an image') ||
-            message.includes('not an audio');
+            message.includes('not an audio') ||
+            message.includes('not a video');
         return res.status(isClientError ? 400 : 500).json({ message });
     }
 });
