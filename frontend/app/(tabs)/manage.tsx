@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-import { FolderOpen, Video, HelpCircle, BookOpen as BookOpenIcon, Trophy as TrophyIcon, ListChecks, SplitSquareHorizontal, Eye as EyeIcon, Volume2, CheckSquare } from 'lucide-react-native';
+import { FolderOpen, Video, HelpCircle, BookOpen as BookOpenIcon, Trophy as TrophyIcon, ListChecks, SplitSquareHorizontal, Eye as EyeIcon, Volume2, CheckSquare, Image as ImageIcon } from 'lucide-react-native';
 import SelectorModal from '../../src/components/SelectorModal';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
@@ -907,6 +907,25 @@ function resolveMediaUrl(url: string | undefined): string {
     return `${API_BASE_URL}${url}`;
   }
   return url;
+}
+
+function SafeImage({ uri, style, resizeMode = 'contain' }: { uri: string; style?: any; resizeMode?: any }) {
+  const [error, setError] = useState(false);
+  if (!uri || error) {
+    return (
+      <View style={[style, { justifyContent: 'center', alignItems: 'center', backgroundColor: '#F4F4FB', overflow: 'hidden' }]}>
+        <ImageIcon size={24} color="#9A9AB0" />
+      </View>
+    );
+  }
+  return (
+    <Image 
+      source={{ uri }} 
+      style={style} 
+      resizeMode={resizeMode} 
+      onError={() => setError(true)}
+    />
+  );
 }
 
 function getYouTubeEmbedUrl(url: string): string | null {
@@ -2666,7 +2685,7 @@ export default function QuestionManagementScreen() {
                   </Pressable>
                   {draft.mainImage.trim() ? (
                     <View style={qFormS.mediaRow}>
-                      <Image source={{ uri: resolveMediaUrl(draft.mainImage.trim()) }} style={qFormS.mediaThumb} resizeMode="contain" />
+                      <SafeImage uri={resolveMediaUrl(draft.mainImage.trim())} style={qFormS.mediaThumb} resizeMode="contain" />
                       <View style={{ flex: 1 }}>
                         <Text style={qFormS.mediaName} numberOfLines={2}>{toMediaLabel(draft.mainImage, 'image', draft.mainImageLabel)}</Text>
                       </View>
@@ -2722,11 +2741,7 @@ export default function QuestionManagementScreen() {
                 <>
                   <Text style={qFormS.secHint}>Assign each Logico button to one unique option position (1-10).</Text>
                   {draft.mainImage.trim() ? (
-                    <Image
-                      source={{ uri: resolveMediaUrl(draft.mainImage.trim()) }}
-                      style={qFormS.logicoWorksheetPreview}
-                      resizeMode="contain"
-                    />
+                    <SafeImage uri={resolveMediaUrl(draft.mainImage.trim())} style={qFormS.logicoWorksheetPreview} resizeMode="contain" />
                   ) : null}
                   {hasLogicoMappingBlocker ? (
                     <View style={qFormS.logicoBlockerBanner}>
@@ -2809,7 +2824,7 @@ export default function QuestionManagementScreen() {
                         </Pressable>
                         {option.image.trim() ? (
                           <View style={[qFormS.mediaRow, { marginTop: 8 }]}>
-                            <Image source={{ uri: resolveMediaUrl(option.image.trim()) }} style={qFormS.mediaThumb} resizeMode="cover" />
+                            <SafeImage uri={resolveMediaUrl(option.image.trim())} style={qFormS.mediaThumb} resizeMode="cover" />
                             <Text style={qFormS.mediaName} numberOfLines={1}>{toMediaLabel(option.image, 'image', option.imageLabel)}</Text>
                             <Pressable onPress={() => requestMediaRemoval({ scope: 'option', mode, index, mediaType: 'image' })} style={qFormS.removeBtn}>
                               <Text style={qFormS.removeBtnText}>✕</Text>
@@ -2874,7 +2889,7 @@ export default function QuestionManagementScreen() {
                     </Pressable>
                     {pair.image.trim() ? (
                       <View style={qFormS.mediaRow}>
-                        <Image source={{ uri: resolveMediaUrl(pair.image.trim()) }} style={qFormS.mediaThumb} resizeMode="cover" />
+                        <SafeImage uri={resolveMediaUrl(pair.image.trim())} style={qFormS.mediaThumb} resizeMode="cover" />
                         <Text style={qFormS.mediaName} numberOfLines={1}>{toMediaLabel(pair.image, 'image', pair.imageLabel)}</Text>
                         <Pressable onPress={() => requestMediaRemoval({ scope: 'pair', mode, index, mediaType: 'image' })} style={qFormS.removeBtn}>
                           <Text style={qFormS.removeBtnText}>✕</Text>
@@ -2936,7 +2951,7 @@ export default function QuestionManagementScreen() {
                 </View>
               ) : null}
               {draft.mainImage.trim() ? (
-                <Image source={{ uri: resolveMediaUrl(draft.mainImage.trim()) }} style={qFormS.previewImage} resizeMode="contain" />
+                <SafeImage uri={resolveMediaUrl(draft.mainImage.trim())} style={qFormS.previewImage} resizeMode="contain" />
               ) : null}
               {isLogicoMode ? (
                 <View style={qFormS.logicoPreviewWrap}>
@@ -3863,7 +3878,7 @@ export default function QuestionManagementScreen() {
                     })() : null}
                     {section.mediaUrl ? (
                       section.contentType === 'image' ? (
-                        <Image source={{ uri: resolveMediaUrl(section.mediaUrl) }} style={styles.previewImage} resizeMode="contain" />
+                        <SafeImage uri={resolveMediaUrl(section.mediaUrl)} style={styles.previewImage} resizeMode="contain" />
                       ) : isVideoContentType(section.contentType) ? (
                         (() => {
                           const embedUrl = getYouTubeEmbedUrl(section.mediaUrl);
@@ -3999,7 +4014,7 @@ export default function QuestionManagementScreen() {
                             </Pressable>
                           </View>
                           {section.contentType === 'image' ? (
-                            <Image source={{ uri: resolveMediaUrl(section.mediaUrl) }} style={styles.optionImagePreview} resizeMode="contain" />
+                            <SafeImage uri={resolveMediaUrl(section.mediaUrl)} style={styles.optionImagePreview} resizeMode="contain" />
                           ) : (
                             <Text style={styles.metaText}>{section.mediaLabel || section.mediaUrl}</Text>
                           )}
@@ -4060,11 +4075,7 @@ export default function QuestionManagementScreen() {
                 {questionDataPromptImage(previewQuestion.question_data).trim() ? (
                   <View style={styles.previewMediaCard}>
                     <Text style={styles.previewMediaLabel}>Prompt Image</Text>
-                    <Image
-                      source={{ uri: resolveMediaUrl(questionDataPromptImage(previewQuestion.question_data).trim()) }}
-                      style={styles.previewImage}
-                      resizeMode="contain"
-                    />
+                    <SafeImage uri={resolveMediaUrl(questionDataPromptImage(previewQuestion.question_data).trim())} style={styles.previewImage} resizeMode="contain" />
                   </View>
                 ) : null}
 
@@ -4091,7 +4102,7 @@ export default function QuestionManagementScreen() {
                     .map((option, index) => (
                       <View key={`preview-option-${index}`} style={styles.previewMediaCard}>
                         <Text style={styles.previewMediaLabel}>Option {index + 1}: {option.label || 'Untitled'}</Text>
-                        <Image source={{ uri: resolveMediaUrl(option.image.trim()) }} style={styles.previewImage} resizeMode="contain" />
+                        <SafeImage uri={resolveMediaUrl(option.image.trim())} style={styles.previewImage} resizeMode="contain" />
                       </View>
                     ))
                 )}
@@ -4103,7 +4114,7 @@ export default function QuestionManagementScreen() {
                       <Text style={styles.previewMediaLabel}>
                         Pair {index + 1}: {pair.itemLabel || 'Item'} → {pair.targetLabel || 'Target'}
                       </Text>
-                      <Image source={{ uri: resolveMediaUrl(pair.image.trim()) }} style={styles.previewImage} resizeMode="contain" />
+                      <SafeImage uri={resolveMediaUrl(pair.image.trim())} style={styles.previewImage} resizeMode="contain" />
                     </View>
                   ))}
               </ScrollView>
