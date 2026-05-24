@@ -141,8 +141,6 @@ async function bootstrap() {
 
       // ── Classroom lifecycle: ended_at timestamp ────────────────────────────
       await db.query(`ALTER TABLE classrooms ADD COLUMN IF NOT EXISTS ended_at TIMESTAMP;`);
-      // ── Remark media (image/doc visible to parents) ────────────────────────
-      await db.query(`ALTER TABLE classroom_student_remarks ADD COLUMN IF NOT EXISTS remark_media_url TEXT;`);
 
       // ── Teacher remarks + scores per student per classroom ─────────────────
       await db.query(`
@@ -162,6 +160,9 @@ async function bootstrap() {
           UNIQUE(classroom_id, student_id)
         );
       `);
+
+      // ── Remark media (image/doc visible to parents) ────────────────────────
+      await db.query(`ALTER TABLE classroom_student_remarks ADD COLUMN IF NOT EXISTS remark_media_url TEXT;`);
 
       // ── Pre-configured achievement catalogue ───────────────────────────────
       await db.query(`

@@ -12,6 +12,7 @@ RUN npm run build --workspace ${SERVICE_WORKSPACE}
 
 FROM node:20-alpine AS runtime
 ARG SERVICE_WORKSPACE
+ENV SERVICE_WORKSPACE=${SERVICE_WORKSPACE}
 WORKDIR /app
 
 ENV NODE_ENV=production

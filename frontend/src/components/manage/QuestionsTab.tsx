@@ -12,7 +12,7 @@ import {
 import {
   ChevronLeft, ChevronRight, Search, Filter, X,
   Zap, Clock, Eye, Volume2, CheckSquare, SplitSquareHorizontal, ListChecks, Layers, HelpCircle, ClipboardList,
-  Play, Pause, Check,
+  Play, Pause, Check, Image as ImageIcon,
 } from 'lucide-react-native';
 import { Audio } from 'expo-av';
 import SelectorModal from '../SelectorModal';
@@ -47,6 +47,27 @@ type QuestionFull = QuestionItem & { question_data: unknown };
 function resolveUrl(url?: string) {
   if (!url) return '';
   return url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
+}
+
+function SafeImage({ uri, style, resizeMode = 'contain' }: { uri: string; style?: any; resizeMode?: any }) {
+  const [error, setError] = useState(false);
+  
+  if (!uri || error) {
+    return (
+      <View style={[style, { justifyContent: 'center', alignItems: 'center', backgroundColor: '#F4F4FB', overflow: 'hidden' }]}>
+        <ImageIcon size={24} color="#9A9AB0" />
+      </View>
+    );
+  }
+
+  return (
+    <Image 
+      source={{ uri }} 
+      style={style} 
+      resizeMode={resizeMode} 
+      onError={() => setError(true)}
+    />
+  );
 }
 
 type QtypeCfg = { Icon: React.ComponentType<{ size?: number; color?: string }>; label: string; color: string; bg: string };
@@ -252,7 +273,7 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
           {promptImage ? (
             <View style={q.detailSection}>
               <Text style={q.detailSectionTitle}>Prompt Image</Text>
-              <Image source={{ uri: resolveUrl(promptImage) }} style={q.previewImage} resizeMode="contain" />
+              <SafeImage uri={resolveUrl(promptImage)} style={q.previewImage} resizeMode="contain" />
             </View>
           ) : null}
 
@@ -303,7 +324,7 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
                     </View>
                     <View style={{ flex: 1, gap: 6 }}>
                       {label ? <Text style={[q.optionText, isCorrect && q.optionTextCorrect]}>{label}</Text> : null}
-                      {opt.image ? <Image source={{ uri: resolveUrl(opt.image) }} style={q.optionThumb} resizeMode="contain" /> : null}
+                      {opt.image ? <SafeImage uri={resolveUrl(opt.image)} style={q.optionThumb} resizeMode="contain" /> : null}
                       {opt.audio ? <InlineAudio url={resolveUrl(opt.audio)} label="Option audio" accentColor={isCorrect ? '#7DC67A' : '#9B8EC4'} /> : null}
                     </View>
                     {isCorrect && (
@@ -329,7 +350,7 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
                   <View key={idx} style={q.pairRow}>
                     <View style={q.pairCell}>
                       {item.label ? <Text style={q.pairText}>{item.label}</Text> : null}
-                      {item.image ? <Image source={{ uri: resolveUrl(item.image) }} style={q.pairThumb} resizeMode="contain" /> : null}
+                      {item.image ? <SafeImage uri={resolveUrl(item.image)} style={q.pairThumb} resizeMode="contain" /> : null}
                       {item.sound ? <InlineAudio url={resolveUrl(item.sound)} label="Audio" accentColor="#9B8EC4" /> : null}
                     </View>
                     <View style={q.pairArrowWrap}>
@@ -583,9 +604,27 @@ export default function QuestionsTab({
                     key={question.id}
                     question={question}
                     idx={page * PAGE_SIZE + idx}
-                    onAction={(action) => {
-                      if (action === 'view') openDetails(question);
-                      else onQuestionAction(question, action);
+                    onAction={async (action) => {
+                      if (action === 'view') {
+                        openDetails(question);
+                      } else if (action === 'edit') {
+                        setFetchingDetails(true);
+                        try {
+                          const res = await apiFetch(`/quizzes/questions/${question.id}`);
+                          if (res.ok) {
+                            const payload = await res.json();
+                            onQuestionAction(payload.question, 'edit');
+                          } else {
+                            onQuestionAction(question, 'edit');
+                          }
+                        } catch {
+                          onQuestionAction(question, 'edit');
+                        } finally {
+                          setFetchingDetails(false);
+                        }
+                      } else {
+                        onQuestionAction(question, action);
+                      }
                     }}
                   />
                 ))}

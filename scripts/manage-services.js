@@ -148,8 +148,8 @@ async function startAll() {
       env: { ...process.env, PORT: String(service.port) },
     });
 
-    child.stdout.pipe(logStream);
-    child.stderr.pipe(logStream);
+    child.stdout.pipe(logStream, { end: false });
+    child.stderr.pipe(logStream, { end: false });
     child.unref();
 
     newPids[service.name] = child.pid;
