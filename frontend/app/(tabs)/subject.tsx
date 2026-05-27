@@ -270,7 +270,7 @@ function TopicScreen({ topic, onBack }: { topic: TopicDetail; onBack: () => void
   const ss = subjectStyle(topic.subject);
 
   useEffect(() => {
-    apiFetch(`/quizzes/students/subjects/${topic.id}`)
+    apiFetch(`/students/subjects/${topic.id}`)
       .then((r) => r.ok ? r.json() : null)
       .then((d) => { if (d) setContents(d.contents ?? []); })
       .catch(() => {})
@@ -396,7 +396,7 @@ export default function SubjectScreen() {
   const [selectedTopic, setSelectedTopic] = useState<TopicDetail | null>(null);
 
   useEffect(() => {
-    apiFetch('/quizzes/students/subjects')
+    apiFetch('/students/subjects')
       .then((r) => r.ok ? r.json() : null)
       .then((d) => { if (d) { setClassLevel(d.classLevel); setSubjects(d.subjects ?? []); } })
       .catch(() => {})

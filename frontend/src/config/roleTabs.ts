@@ -38,7 +38,7 @@ export const roleTabs: Record<UserRole, RoleTabItem[]> = {
   superadmin: [
     { route: 'index', label: 'Home', icon: House },
     { route: 'reports', label: 'Reports', icon: ChartColumn },
-    { route: 'admin', label: 'Admin', icon: Shield },
+    { route: 'superadmin', label: 'Superadmin', icon: Shield },
   ],
 };
 
@@ -51,6 +51,7 @@ export const hiddenTabRoutes = [
   'evaluation',
   'manage',
   'admin',
+  'superadmin',
   'settings',
 ] as const;
 

@@ -475,7 +475,7 @@ export default function QuestionsTab({
   const openDetails = async (q: QuestionItem) => {
     setFetchingDetails(true);
     try {
-      const res = await apiFetch(`/quizzes/questions/${q.id}`);
+      const res = await apiFetch(`/questions/${q.id}`);
       if (res.ok) {
         const payload = await res.json();
         setDetailsQuestion(payload.question as QuestionFull);
@@ -610,7 +610,7 @@ export default function QuestionsTab({
                       } else if (action === 'edit') {
                         setFetchingDetails(true);
                         try {
-                          const res = await apiFetch(`/quizzes/questions/${question.id}`);
+                          const res = await apiFetch(`/questions/${question.id}`);
                           if (res.ok) {
                             const payload = await res.json();
                             onQuestionAction(payload.question, 'edit');

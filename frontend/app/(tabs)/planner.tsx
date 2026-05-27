@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import { ActivityIndicator, Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { ChevronDown, ChevronUp, GripVertical, Clock, BookOpen, Trophy, ClipboardList, Settings, Eye, Zap, Calendar, Users, CheckCircle, School } from 'lucide-react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import SelectorModal from '../../src/components/SelectorModal';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
@@ -22,6 +23,7 @@ type ClassroomSummary = {
   scheduleType: ScheduleType;
   durationMinutes: number;
   startTime?: string;
+  endTime?: string | null;
   status: ClassroomStatus;
   createdAt: string;
   contentCount: number;
@@ -61,7 +63,11 @@ type ClassroomFormState = {
   title: string;
   description: string;
   scheduleType: ScheduleType;
-  startTimeInput: string;
+  startDateInput: string;
+  startTimeOfDayInput: string;
+  endEnabled: boolean;
+  endDateInput: string;
+  endTimeOfDayInput: string;
   durationMinutes: string;
   classLevel: string;
   status: ClassroomStatus;
@@ -87,7 +93,11 @@ const EMPTY_FORM: ClassroomFormState = {
   title: '',
   description: '',
   scheduleType: 'instant',
-  startTimeInput: '',
+  startDateInput: '',
+  startTimeOfDayInput: '',
+  endEnabled: false,
+  endDateInput: '',
+  endTimeOfDayInput: '',
   durationMinutes: '45',
   classLevel: '',
   status: 'active',
@@ -159,6 +169,126 @@ function toIsoOrNull(value: string): string | null {
   return dt.toISOString();
 }
 
+function combineDateAndTime(dateStr: string, timeStr: string): string | null {
+  const d = dateStr.trim();
+  const t = timeStr.trim();
+  if (!d || !t) return null;
+  const dt = new Date(`${d}T${t}:00`);
+  if (Number.isNaN(dt.getTime())) return null;
+  return dt.toISOString();
+}
+
+function splitIsoToDateAndTime(iso: string | null | undefined): { date: string; time: string } {
+  if (!iso) return { date: '', time: '' };
+  const dt = new Date(iso);
+  if (Number.isNaN(dt.getTime())) return { date: '', time: '' };
+  const yyyy = dt.getFullYear();
+  const mm = String(dt.getMonth() + 1).padStart(2, '0');
+  const dd = String(dt.getDate()).padStart(2, '0');
+  const hh = String(dt.getHours()).padStart(2, '0');
+  const mi = String(dt.getMinutes()).padStart(2, '0');
+  return { date: `${yyyy}-${mm}-${dd}`, time: `${hh}:${mi}` };
+}
+
+function DateTimeInput({ kind, value, onChange, placeholder, minDate }: {
+  kind: 'date' | 'time';
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  minDate?: Date;
+}) {
+  const [show, setShow] = useState(false);
+
+  if (Platform.OS === 'web') {
+    const React = require('react');
+    const minAttr = minDate
+      ? (kind === 'date'
+          ? `${minDate.getFullYear()}-${String(minDate.getMonth() + 1).padStart(2, '0')}-${String(minDate.getDate()).padStart(2, '0')}`
+          : `${String(minDate.getHours()).padStart(2, '0')}:${String(minDate.getMinutes()).padStart(2, '0')}`)
+      : undefined;
+    return React.createElement('input', {
+      type: kind,
+      value,
+      min: minAttr,
+      onChange: (e: any) => onChange(e.target.value),
+      style: {
+        backgroundColor: '#F4F5FF',
+        borderRadius: 10,
+        padding: 10,
+        fontSize: 13,
+        color: '#1a1a2e',
+        border: '1px solid #E2E5F0',
+        outline: 'none',
+        fontFamily: 'inherit',
+        width: '100%',
+        boxSizing: 'border-box',
+      },
+    });
+  }
+
+  const currentDate = (() => {
+    if (kind === 'date' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      const [y, m, d] = value.split('-').map(Number);
+      return new Date(y, (m || 1) - 1, d || 1, 0, 0, 0);
+    }
+    if (kind === 'time' && /^\d{2}:\d{2}$/.test(value)) {
+      const [h, mi] = value.split(':').map(Number);
+      const dt = new Date();
+      dt.setHours(h || 0, mi || 0, 0, 0);
+      return dt;
+    }
+    return new Date();
+  })();
+
+  const display = value || placeholder || (kind === 'date' ? 'Select date' : 'Select time');
+
+  return (
+    <>
+      <Pressable
+        onPress={() => setShow(true)}
+        style={{
+          backgroundColor: '#F4F5FF',
+          borderRadius: 10,
+          paddingHorizontal: 12,
+          paddingVertical: 10,
+          borderWidth: 1,
+          borderColor: '#E2E5F0',
+        }}
+      >
+        <Text style={{ fontSize: 14, color: value ? '#1a1a2e' : '#B0B8D0', fontWeight: '600' }}>{display}</Text>
+      </Pressable>
+      {show ? (
+        <DateTimePicker
+          value={currentDate}
+          mode={kind}
+          is24Hour={false}
+          minimumDate={minDate}
+          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+          onChange={(_event: any, picked?: Date) => {
+            if (Platform.OS !== 'ios') setShow(false);
+            if (!picked) return;
+            if (kind === 'date') {
+              const y = picked.getFullYear();
+              const m = String(picked.getMonth() + 1).padStart(2, '0');
+              const d = String(picked.getDate()).padStart(2, '0');
+              onChange(`${y}-${m}-${d}`);
+            } else {
+              const h = String(picked.getHours()).padStart(2, '0');
+              const mi = String(picked.getMinutes()).padStart(2, '0');
+              onChange(`${h}:${mi}`);
+            }
+          }}
+        />
+      ) : null}
+      {show && Platform.OS === 'ios' ? (
+        <Pressable onPress={() => setShow(false)} style={{ alignSelf: 'flex-end', paddingVertical: 6 }}>
+          <Text style={{ color: '#4A90E2', fontWeight: '800', fontSize: 12 }}>Done</Text>
+        </Pressable>
+      ) : null}
+    </>
+  );
+}
+
 export default function PlannerScreen() {
   const { user, apiFetch } = useAuth();
   const [loading, setLoading] = useState(true);
@@ -189,11 +319,12 @@ export default function PlannerScreen() {
   const [endingClassroomId, setEndingClassroomId]  = useState<string | null>(null);
   const [detailsClassroomId, setDetailsClassroomId]= useState<string | null>(null);
   const [restartingId, setRestartingId]            = useState<string | null>(null);
+  const [activityCounts, setActivityCounts]        = useState<Record<string, number>>({});
 
   const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
 
   const loadClassrooms = useCallback(async () => {
-    const res = await apiFetch('/quizzes/classrooms?limit=200');
+    const res = await apiFetch('/classrooms?limit=200');
     if (!res.ok) {
       const payload = await res.json().catch(() => ({}));
       throw new Error(payload.message || 'Failed to load classrooms');
@@ -202,11 +333,26 @@ export default function PlannerScreen() {
     setClassrooms((payload.classrooms || []) as ClassroomSummary[]);
   }, [apiFetch]);
 
+  const loadActivityCounts = useCallback(async () => {
+    try {
+      const res = await apiFetch('/notifications/teacher-activity');
+      if (!res.ok) return;
+      const payload = await res.json();
+      const next: Record<string, number> = {};
+      for (const row of (payload.counts || []) as Array<{ classroomId: string; unread: number }>) {
+        if (row.classroomId) next[row.classroomId] = Number(row.unread) || 0;
+      }
+      setActivityCounts(next);
+    } catch (_e) {
+      /* silent */
+    }
+  }, [apiFetch]);
+
   const loadResources = useCallback(async () => {
     const [contentRes, quizRes, catalogRes] = await Promise.all([
-      apiFetch('/quizzes/content/items?limit=300'),
+      apiFetch('/content/items?limit=300'),
       apiFetch('/quizzes/teacher/library?status=all&limit=300'),
-      apiFetch('/quizzes/catalog/subjects'),
+      apiFetch('/catalog/subjects'),
     ]);
 
     if (contentRes.ok) {
@@ -238,13 +384,13 @@ export default function PlannerScreen() {
     setLoading(true);
     setMessage(null);
     try {
-      await Promise.all([loadClassrooms(), loadResources()]);
+      await Promise.all([loadClassrooms(), loadResources(), loadActivityCounts()]);
     } catch (error) {
       setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load classroom planning data' });
     } finally {
       setLoading(false);
     }
-  }, [isTeacherView, loadClassrooms, loadResources]);
+  }, [isTeacherView, loadClassrooms, loadResources, loadActivityCounts]);
 
   useFocusEffect(
     useCallback(() => {
@@ -329,7 +475,7 @@ export default function PlannerScreen() {
   const openEdit = async (classroomId: string) => {
     setMessage(null);
     try {
-      const res = await apiFetch(`/quizzes/classrooms/${classroomId}`);
+      const res = await apiFetch(`/classrooms/${classroomId}`);
       if (!res.ok) {
         const payload = await res.json().catch(() => ({}));
         throw new Error(payload.message || 'Failed to load classroom details');
@@ -352,11 +498,17 @@ export default function PlannerScreen() {
       setModalTab('setup');
       setQuizFilters({ subject: '', category: '', difficulty: '', search: '' });
       setContentSearch('');
+      const startParts = splitIsoToDateAndTime(classroom.startTime);
+      const endParts = splitIsoToDateAndTime((classroom as any).endTime);
       setForm({
         title: classroom.title || '',
         description: classroom.description || '',
         scheduleType: (classroom.scheduleType as ScheduleType) || 'instant',
-        startTimeInput: classroom.startTime ? new Date(classroom.startTime).toISOString().slice(0, 16) : '',
+        startDateInput: startParts.date,
+        startTimeOfDayInput: startParts.time,
+        endEnabled: !!(classroom as any).endTime,
+        endDateInput: endParts.date,
+        endTimeOfDayInput: endParts.time,
         durationMinutes: String(classroom.durationMinutes ?? 0),
         classLevel: classroom.classLevel || '',
         status: (classroom.status as ClassroomStatus) || 'draft',
@@ -390,7 +542,7 @@ export default function PlannerScreen() {
     try {
       const picked = await pickFileAsDataUrl('image/*,audio/*,video/*');
       const mediaType = resolveUploadMediaType(picked);
-      const res = await apiFetch('/quizzes/uploads/media', {
+      const res = await apiFetch('/assets/upload', {
         method: 'POST',
         body: JSON.stringify({
           dataUrl: picked.dataUrl,
@@ -427,10 +579,34 @@ export default function PlannerScreen() {
       return;
     }
 
-    const startTimeIso = toIsoOrNull(form.startTimeInput);
+    const startTimeIso = form.scheduleType === 'scheduled'
+      ? combineDateAndTime(form.startDateInput, form.startTimeOfDayInput)
+      : null;
     if (form.scheduleType === 'scheduled' && !startTimeIso) {
       setMessage({ type: 'error', text: 'Start date & time is required for scheduled classroom.' });
       return;
+    }
+    if (form.scheduleType === 'scheduled' && startTimeIso) {
+      if (new Date(startTimeIso).getTime() <= Date.now()) {
+        setMessage({ type: 'error', text: 'Start date & time must be in the future.' });
+        return;
+      }
+    }
+    let endTimeIso: string | null = null;
+    if (form.scheduleType === 'scheduled' && form.endEnabled) {
+      endTimeIso = combineDateAndTime(form.endDateInput, form.endTimeOfDayInput);
+      if (!endTimeIso) {
+        setMessage({ type: 'error', text: 'End date & time is invalid.' });
+        return;
+      }
+      if (new Date(endTimeIso).getTime() <= Date.now()) {
+        setMessage({ type: 'error', text: 'End date & time must be in the future.' });
+        return;
+      }
+      if (startTimeIso && new Date(endTimeIso).getTime() <= new Date(startTimeIso).getTime()) {
+        setMessage({ type: 'error', text: 'End time must be after start time.' });
+        return;
+      }
     }
 
     const assignments = form.assignments
@@ -450,6 +626,7 @@ export default function PlannerScreen() {
       description: form.description.trim(),
       scheduleType: form.scheduleType,
       startTime: form.scheduleType === 'scheduled' ? startTimeIso : null,
+      endTime: form.scheduleType === 'scheduled' && form.endEnabled ? endTimeIso : null,
       durationMinutes,
       classLevel: form.classLevel,
       status: form.status,
@@ -461,7 +638,7 @@ export default function PlannerScreen() {
     setSaving(true);
     setMessage(null);
     try {
-      const endpoint = editingClassroomId ? `/quizzes/classrooms/${editingClassroomId}` : '/quizzes/classrooms';
+      const endpoint = editingClassroomId ? `/classrooms/${editingClassroomId}` : '/classrooms';
       const method = editingClassroomId ? 'PUT' : 'POST';
       const res = await apiFetch(endpoint, {
         method,
@@ -487,7 +664,7 @@ export default function PlannerScreen() {
     if (!pendingDelete) return;
     setDeletingClassroomId(pendingDelete.id);
     try {
-      const res = await apiFetch(`/quizzes/classrooms/${pendingDelete.id}`, { method: 'DELETE' });
+      const res = await apiFetch(`/classrooms/${pendingDelete.id}`, { method: 'DELETE' });
       if (!res.ok) {
         const payload = await res.json().catch(() => ({}));
         throw new Error(payload.message || 'Failed to delete classroom');
@@ -506,7 +683,7 @@ export default function PlannerScreen() {
   const endClassroom = async (classroomId: string) => {
     setEndingClassroomId(classroomId);
     try {
-      const res = await apiFetch(`/quizzes/classrooms/${classroomId}/end`, { method: 'PATCH' });
+      const res = await apiFetch(`/classrooms/${classroomId}/end`, { method: 'PATCH' });
       if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.message || 'Failed'); }
       await loadClassrooms();
       setMessage({ type: 'success', text: 'Class ended and moved to history.' });
@@ -527,7 +704,7 @@ export default function PlannerScreen() {
   const loadHistory = async () => {
     setHistoryLoading(true);
     try {
-      const res = await apiFetch('/quizzes/classrooms/history');
+      const res = await apiFetch('/classrooms/history');
       if (res.ok) { const d = await res.json(); setHistoryRooms(d.classrooms ?? []); }
     } finally { setHistoryLoading(false); }
   };
@@ -548,7 +725,7 @@ export default function PlannerScreen() {
   const restartClassroom = async (classroomId: string) => {
     setRestartingId(classroomId);
     try {
-      const res = await apiFetch(`/quizzes/classrooms/${classroomId}/restart`, { method: 'PATCH' });
+      const res = await apiFetch(`/classrooms/${classroomId}/restart`, { method: 'PATCH' });
       if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.message || 'Failed'); }
       setIsHistoryOpen(false);
       await loadClassrooms();
@@ -679,6 +856,13 @@ export default function PlannerScreen() {
                     <Text style={p.classMetaValue}>{item.scheduleType === 'instant' ? 'Instant' : startMeta.date}</Text>
                     {item.scheduleType !== 'instant' && <Text style={p.classTimingSub}>{startMeta.time}</Text>}
                   </View>
+                  {item.endTime ? (
+                    <View style={p.classTimingItem}>
+                      <Text style={p.classMetaLabel}>End</Text>
+                      <Text style={p.classMetaValue}>{getDateTimeParts(item.endTime).date}</Text>
+                      <Text style={p.classTimingSub}>{getDateTimeParts(item.endTime).time}</Text>
+                    </View>
+                  ) : null}
                 </View>
 
                 <View style={p.classCountsRow}>
@@ -689,8 +873,28 @@ export default function PlannerScreen() {
 
                 {/* Actions */}
                 <View style={p.classCardFooter}>
-                  <Pressable style={[p.footerBtn, { backgroundColor: '#EBF4FF' }]} onPress={() => setDetailsClassroomId(item.id)}>
+                  <Pressable
+                    style={[p.footerBtn, { backgroundColor: '#EBF4FF' }]}
+                    onPress={async () => {
+                      setDetailsClassroomId(item.id);
+                      if (activityCounts[item.id]) {
+                        try {
+                          await apiFetch(`/notifications/teacher-activity/${item.id}/seen`, { method: 'PATCH' });
+                          setActivityCounts((prev) => {
+                            const next = { ...prev };
+                            delete next[item.id];
+                            return next;
+                          });
+                        } catch (_e) { /* silent */ }
+                      }
+                    }}
+                  >
                     <Text numberOfLines={1} style={[p.footerBtnText, { color: '#1A4DA2' }]}>Details</Text>
+                    {activityCounts[item.id] ? (
+                      <View style={p.activityDot}>
+                        <Text style={p.activityDotText}>{activityCounts[item.id] > 9 ? '9+' : String(activityCounts[item.id])}</Text>
+                      </View>
+                    ) : null}
                   </Pressable>
                   <Pressable style={[p.footerBtn, { backgroundColor: `${pal.bg}18` }]} onPress={() => openEdit(item.id)}>
                     <Text numberOfLines={1} style={[p.footerBtnText, { color: pal.bg }]}>Edit</Text>
@@ -793,7 +997,85 @@ export default function PlannerScreen() {
                     <>
                       <View style={p.fieldDivider} />
                       <Text style={p.fieldLabel}>Start Date & Time</Text>
-                      <TextInput value={form.startTimeInput} onChangeText={(v) => setFormPatch({ startTimeInput: v })} placeholder="2026-05-25T10:30" style={p.fieldInput} placeholderTextColor="#B0B8D0" />
+                      <View style={p.dateTimeRow}>
+                        <View style={p.dateTimeCol}>
+                          <Text style={p.dateTimeLabel}>Date</Text>
+                          <DateTimeInput
+                            kind="date"
+                            value={form.startDateInput}
+                            onChange={(v) => setFormPatch({ startDateInput: v })}
+                            placeholder="YYYY-MM-DD"
+                            minDate={new Date()}
+                          />
+                        </View>
+                        <View style={p.dateTimeCol}>
+                          <Text style={p.dateTimeLabel}>Time</Text>
+                          <DateTimeInput
+                            kind="time"
+                            value={form.startTimeOfDayInput}
+                            onChange={(v) => setFormPatch({ startTimeOfDayInput: v })}
+                            placeholder="HH:MM"
+                            minDate={(() => {
+                              const today = new Date();
+                              const sel = form.startDateInput;
+                              const isToday = sel === `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+                              return isToday ? today : undefined;
+                            })()}
+                          />
+                        </View>
+                      </View>
+                      <View style={p.fieldDivider} />
+                      {form.endEnabled ? (
+                        <>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <Text style={p.fieldLabel}>End Date & Time</Text>
+                            <Pressable onPress={() => setFormPatch({ endEnabled: false, endDateInput: '', endTimeOfDayInput: '' })}>
+                              <Text style={p.removeEndText}>Remove</Text>
+                            </Pressable>
+                          </View>
+                          <View style={p.dateTimeRow}>
+                            <View style={p.dateTimeCol}>
+                              <Text style={p.dateTimeLabel}>Date</Text>
+                              <DateTimeInput
+                                kind="date"
+                                value={form.endDateInput}
+                                onChange={(v) => setFormPatch({ endDateInput: v })}
+                                placeholder="YYYY-MM-DD"
+                                minDate={form.startDateInput ? new Date(`${form.startDateInput}T00:00:00`) : new Date()}
+                              />
+                            </View>
+                            <View style={p.dateTimeCol}>
+                              <Text style={p.dateTimeLabel}>Time</Text>
+                              <DateTimeInput
+                                kind="time"
+                                value={form.endTimeOfDayInput}
+                                onChange={(v) => setFormPatch({ endTimeOfDayInput: v })}
+                                placeholder="HH:MM"
+                                minDate={(() => {
+                                  if (form.endDateInput && form.endDateInput === form.startDateInput && form.startTimeOfDayInput) {
+                                    const [h, mi] = form.startTimeOfDayInput.split(':').map(Number);
+                                    const d = new Date();
+                                    d.setHours(h || 0, mi || 0, 0, 0);
+                                    return d;
+                                  }
+                                  return undefined;
+                                })()}
+                              />
+                            </View>
+                          </View>
+                        </>
+                      ) : (
+                        <Pressable
+                          style={p.addEndBtn}
+                          onPress={() => setFormPatch({
+                            endEnabled: true,
+                            endDateInput: form.startDateInput,
+                            endTimeOfDayInput: '',
+                          })}
+                        >
+                          <Text style={p.addEndBtnText}>+ Add End Time</Text>
+                        </Pressable>
+                      )}
                     </>
                   )}
                 </View>
@@ -1268,7 +1550,7 @@ export default function PlannerScreen() {
         onClose={() => setDetailsClassroomId(null)}
         onUploadMedia={async () => {
           const picked = await pickFileAsDataUrl('image/*');
-          const res = await apiFetch('/quizzes/uploads/media', {
+          const res = await apiFetch('/assets/upload', {
             method: 'POST',
             body: JSON.stringify({ dataUrl: picked.dataUrl, fileName: picked.fileName, mimeType: picked.mimeType, mediaType: 'image' }),
           });
@@ -1346,8 +1628,17 @@ const p = StyleSheet.create({
   statusTag:        { borderRadius: 999, paddingHorizontal: 9, paddingVertical: 3, alignSelf: 'flex-start' },
   statusTagText:    { fontSize: 10, fontWeight: '800' },
   classCardFooter:  { flexDirection: 'row', gap: 6, paddingTop: 2 },
-  footerBtn:        { flex: 1, minWidth: 0, borderRadius: 12, paddingVertical: 9, alignItems: 'center' },
+  footerBtn:        { flex: 1, minWidth: 0, borderRadius: 12, paddingVertical: 9, alignItems: 'center', position: 'relative' },
   footerBtnText:    { fontSize: 11, fontWeight: '800' },
+  activityDot: {
+    position: 'absolute',
+    top: -4, right: -4,
+    minWidth: 18, height: 18, paddingHorizontal: 4,
+    borderRadius: 9, backgroundColor: '#EF4444',
+    alignItems: 'center', justifyContent: 'center',
+    borderWidth: 1.5, borderColor: '#fff',
+  },
+  activityDotText: { fontSize: 10, fontWeight: '900', color: '#fff', lineHeight: 12 },
   footerBtnGhost:   { flex: 1, minWidth: 0, borderRadius: 12, paddingVertical: 9, alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.04)' },
   footerBtnDelete:  { fontSize: 11, fontWeight: '700', color: '#9A9AB0' },
 
@@ -1388,6 +1679,12 @@ const p = StyleSheet.create({
   fieldLabel:   { fontSize: 11, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase', letterSpacing: 0.5 },
   fieldInput:   { fontSize: 14, color: '#1a1a2e', fontWeight: '500', paddingVertical: 6 },
   fieldDivider: { height: 1, backgroundColor: '#F0F0F8' },
+  dateTimeRow:  { flexDirection: 'row', gap: 10, marginTop: 6 },
+  dateTimeCol:  { flex: 1 },
+  dateTimeLabel:{ fontSize: 10, fontWeight: '700', color: '#9A9AB0', marginBottom: 4 },
+  addEndBtn:    { marginTop: 8, alignSelf: 'flex-start', paddingHorizontal: 12, paddingVertical: 8, borderRadius: 999, backgroundColor: '#EBF4FF' },
+  addEndBtnText:{ fontSize: 12, fontWeight: '800', color: '#4A90E2' },
+  removeEndText:{ fontSize: 11, fontWeight: '700', color: '#E05A3A' },
   selectorRow:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 6 },
   selectorVal:  { fontSize: 14, color: '#1a1a2e', fontWeight: '500' },
   selectorPlaceholder: { fontSize: 14, color: '#B0B8D0' },

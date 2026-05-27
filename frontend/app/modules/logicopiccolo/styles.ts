@@ -242,6 +242,9 @@ export const logicopiccoloStyles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 10,
   },
+  cardGridScroll: {
+    maxHeight: 460,
+  },
   cardTile: {
     minWidth: 140,
     maxWidth: 180,

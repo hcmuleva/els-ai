@@ -22,6 +22,7 @@ const createUserSchema = z.object({
     password: z.string().min(4).max(72).optional(),
     role: managedRoleSchema,
     classLevel: z.string().trim().optional(),
+    branch: z.string().trim().max(100).optional(),
 });
 const assignRolesSchema = z.object({
     roles: z.array(managedRoleSchema).min(1),
@@ -34,6 +35,7 @@ const updateUserSchema = z
     mobileNumber: z.string().trim().min(6).max(20).optional(),
     password: z.string().min(4).max(72).optional(),
     classLevel: z.string().trim().optional(),
+    branch: z.string().trim().max(100).optional(),
     activeRole: managedRoleSchema.optional(),
     isActive: z.boolean().optional(),
 })
@@ -94,8 +96,17 @@ const updateSubjectSchema = z
     .refine((value) => Object.values(value).some((item) => item !== undefined), {
     message: 'At least one field must be provided',
 });
+const updateGlobalPublishPermissionSchema = z.object({
+    organizationId: z.string().uuid().optional(),
+    enabled: z.boolean(),
+});
+const transferOrganizationSchema = z.object({
+    fromOrganizationId: z.string().uuid(),
+    toOrganizationId: z.string().uuid(),
+    roles: z.array(roleSchema).min(1).optional(),
+});
 async function getUserWithRoles(userId, organizationId) {
-    const userResult = await db.query(`SELECT id, first_name, last_name, email, mobile_number, class_level, active_role, profile_image, is_active
+    const userResult = await db.query(`SELECT id, first_name, last_name, email, mobile_number, class_level, branch, active_role, profile_image, is_active
      FROM users
      WHERE id = $1`, [userId]);
     if (userResult.rowCount === 0) {
@@ -124,6 +135,7 @@ async function getUserWithRoles(userId, organizationId) {
         email: user.email,
         mobileNumber: user.mobile_number || undefined,
         classLevel: user.class_level || undefined,
+        branch: user.branch || undefined,
         activeRole: user.active_role,
         roles,
         profileImage: user.profile_image,
@@ -154,6 +166,17 @@ async function hasAdminAccess(req) {
        AND r.role_name = u.active_role
      LIMIT 1`, [userId, organizationId]);
     return (adminCheck.rowCount ?? 0) > 0;
+}
+async function isSuperAdmin(userId) {
+    if (!userId)
+        return false;
+    const result = await db.query(`SELECT 1
+     FROM user_roles ur
+     INNER JOIN roles r ON r.id = ur.role_id
+     WHERE ur.user_id = $1
+       AND r.role_name = 'superadmin'
+     LIMIT 1`, [userId]);
+    return (result.rowCount ?? 0) > 0;
 }
 async function userHasRoleInOrg(userId, organizationId, roleName) {
     const result = await db.query(`SELECT 1
@@ -192,6 +215,46 @@ function mapSubjectRow(row) {
     };
 }
 export const usersRouter = Router();
+usersRouter.get('/admin/counts', requireAuth, async (req, res) => {
+    const organizationId = getRequestOrganizationId(req);
+    if (!organizationId) {
+        return res.status(400).json({ message: 'Organization not found in auth context' });
+    }
+    if (!(await hasAdminAccess(req))) {
+        return res.status(403).json({ message: 'Forbidden: admin role required' });
+    }
+    try {
+        const usersByRole = await db.query(`SELECT r.role_name AS role, COUNT(DISTINCT u.id)::int AS total
+         FROM users u
+         INNER JOIN user_roles ur ON ur.user_id = u.id
+         INNER JOIN roles r ON r.id = ur.role_id
+        WHERE ur.organization_id = $1::uuid
+          AND u.deleted_at IS NULL
+          AND u.is_active = true
+          AND r.role_name IN ('student','teacher','parent','admin')
+        GROUP BY r.role_name`, [organizationId]);
+        const counts = { students: 0, teachers: 0, parents: 0, admins: 0, subjects: 0 };
+        usersByRole.rows.forEach((row) => {
+            if (row.role === 'student')
+                counts.students = Number(row.total) || 0;
+            if (row.role === 'teacher')
+                counts.teachers = Number(row.total) || 0;
+            if (row.role === 'parent')
+                counts.parents = Number(row.total) || 0;
+            if (row.role === 'admin')
+                counts.admins = Number(row.total) || 0;
+        });
+        const subjectsResult = await db.query(`SELECT COUNT(*)::int AS total
+         FROM subjects s
+        WHERE s.organization_id = $1::uuid`, [organizationId]);
+        counts.subjects = Number(subjectsResult.rows[0]?.total || 0);
+        return res.json({ counts });
+    }
+    catch (error) {
+        console.error('Failed to load admin counts', error);
+        return res.status(500).json({ message: 'Failed to load admin counts' });
+    }
+});
 usersRouter.get('/', requireAuth, async (req, res) => {
     const parsedQuery = listUsersQuerySchema.safeParse(req.query);
     if (!parsedQuery.success) {
@@ -246,6 +309,7 @@ usersRouter.get('/', requireAuth, async (req, res) => {
           u.email,
           u.mobile_number,
           u.class_level,
+          u.branch,
           u.active_role,
           u.profile_image,
           u.is_active,
@@ -255,7 +319,7 @@ usersRouter.get('/', requireAuth, async (req, res) => {
        INNER JOIN user_roles ur ON ur.user_id = u.id
        INNER JOIN roles r ON r.id = ur.role_id
        WHERE ${whereClauses.join(' AND ')}
-       GROUP BY u.id, u.first_name, u.last_name, u.email, u.mobile_number, u.class_level, u.active_role, u.profile_image, u.is_active
+       GROUP BY u.id, u.first_name, u.last_name, u.email, u.mobile_number, u.class_level, u.branch, u.active_role, u.profile_image, u.is_active
        ORDER BY u.first_name ASC, u.last_name ASC`, params);
         const users = usersResult.rows.map((row) => ({
             id: row.id,
@@ -264,6 +328,7 @@ usersRouter.get('/', requireAuth, async (req, res) => {
             email: row.email,
             mobileNumber: row.mobile_number || undefined,
             classLevel: row.class_level || undefined,
+            branch: row.branch || undefined,
             activeRole: row.active_role,
             roles: row.roles,
             profileImage: row.profile_image || undefined,
@@ -289,7 +354,7 @@ usersRouter.post('/', requireAuth, async (req, res) => {
     if (!(await hasAdminAccess(req))) {
         return res.status(403).json({ message: 'Forbidden: admin role required' });
     }
-    const { firstName, lastName, email, mobileNumber, password, role, classLevel } = parsedBody.data;
+    const { firstName, lastName, email, mobileNumber, password, role, classLevel, branch } = parsedBody.data;
     try {
         const emailExists = await db.query('SELECT 1 FROM users WHERE email = $1', [email]);
         if (emailExists.rowCount && emailExists.rowCount > 0) {
@@ -307,9 +372,9 @@ usersRouter.post('/', requireAuth, async (req, res) => {
         }
         const roleId = roleResult.rows[0].id;
         const passwordHash = await bcrypt.hash(password || 'welcome', 10);
-        const createdUserResult = await db.query(`INSERT INTO users (first_name, last_name, email, mobile_number, class_level, password_hash, active_role)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)
-       RETURNING id`, [firstName, lastName, email, mobileNumber || null, classLevel || null, passwordHash, role]);
+        const createdUserResult = await db.query(`INSERT INTO users (first_name, last_name, email, mobile_number, class_level, branch, password_hash, active_role)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       RETURNING id`, [firstName, lastName, email.toLowerCase(), mobileNumber || null, classLevel || null, branch || null, passwordHash, role]);
         const userId = createdUserResult.rows[0].id;
         await db.query(`INSERT INTO user_roles (user_id, role_id, organization_id)
        VALUES ($1, $2, $3)`, [userId, roleId, organizationId]);
@@ -408,7 +473,7 @@ usersRouter.patch('/:id', requireAuth, async (req, res) => {
     if ((membership.rowCount ?? 0) === 0) {
         return res.status(404).json({ message: 'User not found in your organization' });
     }
-    const { firstName, lastName, email, mobileNumber, password, classLevel, activeRole, isActive } = parsedBody.data;
+    const { firstName, lastName, email, mobileNumber, password, classLevel, branch, activeRole, isActive } = parsedBody.data;
     if (email) {
         const emailExists = await db.query('SELECT 1 FROM users WHERE email = $1 AND id <> $2', [email, userId]);
         if ((emailExists.rowCount ?? 0) > 0) {
@@ -448,6 +513,10 @@ usersRouter.patch('/:id', requireAuth, async (req, res) => {
     if (classLevel !== undefined) {
         params.push(classLevel || null);
         updates.push(`class_level = $${params.length}`);
+    }
+    if (branch !== undefined) {
+        params.push(branch || null);
+        updates.push(`branch = $${params.length}`);
     }
     if (password !== undefined) {
         const hash = await bcrypt.hash(password, 10);
@@ -1113,6 +1182,104 @@ usersRouter.delete('/subjects/:id', requireAuth, async (req, res) => {
         client.release();
     }
 });
+usersRouter.patch('/:id/global-publish-permission', requireAuth, async (req, res) => {
+    const userId = getSingleParam(req.params.id);
+    const parsedBody = updateGlobalPublishPermissionSchema.safeParse(req.body);
+    if (!userId) {
+        return res.status(400).json({ message: 'Invalid user id' });
+    }
+    if (!parsedBody.success) {
+        return res.status(400).json({ message: 'Invalid global publish payload', errors: parsedBody.error.issues });
+    }
+    if (!(await isSuperAdmin(req.user?.userId))) {
+        return res.status(403).json({ message: 'Forbidden: superadmin role required' });
+    }
+    const organizationId = parsedBody.data.organizationId || req.user?.organizationId;
+    if (!organizationId) {
+        return res.status(400).json({ message: 'Organization is required' });
+    }
+    const teacherCheck = await userHasRoleInOrg(userId, organizationId, 'teacher');
+    if (!teacherCheck) {
+        return res.status(400).json({ message: 'Global publish permission can only be assigned to teacher role in the selected organization' });
+    }
+    try {
+        await db.query(`INSERT INTO user_global_publish_permissions (user_id, organization_id, enabled, granted_by, granted_at, updated_at)
+       VALUES ($1, $2::uuid, $3, $4, NOW(), NOW())
+       ON CONFLICT (user_id, organization_id)
+       DO UPDATE SET enabled = EXCLUDED.enabled, granted_by = EXCLUDED.granted_by, updated_at = NOW()`, [userId, organizationId, parsedBody.data.enabled, req.user?.userId || null]);
+        return res.json({ userId, organizationId, enabled: parsedBody.data.enabled });
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Failed to update global publish permission' });
+    }
+});
+usersRouter.patch('/:id/organization-membership', requireAuth, async (req, res) => {
+    const userId = getSingleParam(req.params.id);
+    const parsedBody = transferOrganizationSchema.safeParse(req.body);
+    if (!userId) {
+        return res.status(400).json({ message: 'Invalid user id' });
+    }
+    if (!parsedBody.success) {
+        return res.status(400).json({ message: 'Invalid membership transfer payload', errors: parsedBody.error.issues });
+    }
+    if (!(await isSuperAdmin(req.user?.userId))) {
+        return res.status(403).json({ message: 'Forbidden: superadmin role required' });
+    }
+    const { fromOrganizationId, toOrganizationId, roles } = parsedBody.data;
+    const selectedRoles = roles && roles.length > 0 ? [...new Set(roles)] : null;
+    const client = await db.connect();
+    try {
+        await client.query('BEGIN');
+        const orgExists = await client.query(`SELECT 1 FROM organizations WHERE id = $1::uuid LIMIT 1`, [toOrganizationId]);
+        if ((orgExists.rowCount ?? 0) === 0) {
+            await client.query('ROLLBACK');
+            return res.status(404).json({ message: 'Target organization not found' });
+        }
+        const existingRolesResult = await client.query(`SELECT r.role_name
+       FROM user_roles ur
+       INNER JOIN roles r ON r.id = ur.role_id
+       WHERE ur.user_id = $1
+         AND ur.organization_id = $2::uuid`, [userId, fromOrganizationId]);
+        if ((existingRolesResult.rowCount ?? 0) === 0) {
+            await client.query('ROLLBACK');
+            return res.status(404).json({ message: 'User membership not found in source organization' });
+        }
+        const rolesToAssign = selectedRoles || existingRolesResult.rows.map((row) => row.role_name);
+        await client.query(`DELETE FROM user_roles
+       WHERE user_id = $1
+         AND organization_id = $2::uuid`, [userId, fromOrganizationId]);
+        for (const roleName of rolesToAssign) {
+            const roleResult = await client.query(`SELECT id FROM roles WHERE role_name = $1 LIMIT 1`, [roleName]);
+            if ((roleResult.rowCount ?? 0) === 0)
+                continue;
+            await client.query(`INSERT INTO user_roles (user_id, role_id, organization_id)
+         VALUES ($1, $2, $3::uuid)
+         ON CONFLICT (user_id, role_id, organization_id) DO NOTHING`, [userId, roleResult.rows[0].id, toOrganizationId]);
+        }
+        const currentRoleResult = await client.query(`SELECT active_role FROM users WHERE id = $1 LIMIT 1`, [userId]);
+        const currentRole = currentRoleResult.rows[0]?.active_role;
+        if (!currentRole || !rolesToAssign.includes(currentRole)) {
+            await client.query(`UPDATE users SET active_role = $1, updated_at = NOW() WHERE id = $2`, [rolesToAssign[0], userId]);
+        }
+        await client.query('COMMIT');
+        const updatedUser = await getUserWithRoles(userId, toOrganizationId);
+        return res.json({
+            user: updatedUser,
+            movedFromOrganizationId: fromOrganizationId,
+            movedToOrganizationId: toOrganizationId,
+            roles: rolesToAssign,
+        });
+    }
+    catch (error) {
+        await client.query('ROLLBACK');
+        console.error(error);
+        return res.status(500).json({ message: 'Failed to transfer organization membership' });
+    }
+    finally {
+        client.release();
+    }
+});
 usersRouter.get('/:id', requireAuth, async (req, res) => {
     const userId = getSingleParam(req.params.id);
     const organizationId = getRequestOrganizationId(req);
@@ -1167,11 +1334,22 @@ usersRouter.patch('/:id/active-role', requireAuth, async (req, res) => {
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
+        const isSuperAdminRole = updatedUser.roles.includes('superadmin');
+        const globalPublishPermissionResult = updatedUser.organizationId
+            ? await db.query(`SELECT enabled
+             FROM user_global_publish_permissions
+             WHERE user_id = $1
+               AND organization_id = $2::uuid
+             LIMIT 1`, [updatedUser.id, updatedUser.organizationId])
+            : { rows: [] };
+        const canPublishGlobal = Boolean(globalPublishPermissionResult.rows[0]?.enabled);
         const tokenPayload = {
             userId: updatedUser.id,
             organizationId: updatedUser.organizationId || '',
             email: updatedUser.email,
             role: updatedUser.activeRole,
+            isSuperAdmin: isSuperAdminRole,
+            canPublishGlobal,
         };
         const accessToken = jwt.sign(tokenPayload, JWT_SECRET, { expiresIn: '15m' });
         const rawRefreshToken = jwt.sign({ userId: updatedUser.id }, JWT_SECRET, { expiresIn: '30d' });

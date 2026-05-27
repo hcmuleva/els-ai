@@ -23,7 +23,7 @@ export function RoleSwitcher({ isOpen, onToggle, onClose }: RoleSwitcherProps) {
   return (
     <View style={styles.wrapper}>
       <Pressable onPress={onToggle} style={styles.trigger}>
-        <Text style={styles.triggerText}>{user?.activeRole.toUpperCase() || ''}</Text>
+        <Text style={styles.triggerText}>{user?.activeRole?.toUpperCase() ?? ''}</Text>
         <ChevronDown size={14} />
       </Pressable>
 
@@ -31,13 +31,13 @@ export function RoleSwitcher({ isOpen, onToggle, onClose }: RoleSwitcherProps) {
         <Pressable style={styles.backdrop} onPress={onClose} />
         <View style={styles.menuAbsolute}>
           <View style={styles.menu}>
-            {user?.roles.map((role) => (
+            {user?.roles?.map((role) => (
               <Pressable
                 key={role}
                 onPress={() => handleRoleChange(role)}
-                style={[styles.roleButton, user.activeRole === role && styles.roleButtonActive]}
+                style={[styles.roleButton, user?.activeRole === role && styles.roleButtonActive]}
               >
-                <Text style={[styles.roleText, user.activeRole === role && styles.roleTextActive]}>
+                <Text style={[styles.roleText, user?.activeRole === role && styles.roleTextActive]}>
                   {role.toUpperCase()}
                 </Text>
               </Pressable>

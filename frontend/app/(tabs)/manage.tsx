@@ -1217,7 +1217,7 @@ export default function QuestionManagementScreen() {
     if (filters.subject.trim()) query.set('subject', filters.subject.trim());
     if (filters.category.trim()) query.set('category', filters.category.trim());
 
-    const res = await apiFetch(`/quizzes/questions?${query.toString()}`);
+    const res = await apiFetch(`/questions?${query.toString()}`);
     if (!res.ok) {
       const errorPayload = await res.json().catch(() => ({}));
       throw new Error(errorPayload.message || 'Failed to load question list');
@@ -1228,7 +1228,7 @@ export default function QuestionManagementScreen() {
   }, [apiFetch, filters.category, filters.classLevel, filters.search, filters.subject]);
 
   const loadSubjectCatalog = useCallback(async () => {
-    const res = await apiFetch('/quizzes/content/subjects');
+    const res = await apiFetch('/content/subjects');
     if (!res.ok) {
       const errorPayload = await res.json().catch(() => ({}));
       throw new Error(errorPayload.message || 'Failed to load subject catalog');
@@ -1238,7 +1238,7 @@ export default function QuestionManagementScreen() {
   }, [apiFetch]);
 
   const loadQuizCatalog = useCallback(async () => {
-    const res = await apiFetch('/quizzes/catalog/subjects');
+    const res = await apiFetch('/catalog/subjects');
     if (!res.ok) {
       return;
     }
@@ -1259,7 +1259,7 @@ export default function QuestionManagementScreen() {
     if (contentFilters.classLevel.trim()) query.set('class_level', contentFilters.classLevel.trim());
     if (contentFilters.subject.trim()) query.set('subject', contentFilters.subject.trim());
 
-    const res = await apiFetch(`/quizzes/content/topics?${query.toString()}`);
+    const res = await apiFetch(`/topics?${query.toString()}`);
     if (!res.ok) {
       const errorPayload = await res.json().catch(() => ({}));
       throw new Error(errorPayload.message || 'Failed to load topics');
@@ -1273,7 +1273,7 @@ export default function QuestionManagementScreen() {
     async (topicId: string) => {
       setLoadingTopicDetails(true);
       try {
-        const res = await apiFetch(`/quizzes/content/topics/${topicId}/details`);
+        const res = await apiFetch(`/topics/${topicId}/details`);
         if (!res.ok) {
           const errorPayload = await res.json().catch(() => ({}));
           throw new Error(errorPayload.message || 'Failed to load topic details');
@@ -1413,7 +1413,7 @@ export default function QuestionManagementScreen() {
         subject: topicDraft.subject.trim(),
         coverImage: toPersistentMediaUrl(topicDraft.coverImage.trim()) || undefined,
       };
-      const endpoint = topicDialogMode === 'edit' && editingTopicId ? `/quizzes/content/topics/${editingTopicId}` : '/quizzes/content/topics';
+      const endpoint = topicDialogMode === 'edit' && editingTopicId ? `/topics/${editingTopicId}` : '/topics';
       const method = topicDialogMode === 'edit' ? 'PATCH' : 'POST';
       const res = await apiFetch(endpoint, { method, body: JSON.stringify(payload) });
       if (!res.ok) {
@@ -1453,7 +1453,7 @@ export default function QuestionManagementScreen() {
 
     setSavingSections(true);
     try {
-      const res = await apiFetch(`/quizzes/content/topics/${selectedTopic.id}/sections`, {
+      const res = await apiFetch(`/topics/${selectedTopic.id}/sections`, {
         method: 'PUT',
         body: JSON.stringify({ sections: normalizedSections }),
       });
@@ -1480,7 +1480,7 @@ export default function QuestionManagementScreen() {
     if (contentItemFilters.classLevel.trim()) query.set('class_level', contentItemFilters.classLevel.trim());
     if (contentItemFilters.subject.trim()) query.set('subject', contentItemFilters.subject.trim());
     if (contentItemFilters.topicId.trim()) query.set('topic_id', contentItemFilters.topicId.trim());
-    const res = await apiFetch(`/quizzes/content/items?${query.toString()}`);
+    const res = await apiFetch(`/content/items?${query.toString()}`);
     if (!res.ok) {
       const errorPayload = await res.json().catch(() => ({}));
       throw new Error(errorPayload.message || 'Failed to load content items');
@@ -1523,7 +1523,7 @@ export default function QuestionManagementScreen() {
     setSavingContentCreate(true);
     try {
       if (editingContentId) {
-        const res = await apiFetch(`/quizzes/content/items/${editingContentId}`, {
+        const res = await apiFetch(`/content/items/${editingContentId}`, {
           method: 'PUT',
           body: JSON.stringify({
             classLevel: contentCreateMeta.classLevel.trim(),
@@ -1544,7 +1544,7 @@ export default function QuestionManagementScreen() {
         return;
       }
 
-      const res = await apiFetch('/quizzes/content/items', {
+      const res = await apiFetch('/content/items', {
         method: 'POST',
         body: JSON.stringify({
           classLevel: contentCreateMeta.classLevel.trim(),
@@ -1583,10 +1583,10 @@ export default function QuestionManagementScreen() {
     }
     setSavingAssignments(true);
     try {
-      const existingRes = await apiFetch(`/quizzes/content/topics/${assignTargetTopicId}/assignments`);
+      const existingRes = await apiFetch(`/topics/${assignTargetTopicId}/assignments`);
       const existingPayload = existingRes.ok ? await existingRes.json() : { contentIds: [] };
       const mergedIds = [...new Set([...(existingPayload.contentIds || []), ...selectedAssignContentIds])];
-      const res = await apiFetch(`/quizzes/content/topics/${assignTargetTopicId}/assignments`, {
+      const res = await apiFetch(`/topics/${assignTargetTopicId}/assignments`, {
         method: 'PUT',
         body: JSON.stringify({ contentIds: mergedIds }),
       });
@@ -1609,14 +1609,14 @@ export default function QuestionManagementScreen() {
   const removeContentAssignment = async (contentId: string) => {
     if (!selectedTopic) return;
     try {
-      const existingRes = await apiFetch(`/quizzes/content/topics/${selectedTopic.id}/assignments`);
+      const existingRes = await apiFetch(`/topics/${selectedTopic.id}/assignments`);
       if (!existingRes.ok) {
         throw new Error('Failed to load current assignments');
       }
       const existingPayload = await existingRes.json();
       const updatedIds = (existingPayload.contentIds || []).filter((id: string) => id !== contentId);
 
-      const res = await apiFetch(`/quizzes/content/topics/${selectedTopic.id}/assignments`, {
+      const res = await apiFetch(`/topics/${selectedTopic.id}/assignments`, {
         method: 'PUT',
         body: JSON.stringify({ contentIds: updatedIds }),
       });
@@ -1635,7 +1635,7 @@ export default function QuestionManagementScreen() {
     setLoadingTopicQuizzes(true);
     try {
       const [assignedRes, libraryRes] = await Promise.all([
-        apiFetch(`/quizzes/content/topics/${topicId}/quizzes`),
+        apiFetch(`/topics/${topicId}/quizzes`),
         apiFetch(`/quizzes/teacher/library?status=all&limit=200`),
       ]);
       if (assignedRes.ok) {
@@ -1676,7 +1676,7 @@ export default function QuestionManagementScreen() {
     if (!selectedTopic) return;
     setSavingQuizSelections(true);
     try {
-      const res = await apiFetch(`/quizzes/content/topics/${selectedTopic.id}/quizzes`, {
+      const res = await apiFetch(`/topics/${selectedTopic.id}/quizzes`, {
         method: 'PUT',
         body: JSON.stringify({ quizIds: selectedQuizIds }),
       });
@@ -1697,7 +1697,7 @@ export default function QuestionManagementScreen() {
   const deleteContentItem = async (contentId: string) => {
     setDeletingContentId(contentId);
     try {
-      const res = await apiFetch(`/quizzes/content/items/${contentId}`, { method: 'DELETE' });
+      const res = await apiFetch(`/content/items/${contentId}`, { method: 'DELETE' });
       if (!res.ok) {
         const errorPayload = await res.json().catch(() => ({}));
         throw new Error(errorPayload.message || 'Failed to delete content');
@@ -2123,7 +2123,7 @@ export default function QuestionManagementScreen() {
     setMessage(null);
     try {
       const payload = draftToPayload(createDraft);
-      const res = await apiFetch('/quizzes/questions', {
+      const res = await apiFetch('/questions', {
         method: 'POST',
         body: JSON.stringify(payload),
       });
@@ -2148,7 +2148,7 @@ export default function QuestionManagementScreen() {
     setMessage(null);
     try {
       const payload = draftToPayload(editDraft);
-      const res = await apiFetch(`/quizzes/questions/${editingQuestionId}`, {
+      const res = await apiFetch(`/questions/${editingQuestionId}`, {
         method: 'PATCH',
         body: JSON.stringify(payload),
       });
@@ -2170,7 +2170,7 @@ export default function QuestionManagementScreen() {
     setDeletingQuestionId(questionId);
     setMessage(null);
     try {
-      const res = await apiFetch(`/quizzes/questions/${questionId}`, {
+      const res = await apiFetch(`/questions/${questionId}`, {
         method: 'DELETE',
       });
       if (!res.ok) {
@@ -2292,7 +2292,7 @@ export default function QuestionManagementScreen() {
   const deleteTopic = async (topicId: string) => {
     setDeletingTopicId(topicId);
     try {
-      const res = await apiFetch(`/quizzes/content/topics/${topicId}`, { method: 'DELETE' });
+      const res = await apiFetch(`/topics/${topicId}`, { method: 'DELETE' });
       if (!res.ok) {
         const errorPayload = await res.json().catch(() => ({}));
         throw new Error(errorPayload.message || 'Failed to delete topic');
@@ -2371,7 +2371,7 @@ export default function QuestionManagementScreen() {
 
   const openEditContentModal = async (item: LearningContentItem) => {
     try {
-      const res = await apiFetch(`/quizzes/content/items/${item.id}`);
+      const res = await apiFetch(`/content/items/${item.id}`);
       if (!res.ok) {
         const errorPayload = await res.json().catch(() => ({}));
         throw new Error(errorPayload.message || 'Failed to load content details');
@@ -2414,7 +2414,7 @@ export default function QuestionManagementScreen() {
 
   const openPreviewContentModal = async (item: LearningContentItem) => {
     try {
-      const res = await apiFetch(`/quizzes/content/items/${item.id}`);
+      const res = await apiFetch(`/content/items/${item.id}`);
       if (!res.ok) {
         const errorPayload = await res.json().catch(() => ({}));
         throw new Error(errorPayload.message || 'Failed to load content preview');

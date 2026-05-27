@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import {
   Eye, EyeOff,
-  GraduationCap, Users, BookOpen, ShieldCheck,
+  GraduationCap, Users, BookOpen, ShieldCheck, Settings2,
   Zap, TrendingUp,
 } from 'lucide-react-native';
 import { SvgXml } from 'react-native-svg';
@@ -44,10 +44,11 @@ type FeatureItem = {
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const DEMO_ACCOUNTS: DemoAccount[] = [
-  { label: 'Student', email: 'rahul@els.ai',   Icon: GraduationCap, role: 'Student', color: Colors.primary, bg: Colors.primaryLight },
-  { label: 'Parent',  email: 'ramesh@els.ai',  Icon: Users,         role: 'Parent',  color: Colors.success, bg: Colors.successLight },
-  { label: 'Teacher', email: 'teacher@els.ai', Icon: BookOpen,      role: 'Teacher', color: Colors.accent,  bg: Colors.accentLight  },
-  { label: 'Admin',   email: 'super@els.ai',   Icon: ShieldCheck,   role: 'Admin',   color: Colors.purple,  bg: Colors.purpleLight  },
+  { label: 'Student',    email: 'rahul@els.ai',   Icon: GraduationCap, role: 'Student',    color: Colors.primary, bg: Colors.primaryLight },
+  { label: 'Parent',     email: 'ramesh@els.ai',  Icon: Users,         role: 'Parent',     color: Colors.success, bg: Colors.successLight },
+  { label: 'Teacher',    email: 'teacher@els.ai', Icon: BookOpen,      role: 'Teacher',    color: Colors.accent,  bg: Colors.accentLight  },
+  { label: 'Admin',      email: 'admin@els.ai',   Icon: Settings2,     role: 'Org Admin',  color: Colors.warning, bg: Colors.warningLight },
+  { label: 'Superadmin', email: 'super@els.ai',   Icon: ShieldCheck,   role: 'Superadmin', color: Colors.purple,  bg: Colors.purpleLight  },
 ];
 
 const FEATURES: FeatureItem[] = [
@@ -349,10 +350,10 @@ const s = StyleSheet.create({
   demoLabelRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 14 },
   demoLine:     { flex: 1, height: 1, backgroundColor: Colors.borderLight },
   demoLabel:    { fontSize: 11, fontWeight: '700', color: Colors.textDisabled },
-  demoGrid:       { flexDirection: 'row', gap: 8 },
-  demoBtnWrapper: { flex: 1 },
+  demoGrid:       { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  demoBtnWrapper: { flexBasis: '31%', flexGrow: 1, minWidth: 92 },
   demoBtn: {
-    flex: 1, alignItems: 'center', gap: 4,
+    width: '100%', alignItems: 'center', gap: 4,
     borderRadius: Radius.lg, paddingVertical: 12, paddingHorizontal: 4,
     borderWidth: 1.5,
     ...Shadow.sm,

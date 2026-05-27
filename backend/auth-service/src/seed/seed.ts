@@ -167,6 +167,111 @@ export async function initSchemaAndSeed() {
     // Add class_level column to users if not present (migration for existing installs)
     await db.query(`
       ALTER TABLE users ADD COLUMN IF NOT EXISTS class_level VARCHAR(50);
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS branch VARCHAR(100);
+
+      CREATE TABLE IF NOT EXISTS user_global_publish_permissions (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+        enabled BOOLEAN DEFAULT false,
+        granted_by UUID REFERENCES users(id) ON DELETE SET NULL,
+        granted_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW(),
+        UNIQUE(user_id, organization_id)
+      );
+
+      CREATE TABLE IF NOT EXISTS subscription_plans (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        name VARCHAR(120) NOT NULL,
+        description TEXT,
+        membership_tier VARCHAR(30) NOT NULL CHECK (membership_tier IN ('bronze', 'silver', 'gold', 'platinum')),
+        billing_cycle VARCHAR(20) NOT NULL CHECK (billing_cycle IN ('monthly', 'quarterly', 'yearly')),
+        base_price NUMERIC(12,2) NOT NULL DEFAULT 0,
+        offer_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
+        special_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
+        group_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
+        max_users_for_group_discount INTEGER NOT NULL DEFAULT 10,
+        is_active BOOLEAN NOT NULL DEFAULT true,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW(),
+        UNIQUE(name, membership_tier, billing_cycle)
+      );
+
+      CREATE TABLE IF NOT EXISTS organization_subscriptions (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+        plan_id UUID REFERENCES subscription_plans(id) ON DELETE SET NULL,
+        status VARCHAR(20) NOT NULL CHECK (status IN ('trialing', 'active', 'past_due', 'cancelled', 'expired')),
+        trial_start_at TIMESTAMP,
+        trial_end_at TIMESTAMP,
+        starts_at TIMESTAMP,
+        ends_at TIMESTAMP,
+        final_price NUMERIC(12,2),
+        seat_count INTEGER DEFAULT 1,
+        offer_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
+        special_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
+        group_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      );
+
+    `);
+
+    await db.query(`
+      DELETE FROM subscription_plans sp
+      USING (
+        SELECT ctid
+        FROM (
+          SELECT
+            ctid,
+            ROW_NUMBER() OVER (
+              PARTITION BY name, membership_tier, billing_cycle
+              ORDER BY created_at ASC, ctid
+            ) AS row_num
+          FROM subscription_plans
+        ) ranked
+        WHERE ranked.row_num > 1
+      ) duplicates
+      WHERE sp.ctid = duplicates.ctid;
+    `);
+
+    await db.query(`
+      CREATE UNIQUE INDEX IF NOT EXISTS idx_subscription_plans_identity
+        ON subscription_plans (name, membership_tier, billing_cycle);
+    `);
+
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS invoices (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+        subscription_id UUID REFERENCES organization_subscriptions(id) ON DELETE SET NULL,
+        plan_id UUID REFERENCES subscription_plans(id) ON DELETE SET NULL,
+        invoice_number VARCHAR(40) NOT NULL UNIQUE,
+        status VARCHAR(20) NOT NULL CHECK (status IN ('pending', 'paid', 'expired', 'renewed', 'cancelled')) DEFAULT 'pending',
+        billing_kind VARCHAR(20) NOT NULL DEFAULT 'subscription',
+        plan_name VARCHAR(120),
+        membership_tier VARCHAR(30),
+        billing_cycle VARCHAR(20),
+        seat_count INTEGER DEFAULT 1,
+        subtotal NUMERIC(12,2) NOT NULL DEFAULT 0,
+        discount_total NUMERIC(12,2) NOT NULL DEFAULT 0,
+        amount_due NUMERIC(12,2) NOT NULL DEFAULT 0,
+        currency VARCHAR(10) NOT NULL DEFAULT 'INR',
+        period_start TIMESTAMP,
+        period_end TIMESTAMP,
+        due_at TIMESTAMP,
+        issued_at TIMESTAMP DEFAULT NOW(),
+        paid_at TIMESTAMP,
+        payment_method VARCHAR(40),
+        payment_reference VARCHAR(120),
+        notes TEXT,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_invoices_org ON invoices(organization_id);
+      CREATE INDEX IF NOT EXISTS idx_invoices_status ON invoices(status);
+      CREATE INDEX IF NOT EXISTS idx_invoices_issued ON invoices(issued_at DESC);
     `);
 
     // Also seed subjects if they are missing
@@ -286,6 +391,7 @@ export async function initSchemaAndSeed() {
       }
     }
 
+    await ensureDefaultOrgAndPlanSeeds();
     console.log('Schema already exists. Skipping destructive seed.');
     return;
   }
@@ -341,6 +447,7 @@ export async function initSchemaAndSeed() {
       date_of_birth DATE,
       education TEXT,
       class_level VARCHAR(50),
+      branch VARCHAR(100),
       profile_image TEXT,
       is_active BOOLEAN DEFAULT true,
       is_verified BOOLEAN DEFAULT false,
@@ -384,6 +491,58 @@ export async function initSchemaAndSeed() {
       expires_at TIMESTAMP NOT NULL,
       revoked BOOLEAN DEFAULT false,
       created_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
+  await db.query(`
+    CREATE TABLE user_global_publish_permissions (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+      enabled BOOLEAN DEFAULT false,
+      granted_by UUID REFERENCES users(id) ON DELETE SET NULL,
+      granted_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW(),
+      UNIQUE(user_id, organization_id)
+    );
+  `);
+
+  await db.query(`
+    CREATE TABLE subscription_plans (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      name VARCHAR(120) NOT NULL,
+      description TEXT,
+      membership_tier VARCHAR(30) NOT NULL CHECK (membership_tier IN ('bronze', 'silver', 'gold', 'platinum')),
+      billing_cycle VARCHAR(20) NOT NULL CHECK (billing_cycle IN ('monthly', 'quarterly', 'yearly')),
+      base_price NUMERIC(12,2) NOT NULL DEFAULT 0,
+      offer_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
+      special_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
+      group_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
+      max_users_for_group_discount INTEGER NOT NULL DEFAULT 10,
+      is_active BOOLEAN NOT NULL DEFAULT true,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW(),
+      UNIQUE(name, membership_tier, billing_cycle)
+    );
+  `);
+
+  await db.query(`
+    CREATE TABLE organization_subscriptions (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+      plan_id UUID REFERENCES subscription_plans(id) ON DELETE SET NULL,
+      status VARCHAR(20) NOT NULL CHECK (status IN ('trialing', 'active', 'past_due', 'cancelled', 'expired')),
+      trial_start_at TIMESTAMP,
+      trial_end_at TIMESTAMP,
+      starts_at TIMESTAMP,
+      ends_at TIMESTAMP,
+      final_price NUMERIC(12,2),
+      seat_count INTEGER DEFAULT 1,
+      offer_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
+      special_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
+      group_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
     );
   `);
 
@@ -652,7 +811,7 @@ export async function initSchemaAndSeed() {
       firstName: 'ELS',
       lastName: 'Super User',
       email: 'super@els.ai',
-      activeRole: 'student',
+      activeRole: 'superadmin',
       assignedRoles: [...roles],
       classLevel: null,
     },
@@ -1092,7 +1251,137 @@ export async function initSchemaAndSeed() {
   `);
 
   await seedTopicsAndContent(orgId);
+  await ensureDefaultOrgAndPlanSeeds();
   console.log('Database successfully migrated and seeded with organizations, roles, users, and quizzes.');
+}
+
+async function ensureDefaultOrgAndPlanSeeds() {
+  await db.query(
+    `INSERT INTO organizations (name, subdomain, settings)
+     VALUES ('ELS Default Org', 'default-org', '{"theme":"default"}')
+     ON CONFLICT (subdomain) DO NOTHING`,
+  );
+
+  await db.query(
+    `INSERT INTO subscription_plans
+       (name, description, membership_tier, billing_cycle, base_price, offer_discount_percent, special_discount_percent, group_discount_percent, max_users_for_group_discount, is_active)
+     VALUES
+       ('Bronze Starter', 'Starter access for schools', 'bronze', 'monthly', 999, 0, 0, 0, 20, true),
+       ('Silver Growth', 'Growth plan for active organizations', 'silver', 'monthly', 1999, 10, 5, 5, 25, true),
+       ('Gold Pro', 'Advanced features and premium support', 'gold', 'monthly', 3999, 12, 8, 8, 30, true),
+       ('Platinum Enterprise', 'Enterprise-grade feature set', 'platinum', 'yearly', 39999, 15, 10, 12, 50, true)
+     ON CONFLICT DO NOTHING`,
+  );
+
+  await db.query(
+    `INSERT INTO organization_subscriptions (organization_id, status, trial_start_at, trial_end_at, starts_at)
+     SELECT o.id, 'trialing', NOW(), NOW() + INTERVAL '14 days', NOW()
+     FROM organizations o
+     WHERE NOT EXISTS (
+       SELECT 1
+       FROM organization_subscriptions os
+       WHERE os.organization_id = o.id
+     )`,
+  );
+
+  await ensureSuperAdminDemoUser();
+  await ensureAdminDemoUser();
+}
+
+async function ensureAdminDemoUser() {
+  const passwordHash = await bcrypt.hash('welcome', 10);
+  const defaultOrgResult = await db.query(
+    `SELECT id FROM organizations WHERE subdomain = 'default-org' LIMIT 1`,
+  );
+  const fallbackOrgResult =
+    (defaultOrgResult.rowCount ?? 0) > 0
+      ? defaultOrgResult
+      : await db.query(`SELECT id FROM organizations WHERE subdomain = 'els-academy' LIMIT 1`);
+  const organizationId = fallbackOrgResult.rows[0]?.id as string | undefined;
+  if (!organizationId) return;
+
+  let userId: string;
+  const existingUser = await db.query(`SELECT id FROM users WHERE email = 'admin@els.ai' LIMIT 1`);
+  if ((existingUser.rowCount ?? 0) > 0) {
+    userId = existingUser.rows[0].id as string;
+    await db.query(
+      `UPDATE users
+       SET first_name = 'ELS',
+           last_name = 'Org Admin',
+           password_hash = $1,
+           active_role = 'admin',
+           is_active = true,
+           updated_at = NOW()
+       WHERE id = $2`,
+      [passwordHash, userId],
+    );
+  } else {
+    const createdUser = await db.query(
+      `INSERT INTO users(first_name, last_name, email, password_hash, active_role)
+       VALUES('ELS', 'Org Admin', 'admin@els.ai', $1, 'admin')
+       RETURNING id`,
+      [passwordHash],
+    );
+    userId = createdUser.rows[0].id as string;
+  }
+
+  const adminRoleResult = await db.query(`SELECT id FROM roles WHERE role_name = 'admin' LIMIT 1`);
+  if ((adminRoleResult.rowCount ?? 0) === 0) return;
+  const adminRoleId = adminRoleResult.rows[0].id as string;
+  await db.query(
+    `INSERT INTO user_roles(user_id, role_id, organization_id)
+     VALUES($1, $2, $3)
+     ON CONFLICT (user_id, role_id, organization_id) DO NOTHING`,
+    [userId, adminRoleId, organizationId],
+  );
+}
+
+async function ensureSuperAdminDemoUser() {
+  const passwordHash = await bcrypt.hash('welcome', 10);
+  const defaultOrgResult = await db.query(
+    `SELECT id FROM organizations WHERE subdomain = 'default-org' LIMIT 1`,
+  );
+  const fallbackOrgResult =
+    (defaultOrgResult.rowCount ?? 0) > 0
+      ? defaultOrgResult
+      : await db.query(`SELECT id FROM organizations WHERE subdomain = 'els-academy' LIMIT 1`);
+  const organizationId = fallbackOrgResult.rows[0]?.id as string | undefined;
+  if (!organizationId) return;
+
+  let userId: string;
+  const existingUser = await db.query(`SELECT id FROM users WHERE email = 'super@els.ai' LIMIT 1`);
+  if ((existingUser.rowCount ?? 0) > 0) {
+    userId = existingUser.rows[0].id as string;
+    await db.query(
+      `UPDATE users
+       SET first_name = 'ELS',
+           last_name = 'Super User',
+           password_hash = $1,
+           active_role = 'superadmin',
+           is_active = true,
+           updated_at = NOW()
+       WHERE id = $2`,
+      [passwordHash, userId],
+    );
+  } else {
+    const createdUser = await db.query(
+      `INSERT INTO users(first_name, last_name, email, password_hash, active_role)
+       VALUES('ELS', 'Super User', 'super@els.ai', $1, 'superadmin')
+       RETURNING id`,
+      [passwordHash],
+    );
+    userId = createdUser.rows[0].id as string;
+  }
+
+  const superRoleResult = await db.query(`SELECT id FROM roles WHERE role_name = 'superadmin' LIMIT 1`);
+  if ((superRoleResult.rowCount ?? 0) === 0) return;
+  const superRoleId = superRoleResult.rows[0].id as string;
+  await db.query(
+    `INSERT INTO user_roles(user_id, role_id, organization_id)
+     VALUES($1, $2, $3)
+     ON CONFLICT (user_id, role_id, organization_id) DO NOTHING`,
+    [userId, superRoleId, organizationId],
+  );
 }
 
 async function seedTopicsAndContent(orgId: string) {

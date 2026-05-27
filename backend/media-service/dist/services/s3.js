@@ -22,6 +22,10 @@ const MIME_EXTENSION_MAP = {
     'audio/aac': 'aac',
     'audio/mp4': 'm4a',
     'audio/x-m4a': 'm4a',
+    'video/mp4': 'mp4',
+    'video/webm': 'webm',
+    'video/quicktime': 'mov',
+    'video/x-msvideo': 'avi',
 };
 function assertS3Configured() {
     if (!USE_S3) {
@@ -59,6 +63,9 @@ function ensureMediaType(mimeType, mediaType) {
     if (mediaType === 'audio' && !mimeType.startsWith('audio/')) {
         throw new Error('Uploaded file is not an audio file.');
     }
+    if (mediaType === 'video' && !mimeType.startsWith('video/')) {
+        throw new Error('Uploaded file is not a video file.');
+    }
 }
 function getExtension(mimeType, originalName) {
     const mapped = MIME_EXTENSION_MAP[mimeType];
@@ -68,7 +75,13 @@ function getExtension(mimeType, originalName) {
     if (fromName && /^[a-z0-9]{2,8}$/.test(fromName)) {
         return fromName;
     }
-    return mimeType.startsWith('image/') ? 'png' : 'bin';
+    if (mimeType.startsWith('image/'))
+        return 'png';
+    if (mimeType.startsWith('audio/'))
+        return 'mp3';
+    if (mimeType.startsWith('video/'))
+        return 'mp4';
+    return 'bin';
 }
 function buildS3Key(organizationId, mediaType, fileName, mimeType) {
     const now = new Date();

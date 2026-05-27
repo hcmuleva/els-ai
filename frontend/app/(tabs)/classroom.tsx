@@ -1,7 +1,7 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Dimensions, Image, Linking, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useFocusEffect } from 'expo-router';
-import { ChevronRight, Play, Star, BookOpen, Clock, X, Trophy, GraduationCap, Layers, ClipboardList, CheckCircle, AlertCircle, School, FileText, Telescope, Video as VideoIcon, Headphones, Image as ImageIcon, Link, Calendar } from 'lucide-react-native';
+import { ChevronRight, Play, Star, BookOpen, Clock, X, Trophy, GraduationCap, Layers, ClipboardList, CheckCircle, AlertCircle, School, FileText, Telescope, Video as VideoIcon, Headphones, Image as ImageIcon, Link, Calendar, Lock, Timer } from 'lucide-react-native';
 import { SvgXml } from 'react-native-svg';
 import { Colors, Radius, Shadow } from '../../src/theme';
 import { GIRAFFE, OWL, PENGUIN, ELEPHANT, BUTTERFLY } from '../../src/assets/svgs';
@@ -70,6 +70,7 @@ type ClassroomItem = {
   classLevel: string;
   scheduleType: 'instant' | 'scheduled';
   startTime?: string | null;
+  endTime?: string | null;
   status: 'active' | 'completed' | 'draft';
   completionPct: number;
   contents: LearningContentItem[];
@@ -157,6 +158,11 @@ export default function ClassroomScreen() {
   const [savingSubmission, setSavingSubmission] = useState(false);
   const [classrooms, setClassrooms] = useState<ClassroomItem[]>([]);
   const [selectedClassroomId, setSelectedClassroomId] = useState<string | null>(null);
+  const [nowTs, setNowTs] = useState<number>(Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNowTs(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
   const [activeTab, setActiveTab] = useState<StudentTab>('content');
   const [selectedQuizId, setSelectedQuizId] = useState<string | null>(null);
   const [previewContentIndex, setPreviewContentIndex] = useState<number | null>(null);
@@ -189,7 +195,7 @@ export default function ClassroomScreen() {
 
   const loadClassrooms = useCallback(
     async () => {
-      const res = await apiFetch('/quizzes/students/classrooms');
+      const res = await apiFetch('/classrooms/student');
       if (!res.ok) {
         const payload = await res.json().catch(() => ({}));
         throw new Error(payload.message || 'Failed to load classroom data');
@@ -222,7 +228,7 @@ export default function ClassroomScreen() {
   const loadHistory = async () => {
     setHistoryLoading(true);
     try {
-      const res = await apiFetch('/quizzes/students/classrooms');
+      const res = await apiFetch('/classrooms/student');
       if (res.ok) {
         const d = await res.json();
         const all = (d.classrooms ?? []) as ClassroomItem[];
@@ -301,7 +307,7 @@ export default function ClassroomScreen() {
     try {
       const picked = await pickFileAsDataUrl('image/*,audio/*,video/*');
       const mediaType = resolveMediaType(picked);
-      const res = await apiFetch('/quizzes/uploads/media', {
+      const res = await apiFetch('/assets/upload', {
         method: 'POST',
         body: JSON.stringify({
           dataUrl: picked.dataUrl,
@@ -331,7 +337,7 @@ export default function ClassroomScreen() {
     setSavingSubmission(true);
     try {
       const res = await apiFetch(
-        `/quizzes/students/classrooms/${selectedClassroom.id}/assignments/${assignmentModal.id}/submissions`,
+        `/assignments/classrooms/${selectedClassroom.id}/${assignmentModal.id}/submissions`,
         {
           method: 'POST',
           body: JSON.stringify({
@@ -421,6 +427,12 @@ export default function ClassroomScreen() {
                         <Text style={clStyles.roomCardMeta}>
                           {getStandardLabel(room.classLevel)} · {room.scheduleType === 'instant' ? 'Instant' : 'Scheduled'}
                         </Text>
+                        {room.scheduleType === 'scheduled' && room.startTime ? (
+                          <Text style={clStyles.roomCardMeta}>
+                            {new Date(room.startTime).toLocaleString()}
+                            {room.endTime ? ` → ${new Date(room.endTime).toLocaleString()}` : ''}
+                          </Text>
+                        ) : null}
                         <View style={clStyles.roomCardChips}>
                           <View style={clStyles.roomChip}>
                             <BookOpen size={10} color="#5A7AB0" />
@@ -453,6 +465,56 @@ export default function ClassroomScreen() {
                 <Pressable style={clStyles.backToList} onPress={() => setSelectedClassroomId(null)}>
                   <Text style={clStyles.backToListText}>‹ All Classes</Text>
                 </Pressable>
+
+                {selectedClassroom && selectedClassroom.scheduleType === 'scheduled' && selectedClassroom.startTime && new Date(selectedClassroom.startTime).getTime() > nowTs ? (
+                  <View style={clStyles.notStartedCard}>
+                    <View style={clStyles.notStartedIconBox}>
+                      <Lock size={42} color="#4A90E2" />
+                    </View>
+                    <Text style={clStyles.notStartedTitle}>Class hasn't started yet</Text>
+                    <Text style={clStyles.notStartedSubtitle} numberOfLines={2}>
+                      {selectedClassroom.title}
+                    </Text>
+                    <View style={clStyles.countdownRow}>
+                      {(() => {
+                        const remainMs = Math.max(0, new Date(selectedClassroom.startTime!).getTime() - nowTs);
+                        const totalSec = Math.floor(remainMs / 1000);
+                        const days = Math.floor(totalSec / 86400);
+                        const hours = Math.floor((totalSec % 86400) / 3600);
+                        const minutes = Math.floor((totalSec % 3600) / 60);
+                        const seconds = totalSec % 60;
+                        const pad = (n: number) => String(n).padStart(2, '0');
+                        const units = days > 0
+                          ? [['Days', String(days)], ['Hours', pad(hours)], ['Min', pad(minutes)], ['Sec', pad(seconds)]]
+                          : [['Hours', pad(hours)], ['Min', pad(minutes)], ['Sec', pad(seconds)]];
+                        return units.map(([label, val]) => (
+                          <View key={label} style={clStyles.countdownUnit}>
+                            <Text style={clStyles.countdownVal}>{val}</Text>
+                            <Text style={clStyles.countdownLabel}>{label}</Text>
+                          </View>
+                        ));
+                      })()}
+                    </View>
+                    <View style={clStyles.scheduledMetaRow}>
+                      <Calendar size={14} color="#5A7AB0" />
+                      <Text style={clStyles.scheduledMetaText}>
+                        Starts {new Date(selectedClassroom.startTime).toLocaleString()}
+                      </Text>
+                    </View>
+                    {selectedClassroom.endTime ? (
+                      <View style={clStyles.scheduledMetaRow}>
+                        <Timer size={14} color="#5A7AB0" />
+                        <Text style={clStyles.scheduledMetaText}>
+                          Ends {new Date(selectedClassroom.endTime).toLocaleString()}
+                        </Text>
+                      </View>
+                    ) : null}
+                    <Text style={clStyles.notStartedHint}>
+                      Content, quizzes, and assignments will unlock when class starts.
+                    </Text>
+                  </View>
+                ) : (
+                  <>
 
             {/* Quick Categories Row */}
             <View style={styles.categoriesRow}>
@@ -608,6 +670,8 @@ export default function ClassroomScreen() {
                 )}
               </View>
             ) : null}
+                  </>
+                )}
               </>
             )}
           </>
@@ -2096,6 +2160,28 @@ const clStyles = StyleSheet.create({
 
   backToList:     { flexDirection: 'row', alignItems: 'center', gap: 4, paddingVertical: 8, marginBottom: 6 },
   backToListText: { fontSize: 13, fontWeight: '700', color: '#4A90E2' },
+  notStartedCard: {
+    backgroundColor: '#fff', borderRadius: 20, paddingHorizontal: 20, paddingVertical: 28,
+    alignItems: 'center', marginHorizontal: 4, marginTop: 8, marginBottom: 16,
+    borderWidth: 1, borderColor: '#E5E9F2',
+  },
+  notStartedIconBox: {
+    width: 88, height: 88, borderRadius: 44, backgroundColor: '#EBF4FF',
+    alignItems: 'center', justifyContent: 'center', marginBottom: 14,
+  },
+  notStartedTitle:    { fontSize: 18, fontWeight: '900', color: '#1a1a2e', textAlign: 'center' },
+  notStartedSubtitle: { fontSize: 13, color: '#5A7AB0', textAlign: 'center', marginTop: 4 },
+  countdownRow:       { flexDirection: 'row', gap: 8, marginVertical: 20 },
+  countdownUnit: {
+    minWidth: 60, paddingVertical: 10, paddingHorizontal: 6,
+    backgroundColor: '#F4F8FE', borderRadius: 12, alignItems: 'center',
+    borderWidth: 1, borderColor: '#DCE7F5',
+  },
+  countdownVal:   { fontSize: 22, fontWeight: '900', color: '#1A4DA2', fontVariant: ['tabular-nums'] },
+  countdownLabel: { fontSize: 10, fontWeight: '700', color: '#5A7AB0', textTransform: 'uppercase', marginTop: 2, letterSpacing: 0.6 },
+  scheduledMetaRow:   { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 },
+  scheduledMetaText:  { fontSize: 12, color: '#5A7AB0', fontWeight: '600' },
+  notStartedHint:     { fontSize: 12, color: '#9A9AB0', textAlign: 'center', marginTop: 14, paddingHorizontal: 12 },
 
   // History full-screen modal
   historyScreen:    { flex: 1, backgroundColor: '#F5F7FF' },

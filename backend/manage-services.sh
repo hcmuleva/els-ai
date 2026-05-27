@@ -58,6 +58,28 @@ get_services() {
   done
 }
 
+# Shared workspaces that services depend on. Must be built first so
+# `node dist/server.js` can resolve `@els-ai/*` imports to compiled JS.
+build_shared_packages() {
+  local repo_root
+  repo_root="$(cd "$SCRIPT_DIR/.." && pwd)"
+  local shared_dirs=("backend/shared/event-bus" "backend/shared/internal-auth")
+  local dir
+  for dir in "${shared_dirs[@]}"; do
+    local pkg_path="$repo_root/$dir"
+    if [ -f "$pkg_path/package.json" ]; then
+      local pkg_name
+      pkg_name="$(basename "$pkg_path")"
+      (
+        cd "$pkg_path" || exit 0
+        npm run build --if-present >/dev/null 2>&1 || {
+          echo "⚠️  Failed to build shared package: $pkg_name"
+        }
+      )
+    fi
+  done
+}
+
 is_pid_running() {
   local pid="$1"
   kill -0 "$pid" 2>/dev/null
@@ -90,7 +112,16 @@ get_service_config_port() {
 get_listening_port_by_pid() {
   local pid="$1"
   local port=""
-  port="$(lsof -Pan -p "$pid" -iTCP -sTCP:LISTEN 2>/dev/null | awk 'NR>1 {split($9, a, ":"); print a[length(a)]; exit}' || true)"
+  local attempt
+  # Retry briefly because some services bind the socket a moment after spawn
+  # (Ably handshake, schema init, etc.). 5 attempts × 400ms = up to 2s extra.
+  for attempt in 1 2 3 4 5; do
+    port="$(lsof -Pan -p "$pid" -iTCP -sTCP:LISTEN 2>/dev/null | awk 'NR>1 {split($9, a, ":"); print a[length(a)]; exit}' || true)"
+    if [ -n "$port" ]; then
+      break
+    fi
+    sleep 0.4
+  done
   echo "${port:-N/A}"
 }
 
@@ -135,22 +166,25 @@ print_started_services_table() {
 stop_service() {
   local service="$1"
   local force="${2:-false}"
-  local tmp_dir="/tmp/$service"
+  local tmp_dir="$SCRIPT_DIR/logs/tmp/$service"
   local pid_file="$tmp_dir/service.pid"
+  local legacy_pid_file="/tmp/$service/service.pid"
   local pid=""
 
-  if [ -f "$pid_file" ]; then
-    pid="$(cat "$pid_file" 2>/dev/null || true)"
-    if [ -n "$pid" ] && is_pid_running "$pid"; then
-      if [ "$force" = "true" ]; then
-        kill -9 "$pid" 2>/dev/null || true
-      else
-        kill "$pid" 2>/dev/null || true
+  for current_pid_file in "$pid_file" "$legacy_pid_file"; do
+    if [ -f "$current_pid_file" ]; then
+      pid="$(cat "$current_pid_file" 2>/dev/null || true)"
+      if [ -n "$pid" ] && is_pid_running "$pid"; then
+        if [ "$force" = "true" ]; then
+          kill -9 "$pid" 2>/dev/null || true
+        else
+          kill "$pid" 2>/dev/null || true
+        fi
+        echo "Stopped $service (pid: $pid)"
       fi
-      echo "Stopped $service (pid: $pid)"
+      rm -f "$current_pid_file"
     fi
-    rm -f "$pid_file"
-  fi
+  done
 
   local extra_pids
   extra_pids="$(find_service_pids "$service")"
@@ -163,12 +197,28 @@ stop_service() {
       echo "Stopped remaining processes for $service"
     fi
   fi
+
+  local service_port
+  service_port="$(get_service_config_port "$service")"
+  if [ -n "$service_port" ] && [ "$service_port" != "N/A" ]; then
+    local port_pids
+    port_pids="$(lsof -tiTCP:"$service_port" -sTCP:LISTEN 2>/dev/null || true)"
+    if [ -n "$port_pids" ]; then
+      if [ "$force" = "true" ]; then
+        echo "$port_pids" | xargs kill -9 2>/dev/null || true
+      else
+        echo "$port_pids" | xargs kill 2>/dev/null || true
+      fi
+      echo "Stopped processes listening on port $service_port for $service"
+    fi
+  fi
 }
 
 start_service() {
   local service="$1"
+  local root_dir="$SCRIPT_DIR"
   local service_dir="$SCRIPT_DIR/$service"
-  local tmp_dir="/tmp/$service"
+  local tmp_dir="$root_dir/logs/tmp/$service"
   local pid_file="$tmp_dir/service.pid"
   local log_file="$tmp_dir/service.log"
   local err_file="$tmp_dir/service.error.log"
@@ -185,8 +235,14 @@ start_service() {
     fi
   fi
 
+  local build_failed="false"
   (
     cd "$service_dir" || exit 1
+    npm run build --if-present >>"$log_file" 2>>"$err_file" || build_failed="true"
+    if [ "$build_failed" = "true" ]; then
+      exit 1
+    fi
+
     if [ -n "$IP_ADDRESS" ]; then
       HOST="$IP_ADDRESS" nohup npm start >>"$log_file" 2>>"$err_file" &
     else
@@ -197,6 +253,13 @@ start_service() {
 
   local new_pid
   new_pid="$(cat "$pid_file" 2>/dev/null || true)"
+  sleep 1
+  if [ -z "$new_pid" ] || ! is_pid_running "$new_pid"; then
+    echo "Failed to start $service. Check: $err_file"
+    rm -f "$pid_file"
+    return
+  fi
+
   local host_info=""
   if [ -n "$IP_ADDRESS" ]; then
     host_info=" (IP: $IP_ADDRESS)"
@@ -210,6 +273,10 @@ start_service() {
 run_action() {
   local force_mode="${1:-false}"
   local service
+
+  if [ "$ACTION" = "start" ] || [ "$ACTION" = "restart" ]; then
+    build_shared_packages
+  fi
 
   for service in $(get_services); do
     case "$ACTION" in

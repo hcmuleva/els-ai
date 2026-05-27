@@ -1,8 +1,15 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { z } from 'zod';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { db } from '../db.js';
+import { enforceSubscriptionState, isSubscriptionActive } from '../services/billing.js';
+import {
+  AuthenticatedRequest as SharedAuthenticatedRequest,
+  createRequireAuth,
+  requireRole as sharedRequireRole,
+} from '@els-ai/internal-auth';
+import { eventBus } from '../events/bus.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'els-secret-key-super-secure';
 export const authRouter = Router();
@@ -13,8 +20,8 @@ const registerSchema = z.object({
   lastName: z.string().min(1),
   email: z.string().email(),
   password: z.string().min(4),
-  role: z.enum(['student', 'teacher', 'parent', 'admin']),
-  organizationSubdomain: z.string().default('els-academy'),
+  role: z.enum(['student', 'teacher', 'parent']).default('teacher'),
+  organizationSubdomain: z.string().default('default-org'),
 });
 
 const loginSchema = z.object({
@@ -23,7 +30,14 @@ const loginSchema = z.object({
 });
 
 // Helper: Generate tokens
-function generateAccessToken(payload: { userId: string; organizationId: string; email: string; role: string }) {
+function generateAccessToken(payload: {
+  userId: string;
+  organizationId: string;
+  email: string;
+  role: string;
+  isSuperAdmin: boolean;
+  canPublishGlobal: boolean;
+}) {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '15m' });
 }
 
@@ -58,7 +72,7 @@ authRouter.post('/register', async (req, res) => {
       `INSERT INTO users (first_name, last_name, email, password_hash, active_role)
        VALUES ($1, $2, $3, $4, $5)
        RETURNING id`,
-      [firstName, lastName, email, passwordHash, role]
+      [firstName, lastName, email.toLowerCase(), passwordHash, role]
     );
     const userId = userInsert.rows[0].id;
 
@@ -71,6 +85,8 @@ authRouter.post('/register', async (req, res) => {
        VALUES ($1, $2, $3)`,
       [userId, roleId, orgId]
     );
+
+    await enforceSubscriptionState(orgId);
 
     return res.status(201).json({ message: 'User registered successfully', userId });
   } catch (error) {
@@ -93,7 +109,7 @@ authRouter.post('/login', async (req: Request, res: Response) => {
     const userResult = await db.query(
       `SELECT id, first_name, last_name, email, password_hash, active_role, profile_image
        FROM users WHERE email = $1`,
-      [email]
+      [email.toLowerCase()]
     );
 
     if (userResult.rowCount === 0) {
@@ -119,6 +135,28 @@ authRouter.post('/login', async (req: Request, res: Response) => {
 
     const organizationId = rolesResult.rows[0]?.organization_id;
     const rolesList = rolesResult.rows.map((row: any) => row.role_name);
+    if (!organizationId) {
+      return res.status(403).json({ message: 'No organization assigned for this user' });
+    }
+    const isSuperAdmin = rolesList.includes('superadmin');
+    const globalPublishPermissionResult = await db.query(
+      `SELECT enabled
+       FROM user_global_publish_permissions
+       WHERE user_id = $1
+         AND organization_id = $2::uuid
+       LIMIT 1`,
+      [user.id, organizationId],
+    );
+    const canPublishGlobal = Boolean(globalPublishPermissionResult.rows[0]?.enabled);
+    const subscription = await enforceSubscriptionState(organizationId);
+    const subscriptionActive = isSubscriptionActive(subscription);
+    if (!subscriptionActive && !isSuperAdmin) {
+      return res.status(402).json({
+        message: 'Trial has expired. Please subscribe to continue.',
+        code: 'PAYMENT_REQUIRED',
+        subscription,
+      });
+    }
 
     // Generate tokens
     const tokenPayload = {
@@ -126,6 +164,8 @@ authRouter.post('/login', async (req: Request, res: Response) => {
       organizationId,
       email: user.email,
       role: user.active_role,
+      isSuperAdmin,
+      canPublishGlobal,
     };
 
     const accessToken = generateAccessToken(tokenPayload);
@@ -140,6 +180,14 @@ authRouter.post('/login', async (req: Request, res: Response) => {
       [user.id, rawRefreshToken, expiresAt]
     );
 
+    void eventBus.publish({
+      type: 'auth.user.logged_in',
+      source: 'auth-service',
+      userId: user.id,
+      organizationId,
+      payload: { email: user.email, role: user.active_role, isSuperAdmin },
+    });
+
     return res.json({
       accessToken,
       refreshToken: rawRefreshToken,
@@ -152,7 +200,10 @@ authRouter.post('/login', async (req: Request, res: Response) => {
         roles: rolesList,
         profileImage: user.profile_image,
         organizationId,
+        canPublishGlobal,
+        isSuperAdmin,
       },
+      subscription,
     });
   } catch (error) {
     console.error(error);
@@ -202,7 +253,37 @@ authRouter.post('/refresh', async (req, res) => {
       `SELECT organization_id FROM user_roles WHERE user_id = $1 LIMIT 1`,
       [user.id]
     );
-    const orgId = rolesResult.rows[0]?.organization_id;
+    const orgId = rolesResult.rows[0]?.organization_id as string | undefined;
+    if (!orgId) {
+      return res.status(403).json({ message: 'No organization assigned for this user' });
+    }
+    const allRolesResult = await db.query(
+      `SELECT r.role_name
+       FROM user_roles ur
+       INNER JOIN roles r ON r.id = ur.role_id
+       WHERE ur.user_id = $1`,
+      [user.id],
+    );
+    const allRoles = allRolesResult.rows.map((row: any) => row.role_name as string);
+    const isSuperAdmin = allRoles.includes('superadmin');
+    const globalPublishPermissionResult = await db.query(
+      `SELECT enabled
+       FROM user_global_publish_permissions
+       WHERE user_id = $1
+         AND organization_id = $2::uuid
+       LIMIT 1`,
+      [user.id, orgId],
+    );
+    const canPublishGlobal = Boolean(globalPublishPermissionResult.rows[0]?.enabled);
+    const subscription = await enforceSubscriptionState(orgId);
+    const subscriptionActive = isSubscriptionActive(subscription);
+    if (!subscriptionActive && !isSuperAdmin) {
+      return res.status(402).json({
+        message: 'Trial has expired. Please subscribe to continue.',
+        code: 'PAYMENT_REQUIRED',
+        subscription,
+      });
+    }
 
     // Generate new access token
     const newAccessToken = generateAccessToken({
@@ -210,6 +291,8 @@ authRouter.post('/refresh', async (req, res) => {
       organizationId: orgId,
       email: user.email,
       role: user.active_role,
+      isSuperAdmin,
+      canPublishGlobal,
     });
 
     // Generate rotated refresh token
@@ -225,6 +308,7 @@ authRouter.post('/refresh', async (req, res) => {
     return res.json({
       accessToken: newAccessToken,
       refreshToken: newRefreshToken,
+      subscription,
     });
   } catch (error) {
     console.error(error);
@@ -232,49 +316,7 @@ authRouter.post('/refresh', async (req, res) => {
   }
 });
 
-// Middleware: Authenticate Request
-export interface AuthenticatedRequest extends Request {
-  user?: {
-    userId: string;
-    organizationId: string;
-    email: string;
-    role: string;
-  };
-}
-
-export function requireAuth(req: AuthenticatedRequest, res: Response, next: NextFunction) {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Authentication token required' });
-  }
-
-  const token = authHeader.split(' ')[1];
-
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET) as any;
-    req.user = {
-      userId: decoded.userId,
-      organizationId: decoded.organizationId,
-      email: decoded.email,
-      role: decoded.role,
-    };
-    next();
-  } catch (error) {
-    return res.status(401).json({ message: 'Invalid or expired authentication token' });
-  }
-}
-
-// Middleware: Role Check
-export function requireRole(allowedRoles: string[]) {
-  return (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-    if (!req.user) {
-      return res.status(401).json({ message: 'Authentication required' });
-    }
-
-    if (!allowedRoles.includes(req.user.role)) {
-      return res.status(403).json({ message: 'Forbidden: insufficient role permissions' });
-    }
-
-    next();
-  };
-}
+// Middleware: Authenticate Request — delegates to shared internal-auth
+export type AuthenticatedRequest = SharedAuthenticatedRequest;
+export const requireAuth = createRequireAuth({ jwtSecret: JWT_SECRET });
+export const requireRole = sharedRequireRole;

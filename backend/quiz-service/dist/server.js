@@ -47,6 +47,10 @@ async function bootstrap() {
         );
       `);
             await db.query(`ALTER TABLE classrooms ADD COLUMN IF NOT EXISTS organization_id UUID;`);
+            await db.query(`ALTER TABLE quizzes ADD COLUMN IF NOT EXISTS is_global BOOLEAN NOT NULL DEFAULT false;`);
+            await db.query(`ALTER TABLE content_topics ADD COLUMN IF NOT EXISTS is_global BOOLEAN NOT NULL DEFAULT false;`);
+            await db.query(`ALTER TABLE learning_contents ADD COLUMN IF NOT EXISTS is_global BOOLEAN NOT NULL DEFAULT false;`);
+            await db.query(`ALTER TABLE classrooms ADD COLUMN IF NOT EXISTS is_global BOOLEAN NOT NULL DEFAULT false;`);
             await db.query(`ALTER TABLE learning_content_sections ADD COLUMN IF NOT EXISTS title VARCHAR(255);`);
             await db.query(`ALTER TABLE topic_content_sections ADD COLUMN IF NOT EXISTS title VARCHAR(255);`);
             await db.query(`
@@ -134,8 +138,6 @@ async function bootstrap() {
       `);
             // ── Classroom lifecycle: ended_at timestamp ────────────────────────────
             await db.query(`ALTER TABLE classrooms ADD COLUMN IF NOT EXISTS ended_at TIMESTAMP;`);
-            // ── Remark media (image/doc visible to parents) ────────────────────────
-            await db.query(`ALTER TABLE classroom_student_remarks ADD COLUMN IF NOT EXISTS remark_media_url TEXT;`);
             // ── Teacher remarks + scores per student per classroom ─────────────────
             await db.query(`
         CREATE TABLE IF NOT EXISTS classroom_student_remarks (
@@ -154,6 +156,8 @@ async function bootstrap() {
           UNIQUE(classroom_id, student_id)
         );
       `);
+            // ── Remark media (image/doc visible to parents) ────────────────────────
+            await db.query(`ALTER TABLE classroom_student_remarks ADD COLUMN IF NOT EXISTS remark_media_url TEXT;`);
             // ── Pre-configured achievement catalogue ───────────────────────────────
             await db.query(`
         CREATE TABLE IF NOT EXISTS achievements (
@@ -167,7 +171,7 @@ async function bootstrap() {
           created_at TIMESTAMP DEFAULT NOW()
         );
       `);
-            // ── Student achievement grants (teacher assigns, repeatable) ───────────
+            // ── Student achievement grants (one per student+classroom+achievement) ──
             await db.query(`
         CREATE TABLE IF NOT EXISTS student_achievements (
           id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -177,6 +181,64 @@ async function bootstrap() {
           granted_by UUID NOT NULL,
           granted_at TIMESTAMP DEFAULT NOW()
         );
+      `);
+            // ── Deduplicate global achievements and map grants to canonical rows ───
+            await db.query(`
+        WITH ranked AS (
+          SELECT id,
+                 FIRST_VALUE(id) OVER (
+                   PARTITION BY COALESCE(organization_id::text, 'global'),
+                                LOWER(name),
+                                is_global
+                   ORDER BY created_at ASC, id ASC
+                 ) AS keep_id
+          FROM achievements
+        ),
+        remap AS (
+          SELECT id, keep_id
+          FROM ranked
+          WHERE id <> keep_id
+        )
+        UPDATE student_achievements sa
+        SET achievement_id = remap.keep_id
+        FROM remap
+        WHERE sa.achievement_id = remap.id;
+      `);
+            await db.query(`
+        WITH ranked AS (
+          SELECT id,
+                 ROW_NUMBER() OVER (
+                   PARTITION BY COALESCE(organization_id::text, 'global'),
+                                LOWER(name),
+                                is_global
+                   ORDER BY created_at ASC, id ASC
+                 ) AS rn
+          FROM achievements
+        )
+        DELETE FROM achievements a
+        USING ranked r
+        WHERE a.id = r.id AND r.rn > 1;
+      `);
+            await db.query(`
+        CREATE UNIQUE INDEX IF NOT EXISTS idx_achievements_unique_identity
+          ON achievements (
+            COALESCE(organization_id::text, 'global'),
+            LOWER(name),
+            is_global
+          );
+      `);
+            // ── Deduplicate grants and enforce uniqueness ──────────────────────────
+            await db.query(`
+        DELETE FROM student_achievements sa
+        USING student_achievements dupe
+        WHERE sa.ctid < dupe.ctid
+          AND sa.student_id = dupe.student_id
+          AND sa.classroom_id = dupe.classroom_id
+          AND sa.achievement_id = dupe.achievement_id;
+      `);
+            await db.query(`
+        CREATE UNIQUE INDEX IF NOT EXISTS idx_student_achievements_unique
+          ON student_achievements (student_id, classroom_id, achievement_id);
       `);
             // ── Seed global achievements (once) ───────────────────────────────────
             await db.query(`

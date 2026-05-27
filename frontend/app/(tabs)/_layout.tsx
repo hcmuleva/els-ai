@@ -182,6 +182,17 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="superadmin"
+        options={{
+          href: tabRoutes.has('superadmin') ? undefined : null,
+          title: 'Superadmin',
+          tabBarIcon: ({ color, size }) => {
+            const Icon = getTabIcon('superadmin');
+            return <Icon size={size} />;
+          },
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
           href: null,

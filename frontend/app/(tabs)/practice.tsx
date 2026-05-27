@@ -157,7 +157,7 @@ export default function PracticeScreen() {
       const classLevel = classLevelOverride ?? selectedClassLevel;
       const query = new URLSearchParams();
       if (classLevel) query.set('class_level', classLevel);
-      const res = await apiFetch(`/quizzes/students/classrooms?${query.toString()}`);
+      const res = await apiFetch(`/classrooms/student?${query.toString()}`);
       if (!res.ok) {
         const payload = await res.json().catch(() => ({}));
         throw new Error(payload.message || 'Failed to load classroom data');
@@ -248,7 +248,7 @@ export default function PracticeScreen() {
     try {
       const picked = await pickFileAsDataUrl('image/*,audio/*,video/*');
       const mediaType = resolveMediaType(picked);
-      const res = await apiFetch('/quizzes/uploads/media', {
+      const res = await apiFetch('/assets/upload', {
         method: 'POST',
         body: JSON.stringify({
           dataUrl: picked.dataUrl,
@@ -278,7 +278,7 @@ export default function PracticeScreen() {
     setSavingSubmission(true);
     try {
       const res = await apiFetch(
-        `/quizzes/students/classrooms/${selectedClassroom.id}/assignments/${assignmentModal.id}/submissions`,
+        `/assignments/classrooms/${selectedClassroom.id}/${assignmentModal.id}/submissions`,
         {
           method: 'POST',
           body: JSON.stringify({

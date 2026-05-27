@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useMemo, useState } from 'react';
-import { Image, Modal, Platform, Pressable, Text, View } from 'react-native';
+import { Image, Modal, Platform, Pressable, ScrollView, Text, View } from 'react-native';
 
 import { useAuth } from '../../../src/context/AuthContext';
 import { buildLogicoTenSlotPositions, LOGICO_CARD_HEIGHT, LOGICO_CARD_WIDTH, LOGICO_LAYOUT_SPLIT } from './sourceframe/constants/logicoLayout';
@@ -173,7 +173,11 @@ export function LogicopiccoloFrame() {
             </Pressable>
           )}
 
-          <View style={logicopiccoloStyles.cardGrid}>
+          <ScrollView
+            style={logicopiccoloStyles.cardGridScroll}
+            contentContainerStyle={logicopiccoloStyles.cardGrid}
+            showsVerticalScrollIndicator
+          >
             {savedSetups.map((setup) => (
               <Pressable
                 key={setup.name}
@@ -190,7 +194,7 @@ export function LogicopiccoloFrame() {
                 <Text style={logicopiccoloStyles.cardTileTitle} numberOfLines={2}>{setup.name}</Text>
               </Pressable>
             ))}
-          </View>
+          </ScrollView>
 
           {savedSetups.length === 0 && (
             <Text style={logicopiccoloStyles.previewCode}>No saved cards yet.</Text>
