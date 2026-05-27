@@ -120,8 +120,8 @@ function TopicDetailsModal({ topic, apiFetch, onClose, onEdit }: {
     if (!topic) return;
     setLoading(true);
     Promise.all([
-      apiFetch(`/quizzes/content/topics/${topic.id}/details`),
-      apiFetch(`/quizzes/content/topics/${topic.id}/quizzes`),
+      apiFetch(`/topics/${topic.id}/details`),
+      apiFetch(`/topics/${topic.id}/quizzes`),
     ])
       .then(async ([detailsRes, quizzesRes]) => {
         const details = detailsRes.ok ? await detailsRes.json() : {};
@@ -456,8 +456,8 @@ export default function TopicsTab({
     setModalTab('setup'); setSaving(false);
     // Load existing assignments
     const [contentRes, quizRes] = await Promise.all([
-      apiFetch(`/quizzes/content/topics/${topic.id}/assignments`),
-      apiFetch(`/quizzes/content/topics/${topic.id}/quizzes`),
+      apiFetch(`/topics/${topic.id}/assignments`),
+      apiFetch(`/topics/${topic.id}/quizzes`),
     ]);
     if (contentRes.ok) {
       const d = await contentRes.json();
@@ -477,7 +477,7 @@ export default function TopicsTab({
     }
     setSaving(true);
     try {
-      const endpoint = editingId ? `/quizzes/content/topics/${editingId}` : '/quizzes/content/topics';
+      const endpoint = editingId ? `/topics/${editingId}` : '/topics';
       const method   = editingId ? 'PATCH' : 'POST';
       const res = await apiFetch(endpoint, {
         method,
@@ -490,8 +490,8 @@ export default function TopicsTab({
       // Assign content
       if (topicId) {
         await Promise.all([
-          apiFetch(`/quizzes/content/topics/${topicId}/assignments`, { method: 'PUT', body: JSON.stringify({ contentIds }) }),
-          apiFetch(`/quizzes/content/topics/${topicId}/quizzes`,     { method: 'PUT', body: JSON.stringify({ quizIds }) }),
+          apiFetch(`/topics/${topicId}/assignments`, { method: 'PUT', body: JSON.stringify({ contentIds }) }),
+          apiFetch(`/topics/${topicId}/quizzes`,     { method: 'PUT', body: JSON.stringify({ quizIds }) }),
         ]);
       }
       setToast({ type: 'success', text: editingId ? 'Topic updated.' : 'Topic created.' });

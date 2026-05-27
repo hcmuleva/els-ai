@@ -3,6 +3,28 @@ import { z } from 'zod';
 import { db } from '../db.js';
 import { requireAuth } from '../middleware/auth.js';
 import { getSignedMediaUrlIfNeeded, toPersistentMediaUrl, uploadMediaToS3 } from '../services/s3.js';
+const INTERNAL_SECRET = process.env.INTERNAL_SECRET || 'els-internal-secret-change-me';
+function requireInternalSecret(req, res, next) {
+    const provided = req.headers['x-internal-secret'];
+    const value = Array.isArray(provided) ? provided[0] : provided;
+    if (!value || value !== INTERNAL_SECRET) {
+        return res.status(401).json({ message: 'Invalid internal secret' });
+    }
+    return next();
+}
+const internalUploadSchema = z.object({
+    organizationId: z.string().uuid(),
+    dataUrl: z.string().trim().min(1),
+    fileName: z.string().trim().min(1).max(255),
+    mimeType: z.string().trim().optional(),
+    mediaType: z.enum(['image', 'audio', 'video']),
+});
+const internalResolveSchema = z.object({
+    url: z.string().trim().min(1),
+});
+const internalResolveBatchSchema = z.object({
+    urls: z.array(z.string().trim().min(1)).min(1).max(500),
+});
 const uploadAssetSchema = z.object({
     dataUrl: z.string().trim().min(1),
     fileName: z.string().trim().min(1).max(255),
@@ -130,6 +152,99 @@ assetsRouter.get('/:assetId', requireAuth, async (req, res) => {
     }
     catch (error) {
         const message = error instanceof Error ? error.message : 'Failed to fetch asset';
+        return res.status(500).json({ message });
+    }
+});
+assetsRouter.post('/internal/upload', requireInternalSecret, async (req, res) => {
+    const parsedBody = internalUploadSchema.safeParse(req.body);
+    if (!parsedBody.success) {
+        return res.status(400).json({ message: 'Invalid upload payload', errors: parsedBody.error.issues });
+    }
+    const { organizationId, dataUrl, fileName, mimeType, mediaType } = parsedBody.data;
+    try {
+        const uploaded = await uploadMediaToS3({
+            organizationId,
+            dataUrl,
+            fileName,
+            mimeType,
+            mediaType,
+        });
+        const metadata = {
+            key: uploaded.key,
+            mimeType: uploaded.mimeType,
+            originalFileName: fileName,
+            storedFileName: uploaded.fileName,
+            uploadedBy: req.headers['x-internal-user-id'] || null,
+            context: null,
+        };
+        const insertResult = await db.query(`INSERT INTO assets (organization_id, asset_type, file_url, metadata)
+       VALUES ($1::uuid, $2, $3, $4::jsonb)
+       RETURNING id`, [organizationId, mediaType, uploaded.canonicalUrl, metadata]);
+        return res.status(201).json({
+            assetId: insertResult.rows[0].id,
+            url: uploaded.signedUrl,
+            signedUrl: uploaded.signedUrl,
+            canonicalUrl: uploaded.canonicalUrl,
+            fileName: uploaded.fileName,
+            mediaType: uploaded.mediaType,
+            mimeType: uploaded.mimeType,
+            key: uploaded.key,
+        });
+    }
+    catch (error) {
+        const message = error instanceof Error ? error.message : 'Failed to upload media';
+        const isClientError = message.includes('Invalid upload format') ||
+            message.includes('Invalid upload payload') ||
+            message.includes('not an image') ||
+            message.includes('not an audio') ||
+            message.includes('not a video');
+        return res.status(isClientError ? 400 : 500).json({ message });
+    }
+});
+assetsRouter.post('/internal/resolve', requireInternalSecret, async (req, res) => {
+    const parsedBody = internalResolveSchema.safeParse(req.body);
+    if (!parsedBody.success) {
+        return res.status(400).json({ message: 'Invalid resolve payload', errors: parsedBody.error.issues });
+    }
+    try {
+        const canonicalUrl = toPersistentMediaUrl(parsedBody.data.url);
+        const signedUrl = await getSignedMediaUrlIfNeeded(canonicalUrl);
+        return res.json({ url: signedUrl, signedUrl, canonicalUrl });
+    }
+    catch (error) {
+        const message = error instanceof Error ? error.message : 'Failed to resolve media URL';
+        return res.status(500).json({ message });
+    }
+});
+assetsRouter.post('/internal/resolve/batch', requireInternalSecret, async (req, res) => {
+    const parsedBody = internalResolveBatchSchema.safeParse(req.body);
+    if (!parsedBody.success) {
+        return res.status(400).json({ message: 'Invalid batch resolve payload', errors: parsedBody.error.issues });
+    }
+    try {
+        const resolved = await Promise.all(parsedBody.data.urls.map(async (inputUrl) => {
+            const canonicalUrl = toPersistentMediaUrl(inputUrl);
+            const signedUrl = await getSignedMediaUrlIfNeeded(canonicalUrl);
+            return { sourceUrl: inputUrl, canonicalUrl, url: signedUrl, signedUrl };
+        }));
+        return res.json({ items: resolved });
+    }
+    catch (error) {
+        const message = error instanceof Error ? error.message : 'Failed to resolve media URLs';
+        return res.status(500).json({ message });
+    }
+});
+assetsRouter.post('/internal/canonicalize', requireInternalSecret, (req, res) => {
+    const parsedBody = internalResolveSchema.safeParse(req.body);
+    if (!parsedBody.success) {
+        return res.status(400).json({ message: 'Invalid canonicalize payload', errors: parsedBody.error.issues });
+    }
+    try {
+        const canonicalUrl = toPersistentMediaUrl(parsedBody.data.url);
+        return res.json({ canonicalUrl });
+    }
+    catch (error) {
+        const message = error instanceof Error ? error.message : 'Failed to canonicalize URL';
         return res.status(500).json({ message });
     }
 });

@@ -13,7 +13,9 @@ import {
   Star, BookOpen, Trophy, Zap, TrendingUp, X, ChevronRight, Clock,
   BarChart2, Calendar, Timer, School, Layers, ClipboardList,
   Activity, RotateCw, User, Users, CheckCircle, SkipForward, Flame,
+  History,
 } from 'lucide-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SvgXml } from 'react-native-svg';
 
 import { useAuth } from '../../src/context/AuthContext';
@@ -451,6 +453,7 @@ function ParentReports() {
   // Quiz modals state
   const [showAllQuizzes, setShowAllQuizzes] = useState(false);
   const [showAllClassrooms, setShowAllClassrooms] = useState(false);
+  const [historySeenAt, setHistorySeenAt] = useState<number | null>(null);
   const [quizDetail, setQuizDetail]         = useState<QuizAttemptDetail | null>(null);
   const [classroomDetail, setClassroomDetail] = useState<ClassroomRemarkItem | null>(null);
   const [loadingDetail, setLoadingDetail]   = useState(false);
@@ -537,6 +540,35 @@ function ParentReports() {
   const submittedAssignments = assignments.filter((a) => a.status !== 'pending');
   const activeClassrooms = classroomRemarks.active;
   const completedClassrooms = classroomRemarks.completed;
+
+  const historyStorageKey = activeStudent?.id ? `parent_history_seen_at:${activeStudent.id}` : null;
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!historyStorageKey) { setHistorySeenAt(null); return; }
+    AsyncStorage.getItem(historyStorageKey).then((val) => {
+      if (cancelled) return;
+      setHistorySeenAt(val ? Number(val) : 0);
+    }).catch(() => { if (!cancelled) setHistorySeenAt(0); });
+    return () => { cancelled = true; };
+  }, [historyStorageKey]);
+
+  const newEndedCount = useMemo(() => {
+    if (historySeenAt === null) return 0;
+    return completedClassrooms.filter((c) => {
+      const t = c.endedAt ? new Date(c.endedAt).getTime() : 0;
+      return t > (historySeenAt || 0);
+    }).length;
+  }, [completedClassrooms, historySeenAt]);
+
+  const openHistoryModal = useCallback(async () => {
+    setShowAllClassrooms(true);
+    if (historyStorageKey) {
+      const now = Date.now();
+      try { await AsyncStorage.setItem(historyStorageKey, String(now)); } catch (_e) { /* silent */ }
+      setHistorySeenAt(now);
+    }
+  }, [historyStorageKey]);
   const classroomCards = activeClassrooms.length > 0
     ? activeClassrooms
     : upcomingClassrooms.map((c) => ({
@@ -733,7 +765,20 @@ function ParentReports() {
           <View ref={(r) => { sectionRefs.current['classroom'] = r; }} onLayout={(e) => { sectionOffsets.current['classroom'] = e.nativeEvent.layout.y; }}>
           <View style={pr.rowHeader}>
             <Text style={pr.rowTitle}>Classroom Status</Text>
-            <Text style={pr.rowChip}>{classroomCards.length} active</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <Text style={pr.rowChip}>{classroomCards.length} active</Text>
+              {completedClassrooms.length > 0 && (
+                <Pressable
+                  style={pr.historyIconBtn}
+                  onPress={openHistoryModal}
+                  hitSlop={10}
+                  accessibilityLabel="View classroom history"
+                >
+                  <History size={18} color="#4A90E2" />
+                  {newEndedCount > 0 && <View style={pr.historyIconDot} />}
+                </Pressable>
+              )}
+            </View>
           </View>
           {classroomCards.length === 0 ? (
             <View style={pr.emptyCard}><SvgXml xml={GIRAFFE} width={56} height={56} /><Text style={pr.emptyCardText}>No classroom updates yet.</Text></View>
@@ -771,31 +816,6 @@ function ParentReports() {
             })
           )}
 
-          {completedClassrooms.length > 0 && (
-            <>
-              <View style={pr.rowHeader}>
-                <Text style={pr.rowTitle}>📚 Classroom History</Text>
-                <Text style={pr.rowChip}>{completedClassrooms.length} ended</Text>
-              </View>
-              {completedClassrooms.slice(0, 3).map((cls, idx) => (
-                <Pressable key={`${cls.id}-${idx}`} style={pr.historyCard} onPress={() => setClassroomDetail(cls)}>
-                  <View style={pr.historyDot} />
-                  <View style={{ flex: 1 }}>
-                    <Text style={pr.historyTitle} numberOfLines={1}>{cls.title}</Text>
-                    <Text style={pr.historyMeta}>
-                      Ended {cls.endedAt ? new Date(cls.endedAt).toLocaleDateString() : '—'} · Class {cls.classLevel}
-                    </Text>
-                  </View>
-                  <Text style={pr.historyCta}>View</Text>
-                </Pressable>
-              ))}
-              {completedClassrooms.length > 3 && (
-                <Pressable style={pr.viewAllBtn} onPress={() => setShowAllClassrooms(true)}>
-                  <Text style={pr.viewAllBtnText}>View Classroom History ›</Text>
-                </Pressable>
-              )}
-            </>
-          )}
           </View>{/* end classroom section */}
 
           {/* ── QUIZZES SECTION ── */}
@@ -1285,7 +1305,7 @@ export default function ReportsScreen() {
         setOverview(await res.json());
       } else {
         // Both student and parent use classroom data for now
-        const res = await apiFetch('/quizzes/students/classrooms');
+        const res = await apiFetch('/classrooms/student');
         if (res.ok) {
           const payload = await res.json();
           const rooms = (payload.classrooms ?? []) as Classroom[];
@@ -1866,6 +1886,8 @@ const pr = StyleSheet.create({
   classStatusText:  { fontSize: 11, fontWeight: '800' },
   smallGradeBadge:  { borderRadius: 10, paddingHorizontal: 8, paddingVertical: 2 },
   smallGradeText:   { fontSize: 10, fontWeight: '800' },
+  historyIconBtn:   { width: 36, height: 36, borderRadius: 18, backgroundColor: '#EBF4FF', alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  historyIconDot:   { position: 'absolute', top: 6, right: 6, width: 9, height: 9, borderRadius: 5, backgroundColor: '#4A90E2', borderWidth: 1.5, borderColor: '#fff' },
   historyCard:      { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: '#fff', marginHorizontal: 16, marginBottom: 8, borderRadius: 14, paddingHorizontal: 14, paddingVertical: 12, borderWidth: 1, borderColor: '#F0F0F8' },
   historyDot:       { width: 10, height: 10, borderRadius: 5, backgroundColor: '#4A90E2' },
   historyTitle:     { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },

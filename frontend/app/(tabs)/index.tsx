@@ -303,9 +303,9 @@ export default function HomeScreen() {
     try {
       if (role === 'student') {
         const [classroomsRes, subjectsRes, achievRes] = await Promise.all([
-          apiFetch('/quizzes/students/classrooms'),
-          apiFetch('/quizzes/students/subjects'),
-          apiFetch('/quizzes/students/my-achievements'),
+          apiFetch('/classrooms/student'),
+          apiFetch('/students/subjects'),
+          apiFetch('/achievements/my'),
         ]);
         if (achievRes.ok) {
           const ad = await achievRes.json();

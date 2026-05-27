@@ -187,7 +187,7 @@ export default function QuizExamCreatorScreen() {
   const loadSubjectCatalog = useCallback(async () => {
     if (!isTeacherView) return;
     try {
-      const res = await apiFetch('/quizzes/content/subjects');
+      const res = await apiFetch('/content/subjects');
       if (res.ok) {
         const payload = await res.json();
         const items = Array.isArray(payload.subjects) ? payload.subjects : [];
@@ -207,7 +207,7 @@ export default function QuizExamCreatorScreen() {
     if (!isTeacherView) return;
     setLoadingQuestionBank(true);
     try {
-      const res = await apiFetch('/quizzes/question-bank?limit=300');
+      const res = await apiFetch('/question-bank?limit=300');
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).message || 'Failed to load question bank');
       const payload = await res.json();
       setQuestionBank(payload.questions || []);
@@ -336,7 +336,7 @@ export default function QuizExamCreatorScreen() {
           const reusedQuestion = await reuseRes.json();
           const reusedQuestionId = String(reusedQuestion.id || '');
           if (reusedQuestionId) {
-            await apiFetch(`/quizzes/questions/${reusedQuestionId}`, {
+            await apiFetch(`/questions/${reusedQuestionId}`, {
               method: 'PATCH',
               body: JSON.stringify({ points: 0 }),
             });

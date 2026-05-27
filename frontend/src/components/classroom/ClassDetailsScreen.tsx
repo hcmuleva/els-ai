@@ -318,8 +318,8 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
     setLoading(true);
     try {
       const [detailRes, achievRes] = await Promise.all([
-        apiFetch(`/quizzes/classrooms/${classroomId}/class-details`),
-        apiFetch('/quizzes/achievements'),
+        apiFetch(`/classrooms/${classroomId}/class-details`),
+        apiFetch('/achievements'),
       ]);
       if (detailRes.ok) {
         const d = await detailRes.json();
@@ -335,14 +335,14 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
   useEffect(() => { if (classroomId) { setTab('overview'); loadData(); } }, [classroomId]);
 
   const handleSaveRemark = async (studentId: string, data: any) => {
-    await apiFetch(`/quizzes/classrooms/${classroomId}/remarks/${studentId}`, {
+    await apiFetch(`/classrooms/${classroomId}/remarks/${studentId}`, {
       method: 'PUT', body: JSON.stringify(data),
     });
     await loadData();
   };
 
   const handleGrantAchievement = async (studentId: string, achievementId: string) => {
-    await apiFetch('/quizzes/achievements/grant', {
+    await apiFetch('/achievements/grant', {
       method: 'POST', body: JSON.stringify({ studentId, classroomId, achievementId }),
     });
     await loadData();
@@ -355,7 +355,7 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
     setDetailLoading(true);
     setSelectedQuizAttemptId(null);
     try {
-      const res = await apiFetch(`/quizzes/classrooms/${classroomId}/students/${student.studentId}/details`);
+      const res = await apiFetch(`/classrooms/${classroomId}/students/${student.studentId}/details`);
       if (res.ok) {
         const payload = (await res.json()) as StudentDetailPayload;
         setStudentDetails(payload);

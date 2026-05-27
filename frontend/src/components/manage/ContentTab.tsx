@@ -101,7 +101,7 @@ function ContentDetailsModal({ item, apiFetch, onClose, onEdit }: {
   useEffect(() => {
     if (!item) { setDetail(null); return; }
     setLoading(true);
-    apiFetch(`/quizzes/content/items/${item.id}`)
+    apiFetch(`/content/items/${item.id}`)
       .then((r) => r.ok ? r.json() : null)
       .then((d) => { if (d) setDetail(d as LearningContentItem); })
       .catch(() => {})
@@ -250,7 +250,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, onClose, onSuccess, o
       return;
     }
     setLoadingEdit(true);
-    apiFetch(`/quizzes/content/items/${editId}`)
+    apiFetch(`/content/items/${editId}`)
       .then((r) => r.ok ? r.json() : null)
       .then((d: LearningContentItem | null) => {
         if (!d) return;
@@ -305,7 +305,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, onClose, onSuccess, o
 
     setSaving(true);
     try {
-      const endpoint = editId ? `/quizzes/content/items/${editId}` : '/quizzes/content/items';
+      const endpoint = editId ? `/content/items/${editId}` : '/content/items';
       const method   = editId ? 'PUT' : 'POST';
       const res = await apiFetch(endpoint, {
         method,

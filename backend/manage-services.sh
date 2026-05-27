@@ -58,6 +58,28 @@ get_services() {
   done
 }
 
+# Shared workspaces that services depend on. Must be built first so
+# `node dist/server.js` can resolve `@els-ai/*` imports to compiled JS.
+build_shared_packages() {
+  local repo_root
+  repo_root="$(cd "$SCRIPT_DIR/.." && pwd)"
+  local shared_dirs=("backend/shared/event-bus" "backend/shared/internal-auth")
+  local dir
+  for dir in "${shared_dirs[@]}"; do
+    local pkg_path="$repo_root/$dir"
+    if [ -f "$pkg_path/package.json" ]; then
+      local pkg_name
+      pkg_name="$(basename "$pkg_path")"
+      (
+        cd "$pkg_path" || exit 0
+        npm run build --if-present >/dev/null 2>&1 || {
+          echo "⚠️  Failed to build shared package: $pkg_name"
+        }
+      )
+    fi
+  done
+}
+
 is_pid_running() {
   local pid="$1"
   kill -0 "$pid" 2>/dev/null
@@ -90,7 +112,16 @@ get_service_config_port() {
 get_listening_port_by_pid() {
   local pid="$1"
   local port=""
-  port="$(lsof -Pan -p "$pid" -iTCP -sTCP:LISTEN 2>/dev/null | awk 'NR>1 {split($9, a, ":"); print a[length(a)]; exit}' || true)"
+  local attempt
+  # Retry briefly because some services bind the socket a moment after spawn
+  # (Ably handshake, schema init, etc.). 5 attempts × 400ms = up to 2s extra.
+  for attempt in 1 2 3 4 5; do
+    port="$(lsof -Pan -p "$pid" -iTCP -sTCP:LISTEN 2>/dev/null | awk 'NR>1 {split($9, a, ":"); print a[length(a)]; exit}' || true)"
+    if [ -n "$port" ]; then
+      break
+    fi
+    sleep 0.4
+  done
   echo "${port:-N/A}"
 }
 
@@ -242,6 +273,10 @@ start_service() {
 run_action() {
   local force_mode="${1:-false}"
   local service
+
+  if [ "$ACTION" = "start" ] || [ "$ACTION" = "restart" ]; then
+    build_shared_packages
+  fi
 
   for service in $(get_services); do
     case "$ACTION" in
