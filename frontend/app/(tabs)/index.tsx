@@ -1,6 +1,6 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  ActivityIndicator, Platform, Pressable, ScrollView,
+  ActivityIndicator, FlatList, Modal, Platform, Pressable, ScrollView,
   StyleSheet, Text, View,
 } from 'react-native';
 import { Redirect, router } from 'expo-router';
@@ -9,7 +9,7 @@ import {
   Star, Users, BookOpen, TrendingUp, Calendar,
   ChevronRight, Clock, Zap, CheckCircle,
   Hash, Type, Leaf, Palette, Trophy, PlayCircle,
-  Target, Layers, BarChart2, ClipboardList, User,
+  Target, Layers, BarChart2, ClipboardList, User, History, BookOpenCheck,
 } from 'lucide-react-native';
 
 import { useAuth } from '../../src/context/AuthContext';
@@ -78,6 +78,7 @@ const DEFAULT_SUBJECTS: SubjectItem[] = [
   { subject: 'Animals',   Icon: Leaf,    color: Colors.success, bg: Colors.successLight  },
   { subject: 'Colors',    Icon: Palette, color: Colors.purple,  bg: Colors.purpleLight   },
 ];
+const HISTORY_PAGE_SIZE = 10;
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function getGreeting() {
@@ -295,6 +296,12 @@ export default function HomeScreen() {
     name: string; emoji: string; color: string; description: string; count: number;
   }>>([]);
   const [totalAchievements, setTotalAchievements] = useState(0);
+  const [liveStory, setLiveStory] = useState<{ id: string; title: string; description?: string; scheduledAt?: string | null; coverImageUrl?: string | null; sectionCount?: number } | null>(null);
+  const [nextStory, setNextStory] = useState<{ id: string; title: string; scheduledAt: string | null } | null>(null);
+  const [previousStories, setPreviousStories] = useState<Array<{ id: string; title: string; description?: string; sectionCount?: number; endedAt?: string | null }>>([]);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [historyPage, setHistoryPage] = useState<{ items: typeof previousStories; total: number; loading: boolean; page: number }>({ items: [], total: 0, loading: false, page: 1 });
+
 
   const loadData = useCallback(async () => {
     if (!user) return;
@@ -302,11 +309,18 @@ export default function HomeScreen() {
     setLoading(true);
     try {
       if (role === 'student') {
-        const [classroomsRes, subjectsRes, achievRes] = await Promise.all([
+        const [classroomsRes, subjectsRes, achievRes, storyFeedRes] = await Promise.all([
           apiFetch('/classrooms/student'),
           apiFetch('/students/subjects'),
           apiFetch('/achievements/my'),
+          apiFetch('/stories/home/feed'),
         ]);
+        if (storyFeedRes.ok) {
+          const sd = await storyFeedRes.json();
+          setLiveStory(sd.live || null);
+          setNextStory(sd.nextScheduled || null);
+          setPreviousStories(sd.previous || []);
+        }
         if (achievRes.ok) {
           const ad = await achievRes.json();
           setTotalAchievements(ad.total ?? 0);
@@ -336,6 +350,28 @@ export default function HomeScreen() {
   }, [apiFetch, user, role]);
 
   useFocusEffect(useCallback(() => { loadData(); }, [loadData]));
+
+  const loadHistory = useCallback(async (page = 1) => {
+    if (historyPage.loading) return;
+    setHistoryPage((p) => ({ ...p, loading: true }));
+    try {
+      const offset = (page - 1) * HISTORY_PAGE_SIZE;
+      const r = await apiFetch(`/stories?status=ended&limit=${HISTORY_PAGE_SIZE}&offset=${offset}`);
+      if (!r.ok) return;
+      const data = await r.json();
+      const newItems = data.stories || [];
+      setHistoryPage({ items: newItems, total: data.total ?? newItems.length, loading: false, page });
+    } catch { setHistoryPage((p) => ({ ...p, loading: false })); }
+  }, [apiFetch, historyPage.loading]);
+
+  // Load history when modal opens
+  useEffect(() => {
+    if (historyOpen) loadHistory(1);
+  }, [historyOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+  const totalHistoryPages = Math.max(1, Math.ceil(historyPage.total / HISTORY_PAGE_SIZE));
+  const canGoHistoryPrev = historyPage.page > 1 && !historyPage.loading;
+  const canGoHistoryNext = historyPage.page < totalHistoryPages && !historyPage.loading;
+
 
   const pending         = useMemo(() => classroom?.assignments.filter((a) => a.status !== 'submitted').length ?? 0, [classroom]);
   const xp              = Math.round((classroom?.completionPct ?? 0) * 15);
@@ -416,25 +452,138 @@ export default function HomeScreen() {
 
 
             {/* ── FEATURED STORY ──────────────────────────── */}
-            <Text style={s.secTitle}>Featured Story</Text>
-            <Pressable style={s.storyCard} onPress={() => router.push('/(tabs)/classroom')}>
-              <View style={s.storyLeft}>
-                <Text style={s.storyTitle}>
-                  {featured?.title ?? 'Story Of\nBaby Dinosaur'}
-                </Text>
-                <View style={s.storyMeta}>
-                  <Clock size={11} color={Colors.textMuted} />
-                  <Text style={s.storyMetaText}>15 Minutes · 22 Aug</Text>
+            {(liveStory || nextStory || previousStories.length > 0) && (
+              <>
+                {/* Row: "Featured Story" | [Next: Day] [History] */}
+                <View style={s.storyHeaderRow}>
+                  <Text style={s.secTitle}>Featured Story</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                    {nextStory?.scheduledAt && (() => {
+                      const d = new Date(nextStory.scheduledAt);
+                      const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+                      const isT = d.toDateString() === tomorrow.toDateString();
+                      const label = isT ? 'Tomorrow' : d.toLocaleDateString(undefined, { weekday: 'short', day: '2-digit', month: 'short' });
+                      return (
+                        <View style={s.nextDayPill}>
+                          <Calendar size={10} color="#B45309" />
+                          <Text style={s.nextDayPillText}>Next: {label}</Text>
+                        </View>
+                      );
+                    })()}
+                    {previousStories.length > 0 && (
+                      <Pressable style={s.historyBtn} onPress={() => setHistoryOpen(true)}>
+                        <History size={14} color="#5A6A8A" />
+                      </Pressable>
+                    )}
+                  </View>
                 </View>
-                <View style={s.storyPlayBtn}>
-                  <PlayCircle size={14} color="#fff" />
-                  <Text style={s.storyPlayText}>Play Now</Text>
-                </View>
-              </View>
-              <View style={s.storyIllustration}>
-                <SvgXml xml={GIRAFFE} width={80} height={80} />
-              </View>
-            </Pressable>
+
+                {(liveStory || nextStory) && (
+                  <Pressable
+                    style={s.storyCard}
+                    onPress={() => liveStory && router.push(`/story/${liveStory.id}` as any)}
+                    disabled={!liveStory}
+                  >
+                    <View style={s.storyLeft}>
+                      <Text style={s.storyTitle} numberOfLines={2}>
+                        {(liveStory?.title || nextStory?.title || '').trim()}
+                      </Text>
+                      <View style={s.storyMeta}>
+                        <Clock size={11} color={Colors.textMuted} />
+                        <Text style={s.storyMetaText}>
+                          {liveStory
+                            ? `${liveStory.sectionCount ?? 0} sections · Live now`
+                            : nextStory?.scheduledAt
+                              ? `Starts ${new Date(nextStory.scheduledAt).toLocaleDateString(undefined, { weekday: 'short', day: '2-digit', month: 'short' })}`
+                              : 'Coming soon'}
+                        </Text>
+                      </View>
+                      <View style={[s.storyPlayBtn, !liveStory && { backgroundColor: '#B0B8D0' }]}>
+                        <PlayCircle size={14} color="#fff" />
+                        <Text style={s.storyPlayText}>{liveStory ? 'Start Story' : 'Coming Soon'}</Text>
+                      </View>
+                    </View>
+                    <View style={s.storyIllustration}>
+                      <SvgXml xml={GIRAFFE} width={80} height={80} />
+                    </View>
+                  </Pressable>
+                )}
+
+                {/* Previous Stories History Modal */}
+                <Modal visible={historyOpen} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setHistoryOpen(false)}>
+                  <View style={s.historyModal}>
+                    <View style={s.historyModalHeader}>
+                      <BookOpenCheck size={20} color="#9B8EC4" />
+                      <View style={{ flex: 1 }}>
+                        <Text style={s.historyModalTitle}>Previous Stories</Text>
+                        {historyPage.total > 0 && (
+                          <Text style={s.historyModalCount}>{historyPage.total} stories</Text>
+                        )}
+                      </View>
+                      <Pressable onPress={() => setHistoryOpen(false)} style={s.historyCloseBtn}>
+                        <Text style={{ fontSize: 18, color: '#9A9AB0', fontWeight: '600' }}>✕</Text>
+                      </Pressable>
+                    </View>
+
+                    <FlatList
+                      data={historyPage.items}
+                      keyExtractor={(x) => x.id}
+                      contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: 40 }}
+                      renderItem={({ item, index }) => (
+                        <Pressable
+                          style={s.historyCard}
+                          onPress={() => { setHistoryOpen(false); router.push(`/story/${item.id}` as any); }}
+                        >
+                          <View style={s.historyCardNum}>
+                            <Text style={s.historyCardNumText}>{(historyPage.page - 1) * HISTORY_PAGE_SIZE + index + 1}</Text>
+                          </View>
+                          <View style={s.historyCardIcon}>
+                            <BookOpenCheck size={22} color="#9B8EC4" />
+                          </View>
+                          <View style={{ flex: 1 }}>
+                            <Text style={s.historyCardTitle} numberOfLines={1}>{item.title}</Text>
+                            <Text style={s.historyCardMeta}>
+                              {item.sectionCount ?? 0} sections
+                              {item.endedAt ? ` · ${new Date(item.endedAt).toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' })}` : ''}
+                            </Text>
+                          </View>
+                          <View style={s.historyReplayBtn}>
+                            <PlayCircle size={13} color="#9B8EC4" />
+                            <Text style={s.historyReplayText}>Replay</Text>
+                          </View>
+                        </Pressable>
+                      )}
+                      ListEmptyComponent={
+                        historyPage.loading
+                          ? <ActivityIndicator color="#9B8EC4" style={{ marginTop: 40 }} />
+                          : <Text style={{ textAlign: 'center', color: '#B0B8D0', marginTop: 40, fontSize: 14 }}>No previous stories yet.</Text>
+                      }
+                      ListFooterComponent={
+                        historyPage.items.length > 0 ? (
+                          <View style={s.historyPagerRow}>
+                            <Pressable
+                              style={[s.historyPagerBtn, !canGoHistoryPrev && s.historyPagerBtnDisabled]}
+                              disabled={!canGoHistoryPrev}
+                              onPress={() => loadHistory(historyPage.page - 1)}
+                            >
+                              <Text style={[s.historyPagerBtnText, !canGoHistoryPrev && s.historyPagerBtnTextDisabled]}>Previous</Text>
+                            </Pressable>
+                            <Text style={s.historyPagerText}>Page {historyPage.page} of {totalHistoryPages}</Text>
+                            <Pressable
+                              style={[s.historyPagerBtn, !canGoHistoryNext && s.historyPagerBtnDisabled]}
+                              disabled={!canGoHistoryNext}
+                              onPress={() => loadHistory(historyPage.page + 1)}
+                            >
+                              <Text style={[s.historyPagerBtnText, !canGoHistoryNext && s.historyPagerBtnTextDisabled]}>Next</Text>
+                            </Pressable>
+                          </View>
+                        ) : null
+                      }
+                    />
+                  </View>
+                </Modal>
+              </>
+            )}
 
             {/* ── GAMES / QUIZZES ─────────────────────────── */}
             {quizzes.length > 0 && (
@@ -640,6 +789,31 @@ const s = StyleSheet.create({
   },
   storyPlayText:      { fontSize: 12, fontWeight: '800', color: '#fff' },
   storyIllustration:  { width: 70, alignItems: 'center', justifyContent: 'center' },
+
+  storyHeaderRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, marginBottom: 8, marginTop: 16 },
+  nextDayPill:    { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 99, backgroundColor: '#FFF1D6' },
+  nextDayPillText:{ fontSize: 10, fontWeight: '800', color: '#B45309' },
+  historyBtn:     { width: 30, height: 30, borderRadius: 8, backgroundColor: '#F4F5FF', alignItems: 'center', justifyContent: 'center' },
+
+  historyModal:       { flex: 1, backgroundColor: '#F5F7FF' },
+  historyModalHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, padding: 20, paddingTop: 24, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  historyModalTitle:  { flex: 1, fontSize: 18, fontWeight: '900', color: '#1a1a2e' },
+  historyModalCount:  { fontSize: 12, color: '#9A9AB0', fontWeight: '700', marginTop: 2 },
+  historyCloseBtn:    { width: 30, height: 30, borderRadius: 8, backgroundColor: '#F5F7FF', alignItems: 'center', justifyContent: 'center' },
+  historyCard:        { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: '#fff', borderRadius: 14, padding: 14, borderWidth: 1, borderColor: '#ECEEF4' },
+  historyCardNum:     { width: 24, height: 24, borderRadius: 12, backgroundColor: '#EEF2FF', alignItems: 'center', justifyContent: 'center' },
+  historyCardNumText: { fontSize: 10, color: '#4A90E2', fontWeight: '900' },
+  historyCardIcon:    { width: 44, height: 44, borderRadius: 12, backgroundColor: '#F2EAFE', alignItems: 'center', justifyContent: 'center' },
+  historyCardTitle:   { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  historyCardMeta:    { fontSize: 11, color: '#9A9AB0', marginTop: 2, fontWeight: '600' },
+  historyReplayBtn:   { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 6, borderRadius: 99, backgroundColor: '#F2EAFE' },
+  historyReplayText:  { fontSize: 11, fontWeight: '800', color: '#9B8EC4' },
+  historyPagerRow:    { marginTop: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
+  historyPagerBtn:    { borderRadius: 10, backgroundColor: '#EBF4FF', paddingHorizontal: 14, paddingVertical: 8 },
+  historyPagerBtnDisabled: { backgroundColor: '#F0F0F8' },
+  historyPagerBtnText: { fontSize: 12, fontWeight: '800', color: '#1A4DA2' },
+  historyPagerBtnTextDisabled: { color: '#B0B8D0' },
+  historyPagerText:   { fontSize: 12, color: '#7A7A9A', fontWeight: '700' },
 
   // ── Game cards ───────────────────────────────────────────────────────────
   gameCard: {

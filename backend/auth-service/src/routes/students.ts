@@ -437,6 +437,7 @@ studentsRouter.get('/:id/quiz-attempts', requireAuth, async (req: AuthenticatedR
          sa.completed_at AS attempted_at,
          q.title AS quiz_title,
          q.class_level,
+         COALESCE(q.kind, 'subject') AS kind,
          COUNT(qa.id) AS total_questions,
          COUNT(qa.id) FILTER (WHERE qa.is_correct) AS correct_count,
          CASE WHEN COUNT(qa.id) > 0
@@ -447,7 +448,7 @@ studentsRouter.get('/:id/quiz-attempts', requireAuth, async (req: AuthenticatedR
        LEFT JOIN question_attempts qa ON qa.attempt_id = sa.id
        WHERE sa.student_id = $1
          AND q.organization_id = $2::uuid
-       GROUP BY sa.id, sa.score, sa.total_points, sa.completed_at, q.title, q.class_level
+       GROUP BY sa.id, sa.score, sa.total_points, sa.completed_at, q.title, q.class_level, q.kind
        ORDER BY sa.completed_at DESC
        LIMIT $3`,
       [studentId, organizationId, limit],
@@ -464,6 +465,7 @@ studentsRouter.get('/:id/quiz-attempts', requireAuth, async (req: AuthenticatedR
         totalQuestions: Number(row.total_questions || 0),
         correctCount: Number(row.correct_count || 0),
         attemptedAt: row.attempted_at as string,
+        kind: (row.kind as string) || 'subject',
       })),
     });
   } catch (error) {

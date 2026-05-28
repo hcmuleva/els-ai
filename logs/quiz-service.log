@@ -80,3 +80,285 @@ and security updates please upgrade to node >=22.
 More information can be found at: https://a.co/c895JFp
 (Use `node --trace-warnings ...` to show where the warning was created)
 Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:53553) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:55441) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:88665) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:89802) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error workspace quiz-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:4201) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+npm error Lifecycle script `dev` failed with error:
+npm error code 15
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error workspace quiz-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:2300) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:3777) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+8:34:31 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+c(node:22253) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Quiz Service listening on http://localhost:4002
+9:11:41 PM [tsx] change in ./src/services/s3.ts Rerunning...
+c
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@els-ai/media-client' imported from /Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/services/s3.ts
+    at packageResolve (node:internal/modules/esm/resolve:873:9)
+    at moduleResolve (node:internal/modules/esm/resolve:946:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at nextResolve (node:internal/modules/esm/hooks:864:28)
+    at resolveBase (file:///Users/Harish.Muleva/personal/els-ai/node_modules/tsx/dist/register-BmBLtb39.mjs:2:6834)
+    at resolveDirectory (file:///Users/Harish.Muleva/personal/els-ai/node_modules/tsx/dist/register-BmBLtb39.mjs:2:7921)
+    at resolveTsPaths (file:///Users/Harish.Muleva/personal/els-ai/node_modules/tsx/dist/register-BmBLtb39.mjs:2:9377)
+    at resolve2 (file:///Users/Harish.Muleva/personal/els-ai/node_modules/tsx/dist/register-BmBLtb39.mjs:2:10307)
+    at nextResolve (node:internal/modules/esm/hooks:864:28)
+    at Hooks.resolve (node:internal/modules/esm/hooks:306:30) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v20.19.4
+9:12:34 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+c
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/Harish.Muleva/personal/els-ai/node_modules/@els-ai/media-client/dist/index.js' imported from /Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/services/s3.ts
+    at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+    at moduleResolve (node:internal/modules/esm/resolve:952:10)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at nextResolve (node:internal/modules/esm/hooks:864:28)
+    at resolveBase (file:///Users/Harish.Muleva/personal/els-ai/node_modules/tsx/dist/register-BmBLtb39.mjs:2:6834)
+    at resolveDirectory (file:///Users/Harish.Muleva/personal/els-ai/node_modules/tsx/dist/register-BmBLtb39.mjs:2:7921)
+    at resolveTsPaths (file:///Users/Harish.Muleva/personal/els-ai/node_modules/tsx/dist/register-BmBLtb39.mjs:2:9377)
+    at resolve2 (file:///Users/Harish.Muleva/personal/els-ai/node_modules/tsx/dist/register-BmBLtb39.mjs:2:10307)
+    at nextResolve (node:internal/modules/esm/hooks:864:28)
+    at Hooks.resolve (node:internal/modules/esm/hooks:306:30) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///Users/Harish.Muleva/personal/els-ai/node_modules/@els-ai/media-client/dist/index.js'
+}
+
+Node.js v20.19.4
+npm error Lifecycle script `dev` failed with error:
+npm error code 15
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error workspace quiz-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002
+9:19:58 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+10:50:44 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cQuiz Service listening on http://localhost:4002
+10:56:31 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cQuiz Service listening on http://localhost:4002
+11:27:37 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cQuiz Service listening on http://localhost:4002
+11:29:04 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cQuiz Service listening on http://localhost:4002
+11:36:56 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cQuiz Service listening on http://localhost:4002
+11:41:38 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cQuiz Service listening on http://localhost:4002
+11:47:04 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cQuiz Service listening on http://localhost:4002
+11:52:46 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cQuiz Service listening on http://localhost:4002
+11:59:51 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cQuiz Service listening on http://localhost:4002
+12:04:30 AM [tsx] change in ./src/routes/quizzes.ts Rerunning...
+cQuiz Service listening on http://localhost:4002
+12:04:41 AM [tsx] change in ./src/routes/quizzes.ts Rerunning...
+cQuiz Service listening on http://localhost:4002
+12:07:34 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:07:35 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:15:50 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:15:51 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:18:21 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:18:23 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:29:25 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:29:27 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:40:51 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:40:52 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:43:16 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:43:17 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:47:28 AM [tsx] change in ./src/routes/quizzes.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+12:56:20 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:56:21 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+1:03:57 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+1:03:58 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+01:30:12.424 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 972929ms; assuming connection has dropped
+02:01:52.745 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 993191ms; assuming connection has dropped
+02:04:05.048 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 131856ms; assuming connection has dropped
+02:09:57.882 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 337654ms; assuming connection has dropped
+02:43:53.057 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2005001ms; assuming connection has dropped
+03:15:16.599 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1883353ms; assuming connection has dropped
+03:49:01.483 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1994622ms; assuming connection has dropped
+04:16:20.680 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 587701ms; assuming connection has dropped
+04:27:15.752 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 639705ms; assuming connection has dropped
+04:59:41.881 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1915943ms; assuming connection has dropped
+05:00:55.778 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 73509ms; assuming connection has dropped
+05:09:29.849 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 468656ms; assuming connection has dropped
+06:11:52.187 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 112047ms; assuming connection has dropped
+06:14:00.687 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98313ms; assuming connection has dropped
+06:15:53.311 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82447ms; assuming connection has dropped
+06:18:01.626 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97984ms; assuming connection has dropped
+06:19:54.553 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82603ms; assuming connection has dropped
+06:22:03.100 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98376ms; assuming connection has dropped
+06:23:55.734 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82425ms; assuming connection has dropped
+06:26:03.862 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97961ms; assuming connection has dropped
+07:41:55.711 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 30058ms; assuming connection has dropped
+07:44:03.510 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82358ms; assuming connection has dropped
+07:45:56.802 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82989ms; assuming connection has dropped
+07:47:49.970 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82870ms; assuming connection has dropped
+07:49:58.825 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83449ms; assuming connection has dropped
+07:51:51.441 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82445ms; assuming connection has dropped
+07:53:59.675 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83042ms; assuming connection has dropped
+07:55:52.586 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82603ms; assuming connection has dropped
+07:58:01.183 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98344ms; assuming connection has dropped
+09:50:15.674 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 631724ms; assuming connection has dropped
+1:44:13 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+1:44:15 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+2:20:21 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+2:32:50 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+2:32:51 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+2:35:05 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+2:35:06 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+3:24:07 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+3:24:09 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002

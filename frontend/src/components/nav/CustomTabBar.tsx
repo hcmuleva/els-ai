@@ -68,6 +68,8 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
 
   const visibleTabs     = state.routes.filter((r) => visibleRoutes.has(r.name));
   const activeRouteName = state.routes[state.index]?.name ?? '';
+  const activeVisibleIndex = visibleTabs.findIndex((r) => r.name === activeRouteName);
+  const activeInVisibleTabs = activeVisibleIndex >= 0;
 
   // Split: primary tabs (inline) vs overflow (in More panel)
   const hasMore     = visibleTabs.length > MAX_INLINE;
@@ -77,11 +79,14 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
 
   // Is the active route one of the primary tabs?
   const primaryIndex = primaryTabs.findIndex((r) => r.name === activeRouteName);
-  // If active is overflow tab, highlight More slot
-  const activeSlotIndex = primaryIndex >= 0 ? primaryIndex : (hasMore ? slotCount - 1 : 0);
+  // If active is an overflow tab, highlight More slot; if active route isn't in visible tabs, show no active slot.
+  const overflowActive = hasMore && activeInVisibleTabs && primaryIndex < 0;
+  const activeSlotIndex = primaryIndex >= 0 ? primaryIndex : (overflowActive ? slotCount - 1 : -1);
   const activeColor = primaryIndex >= 0
     ? (TAB_COLORS[activeRouteName] ?? '#4A90E2')
-    : '#9A9AB0';
+    : overflowActive
+      ? '#9A9AB0'
+      : 'transparent';
 
   const contentW = Math.max(barWidth - BAR_H_PAD * 2, 0);
   const slotW    = slotCount > 0 ? contentW / slotCount : 0;
@@ -91,8 +96,10 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
 
   useEffect(() => {
     if (barWidth === 0 || slotCount === 0) return;
-    const targetX = BAR_H_PAD + activeSlotIndex * slotW + PILL_INSET;
-    const pw = Math.max(slotW - PILL_INSET * 2, 0);
+    const targetX = activeSlotIndex >= 0
+      ? BAR_H_PAD + activeSlotIndex * slotW + PILL_INSET
+      : BAR_H_PAD + PILL_INSET;
+    const pw = activeSlotIndex >= 0 ? Math.max(slotW - PILL_INSET * 2, 0) : 0;
     slideX.value = withTiming(targetX, { duration: 250, easing: Easing.out(Easing.cubic) });
     pillW.value  = withTiming(pw,      { duration: 230, easing: Easing.out(Easing.cubic) });
   }, [activeSlotIndex, slotW, barWidth, slotCount]);
@@ -184,8 +191,8 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
               accessibilityRole="button"
               accessibilityLabel="More"
             >
-              <MoreHorizontal size={ICON_SIZE} color={primaryIndex < 0 ? '#fff' : '#9A9AB0'} strokeWidth={2} />
-              <Text style={[s.slotLabel, primaryIndex < 0 ? s.slotLabelActive : s.slotLabelInactive]}>More</Text>
+              <MoreHorizontal size={ICON_SIZE} color={overflowActive ? '#fff' : '#9A9AB0'} strokeWidth={2} />
+              <Text style={[s.slotLabel, overflowActive ? s.slotLabelActive : s.slotLabelInactive]}>More</Text>
             </Pressable>
           )}
         </View>

@@ -1,7 +1,14 @@
 {
-  "auth-service": 33090,
-  "quiz-service": 33104,
-  "media-service": 33125,
-  "ai-service": 33152,
-  "gateway": 33183
+  "auth-service": 37104,
+  "quiz-service": 37147,
+  "classroom-service": 37150,
+  "achievement-service": 37154,
+  "question-bank-service": 37157,
+  "content-service": 37186,
+  "topic-service": 37215,
+  "assignment-service": 37242,
+  "org-service": 37367,
+  "media-service": 37407,
+  "ai-service": 37453,
+  "gateway": 37495
 }

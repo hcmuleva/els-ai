@@ -1,9 +1,9 @@
 import {
   BookOpen,
+  BookOpenCheck,
   ChartColumn,
   FileText,
   House,
-  Puzzle,
   Settings,
   Shield,
   SquareLibrary,
@@ -19,25 +19,18 @@ export const roleTabs: Record<UserRole, RoleTabItem[]> = {
   ],
   teacher: [
     { route: 'planner', label: 'Planner', icon: SquareLibrary },
-    { route: 'exam', label: 'Exam', icon: FileText },
-    { route: 'logicopiccolo', label: 'Logico', icon: Puzzle },
     { route: 'manage', label: 'Manage', icon: FileText },
-    { route: 'assessment', label: 'Assess', icon: ChartColumn },
-    { route: 'evaluation', label: 'Eval', icon: BookOpen },
-    { route: 'reports', label: 'Reports', icon: ChartColumn },
+    { route: 'stories', label: 'Stories', icon: BookOpenCheck },
+    { route: 'exam', label: 'Exam', icon: FileText },
   ],
   parent: [
     { route: 'index', label: 'Home', icon: House },
     { route: 'reports', label: 'Reports', icon: ChartColumn },
   ],
   admin: [
-    { route: 'index', label: 'Home', icon: House },
-    { route: 'reports', label: 'Reports', icon: ChartColumn },
     { route: 'admin', label: 'Admin', icon: Shield },
   ],
   superadmin: [
-    { route: 'index', label: 'Home', icon: House },
-    { route: 'reports', label: 'Reports', icon: ChartColumn },
     { route: 'superadmin', label: 'Superadmin', icon: Shield },
   ],
 };

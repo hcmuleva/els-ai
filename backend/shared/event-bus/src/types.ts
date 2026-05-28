@@ -23,7 +23,10 @@ export type DomainEventType =
   | 'billing.invoice.paid'
   | 'billing.invoice.expired'
   | 'notification.requested'
-  | 'ai.draft.ready';
+  | 'ai.draft.ready'
+  | 'story.scheduled'
+  | 'story.live'
+  | 'story.ended';
 
 export type DomainEvent<TPayload = unknown> = {
   id: string;

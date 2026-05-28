@@ -149,6 +149,17 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="stories"
+        options={{
+          href: tabRoutes.has('stories') ? undefined : null,
+          title: 'Stories',
+          tabBarIcon: ({ color, size }) => {
+            const Icon = getTabIcon('stories');
+            return <Icon size={size} />;
+          },
+        }}
+      />
+      <Tabs.Screen
         name="reports"
         options={{
           href: tabRoutes.has('reports') ? undefined : null,

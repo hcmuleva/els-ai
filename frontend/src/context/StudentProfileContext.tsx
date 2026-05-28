@@ -39,6 +39,7 @@ export type QuizAttempt = {
   totalQuestions: number;
   correctCount: number;
   attemptedAt: string;
+  kind?: 'classroom' | 'story' | 'subject';
 };
 
 export type AssignmentItem = {
