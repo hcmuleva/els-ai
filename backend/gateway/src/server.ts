@@ -26,6 +26,7 @@ const TOPIC_SERVICE_URL = process.env.TOPIC_SERVICE_URL || 'http://localhost:401
 const ASSIGNMENT_SERVICE_URL = process.env.ASSIGNMENT_SERVICE_URL || 'http://localhost:4011';
 const ORG_SERVICE_URL = process.env.ORG_SERVICE_URL || 'http://localhost:4012';
 const NOTIFICATION_SERVICE_URL = process.env.NOTIFICATION_SERVICE_URL || 'http://localhost:4013';
+const STORY_SERVICE_URL = process.env.STORY_SERVICE_URL || 'http://localhost:4014';
 const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:4003';
 const MEDIA_SERVICE_URL = process.env.MEDIA_SERVICE_URL || 'http://localhost:4004';
 const INTERNAL_SECRET = process.env.INTERNAL_SECRET || 'els-internal-secret-change-me';
@@ -91,6 +92,7 @@ app.use('/quizzes', makeProxy(QUIZ_SERVICE_URL, '/quizzes'));
 app.use('/ai', makeProxy(AI_SERVICE_URL, '/ai'));
 app.use('/assets', makeProxy(MEDIA_SERVICE_URL, '/assets'));
 app.use('/notifications', makeProxy(NOTIFICATION_SERVICE_URL, '/notifications'));
+app.use('/stories', makeProxy(STORY_SERVICE_URL, '/stories'));
 
 app.listen(PORT, () => {
   console.log(`API Gateway listening on port ${PORT} (${NODE_ENV})`);

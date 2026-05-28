@@ -63,3 +63,124 @@ npm error command sh -c tsx watch src/server.ts
 > tsx watch src/server.ts
 
 API Gateway listening on port 4000 (development)
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on port 4000 (development)
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on port 4000 (development)
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on port 4000 (development)
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on port 4000 (development)
+5:19:06 PM [tsx] change in ./src/server.ts Restarting...
+cAPI Gateway listening on port 4000 (development)
+5:19:16 PM [tsx] change in ./src/server.ts Restarting...
+cAPI Gateway listening on port 4000 (development)
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/gateway
+npm error workspace gateway@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/gateway
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on port 4000 (development)
+npm error Lifecycle script `dev` failed with error:
+npm error code 15
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/gateway
+npm error workspace gateway@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/gateway
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on port 4000 (development)
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on port 4000 (development)
+8:34:31 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cAPI Gateway listening on port 4000 (development)
+9:12:34 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+npm error Lifecycle script `dev` failed with error:
+npm error code 15
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/gateway
+npm error workspace gateway@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/gateway
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> gateway@1.0.0 dev
+> tsx watch src/server.ts
+
+API Gateway listening on port 4000 (development)
+9:19:58 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cAPI Gateway listening on port 4000 (development)
+10:50:44 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+10:56:31 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+11:21:57 PM [tsx] change in ./src/server.ts Rerunning...
+cAPI Gateway listening on port 4000 (development)
+11:22:03 PM [tsx] change in ./src/server.ts Rerunning...
+cAPI Gateway listening on port 4000 (development)
+11:27:37 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+11:29:04 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+11:36:56 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+11:41:38 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+11:47:04 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+11:52:46 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+11:59:51 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+12:07:35 AM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+12:15:51 AM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+12:18:23 AM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+12:29:27 AM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+12:40:52 AM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+12:43:17 AM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+12:56:21 AM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+1:03:58 AM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+1:44:15 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+2:18:49 PM [tsx] change in ./src/server.ts Rerunning...
+cAPI Gateway listening on port 4000 (development)
+2:18:56 PM [tsx] change in ./src/server.ts Rerunning...
+cAPI Gateway listening on port 4000 (development)
+2:32:51 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+2:35:06 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)
+3:24:09 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAPI Gateway listening on port 4000 (development)

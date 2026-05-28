@@ -73,3 +73,371 @@ npm error command sh -c tsx watch src/server.ts
 Class 1 English topics and content already seeded.
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Auth Service bootstrap failed: error: could not create unique index "idx_subscription_plans_identity"
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:168:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:33:3) {
+  length: 305,
+  severity: 'ERROR',
+  code: '23505',
+  detail: 'Key (name, membership_tier, billing_cycle)=(Bronze Starter, bronze, monthly) is duplicated.',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'subscription_plans',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'idx_subscription_plans_identity',
+  file: 'tuplesortvariants.c',
+  line: '1557',
+  routine: 'comparetup_index_btree_tiebreak'
+}
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error workspace auth-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+npm error Lifecycle script `dev` failed with error:
+npm error code 15
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error workspace auth-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+8:34:30 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+8:34:31 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+21:06:28.728 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 956090ms; assuming connection has dropped
+9:12:33 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:12:34 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Auth Service bootstrap failed: error: insert or update on table "organization_subscriptions" violates foreign key constraint "organization_subscriptions_organization_id_fkey"
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async ensureDefaultOrgAndPlanSeeds (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:1276:3)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:394:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 393,
+  severity: 'ERROR',
+  code: '23503',
+  detail: 'Key (organization_id)=(ccb3daa8-4e15-40db-8212-397eb18aa8a7) is not present in table "organizations".',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'organization_subscriptions',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'organization_subscriptions_organization_id_fkey',
+  file: 'ri_triggers.c',
+  line: '2610',
+  routine: 'ri_ReportViolation'
+}
+npm error Lifecycle script `dev` failed with error:
+npm error code 15
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error workspace auth-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/auth-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> auth-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Class 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:19:57 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:19:58 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+10:38:41 PM [tsx] change in ./src/routes/users.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+10:39:19 PM [tsx] change in ./src/routes/users.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+10:50:42 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+10:50:44 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+10:52:21 PM [tsx] change in ./src/routes/users.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+10:56:30 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+10:56:31 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:27:36 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:27:37 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:29:03 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:29:04 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:36:55 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:36:56 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:41:37 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:41:38 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:47:03 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:47:04 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:52:45 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:52:46 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:59:37 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:59:50 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:59:51 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:07:34 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:07:35 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:15:50 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:15:51 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:18:21 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:18:23 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:29:25 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:29:27 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:40:51 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:40:52 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:43:16 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:43:17 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:56:20 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:56:21 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+1:03:57 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+1:03:58 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+01:30:12.402 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 972932ms; assuming connection has dropped
+02:01:52.524 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 993111ms; assuming connection has dropped
+02:04:04.882 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 130862ms; assuming connection has dropped
+02:09:57.711 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 337654ms; assuming connection has dropped
+02:43:52.876 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2004967ms; assuming connection has dropped
+02:59:22.482 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 929065ms; assuming connection has dropped
+03:15:05.621 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 941675ms; assuming connection has dropped
+04:06:35.129 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3059313ms; assuming connection has dropped
+04:16:23.006 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 587649ms; assuming connection has dropped
+04:27:02.933 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 624708ms; assuming connection has dropped
+04:59:44.051 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1915948ms; assuming connection has dropped
+05:01:19.216 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 94943ms; assuming connection has dropped
+05:09:23.310 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 468750ms; assuming connection has dropped
+06:13:50.114 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83326ms; assuming connection has dropped
+06:15:58.002 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82367ms; assuming connection has dropped
+06:17:51.159 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82905ms; assuming connection has dropped
+06:19:59.094 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82745ms; assuming connection has dropped
+06:21:52.946 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83668ms; assuming connection has dropped
+06:24:00.651 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97375ms; assuming connection has dropped
+06:25:53.900 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82952ms; assuming connection has dropped
+07:41:54.949 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 29969ms; assuming connection has dropped
+07:44:02.543 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82358ms; assuming connection has dropped
+07:45:56.001 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83111ms; assuming connection has dropped
+07:48:03.958 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97750ms; assuming connection has dropped
+07:49:57.576 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83417ms; assuming connection has dropped
+07:51:50.347 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82534ms; assuming connection has dropped
+07:53:58.547 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83029ms; assuming connection has dropped
+07:55:51.495 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82732ms; assuming connection has dropped
+07:58:00.055 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98343ms; assuming connection has dropped
+09:50:00.645 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 616568ms; assuming connection has dropped
+1:44:13 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+1:44:15 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+2:20:21 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+2:31:15 PM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+2:31:22 PM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+2:32:50 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+2:32:51 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+2:35:05 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+2:35:06 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+3:24:07 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+3:24:09 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101

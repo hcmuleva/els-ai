@@ -428,18 +428,29 @@ type QuizAttemptDetail = {
   }>;
 };
 
-// ── Section tab definitions ───────────────────────────────────────────────────
+// ── Tab definitions ───────────────────────────────────────────────────────────
 type IconComp = React.ComponentType<{ size: number; color: string }>;
-const PR_SECTIONS: Array<{ key: string; label: string; Icon: IconComp }> = [
+type ParentTab = 'overview' | 'quizzes' | 'assignments' | 'classroom' | 'activity';
+const PARENT_TABS: Array<{ key: ParentTab; label: string; Icon: IconComp }> = [
   { key: 'overview',    label: 'Overview',  Icon: BarChart2     },
-  { key: 'calendar',   label: 'Days',       Icon: Calendar      },
-  { key: 'time',       label: 'Time',       Icon: Timer         },
-  { key: 'completion', label: 'Progress',   Icon: TrendingUp    },
-  { key: 'classroom',  label: 'Classroom',  Icon: School        },
-  { key: 'quizzes',    label: 'Quizzes',    Icon: Layers        },
-  { key: 'assignments',label: 'Tasks',      Icon: ClipboardList },
-  { key: 'activity',   label: 'Activity',   Icon: Activity      },
+  { key: 'quizzes',     label: 'Quizzes',   Icon: Layers        },
+  { key: 'assignments', label: 'Tasks',     Icon: ClipboardList },
+  { key: 'classroom',   label: 'Classroom', Icon: School        },
+  { key: 'activity',    label: 'Activity',  Icon: Activity      },
 ];
+
+function QuizKindBadge({ kind }: { kind?: 'classroom' | 'story' | 'subject' }) {
+  const config = kind === 'story'
+    ? { bg: '#EFE7FB', fg: '#7C3AED', label: 'Story' }
+    : kind === 'classroom'
+      ? { bg: '#DBEAFE', fg: '#1D4ED8', label: 'Classroom' }
+      : { bg: '#DCFCE7', fg: '#15803D', label: 'Subject' };
+  return (
+    <View style={{ paddingHorizontal: 6, paddingVertical: 2, borderRadius: 8, backgroundColor: config.bg }}>
+      <Text style={{ fontSize: 9, fontWeight: '900', color: config.fg, letterSpacing: 0.4 }}>{config.label}</Text>
+    </View>
+  );
+}
 
 function ParentReports() {
   const {
@@ -450,36 +461,13 @@ function ParentReports() {
   } = useStudentProfile();
   const { apiFetch } = useAuth();
 
-  // Quiz modals state
+  const [activeTab, setActiveTab] = useState<ParentTab>('overview');
   const [showAllQuizzes, setShowAllQuizzes] = useState(false);
   const [showAllClassrooms, setShowAllClassrooms] = useState(false);
   const [historySeenAt, setHistorySeenAt] = useState<number | null>(null);
-  const [quizDetail, setQuizDetail]         = useState<QuizAttemptDetail | null>(null);
+  const [quizDetail, setQuizDetail] = useState<QuizAttemptDetail | null>(null);
   const [classroomDetail, setClassroomDetail] = useState<ClassroomRemarkItem | null>(null);
-  const [loadingDetail, setLoadingDetail]   = useState(false);
-  const [activeTab, setActiveTab]           = useState('overview');
-
-  // Section Y-offset map for smooth scroll
-  const scrollRef = useRef<ScrollView>(null);
-  const sectionRefs = useRef<Record<string, React.ElementRef<typeof View> | null>>({});
-  const sectionOffsets = useRef<Record<string, number>>({});
-
-  const scrollToSection = (key: string) => {
-    setActiveTab(key);
-    const node = sectionRefs.current[key];
-    if (node && scrollRef.current) {
-      // @ts-ignore
-      node.measureLayout(scrollRef.current, (_x: number, y: number) => {
-        scrollRef.current?.scrollTo({ y: Math.max(0, y - 8), animated: true });
-      }, () => {
-        const y = sectionOffsets.current[key];
-        if (y !== undefined) scrollRef.current?.scrollTo({ y: Math.max(0, y - 8), animated: true });
-      });
-    } else {
-      const y = sectionOffsets.current[key];
-      if (y !== undefined) scrollRef.current?.scrollTo({ y: Math.max(0, y - 8), animated: true });
-    }
-  };
+  const [loadingDetail, setLoadingDetail] = useState(false);
 
   const openQuizDetail = async (attemptId: string) => {
     if (!activeStudent) return;
@@ -569,6 +557,13 @@ function ParentReports() {
       setHistorySeenAt(now);
     }
   }, [historyStorageKey]);
+
+  // Notification dot counts per tab
+  const recentQuizCount = useMemo(() => {
+    const threshold = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    return quizAttempts.filter((a) => a.attemptedAt && new Date(a.attemptedAt).getTime() > threshold).length;
+  }, [quizAttempts]);
+
   const classroomCards = activeClassrooms.length > 0
     ? activeClassrooms
     : upcomingClassrooms.map((c) => ({
@@ -603,27 +598,6 @@ function ParentReports() {
         </Pressable>
       </View>
 
-      {/* ── STICKY SECTION TABS ── */}
-      {activeStudent && (
-        <View style={pr.stickyTabs}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ gap: 6, paddingHorizontal: 12, paddingVertical: 8 }}>
-            {PR_SECTIONS.map((sec) => {
-              const isActive = activeTab === sec.key;
-              return (
-                <Pressable key={sec.key} onPress={() => scrollToSection(sec.key)}
-                  style={[pr.stickyTab, isActive && pr.stickyTabActive]}>
-                  <sec.Icon size={12} color={isActive ? '#4A90E2' : '#9A9AB0'} />
-                  <Text style={[pr.stickyTabText, isActive && pr.stickyTabTextActive]}>
-                    {sec.label}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </ScrollView>
-        </View>
-      )}
-
       {loadingStudents ? (
         <View style={pr.centerBlock}><ActivityIndicator color="#4A90E2" size="large" /></View>
       ) : !activeStudent ? (
@@ -633,366 +607,367 @@ function ParentReports() {
           <Text style={pr.emptySub}>Ask your school admin to link your children to your account.</Text>
         </View>
       ) : (
-        <ScrollView
-          ref={scrollRef}
-          style={{ flex: 1 }}
-          contentContainerStyle={pr.scroll}
-          showsVerticalScrollIndicator={false}
-        >
-          {/* ── CHILD SWITCHER (in scroll) ── */}
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}
-            style={pr.switcherBar}
-            contentContainerStyle={{ gap: 10, paddingHorizontal: 16, paddingVertical: 10 }}>
-            {linkedStudents.map((child, idx) => {
-              const isActive = child.id === activeStudent?.id;
-              const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
-              return (
-                <Pressable key={child.id} onPress={() => switchToStudent(child.id)}
-                  style={[pr.childChip, isActive ? { backgroundColor: cc } : { backgroundColor: '#fff', borderWidth: 1.5, borderColor: cc }]}>
-                  <View style={[pr.childChipAvatar, { backgroundColor: isActive ? 'rgba(255,255,255,0.2)' : cc + '22' }]}>
-                    <User size={14} color={isActive ? '#fff' : cc} />
-                  </View>
-                  <View>
-                    <Text style={[pr.childChipName, { color: isActive ? '#fff' : '#1a1a2e' }]}>{child.firstName}</Text>
-                    <Text style={[pr.childChipSub, { color: isActive ? 'rgba(255,255,255,0.7)' : '#9A9AB0' }]}>
-                      {child.classLevel ? `Class ${child.classLevel}` : 'No class'}
-                    </Text>
-                  </View>
-                  {isActive && <View style={pr.activeChipDot} />}
-                </Pressable>
-              );
-            })}
-          </ScrollView>
-          {/* ── OVERVIEW SECTION ── */}
-          <View ref={(r) => { sectionRefs.current['overview'] = r; }} onLayout={(e) => { sectionOffsets.current['overview'] = e.nativeEvent.layout.y; }}>
-          <View style={pr.heroBanner}>
-            <View style={pr.heroLeft}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-                <BarChart2 size={11} color="rgba(255,255,255,0.65)" />
-                <Text style={pr.heroSup}>Overall Progress</Text>
-              </View>
-              <Text style={pr.heroScore}>{sum ? sum.completionRate.toFixed(0) : 0}%</Text>
-              <Text style={pr.heroLabel}>completion rate</Text>
-              <View style={pr.heroTrack}>
-                <View style={[pr.heroFill, { width: `${Math.min(100, sum?.completionRate ?? 0)}%` }]} />
-              </View>
-              <Text style={pr.heroMeta}>Class {activeStudent.classLevel ?? '—'} · {activeStudent.firstName}</Text>
-            </View>
-            <View style={pr.heroRight}>
-              <View style={pr.streakBadge}>
-                <Text style={pr.streakNum}>{sum?.streakDays ?? 0}</Text>
-                <Zap size={18} color="#F5C842" fill="#F5C842" />
-                <Text style={pr.streakLabel}>day streak</Text>
-              </View>
-            </View>
-          </View>
-
-          {/* ── 4-STAT ROW ── */}
-          {sum && (
-            <View style={pr.statRow}>
-              {([
-                { Icon: Layers,        val: sum.attemptedCount,              label: 'Attempted', color: '#4A90E2', bg: '#D6EAFF' },
-                { Icon: CheckCircle,   val: sum.completedCount,              label: 'Completed', color: '#4CAF50', bg: '#D6F5D6' },
-                { Icon: SkipForward,   val: sum.notAttemptedCount,           label: 'Skipped',   color: '#FF7043', bg: '#FFE8D6' },
-                { Icon: Clock,         val: fmtSec(sum.totalTimeSeconds),    label: 'Time',      color: '#9B8EC4', bg: '#EDE4FF' },
-              ] as Array<{ Icon: IconComp; val: string | number; label: string; color: string; bg: string }>).map((st) => (
-                <View key={st.label} style={[pr.statCard, { backgroundColor: st.bg }]}>
-                  <st.Icon size={18} color={st.color} />
-                  <Text style={[pr.statVal, { color: st.color }]}>{st.val}</Text>
-                  <Text style={pr.statLabel}>{st.label}</Text>
-                </View>
-              ))}
-            </View>
-          )}
-
-          </View>{/* end overview section */}
-
-          {/* ── CALENDAR SECTION ── */}
-          <View ref={(r) => { sectionRefs.current['calendar'] = r; }} onLayout={(e) => { sectionOffsets.current['calendar'] = e.nativeEvent.layout.y; }}>
-          <View style={pr.rowHeader}>
-            <Text style={pr.rowTitle}>Active Days — Last 7</Text>
-            <Text style={pr.rowChip}>{activeDates.length}/7 days active</Text>
-          </View>
-          <View style={pr.card}>
-            <StreakCalendar activeDates={activeDates} streakDays={sum?.streakDays ?? 0} />
-            <View style={pr.cardFooter}>
-              <Text style={pr.cardFooterText}>Consistency score</Text>
-              <Text style={[pr.cardFooterVal, { color: '#4A90E2' }]}>{sum ? sum.consistencyScore.toFixed(0) : 0}%</Text>
-            </View>
-          </View>
-
-          </View>{/* end calendar section */}
-
-          {/* ── TIME SECTION ── */}
-          <View ref={(r) => { sectionRefs.current['time'] = r; }} onLayout={(e) => { sectionOffsets.current['time'] = e.nativeEvent.layout.y; }}>
-          <View style={pr.rowHeader}>
-            <Text style={pr.rowTitle}>Time Spent per Day</Text>
-            <Text style={pr.rowChip}>{fmtSec(sum?.totalTimeSeconds ?? 0)} total</Text>
-          </View>
-          <View style={pr.card}>
-            <ProperBarChart
-              data={timeChartData}
-              color="#4A90E2"
-              unit="m"
-              yTicks={4}
-              height={110}
-            />
-            <Text style={pr.chartNote}>Minutes spent learning each day (last 7 days)</Text>
-          </View>
-
-          </View>{/* end time section */}
-
-          {/* ── COMPLETION SECTION ── */}
-          <View ref={(r) => { sectionRefs.current['completion'] = r; }} onLayout={(e) => { sectionOffsets.current['completion'] = e.nativeEvent.layout.y; }}>
-          <View style={pr.rowHeader}>
-            <Text style={pr.rowTitle}>Daily Completion Rate</Text>
-            <Text style={pr.rowChip}>avg {sum ? sum.completionRate.toFixed(0) : 0}%</Text>
-          </View>
-          <View style={pr.card}>
-            <ProperBarChart
-              data={completionChartData}
-              color="#7DC67A"
-              unit="%"
-              yTicks={4}
-              height={110}
-            />
-            <Text style={pr.chartNote}>Percentage of activities completed each day</Text>
-          </View>
-
-          </View>{/* end completion section */}
-
-          {/* ── CLASSROOM SECTION ── */}
-          <View ref={(r) => { sectionRefs.current['classroom'] = r; }} onLayout={(e) => { sectionOffsets.current['classroom'] = e.nativeEvent.layout.y; }}>
-          <View style={pr.rowHeader}>
-            <Text style={pr.rowTitle}>Classroom Status</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-              <Text style={pr.rowChip}>{classroomCards.length} active</Text>
-              {completedClassrooms.length > 0 && (
-                <Pressable
-                  style={pr.historyIconBtn}
-                  onPress={openHistoryModal}
-                  hitSlop={10}
-                  accessibilityLabel="View classroom history"
-                >
-                  <History size={18} color="#4A90E2" />
-                  {newEndedCount > 0 && <View style={pr.historyIconDot} />}
-                </Pressable>
-              )}
-            </View>
-          </View>
-          {classroomCards.length === 0 ? (
-            <View style={pr.emptyCard}><SvgXml xml={GIRAFFE} width={56} height={56} /><Text style={pr.emptyCardText}>No classroom updates yet.</Text></View>
-          ) : (
-            classroomCards.map((cls, idx) => {
-              const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
-              const avg = getClassroomAvgScore(cls);
-              const grade = scoreGrade(avg);
-              return (
-                <Pressable key={cls.id} style={pr.classCard} onPress={() => setClassroomDetail(cls)}>
-                  <View style={[pr.classIconBox, { backgroundColor: cc + '22' }]}>
-                    <Text style={{ fontSize: 22 }}>📚</Text>
-                  </View>
-                  <View style={pr.classInfo}>
-                    <Text style={pr.classTitle} numberOfLines={1}>{cls.title}</Text>
-                    <Text style={pr.classMeta}>Class {cls.classLevel} · {cls.status}</Text>
-                    <Text style={pr.classDesc} numberOfLines={1}>
-                      {cls.remarkText ? `Teacher: ${cls.remarkText}` : 'Tap to see class insights and teacher notes'}
-                    </Text>
-                  </View>
-                  <View style={{ alignItems: 'flex-end', gap: 6 }}>
-                    <View style={[pr.classStatusBadge, { backgroundColor: cls.status === 'active' ? '#D6F5D6' : '#F0F0F8' }]}>
-                      <Text style={[pr.classStatusText, { color: cls.status === 'active' ? '#4CAF50' : '#9A9AB0' }]}>
-                        {cls.status === 'active' ? 'Active' : cls.status}
+        <View style={{ flex: 1 }}>
+          {/* ── PINNED HEADER: child switcher + tab bar ── */}
+          <View style={{ flexShrink: 0 }}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}
+              style={pr.switcherBar}
+              contentContainerStyle={{ gap: 10, paddingHorizontal: 16, paddingVertical: 10 }}>
+              {linkedStudents.map((child, idx) => {
+                const isActive = child.id === activeStudent?.id;
+                const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
+                return (
+                  <Pressable key={child.id} onPress={() => switchToStudent(child.id)}
+                    style={[pr.childChip, isActive ? { backgroundColor: cc } : { backgroundColor: '#fff', borderWidth: 1.5, borderColor: cc }]}>
+                    <View style={[pr.childChipAvatar, { backgroundColor: isActive ? 'rgba(255,255,255,0.2)' : cc + '22' }]}>
+                      <User size={14} color={isActive ? '#fff' : cc} />
+                    </View>
+                    <View>
+                      <Text style={[pr.childChipName, { color: isActive ? '#fff' : '#1a1a2e' }]}>{child.firstName}</Text>
+                      <Text style={[pr.childChipSub, { color: isActive ? 'rgba(255,255,255,0.7)' : '#9A9AB0' }]}>
+                        {child.classLevel ? `Class ${child.classLevel}` : 'No class'}
                       </Text>
                     </View>
-                    {avg > 0 && (
-                      <View style={[pr.smallGradeBadge, { backgroundColor: grade.bg }]}>
-                        <Text style={[pr.smallGradeText, { color: grade.color }]}>{avg}%</Text>
-                      </View>
-                    )}
-                  </View>
-                </Pressable>
-              );
-            })
-          )}
-
-          </View>{/* end classroom section */}
-
-          {/* ── QUIZZES SECTION ── */}
-          <View ref={(r) => { sectionRefs.current['quizzes'] = r; }} onLayout={(e) => { sectionOffsets.current['quizzes'] = e.nativeEvent.layout.y; }}>
-
-          {/* ── QUIZ RESULTS ── */}
-          <View style={pr.rowHeader}>
-            <Text style={pr.rowTitle}>Quiz Results</Text>
-            <Text style={pr.rowChip}>{quizAttempts.length} attempt{quizAttempts.length !== 1 ? 's' : ''}</Text>
-          </View>
-          {loadingActivity ? (
-            <ActivityIndicator color="#4A90E2" style={{ marginVertical: 12 }} />
-          ) : quizAttempts.length === 0 ? (
-            <View style={pr.emptyCard}><SvgXml xml={OWL} width={56} height={56} /><Text style={pr.emptyCardText}>No quiz attempts yet — encourage {activeStudent.firstName} to try a quiz!</Text></View>
-          ) : (
-            <>
-              {quizAttempts.slice(0, 4).map((attempt) => {
-                const grade = scoreGrade(attempt.scorePct);
-                const attended = getDateTimeParts(attempt.attemptedAt);
-                return (
-                  <Pressable key={attempt.id} style={pr.quizCard} onPress={() => openQuizDetail(attempt.id)}>
-                    <View style={[pr.quizIconBox, { backgroundColor: '#EDE4FF' }]}>
-                      <Layers size={22} color="#9B8EC4" />
-                    </View>
-                    <View style={pr.quizInfo}>
-                      <Text style={pr.quizTitle} numberOfLines={1}>{attempt.quizTitle}</Text>
-                      <Text style={pr.quizMeta}>{attempt.correctCount}/{attempt.totalQuestions} correct</Text>
-                      <View style={pr.metaInfoStack}>
-                        <View style={pr.metaInfoRow}>
-                          <Calendar size={12} color="#9A9AB0" />
-                          <Text style={pr.metaInfoLabel}>Date:</Text>
-                          <Text style={pr.metaInfoValue}>{attended.date}</Text>
-                        </View>
-                        <View style={pr.metaInfoRow}>
-                          <Clock size={12} color="#9A9AB0" />
-                          <Text style={pr.metaInfoLabel}>Time:</Text>
-                          <Text style={pr.metaInfoValue}>{attended.time}</Text>
-                        </View>
-                      </View>
-                      <View style={pr.quizProgressTrack}>
-                        <View style={[pr.quizProgressFill, { width: `${attempt.scorePct}%`, backgroundColor: grade.color }]} />
-                      </View>
-                    </View>
-                    <View style={[pr.scoreBadge, { backgroundColor: grade.bg }]}>
-                      <Text style={[pr.scoreNum, { color: grade.color }]}>{attempt.scorePct}%</Text>
-                      <Text style={[pr.scoreLabel, { color: grade.color }]}>{grade.label}</Text>
-                    </View>
+                    {isActive && <View style={pr.activeChipDot} />}
                   </Pressable>
                 );
               })}
-              {quizAttempts.length > 4 && (
-                <Pressable style={pr.viewAllBtn} onPress={() => setShowAllQuizzes(true)}>
-                  <Text style={pr.viewAllBtnText}>View All {quizAttempts.length} Attempts ›</Text>
-                </Pressable>
-              )}
-            </>
-          )}
-          </View>{/* end quizzes section */}
+            </ScrollView>
 
-          {/* ── ASSIGNMENTS SECTION ── */}
-          <View ref={(r) => { sectionRefs.current['assignments'] = r; }} onLayout={(e) => { sectionOffsets.current['assignments'] = e.nativeEvent.layout.y; }}>
-          <View style={pr.rowHeader}>
-            <Text style={pr.rowTitle}>Assignments</Text>
-            {pendingAssignments.length > 0 && (
-              <View style={[pr.liveBadge, { backgroundColor: '#FFE8D6' }]}>
-                <Text style={[pr.liveBadgeText, { color: '#FF7043' }]}>{pendingAssignments.length} pending</Text>
-              </View>
-            )}
-          </View>
-
-          {pendingAssignments.length > 0 && (
-            <>
-              <Text style={pr.groupLabel}>⏳ Pending</Text>
-              {pendingAssignments.map((a) => (
-                <View key={a.id} style={pr.assignCard}>
-                  <View style={[pr.assignIconBox, { backgroundColor: '#FFE8D6' }]}>
-                    <ClipboardList size={20} color="#FF7043" />
-                  </View>
-                  <View style={pr.assignInfo}>
-                    <Text style={pr.assignTitle} numberOfLines={1}>{a.title || 'Untitled Assignment'}</Text>
-                    <Text style={pr.assignMeta}>Not submitted yet</Text>
-                  </View>
-                  <View style={[pr.assignStatusBadge, { backgroundColor: '#FFE8D6' }]}>
-                    <Text style={[pr.assignStatusText, { color: '#FF7043' }]}>Pending</Text>
-                  </View>
-                </View>
-              ))}
-            </>
-          )}
-
-          {submittedAssignments.length > 0 && (
-            <>
-              <Text style={[pr.groupLabel, pendingAssignments.length > 0 ? { marginTop: 14 } : {}]}>✅ Submitted</Text>
-              {submittedAssignments.slice(0, 5).map((a) => {
-                const grade = a.grade !== undefined ? scoreGrade(a.grade) : null;
-                const submitted = getDateTimeParts(a.submittedAt);
+          {/* ── TAB BAR ── */}
+          <View style={pr.tabBar}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}
+              contentContainerStyle={pr.tabBarContent}>
+              {PARENT_TABS.map((tab) => {
+                const isCurrent = activeTab === tab.key;
+                const dotCount =
+                  tab.key === 'quizzes'     ? recentQuizCount
+                  : tab.key === 'assignments' ? pendingAssignments.length
+                  : tab.key === 'classroom'   ? newEndedCount
+                  : 0;
                 return (
-                  <View key={a.id} style={pr.assignCard}>
-                    <View style={[pr.assignIconBox, { backgroundColor: '#D6F5D6' }]}>
-                      <CheckCircle size={20} color="#4CAF50" />
+                  <Pressable key={tab.key} onPress={() => setActiveTab(tab.key)}
+                    style={[pr.tabBtn, isCurrent && pr.tabBtnActive]}>
+                    <View style={pr.tabBtnIconWrap}>
+                      <tab.Icon size={16} color={isCurrent ? '#4A90E2' : '#9A9AB0'} />
+                      {dotCount > 0 && <View style={pr.tabDot} />}
                     </View>
-                    <View style={pr.assignInfo}>
-                      <Text style={pr.assignTitle} numberOfLines={1}>{a.title || 'Untitled Assignment'}</Text>
-                      {a.submittedAt ? (
-                        <View style={pr.metaInfoStack}>
-                          <View style={pr.metaInfoRow}>
-                            <Calendar size={12} color="#9A9AB0" />
-                            <Text style={pr.metaInfoLabel}>Date:</Text>
-                            <Text style={pr.metaInfoValue}>{submitted.date}</Text>
-                          </View>
-                          <View style={pr.metaInfoRow}>
-                            <Clock size={12} color="#9A9AB0" />
-                            <Text style={pr.metaInfoLabel}>Time:</Text>
-                            <Text style={pr.metaInfoValue}>{submitted.time}</Text>
-                          </View>
-                        </View>
-                      ) : (
-                        <Text style={pr.assignMeta}>Submitted</Text>
-                      )}
-                      {a.feedback && <Text style={pr.assignFeedback} numberOfLines={1}>{a.feedback}</Text>}
-                    </View>
-                    {grade && (
-                      <View style={[pr.scoreBadge, { backgroundColor: grade.bg }]}>
-                        <Text style={[pr.scoreNum, { color: grade.color, fontSize: 14 }]}>{a.grade}%</Text>
-                      </View>
-                    )}
-                  </View>
+                    <Text style={[pr.tabBtnText, isCurrent && pr.tabBtnTextActive]}>{tab.label}</Text>
+                  </Pressable>
                 );
               })}
-            </>
-          )}
-
-          {assignments.length === 0 && (
-            <View style={pr.emptyCard}><SvgXml xml={ELEPHANT} width={56} height={56} /><Text style={pr.emptyCardText}>No assignments found for {activeStudent.firstName}.</Text></View>
-          )}
-
-          </View>{/* end assignments section */}
-
-          {/* ── ACTIVITY SECTION ── */}
-          <View ref={(r) => { sectionRefs.current['activity'] = r; }} onLayout={(e) => { sectionOffsets.current['activity'] = e.nativeEvent.layout.y; }}>
-          <View style={pr.rowHeader}>
-            <Text style={pr.rowTitle}>Recent Activity</Text>
-            <Text style={pr.rowChip}>{activity.length} total</Text>
+            </ScrollView>
           </View>
-          {loadingActivity ? (
-            <ActivityIndicator color="#4A90E2" style={{ marginVertical: 12 }} />
-          ) : activity.length === 0 ? (
-            <View style={pr.emptyCard}><SvgXml xml={BUTTERFLY} width={56} height={56} /><Text style={pr.emptyCardText}>No activity recorded yet.</Text></View>
-          ) : (
-            activity.slice(0, 8).map((item) => {
-              const dotColor = STATUS_CLR[item.status] ?? '#9A9AB0';
-              return (
-                <View key={item.id} style={pr.actCard}>
-                  <View style={[pr.actIconBox, { backgroundColor: dotColor + '22' }]}>
-                    <ActIcon type={item.activityType} size={18} color={dotColor} />
-                  </View>
-                  <View style={pr.actInfo}>
-                    <Text style={pr.actTitle} numberOfLines={1}>{item.referenceTitle ?? item.activityType}</Text>
-                    <Text style={pr.actMeta}>
-                      {item.activityDate}
-                      {item.score !== undefined ? ` · Score: ${item.score}%` : ''}
-                    </Text>
-                  </View>
-                  <View style={{ alignItems: 'flex-end', gap: 4 }}>
-                    <View style={[pr.statusPill, { backgroundColor: dotColor + '22' }]}>
-                      <Text style={[pr.statusPillText, { color: dotColor }]}>{item.status}</Text>
+          </View>{/* end pinned header */}
+
+          {/* ── TAB CONTENT ── */}
+          <ScrollView
+            key={`${activeTab}-${activeStudent.id}`}
+            style={{ flex: 1 }}
+            contentContainerStyle={pr.scroll}
+            showsVerticalScrollIndicator={false}
+          >
+
+            {/* OVERVIEW */}
+            {activeTab === 'overview' && (
+              <>
+                <View style={pr.heroBanner}>
+                  <View style={pr.heroLeft}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                      <BarChart2 size={11} color="rgba(255,255,255,0.65)" />
+                      <Text style={pr.heroSup}>Overall Progress</Text>
                     </View>
-                    {item.timeSpentSeconds > 0 && (
-                      <Text style={pr.actTime}>{fmtSec(item.timeSpentSeconds)}</Text>
+                    <Text style={pr.heroScore}>{sum ? sum.completionRate.toFixed(0) : 0}%</Text>
+                    <Text style={pr.heroLabel}>completion rate</Text>
+                    <View style={pr.heroTrack}>
+                      <View style={[pr.heroFill, { width: `${Math.min(100, sum?.completionRate ?? 0)}%` }]} />
+                    </View>
+                    <Text style={pr.heroMeta}>Class {activeStudent.classLevel ?? '—'} · {activeStudent.firstName}</Text>
+                  </View>
+                  <View style={pr.heroRight}>
+                    <View style={pr.streakBadge}>
+                      <Text style={pr.streakNum}>{sum?.streakDays ?? 0}</Text>
+                      <Zap size={18} color="#F5C842" fill="#F5C842" />
+                      <Text style={pr.streakLabel}>day streak</Text>
+                    </View>
+                  </View>
+                </View>
+
+                {sum && (
+                  <View style={pr.statRow}>
+                    {([
+                      { Icon: Layers,      val: sum.attemptedCount,           label: 'Attempted', color: '#4A90E2', bg: '#D6EAFF' },
+                      { Icon: CheckCircle, val: sum.completedCount,           label: 'Completed', color: '#4CAF50', bg: '#D6F5D6' },
+                      { Icon: SkipForward, val: sum.notAttemptedCount,        label: 'Skipped',   color: '#FF7043', bg: '#FFE8D6' },
+                      { Icon: Clock,       val: fmtSec(sum.totalTimeSeconds), label: 'Time',      color: '#9B8EC4', bg: '#EDE4FF' },
+                    ] as Array<{ Icon: IconComp; val: string | number; label: string; color: string; bg: string }>).map((st) => (
+                      <View key={st.label} style={[pr.statCard, { backgroundColor: st.bg }]}>
+                        <st.Icon size={18} color={st.color} />
+                        <Text style={[pr.statVal, { color: st.color }]}>{st.val}</Text>
+                        <Text style={pr.statLabel}>{st.label}</Text>
+                      </View>
+                    ))}
+                  </View>
+                )}
+
+                <View style={pr.sectionHdr}>
+                  <Text style={pr.sectionHdrTitle}>Active Days This Week</Text>
+                  <Text style={pr.sectionHdrChip}>{activeDates.length}/7 active</Text>
+                </View>
+                <View style={pr.card}>
+                  <StreakCalendar activeDates={activeDates} streakDays={sum?.streakDays ?? 0} />
+                  <View style={pr.cardFooter}>
+                    <Text style={pr.cardFooterText}>Consistency score</Text>
+                    <Text style={[pr.cardFooterVal, { color: '#4A90E2' }]}>{sum ? sum.consistencyScore.toFixed(0) : 0}%</Text>
+                  </View>
+                </View>
+
+                <View style={pr.sectionHdr}>
+                  <Text style={pr.sectionHdrTitle}>Time Spent per Day</Text>
+                  <Text style={pr.sectionHdrChip}>{fmtSec(sum?.totalTimeSeconds ?? 0)} total</Text>
+                </View>
+                <View style={pr.card}>
+                  <ProperBarChart data={timeChartData} color="#4A90E2" unit="m" yTicks={4} height={110} />
+                  <Text style={pr.chartNote}>Minutes of learning per day (last 7 days)</Text>
+                </View>
+
+                <View style={pr.sectionHdr}>
+                  <Text style={pr.sectionHdrTitle}>Daily Completion Rate</Text>
+                  <Text style={pr.sectionHdrChip}>avg {sum ? sum.completionRate.toFixed(0) : 0}%</Text>
+                </View>
+                <View style={pr.card}>
+                  <ProperBarChart data={completionChartData} color="#7DC67A" unit="%" yTicks={4} height={110} />
+                  <Text style={pr.chartNote}>Percentage of activities completed each day</Text>
+                </View>
+              </>
+            )}
+
+            {/* QUIZZES */}
+            {activeTab === 'quizzes' && (
+              <>
+                <View style={pr.sectionHdr}>
+                  <Text style={pr.sectionHdrTitle}>Quiz Results</Text>
+                  <Text style={pr.sectionHdrChip}>{quizAttempts.length} attempt{quizAttempts.length !== 1 ? 's' : ''}</Text>
+                </View>
+                {loadingActivity ? (
+                  <ActivityIndicator color="#4A90E2" style={{ marginVertical: 24 }} />
+                ) : quizAttempts.length === 0 ? (
+                  <View style={pr.emptyStateCard}>
+                    <SvgXml xml={OWL} width={64} height={64} />
+                    <Text style={pr.emptyStateTitle}>No Quiz Attempts Yet</Text>
+                    <Text style={pr.emptyStateText}>Encourage {activeStudent.firstName} to try a quiz!</Text>
+                  </View>
+                ) : (
+                  <>
+                    {quizAttempts.map((attempt) => {
+                      const grade = scoreGrade(attempt.scorePct);
+                      const attended = getDateTimeParts(attempt.attemptedAt);
+                      return (
+                        <Pressable key={attempt.id} style={pr.quizCard} onPress={() => openQuizDetail(attempt.id)}>
+                          <View style={[pr.quizIconBox, { backgroundColor: '#EDE4FF' }]}>
+                            <Layers size={22} color="#9B8EC4" />
+                          </View>
+                          <View style={pr.quizInfo}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                              <Text style={pr.quizTitle} numberOfLines={1}>{attempt.quizTitle}</Text>
+                              <QuizKindBadge kind={attempt.kind} />
+                            </View>
+                            <Text style={pr.quizMeta}>{attempt.correctCount}/{attempt.totalQuestions} correct</Text>
+                            <View style={pr.inlineMetaRow}>
+                              <Calendar size={11} color="#9A9AB0" />
+                              <Text style={pr.inlineMetaText}>{attended.date} · {attended.time}</Text>
+                            </View>
+                            <View style={pr.quizProgressTrack}>
+                              <View style={[pr.quizProgressFill, { width: `${attempt.scorePct}%`, backgroundColor: grade.color }]} />
+                            </View>
+                          </View>
+                          <View style={[pr.scoreBadge, { backgroundColor: grade.bg }]}>
+                            <Text style={[pr.scoreNum, { color: grade.color }]}>{attempt.scorePct}%</Text>
+                            <Text style={[pr.scoreLabel, { color: grade.color }]}>{grade.label}</Text>
+                          </View>
+                        </Pressable>
+                      );
+                    })}
+                  </>
+                )}
+              </>
+            )}
+
+            {/* ASSIGNMENTS */}
+            {activeTab === 'assignments' && (
+              <>
+                {pendingAssignments.length > 0 && (
+                  <>
+                    <View style={pr.sectionHdr}>
+                      <Text style={pr.sectionHdrTitle}>Pending</Text>
+                      <View style={pr.urgentBadge}>
+                        <Text style={pr.urgentBadgeText}>{pendingAssignments.length} due</Text>
+                      </View>
+                    </View>
+                    {pendingAssignments.map((a) => (
+                      <View key={a.id} style={[pr.assignCard, { borderLeftWidth: 3, borderLeftColor: '#FF7043' }]}>
+                        <View style={[pr.assignIconBox, { backgroundColor: '#FFE8D6' }]}>
+                          <ClipboardList size={20} color="#FF7043" />
+                        </View>
+                        <View style={pr.assignInfo}>
+                          <Text style={pr.assignTitle} numberOfLines={1}>{a.title || 'Untitled Assignment'}</Text>
+                          <Text style={pr.assignMeta}>Not submitted yet</Text>
+                        </View>
+                        <View style={[pr.statusChip, { backgroundColor: '#FFE8D6' }]}>
+                          <Text style={[pr.statusChipText, { color: '#FF7043' }]}>Pending</Text>
+                        </View>
+                      </View>
+                    ))}
+                  </>
+                )}
+
+                {submittedAssignments.length > 0 && (
+                  <>
+                    <View style={[pr.sectionHdr, { marginTop: pendingAssignments.length > 0 ? 8 : 0 }]}>
+                      <Text style={pr.sectionHdrTitle}>Submitted</Text>
+                      <Text style={pr.sectionHdrChip}>{submittedAssignments.length} done</Text>
+                    </View>
+                    {submittedAssignments.map((a) => {
+                      const grade = a.grade !== undefined ? scoreGrade(a.grade) : null;
+                      const submitted = getDateTimeParts(a.submittedAt);
+                      return (
+                        <View key={a.id} style={pr.assignCard}>
+                          <View style={[pr.assignIconBox, { backgroundColor: '#D6F5D6' }]}>
+                            <CheckCircle size={20} color="#4CAF50" />
+                          </View>
+                          <View style={pr.assignInfo}>
+                            <Text style={pr.assignTitle} numberOfLines={1}>{a.title || 'Untitled Assignment'}</Text>
+                            <View style={pr.inlineMetaRow}>
+                              <Calendar size={11} color="#9A9AB0" />
+                              <Text style={pr.inlineMetaText}>{submitted.date}</Text>
+                            </View>
+                            {a.feedback && <Text style={pr.assignFeedback} numberOfLines={1}>{a.feedback}</Text>}
+                          </View>
+                          {grade && (
+                            <View style={[pr.scoreBadge, { backgroundColor: grade.bg }]}>
+                              <Text style={[pr.scoreNum, { color: grade.color, fontSize: 14 }]}>{a.grade}%</Text>
+                            </View>
+                          )}
+                        </View>
+                      );
+                    })}
+                  </>
+                )}
+
+                {assignments.length === 0 && (
+                  <View style={pr.emptyStateCard}>
+                    <SvgXml xml={ELEPHANT} width={64} height={64} />
+                    <Text style={pr.emptyStateTitle}>No Assignments Found</Text>
+                    <Text style={pr.emptyStateText}>No assignments found for {activeStudent.firstName}.</Text>
+                  </View>
+                )}
+              </>
+            )}
+
+            {/* CLASSROOM */}
+            {activeTab === 'classroom' && (
+              <>
+                <View style={pr.sectionHdr}>
+                  <Text style={pr.sectionHdrTitle}>Active Classes</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <Text style={pr.sectionHdrChip}>{classroomCards.length} active</Text>
+                    {completedClassrooms.length > 0 && (
+                      <Pressable style={pr.historyIconBtn} onPress={openHistoryModal} hitSlop={10}>
+                        <History size={16} color="#4A90E2" />
+                        {newEndedCount > 0 && <View style={pr.historyIconDot} />}
+                      </Pressable>
                     )}
                   </View>
                 </View>
-              );
-            })
-          )}
-          </View>{/* end activity section */}
-        </ScrollView>
+                {classroomCards.length === 0 ? (
+                  <View style={pr.emptyStateCard}>
+                    <SvgXml xml={GIRAFFE} width={64} height={64} />
+                    <Text style={pr.emptyStateTitle}>No Active Classrooms</Text>
+                    <Text style={pr.emptyStateText}>No classroom updates yet.</Text>
+                  </View>
+                ) : (
+                  classroomCards.map((cls, idx) => {
+                    const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
+                    const avg = getClassroomAvgScore(cls);
+                    const grade = scoreGrade(avg);
+                    return (
+                      <Pressable key={cls.id} style={pr.classCard} onPress={() => setClassroomDetail(cls)}>
+                        <View style={[pr.classIconBox, { backgroundColor: cc + '22' }]}>
+                          <Text style={{ fontSize: 22 }}>📚</Text>
+                        </View>
+                        <View style={pr.classInfo}>
+                          <Text style={pr.classTitle} numberOfLines={1}>{cls.title}</Text>
+                          <Text style={pr.classMeta}>Class {cls.classLevel} · {cls.status}</Text>
+                          <Text style={pr.classDesc} numberOfLines={1}>
+                            {cls.remarkText ? `Teacher: ${cls.remarkText}` : 'Tap to see insights and teacher notes'}
+                          </Text>
+                        </View>
+                        <View style={{ alignItems: 'flex-end', gap: 6 }}>
+                          <View style={[pr.classStatusBadge, { backgroundColor: cls.status === 'active' ? '#D6F5D6' : '#F0F0F8' }]}>
+                            <Text style={[pr.classStatusText, { color: cls.status === 'active' ? '#4CAF50' : '#9A9AB0' }]}>
+                              {cls.status === 'active' ? 'Active' : cls.status}
+                            </Text>
+                          </View>
+                          {avg > 0 && (
+                            <View style={[pr.smallGradeBadge, { backgroundColor: grade.bg }]}>
+                              <Text style={[pr.smallGradeText, { color: grade.color }]}>{avg}%</Text>
+                            </View>
+                          )}
+                        </View>
+                      </Pressable>
+                    );
+                  })
+                )}
+              </>
+            )}
+
+            {/* ACTIVITY */}
+            {activeTab === 'activity' && (
+              <>
+                <View style={pr.sectionHdr}>
+                  <Text style={pr.sectionHdrTitle}>Recent Activity</Text>
+                  <Text style={pr.sectionHdrChip}>{activity.length} total</Text>
+                </View>
+                {loadingActivity ? (
+                  <ActivityIndicator color="#4A90E2" style={{ marginVertical: 24 }} />
+                ) : activity.length === 0 ? (
+                  <View style={pr.emptyStateCard}>
+                    <SvgXml xml={BUTTERFLY} width={64} height={64} />
+                    <Text style={pr.emptyStateTitle}>No Activity Yet</Text>
+                    <Text style={pr.emptyStateText}>No activity recorded for {activeStudent.firstName}.</Text>
+                  </View>
+                ) : (
+                  activity.map((item) => {
+                    const dotColor = STATUS_CLR[item.status] ?? '#9A9AB0';
+                    return (
+                      <View key={item.id} style={pr.actCard}>
+                        <View style={[pr.actIconBox, { backgroundColor: dotColor + '22' }]}>
+                          <ActIcon type={item.activityType} size={18} color={dotColor} />
+                        </View>
+                        <View style={pr.actInfo}>
+                          <Text style={pr.actTitle} numberOfLines={1}>{item.referenceTitle ?? item.activityType}</Text>
+                          <Text style={pr.actMeta}>
+                            {item.activityDate}
+                            {item.score !== undefined ? ` · Score: ${item.score}%` : ''}
+                          </Text>
+                        </View>
+                        <View style={{ alignItems: 'flex-end', gap: 4 }}>
+                          <View style={[pr.statusChip, { backgroundColor: dotColor + '22' }]}>
+                            <Text style={[pr.statusChipText, { color: dotColor }]}>{item.status}</Text>
+                          </View>
+                          {item.timeSpentSeconds > 0 && (
+                            <Text style={pr.actTime}>{fmtSec(item.timeSpentSeconds)}</Text>
+                          )}
+                        </View>
+                      </View>
+                    );
+                  })
+                )}
+              </>
+            )}
+
+          </ScrollView>
+        </View>
       )}
 
       {/* ── VIEW ALL QUIZZES MODAL ── */}
@@ -1018,7 +993,10 @@ function ParentReports() {
                       <Text style={{ fontSize: 12, fontWeight: '800', color: '#9A9AB0' }}>#{idx + 1}</Text>
                     </View>
                     <View style={pr.quizInfo}>
-                      <Text style={pr.quizTitle} numberOfLines={1}>{attempt.quizTitle}</Text>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                        <Text style={pr.quizTitle} numberOfLines={1}>{attempt.quizTitle}</Text>
+                        <QuizKindBadge kind={attempt.kind} />
+                      </View>
                       <Text style={pr.quizMeta}>{attempt.correctCount}/{attempt.totalQuestions} correct</Text>
                       <View style={pr.metaInfoStack}>
                         <View style={pr.metaInfoRow}>
@@ -1935,7 +1913,39 @@ const pr = StyleSheet.create({
   emptyCard:     { marginHorizontal: 16, backgroundColor: '#fff', borderRadius: 16, padding: 18, alignItems: 'center', borderWidth: 1, borderColor: '#F0F0F8', marginBottom: 4 },
   emptyCardText: { fontSize: 13, color: '#B0B8CC', fontWeight: '600', textAlign: 'center', lineHeight: 20 },
 
-  // Sticky section tabs
+  // Tab bar
+  tabBar:           { backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  tabBarContent:    { flexDirection: 'row', gap: 4, paddingHorizontal: 12, paddingVertical: 10 },
+  tabBtn:           { flexDirection: 'column', alignItems: 'center', gap: 3, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 14, backgroundColor: '#F4F4FB', minWidth: 68 },
+  tabBtnActive:     { backgroundColor: '#EBF4FF' },
+  tabBtnIconWrap:   { position: 'relative', width: 20, height: 20, alignItems: 'center', justifyContent: 'center' },
+  tabBtnText:       { fontSize: 11, fontWeight: '700', color: '#9A9AB0' },
+  tabBtnTextActive: { color: '#4A90E2', fontWeight: '800' },
+  tabDot:           { position: 'absolute', top: -2, right: -4, width: 8, height: 8, borderRadius: 4, backgroundColor: '#FF7043', borderWidth: 1.5, borderColor: '#fff' },
+
+  // Section header inside tab content
+  sectionHdr:      { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, marginTop: 20, marginBottom: 10 },
+  sectionHdrTitle: { fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
+  sectionHdrChip:  { fontSize: 12, fontWeight: '700', color: '#4A90E2' },
+
+  // Inline meta row (compact date/time in one line)
+  inlineMetaRow:  { flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 2 },
+  inlineMetaText: { fontSize: 11, fontWeight: '600', color: '#9A9AB0', flexShrink: 1 },
+
+  // Urgent badge (pending assignments)
+  urgentBadge:     { backgroundColor: '#FFE8D6', borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
+  urgentBadgeText: { fontSize: 11, fontWeight: '800', color: '#FF7043' },
+
+  // Generic status chip (replaces statusPill / assignStatusBadge)
+  statusChip:     { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
+  statusChipText: { fontSize: 10, fontWeight: '800' },
+
+  // Empty state card
+  emptyStateCard:  { marginHorizontal: 16, marginTop: 24, backgroundColor: '#fff', borderRadius: 20, padding: 28, alignItems: 'center', gap: 8, borderWidth: 1, borderColor: '#F0F0F8' },
+  emptyStateTitle: { fontSize: 15, fontWeight: '900', color: '#1a1a2e', textAlign: 'center' },
+  emptyStateText:  { fontSize: 13, color: '#B0B8CC', fontWeight: '600', textAlign: 'center', lineHeight: 20 },
+
+  // Sticky section tabs (kept for compatibility, no longer used in ParentReports)
   stickyTabs:         { backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8', zIndex: 10 },
   stickyTab:          { flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 12, paddingVertical: 7, borderRadius: 999, backgroundColor: '#F4F4FB' },
   stickyTabActive:    { backgroundColor: '#4A90E2' },

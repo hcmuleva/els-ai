@@ -458,4 +458,59 @@ export async function registerNotificationHandlers() {
     }));
     await NotificationStore.createMany(inputs);
   });
+
+  await eventBus.subscribe<{ storyId: string; title: string; classLevel?: string | null }>('story.live', async (event) => {
+    const orgId = event.organizationId;
+    if (!orgId) return;
+    const { storyId, title, classLevel } = event.payload;
+    const studentResult = await db.query<{ id: string }>(
+      `SELECT DISTINCT u.id
+         FROM users u
+         INNER JOIN user_roles ur ON ur.user_id = u.id AND ur.organization_id = $1::uuid
+         INNER JOIN roles r ON r.id = ur.role_id
+        WHERE r.role_name = 'student'
+          AND ($2::text IS NULL OR u.class_level = $2)`,
+      [orgId, classLevel || null],
+    );
+    const studentIds = studentResult.rows.map((r) => r.id);
+    if (studentIds.length === 0) return;
+    const parentResult = await db.query<{ parent_user_id: string; student_user_id: string }>(
+      `SELECT parent_user_id, student_user_id FROM parent_student_links
+        WHERE student_user_id = ANY($1::uuid[])`,
+      [studentIds],
+    );
+    const parentByStudent: Record<string, string[]> = {};
+    for (const row of parentResult.rows) {
+      (parentByStudent[row.student_user_id] = parentByStudent[row.student_user_id] || []).push(row.parent_user_id);
+    }
+    const route = `/story/${storyId}`;
+    const inputs: CreateNotificationInput[] = [];
+    for (const sid of studentIds) {
+      inputs.push({
+        userId: sid,
+        organizationId: orgId,
+        type: 'STORY_LIVE',
+        category: 'classroom',
+        title: 'New story is live',
+        message: `${title} — Start now!`,
+        ctaLabel: 'Start Story',
+        ctaRoute: route,
+        metadata: { storyId, audience: 'student' },
+        sourceEventId: event.id,
+      });
+      for (const pid of (parentByStudent[sid] || [])) {
+        inputs.push({
+          userId: pid,
+          organizationId: orgId,
+          type: 'STORY_LIVE',
+          category: 'classroom',
+          title: 'A new story is available for your child',
+          message: `${title} is now live.`,
+          metadata: { storyId, studentUserId: sid, audience: 'parent' },
+          sourceEventId: event.id,
+        });
+      }
+    }
+    await NotificationStore.createMany(inputs);
+  });
 }

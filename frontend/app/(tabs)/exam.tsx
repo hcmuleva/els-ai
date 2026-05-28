@@ -35,6 +35,7 @@ import {
   Filter,
   Zap,
   School,
+  Puzzle,
 } from 'lucide-react-native';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
@@ -52,7 +53,8 @@ type QuizType =
   | 'guess_audio'
   | 'true_false'
   | 'single_choice'
-  | 'multi_choice';
+  | 'multi_choice'
+  | 'logico';
 type Difficulty = 'Easy' | 'Medium' | 'Hard';
 type CreationMode = 'quiz' | 'exam';
 type BankTab = 'question' | 'selected';
@@ -98,6 +100,7 @@ const QUIZ_TYPE_LABELS: Record<string, string> = {
   image_select: 'Guess Image',
   sound_match: 'Guess Audio',
   memory_game: 'Multi Choice',
+  logico: 'Logico',
 };
 
 const INITIAL_DRAFT: AssessmentDraft = {
@@ -126,6 +129,7 @@ const QUESTION_TYPE_FILTERS = [
   { value: 'drag_drop_match',label: 'Drag & Drop' },
   { value: 'guess_image',    label: 'Guess Image' },
   { value: 'guess_audio',    label: 'Guess Audio' },
+  { value: 'logico',         label: 'Logico' },
 ];
 
 const PAGE_SIZE = 10;
@@ -137,6 +141,7 @@ function normalizeQuestionType(type: string): QuizType {
   if (type === 'memory_game' || type === 'multi_choice') return 'multi_choice';
   if (type === 'true_false') return 'true_false';
   if (type === 'single_choice') return 'single_choice';
+  if (type === 'logico') return 'logico';
   return 'single_choice';
 }
 
@@ -152,6 +157,7 @@ function QuestionTypeIcon({ type, size = 14, color = '#5A6A8A' }: { type: string
   if (norm === 'guess_audio')     return <Volume2 size={size} color={color} />;
   if (norm === 'true_false')      return <CheckSquare size={size} color={color} />;
   if (norm === 'multi_choice')    return <ListChecks size={size} color={color} />;
+  if (norm === 'logico')          return <Puzzle size={size} color={color} />;
   return <Layers size={size} color={color} />;
 }
 
