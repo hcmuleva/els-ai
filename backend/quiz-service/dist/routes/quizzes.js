@@ -21,6 +21,9 @@ const createQuizSchema = z.object({
         'true_false',
         'single_choice',
         'multi_choice',
+        'memory_match',
+        'fill_blank',
+        'logico',
     ]),
     difficultyLevel: z.string().optional(),
     backgroundMusicUrl: z.string().optional(),
@@ -66,6 +69,9 @@ const teacherLibraryQuerySchema = z.object({
         'true_false',
         'single_choice',
         'multi_choice',
+        'memory_match',
+        'fill_blank',
+        'logico',
     ])
         .optional(),
     difficulty_level: z.string().trim().optional(),
@@ -338,6 +344,89 @@ quizzesRouter.get('/teacher/overview', requireAuth, async (req, res) => {
     catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Failed to load teacher overview data' });
+    }
+});
+// ── GET /quizzes/teacher/class-activity ──────────────────────────────────────
+// Per-student quiz attempt metrics for the teacher's organization
+quizzesRouter.get('/teacher/class-activity', requireAuth, async (req, res) => {
+    const orgId = getOrganizationId(req);
+    if (!orgId)
+        return res.status(400).json({ message: 'Organization not found in auth context' });
+    const limit = Math.min(parseInt(req.query.limit || '200', 10), 500);
+    try {
+        const result = await db.query(`SELECT
+         u.id              AS student_id,
+         u.first_name,
+         u.last_name,
+         u.class_level,
+         u.profile_image,
+         sa.id             AS attempt_id,
+         sa.completed_at,
+         q.id              AS quiz_id,
+         q.title           AS quiz_title,
+         COUNT(qa.id)                                     AS total_questions,
+         COUNT(qa.id) FILTER (WHERE qa.is_correct)        AS correct_count,
+         CASE WHEN COUNT(qa.id) > 0
+           THEN ROUND(COUNT(qa.id) FILTER (WHERE qa.is_correct)::numeric / COUNT(qa.id) * 100)
+           ELSE 0 END                                     AS score_pct,
+         BOOL_OR(qq.question_type IN ('memory_match','fill_blank')) AS has_game,
+         MAX(CASE WHEN qq.question_type = 'memory_match'
+           THEN (qa.response_data->>'clicksUsed')::int    END) AS mm_clicks_used,
+         MAX(CASE WHEN qq.question_type = 'memory_match'
+           THEN (qa.response_data->>'clickLimit')::int    END) AS mm_click_limit,
+         MAX(CASE WHEN qq.question_type = 'memory_match'
+           THEN (qa.response_data->>'pairsMatched')::int  END) AS mm_pairs_matched,
+         MAX(CASE WHEN qq.question_type = 'memory_match'
+           THEN (qa.response_data->>'totalPairs')::int    END) AS mm_total_pairs,
+         MAX(CASE WHEN qq.question_type = 'memory_match'
+           THEN (qa.response_data->>'accuracy')::int      END) AS mm_accuracy
+       FROM users u
+       INNER JOIN student_attempts sa ON sa.student_id = u.id
+       INNER JOIN quizzes q ON q.id = sa.quiz_id AND q.organization_id = $1::uuid
+       LEFT JOIN question_attempts qa ON qa.attempt_id = sa.id
+       LEFT JOIN quiz_questions qq ON qq.id = qa.question_id
+       WHERE u.organization_id = $1::uuid AND u.role = 'student'
+       GROUP BY u.id, u.first_name, u.last_name, u.class_level, u.profile_image,
+                sa.id, sa.completed_at, q.id, q.title
+       ORDER BY sa.completed_at DESC
+       LIMIT $2`, [orgId, limit]);
+        // Group rows by student
+        const map = new Map();
+        for (const row of result.rows) {
+            if (!map.has(row.student_id)) {
+                map.set(row.student_id, {
+                    studentId: row.student_id,
+                    firstName: row.first_name,
+                    lastName: row.last_name,
+                    classLevel: row.class_level,
+                    profileImage: row.profile_image,
+                    attempts: [],
+                });
+            }
+            const mmHasData = row.mm_clicks_used != null;
+            map.get(row.student_id).attempts.push({
+                attemptId: row.attempt_id,
+                quizId: row.quiz_id,
+                quizTitle: row.quiz_title,
+                completedAt: row.completed_at,
+                totalQuestions: Number(row.total_questions || 0),
+                correctCount: Number(row.correct_count || 0),
+                scorePct: Number(row.score_pct || 0),
+                hasGame: Boolean(row.has_game),
+                gameMetrics: mmHasData ? {
+                    clicksUsed: Number(row.mm_clicks_used || 0),
+                    clickLimit: Number(row.mm_click_limit || 0),
+                    pairsMatched: Number(row.mm_pairs_matched || 0),
+                    totalPairs: Number(row.mm_total_pairs || 0),
+                    accuracy: Number(row.mm_accuracy || 0),
+                } : null,
+            });
+        }
+        return res.json({ students: Array.from(map.values()) });
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Failed to load class activity' });
     }
 });
 quizzesRouter.post('/:quizId/questions/reuse', requireAuth, async (req, res) => {

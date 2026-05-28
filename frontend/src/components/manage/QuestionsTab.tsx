@@ -6,7 +6,7 @@
  */
 import { useState, useRef, useEffect } from 'react';
 import {
-  ActivityIndicator, Image, Modal, Platform, Pressable,
+  ActivityIndicator, Dimensions, Image, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
 import {
@@ -79,6 +79,8 @@ const QTYPE_CONFIG: Record<string, QtypeCfg> = {
   single_choice:   { Icon: Layers,              label: 'Single Choice', color: '#FF7043', bg: '#FFE8D6' },
   multi_choice:    { Icon: ListChecks,          label: 'Multi Choice',  color: '#E91E8C', bg: '#FFE0F0' },
   logico:          { Icon: ListChecks,          label: 'Logico',        color: '#0f766e', bg: '#DCFCE7' },
+  memory_match:    { Icon: Layers,              label: 'Memory Match',  color: '#7C3AED', bg: '#EDE9FE' },
+  fill_blank:      { Icon: ClipboardList,       label: 'Fill in Blank', color: '#0284C7', bg: '#E0F2FE' },
 };
 function qtypeCfg(t: string): QtypeCfg {
   return QTYPE_CONFIG[t] ?? { Icon: HelpCircle, label: t || 'Question', color: '#9A9AB0', bg: '#F4F4FB' };
@@ -254,8 +256,16 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
               <Text style={q.statLabel}>Time</Text>
             </View>
             <View style={q.statCard}>
-              <Text style={q.statVal}>{options.length || dragItems.length || '–'}</Text>
-              <Text style={q.statLabel}>Options</Text>
+              <Text style={q.statVal}>
+                {question.question_type === 'memory_match'
+                  ? (((data as any)?.pairs ?? []) as any[]).length || '–'
+                  : (question.question_type === 'fill_blank' || question.question_type === 'fill_in_blank')
+                    ? (((data as any)?.options ?? []) as string[]).length || '–'
+                    : options.length || dragItems.length || '–'}
+              </Text>
+              <Text style={q.statLabel}>
+                {question.question_type === 'memory_match' ? 'Pairs' : 'Options'}
+              </Text>
             </View>
           </View>
 
@@ -308,8 +318,121 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
             </View>
           )}
 
-          {/* Options */}
-          {options.length > 0 && (
+          {/* Memory Match */}
+          {question.question_type === 'memory_match' && (() => {
+            const GRID_COLS_MAP: Record<string, number> = { '2x2': 2, '4x4': 4, '6x6': 6 };
+            const GRID_PAIR_MAP: Record<string, number> = { '2x2': 2, '4x4': 4, '6x6': 6 };
+            const grid   = ((data as any)?.grid as string) || '4x4';
+            const pairs: any[] = (data as any)?.pairs ?? [];
+            const cols   = GRID_COLS_MAP[grid] ?? 4;
+            const needed = GRID_PAIR_MAP[grid] ?? 4;
+            const allCards = [...pairs, ...pairs].slice(0, needed * 2);
+            const previewW = Dimensions.get('window').width - 64;
+            const GAP = 6;
+            const pvCardW = Math.floor((previewW - GAP * (cols - 1)) / cols);
+            const rows: any[][] = [];
+            for (let i = 0; i < allCards.length; i += cols) rows.push(allCards.slice(i, i + cols));
+            return (
+              <View style={q.detailSection}>
+                <View style={{ padding: 14, backgroundColor: '#fff', borderRadius: 16, borderWidth: 1, borderColor: '#EEF0F8' }}>
+                  <Text style={{ fontSize: 11, fontWeight: '700', color: '#9A9AB0', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    Board Preview — {pairs.length}/{needed} pairs · {needed * 2} cards
+                  </Text>
+                  <View style={{ alignItems: 'center' }}>
+                    <View style={{ width: previewW, gap: GAP }}>
+                      {rows.map((row, rIdx) => (
+                        <View key={rIdx} style={{ flexDirection: 'row', gap: GAP, justifyContent: 'center' }}>
+                          {row.map((card: any, cIdx: number) => {
+                            const imgUrl = card?.imageUrl ? resolveUrl(card.imageUrl) : undefined;
+                            return (
+                              <View key={cIdx} style={[mmDet.pairCard, { width: pvCardW, backgroundColor: '#4A90E2', borderColor: '#3A7BD5', paddingVertical: 6 }]}>
+                                {imgUrl ? (
+                                  <Image source={{ uri: imgUrl }} style={{ width: pvCardW * 0.55, height: pvCardW * 0.55 }} resizeMode="contain" />
+                                ) : (
+                                  <Text style={{ fontSize: 9, color: '#fff', fontWeight: '700', textAlign: 'center' }}>?</Text>
+                                )}
+                                <Text style={{ fontSize: 8, color: '#fff', fontWeight: '700', textAlign: 'center' }} numberOfLines={1}>{card?.label ?? '?'}</Text>
+                              </View>
+                            );
+                          })}
+                        </View>
+                      ))}
+                    </View>
+                  </View>
+                  {pairs.length < needed && (
+                    <Text style={{ fontSize: 11, color: '#F97316', fontWeight: '700', textAlign: 'center', marginTop: 8 }}>
+                      {needed - pairs.length} more pair{needed - pairs.length > 1 ? 's' : ''} needed
+                    </Text>
+                  )}
+                  {pairs.length === 0 && (
+                    <Text style={{ color: '#9A9AB0', fontStyle: 'italic', textAlign: 'center', paddingVertical: 12 }}>No pairs defined</Text>
+                  )}
+                </View>
+              </View>
+            );
+          })()}
+
+          {/* Fill in the Blank */}
+          {(question.question_type === 'fill_blank' || question.question_type === 'fill_in_blank') && (() => {
+            const sentence: string = (data as any)?.sentence ?? '';
+            const answer: string   = (data as any)?.answer   ?? '';
+            const hint: string     = (data as any)?.hint     ?? '';
+            const fbOpts           = ((data as any)?.options ?? []) as string[];
+            const parts = sentence.split('___');
+            return (
+              <>
+                <View style={q.detailSection}>
+                  <Text style={q.detailSectionTitle}>Sentence</Text>
+                  <View style={{ backgroundColor: '#F0F7FF', borderRadius: 14, padding: 16, borderWidth: 1, borderColor: '#C5D8F8' }}>
+                    {sentence ? (
+                      <Text style={{ fontSize: 17, fontWeight: '600', color: '#1a1a2e', textAlign: 'center', lineHeight: 28 }}>
+                        <Text>{parts[0] ?? ''}</Text>
+                        <Text style={{ fontWeight: '900', color: '#2E7D32', borderBottomWidth: 2, borderBottomColor: '#4CAF50' }}>
+                          {' '}{answer || '___'}{' '}
+                        </Text>
+                        <Text>{parts[1] ?? ''}</Text>
+                      </Text>
+                    ) : (
+                      <Text style={{ color: '#9A9AB0', textAlign: 'center', fontStyle: 'italic' }}>No sentence defined</Text>
+                    )}
+                    {hint ? (
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 10, alignSelf: 'center', backgroundColor: '#FFF8E1', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 5 }}>
+                        <Text style={{ fontSize: 12 }}>💡</Text>
+                        <Text style={{ fontSize: 12, fontWeight: '600', color: '#E6A020' }}>Hint: "{hint}"</Text>
+                      </View>
+                    ) : null}
+                  </View>
+                </View>
+
+                {fbOpts.length > 0 && (
+                  <View style={q.detailSection}>
+                    <Text style={q.detailSectionTitle}>Answer Options</Text>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                      {fbOpts.map((opt, i) => {
+                        const isCorrect = answer && opt.toLowerCase() === answer.toLowerCase();
+                        return (
+                          <View key={i} style={{
+                            flexDirection: 'row', alignItems: 'center', gap: 6,
+                            paddingHorizontal: 14, paddingVertical: 10, borderRadius: 12,
+                            borderWidth: isCorrect ? 2 : 1.5,
+                            borderColor: isCorrect ? '#4CAF50' : '#D0D4E8',
+                            backgroundColor: isCorrect ? '#E8F5E9' : '#F4F6FF',
+                          }}>
+                            <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: isCorrect ? '#4CAF50' : '#C0C8D8' }} />
+                            <Text style={{ fontSize: 14, fontWeight: isCorrect ? '800' : '600', color: isCorrect ? '#2E7D32' : '#3A3A5A' }}>{opt}</Text>
+                            {isCorrect && <Check size={13} color="#4CAF50" strokeWidth={3} />}
+                          </View>
+                        );
+                      })}
+                    </View>
+                  </View>
+                )}
+              </>
+            );
+          })()}
+
+          {/* Options (MCQ / guess-image etc — not fill_blank) */}
+          {options.length > 0 && question.question_type !== 'fill_blank' && question.question_type !== 'fill_in_blank' && (
             <View style={q.detailSection}>
               <Text style={q.detailSectionTitle}>Options</Text>
               {options.map((opt: any, idx: number) => {
@@ -809,4 +932,8 @@ const q = StyleSheet.create({
   pairTextMuted:{ fontSize: 13, color: '#9A9AB0', textAlign: 'center' },
   pairThumb:    { width: '100%', height: 80, borderRadius: 8 },
   pairArrowWrap:{ width: 28, alignItems: 'center' },
+});
+
+const mmDet = StyleSheet.create({
+  pairCard: { backgroundColor: '#F8F9FF', borderRadius: 12, borderWidth: 1.5, borderColor: '#E2E8FF', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 4, gap: 5 },
 });

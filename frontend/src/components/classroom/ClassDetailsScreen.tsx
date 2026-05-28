@@ -447,6 +447,119 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
       );
     }
 
+    // ── Memory Match ────────────────────────────────────────────────────────
+    if (normalizedType === 'memory_match') {
+      const allPairs = (Array.isArray(questionData.pairs) ? questionData.pairs : []) as Array<{ id: number; label: string; imageUrl?: string }>;
+      const matchedSet = new Set(((responseData.correctMatches ?? []) as Array<{ pairId: number }>).map((m) => m.pairId));
+      const acc = responseData.accuracy ?? 0;
+      const barColor = acc >= 80 ? '#4CAF50' : acc >= 50 ? '#E6A020' : '#FF5252';
+      const cols = allPairs.length <= 2 ? 2 : 3;
+      const boardRows: typeof allPairs[] = [];
+      for (let i = 0; i < allPairs.length; i += cols) boardRows.push(allPairs.slice(i, i + cols));
+      return (
+        <View key={`${qa.questionId}-${index}`} style={ds.answerCard}>
+          <View style={[ds.answerCardBanner, { backgroundColor: '#FFF8E1' }]}>
+            <Text style={[ds.answerCardBannerTitle, { color: '#7B4FCA' }]}>Memory Game</Text>
+            <Text style={[ds.answerCardBadge, { backgroundColor: '#7B4FCA' }]}>
+              {responseData.pairsMatched ?? 0}/{responseData.totalPairs ?? allPairs.length} pairs
+            </Text>
+          </View>
+          <View style={[ds.answerRow, { gap: 10 }]}>
+            {/* Chips */}
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+              <View style={[ds.mmChip, { backgroundColor: '#E8F5E9' }]}>
+                <CheckCircle size={12} color="#4CAF50" />
+                <Text style={[ds.mmChipTxt, { color: '#2E7D32' }]}>{responseData.pairsMatched ?? 0}/{responseData.totalPairs ?? allPairs.length} pairs</Text>
+              </View>
+              {(responseData.clickLimit ?? 0) > 0 && (
+                <View style={[ds.mmChip, { backgroundColor: '#FFF5CC' }]}>
+                  <Text style={[ds.mmChipTxt, { color: '#E6A020' }]}>{responseData.clicksUsed ?? 0}/{responseData.clickLimit} clicks</Text>
+                </View>
+              )}
+              <View style={[ds.mmChip, { backgroundColor: '#EDE4FF' }]}>
+                <Text style={[ds.mmChipTxt, { color: '#7B4FCA' }]}>{acc}% acc</Text>
+              </View>
+              {(responseData.wrongAttempts ?? 0) > 0 && (
+                <View style={[ds.mmChip, { backgroundColor: '#FFF3F0' }]}>
+                  <Text style={[ds.mmChipTxt, { color: '#C62828' }]}>{responseData.wrongAttempts} wrong</Text>
+                </View>
+              )}
+            </View>
+            {/* Accuracy bar */}
+            <View style={{ gap: 4 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text style={ds.mmBarLabel}>ACCURACY</Text>
+                <Text style={[ds.mmBarLabel, { color: barColor }]}>{acc}%</Text>
+              </View>
+              <View style={{ height: 8, backgroundColor: '#F0F0F5', borderRadius: 4, overflow: 'hidden' }}>
+                <View style={{ height: 8, width: `${acc}%` as any, backgroundColor: barColor, borderRadius: 4 }} />
+              </View>
+            </View>
+            {/* Board grid */}
+            <Text style={ds.mmBoardLabel}>BOARD RESULT</Text>
+            <View style={{ gap: 8 }}>
+              {boardRows.map((row, rIdx) => (
+                <View key={rIdx} style={{ flexDirection: 'row', gap: 8 }}>
+                  {row.map((pair) => {
+                    const isOk   = matchedSet.has(pair.id);
+                    const imgUrl = pair.imageUrl ? `${API_BASE_URL}${pair.imageUrl}` : undefined;
+                    return (
+                      <View key={pair.id} style={[ds.mmCard, { flex: 1, backgroundColor: isOk ? '#E8F5E9' : '#FFF3F0', borderColor: isOk ? '#4CAF50' : '#FF7043' }]}>
+                        {imgUrl
+                          ? <Image source={{ uri: imgUrl }} style={ds.mmCardImg} resizeMode="contain" />
+                          : <Text style={{ fontSize: 22 }}>?</Text>}
+                        <Text style={[ds.mmCardLabel, { color: isOk ? '#2E7D32' : '#C62828' }]} numberOfLines={1}>{pair.label}</Text>
+                        <View style={[ds.mmCardBadge, { backgroundColor: isOk ? '#4CAF50' : '#FF5252' }]}>
+                          <Text style={ds.mmCardBadgeTxt}>{isOk ? '✓' : '✗'}</Text>
+                        </View>
+                      </View>
+                    );
+                  })}
+                  {row.length < cols && Array.from({ length: cols - row.length }).map((_, fi) => <View key={fi} style={{ flex: 1 }} />)}
+                </View>
+              ))}
+            </View>
+          </View>
+        </View>
+      );
+    }
+
+    // ── Fill in the Blank ────────────────────────────────────────────────────
+    if (normalizedType === 'fill_blank' || normalizedType === 'fill_in_blank') {
+      const sentence = (questionData.sentence as string) ?? '';
+      const correct  = (questionData.answer as string) ?? (responseData.answer as string) ?? '';
+      const chosen   = (responseData.selected as string) ?? '—';
+      const isOk     = chosen.toLowerCase() === correct.toLowerCase();
+      const parts    = sentence.split('___');
+      return (
+        <View key={`${qa.questionId}-${index}`} style={ds.answerCard}>
+          <View style={[ds.answerCardBanner, { backgroundColor: isOk ? '#E8F5E9' : '#FFF3F0' }]}>
+            <Text style={ds.answerCardBannerTitle}>Fill in the Blank</Text>
+            <Text style={[ds.answerCardBadge, { backgroundColor: isOk ? '#4CAF50' : '#FF5252' }]}>
+              {isOk ? 'Correct' : 'Wrong'}
+            </Text>
+          </View>
+          <View style={[ds.answerRow, { gap: 8 }]}>
+            <Text style={ds.answerTitle}>{qa.questionTitle || qa.questionInstruction || 'Fill in the blank'}</Text>
+            <View style={[ds.mmSentenceBox, { borderColor: isOk ? '#4CAF50' : '#FF7043' }]}>
+              <Text style={ds.mmSentenceTxt}>
+                <Text>{parts[0]}</Text>
+                <Text style={[ds.mmBlankFilled, { color: isOk ? '#2E7D32' : '#C62828', backgroundColor: isOk ? '#E8F5E9' : '#FFF3F0' }]}> {chosen} </Text>
+                <Text>{parts[1] ?? ''}</Text>
+              </Text>
+            </View>
+            {!isOk && (
+              <View style={[ds.mmSentenceBox, { borderColor: '#4CAF50' }]}>
+                <Text style={[ds.mmSentenceTxt, { color: '#2E7D32', fontWeight: '800' }]}>
+                  {parts[0]}<Text style={{ backgroundColor: '#D6F5D6' }}> {correct} </Text>{parts[1] ?? ''}
+                </Text>
+              </View>
+            )}
+          </View>
+        </View>
+      );
+    }
+
     const options = Array.isArray(questionData.options) ? questionData.options : [];
     const selectedIds = Array.isArray(responseData.selected_ids)
       ? responseData.selected_ids
@@ -1279,6 +1392,19 @@ const ds = StyleSheet.create({
   choiceRow: { flexDirection: 'row', gap: 6, alignItems: 'flex-start' },
   choiceLabel: { fontSize: 11, fontWeight: '800', color: '#334155', minWidth: 56 },
   choiceValue: { fontSize: 11, color: '#1e293b', flex: 1 },
+  // Memory Match styles
+  mmChip: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 999 },
+  mmChipTxt: { fontSize: 12, fontWeight: '700' },
+  mmBarLabel: { fontSize: 10, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase', letterSpacing: 0.4 },
+  mmBoardLabel: { fontSize: 10, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase', letterSpacing: 0.4, marginTop: 4 },
+  mmCard: { borderRadius: 12, borderWidth: 2, padding: 8, alignItems: 'center', gap: 4 },
+  mmCardImg: { width: 56, height: 56 },
+  mmCardLabel: { fontSize: 11, fontWeight: '700', textAlign: 'center' },
+  mmCardBadge: { width: 22, height: 22, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  mmCardBadgeTxt: { fontSize: 12, color: '#fff', fontWeight: '900' },
+  mmSentenceBox: { borderWidth: 1.5, borderRadius: 10, padding: 12, backgroundColor: '#FAFAFA' },
+  mmSentenceTxt: { fontSize: 14, color: '#374151', lineHeight: 22 },
+  mmBlankFilled: { fontWeight: '900', borderRadius: 4, overflow: 'hidden' },
   mappingTable: { marginTop: 6, borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 8, overflow: 'hidden' },
   mappingRow: { flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#F1F5F9', paddingHorizontal: 6, paddingVertical: 6, gap: 6 },
   mappingSlot: { width: 20, fontSize: 11, fontWeight: '900', color: '#334155', textAlign: 'center' },

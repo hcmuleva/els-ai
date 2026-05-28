@@ -377,8 +377,8 @@ studentsRouter.get('/:id/quiz-attempts', requireAuth, async (req, res) => {
          COALESCE(q.kind, 'subject') AS kind,
          COUNT(qa.id) AS total_questions,
          COUNT(qa.id) FILTER (WHERE qa.is_correct) AS correct_count,
-         CASE WHEN COUNT(qa.id) > 0
-              THEN ROUND((COUNT(qa.id) FILTER (WHERE qa.is_correct))::numeric / COUNT(qa.id) * 100)
+         CASE WHEN sa.total_points > 0
+              THEN ROUND(sa.score::numeric / sa.total_points * 100)
               ELSE 0 END AS score_pct
        FROM student_attempts sa
        INNER JOIN quizzes q ON q.id = sa.quiz_id
@@ -448,7 +448,11 @@ studentsRouter.get('/:id/quiz-attempts/:attemptId', requireAuth, async (req, res
        ORDER BY qq.sort_order ASC NULLS LAST`, [attemptId]);
         const totalQuestions = qRows.rowCount ?? 0;
         const correctCount = qRows.rows.filter((r) => r.is_correct).length;
-        const scorePct = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
+        // Use score/total_points so partial-credit games (memory_match) show the right %
+        const totalPts = Number(attempt.total_points ?? 0);
+        const scorePct = totalPts > 0
+            ? Math.round((Number(attempt.score ?? 0) / totalPts) * 100)
+            : totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
         return res.json({
             attempt: {
                 id: attempt.id,

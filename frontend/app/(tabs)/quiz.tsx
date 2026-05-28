@@ -54,7 +54,9 @@ type QuizType =
   | 'true_false'
   | 'single_choice'
   | 'multi_choice'
-  | 'logico';
+  | 'logico'
+  | 'memory_match'
+  | 'fill_blank';
 type Difficulty = 'Easy' | 'Medium' | 'Hard';
 type CreationMode = 'quiz' | 'exam';
 type BankTab = 'question' | 'selected';
@@ -101,6 +103,8 @@ const QUIZ_TYPE_LABELS: Record<string, string> = {
   sound_match: 'Guess Audio',
   memory_game: 'Multi Choice',
   logico: 'Logico',
+  memory_match: 'Memory Match',
+  fill_blank: 'Fill in Blank',
 };
 
 const INITIAL_DRAFT: AssessmentDraft = {
@@ -130,6 +134,8 @@ const QUESTION_TYPE_FILTERS = [
   { value: 'guess_image',    label: 'Guess Image' },
   { value: 'guess_audio',    label: 'Guess Audio' },
   { value: 'logico',         label: 'Logico' },
+  { value: 'memory_match',   label: 'Memory Match' },
+  { value: 'fill_blank',     label: 'Fill in Blank' },
 ];
 
 const PAGE_SIZE = 10;
@@ -142,6 +148,8 @@ function normalizeQuestionType(type: string): QuizType {
   if (type === 'true_false') return 'true_false';
   if (type === 'single_choice') return 'single_choice';
   if (type === 'logico') return 'logico';
+  if (type === 'memory_match') return 'memory_match';
+  if (type === 'fill_blank' || type === 'fill_in_blank') return 'fill_blank';
   return 'single_choice';
 }
 
@@ -158,6 +166,8 @@ function QuestionTypeIcon({ type, size = 14, color = '#5A6A8A' }: { type: string
   if (norm === 'true_false')      return <CheckSquare size={size} color={color} />;
   if (norm === 'multi_choice')    return <ListChecks size={size} color={color} />;
   if (norm === 'logico')          return <Puzzle size={size} color={color} />;
+  if (norm === 'memory_match')    return <Zap size={size} color={color} />;
+  if (norm === 'fill_blank')      return <PenLine size={size} color={color} />;
   return <Layers size={size} color={color} />;
 }
 
@@ -360,14 +370,18 @@ export default function QuizExamCreatorScreen() {
       if (activeMode === 'quiz') { setQuizDraft(INITIAL_DRAFT); setQuizSelectedQuestionIds([]); }
       else { setExamDraft(INITIAL_DRAFT); setExamSelectedQuestionIds([]); }
       setBankTab('question');
-      setMessage({
-        type: 'success',
+      const successMsg = {
+        type: 'success' as const,
         text: activeMode === 'quiz'
           ? `Quiz created and published with ${attachedQuestions} question(s).${failedQuestionIds.length ? ` ${failedQuestionIds.length} failed to attach.` : ''}`
           : `Exam created with ${attachedQuestions} question(s), points preserved.${failedQuestionIds.length ? ` ${failedQuestionIds.length} failed to attach.` : ''}`,
-      });
+      };
+      setMessage(successMsg);
+      setTimeout(() => setMessage(null), 4000);
     } catch (error) {
-      setMessage({ type: 'error', text: error instanceof Error ? error.message : `Failed to create ${activeMode}` });
+      const errMsg = { type: 'error' as const, text: error instanceof Error ? error.message : `Failed to create ${activeMode}` };
+      setMessage(errMsg);
+      setTimeout(() => setMessage(null), 5000);
     } finally {
       setCreating(false);
     }
@@ -398,6 +412,7 @@ export default function QuizExamCreatorScreen() {
   }
 
   return (
+    <View style={{ flex: 1 }}>
     <ScrollView style={s.container} contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
       {/* ── Page Header ── */}
       <View style={s.pageHeader}>
@@ -409,12 +424,6 @@ export default function QuizExamCreatorScreen() {
           {activeMode === 'quiz' ? <Trophy size={28} color="#4A90E2" /> : <GraduationCap size={28} color="#9B8EC4" />}
         </View>
       </View>
-
-      {message && (
-        <View style={[s.messageCard, message.type === 'success' ? s.successCard : s.errorCard]}>
-          <Text style={[s.messageText, message.type === 'success' ? s.successText : s.errorText]}>{message.text}</Text>
-        </View>
-      )}
 
       {/* ── Mode Tabs ── */}
       <View style={s.modeTabs}>
@@ -781,6 +790,20 @@ export default function QuizExamCreatorScreen() {
         </View>
       </Modal>
     </ScrollView>
+
+    {/* ── Fixed toast overlay ── */}
+    {message && (
+      <View pointerEvents="none" style={[
+        s.toast,
+        message.type === 'success' ? s.toastSuccess : s.toastError,
+      ]}>
+        <Text style={s.toastIcon}>{message.type === 'success' ? '✅' : '❌'}</Text>
+        <Text style={[s.toastText, message.type === 'success' ? s.toastTextSuccess : s.toastTextError]}>
+          {message.text}
+        </Text>
+      </View>
+    )}
+    </View>
   );
 }
 
@@ -928,11 +951,19 @@ const s = StyleSheet.create({
 
 
 
-  // Messages
-  messageCard: { borderRadius: 12, borderWidth: 1, padding: 12 },
-  successCard: { backgroundColor: '#ecfdf5', borderColor: '#86efac' },
-  errorCard:   { backgroundColor: '#fef2f2', borderColor: '#fecaca' },
-  messageText: { fontSize: 13, fontWeight: '600' },
-  successText: { color: '#166534' },
-  errorText:   { color: '#b91c1c' },
+  // Toast overlay
+  toast: {
+    position: 'absolute', bottom: 32, left: 20, right: 20,
+    flexDirection: 'row', alignItems: 'flex-start', gap: 10,
+    borderRadius: 16, padding: 16,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.18, shadowRadius: 12, elevation: 10,
+  },
+  toastSuccess:     { backgroundColor: '#F0FDF4', borderWidth: 1.5, borderColor: '#86EFAC' },
+  toastError:       { backgroundColor: '#FFF1F2', borderWidth: 1.5, borderColor: '#FECDD3' },
+  toastIcon:        { fontSize: 18, lineHeight: 22 },
+  toastText:        { flex: 1, fontSize: 13, fontWeight: '700', lineHeight: 20 },
+  toastTextSuccess: { color: '#166534' },
+  toastTextError:   { color: '#9F1239' },
+  errorText:        { color: '#b91c1c' },
 });

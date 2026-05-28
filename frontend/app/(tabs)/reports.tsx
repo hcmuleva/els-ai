@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import {
-  ActivityIndicator, Modal, Platform, Pressable, ScrollView,
+  ActivityIndicator, Dimensions, Modal, Platform, Pressable, ScrollView,
   StyleSheet, Text, TouchableOpacity, View, Image, Linking,
 } from 'react-native';
 import Animated, {
@@ -18,7 +18,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SvgXml } from 'react-native-svg';
 
-import { useAuth } from '../../src/context/AuthContext';
+import { useAuth, API_BASE_URL } from '../../src/context/AuthContext';
 import { Colors, Radius, Shadow } from '../../src/theme';
 import { OWL, PENGUIN, ELEPHANT, BUTTERFLY, GIRAFFE } from '../../src/assets/svgs';
 import { useStudentProfile, type ClassroomRemarkItem } from '../../src/context/StudentProfileContext';
@@ -47,6 +47,18 @@ type TeacherOverview = {
 };
 
 type Period = 'hour' | 'day' | 'week' | 'month';
+
+type ClassActivityAttempt = {
+  attemptId: string; quizId: string; quizTitle: string;
+  completedAt: string; totalQuestions: number; correctCount: number; scorePct: number;
+  hasGame: boolean;
+  gameMetrics: { clicksUsed: number; clickLimit: number; pairsMatched: number; totalPairs: number; accuracy: number } | null;
+};
+type ClassActivityStudent = {
+  studentId: string; firstName: string; lastName: string;
+  classLevel: string | null; profileImage: string | null;
+  attempts: ClassActivityAttempt[];
+};
 
 // ── Animated Bar ──────────────────────────────────────────────────────────────
 const MAX_BAR_H = 80;
@@ -422,9 +434,24 @@ type QuizAttemptDetail = {
   attempt: { id: string; quizTitle: string; classLevel: string | null; completedAt: string; scorePct: number; correctCount: number; totalQuestions: number };
   questions: Array<{
     questionId: string; questionTitle: string | null; questionInstruction: string | null;
-    questionType: string; questionData: { options?: Array<{ id: string; label?: string; is_correct?: boolean }>; [k: string]: unknown };
+    questionType: string;
+    questionData: {
+      options?: Array<{ id: string; label?: string; is_correct?: boolean }>;
+      pairs?: Array<{ id: number; label: string; imageUrl?: string }>;
+      grid?: string; sentence?: string; answer?: string;
+      [k: string]: unknown;
+    };
     sortOrder: number | null; isCorrect: boolean;
-    responseData: { selected_id?: string; selected_ids?: string[]; [k: string]: unknown };
+    responseData: {
+      selected_id?: string; selected_ids?: string[];
+      // memory_match
+      clicksUsed?: number; clickLimit?: number; pairsMatched?: number; totalPairs?: number;
+      accuracy?: number; correctMatches?: Array<{ pairId: number; label: string; imageUrl?: string }>;
+      wrongAttempts?: number; completed?: boolean;
+      // fill_blank
+      selected?: string; answer?: string;
+      [k: string]: unknown;
+    };
   }>;
 };
 
@@ -462,6 +489,8 @@ function ParentReports() {
   const { apiFetch } = useAuth();
 
   const [activeTab, setActiveTab] = useState<ParentTab>('overview');
+  // Persisted "last seen at" timestamps per tab (ms since epoch, 0 = never)
+  const [tabSeenAt, setTabSeenAt] = useState<Record<string, number>>({});
   const [showAllQuizzes, setShowAllQuizzes] = useState(false);
   const [showAllClassrooms, setShowAllClassrooms] = useState(false);
   const [historySeenAt, setHistorySeenAt] = useState<number | null>(null);
@@ -558,11 +587,39 @@ function ParentReports() {
     }
   }, [historyStorageKey]);
 
-  // Notification dot counts per tab
+  // Load persisted tab-seen timestamps whenever the active student changes
+  useEffect(() => {
+    if (!activeStudent?.id) { setTabSeenAt({}); return; }
+    const tabs: ParentTab[] = ['quizzes', 'assignments', 'classroom', 'activity'];
+    Promise.all(
+      tabs.map((k) =>
+        AsyncStorage.getItem(`parent_tab_seen2:${activeStudent.id}:${k}`)
+          .then((v) => [k, v ? Number(v) : 0] as [string, number])
+          .catch(() => [k, 0] as [string, number]),
+      ),
+    ).then((entries) => setTabSeenAt(Object.fromEntries(entries)));
+  }, [activeStudent?.id]);
+
+  const markTabSeen = useCallback(async (tabKey: ParentTab) => {
+    if (!activeStudent?.id) return;
+    const now = Date.now();
+    setTabSeenAt((prev) => ({ ...prev, [tabKey]: now }));
+    try {
+      await AsyncStorage.setItem(`parent_tab_seen2:${activeStudent.id}:${tabKey}`, String(now));
+    } catch { /* silent */ }
+  }, [activeStudent?.id]);
+
+  // Notification dots — only show for activity that arrived AFTER last visit to that tab
   const recentQuizCount = useMemo(() => {
-    const threshold = Date.now() - 7 * 24 * 60 * 60 * 1000;
-    return quizAttempts.filter((a) => a.attemptedAt && new Date(a.attemptedAt).getTime() > threshold).length;
-  }, [quizAttempts]);
+    const seenTs = tabSeenAt['quizzes'] ?? 0;
+    return quizAttempts.filter((a) => a.attemptedAt && new Date(a.attemptedAt).getTime() > seenTs).length;
+  }, [quizAttempts, tabSeenAt]);
+
+  const newPendingCount = useMemo(() => {
+    const seenTs = tabSeenAt['assignments'] ?? 0;
+    // show dot for assignments that appeared (approximated by load time) after last visit
+    return seenTs === 0 ? pendingAssignments.length : 0;
+  }, [pendingAssignments, tabSeenAt]);
 
   const classroomCards = activeClassrooms.length > 0
     ? activeClassrooms
@@ -617,7 +674,7 @@ function ParentReports() {
                 const isActive = child.id === activeStudent?.id;
                 const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
                 return (
-                  <Pressable key={child.id} onPress={() => switchToStudent(child.id)}
+                  <Pressable key={child.id} onPress={() => { switchToStudent(child.id); setActiveTab('overview'); }}
                     style={[pr.childChip, isActive ? { backgroundColor: cc } : { backgroundColor: '#fff', borderWidth: 1.5, borderColor: cc }]}>
                     <View style={[pr.childChipAvatar, { backgroundColor: isActive ? 'rgba(255,255,255,0.2)' : cc + '22' }]}>
                       <User size={14} color={isActive ? '#fff' : cc} />
@@ -642,11 +699,17 @@ function ParentReports() {
                 const isCurrent = activeTab === tab.key;
                 const dotCount =
                   tab.key === 'quizzes'     ? recentQuizCount
-                  : tab.key === 'assignments' ? pendingAssignments.length
+                  : tab.key === 'assignments' ? newPendingCount
                   : tab.key === 'classroom'   ? newEndedCount
                   : 0;
                 return (
-                  <Pressable key={tab.key} onPress={() => setActiveTab(tab.key)}
+                  <Pressable key={tab.key}
+                    onPress={() => {
+                      setActiveTab(tab.key);
+                      markTabSeen(tab.key);
+                      // classroom tab also updates historySeenAt
+                      if (tab.key === 'classroom') openHistoryModal();
+                    }}
                     style={[pr.tabBtn, isCurrent && pr.tabBtnActive]}>
                     <View style={pr.tabBtnIconWrap}>
                       <tab.Icon size={16} color={isCurrent ? '#4A90E2' : '#9A9AB0'} />
@@ -1179,42 +1242,154 @@ function ParentReports() {
                 })()}
                 <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
                   {quizDetail.questions.map((q, i) => {
-                    const options = (q.questionData.options ?? []) as Array<{ id: string; label?: string; is_correct?: boolean }>;
-                    const selectedId = q.responseData.selected_id;
+                    const qType   = q.questionType;
+                    const isMemory = qType === 'memory_match';
+                    const isFill   = qType === 'fill_blank' || qType === 'fill_in_blank';
+                    const options  = (q.questionData.options ?? []) as Array<{ id: string; label?: string; is_correct?: boolean }>;
+                    const selectedId  = q.responseData.selected_id;
                     const selectedIds = Array.isArray(q.responseData.selected_ids) ? q.responseData.selected_ids as string[] : [];
                     const selectedAny = selectedId ?? selectedIds[0];
-                    const selectedLabel = options.find((o) => o.id === selectedAny)?.label ?? selectedAny ?? '—';
-                    const correctOption = options.find((o) => o.is_correct);
-                    const correctLabel = correctOption?.label ?? correctOption?.id ?? '—';
-                    const bannerBg = q.isCorrect ? '#E8F5E9' : '#FFF3F0';
+                    const bannerBg    = q.isCorrect ? '#E8F5E9' : '#FFF3F0';
                     const bannerColor = q.isCorrect ? '#2E7D32' : '#C62828';
+                    const bannerLabel = isMemory
+                      ? `${q.responseData.pairsMatched ?? 0}/${q.responseData.totalPairs ?? 0} pairs`
+                      : q.isCorrect ? '✓ Correct' : '✗ Wrong';
+
                     return (
                       <View key={q.questionId} style={pr.detailQuestionCard}>
-                        {/* Colored top banner */}
+                        {/* Banner */}
                         <View style={[pr.detailQuestionBanner, { backgroundColor: bannerBg }]}>
                           <Text style={{ fontSize: 13, fontWeight: '800', color: bannerColor, opacity: 0.7 }}>
                             Question {i + 1}
+                            {isMemory ? '  ·  Memory Match' : isFill ? '  ·  Fill in the Blank' : ''}
                           </Text>
                           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: q.isCorrect ? '#4CAF50' : '#FF5252', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 }}>
-                            <Text style={{ fontSize: 13, fontWeight: '900', color: '#fff' }}>
-                              {q.isCorrect ? '✓ Correct' : '✗ Wrong'}
-                            </Text>
+                            <Text style={{ fontSize: 12, fontWeight: '900', color: '#fff' }}>{bannerLabel}</Text>
                           </View>
                         </View>
-                        {/* Question body */}
+
                         <View style={pr.detailQuestionInner}>
                           <Text style={pr.detailQTitle}>{q.questionTitle ?? q.questionInstruction ?? `Question ${i + 1}`}</Text>
-                          {q.questionInstruction && q.questionTitle && (
-                            <Text style={{ fontSize: 12, color: '#9A9AB0', fontWeight: '500', marginTop: 2, marginBottom: 4 }}>{q.questionInstruction}</Text>
-                          )}
-                          {options.length > 0 && (
+
+                          {/* ── MEMORY MATCH result board ── */}
+                          {isMemory && (() => {
+                            const rd        = q.responseData;
+                            const allPairs  = (q.questionData.pairs ?? []) as Array<{ id: number; label: string; imageUrl?: string }>;
+                            const matched   = new Set((rd.correctMatches ?? []).map((m: any) => m.pairId as number));
+                            const cols      = allPairs.length <= 2 ? 2 : 3;
+                            // chunk into rows
+                            const boardRows: typeof allPairs[] = [];
+                            for (let i = 0; i < allPairs.length; i += cols) boardRows.push(allPairs.slice(i, i + cols));
+                            return (
+                              <View style={{ marginTop: 12, gap: 12 }}>
+                                {/* Stats chips */}
+                                <View style={gr.chipRow}>
+                                  <View style={[gr.chip, { backgroundColor: '#E8F5E9' }]}>
+                                    <CheckCircle size={13} color="#4CAF50" />
+                                    <Text style={[gr.chipTxt, { color: '#2E7D32' }]}>{rd.pairsMatched ?? 0}/{rd.totalPairs ?? allPairs.length} pairs</Text>
+                                  </View>
+                                  {(rd.clickLimit ?? 0) > 0 && (
+                                    <View style={[gr.chip, { backgroundColor: '#FFF5CC' }]}>
+                                      <Text style={[gr.chipTxt, { color: '#E6A020' }]}>{rd.clicksUsed ?? 0}/{rd.clickLimit} clicks</Text>
+                                    </View>
+                                  )}
+                                  <View style={[gr.chip, { backgroundColor: '#EDE4FF' }]}>
+                                    <Text style={[gr.chipTxt, { color: '#7B4FCA' }]}>{rd.accuracy ?? 0}% acc</Text>
+                                  </View>
+                                  {(rd.wrongAttempts ?? 0) > 0 && (
+                                    <View style={[gr.chip, { backgroundColor: '#FFF3F0' }]}>
+                                      <Text style={[gr.chipTxt, { color: '#C62828' }]}>{rd.wrongAttempts} wrong</Text>
+                                    </View>
+                                  )}
+                                </View>
+
+                                {/* Accuracy progress bar */}
+                                {(() => {
+                                  const acc = rd.accuracy ?? 0;
+                                  const barColor = acc >= 80 ? '#4CAF50' : acc >= 50 ? '#E6A020' : '#FF5252';
+                                  return (
+                                    <View style={{ gap: 4 }}>
+                                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <Text style={{ fontSize: 11, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' }}>Accuracy</Text>
+                                        <Text style={{ fontSize: 11, fontWeight: '800', color: barColor }}>{acc}%</Text>
+                                      </View>
+                                      <View style={{ height: 8, backgroundColor: '#F0F0F5', borderRadius: 4, overflow: 'hidden' }}>
+                                        <View style={{ height: 8, width: `${acc}%` as any, backgroundColor: barColor, borderRadius: 4 }} />
+                                      </View>
+                                    </View>
+                                  );
+                                })()}
+
+                                {/* Board grid — flex rows, each card flex:1 to fill width */}
+                                <Text style={gr.boardLabel}>Board Result</Text>
+                                <View style={{ gap: 8 }}>
+                                  {boardRows.map((row, rIdx) => (
+                                    <View key={rIdx} style={{ flexDirection: 'row', gap: 8 }}>
+                                      {row.map((pair) => {
+                                        const isOk   = matched.has(pair.id);
+                                        const imgUrl = pair.imageUrl ? `${API_BASE_URL}${pair.imageUrl}` : undefined;
+                                        return (
+                                          <View key={pair.id} style={[gr.boardCard, { flex: 1, backgroundColor: isOk ? '#E8F5E9' : '#FFF3F0', borderColor: isOk ? '#4CAF50' : '#FF7043' }]}>
+                                            {imgUrl ? (
+                                              <Image source={{ uri: imgUrl }} style={gr.boardImg} resizeMode="contain" />
+                                            ) : (
+                                              <Text style={{ fontSize: 24 }}>?</Text>
+                                            )}
+                                            <Text style={[gr.boardCardLabel, { color: isOk ? '#2E7D32' : '#C62828' }]} numberOfLines={1}>{pair.label}</Text>
+                                            <View style={[gr.boardBadge, { backgroundColor: isOk ? '#4CAF50' : '#FF5252' }]}>
+                                              <Text style={gr.boardBadgeText}>{isOk ? '✓' : '✗'}</Text>
+                                            </View>
+                                          </View>
+                                        );
+                                      })}
+                                      {row.length < cols && Array.from({ length: cols - row.length }).map((_, fi) => (
+                                        <View key={`fill-${fi}`} style={{ flex: 1 }} />
+                                      ))}
+                                    </View>
+                                  ))}
+                                </View>
+                              </View>
+                            );
+                          })()}
+
+                          {/* ── FILL IN THE BLANK result ── */}
+                          {isFill && (() => {
+                            const sentence = q.questionData.sentence as string ?? '';
+                            const correct  = q.questionData.answer as string ?? q.responseData.answer ?? '';
+                            const chosen   = q.responseData.selected ?? '—';
+                            const isOk     = (chosen as string).toLowerCase() === (correct as string).toLowerCase();
+                            const parts    = sentence.split('___');
+                            return (
+                              <View style={{ marginTop: 12, gap: 10 }}>
+                                {/* Sentence with filled blank */}
+                                <View style={[gr.sentenceBox, { borderColor: isOk ? '#4CAF50' : '#FF7043' }]}>
+                                  <Text style={gr.sentenceText}>
+                                    <Text>{parts[0]}</Text>
+                                    <Text style={[gr.blankFilled, { color: isOk ? '#2E7D32' : '#C62828', backgroundColor: isOk ? '#E8F5E9' : '#FFF3F0' }]}>
+                                      {' '}{chosen}{' '}
+                                    </Text>
+                                    <Text>{parts[1] ?? ''}</Text>
+                                  </Text>
+                                </View>
+                                {!isOk && (
+                                  <View style={[gr.sentenceBox, { borderColor: '#4CAF50', backgroundColor: '#F0FFF4' }]}>
+                                    <Text style={[gr.sentenceText, { color: '#9A9AB0', fontSize: 11 }]}>Correct answer:</Text>
+                                    <Text style={[gr.sentenceText, { color: '#2E7D32', fontWeight: '800' }]}>
+                                      {parts[0]}<Text style={{ backgroundColor: '#D6F5D6', color: '#2E7D32' }}> {correct} </Text>{parts[1] ?? ''}
+                                    </Text>
+                                  </View>
+                                )}
+                              </View>
+                            );
+                          })()}
+
+                          {/* ── STANDARD options (choice-based) ── */}
+                          {!isMemory && !isFill && options.length > 0 && (
                             <View style={{ gap: 8, marginTop: 12 }}>
                               {options.map((o) => {
                                 const isSelected = o.id === selectedAny || selectedIds.includes(o.id);
                                 const isCor = o.is_correct === true;
-                                let optBg = '#F8F9FC';
-                                let optBorder = '#EAECF0';
-                                let optTextColor = '#374151';
+                                let optBg = '#F8F9FC', optBorder = '#EAECF0', optTextColor = '#374151';
                                 let iconEl: string | null = null;
                                 if (isCor && isSelected) { optBg = '#E8F5E9'; optBorder = '#4CAF50'; optTextColor = '#1B5E20'; iconEl = '✓'; }
                                 else if (isCor) { optBg = '#E8F5E9'; optBorder = '#4CAF50'; optTextColor = '#1B5E20'; iconEl = '✓'; }
@@ -1230,14 +1405,6 @@ function ParentReports() {
                                   </View>
                                 );
                               })}
-                            </View>
-                          )}
-                          {!q.isCorrect && options.length > 0 && (
-                            <View style={[pr.detailAnswerRow, { marginTop: 12 }]}>
-                              <Text style={pr.detailAnswerLabel}>You answered: </Text>
-                              <Text style={[pr.detailAnswerVal, { color: '#FF5252' }]}>{selectedLabel}</Text>
-                              <Text style={[pr.detailAnswerLabel, { marginLeft: 10 }]}>Correct: </Text>
-                              <Text style={[pr.detailAnswerVal, { color: '#4CAF50' }]}>{correctLabel}</Text>
                             </View>
                           )}
                         </View>
@@ -1269,6 +1436,37 @@ export default function ReportsScreen() {
   const [overview, setOverview]       = useState<TeacherOverview | null>(null);
   const [period, setPeriod]           = useState<Period>('day');
   const [activeSubject, setActiveSubject] = useState<SubjectDetail | null>(null);
+  const [classActivity, setClassActivity] = useState<ClassActivityStudent[]>([]);
+  const [expandedStudent, setExpandedStudent] = useState<string | null>(null);
+  const [teacherQuizDetail, setTeacherQuizDetail] = useState<QuizAttemptDetail | null>(null);
+  const [loadingTeacherDetail, setLoadingTeacherDetail] = useState(false);
+  const [seenStudentAttempts, setSeenStudentAttempts] = useState<Set<string>>(new Set());
+
+  // Load persisted seen attempts for this teacher on mount
+  useEffect(() => {
+    AsyncStorage.getItem('teacher_seen_attempts')
+      .then((val) => { if (val) setSeenStudentAttempts(new Set(JSON.parse(val) as string[])); })
+      .catch(() => {});
+  }, []);
+
+  const markAttemptSeen = async (attemptId: string) => {
+    setSeenStudentAttempts((prev) => {
+      const next = new Set(prev);
+      next.add(attemptId);
+      AsyncStorage.setItem('teacher_seen_attempts', JSON.stringify([...next])).catch(() => {});
+      return next;
+    });
+  };
+
+  const openTeacherDetail = async (studentId: string, attemptId: string) => {
+    setLoadingTeacherDetail(true);
+    setTeacherQuizDetail(null);
+    markAttemptSeen(attemptId);
+    try {
+      const res = await apiFetch(`/students/${studentId}/quiz-attempts/${attemptId}`);
+      if (res.ok) setTeacherQuizDetail(await res.json());
+    } catch { /* silent */ } finally { setLoadingTeacherDetail(false); }
+  };
 
   const role = user?.activeRole ?? 'student';
   const isTeacherView = role === 'teacher' || role === 'admin' || role === 'superadmin';
@@ -1278,9 +1476,16 @@ export default function ReportsScreen() {
     setLoading(true); setError('');
     try {
       if (isTeacherView) {
-        const res = await apiFetch('/quizzes/teacher/overview');
-        if (!res.ok) throw new Error('Failed to load teacher reports');
-        setOverview(await res.json());
+        const [overviewRes, activityRes] = await Promise.all([
+          apiFetch('/quizzes/teacher/overview'),
+          apiFetch('/quizzes/teacher/class-activity?limit=200'),
+        ]);
+        if (!overviewRes.ok) throw new Error('Failed to load teacher reports');
+        setOverview(await overviewRes.json());
+        if (activityRes.ok) {
+          const d = await activityRes.json();
+          setClassActivity((d.students ?? []) as ClassActivityStudent[]);
+        }
       } else {
         // Both student and parent use classroom data for now
         const res = await apiFetch('/classrooms/student');
@@ -1346,6 +1551,7 @@ export default function ReportsScreen() {
   // ── TEACHER VIEW ───────────────────────────────────────────────────────────
   if (isTeacherView) {
     return (
+      <>
       <ScrollView style={s.screen} contentContainerStyle={s.scroll}>
         <View style={[s.topBar, { paddingTop: Platform.OS === 'ios' ? 2 : 8 }]}>
           <View>
@@ -1406,9 +1612,248 @@ export default function ReportsScreen() {
                 })
               ) : <Text style={s.emptyText}>No topic gap data yet.</Text>}
             </View>
+
+            {/* ── Student Activity ──────────────────────────────────────── */}
+            <Text style={s.secTitle}>Student Activity</Text>
+            {classActivity.length === 0 ? (
+              <View style={s.card}><Text style={s.emptyText}>No student attempts yet.</Text></View>
+            ) : (
+              <View style={{ gap: 10, marginHorizontal: 16, marginBottom: 8 }}>
+                {classActivity.map((student) => {
+                  const latest   = student.attempts[0];
+                  const totalAtt = student.attempts.length;
+                  const avgPct   = totalAtt > 0 ? Math.round(student.attempts.reduce((a, b) => a + b.scorePct, 0) / totalAtt) : 0;
+                  const isNew      = latest && !seenStudentAttempts.has(latest.attemptId) && (Date.now() - new Date(latest.completedAt).getTime()) < 24 * 60 * 60 * 1000;
+                  const isExpanded = expandedStudent === student.studentId;
+                  return (
+                    <View key={student.studentId} style={gr.studentCard}>
+                      <Pressable onPress={() => {
+                          setExpandedStudent(isExpanded ? null : student.studentId);
+                          if (!isExpanded && latest) markAttemptSeen(latest.attemptId);
+                        }}>
+                        <View style={gr.studentRow}>
+                          <View style={gr.studentAvatar}>
+                            <Text style={{ fontSize: 16, fontWeight: '900', color: '#7B4FCA' }}>
+                              {student.firstName[0]}{student.lastName[0]}
+                            </Text>
+                          </View>
+                          <View style={{ flex: 1 }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                              <Text style={gr.studentName}>{student.firstName} {student.lastName}</Text>
+                              {isNew && <View style={gr.newBadge}><Text style={gr.newBadgeText}>New</Text></View>}
+                            </View>
+                            <Text style={gr.studentMeta}>
+                              {getStandardLabel(student.classLevel ?? '')} · {totalAtt} attempt{totalAtt !== 1 ? 's' : ''} · avg {avgPct}%
+                            </Text>
+                          </View>
+                          <View style={[gr.pctBadge, { backgroundColor: avgPct >= 70 ? '#D6F5D6' : avgPct >= 40 ? '#FFF5CC' : '#FFE8D6' }]}>
+                            <Text style={[gr.pctText, { color: avgPct >= 70 ? '#2E7D32' : avgPct >= 40 ? '#E6A020' : '#C62828' }]}>{avgPct}%</Text>
+                          </View>
+                        </View>
+                        {/* Latest attempt preview */}
+                        {latest && (
+                          <View style={gr.attemptRow}>
+                            <Text style={gr.attemptTitle} numberOfLines={1}>{latest.quizTitle}</Text>
+                            <Text style={{ fontSize: 11, color: '#9A9AB0', fontWeight: '600' }}>
+                              {latest.correctCount}/{latest.totalQuestions} · {latest.scorePct}%
+                            </Text>
+                          </View>
+                        )}
+                        {/* Game metrics chip row */}
+                        {latest?.gameMetrics && (
+                          <View style={gr.gameTag}>
+                            <View style={gr.gameTagItem}><Text style={gr.gameTagText}>Memory Match</Text></View>
+                            <View style={[gr.gameTagItem, { backgroundColor: '#D6F5D6' }]}>
+                              <Text style={[gr.gameTagText, { color: '#2E7D32' }]}>{latest.gameMetrics.pairsMatched}/{latest.gameMetrics.totalPairs} pairs</Text>
+                            </View>
+                            {latest.gameMetrics.clickLimit > 0 && (
+                              <View style={[gr.gameTagItem, { backgroundColor: '#FFF5CC' }]}>
+                                <Text style={[gr.gameTagText, { color: '#E6A020' }]}>{latest.gameMetrics.clicksUsed}/{latest.gameMetrics.clickLimit} clicks</Text>
+                              </View>
+                            )}
+                            <View style={[gr.gameTagItem, { backgroundColor: '#EDE4FF' }]}>
+                              <Text style={gr.gameTagText}>{latest.gameMetrics.accuracy}% acc</Text>
+                            </View>
+                          </View>
+                        )}
+                      </Pressable>
+                      {/* Expanded: show all attempts — tap to see detail */}
+                      {isExpanded && student.attempts.slice(0, 8).map((att) => (
+                        <Pressable key={att.attemptId} style={[gr.attemptRow, { paddingLeft: 8 }]}
+                          onPress={() => openTeacherDetail(student.studentId, att.attemptId)}>
+                          <View style={{ flex: 1 }}>
+                            <Text style={gr.attemptTitle} numberOfLines={1}>{att.quizTitle}</Text>
+                            {att.gameMetrics ? (
+                              <View style={gr.gameTag}>
+                                <Text style={[gr.gameTagText, { color: '#7B4FCA' }]}>
+                                  {att.gameMetrics.pairsMatched}/{att.gameMetrics.totalPairs} pairs
+                                  {att.gameMetrics.clickLimit > 0 ? ` · ${att.gameMetrics.clicksUsed}/${att.gameMetrics.clickLimit} clicks` : ''}
+                                  {' · '}{att.gameMetrics.accuracy}% acc
+                                </Text>
+                              </View>
+                            ) : (
+                              <Text style={{ fontSize: 10, color: '#9A9AB0', fontWeight: '600' }}>Tap to view detail</Text>
+                            )}
+                          </View>
+                          <View style={[gr.pctBadge, { backgroundColor: att.scorePct >= 70 ? '#D6F5D6' : att.scorePct >= 40 ? '#FFF5CC' : '#FFE8D6' }]}>
+                            <Text style={[gr.pctText, { color: att.scorePct >= 70 ? '#2E7D32' : att.scorePct >= 40 ? '#E6A020' : '#C62828' }]}>{att.correctCount}/{att.totalQuestions}</Text>
+                          </View>
+                        </Pressable>
+                      ))}
+                    </View>
+                  );
+                })}
+              </View>
+            )}
           </>
         )}
       </ScrollView>
+
+      {/* ── Teacher quiz detail modal (same board UI as parent) ── */}
+      <Modal visible={!!teacherQuizDetail || loadingTeacherDetail} animationType="slide" transparent
+        onRequestClose={() => setTeacherQuizDetail(null)}>
+        <View style={pr.modalOverlay}>
+          <View style={pr.modalSheet}>
+            {loadingTeacherDetail ? (
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 60 }}>
+                <ActivityIndicator size="large" color="#4A90E2" />
+                <Text style={{ marginTop: 12, color: '#9A9AB0', fontWeight: '600' }}>Loading…</Text>
+              </View>
+            ) : teacherQuizDetail ? (
+              <>
+                <View style={pr.modalHeader}>
+                  <View style={{ flex: 1, paddingRight: 12 }}>
+                    <Text style={pr.modalTitle} numberOfLines={2}>{teacherQuizDetail.attempt.quizTitle}</Text>
+                    <Text style={pr.modalSub}>{teacherQuizDetail.attempt.correctCount}/{teacherQuizDetail.attempt.totalQuestions} correct · {teacherQuizDetail.attempt.scorePct}%</Text>
+                  </View>
+                  <Pressable style={pr.modalClose} onPress={() => setTeacherQuizDetail(null)}>
+                    <X size={18} color="#9A9AB0" />
+                  </Pressable>
+                </View>
+                <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
+                  {teacherQuizDetail.questions.map((q, i) => {
+                    const qType    = q.questionType;
+                    const isMemory = qType === 'memory_match';
+                    const isFill   = qType === 'fill_blank' || qType === 'fill_in_blank';
+                    const options  = (q.questionData.options ?? []) as Array<{ id: string; label?: string; is_correct?: boolean }>;
+                    const selectedId  = q.responseData.selected_id;
+                    const selectedIds = Array.isArray(q.responseData.selected_ids) ? q.responseData.selected_ids as string[] : [];
+                    const selectedAny = selectedId ?? selectedIds[0];
+                    const bannerBg    = q.isCorrect ? '#E8F5E9' : '#FFF3F0';
+                    const bannerColor = q.isCorrect ? '#2E7D32' : '#C62828';
+                    const bannerLabel = isMemory
+                      ? `${q.responseData.pairsMatched ?? 0}/${q.responseData.totalPairs ?? 0} pairs`
+                      : q.isCorrect ? '✓ Correct' : '✗ Wrong';
+                    return (
+                      <View key={q.questionId} style={pr.detailQuestionCard}>
+                        <View style={[pr.detailQuestionBanner, { backgroundColor: bannerBg }]}>
+                          <Text style={{ fontSize: 13, fontWeight: '800', color: bannerColor, opacity: 0.7 }}>
+                            Q{i + 1}{isMemory ? ' · Memory Match' : isFill ? ' · Fill Blank' : ''}
+                          </Text>
+                          <View style={{ backgroundColor: q.isCorrect ? '#4CAF50' : '#FF5252', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 }}>
+                            <Text style={{ fontSize: 12, fontWeight: '900', color: '#fff' }}>{bannerLabel}</Text>
+                          </View>
+                        </View>
+                        <View style={pr.detailQuestionInner}>
+                          <Text style={pr.detailQTitle}>{q.questionTitle ?? q.questionInstruction ?? `Question ${i + 1}`}</Text>
+                          {isMemory && (() => {
+                            const rd       = q.responseData;
+                            const allPairs = (q.questionData.pairs ?? []) as Array<{ id: number; label: string; imageUrl?: string }>;
+                            const matchedSet = new Set((rd.correctMatches ?? []).map((m: any) => m.pairId as number));
+                            const cols = allPairs.length <= 2 ? 2 : 3;
+                            const boardRows2: typeof allPairs[] = [];
+                            for (let j = 0; j < allPairs.length; j += cols) boardRows2.push(allPairs.slice(j, j + cols));
+                            return (
+                              <View style={{ marginTop: 12, gap: 10 }}>
+                                <View style={gr.chipRow}>
+                                  <View style={[gr.chip, { backgroundColor: '#E8F5E9' }]}><CheckCircle size={13} color="#4CAF50" /><Text style={[gr.chipTxt, { color: '#2E7D32' }]}>{rd.pairsMatched ?? 0}/{rd.totalPairs ?? allPairs.length} pairs</Text></View>
+                                  {(rd.clickLimit ?? 0) > 0 && <View style={[gr.chip, { backgroundColor: '#FFF5CC' }]}><Text style={[gr.chipTxt, { color: '#E6A020' }]}>{rd.clicksUsed}/{rd.clickLimit} clicks</Text></View>}
+                                  <View style={[gr.chip, { backgroundColor: '#EDE4FF' }]}><Text style={[gr.chipTxt, { color: '#7B4FCA' }]}>{rd.accuracy ?? 0}% acc</Text></View>
+                                  {(rd.wrongAttempts ?? 0) > 0 && <View style={[gr.chip, { backgroundColor: '#FFF3F0' }]}><Text style={[gr.chipTxt, { color: '#C62828' }]}>{rd.wrongAttempts} wrong</Text></View>}
+                                </View>
+                                {/* Accuracy progress bar */}
+                                {(() => {
+                                  const acc = rd.accuracy ?? 0;
+                                  const barColor = acc >= 80 ? '#4CAF50' : acc >= 50 ? '#E6A020' : '#FF5252';
+                                  return (
+                                    <View style={{ gap: 4 }}>
+                                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <Text style={{ fontSize: 11, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' }}>Accuracy</Text>
+                                        <Text style={{ fontSize: 11, fontWeight: '800', color: barColor }}>{acc}%</Text>
+                                      </View>
+                                      <View style={{ height: 8, backgroundColor: '#F0F0F5', borderRadius: 4, overflow: 'hidden' }}>
+                                        <View style={{ height: 8, width: `${acc}%` as any, backgroundColor: barColor, borderRadius: 4 }} />
+                                      </View>
+                                    </View>
+                                  );
+                                })()}
+
+                                <Text style={gr.boardLabel}>Board Result</Text>
+                                <View style={{ gap: 8 }}>
+                                  {boardRows2.map((row, rIdx) => (
+                                    <View key={rIdx} style={{ flexDirection: 'row', gap: 8 }}>
+                                      {row.map((pair) => {
+                                        const isOk   = matchedSet.has(pair.id);
+                                        const imgUrl = pair.imageUrl ? `${API_BASE_URL}${pair.imageUrl}` : undefined;
+                                        return (
+                                          <View key={pair.id} style={[gr.boardCard, { flex: 1, backgroundColor: isOk ? '#E8F5E9' : '#FFF3F0', borderColor: isOk ? '#4CAF50' : '#FF7043' }]}>
+                                            {imgUrl ? <Image source={{ uri: imgUrl }} style={gr.boardImg} resizeMode="contain" /> : <Text style={{ fontSize: 22 }}>?</Text>}
+                                            <Text style={[gr.boardCardLabel, { color: isOk ? '#2E7D32' : '#C62828' }]} numberOfLines={1}>{pair.label}</Text>
+                                            <View style={[gr.boardBadge, { backgroundColor: isOk ? '#4CAF50' : '#FF5252' }]}><Text style={gr.boardBadgeText}>{isOk ? '✓' : '✗'}</Text></View>
+                                          </View>
+                                        );
+                                      })}
+                                      {row.length < cols && Array.from({ length: cols - row.length }).map((_, fi) => <View key={fi} style={{ flex: 1 }} />)}
+                                    </View>
+                                  ))}
+                                </View>
+                              </View>
+                            );
+                          })()}
+                          {isFill && (() => {
+                            const sentence = q.questionData.sentence as string ?? '';
+                            const correct  = q.questionData.answer as string ?? q.responseData.answer ?? '';
+                            const chosen   = q.responseData.selected ?? '—';
+                            const isOk     = (chosen as string).toLowerCase() === (correct as string).toLowerCase();
+                            const parts    = sentence.split('___');
+                            return (
+                              <View style={{ marginTop: 12, gap: 10 }}>
+                                <View style={[gr.sentenceBox, { borderColor: isOk ? '#4CAF50' : '#FF7043' }]}>
+                                  <Text style={gr.sentenceText}><Text>{parts[0]}</Text><Text style={[gr.blankFilled, { color: isOk ? '#2E7D32' : '#C62828', backgroundColor: isOk ? '#E8F5E9' : '#FFF3F0' }]}> {chosen as string} </Text><Text>{parts[1] ?? ''}</Text></Text>
+                                </View>
+                                {!isOk && <View style={[gr.sentenceBox, { borderColor: '#4CAF50' }]}><Text style={[gr.sentenceText, { color: '#2E7D32', fontWeight: '800' }]}>{parts[0]}<Text style={{ backgroundColor: '#D6F5D6' }}> {correct as string} </Text>{parts[1] ?? ''}</Text></View>}
+                              </View>
+                            );
+                          })()}
+                          {!isMemory && !isFill && options.length > 0 && (
+                            <View style={{ gap: 8, marginTop: 12 }}>
+                              {options.map((o) => {
+                                const isSel = o.id === selectedAny || selectedIds.includes(o.id);
+                                const isCor = o.is_correct === true;
+                                let bg = '#F8F9FC', border = '#EAECF0', txtC = '#374151', icon: string | null = null;
+                                if (isCor && isSel) { bg='#E8F5E9'; border='#4CAF50'; txtC='#1B5E20'; icon='✓'; }
+                                else if (isCor)     { bg='#E8F5E9'; border='#4CAF50'; txtC='#1B5E20'; icon='✓'; }
+                                else if (isSel)     { bg='#FFF3F0'; border='#FF5252'; txtC='#B71C1C'; icon='✗'; }
+                                return (
+                                  <View key={o.id} style={[pr.detailOption, { backgroundColor: bg, borderColor: border }]}>
+                                    <Text style={[pr.detailOptionText, { color: txtC }]}>{o.label ?? o.id}</Text>
+                                    {icon && <View style={{ width: 24, height: 24, borderRadius: 12, backgroundColor: isCor ? '#4CAF50' : '#FF5252', alignItems: 'center', justifyContent: 'center' }}><Text style={{ fontSize: 13, color: '#fff', fontWeight: '900' }}>{icon}</Text></View>}
+                                  </View>
+                                );
+                              })}
+                            </View>
+                          )}
+                        </View>
+                      </View>
+                    );
+                  })}
+                </ScrollView>
+              </>
+            ) : null}
+          </View>
+        </View>
+      </Modal>
+      </>
     );
   }
 
@@ -1788,6 +2233,37 @@ const s = StyleSheet.create({
   emptyBlock: { alignItems: 'center', paddingVertical: 24, paddingHorizontal: 24, gap: 8 },
   emptyTitle: { fontSize: 16, fontWeight: '800', color: '#1a1a2e', textAlign: 'center' },
   emptyBody:  { fontSize: 13, fontWeight: '500', color: '#9A9AB0', textAlign: 'center', lineHeight: 20 },
+});
+
+// ── Game Result UI Styles (shared parent + teacher) ───────────────────────────
+const gr = StyleSheet.create({
+  chip:         { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 20 },
+  chipTxt:      { fontSize: 11, fontWeight: '800' },
+  chipRow:      { flexDirection: 'row', gap: 6, flexWrap: 'wrap' },
+  boardLabel:   { fontSize: 11, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase', letterSpacing: 0.4 },
+  boardCard:    { borderRadius: 12, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, paddingHorizontal: 6, gap: 6 },
+  boardCardLabel: { fontSize: 11, fontWeight: '700', textAlign: 'center' },
+  boardImg:     { width: 48, height: 48 },
+  boardBadge:   { width: 22, height: 22, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  boardBadgeText: { fontSize: 12, fontWeight: '900', color: '#fff' },
+  sentenceBox:  { backgroundColor: '#F8F9FF', borderRadius: 12, borderWidth: 1.5, padding: 14 },
+  sentenceText: { fontSize: 14, color: '#1a1a2e', lineHeight: 22 },
+  blankFilled:  { fontWeight: '900', borderRadius: 6, paddingHorizontal: 4, overflow: 'hidden' },
+  // Teacher student activity
+  studentCard:  { backgroundColor: '#fff', borderRadius: 16, padding: 14, marginBottom: 10, shadowColor: '#9AA0C0', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.08, shadowRadius: 8, elevation: 2 },
+  studentRow:   { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 8 },
+  studentAvatar:{ width: 42, height: 42, borderRadius: 21, backgroundColor: '#EDE4FF', alignItems: 'center', justifyContent: 'center' },
+  studentName:  { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  studentMeta:  { fontSize: 11, color: '#9A9AB0', fontWeight: '600' },
+  attemptRow:   { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 7, borderTopWidth: 1, borderTopColor: '#F5F7FF' },
+  attemptTitle: { flex: 1, fontSize: 12, fontWeight: '700', color: '#1a1a2e' },
+  pctBadge:     { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
+  pctText:      { fontSize: 11, fontWeight: '900' },
+  gameTag:      { flexDirection: 'row', gap: 4, flexWrap: 'wrap', marginTop: 4 },
+  gameTagItem:  { paddingHorizontal: 7, paddingVertical: 2, borderRadius: 99, backgroundColor: '#EDE4FF' },
+  gameTagText:  { fontSize: 9, fontWeight: '800', color: '#7B4FCA' },
+  newBadge:     { paddingHorizontal: 7, paddingVertical: 2, borderRadius: 99, backgroundColor: '#FF5252' },
+  newBadgeText: { fontSize: 9, fontWeight: '900', color: '#fff' },
 });
 
 // ── ParentReports Styles ──────────────────────────────────────────────────────

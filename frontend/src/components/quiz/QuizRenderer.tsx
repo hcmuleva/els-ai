@@ -17,6 +17,8 @@ import DragDropRenderer from './DragDropRenderer';
 import ImageSelectRenderer from './ImageSelectRenderer';
 import ChoiceQuestionRenderer from './ChoiceQuestionRenderer';
 import LogicoQuestionRenderer from './LogicoQuestionRenderer';
+import MemoryMatchRenderer from './MemoryMatchRenderer';
+import FillBlankRenderer from './FillBlankRenderer';
 
 type QuizQuestion = {
   id: string;
@@ -54,6 +56,8 @@ export function normalizeQuestionType(questionType: string): string {
   if (questionType === 'drag_drop') return 'drag_drop_match';
   if (questionType === 'sound_match') return 'guess_audio';
   if (questionType === 'memory_game') return 'multi_choice';
+  if (questionType === 'fill_blank' || questionType === 'fill_in_blank') return 'fill_blank';
+  if (questionType === 'memory_match') return 'memory_match';
   return questionType;
 }
 
@@ -94,6 +98,14 @@ const QUESTION_THEMES: Record<string, QuestionTheme> = {
   logico: {
     bg: '#D6EAFF', cardBg: '#EBF4FF', accent: '#4A90E2',
     textColor: '#2C6BC9', emoji: '🧩', label: 'Align the Logico clips!',
+  },
+  memory_match: {
+    bg: '#EDE4FF', cardBg: '#F3ECFF', accent: '#7B4FCA',
+    textColor: '#4A2E8C', emoji: '🃏', label: 'Match the pairs!',
+  },
+  fill_blank: {
+    bg: '#FFF5CC', cardBg: '#FFFAE5', accent: '#E6A020',
+    textColor: '#7A4A00', emoji: '✍️', label: 'Fill in the blank!',
   },
 };
 
@@ -206,6 +218,11 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
   const isLogicoQuestion = Boolean(
     currentQuestion && normalizeQuestionType(currentQuestion.question_type) === 'logico',
   );
+  const isFullWidthGame = Boolean(
+    currentQuestion && ['memory_match', 'fill_blank'].includes(
+      normalizeQuestionType(currentQuestion.question_type),
+    ),
+  );
   const currentTheme = currentQuestion
     ? getQuestionTheme(currentQuestion.question_type)
     : QUESTION_THEMES['single_choice'];
@@ -220,20 +237,19 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
   const getAnswerSectionLabel = (type: string) => {
     switch (normalizeQuestionType(type)) {
       case 'drag_drop_match': return 'Drag & match';
-      case 'guess_image': return 'Pick the right image';
-      case 'guess_audio': return 'What did you hear?';
-      case 'true_false': return 'Is this true or false?';
-      case 'logico': return 'Place clips in correct slots';
-      default: return 'Choose your answer';
+      case 'guess_image':     return 'Pick the right image';
+      case 'guess_audio':     return 'What did you hear?';
+      case 'true_false':      return 'Is this true or false?';
+      case 'logico':          return 'Place clips in correct slots';
+      case 'memory_match':    return 'Match all the pairs!';
+      case 'fill_blank':      return 'Pick the missing word';
+      default:                return 'Choose your answer';
     }
   };
 
   const handleQuestionComplete = (isCorrect: boolean, responseData: any) => {
     const nextCorrectCount = isCorrect ? correctCount + 1 : correctCount;
-    if (isCorrect) {
-      setCorrectCount(nextCorrectCount);
-    }
-
+    if (isCorrect) setCorrectCount(nextCorrectCount);
 
     const newAttempts = [
       ...attempts,
@@ -241,7 +257,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
         questionId: currentQuestion!.id,
         isCorrect,
         responseData,
-        timeSpentSeconds: 10, // Simulated duration
+        timeSpentSeconds: 10,
       },
     ];
     setAttempts(newAttempts);
@@ -274,8 +290,21 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
 
     // Send attempt report to backend
     try {
-      const score = finalCorrectCount;
-      const totalPoints = totalQuestions * 10;
+      // totalPoints = sum of each question's actual points value
+      const totalPoints = quiz?.questions.reduce((sum, q) => sum + (q.points ?? 10), 0) ?? totalQuestions * 10;
+      const score = finalAttempts.reduce((acc, a) => {
+        const question = quiz?.questions.find((q) => q.id === a.questionId);
+        const qPoints  = question?.points ?? 10;
+        const qType    = normalizeQuestionType(question?.question_type ?? '');
+        if (qType === 'memory_match') {
+          // Partial credit: proportion of pairs matched × question points
+          const paired = a.responseData?.pairsMatched ?? 0;
+          const total  = a.responseData?.totalPairs   ?? 1;
+          return acc + Math.round((paired / total) * qPoints);
+        }
+        // All other types: full points if correct, 0 if wrong
+        return acc + (a.isCorrect ? qPoints : 0);
+      }, 0);
       await apiFetch('/quizzes/attempts', {
         method: 'POST',
         body: JSON.stringify({
@@ -467,7 +496,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
           /* ── QUESTION VIEW ── */
           <>
             <View style={styles.questionView}>
-              {!isLogicoQuestion && (
+              {!isLogicoQuestion && !isFullWidthGame && (
                 <Animated.View
                   style={{ transform: [{ translateY: cardSlideAnim }], opacity: cardOpacityAnim }}
                 >
@@ -527,6 +556,23 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
                     )}
                   {currentQuestion && normalizeQuestionType(currentQuestion.question_type) === 'logico' && (
                     <LogicoQuestionRenderer
+                      key={currentQuestion.id}
+                      questionData={currentQuestion.question_data}
+                      onComplete={handleQuestionComplete}
+                      theme={currentTheme}
+                    />
+                  )}
+                  {currentQuestion && normalizeQuestionType(currentQuestion.question_type) === 'memory_match' && (
+                    <MemoryMatchRenderer
+                      key={currentQuestion.id}
+                      questionData={currentQuestion.question_data}
+                      onComplete={handleQuestionComplete}
+                      theme={currentTheme}
+                      apiBase={API_BASE_URL}
+                    />
+                  )}
+                  {currentQuestion && normalizeQuestionType(currentQuestion.question_type) === 'fill_blank' && (
+                    <FillBlankRenderer
                       key={currentQuestion.id}
                       questionData={currentQuestion.question_data}
                       onComplete={handleQuestionComplete}
