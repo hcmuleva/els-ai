@@ -66,9 +66,9 @@ function toggleId(arr: string[], id: string) {
   return arr.includes(id) ? arr.filter((x) => x !== id) : [...arr, id];
 }
 
-const SUBJECT_OPTIONS = ['Hindi Stories', 'English', 'Maths', 'Science', 'Hindi', 'EVS', 'GK', 'Computer'];
 const TOPIC_COLORS    = ['#D6EAFF', '#FFE8D6', '#D6F5D6', '#EDE4FF', '#FFF5CC', '#FFE0F0'];
 const TOPIC_ICON_COLORS = ['#4A90E2', '#E91E8C', '#7DC67A', '#9B8EC4', '#E6A817', '#FF7043'];
+type SubjectCatalogItem = { classLevel: string; title: string; coverImage?: string; iconImage?: string; iconBgColor?: string };
 type LucideIcon = React.ComponentType<{ size?: number; color?: string; fill?: string }>;
 const TOPIC_ICONS: { Icon: LucideIcon; color: string }[] = [
   { Icon: BookOpen,   color: '#4A90E2' },
@@ -375,6 +375,7 @@ type Props = {
   topics: ContentTopic[];
   loading: boolean;
   filters: { classLevel: string; subject: string };
+  subjectCatalog: SubjectCatalogItem[];
   contentItems: ContentItem[];
   apiFetch: ApiFetch;
   onFiltersChange: (f: { classLevel: string; subject: string }) => void;
@@ -387,7 +388,7 @@ type Props = {
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default function TopicsTab({
-  topics, loading, filters, contentItems, apiFetch,
+  topics, loading, filters, subjectCatalog, contentItems, apiFetch,
   onFiltersChange, onApplyFilters, onTopicAction, onRefresh, onUploadCover, message,
 }: Props) {
   // List filter selectors
@@ -428,9 +429,94 @@ export default function TopicsTab({
   // Draft selectors
   const [draftClassOpen, setDraftClassOpen]     = useState(false);
   const [draftSubjectOpen, setDraftSubjectOpen] = useState(false);
+  const [contentPickerClass, setContentPickerClass]     = useState('');
+  const [contentPickerSubject, setContentPickerSubject] = useState('');
 
   const classOptions   = STANDARD_OPTIONS.map((o) => ({ label: o.label, value: o.value }));
-  const subjectOptions = SUBJECT_OPTIONS.map((s) => ({ label: s, value: s }));
+  const subjectOptions = useMemo(() => {
+    const filtered = subjectCatalog.filter((item) => !filters.classLevel || item.classLevel === filters.classLevel);
+    const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
+    filtered.forEach((item) => {
+      const title = item.title.trim();
+      if (!title) return;
+      if (!byTitle.has(title)) {
+        byTitle.set(title, { coverImage: item.coverImage, iconUrl: item.iconImage, iconBgColor: item.iconBgColor });
+      }
+    });
+    if (filters.subject && !byTitle.has(filters.subject)) byTitle.set(filters.subject, {});
+    return Array.from(byTitle.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([title, icon]) => ({
+        label: title,
+        value: title,
+        coverImage: icon.coverImage,
+        iconUrl: icon.iconUrl,
+        iconBgColor: icon.iconBgColor,
+      }));
+  }, [filters.classLevel, filters.subject, subjectCatalog]);
+  const draftSubjectOptions = useMemo(() => {
+    const filtered = subjectCatalog.filter((item) => !classLevel || item.classLevel === classLevel);
+    const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
+    filtered.forEach((item) => {
+      const title = item.title.trim();
+      if (!title) return;
+      if (!byTitle.has(title)) {
+        byTitle.set(title, { coverImage: item.coverImage, iconUrl: item.iconImage, iconBgColor: item.iconBgColor });
+      }
+    });
+    if (subject && !byTitle.has(subject)) byTitle.set(subject, {});
+    return Array.from(byTitle.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([title, icon]) => ({
+        label: title,
+        value: title,
+        coverImage: icon.coverImage,
+        iconUrl: icon.iconUrl,
+        iconBgColor: icon.iconBgColor,
+      }));
+  }, [classLevel, subject, subjectCatalog]);
+  const contentPickerSubjectOptions = useMemo(() => {
+    const filtered = subjectCatalog.filter((item) => !contentPickerClass || item.classLevel === contentPickerClass);
+    const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
+    filtered.forEach((item) => {
+      const title = item.title.trim();
+      if (!title) return;
+      if (!byTitle.has(title)) {
+        byTitle.set(title, { coverImage: item.coverImage, iconUrl: item.iconImage, iconBgColor: item.iconBgColor });
+      }
+    });
+    if (contentPickerSubject && !byTitle.has(contentPickerSubject)) byTitle.set(contentPickerSubject, {});
+    return Array.from(byTitle.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([title, icon]) => ({
+        label: title,
+        value: title,
+        coverImage: icon.coverImage,
+        iconUrl: icon.iconUrl,
+        iconBgColor: icon.iconBgColor,
+      }));
+  }, [contentPickerClass, contentPickerSubject, subjectCatalog]);
+  const quizSubjectOptions = useMemo(() => {
+    const filtered = subjectCatalog.filter((item) => !classLevel || item.classLevel === classLevel);
+    const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
+    filtered.forEach((item) => {
+      const title = item.title.trim();
+      if (!title) return;
+      if (!byTitle.has(title)) {
+        byTitle.set(title, { coverImage: item.coverImage, iconUrl: item.iconImage, iconBgColor: item.iconBgColor });
+      }
+    });
+    if (quizSubjectFilter && !byTitle.has(quizSubjectFilter)) byTitle.set(quizSubjectFilter, {});
+    return Array.from(byTitle.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([title, icon]) => ({
+        label: title,
+        value: title,
+        coverImage: icon.coverImage,
+        iconUrl: icon.iconUrl,
+        iconBgColor: icon.iconBgColor,
+      }));
+  }, [classLevel, quizSubjectFilter, subjectCatalog]);
 
   // Load quiz library when class is selected
   useEffect(() => {
@@ -508,10 +594,6 @@ export default function TopicsTab({
     catch (e) { setToast({ type: 'error', text: 'Image upload failed.' }); }
     finally { setUploadingCover(false); }
   };
-
-  // Content picker has its own class filter (separate from the topic's class)
-  const [contentPickerClass, setContentPickerClass]     = useState('');
-  const [contentPickerSubject, setContentPickerSubject] = useState('');
 
   // Reset picker filters when modal opens
   useEffect(() => {
@@ -626,7 +708,7 @@ export default function TopicsTab({
       </ScrollView>
 
       {/* ── Filter selectors ── */}
-      <SelectorModal visible={classFilterOpen} title="Select Class" options={classOptions} selected={filters.classLevel} anyLabel="All Classes" onSelect={(v) => { onFiltersChange({ ...filters, classLevel: v }); setClassFilterOpen(false); }} onClose={() => setClassFilterOpen(false)} />
+      <SelectorModal visible={classFilterOpen} title="Select Class" options={classOptions} selected={filters.classLevel} anyLabel="All Classes" onSelect={(v) => { onFiltersChange({ classLevel: v, subject: '' }); setClassFilterOpen(false); }} onClose={() => setClassFilterOpen(false)} />
       <SelectorModal visible={subjectFilterOpen} title="Select Subject" options={subjectOptions} selected={filters.subject} anyLabel="All Subjects" isSubject onSelect={(v) => { onFiltersChange({ ...filters, subject: v }); setSubjectFilterOpen(false); }} onClose={() => setSubjectFilterOpen(false)} />
 
       {/* ── Topic Details Modal ── */}
@@ -917,7 +999,7 @@ export default function TopicsTab({
             </View>
           </View>
           <SelectorModal visible={contentClassPickerOpen} title="Filter by Class" options={classOptions} selected={contentPickerClass} anyLabel="All Classes" onSelect={(v) => { setContentPickerClass(v); setContentClassPickerOpen(false); }} onClose={() => setContentClassPickerOpen(false)} />
-          <SelectorModal visible={contentSubjectPickerOpen} title="Filter by Subject" options={subjectOptions} selected={contentPickerSubject} anyLabel="All Subjects" isSubject onSelect={(v) => { setContentPickerSubject(v); setContentSubjectPickerOpen(false); }} onClose={() => setContentSubjectPickerOpen(false)} />
+          <SelectorModal visible={contentSubjectPickerOpen} title="Filter by Subject" options={contentPickerSubjectOptions} selected={contentPickerSubject} anyLabel="All Subjects" isSubject onSelect={(v) => { setContentPickerSubject(v); setContentSubjectPickerOpen(false); }} onClose={() => setContentSubjectPickerOpen(false)} />
         </Modal>
 
         {/* ── Quiz picker (bottom sheet) ── */}
@@ -957,12 +1039,12 @@ export default function TopicsTab({
               </ScrollView>
             </View>
           </View>
-          <SelectorModal visible={quizSubjectOpen} title="Filter by Subject" options={subjectOptions} selected={quizSubjectFilter} anyLabel="All Subjects" isSubject onSelect={(v) => { setQuizSubjectFilter(v); setQuizSubjectOpen(false); }} onClose={() => setQuizSubjectOpen(false)} />
+          <SelectorModal visible={quizSubjectOpen} title="Filter by Subject" options={quizSubjectOptions} selected={quizSubjectFilter} anyLabel="All Subjects" isSubject onSelect={(v) => { setQuizSubjectFilter(v); setQuizSubjectOpen(false); }} onClose={() => setQuizSubjectOpen(false)} />
         </Modal>
 
         {/* Draft selectors */}
-        <SelectorModal visible={draftClassOpen} title="Select Class" options={classOptions} selected={classLevel} onSelect={(v) => { setClassLevel(v); setDraftClassOpen(false); }} onClose={() => setDraftClassOpen(false)} />
-        <SelectorModal visible={draftSubjectOpen} title="Select Subject" options={subjectOptions} selected={subject} isSubject onSelect={(v) => { setSubject(v); setDraftSubjectOpen(false); }} onClose={() => setDraftSubjectOpen(false)} />
+        <SelectorModal visible={draftClassOpen} title="Select Class" options={classOptions} selected={classLevel} onSelect={(v) => { setClassLevel(v); setSubject(''); setDraftClassOpen(false); }} onClose={() => setDraftClassOpen(false)} />
+        <SelectorModal visible={draftSubjectOpen} title="Select Subject" options={draftSubjectOptions} selected={subject} isSubject onSelect={(v) => { setSubject(v); setDraftSubjectOpen(false); }} onClose={() => setDraftSubjectOpen(false)} />
       </Modal>
     </View>
   );

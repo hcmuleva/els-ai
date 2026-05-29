@@ -11,8 +11,8 @@ config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '../../..');
-const MEDIA_DIR = process.env.LOCAL_MEDIA_DIR || path.join(ROOT_DIR, 'audio-images');
-const ASSETS_DIR = process.env.LOCAL_ASSETS_DIR || path.join(ROOT_DIR, 'assets');
+// All static media (audio, images, icons, flags, …) now lives under assets/.
+const MEDIA_DIR = process.env.LOCAL_MEDIA_DIR || path.join(ROOT_DIR, 'assets');
 
 const PORT = process.env.PORT || 4000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -37,7 +37,6 @@ const app = express();
 app.use(cors());
 
 app.use('/media', express.static(MEDIA_DIR));
-app.use('/media', express.static(ASSETS_DIR));
 
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', service: 'gateway' });

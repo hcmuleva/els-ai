@@ -120,7 +120,7 @@ contentRouter.get('/subjects', requireAuth, async (req, res) => {
         whereClauses.push(`class_level = $${params.length}`);
     }
     try {
-        const result = await db.query(`SELECT id, title, class_level, cover_image
+        const result = await db.query(`SELECT id, title, class_level, cover_image, icon_image, icon_bg_color
        FROM subjects
        WHERE ${whereClauses.join(' AND ')}
        ORDER BY class_level ASC, title ASC`, params);
@@ -129,6 +129,8 @@ contentRouter.get('/subjects', requireAuth, async (req, res) => {
             title: row.title,
             classLevel: row.class_level,
             coverImage: row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image) : undefined,
+            iconImage: row.icon_image ? await getSignedMediaUrlIfNeeded(row.icon_image) : undefined,
+            iconBgColor: row.icon_bg_color || undefined,
         })));
         return res.json({ subjects: rows });
     }

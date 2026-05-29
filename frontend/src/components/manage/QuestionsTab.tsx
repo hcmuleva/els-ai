@@ -4,9 +4,9 @@
  * - Filter chips + type chips on separate rows, both horizontally scrollable
  * - Full-screen QuestionDetailsModal
  */
-import { useState, useRef, useEffect } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import {
-  ActivityIndicator, Image, Modal, Platform, Pressable,
+  ActivityIndicator, Dimensions, Image, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
 import {
@@ -16,6 +16,7 @@ import {
 } from 'lucide-react-native';
 import { Audio } from 'expo-av';
 import SelectorModal from '../SelectorModal';
+import JigsawRenderer from '../quiz/JigsawRenderer';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
 import { API_BASE_URL } from '../../context/AuthContext';
@@ -79,9 +80,13 @@ const QTYPE_CONFIG: Record<string, QtypeCfg> = {
   single_choice:   { Icon: Layers,              label: 'Single Choice', color: '#FF7043', bg: '#FFE8D6' },
   multi_choice:    { Icon: ListChecks,          label: 'Multi Choice',  color: '#E91E8C', bg: '#FFE0F0' },
   logico:          { Icon: ListChecks,          label: 'Logico',        color: '#0f766e', bg: '#DCFCE7' },
+  memory_match:    { Icon: Layers,              label: 'Memory Match',  color: '#7C3AED', bg: '#EDE9FE' },
+  fill_blank:      { Icon: ClipboardList,       label: 'Fill in Blank', color: '#0284C7', bg: '#E0F2FE' },
+  jigsaw:          { Icon: Layers,              label: 'Jigsaw Puzzle', color: '#0EA5E9', bg: '#E0F2FE' },
 };
 function qtypeCfg(t: string): QtypeCfg {
-  return QTYPE_CONFIG[t] ?? { Icon: HelpCircle, label: t || 'Question', color: '#9A9AB0', bg: '#F4F4FB' };
+  const normalized = t === 'jigsaw_puzzle' ? 'jigsaw' : t;
+  return QTYPE_CONFIG[normalized] ?? { Icon: HelpCircle, label: normalized || 'Question', color: '#9A9AB0', bg: '#F4F4FB' };
 }
 
 const PAGE_SIZE = 10;
@@ -89,7 +94,7 @@ const PAGE_SIZE = 10;
 
 
 const CARD_COLORS = ['#D6EAFF', '#FFE8D6', '#D6F5D6', '#EDE4FF', '#FFF5CC', '#FFE0F0'];
-const SUBJECT_OPTIONS = ['Hindi Stories', 'English', 'Maths', 'Science', 'Hindi', 'EVS', 'GK', 'Computer'];
+type SubjectCatalogItem = { classLevel: string; title: string; coverImage?: string; iconImage?: string; iconBgColor?: string };
 
 
 
@@ -194,10 +199,11 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
   onEdit: (q: QuestionFull) => void;
 }) {
   if (!question) return null;
-  const cfg  = qtypeCfg(question.question_type);
+  const questionType = question.question_type === 'jigsaw_puzzle' ? 'jigsaw' : question.question_type;
+  const cfg  = qtypeCfg(questionType);
   const data = question.question_data as Record<string, unknown> | null | undefined;
 
-  const promptImage = (data as any)?.prompt_image || '';
+  const promptImage = (data as any)?.prompt_image || (data as any)?.image || '';
   const promptAudio = (data as any)?.prompt_audio || question.question_audio || '';
   const options: any[] = (data as any)?.options ?? [];
   const optionSlots: any[] = Array.isArray((data as any)?.option_slots) ? (data as any).option_slots : [];
@@ -254,8 +260,22 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
               <Text style={q.statLabel}>Time</Text>
             </View>
             <View style={q.statCard}>
-              <Text style={q.statVal}>{options.length || dragItems.length || '–'}</Text>
-              <Text style={q.statLabel}>Options</Text>
+              <Text style={q.statVal}>
+                {questionType === 'memory_match'
+                  ? (((data as any)?.pairs ?? []) as any[]).length || '–'
+                  : questionType === 'jigsaw'
+                    ? (() => {
+                        const grid = String((data as any)?.gridSize || '3x3');
+                        const size = Number(grid.split('x')[0] || 3);
+                        return Number.isFinite(size) ? size * size : 9;
+                      })()
+                    : (questionType === 'fill_blank' || questionType === 'fill_in_blank')
+                    ? (((data as any)?.options ?? []) as string[]).length || '–'
+                    : options.length || dragItems.length || '–'}
+              </Text>
+              <Text style={q.statLabel}>
+                {questionType === 'memory_match' ? 'Pairs' : questionType === 'jigsaw' ? 'Pieces' : 'Options'}
+              </Text>
             </View>
           </View>
 
@@ -284,7 +304,7 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
             </View>
           ) : null}
 
-          {question.question_type === 'logico' && (
+          {questionType === 'logico' && (
             <View style={q.detailSection}>
               <Text style={q.detailSectionTitle}>Logico Mapping</Text>
               {Array.from({ length: 10 }, (_, index) => {
@@ -308,8 +328,149 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
             </View>
           )}
 
-          {/* Options */}
-          {options.length > 0 && (
+          {/* Memory Match */}
+          {questionType === 'memory_match' && (() => {
+            const GRID_COLS_MAP: Record<string, number> = { '2x2': 2, '4x4': 4, '6x6': 6 };
+            const GRID_PAIR_MAP: Record<string, number> = { '2x2': 2, '4x4': 4, '6x6': 6 };
+            const grid   = ((data as any)?.grid as string) || '4x4';
+            const pairs: any[] = (data as any)?.pairs ?? [];
+            const cols   = GRID_COLS_MAP[grid] ?? 4;
+            const needed = GRID_PAIR_MAP[grid] ?? 4;
+            const allCards = [...pairs, ...pairs].slice(0, needed * 2);
+            const previewW = Dimensions.get('window').width - 64;
+            const GAP = 6;
+            const pvCardW = Math.floor((previewW - GAP * (cols - 1)) / cols);
+            const rows: any[][] = [];
+            for (let i = 0; i < allCards.length; i += cols) rows.push(allCards.slice(i, i + cols));
+            return (
+              <View style={q.detailSection}>
+                <View style={{ padding: 14, backgroundColor: '#fff', borderRadius: 16, borderWidth: 1, borderColor: '#EEF0F8' }}>
+                  <Text style={{ fontSize: 11, fontWeight: '700', color: '#9A9AB0', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    Board Preview — {pairs.length}/{needed} pairs · {needed * 2} cards
+                  </Text>
+                  <View style={{ alignItems: 'center' }}>
+                    <View style={{ width: previewW, gap: GAP }}>
+                      {rows.map((row, rIdx) => (
+                        <View key={rIdx} style={{ flexDirection: 'row', gap: GAP, justifyContent: 'center' }}>
+                          {row.map((card: any, cIdx: number) => {
+                            const imgUrl = card?.imageUrl ? resolveUrl(card.imageUrl) : undefined;
+                            return (
+                              <View key={cIdx} style={[mmDet.pairCard, { width: pvCardW, backgroundColor: '#4A90E2', borderColor: '#3A7BD5', paddingVertical: 6 }]}>
+                                {imgUrl ? (
+                                  <Image source={{ uri: imgUrl }} style={{ width: pvCardW * 0.55, height: pvCardW * 0.55 }} resizeMode="contain" />
+                                ) : (
+                                  <Text style={{ fontSize: 9, color: '#fff', fontWeight: '700', textAlign: 'center' }}>?</Text>
+                                )}
+                                <Text style={{ fontSize: 8, color: '#fff', fontWeight: '700', textAlign: 'center' }} numberOfLines={1}>{card?.label ?? '?'}</Text>
+                              </View>
+                            );
+                          })}
+                        </View>
+                      ))}
+                    </View>
+                  </View>
+                  {pairs.length < needed && (
+                    <Text style={{ fontSize: 11, color: '#F97316', fontWeight: '700', textAlign: 'center', marginTop: 8 }}>
+                      {needed - pairs.length} more pair{needed - pairs.length > 1 ? 's' : ''} needed
+                    </Text>
+                  )}
+                  {pairs.length === 0 && (
+                    <Text style={{ color: '#9A9AB0', fontStyle: 'italic', textAlign: 'center', paddingVertical: 12 }}>No pairs defined</Text>
+                  )}
+                </View>
+              </View>
+            );
+          })()}
+
+          {/* Fill in the Blank */}
+          {(questionType === 'fill_blank' || questionType === 'fill_in_blank') && (() => {
+            const sentence: string = (data as any)?.sentence ?? '';
+            const answer: string   = (data as any)?.answer   ?? '';
+            const hint: string     = (data as any)?.hint     ?? '';
+            const fbOpts           = ((data as any)?.options ?? []) as string[];
+            const parts = sentence.split('___');
+            return (
+              <>
+                <View style={q.detailSection}>
+                  <Text style={q.detailSectionTitle}>Sentence</Text>
+                  <View style={{ backgroundColor: '#F0F7FF', borderRadius: 14, padding: 16, borderWidth: 1, borderColor: '#C5D8F8' }}>
+                    {sentence ? (
+                      <Text style={{ fontSize: 17, fontWeight: '600', color: '#1a1a2e', textAlign: 'center', lineHeight: 28 }}>
+                        <Text>{parts[0] ?? ''}</Text>
+                        <Text style={{ fontWeight: '900', color: '#2E7D32', borderBottomWidth: 2, borderBottomColor: '#4CAF50' }}>
+                          {' '}{answer || '___'}{' '}
+                        </Text>
+                        <Text>{parts[1] ?? ''}</Text>
+                      </Text>
+                    ) : (
+                      <Text style={{ color: '#9A9AB0', textAlign: 'center', fontStyle: 'italic' }}>No sentence defined</Text>
+                    )}
+                    {hint ? (
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 10, alignSelf: 'center', backgroundColor: '#FFF8E1', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 5 }}>
+                        <Text style={{ fontSize: 12 }}>💡</Text>
+                        <Text style={{ fontSize: 12, fontWeight: '600', color: '#E6A020' }}>Hint: "{hint}"</Text>
+                      </View>
+                    ) : null}
+                  </View>
+                </View>
+
+                {fbOpts.length > 0 && (
+                  <View style={q.detailSection}>
+                    <Text style={q.detailSectionTitle}>Answer Options</Text>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                      {fbOpts.map((opt, i) => {
+                        const isCorrect = answer && opt.toLowerCase() === answer.toLowerCase();
+                        return (
+                          <View key={i} style={{
+                            flexDirection: 'row', alignItems: 'center', gap: 6,
+                            paddingHorizontal: 14, paddingVertical: 10, borderRadius: 12,
+                            borderWidth: isCorrect ? 2 : 1.5,
+                            borderColor: isCorrect ? '#4CAF50' : '#D0D4E8',
+                            backgroundColor: isCorrect ? '#E8F5E9' : '#F4F6FF',
+                          }}>
+                            <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: isCorrect ? '#4CAF50' : '#C0C8D8' }} />
+                            <Text style={{ fontSize: 14, fontWeight: isCorrect ? '800' : '600', color: isCorrect ? '#2E7D32' : '#3A3A5A' }}>{opt}</Text>
+                            {isCorrect && <Check size={13} color="#4CAF50" strokeWidth={3} />}
+                          </View>
+                        );
+                      })}
+                    </View>
+                  </View>
+                )}
+              </>
+            );
+          })()}
+
+          {questionType === 'jigsaw' && (
+            <View style={q.detailSection}>
+              <Text style={q.detailSectionTitle}>Jigsaw Preview</Text>
+              <View style={q.jigsawMetaRow}>
+                <View style={q.jigsawMetaChip}>
+                  <Text style={q.jigsawMetaChipText}>Grid {(data as any)?.gridSize || '3x3'}</Text>
+                </View>
+                <View style={q.jigsawMetaChip}>
+                  <Text style={q.jigsawMetaChipText}>Difficulty {String((data as any)?.difficulty || 'medium')}</Text>
+                </View>
+                <View style={q.jigsawMetaChip}>
+                  <Text style={q.jigsawMetaChipText}>
+                    {Number((data as any)?.clickLimit || 0) > 0 ? `${Number((data as any)?.clickLimit)} moves` : 'Unlimited'}
+                  </Text>
+                </View>
+              </View>
+              <View style={q.jigsawCard}>
+                <JigsawRenderer
+                  questionData={data as any}
+                  onComplete={() => {}}
+                  theme={{ bg: '#E0F2FE', cardBg: '#F0F9FF', accent: '#0EA5E9', textColor: '#0C4A6E', emoji: '🧩', label: 'Rebuild the image!' }}
+                  autoStart
+                  showControls={false}
+                />
+              </View>
+            </View>
+          )}
+
+          {/* Options (MCQ / guess-image etc — not fill_blank) */}
+          {options.length > 0 && questionType !== 'fill_blank' && questionType !== 'fill_in_blank' && questionType !== 'jigsaw' && (
             <View style={q.detailSection}>
               <Text style={q.detailSectionTitle}>Options</Text>
               {options.map((opt: any, idx: number) => {
@@ -366,7 +527,7 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
           )}
 
           {/* True/False answer — only shown when options are absent (older format) */}
-          {question.question_type === 'true_false' && options.length === 0 ? (
+          {questionType === 'true_false' && options.length === 0 ? (
             <View style={q.detailSection}>
               <Text style={q.detailSectionTitle}>Correct Answer</Text>
               <View style={{ flexDirection: 'row', gap: 10 }}>
@@ -453,6 +614,7 @@ type Props = {
   loading: boolean;
   deletingQuestionId: string | null;
   filters: Filters;
+  subjectCatalog: SubjectCatalogItem[];
   apiFetch: ApiFetch;
   onFiltersChange: (patch: Partial<Filters>) => void;
   onApplyFilters: () => void;
@@ -463,7 +625,7 @@ type Props = {
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default function QuestionsTab({
-  questions, loading, deletingQuestionId, filters, apiFetch,
+  questions, loading, deletingQuestionId, filters, subjectCatalog, apiFetch,
   onFiltersChange, onApplyFilters, onOpenCreate, onQuestionAction, message,
 }: Props) {
   const [classOpen, setClassOpen]         = useState(false);
@@ -491,7 +653,27 @@ export default function QuestionsTab({
   };
 
   const classOptions   = STANDARD_OPTIONS.map((o) => ({ label: o.label, value: o.value }));
-  const subjectOptions = SUBJECT_OPTIONS.map((s) => ({ label: s, value: s }));
+  const subjectOptions = useMemo(() => {
+    const filtered = subjectCatalog.filter((item) => !filters.classLevel || item.classLevel === filters.classLevel);
+    const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
+    filtered.forEach((item) => {
+      const title = item.title.trim();
+      if (!title) return;
+      if (!byTitle.has(title)) {
+        byTitle.set(title, { coverImage: item.coverImage, iconUrl: item.iconImage, iconBgColor: item.iconBgColor });
+      }
+    });
+    if (filters.subject && !byTitle.has(filters.subject)) byTitle.set(filters.subject, {});
+    return Array.from(byTitle.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([title, icon]) => ({
+        label: title,
+        value: title,
+        coverImage: icon.coverImage,
+        iconUrl: icon.iconUrl,
+        iconBgColor: icon.iconBgColor,
+      }));
+  }, [filters.classLevel, filters.subject, subjectCatalog]);
 
   const hasFilters = !!(filters.classLevel || filters.subject || filters.category);
 
@@ -656,7 +838,7 @@ export default function QuestionsTab({
       })()}
 
       {/* Selector modals */}
-      <SelectorModal visible={classOpen}   title="Select Class"   options={classOptions}   selected={filters.classLevel} isSubject={false} anyLabel="All Classes"   onSelect={(v) => { onFiltersChange({ classLevel: v }); setPage(0); }} onClose={() => setClassOpen(false)} />
+      <SelectorModal visible={classOpen}   title="Select Class"   options={classOptions}   selected={filters.classLevel} isSubject={false} anyLabel="All Classes"   onSelect={(v) => { onFiltersChange({ classLevel: v, subject: '' }); setPage(0); }} onClose={() => setClassOpen(false)} />
       <SelectorModal visible={subjectOpen} title="Select Subject" options={subjectOptions} selected={filters.subject}     isSubject={true}  anyLabel="All Subjects" onSelect={(v) => { onFiltersChange({ subject: v }); setPage(0); }}   onClose={() => setSubjectOpen(false)} />
 
       {/* Fetching details overlay */}
@@ -786,6 +968,10 @@ const q = StyleSheet.create({
 
 
   previewImage: { width: '100%', height: 200, borderRadius: 14, backgroundColor: '#F0F0F8' },
+  jigsawCard: { backgroundColor: '#fff', borderRadius: 14, borderWidth: 1, borderColor: '#E2E8F0', overflow: 'hidden' },
+  jigsawMetaRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 10 },
+  jigsawMetaChip: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5, backgroundColor: '#E0F2FE' },
+  jigsawMetaChipText: { fontSize: 11, fontWeight: '700', color: '#0369A1' },
 
   optionRow:        { flexDirection: 'row', alignItems: 'flex-start', gap: 12, backgroundColor: '#fff', borderRadius: 14, padding: 14, marginBottom: 8, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
   optionRowCorrect: { borderWidth: 2, borderColor: '#7DC67A', backgroundColor: '#F2FDF2' },
@@ -809,4 +995,8 @@ const q = StyleSheet.create({
   pairTextMuted:{ fontSize: 13, color: '#9A9AB0', textAlign: 'center' },
   pairThumb:    { width: '100%', height: 80, borderRadius: 8 },
   pairArrowWrap:{ width: 28, alignItems: 'center' },
+});
+
+const mmDet = StyleSheet.create({
+  pairCard: { backgroundColor: '#F8F9FF', borderRadius: 12, borderWidth: 1.5, borderColor: '#E2E8FF', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 4, gap: 5 },
 });

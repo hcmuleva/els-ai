@@ -19,7 +19,7 @@ els-ai/
 │   └── ai-service/
 ├── frontend/                  # mobile/web React Native app surface
 ├── agents/
-├── audio-images/
+├── assets/                    # static media served at /media (audio, images, icons, flags)
 ├── scripts/
 └── docs/
 ```
@@ -37,7 +37,7 @@ els-ai/
 - `/users/*` -> auth-service
 - `/quizzes/*` -> quiz-service
 - `/ai/*` -> ai-service
-- `/media/*` -> static media from `audio-images/`
+- `/media/*` -> static media from `assets/`
 
 ### 3.3 Request Flow
 1. Client calls gateway endpoint.

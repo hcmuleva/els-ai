@@ -126,6 +126,7 @@ type StudentProfileContextType = {
   classroomRemarks: { active: ClassroomRemarkItem[]; completed: ClassroomRemarkItem[] };
   switchToStudent: (studentId: string) => void;
   refreshAll: () => void;
+  refreshQuizAttempts: () => void;
   logActivity: (payload: {
     activityType: 'content' | 'quiz' | 'assignment';
     referenceId?: string;
@@ -357,6 +358,7 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
         classroomRemarks,
         switchToStudent,
         refreshAll,
+        refreshQuizAttempts: () => { if (activeStudentId) fetchQuizAttempts(activeStudentId); },
         logActivity,
       }}
     >

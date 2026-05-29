@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useFocusEffect, useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   ActivityIndicator,
+  Dimensions,
   Image,
   Modal,
   Platform,
@@ -14,7 +16,7 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-import { FolderOpen, Video, HelpCircle, BookOpen as BookOpenIcon, Trophy as TrophyIcon, ListChecks, SplitSquareHorizontal, Eye as EyeIcon, Volume2, CheckSquare, Image as ImageIcon } from 'lucide-react-native';
+import { FolderOpen, Video, HelpCircle, BookOpen as BookOpenIcon, Trophy as TrophyIcon, ListChecks, SplitSquareHorizontal, Eye as EyeIcon, Volume2, CheckSquare, Image as ImageIcon, BookOpenCheck as StoriesIcon } from 'lucide-react-native';
 import SelectorModal from '../../src/components/SelectorModal';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
@@ -22,7 +24,11 @@ import { AudioManager } from '../../src/utils/audio';
 import TopicsTab from '../../src/components/manage/TopicsTab';
 import ContentTab from '../../src/components/manage/ContentTab';
 import QuestionsTab from '../../src/components/manage/QuestionsTab';
+import JigsawRenderer from '../../src/components/quiz/JigsawRenderer';
+import QuizRenderer from '../../src/components/quiz/QuizRenderer';
 import { frameButtons } from '../modules/logicopiccolo/generated/buttons';
+import { MEMORY_ASSETS, GRID_PAIR_COUNTS, GRID_COLS, pickRandomAssets, type MemoryAsset } from '../../src/data/memoryAssets';
+import { LinearGradient } from 'expo-linear-gradient';
 
 type QuestionItem = {
   id: string;
@@ -42,7 +48,7 @@ type QuestionItem = {
   created_at: string;
 };
 
-type QuestionEditorMode = 'choice' | 'drag_drop' | 'logico' | 'custom';
+type QuestionEditorMode = 'choice' | 'drag_drop' | 'logico' | 'memory_match' | 'fill_blank' | 'jigsaw' | 'custom';
 
 type SupportedQuestionType =
   | 'guess_image'
@@ -51,7 +57,10 @@ type SupportedQuestionType =
   | 'true_false'
   | 'single_choice'
   | 'multi_choice'
-  | 'logico';
+  | 'logico'
+  | 'memory_match'
+  | 'fill_blank'
+  | 'jigsaw';
 
 type OptionDraft = {
   id: string;
@@ -105,7 +114,7 @@ type MediaRemovalRequest =
 
 type OptionRemovalRequest = { mode: 'create' | 'edit'; index: number };
 type SelectorField = 'classLevel' | 'subject' | 'filterClassLevel' | 'filterSubject';
-type LearningTab = 'topic' | 'content' | 'question' | 'exam' | 'quiz';
+type LearningTab = 'topic' | 'content' | 'question' | 'exam' | 'quiz' | 'stories';
 type ContentModeTab = 'create' | 'assign';
 type ContentSelectorField =
   | 'contentFilterClassLevel'
@@ -122,6 +131,8 @@ type SubjectCatalogItem = {
   title: string;
   classLevel: string;
   coverImage?: string;
+  iconImage?: string;
+  iconBgColor?: string;
 };
 
 type ContentTopic = {
@@ -240,6 +251,21 @@ const QUESTION_TYPE_CHOICES: Array<{ value: SupportedQuestionType; label: string
     label: 'Logico',
     description: 'Upload a worksheet image and map each Logico button to slot positions 1 to 10.',
   },
+  {
+    value: 'memory_match',
+    label: 'Memory Match',
+    description: 'Card flip matching game — students pair up matching cards on a grid.',
+  },
+  {
+    value: 'fill_blank',
+    label: 'Fill in the Blank',
+    description: 'Students complete a sentence by selecting the missing word from options.',
+  },
+  {
+    value: 'jigsaw',
+    label: 'Jigsaw Puzzle',
+    description: 'Students drag and rearrange puzzle pieces of an uploaded image.',
+  },
 ];
 
 const QUESTION_TYPE_LABELS: Record<string, string> = {
@@ -250,6 +276,9 @@ const QUESTION_TYPE_LABELS: Record<string, string> = {
   single_choice: 'Single Choice',
   multi_choice: 'Multi Choice',
   logico: 'Logico',
+  memory_match: 'Memory Match',
+  fill_blank: 'Fill in the Blank',
+  jigsaw: 'Jigsaw Puzzle',
   image_select: 'Guess the Image',
   drag_drop: 'Drag & Drop Match',
   sound_match: 'Guess the Audio',
@@ -264,6 +293,9 @@ const QUESTION_TYPE_DEFAULT_INSTRUCTIONS: Record<SupportedQuestionType, string> 
   single_choice: 'Choose one correct option.',
   multi_choice: 'Select all correct options before submitting your answer.',
   logico: 'Match each Logico button with the correct option position from top to bottom.',
+  memory_match: 'Tap cards to find all matching pairs before time runs out.',
+  fill_blank: 'Read the sentence carefully and choose the correct missing word.',
+  jigsaw: 'Drag and rearrange pieces until the full image is complete.',
 };
 
 const toSlug = (value: string) =>
@@ -295,6 +327,9 @@ const getDefaultInstructionByType = (questionType: string): string => {
 const isSupportedQuestionType = (value: unknown): value is SupportedQuestionType =>
   value === 'guess_image' ||
   value === 'drag_drop_match' ||
+  value === 'memory_match' ||
+  value === 'fill_blank' ||
+  value === 'jigsaw' ||
   value === 'guess_audio' ||
   value === 'true_false' ||
   value === 'single_choice' ||
@@ -305,6 +340,9 @@ const getQuestionEditorMode = (questionType: string): QuestionEditorMode => {
   const normalized = normalizeQuestionType(questionType);
   if (normalized === 'logico') return 'logico';
   if (normalized === 'drag_drop_match') return 'drag_drop';
+  if (normalized === 'memory_match') return 'memory_match';
+  if (normalized === 'fill_blank') return 'fill_blank';
+  if (normalized === 'jigsaw') return 'jigsaw';
   if (
     normalized === 'guess_image' ||
     normalized === 'guess_audio' ||
@@ -492,8 +530,8 @@ function questionDataToLogicoOptions(questionData: unknown): OptionDraft[] {
   const buttonSlotMap: Record<string, number> =
     buttonSlotMapRaw && typeof buttonSlotMapRaw === 'object' && !Array.isArray(buttonSlotMapRaw)
       ? Object.fromEntries(
-          Object.entries(buttonSlotMapRaw).map(([buttonId, slot]) => [buttonId, Number(slot)]).filter(([, slot]) => Number.isInteger(slot)),
-        )
+        Object.entries(buttonSlotMapRaw).map(([buttonId, slot]) => [buttonId, Number(slot)]).filter(([, slot]) => Number.isInteger(slot)),
+      )
       : {};
 
   const optionSlotLabelById = new Map<number, string>();
@@ -615,7 +653,8 @@ function questionDataPromptImage(questionData: unknown): string {
     return '';
   }
 
-  const promptImage = (questionData as Record<string, unknown>).prompt_image;
+  const payload = questionData as Record<string, unknown>;
+  const promptImage = payload.prompt_image ?? payload.image;
   return typeof promptImage === 'string' ? promptImage : '';
 }
 
@@ -623,7 +662,8 @@ function questionDataPromptImageAssetId(questionData: unknown): string {
   if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
     return '';
   }
-  const promptImageAssetId = (questionData as Record<string, unknown>).prompt_image_asset_id;
+  const payload = questionData as Record<string, unknown>;
+  const promptImageAssetId = payload.prompt_image_asset_id ?? payload.image_asset_id;
   return typeof promptImageAssetId === 'string' ? promptImageAssetId : '';
 }
 
@@ -853,6 +893,50 @@ function draftToPayload(draft: QuestionDraft) {
       drop_targets: dropTargets,
       match_rules: matchRules,
     };
+  } else if (mode === 'memory_match') {
+    const pairs = (draft.rawQuestionData as any)?.pairs;
+    if (!Array.isArray(pairs) || pairs.length === 0) {
+      throw new Error('Add at least one pair for Memory Match.');
+    }
+    const rawClickLimit = (draft.rawQuestionData as any)?.clickLimit ?? 0;
+    questionData = {
+      grid: (draft.rawQuestionData as any)?.grid ?? '4x4',
+      pairs,
+      ...(rawClickLimit > 0 ? { clickLimit: rawClickLimit } : {}),
+    };
+  } else if (mode === 'fill_blank') {
+    const sentence = ((draft.rawQuestionData as any)?.sentence ?? '').trim();
+    const answer = ((draft.rawQuestionData as any)?.answer ?? '').trim();
+    const opts = ((draft.rawQuestionData as any)?.options ?? []) as string[];
+    if (!sentence) throw new Error('Sentence is required for Fill in the Blank.');
+    if (!sentence.includes('___')) throw new Error('Sentence must include ___ to mark the blank.');
+    if (!answer) throw new Error('Correct answer is required.');
+    if (opts.length < 2) throw new Error('Add at least 2 answer options.');
+    if (!opts.some((o) => o.toLowerCase() === answer.toLowerCase())) {
+      throw new Error('The correct answer must be one of the options.');
+    }
+    questionData = {
+      sentence,
+      answer,
+      hint: ((draft.rawQuestionData as any)?.hint ?? '').trim() || undefined,
+      options: opts.filter(Boolean),
+    };
+  } else if (mode === 'jigsaw') {
+    if (!mainImage) {
+      throw new Error('Add puzzle image for Jigsaw questions.');
+    }
+    const rawGridSize = String((draft.rawQuestionData as any)?.gridSize ?? '3x3');
+    const gridSize = ['2x2', '3x3', '4x4', '5x5'].includes(rawGridSize) ? rawGridSize : '3x3';
+    const rawDifficulty = String((draft.rawQuestionData as any)?.difficulty ?? 'medium');
+    const difficulty = ['easy', 'medium', 'hard'].includes(rawDifficulty) ? rawDifficulty : 'medium';
+    const rawClickLimit = Number((draft.rawQuestionData as any)?.clickLimit ?? 0);
+    questionData = {
+      image: mainImage,
+      ...(mainImageAssetId ? { image_asset_id: mainImageAssetId } : {}),
+      gridSize,
+      difficulty,
+      ...(Number.isFinite(rawClickLimit) && rawClickLimit > 0 ? { clickLimit: rawClickLimit } : {}),
+    };
   } else {
     questionData = draft.rawQuestionData ?? {};
   }
@@ -860,9 +944,9 @@ function draftToPayload(draft: QuestionDraft) {
   if (questionData && typeof questionData === 'object' && !Array.isArray(questionData)) {
     const rawMeta =
       draft.rawQuestionData &&
-      typeof draft.rawQuestionData === 'object' &&
-      !Array.isArray(draft.rawQuestionData) &&
-      '_meta' in (draft.rawQuestionData as Record<string, unknown>)
+        typeof draft.rawQuestionData === 'object' &&
+        !Array.isArray(draft.rawQuestionData) &&
+        '_meta' in (draft.rawQuestionData as Record<string, unknown>)
         ? (draft.rawQuestionData as Record<string, unknown>)._meta
         : undefined;
     const existingMeta =
@@ -919,10 +1003,10 @@ function SafeImage({ uri, style, resizeMode = 'contain' }: { uri: string; style?
     );
   }
   return (
-    <Image 
-      source={{ uri }} 
-      style={style} 
-      resizeMode={resizeMode} 
+    <Image
+      source={{ uri }}
+      style={style}
+      resizeMode={resizeMode}
       onError={() => setError(true)}
     />
   );
@@ -1029,6 +1113,17 @@ export default function QuestionManagementScreen() {
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [selectorField, setSelectorField] = useState<SelectorField | null>(null);
   const [activeLearningTab, setActiveLearningTab] = useState<LearningTab>('topic');
+
+  // Persist and restore the active learning tab
+  useEffect(() => {
+    AsyncStorage.getItem('manage_active_tab').then((v) => {
+      if (v) setActiveLearningTab(v as LearningTab);
+    });
+  }, []);
+  const handleSetActiveLearningTab = useCallback((tab: LearningTab) => {
+    setActiveLearningTab(tab);
+    AsyncStorage.setItem('manage_active_tab', tab);
+  }, []);
   const [contentModeTab, setContentModeTab] = useState<ContentModeTab>('create');
   const [contentSelectorField, setContentSelectorField] = useState<ContentSelectorField | null>(null);
   const [contentFilters, setContentFilters] = useState({ classLevel: '', subject: '' });
@@ -1061,7 +1156,7 @@ export default function QuestionManagementScreen() {
   const [deletingContentId, setDeletingContentId] = useState<string | null>(null);
   const [loadingContentItems, setLoadingContentItems] = useState(false);
   const [contentItems, setContentItems] = useState<LearningContentItem[]>([]);
-  const [topicPage, setTopicPage] =   useState(0);
+  const [topicPage, setTopicPage] = useState(0);
   const [contentPage, setContentPage] = useState(0);
   const [questionPage, setQuestionPage] = useState(0);
   const [topicContentPage, setTopicContentPage] = useState(0);
@@ -1117,12 +1212,36 @@ export default function QuestionManagementScreen() {
   const [previewQuiz, setPreviewQuiz] = useState<QuizItem | null>(null);
   const [questionActionItem, setQuestionActionItem] = useState<QuestionItem | null>(null);
   const [previewQuestion, setPreviewQuestion] = useState<QuestionItem | null>(null);
+  const [studentPreviewQuizId, setStudentPreviewQuizId] = useState<string | null>(null);
+  // Asset picker for memory match creator
+  const [assetPickerOpen, setAssetPickerOpen] = useState(false);
+  const [assetPickerTarget, setAssetPickerTarget] = useState<{ mode: 'create' | 'edit'; pairIdx: number } | null>(null);
   const [filters, setFilters] = useState({
     search: '',
     classLevel: '',
     subject: '',
     category: '',
   });
+
+  // Auto-fill memory match pairs when the Game Config tab is first opened and pairs are empty
+  useEffect(() => {
+    if (questionFormTab !== 'options') return;
+    const initIfEmpty = (m: 'create' | 'edit', d: QuestionDraft) => {
+      if (getQuestionEditorMode(d.questionType) !== 'memory_match') return;
+      const existing = (d.rawQuestionData as any)?.pairs;
+      if (Array.isArray(existing) && existing.length > 0) return;
+      const grid = (d.rawQuestionData as any)?.grid ?? '4x4';
+      const need = GRID_PAIR_COUNTS[grid] ?? 4;
+      const picked = pickRandomAssets(need);
+      updateDraftField(m, 'rawQuestionData', {
+        grid,
+        pairs: picked.map((a, i) => ({ id: i + 1, label: a.label, imageUrl: a.mediaPath })),
+      });
+    };
+    if (isCreateDialogOpen) initIfEmpty('create', createDraft);
+    if (editingQuestionId) initIfEmpty('edit', editDraft);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [questionFormTab, isCreateDialogOpen, editingQuestionId]);
 
   const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
   const classOptions = useMemo(() => STANDARD_OPTIONS.map((item) => item.value), []);
@@ -1804,13 +1923,21 @@ export default function QuestionManagementScreen() {
       ...current,
       questionType,
       questionInstruction: getDefaultInstructionByType(questionType),
-      mainImage: questionType === 'guess_image' || questionType === 'logico' ? current.mainImage : '',
-      mainImageLabel: questionType === 'guess_image' || questionType === 'logico' ? current.mainImageLabel : '',
-      mainImageAssetId: questionType === 'guess_image' || questionType === 'logico' ? current.mainImageAssetId : '',
+      mainImage: questionType === 'guess_image' || questionType === 'logico' || questionType === 'jigsaw' ? current.mainImage : '',
+      mainImageLabel: questionType === 'guess_image' || questionType === 'logico' || questionType === 'jigsaw' ? current.mainImageLabel : '',
+      mainImageAssetId: questionType === 'guess_image' || questionType === 'logico' || questionType === 'jigsaw' ? current.mainImageAssetId : '',
       mainAudio: questionType === 'guess_audio' ? current.mainAudio : '',
       mainAudioLabel: questionType === 'guess_audio' ? current.mainAudioLabel : '',
       mainAudioAssetId: questionType === 'guess_audio' ? current.mainAudioAssetId : '',
       options: makeDefaultOptionsByType(questionType),
+      rawQuestionData:
+        questionType === 'jigsaw'
+          ? {
+              gridSize: '3x3',
+              difficulty: 'medium',
+              clickLimit: 20,
+            }
+          : {},
     }));
   };
 
@@ -2080,6 +2207,19 @@ export default function QuestionManagementScreen() {
   };
 
   const openEditDialog = (question: QuestionItem & { question_data?: unknown }) => {
+    const rawMeta =
+      question.question_data &&
+      typeof question.question_data === 'object' &&
+      !Array.isArray(question.question_data) &&
+      '_meta' in (question.question_data as Record<string, unknown>)
+        ? (question.question_data as Record<string, unknown>)._meta
+        : undefined;
+    const meta =
+      rawMeta && typeof rawMeta === 'object' && !Array.isArray(rawMeta)
+        ? (rawMeta as Record<string, unknown>)
+        : {};
+    const resolvedClassLevel = typeof meta.classLevel === 'string' && meta.classLevel.trim() ? meta.classLevel.trim() : (question.class_level || '');
+    const resolvedSubject = typeof meta.subject === 'string' && meta.subject.trim() ? meta.subject.trim() : (question.subject || '');
     const resolvedMainImage = questionDataPromptImage(question.question_data ?? {});
     const resolvedMainImageAssetId = questionDataPromptImageAssetId(question.question_data ?? {});
     const resolvedMainAudio = question.question_audio || questionDataPromptAudio(question.question_data ?? {});
@@ -2095,8 +2235,8 @@ export default function QuestionManagementScreen() {
         : parsedOptions;
     setEditingQuestionId(question.id);
     setEditDraft({
-      classLevel: question.class_level || '',
-      subject: question.subject || '',
+      classLevel: resolvedClassLevel,
+      subject: resolvedSubject,
       questionTitle: question.question_title || '',
       questionInstruction: question.question_instruction || getDefaultInstructionByType(normalizedType),
       questionType: normalizedType,
@@ -2348,7 +2488,7 @@ export default function QuestionManagementScreen() {
     if (!selectedTopic || selectedTopic.id !== topic.id) {
       await loadTopicDetails(topic.id);
     }
-    setActiveLearningTab('content');
+    handleSetActiveLearningTab('content');
     setContentModeTab('create');
     setCreateTopicSearch(topic.title);
     setContentCreateSections([makeEmptyTopicSection()]);
@@ -2386,25 +2526,25 @@ export default function QuestionManagementScreen() {
       });
       const sections = (payload.sections || []).length
         ? (payload.sections || []).map((section: any) => ({
-            id: buildClientId(),
-            title: section.title || '',
-            contentType: section.contentType,
-            mediaUrl: section.mediaUrl || '',
-            mediaLabel: section.mediaUrl ? extractFileName(section.mediaUrl) : '',
-            externalUrl: section.externalUrl || '',
-            textContent: section.textContent || '',
-          }))
+          id: buildClientId(),
+          title: section.title || '',
+          contentType: section.contentType,
+          mediaUrl: section.mediaUrl || '',
+          mediaLabel: section.mediaUrl ? extractFileName(section.mediaUrl) : '',
+          externalUrl: section.externalUrl || '',
+          textContent: section.textContent || '',
+        }))
         : [
-            {
-              id: buildClientId(),
-              title: '',
-              contentType: (payload.contentType as TopicSectionDraft['contentType']) || 'text',
-              mediaUrl: payload.mediaUrl || '',
-              mediaLabel: payload.mediaUrl ? extractFileName(payload.mediaUrl) : '',
-              externalUrl: payload.externalUrl || '',
-              textContent: payload.textContent || '',
-            },
-          ];
+          {
+            id: buildClientId(),
+            title: '',
+            contentType: (payload.contentType as TopicSectionDraft['contentType']) || 'text',
+            mediaUrl: payload.mediaUrl || '',
+            mediaLabel: payload.mediaUrl ? extractFileName(payload.mediaUrl) : '',
+            externalUrl: payload.externalUrl || '',
+            textContent: payload.textContent || '',
+          },
+        ];
       setContentCreateSections(sections);
       setIsCreateContentDialogOpen(true);
     } catch (error) {
@@ -2448,31 +2588,31 @@ export default function QuestionManagementScreen() {
       : contentSelectorField === 'quizFilterSubject'
         ? quizSubjectOptions
         : contentSelectorField === 'contentFilterClassLevel' ||
-            contentSelectorField === 'topicClassLevel' ||
-            contentSelectorField === 'assignTargetClassLevel'
+          contentSelectorField === 'topicClassLevel' ||
+          contentSelectorField === 'assignTargetClassLevel'
           ? contentClassOptions
           : subjectCatalog
-              .filter((item) => {
-                const classLevelFilter =
-                  contentSelectorField === 'topicSubject'
-                    ? topicDraft.classLevel
-                    : contentSelectorField === 'assignTargetSubject'
-                      ? assignTopicFilters.classLevel
-                      : activeLearningTab === 'content'
-                        ? contentModeTab === 'create'
-                          ? contentCreateMeta.classLevel
-                          : contentItemFilters.classLevel
-                        : contentFilters.classLevel;
-                return !classLevelFilter || item.classLevel === classLevelFilter;
-              })
-              .map((item) => item.title)
-              .filter((value, index, arr) => value && arr.indexOf(value) === index)
-              .sort((a, b) => a.localeCompare(b));
+            .filter((item) => {
+              const classLevelFilter =
+                contentSelectorField === 'topicSubject'
+                  ? topicDraft.classLevel
+                  : contentSelectorField === 'assignTargetSubject'
+                    ? assignTopicFilters.classLevel
+                    : activeLearningTab === 'content'
+                      ? contentModeTab === 'create'
+                        ? contentCreateMeta.classLevel
+                        : contentItemFilters.classLevel
+                      : contentFilters.classLevel;
+              return !classLevelFilter || item.classLevel === classLevelFilter;
+            })
+            .map((item) => item.title)
+            .filter((value, index, arr) => value && arr.indexOf(value) === index)
+            .sort((a, b) => a.localeCompare(b));
   const contentSelectorTitle =
     contentSelectorField === 'contentFilterClassLevel' ||
-    contentSelectorField === 'topicClassLevel' ||
-    contentSelectorField === 'assignTargetClassLevel' ||
-    contentSelectorField === 'quizFilterClassLevel'
+      contentSelectorField === 'topicClassLevel' ||
+      contentSelectorField === 'assignTargetClassLevel' ||
+      contentSelectorField === 'quizFilterClassLevel'
       ? 'Select Standard'
       : 'Select Subject';
   const isContentStandardSelector =
@@ -2502,28 +2642,32 @@ export default function QuestionManagementScreen() {
     };
     const editorMode = getQuestionEditorMode(draft.questionType);
     const isLogicoMode = editorMode === 'logico';
-    const hasOptions = editorMode === 'choice' || isLogicoMode;
-    const hasPairs   = editorMode === 'drag_drop';
-    const tab2Label  = hasPairs ? 'Pairs' : isLogicoMode ? 'Mappings' : 'Options';
+    const isMemoryMatchMode = editorMode === 'memory_match';
+    const isFillBlankMode = editorMode === 'fill_blank';
+    const isJigsawMode = editorMode === 'jigsaw';
+    const isGameMode = isMemoryMatchMode || isFillBlankMode || isJigsawMode;
+    const hasOptions = (editorMode === 'choice' || isLogicoMode) && !isGameMode;
+    const hasPairs = editorMode === 'drag_drop';
+    const tab2Label = hasPairs ? 'Pairs' : isLogicoMode ? 'Mappings' : isGameMode ? 'Game Config' : 'Options';
     const logicoSlotStats = isLogicoMode
       ? draft.options.reduce(
-          (acc, option) => {
-            const slot = Number(option.slotPosition);
-            const isValid = Number.isInteger(slot) && slot >= 1 && slot <= 10;
-            if (!isValid) {
-              acc.invalidCount += 1;
-              return acc;
-            }
-            acc.slotCounts.set(slot, (acc.slotCounts.get(slot) || 0) + 1);
+        (acc, option) => {
+          const slot = Number(option.slotPosition);
+          const isValid = Number.isInteger(slot) && slot >= 1 && slot <= 10;
+          if (!isValid) {
+            acc.invalidCount += 1;
             return acc;
-          },
-          { slotCounts: new Map<number, number>(), invalidCount: 0 },
-        )
+          }
+          acc.slotCounts.set(slot, (acc.slotCounts.get(slot) || 0) + 1);
+          return acc;
+        },
+        { slotCounts: new Map<number, number>(), invalidCount: 0 },
+      )
       : null;
     const duplicateLogicoSlots = logicoSlotStats
       ? Array.from(logicoSlotStats.slotCounts.entries())
-          .filter(([, count]) => count > 1)
-          .map(([slot]) => slot)
+        .filter(([, count]) => count > 1)
+        .map(([slot]) => slot)
       : [];
     const hasLogicoMappingBlocker = Boolean(
       isLogicoMode &&
@@ -2538,10 +2682,14 @@ export default function QuestionManagementScreen() {
     const QTYPES_COLOR: Record<string, string> = {
       guess_image: '#4A90E2', drag_drop_match: '#9B8EC4', guess_audio: '#7DC67A',
       true_false: '#E6A817', single_choice: '#FF7043', multi_choice: '#E91E8C', logico: '#0f766e',
+      memory_match: '#7B4FCA', fill_blank: '#E6A020',
+      jigsaw: '#0EA5E9',
     };
     const QTYPES_BG: Record<string, string> = {
       guess_image: '#D6EAFF', drag_drop_match: '#EDE4FF', guess_audio: '#D6F5D6',
       true_false: '#FFF5CC', single_choice: '#FFE8D6', multi_choice: '#FFE0F0', logico: '#DCFCE7',
+      memory_match: '#EDE4FF', fill_blank: '#FFF5CC',
+      jigsaw: '#E0F2FE',
     };
 
     return (
@@ -2566,7 +2714,7 @@ export default function QuestionManagementScreen() {
         <View style={qFormS.tabBar}>
           {([
             ['setup', '⚙ Setup'],
-            ...(hasOptions || hasPairs ? [['options', tab2Label] as [string, string]] : []),
+            ...(hasOptions || hasPairs || isGameMode ? [['options', tab2Label] as [string, string]] : []),
             ['preview', '👁 Preview'],
           ] as [string, string][]).map(([key, label]) => (
             <Pressable key={key} style={[qFormS.tab, questionFormTab === key && qFormS.tabActive]}
@@ -2598,7 +2746,7 @@ export default function QuestionManagementScreen() {
                       const sel = draft.questionType === choice.value;
                       const ec = QTYPES_COLOR[choice.value] ?? '#4A90E2';
                       const eb = QTYPES_BG[choice.value] ?? '#D6EAFF';
-                      const ee = QTYPES_EMOJI[choice.value] ?? '❓';
+                      const ee = QTYPES_EMOJI[choice.value] ?? '';
                       return (
                         <Pressable key={choice.value}
                           style={[qFormS.qtypeChip, sel && { backgroundColor: eb, borderColor: ec }]}
@@ -2674,13 +2822,15 @@ export default function QuestionManagementScreen() {
               </View>
             </View>
 
-            {normalizedQuestionType === 'guess_image' || normalizedQuestionType === 'logico' ? (
+            {normalizedQuestionType === 'guess_image' || normalizedQuestionType === 'logico' || normalizedQuestionType === 'jigsaw' ? (
               <View style={qFormS.group}>
-                <Text style={qFormS.groupLabel}>{normalizedQuestionType === 'logico' ? 'WORKSHEET IMAGE' : 'PROMPT IMAGE'}</Text>
+                <Text style={qFormS.groupLabel}>
+                  {normalizedQuestionType === 'logico' ? 'WORKSHEET IMAGE' : normalizedQuestionType === 'jigsaw' ? 'PUZZLE IMAGE' : 'PROMPT IMAGE'}
+                </Text>
                 <View style={qFormS.fieldCard}>
                   <Pressable style={qFormS.uploadBtn} onPress={() => uploadImageForQuestion(mode)}>
                     <Text style={qFormS.uploadBtnText}>
-                      {normalizedQuestionType === 'logico' ? '⬆ Upload Worksheet Image' : '⬆ Upload Prompt Image'}
+                      {normalizedQuestionType === 'logico' ? '⬆ Upload Worksheet Image' : normalizedQuestionType === 'jigsaw' ? '⬆ Upload Puzzle Image' : '⬆ Upload Prompt Image'}
                     </Text>
                   </Pressable>
                   {draft.mainImage.trim() ? (
@@ -2915,12 +3065,469 @@ export default function QuestionManagementScreen() {
           </ScrollView>
         )}
 
+        {/* ── MEMORY MATCH CONFIG TAB ── */}
+        {questionFormTab === 'options' && isMemoryMatchMode && (() => {
+          type MMPair = { id: number; label: string; imageUrl?: string };
+          const mmGrid = ((draft.rawQuestionData as any)?.grid as string) || '4x4';
+          const mmPairs = ((draft.rawQuestionData as any)?.pairs ?? []) as MMPair[];
+          const required = GRID_PAIR_COUNTS[mmGrid] ?? 8;
+          const cols = GRID_COLS[mmGrid] ?? 4;
+          const usedIds = mmPairs.map((p) => p.imageUrl?.split('/').pop()?.replace('-svgrepo-com.svg', '').replace(/-/g, '') ?? '');
+
+          const setMM = (patch: object) =>
+            updateDraftField(mode, 'rawQuestionData', { ...(draft.rawQuestionData as any), ...patch });
+
+          const randomFill = () => {
+            const picked = pickRandomAssets(required);
+            setMM({ grid: mmGrid, pairs: picked.map((a, i) => ({ id: i + 1, label: a.label, imageUrl: a.mediaPath })) });
+          };
+
+          const applyAsset = (asset: MemoryAsset) => {
+            if (!assetPickerTarget) return;
+            const { pairIdx } = assetPickerTarget;
+            const updated = mmPairs.map((p, i) => i === pairIdx ? { ...p, label: asset.label, imageUrl: asset.mediaPath } : p);
+            setMM({ pairs: updated });
+            setAssetPickerOpen(false);
+            setAssetPickerTarget(null);
+          };
+
+          // Ensure pairs array is the right length when grid changes
+          const handleGridChange = (g: string) => {
+            const need = GRID_PAIR_COUNTS[g] ?? 8;
+            let newPairs = [...mmPairs];
+            if (newPairs.length > need) newPairs = newPairs.slice(0, need);
+            if (newPairs.length < need) {
+              const extra = pickRandomAssets(need - newPairs.length, newPairs.map((p) => p.imageUrl?.split('/').pop()?.replace('.svg', '') ?? ''));
+              extra.forEach((a, i) => newPairs.push({ id: newPairs.length + i + 1, label: a.label, imageUrl: a.mediaPath }));
+            }
+            setMM({ grid: g, pairs: newPairs });
+          };
+
+          // ── pixel-perfect sizing ──────────────────────────────────────────
+          const SW = Dimensions.get('window').width;
+          // section padding (16) × 2 sides + tabContent padding (16) × 2 sides
+          const SECTION_H_PAD = 16;
+          const TAB_H_PAD = 16;
+          const innerW = SW - TAB_H_PAD * 2 - SECTION_H_PAD * 2;
+          const CARD_GAP = 8;
+          const cardW = Math.floor((innerW - CARD_GAP * (cols - 1)) / cols);
+
+          // asset modal: 4 columns, 12px side padding × 2
+          const MODAL_ASSET_COLS = 4;
+          const MODAL_H_PAD = 12;
+          const assetInnerW = SW - MODAL_H_PAD * 2;
+          const ASSET_GAP = 8;
+          const assetCellW = Math.floor((assetInnerW - ASSET_GAP * (MODAL_ASSET_COLS - 1)) / MODAL_ASSET_COLS);
+
+          return (
+            <ScrollView contentContainerStyle={qFormS.tabContent}>
+              {/* ── Grid Size ── */}
+              <LinearGradient colors={['#F4EFFF', '#EDE4FF']} style={mmS.section}>
+                <Text style={mmS.sectionTitle}>Grid Size</Text>
+                <Text style={mmS.sectionHint}>Choose how many pairs students must find.</Text>
+                <View style={mmS.gridRow}>
+                  {(['2x2', '4x4', '6x6'] as const).map((g) => {
+                    const n = GRID_PAIR_COUNTS[g];
+                    const sel = mmGrid === g;
+                    const label = `${n} Pairs`;
+                    const sub = `${n * 2} cards`;
+                    return (
+                      <Pressable key={g} onPress={() => handleGridChange(g)} style={{ flex: 1 }}>
+                        {sel ? (
+                          <LinearGradient colors={['#9B6CF5', '#7B4FCA']} style={mmS.gridChipSel}>
+                            <Text style={mmS.gridChipMainSel}>{label}</Text>
+                            <Text style={mmS.gridChipSubSel}>{sub}</Text>
+                          </LinearGradient>
+                        ) : (
+                          <View style={mmS.gridChip}>
+                            <Text style={mmS.gridChipMain}>{label}</Text>
+                            <Text style={mmS.gridChipSub}>{sub}</Text>
+                          </View>
+                        )}
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              </LinearGradient>
+
+              {/* ── Click Limit ── */}
+              <View style={mmS.section}>
+                <Text style={mmS.sectionTitle}>Click Limit</Text>
+                <Text style={[mmS.sectionHint, { marginBottom: 8 }]}>Max card flips — prevents spam clicking.</Text>
+
+                {/* Unlimited toggle — full width */}
+                {(() => {
+                  const curLimit = (draft.rawQuestionData as any)?.clickLimit ?? 0;
+                  const isUnlimited = curLimit === 0;
+                  return (
+                    <>
+                      <Pressable onPress={() => setMM({ clickLimit: 0 })} style={{ marginBottom: 8 }}>
+                        {isUnlimited ? (
+                          <LinearGradient colors={['#9B6CF5', '#7B4FCA']} style={mmS.unlimitedChipSel}>
+                            <Text style={mmS.unlimitedChipTextSel}>Unlimited</Text>
+                            <Text style={mmS.unlimitedChipSubSel}>No flip restriction</Text>
+                          </LinearGradient>
+                        ) : (
+                          <View style={mmS.unlimitedChip}>
+                            <Text style={mmS.unlimitedChipText}>Unlimited</Text>
+                            <Text style={mmS.unlimitedChipSub}>No flip restriction</Text>
+                          </View>
+                        )}
+                      </Pressable>
+
+                      {/* 2×2 number grid */}
+                      <View style={mmS.clickGrid}>
+                        {([10, 20, 30, 40] as const).map((n) => {
+                          const sel = curLimit === n;
+                          return (
+                            <Pressable key={n} onPress={() => setMM({ clickLimit: n })} style={{ width: '48%' }}>
+                              {sel ? (
+                                <LinearGradient colors={['#9B6CF5', '#7B4FCA']} style={mmS.clickChipSel}>
+                                  <Text style={mmS.clickChipNumSel}>{n}</Text>
+                                  <Text style={mmS.clickChipSubSel}>clicks max</Text>
+                                </LinearGradient>
+                              ) : (
+                                <View style={mmS.clickChip}>
+                                  <Text style={mmS.clickChipNum}>{n}</Text>
+                                  <Text style={mmS.clickChipSub}>clicks max</Text>
+                                </View>
+                              )}
+                            </Pressable>
+                          );
+                        })}
+                      </View>
+                    </>
+                  );
+                })()}
+              </View>
+
+              {/* ── Pairs Grid ── */}
+              <View style={mmS.section}>
+                <View style={mmS.sectionHeader}>
+                  <View style={{ flex: 1 }}>
+                    <Text style={mmS.sectionTitle}>Pairs  <Text style={{ color: '#9B6CF5', fontWeight: '900' }}>{mmPairs.length}/{required}</Text></Text>
+                    <Text style={mmS.sectionHint}>Tap any card to swap its image.</Text>
+                  </View>
+                  <Pressable onPress={randomFill}>
+                    <LinearGradient colors={['#9B6CF5', '#7B4FCA']} style={mmS.randomBtn}>
+                      <Text style={mmS.randomBtnText}>Randomize All</Text>
+                    </LinearGradient>
+                  </Pressable>
+                </View>
+
+                {/* Symmetrical grid — exact pixel widths, uniform gaps */}
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: CARD_GAP }}>
+                  {Array.from({ length: required }).map((_, idx) => {
+                    const pair = mmPairs[idx];
+                    const imgUrl = pair?.imageUrl ? `${API_BASE_URL}${pair.imageUrl}` : undefined;
+                    return (
+                      <Pressable
+                        key={idx}
+                        style={[mmS.pairCard, { width: cardW }, !pair && mmS.pairCardEmpty]}
+                        onPress={() => { setAssetPickerTarget({ mode, pairIdx: idx }); setAssetPickerOpen(true); }}
+                      >
+                        {imgUrl ? (
+                          <Image source={{ uri: imgUrl }} style={{ width: cardW * 0.6, height: cardW * 0.6 }} resizeMode="contain" />
+                        ) : (
+                          <View style={[mmS.pairImgPlaceholder, { width: cardW * 0.6, height: cardW * 0.6, borderRadius: 10 }]}>
+                            <Text style={mmS.pairImgPlaceholderText}>+</Text>
+                          </View>
+                        )}
+                        <Text style={mmS.pairLabel} numberOfLines={1}>{pair?.label ?? '—'}</Text>
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              </View>
+
+              {/* ── Asset picker modal ── */}
+              <Modal visible={assetPickerOpen} animationType="slide" transparent onRequestClose={() => { setAssetPickerOpen(false); setAssetPickerTarget(null); }}>
+                <View style={mmS.modalOverlay}>
+                  <View style={[mmS.modalSheet, { paddingBottom: 32 }]}>
+                    {/* modal header gradient */}
+                    <LinearGradient colors={['#F4EFFF', '#EDE4FF']} style={mmS.modalHeaderGrad}>
+                      <View style={mmS.modalHeaderRow}>
+                        <View>
+                          <Text style={mmS.modalTitle}>Choose Image</Text>
+                          <Text style={mmS.modalHint}>
+                            {assetPickerTarget != null ? `Slot ${assetPickerTarget.pairIdx + 1} — already-used are dimmed` : ''}
+                          </Text>
+                        </View>
+                        <Pressable onPress={() => { setAssetPickerOpen(false); setAssetPickerTarget(null); }} style={mmS.modalClose}>
+                          <Text style={mmS.modalCloseText}>✕</Text>
+                        </Pressable>
+                      </View>
+                    </LinearGradient>
+
+                    <ScrollView contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', padding: MODAL_H_PAD, gap: ASSET_GAP }} showsVerticalScrollIndicator={false}>
+                      {MEMORY_ASSETS.map((asset) => {
+                        const alreadyUsed = assetPickerTarget != null
+                          ? mmPairs.some((p, i) => i !== assetPickerTarget.pairIdx && p.imageUrl === asset.mediaPath)
+                          : false;
+                        const isCurrent = assetPickerTarget != null && mmPairs[assetPickerTarget.pairIdx]?.imageUrl === asset.mediaPath;
+                        return (
+                          <Pressable
+                            key={asset.id}
+                            onPress={() => !alreadyUsed && applyAsset(asset)}
+                            style={[mmS.assetCell, { width: assetCellW }, isCurrent && mmS.assetCellCurrent, alreadyUsed && mmS.assetCellUsed]}
+                          >
+                            {isCurrent && (
+                              <LinearGradient colors={['#9B6CF5', '#7B4FCA']} style={mmS.assetCurrentRing} />
+                            )}
+                            <Image source={{ uri: `${API_BASE_URL}${asset.mediaPath}` }} style={{ width: assetCellW * 0.58, height: assetCellW * 0.58 }} resizeMode="contain" />
+                            <Text style={[mmS.assetLabel, alreadyUsed && { color: '#C0C0D0' }]} numberOfLines={1}>{asset.label}</Text>
+                          </Pressable>
+                        );
+                      })}
+                    </ScrollView>
+                  </View>
+                </View>
+              </Modal>
+            </ScrollView>
+          );
+        })()}
+
+        {/* ── JIGSAW CONFIG TAB ── */}
+        {questionFormTab === 'options' && isJigsawMode && (() => {
+          const raw = (draft.rawQuestionData as any) ?? {};
+          const gridSize = ['2x2', '3x3', '4x4', '5x5'].includes(raw.gridSize) ? raw.gridSize : '3x3';
+          const difficulty = ['easy', 'medium', 'hard'].includes(raw.difficulty) ? raw.difficulty : 'medium';
+          const clickLimit = Number(raw.clickLimit ?? 20);
+          const setJigsaw = (patch: Record<string, unknown>) =>
+            updateDraftField(mode, 'rawQuestionData', { ...raw, ...patch });
+          return (
+            <ScrollView contentContainerStyle={qFormS.tabContent}>
+              <View style={mmS.section}>
+                <Text style={mmS.sectionTitle}>Puzzle Settings</Text>
+                <Text style={mmS.sectionHint}>Configure jigsaw board and challenge level.</Text>
+
+                <Text style={[qFormS.fieldLabel, { marginTop: 6 }]}>Grid Size</Text>
+                <View style={mmS.gridRow}>
+                  {(['2x2', '3x3', '4x4', '5x5'] as const).map((g) => {
+                    const selected = gridSize === g;
+                    return (
+                      <Pressable key={g} style={{ flex: 1 }} onPress={() => setJigsaw({ gridSize: g })}>
+                        {selected ? (
+                          <LinearGradient colors={['#0EA5E9', '#0284C7']} style={mmS.gridChipSel}>
+                            <Text style={mmS.gridChipMainSel}>{g}</Text>
+                            <Text style={mmS.gridChipSubSel}>{Number(g.split('x')[0]) ** 2} pieces</Text>
+                          </LinearGradient>
+                        ) : (
+                          <View style={mmS.gridChip}>
+                            <Text style={mmS.gridChipMain}>{g}</Text>
+                            <Text style={mmS.gridChipSub}>{Number(g.split('x')[0]) ** 2} pieces</Text>
+                          </View>
+                        )}
+                      </Pressable>
+                    );
+                  })}
+                </View>
+
+                <Text style={[qFormS.fieldLabel, { marginTop: 14 }]}>Difficulty</Text>
+                <View style={mmS.clickGrid}>
+                  {(['easy', 'medium', 'hard'] as const).map((level) => {
+                    const selected = difficulty === level;
+                    return (
+                      <Pressable key={level} style={{ width: '31%' }} onPress={() => setJigsaw({ difficulty: level })}>
+                        {selected ? (
+                          <LinearGradient colors={['#0EA5E9', '#0284C7']} style={mmS.clickChipSel}>
+                            <Text style={mmS.clickChipNumSel}>{level.toUpperCase()}</Text>
+                            <Text style={mmS.clickChipSubSel}>mode</Text>
+                          </LinearGradient>
+                        ) : (
+                          <View style={mmS.clickChip}>
+                            <Text style={mmS.clickChipNum}>{level.toUpperCase()}</Text>
+                            <Text style={mmS.clickChipSub}>mode</Text>
+                          </View>
+                        )}
+                      </Pressable>
+                    );
+                  })}
+                </View>
+
+                <Text style={[qFormS.fieldLabel, { marginTop: 14 }]}>Move Limit (0 = Unlimited)</Text>
+                <View style={mmS.clickGrid}>
+                  {[0, 20, 40, 60].map((limit) => {
+                    const selected = clickLimit === limit;
+                    return (
+                      <Pressable key={limit} style={{ width: '48%' }} onPress={() => setJigsaw({ clickLimit: limit })}>
+                        {selected ? (
+                          <LinearGradient colors={['#0EA5E9', '#0284C7']} style={mmS.clickChipSel}>
+                            <Text style={mmS.clickChipNumSel}>{limit === 0 ? '∞' : limit}</Text>
+                            <Text style={mmS.clickChipSubSel}>moves</Text>
+                          </LinearGradient>
+                        ) : (
+                          <View style={mmS.clickChip}>
+                            <Text style={mmS.clickChipNum}>{limit === 0 ? '∞' : limit}</Text>
+                            <Text style={mmS.clickChipSub}>moves</Text>
+                          </View>
+                        )}
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              </View>
+            </ScrollView>
+          );
+        })()}
+
+        {/* ── FILL IN THE BLANK CONFIG TAB ── */}
+        {questionFormTab === 'options' && isFillBlankMode && (
+          <ScrollView contentContainerStyle={[qFormS.tabContent, { gap: 16 }]}>
+
+            {/* ── Live sentence preview ── */}
+            {(() => {
+              const sentence: string = (draft.rawQuestionData as any)?.sentence ?? '';
+              const answer: string   = (draft.rawQuestionData as any)?.answer   ?? '';
+              const parts = sentence.split('___');
+              return sentence.includes('___') ? (
+                <View style={fbS.previewBox}>
+                  <Text style={fbS.previewLabel}>PREVIEW</Text>
+                  <Text style={fbS.previewSentence}>
+                    <Text>{parts[0]}</Text>
+                    <Text style={[fbS.previewBlank, { borderBottomColor: answer ? '#4CAF50' : '#4A90E2', color: answer ? '#2E7D32' : '#4A90E2' }]}>
+                      {' '}{answer || '___'}{' '}
+                    </Text>
+                    <Text>{parts[1] ?? ''}</Text>
+                  </Text>
+                </View>
+              ) : null;
+            })()}
+
+            {/* ── Sentence input ── */}
+            <View style={fbS.section}>
+              <View style={fbS.sectionHeader}>
+                <View style={[fbS.sectionIcon, { backgroundColor: '#E8F4FF' }]}>
+                  <Text style={{ fontSize: 14 }}>📝</Text>
+                </View>
+                <View>
+                  <Text style={fbS.sectionTitle}>Sentence</Text>
+                  <Text style={fbS.sectionHint}>Use ___ to mark the blank</Text>
+                </View>
+              </View>
+              <TextInput
+                value={(draft.rawQuestionData as any)?.sentence ?? ''}
+                onChangeText={(v) => updateDraftField(mode, 'rawQuestionData', { ...(draft.rawQuestionData as any), sentence: v })}
+                placeholder="The ___ shines during the day."
+                style={fbS.textArea}
+                placeholderTextColor="#B0B8D0"
+                multiline
+              />
+            </View>
+
+            {/* ── Answer options with correct-answer selector ── */}
+            <View style={qFormS.secGroup}>
+              {(() => {
+                const optCount = (((draft.rawQuestionData as any)?.options ?? []) as string[]).length;
+                const atMax = optCount >= 4;
+                return (
+              <View style={qFormS.secHeader}>
+                <Text style={qFormS.secTitle}>Answer Options <Text style={{ color: '#9A9AB0', fontWeight: '500', fontSize: 12 }}>({optCount}/4)</Text></Text>
+                <Pressable
+                  disabled={atMax}
+                  style={[qFormS.addBtn, atMax && { backgroundColor: '#E8E8F0', opacity: 0.5 }]}
+                  onPress={() => {
+                    updateDraftField(mode, 'rawQuestionData', { ...(draft.rawQuestionData as any), options: [...(((draft.rawQuestionData as any)?.options ?? []) as string[]), ''] });
+                  }}>
+                  <Text style={[qFormS.addBtnText, atMax && { color: '#9A9AB0' }]}>+ Add</Text>
+                </Pressable>
+              </View>
+                );
+              })()}
+              <Text style={qFormS.secHint}>Tap ○ next to an option to mark it as the correct answer.</Text>
+
+              {(((draft.rawQuestionData as any)?.options ?? []) as string[]).length === 0 && (
+                <Pressable style={fbS.emptyOptions} onPress={() => {
+                  updateDraftField(mode, 'rawQuestionData', { ...(draft.rawQuestionData as any), options: ['', '', ''] });
+                }}>
+                  <Text style={{ fontSize: 20, marginBottom: 6 }}>＋</Text>
+                  <Text style={fbS.emptyOptionsTxt}>Tap to add 3 starter options</Text>
+                </Pressable>
+              )}
+
+              {(((draft.rawQuestionData as any)?.options ?? []) as string[]).map((opt, idx) => {
+                const answer: string = (draft.rawQuestionData as any)?.answer ?? '';
+                const isCorrect = opt !== '' && opt.toLowerCase() === answer.toLowerCase();
+                return (
+                  <View key={idx} style={qFormS.optBlock}>
+                    <View style={qFormS.optBlockHeader}>
+                      {/* Number badge */}
+                      <View style={[qFormS.optNumBadge, isCorrect && { backgroundColor: '#7DC67A' }]}>
+                        <Text style={[qFormS.optNum, isCorrect && { color: '#fff' }]}>{idx + 1}</Text>
+                      </View>
+                      {/* Text input */}
+                      <View style={{ flex: 1 }}>
+                        <TextInput
+                          value={opt}
+                          onChangeText={(v) => {
+                            const current = ((draft.rawQuestionData as any)?.options ?? []) as string[];
+                            const updated = current.map((o, i) => i === idx ? v : o);
+                            const newData: any = { ...(draft.rawQuestionData as any), options: updated };
+                            if (isCorrect) newData.answer = v;
+                            updateDraftField(mode, 'rawQuestionData', newData);
+                          }}
+                          placeholder={`Option ${idx + 1}`}
+                          style={qFormS.optInput}
+                          placeholderTextColor="#B0B8D0"
+                        />
+                      </View>
+                      {/* Correct toggle */}
+                      <Pressable
+                        style={[qFormS.correctBtn, isCorrect && qFormS.correctBtnActive]}
+                        onPress={() => {
+                          if (opt.trim()) updateDraftField(mode, 'rawQuestionData', { ...(draft.rawQuestionData as any), answer: opt.trim() });
+                        }}>
+                        <Text style={[qFormS.correctBtnText, isCorrect && qFormS.correctBtnTextActive]}>
+                          {isCorrect ? '✓' : '○'}
+                        </Text>
+                      </Pressable>
+                      {/* Remove */}
+                      <Pressable
+                        style={qFormS.removeBtn}
+                        onPress={() => {
+                          const current = ((draft.rawQuestionData as any)?.options ?? []) as string[];
+                          const removed = current.filter((_, i) => i !== idx);
+                          const newData: any = { ...(draft.rawQuestionData as any), options: removed };
+                          if (isCorrect) newData.answer = '';
+                          updateDraftField(mode, 'rawQuestionData', newData);
+                        }}>
+                        <Text style={qFormS.removeBtnText}>✕</Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                );
+              })}
+            </View>
+
+            {/* ── Hint (optional) ── */}
+            <View style={fbS.section}>
+              <View style={fbS.sectionHeader}>
+                <View style={[fbS.sectionIcon, { backgroundColor: '#FFF8E1' }]}>
+                  <Text style={{ fontSize: 14 }}>💡</Text>
+                </View>
+                <View>
+                  <Text style={fbS.sectionTitle}>Hint <Text style={fbS.optional}>(optional)</Text></Text>
+                  <Text style={fbS.sectionHint}>Starting letters shown to students, e.g. "su"</Text>
+                </View>
+              </View>
+              <TextInput
+                value={(draft.rawQuestionData as any)?.hint ?? ''}
+                onChangeText={(v) => updateDraftField(mode, 'rawQuestionData', { ...(draft.rawQuestionData as any), hint: v })}
+                placeholder="e.g. su"
+                style={fbS.textInput}
+                placeholderTextColor="#B0B8D0"
+              />
+            </View>
+
+          </ScrollView>
+        )}
+
         {/* PREVIEW TAB */}
         {questionFormTab === 'preview' && (
           <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
             <View style={qFormS.previewCard}>
               <View style={[qFormS.previewHero, { backgroundColor: QTYPES_BG[normalizedQuestionType] ?? '#D6EAFF' }]}>
-                <Text style={{ fontSize: 42 }}>{QTYPES_EMOJI[normalizedQuestionType] ?? '❓'}</Text>
+                <Text style={{ fontSize: 42 }}>{QTYPES_EMOJI[normalizedQuestionType] ?? ''}</Text>
                 <View style={{ flex: 1 }}>
                   <View style={[qFormS.previewTypeBadge, { backgroundColor: `${QTYPES_COLOR[normalizedQuestionType] ?? '#4A90E2'}25` }]}>
                     <Text style={[qFormS.previewTypeBadgeText, { color: QTYPES_COLOR[normalizedQuestionType] ?? '#4A90E2' }]}>
@@ -2941,8 +3548,14 @@ export default function QuestionManagementScreen() {
                   <Text style={qFormS.previewStatLabel}>time</Text>
                 </View>
                 <View style={qFormS.previewStat}>
-                  <Text style={qFormS.previewStatVal}>{hasOptions ? draft.options.length : hasPairs ? draft.matchPairs.length : '–'}</Text>
-                  <Text style={qFormS.previewStatLabel}>{hasPairs ? 'pairs' : isLogicoMode ? 'maps' : 'opts'}</Text>
+                  <Text style={qFormS.previewStatVal}>
+                    {isFillBlankMode
+                      ? (((draft.rawQuestionData as any)?.options ?? []) as string[]).length
+                      : isJigsawMode
+                        ? Number((((draft.rawQuestionData as any)?.gridSize ?? '3x3').split('x')[0]) ** 2 || 9)
+                      : hasOptions ? draft.options.length : hasPairs ? draft.matchPairs.length : '–'}
+                  </Text>
+                  <Text style={qFormS.previewStatLabel}>{hasPairs ? 'pairs' : isLogicoMode ? 'maps' : isJigsawMode ? 'pieces' : 'opts'}</Text>
                 </View>
               </View>
               {draft.questionInstruction ? (
@@ -2985,6 +3598,154 @@ export default function QuestionManagementScreen() {
                   <Text style={qFormS.previewPairText}>{pair.targetLabel || `Target ${i + 1}`}</Text>
                 </View>
               ))}
+              {/* Fill in the Blank preview */}
+              {isFillBlankMode && (() => {
+                const sentence: string = ((draft.rawQuestionData as any)?.sentence ?? '');
+                const answer: string   = ((draft.rawQuestionData as any)?.answer   ?? '');
+                const hint: string     = ((draft.rawQuestionData as any)?.hint     ?? '');
+                const opts             = ((draft.rawQuestionData as any)?.options  ?? []) as string[];
+                const parts = sentence.split('___');
+                return (
+                  <View style={{ padding: 14, gap: 12 }}>
+                    {/* Sentence with filled blank */}
+                    <View style={{ backgroundColor: '#F0F7FF', borderRadius: 14, padding: 16, borderWidth: 1, borderColor: '#C5D8F8' }}>
+                      <Text style={{ fontSize: 11, fontWeight: '800', color: '#4A90E2', letterSpacing: 1, marginBottom: 8, textTransform: 'uppercase' }}>Sentence Preview</Text>
+                      {sentence ? (
+                        <Text style={{ fontSize: 16, fontWeight: '600', color: '#1a1a2e', textAlign: 'center', lineHeight: 26 }}>
+                          <Text>{parts[0] ?? ''}</Text>
+                          <Text style={{ fontWeight: '900', color: answer ? '#2E7D32' : '#4A90E2', borderBottomWidth: 2, borderBottomColor: answer ? '#4CAF50' : '#4A90E2' }}>
+                            {' '}{answer || (hint ? `${hint}___` : '___')}{' '}
+                          </Text>
+                          <Text>{parts[1] ?? ''}</Text>
+                        </Text>
+                      ) : (
+                        <Text style={{ color: '#9A9AB0', textAlign: 'center', fontStyle: 'italic' }}>No sentence yet — use ___ to mark the blank</Text>
+                      )}
+                      {hint ? (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 10, alignSelf: 'center', backgroundColor: '#FFF8E1', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 }}>
+                          <Text style={{ fontSize: 12 }}>💡</Text>
+                          <Text style={{ fontSize: 12, fontWeight: '600', color: '#E6A020' }}>Hint: "{hint}"</Text>
+                        </View>
+                      ) : null}
+                    </View>
+
+                    {/* Options */}
+                    {opts.length > 0 && (
+                      <View style={{ gap: 8 }}>
+                        <Text style={{ fontSize: 11, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase', letterSpacing: 0.4 }}>Options</Text>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                          {opts.map((opt, i) => {
+                            const isCorrect = answer && opt.toLowerCase() === answer.toLowerCase();
+                            return (
+                              <View key={i} style={{
+                                flexDirection: 'row', alignItems: 'center', gap: 6,
+                                paddingHorizontal: 14, paddingVertical: 9, borderRadius: 12,
+                                borderWidth: isCorrect ? 2 : 1.5,
+                                borderColor: isCorrect ? '#4CAF50' : '#D0D4E8',
+                                backgroundColor: isCorrect ? '#E8F5E9' : '#F4F6FF',
+                              }}>
+                                <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: isCorrect ? '#4CAF50' : '#C0C8D8' }} />
+                                <Text style={{ fontSize: 14, fontWeight: isCorrect ? '800' : '600', color: isCorrect ? '#2E7D32' : '#3A3A5A' }}>{opt}</Text>
+                                {isCorrect && <Text style={{ fontSize: 13, color: '#4CAF50', fontWeight: '900' }}>✓</Text>}
+                              </View>
+                            );
+                          })}
+                        </View>
+                        {!answer && <Text style={{ fontSize: 11, color: '#F97316', fontWeight: '600' }}>⚠ No correct answer selected yet</Text>}
+                      </View>
+                    )}
+                    {opts.length === 0 && (
+                      <Text style={{ fontSize: 12, color: '#9A9AB0', fontStyle: 'italic', textAlign: 'center' }}>No options added yet</Text>
+                    )}
+                  </View>
+                );
+              })()}
+
+              {/* Memory match board preview */}
+              {isMemoryMatchMode && (() => {
+                type MMPair = { id: number; label: string; imageUrl?: string };
+                const pvGrid = ((draft.rawQuestionData as any)?.grid as string) || '4x4';
+                const pvPairs = ((draft.rawQuestionData as any)?.pairs ?? []) as MMPair[];
+                const pvCols = GRID_COLS[pvGrid] ?? 4;
+                const pvNeeded = GRID_PAIR_COUNTS[pvGrid] ?? 4;
+                // duplicate pairs (each pair appears twice)
+                const allCards = [...pvPairs, ...pvPairs].slice(0, pvNeeded * 2);
+                const previewW = Dimensions.get('window').width - 64;
+                const GAP = 6;
+                const pvCardW = Math.floor((previewW - GAP * (pvCols - 1)) / pvCols);
+                const pvRows: MMPair[][] = [];
+                for (let i = 0; i < allCards.length; i += pvCols) pvRows.push(allCards.slice(i, i + pvCols));
+                return (
+                  <View style={{ padding: 14 }}>
+                    <Text style={{ fontSize: 11, fontWeight: '700', color: '#9A9AB0', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                      Board Preview — {pvPairs.length}/{pvNeeded} pairs · {pvNeeded * 2} cards
+                    </Text>
+                    <View style={{ alignItems: 'center' }}>
+                      <View style={{ width: previewW, gap: GAP }}>
+                        {pvRows.map((row, rIdx) => (
+                          <View key={rIdx} style={{ flexDirection: 'row', gap: GAP, justifyContent: 'center' }}>
+                            {row.map((card, cIdx) => {
+                              const imgUrl = card?.imageUrl ? `${API_BASE_URL}${card.imageUrl}` : undefined;
+                              return (
+                                <View key={cIdx} style={[mmS.pairCard, { width: pvCardW, backgroundColor: '#4A90E2', borderColor: '#3A7BD5', paddingVertical: 6 }]}>
+                                  {imgUrl ? (
+                                    <Image source={{ uri: imgUrl }} style={{ width: pvCardW * 0.55, height: pvCardW * 0.55 }} resizeMode="contain" />
+                                  ) : (
+                                    <Text style={{ fontSize: 9, color: '#fff', fontWeight: '700', textAlign: 'center' }}>?</Text>
+                                  )}
+                                  <Text style={{ fontSize: 8, color: '#fff', fontWeight: '700', textAlign: 'center' }} numberOfLines={1}>{card?.label ?? '?'}</Text>
+                                </View>
+                              );
+                            })}
+                          </View>
+                        ))}
+                      </View>
+                    </View>
+                    {pvPairs.length < pvNeeded && (
+                      <Text style={{ fontSize: 11, color: '#F97316', fontWeight: '700', textAlign: 'center', marginTop: 8 }}>
+                        {pvNeeded - pvPairs.length} more pair{pvNeeded - pvPairs.length > 1 ? 's' : ''} needed
+                      </Text>
+                    )}
+                  </View>
+                );
+              })()}
+
+              {isJigsawMode && (() => {
+                const raw = (draft.rawQuestionData as any) ?? {};
+                const gridSize = ['2x2', '3x3', '4x4', '5x5'].includes(raw.gridSize) ? raw.gridSize : '3x3';
+                const difficulty = ['easy', 'medium', 'hard'].includes(raw.difficulty) ? raw.difficulty : 'medium';
+                const clickLimit = Number(raw.clickLimit ?? 20);
+                return (
+                  <View style={{ padding: 14, gap: 10 }}>
+                    <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+                      <View style={qFormS.previewTypeBadge}>
+                        <Text style={qFormS.previewTypeBadgeText}>Grid {gridSize}</Text>
+                      </View>
+                      <View style={qFormS.previewTypeBadge}>
+                        <Text style={qFormS.previewTypeBadgeText}>Difficulty {difficulty}</Text>
+                      </View>
+                      <View style={qFormS.previewTypeBadge}>
+                        <Text style={qFormS.previewTypeBadgeText}>{clickLimit > 0 ? `${clickLimit} moves` : 'Unlimited moves'}</Text>
+                      </View>
+                    </View>
+                    <Text style={{ fontSize: 12, color: '#64748b' }}>
+                      Students will drag puzzle pieces and snap/swap into the board.
+                    </Text>
+                    <View style={{ backgroundColor: '#fff', borderRadius: 12, borderWidth: 1, borderColor: '#E2E8F0', overflow: 'hidden' }}>
+                      <JigsawRenderer
+                        questionData={{
+                          image: draft.mainImage.trim(),
+                          gridSize,
+                          difficulty,
+                          clickLimit,
+                        }}
+                        onComplete={() => {}}
+                        theme={{ bg: '#E0F2FE', cardBg: '#F0F9FF', accent: '#0EA5E9', textColor: '#0C4A6E', emoji: '🧩', label: 'Jigsaw Puzzle' }}
+                      />
+                    </View>
+                  </View>
+                );
+              })()}
             </View>
           </ScrollView>
         )}
@@ -3006,24 +3767,27 @@ export default function QuestionManagementScreen() {
     <View style={{ flex: 1, backgroundColor: '#F5F7FF' }}>
       {/* ── Tab bar ── */}
       <View style={styles.newTabBar}>
-        {(['topic', 'content', 'question', 'exam', 'quiz'] as LearningTab[]).map((tab) => (
-          <Pressable
-            key={tab}
-            style={[styles.newTab, activeLearningTab === tab && styles.newTabActive]}
-            onPress={() => setActiveLearningTab(tab)}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-              {tab === 'topic'    && <FolderOpen size={13} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
-              {tab === 'content'  && <Video size={13} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
-              {tab === 'question' && <HelpCircle size={13} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
-              {tab === 'exam'     && <BookOpenIcon size={13} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
-              {tab === 'quiz'     && <TrophyIcon size={13} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
-              <Text style={[styles.newTabText, activeLearningTab === tab && styles.newTabTextActive]}>
-                {tab === 'topic' ? 'Topic' : tab === 'content' ? 'Content' : tab === 'question' ? 'Questions' : tab === 'exam' ? 'Exam' : 'Quiz'}
-              </Text>
-            </View>
-          </Pressable>
-        ))}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flex: 1 }} contentContainerStyle={{ paddingHorizontal: 8, alignItems: 'center' }}>
+          {(['topic', 'content', 'question', 'quiz', 'exam', 'stories'] as LearningTab[]).map((tab) => (
+            <Pressable
+              key={tab}
+              style={[styles.newTab, activeLearningTab === tab && styles.newTabActive]}
+              onPress={() => handleSetActiveLearningTab(tab)}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                {tab === 'topic' && <FolderOpen size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
+                {tab === 'content' && <Video size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
+                {tab === 'question' && <HelpCircle size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
+                {tab === 'exam' && <BookOpenIcon size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
+                {tab === 'quiz' && <TrophyIcon size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
+                {tab === 'stories' && <StoriesIcon size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
+                <Text style={[styles.newTabText, activeLearningTab === tab && styles.newTabTextActive]}>
+                  {tab === 'topic' ? 'Topic' : tab === 'content' ? 'Content' : tab === 'question' ? 'Questions' : tab === 'exam' ? 'Exam' : tab === 'quiz' ? 'Quiz' : 'Stories'}
+                </Text>
+              </View>
+            </Pressable>
+          ))}
+        </ScrollView>
       </View>
 
       {activeLearningTab === 'topic' ? (
@@ -3031,6 +3795,7 @@ export default function QuestionManagementScreen() {
           topics={topics}
           loading={loadingTopics}
           filters={contentFilters}
+          subjectCatalog={subjectCatalog}
           contentItems={contentItems}
           apiFetch={apiFetch}
           onFiltersChange={(f) => setContentFilters(f)}
@@ -3121,6 +3886,7 @@ export default function QuestionManagementScreen() {
           loadingContent={loadingContentItems}
           deletingContentId={deletingContentId}
           filters={{ classLevel: contentFilters.classLevel, subject: contentFilters.subject }}
+          subjectCatalog={subjectCatalog}
           topics={topics.map((t) => ({ id: t.id, title: t.title, classLevel: t.classLevel, subject: t.subject }))}
           apiFetch={apiFetch}
           onFiltersChange={(f) => setContentFilters((p) => ({ ...p, ...f }))}
@@ -3353,6 +4119,7 @@ export default function QuestionManagementScreen() {
           loading={loading}
           deletingQuestionId={deletingQuestionId}
           filters={filters}
+          subjectCatalog={subjectCatalog}
           apiFetch={apiFetch}
           onFiltersChange={(patch) => setFilters((p) => ({ ...p, ...patch }))}
           onApplyFilters={loadData}
@@ -3448,8 +4215,8 @@ export default function QuestionManagementScreen() {
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Exam Workspace</Text>
             <Text style={styles.metaText}>Exam flow can be aligned with content topics in the next step.</Text>
-            <Pressable style={styles.primaryButton} onPress={() => router.push('/exam')}>
-              <Text style={styles.primaryButtonText}>Open Exam Builder</Text>
+            <Pressable style={styles.primaryButton} onPress={() => router.push('/quiz')}>
+              <Text style={styles.primaryButtonText}>Open Quiz Builder</Text>
             </Pressable>
           </View>
         </ScrollView>
@@ -3460,8 +4227,20 @@ export default function QuestionManagementScreen() {
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Quiz Workspace</Text>
             <Text style={styles.metaText}>Build and manage quizzes here.</Text>
-            <Pressable style={styles.primaryButton} onPress={() => router.push('/exam')}>
+            <Pressable style={styles.primaryButton} onPress={() => router.push('/quiz')}>
               <Text style={styles.primaryButtonText}>Open Quiz Builder</Text>
+            </Pressable>
+          </View>
+        </ScrollView>
+      ) : null}
+
+      {activeLearningTab === 'stories' ? (
+        <ScrollView contentContainerStyle={{ padding: 16 }}>
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Stories Workspace</Text>
+            <Text style={styles.metaText}>Create and manage stories for your students here.</Text>
+            <Pressable style={styles.primaryButton} onPress={() => router.push('/stories')}>
+              <Text style={styles.primaryButtonText}>Open Stories</Text>
             </Pressable>
           </View>
         </ScrollView>
@@ -3478,7 +4257,7 @@ export default function QuestionManagementScreen() {
         onRequestClose={() => setTopicActionMenuTopic(null)}
       >
         <Pressable style={styles.actionMenuOverlay} onPress={() => setTopicActionMenuTopic(null)}>
-          <Pressable style={styles.actionMenuCard} onPress={() => {}}>
+          <Pressable style={styles.actionMenuCard} onPress={() => { }}>
             <Text style={styles.actionMenuTitle}>Actions</Text>
             {topicActionMenuTopic ? (
               <Text style={styles.actionMenuMeta}>
@@ -3517,7 +4296,7 @@ export default function QuestionManagementScreen() {
         onRequestClose={() => setTopicContentActionItem(null)}
       >
         <Pressable style={styles.actionMenuOverlay} onPress={() => setTopicContentActionItem(null)}>
-          <Pressable style={styles.actionMenuCard} onPress={() => {}}>
+          <Pressable style={styles.actionMenuCard} onPress={() => { }}>
             <Text style={styles.actionMenuTitle}>Actions</Text>
             <Pressable
               style={styles.actionMenuItem}
@@ -3562,7 +4341,7 @@ export default function QuestionManagementScreen() {
         onRequestClose={() => setContentLibraryActionItem(null)}
       >
         <Pressable style={styles.actionMenuOverlay} onPress={() => setContentLibraryActionItem(null)}>
-          <Pressable style={styles.actionMenuCard} onPress={() => {}}>
+          <Pressable style={styles.actionMenuCard} onPress={() => { }}>
             <Text style={styles.actionMenuTitle}>Actions</Text>
             <Pressable
               style={styles.actionMenuItem}
@@ -3608,7 +4387,7 @@ export default function QuestionManagementScreen() {
         onRequestClose={() => setQuestionActionItem(null)}
       >
         <Pressable style={styles.actionMenuOverlay} onPress={() => setQuestionActionItem(null)}>
-          <Pressable style={styles.actionMenuCard} onPress={() => {}}>
+          <Pressable style={styles.actionMenuCard} onPress={() => { }}>
             <Text style={styles.actionMenuTitle}>Actions</Text>
             <Pressable
               style={styles.actionMenuItem}
@@ -3663,7 +4442,7 @@ export default function QuestionManagementScreen() {
             setEditingContentId(null);
           }}
         >
-          <Pressable style={styles.dialogCard} onPress={() => {}}>
+          <Pressable style={styles.dialogCard} onPress={() => { }}>
             <View style={styles.dialogHeader}>
               <Text style={styles.dialogTitle}>{editingContentId ? 'Edit Content' : 'Create Content'}</Text>
             </View>
@@ -3906,7 +4685,16 @@ export default function QuestionManagementScreen() {
       <SelectorModal
         visible={contentSelectorField !== null}
         title={contentSelectorTitle}
-        options={contentSelectorOptions.map((o) => ({ label: isContentStandardSelector ? getStandardLabel(o) : o, value: o }))}
+        options={contentSelectorOptions.map((o) => {
+          const matched = !isContentStandardSelector ? subjectCatalog.find((item) => item.title.trim() === o) : undefined;
+          return {
+            label: isContentStandardSelector ? getStandardLabel(o) : o,
+            value: o,
+            coverImage: matched?.coverImage,
+            iconUrl: matched?.iconImage,
+            iconBgColor: matched?.iconBgColor,
+          };
+        })}
         selected={''}
         isSubject={!isContentStandardSelector}
         onSelect={applyContentSelectorValue}
@@ -4048,7 +4836,22 @@ export default function QuestionManagementScreen() {
       <SelectorModal
         visible={selectorField !== null && activeLearningTab === 'question'}
         title={selectorTitle}
-        options={selectorOptions.map((o) => ({ label: isQuestionStandardSelector ? getStandardLabel(o) : o, value: o }))}
+        options={selectorOptions.map((o) => {
+          const matched = !isQuestionStandardSelector
+            ? subjectCatalog.find(
+                (item) =>
+                  item.title.trim() === o &&
+                  (!questionSubjectClassLevel || item.classLevel.trim() === questionSubjectClassLevel.trim()),
+              )
+            : undefined;
+          return {
+            label: isQuestionStandardSelector ? getStandardLabel(o) : o,
+            value: o,
+            coverImage: matched?.coverImage,
+            iconUrl: matched?.iconImage,
+            iconBgColor: matched?.iconBgColor,
+          };
+        })}
         selected={''}
         isSubject={!isQuestionStandardSelector}
         onSelect={applySelectorValue}
@@ -4079,7 +4882,19 @@ export default function QuestionManagementScreen() {
                   </View>
                 ) : null}
 
-                {normalizeQuestionType(previewQuestion.question_type) === 'logico' ? (
+                {normalizeQuestionType(previewQuestion.question_type) === 'jigsaw' ? (
+                  <View style={styles.previewMediaCard}>
+                    <Text style={styles.previewMediaLabel}>Play Preview</Text>
+                    <View style={{ borderRadius: 12, overflow: 'hidden', backgroundColor: '#fff' }}>
+                      <JigsawRenderer
+                        key={`preview-jigsaw-${previewQuestion.id}`}
+                        questionData={previewQuestion.question_data as any}
+                        onComplete={() => {}}
+                        theme={{ bg: '#E0F2FE', cardBg: '#F0F9FF', accent: '#0EA5E9', textColor: '#0C4A6E', emoji: '🧩', label: 'Jigsaw Puzzle' }}
+                      />
+                    </View>
+                  </View>
+                ) : normalizeQuestionType(previewQuestion.question_type) === 'logico' ? (
                   <View style={styles.previewMediaCard}>
                     <Text style={styles.previewMediaLabel}>Logico Mapping Preview</Text>
                     <View style={qFormS.logicoPreviewWrap}>
@@ -4119,12 +4934,23 @@ export default function QuestionManagementScreen() {
                   ))}
               </ScrollView>
             ) : null}
+            {previewQuestion?.quiz_id ? (
+              <Pressable style={styles.secondaryButton} onPress={() => setStudentPreviewQuizId(previewQuestion.quiz_id)}>
+                <Text style={styles.secondaryButtonText}>Open Student Player</Text>
+              </Pressable>
+            ) : null}
             <Pressable style={styles.primaryButton} onPress={() => setPreviewQuestion(null)}>
               <Text style={styles.primaryButtonText}>Done</Text>
             </Pressable>
           </View>
         </View>
       </Modal>
+
+      <QuizRenderer
+        quizId={studentPreviewQuizId || ''}
+        visible={Boolean(studentPreviewQuizId)}
+        onClose={() => setStudentPreviewQuizId(null)}
+      />
 
       <Modal
         visible={pendingMediaRemoval !== null && activeLearningTab === 'question'}
@@ -4213,16 +5039,16 @@ const styles = StyleSheet.create({
   },
   // New tab bar (revamped)
   newTabBar: {
-    flexDirection: 'row',
+    height: 36,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#F0F0F8',
-    paddingHorizontal: 4,
   },
   newTab: {
-    flex: 1,
-    paddingVertical: 13,
+    height: 36,
+    paddingHorizontal: 12,
     alignItems: 'center',
+    justifyContent: 'center',
     borderBottomWidth: 2,
     borderBottomColor: 'transparent',
   },
@@ -4230,7 +5056,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#4A90E2',
   },
   newTabText: {
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: '600',
     color: '#9A9AB0',
   },
@@ -4922,112 +5748,198 @@ const styles = StyleSheet.create({
 
 // ── Question form full-screen styles ──────────────────────────────────────────
 const qFormS = StyleSheet.create({
-  screen:   { flex: 1, backgroundColor: '#F5F7FF' },
-  header:   { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 12, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  backBtn:  { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
-  backArrow:{ fontSize: 28, color: '#1a1a2e', fontWeight: '300', lineHeight: 34 },
-  titleText:{ fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
+  screen: { flex: 1, backgroundColor: '#F5F7FF' },
+  header: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 12, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  backBtn: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
+  backArrow: { fontSize: 28, color: '#1a1a2e', fontWeight: '300', lineHeight: 34 },
+  titleText: { fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
   subTitle: { fontSize: 11, color: '#9A9AB0', fontWeight: '600', marginTop: 2 },
-  saveBtn:  { backgroundColor: '#4A90E2', borderRadius: 10, paddingHorizontal: 18, paddingVertical: 8 },
+  saveBtn: { backgroundColor: '#4A90E2', borderRadius: 10, paddingHorizontal: 18, paddingVertical: 8 },
   saveBtnDisabled: { opacity: 0.5 },
-  saveBtnText:{ color: '#fff', fontWeight: '800', fontSize: 13 },
+  saveBtnText: { color: '#fff', fontWeight: '800', fontSize: 13 },
 
-  tabBar:        { flexDirection: 'row', backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  tab:           { flex: 1, paddingVertical: 12, alignItems: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
-  tabActive:     { borderBottomColor: '#4A90E2' },
-  tabText:       { fontSize: 13, fontWeight: '600', color: '#9A9AB0' },
+  tabBar: { flexDirection: 'row', backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  tab: { flex: 1, paddingVertical: 12, alignItems: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
+  tabActive: { borderBottomColor: '#4A90E2' },
+  tabText: { fontSize: 13, fontWeight: '600', color: '#9A9AB0' },
   tabTextActive: { color: '#4A90E2', fontWeight: '800' },
 
-  toast:            { marginHorizontal: 16, marginTop: 8, borderRadius: 10, padding: 10, borderWidth: 1, borderColor: '#E0E4F0', backgroundColor: '#F0F4FF' },
-  toastText:        { fontSize: 13, fontWeight: '600', color: '#1a1a2e', textAlign: 'center' },
-  toastError:       { backgroundColor: '#FFE8E8', borderColor: '#FF7043' },
-  toastErrorText:   { color: '#B91C1C' },
-  toastSuccess:     { backgroundColor: '#D6F5D6', borderColor: '#7DC67A' },
+  toast: { marginHorizontal: 16, marginTop: 8, borderRadius: 10, padding: 10, borderWidth: 1, borderColor: '#E0E4F0', backgroundColor: '#F0F4FF' },
+  toastText: { fontSize: 13, fontWeight: '600', color: '#1a1a2e', textAlign: 'center' },
+  toastError: { backgroundColor: '#FFE8E8', borderColor: '#FF7043' },
+  toastErrorText: { color: '#B91C1C' },
+  toastSuccess: { backgroundColor: '#D6F5D6', borderColor: '#7DC67A' },
   toastSuccessText: { color: '#1A6B1A' },
 
   tabContent: { padding: 16, gap: 16, paddingBottom: 40 },
-  group:      { gap: 8 },
+  group: { gap: 8 },
   groupLabel: { fontSize: 10, fontWeight: '800', color: '#9A9AB0', letterSpacing: 1, textTransform: 'uppercase', paddingLeft: 4 },
-  fieldCard:  { backgroundColor: '#fff', borderRadius: 16, padding: 14, gap: 10, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
+  fieldCard: { backgroundColor: '#fff', borderRadius: 16, padding: 14, gap: 10, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
   fieldLabel: { fontSize: 11, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase', letterSpacing: 0.5 },
-  input:      { fontSize: 14, color: '#1a1a2e', fontWeight: '500', paddingVertical: 6 },
-  divider:    { height: 1, backgroundColor: '#F0F0F8' },
-  selectorRow:{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 6 },
-  selectorVal:{ fontSize: 14, color: '#1a1a2e', fontWeight: '500' },
+  input: { fontSize: 14, color: '#1a1a2e', fontWeight: '500', paddingVertical: 6 },
+  divider: { height: 1, backgroundColor: '#F0F0F8' },
+  selectorRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 6 },
+  selectorVal: { fontSize: 14, color: '#1a1a2e', fontWeight: '500' },
   selectorPlaceholder: { fontSize: 14, color: '#B0B8D0' },
-  twoCol:     { flexDirection: 'row', gap: 10, alignItems: 'flex-start' },
+  twoCol: { flexDirection: 'row', gap: 10, alignItems: 'flex-start' },
   colDivider: { width: 1, backgroundColor: '#F0F0F8', alignSelf: 'stretch', marginVertical: 4 },
 
-  qtypeChip:  { flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: '#F0F0F8', borderWidth: 1.5, borderColor: 'transparent' },
+  qtypeChip: { flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: '#F0F0F8', borderWidth: 1.5, borderColor: 'transparent' },
   qtypeEmoji: { fontSize: 16 },
   qtypeLabel: { fontSize: 12, fontWeight: '600', color: '#9A9AB0' },
-  qtypeDesc:  { fontSize: 12, color: '#9A9AB0', fontStyle: 'italic', lineHeight: 18, paddingTop: 4 },
+  qtypeDesc: { fontSize: 12, color: '#9A9AB0', fontStyle: 'italic', lineHeight: 18, paddingTop: 4 },
 
-  uploadBtn:     { borderRadius: 8, borderWidth: 1, borderColor: '#D6EAFF', backgroundColor: '#F5F9FF', paddingVertical: 10, alignItems: 'center' },
+  uploadBtn: { borderRadius: 8, borderWidth: 1, borderColor: '#D6EAFF', backgroundColor: '#F5F9FF', paddingVertical: 10, alignItems: 'center' },
   uploadBtnText: { fontSize: 13, fontWeight: '700', color: '#4A90E2' },
-  mediaRow:      { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 8 },
-  mediaThumb:    { width: 56, height: 44, borderRadius: 8, backgroundColor: '#F0F0F8' },
-  mediaName:     { fontSize: 12, color: '#9A9AB0', fontWeight: '500' },
-  audioIcon:     { fontSize: 22 },
-  playBtn:       { borderRadius: 8, backgroundColor: '#D6EAFF', paddingHorizontal: 10, paddingVertical: 6 },
-  playBtnText:   { fontSize: 12, fontWeight: '700', color: '#1A4DA2' },
-  removeBtn:     { width: 28, height: 28, borderRadius: 8, backgroundColor: '#FFE8E8', alignItems: 'center', justifyContent: 'center' },
+  mediaRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 8 },
+  mediaThumb: { width: 56, height: 44, borderRadius: 8, backgroundColor: '#F0F0F8' },
+  mediaName: { fontSize: 12, color: '#9A9AB0', fontWeight: '500' },
+  audioIcon: { fontSize: 22 },
+  playBtn: { borderRadius: 8, backgroundColor: '#D6EAFF', paddingHorizontal: 10, paddingVertical: 6 },
+  playBtnText: { fontSize: 12, fontWeight: '700', color: '#1A4DA2' },
+  removeBtn: { width: 28, height: 28, borderRadius: 8, backgroundColor: '#FFE8E8', alignItems: 'center', justifyContent: 'center' },
   removeBtnWide: { borderRadius: 8, backgroundColor: '#FFE8E8', paddingHorizontal: 10, paddingVertical: 6 },
   removeBtnText: { fontSize: 11, fontWeight: '800', color: '#FF7043' },
 
-  secGroup:   { backgroundColor: '#fff', borderRadius: 16, overflow: 'hidden' },
-  secHeader:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  secTitle:   { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
-  secHint:    { fontSize: 12, color: '#9A9AB0', paddingHorizontal: 14, paddingVertical: 8 },
-  addBtn:     { backgroundColor: '#D6EAFF', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 },
+  secGroup: { backgroundColor: '#fff', borderRadius: 16, overflow: 'hidden' },
+  secHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  secTitle: { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  secHint: { fontSize: 12, color: '#9A9AB0', paddingHorizontal: 14, paddingVertical: 8 },
+  addBtn: { backgroundColor: '#D6EAFF', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 },
   addBtnText: { fontSize: 12, fontWeight: '800', color: '#1A4DA2' },
 
-  optBlock:       { borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
+  optBlock: { borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
   optBlockHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 10, paddingVertical: 10 },
-  optNumBadge:    { width: 28, height: 28, borderRadius: 14, backgroundColor: '#E0E4F0', alignItems: 'center', justifyContent: 'center' },
-  optNum:         { fontSize: 12, fontWeight: '800', color: '#9A9AB0' },
-  optInput:       { fontSize: 14, color: '#1a1a2e', fontWeight: '500', backgroundColor: '#F8F9FF', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6, borderWidth: 1, borderColor: '#ECEEF4' },
-  correctBtn:     { width: 32, height: 32, borderRadius: 8, backgroundColor: '#F0F0F8', alignItems: 'center', justifyContent: 'center' },
-  correctBtnActive:{ backgroundColor: '#D6F5D6' },
+  optNumBadge: { width: 28, height: 28, borderRadius: 14, backgroundColor: '#E0E4F0', alignItems: 'center', justifyContent: 'center' },
+  optNum: { fontSize: 12, fontWeight: '800', color: '#9A9AB0' },
+  optInput: { fontSize: 14, color: '#1a1a2e', fontWeight: '500', backgroundColor: '#F8F9FF', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6, borderWidth: 1, borderColor: '#ECEEF4' },
+  correctBtn: { width: 32, height: 32, borderRadius: 8, backgroundColor: '#F0F0F8', alignItems: 'center', justifyContent: 'center' },
+  correctBtnActive: { backgroundColor: '#D6F5D6' },
   correctBtnText: { fontSize: 15, color: '#9A9AB0', fontWeight: '700' },
-  correctBtnTextActive:{ color: '#7DC67A' },
-  pairHeaderRow:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
-  pairNum:        { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
-  logicoWorksheetPreview:{ width: '100%', height: 180, borderRadius: 10, backgroundColor: '#F8FAFC', marginBottom: 10 },
-  logicoBlockerBanner:{ backgroundColor: '#FEE2E2', borderWidth: 1, borderColor: '#FCA5A5', borderRadius: 10, paddingHorizontal: 10, paddingVertical: 8, marginBottom: 10 },
-  logicoBlockerText:{ fontSize: 12, fontWeight: '700', color: '#B91C1C' },
-  logicoGrid:{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-  logicoCard:{ width: '48%', borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 10, padding: 10, gap: 8, backgroundColor: '#FFFFFF' },
-  logicoButtonCell:{ gap: 8, alignItems: 'center', justifyContent: 'center' },
-  logicoButtonLabel:{ fontSize: 12, fontWeight: '700', color: '#334155', textAlign: 'center' },
+  correctBtnTextActive: { color: '#7DC67A' },
+  pairHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
+  pairNum: { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
+  gridChip: { borderRadius: 14, borderWidth: 1.5, borderColor: '#E0E0EE', backgroundColor: '#F8F9FC', paddingHorizontal: 18, paddingVertical: 10, alignItems: 'center', minWidth: 72 },
+  gridChipActive: { backgroundColor: '#7B4FCA', borderColor: '#7B4FCA' },
+  gridChipText: { fontSize: 15, fontWeight: '900', color: '#1a1a2e' },
+  gridChipTextActive: { color: '#fff' },
+  gridChipSub: { fontSize: 9, fontWeight: '700', color: '#9A9AB0', marginTop: 2 },
+  removeBtnSmallText: { fontSize: 12, fontWeight: '800', color: '#FF7043' },
+  logicoWorksheetPreview: { width: '100%', height: 180, borderRadius: 10, backgroundColor: '#F8FAFC', marginBottom: 10 },
+  logicoBlockerBanner: { backgroundColor: '#FEE2E2', borderWidth: 1, borderColor: '#FCA5A5', borderRadius: 10, paddingHorizontal: 10, paddingVertical: 8, marginBottom: 10 },
+  logicoBlockerText: { fontSize: 12, fontWeight: '700', color: '#B91C1C' },
+  logicoGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  logicoCard: { width: '48%', borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 10, padding: 10, gap: 8, backgroundColor: '#FFFFFF' },
+  logicoButtonCell: { gap: 8, alignItems: 'center', justifyContent: 'center' },
+  logicoButtonLabel: { fontSize: 12, fontWeight: '700', color: '#334155', textAlign: 'center' },
   logicoSlotCell: { gap: 4 },
-  logicoSlotInput:{ fontSize: 14, color: '#1a1a2e', fontWeight: '700', backgroundColor: '#F8F9FF', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 8, borderWidth: 1, borderColor: '#ECEEF4', textAlign: 'center' },
-  logicoLabelCell:{ flex: 1, gap: 4 },
-  logicoButtonCircle:{ borderWidth: 2, borderColor: '#1f2937', alignItems: 'center', justifyContent: 'center' },
-  logicoButtonRingInner:{ backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#9ca3af' },
-  logicoPreviewWrap:{ marginHorizontal: 14, marginBottom: 14, borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 12, overflow: 'hidden' },
-  logicoPreviewRow:{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 10, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: '#F1F5F9' },
-  logicoPreviewSlotText:{ width: 24, fontSize: 12, fontWeight: '800', color: '#334155', textAlign: 'center' },
-  logicoPreviewOptionText:{ flex: 1, fontSize: 12, fontWeight: '600', color: '#1e293b' },
-  logicoPreviewEmptyButton:{ width: 26, height: 26, borderRadius: 13, backgroundColor: '#E2E8F0', borderWidth: 1, borderColor: '#CBD5E1' },
+  logicoSlotInput: { fontSize: 14, color: '#1a1a2e', fontWeight: '700', backgroundColor: '#F8F9FF', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 8, borderWidth: 1, borderColor: '#ECEEF4', textAlign: 'center' },
+  logicoLabelCell: { flex: 1, gap: 4 },
+  logicoButtonCircle: { borderWidth: 2, borderColor: '#1f2937', alignItems: 'center', justifyContent: 'center' },
+  logicoButtonRingInner: { backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#9ca3af' },
+  logicoPreviewWrap: { marginHorizontal: 14, marginBottom: 14, borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 12, overflow: 'hidden' },
+  logicoPreviewRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 10, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: '#F1F5F9' },
+  logicoPreviewSlotText: { width: 24, fontSize: 12, fontWeight: '800', color: '#334155', textAlign: 'center' },
+  logicoPreviewOptionText: { flex: 1, fontSize: 12, fontWeight: '600', color: '#1e293b' },
+  logicoPreviewEmptyButton: { width: 26, height: 26, borderRadius: 13, backgroundColor: '#E2E8F0', borderWidth: 1, borderColor: '#CBD5E1' },
 
-  previewCard:    { backgroundColor: '#fff', borderRadius: 20, overflow: 'hidden' },
-  previewHero:    { flexDirection: 'row', alignItems: 'flex-start', gap: 14, padding: 20 },
-  previewTypeBadge:    { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 3, alignSelf: 'flex-start', marginBottom: 6 },
-  previewTypeBadgeText:{ fontSize: 11, fontWeight: '700' },
-  previewTitle:   { fontSize: 17, fontWeight: '900', color: '#1a1a2e', lineHeight: 24 },
-  previewMeta:    { fontSize: 12, color: '#9A9AB0', marginTop: 4 },
-  previewStats:   { flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#F5F7FF' },
-  previewStat:    { flex: 1, alignItems: 'center', paddingVertical: 14, borderRightWidth: 1, borderRightColor: '#F5F7FF', gap: 2 },
+  previewCard: { backgroundColor: '#fff', borderRadius: 20, overflow: 'hidden' },
+  previewHero: { flexDirection: 'row', alignItems: 'flex-start', gap: 14, padding: 20 },
+  previewTypeBadge: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 3, alignSelf: 'flex-start', marginBottom: 6 },
+  previewTypeBadgeText: { fontSize: 11, fontWeight: '700' },
+  previewTitle: { fontSize: 17, fontWeight: '900', color: '#1a1a2e', lineHeight: 24 },
+  previewMeta: { fontSize: 12, color: '#9A9AB0', marginTop: 4 },
+  previewStats: { flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#F5F7FF' },
+  previewStat: { flex: 1, alignItems: 'center', paddingVertical: 14, borderRightWidth: 1, borderRightColor: '#F5F7FF', gap: 2 },
   previewStatVal: { fontSize: 20, fontWeight: '900', color: '#1a1a2e' },
-  previewStatLabel:{ fontSize: 10, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' },
-  previewInstBlock:{ margin: 14, backgroundColor: '#F8F9FF', borderRadius: 12, padding: 12 },
+  previewStatLabel: { fontSize: 10, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' },
+  previewInstBlock: { margin: 14, backgroundColor: '#F8F9FF', borderRadius: 12, padding: 12 },
   previewInstText: { fontSize: 13, color: '#5A6A8A', lineHeight: 20 },
-  previewImage:   { width: '100%', height: 180, marginBottom: 8 },
-  previewOptRow:  { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF', borderRadius: 0 },
-  previewOptDot:  { width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  previewImage: { width: '100%', height: 180, marginBottom: 8 },
+  previewOptRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF', borderRadius: 0 },
+  previewOptDot: { width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   previewOptText: { flex: 1, fontSize: 14, fontWeight: '600', color: '#1a1a2e' },
-  previewCorrectBadge:{ fontSize: 14, color: '#7DC67A', fontWeight: '800' },
+  previewCorrectBadge: { fontSize: 14, color: '#7DC67A', fontWeight: '800' },
   previewPairRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF', justifyContent: 'space-between' },
-  previewPairText:{ fontSize: 13, fontWeight: '700', color: '#1a1a2e', flex: 1, textAlign: 'center' },
+  previewPairText: { fontSize: 13, fontWeight: '700', color: '#1a1a2e', flex: 1, textAlign: 'center' },
+});
+
+// ── Fill in the Blank creator styles ──────────────────────────────────────────
+const fbS = StyleSheet.create({
+  previewBox: {
+    backgroundColor: '#F0F7FF', borderRadius: 14, padding: 16,
+    borderWidth: 1, borderColor: '#C5D8F8',
+  },
+  previewLabel: {
+    fontSize: 9, fontWeight: '800', color: '#4A90E2', letterSpacing: 1,
+    marginBottom: 8, textTransform: 'uppercase',
+  },
+  previewSentence: { fontSize: 17, fontWeight: '600', color: '#1a1a2e', lineHeight: 26, textAlign: 'center' },
+  previewBlank:    { fontWeight: '900', borderBottomWidth: 2, paddingHorizontal: 4 },
+  section:         { backgroundColor: '#fff', borderRadius: 16, padding: 16, borderWidth: 1, borderColor: '#EEF0F8' },
+  sectionHeader:   { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 },
+  sectionIcon:     { width: 36, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  sectionTitle:    { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  sectionHint:     { fontSize: 11, color: '#9A9AB0', marginTop: 2 },
+  optional:        { fontWeight: '500', color: '#B0B8D0' },
+  textArea:        { borderWidth: 1.5, borderColor: '#E0E8F5', borderRadius: 12, padding: 12, fontSize: 14, color: '#1a1a2e', minHeight: 72, backgroundColor: '#FAFBFF' },
+  textInput:       { borderWidth: 1.5, borderColor: '#E0E8F5', borderRadius: 12, padding: 12, fontSize: 14, color: '#1a1a2e', backgroundColor: '#FAFBFF' },
+  emptyOptions:    { alignItems: 'center', paddingVertical: 24, marginHorizontal: 14, marginBottom: 12, borderWidth: 1.5, borderColor: '#E0E8F5', borderStyle: 'dashed', borderRadius: 12, backgroundColor: '#FAFBFF' },
+  emptyOptionsTxt: { fontSize: 13, color: '#9A9AB0', fontWeight: '600' },
+});
+
+// ── Memory Match creator styles ────────────────────────────────────────────────
+const mmS = StyleSheet.create({
+  // sections
+  section: { backgroundColor: '#fff', borderRadius: 18, padding: 16, shadowColor: '#7B4FCA', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.07, shadowRadius: 10, elevation: 3 },
+  sectionTitle: { fontSize: 14, fontWeight: '800', color: '#1a1a2e', marginBottom: 3 },
+  sectionHint: { fontSize: 12, color: '#9A9AB0', fontWeight: '500', marginBottom: 12 },
+  sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 },
+  // grid size chips
+  gridRow: { flexDirection: 'row', gap: 10 },
+  gridChip: { borderRadius: 14, borderWidth: 1.5, borderColor: '#DDD8F0', backgroundColor: '#FAFBFF', paddingVertical: 14, alignItems: 'center', gap: 3 },
+  gridChipSel: { borderRadius: 14, paddingVertical: 14, alignItems: 'center', gap: 3 },
+  gridChipMain: { fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
+  gridChipMainSel: { fontSize: 17, fontWeight: '900', color: '#fff' },
+  gridChipSub: { fontSize: 10, fontWeight: '700', color: '#9A9AB0' },
+  gridChipSubSel: { fontSize: 10, fontWeight: '700', color: 'rgba(255,255,255,0.75)' },
+  // randomize button
+  randomBtn: { borderRadius: 11, paddingHorizontal: 14, paddingVertical: 9 },
+  randomBtnText: { fontSize: 12, fontWeight: '800', color: '#fff' },
+  // unlimited toggle
+  unlimitedChip: { borderRadius: 10, borderWidth: 1.5, borderColor: '#DDD8F0', backgroundColor: '#FAFBFF', paddingVertical: 8, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  unlimitedChipSel: { borderRadius: 10, paddingVertical: 8, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  unlimitedChipText: { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
+  unlimitedChipTextSel: { fontSize: 13, fontWeight: '800', color: '#fff' },
+  unlimitedChipSub: { fontSize: 10, fontWeight: '600', color: '#9A9AB0' },
+  unlimitedChipSubSel: { fontSize: 10, fontWeight: '600', color: 'rgba(255,255,255,0.75)' },
+  // 2×2 click limit grid
+  clickGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  clickChip: { borderRadius: 10, borderWidth: 1.5, borderColor: '#DDD8F0', backgroundColor: '#FAFBFF', paddingVertical: 8, alignItems: 'center', gap: 1 },
+  clickChipSel: { borderRadius: 10, paddingVertical: 8, alignItems: 'center', gap: 1 },
+  clickChipNum: { fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
+  clickChipNumSel: { fontSize: 17, fontWeight: '900', color: '#fff' },
+  clickChipSub: { fontSize: 9, fontWeight: '700', color: '#9A9AB0' },
+  clickChipSubSel: { fontSize: 9, fontWeight: '700', color: 'rgba(255,255,255,0.8)' },
+  // pair cards
+  pairCard: { backgroundColor: '#F8F9FF', borderRadius: 12, borderWidth: 1.5, borderColor: '#E2E8FF', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 4, gap: 5 },
+  pairCardEmpty: { borderStyle: 'dashed', borderColor: '#C8D0EE', backgroundColor: '#FAFBFF' },
+  pairImgPlaceholder: { backgroundColor: '#EEF0FA', alignItems: 'center', justifyContent: 'center' },
+  pairImgPlaceholderText: { fontSize: 22, color: '#C0C8E0', fontWeight: '300' },
+  pairLabel: { fontSize: 10, fontWeight: '700', color: '#1a1a2e', textAlign: 'center', paddingHorizontal: 2 },
+  // modal
+  modalOverlay: { flex: 1, backgroundColor: 'rgba(15,10,40,0.55)', justifyContent: 'flex-end' },
+  modalSheet: { backgroundColor: '#fff', borderTopLeftRadius: 26, borderTopRightRadius: 26, maxHeight: '85%' },
+  modalHeaderGrad: { borderTopLeftRadius: 26, borderTopRightRadius: 26, paddingHorizontal: 20, paddingVertical: 16 },
+  modalHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  modalTitle: { fontSize: 16, fontWeight: '900', color: '#1a1a2e' },
+  modalHint: { fontSize: 12, color: '#7B60B0', fontWeight: '500', marginTop: 2 },
+  modalClose: { width: 32, height: 32, borderRadius: 16, backgroundColor: 'rgba(255,255,255,0.7)', alignItems: 'center', justifyContent: 'center' },
+  modalCloseText: { fontSize: 13, fontWeight: '800', color: '#6A7280' },
+  // asset cells
+  assetCell: { alignItems: 'center', backgroundColor: '#F8F9FF', borderRadius: 12, borderWidth: 1.5, borderColor: '#E2E8FF', padding: 8, gap: 5, overflow: 'hidden' },
+  assetCellCurrent: { borderColor: '#7B4FCA', backgroundColor: '#EDE4FF', borderWidth: 2 },
+  assetCellUsed: { opacity: 0.32 },
+  assetLabel: { fontSize: 10, fontWeight: '700', color: '#1a1a2e', textAlign: 'center' },
+  assetCurrentRing: { position: 'absolute', top: 0, left: 0, right: 0, height: 3, borderTopLeftRadius: 10, borderTopRightRadius: 10 },
 });

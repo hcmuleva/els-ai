@@ -23,6 +23,8 @@ const questionBankQuerySchema = z.object({
 });
 const updateQuestionSchema = z
     .object({
+    classLevel: z.string().trim().optional(),
+    subject: z.string().trim().optional(),
     questionType: z.string().trim().optional(),
     questionTitle: z.string().trim().optional(),
     questionInstruction: z.string().trim().optional(),
@@ -154,11 +156,11 @@ questionsRouter.get('/', requireAuth, async (req, res) => {
     }
     if (class_level) {
         params.push(class_level);
-        whereClauses.push(`COALESCE(q.class_level, qq.question_data->'_meta'->>'classLevel', '') = $${params.length}`);
+        whereClauses.push(`COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level, '') = $${params.length}`);
     }
     if (subject) {
         params.push(subject);
-        whereClauses.push(`COALESCE(q.subject, qq.question_data->'_meta'->>'subject', '') = $${params.length}`);
+        whereClauses.push(`COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), q.subject, '') = $${params.length}`);
     }
     if (quiz_type) {
         params.push(quiz_type);
@@ -178,8 +180,8 @@ questionsRouter.get('/', requireAuth, async (req, res) => {
          qq.id,
          qq.quiz_id,
          COALESCE(q.title, 'Question Bank') AS quiz_title,
-         COALESCE(q.class_level, qq.question_data->'_meta'->>'classLevel') AS class_level,
-         COALESCE(q.subject, qq.question_data->'_meta'->>'subject') AS subject,
+         COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level) AS class_level,
+         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), q.subject) AS subject,
          COALESCE(q.quiz_type, qq.question_type) AS quiz_type,
          qq.question_type,
          qq.question_title,
@@ -211,8 +213,8 @@ questionsRouter.get('/:questionId', requireAuth, async (req, res) => {
          qq.id,
          qq.quiz_id,
          COALESCE(q.title, 'Question Bank') AS quiz_title,
-         COALESCE(q.class_level, qq.question_data->'_meta'->>'classLevel') AS class_level,
-         COALESCE(q.subject, qq.question_data->'_meta'->>'subject') AS subject,
+         COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level) AS class_level,
+         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), q.subject) AS subject,
          COALESCE(q.quiz_type, qq.question_type) AS quiz_type,
          qq.question_type,
          qq.question_title,
@@ -303,8 +305,8 @@ questionsRouter.post('/', requireAuth, async (req, res) => {
          qq.id,
          qq.quiz_id,
          COALESCE(q.title, 'Question Bank') AS quiz_title,
-         q.class_level,
-         q.subject,
+         COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level) AS class_level,
+         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), q.subject) AS subject,
          COALESCE(q.quiz_type, qq.question_type) AS quiz_type,
          qq.question_type,
          qq.question_title,
@@ -350,7 +352,29 @@ questionsRouter.patch('/:questionId', requireAuth, async (req, res) => {
         if (!permission.allowed) {
             return res.status(403).json({ message: 'Only original creator or quiz creator can edit this question' });
         }
-        const { questionType, questionTitle, questionInstruction, questionAudio, timeLimitSeconds, points, sortOrder, questionData, } = parsedBody.data;
+        const { classLevel, subject, questionType, questionTitle, questionInstruction, questionAudio, timeLimitSeconds, points, sortOrder, questionData, } = parsedBody.data;
+        let preparedQuestionData = questionData;
+        if (classLevel !== undefined || subject !== undefined) {
+            const existingQuestion = await db.query(`SELECT question_data FROM quiz_questions WHERE id = $1`, [questionId]);
+            const existingQuestionData = existingQuestion.rows[0]?.question_data;
+            const baseQuestionData = questionData !== undefined && typeof questionData === 'object' && !Array.isArray(questionData)
+                ? { ...questionData }
+                : existingQuestionData && typeof existingQuestionData === 'object' && !Array.isArray(existingQuestionData)
+                    ? { ...existingQuestionData }
+                    : {};
+            const rawMeta = baseQuestionData._meta;
+            const existingMeta = rawMeta && typeof rawMeta === 'object' && !Array.isArray(rawMeta)
+                ? rawMeta
+                : {};
+            preparedQuestionData = {
+                ...baseQuestionData,
+                _meta: {
+                    ...existingMeta,
+                    ...(classLevel !== undefined ? { classLevel: classLevel || null } : {}),
+                    ...(subject !== undefined ? { subject: subject || null } : {}),
+                },
+            };
+        }
         const updates = [];
         const params = [];
         if (questionType !== undefined) {
@@ -381,8 +405,8 @@ questionsRouter.patch('/:questionId', requireAuth, async (req, res) => {
             params.push(sortOrder);
             updates.push(`sort_order = $${params.length}`);
         }
-        if (questionData !== undefined) {
-            params.push(questionData);
+        if (preparedQuestionData !== undefined) {
+            params.push(preparedQuestionData);
             updates.push(`question_data = $${params.length}`);
         }
         params.push(questionId);
@@ -393,8 +417,8 @@ questionsRouter.patch('/:questionId', requireAuth, async (req, res) => {
          qq.id,
          qq.quiz_id,
          COALESCE(q.title, 'Question Bank') AS quiz_title,
-         q.class_level,
-         q.subject,
+         COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level) AS class_level,
+         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), q.subject) AS subject,
          COALESCE(q.quiz_type, qq.question_type) AS quiz_type,
          qq.question_type,
          qq.question_title,
@@ -488,11 +512,11 @@ questionBankRouter.get('/', requireAuth, async (req, res) => {
     }
     if (class_level) {
         params.push(class_level);
-        whereClauses.push(`COALESCE(q.class_level, qq.question_data->'_meta'->>'classLevel', '') = $${params.length}`);
+        whereClauses.push(`COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level, '') = $${params.length}`);
     }
     if (subject) {
         params.push(subject);
-        whereClauses.push(`COALESCE(q.subject, qq.question_data->'_meta'->>'subject', '') = $${params.length}`);
+        whereClauses.push(`COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), q.subject, '') = $${params.length}`);
     }
     if (question_type) {
         params.push(question_type);
@@ -504,8 +528,8 @@ questionBankRouter.get('/', requireAuth, async (req, res) => {
          qq.id,
          qq.quiz_id,
          COALESCE(q.title, 'Question Bank') AS quiz_title,
-         COALESCE(q.class_level, qq.question_data->'_meta'->>'classLevel') AS class_level,
-         COALESCE(q.subject, qq.question_data->'_meta'->>'subject') AS subject,
+         COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level) AS class_level,
+         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), q.subject) AS subject,
          qq.question_type,
          qq.question_title,
          qq.question_instruction,

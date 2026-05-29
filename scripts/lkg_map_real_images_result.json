@@ -1,0 +1,51 @@
+{
+  "questionsScanned": 50,
+  "questionsUpdated": 4,
+  "mapped": [
+    {
+      "label": "Fish",
+      "file": "fish.png"
+    },
+    {
+      "label": "prompt:Find the cow",
+      "file": "cow.png"
+    },
+    {
+      "label": "prompt:Find the cow",
+      "file": "cow.png"
+    },
+    {
+      "label": "Fish",
+      "file": "fish.png"
+    }
+  ],
+  "unmatchedLabels": {
+    "One star": 2,
+    "Two balls": 2,
+    "Three flowers": 2,
+    "Circle": 4,
+    "Triangle": 4,
+    "Square": 2,
+    "Rectangle": 2,
+    "Ant": 2,
+    "A": 2,
+    "B": 2,
+    "C": 2,
+    "Doctor": 2,
+    "Postman": 2,
+    "Farmer": 2,
+    "Apple": 2,
+    "Banana": 2,
+    "Say good morning": 2,
+    "Throw waste on road": 2,
+    "Help grandmother": 2,
+    "Please": 2,
+    "Thank You": 2,
+    "Say Namaste to elders": 2,
+    "Shout at elders": 2,
+    "Ignore elders": 2,
+    "Share crayons with friend": 2,
+    "Push friend in line": 2,
+    "Hide friend bag": 2
+  }
+}

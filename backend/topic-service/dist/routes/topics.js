@@ -822,6 +822,52 @@ studentsRouter.get('/:topicId', requireAuth, async (req, res) => {
        INNER JOIN learning_contents lc ON lc.id = tca.content_id
        WHERE tca.topic_id = $1
        ORDER BY tca.sort_order ASC, tca.created_at ASC`, [topicId]);
+        const contentIds = contentResult.rows.map((row) => row.id);
+        const sectionsByContentId = {};
+        if (contentIds.length > 0) {
+            const sectionsResult = await db.query(`SELECT content_id, section_order, title, content_type, media_url, external_url, text_content
+         FROM learning_content_sections
+         WHERE content_id = ANY($1::uuid[])
+         ORDER BY content_id, section_order ASC, created_at ASC`, [contentIds]);
+            for (const row of sectionsResult.rows) {
+                const cId = row.content_id;
+                if (!sectionsByContentId[cId])
+                    sectionsByContentId[cId] = [];
+                sectionsByContentId[cId].push(row);
+            }
+        }
+        // Flatten content items into individual single-type lessons so the student
+        // carousel can render each section (text, video, activity) on its own.
+        const contents = [];
+        for (const row of contentResult.rows) {
+            const cId = row.id;
+            const sections = sectionsByContentId[cId] || [];
+            if (sections.length > 0) {
+                for (let i = 0; i < sections.length; i += 1) {
+                    const sec = sections[i];
+                    contents.push({
+                        id: `${cId}:${sec.section_order ?? i + 1}`,
+                        title: sec.title || row.title,
+                        contentType: sec.content_type,
+                        mediaUrl: sec.media_url ? await getSignedMediaUrlIfNeeded(sec.media_url) : undefined,
+                        externalUrl: sec.external_url || undefined,
+                        textContent: sec.text_content || undefined,
+                        sortOrder: Number(row.sort_order || 0) * 1000 + Number(sec.section_order || i + 1),
+                    });
+                }
+            }
+            else {
+                contents.push({
+                    id: cId,
+                    title: row.title,
+                    contentType: row.content_type,
+                    mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url) : undefined,
+                    externalUrl: row.external_url || undefined,
+                    textContent: row.text_content || undefined,
+                    sortOrder: Number(row.sort_order || 0),
+                });
+            }
+        }
         return res.json({
             topic: {
                 id: topic.id,
@@ -830,15 +876,7 @@ studentsRouter.get('/:topicId', requireAuth, async (req, res) => {
                 title: topic.title,
                 coverImage: topic.cover_image ? await getSignedMediaUrlIfNeeded(topic.cover_image) : null,
             },
-            contents: contentResult.rows.map((row) => ({
-                id: row.id,
-                title: row.title,
-                contentType: row.content_type,
-                mediaUrl: row.media_url || undefined,
-                externalUrl: row.external_url || undefined,
-                textContent: row.text_content || undefined,
-                sortOrder: Number(row.sort_order || 0),
-            })),
+            contents,
         });
     }
     catch (err) {

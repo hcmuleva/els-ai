@@ -55,8 +55,11 @@ export default function ChoiceQuestionRenderer({ questionType, questionAudio, qu
     if (!promptAudio) return;
     const resolved = resolveMediaUrl(promptAudio);
     if (!resolved) return;
-    const timer = setTimeout(() => AudioManager.playSound(resolved), 250);
-    return () => clearTimeout(timer);
+    const timer = setTimeout(() => AudioManager.playPrompt(resolved), 250);
+    return () => {
+      clearTimeout(timer);
+      AudioManager.stopPrompt();
+    };
   }, [promptAudio]);
 
   useEffect(() => {
@@ -73,7 +76,7 @@ export default function ChoiceQuestionRenderer({ questionType, questionAudio, qu
 
   const playPrompt = () => {
     const resolved = resolveMediaUrl(promptAudio);
-    if (resolved) AudioManager.playSound(resolved);
+    if (resolved) AudioManager.playPrompt(resolved);
   };
 
   const playFeedback = (correct: boolean) => {

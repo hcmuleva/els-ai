@@ -11,6 +11,7 @@ import {
 } from 'lucide-react-native';
 
 import { useAuth } from '../../src/context/AuthContext';
+import { resolveMediaUrl } from '../../src/utils/media';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
 
 type Section = {
@@ -222,14 +223,14 @@ export default function StoryReaderScreen() {
                 const firstImage = section.media.find((m) => m.kind === 'image');
                 const firstVideo = section.media.find((m) => m.kind === 'video');
                 if (firstImage?.url) {
-                  return <Image source={{ uri: firstImage.url }} style={s.heroThumb} resizeMode="cover" />;
+                  return <Image source={{ uri: resolveMediaUrl(firstImage.url) }} style={s.heroThumb} resizeMode="cover" />;
                 }
                 if (firstVideo?.url && isYouTube(firstVideo.url)) {
                   const yt = ytThumb(firstVideo.url);
                   if (yt) return <Image source={{ uri: yt }} style={s.heroThumb} resizeMode="cover" />;
                 }
                 if (story.coverImageUrl) {
-                  return <Image source={{ uri: story.coverImageUrl }} style={s.heroThumb} resizeMode="cover" />;
+                  return <Image source={{ uri: resolveMediaUrl(story.coverImageUrl) }} style={s.heroThumb} resizeMode="cover" />;
                 }
                 return (
                   <View style={[s.heroIconBox, { backgroundColor: `${cfg.accent}20` }]}>
@@ -286,7 +287,7 @@ export default function StoryReaderScreen() {
                   <View key={i} style={s.videoWrap}>
                     {Platform.OS === 'web' ? (
                       // @ts-ignore
-                      <video src={m.url} controls style={{ width: '100%', borderRadius: 16, maxHeight: 240 }} />
+                      <video src={resolveMediaUrl(m.url)} controls style={{ width: '100%', borderRadius: 16, maxHeight: 240 }} />
                     ) : (
                       <View style={[s.videoFrame, { alignItems: 'center', justifyContent: 'center' }]}>
                         <VideoIcon size={36} color="#fff" />
@@ -300,7 +301,7 @@ export default function StoryReaderScreen() {
               if (m.kind === 'image' && m.url) {
                 return (
                   <View key={i} style={s.imgWrap}>
-                    <Image source={{ uri: m.url }} style={s.img} resizeMode="cover" />
+                    <Image source={{ uri: resolveMediaUrl(m.url) }} style={s.img} resizeMode="cover" />
                     {!!m.caption && <Text style={s.mediaCaption}>{m.caption}</Text>}
                   </View>
                 );
@@ -315,7 +316,7 @@ export default function StoryReaderScreen() {
                       <Text style={s.audioTitle}>{m.caption || 'Listen along'}</Text>
                       {Platform.OS === 'web' ? (
                         // @ts-ignore
-                        <audio src={m.url} controls style={{ width: '100%', marginTop: 6 }} />
+                        <audio src={resolveMediaUrl(m.url)} controls style={{ width: '100%', marginTop: 6 }} />
                       ) : (
                         <Text style={s.audioMeta}>Audio playback opens externally</Text>
                       )}
@@ -386,7 +387,7 @@ export default function StoryReaderScreen() {
                     >
                       <View style={[s.moreCardIconWrap, { backgroundColor: active ? `${cc.accent}20` : '#F0F0F8' }]}>
                         {thumb
-                          ? <Image source={{ uri: thumb }} style={s.moreCardImg} resizeMode="cover" />
+                          ? <Image source={{ uri: resolveMediaUrl(thumb) }} style={s.moreCardImg} resizeMode="cover" />
                           : <BookOpen size={22} color={active ? cc.accent : '#9A9AB0'} />}
                       </View>
                       <Text style={s.moreCardTitle} numberOfLines={2}>{c.title}</Text>

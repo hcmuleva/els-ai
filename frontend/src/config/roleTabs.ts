@@ -21,10 +21,11 @@ export const roleTabs: Record<UserRole, RoleTabItem[]> = {
     { route: 'planner', label: 'Planner', icon: SquareLibrary },
     { route: 'manage', label: 'Manage', icon: FileText },
     { route: 'stories', label: 'Stories', icon: BookOpenCheck },
-    { route: 'exam', label: 'Exam', icon: FileText },
+    { route: 'quiz', label: 'Quiz', icon: FileText },
   ],
   parent: [
     { route: 'index', label: 'Home', icon: House },
+    { route: 'assessment', label: 'Assessment', icon: FileText },
     { route: 'reports', label: 'Reports', icon: ChartColumn },
   ],
   admin: [
@@ -38,7 +39,7 @@ export const roleTabs: Record<UserRole, RoleTabItem[]> = {
 export const hiddenTabRoutes = [
   'classroom',
   'planner',
-  'exam',
+  'quiz',
   'logicopiccolo',
   'assessment',
   'evaluation',

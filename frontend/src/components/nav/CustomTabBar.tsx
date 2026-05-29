@@ -30,7 +30,7 @@ const BAR_H_PAD  = 12;
 const BAR_V_PAD  = 6;
 const PILL_INSET = 6;
 // Max tabs shown inline (not counting the More button)
-const MAX_INLINE = 2;
+const MAX_INLINE = 3;
 
 // ── More panel item ───────────────────────────────────────────────────────────
 function MoreItem({

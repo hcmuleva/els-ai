@@ -1,0 +1,60 @@
+{
+  "quizzesAttempted": 10,
+  "quizzesCreated": 10,
+  "quizzesSkipped": 0,
+  "questionsAttempted": 50,
+  "questionsCreated": 50,
+  "failures": [],
+  "createdQuizzes": [
+    {
+      "quizId": "2be08575-5987-4255-9881-20cf6250be1b",
+      "title": "LKG Mathematics - Numbers and Counting",
+      "questions": 5
+    },
+    {
+      "quizId": "5ee076f6-30af-466e-be8c-845ec6c3fe16",
+      "title": "LKG Mathematics - Shapes and Comparison",
+      "questions": 5
+    },
+    {
+      "quizId": "b535df36-c742-4235-84fd-7111abe88b3f",
+      "title": "LKG English - Alphabet and Phonics",
+      "questions": 5
+    },
+    {
+      "quizId": "27544d16-ec5a-4529-85aa-42bd31868291",
+      "title": "LKG English - Simple Words",
+      "questions": 5
+    },
+    {
+      "quizId": "a1b3d3c5-157f-4f6b-9eb8-9a4101f86b64",
+      "title": "LKG EVS - Animals and Homes",
+      "questions": 5
+    },
+    {
+      "quizId": "f1b6e4e0-169e-4f32-a796-bd3abfdb1265",
+      "title": "LKG EVS - Plants and Helpers",
+      "questions": 5
+    },
+    {
+      "quizId": "87da913a-7c5f-4b8c-9b05-ba8589a8c745",
+      "title": "LKG General Knowledge - Colours and Objects",
+      "questions": 5
+    },
+    {
+      "quizId": "9675eec6-48bd-4f79-a82f-43b112d81259",
+      "title": "LKG General Knowledge - Transport and Festivals",
+      "questions": 5
+    },
+    {
+      "quizId": "319442dd-0644-4dad-bb71-cf055cafc3d4",
+      "title": "LKG Moral Values - Sharing and Caring",
+      "questions": 5
+    },
+    {
+      "quizId": "45578aba-3bad-41e4-bbf3-c7a3de764105",
+      "title": "LKG Moral Values - Honesty and Respect",
+      "questions": 5
+    }
+  ]
+}

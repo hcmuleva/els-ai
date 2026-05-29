@@ -466,7 +466,7 @@ topicsRouter.get('/:topicId/details', requireAuth, async (req: AuthenticatedRequ
     let sectionsRows: any[] = [];
     if (contentIds.length > 0) {
       const sectionsResult = await db.query(
-        `SELECT id, content_id, section_order, title, content_type, media_url, external_url, text_content, created_at, updated_at
+        `SELECT id, content_id, section_order, title, content_type, media_url, external_url, text_content, quiz_id, created_at, updated_at
          FROM learning_content_sections
          WHERE content_id = ANY($1::uuid[])
          ORDER BY content_id, section_order ASC, created_at ASC`,
@@ -489,6 +489,7 @@ topicsRouter.get('/:topicId/details', requireAuth, async (req: AuthenticatedRequ
         mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url as string) : undefined,
         externalUrl: (row.external_url as string | null) || undefined,
         textContent: (row.text_content as string | null) || undefined,
+        quizId: (row.quiz_id as string | null) || undefined,
         createdAt: row.created_at as string,
         updatedAt: row.updated_at as string,
       });
@@ -978,6 +979,57 @@ studentsRouter.get('/:topicId', requireAuth, async (req: AuthenticatedRequest, r
       [topicId],
     );
 
+    const contentIds = contentResult.rows.map((row) => row.id as string);
+    const sectionsByContentId: Record<string, any[]> = {};
+    if (contentIds.length > 0) {
+      const sectionsResult = await db.query(
+        `SELECT content_id, section_order, title, content_type, media_url, external_url, text_content, quiz_id
+         FROM learning_content_sections
+         WHERE content_id = ANY($1::uuid[])
+         ORDER BY content_id, section_order ASC, created_at ASC`,
+        [contentIds],
+      );
+      for (const row of sectionsResult.rows) {
+        const cId = row.content_id as string;
+        if (!sectionsByContentId[cId]) sectionsByContentId[cId] = [];
+        sectionsByContentId[cId].push(row);
+      }
+    }
+
+    // Flatten content items into individual single-type lessons so the student
+    // carousel can render each section (text, video, activity) on its own.
+    const contents: any[] = [];
+    for (const row of contentResult.rows) {
+      const cId = row.id as string;
+      const sections = sectionsByContentId[cId] || [];
+      if (sections.length > 0) {
+        for (let i = 0; i < sections.length; i += 1) {
+          const sec = sections[i];
+          contents.push({
+            id: `${cId}:${sec.section_order ?? i + 1}`,
+            title: (sec.title as string | null) || (row.title as string),
+            contentType: sec.content_type as string,
+            mediaUrl: sec.media_url ? await getSignedMediaUrlIfNeeded(sec.media_url as string) : undefined,
+            externalUrl: (sec.external_url as string | null) || undefined,
+            textContent: (sec.text_content as string | null) || undefined,
+            quizId: (sec.quiz_id as string | null) || undefined,
+            sortOrder: Number(row.sort_order || 0) * 1000 + Number(sec.section_order || i + 1),
+          });
+        }
+      } else {
+        contents.push({
+          id: cId,
+          title: row.title as string,
+          contentType: row.content_type as string,
+          mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url as string) : undefined,
+          externalUrl: (row.external_url as string | null) || undefined,
+          textContent: (row.text_content as string | null) || undefined,
+          quizId: undefined,
+          sortOrder: Number(row.sort_order || 0),
+        });
+      }
+    }
+
     return res.json({
       topic: {
         id: topic.id as string,
@@ -986,15 +1038,7 @@ studentsRouter.get('/:topicId', requireAuth, async (req: AuthenticatedRequest, r
         title: topic.title as string,
         coverImage: topic.cover_image ? await getSignedMediaUrlIfNeeded(topic.cover_image as string) : null,
       },
-      contents: contentResult.rows.map((row) => ({
-        id: row.id as string,
-        title: row.title as string,
-        contentType: row.content_type as string,
-        mediaUrl: (row.media_url as string | null) || undefined,
-        externalUrl: (row.external_url as string | null) || undefined,
-        textContent: (row.text_content as string | null) || undefined,
-        sortOrder: Number(row.sort_order || 0),
-      })),
+      contents,
     });
   } catch (err) {
     console.error(err);

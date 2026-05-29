@@ -105,12 +105,23 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="exam"
+        name="manage"
         options={{
-          href: tabRoutes.has('exam') ? undefined : null,
-          title: 'Exam Setup',
+          href: tabRoutes.has('manage') ? undefined : null,
+          title: 'Manage',
           tabBarIcon: ({ color, size }) => {
-            const Icon = getTabIcon('exam');
+            const Icon = getTabIcon('manage');
+            return <Icon size={size} />;
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="quiz"
+        options={{
+          href: tabRoutes.has('quiz') ? undefined : null,
+          title: 'Quiz',
+          tabBarIcon: ({ color, size }) => {
+            const Icon = getTabIcon('quiz');
             return <Icon size={size} />;
           },
         }}
@@ -166,17 +177,6 @@ export default function TabsLayout() {
           title: 'Reports',
           tabBarIcon: ({ color, size }) => {
             const Icon = getTabIcon('reports');
-            return <Icon size={size} />;
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="manage"
-        options={{
-          href: tabRoutes.has('manage') ? undefined : null,
-          title: 'Manage',
-          tabBarIcon: ({ color, size }) => {
-            const Icon = getTabIcon('manage');
             return <Icon size={size} />;
           },
         }}

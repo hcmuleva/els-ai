@@ -11,7 +11,7 @@ import {
   ChevronDown, ChevronUp, GripVertical, ChevronLeft,
   Play, Video as VideoIcon, Headphones, Image as ImageIcon, BookOpen,
   FileText, Film, Link, Layers, Plus, FolderOpen, Pencil, Trash2, Eye,
-  Filter, LayoutList,
+  Filter, LayoutList, Trophy, ListChecks, Search, X,
 } from 'lucide-react-native';
 import React from 'react';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
@@ -30,13 +30,17 @@ export type LearningContentItem = {
 type ContentSection = {
   id?: string; sectionOrder?: number; title?: string;
   contentType: string; mediaUrl?: string; externalUrl?: string; textContent?: string;
+  quizId?: string | null;
 };
 
 type SectionDraft = {
   draftId: string; title: string;
   contentType: 'youtube_url' | 'reel_url' | 'image' | 'audio' | 'text';
   mediaUrl: string; externalUrl: string; textContent: string;
+  quizId: string | null;
 };
+
+type QuizLite = { id: string; title: string; classLevel?: string; subject?: string; questionCount?: number };
 
 type ModalTab = 'setup' | 'sections' | 'preview';
 type ApiFetch = (path: string, options?: RequestInit) => Promise<Response>;
@@ -49,7 +53,7 @@ function resolveUrl(url?: string) {
 let _uid = 0;
 function uid() { return `d-${++_uid}`; }
 function makeSection(): SectionDraft {
-  return { draftId: uid(), title: '', contentType: 'youtube_url', mediaUrl: '', externalUrl: '', textContent: '' };
+  return { draftId: uid(), title: '', contentType: 'youtube_url', mediaUrl: '', externalUrl: '', textContent: '', quizId: null };
 }
 function moveUp<T>(arr: T[], idx: number): T[] {
   if (idx === 0) return arr;
@@ -60,8 +64,8 @@ function moveDown<T>(arr: T[], idx: number): T[] {
   const a = [...arr]; [a[idx], a[idx + 1]] = [a[idx + 1], a[idx]]; return a;
 }
 
-const SUBJECT_OPTIONS = ['Hindi Stories', 'English', 'Maths', 'Science', 'Hindi', 'EVS', 'GK', 'Computer'];
 const CONTENT_COLORS  = ['#D6EAFF', '#FFE8D6', '#D6F5D6', '#EDE4FF', '#FFF5CC', '#FFE0F0'];
+type SubjectCatalogItem = { classLevel: string; title: string; coverImage?: string; iconImage?: string; iconBgColor?: string };
 
 type LucideIcon = React.ComponentType<{ size?: number; color?: string }>;
 type TypeCfg = { Icon: LucideIcon; color: string; bg: string; label: string };
@@ -213,10 +217,11 @@ function ContentDetailsModal({ item, apiFetch, onClose, onEdit }: {
 }
 
 // ── Content Create/Edit Modal ─────────────────────────────────────────────────
-function ContentFormModal({ editingItem, apiFetch, topics, onClose, onSuccess, onUploadMedia }: {
+function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, onClose, onSuccess, onUploadMedia }: {
   editingItem: LearningContentItem | null | 'new';
   apiFetch: ApiFetch;
   topics: { id: string; title: string; classLevel: string; subject: string }[];
+  subjectCatalog: SubjectCatalogItem[];
   onClose: () => void;
   onSuccess: () => void;
   onUploadMedia: (sectionDraftId: string) => Promise<{ url: string; contentType: SectionDraft['contentType'] }>;
@@ -236,9 +241,44 @@ function ContentFormModal({ editingItem, apiFetch, topics, onClose, onSuccess, o
   const [toast, setToast]       = useState<string | null>(null);
   const [classOpen, setClassOpen]   = useState(false);
   const [subjectOpen, setSubjectOpen] = useState(false);
+  // quiz attach (per section), story-style picker
+  const [quizLibrary, setQuizLibrary] = useState<QuizLite[]>([]);
+  const [quizPickerFor, setQuizPickerFor] = useState<string | null>(null); // section draftId
+  const [quizSearch, setQuizSearch] = useState('');
+
+  useEffect(() => {
+    if (!isOpen) return;
+    apiFetch('/quizzes/teacher/library?status=all&limit=200')
+      .then((r) => r.ok ? r.json() : { quizzes: [] })
+      .then((d) => setQuizLibrary((d.quizzes ?? d.items ?? []).map((q: any) => ({
+        id: q.id, title: q.title || 'Untitled', classLevel: q.class_level, subject: q.subject,
+        questionCount: q.total_questions ?? q.questionCount ?? 0,
+      }))))
+      .catch(() => {});
+  }, [isOpen]);
 
   const classOptions   = STANDARD_OPTIONS.map((o) => ({ label: o.label, value: o.value }));
-  const subjectOptions = SUBJECT_OPTIONS.map((s) => ({ label: s, value: s }));
+  const subjectOptions = useMemo(() => {
+    const filtered = subjectCatalog.filter((item) => !classLevel || item.classLevel === classLevel);
+    const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
+    filtered.forEach((item) => {
+      const title = item.title.trim();
+      if (!title) return;
+      if (!byTitle.has(title)) {
+        byTitle.set(title, { coverImage: item.coverImage, iconUrl: item.iconImage, iconBgColor: item.iconBgColor });
+      }
+    });
+    if (subject && !byTitle.has(subject)) byTitle.set(subject, {});
+    return Array.from(byTitle.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([title, icon]) => ({
+        label: title,
+        value: title,
+        coverImage: icon.coverImage,
+        iconUrl: icon.iconUrl,
+        iconBgColor: icon.iconBgColor,
+      }));
+  }, [classLevel, subject, subjectCatalog]);
 
   // Load existing data when editing
   useEffect(() => {
@@ -266,6 +306,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, onClose, onSuccess, o
           mediaUrl: s.mediaUrl ?? '',
           externalUrl: s.externalUrl ?? '',
           textContent: s.textContent ?? '',
+          quizId: s.quizId ?? null,
         })));
       })
       .catch(() => {})
@@ -295,6 +336,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, onClose, onSuccess, o
       mediaUrl: s.mediaUrl.trim() || undefined,
       externalUrl: s.externalUrl.trim() || undefined,
       textContent: s.textContent.trim() || undefined,
+      quizId: s.quizId || undefined,
     }));
     const invalid = normalized.findIndex((s) => {
       if (s.contentType === 'text') return !s.textContent;
@@ -485,6 +527,34 @@ function ContentFormModal({ editingItem, apiFetch, topics, onClose, onSuccess, o
                             </View>
                           )}
                         </View>
+
+                        {/* Quiz attach (Quick Challenge, story-style) */}
+                        <View style={{ paddingHorizontal: 14, paddingBottom: 14, gap: 6 }}>
+                          <Text style={c.quizAttachLabel}>QUICK CHALLENGE QUIZ</Text>
+                          {sec.quizId ? (() => {
+                            const q = quizLibrary.find((x) => x.id === sec.quizId);
+                            return (
+                              <View style={c.quizAttachedCard}>
+                                <View style={c.quizAttachedIcon}><Trophy size={15} color="#7C3AED" /></View>
+                                <View style={{ flex: 1 }}>
+                                  <Text style={c.quizAttachedTitle} numberOfLines={1}>{q?.title || `Quiz #${sec.quizId.slice(0, 8)}`}</Text>
+                                  <Text style={c.quizAttachedMeta}>{q?.questionCount ?? 0} questions</Text>
+                                </View>
+                                <TouchableOpacity onPress={() => updateSection(sec.draftId, { quizId: null })} style={c.removeBtn}>
+                                  <Text style={c.removeBtnText}>✕</Text>
+                                </TouchableOpacity>
+                              </View>
+                            );
+                          })() : (
+                            <Pressable
+                              style={c.quizAttachBtn}
+                              onPress={() => { setQuizSearch(''); setQuizPickerFor(sec.draftId); }}
+                            >
+                              <ListChecks size={16} color="#7C3AED" />
+                              <Text style={c.quizAttachBtnText}>+ Attach a quiz</Text>
+                            </Pressable>
+                          )}
+                        </View>
                       </View>
                     );
                   })}
@@ -528,8 +598,59 @@ function ContentFormModal({ editingItem, apiFetch, topics, onClose, onSuccess, o
         )}
       </View>
 
-      <SelectorModal visible={classOpen}   title="Select Class"   options={classOptions}   selected={classLevel} onSelect={setClass}   onClose={() => setClassOpen(false)} />
+      <SelectorModal visible={classOpen}   title="Select Class"   options={classOptions}   selected={classLevel} onSelect={(v) => { setClass(v); setSubject(''); }}   onClose={() => setClassOpen(false)} />
       <SelectorModal visible={subjectOpen} title="Select Subject" options={subjectOptions} selected={subject}     isSubject onSelect={setSubject} onClose={() => setSubjectOpen(false)} />
+
+      {/* ── Quiz picker (per section) ── */}
+      <Modal visible={quizPickerFor !== null} transparent animationType="slide" onRequestClose={() => setQuizPickerFor(null)}>
+        <View style={c.pickerBackdrop}>
+          <View style={c.pickerSheet}>
+            <View style={c.pickerHeader}>
+              <Text style={c.pickerTitle}>Attach a Quiz</Text>
+              <Pressable onPress={() => setQuizPickerFor(null)}><X size={20} color="#9A9AB0" /></Pressable>
+            </View>
+            <View style={c.pickerSearchRow}>
+              <Search size={15} color="#9A9AB0" />
+              <TextInput
+                value={quizSearch}
+                onChangeText={setQuizSearch}
+                placeholder="Search quizzes…"
+                placeholderTextColor="#A0A8C0"
+                autoCapitalize="none"
+                style={{ flex: 1, fontSize: 14, color: '#1A1A2E', paddingVertical: 8 }}
+              />
+              {quizSearch !== '' && <Pressable onPress={() => setQuizSearch('')}><X size={15} color="#9A9AB0" /></Pressable>}
+            </View>
+            <ScrollView style={{ maxHeight: 380 }} contentContainerStyle={{ padding: 12, gap: 8 }} keyboardShouldPersistTaps="handled">
+              {(() => {
+                const base = subject ? quizLibrary.filter((q) => !q.subject || q.subject === subject) : quizLibrary;
+                const pool = base.length === 0 ? quizLibrary : base;
+                const list = quizSearch.trim()
+                  ? pool.filter((q) => q.title.toLowerCase().includes(quizSearch.toLowerCase()))
+                  : pool;
+                if (list.length === 0) return <Text style={c.pickerEmpty}>No quizzes found.</Text>;
+                return list.map((q) => (
+                  <Pressable
+                    key={q.id}
+                    style={c.quizPickRow}
+                    onPress={() => {
+                      if (quizPickerFor) updateSection(quizPickerFor, { quizId: q.id });
+                      setQuizPickerFor(null);
+                    }}
+                  >
+                    <View style={c.quizAttachedIcon}><Trophy size={15} color="#7C3AED" /></View>
+                    <View style={{ flex: 1 }}>
+                      <Text style={c.quizAttachedTitle} numberOfLines={2}>{q.title}</Text>
+                      <Text style={c.quizAttachedMeta}>{q.classLevel ? getStandardLabel(q.classLevel) : 'Any'} · {q.subject || '—'} · {q.questionCount ?? 0}Q</Text>
+                    </View>
+                    <Text style={c.quizPickAttach}>+ Attach</Text>
+                  </Pressable>
+                ));
+              })()}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
     </Modal>
   );
 }
@@ -594,6 +715,7 @@ type Props = {
   loadingContent: boolean;
   deletingContentId: string | null;
   filters: { classLevel: string; subject: string };
+  subjectCatalog: SubjectCatalogItem[];
   topics: { id: string; title: string; classLevel: string; subject: string }[];
   apiFetch: ApiFetch;
   onFiltersChange: (f: { classLevel: string; subject: string }) => void;
@@ -607,6 +729,7 @@ type Props = {
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default function ContentTab({
   contentItems, loadingContent, deletingContentId, filters, topics,
+  subjectCatalog,
   apiFetch, onFiltersChange, onApplyFilters, onDeleteContent, onRefresh,
   onUploadMedia, message,
 }: Props) {
@@ -616,7 +739,27 @@ export default function ContentTab({
   const [detailsItem, setDetailsItem]               = useState<LearningContentItem | null>(null);
 
   const classOptions   = STANDARD_OPTIONS.map((o) => ({ label: o.label, value: o.value }));
-  const subjectOptions = SUBJECT_OPTIONS.map((s) => ({ label: s, value: s }));
+  const subjectOptions = useMemo(() => {
+    const filtered = subjectCatalog.filter((item) => !filters.classLevel || item.classLevel === filters.classLevel);
+    const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
+    filtered.forEach((item) => {
+      const title = item.title.trim();
+      if (!title) return;
+      if (!byTitle.has(title)) {
+        byTitle.set(title, { coverImage: item.coverImage, iconUrl: item.iconImage, iconBgColor: item.iconBgColor });
+      }
+    });
+    if (filters.subject && !byTitle.has(filters.subject)) byTitle.set(filters.subject, {});
+    return Array.from(byTitle.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([title, icon]) => ({
+        label: title,
+        value: title,
+        coverImage: icon.coverImage,
+        iconUrl: icon.iconUrl,
+        iconBgColor: icon.iconBgColor,
+      }));
+  }, [filters.classLevel, filters.subject, subjectCatalog]);
 
   return (
     <View style={c.root}>
@@ -692,7 +835,7 @@ export default function ContentTab({
       </ScrollView>
 
       {/* Filter selectors */}
-      <SelectorModal visible={classFilterOpen}   title="Select Class"   options={classOptions}   selected={filters.classLevel} anyLabel="All Classes"   onSelect={(v) => { onFiltersChange({ ...filters, classLevel: v }); setClassFilterOpen(false); }}   onClose={() => setClassFilterOpen(false)} />
+      <SelectorModal visible={classFilterOpen}   title="Select Class"   options={classOptions}   selected={filters.classLevel} anyLabel="All Classes"   onSelect={(v) => { onFiltersChange({ classLevel: v, subject: '' }); setClassFilterOpen(false); }}   onClose={() => setClassFilterOpen(false)} />
       <SelectorModal visible={subjectFilterOpen} title="Select Subject" options={subjectOptions} selected={filters.subject}     anyLabel="All Subjects" isSubject onSelect={(v) => { onFiltersChange({ ...filters, subject: v }); setSubjectFilterOpen(false); }} onClose={() => setSubjectFilterOpen(false)} />
 
       {/* Details modal */}
@@ -708,6 +851,7 @@ export default function ContentTab({
         editingItem={editingItem}
         apiFetch={apiFetch}
         topics={topics}
+        subjectCatalog={subjectCatalog}
         onClose={() => setEditingItem(null)}
         onSuccess={onRefresh}
         onUploadMedia={onUploadMedia}
@@ -817,6 +961,22 @@ const c = StyleSheet.create({
   orderBtn:            { width: 26, height: 26, alignItems: 'center', justifyContent: 'center', borderRadius: 6, backgroundColor: '#F5F7FF' },
   removeBtn:           { width: 26, height: 26, alignItems: 'center', justifyContent: 'center', borderRadius: 6, backgroundColor: '#FFE8E8', marginLeft: 2 },
   removeBtnText:       { fontSize: 11, fontWeight: '800', color: '#FF7043' },
+
+  quizAttachLabel:   { fontSize: 10, fontWeight: '800', color: '#9A9AB0', letterSpacing: 0.5, marginBottom: 2 },
+  quizAttachBtn:     { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, paddingVertical: 11, borderRadius: 10, borderWidth: 1.5, borderColor: '#E5D9F8', backgroundColor: '#F7F2FE', borderStyle: 'dashed' },
+  quizAttachBtnText: { fontSize: 13, fontWeight: '800', color: '#7C3AED' },
+  quizAttachedCard:  { flexDirection: 'row', alignItems: 'center', gap: 10, padding: 10, borderRadius: 10, backgroundColor: '#F5EFFE', borderWidth: 1, borderColor: '#E5D9F8' },
+  quizAttachedIcon:  { width: 32, height: 32, borderRadius: 16, backgroundColor: '#EFE7FB', alignItems: 'center', justifyContent: 'center' },
+  quizAttachedTitle: { fontSize: 13, fontWeight: '800', color: '#5B21B6' },
+  quizAttachedMeta:  { fontSize: 11, color: '#7C3AED', marginTop: 1, fontWeight: '600' },
+  pickerBackdrop:    { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' },
+  pickerSheet:       { backgroundColor: '#fff', borderTopLeftRadius: 20, borderTopRightRadius: 20, paddingBottom: 24 },
+  pickerHeader:      { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 16, borderBottomWidth: 1, borderBottomColor: '#F0F0F5' },
+  pickerTitle:       { fontSize: 16, fontWeight: '900', color: '#1A1A2E' },
+  pickerSearchRow:   { flexDirection: 'row', alignItems: 'center', gap: 8, marginHorizontal: 16, marginTop: 12, paddingHorizontal: 12, borderRadius: 10, backgroundColor: '#F4F4FB' },
+  pickerEmpty:       { textAlign: 'center', color: '#9A9AB0', fontSize: 13, paddingVertical: 30 },
+  quizPickRow:       { flexDirection: 'row', alignItems: 'center', gap: 10, padding: 10, borderRadius: 10, backgroundColor: '#FAFAFE', borderWidth: 1, borderColor: '#EEF0F6' },
+  quizPickAttach:    { fontSize: 12, fontWeight: '800', color: '#7C3AED' },
 
   typeChipBtn:     { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 999, paddingHorizontal: 12, paddingVertical: 6, backgroundColor: '#F0F0F8', borderWidth: 1, borderColor: 'transparent' },
 
