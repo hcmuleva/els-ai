@@ -25,6 +25,7 @@ export const roleTabs: Record<UserRole, RoleTabItem[]> = {
   ],
   parent: [
     { route: 'index', label: 'Home', icon: House },
+    { route: 'assessment', label: 'Assessment', icon: FileText },
     { route: 'reports', label: 'Reports', icon: ChartColumn },
   ],
   admin: [

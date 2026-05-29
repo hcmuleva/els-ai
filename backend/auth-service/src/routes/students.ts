@@ -2,6 +2,25 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { db } from '../db.js';
 import { AuthenticatedRequest, requireAuth } from './auth.js';
+import { getSignedMediaUrlIfNeeded } from '@els-ai/media-client';
+
+async function signMediaValue(value: unknown, cache: Map<string, Promise<string>>): Promise<unknown> {
+  if (typeof value === 'string') {
+    const t = value.trim();
+    if (!t || (!t.includes('://') && !t.startsWith('s3://'))) return value;
+    let p = cache.get(t);
+    if (!p) { p = getSignedMediaUrlIfNeeded(t).catch(() => t); cache.set(t, p); }
+    return p;
+  }
+  if (Array.isArray(value)) return Promise.all(value.map((item) => signMediaValue(item, cache)));
+  if (value && typeof value === 'object') {
+    const entries = await Promise.all(
+      Object.entries(value as Record<string, unknown>).map(async ([k, v]) => [k, await signMediaValue(v, cache)] as const),
+    );
+    return Object.fromEntries(entries);
+  }
+  return value;
+}
 
 function getSingleParam(value: string | string[] | undefined): string | null {
   if (Array.isArray(value)) return value[0] || null;
@@ -25,6 +44,50 @@ const analyticsQuerySchema = z.object({
   from: z.string().optional(),
   to: z.string().optional(),
 });
+
+const parentAssessmentSchema = z.object({
+  behavior: z.number().int().min(0).max(10),
+  focus: z.number().int().min(0).max(10),
+  regularity: z.number().int().min(0).max(10),
+  creativity: z.number().int().min(0).max(10),
+  academic: z.number().int().min(0).max(10),
+  outdoorActivity: z.number().int().min(0).max(10),
+});
+
+const parentFeedbackSchema = z.object({
+  feedback: z.string().trim().min(1).max(2000),
+  attachmentUrl: z.string().trim().url().optional().or(z.literal('')).transform((value) => value || undefined),
+});
+
+async function canAccessStudent(req: AuthenticatedRequest, studentId: string, organizationId: string | null) {
+  const user = req.user;
+  if (!organizationId || !user?.userId) return false;
+  const isAdmin = user.role === 'admin' || user.role === 'superadmin';
+  const isSelf = user.userId === studentId;
+  if (isAdmin || isSelf) return true;
+
+  const parentCheck = await db.query(
+    `SELECT 1 FROM parent_student_links
+     WHERE parent_user_id = $1 AND student_user_id = $2 AND organization_id = $3::uuid LIMIT 1`,
+    [user.userId, studentId, organizationId],
+  );
+  return (parentCheck.rowCount ?? 0) > 0;
+}
+
+async function canSubmitParentData(req: AuthenticatedRequest, studentId: string, organizationId: string | null) {
+  const user = req.user;
+  if (!organizationId || !user?.userId) return false;
+  const isAdmin = user.role === 'admin' || user.role === 'superadmin';
+  if (isAdmin) return true;
+  if (user.role !== 'parent') return false;
+
+  const parentCheck = await db.query(
+    `SELECT 1 FROM parent_student_links
+     WHERE parent_user_id = $1 AND student_user_id = $2 AND organization_id = $3::uuid LIMIT 1`,
+    [user.userId, studentId, organizationId],
+  );
+  return (parentCheck.rowCount ?? 0) > 0;
+}
 
 export const studentsRouter = Router();
 
@@ -531,6 +594,20 @@ studentsRouter.get('/:id/quiz-attempts/:attemptId', requireAuth, async (req: Aut
       ? Math.round((Number(attempt.score ?? 0) / totalPts) * 100)
       : totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
 
+    const signCache = new Map<string, Promise<string>>();
+    const signedQuestions = await Promise.all(
+      qRows.rows.map(async (r) => ({
+        questionId: r.question_id as string,
+        questionTitle: r.question_title as string | null,
+        questionInstruction: r.question_instruction as string | null,
+        questionType: r.question_type as string,
+        questionData: await signMediaValue(r.question_data ?? {}, signCache) as Record<string, unknown>,
+        sortOrder: r.sort_order as number | null,
+        isCorrect: r.is_correct as boolean,
+        responseData: r.response_data as Record<string, unknown>,
+      })),
+    );
+
     return res.json({
       attempt: {
         id: attempt.id as string,
@@ -541,16 +618,7 @@ studentsRouter.get('/:id/quiz-attempts/:attemptId', requireAuth, async (req: Aut
         correctCount,
         totalQuestions,
       },
-      questions: qRows.rows.map((r) => ({
-        questionId: r.question_id as string,
-        questionTitle: r.question_title as string | null,
-        questionInstruction: r.question_instruction as string | null,
-        questionType: r.question_type as string,
-        questionData: r.question_data as Record<string, unknown>,
-        sortOrder: r.sort_order as number | null,
-        isCorrect: r.is_correct as boolean,
-        responseData: r.response_data as Record<string, unknown>,
-      })),
+      questions: signedQuestions,
     });
   } catch (error) {
     console.error(error);
@@ -695,6 +763,197 @@ studentsRouter.get('/:id/classroom-remarks', requireAuth, async (req: Authentica
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Failed to fetch classroom remarks' });
+  }
+});
+
+studentsRouter.post('/:id/parent-assessments', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const studentId = getSingleParam(req.params.id);
+  const organizationId = getRequestOrganizationId(req);
+  const parsedBody = parentAssessmentSchema.safeParse(req.body);
+
+  if (!studentId) return res.status(400).json({ message: 'Invalid student id' });
+  if (!parsedBody.success) return res.status(400).json({ message: 'Invalid assessment payload', errors: parsedBody.error.issues });
+  if (!(await canSubmitParentData(req, studentId, organizationId))) return res.status(403).json({ message: 'Forbidden' });
+
+  try {
+    const payload = parsedBody.data;
+    const result = await db.query(
+      `INSERT INTO parent_assessments (
+         parent_user_id, student_user_id, organization_id,
+         behavior_score, focus_score, regularity_score,
+         creativity_score, academic_score, outdoor_activity_score
+       ) VALUES ($1, $2, $3::uuid, $4, $5, $6, $7, $8, $9)
+       RETURNING id, behavior_score, focus_score, regularity_score, creativity_score, academic_score, outdoor_activity_score, created_at`,
+      [
+        req.user?.userId,
+        studentId,
+        organizationId,
+        payload.behavior,
+        payload.focus,
+        payload.regularity,
+        payload.creativity,
+        payload.academic,
+        payload.outdoorActivity,
+      ],
+    );
+
+    const row = result.rows[0];
+    return res.status(201).json({
+      id: row.id as string,
+      behavior: Number(row.behavior_score || 0),
+      focus: Number(row.focus_score || 0),
+      regularity: Number(row.regularity_score || 0),
+      creativity: Number(row.creativity_score || 0),
+      academic: Number(row.academic_score || 0),
+      outdoorActivity: Number(row.outdoor_activity_score || 0),
+      createdAt: row.created_at as string,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to save parent assessment' });
+  }
+});
+
+studentsRouter.get('/:id/parent-assessment-trends', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const studentId = getSingleParam(req.params.id);
+  const organizationId = getRequestOrganizationId(req);
+  const limit = Math.min(Math.max(parseInt((req.query.limit as string) || '20', 10), 1), 100);
+
+  if (!studentId) return res.status(400).json({ message: 'Invalid student id' });
+  if (!(await canAccessStudent(req, studentId, organizationId))) return res.status(403).json({ message: 'Forbidden' });
+
+  try {
+    const result = await db.query(
+      `SELECT
+         id,
+         behavior_score,
+         focus_score,
+         regularity_score,
+         creativity_score,
+         academic_score,
+         outdoor_activity_score,
+         created_at
+       FROM parent_assessments
+       WHERE student_user_id = $1
+         AND organization_id = $2::uuid
+       ORDER BY created_at DESC
+       LIMIT $3`,
+      [studentId, organizationId, limit],
+    );
+
+    const rows = result.rows.map((row) => ({
+      id: row.id as string,
+      behavior: Number(row.behavior_score || 0),
+      focus: Number(row.focus_score || 0),
+      regularity: Number(row.regularity_score || 0),
+      creativity: Number(row.creativity_score || 0),
+      academic: Number(row.academic_score || 0),
+      outdoorActivity: Number(row.outdoor_activity_score || 0),
+      createdAt: row.created_at as string,
+    }));
+
+    const totals = rows.reduce(
+      (acc, row) => ({
+        behavior: acc.behavior + row.behavior,
+        focus: acc.focus + row.focus,
+        regularity: acc.regularity + row.regularity,
+        creativity: acc.creativity + row.creativity,
+        academic: acc.academic + row.academic,
+        outdoorActivity: acc.outdoorActivity + row.outdoorActivity,
+      }),
+      { behavior: 0, focus: 0, regularity: 0, creativity: 0, academic: 0, outdoorActivity: 0 },
+    );
+
+    const count = rows.length || 1;
+
+    return res.json({
+      trends: rows.reverse(),
+      latest: rows[0] || null,
+      summary: {
+        totalAssessments: rows.length,
+        averages: {
+          behavior: Number((totals.behavior / count).toFixed(2)),
+          focus: Number((totals.focus / count).toFixed(2)),
+          regularity: Number((totals.regularity / count).toFixed(2)),
+          creativity: Number((totals.creativity / count).toFixed(2)),
+          academic: Number((totals.academic / count).toFixed(2)),
+          outdoorActivity: Number((totals.outdoorActivity / count).toFixed(2)),
+        },
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to fetch parent assessment trends' });
+  }
+});
+
+studentsRouter.post('/:id/parent-feedback', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const studentId = getSingleParam(req.params.id);
+  const organizationId = getRequestOrganizationId(req);
+  const parsedBody = parentFeedbackSchema.safeParse(req.body);
+
+  if (!studentId) return res.status(400).json({ message: 'Invalid student id' });
+  if (!parsedBody.success) return res.status(400).json({ message: 'Invalid feedback payload', errors: parsedBody.error.issues });
+  if (!(await canSubmitParentData(req, studentId, organizationId))) return res.status(403).json({ message: 'Forbidden' });
+
+  try {
+    const result = await db.query(
+      `INSERT INTO parent_feedback (
+         parent_user_id, student_user_id, organization_id, feedback_text, attachment_url
+       ) VALUES ($1, $2, $3::uuid, $4, $5)
+       RETURNING id, feedback_text, attachment_url, created_at`,
+      [
+        req.user?.userId,
+        studentId,
+        organizationId,
+        parsedBody.data.feedback,
+        parsedBody.data.attachmentUrl ?? null,
+      ],
+    );
+
+    const row = result.rows[0];
+    return res.status(201).json({
+      id: row.id as string,
+      feedback: row.feedback_text as string,
+      attachmentUrl: (row.attachment_url as string | null) || null,
+      createdAt: row.created_at as string,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to submit parent feedback' });
+  }
+});
+
+studentsRouter.get('/:id/parent-feedback', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const studentId = getSingleParam(req.params.id);
+  const organizationId = getRequestOrganizationId(req);
+  const limit = Math.min(Math.max(parseInt((req.query.limit as string) || '20', 10), 1), 100);
+
+  if (!studentId) return res.status(400).json({ message: 'Invalid student id' });
+  if (!(await canAccessStudent(req, studentId, organizationId))) return res.status(403).json({ message: 'Forbidden' });
+
+  try {
+    const result = await db.query(
+      `SELECT id, feedback_text, attachment_url, created_at
+       FROM parent_feedback
+       WHERE student_user_id = $1
+         AND organization_id = $2::uuid
+       ORDER BY created_at DESC
+       LIMIT $3`,
+      [studentId, organizationId, limit],
+    );
+
+    return res.json({
+      items: result.rows.map((row) => ({
+        id: row.id as string,
+        feedback: row.feedback_text as string,
+        attachmentUrl: (row.attachment_url as string | null) || null,
+        createdAt: row.created_at as string,
+      })),
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to fetch parent feedback' });
   }
 });
 

@@ -24,6 +24,8 @@ import { AudioManager } from '../../src/utils/audio';
 import TopicsTab from '../../src/components/manage/TopicsTab';
 import ContentTab from '../../src/components/manage/ContentTab';
 import QuestionsTab from '../../src/components/manage/QuestionsTab';
+import JigsawRenderer from '../../src/components/quiz/JigsawRenderer';
+import QuizRenderer from '../../src/components/quiz/QuizRenderer';
 import { frameButtons } from '../modules/logicopiccolo/generated/buttons';
 import { MEMORY_ASSETS, GRID_PAIR_COUNTS, GRID_COLS, pickRandomAssets, type MemoryAsset } from '../../src/data/memoryAssets';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -46,7 +48,7 @@ type QuestionItem = {
   created_at: string;
 };
 
-type QuestionEditorMode = 'choice' | 'drag_drop' | 'logico' | 'memory_match' | 'fill_blank' | 'custom';
+type QuestionEditorMode = 'choice' | 'drag_drop' | 'logico' | 'memory_match' | 'fill_blank' | 'jigsaw' | 'custom';
 
 type SupportedQuestionType =
   | 'guess_image'
@@ -57,7 +59,8 @@ type SupportedQuestionType =
   | 'multi_choice'
   | 'logico'
   | 'memory_match'
-  | 'fill_blank';
+  | 'fill_blank'
+  | 'jigsaw';
 
 type OptionDraft = {
   id: string;
@@ -128,6 +131,8 @@ type SubjectCatalogItem = {
   title: string;
   classLevel: string;
   coverImage?: string;
+  iconImage?: string;
+  iconBgColor?: string;
 };
 
 type ContentTopic = {
@@ -256,6 +261,11 @@ const QUESTION_TYPE_CHOICES: Array<{ value: SupportedQuestionType; label: string
     label: 'Fill in the Blank',
     description: 'Students complete a sentence by selecting the missing word from options.',
   },
+  {
+    value: 'jigsaw',
+    label: 'Jigsaw Puzzle',
+    description: 'Students drag and rearrange puzzle pieces of an uploaded image.',
+  },
 ];
 
 const QUESTION_TYPE_LABELS: Record<string, string> = {
@@ -268,6 +278,7 @@ const QUESTION_TYPE_LABELS: Record<string, string> = {
   logico: 'Logico',
   memory_match: 'Memory Match',
   fill_blank: 'Fill in the Blank',
+  jigsaw: 'Jigsaw Puzzle',
   image_select: 'Guess the Image',
   drag_drop: 'Drag & Drop Match',
   sound_match: 'Guess the Audio',
@@ -284,6 +295,7 @@ const QUESTION_TYPE_DEFAULT_INSTRUCTIONS: Record<SupportedQuestionType, string> 
   logico: 'Match each Logico button with the correct option position from top to bottom.',
   memory_match: 'Tap cards to find all matching pairs before time runs out.',
   fill_blank: 'Read the sentence carefully and choose the correct missing word.',
+  jigsaw: 'Drag and rearrange pieces until the full image is complete.',
 };
 
 const toSlug = (value: string) =>
@@ -317,6 +329,7 @@ const isSupportedQuestionType = (value: unknown): value is SupportedQuestionType
   value === 'drag_drop_match' ||
   value === 'memory_match' ||
   value === 'fill_blank' ||
+  value === 'jigsaw' ||
   value === 'guess_audio' ||
   value === 'true_false' ||
   value === 'single_choice' ||
@@ -329,6 +342,7 @@ const getQuestionEditorMode = (questionType: string): QuestionEditorMode => {
   if (normalized === 'drag_drop_match') return 'drag_drop';
   if (normalized === 'memory_match') return 'memory_match';
   if (normalized === 'fill_blank') return 'fill_blank';
+  if (normalized === 'jigsaw') return 'jigsaw';
   if (
     normalized === 'guess_image' ||
     normalized === 'guess_audio' ||
@@ -639,7 +653,8 @@ function questionDataPromptImage(questionData: unknown): string {
     return '';
   }
 
-  const promptImage = (questionData as Record<string, unknown>).prompt_image;
+  const payload = questionData as Record<string, unknown>;
+  const promptImage = payload.prompt_image ?? payload.image;
   return typeof promptImage === 'string' ? promptImage : '';
 }
 
@@ -647,7 +662,8 @@ function questionDataPromptImageAssetId(questionData: unknown): string {
   if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
     return '';
   }
-  const promptImageAssetId = (questionData as Record<string, unknown>).prompt_image_asset_id;
+  const payload = questionData as Record<string, unknown>;
+  const promptImageAssetId = payload.prompt_image_asset_id ?? payload.image_asset_id;
   return typeof promptImageAssetId === 'string' ? promptImageAssetId : '';
 }
 
@@ -904,6 +920,22 @@ function draftToPayload(draft: QuestionDraft) {
       answer,
       hint: ((draft.rawQuestionData as any)?.hint ?? '').trim() || undefined,
       options: opts.filter(Boolean),
+    };
+  } else if (mode === 'jigsaw') {
+    if (!mainImage) {
+      throw new Error('Add puzzle image for Jigsaw questions.');
+    }
+    const rawGridSize = String((draft.rawQuestionData as any)?.gridSize ?? '3x3');
+    const gridSize = ['2x2', '3x3', '4x4', '5x5'].includes(rawGridSize) ? rawGridSize : '3x3';
+    const rawDifficulty = String((draft.rawQuestionData as any)?.difficulty ?? 'medium');
+    const difficulty = ['easy', 'medium', 'hard'].includes(rawDifficulty) ? rawDifficulty : 'medium';
+    const rawClickLimit = Number((draft.rawQuestionData as any)?.clickLimit ?? 0);
+    questionData = {
+      image: mainImage,
+      ...(mainImageAssetId ? { image_asset_id: mainImageAssetId } : {}),
+      gridSize,
+      difficulty,
+      ...(Number.isFinite(rawClickLimit) && rawClickLimit > 0 ? { clickLimit: rawClickLimit } : {}),
     };
   } else {
     questionData = draft.rawQuestionData ?? {};
@@ -1180,6 +1212,7 @@ export default function QuestionManagementScreen() {
   const [previewQuiz, setPreviewQuiz] = useState<QuizItem | null>(null);
   const [questionActionItem, setQuestionActionItem] = useState<QuestionItem | null>(null);
   const [previewQuestion, setPreviewQuestion] = useState<QuestionItem | null>(null);
+  const [studentPreviewQuizId, setStudentPreviewQuizId] = useState<string | null>(null);
   // Asset picker for memory match creator
   const [assetPickerOpen, setAssetPickerOpen] = useState(false);
   const [assetPickerTarget, setAssetPickerTarget] = useState<{ mode: 'create' | 'edit'; pairIdx: number } | null>(null);
@@ -1890,13 +1923,21 @@ export default function QuestionManagementScreen() {
       ...current,
       questionType,
       questionInstruction: getDefaultInstructionByType(questionType),
-      mainImage: questionType === 'guess_image' || questionType === 'logico' ? current.mainImage : '',
-      mainImageLabel: questionType === 'guess_image' || questionType === 'logico' ? current.mainImageLabel : '',
-      mainImageAssetId: questionType === 'guess_image' || questionType === 'logico' ? current.mainImageAssetId : '',
+      mainImage: questionType === 'guess_image' || questionType === 'logico' || questionType === 'jigsaw' ? current.mainImage : '',
+      mainImageLabel: questionType === 'guess_image' || questionType === 'logico' || questionType === 'jigsaw' ? current.mainImageLabel : '',
+      mainImageAssetId: questionType === 'guess_image' || questionType === 'logico' || questionType === 'jigsaw' ? current.mainImageAssetId : '',
       mainAudio: questionType === 'guess_audio' ? current.mainAudio : '',
       mainAudioLabel: questionType === 'guess_audio' ? current.mainAudioLabel : '',
       mainAudioAssetId: questionType === 'guess_audio' ? current.mainAudioAssetId : '',
       options: makeDefaultOptionsByType(questionType),
+      rawQuestionData:
+        questionType === 'jigsaw'
+          ? {
+              gridSize: '3x3',
+              difficulty: 'medium',
+              clickLimit: 20,
+            }
+          : {},
     }));
   };
 
@@ -2166,6 +2207,19 @@ export default function QuestionManagementScreen() {
   };
 
   const openEditDialog = (question: QuestionItem & { question_data?: unknown }) => {
+    const rawMeta =
+      question.question_data &&
+      typeof question.question_data === 'object' &&
+      !Array.isArray(question.question_data) &&
+      '_meta' in (question.question_data as Record<string, unknown>)
+        ? (question.question_data as Record<string, unknown>)._meta
+        : undefined;
+    const meta =
+      rawMeta && typeof rawMeta === 'object' && !Array.isArray(rawMeta)
+        ? (rawMeta as Record<string, unknown>)
+        : {};
+    const resolvedClassLevel = typeof meta.classLevel === 'string' && meta.classLevel.trim() ? meta.classLevel.trim() : (question.class_level || '');
+    const resolvedSubject = typeof meta.subject === 'string' && meta.subject.trim() ? meta.subject.trim() : (question.subject || '');
     const resolvedMainImage = questionDataPromptImage(question.question_data ?? {});
     const resolvedMainImageAssetId = questionDataPromptImageAssetId(question.question_data ?? {});
     const resolvedMainAudio = question.question_audio || questionDataPromptAudio(question.question_data ?? {});
@@ -2181,8 +2235,8 @@ export default function QuestionManagementScreen() {
         : parsedOptions;
     setEditingQuestionId(question.id);
     setEditDraft({
-      classLevel: question.class_level || '',
-      subject: question.subject || '',
+      classLevel: resolvedClassLevel,
+      subject: resolvedSubject,
       questionTitle: question.question_title || '',
       questionInstruction: question.question_instruction || getDefaultInstructionByType(normalizedType),
       questionType: normalizedType,
@@ -2590,7 +2644,8 @@ export default function QuestionManagementScreen() {
     const isLogicoMode = editorMode === 'logico';
     const isMemoryMatchMode = editorMode === 'memory_match';
     const isFillBlankMode = editorMode === 'fill_blank';
-    const isGameMode = isMemoryMatchMode || isFillBlankMode;
+    const isJigsawMode = editorMode === 'jigsaw';
+    const isGameMode = isMemoryMatchMode || isFillBlankMode || isJigsawMode;
     const hasOptions = (editorMode === 'choice' || isLogicoMode) && !isGameMode;
     const hasPairs = editorMode === 'drag_drop';
     const tab2Label = hasPairs ? 'Pairs' : isLogicoMode ? 'Mappings' : isGameMode ? 'Game Config' : 'Options';
@@ -2628,11 +2683,13 @@ export default function QuestionManagementScreen() {
       guess_image: '#4A90E2', drag_drop_match: '#9B8EC4', guess_audio: '#7DC67A',
       true_false: '#E6A817', single_choice: '#FF7043', multi_choice: '#E91E8C', logico: '#0f766e',
       memory_match: '#7B4FCA', fill_blank: '#E6A020',
+      jigsaw: '#0EA5E9',
     };
     const QTYPES_BG: Record<string, string> = {
       guess_image: '#D6EAFF', drag_drop_match: '#EDE4FF', guess_audio: '#D6F5D6',
       true_false: '#FFF5CC', single_choice: '#FFE8D6', multi_choice: '#FFE0F0', logico: '#DCFCE7',
       memory_match: '#EDE4FF', fill_blank: '#FFF5CC',
+      jigsaw: '#E0F2FE',
     };
 
     return (
@@ -2765,13 +2822,15 @@ export default function QuestionManagementScreen() {
               </View>
             </View>
 
-            {normalizedQuestionType === 'guess_image' || normalizedQuestionType === 'logico' ? (
+            {normalizedQuestionType === 'guess_image' || normalizedQuestionType === 'logico' || normalizedQuestionType === 'jigsaw' ? (
               <View style={qFormS.group}>
-                <Text style={qFormS.groupLabel}>{normalizedQuestionType === 'logico' ? 'WORKSHEET IMAGE' : 'PROMPT IMAGE'}</Text>
+                <Text style={qFormS.groupLabel}>
+                  {normalizedQuestionType === 'logico' ? 'WORKSHEET IMAGE' : normalizedQuestionType === 'jigsaw' ? 'PUZZLE IMAGE' : 'PROMPT IMAGE'}
+                </Text>
                 <View style={qFormS.fieldCard}>
                   <Pressable style={qFormS.uploadBtn} onPress={() => uploadImageForQuestion(mode)}>
                     <Text style={qFormS.uploadBtnText}>
-                      {normalizedQuestionType === 'logico' ? '⬆ Upload Worksheet Image' : '⬆ Upload Prompt Image'}
+                      {normalizedQuestionType === 'logico' ? '⬆ Upload Worksheet Image' : normalizedQuestionType === 'jigsaw' ? '⬆ Upload Puzzle Image' : '⬆ Upload Prompt Image'}
                     </Text>
                   </Pressable>
                   {draft.mainImage.trim() ? (
@@ -3228,6 +3287,90 @@ export default function QuestionManagementScreen() {
           );
         })()}
 
+        {/* ── JIGSAW CONFIG TAB ── */}
+        {questionFormTab === 'options' && isJigsawMode && (() => {
+          const raw = (draft.rawQuestionData as any) ?? {};
+          const gridSize = ['2x2', '3x3', '4x4', '5x5'].includes(raw.gridSize) ? raw.gridSize : '3x3';
+          const difficulty = ['easy', 'medium', 'hard'].includes(raw.difficulty) ? raw.difficulty : 'medium';
+          const clickLimit = Number(raw.clickLimit ?? 20);
+          const setJigsaw = (patch: Record<string, unknown>) =>
+            updateDraftField(mode, 'rawQuestionData', { ...raw, ...patch });
+          return (
+            <ScrollView contentContainerStyle={qFormS.tabContent}>
+              <View style={mmS.section}>
+                <Text style={mmS.sectionTitle}>Puzzle Settings</Text>
+                <Text style={mmS.sectionHint}>Configure jigsaw board and challenge level.</Text>
+
+                <Text style={[qFormS.fieldLabel, { marginTop: 6 }]}>Grid Size</Text>
+                <View style={mmS.gridRow}>
+                  {(['2x2', '3x3', '4x4', '5x5'] as const).map((g) => {
+                    const selected = gridSize === g;
+                    return (
+                      <Pressable key={g} style={{ flex: 1 }} onPress={() => setJigsaw({ gridSize: g })}>
+                        {selected ? (
+                          <LinearGradient colors={['#0EA5E9', '#0284C7']} style={mmS.gridChipSel}>
+                            <Text style={mmS.gridChipMainSel}>{g}</Text>
+                            <Text style={mmS.gridChipSubSel}>{Number(g.split('x')[0]) ** 2} pieces</Text>
+                          </LinearGradient>
+                        ) : (
+                          <View style={mmS.gridChip}>
+                            <Text style={mmS.gridChipMain}>{g}</Text>
+                            <Text style={mmS.gridChipSub}>{Number(g.split('x')[0]) ** 2} pieces</Text>
+                          </View>
+                        )}
+                      </Pressable>
+                    );
+                  })}
+                </View>
+
+                <Text style={[qFormS.fieldLabel, { marginTop: 14 }]}>Difficulty</Text>
+                <View style={mmS.clickGrid}>
+                  {(['easy', 'medium', 'hard'] as const).map((level) => {
+                    const selected = difficulty === level;
+                    return (
+                      <Pressable key={level} style={{ width: '31%' }} onPress={() => setJigsaw({ difficulty: level })}>
+                        {selected ? (
+                          <LinearGradient colors={['#0EA5E9', '#0284C7']} style={mmS.clickChipSel}>
+                            <Text style={mmS.clickChipNumSel}>{level.toUpperCase()}</Text>
+                            <Text style={mmS.clickChipSubSel}>mode</Text>
+                          </LinearGradient>
+                        ) : (
+                          <View style={mmS.clickChip}>
+                            <Text style={mmS.clickChipNum}>{level.toUpperCase()}</Text>
+                            <Text style={mmS.clickChipSub}>mode</Text>
+                          </View>
+                        )}
+                      </Pressable>
+                    );
+                  })}
+                </View>
+
+                <Text style={[qFormS.fieldLabel, { marginTop: 14 }]}>Move Limit (0 = Unlimited)</Text>
+                <View style={mmS.clickGrid}>
+                  {[0, 20, 40, 60].map((limit) => {
+                    const selected = clickLimit === limit;
+                    return (
+                      <Pressable key={limit} style={{ width: '48%' }} onPress={() => setJigsaw({ clickLimit: limit })}>
+                        {selected ? (
+                          <LinearGradient colors={['#0EA5E9', '#0284C7']} style={mmS.clickChipSel}>
+                            <Text style={mmS.clickChipNumSel}>{limit === 0 ? '∞' : limit}</Text>
+                            <Text style={mmS.clickChipSubSel}>moves</Text>
+                          </LinearGradient>
+                        ) : (
+                          <View style={mmS.clickChip}>
+                            <Text style={mmS.clickChipNum}>{limit === 0 ? '∞' : limit}</Text>
+                            <Text style={mmS.clickChipSub}>moves</Text>
+                          </View>
+                        )}
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              </View>
+            </ScrollView>
+          );
+        })()}
+
         {/* ── FILL IN THE BLANK CONFIG TAB ── */}
         {questionFormTab === 'options' && isFillBlankMode && (
           <ScrollView contentContainerStyle={[qFormS.tabContent, { gap: 16 }]}>
@@ -3408,9 +3551,11 @@ export default function QuestionManagementScreen() {
                   <Text style={qFormS.previewStatVal}>
                     {isFillBlankMode
                       ? (((draft.rawQuestionData as any)?.options ?? []) as string[]).length
+                      : isJigsawMode
+                        ? Number((((draft.rawQuestionData as any)?.gridSize ?? '3x3').split('x')[0]) ** 2 || 9)
                       : hasOptions ? draft.options.length : hasPairs ? draft.matchPairs.length : '–'}
                   </Text>
-                  <Text style={qFormS.previewStatLabel}>{hasPairs ? 'pairs' : isLogicoMode ? 'maps' : 'opts'}</Text>
+                  <Text style={qFormS.previewStatLabel}>{hasPairs ? 'pairs' : isLogicoMode ? 'maps' : isJigsawMode ? 'pieces' : 'opts'}</Text>
                 </View>
               </View>
               {draft.questionInstruction ? (
@@ -3564,6 +3709,43 @@ export default function QuestionManagementScreen() {
                   </View>
                 );
               })()}
+
+              {isJigsawMode && (() => {
+                const raw = (draft.rawQuestionData as any) ?? {};
+                const gridSize = ['2x2', '3x3', '4x4', '5x5'].includes(raw.gridSize) ? raw.gridSize : '3x3';
+                const difficulty = ['easy', 'medium', 'hard'].includes(raw.difficulty) ? raw.difficulty : 'medium';
+                const clickLimit = Number(raw.clickLimit ?? 20);
+                return (
+                  <View style={{ padding: 14, gap: 10 }}>
+                    <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+                      <View style={qFormS.previewTypeBadge}>
+                        <Text style={qFormS.previewTypeBadgeText}>Grid {gridSize}</Text>
+                      </View>
+                      <View style={qFormS.previewTypeBadge}>
+                        <Text style={qFormS.previewTypeBadgeText}>Difficulty {difficulty}</Text>
+                      </View>
+                      <View style={qFormS.previewTypeBadge}>
+                        <Text style={qFormS.previewTypeBadgeText}>{clickLimit > 0 ? `${clickLimit} moves` : 'Unlimited moves'}</Text>
+                      </View>
+                    </View>
+                    <Text style={{ fontSize: 12, color: '#64748b' }}>
+                      Students will drag puzzle pieces and snap/swap into the board.
+                    </Text>
+                    <View style={{ backgroundColor: '#fff', borderRadius: 12, borderWidth: 1, borderColor: '#E2E8F0', overflow: 'hidden' }}>
+                      <JigsawRenderer
+                        questionData={{
+                          image: draft.mainImage.trim(),
+                          gridSize,
+                          difficulty,
+                          clickLimit,
+                        }}
+                        onComplete={() => {}}
+                        theme={{ bg: '#E0F2FE', cardBg: '#F0F9FF', accent: '#0EA5E9', textColor: '#0C4A6E', emoji: '🧩', label: 'Jigsaw Puzzle' }}
+                      />
+                    </View>
+                  </View>
+                );
+              })()}
             </View>
           </ScrollView>
         )}
@@ -3613,6 +3795,7 @@ export default function QuestionManagementScreen() {
           topics={topics}
           loading={loadingTopics}
           filters={contentFilters}
+          subjectCatalog={subjectCatalog}
           contentItems={contentItems}
           apiFetch={apiFetch}
           onFiltersChange={(f) => setContentFilters(f)}
@@ -3703,6 +3886,7 @@ export default function QuestionManagementScreen() {
           loadingContent={loadingContentItems}
           deletingContentId={deletingContentId}
           filters={{ classLevel: contentFilters.classLevel, subject: contentFilters.subject }}
+          subjectCatalog={subjectCatalog}
           topics={topics.map((t) => ({ id: t.id, title: t.title, classLevel: t.classLevel, subject: t.subject }))}
           apiFetch={apiFetch}
           onFiltersChange={(f) => setContentFilters((p) => ({ ...p, ...f }))}
@@ -3935,6 +4119,7 @@ export default function QuestionManagementScreen() {
           loading={loading}
           deletingQuestionId={deletingQuestionId}
           filters={filters}
+          subjectCatalog={subjectCatalog}
           apiFetch={apiFetch}
           onFiltersChange={(patch) => setFilters((p) => ({ ...p, ...patch }))}
           onApplyFilters={loadData}
@@ -4500,7 +4685,16 @@ export default function QuestionManagementScreen() {
       <SelectorModal
         visible={contentSelectorField !== null}
         title={contentSelectorTitle}
-        options={contentSelectorOptions.map((o) => ({ label: isContentStandardSelector ? getStandardLabel(o) : o, value: o }))}
+        options={contentSelectorOptions.map((o) => {
+          const matched = !isContentStandardSelector ? subjectCatalog.find((item) => item.title.trim() === o) : undefined;
+          return {
+            label: isContentStandardSelector ? getStandardLabel(o) : o,
+            value: o,
+            coverImage: matched?.coverImage,
+            iconUrl: matched?.iconImage,
+            iconBgColor: matched?.iconBgColor,
+          };
+        })}
         selected={''}
         isSubject={!isContentStandardSelector}
         onSelect={applyContentSelectorValue}
@@ -4642,7 +4836,22 @@ export default function QuestionManagementScreen() {
       <SelectorModal
         visible={selectorField !== null && activeLearningTab === 'question'}
         title={selectorTitle}
-        options={selectorOptions.map((o) => ({ label: isQuestionStandardSelector ? getStandardLabel(o) : o, value: o }))}
+        options={selectorOptions.map((o) => {
+          const matched = !isQuestionStandardSelector
+            ? subjectCatalog.find(
+                (item) =>
+                  item.title.trim() === o &&
+                  (!questionSubjectClassLevel || item.classLevel.trim() === questionSubjectClassLevel.trim()),
+              )
+            : undefined;
+          return {
+            label: isQuestionStandardSelector ? getStandardLabel(o) : o,
+            value: o,
+            coverImage: matched?.coverImage,
+            iconUrl: matched?.iconImage,
+            iconBgColor: matched?.iconBgColor,
+          };
+        })}
         selected={''}
         isSubject={!isQuestionStandardSelector}
         onSelect={applySelectorValue}
@@ -4673,7 +4882,19 @@ export default function QuestionManagementScreen() {
                   </View>
                 ) : null}
 
-                {normalizeQuestionType(previewQuestion.question_type) === 'logico' ? (
+                {normalizeQuestionType(previewQuestion.question_type) === 'jigsaw' ? (
+                  <View style={styles.previewMediaCard}>
+                    <Text style={styles.previewMediaLabel}>Play Preview</Text>
+                    <View style={{ borderRadius: 12, overflow: 'hidden', backgroundColor: '#fff' }}>
+                      <JigsawRenderer
+                        key={`preview-jigsaw-${previewQuestion.id}`}
+                        questionData={previewQuestion.question_data as any}
+                        onComplete={() => {}}
+                        theme={{ bg: '#E0F2FE', cardBg: '#F0F9FF', accent: '#0EA5E9', textColor: '#0C4A6E', emoji: '🧩', label: 'Jigsaw Puzzle' }}
+                      />
+                    </View>
+                  </View>
+                ) : normalizeQuestionType(previewQuestion.question_type) === 'logico' ? (
                   <View style={styles.previewMediaCard}>
                     <Text style={styles.previewMediaLabel}>Logico Mapping Preview</Text>
                     <View style={qFormS.logicoPreviewWrap}>
@@ -4713,12 +4934,23 @@ export default function QuestionManagementScreen() {
                   ))}
               </ScrollView>
             ) : null}
+            {previewQuestion?.quiz_id ? (
+              <Pressable style={styles.secondaryButton} onPress={() => setStudentPreviewQuizId(previewQuestion.quiz_id)}>
+                <Text style={styles.secondaryButtonText}>Open Student Player</Text>
+              </Pressable>
+            ) : null}
             <Pressable style={styles.primaryButton} onPress={() => setPreviewQuestion(null)}>
               <Text style={styles.primaryButtonText}>Done</Text>
             </Pressable>
           </View>
         </View>
       </Modal>
+
+      <QuizRenderer
+        quizId={studentPreviewQuizId || ''}
+        visible={Boolean(studentPreviewQuizId)}
+        onClose={() => setStudentPreviewQuizId(null)}
+      />
 
       <Modal
         visible={pendingMediaRemoval !== null && activeLearningTab === 'question'}

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, View, PanResponder, Animated } from 'react-native';
 import { Check, RotateCcw } from 'lucide-react-native';
 import { AudioManager } from '../../utils/audio';
@@ -34,6 +34,21 @@ type Props = {
 
 export default function DragDropRenderer({ questionData, onComplete, theme }: Props) {
   const { drag_items, drop_targets, match_rules } = questionData;
+  // Shuffle the displayed draggable items so they don't line up 1:1 with the
+  // drop targets (otherwise the 1st image is always the 1st answer). IDs are
+  // preserved, so matching/correctness is unaffected. Computed once per mount.
+  const displayItems = useMemo(() => {
+    const arr = [...drag_items];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    // guard: if a tiny set happens to shuffle back into the original order, rotate
+    if (arr.length > 1 && arr.every((it, idx) => it.id === drag_items[idx].id)) {
+      arr.push(arr.shift()!);
+    }
+    return arr;
+  }, [drag_items]);
   const [matches, setMatches] = useState<Record<string, string>>({}); // target_id -> item_id
   const [placedItems, setPlacedItems] = useState<Set<string>>(new Set()); // set of item_ids placed
   const [activeDragId, setActiveDragId] = useState<string | null>(null);
@@ -221,7 +236,7 @@ export default function DragDropRenderer({ questionData, onComplete, theme }: Pr
         <View style={styles.column}>
           <Text style={styles.columnHeader}>Drag These</Text>
           <View style={styles.list}>
-            {drag_items.map((item) => {
+            {displayItems.map((item) => {
               const isPlaced = placedItems.has(item.id);
               const isCurrentlyDragging = activeDragId === item.id;
 

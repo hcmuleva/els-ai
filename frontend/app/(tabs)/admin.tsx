@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BookOpen, ChevronLeft, ChevronRight, CreditCard, GraduationCap, Plus, Search, Shield, Sparkles, Users, UserCheck, X } from 'lucide-react-native';
+import { Activity, BookOpen, ChevronLeft, ChevronRight, CreditCard, FlaskConical, Globe, GraduationCap, Hash, Languages, Leaf, Monitor, Palette, Plus, Search, Shield, Sparkles, Users, UserCheck, X } from 'lucide-react-native';
 
 import { ScreenTemplate } from '../../src/components/ScreenTemplate';
 import SelectorModal from '../../src/components/SelectorModal';
@@ -86,6 +86,8 @@ type SubjectAuthorUser = {
 type SubjectRecord = {
   id: string;
   coverImage?: string;
+  iconImage?: string;
+  iconBgColor?: string;
   title: string;
   description?: string;
   author?: string;
@@ -97,6 +99,8 @@ type SubjectRecord = {
 
 type SubjectFormState = {
   coverImage: string;
+  iconImage: string;
+  iconBgColor: string;
   title: string;
   description: string;
   isExternalAuthor: boolean;
@@ -146,6 +150,8 @@ const EMPTY_USER_FORM: UserFormState = {
 
 const EMPTY_SUBJECT_FORM: SubjectFormState = {
   coverImage: '',
+  iconImage: '',
+  iconBgColor: '#D6EAFF',
   title: '',
   description: '',
   isExternalAuthor: false,
@@ -156,6 +162,24 @@ const EMPTY_SUBJECT_FORM: SubjectFormState = {
   authorUserProfileImage: '',
   classLevel: '',
 };
+
+const SUBJECT_ICON_BG_OPTIONS = ['#D6EAFF', '#D6F5D6', '#EDE4FF', '#FFE8D6', '#FFF5CC', '#FFE0F0', '#F1F5F9', '#DCFCE7'];
+const SUBJECT_ICON_LIBRARY: Array<{ key: string; label: string; Icon: IconComp; color: string }> = [
+  { key: 'book-open', label: 'Book', Icon: BookOpen, color: '#4A90E2' },
+  { key: 'hash', label: 'Math', Icon: Hash, color: '#FF7043' },
+  { key: 'flask', label: 'Science', Icon: FlaskConical, color: '#7DC67A' },
+  { key: 'leaf', label: 'Nature', Icon: Leaf, color: '#4CAF50' },
+  { key: 'languages', label: 'Language', Icon: Languages, color: '#9B8EC4' },
+  { key: 'globe', label: 'GK', Icon: Globe, color: '#F97316' },
+  { key: 'monitor', label: 'Computer', Icon: Monitor, color: '#0EA5E9' },
+  { key: 'sparkles', label: 'Rhymes', Icon: Sparkles, color: '#7C3AED' },
+  { key: 'activity', label: 'Activity', Icon: Activity, color: '#22C55E' },
+  { key: 'palette', label: 'Art', Icon: Palette, color: '#F59E0B' },
+];
+const SUBJECT_ICON_LIBRARY_MAP = SUBJECT_ICON_LIBRARY.reduce<Record<string, { Icon: IconComp; color: string }>>((acc, item) => {
+  acc[item.key] = { Icon: item.Icon, color: item.color };
+  return acc;
+}, {});
 
 const pairKey = (pair: AssignmentPair) => `${pair.classLevel}::${pair.subject}`;
 
@@ -170,6 +194,10 @@ const getAvatarInitials = (label: string) =>
 const extractFileName = (source: string): string => {
   const trimmed = source.trim();
   if (!trimmed) return '';
+  if (trimmed.startsWith('symbol:')) {
+    const key = trimmed.slice('symbol:'.length);
+    return `icon-${key || 'symbol'}`;
+  }
   if (trimmed.startsWith('data:')) {
     const mime = trimmed.slice(5, trimmed.indexOf(';') > -1 ? trimmed.indexOf(';') : undefined).trim();
     const extension = mime.includes('/') ? mime.split('/')[1] : 'file';
@@ -183,6 +211,13 @@ const extractFileName = (source: string): string => {
   } catch {
     return 'uploaded-file';
   }
+};
+
+const resolveIconSymbol = (value?: string) => {
+  const trimmed = (value || '').trim().toLowerCase();
+  if (!trimmed.startsWith('symbol:')) return null;
+  const symbol = trimmed.slice('symbol:'.length);
+  return SUBJECT_ICON_LIBRARY_MAP[symbol] ? symbol : null;
 };
 
 const toMediaLabel = (source: string, fallback: string) => {
@@ -262,6 +297,7 @@ export default function AdminScreen() {
   const [adminCounts, setAdminCounts] = useState({ subjects: 0, students: 0, teachers: 0, parents: 0 });
   const [assignmentCatalog, setAssignmentCatalog] = useState<AssignmentPair[]>([]);
   const [studentFilters, setStudentFilters] = useState({ search: '', name: '' });
+  const [subjectClassFilter, setSubjectClassFilter] = useState('');
   const [loadingTable, setLoadingTable] = useState(false);
   const [savingUser, setSavingUser] = useState(false);
   const [savingSubject, setSavingSubject] = useState(false);
@@ -281,6 +317,7 @@ export default function AdminScreen() {
   const [authorSearchResults, setAuthorSearchResults] = useState<AuthorSearchResult[]>([]);
   const [loadingAuthorSearch, setLoadingAuthorSearch] = useState(false);
   const [uploadingCoverImage, setUploadingCoverImage] = useState(false);
+  const [subjectLogoLibraryOpen, setSubjectLogoLibraryOpen] = useState(false);
 
   const [teacherModalUser, setTeacherModalUser] = useState<TeacherAssignmentUser | null>(null);
   const [teacherSelectedPairs, setTeacherSelectedPairs] = useState<AssignmentPair[]>([]);
@@ -292,7 +329,7 @@ export default function AdminScreen() {
   const [parentSelectedStudentIds, setParentSelectedStudentIds] = useState<string[]>([]);
   const [loadingParentStudents, setLoadingParentStudents] = useState(false);
   const [standardSelectorTarget, setStandardSelectorTarget] = useState<
-    'userFormClassLevel' | 'parentStudentClassLevel' | 'subjectFormClassLevel' | null
+    'userFormClassLevel' | 'parentStudentClassLevel' | 'subjectFormClassLevel' | 'subjectFilterClassLevel' | null
   >(null);
 
   const isAdminView = user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
@@ -309,7 +346,7 @@ export default function AdminScreen() {
     const mediaUrls = [
       ...new Set(
         fetchedSubjects
-          .flatMap((subject) => [subject.coverImage || '', subject.authorUser?.profileImage || ''])
+          .flatMap((subject) => [subject.coverImage || '', subject.iconImage || '', subject.authorUser?.profileImage || ''])
           .map((item) => item.trim())
           .filter(Boolean),
       ),
@@ -338,6 +375,7 @@ export default function AdminScreen() {
         fetchedSubjects.map((subject) => ({
           ...subject,
           coverImage: subject.coverImage ? lookup.get(subject.coverImage) || subject.coverImage : subject.coverImage,
+          iconImage: subject.iconImage ? lookup.get(subject.iconImage) || subject.iconImage : subject.iconImage,
           authorUser: subject.authorUser
             ? {
                 ...subject.authorUser,
@@ -657,6 +695,8 @@ export default function AdminScreen() {
     setEditingSubjectId(subject.id);
     setSubjectForm({
       coverImage: subject.coverImage || '',
+      iconImage: subject.iconImage || '',
+      iconBgColor: subject.iconBgColor || '#D6EAFF',
       title: subject.title,
       description: subject.description || '',
       isExternalAuthor: subject.isExternalAuthor ?? !subject.authorUserId,
@@ -683,6 +723,8 @@ export default function AdminScreen() {
     try {
       const payload = {
         coverImage: toPersistentMediaUrl(subjectForm.coverImage.trim()) || undefined,
+        iconImage: toPersistentMediaUrl(subjectForm.iconImage.trim()) || undefined,
+        iconBgColor: subjectForm.iconBgColor.trim() || undefined,
         title: subjectForm.title.trim(),
         description: subjectForm.description.trim() || undefined,
         isExternalAuthor: subjectForm.isExternalAuthor,
@@ -877,6 +919,11 @@ export default function AdminScreen() {
     setTabPage((current) => ({ ...current, student: 1 }));
   }, [activeTab, studentFilters.name, studentFilters.search]);
 
+  useEffect(() => {
+    if (activeTab !== 'subject') return;
+    setTabPage((current) => ({ ...current, subject: 1 }));
+  }, [activeTab, subjectClassFilter]);
+
   const toPaginationMeta = useCallback(
     (tab: AdminTab, totalItems: number) => {
       const totalPages = Math.max(1, Math.ceil(totalItems / TABLE_PAGE_SIZE));
@@ -890,14 +937,19 @@ export default function AdminScreen() {
     [tabPage],
   );
 
-  const subjectPagination = useMemo(() => toPaginationMeta('subject', subjects.length), [subjects.length, toPaginationMeta]);
+  const filteredSubjects = useMemo(() => {
+    if (!subjectClassFilter) return subjects;
+    return subjects.filter((subject) => (subject.classLevel || '').trim() === subjectClassFilter.trim());
+  }, [subjectClassFilter, subjects]);
+
+  const subjectPagination = useMemo(() => toPaginationMeta('subject', filteredSubjects.length), [filteredSubjects.length, toPaginationMeta]);
   const studentPagination = useMemo(() => toPaginationMeta('student', students.length), [students.length, toPaginationMeta]);
   const teacherPagination = useMemo(() => toPaginationMeta('teacher', teachers.length), [teachers.length, toPaginationMeta]);
   const parentPagination = useMemo(() => toPaginationMeta('parent', parents.length), [parents.length, toPaginationMeta]);
 
   const paginatedSubjects = useMemo(
-    () => subjects.slice(subjectPagination.start, subjectPagination.end),
-    [subjects, subjectPagination.end, subjectPagination.start],
+    () => filteredSubjects.slice(subjectPagination.start, subjectPagination.end),
+    [filteredSubjects, subjectPagination.end, subjectPagination.start],
   );
   const paginatedStudents = useMemo(
     () => students.slice(studentPagination.start, studentPagination.end),
@@ -937,7 +989,44 @@ export default function AdminScreen() {
     if (standardSelectorTarget === 'subjectFormClassLevel') {
       setSubjectForm((current) => ({ ...current, classLevel: value }));
     }
+    if (standardSelectorTarget === 'subjectFilterClassLevel') {
+      setSubjectClassFilter(value);
+    }
     setStandardSelectorTarget(null);
+  };
+
+  const renderSubjectIconVisual = (input: { title: string; coverImage?: string; iconImage?: string; iconBgColor?: string }, imageSize = 28) => {
+    const cover = input.coverImage?.trim();
+    const iconImage = input.iconImage?.trim();
+    const symbol = resolveIconSymbol(iconImage);
+    const bgColor = input.iconBgColor || '#D6EAFF';
+
+    if (cover) {
+      return <Image source={{ uri: resolveMediaUrl(cover) }} style={[styles.subjectCoverThumb, { width: imageSize, height: imageSize }]} />;
+    }
+
+    if (symbol) {
+      const entry = SUBJECT_ICON_LIBRARY_MAP[symbol];
+      return (
+        <View style={[styles.subjectIconBubble, { backgroundColor: bgColor }]}>
+          <entry.Icon size={18} color={entry.color} />
+        </View>
+      );
+    }
+
+    if (iconImage) {
+      return (
+        <View style={[styles.subjectIconBubble, { backgroundColor: bgColor }]}>
+          <Image source={{ uri: resolveMediaUrl(iconImage) }} style={[styles.subjectCoverThumb, { width: imageSize, height: imageSize }]} />
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.subjectCoverPlaceholder}>
+        <Text style={styles.subjectCoverPlaceholderText}>{getAvatarInitials(input.title)}</Text>
+      </View>
+    );
   };
 
   const renderPagination = (tab: AdminTab, label: string, pagination: { page: number; totalPages: number; from: number; to: number; totalItems: number }) => (
@@ -1055,6 +1144,23 @@ export default function AdminScreen() {
             </Pressable>
           </View>
           <Text style={styles.sectionHint}>Keep subject title, class standard, and author details up to date for smooth content publishing.</Text>
+          <View style={styles.row}>
+            <View style={styles.half}>
+              <Text style={styles.fieldLabel}>Filter by Standard</Text>
+              <Pressable style={styles.selectorInput} onPress={() => setStandardSelectorTarget('subjectFilterClassLevel')}>
+                <Text style={subjectClassFilter ? styles.selectorText : styles.selectorPlaceholder}>
+                  {subjectClassFilter ? getStandardLabel(subjectClassFilter) : 'All standards'}
+                </Text>
+              </Pressable>
+            </View>
+            <Pressable
+              style={[styles.secondaryButton, styles.half, styles.alignBottomButton]}
+              onPress={() => setSubjectClassFilter('')}
+              disabled={!subjectClassFilter}
+            >
+              <Text style={styles.secondaryButtonText}>Clear</Text>
+            </Pressable>
+          </View>
           {loadingTable && subjects.length === 0 ? (
             <ActivityIndicator size="small" color={Colors.primary} />
           ) : (
@@ -1067,7 +1173,7 @@ export default function AdminScreen() {
               <ScrollView horizontal>
                 <View>
                   <View style={[styles.tableRow, styles.tableHeader]}>
-                    <Text style={[styles.tableCell, styles.colSubjectCover]}>Cover</Text>
+                    <Text style={[styles.tableCell, styles.colSubjectCover]}>Icon</Text>
                   <Text style={[styles.tableCell, styles.colSubjectTitle]}>Title</Text>
                   <Text style={[styles.tableCell, styles.colSubjectDescription]}>Description</Text>
                   <Text style={[styles.tableCell, styles.colSubjectAuthor]}>Author</Text>
@@ -1077,13 +1183,7 @@ export default function AdminScreen() {
                 {paginatedSubjects.map((subject) => (
                   <View key={subject.id} style={styles.tableRow}>
                     <View style={[styles.tableCell, styles.colSubjectCover, styles.coverCell]}>
-                      {subject.coverImage ? (
-                        <Image source={{ uri: resolveMediaUrl(subject.coverImage) }} style={styles.subjectCoverThumb} />
-                      ) : (
-                        <View style={styles.subjectCoverPlaceholder}>
-                          <Text style={styles.subjectCoverPlaceholderText}>{getAvatarInitials(subject.title)}</Text>
-                        </View>
-                      )}
+                      {renderSubjectIconVisual(subject)}
                     </View>
                     <Text style={[styles.tableCell, styles.colSubjectTitle]}>{subject.title}</Text>
                     <Text style={[styles.tableCell, styles.colSubjectDescription]} numberOfLines={2}>
@@ -1556,6 +1656,52 @@ export default function AdminScreen() {
                 </View>
               ) : null}
             </View>
+
+            <View style={styles.fieldGroup}>
+              <Text style={styles.fieldLabel}>Subject Icon</Text>
+              <View style={styles.mediaActionRow}>
+                <Pressable style={[styles.secondaryButton, styles.mediaActionButton]} onPress={() => setSubjectLogoLibraryOpen(true)}>
+                  <Text style={styles.secondaryButtonText}>Choose Logo</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.secondaryButton, styles.mediaActionButton]}
+                  onPress={() => setSubjectForm((current) => ({ ...current, iconImage: '', iconBgColor: '#D6EAFF' }))}
+                >
+                  <Text style={styles.secondaryButtonText}>Clear Icon</Text>
+                </Pressable>
+              </View>
+              {subjectForm.iconImage.trim() ? (
+                <View style={styles.subjectIconPreviewRow}>
+                  <View style={[styles.subjectIconPreviewBubble, { backgroundColor: subjectForm.iconBgColor || '#D6EAFF' }]}>
+                    {resolveIconSymbol(subjectForm.iconImage.trim()) ? (
+                      (() => {
+                        const symbol = resolveIconSymbol(subjectForm.iconImage.trim())!;
+                        const entry = SUBJECT_ICON_LIBRARY_MAP[symbol];
+                        return <entry.Icon size={18} color={entry.color} />;
+                      })()
+                    ) : (
+                      <Image source={{ uri: resolveMediaUrl(subjectForm.iconImage.trim()) }} style={styles.subjectIconPreviewImage} resizeMode="contain" />
+                    )}
+                  </View>
+                  <Text style={styles.mediaInfoValue}>{toMediaLabel(subjectForm.iconImage, 'image')}</Text>
+                </View>
+              ) : (
+                <Text style={styles.metaText}>No icon selected</Text>
+              )}
+              <Text style={styles.fieldLabel}>Icon Background</Text>
+              <View style={styles.iconColorRow}>
+                {SUBJECT_ICON_BG_OPTIONS.map((color) => {
+                  const active = (subjectForm.iconBgColor || '#D6EAFF') === color;
+                  return (
+                    <Pressable
+                      key={color}
+                      style={[styles.iconColorChip, { backgroundColor: color }, active && styles.iconColorChipActive]}
+                      onPress={() => setSubjectForm((current) => ({ ...current, iconBgColor: color }))}
+                    />
+                  );
+                })}
+              </View>
+            </View>
             <Text style={styles.fieldLabel}>Title *</Text>
             <TextInput
               value={subjectForm.title}
@@ -1701,6 +1847,37 @@ export default function AdminScreen() {
         </View>
       </Modal>
 
+      <Modal visible={subjectLogoLibraryOpen} transparent animationType="slide" onRequestClose={() => setSubjectLogoLibraryOpen(false)}>
+        <View style={styles.logoPickerOverlay}>
+          <View style={styles.logoPickerSheet}>
+            <View style={styles.logoPickerHeader}>
+              <Text style={styles.sheetTitle}>Pick Subject Logo</Text>
+              <Pressable style={styles.sheetCloseButton} onPress={() => setSubjectLogoLibraryOpen(false)}>
+                <X size={18} color={Colors.textSecondary} />
+              </Pressable>
+            </View>
+            <ScrollView contentContainerStyle={styles.logoGrid}>
+              {SUBJECT_ICON_LIBRARY.map((asset) => {
+                const selected = subjectForm.iconImage.trim() === `symbol:${asset.key}`;
+                return (
+                  <Pressable
+                    key={asset.key}
+                    style={[styles.logoItem, selected && styles.logoItemActive]}
+                    onPress={() => {
+                      setSubjectForm((current) => ({ ...current, iconImage: `symbol:${asset.key}` }));
+                      setSubjectLogoLibraryOpen(false);
+                    }}
+                  >
+                    <asset.Icon size={24} color={asset.color} />
+                    <Text style={styles.logoLabel} numberOfLines={1}>{asset.label}</Text>
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
+
       <Modal visible={pendingDeleteSubject !== null} transparent animationType="fade" onRequestClose={() => setPendingDeleteSubject(null)}>
         <View style={styles.modalOverlay}>
           <View style={styles.confirmModalCard}>
@@ -1729,7 +1906,7 @@ export default function AdminScreen() {
         title="Select Standard"
         options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
         selected={''}
-        showAny={standardSelectorTarget === 'parentStudentClassLevel'}
+        showAny={standardSelectorTarget === 'parentStudentClassLevel' || standardSelectorTarget === 'subjectFilterClassLevel'}
         onSelect={applyStandardSelection}
         onClose={() => setStandardSelectorTarget(null)}
       />
@@ -2076,6 +2253,40 @@ const styles = StyleSheet.create({
   mediaActionButton: {
     minWidth: 140,
   },
+  subjectIconPreviewRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  subjectIconPreviewBubble: {
+    width: 42,
+    height: 42,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+  },
+  subjectIconPreviewImage: {
+    width: 30,
+    height: 30,
+  },
+  iconColorRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  iconColorChip: {
+    width: 28,
+    height: 28,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+  },
+  iconColorChipActive: {
+    borderColor: '#2563eb',
+    borderWidth: 2,
+  },
   previewCard: {
     borderWidth: 1,
     borderColor: '#dbeafe',
@@ -2244,7 +2455,7 @@ const styles = StyleSheet.create({
     width: 170,
   },
   colSubjectCover: {
-    width: 220,
+    width: 100,
   },
   colSubjectTitle: {
     width: 180,
@@ -2307,12 +2518,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   subjectCoverThumb: {
+    width: 28,
+    height: 28,
+  },
+  subjectIconBubble: {
     width: 44,
     height: 44,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#cbd5e1',
-    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   subjectCoverPlaceholder: {
     width: 44,
@@ -2811,6 +3027,58 @@ const styles = StyleSheet.create({
     color: '#0f172a',
     fontSize: 13,
     fontWeight: '600',
+  },
+  logoPickerOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(15, 23, 42, 0.45)',
+    justifyContent: 'flex-end',
+  },
+  logoPickerSheet: {
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    maxHeight: '84%',
+    paddingBottom: Platform.OS === 'ios' ? 28 : 14,
+  },
+  logoPickerHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f1f5f9',
+  },
+  logoGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    padding: 14,
+  },
+  logoItem: {
+    width: '22%',
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    paddingVertical: 8,
+    paddingHorizontal: 6,
+    alignItems: 'center',
+    gap: 6,
+  },
+  logoItemActive: {
+    borderColor: '#2563eb',
+    backgroundColor: '#eff6ff',
+  },
+  logoThumb: {
+    width: 34,
+    height: 34,
+  },
+  logoLabel: {
+    fontSize: 10,
+    color: '#334155',
+    fontWeight: '700',
+    textAlign: 'center',
   },
   successText: {
     color: '#166534',

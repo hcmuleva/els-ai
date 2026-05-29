@@ -10,7 +10,7 @@ import {
   Animated,
   ScrollView,
 } from 'react-native';
-import { X } from 'lucide-react-native';
+import { X, Volume2, VolumeX } from 'lucide-react-native';
 import { useAuth, API_BASE_URL } from '../../context/AuthContext';
 import { AudioManager } from '../../utils/audio';
 import DragDropRenderer from './DragDropRenderer';
@@ -19,6 +19,7 @@ import ChoiceQuestionRenderer from './ChoiceQuestionRenderer';
 import LogicoQuestionRenderer from './LogicoQuestionRenderer';
 import MemoryMatchRenderer from './MemoryMatchRenderer';
 import FillBlankRenderer from './FillBlankRenderer';
+import JigsawRenderer from './JigsawRenderer';
 
 type QuizQuestion = {
   id: string;
@@ -43,8 +44,29 @@ type Props = {
   onClose: () => void;
 };
 
+// Kids background tracks (served from assets/bg-audio at /media). One is
+// picked at random each time a quiz is started so the music varies every play.
+const BG_TRACKS = [
+  '/media/bg-audio/eliveta-kids-happy-music-474162.mp3',
+  '/media/bg-audio/leberch-comedy-funny-251200.mp3',
+  '/media/bg-audio/leberch-funny-kids-525160.mp3',
+  '/media/bg-audio/mondamusic-kids-music-512833.mp3',
+  '/media/bg-audio/nastelbom-kids-happy-happy-kid-488310.mp3',
+  '/media/bg-audio/the_mountain-happy-kids-496596.mp3',
+];
+
 export function resolveMediaUrl(url: string | undefined): string | undefined {
   if (!url) return undefined;
+  // The production media host is unreachable in local/dev deployments. Rewrite
+  // any value still pointing there to a labeled placeholder so it renders
+  // rather than failing to load. (Inlined to avoid a module-init TDZ issue when
+  // renderer modules call this at load time.)
+  if (url.includes('media.els-ai.in')) {
+    const clean = url.split('?')[0].split('#')[0];
+    const base = clean.substring(clean.lastIndexOf('/') + 1).replace(/\.[a-z0-9]+$/i, '');
+    const label = base.replace(/[-_]+/g, ' ').trim().replace(/\b\w/g, (m) => m.toUpperCase()) || 'Image';
+    return `https://placehold.co/400x400/EEF2FF/4338CA?text=${encodeURIComponent(label)}`;
+  }
   if (url.startsWith('/media')) {
     return `${API_BASE_URL}${url}`;
   }
@@ -58,6 +80,7 @@ export function normalizeQuestionType(questionType: string): string {
   if (questionType === 'memory_game') return 'multi_choice';
   if (questionType === 'fill_blank' || questionType === 'fill_in_blank') return 'fill_blank';
   if (questionType === 'memory_match') return 'memory_match';
+  if (questionType === 'jigsaw_puzzle') return 'jigsaw';
   return questionType;
 }
 
@@ -107,6 +130,10 @@ const QUESTION_THEMES: Record<string, QuestionTheme> = {
     bg: '#FFF5CC', cardBg: '#FFFAE5', accent: '#E6A020',
     textColor: '#7A4A00', emoji: '✍️', label: 'Fill in the blank!',
   },
+  jigsaw: {
+    bg: '#E0F2FE', cardBg: '#F0F9FF', accent: '#0EA5E9',
+    textColor: '#0C4A6E', emoji: '🧩', label: 'Rebuild the image!',
+  },
 };
 
 function getQuestionTheme(questionType: string): QuestionTheme {
@@ -126,12 +153,43 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
   const [showResultScreen, setShowResultScreen] = useState(false);
   const [savingAttempt, setSavingAttempt] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  // Re-entrancy guard: prevents spamming a renderer's confirm/next button from
+  // firing multiple advances (which skipped questions/levels).
+  const isAdvancingRef = useRef(false);
+  const [isMuted, setIsMuted] = useState(() => AudioManager.isMuted());
+
+  const toggleMute = () => {
+    const next = !isMuted;
+    setIsMuted(next);
+    AudioManager.setMuted(next);
+  };
 
 
   const cardSlideAnim = useRef(new Animated.Value(30)).current;
   const cardOpacityAnim = useRef(new Animated.Value(0)).current;
   const answerFadeAnim = useRef(new Animated.Value(0)).current;
   const answerSlideAnim = useRef(new Animated.Value(20)).current;
+
+  // Allow the next question to accept a completion once we've advanced, and
+  // make sure the previous question's prompt audio is stopped.
+  useEffect(() => {
+    isAdvancingRef.current = false;
+    AudioManager.stopPrompt();
+  }, [currentQuestionIndex]);
+
+  // Duck the BGM on sound questions (e.g. guess-the-audio) so the prompt clip
+  // is clearly heard, then resume it on non-sound questions.
+  useEffect(() => {
+    if (!hasStarted || showResultScreen) return;
+    const q: any = quiz?.questions?.[currentQuestionIndex];
+    if (!q) return;
+    const isSoundQuestion =
+      normalizeQuestionType(q.question_type) === 'guess_audio' ||
+      (q.question_audio && q.question_audio !== 'null') ||
+      (q.question_data?.prompt_audio && q.question_data.prompt_audio !== 'null');
+    if (isSoundQuestion) AudioManager.pauseBGM();
+    else AudioManager.resumeBGM();
+  }, [currentQuestionIndex, hasStarted, showResultScreen, quiz]);
 
   // Slide-in animation per question
   useEffect(() => {
@@ -187,19 +245,16 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
   // Handle starting the quiz (requires explicit interaction for web BGM play)
   const handleStartGame = async () => {
     if (!quiz) return;
+    isAdvancingRef.current = false;
     setHasStarted(true);
 
-    // Default BGM if not provided but we still want the playful vibe for kids
-    const bgmUrlRaw = quiz.background_music_url || '/media/bg-audio/eliveta-kids-happy-music-474162.mp3';
+    // Default BGM: pick a random kids track each play so it varies every time.
+    // Prompt clips are short and stop on transitions, so BGM plays underneath
+    // even for quizzes that have sound questions.
+    const randomBgm = BG_TRACKS[Math.floor(Math.random() * BG_TRACKS.length)];
+    const bgmUrlRaw = quiz.background_music_url || randomBgm;
 
-    // Check if there are any sound-based questions
-    const hasSoundQuestion = quiz.questions?.some(
-      (q: any) => (q.question_audio && q.question_audio !== 'null') ||
-        (q.question_data?.prompt_audio && q.question_data.prompt_audio !== 'null')
-    );
-
-    // Only play BGM if there are NO sound questions
-    if (!hasSoundQuestion && bgmUrlRaw) {
+    if (bgmUrlRaw) {
       const bgmUrl = resolveMediaUrl(bgmUrlRaw);
       if (bgmUrl) {
         try {
@@ -219,7 +274,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
     currentQuestion && normalizeQuestionType(currentQuestion.question_type) === 'logico',
   );
   const isFullWidthGame = Boolean(
-    currentQuestion && ['memory_match', 'fill_blank'].includes(
+    currentQuestion && ['memory_match', 'fill_blank', 'jigsaw'].includes(
       normalizeQuestionType(currentQuestion.question_type),
     ),
   );
@@ -243,11 +298,16 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
       case 'logico':          return 'Place clips in correct slots';
       case 'memory_match':    return 'Match all the pairs!';
       case 'fill_blank':      return 'Pick the missing word';
+      case 'jigsaw':          return 'Drag pieces to rebuild the image';
       default:                return 'Choose your answer';
     }
   };
 
   const handleQuestionComplete = (isCorrect: boolean, responseData: any) => {
+    // Ignore repeated completions for the same question (button spam).
+    if (isAdvancingRef.current) return;
+    isAdvancingRef.current = true;
+
     const nextCorrectCount = isCorrect ? correctCount + 1 : correctCount;
     if (isCorrect) setCorrectCount(nextCorrectCount);
 
@@ -276,6 +336,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
     setShowResultScreen(true);
     setSavingAttempt(true);
     AudioManager.stopBGM();
+    AudioManager.stopPrompt();
 
 
     // Play local win or lose sound effect depending on performance
@@ -323,11 +384,13 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
 
   const handleClose = () => {
     AudioManager.stopBGM();
+    AudioManager.stopPrompt();
     setHasStarted(false);
     setShowResultScreen(false);
     setCurrentQuestionIndex(0);
     setCorrectCount(0);
     setAttempts([]);
+    isAdvancingRef.current = false;
     onClose();
   };
 
@@ -414,7 +477,13 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
             </View>
           )}
           <View style={styles.headerRight}>
-
+            <Pressable onPress={toggleMute} style={styles.muteBtn} hitSlop={8}>
+              {isMuted ? (
+                <VolumeX size={18} color="#475569" />
+              ) : (
+                <Volume2 size={18} color="#475569" />
+              )}
+            </Pressable>
             <View style={styles.xpChip}>
               <Text style={styles.xpText}>⭐ {correctCount * 10}</Text>
             </View>
@@ -579,6 +648,15 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
                       theme={currentTheme}
                     />
                   )}
+                  {currentQuestion && normalizeQuestionType(currentQuestion.question_type) === 'jigsaw' && (
+                    <JigsawRenderer
+                      key={currentQuestion.id}
+                      questionData={currentQuestion.question_data}
+                      onComplete={handleQuestionComplete}
+                      theme={currentTheme}
+                      autoStart
+                    />
+                  )}
                 </View>
               </Animated.View>
             </View>
@@ -685,6 +763,13 @@ const styles = StyleSheet.create({
   },
   levelChipText: { fontSize: 13, fontWeight: '900', color: '#1a1a2e' },
   headerRight: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+
+  muteBtn: {
+    width: 34, height: 34, borderRadius: 17, backgroundColor: '#fff',
+    alignItems: 'center', justifyContent: 'center',
+    shadowColor: '#000', shadowOpacity: 0.06, shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5, elevation: 2,
+  },
 
   xpChip: {
     backgroundColor: '#4A90E2', paddingHorizontal: 12, paddingVertical: 6,

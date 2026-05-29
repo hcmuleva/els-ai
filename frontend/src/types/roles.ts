@@ -14,6 +14,7 @@ export type AppUser = {
   lastName: string;
   email: string;
   mobileNumber?: string;
+  registrationId?: string;
   classLevel?: string;
   roles: UserRole[];
   activeRole: UserRole;

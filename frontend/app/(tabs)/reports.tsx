@@ -484,11 +484,12 @@ function ParentReports() {
     linkedStudents, activeStudent,
     loadingStudents, loadingActivity,
     activity, analytics, quizAttempts, assignments, upcomingClassrooms, classroomRemarks,
-    switchToStudent, refreshAll,
+    switchToStudent, refreshAll, refreshQuizAttempts,
   } = useStudentProfile();
   const { apiFetch } = useAuth();
 
   const [activeTab, setActiveTab] = useState<ParentTab>('overview');
+  const prevTab = useRef<ParentTab>('overview');
   // Persisted "last seen at" timestamps per tab (ms since epoch, 0 = never)
   const [tabSeenAt, setTabSeenAt] = useState<Record<string, number>>({});
   const [showAllQuizzes, setShowAllQuizzes] = useState(false);
@@ -705,9 +706,12 @@ function ParentReports() {
                 return (
                   <Pressable key={tab.key}
                     onPress={() => {
+                      if (tab.key === 'quizzes' && prevTab.current !== 'quizzes') {
+                        refreshQuizAttempts();
+                      }
+                      prevTab.current = tab.key;
                       setActiveTab(tab.key);
                       markTabSeen(tab.key);
-                      // classroom tab also updates historySeenAt
                       if (tab.key === 'classroom') openHistoryModal();
                     }}
                     style={[pr.tabBtn, isCurrent && pr.tabBtnActive]}>
@@ -1242,17 +1246,20 @@ function ParentReports() {
                 })()}
                 <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
                   {quizDetail.questions.map((q, i) => {
-                    const qType   = q.questionType;
+                    const qType    = q.questionType;
                     const isMemory = qType === 'memory_match';
                     const isFill   = qType === 'fill_blank' || qType === 'fill_in_blank';
+                    const isJigsaw = qType === 'jigsaw' || qType === 'jigsaw_puzzle';
                     const options  = (q.questionData.options ?? []) as Array<{ id: string; label?: string; is_correct?: boolean }>;
                     const selectedId  = q.responseData.selected_id;
                     const selectedIds = Array.isArray(q.responseData.selected_ids) ? q.responseData.selected_ids as string[] : [];
                     const selectedAny = selectedId ?? selectedIds[0];
-                    const bannerBg    = q.isCorrect ? '#E8F5E9' : '#FFF3F0';
-                    const bannerColor = q.isCorrect ? '#2E7D32' : '#C62828';
+                    const bannerBg    = isJigsaw ? '#E0F2FE' : q.isCorrect ? '#E8F5E9' : '#FFF3F0';
+                    const bannerColor = isJigsaw ? '#0C4A6E' : q.isCorrect ? '#2E7D32' : '#C62828';
                     const bannerLabel = isMemory
                       ? `${q.responseData.pairsMatched ?? 0}/${q.responseData.totalPairs ?? 0} pairs`
+                      : isJigsaw
+                      ? (q.responseData.completed ? 'Completed' : 'Not finished')
                       : q.isCorrect ? '✓ Correct' : '✗ Wrong';
 
                     return (
@@ -1261,9 +1268,9 @@ function ParentReports() {
                         <View style={[pr.detailQuestionBanner, { backgroundColor: bannerBg }]}>
                           <Text style={{ fontSize: 13, fontWeight: '800', color: bannerColor, opacity: 0.7 }}>
                             Question {i + 1}
-                            {isMemory ? '  ·  Memory Match' : isFill ? '  ·  Fill in the Blank' : ''}
+                            {isMemory ? '  ·  Memory Match' : isFill ? '  ·  Fill in the Blank' : isJigsaw ? '  ·  Jigsaw Puzzle' : ''}
                           </Text>
-                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: q.isCorrect ? '#4CAF50' : '#FF5252', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 }}>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: isJigsaw ? (q.responseData.completed ? '#0EA5E9' : '#FF5252') : q.isCorrect ? '#4CAF50' : '#FF5252', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 }}>
                             <Text style={{ fontSize: 12, fontWeight: '900', color: '#fff' }}>{bannerLabel}</Text>
                           </View>
                         </View>
@@ -1383,8 +1390,99 @@ function ParentReports() {
                             );
                           })()}
 
+                          {/* ── JIGSAW PUZZLE result ── */}
+                          {isJigsaw && (() => {
+                            const rd        = q.responseData;
+                            const completed = Boolean(rd.completed);
+                            const moves     = Number(rd.moves ?? 0);
+                            const clickLim  = rd.clickLimit != null ? Number(rd.clickLimit) : null;
+                            const timeTaken = Number(rd.timeTaken ?? 0);
+                            const gridSize  = (rd.gridSize as string) || (q.questionData as any).gridSize || '3x3';
+                            const difficulty= (rd.difficulty as string) || (q.questionData as any).difficulty || 'medium';
+                            const n         = Number(gridSize.split('x')[0]) || 3;
+                            const total     = n * n;
+                            const diffColor = difficulty === 'easy' ? '#15803D' : difficulty === 'medium' ? '#A16207' : '#B91C1C';
+                            const diffBg    = difficulty === 'easy' ? '#DCFCE7' : difficulty === 'medium' ? '#FEF9C3' : '#FEE2E2';
+                            const barColor  = completed ? '#0EA5E9' : '#FF5252';
+                            const rawImg    = (q.questionData as any).image || (q.questionData as any).prompt_image;
+                            const imgUrl    = rawImg ? (rawImg.startsWith('/media') ? `${API_BASE_URL}${rawImg}` : rawImg) : null;
+                            const slotArr   = Array.isArray(rd.slotArrangement) ? (rd.slotArrangement as Array<number | null>) : null;
+                            const CELL      = 58;
+                            const GAP2      = 2;
+                            return (
+                              <View style={{ marginTop: 12, gap: 10 }}>
+                                <View style={gr.chipRow}>
+                                  <View style={[gr.chip, { backgroundColor: '#E0F2FE' }]}>
+                                    <Text style={[gr.chipTxt, { color: '#0369A1' }]}>🧩 {gridSize} · {total} pieces</Text>
+                                  </View>
+                                  <View style={[gr.chip, { backgroundColor: diffBg }]}>
+                                    <Text style={[gr.chipTxt, { color: diffColor }]}>{difficulty}</Text>
+                                  </View>
+                                  <View style={[gr.chip, { backgroundColor: '#F1F5F9' }]}>
+                                    <Text style={[gr.chipTxt, { color: '#334155' }]}>{moves}{clickLim ? `/${clickLim}` : ''} moves</Text>
+                                  </View>
+                                  {timeTaken > 0 && (
+                                    <View style={[gr.chip, { backgroundColor: '#F1F5F9' }]}>
+                                      <Text style={[gr.chipTxt, { color: '#334155' }]}>{timeTaken}s</Text>
+                                    </View>
+                                  )}
+                                </View>
+                                <View style={{ gap: 4 }}>
+                                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Text style={{ fontSize: 11, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' }}>Result</Text>
+                                    <Text style={{ fontSize: 11, fontWeight: '800', color: barColor }}>{completed ? '✓ Completed' : '✗ Not finished'}</Text>
+                                  </View>
+                                  <View style={{ height: 8, backgroundColor: '#F0F0F5', borderRadius: 4, overflow: 'hidden' }}>
+                                    <View style={{ height: 8, width: completed ? ('100%' as any) : ('30%' as any), backgroundColor: barColor, borderRadius: 4 }} />
+                                  </View>
+                                </View>
+                                {/* Final answer image grid */}
+                                {imgUrl && slotArr ? (
+                                  <View style={{ gap: 6 }}>
+                                    <Text style={gr.boardLabel}>Final Answer</Text>
+                                    <View style={{ gap: GAP2 }}>
+                                      {Array.from({ length: n }, (_, r) => (
+                                        <View key={r} style={{ flexDirection: 'row', gap: GAP2 }}>
+                                          {Array.from({ length: n }, (_, c) => {
+                                            const slot     = r * n + c;
+                                            const piece    = slotArr[slot];
+                                            const isEmpty  = piece === null || piece === undefined;
+                                            const isCorr   = !isEmpty && piece === slot;
+                                            return (
+                                              <View key={c} style={{ width: CELL, height: CELL, borderRadius: 5, overflow: 'hidden', borderWidth: 2, borderColor: isEmpty ? '#CBD5E1' : isCorr ? '#4CAF50' : '#FF7043', backgroundColor: isEmpty ? '#F0F4FF' : undefined, alignItems: 'center', justifyContent: 'center' }}>
+                                                {!isEmpty ? (
+                                                  <Image
+                                                    source={{ uri: imgUrl }}
+                                                    resizeMode="stretch"
+                                                    style={{ width: CELL * n, height: CELL * n, position: 'absolute', left: -((piece! % n) * CELL), top: -(Math.floor(piece! / n) * CELL) }}
+                                                  />
+                                                ) : (
+                                                  <Text style={{ fontSize: 10, color: '#94A3B8', fontWeight: '700' }}>{slot + 1}</Text>
+                                                )}
+                                                {!isEmpty && (
+                                                  <View style={{ position: 'absolute', bottom: 2, right: 2, width: 12, height: 12, borderRadius: 6, backgroundColor: isCorr ? '#4CAF50' : '#FF7043', alignItems: 'center', justifyContent: 'center' }}>
+                                                    <Text style={{ fontSize: 7, color: '#fff', fontWeight: '900' }}>{isCorr ? '✓' : '✗'}</Text>
+                                                  </View>
+                                                )}
+                                              </View>
+                                            );
+                                          })}
+                                        </View>
+                                      ))}
+                                    </View>
+                                  </View>
+                                ) : imgUrl && completed ? (
+                                  <View style={{ gap: 6 }}>
+                                    <Text style={gr.boardLabel}>Final Answer</Text>
+                                    <Image source={{ uri: imgUrl }} style={{ width: '100%', height: 160, borderRadius: 10 }} resizeMode="contain" />
+                                  </View>
+                                ) : null}
+                              </View>
+                            );
+                          })()}
+
                           {/* ── STANDARD options (choice-based) ── */}
-                          {!isMemory && !isFill && options.length > 0 && (
+                          {!isMemory && !isFill && !isJigsaw && options.length > 0 && (
                             <View style={{ gap: 8, marginTop: 12 }}>
                               {options.map((o) => {
                                 const isSelected = o.id === selectedAny || selectedIds.includes(o.id);
@@ -1735,22 +1833,25 @@ export default function ReportsScreen() {
                     const qType    = q.questionType;
                     const isMemory = qType === 'memory_match';
                     const isFill   = qType === 'fill_blank' || qType === 'fill_in_blank';
+                    const isJigsaw2 = qType === 'jigsaw' || qType === 'jigsaw_puzzle';
                     const options  = (q.questionData.options ?? []) as Array<{ id: string; label?: string; is_correct?: boolean }>;
                     const selectedId  = q.responseData.selected_id;
                     const selectedIds = Array.isArray(q.responseData.selected_ids) ? q.responseData.selected_ids as string[] : [];
                     const selectedAny = selectedId ?? selectedIds[0];
-                    const bannerBg    = q.isCorrect ? '#E8F5E9' : '#FFF3F0';
-                    const bannerColor = q.isCorrect ? '#2E7D32' : '#C62828';
+                    const bannerBg    = isJigsaw2 ? '#E0F2FE' : q.isCorrect ? '#E8F5E9' : '#FFF3F0';
+                    const bannerColor = isJigsaw2 ? '#0C4A6E' : q.isCorrect ? '#2E7D32' : '#C62828';
                     const bannerLabel = isMemory
                       ? `${q.responseData.pairsMatched ?? 0}/${q.responseData.totalPairs ?? 0} pairs`
+                      : isJigsaw2
+                      ? (q.responseData.completed ? 'Completed' : 'Not finished')
                       : q.isCorrect ? '✓ Correct' : '✗ Wrong';
                     return (
                       <View key={q.questionId} style={pr.detailQuestionCard}>
                         <View style={[pr.detailQuestionBanner, { backgroundColor: bannerBg }]}>
                           <Text style={{ fontSize: 13, fontWeight: '800', color: bannerColor, opacity: 0.7 }}>
-                            Q{i + 1}{isMemory ? ' · Memory Match' : isFill ? ' · Fill Blank' : ''}
+                            Q{i + 1}{isMemory ? ' · Memory Match' : isFill ? ' · Fill Blank' : isJigsaw2 ? ' · Jigsaw' : ''}
                           </Text>
-                          <View style={{ backgroundColor: q.isCorrect ? '#4CAF50' : '#FF5252', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 }}>
+                          <View style={{ backgroundColor: isJigsaw2 ? (q.responseData.completed ? '#0EA5E9' : '#FF5252') : q.isCorrect ? '#4CAF50' : '#FF5252', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 }}>
                             <Text style={{ fontSize: 12, fontWeight: '900', color: '#fff' }}>{bannerLabel}</Text>
                           </View>
                         </View>
@@ -1825,7 +1926,98 @@ export default function ReportsScreen() {
                               </View>
                             );
                           })()}
-                          {!isMemory && !isFill && options.length > 0 && (
+                          {/* ── JIGSAW PUZZLE result (teacher) ── */}
+                          {isJigsaw2 && (() => {
+                            const rd        = q.responseData;
+                            const completed = Boolean(rd.completed);
+                            const moves     = Number(rd.moves ?? 0);
+                            const clickLim  = rd.clickLimit != null ? Number(rd.clickLimit) : null;
+                            const timeTaken = Number(rd.timeTaken ?? 0);
+                            const gridSize  = (rd.gridSize as string) || (q.questionData as any).gridSize || '3x3';
+                            const difficulty= (rd.difficulty as string) || (q.questionData as any).difficulty || 'medium';
+                            const n         = Number(gridSize.split('x')[0]) || 3;
+                            const total     = n * n;
+                            const diffColor = difficulty === 'easy' ? '#15803D' : difficulty === 'medium' ? '#A16207' : '#B91C1C';
+                            const diffBg    = difficulty === 'easy' ? '#DCFCE7' : difficulty === 'medium' ? '#FEF9C3' : '#FEE2E2';
+                            const barColor  = completed ? '#0EA5E9' : '#FF5252';
+                            const rawImg2   = (q.questionData as any).image || (q.questionData as any).prompt_image;
+                            const imgUrl2   = rawImg2 ? (rawImg2.startsWith('/media') ? `${API_BASE_URL}${rawImg2}` : rawImg2) : null;
+                            const slotArr2  = Array.isArray(rd.slotArrangement) ? (rd.slotArrangement as Array<number | null>) : null;
+                            const CELL2     = 58;
+                            const CGAP      = 2;
+                            return (
+                              <View style={{ marginTop: 12, gap: 10 }}>
+                                <View style={gr.chipRow}>
+                                  <View style={[gr.chip, { backgroundColor: '#E0F2FE' }]}>
+                                    <Text style={[gr.chipTxt, { color: '#0369A1' }]}>🧩 {gridSize} · {total} pieces</Text>
+                                  </View>
+                                  <View style={[gr.chip, { backgroundColor: diffBg }]}>
+                                    <Text style={[gr.chipTxt, { color: diffColor }]}>{difficulty}</Text>
+                                  </View>
+                                  <View style={[gr.chip, { backgroundColor: '#F1F5F9' }]}>
+                                    <Text style={[gr.chipTxt, { color: '#334155' }]}>{moves}{clickLim ? `/${clickLim}` : ''} moves</Text>
+                                  </View>
+                                  {timeTaken > 0 && (
+                                    <View style={[gr.chip, { backgroundColor: '#F1F5F9' }]}>
+                                      <Text style={[gr.chipTxt, { color: '#334155' }]}>{timeTaken}s</Text>
+                                    </View>
+                                  )}
+                                </View>
+                                <View style={{ gap: 4 }}>
+                                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Text style={{ fontSize: 11, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' }}>Result</Text>
+                                    <Text style={{ fontSize: 11, fontWeight: '800', color: barColor }}>{completed ? '✓ Completed' : '✗ Not finished'}</Text>
+                                  </View>
+                                  <View style={{ height: 8, backgroundColor: '#F0F0F5', borderRadius: 4, overflow: 'hidden' }}>
+                                    <View style={{ height: 8, width: completed ? ('100%' as any) : ('30%' as any), backgroundColor: barColor, borderRadius: 4 }} />
+                                  </View>
+                                </View>
+                                {/* Final answer image grid */}
+                                {imgUrl2 && slotArr2 ? (
+                                  <View style={{ gap: 6 }}>
+                                    <Text style={gr.boardLabel}>Final Answer</Text>
+                                    <View style={{ gap: CGAP }}>
+                                      {Array.from({ length: n }, (_, r) => (
+                                        <View key={r} style={{ flexDirection: 'row', gap: CGAP }}>
+                                          {Array.from({ length: n }, (_, c) => {
+                                            const slot    = r * n + c;
+                                            const piece   = slotArr2[slot];
+                                            const isEmpty = piece === null || piece === undefined;
+                                            const isCorr  = !isEmpty && piece === slot;
+                                            return (
+                                              <View key={c} style={{ width: CELL2, height: CELL2, borderRadius: 5, overflow: 'hidden', borderWidth: 2, borderColor: isEmpty ? '#CBD5E1' : isCorr ? '#4CAF50' : '#FF7043', backgroundColor: isEmpty ? '#F0F4FF' : undefined, alignItems: 'center', justifyContent: 'center' }}>
+                                                {!isEmpty ? (
+                                                  <Image
+                                                    source={{ uri: imgUrl2 }}
+                                                    resizeMode="stretch"
+                                                    style={{ width: CELL2 * n, height: CELL2 * n, position: 'absolute', left: -((piece! % n) * CELL2), top: -(Math.floor(piece! / n) * CELL2) }}
+                                                  />
+                                                ) : (
+                                                  <Text style={{ fontSize: 10, color: '#94A3B8', fontWeight: '700' }}>{slot + 1}</Text>
+                                                )}
+                                                {!isEmpty && (
+                                                  <View style={{ position: 'absolute', bottom: 2, right: 2, width: 12, height: 12, borderRadius: 6, backgroundColor: isCorr ? '#4CAF50' : '#FF7043', alignItems: 'center', justifyContent: 'center' }}>
+                                                    <Text style={{ fontSize: 7, color: '#fff', fontWeight: '900' }}>{isCorr ? '✓' : '✗'}</Text>
+                                                  </View>
+                                                )}
+                                              </View>
+                                            );
+                                          })}
+                                        </View>
+                                      ))}
+                                    </View>
+                                  </View>
+                                ) : imgUrl2 && completed ? (
+                                  <View style={{ gap: 6 }}>
+                                    <Text style={gr.boardLabel}>Final Answer</Text>
+                                    <Image source={{ uri: imgUrl2 }} style={{ width: '100%', height: 160, borderRadius: 10 }} resizeMode="contain" />
+                                  </View>
+                                ) : null}
+                              </View>
+                            );
+                          })()}
+
+                          {!isMemory && !isFill && !isJigsaw2 && options.length > 0 && (
                             <View style={{ gap: 8, marginTop: 12 }}>
                               {options.map((o) => {
                                 const isSel = o.id === selectedAny || selectedIds.includes(o.id);

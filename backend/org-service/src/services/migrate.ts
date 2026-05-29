@@ -195,6 +195,15 @@ async function backfillUserOrgMapping() {
   `);
 }
 
+async function extendLearningContentSchema() {
+  if (await tableExists('learning_content_sections')) {
+    await db.query(`
+      ALTER TABLE learning_content_sections
+        ADD COLUMN IF NOT EXISTS quiz_id UUID;
+    `);
+  }
+}
+
 async function backfillTenantTables(defaultOrgId: string) {
   for (const table of TENANT_TABLES) {
     if (!(await tableExists(table))) continue;
@@ -212,6 +221,7 @@ async function backfillTenantTables(defaultOrgId: string) {
 
 export async function runOrgMigrations(): Promise<{ defaultOrgId: string }> {
   await extendOrganizationsSchema();
+  await extendLearningContentSchema();
   await ensureUserOrgMapping();
   await ensureUsersPrimaryOrg();
   const { defaultOrgId } = await consolidateDefaultOrg();

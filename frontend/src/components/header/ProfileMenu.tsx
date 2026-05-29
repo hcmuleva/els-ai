@@ -47,6 +47,9 @@ export function ProfileMenu({ isOpen, onToggle, onClose }: ProfileMenuProps) {
                 {user ? `${user.firstName} ${user.lastName}` : ''}
               </Text>
               <Text style={styles.userEmail} numberOfLines={1}>{user?.email ?? ''}</Text>
+              {!!user?.registrationId && (
+                <Text style={styles.userRegId} numberOfLines={1}>ID: {user.registrationId}</Text>
+              )}
             </View>
           </Pressable>
 
@@ -143,6 +146,7 @@ const styles = StyleSheet.create({
   userInfo:   { flex: 1 },
   userName:   { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
   userEmail:  { fontSize: 11, fontWeight: '500', color: '#9A9AB0', marginTop: 1 },
+  userRegId:  { fontSize: 10, fontWeight: '700', color: '#4A90E2', marginTop: 2 },
 
   roleBadge: {
     alignSelf: 'flex-start',

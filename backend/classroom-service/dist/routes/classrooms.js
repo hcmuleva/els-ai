@@ -4,6 +4,26 @@ import { db } from '../db.js';
 import { requireAuth } from '../middleware/auth.js';
 import { getSignedMediaUrlIfNeeded, toPersistentMediaUrl } from '../services/s3.js';
 import { eventBus } from '../events/bus.js';
+async function signMediaValue(value, cache) {
+    if (typeof value === 'string') {
+        const trimmed = value.trim();
+        if (!trimmed || (!trimmed.includes('://') && !trimmed.startsWith('s3://')))
+            return value;
+        let pending = cache.get(trimmed);
+        if (!pending) {
+            pending = getSignedMediaUrlIfNeeded(trimmed).catch(() => trimmed);
+            cache.set(trimmed, pending);
+        }
+        return pending;
+    }
+    if (Array.isArray(value))
+        return Promise.all(value.map((item) => signMediaValue(item, cache)));
+    if (value && typeof value === 'object') {
+        const entries = await Promise.all(Object.entries(value).map(async ([k, v]) => [k, await signMediaValue(v, cache)]));
+        return Object.fromEntries(entries);
+    }
+    return value;
+}
 export const classroomsRouter = Router();
 const classroomScheduleTypeSchema = z.enum(['instant', 'scheduled']);
 const classroomStatusSchema = z.enum(['draft', 'active', 'completed']);
@@ -1209,22 +1229,23 @@ classroomsRouter.get('/:classroomId/students/:studentId/details', requireAuth, a
          LEFT JOIN quiz_questions qq ON qq.id = qa.question_id
          WHERE qa.attempt_id = ANY($1::uuid[])
          ORDER BY COALESCE(qq.sort_order, 9999) ASC, qa.id ASC`, [attemptIds]);
-            questionAttemptsByAttemptId = questionAttemptsResult.rows.reduce((acc, row) => {
+            const signCache = new Map();
+            for (const row of questionAttemptsResult.rows) {
                 const key = row.attempt_id;
-                if (!acc[key])
-                    acc[key] = [];
-                acc[key].push({
+                if (!questionAttemptsByAttemptId[key])
+                    questionAttemptsByAttemptId[key] = [];
+                const signedQuestionData = await signMediaValue(row.question_data ?? {}, signCache);
+                questionAttemptsByAttemptId[key].push({
                     questionId: row.question_id,
                     questionTitle: row.question_title || 'Question',
                     questionType: row.question_type || '',
                     questionInstruction: row.question_instruction || '',
-                    questionData: row.question_data ?? {},
+                    questionData: signedQuestionData,
                     isCorrect: Boolean(row.is_correct),
                     responseData: row.response_data ?? {},
                     timeSpentSeconds: row.time_spent_seconds ? Number(row.time_spent_seconds) : null,
                 });
-                return acc;
-            }, {});
+            }
         }
         const quizzes = quizAttemptsResult.rows.map((row) => ({
             attemptId: row.attempt_id,

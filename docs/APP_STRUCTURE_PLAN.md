@@ -17,7 +17,7 @@ els-ai/
 ├── agents/
 ├── scripts/
 ├── docs/
-└── audio-images/
+└── assets/            # static media served at /media (audio, images, icons, flags)
 ```
 
 ## 3) Module Ownership

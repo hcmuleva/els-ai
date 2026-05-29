@@ -56,7 +56,8 @@ type QuizType =
   | 'multi_choice'
   | 'logico'
   | 'memory_match'
-  | 'fill_blank';
+  | 'fill_blank'
+  | 'jigsaw';
 type Difficulty = 'Easy' | 'Medium' | 'Hard';
 type CreationMode = 'quiz' | 'exam';
 type BankTab = 'question' | 'selected';
@@ -89,6 +90,9 @@ type AssessmentDraft = {
 type SubjectCatalogItem = {
   classLevel: string;
   subject: string;
+  coverImage?: string;
+  iconImage?: string;
+  iconBgColor?: string;
 };
 
 const QUIZ_TYPE_LABELS: Record<string, string> = {
@@ -105,6 +109,7 @@ const QUIZ_TYPE_LABELS: Record<string, string> = {
   logico: 'Logico',
   memory_match: 'Memory Match',
   fill_blank: 'Fill in Blank',
+  jigsaw: 'Jigsaw Puzzle',
 };
 
 const INITIAL_DRAFT: AssessmentDraft = {
@@ -136,6 +141,7 @@ const QUESTION_TYPE_FILTERS = [
   { value: 'logico',         label: 'Logico' },
   { value: 'memory_match',   label: 'Memory Match' },
   { value: 'fill_blank',     label: 'Fill in Blank' },
+  { value: 'jigsaw',         label: 'Jigsaw Puzzle' },
 ];
 
 const PAGE_SIZE = 10;
@@ -150,6 +156,7 @@ function normalizeQuestionType(type: string): QuizType {
   if (type === 'logico') return 'logico';
   if (type === 'memory_match') return 'memory_match';
   if (type === 'fill_blank' || type === 'fill_in_blank') return 'fill_blank';
+  if (type === 'jigsaw' || type === 'jigsaw_puzzle') return 'jigsaw';
   return 'single_choice';
 }
 
@@ -212,6 +219,9 @@ export default function QuizExamCreatorScreen() {
             .map((item: any) => ({
               classLevel: String(item.classLevel || item.class_level || '').trim(),
               subject:    String(item.title || item.subject || '').trim(),
+              coverImage: String(item.coverImage || item.cover_image || '').trim() || undefined,
+              iconImage: String(item.iconImage || item.icon_image || '').trim() || undefined,
+              iconBgColor: String(item.iconBgColor || item.icon_bg_color || '').trim() || undefined,
             }))
             .filter((item: SubjectCatalogItem) => item.classLevel && item.subject),
         );
@@ -242,16 +252,28 @@ export default function QuizExamCreatorScreen() {
   );
 
   const classOptions   = useMemo(() => STANDARD_OPTIONS.map((item) => item.value), []);
-  const subjectOptions = useMemo(
-    () => [
-      ...new Set(
-        subjectCatalogItems
-          .filter((item) => !currentDraft.classLevel || item.classLevel === currentDraft.classLevel)
-          .map((item) => item.subject),
-      ),
-    ].sort((a, b) => a.localeCompare(b)),
-    [currentDraft.classLevel, subjectCatalogItems],
-  );
+  const subjectOptions = useMemo(() => {
+    const byTitle = new Map<string, { coverImage?: string; iconImage?: string; iconBgColor?: string }>();
+    subjectCatalogItems
+      .filter((item) => !currentDraft.classLevel || item.classLevel === currentDraft.classLevel)
+      .forEach((item) => {
+        if (!item.subject || byTitle.has(item.subject)) return;
+        byTitle.set(item.subject, {
+          coverImage: item.coverImage,
+          iconImage: item.iconImage,
+          iconBgColor: item.iconBgColor,
+        });
+      });
+    return Array.from(byTitle.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([subject, meta]) => ({
+        label: subject,
+        value: subject,
+        coverImage: meta.coverImage,
+        iconUrl: meta.iconImage,
+        iconBgColor: meta.iconBgColor,
+      }));
+  }, [currentDraft.classLevel, subjectCatalogItems]);
 
   const filteredQuestionBank = useMemo(() => {
     const keyword = questionBankSearch.trim().toLowerCase();
@@ -387,7 +409,7 @@ export default function QuizExamCreatorScreen() {
     }
   };
 
-  const selectorOptions = selectorField === 'classLevel' ? classOptions : subjectOptions;
+  const selectorOptions = selectorField === 'classLevel' ? classOptions : subjectOptions.map((item) => item.value);
   const selectorTitle   = selectorField === 'classLevel' ? 'Select Standard' : 'Select Subject';
 
   const applySelectorValue = (value: string) => {
@@ -748,7 +770,11 @@ export default function QuizExamCreatorScreen() {
       <SelectorModal
         visible={selectorField !== null}
         title={selectorTitle}
-        options={selectorOptions.map((o) => ({ label: selectorField === 'classLevel' ? getStandardLabel(o) : o, value: o }))}
+        options={
+          selectorField === 'classLevel'
+            ? selectorOptions.map((o) => ({ label: getStandardLabel(o), value: o }))
+            : subjectOptions
+        }
         selected={selectorField === 'classLevel' ? currentDraft.classLevel : currentDraft.subject}
         isSubject={selectorField === 'subject'}
         onSelect={applySelectorValue}

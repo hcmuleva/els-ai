@@ -12,13 +12,13 @@
  *     onClose={() => setOpen(false)}
  *   />
  */
-import { Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import {
-  BookOpen, Check, FlaskConical, Globe, Hash,
-  Languages, Leaf, Monitor, School, X,
+  Activity, BookOpen, Check, FlaskConical, Globe, Hash, Languages, Leaf, Monitor, Palette, School, Sparkles, X,
 } from 'lucide-react-native';
+import { API_BASE_URL } from '../context/AuthContext';
 
-export type SelectorOption = { label: string; value: string };
+export type SelectorOption = { label: string; value: string; coverImage?: string; iconUrl?: string; iconBgColor?: string };
 
 export type SelectorModalProps = {
   visible: boolean;
@@ -37,21 +37,51 @@ export type SelectorModalProps = {
 
 type IconEntry = { Icon: React.ComponentType<{ size?: number; color?: string }>; color: string; bg: string };
 
-const SUBJECT_ICONS: Record<string, IconEntry> = {
-  'English':       { Icon: BookOpen,     color: '#4A90E2', bg: '#D6EAFF' },
-  'Maths':         { Icon: Hash,          color: '#FF7043', bg: '#FFE8D6' },
-  'Mathematics':   { Icon: Hash,          color: '#FF7043', bg: '#FFE8D6' },
-  'Science':       { Icon: FlaskConical,  color: '#7DC67A', bg: '#D6F5D6' },
-  'Hindi':         { Icon: Languages,     color: '#9B8EC4', bg: '#EDE4FF' },
-  'Hindi Stories': { Icon: BookOpen,      color: '#9B8EC4', bg: '#EDE4FF' },
-  'EVS':           { Icon: Leaf,           color: '#4CAF50', bg: '#D6F5D6' },
-  'Computer':      { Icon: Monitor,        color: '#E6A817', bg: '#FFF5CC' },
-  'GK':            { Icon: Globe,          color: '#FF7043', bg: '#FFE8D6' },
+const SUBJECT_SYMBOL_ICONS: Record<string, IconEntry> = {
+  'book-open': { Icon: BookOpen, color: '#4A90E2', bg: '#D6EAFF' },
+  hash: { Icon: Hash, color: '#FF7043', bg: '#FFE8D6' },
+  flask: { Icon: FlaskConical, color: '#7DC67A', bg: '#D6F5D6' },
+  languages: { Icon: Languages, color: '#9B8EC4', bg: '#EDE4FF' },
+  leaf: { Icon: Leaf, color: '#4CAF50', bg: '#D6F5D6' },
+  monitor: { Icon: Monitor, color: '#E6A817', bg: '#FFF5CC' },
+  globe: { Icon: Globe, color: '#FF7043', bg: '#FFE8D6' },
+  sparkles: { Icon: Sparkles, color: '#7C3AED', bg: '#F3E8FF' },
+  activity: { Icon: Activity, color: '#0EA5E9', bg: '#E0F2FE' },
+  palette: { Icon: Palette, color: '#F59E0B', bg: '#FEF3C7' },
 };
 
-function getIconEntry(value: string, isSubject: boolean): IconEntry {
-  if (isSubject) return SUBJECT_ICONS[value] ?? { Icon: BookOpen, color: '#9A9AB0', bg: '#F0F0F8' };
+function getIconEntry(isSubject: boolean): IconEntry {
+  if (isSubject) return { Icon: BookOpen, color: '#9A9AB0', bg: '#F0F0F8' };
   return { Icon: School, color: '#4A90E2', bg: '#EBF4FF' };
+}
+
+function resolveOptionIconUrl(raw?: string): string | null {
+  const trimmed = String(raw || '').trim();
+  if (!trimmed) return null;
+  if (trimmed.startsWith('symbol:')) return null;
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('data:')) return trimmed;
+  if (trimmed.startsWith('/')) return `${API_BASE_URL}${trimmed}`;
+  return null;
+}
+
+function resolveOptionBgColor(raw?: string): string | null {
+  const trimmed = String(raw || '').trim();
+  if (!trimmed) return null;
+  if (/^#[0-9a-fA-F]{3,8}$/.test(trimmed)) return trimmed;
+  return null;
+}
+
+function resolveIconSymbol(raw?: string): string | null {
+  const trimmed = String(raw || '').trim().toLowerCase();
+  if (!trimmed.startsWith('symbol:')) return null;
+  const symbol = trimmed.slice('symbol:'.length);
+  return SUBJECT_SYMBOL_ICONS[symbol] ? symbol : null;
+}
+
+function getInitials(label: string): string {
+  const words = label.trim().split(/\s+/).filter(Boolean);
+  if (words.length >= 2) return `${words[0][0] || ''}${words[1][0] || ''}`.toUpperCase();
+  return label.trim().slice(0, 2).toUpperCase() || 'SB';
 }
 
 export default function SelectorModal({
@@ -105,15 +135,30 @@ export default function SelectorModal({
 
             {options.map((option) => {
               const isActive = selected === option.value;
-              const entry    = getIconEntry(option.value, isSubject);
+              const entry    = getIconEntry(isSubject);
+              const coverUrl = isSubject ? resolveOptionIconUrl(option.coverImage) : null;
+              const iconSymbol = isSubject ? resolveIconSymbol(option.iconUrl) : null;
+              const symbolEntry = iconSymbol ? SUBJECT_SYMBOL_ICONS[iconSymbol] : null;
+              const iconUrl = isSubject ? resolveOptionIconUrl(option.iconUrl) : null;
+              const iconBgColor = isSubject ? resolveOptionBgColor(option.iconBgColor) : null;
               return (
                 <Pressable
                   key={option.value}
                   style={[s.item, isActive && s.itemActive]}
                   onPress={() => { onSelect(option.value); onClose(); }}
                 >
-                  <View style={[s.itemIcon, { backgroundColor: entry.bg }]}>
-                    <entry.Icon size={16} color={entry.color} />
+                  <View style={[s.itemIcon, { backgroundColor: iconBgColor || symbolEntry?.bg || entry.bg }]}>
+                    {coverUrl ? (
+                      <Image source={{ uri: coverUrl }} style={s.optionImage} resizeMode="cover" />
+                    ) : iconSymbol && symbolEntry ? (
+                      <symbolEntry.Icon size={16} color={symbolEntry.color} />
+                    ) : iconUrl ? (
+                      <Image source={{ uri: iconUrl }} style={s.optionImage} resizeMode="cover" />
+                    ) : isSubject ? (
+                      <Text style={s.initialText}>{getInitials(option.label)}</Text>
+                    ) : (
+                      <entry.Icon size={16} color={entry.color} />
+                    )}
                   </View>
                   <Text style={[s.itemText, isActive && s.itemTextActive]}>{option.label}</Text>
                   {isActive && <Check size={16} color="#4A90E2" />}
@@ -140,6 +185,8 @@ const s = StyleSheet.create({
   item:       { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 11, paddingHorizontal: 14, borderRadius: 12, marginBottom: 4 },
   itemActive: { backgroundColor: '#EBF4FF' },
   itemIcon:   { width: 36, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  optionImage:{ width: 32, height: 32, borderRadius: 8 },
+  initialText:{ fontSize: 11, fontWeight: '800', color: '#475569' },
   itemText:   { flex: 1, fontSize: 14, fontWeight: '600', color: '#1a1a2e' },
   itemTextActive: { color: '#4A90E2', fontWeight: '700' },
 });

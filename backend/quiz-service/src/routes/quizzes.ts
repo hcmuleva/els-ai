@@ -26,6 +26,8 @@ const createQuizSchema = z.object({
     'memory_match',
     'fill_blank',
     'logico',
+    'jigsaw',
+    'jigsaw_puzzle',
   ]),
   difficultyLevel: z.string().optional(),
   backgroundMusicUrl: z.string().optional(),
@@ -77,6 +79,8 @@ const teacherLibraryQuerySchema = z.object({
       'memory_match',
       'fill_blank',
       'logico',
+      'jigsaw',
+      'jigsaw_puzzle',
     ])
     .optional(),
   difficulty_level: z.string().trim().optional(),
@@ -289,6 +293,7 @@ quizzesRouter.get('/teacher/library', requireAuth, async (req: any, res) => {
   }
 
   const { search, class_level, subject, quiz_type, difficulty_level, status, source, limit } = parsedQuery.data;
+  const normalizedQuizType = quiz_type === 'jigsaw_puzzle' ? 'jigsaw' : quiz_type;
   const params: unknown[] = [orgId];
   const whereClauses: string[] = ['(organization_id = $1::uuid OR is_global = true)'];
 
@@ -304,8 +309,8 @@ quizzesRouter.get('/teacher/library', requireAuth, async (req: any, res) => {
     params.push(subject);
     whereClauses.push(`subject = $${params.length}`);
   }
-  if (quiz_type) {
-    params.push(quiz_type);
+  if (normalizedQuizType) {
+    params.push(normalizedQuizType);
     whereClauses.push(`quiz_type = $${params.length}`);
   }
   if (difficulty_level) {
@@ -453,7 +458,7 @@ quizzesRouter.get('/teacher/class-activity', requireAuth, async (req: any, res) 
          CASE WHEN COUNT(qa.id) > 0
            THEN ROUND(COUNT(qa.id) FILTER (WHERE qa.is_correct)::numeric / COUNT(qa.id) * 100)
            ELSE 0 END                                     AS score_pct,
-         BOOL_OR(qq.question_type IN ('memory_match','fill_blank')) AS has_game,
+         BOOL_OR(qq.question_type IN ('memory_match','fill_blank','jigsaw')) AS has_game,
          MAX(CASE WHEN qq.question_type = 'memory_match'
            THEN (qa.response_data->>'clicksUsed')::int    END) AS mm_clicks_used,
          MAX(CASE WHEN qq.question_type = 'memory_match'
@@ -690,6 +695,7 @@ quizzesRouter.post('/', requireAuth, async (req: any, res) => {
   }
 
   const { title, description, classLevel, subject, quizType, difficultyLevel, backgroundMusicUrl, theme, isPublished, isAiGenerated, isGlobal } = parsed.data;
+  const normalizedQuizType = quizType === 'jigsaw_puzzle' ? 'jigsaw' : quizType;
   const orgId = getOrganizationId(req);
   const userId = req.user.userId;
   if (!orgId) {
@@ -705,7 +711,7 @@ quizzesRouter.post('/', requireAuth, async (req: any, res) => {
       `INSERT INTO quizzes (organization_id, title, description, class_level, subject, quiz_type, difficulty_level, background_music_url, theme, is_published, is_ai_generated, created_by, is_global)
        VALUES ($1::uuid, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
        RETURNING *`,
-      [orgId, title, description || null, classLevel || null, subject || null, quizType, difficultyLevel || null, backgroundMusicUrl || null, theme, isPublished, isAiGenerated, userId, isGlobal],
+      [orgId, title, description || null, classLevel || null, subject || null, normalizedQuizType, difficultyLevel || null, backgroundMusicUrl || null, theme, isPublished, isAiGenerated, userId, isGlobal],
     );
 
     return res.status(201).json(result.rows[0]);

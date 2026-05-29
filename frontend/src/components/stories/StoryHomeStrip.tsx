@@ -4,6 +4,7 @@ import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'rea
 import { BookOpenCheck, Clock, Play, RotateCcw } from 'lucide-react-native';
 
 import { useAuth } from '../../context/AuthContext';
+import { resolveMediaUrl } from '../../utils/media';
 
 type Story = {
   id: string;
@@ -70,7 +71,7 @@ export default function StoryHomeStrip() {
       {live && (
         <TouchableOpacity style={s.liveCard} onPress={() => open(live.id)} activeOpacity={0.85}>
           {live.coverImageUrl ? (
-            <Image source={{ uri: live.coverImageUrl }} style={s.liveCover} resizeMode="cover" />
+            <Image source={{ uri: resolveMediaUrl(live.coverImageUrl) }} style={s.liveCover} resizeMode="cover" />
           ) : (
             <View style={[s.liveCover, s.liveCoverFallback]}>
               <BookOpenCheck size={42} color="#fff" />
@@ -113,7 +114,7 @@ export default function StoryHomeStrip() {
             {previous.map((p) => (
               <TouchableOpacity key={p.id} style={s.prevCard} onPress={() => open(p.id)}>
                 {p.coverImageUrl ? (
-                  <Image source={{ uri: p.coverImageUrl }} style={s.prevCover} />
+                  <Image source={{ uri: resolveMediaUrl(p.coverImageUrl) }} style={s.prevCover} />
                 ) : (
                   <View style={[s.prevCover, s.prevCoverFallback]}>
                     <BookOpenCheck size={24} color="#9B8EC4" />

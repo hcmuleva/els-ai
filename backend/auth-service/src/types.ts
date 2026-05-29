@@ -15,6 +15,7 @@ export type UserWithRoles = {
   lastName: string;
   email: string;
   mobileNumber?: string;
+  registrationId?: string;
   classLevel?: string;
   branch?: string;
   activeRole: UserRole;

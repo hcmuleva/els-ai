@@ -1,6 +1,125 @@
 import bcrypt from 'bcryptjs';
 import { db } from '../db.js';
 
+type SubjectTemplate = {
+  title: string;
+  description: string;
+  iconImage: string;
+  iconBgColor: string;
+  aliases?: string[];
+};
+
+const LKG_UKG_SUBJECTS: SubjectTemplate[] = [
+  { title: 'English', description: 'Foundational language skills for listening, speaking, and early literacy.', iconImage: 'symbol:book-open', iconBgColor: '#D6EAFF' },
+  { title: 'Mathematics', description: 'Number sense, counting, and early problem-solving activities.', iconImage: 'symbol:hash', iconBgColor: '#FFE8D6', aliases: ['Maths'] },
+  { title: 'Environmental Studies', description: 'Awareness of surroundings, nature, and everyday life concepts.', iconImage: 'symbol:leaf', iconBgColor: '#D6F5D6', aliases: ['EVS', 'Environmental Studies (EVS)'] },
+  { title: 'Rhymes & Stories', description: 'Songs, rhymes, and storytelling to build language rhythm and imagination.', iconImage: 'symbol:sparkles', iconBgColor: '#EDE4FF', aliases: ['Hindi Stories'] },
+  { title: 'Drawing & Coloring', description: 'Creative expression through drawing, coloring, and visual exploration.', iconImage: 'symbol:palette', iconBgColor: '#FFF5CC' },
+  { title: 'Activity / Play-based Learning', description: 'Hands-on playful activities for social, motor, and cognitive growth.', iconImage: 'symbol:activity', iconBgColor: '#E0F2FE', aliases: ['Activity', 'Play-based Learning'] },
+];
+
+const PRIMARY_SUBJECTS: SubjectTemplate[] = [
+  { title: 'English', description: 'Reading, writing, vocabulary, and communication practice.', iconImage: 'symbol:book-open', iconBgColor: '#D6EAFF' },
+  { title: 'Mathematics', description: 'Arithmetic, number operations, and logical reasoning.', iconImage: 'symbol:hash', iconBgColor: '#FFE8D6', aliases: ['Maths'] },
+  { title: 'Environmental Studies (EVS)', description: 'Integrated learning of natural and social surroundings.', iconImage: 'symbol:leaf', iconBgColor: '#D6F5D6', aliases: ['EVS', 'Environmental Studies'] },
+  { title: 'Hindi', description: 'Hindi language development in reading, writing, and speaking.', iconImage: 'symbol:languages', iconBgColor: '#EDE4FF' },
+  { title: 'General Knowledge', description: 'General awareness about people, places, and the world.', iconImage: 'symbol:globe', iconBgColor: '#FFF5CC', aliases: ['GK'] },
+  { title: 'Computer Science', description: 'Basic computer awareness, digital tools, and safe technology use.', iconImage: 'symbol:monitor', iconBgColor: '#E0F2FE', aliases: ['Computer'] },
+];
+
+const MIDDLE_SUBJECTS: SubjectTemplate[] = [
+  { title: 'English', description: 'Comprehension, grammar, writing skills, and communication.', iconImage: 'symbol:book-open', iconBgColor: '#D6EAFF' },
+  { title: 'Mathematics', description: 'Core math concepts including algebraic and numerical reasoning.', iconImage: 'symbol:hash', iconBgColor: '#FFE8D6', aliases: ['Maths'] },
+  { title: 'Science', description: 'General science concepts with observation and experimentation.', iconImage: 'symbol:flask', iconBgColor: '#D6F5D6' },
+  { title: 'Social Science', description: 'History, civics, geography, and societal understanding.', iconImage: 'symbol:globe', iconBgColor: '#FFF5CC', aliases: ['Social'] },
+  { title: 'Hindi', description: 'Advanced Hindi language and literature fundamentals.', iconImage: 'symbol:languages', iconBgColor: '#EDE4FF' },
+  { title: 'Sanskrit', description: 'Introductory Sanskrit language and grammar foundations.', iconImage: 'symbol:languages', iconBgColor: '#EDE4FF' },
+  { title: 'Computer Science', description: 'Digital literacy, basic coding ideas, and computer applications.', iconImage: 'symbol:monitor', iconBgColor: '#E0F2FE', aliases: ['Computer'] },
+];
+
+const NINTH_TENTH_SUBJECTS: SubjectTemplate[] = [
+  { title: 'English', description: 'Language proficiency, literature appreciation, and writing skills.', iconImage: 'symbol:book-open', iconBgColor: '#D6EAFF' },
+  { title: 'Mathematics', description: 'Algebra, geometry, mensuration, and problem-solving.', iconImage: 'symbol:hash', iconBgColor: '#FFE8D6', aliases: ['Maths'] },
+  { title: 'Science (Physics, Chemistry, Biology)', description: 'Integrated science with conceptual and practical understanding.', iconImage: 'symbol:flask', iconBgColor: '#D6F5D6', aliases: ['Science'] },
+  { title: 'Social Science', description: 'History, geography, political science, and economics basics.', iconImage: 'symbol:globe', iconBgColor: '#FFF5CC', aliases: ['Social'] },
+  { title: 'Hindi', description: 'Hindi language and literature for senior middle school levels.', iconImage: 'symbol:languages', iconBgColor: '#EDE4FF' },
+  { title: 'Computer Applications / IT', description: 'Information technology and practical computer applications.', iconImage: 'symbol:monitor', iconBgColor: '#E0F2FE', aliases: ['Computer Science', 'Computer'] },
+];
+
+const SENIOR_SECONDARY_SUBJECTS: SubjectTemplate[] = [
+  { title: 'Physics', description: 'Fundamentals of mechanics, waves, electricity, and modern physics.', iconImage: 'symbol:flask', iconBgColor: '#D6F5D6' },
+  { title: 'Chemistry', description: 'Atomic structure, reactions, bonding, and chemical principles.', iconImage: 'symbol:flask', iconBgColor: '#D6F5D6' },
+  { title: 'Mathematics', description: 'Advanced algebra, calculus, trigonometry, and applications.', iconImage: 'symbol:hash', iconBgColor: '#FFE8D6', aliases: ['Maths'] },
+  { title: 'Biology', description: 'Life sciences including botany, zoology, and human biology.', iconImage: 'symbol:leaf', iconBgColor: '#D6F5D6' },
+  { title: 'Computer Science', description: 'Programming, computational thinking, and computer systems.', iconImage: 'symbol:monitor', iconBgColor: '#E0F2FE', aliases: ['CS'] },
+  { title: 'Accountancy', description: 'Accounting principles, bookkeeping, and financial statements.', iconImage: 'symbol:hash', iconBgColor: '#FFE8D6' },
+  { title: 'Business Studies', description: 'Business organization, management, and entrepreneurship basics.', iconImage: 'symbol:activity', iconBgColor: '#E0F2FE', aliases: ['Business'] },
+  { title: 'Economics', description: 'Microeconomics, macroeconomics, and market understanding.', iconImage: 'symbol:globe', iconBgColor: '#FFF5CC' },
+  { title: 'History', description: 'Historical events, movements, and critical interpretation of the past.', iconImage: 'symbol:book-open', iconBgColor: '#D6EAFF' },
+  { title: 'Political Science', description: 'Governance, political systems, and civic institutions.', iconImage: 'symbol:globe', iconBgColor: '#FFF5CC', aliases: ['Political'] },
+  { title: 'Geography', description: 'Physical and human geography, maps, and environmental systems.', iconImage: 'symbol:globe', iconBgColor: '#FFF5CC' },
+  { title: 'Psychology', description: 'Introduction to human behavior, cognition, and mental processes.', iconImage: 'symbol:sparkles', iconBgColor: '#EDE4FF' },
+  { title: 'English', description: 'Advanced language, literature, and communication competence.', iconImage: 'symbol:book-open', iconBgColor: '#D6EAFF' },
+];
+
+const SUBJECTS_BY_CLASS: Record<string, SubjectTemplate[]> = {
+  LKG: LKG_UKG_SUBJECTS,
+  UKG: LKG_UKG_SUBJECTS,
+  '1': PRIMARY_SUBJECTS,
+  '2': PRIMARY_SUBJECTS,
+  '3': PRIMARY_SUBJECTS,
+  '4': PRIMARY_SUBJECTS,
+  '5': PRIMARY_SUBJECTS,
+  '6': MIDDLE_SUBJECTS,
+  '7': MIDDLE_SUBJECTS,
+  '8': MIDDLE_SUBJECTS,
+  '9': NINTH_TENTH_SUBJECTS,
+  '10': NINTH_TENTH_SUBJECTS,
+  '11': SENIOR_SECONDARY_SUBJECTS,
+  '12': SENIOR_SECONDARY_SUBJECTS,
+};
+
+async function upsertSubjectCatalogForOrganization(orgId: string) {
+  for (const [classLevel, templates] of Object.entries(SUBJECTS_BY_CLASS)) {
+    for (const template of templates) {
+      const aliases = Array.from(new Set([template.title, ...(template.aliases || [])].map((value) => value.trim()).filter(Boolean)));
+      const aliasLower = aliases.map((value) => value.toLowerCase());
+      const existing = await db.query(
+        `SELECT id
+         FROM subjects
+         WHERE organization_id = $1
+           AND class_level = $2
+           AND LOWER(title) = ANY($3::text[])
+         LIMIT 1`,
+        [orgId, classLevel, aliasLower],
+      );
+
+      if ((existing.rowCount ?? 0) > 0) {
+        await db.query(
+          `UPDATE subjects
+           SET description = $1,
+               icon_image = $2,
+               icon_bg_color = $3,
+               updated_at = NOW()
+           WHERE id = $4`,
+          [template.description, template.iconImage, template.iconBgColor, existing.rows[0].id],
+        );
+      } else {
+        await db.query(
+          `INSERT INTO subjects (organization_id, cover_image, icon_image, icon_bg_color, title, description, author, author_user_id, is_external_author, class_level)
+           VALUES ($1, NULL, $2, $3, $4, $5, 'ELS Team', NULL, true, $6)
+           ON CONFLICT (organization_id, class_level, title) DO UPDATE
+           SET description = EXCLUDED.description,
+               icon_image = EXCLUDED.icon_image,
+               icon_bg_color = EXCLUDED.icon_bg_color,
+               updated_at = NOW()`,
+          [orgId, template.iconImage, template.iconBgColor, template.title, template.description, classLevel],
+        );
+      }
+    }
+  }
+}
+
 export async function initSchemaAndSeed() {
   const forceReset = process.env.RESET_DB_ON_START === 'true';
   const existingSchema = await db.query(`
@@ -16,6 +135,23 @@ export async function initSchemaAndSeed() {
   if (schemaExists && !forceReset) {
     // Ensure all newer tables are created if they are missing
     await db.query(`
+      CREATE OR REPLACE FUNCTION generate_registration_id()
+      RETURNS TEXT AS $$
+      BEGIN
+        RETURN 'ELS-' || UPPER(SUBSTRING(REPLACE(gen_random_uuid()::text, '-', '') FROM 1 FOR 10));
+      END;
+      $$ LANGUAGE plpgsql;
+
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS unique_registration_id VARCHAR(20);
+      ALTER TABLE users ALTER COLUMN unique_registration_id SET DEFAULT generate_registration_id();
+
+      UPDATE users
+      SET unique_registration_id = generate_registration_id()
+      WHERE unique_registration_id IS NULL;
+
+      CREATE UNIQUE INDEX IF NOT EXISTS idx_users_unique_registration_id
+        ON users(unique_registration_id);
+
       CREATE TABLE IF NOT EXISTS student_activity (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         student_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
@@ -72,6 +208,31 @@ export async function initSchemaAndSeed() {
         UNIQUE(parent_user_id, student_user_id, organization_id)
       );
 
+      CREATE TABLE IF NOT EXISTS parent_assessments (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        parent_user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+        student_user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+        behavior_score SMALLINT NOT NULL CHECK (behavior_score BETWEEN 0 AND 10),
+        focus_score SMALLINT NOT NULL CHECK (focus_score BETWEEN 0 AND 10),
+        regularity_score SMALLINT NOT NULL CHECK (regularity_score BETWEEN 0 AND 10),
+        creativity_score SMALLINT NOT NULL CHECK (creativity_score BETWEEN 0 AND 10),
+        academic_score SMALLINT NOT NULL CHECK (academic_score BETWEEN 0 AND 10),
+        outdoor_activity_score SMALLINT NOT NULL CHECK (outdoor_activity_score BETWEEN 0 AND 10),
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      );
+
+      CREATE TABLE IF NOT EXISTS parent_feedback (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        parent_user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+        student_user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+        feedback_text TEXT NOT NULL,
+        attachment_url TEXT,
+        created_at TIMESTAMP DEFAULT NOW()
+      );
+
       CREATE TABLE IF NOT EXISTS teacher_standard_subjects (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         teacher_user_id UUID REFERENCES users(id) ON DELETE CASCADE,
@@ -86,6 +247,8 @@ export async function initSchemaAndSeed() {
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
         cover_image TEXT,
+        icon_image TEXT,
+        icon_bg_color VARCHAR(20),
         title VARCHAR(255) NOT NULL,
         description TEXT,
         author VARCHAR(255),
@@ -168,6 +331,8 @@ export async function initSchemaAndSeed() {
     await db.query(`
       ALTER TABLE users ADD COLUMN IF NOT EXISTS class_level VARCHAR(50);
       ALTER TABLE users ADD COLUMN IF NOT EXISTS branch VARCHAR(100);
+      ALTER TABLE subjects ADD COLUMN IF NOT EXISTS icon_image TEXT;
+      ALTER TABLE subjects ADD COLUMN IF NOT EXISTS icon_bg_color VARCHAR(20);
 
       CREATE TABLE IF NOT EXISTS user_global_publish_permissions (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -274,28 +439,10 @@ export async function initSchemaAndSeed() {
       CREATE INDEX IF NOT EXISTS idx_invoices_issued ON invoices(issued_at DESC);
     `);
 
-    // Also seed subjects if they are missing
-    const subjectsCheck = await db.query("SELECT 1 FROM subjects LIMIT 1");
-    if ((subjectsCheck.rowCount ?? 0) === 0) {
-      // Find ELS Academy organization ID
-      const orgRes = await db.query("SELECT id FROM organizations WHERE subdomain = 'els-academy' LIMIT 1");
-      if ((orgRes.rowCount ?? 0) > 0) {
-        const orgId = orgRes.rows[0].id;
-        await db.query(
-          `INSERT INTO subjects (organization_id, cover_image, title, description, author, author_user_id, is_external_author, class_level)
-           VALUES
-           ($1, $2, $3, $4, $5, NULL, true, $6),
-           ($1, $7, $8, $9, $10, NULL, true, $11),
-           ($1, $12, $13, $14, $15, NULL, true, $16)
-           ON CONFLICT (organization_id, class_level, title) DO NOTHING`,
-          [
-            orgId,
-            null, 'English', 'Basic language and reading skills', 'ELS Team', '1',
-            null, 'Mathematics', 'Numbers, counting, and arithmetic foundations', 'ELS Team', '2',
-            null, 'Environmental Studies', 'Early exposure to nature and surroundings', 'ELS Team', 'LKG'
-          ]
-        );
-      }
+    // Ensure class-wise subject catalog (with icon metadata) exists and stays updated for every org
+    const allOrgs = await db.query(`SELECT id FROM organizations`);
+    for (const row of allOrgs.rows) {
+      await upsertSubjectCatalogForOrganization(row.id as string);
     }
 
     // Seed English topics & content if missing
@@ -424,6 +571,13 @@ export async function initSchemaAndSeed() {
 
   // 1. Organizations
   await db.query(`
+    CREATE OR REPLACE FUNCTION generate_registration_id()
+    RETURNS TEXT AS $$
+    BEGIN
+      RETURN 'ELS-' || UPPER(SUBSTRING(REPLACE(gen_random_uuid()::text, '-', '') FROM 1 FOR 10));
+    END;
+    $$ LANGUAGE plpgsql;
+
     CREATE TABLE organizations (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       name VARCHAR(255) NOT NULL,
@@ -442,6 +596,7 @@ export async function initSchemaAndSeed() {
       last_name VARCHAR(100) NOT NULL,
       email VARCHAR(255) UNIQUE NOT NULL,
       mobile_number VARCHAR(20) UNIQUE,
+      unique_registration_id VARCHAR(20) UNIQUE NOT NULL DEFAULT generate_registration_id(),
       password_hash TEXT NOT NULL,
       gender VARCHAR(20),
       date_of_birth DATE,
@@ -612,6 +767,35 @@ export async function initSchemaAndSeed() {
     );
   `);
 
+  await db.query(`
+    CREATE TABLE parent_assessments (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      parent_user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+      student_user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+      behavior_score SMALLINT NOT NULL CHECK (behavior_score BETWEEN 0 AND 10),
+      focus_score SMALLINT NOT NULL CHECK (focus_score BETWEEN 0 AND 10),
+      regularity_score SMALLINT NOT NULL CHECK (regularity_score BETWEEN 0 AND 10),
+      creativity_score SMALLINT NOT NULL CHECK (creativity_score BETWEEN 0 AND 10),
+      academic_score SMALLINT NOT NULL CHECK (academic_score BETWEEN 0 AND 10),
+      outdoor_activity_score SMALLINT NOT NULL CHECK (outdoor_activity_score BETWEEN 0 AND 10),
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
+  await db.query(`
+    CREATE TABLE parent_feedback (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      parent_user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+      student_user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+      feedback_text TEXT NOT NULL,
+      attachment_url TEXT,
+      created_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
   // 5.2 Teacher standard-subject assignments
   await db.query(`
     CREATE TABLE teacher_standard_subjects (
@@ -631,6 +815,8 @@ export async function initSchemaAndSeed() {
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
       cover_image TEXT,
+      icon_image TEXT,
+      icon_bg_color VARCHAR(20),
       title VARCHAR(255) NOT NULL,
       description TEXT,
       author VARCHAR(255),
@@ -985,6 +1171,7 @@ export async function initSchemaAndSeed() {
       'LKG',
     ],
   );
+  await upsertSubjectCatalogForOrganization(orgId);
 
   // 4. Seed Sample Quizzes
   // BGM audio URLs pointing to local static media

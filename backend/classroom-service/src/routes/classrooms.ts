@@ -5,6 +5,27 @@ import { AuthenticatedRequest, requireAuth } from '../middleware/auth.js';
 import { getSignedMediaUrlIfNeeded, toPersistentMediaUrl } from '../services/s3.js';
 import { eventBus } from '../events/bus.js';
 
+async function signMediaValue(value: unknown, cache: Map<string, Promise<string>>): Promise<unknown> {
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (!trimmed || (!trimmed.includes('://') && !trimmed.startsWith('s3://'))) return value;
+    let pending = cache.get(trimmed);
+    if (!pending) {
+      pending = getSignedMediaUrlIfNeeded(trimmed).catch(() => trimmed);
+      cache.set(trimmed, pending);
+    }
+    return pending;
+  }
+  if (Array.isArray(value)) return Promise.all(value.map((item) => signMediaValue(item, cache)));
+  if (value && typeof value === 'object') {
+    const entries = await Promise.all(
+      Object.entries(value as Record<string, unknown>).map(async ([k, v]) => [k, await signMediaValue(v, cache)] as const),
+    );
+    return Object.fromEntries(entries);
+  }
+  return value;
+}
+
 export const classroomsRouter = Router();
 
 const classroomScheduleTypeSchema = z.enum(['instant', 'scheduled']);
@@ -1418,21 +1439,22 @@ classroomsRouter.get('/:classroomId/students/:studentId/details', requireAuth, a
         [attemptIds],
       );
 
-      questionAttemptsByAttemptId = questionAttemptsResult.rows.reduce((acc: Record<string, any[]>, row: any) => {
+      const signCache = new Map<string, Promise<string>>();
+      for (const row of questionAttemptsResult.rows) {
         const key = row.attempt_id as string;
-        if (!acc[key]) acc[key] = [];
-        acc[key].push({
+        if (!questionAttemptsByAttemptId[key]) questionAttemptsByAttemptId[key] = [];
+        const signedQuestionData = await signMediaValue(row.question_data ?? {}, signCache);
+        questionAttemptsByAttemptId[key].push({
           questionId: row.question_id as string,
           questionTitle: (row.question_title as string | null) || 'Question',
           questionType: (row.question_type as string | null) || '',
           questionInstruction: (row.question_instruction as string | null) || '',
-          questionData: row.question_data ?? {},
+          questionData: signedQuestionData,
           isCorrect: Boolean(row.is_correct),
           responseData: row.response_data ?? {},
           timeSpentSeconds: row.time_spent_seconds ? Number(row.time_spent_seconds) : null,
         });
-        return acc;
-      }, {});
+      }
     }
 
     const quizzes = quizAttemptsResult.rows.map((row: any) => ({

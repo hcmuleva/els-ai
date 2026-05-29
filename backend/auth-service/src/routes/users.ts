@@ -82,6 +82,8 @@ const authorSearchQuerySchema = z.object({
 });
 const createSubjectSchema = z.object({
   coverImage: z.string().trim().optional(),
+  iconImage: z.string().trim().optional(),
+  iconBgColor: z.string().trim().optional(),
   title: z.string().trim().min(1).max(255),
   description: z.string().trim().optional(),
   isExternalAuthor: z.boolean().optional(),
@@ -92,6 +94,8 @@ const createSubjectSchema = z.object({
 const updateSubjectSchema = z
   .object({
     coverImage: z.string().trim().optional(),
+    iconImage: z.string().trim().optional(),
+    iconBgColor: z.string().trim().optional(),
     title: z.string().trim().min(1).max(255).optional(),
     description: z.string().trim().optional(),
     isExternalAuthor: z.boolean().optional(),
@@ -111,10 +115,13 @@ const transferOrganizationSchema = z.object({
   toOrganizationId: z.string().uuid(),
   roles: z.array(roleSchema).min(1).optional(),
 });
+const connectByRegistrationIdSchema = z.object({
+  registrationId: z.string().trim().min(4).max(30),
+});
 
 async function getUserWithRoles(userId: string, organizationId?: string): Promise<UserWithRoles | null> {
   const userResult = await db.query(
-    `SELECT id, first_name, last_name, email, mobile_number, class_level, branch, active_role, profile_image, is_active
+    `SELECT id, first_name, last_name, email, mobile_number, unique_registration_id, class_level, branch, active_role, profile_image, is_active
      FROM users
      WHERE id = $1`,
     [userId],
@@ -155,6 +162,7 @@ async function getUserWithRoles(userId: string, organizationId?: string): Promis
     lastName: user.last_name,
     email: user.email,
     mobileNumber: user.mobile_number || undefined,
+    registrationId: user.unique_registration_id || undefined,
     classLevel: user.class_level || undefined,
     branch: user.branch || undefined,
     activeRole: user.active_role as UserRole,
@@ -227,6 +235,8 @@ async function userHasRoleInOrg(userId: string, organizationId: string, roleName
 type SubjectRow = {
   id: string;
   cover_image: string | null;
+  icon_image: string | null;
+  icon_bg_color: string | null;
   title: string;
   description: string | null;
   author: string | null;
@@ -249,6 +259,8 @@ function mapSubjectRow(row: SubjectRow) {
   return {
     id: row.id,
     coverImage: row.cover_image || undefined,
+    iconImage: row.icon_image || undefined,
+    iconBgColor: row.icon_bg_color || undefined,
     title: row.title,
     description: row.description || undefined,
     classLevel: row.class_level,
@@ -270,6 +282,66 @@ function mapSubjectRow(row: SubjectRow) {
 }
 
 export const usersRouter = Router();
+
+usersRouter.post('/me/connect-by-registration-id', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const parsedBody = connectByRegistrationIdSchema.safeParse(req.body);
+  if (!parsedBody.success) {
+    return res.status(400).json({ message: 'Invalid connect payload', errors: parsedBody.error.issues });
+  }
+
+  const organizationId = getRequestOrganizationId(req);
+  const selfUserId = req.user?.userId;
+  const activeRole = req.user?.role;
+  if (!organizationId || !selfUserId || !activeRole) {
+    return res.status(400).json({ message: 'Organization or user not found in auth context' });
+  }
+  if (activeRole !== 'parent' && activeRole !== 'student') {
+    return res.status(400).json({ message: 'Connect is allowed only for parent or student active role' });
+  }
+
+  const targetRole = activeRole === 'parent' ? 'student' : 'parent';
+
+  try {
+    const targetResult = await db.query(
+      `SELECT u.id
+       FROM users u
+       INNER JOIN user_roles ur ON ur.user_id = u.id AND ur.organization_id = $2::uuid
+       INNER JOIN roles r ON r.id = ur.role_id
+       WHERE u.unique_registration_id = $1
+         AND r.role_name = $3
+         AND u.deleted_at IS NULL
+       LIMIT 1`,
+      [parsedBody.data.registrationId.trim().toUpperCase(), organizationId, targetRole],
+    );
+
+    if ((targetResult.rowCount ?? 0) === 0) {
+      return res.status(404).json({ message: `No ${targetRole} found for this registration ID` });
+    }
+    const targetUserId = targetResult.rows[0].id as string;
+    if (targetUserId === selfUserId) {
+      return res.status(400).json({ message: 'Cannot connect to your own ID' });
+    }
+
+    const parentUserId = activeRole === 'parent' ? selfUserId : targetUserId;
+    const studentUserId = activeRole === 'student' ? selfUserId : targetUserId;
+
+    await db.query(
+      `INSERT INTO parent_student_links (parent_user_id, student_user_id, organization_id)
+       VALUES ($1, $2, $3::uuid)
+       ON CONFLICT (parent_user_id, student_user_id, organization_id) DO NOTHING`,
+      [parentUserId, studentUserId, organizationId],
+    );
+
+    return res.status(201).json({
+      message: activeRole === 'parent' ? 'Child connected successfully' : 'Parent connected successfully',
+      parentUserId,
+      studentUserId,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to connect by registration ID' });
+  }
+});
 
 usersRouter.get('/admin/counts', requireAuth, async (req: AuthenticatedRequest, res) => {
   const organizationId = getRequestOrganizationId(req);
@@ -1125,6 +1197,8 @@ usersRouter.get('/subjects', requireAuth, async (req: AuthenticatedRequest, res)
       `SELECT
          s.id,
          s.cover_image,
+         s.icon_image,
+         s.icon_bg_color,
          s.title,
          s.description,
          s.author,
@@ -1167,7 +1241,7 @@ usersRouter.post('/subjects', requireAuth, async (req: AuthenticatedRequest, res
     return res.status(403).json({ message: 'Forbidden: admin role required' });
   }
 
-  const { coverImage, title, description, classLevel } = parsedBody.data;
+  const { coverImage, iconImage, iconBgColor, title, description, classLevel } = parsedBody.data;
   const isExternalAuthor = parsedBody.data.isExternalAuthor ?? false;
   const authorUserId = isExternalAuthor ? null : parsedBody.data.authorUserId || null;
   const authorName = isExternalAuthor ? parsedBody.data.authorName || null : null;
@@ -1200,16 +1274,29 @@ usersRouter.post('/subjects', requireAuth, async (req: AuthenticatedRequest, res
     }
 
     const insertResult = await db.query(
-      `INSERT INTO subjects (organization_id, cover_image, title, description, author, author_user_id, is_external_author, class_level)
-       VALUES ($1::uuid, $2, $3, $4, $5, $6::uuid, $7, $8)
+      `INSERT INTO subjects (organization_id, cover_image, icon_image, icon_bg_color, title, description, author, author_user_id, is_external_author, class_level)
+       VALUES ($1::uuid, $2, $3, $4, $5, $6, $7, $8::uuid, $9, $10)
        RETURNING id`,
-      [organizationId, coverImage || null, title, description || null, authorName, authorUserId, isExternalAuthor, classLevel],
+      [
+        organizationId,
+        coverImage || null,
+        iconImage || null,
+        iconBgColor || null,
+        title,
+        description || null,
+        authorName,
+        authorUserId,
+        isExternalAuthor,
+        classLevel,
+      ],
     );
     const subjectId = insertResult.rows[0]?.id as string;
     const result = await db.query(
       `SELECT
          s.id,
          s.cover_image,
+         s.icon_image,
+         s.icon_bg_color,
          s.title,
          s.description,
          s.author,
@@ -1272,7 +1359,7 @@ usersRouter.patch('/subjects/:id', requireAuth, async (req: AuthenticatedRequest
   }
 
   const existing = existingResult.rows[0];
-  const { coverImage, title, description, classLevel } = parsedBody.data;
+  const { coverImage, iconImage, iconBgColor, title, description, classLevel } = parsedBody.data;
   const effectiveTitle = title ?? (existing.title as string);
   const effectiveClassLevel = classLevel ?? (existing.class_level as string);
 
@@ -1328,6 +1415,14 @@ usersRouter.patch('/subjects/:id', requireAuth, async (req: AuthenticatedRequest
     params.push(coverImage || null);
     updates.push(`cover_image = $${params.length}`);
   }
+  if (iconImage !== undefined) {
+    params.push(iconImage || null);
+    updates.push(`icon_image = $${params.length}`);
+  }
+  if (iconBgColor !== undefined) {
+    params.push(iconBgColor || null);
+    updates.push(`icon_bg_color = $${params.length}`);
+  }
   if (title !== undefined) {
     params.push(title);
     updates.push(`title = $${params.length}`);
@@ -1361,6 +1456,8 @@ usersRouter.patch('/subjects/:id', requireAuth, async (req: AuthenticatedRequest
       `SELECT
          s.id,
          s.cover_image,
+         s.icon_image,
+         s.icon_bg_color,
          s.title,
          s.description,
          s.author,

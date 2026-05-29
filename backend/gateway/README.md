@@ -7,7 +7,7 @@ The single ingress point of the ELS-AI backend. All external traffic must come t
 - **Identity propagation:** decodes the JWT and writes signed `x-internal-*` headers (user id, org id, email, role, isSuperAdmin, canPublishGlobal) before forwarding — downstream services trust these via `@els-ai/internal-auth` instead of re-verifying the JWT.
 - **Tenant isolation guard:** the shared internal secret is required on every header set so a downstream service cannot be tricked by raw client headers.
 - **Routing:** forwards each top-level prefix to the matching microservice.
-- **Static media:** serves `/media/*` from the local `audio-images/` and `assets/` folders for dev environments.
+- **Static media:** serves `/media/*` from the local `assets/` folder for dev environments.
 
 ## Route map
 | Prefix | Forwarded to | Port |

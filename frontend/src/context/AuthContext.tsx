@@ -18,8 +18,19 @@ type AuthContextValue = {
   user: AppUser | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  signIn: (email: string, password?: string) => Promise<{ success: boolean; error?: string }>;
-  signUp: (payload: { firstName: string; lastName: string; email: string; password?: string; role: UserRole }) => Promise<{ success: boolean; error?: string }>;
+  signIn: (identifier: string, password?: string) => Promise<{ success: boolean; error?: string }>;
+  signUp: (payload: {
+    firstName: string;
+    lastName: string;
+    email?: string;
+    mobileNumber?: string;
+    password?: string;
+    role: Extract<UserRole, 'student' | 'teacher' | 'parent'>;
+    classLevel?: string;
+    childRegistrationId?: string;
+    formStartedAt: number;
+    botField?: string;
+  }) => Promise<{ success: boolean; error?: string }>;
   signOut: () => Promise<void>;
   setActiveRole: (role: UserRole) => Promise<void>;
   apiFetch: (path: string, options?: RequestInit) => Promise<Response>;
@@ -111,12 +122,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setIsAuthenticated(false);
   };
 
-  const signIn = async (email: string, password = 'welcome') => {
+  const signIn = async (identifier: string, password = 'welcome') => {
     try {
       const res = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ identifier, password }),
       });
 
       if (!res.ok) {
@@ -137,7 +148,18 @@ export function AuthProvider({ children }: PropsWithChildren) {
     }
   };
 
-  const signUp = async (payload: { firstName: string; lastName: string; email: string; password?: string; role: UserRole }) => {
+  const signUp = async (payload: {
+    firstName: string;
+    lastName: string;
+    email?: string;
+    mobileNumber?: string;
+    password?: string;
+    role: Extract<UserRole, 'student' | 'teacher' | 'parent'>;
+    classLevel?: string;
+    childRegistrationId?: string;
+    formStartedAt: number;
+    botField?: string;
+  }) => {
     try {
       const res = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
@@ -146,8 +168,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
           firstName: payload.firstName,
           lastName: payload.lastName,
           email: payload.email,
+          mobileNumber: payload.mobileNumber,
           password: payload.password || 'welcome',
           role: payload.role,
+          classLevel: payload.classLevel,
+          childRegistrationId: payload.childRegistrationId,
+          formStartedAt: payload.formStartedAt,
+          botField: payload.botField || '',
         }),
       });
 

@@ -6,7 +6,7 @@ Single source of truth for file uploads and media URL resolution. Every other se
 - Accept base64 / data-URL uploads, push them to S3, persist an asset record, return both a signed URL (for immediate use) and the canonical S3 URL (for DB persistence).
 - Re-sign canonical S3 URLs on demand (single or batch) so callers can refresh expiring URLs without re-uploading.
 - Resolve the metadata for a stored asset by id.
-- Fall back to a local `audio-images/` folder when S3 isn't configured (dev mode).
+- Fall back to a local `assets/` folder when S3 isn't configured (dev mode).
 
 ## Routes (gateway-prefixed: `/assets`)
 | Method | Path | Purpose |
@@ -46,7 +46,7 @@ Single source of truth for file uploads and media URL resolution. Every other se
 |---|---|---|
 | `PORT` | `4004` | |
 | `DATABASE_URL` | from `.env` | Shared Postgres cluster |
-| `LOCAL_MEDIA_DIR` | `audio-images/` | Fallback storage when S3 isn't configured |
+| `LOCAL_MEDIA_DIR` | `assets/` | Fallback storage when S3 isn't configured |
 | `S3_BUCKET`, `S3_REGION`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | optional | Enables S3 uploads when set |
 
 ## Layout

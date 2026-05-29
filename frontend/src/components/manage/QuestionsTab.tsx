@@ -4,7 +4,7 @@
  * - Filter chips + type chips on separate rows, both horizontally scrollable
  * - Full-screen QuestionDetailsModal
  */
-import { useState, useRef, useEffect } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import {
   ActivityIndicator, Dimensions, Image, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TouchableOpacity, View,
@@ -16,6 +16,7 @@ import {
 } from 'lucide-react-native';
 import { Audio } from 'expo-av';
 import SelectorModal from '../SelectorModal';
+import JigsawRenderer from '../quiz/JigsawRenderer';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
 import { API_BASE_URL } from '../../context/AuthContext';
@@ -81,9 +82,11 @@ const QTYPE_CONFIG: Record<string, QtypeCfg> = {
   logico:          { Icon: ListChecks,          label: 'Logico',        color: '#0f766e', bg: '#DCFCE7' },
   memory_match:    { Icon: Layers,              label: 'Memory Match',  color: '#7C3AED', bg: '#EDE9FE' },
   fill_blank:      { Icon: ClipboardList,       label: 'Fill in Blank', color: '#0284C7', bg: '#E0F2FE' },
+  jigsaw:          { Icon: Layers,              label: 'Jigsaw Puzzle', color: '#0EA5E9', bg: '#E0F2FE' },
 };
 function qtypeCfg(t: string): QtypeCfg {
-  return QTYPE_CONFIG[t] ?? { Icon: HelpCircle, label: t || 'Question', color: '#9A9AB0', bg: '#F4F4FB' };
+  const normalized = t === 'jigsaw_puzzle' ? 'jigsaw' : t;
+  return QTYPE_CONFIG[normalized] ?? { Icon: HelpCircle, label: normalized || 'Question', color: '#9A9AB0', bg: '#F4F4FB' };
 }
 
 const PAGE_SIZE = 10;
@@ -91,7 +94,7 @@ const PAGE_SIZE = 10;
 
 
 const CARD_COLORS = ['#D6EAFF', '#FFE8D6', '#D6F5D6', '#EDE4FF', '#FFF5CC', '#FFE0F0'];
-const SUBJECT_OPTIONS = ['Hindi Stories', 'English', 'Maths', 'Science', 'Hindi', 'EVS', 'GK', 'Computer'];
+type SubjectCatalogItem = { classLevel: string; title: string; coverImage?: string; iconImage?: string; iconBgColor?: string };
 
 
 
@@ -196,10 +199,11 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
   onEdit: (q: QuestionFull) => void;
 }) {
   if (!question) return null;
-  const cfg  = qtypeCfg(question.question_type);
+  const questionType = question.question_type === 'jigsaw_puzzle' ? 'jigsaw' : question.question_type;
+  const cfg  = qtypeCfg(questionType);
   const data = question.question_data as Record<string, unknown> | null | undefined;
 
-  const promptImage = (data as any)?.prompt_image || '';
+  const promptImage = (data as any)?.prompt_image || (data as any)?.image || '';
   const promptAudio = (data as any)?.prompt_audio || question.question_audio || '';
   const options: any[] = (data as any)?.options ?? [];
   const optionSlots: any[] = Array.isArray((data as any)?.option_slots) ? (data as any).option_slots : [];
@@ -257,14 +261,20 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
             </View>
             <View style={q.statCard}>
               <Text style={q.statVal}>
-                {question.question_type === 'memory_match'
+                {questionType === 'memory_match'
                   ? (((data as any)?.pairs ?? []) as any[]).length || '–'
-                  : (question.question_type === 'fill_blank' || question.question_type === 'fill_in_blank')
+                  : questionType === 'jigsaw'
+                    ? (() => {
+                        const grid = String((data as any)?.gridSize || '3x3');
+                        const size = Number(grid.split('x')[0] || 3);
+                        return Number.isFinite(size) ? size * size : 9;
+                      })()
+                    : (questionType === 'fill_blank' || questionType === 'fill_in_blank')
                     ? (((data as any)?.options ?? []) as string[]).length || '–'
                     : options.length || dragItems.length || '–'}
               </Text>
               <Text style={q.statLabel}>
-                {question.question_type === 'memory_match' ? 'Pairs' : 'Options'}
+                {questionType === 'memory_match' ? 'Pairs' : questionType === 'jigsaw' ? 'Pieces' : 'Options'}
               </Text>
             </View>
           </View>
@@ -294,7 +304,7 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
             </View>
           ) : null}
 
-          {question.question_type === 'logico' && (
+          {questionType === 'logico' && (
             <View style={q.detailSection}>
               <Text style={q.detailSectionTitle}>Logico Mapping</Text>
               {Array.from({ length: 10 }, (_, index) => {
@@ -319,7 +329,7 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
           )}
 
           {/* Memory Match */}
-          {question.question_type === 'memory_match' && (() => {
+          {questionType === 'memory_match' && (() => {
             const GRID_COLS_MAP: Record<string, number> = { '2x2': 2, '4x4': 4, '6x6': 6 };
             const GRID_PAIR_MAP: Record<string, number> = { '2x2': 2, '4x4': 4, '6x6': 6 };
             const grid   = ((data as any)?.grid as string) || '4x4';
@@ -373,7 +383,7 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
           })()}
 
           {/* Fill in the Blank */}
-          {(question.question_type === 'fill_blank' || question.question_type === 'fill_in_blank') && (() => {
+          {(questionType === 'fill_blank' || questionType === 'fill_in_blank') && (() => {
             const sentence: string = (data as any)?.sentence ?? '';
             const answer: string   = (data as any)?.answer   ?? '';
             const hint: string     = (data as any)?.hint     ?? '';
@@ -431,8 +441,36 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
             );
           })()}
 
+          {questionType === 'jigsaw' && (
+            <View style={q.detailSection}>
+              <Text style={q.detailSectionTitle}>Jigsaw Preview</Text>
+              <View style={q.jigsawMetaRow}>
+                <View style={q.jigsawMetaChip}>
+                  <Text style={q.jigsawMetaChipText}>Grid {(data as any)?.gridSize || '3x3'}</Text>
+                </View>
+                <View style={q.jigsawMetaChip}>
+                  <Text style={q.jigsawMetaChipText}>Difficulty {String((data as any)?.difficulty || 'medium')}</Text>
+                </View>
+                <View style={q.jigsawMetaChip}>
+                  <Text style={q.jigsawMetaChipText}>
+                    {Number((data as any)?.clickLimit || 0) > 0 ? `${Number((data as any)?.clickLimit)} moves` : 'Unlimited'}
+                  </Text>
+                </View>
+              </View>
+              <View style={q.jigsawCard}>
+                <JigsawRenderer
+                  questionData={data as any}
+                  onComplete={() => {}}
+                  theme={{ bg: '#E0F2FE', cardBg: '#F0F9FF', accent: '#0EA5E9', textColor: '#0C4A6E', emoji: '🧩', label: 'Rebuild the image!' }}
+                  autoStart
+                  showControls={false}
+                />
+              </View>
+            </View>
+          )}
+
           {/* Options (MCQ / guess-image etc — not fill_blank) */}
-          {options.length > 0 && question.question_type !== 'fill_blank' && question.question_type !== 'fill_in_blank' && (
+          {options.length > 0 && questionType !== 'fill_blank' && questionType !== 'fill_in_blank' && questionType !== 'jigsaw' && (
             <View style={q.detailSection}>
               <Text style={q.detailSectionTitle}>Options</Text>
               {options.map((opt: any, idx: number) => {
@@ -489,7 +527,7 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
           )}
 
           {/* True/False answer — only shown when options are absent (older format) */}
-          {question.question_type === 'true_false' && options.length === 0 ? (
+          {questionType === 'true_false' && options.length === 0 ? (
             <View style={q.detailSection}>
               <Text style={q.detailSectionTitle}>Correct Answer</Text>
               <View style={{ flexDirection: 'row', gap: 10 }}>
@@ -576,6 +614,7 @@ type Props = {
   loading: boolean;
   deletingQuestionId: string | null;
   filters: Filters;
+  subjectCatalog: SubjectCatalogItem[];
   apiFetch: ApiFetch;
   onFiltersChange: (patch: Partial<Filters>) => void;
   onApplyFilters: () => void;
@@ -586,7 +625,7 @@ type Props = {
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default function QuestionsTab({
-  questions, loading, deletingQuestionId, filters, apiFetch,
+  questions, loading, deletingQuestionId, filters, subjectCatalog, apiFetch,
   onFiltersChange, onApplyFilters, onOpenCreate, onQuestionAction, message,
 }: Props) {
   const [classOpen, setClassOpen]         = useState(false);
@@ -614,7 +653,27 @@ export default function QuestionsTab({
   };
 
   const classOptions   = STANDARD_OPTIONS.map((o) => ({ label: o.label, value: o.value }));
-  const subjectOptions = SUBJECT_OPTIONS.map((s) => ({ label: s, value: s }));
+  const subjectOptions = useMemo(() => {
+    const filtered = subjectCatalog.filter((item) => !filters.classLevel || item.classLevel === filters.classLevel);
+    const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
+    filtered.forEach((item) => {
+      const title = item.title.trim();
+      if (!title) return;
+      if (!byTitle.has(title)) {
+        byTitle.set(title, { coverImage: item.coverImage, iconUrl: item.iconImage, iconBgColor: item.iconBgColor });
+      }
+    });
+    if (filters.subject && !byTitle.has(filters.subject)) byTitle.set(filters.subject, {});
+    return Array.from(byTitle.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([title, icon]) => ({
+        label: title,
+        value: title,
+        coverImage: icon.coverImage,
+        iconUrl: icon.iconUrl,
+        iconBgColor: icon.iconBgColor,
+      }));
+  }, [filters.classLevel, filters.subject, subjectCatalog]);
 
   const hasFilters = !!(filters.classLevel || filters.subject || filters.category);
 
@@ -779,7 +838,7 @@ export default function QuestionsTab({
       })()}
 
       {/* Selector modals */}
-      <SelectorModal visible={classOpen}   title="Select Class"   options={classOptions}   selected={filters.classLevel} isSubject={false} anyLabel="All Classes"   onSelect={(v) => { onFiltersChange({ classLevel: v }); setPage(0); }} onClose={() => setClassOpen(false)} />
+      <SelectorModal visible={classOpen}   title="Select Class"   options={classOptions}   selected={filters.classLevel} isSubject={false} anyLabel="All Classes"   onSelect={(v) => { onFiltersChange({ classLevel: v, subject: '' }); setPage(0); }} onClose={() => setClassOpen(false)} />
       <SelectorModal visible={subjectOpen} title="Select Subject" options={subjectOptions} selected={filters.subject}     isSubject={true}  anyLabel="All Subjects" onSelect={(v) => { onFiltersChange({ subject: v }); setPage(0); }}   onClose={() => setSubjectOpen(false)} />
 
       {/* Fetching details overlay */}
@@ -909,6 +968,10 @@ const q = StyleSheet.create({
 
 
   previewImage: { width: '100%', height: 200, borderRadius: 14, backgroundColor: '#F0F0F8' },
+  jigsawCard: { backgroundColor: '#fff', borderRadius: 14, borderWidth: 1, borderColor: '#E2E8F0', overflow: 'hidden' },
+  jigsawMetaRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 10 },
+  jigsawMetaChip: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5, backgroundColor: '#E0F2FE' },
+  jigsawMetaChipText: { fontSize: 11, fontWeight: '700', color: '#0369A1' },
 
   optionRow:        { flexDirection: 'row', alignItems: 'flex-start', gap: 12, backgroundColor: '#fff', borderRadius: 14, padding: 14, marginBottom: 8, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
   optionRowCorrect: { borderWidth: 2, borderColor: '#7DC67A', backgroundColor: '#F2FDF2' },

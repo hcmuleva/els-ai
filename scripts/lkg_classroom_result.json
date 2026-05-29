@@ -1,0 +1,589 @@
+{
+  "classroomId": "614f3843-4e23-4867-8c85-45e79fd2e859",
+  "classroom": {
+    "id": "614f3843-4e23-4867-8c85-45e79fd2e859",
+    "title": "LKG Daily Learning Class",
+    "description": "A playful daily class covering Maths, English, EVS, GK and Moral Values for LKG.",
+    "scheduleType": "instant",
+    "startTime": null,
+    "endTime": null,
+    "durationMinutes": 45,
+    "classLevel": "LKG",
+    "status": "active",
+    "createdBy": "2bb3d34c-4eae-46bd-8f24-cf1c9096ac70",
+    "createdAt": "2026-05-29T15:32:27.933Z",
+    "updatedAt": "2026-05-29T15:32:27.933Z"
+  },
+  "contents": [
+    {
+      "id": "9b7d9a5d-b665-48f7-8924-7f4b5478eaa9",
+      "title": "Numbers and Counting",
+      "classLevel": "LKG",
+      "subject": "Mathematics",
+      "contentType": "multi_section",
+      "mediaUrl": "",
+      "externalUrl": "",
+      "textContent": "Simple Mathematics concepts for LKG: Numbers and Counting with visuals, actions, and repetition.",
+      "status": "not_started",
+      "createdAt": "2026-05-29T13:07:10.490Z",
+      "sections": [
+        {
+          "id": "58675b11-8796-46b0-9158-443446911276",
+          "sectionOrder": 1,
+          "title": "Summary",
+          "contentType": "text",
+          "textContent": "Simple Mathematics concepts for LKG: Numbers and Counting with visuals, actions, and repetition."
+        },
+        {
+          "id": "ae025325-4e83-40bf-a4bc-9ad3b487d06a",
+          "sectionOrder": 2,
+          "title": "Watch & Learn 1",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=DR-cfDsHCGA"
+        },
+        {
+          "id": "1719adb0-ca56-4ea7-9986-bd41798737f5",
+          "sectionOrder": 3,
+          "title": "Watch & Learn 2",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=HrxZWNu72WI"
+        },
+        {
+          "id": "df0c955c-b8e5-42c5-bcd7-e8351b4fe82b",
+          "sectionOrder": 4,
+          "title": "Classroom Activity",
+          "contentType": "text",
+          "textContent": "Show picture cards, ask children to answer by tapping, matching, and speaking."
+        }
+      ]
+    },
+    {
+      "id": "0f25e529-1cb5-49f5-9671-8463f08de3c2",
+      "title": "Shapes and Comparison",
+      "classLevel": "LKG",
+      "subject": "Mathematics",
+      "contentType": "multi_section",
+      "mediaUrl": "",
+      "externalUrl": "",
+      "textContent": "Simple Mathematics concepts for LKG: Shapes and Comparison with visuals, actions, and repetition.",
+      "status": "not_started",
+      "createdAt": "2026-05-29T13:07:11.730Z",
+      "sections": [
+        {
+          "id": "cfc87206-8f18-498e-a533-ffe296e289ef",
+          "sectionOrder": 1,
+          "title": "Summary",
+          "contentType": "text",
+          "textContent": "Simple Mathematics concepts for LKG: Shapes and Comparison with visuals, actions, and repetition."
+        },
+        {
+          "id": "e8d6b408-8721-43fe-bdf8-3aa9e94532f4",
+          "sectionOrder": 2,
+          "title": "Watch & Learn 1",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=HrxZWNu72WI"
+        },
+        {
+          "id": "8fb102ea-6dd0-417a-a3b4-af6023834334",
+          "sectionOrder": 3,
+          "title": "Watch & Learn 2",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=DR-cfDsHCGA"
+        },
+        {
+          "id": "c304fab1-879f-48c3-aafd-0c9ff9017e15",
+          "sectionOrder": 4,
+          "title": "Classroom Activity",
+          "contentType": "text",
+          "textContent": "Show picture cards, ask children to answer by tapping, matching, and speaking."
+        }
+      ]
+    },
+    {
+      "id": "bebf531e-d4ae-471f-9b81-d25ecdca02ac",
+      "title": "Alphabet and Phonics",
+      "classLevel": "LKG",
+      "subject": "English",
+      "contentType": "multi_section",
+      "mediaUrl": "",
+      "externalUrl": "",
+      "textContent": "Simple English concepts for LKG: Alphabet and Phonics with visuals, actions, and repetition.",
+      "status": "not_started",
+      "createdAt": "2026-05-29T13:07:12.963Z",
+      "sections": [
+        {
+          "id": "d4055a65-bd00-47e2-93e9-c8472235100f",
+          "sectionOrder": 1,
+          "title": "Summary",
+          "contentType": "text",
+          "textContent": "Simple English concepts for LKG: Alphabet and Phonics with visuals, actions, and repetition."
+        },
+        {
+          "id": "cb8c7280-818d-41d3-aff5-15538bcb0d5a",
+          "sectionOrder": 2,
+          "title": "Watch & Learn 1",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=75p-N9YKqNo"
+        },
+        {
+          "id": "25cc7b0c-0c4b-4561-9189-3d48d61cc456",
+          "sectionOrder": 3,
+          "title": "Watch & Learn 2",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=BELlZKpi1Zs"
+        },
+        {
+          "id": "0b2039a4-b840-441a-a606-8cf6f4d0a33e",
+          "sectionOrder": 4,
+          "title": "Classroom Activity",
+          "contentType": "text",
+          "textContent": "Show picture cards, ask children to answer by tapping, matching, and speaking."
+        }
+      ]
+    },
+    {
+      "id": "1dd3f060-2a1f-4b5a-b766-917dffc898bd",
+      "title": "Simple Words",
+      "classLevel": "LKG",
+      "subject": "English",
+      "contentType": "multi_section",
+      "mediaUrl": "",
+      "externalUrl": "",
+      "textContent": "Simple English concepts for LKG: Simple Words with visuals, actions, and repetition.",
+      "status": "not_started",
+      "createdAt": "2026-05-29T13:07:14.196Z",
+      "sections": [
+        {
+          "id": "1160223f-59a4-4271-8fe5-7d25b5742283",
+          "sectionOrder": 1,
+          "title": "Summary",
+          "contentType": "text",
+          "textContent": "Simple English concepts for LKG: Simple Words with visuals, actions, and repetition."
+        },
+        {
+          "id": "22683fdf-dbd9-46fa-bd2c-c1638a4231b4",
+          "sectionOrder": 2,
+          "title": "Watch & Learn 1",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=BELlZKpi1Zs"
+        },
+        {
+          "id": "8ba09501-f650-4b63-bd6c-bb45519b3a02",
+          "sectionOrder": 3,
+          "title": "Watch & Learn 2",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=75p-N9YKqNo"
+        },
+        {
+          "id": "50f1a155-b584-4c86-95ca-44fe7d2fbd56",
+          "sectionOrder": 4,
+          "title": "Classroom Activity",
+          "contentType": "text",
+          "textContent": "Show picture cards, ask children to answer by tapping, matching, and speaking."
+        }
+      ]
+    },
+    {
+      "id": "7c44d2b3-fc5b-4c56-8c3a-3879b2e5e52e",
+      "title": "Animals and Homes",
+      "classLevel": "LKG",
+      "subject": "EVS",
+      "contentType": "multi_section",
+      "mediaUrl": "",
+      "externalUrl": "",
+      "textContent": "Simple EVS concepts for LKG: Animals and Homes with visuals, actions, and repetition.",
+      "status": "not_started",
+      "createdAt": "2026-05-29T13:07:15.437Z",
+      "sections": [
+        {
+          "id": "5f7da6d3-7531-4734-8de2-f4fe15f1a1b2",
+          "sectionOrder": 1,
+          "title": "Summary",
+          "contentType": "text",
+          "textContent": "Simple EVS concepts for LKG: Animals and Homes with visuals, actions, and repetition."
+        },
+        {
+          "id": "7e985dd9-ffe7-4cc2-8fea-63713d49441f",
+          "sectionOrder": 2,
+          "title": "Watch & Learn 1",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=Iido68T4czc"
+        },
+        {
+          "id": "9a086092-8298-4523-8883-638ddc00b502",
+          "sectionOrder": 3,
+          "title": "Watch & Learn 2",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=dXZEye_gTSE"
+        },
+        {
+          "id": "8e53d1e1-cc53-4361-96c3-9a08f9d31e9d",
+          "sectionOrder": 4,
+          "title": "Classroom Activity",
+          "contentType": "text",
+          "textContent": "Show picture cards, ask children to answer by tapping, matching, and speaking."
+        }
+      ]
+    },
+    {
+      "id": "40e619d7-16e6-4e4b-b317-7bb22b86dc61",
+      "title": "Plants and Helpers",
+      "classLevel": "LKG",
+      "subject": "EVS",
+      "contentType": "multi_section",
+      "mediaUrl": "",
+      "externalUrl": "",
+      "textContent": "Simple EVS concepts for LKG: Plants and Helpers with visuals, actions, and repetition.",
+      "status": "not_started",
+      "createdAt": "2026-05-29T13:07:16.668Z",
+      "sections": [
+        {
+          "id": "0721838d-72e0-409b-a19d-45ec680ab879",
+          "sectionOrder": 1,
+          "title": "Summary",
+          "contentType": "text",
+          "textContent": "Simple EVS concepts for LKG: Plants and Helpers with visuals, actions, and repetition."
+        },
+        {
+          "id": "0cba3535-ef1f-4096-858d-e0a02a12481a",
+          "sectionOrder": 2,
+          "title": "Watch & Learn 1",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=A-xScqCN0GA"
+        },
+        {
+          "id": "ef3f30eb-6ae7-48fa-ad00-836dc3980d03",
+          "sectionOrder": 3,
+          "title": "Watch & Learn 2",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=BzzFRQsmb74"
+        },
+        {
+          "id": "7c34040f-33a4-47b4-a0f7-a01b85c32bf4",
+          "sectionOrder": 4,
+          "title": "Classroom Activity",
+          "contentType": "text",
+          "textContent": "Show picture cards, ask children to answer by tapping, matching, and speaking."
+        }
+      ]
+    },
+    {
+      "id": "ae68c5a0-5714-45bf-b4e3-951af9c6af7d",
+      "title": "Colours and Objects",
+      "classLevel": "LKG",
+      "subject": "General Knowledge",
+      "contentType": "multi_section",
+      "mediaUrl": "",
+      "externalUrl": "",
+      "textContent": "Simple General Knowledge concepts for LKG: Colours and Objects with visuals, actions, and repetition.",
+      "status": "not_started",
+      "createdAt": "2026-05-29T13:07:17.902Z",
+      "sections": [
+        {
+          "id": "df467c19-9219-4606-9343-c0af0beef77a",
+          "sectionOrder": 1,
+          "title": "Summary",
+          "contentType": "text",
+          "textContent": "Simple General Knowledge concepts for LKG: Colours and Objects with visuals, actions, and repetition."
+        },
+        {
+          "id": "b1df24a8-ccc6-4d74-9438-30acfd9515a8",
+          "sectionOrder": 2,
+          "title": "Watch & Learn 1",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=zxIpA5nF_LY"
+        },
+        {
+          "id": "a2765cee-24bd-46f3-9c85-92ba6c04a158",
+          "sectionOrder": 3,
+          "title": "Watch & Learn 2",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=ybt2jhCQ3lA"
+        },
+        {
+          "id": "ca83c10b-d2f8-4b81-8daa-56db3856491b",
+          "sectionOrder": 4,
+          "title": "Classroom Activity",
+          "contentType": "text",
+          "textContent": "Show picture cards, ask children to answer by tapping, matching, and speaking."
+        }
+      ]
+    },
+    {
+      "id": "06ecf78f-2563-4e8e-816a-8f42188f18ef",
+      "title": "Transport and Festivals",
+      "classLevel": "LKG",
+      "subject": "General Knowledge",
+      "contentType": "multi_section",
+      "mediaUrl": "",
+      "externalUrl": "",
+      "textContent": "Simple General Knowledge concepts for LKG: Transport and Festivals with visuals, actions, and repetition.",
+      "status": "not_started",
+      "createdAt": "2026-05-29T13:07:19.141Z",
+      "sections": [
+        {
+          "id": "1f655616-caa0-4d04-917d-3a379bbdb265",
+          "sectionOrder": 1,
+          "title": "Summary",
+          "contentType": "text",
+          "textContent": "Simple General Knowledge concepts for LKG: Transport and Festivals with visuals, actions, and repetition."
+        },
+        {
+          "id": "118c3b80-1e54-4c90-9946-3d1e73ae0ad9",
+          "sectionOrder": 2,
+          "title": "Watch & Learn 1",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=zxIpA5nF_LY"
+        },
+        {
+          "id": "771b74b3-ff97-4374-ac15-b3dc3d5c58a6",
+          "sectionOrder": 3,
+          "title": "Watch & Learn 2",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=NYLHPHOVqek"
+        },
+        {
+          "id": "9562cd7a-819b-4a97-8b21-6e91240686c2",
+          "sectionOrder": 4,
+          "title": "Classroom Activity",
+          "contentType": "text",
+          "textContent": "Show picture cards, ask children to answer by tapping, matching, and speaking."
+        }
+      ]
+    },
+    {
+      "id": "9977430e-9123-4751-8327-024d456e896a",
+      "title": "Sharing and Caring",
+      "classLevel": "LKG",
+      "subject": "Moral Values",
+      "contentType": "multi_section",
+      "mediaUrl": "",
+      "externalUrl": "",
+      "textContent": "Simple Moral Values concepts for LKG: Sharing and Caring with visuals, actions, and repetition.",
+      "status": "not_started",
+      "createdAt": "2026-05-29T13:07:20.372Z",
+      "sections": [
+        {
+          "id": "9cb3a697-dfdf-45d7-8165-221ff5fd3547",
+          "sectionOrder": 1,
+          "title": "Summary",
+          "contentType": "text",
+          "textContent": "Simple Moral Values concepts for LKG: Sharing and Caring with visuals, actions, and repetition."
+        },
+        {
+          "id": "4d60805f-3006-433b-af2a-aa0523c0da6a",
+          "sectionOrder": 2,
+          "title": "Watch & Learn 1",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=hVT-BXw4hEM"
+        },
+        {
+          "id": "85146b56-2752-4fc9-8cf1-f0e077b5b5c8",
+          "sectionOrder": 3,
+          "title": "Watch & Learn 2",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=FRm-_kt_osY"
+        },
+        {
+          "id": "67149c47-966d-40a2-b1c5-de82109c6083",
+          "sectionOrder": 4,
+          "title": "Classroom Activity",
+          "contentType": "text",
+          "textContent": "Show picture cards, ask children to answer by tapping, matching, and speaking."
+        }
+      ]
+    },
+    {
+      "id": "ebd5a137-e809-4c2a-bf2f-ae06f7862eea",
+      "title": "Honesty and Respect",
+      "classLevel": "LKG",
+      "subject": "Moral Values",
+      "contentType": "multi_section",
+      "mediaUrl": "",
+      "externalUrl": "",
+      "textContent": "Simple Moral Values concepts for LKG: Honesty and Respect with visuals, actions, and repetition.",
+      "status": "not_started",
+      "createdAt": "2026-05-29T13:07:21.604Z",
+      "sections": [
+        {
+          "id": "c22f57c6-ff81-431f-ada8-e729880a2d56",
+          "sectionOrder": 1,
+          "title": "Summary",
+          "contentType": "text",
+          "textContent": "Simple Moral Values concepts for LKG: Honesty and Respect with visuals, actions, and repetition."
+        },
+        {
+          "id": "ccac662e-ff24-493f-aba6-26d212aa7c11",
+          "sectionOrder": 2,
+          "title": "Watch & Learn 1",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=BGlHu7gufhc"
+        },
+        {
+          "id": "640f2b7e-0b28-4751-9f1f-7f548f9b46b2",
+          "sectionOrder": 3,
+          "title": "Watch & Learn 2",
+          "contentType": "youtube_url",
+          "externalUrl": "https://www.youtube.com/watch?v=EM7URPzyjRY"
+        },
+        {
+          "id": "c501fa53-c3a2-448c-8723-e69b81ff5f47",
+          "sectionOrder": 4,
+          "title": "Classroom Activity",
+          "contentType": "text",
+          "textContent": "Show picture cards, ask children to answer by tapping, matching, and speaking."
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "2be08575-5987-4255-9881-20cf6250be1b",
+      "title": "LKG Mathematics - Numbers and Counting",
+      "classLevel": "LKG",
+      "subject": "Mathematics",
+      "quizType": "single_choice",
+      "difficultyLevel": "easy",
+      "totalQuestions": 5,
+      "isPublished": true,
+      "status": "not_attempted",
+      "createdAt": "2026-05-29T13:02:03.495Z"
+    },
+    {
+      "id": "5ee076f6-30af-466e-be8c-845ec6c3fe16",
+      "title": "LKG Mathematics - Shapes and Comparison",
+      "classLevel": "LKG",
+      "subject": "Mathematics",
+      "quizType": "single_choice",
+      "difficultyLevel": "easy",
+      "totalQuestions": 5,
+      "isPublished": true,
+      "status": "not_attempted",
+      "createdAt": "2026-05-29T13:02:03.544Z"
+    },
+    {
+      "id": "b535df36-c742-4235-84fd-7111abe88b3f",
+      "title": "LKG English - Alphabet and Phonics",
+      "classLevel": "LKG",
+      "subject": "English",
+      "quizType": "single_choice",
+      "difficultyLevel": "easy",
+      "totalQuestions": 5,
+      "isPublished": true,
+      "status": "not_attempted",
+      "createdAt": "2026-05-29T13:02:03.576Z"
+    },
+    {
+      "id": "27544d16-ec5a-4529-85aa-42bd31868291",
+      "title": "LKG English - Simple Words",
+      "classLevel": "LKG",
+      "subject": "English",
+      "quizType": "single_choice",
+      "difficultyLevel": "easy",
+      "totalQuestions": 5,
+      "isPublished": true,
+      "status": "not_attempted",
+      "createdAt": "2026-05-29T13:02:03.614Z"
+    },
+    {
+      "id": "a1b3d3c5-157f-4f6b-9eb8-9a4101f86b64",
+      "title": "LKG EVS - Animals and Homes",
+      "classLevel": "LKG",
+      "subject": "EVS",
+      "quizType": "single_choice",
+      "difficultyLevel": "easy",
+      "totalQuestions": 5,
+      "isPublished": true,
+      "status": "not_attempted",
+      "createdAt": "2026-05-29T13:02:03.641Z"
+    },
+    {
+      "id": "f1b6e4e0-169e-4f32-a796-bd3abfdb1265",
+      "title": "LKG EVS - Plants and Helpers",
+      "classLevel": "LKG",
+      "subject": "EVS",
+      "quizType": "single_choice",
+      "difficultyLevel": "easy",
+      "totalQuestions": 5,
+      "isPublished": true,
+      "status": "not_attempted",
+      "createdAt": "2026-05-29T13:02:03.670Z"
+    },
+    {
+      "id": "87da913a-7c5f-4b8c-9b05-ba8589a8c745",
+      "title": "LKG General Knowledge - Colours and Objects",
+      "classLevel": "LKG",
+      "subject": "General Knowledge",
+      "quizType": "single_choice",
+      "difficultyLevel": "easy",
+      "totalQuestions": 5,
+      "isPublished": true,
+      "status": "not_attempted",
+      "createdAt": "2026-05-29T13:02:03.692Z"
+    },
+    {
+      "id": "9675eec6-48bd-4f79-a82f-43b112d81259",
+      "title": "LKG General Knowledge - Transport and Festivals",
+      "classLevel": "LKG",
+      "subject": "General Knowledge",
+      "quizType": "single_choice",
+      "difficultyLevel": "easy",
+      "totalQuestions": 5,
+      "isPublished": true,
+      "status": "not_attempted",
+      "createdAt": "2026-05-29T13:02:03.711Z"
+    },
+    {
+      "id": "319442dd-0644-4dad-bb71-cf055cafc3d4",
+      "title": "LKG Moral Values - Sharing and Caring",
+      "classLevel": "LKG",
+      "subject": "Moral Values",
+      "quizType": "single_choice",
+      "difficultyLevel": "easy",
+      "totalQuestions": 5,
+      "isPublished": true,
+      "status": "not_attempted",
+      "createdAt": "2026-05-29T13:02:03.733Z"
+    },
+    {
+      "id": "45578aba-3bad-41e4-bbf3-c7a3de764105",
+      "title": "LKG Moral Values - Honesty and Respect",
+      "classLevel": "LKG",
+      "subject": "Moral Values",
+      "quizType": "single_choice",
+      "difficultyLevel": "easy",
+      "totalQuestions": 5,
+      "isPublished": true,
+      "status": "not_attempted",
+      "createdAt": "2026-05-29T13:02:03.757Z"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "d699a621-9c7f-4d19-8914-97b72303a242",
+      "title": "Draw your favourite animal",
+      "description": "A fun drawing activity for little learners.",
+      "attachmentUrl": "",
+      "instructions": "Draw and colour your favourite animal. Ask a grown-up to help you say its name and the sound it makes!",
+      "dueDate": null,
+      "isTimeBound": false,
+      "status": "pending",
+      "submission": null,
+      "createdAt": "2026-05-29T15:32:27.933Z",
+      "updatedAt": "2026-05-29T15:32:27.933Z"
+    },
+    {
+      "id": "f9fe731f-f4fc-4c62-9d25-4aaf7a2c7a3d",
+      "title": "Count things at home",
+      "description": "Practise counting with family.",
+      "attachmentUrl": "",
+      "instructions": "Find 5 round things at home (like a ball or a roti) and count them out loud with your family.",
+      "dueDate": null,
+      "isTimeBound": false,
+      "status": "pending",
+      "submission": null,
+      "createdAt": "2026-05-29T15:32:27.933Z",
+      "updatedAt": "2026-05-29T15:32:27.933Z"
+    }
+  ]
+}

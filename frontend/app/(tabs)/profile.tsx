@@ -1,4 +1,5 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import {
   LogOut,
@@ -38,7 +39,11 @@ const ROLE_ICONS: Record<string, LucideIcon> = {
 };
 
 export default function ProfileScreen() {
-  const { user, setActiveRole, signOut } = useAuth();
+  const { user, setActiveRole, signOut, apiFetch } = useAuth();
+  const [connectId, setConnectId] = useState('');
+  const [connectMessage, setConnectMessage] = useState('');
+  const [connectError, setConnectError] = useState('');
+  const [connecting, setConnecting] = useState(false);
 
   const handleRoleSelect = (role: UserRole) => {
     setActiveRole(role);
@@ -49,6 +54,31 @@ export default function ProfileScreen() {
     ? `${user.firstName?.[0] ?? ''}${user.lastName?.[0] ?? ''}`.toUpperCase()
     : '?';
   const roleColor = ROLE_COLORS[user?.activeRole ?? 'student'];
+  const canConnect = user?.activeRole === 'parent' || user?.activeRole === 'student';
+
+  const handleConnect = async () => {
+    if (!connectId.trim()) {
+      setConnectError('Please enter registration ID');
+      return;
+    }
+    setConnectError('');
+    setConnectMessage('');
+    setConnecting(true);
+    try {
+      const res = await apiFetch('/users/me/connect-by-registration-id', {
+        method: 'POST',
+        body: JSON.stringify({ registrationId: connectId.trim().toUpperCase() }),
+      });
+      const payload = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(payload.message || 'Failed to connect');
+      setConnectMessage(payload.message || 'Connected successfully');
+      setConnectId('');
+    } catch (error) {
+      setConnectError(error instanceof Error ? error.message : 'Failed to connect');
+    } finally {
+      setConnecting(false);
+    }
+  };
 
   return (
     <ScrollView style={s.screen} contentContainerStyle={s.scroll}>
@@ -153,6 +183,32 @@ export default function ProfileScreen() {
         ))}
       </View>
 
+      {canConnect && (
+        <>
+          <Text style={s.sectionTitle}>Connect</Text>
+          <View style={s.menuCard}>
+            <View style={s.connectWrap}>
+              <Text style={s.connectTitle}>
+                {user?.activeRole === 'parent' ? 'Add Kid by Registration ID' : 'Add Parent by Registration ID'}
+              </Text>
+              <TextInput
+                value={connectId}
+                onChangeText={setConnectId}
+                autoCapitalize="characters"
+                placeholder="ELS-XXXXXXXXXX"
+                placeholderTextColor="#9A9AB0"
+                style={s.connectInput}
+              />
+              <Pressable style={s.connectBtn} onPress={handleConnect} disabled={connecting}>
+                {connecting ? <ActivityIndicator color="#fff" /> : <Text style={s.connectBtnText}>Connect</Text>}
+              </Pressable>
+              {!!connectMessage && <Text style={s.connectSuccess}>{connectMessage}</Text>}
+              {!!connectError && <Text style={s.connectError}>{connectError}</Text>}
+            </View>
+          </View>
+        </>
+      )}
+
       {/* ─── Sign out ──────────────────────────────────────────────────── */}
       <Pressable style={s.signOutBtn} onPress={signOut}>
         <LogOut size={18} color="#FF4444" />
@@ -251,6 +307,27 @@ const s = StyleSheet.create({
   menuInfo:   { flex: 1 },
   menuLabel:  { fontSize: 14, fontWeight: '700', color: '#1a1a2e' },
   menuSub:    { fontSize: 11, fontWeight: '500', color: '#9A9AB0', marginTop: 1 },
+  connectWrap: { padding: 14, gap: 8 },
+  connectTitle: { fontSize: 13, fontWeight: '700', color: '#1a1a2e' },
+  connectInput: {
+    borderWidth: 1,
+    borderColor: '#E0E4F0',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 13,
+    color: '#1a1a2e',
+    backgroundColor: '#F8F9FF',
+  },
+  connectBtn: {
+    backgroundColor: '#4A90E2',
+    borderRadius: 12,
+    paddingVertical: 11,
+    alignItems: 'center',
+  },
+  connectBtnText: { color: '#fff', fontSize: 13, fontWeight: '800' },
+  connectSuccess: { fontSize: 12, color: '#2E7D32', fontWeight: '600' },
+  connectError: { fontSize: 12, color: '#C62828', fontWeight: '600' },
 
   // Sign out
   signOutBtn: {

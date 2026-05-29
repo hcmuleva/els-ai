@@ -524,6 +524,124 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
       );
     }
 
+    // ── Jigsaw Puzzle ────────────────────────────────────────────────────────
+    if (normalizedType === 'jigsaw' || normalizedType === 'jigsaw_puzzle') {
+      const rd          = responseData;
+      const completed   = Boolean(rd.completed);
+      const moves       = Number(rd.moves ?? 0);
+      const clickLim    = rd.clickLimit != null ? Number(rd.clickLimit) : null;
+      const timeTaken   = Number(rd.timeTaken ?? 0);
+      const gridSize    = (rd.gridSize as string) || (questionData.gridSize as string) || '3x3';
+      const difficulty  = (rd.difficulty as string) || (questionData.difficulty as string) || 'medium';
+      const n           = Number(gridSize.split('x')[0]) || 3;
+      const total       = n * n;
+      const barColor    = completed ? '#0EA5E9' : '#FF5252';
+      const diffColor   = difficulty === 'easy' ? '#15803D' : difficulty === 'medium' ? '#A16207' : '#B91C1C';
+      const diffBg      = difficulty === 'easy' ? '#DCFCE7' : difficulty === 'medium' ? '#FEF9C3' : '#FEE2E2';
+      const imageUrl    = resolveMediaUrl((questionData.image as string) || (questionData.prompt_image as string));
+      const slotArr     = Array.isArray(rd.slotArrangement) ? (rd.slotArrangement as Array<number | null>) : null;
+      const CELL        = 60;
+      const GAP         = 2;
+      return (
+        <View key={`${qa.questionId}-${index}`} style={ds.answerCard}>
+          <View style={[ds.answerCardBanner, { backgroundColor: '#E0F2FE' }]}>
+            <Text style={[ds.answerCardBannerTitle, { color: '#0C4A6E' }]}>🧩 Jigsaw Puzzle</Text>
+            <Text style={[ds.answerCardBadge, { backgroundColor: completed ? '#0EA5E9' : '#FF5252' }]}>
+              {completed ? 'Completed' : 'Not finished'}
+            </Text>
+          </View>
+          <View style={[ds.answerRow, { gap: 10 }]}>
+            <Text style={ds.answerTitle}>{qa.questionTitle || qa.questionInstruction || 'Jigsaw Puzzle'}</Text>
+            {/* Stats chips */}
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+              <View style={[ds.mmChip, { backgroundColor: '#E0F2FE' }]}>
+                <Text style={[ds.mmChipTxt, { color: '#0369A1' }]}>Grid {gridSize} · {total} pieces</Text>
+              </View>
+              <View style={[ds.mmChip, { backgroundColor: diffBg }]}>
+                <Text style={[ds.mmChipTxt, { color: diffColor }]}>{difficulty}</Text>
+              </View>
+              <View style={[ds.mmChip, { backgroundColor: '#F1F5F9' }]}>
+                <Text style={[ds.mmChipTxt, { color: '#334155' }]}>{moves}{clickLim ? `/${clickLim}` : ''} moves</Text>
+              </View>
+              {timeTaken > 0 && (
+                <View style={[ds.mmChip, { backgroundColor: '#F1F5F9' }]}>
+                  <Text style={[ds.mmChipTxt, { color: '#334155' }]}>{timeTaken}s</Text>
+                </View>
+              )}
+            </View>
+            {/* Result bar */}
+            <View style={{ gap: 4 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text style={ds.mmBarLabel}>{completed ? 'COMPLETED' : 'PROGRESS'}</Text>
+                <Text style={[ds.mmBarLabel, { color: barColor }]}>{completed ? '✓ Done' : '✗ Incomplete'}</Text>
+              </View>
+              <View style={{ height: 8, backgroundColor: '#F0F0F5', borderRadius: 4, overflow: 'hidden' }}>
+                <View style={{ height: 8, width: completed ? ('100%' as any) : ('30%' as any), backgroundColor: barColor, borderRadius: 4 }} />
+              </View>
+            </View>
+            {/* Final answer grid preview */}
+            {imageUrl && slotArr ? (
+              <View style={{ gap: 6 }}>
+                <Text style={ds.mmBoardLabel}>FINAL ANSWER</Text>
+                <View style={{ gap: GAP }}>
+                  {Array.from({ length: n }, (_, r) => (
+                    <View key={r} style={{ flexDirection: 'row', gap: GAP }}>
+                      {Array.from({ length: n }, (_, c) => {
+                        const slot   = r * n + c;
+                        const piece  = slotArr[slot];
+                        const isCorrect = piece === slot;
+                        const isEmpty   = piece === null || piece === undefined;
+                        return (
+                          <View
+                            key={c}
+                            style={{
+                              width: CELL, height: CELL,
+                              borderRadius: 5,
+                              overflow: 'hidden',
+                              borderWidth: 2,
+                              borderColor: isEmpty ? '#CBD5E1' : isCorrect ? '#4CAF50' : '#FF7043',
+                              backgroundColor: isEmpty ? '#F0F4FF' : undefined,
+                              alignItems: 'center', justifyContent: 'center',
+                            }}
+                          >
+                            {!isEmpty ? (
+                              <Image
+                                source={{ uri: imageUrl }}
+                                resizeMode="stretch"
+                                style={{
+                                  width: CELL * n, height: CELL * n,
+                                  position: 'absolute',
+                                  left: -((piece! % n) * CELL),
+                                  top: -(Math.floor(piece! / n) * CELL),
+                                }}
+                              />
+                            ) : (
+                              <Text style={{ fontSize: 10, color: '#94A3B8', fontWeight: '700' }}>{slot + 1}</Text>
+                            )}
+                            {/* Correct/wrong badge */}
+                            {!isEmpty && (
+                              <View style={{ position: 'absolute', bottom: 2, right: 2, width: 12, height: 12, borderRadius: 6, backgroundColor: isCorrect ? '#4CAF50' : '#FF7043', alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 7, color: '#fff', fontWeight: '900' }}>{isCorrect ? '✓' : '✗'}</Text>
+                              </View>
+                            )}
+                          </View>
+                        );
+                      })}
+                    </View>
+                  ))}
+                </View>
+              </View>
+            ) : imageUrl && completed ? (
+              <View style={{ gap: 6 }}>
+                <Text style={ds.mmBoardLabel}>FINAL ANSWER</Text>
+                <Image source={{ uri: imageUrl }} style={{ width: '100%', height: 160, borderRadius: 10 }} resizeMode="contain" />
+              </View>
+            ) : null}
+          </View>
+        </View>
+      );
+    }
+
     // ── Fill in the Blank ────────────────────────────────────────────────────
     if (normalizedType === 'fill_blank' || normalizedType === 'fill_in_blank') {
       const sentence = (questionData.sentence as string) ?? '';
