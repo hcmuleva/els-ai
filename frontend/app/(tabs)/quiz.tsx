@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import {
   ActivityIndicator,
@@ -36,12 +36,16 @@ import {
   Zap,
   School,
   Puzzle,
+  Pencil,
+  Library,
+  Trash2,
 } from 'lucide-react-native';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { useAuth } from '../../src/context/AuthContext';
 import { Colors, Radius, Shadow } from '../../src/theme';
 import SelectorModal from '../../src/components/SelectorModal';
+import QuizEditorModal from '../../src/components/quiz/QuizEditorModal';
 
 type QuizType =
   | 'drag_drop'
@@ -62,6 +66,20 @@ type Difficulty = 'Easy' | 'Medium' | 'Hard';
 type CreationMode = 'quiz' | 'exam';
 type BankTab = 'question' | 'selected';
 type SelectorField = 'classLevel' | 'subject';
+type PageView = 'creator' | 'quiz_bank';
+
+type QuizBankItem = {
+  id: string;
+  title: string;
+  description?: string;
+  classLevel?: string;
+  subject?: string;
+  quizType?: string;
+  difficultyLevel?: string;
+  totalQuestions?: number;
+  isPublished?: boolean;
+  createdAt?: string;
+};
 
 type QuestionBankItem = {
   id: string;
@@ -196,6 +214,13 @@ export default function QuizExamCreatorScreen() {
   const [examSelectedQuestionIds, setExamSelectedQuestionIds] = useState<string[]>([]);
   const [message, setMessage]                             = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [subjectCatalogItems, setSubjectCatalogItems]     = useState<SubjectCatalogItem[]>([]);
+  const [pageView, setPageView]                           = useState<PageView>('creator');
+  const [quizBank, setQuizBank]                           = useState<QuizBankItem[]>([]);
+  const [loadingQuizBank, setLoadingQuizBank]             = useState(false);
+  const [quizBankSearch, setQuizBankSearch]               = useState('');
+  const [editingQuizId, setEditingQuizId]                 = useState<string | null>(null);
+  const [deletingQuizId, setDeletingQuizId]               = useState<string | null>(null);
+  const [quizBankPage, setQuizBankPage]                   = useState(0);
 
   const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
 
@@ -244,12 +269,66 @@ export default function QuizExamCreatorScreen() {
     }
   }, [apiFetch, isTeacherView]);
 
+  const loadQuizBank = useCallback(async () => {
+    if (!isTeacherView) return;
+    setLoadingQuizBank(true);
+    try {
+      const res = await apiFetch('/quizzes/teacher/library?status=all&limit=300');
+      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).message || 'Failed to load quizzes');
+      const payload = await res.json();
+      const items = Array.isArray(payload.quizzes) ? payload.quizzes : Array.isArray(payload.items) ? payload.items : [];
+      setQuizBank(items.map((q: any) => ({
+        id: String(q.id),
+        title: q.title || 'Untitled',
+        description: q.description || '',
+        classLevel: q.class_level || q.classLevel,
+        subject: q.subject,
+        quizType: q.quiz_type || q.quizType,
+        difficultyLevel: q.difficulty_level || q.difficultyLevel,
+        totalQuestions: q.total_questions ?? q.totalQuestions ?? q.questionCount ?? 0,
+        isPublished: q.is_published ?? q.isPublished,
+        createdAt: q.created_at || q.createdAt,
+      })));
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load quizzes' });
+    } finally {
+      setLoadingQuizBank(false);
+    }
+  }, [apiFetch, isTeacherView]);
+
+  const handleDeleteQuiz = async (id: string) => {
+    setDeletingQuizId(id);
+    try {
+      const res = await apiFetch(`/quizzes/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).message || 'Failed to delete quiz');
+      setQuizBank((prev) => prev.filter((q) => q.id !== id));
+      setMessage({ type: 'success', text: 'Quiz deleted.' });
+      setTimeout(() => setMessage(null), 2500);
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to delete quiz' });
+      setTimeout(() => setMessage(null), 3500);
+    } finally {
+      setDeletingQuizId(null);
+    }
+  };
+
   useFocusEffect(
     useCallback(() => {
       loadSubjectCatalog();
       loadQuestionBank();
-    }, [loadSubjectCatalog, loadQuestionBank]),
+      loadQuizBank();
+    }, [loadSubjectCatalog, loadQuestionBank, loadQuizBank]),
   );
+
+  const filteredQuizBank = useMemo(() => {
+    const keyword = quizBankSearch.trim().toLowerCase();
+    return quizBank.filter((q) => {
+      if (!keyword) return true;
+      return [q.title, q.description, q.subject, q.classLevel].filter(Boolean).join(' ').toLowerCase().includes(keyword);
+    });
+  }, [quizBank, quizBankSearch]);
+
+  useEffect(() => { setQuizBankPage(0); }, [quizBankSearch]);
 
   const classOptions   = useMemo(() => STANDARD_OPTIONS.map((item) => item.value), []);
   const subjectOptions = useMemo(() => {
@@ -439,14 +518,146 @@ export default function QuizExamCreatorScreen() {
       {/* ── Page Header ── */}
       <View style={s.pageHeader}>
         <View style={s.pageHeaderLeft}>
-          <Text style={s.pageTitle}>Assessment Creator</Text>
-          <Text style={s.pageSubtitle}>Build quizzes & exams from your question bank</Text>
+          <Text style={s.pageTitle}>{pageView === 'quiz_bank' ? 'Quiz Bank' : 'Assessment Creator'}</Text>
+          <Text style={s.pageSubtitle}>
+            {pageView === 'quiz_bank'
+              ? 'Browse, edit, attach or detach questions on your quizzes'
+              : 'Build quizzes & exams from your question bank'}
+          </Text>
         </View>
         <View style={s.pageHeaderIcon}>
-          {activeMode === 'quiz' ? <Trophy size={28} color="#4A90E2" /> : <GraduationCap size={28} color="#9B8EC4" />}
+          {pageView === 'quiz_bank'
+            ? <Library size={28} color="#7C3AED" />
+            : (activeMode === 'quiz' ? <Trophy size={28} color="#4A90E2" /> : <GraduationCap size={28} color="#9B8EC4" />)}
         </View>
       </View>
 
+      {/* ── Top-level View Tabs ── */}
+      <View style={s.modeTabs}>
+        <Pressable
+          style={[s.modeTab, pageView === 'creator' && s.modeTabActive]}
+          onPress={() => setPageView('creator')}
+        >
+          <PenLine size={16} color={pageView === 'creator' ? '#4A90E2' : '#9A9AB0'} />
+          <Text style={[s.modeTabText, pageView === 'creator' && s.modeTabTextActive]}>Creator</Text>
+        </Pressable>
+        <Pressable
+          style={[s.modeTab, pageView === 'quiz_bank' && { borderColor: '#A78BFA', backgroundColor: '#F3EBFF' }]}
+          onPress={() => setPageView('quiz_bank')}
+        >
+          <Library size={16} color={pageView === 'quiz_bank' ? '#7C3AED' : '#9A9AB0'} />
+          <Text style={[s.modeTabText, pageView === 'quiz_bank' && { color: '#7C3AED' }]}>Quiz Bank</Text>
+        </Pressable>
+      </View>
+
+      {pageView === 'quiz_bank' ? (
+        <View style={{ gap: 16 }}>
+          <View style={s.card}>
+            <View style={s.bankHeaderRow}>
+              <View>
+                <Text style={s.cardTitle}>All Quizzes</Text>
+                <Text style={s.cardSubtitle}>{quizBank.length} quizzes available</Text>
+              </View>
+              <Pressable style={s.refreshBtn} onPress={loadQuizBank} disabled={loadingQuizBank}>
+                {loadingQuizBank ? <ActivityIndicator size="small" color="#4A90E2" /> : <RotateCw size={16} color="#4A90E2" />}
+              </Pressable>
+            </View>
+            <View style={s.searchRow}>
+              <Search size={15} color="#9A9AB0" />
+              <TextInput
+                value={quizBankSearch}
+                onChangeText={setQuizBankSearch}
+                placeholder="Search quizzes..."
+                style={s.searchInput}
+                placeholderTextColor="#A0A8C0"
+              />
+              {quizBankSearch !== '' && (
+                <Pressable onPress={() => setQuizBankSearch('')}><X size={15} color="#9A9AB0" /></Pressable>
+              )}
+            </View>
+
+            {loadingQuizBank ? (
+              <View style={s.bankEmpty}><ActivityIndicator size="large" color="#4A90E2" /><Text style={s.bankEmptyText}>Loading quizzes...</Text></View>
+            ) : filteredQuizBank.length === 0 ? (
+              <View style={s.bankEmpty}><Library size={40} color="#D0D8F0" /><Text style={s.bankEmptyText}>No quizzes found.</Text></View>
+            ) : (() => {
+              const qbTotalPages = Math.max(1, Math.ceil(filteredQuizBank.length / PAGE_SIZE));
+              const qbPaged = filteredQuizBank.slice(quizBankPage * PAGE_SIZE, (quizBankPage + 1) * PAGE_SIZE);
+              return (<>
+              <View style={s.questionList}>
+                {qbPaged.map((q) => (
+                  <View key={q.id} style={s.questionCard}>
+                    <View style={s.questionMeta}>
+                      <View style={s.questionBadge}><Text style={s.questionBadgeText}>{q.classLevel ? getStandardLabel(q.classLevel) : '—'}</Text></View>
+                      {q.subject ? <View style={[s.questionBadge, { backgroundColor: '#EDE4FF' }]}><Text style={[s.questionBadgeText, { color: '#7B5EA7' }]}>{q.subject}</Text></View> : null}
+                      <View style={[s.questionBadge, { backgroundColor: q.isPublished ? '#DCFCE7' : '#FEF3C7' }]}>
+                        <Text style={[s.questionBadgeText, { color: q.isPublished ? '#166534' : '#92400e' }]}>
+                          {q.isPublished ? 'Published' : 'Draft'}
+                        </Text>
+                      </View>
+                      <View style={[s.questionBadge, s.typeBadge]}>
+                        <Text style={[s.questionBadgeText, { color: '#4A90E2' }]}>{q.totalQuestions ?? 0} Q</Text>
+                      </View>
+                    </View>
+                    <Text style={s.questionTitle} numberOfLines={2}>{q.title}</Text>
+                    {q.description ? <Text style={[s.cardSubtitle, { fontSize: 12 }]} numberOfLines={2}>{q.description}</Text> : null}
+                    <View style={s.questionFooter}>
+                      <View style={s.questionStats}>
+                        {q.difficultyLevel ? (
+                          <View style={s.statChip}>
+                            <Zap size={10} color="#E6A817" fill="#E6A817" />
+                            <Text style={s.statChipText}>{q.difficultyLevel}</Text>
+                          </View>
+                        ) : null}
+                      </View>
+                      <View style={s.questionActions}>
+                        <Pressable
+                          style={[s.toggleBtn, { borderColor: '#A78BFA', backgroundColor: '#F3EBFF' }]}
+                          onPress={() => setEditingQuizId(q.id)}
+                        >
+                          <Pencil size={13} color="#7C3AED" />
+                          <Text style={[s.toggleBtnText, { color: '#7C3AED' }]}>Edit</Text>
+                        </Pressable>
+                        <Pressable
+                          style={[s.toggleBtn, s.toggleBtnRemove]}
+                          onPress={() => handleDeleteQuiz(q.id)}
+                          disabled={deletingQuizId === q.id}
+                        >
+                          {deletingQuizId === q.id
+                            ? <ActivityIndicator size="small" color="#dc2626" />
+                            : <><Trash2 size={13} color="#dc2626" /><Text style={[s.toggleBtnText, s.toggleBtnTextRemove]}>Delete</Text></>}
+                        </Pressable>
+                      </View>
+                    </View>
+                  </View>
+                ))}
+              </View>
+              {filteredQuizBank.length > PAGE_SIZE && (
+                <View style={s.paginationBar}>
+                  <Pressable
+                    style={[s.pageBtn, quizBankPage === 0 && s.pageBtnDisabled]}
+                    onPress={() => setQuizBankPage((p) => Math.max(0, p - 1))}
+                    disabled={quizBankPage === 0}
+                  >
+                    <ChevronLeft size={16} color={quizBankPage === 0 ? '#C0C8D8' : '#4A90E2'} />
+                    <Text style={[s.pageBtnText, quizBankPage === 0 && s.pageBtnTextDisabled]}>Prev</Text>
+                  </Pressable>
+                  <Text style={s.pageIndicator}>Page {quizBankPage + 1} / {qbTotalPages}</Text>
+                  <Pressable
+                    style={[s.pageBtn, quizBankPage >= qbTotalPages - 1 && s.pageBtnDisabled]}
+                    onPress={() => setQuizBankPage((p) => Math.min(qbTotalPages - 1, p + 1))}
+                    disabled={quizBankPage >= qbTotalPages - 1}
+                  >
+                    <Text style={[s.pageBtnText, quizBankPage >= qbTotalPages - 1 && s.pageBtnTextDisabled]}>Next</Text>
+                    <ChevronRight size={16} color={quizBankPage >= qbTotalPages - 1 ? '#C0C8D8' : '#4A90E2'} />
+                  </Pressable>
+                </View>
+              )}
+              </>);
+            })()}
+          </View>
+        </View>
+      ) : (<>
       {/* ── Mode Tabs ── */}
       <View style={s.modeTabs}>
         <Pressable
@@ -765,6 +976,7 @@ export default function QuizExamCreatorScreen() {
           </View>
         )}
       </View>
+      </>)}
 
       {/* ── Selector Modal ── */}
       <SelectorModal
@@ -829,6 +1041,14 @@ export default function QuizExamCreatorScreen() {
         </Text>
       </View>
     )}
+
+    <QuizEditorModal
+      visible={editingQuizId !== null}
+      quizId={editingQuizId}
+      apiFetch={apiFetch}
+      onClose={() => setEditingQuizId(null)}
+      onUpdated={loadQuizBank}
+    />
     </View>
   );
 }

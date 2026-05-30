@@ -394,6 +394,7 @@ export default function TopicsTab({
   // List filter selectors
   const [classFilterOpen, setClassFilterOpen]     = useState(false);
   const [subjectFilterOpen, setSubjectFilterOpen] = useState(false);
+  const [searchQuery, setSearchQuery]             = useState('');
 
   // Details modal
   const [detailsTopic, setDetailsTopic] = useState<ContentTopic | null>(null);
@@ -655,6 +656,21 @@ export default function TopicsTab({
           <Filter size={11} color="#9A9AB0" />
           <Text style={[s.filterLabel, { marginBottom: 0 }]}>Filters</Text>
         </View>
+        <View style={s.searchBar}>
+          <Search size={14} color="#9A9AB0" />
+          <TextInput
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            placeholder="Search topics..."
+            placeholderTextColor="#A0A8C0"
+            style={s.searchBarInput}
+          />
+          {searchQuery !== '' && (
+            <Pressable onPress={() => setSearchQuery('')}>
+              <X size={14} color="#9A9AB0" />
+            </Pressable>
+          )}
+        </View>
         <View style={s.filterRow}>
           <Pressable style={[s.chip, !!filters.classLevel && s.chipActive]} onPress={() => setClassFilterOpen(true)}>
             <Text style={[s.chipText, !!filters.classLevel && s.chipTextActive]}>
@@ -693,8 +709,20 @@ export default function TopicsTab({
             <Text style={s.emptySub}>Create your first topic to get started.</Text>
             <Pressable style={s.emptyBtn} onPress={openCreate}><Text style={s.emptyBtnText}>Create Topic</Text></Pressable>
           </View>
-        ) : (
-          topics.map((topic, idx) => (
+        ) : (() => {
+          const keyword = searchQuery.trim().toLowerCase();
+          const visibleTopics = keyword
+            ? topics.filter((t) => `${t.title} ${t.classLevel} ${t.subject}`.toLowerCase().includes(keyword))
+            : topics;
+          if (visibleTopics.length === 0) {
+            return (
+              <View style={s.emptyWrap}>
+                <FolderOpen size={36} color="#D0D8F0" />
+                <Text style={s.emptyTitle}>No topics match "{searchQuery}"</Text>
+              </View>
+            );
+          }
+          return visibleTopics.map((topic, idx) => (
             <TopicCard
               key={topic.id} topic={topic} idx={idx}
               onAction={(action) => {
@@ -703,8 +731,8 @@ export default function TopicsTab({
                 else if (action === 'delete') onTopicAction(topic, 'delete');
               }}
             />
-          ))
-        )}
+          ));
+        })()}
       </ScrollView>
 
       {/* ── Filter selectors ── */}
@@ -1071,6 +1099,8 @@ const s = StyleSheet.create({
   filterSection: { paddingHorizontal: 16, marginBottom: 10 },
   filterLabel:   { fontSize: 11, fontWeight: '800', color: '#9A9AB0', letterSpacing: 0.8, textTransform: 'uppercase', marginBottom: 8 },
   filterRow:     { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  searchBar:     { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: '#F8F9FF', borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 9, marginBottom: 8 },
+  searchBarInput:{ flex: 1, fontSize: 13, color: '#1a1a2e', paddingVertical: 0 },
   chip:          { borderRadius: 999, paddingHorizontal: 14, paddingVertical: 7, backgroundColor: '#F0F0F8' },
   chipActive:    { backgroundColor: '#D6EAFF' },
   chipText:      { fontSize: 12, fontWeight: '600', color: '#9A9AB0' },

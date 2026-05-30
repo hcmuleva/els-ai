@@ -15,6 +15,7 @@ const contentSectionSchema = z
     mediaUrl: z.string().trim().optional(),
     externalUrl: z.string().trim().optional(),
     textContent: z.string().trim().optional(),
+    quizId: z.string().uuid().optional().nullable(),
 })
     .refine((value) => {
     if (value.contentType === 'text')
@@ -76,6 +77,7 @@ function normalizeLearningContentSections(payload) {
             mediaUrl: section.mediaUrl?.trim() ? toPersistentMediaUrl(section.mediaUrl.trim()) : null,
             externalUrl: section.externalUrl?.trim() || null,
             textContent: section.textContent?.trim() || null,
+            quizId: section.quizId || null,
         }));
     }
     if (!payload.contentType)
@@ -87,6 +89,7 @@ function normalizeLearningContentSections(payload) {
             mediaUrl: payload.mediaUrl?.trim() ? toPersistentMediaUrl(payload.mediaUrl.trim()) : null,
             externalUrl: payload.externalUrl?.trim() || null,
             textContent: payload.textContent?.trim() || null,
+            quizId: null,
         },
     ];
 }
@@ -187,8 +190,8 @@ contentRouter.post('/items', requireAuth, async (req, res) => {
             const created = contentResult.rows[0];
             for (let i = 0; i < sections.length; i += 1) {
                 const section = sections[i];
-                await client.query(`INSERT INTO learning_content_sections (content_id, section_order, title, content_type, media_url, external_url, text_content)
-           VALUES ($1, $2, $3, $4, $5, $6, $7)`, [created.id, i + 1, section.title?.trim() || null, section.contentType, section.mediaUrl ? toPersistentMediaUrl(section.mediaUrl) : null, section.externalUrl || null, section.textContent || null]);
+                await client.query(`INSERT INTO learning_content_sections (content_id, section_order, title, content_type, media_url, external_url, text_content, quiz_id)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`, [created.id, i + 1, section.title?.trim() || null, section.contentType, section.mediaUrl ? toPersistentMediaUrl(section.mediaUrl) : null, section.externalUrl || null, section.textContent || null, section.quizId || null]);
             }
             if (topicId) {
                 await client.query(`INSERT INTO topic_content_assignments (topic_id, content_id, sort_order)
@@ -338,7 +341,7 @@ contentRouter.get('/items/:contentId', requireAuth, async (req, res) => {
         if ((contentResult.rowCount ?? 0) === 0) {
             return res.status(404).json({ message: 'Content item not found' });
         }
-        const sectionsResult = await db.query(`SELECT id, section_order, title, content_type, media_url, external_url, text_content, created_at, updated_at
+        const sectionsResult = await db.query(`SELECT id, section_order, title, content_type, media_url, external_url, text_content, quiz_id, created_at, updated_at
        FROM learning_content_sections
        WHERE content_id = $1
        ORDER BY section_order ASC`, [contentId]);
@@ -350,6 +353,7 @@ contentRouter.get('/items/:contentId', requireAuth, async (req, res) => {
             mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url) : undefined,
             externalUrl: row.external_url || undefined,
             textContent: row.text_content || undefined,
+            quizId: row.quiz_id || undefined,
             createdAt: row.created_at,
             updatedAt: row.updated_at,
         })));
@@ -364,6 +368,7 @@ contentRouter.get('/items/:contentId', requireAuth, async (req, res) => {
                     mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url) : undefined,
                     externalUrl: row.external_url || undefined,
                     textContent: row.text_content || undefined,
+                    quizId: undefined,
                     createdAt: row.created_at,
                     updatedAt: row.updated_at,
                 },
@@ -454,8 +459,8 @@ contentRouter.put('/items/:contentId', requireAuth, async (req, res) => {
             await client.query(`DELETE FROM learning_content_sections WHERE content_id = $1`, [contentId]);
             for (let i = 0; i < sections.length; i += 1) {
                 const section = sections[i];
-                await client.query(`INSERT INTO learning_content_sections (content_id, section_order, title, content_type, media_url, external_url, text_content)
-           VALUES ($1, $2, $3, $4, $5, $6, $7)`, [contentId, i + 1, section.title?.trim() || null, section.contentType, section.mediaUrl ? toPersistentMediaUrl(section.mediaUrl) : null, section.externalUrl || null, section.textContent || null]);
+                await client.query(`INSERT INTO learning_content_sections (content_id, section_order, title, content_type, media_url, external_url, text_content, quiz_id)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`, [contentId, i + 1, section.title?.trim() || null, section.contentType, section.mediaUrl ? toPersistentMediaUrl(section.mediaUrl) : null, section.externalUrl || null, section.textContent || null, section.quizId || null]);
             }
             await client.query('COMMIT');
             const row = updated.rows[0];

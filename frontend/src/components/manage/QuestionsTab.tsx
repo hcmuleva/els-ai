@@ -7,7 +7,7 @@
 import { useMemo, useState, useRef, useEffect } from 'react';
 import {
   ActivityIndicator, Dimensions, Image, Modal, Platform, Pressable,
-  ScrollView, StyleSheet, Text, TouchableOpacity, View,
+  ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
 } from 'react-native';
 import {
   ChevronLeft, ChevronRight, Search, Filter, X,
@@ -675,7 +675,7 @@ export default function QuestionsTab({
       }));
   }, [filters.classLevel, filters.subject, subjectCatalog]);
 
-  const hasFilters = !!(filters.classLevel || filters.subject || filters.category);
+  const hasFilters = !!(filters.classLevel || filters.subject || filters.category || filters.search);
 
   return (
     <View style={q.root}>
@@ -708,6 +708,25 @@ export default function QuestionsTab({
             <Pressable style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }} onPress={() => { onFiltersChange({ classLevel: '', subject: '', category: '', search: '' }); onApplyFilters(); setPage(0); }}>
               <X size={11} color="#DC2626" />
               <Text style={q.clearAllText}>Clear all</Text>
+            </Pressable>
+          )}
+        </View>
+
+        {/* Search bar */}
+        <View style={q.searchRow}>
+          <Search size={14} color="#9A9AB0" />
+          <TextInput
+            value={filters.search}
+            onChangeText={(v) => onFiltersChange({ search: v })}
+            onSubmitEditing={() => { onApplyFilters(); setPage(0); }}
+            returnKeyType="search"
+            placeholder="Search questions..."
+            placeholderTextColor="#A0A8C0"
+            style={q.searchInput}
+          />
+          {filters.search !== '' && (
+            <Pressable onPress={() => { onFiltersChange({ search: '' }); onApplyFilters(); setPage(0); }}>
+              <X size={14} color="#9A9AB0" />
             </Pressable>
           )}
         </View>
@@ -903,6 +922,8 @@ const q = StyleSheet.create({
   cardChipRow:   { flexDirection: 'row', alignItems: 'center', gap: 3, backgroundColor: '#EEF4FF', borderRadius: 999, paddingHorizontal: 7, paddingVertical: 2 },
   cardChipText2: { fontSize: 11, fontWeight: '700', color: '#5A7AB0' },
 
+  searchRow:           { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: '#F8F9FF', borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 9, marginBottom: 8 },
+  searchInput:         { flex: 1, fontSize: 13, color: '#1a1a2e', paddingVertical: 0 },
   paginationBar:       { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 14, borderTopWidth: 1, borderTopColor: '#F0F4FF', marginTop: 4 },
   pageBtn:             { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 10, backgroundColor: '#EBF4FF' },
   pageBtnDisabled:     { backgroundColor: '#F4F5FF' },

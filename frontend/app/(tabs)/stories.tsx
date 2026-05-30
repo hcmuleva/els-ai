@@ -13,6 +13,7 @@ import {
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import SelectorModal from '../../src/components/SelectorModal';
+import CreateQuizModal from '../../src/components/quiz/CreateQuizModal';
 
 // ─────────────────────────── types ───────────────────────────
 type StoryStatus = 'draft' | 'scheduled' | 'live' | 'ended';
@@ -152,6 +153,7 @@ export default function StoriesScreen() {
   const [pickerOpen, setPickerOpen]       = useState(false);
   const [pickerSearch, setPickerSearch]   = useState('');
   const [quizLibrary, setQuizLibrary]     = useState<QuizLite[]>([]);
+  const [quizCreatorOpen, setQuizCreatorOpen] = useState(false);
 
   // schedule – day picker
   const [occupiedDays, setOccupiedDays]   = useState<string[]>([]);
@@ -1191,6 +1193,19 @@ export default function StoriesScreen() {
                           </View>
                         </Pressable>
                       </View>
+                      <View style={s.fieldGroup}>
+                        <Text style={s.groupLabel}>OR CREATE NEW</Text>
+                        <Pressable style={[s.fieldCard, { borderColor: '#86BFFF', backgroundColor: '#EBF4FF' }]} onPress={() => setQuizCreatorOpen(true)}>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                            <Plus size={20} color="#4A90E2" />
+                            <View style={{ flex: 1 }}>
+                              <Text style={[s.fieldInput, { paddingVertical: 0, color: '#4A90E2', fontWeight: '800' }]}>Create new quiz</Text>
+                              <Text style={[s.fieldLabel, { marginTop: 2 }]}>Build a quiz inline & auto-attach</Text>
+                            </View>
+                            <Text style={{ color: '#4A90E2', fontSize: 16 }}>›</Text>
+                          </View>
+                        </Pressable>
+                      </View>
                     </>
                     )
                   )}
@@ -1285,6 +1300,24 @@ export default function StoriesScreen() {
           )}
         </View>
       </Modal>
+
+      <CreateQuizModal
+        visible={quizCreatorOpen}
+        apiFetch={apiFetch}
+        initialClassLevel={fClass || undefined}
+        onClose={() => setQuizCreatorOpen(false)}
+        onCreated={(quiz) => {
+          setQuizLibrary((prev) => {
+            if (prev.some((x) => x.id === quiz.id)) return prev;
+            return [
+              { id: quiz.id, title: quiz.title, classLevel: quiz.classLevel, questionCount: quiz.questionCount },
+              ...prev,
+            ];
+          });
+          if (editingSec) setEditingSec({ ...editingSec, quizId: quiz.id });
+          setQuizCreatorOpen(false);
+        }}
+      />
 
       <SelectorModal
         visible={classSelectorOpen}
