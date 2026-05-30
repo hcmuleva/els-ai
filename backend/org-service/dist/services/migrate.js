@@ -160,6 +160,14 @@ async function backfillUserOrgMapping() {
       AND (u.primary_organization_id IS NULL OR u.primary_organization_id <> uom.organization_id);
   `);
 }
+async function extendLearningContentSchema() {
+    if (await tableExists('learning_content_sections')) {
+        await db.query(`
+      ALTER TABLE learning_content_sections
+        ADD COLUMN IF NOT EXISTS quiz_id UUID;
+    `);
+    }
+}
 async function backfillTenantTables(defaultOrgId) {
     for (const table of TENANT_TABLES) {
         if (!(await tableExists(table)))
@@ -176,6 +184,7 @@ async function backfillTenantTables(defaultOrgId) {
 }
 export async function runOrgMigrations() {
     await extendOrganizationsSchema();
+    await extendLearningContentSchema();
     await ensureUserOrgMapping();
     await ensureUsersPrimaryOrg();
     const { defaultOrgId } = await consolidateDefaultOrg();

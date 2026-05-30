@@ -26,6 +26,7 @@ import ContentTab from '../../src/components/manage/ContentTab';
 import QuestionsTab from '../../src/components/manage/QuestionsTab';
 import JigsawRenderer from '../../src/components/quiz/JigsawRenderer';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
+import QuestionEditor from '../../src/components/quiz/QuestionEditor';
 import { frameButtons } from '../modules/logicopiccolo/generated/buttons';
 import { MEMORY_ASSETS, GRID_PAIR_COUNTS, GRID_COLS, pickRandomAssets, type MemoryAsset } from '../../src/data/memoryAssets';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -4826,11 +4827,42 @@ export default function QuestionManagementScreen() {
       </Modal>
 
       <Modal visible={isCreateDialogOpen && activeLearningTab === 'question'} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setIsCreateDialogOpen(false)}>
-        {renderDialogContent('create')}
+        <QuestionEditor
+          apiFetch={apiFetch}
+          mode="create"
+          subjectCatalog={subjectCatalog}
+          onSaved={() => { loadQuestions(); }}
+          onClose={() => setIsCreateDialogOpen(false)}
+        />
       </Modal>
 
       <Modal visible={editingQuestionId !== null && activeLearningTab === 'question'} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setEditingQuestionId(null)}>
-        {renderDialogContent('edit')}
+        {(() => {
+          const q = questions.find((item) => item.id === editingQuestionId);
+          if (!q) return null;
+          return (
+            <QuestionEditor
+              apiFetch={apiFetch}
+              mode="edit"
+              subjectCatalog={subjectCatalog}
+              editingQuestion={{
+                id: q.id,
+                class_level: q.class_level,
+                subject: q.subject,
+                question_type: q.question_type,
+                question_title: q.question_title,
+                question_instruction: q.question_instruction,
+                question_audio: q.question_audio,
+                time_limit_seconds: q.time_limit_seconds,
+                points: q.points,
+                sort_order: q.sort_order,
+                question_data: q.question_data,
+              }}
+              onSaved={() => { loadQuestions(); }}
+              onClose={() => setEditingQuestionId(null)}
+            />
+          );
+        })()}
       </Modal>
 
       <SelectorModal
