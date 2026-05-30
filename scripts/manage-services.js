@@ -152,7 +152,7 @@ async function startAll() {
     const child = spawn('npm', ['run', 'dev'], {
       cwd: path.join(ROOT_DIR, service.dir),
       shell: true,
-      env: { ...process.env, PORT: String(service.port) },
+      env: { ...process.env, PORT: service.port },
     });
 
     child.stdout.pipe(logStream, { end: false });

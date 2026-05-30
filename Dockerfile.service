@@ -4,10 +4,16 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 COPY backend ./backend
-COPY assets ./assets
 
 RUN npm ci
+RUN npm run build --workspace backend/shared/event-bus --if-present
+RUN npm run build --workspace backend/shared/internal-auth --if-present
+RUN npm run build --workspace backend/shared/media-client --if-present
 RUN npm run build --workspace ${SERVICE_WORKSPACE}
+
+# MASSIVE SIZE REDUCTION: Delete all heavy raw source files, leaving only compiled dist folders
+RUN rm -rf backend/*/src backend/shared/*/src backend/*/*.ts backend/shared/*/*.ts backend/*/node_modules backend/shared/*/node_modules
+
 
 FROM node:20-alpine AS runtime
 ARG SERVICE_WORKSPACE
@@ -18,8 +24,10 @@ ENV NODE_ENV=production
 
 COPY package.json package-lock.json ./
 COPY --from=build /app/backend ./backend
-COPY --from=build /app/assets ./assets
 
 RUN npm ci --omit=dev --workspace ${SERVICE_WORKSPACE} --include-workspace-root
+
+# Optional: clean up npm cache
+RUN rm -rf /root/.npm
 
 CMD ["sh", "-c", "npm run start --workspace ${SERVICE_WORKSPACE}"]
