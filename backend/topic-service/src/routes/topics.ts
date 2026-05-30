@@ -886,17 +886,41 @@ catalogRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
   const orgId = getOrganizationId(req);
   if (!orgId) return res.status(400).json({ message: 'Organization not found in auth context' });
 
+  // Optional class_level filter: pickers can request only the subjects that
+  // exist for the currently-selected class so a teacher selecting "LKG" never
+  // sees a class-3 subject they can't actually use.
+  const classLevelFilter = String(req.query.class_level ?? req.query.classLevel ?? '').trim();
+  const params: any[] = [orgId];
+  let whereClause = `organization_id = $1::uuid`;
+  if (classLevelFilter) {
+    params.push(classLevelFilter);
+    whereClause += ` AND class_level = $${params.length}`;
+  }
+
   try {
     const result = await db.query(
-      `SELECT class_level, title AS subject
+      `SELECT id, class_level, title, cover_image, icon_image, icon_bg_color
        FROM subjects
-       WHERE organization_id = $1::uuid
+       WHERE ${whereClause}
        ORDER BY class_level ASC, title ASC`,
-      [orgId],
+      params,
     );
-    const classLevels = [...new Set(result.rows.map((r: any) => r.class_level as string))];
-    const subjects = [...new Set(result.rows.map((r: any) => r.subject as string))];
-    return res.json({ classLevels, subjects, items: result.rows });
+    const items = await Promise.all(
+      result.rows.map(async (row: any) => ({
+        id: row.id as string,
+        classLevel: row.class_level as string,
+        // back-compat: existing planner/quiz callers read `class_level` and `subject`
+        class_level: row.class_level as string,
+        title: row.title as string,
+        subject: row.title as string,
+        coverImage: row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image as string) : undefined,
+        iconImage: row.icon_image ? await getSignedMediaUrlIfNeeded(row.icon_image as string) : undefined,
+        iconBgColor: (row.icon_bg_color as string | null) || undefined,
+      })),
+    );
+    const classLevels = [...new Set(items.map((r) => r.classLevel))];
+    const subjects = [...new Set(items.map((r) => r.title))];
+    return res.json({ classLevels, subjects, items });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Failed to fetch subject catalog' });
@@ -930,10 +954,69 @@ studentsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
       [orgId, classLevel],
     );
 
-    const subjectMap: Record<string, { subject: string; topics: unknown[] }> = {};
+    const distinctSubjectTitles = Array.from(
+      new Set(
+        result.rows
+          .map((row) => String(row.subject ?? '').trim())
+          .filter((title) => title.length > 0),
+      ),
+    );
+
+    const subjectsMeta = new Map<string, {
+      coverImage: string | null;
+      icon: string | null;
+      iconBgColor: string | null;
+    }>();
+
+    if (distinctSubjectTitles.length > 0) {
+      // Look up subject metadata by class_level + title across orgs.
+      // Prefer the user's own organization; fall back to any other org so global
+      // topics whose matching `subjects` row lives in a different org (e.g. the
+      // seed/system org) still get cover_image / icon / icon_bg_color.
+      const subjectsMetaResult = await db.query(
+        `SELECT title, cover_image, icon_image, icon_bg_color, organization_id, updated_at
+         FROM subjects
+         WHERE class_level = $1
+           AND LOWER(title) = ANY($2::text[])
+         ORDER BY
+           CASE WHEN organization_id = $3::uuid THEN 0 ELSE 1 END,
+           updated_at DESC NULLS LAST`,
+        [classLevel, distinctSubjectTitles.map((t) => t.toLowerCase()), orgId],
+      );
+      for (const row of subjectsMetaResult.rows) {
+        const key = String(row.title ?? '').trim().toLowerCase();
+        if (!key || subjectsMeta.has(key)) continue; // first match wins (user-org first)
+        const signedCover = row.cover_image
+          ? await getSignedMediaUrlIfNeeded(row.cover_image as string)
+          : null;
+        subjectsMeta.set(key, {
+          coverImage: signedCover,
+          icon: (row.icon_image as string | null) || null,
+          iconBgColor: (row.icon_bg_color as string | null) || null,
+        });
+      }
+    }
+
+    type SubjectGroup = {
+      subject: string;
+      coverImage: string | null;
+      icon: string | null;
+      iconBgColor: string | null;
+      topics: unknown[];
+    };
+    const subjectMap: Record<string, SubjectGroup> = {};
     for (const row of result.rows) {
       const sub = row.subject as string;
-      if (!subjectMap[sub]) subjectMap[sub] = { subject: sub, topics: [] };
+      if (!subjectMap[sub]) {
+        const meta = subjectsMeta.get(sub.trim().toLowerCase());
+        subjectMap[sub] = {
+          subject: sub,
+          coverImage: meta?.coverImage ?? null,
+          icon: meta?.icon ?? null,
+          iconBgColor: meta?.iconBgColor ?? null,
+          topics: [],
+        };
+      }
       subjectMap[sub].topics.push({
         id: row.id as string,
         classLevel: row.class_level as string,
