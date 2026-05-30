@@ -20,7 +20,7 @@ type Props = {
 };
 
 const SFX_CORRECT = resolveMediaUrl('/media/sound-effects/correct.mp3');
-const SFX_WRONG   = resolveMediaUrl('/media/sound-effects/wrong.mp3');
+const SFX_WRONG   = resolveMediaUrl('/media/sound-effects/incorrect.mp3');
 
 // ── Animated sentence with blank slot ─────────────────────────────────────────
 function SentenceCard({

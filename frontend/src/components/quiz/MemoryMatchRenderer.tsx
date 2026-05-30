@@ -43,7 +43,7 @@ const GRID_CONFIG: Record<string, { cols: number; totalCards: number; pairsNeede
 };
 
 const SFX_CORRECT = resolveMediaUrl('/media/sound-effects/correct.mp3');
-const SFX_WRONG   = resolveMediaUrl('/media/sound-effects/wrong.mp3');
+const SFX_WRONG   = resolveMediaUrl('/media/sound-effects/incorrect.mp3');
 const SFX_WIN     = resolveMediaUrl('/media/sound-effects/you-won.mp3');
 
 function shuffle<T>(arr: T[]): T[] {
