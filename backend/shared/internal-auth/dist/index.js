@@ -8,6 +8,7 @@ export const INTERNAL_HEADERS = {
     roles: 'x-internal-roles',
     isSuperAdmin: 'x-internal-is-superadmin',
     canPublishGlobal: 'x-internal-can-publish-global',
+    classLevel: 'x-internal-class-level',
 };
 const DEFAULT_JWT_SECRET = 'els-secret-key-super-secure';
 function readHeader(req, name) {
@@ -36,6 +37,7 @@ function parseInternalHeaders(req, requiredSecret) {
         roles,
         isSuperAdmin: readHeader(req, INTERNAL_HEADERS.isSuperAdmin) === 'true',
         canPublishGlobal: readHeader(req, INTERNAL_HEADERS.canPublishGlobal) === 'true',
+        classLevel: readHeader(req, INTERNAL_HEADERS.classLevel) || null,
     };
 }
 function parseJwt(req, jwtSecret) {
@@ -52,6 +54,7 @@ function parseJwt(req, jwtSecret) {
             role: decoded.role,
             isSuperAdmin: Boolean(decoded.isSuperAdmin),
             canPublishGlobal: Boolean(decoded.canPublishGlobal),
+            classLevel: decoded.classLevel ?? null,
         };
     }
     catch (_error) {
@@ -122,6 +125,9 @@ export function buildInternalHeaders(user) {
     if (user.roles && user.roles.length > 0) {
         headers[INTERNAL_HEADERS.roles] = user.roles.join(',');
     }
+    if (user.classLevel) {
+        headers[INTERNAL_HEADERS.classLevel] = user.classLevel;
+    }
     return headers;
 }
 export function getOrganizationId(req) {
@@ -153,6 +159,7 @@ export function verifyJwtPayload(token, jwtSecret) {
             role: decoded.role,
             isSuperAdmin: Boolean(decoded.isSuperAdmin),
             canPublishGlobal: Boolean(decoded.canPublishGlobal),
+            classLevel: decoded.classLevel ?? null,
         };
     }
     catch (_error) {

@@ -10,7 +10,7 @@ import { UserRole, UserWithRoles } from '../types.js';
 import { AuthenticatedRequest, requireAuth } from './auth.js';
 
 const roleSchema = z.enum(['student', 'teacher', 'parent', 'admin', 'superadmin']);
-const managedRoleSchema = z.enum(['student', 'teacher', 'parent', 'admin']);
+const managedRoleSchema = z.enum(['student', 'teacher', 'parent', 'admin', 'superadmin']);
 const listUsersQuerySchema = z.object({
   search: z.string().trim().optional(),
   name: z.string().trim().optional(),
@@ -27,6 +27,7 @@ const createUserSchema = z.object({
   role: managedRoleSchema,
   classLevel: z.string().trim().optional(),
   branch: z.string().trim().max(100).optional(),
+  organizationId: z.string().uuid().optional(),
 });
 const assignRolesSchema = z.object({
   roles: z.array(managedRoleSchema).min(1),
@@ -500,13 +501,21 @@ usersRouter.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
     return res.status(400).json({ message: 'Invalid user payload', errors: parsedBody.error.issues });
   }
 
-  const organizationId = getRequestOrganizationId(req);
+  const callerSuper = await isSuperAdmin(req.user?.userId);
+  const callerOrgId = getRequestOrganizationId(req);
+  const organizationId = callerSuper && parsedBody.data.organizationId
+    ? parsedBody.data.organizationId
+    : callerOrgId;
   if (!organizationId) {
     return res.status(400).json({ message: 'Organization not found in auth context' });
   }
 
-  if (!(await hasAdminAccess(req))) {
+  if (!callerSuper && !(await hasAdminAccess(req))) {
     return res.status(403).json({ message: 'Forbidden: admin role required' });
+  }
+
+  if (parsedBody.data.role === 'superadmin' && !callerSuper) {
+    return res.status(403).json({ message: 'Forbidden: only a superadmin can create a superadmin' });
   }
 
   const { firstName, lastName, email, mobileNumber, password, role, classLevel, branch } = parsedBody.data;
@@ -547,6 +556,23 @@ usersRouter.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
       `INSERT INTO user_roles (user_id, role_id, organization_id)
        VALUES ($1, $2, $3)`,
       [userId, roleId, organizationId],
+    );
+
+    await db.query(
+      `INSERT INTO user_org_mapping (user_id, organization_id, is_primary)
+       VALUES ($1::uuid, $2::uuid, true)
+       ON CONFLICT (user_id, organization_id) DO NOTHING`,
+      [userId, organizationId],
+    );
+    await db.query(
+      `UPDATE user_org_mapping SET is_primary = false
+        WHERE user_id = $1::uuid AND organization_id <> $2::uuid`,
+      [userId, organizationId],
+    );
+    await db.query(
+      `UPDATE users SET primary_organization_id = $2::uuid
+        WHERE id = $1::uuid AND primary_organization_id IS NULL`,
+      [userId, organizationId],
     );
 
     const createdUser = await getUserWithRoles(userId, organizationId);
@@ -1003,7 +1029,7 @@ usersRouter.get('/teachers/assignments', requireAuth, async (req: AuthenticatedR
            jsonb_agg(
              DISTINCT jsonb_build_object(
                'classLevel', tss.class_level,
-               'subject', tss.subject
+               'subject', s.title
              )
            ) FILTER (WHERE tss.id IS NOT NULL),
            '[]'::jsonb
@@ -1012,6 +1038,7 @@ usersRouter.get('/teachers/assignments', requireAuth, async (req: AuthenticatedR
        INNER JOIN user_roles ur ON ur.user_id = u.id
        INNER JOIN roles r ON r.id = ur.role_id
        LEFT JOIN teacher_standard_subjects tss ON tss.teacher_user_id = u.id AND tss.organization_id = ur.organization_id
+       LEFT JOIN subjects s ON s.id = tss.subject_id
        WHERE ${whereClauses.join(' AND ')}
        GROUP BY u.id, u.first_name, u.last_name, u.email, u.mobile_number
        ORDER BY u.first_name, u.last_name
@@ -1074,9 +1101,15 @@ usersRouter.put('/teachers/:id/assignments', requireAuth, async (req: Authentica
     );
     for (const assignment of uniqueAssignments) {
       await client.query(
-        `INSERT INTO teacher_standard_subjects (teacher_user_id, organization_id, class_level, subject)
-         VALUES ($1, $2::uuid, $3, $4)
-         ON CONFLICT (teacher_user_id, organization_id, class_level, subject) DO NOTHING`,
+        `INSERT INTO teacher_standard_subjects (teacher_user_id, organization_id, class_level, subject_id)
+         SELECT $1::uuid, $2::uuid, $3::varchar, s.id
+         FROM subjects s
+         WHERE s.class_level = $3::varchar
+           AND LOWER(s.title) = LOWER($4::varchar)
+           AND (s.organization_id = $2::uuid OR s.organization_id IS NULL)
+         ORDER BY (s.organization_id = $2::uuid) DESC, s.updated_at DESC NULLS LAST
+         LIMIT 1
+         ON CONFLICT (teacher_user_id, organization_id, class_level, subject_id) DO NOTHING`,
         [teacherUserId, organizationId, assignment.classLevel, assignment.subject],
       );
     }
@@ -1513,21 +1546,17 @@ usersRouter.delete('/subjects/:id', requireAuth, async (req: AuthenticatedReques
       return res.status(404).json({ message: 'Subject not found' });
     }
 
-    const classLevel = subjectResult.rows[0]?.class_level as string;
-    const title = subjectResult.rows[0]?.title as string;
-
+    await client.query(
+      `DELETE FROM teacher_standard_subjects
+       WHERE organization_id = $1::uuid
+         AND subject_id = $2::uuid`,
+      [organizationId, subjectId],
+    );
     await client.query(
       `DELETE FROM subjects
        WHERE id = $1
          AND organization_id = $2::uuid`,
       [subjectId, organizationId],
-    );
-    await client.query(
-      `DELETE FROM teacher_standard_subjects
-       WHERE organization_id = $1::uuid
-         AND class_level = $2
-         AND subject = $3`,
-      [organizationId, classLevel, title],
     );
     await client.query('COMMIT');
     return res.status(204).send();
@@ -1635,6 +1664,33 @@ usersRouter.patch('/:id/organization-membership', requireAuth, async (req: Authe
         [userId, roleResult.rows[0].id as string, toOrganizationId],
       );
     }
+
+    await client.query(
+      `DELETE FROM user_org_mapping
+        WHERE user_id = $1::uuid AND organization_id = $2::uuid`,
+      [userId, fromOrganizationId],
+    );
+    await client.query(
+      `INSERT INTO user_org_mapping (user_id, organization_id, is_primary)
+       VALUES ($1::uuid, $2::uuid, true)
+       ON CONFLICT (user_id, organization_id) DO NOTHING`,
+      [userId, toOrganizationId],
+    );
+    await client.query(
+      `UPDATE user_org_mapping SET is_primary = false
+        WHERE user_id = $1::uuid AND organization_id <> $2::uuid`,
+      [userId, toOrganizationId],
+    );
+    await client.query(
+      `UPDATE user_org_mapping SET is_primary = true
+        WHERE user_id = $1::uuid AND organization_id = $2::uuid`,
+      [userId, toOrganizationId],
+    );
+    await client.query(
+      `UPDATE users SET primary_organization_id = $2::uuid
+        WHERE id = $1::uuid`,
+      [userId, toOrganizationId],
+    );
 
     const currentRoleResult = await client.query(`SELECT active_role FROM users WHERE id = $1 LIMIT 1`, [userId]);
     const currentRole = currentRoleResult.rows[0]?.active_role as UserRole | undefined;

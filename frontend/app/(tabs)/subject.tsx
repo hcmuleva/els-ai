@@ -9,11 +9,11 @@ import {
   ChevronLeft, BookOpen, Play, Video as VideoIcon, Headphones,
   Image as ImageIcon, FileText, Film, Layers, ArrowRight,
   Hash, FlaskConical, Languages, Leaf, Monitor, Globe, GraduationCap,
-  ListChecks, PlayCircle,
 } from 'lucide-react-native';
 import { SvgXml } from 'react-native-svg';
 
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
+import PlayQuizCTA from '../../src/components/quiz/PlayQuizCTA';
 import { useAuth } from '../../src/context/AuthContext';
 import { GIRAFFE, OWL, PANDA, PENGUIN, ELEPHANT, BUTTERFLY } from '../../src/assets/svgs';
 
@@ -227,16 +227,12 @@ function ContentViewer({
             )}
 
             {content.quizId && (
-              <Pressable style={sv.quizCta} onPress={() => setQuizModalQuizId(content.quizId!)}>
-                <View style={sv.quizCtaIcon}>
-                  <ListChecks size={18} color="#7C3AED" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={sv.quizCtaTitle}>Quick Challenge</Text>
-                  <Text style={sv.quizCtaSub}>Test what you learned in this section</Text>
-                </View>
-                <PlayCircle size={22} color="#7C3AED" />
-              </Pressable>
+              <PlayQuizCTA
+                onPress={() => setQuizModalQuizId(content.quizId!)}
+                title="Play Quiz"
+                subtitle="Tap to test what you learned"
+                themeKey={content.id || content.quizId!}
+              />
             )}
           </View>
 
@@ -564,10 +560,7 @@ const sv = StyleSheet.create({
   img:       { width: '100%', height: 220 },
   textBlock: { backgroundColor: '#F8F9FF', borderRadius: 16, padding: 20 },
   textBody:  { fontSize: 16, color: '#1a1a2e', lineHeight: 28, fontWeight: '500' },
-  quizCta: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, borderRadius: 16, backgroundColor: '#F5EFFE', borderWidth: 1, borderColor: '#E5D9F8', marginTop: 14 },
-  quizCtaIcon: { width: 40, height: 40, borderRadius: 12, backgroundColor: '#EFE7FB', alignItems: 'center', justifyContent: 'center' },
-  quizCtaTitle: { fontSize: 14, fontWeight: '900', color: '#5B21B6' },
-  quizCtaSub: { fontSize: 11, color: '#7C3AED', marginTop: 2, fontWeight: '600' },
+
 
   moreWrap:        { marginTop: 8, paddingBottom: 8 },
   moreTitle:       { fontSize: 17, fontWeight: '900', color: '#1a1a2e', paddingHorizontal: 16, marginBottom: 12 },

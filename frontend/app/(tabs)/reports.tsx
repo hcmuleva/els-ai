@@ -885,7 +885,7 @@ function QuizKindBadge({ kind }: { kind?: "classroom" | "story" | "subject" }) {
   );
 }
 
-function ParentReports() {
+function ParentReports({ mode = 'parent' }: { mode?: 'parent' | 'student' }) {
   const {
     linkedStudents,
     activeStudent,
@@ -902,9 +902,17 @@ function ParentReports() {
     refreshQuizAttempts,
   } = useStudentProfile();
   const { apiFetch } = useAuth();
+  const isStudentMode = mode === 'student';
 
-  const [activeTab, setActiveTab] = useState<ParentTab>("overview");
-  const prevTab = useRef<ParentTab>("overview");
+  const [activeTab, setActiveTab] = useState<ParentTab>('overview');
+  const prevTab = useRef<ParentTab>('overview');
+
+  const didInitialFocusRef = useRef(false);
+  useFocusEffect(useCallback(() => {
+    // skip the very first focus — the StudentProfileContext already fetches on mount
+    if (!didInitialFocusRef.current) { didInitialFocusRef.current = true; return; }
+    if (activeStudent?.id) refreshAll();
+  }, [activeStudent?.id]));
   // Persisted "last seen at" timestamps per tab (ms since epoch, 0 = never)
   const [tabSeenAt, setTabSeenAt] = useState<Record<string, number>>({});
   const [showAllQuizzes, setShowAllQuizzes] = useState(false);
@@ -1120,9 +1128,9 @@ function ParentReports() {
         <View>
           <Text style={pr.topBarSub}>Learning Reports</Text>
           <Text style={pr.topBarTitle}>
-            {activeStudent
-              ? `${activeStudent.firstName}'s Progress`
-              : "My Children"}
+            {isStudentMode
+              ? 'My Progress'
+              : activeStudent ? `${activeStudent.firstName}'s Progress` : 'My Children'}
           </Text>
         </View>
         <Pressable style={pr.refreshBtn} onPress={refreshAll}>
@@ -1137,18 +1145,19 @@ function ParentReports() {
       ) : !activeStudent ? (
         <View style={pr.centerBlock}>
           <SvgXml xml={PENGUIN} width={96} height={96} />
-          <Text style={pr.emptyTitle}>No children linked yet</Text>
+          <Text style={pr.emptyTitle}>{isStudentMode ? 'Profile not ready yet' : 'No children linked yet'}</Text>
           <Text style={pr.emptySub}>
-            Ask your school admin to link your children to your account.
+            {isStudentMode
+              ? 'We could not load your profile. Please pull to refresh, or sign out and sign back in.'
+              : 'Ask your school admin to link your children to your account.'}
           </Text>
         </View>
       ) : (
         <View style={{ flex: 1 }}>
-          {/* ── PINNED HEADER: child switcher + tab bar ── */}
+          {/* ── PINNED HEADER: child switcher (parent only) + tab bar ── */}
           <View style={{ flexShrink: 0 }}>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
+            {!isStudentMode && (
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}
               style={pr.switcherBar}
               contentContainerStyle={{
                 gap: 10,
@@ -1218,61 +1227,39 @@ function ParentReports() {
                 );
               })}
             </ScrollView>
+            )}
 
-            {/* ── TAB BAR ── */}
-            <View style={pr.tabBar}>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={pr.tabBarContent}
-              >
-                {PARENT_TABS.map((tab) => {
-                  const isCurrent = activeTab === tab.key;
-                  const dotCount =
-                    tab.key === "quizzes"
-                      ? recentQuizCount
-                      : tab.key === "assignments"
-                        ? newPendingCount
-                        : tab.key === "classroom"
-                          ? newEndedCount
-                          : 0;
-                  return (
-                    <Pressable
-                      key={tab.key}
-                      onPress={() => {
-                        if (
-                          tab.key === "quizzes" &&
-                          prevTab.current !== "quizzes"
-                        ) {
-                          refreshQuizAttempts();
-                        }
-                        prevTab.current = tab.key;
-                        setActiveTab(tab.key);
-                        markTabSeen(tab.key);
-                        if (tab.key === "classroom") openHistoryModal();
-                      }}
-                      style={[pr.tabBtn, isCurrent && pr.tabBtnActive]}
-                    >
-                      <View style={pr.tabBtnIconWrap}>
-                        <tab.Icon
-                          size={16}
-                          color={isCurrent ? "#4A90E2" : "#9A9AB0"}
-                        />
-                        {dotCount > 0 && <View style={pr.tabDot} />}
-                      </View>
-                      <Text
-                        style={[
-                          pr.tabBtnText,
-                          isCurrent && pr.tabBtnTextActive,
-                        ]}
-                      >
-                        {tab.label}
-                      </Text>
-                    </Pressable>
-                  );
-                })}
-              </ScrollView>
-            </View>
+          {/* ── TAB BAR ── */}
+          <View style={pr.tabBar}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}
+              contentContainerStyle={pr.tabBarContent}>
+              {PARENT_TABS.map((tab) => {
+                const isCurrent = activeTab === tab.key;
+                const dotCount =
+                  tab.key === 'quizzes'     ? recentQuizCount
+                  : tab.key === 'assignments' ? newPendingCount
+                  : tab.key === 'classroom'   ? newEndedCount
+                  : 0;
+                return (
+                  <Pressable key={tab.key}
+                    onPress={() => {
+                      if (tab.key === 'quizzes' && prevTab.current !== 'quizzes') {
+                        refreshQuizAttempts();
+                      }
+                      prevTab.current = tab.key;
+                      setActiveTab(tab.key);
+                      markTabSeen(tab.key);
+                    }}
+                    style={[pr.tabBtn, isCurrent && pr.tabBtnActive]}>
+                    <View style={pr.tabBtnIconWrap}>
+                      <tab.Icon size={16} color={isCurrent ? '#4A90E2' : '#9A9AB0'} />
+                      {dotCount > 0 && <View style={pr.tabDot} />}
+                    </View>
+                    <Text style={[pr.tabBtnText, isCurrent && pr.tabBtnTextActive]}>{tab.label}</Text>
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
           </View>
           {/* end pinned header */}
 
@@ -1459,7 +1446,9 @@ function ParentReports() {
                     <SvgXml xml={OWL} width={64} height={64} />
                     <Text style={pr.emptyStateTitle}>No Quiz Attempts Yet</Text>
                     <Text style={pr.emptyStateText}>
-                      Encourage {activeStudent.firstName} to try a quiz!
+                      {isStudentMode
+                        ? 'You have not attempted any quiz yet. Open a classroom and try one!'
+                        : `Encourage ${activeStudent.firstName} to try a quiz!`}
                     </Text>
                   </View>
                 ) : (
@@ -1663,7 +1652,9 @@ function ParentReports() {
                     <SvgXml xml={ELEPHANT} width={64} height={64} />
                     <Text style={pr.emptyStateTitle}>No Assignments Found</Text>
                     <Text style={pr.emptyStateText}>
-                      No assignments found for {activeStudent.firstName}.
+                      {isStudentMode
+                        ? 'You have no assignments yet. Your teacher will share them here.'
+                        : `No assignments found for ${activeStudent.firstName}.`}
                     </Text>
                   </View>
                 )}
@@ -1807,7 +1798,9 @@ function ParentReports() {
                     <SvgXml xml={BUTTERFLY} width={64} height={64} />
                     <Text style={pr.emptyStateTitle}>No Activity Yet</Text>
                     <Text style={pr.emptyStateText}>
-                      No activity recorded for {activeStudent.firstName}.
+                      {isStudentMode
+                        ? 'Start a quiz, story, or content - your activity will show up here.'
+                        : `No activity recorded for ${activeStudent.firstName}.`}
                     </Text>
                   </View>
                 ) : (
@@ -3285,9 +3278,12 @@ export default function ReportsScreen() {
     );
   }
 
-  // ── PARENT VIEW ───────────────────────────────────────────────────────────
+  // ── PARENT / STUDENT VIEW (rich, real-data, tabbed) ──────────────────────
   if (isParentView) {
-    return <ParentReports />;
+    return <ParentReports mode="parent" />;
+  }
+  if (role === 'student') {
+    return <ParentReports mode="student" />;
   }
 
   // ── TEACHER VIEW ───────────────────────────────────────────────────────────

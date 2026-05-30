@@ -168,7 +168,8 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
   // Fetch list of children for parents
   const fetchLinkedStudents = useCallback(async () => {
     if (!user || !isParent) return;
-    setLoadingStudents(true);
+    // only show the full-screen spinner on the very first load; silent refresh otherwise
+    setLoadingStudents((prev) => (linkedStudents.length === 0 ? true : prev));
     try {
       const res = await apiFetch(`/students/parent/${user.id}/students`);
       if (res.ok) {
@@ -176,7 +177,6 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
         const students: StudentProfile[] = data.students || [];
         setLinkedStudents(students);
         if (students.length > 0 && !activeStudentId) {
-          // Prefer previously saved selection, fall back to first
           const savedId = restoredId ?? await AsyncStorage.getItem(SELECTED_STUDENT_KEY).catch(() => null);
           const match = savedId ? students.find((s) => s.id === savedId) : null;
           setActiveStudentId(match ? match.id : students[0].id);
@@ -187,7 +187,7 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
     } finally {
       setLoadingStudents(false);
     }
-  }, [user, isParent, apiFetch, activeStudentId, restoredId]);
+  }, [user, isParent, apiFetch, activeStudentId, restoredId, linkedStudents.length]);
 
   // Fetch activity for active student
   const fetchActivity = useCallback(async (studentId: string) => {

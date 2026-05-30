@@ -118,6 +118,47 @@ export function AuthProvider({ children }: PropsWithChildren) {
     await deleteStorageItem('accessToken');
     await deleteStorageItem('refreshToken');
     await deleteStorageItem('user');
+
+    // Best-effort: purge any other app-scoped state stored in web
+    // localStorage so the next user doesn't inherit the previous session.
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        const ls = window.localStorage;
+        const PRESERVE = new Set([
+          'ably-transport-preference',
+        ]);
+        const PURGE_PREFIXES = [
+          'admin:',
+          'els_',
+          'parent_',
+          'student_',
+          'teacher_',
+          'classroom_',
+          'quiz_',
+          'subject_',
+          'planner_',
+          'assignment_',
+        ];
+        const PURGE_KEYS = new Set([
+          'accessToken',
+          'refreshToken',
+          'user',
+        ]);
+        const toRemove: string[] = [];
+        for (let i = 0; i < ls.length; i++) {
+          const key = ls.key(i);
+          if (!key) continue;
+          if (PRESERVE.has(key)) continue;
+          if (PURGE_KEYS.has(key) || PURGE_PREFIXES.some((p) => key.startsWith(p))) {
+            toRemove.push(key);
+          }
+        }
+        toRemove.forEach((k) => ls.removeItem(k));
+      } catch (e) {
+        console.warn('Failed to purge localStorage on signOut', e);
+      }
+    }
+
     setUser(null);
     setIsAuthenticated(false);
   };

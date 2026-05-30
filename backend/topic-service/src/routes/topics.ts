@@ -135,12 +135,12 @@ topicsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
   }
   if (subject) {
     params.push(subject);
-    whereClauses.push(`ct.subject = $${params.length}`);
+    whereClauses.push(`s.title = $${params.length}`);
   }
   if (search) {
     params.push(`%${search}%`);
     const idx = params.length;
-    whereClauses.push(`(ct.title ILIKE $${idx} OR COALESCE(ct.subject, '') ILIKE $${idx})`);
+    whereClauses.push(`(ct.title ILIKE $${idx} OR COALESCE(s.title, '') ILIKE $${idx})`);
   }
   params.push(limit);
 
@@ -149,7 +149,7 @@ topicsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
       `SELECT
          ct.id,
          ct.class_level,
-         ct.subject,
+         s.title AS subject,
          ct.title,
          ct.cover_image,
          ct.is_global,
@@ -163,9 +163,10 @@ topicsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
            (SELECT COUNT(*) FROM quizzes q WHERE q.topic_id = ct.id), 0
          )::int AS quiz_count
        FROM content_topics ct
+       LEFT JOIN subjects s ON s.id = ct.subject_id
        WHERE ${whereClauses.join(' AND ')}
-       GROUP BY ct.id
-       ORDER BY ct.class_level ASC, ct.subject ASC, ct.title ASC
+       GROUP BY ct.id, s.title
+       ORDER BY ct.class_level ASC, s.title ASC, ct.title ASC
        LIMIT $${params.length}`,
       params,
     );
@@ -219,11 +220,12 @@ topicsRouter.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
   try {
     const duplicate = await db.query(
       `SELECT 1
-       FROM content_topics
-       WHERE organization_id = $1::uuid
-         AND class_level = $2
-         AND subject = $3
-         AND LOWER(title) = LOWER($4)
+       FROM content_topics ct
+       LEFT JOIN subjects s ON s.id = ct.subject_id
+       WHERE ct.organization_id = $1::uuid
+         AND ct.class_level = $2
+         AND s.title = $3
+         AND LOWER(ct.title) = LOWER($4)
        LIMIT 1`,
       [orgId, classLevel, subject, title],
     );
@@ -232,9 +234,18 @@ topicsRouter.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
     }
 
     const result = await db.query(
-      `INSERT INTO content_topics (organization_id, class_level, subject, title, cover_image, created_by, is_global)
-       VALUES ($1::uuid, $2, $3, $4, $5, $6, $7)
-       RETURNING id, class_level, subject, title, cover_image, created_by, is_global, created_at, updated_at`,
+      `INSERT INTO content_topics (organization_id, class_level, subject_id, title, cover_image, created_by, is_global)
+       VALUES (
+         $1::uuid, $2::varchar,
+         (SELECT s.id FROM subjects s
+            WHERE s.class_level = $2::varchar AND LOWER(s.title) = LOWER($3::varchar)
+              AND (s.organization_id = $1::uuid OR $7::boolean = true)
+            ORDER BY (s.organization_id = $1::uuid) DESC, s.updated_at DESC NULLS LAST
+            LIMIT 1),
+         $4::varchar, $5, $6::uuid, $7::boolean)
+       RETURNING id, class_level, subject_id,
+         (SELECT title FROM subjects WHERE id = content_topics.subject_id) AS subject,
+         title, cover_image, created_by, is_global, created_at, updated_at`,
       [orgId, classLevel, subject, title, coverImage ? toPersistentMediaUrl(coverImage) : null, userId, isGlobal],
     );
     const row = result.rows[0];
@@ -286,10 +297,11 @@ topicsRouter.patch('/:topicId', requireAuth, async (req: AuthenticatedRequest, r
     }
 
     const existing = await db.query(
-      `SELECT class_level, subject, title
-       FROM content_topics
-       WHERE id = $1
-         AND organization_id = $2::uuid
+      `SELECT ct.class_level, s.title AS subject, ct.title
+       FROM content_topics ct
+       LEFT JOIN subjects s ON s.id = ct.subject_id
+       WHERE ct.id = $1
+         AND ct.organization_id = $2::uuid
        LIMIT 1`,
       [topicId, orgId],
     );
@@ -300,12 +312,13 @@ topicsRouter.patch('/:topicId', requireAuth, async (req: AuthenticatedRequest, r
 
     const duplicate = await db.query(
       `SELECT 1
-       FROM content_topics
-       WHERE organization_id = $1::uuid
-         AND class_level = $2
-         AND subject = $3
-         AND LOWER(title) = LOWER($4)
-         AND id <> $5
+       FROM content_topics ct
+       LEFT JOIN subjects s ON s.id = ct.subject_id
+       WHERE ct.organization_id = $1::uuid
+         AND ct.class_level = $2
+         AND s.title = $3
+         AND LOWER(ct.title) = LOWER($4)
+         AND ct.id <> $5
        LIMIT 1`,
       [orgId, nextClassLevel, nextSubject, nextTitle, topicId],
     );
@@ -318,10 +331,6 @@ topicsRouter.patch('/:topicId', requireAuth, async (req: AuthenticatedRequest, r
     if (parsedBody.data.classLevel !== undefined) {
       params.push(parsedBody.data.classLevel);
       updates.push(`class_level = $${params.length}`);
-    }
-    if (parsedBody.data.subject !== undefined) {
-      params.push(parsedBody.data.subject);
-      updates.push(`subject = $${params.length}`);
     }
     if (parsedBody.data.title !== undefined) {
       params.push(parsedBody.data.title);
@@ -338,6 +347,21 @@ topicsRouter.patch('/:topicId', requireAuth, async (req: AuthenticatedRequest, r
       params.push(parsedBody.data.isGlobal);
       updates.push(`is_global = $${params.length}`);
     }
+    if (parsedBody.data.subject !== undefined || parsedBody.data.classLevel !== undefined) {
+      params.push(nextClassLevel, nextSubject);
+      const cl = `$${params.length - 1}`;
+      const sj = `$${params.length}`;
+      updates.push(
+        `subject_id = (
+           SELECT s.id FROM subjects s
+            WHERE s.class_level = ${cl}::varchar
+              AND LOWER(s.title) = LOWER(${sj}::varchar)
+              AND (s.organization_id = content_topics.organization_id OR content_topics.is_global = true)
+            ORDER BY (s.organization_id = content_topics.organization_id) DESC,
+                     s.updated_at DESC NULLS LAST
+            LIMIT 1)`,
+      );
+    }
     params.push(topicId, orgId);
 
     const result = await db.query(
@@ -345,7 +369,9 @@ topicsRouter.patch('/:topicId', requireAuth, async (req: AuthenticatedRequest, r
        SET ${updates.join(', ')}
        WHERE id = $${params.length - 1}
          AND organization_id = $${params.length}::uuid
-       RETURNING id, class_level, subject, title, cover_image, created_by, is_global, created_at, updated_at`,
+       RETURNING id, class_level, subject_id,
+         (SELECT title FROM subjects WHERE id = content_topics.subject_id) AS subject,
+         title, cover_image, created_by, is_global, created_at, updated_at`,
       params,
     );
     const row = result.rows[0];
@@ -427,10 +453,11 @@ topicsRouter.get('/:topicId/details', requireAuth, async (req: AuthenticatedRequ
 
   try {
     const topicResult = await db.query(
-      `SELECT id, class_level, subject, title, cover_image, created_by, created_at, updated_at
-       FROM content_topics
-       WHERE id = $1
-         AND (organization_id = $2::uuid OR is_global = true)
+      `SELECT ct.id, ct.class_level, s.title AS subject, ct.title, ct.cover_image, ct.created_by, ct.created_at, ct.updated_at
+       FROM content_topics ct
+       LEFT JOIN subjects s ON s.id = ct.subject_id
+       WHERE ct.id = $1
+         AND (ct.organization_id = $2::uuid OR ct.is_global = true)
        LIMIT 1`,
       [topicId, orgId],
     );
@@ -442,7 +469,7 @@ topicsRouter.get('/:topicId/details', requireAuth, async (req: AuthenticatedRequ
       `SELECT
          lc.id,
          lc.class_level,
-         lc.subject,
+         s.title AS subject,
          lc.title,
          lc.content_type,
          lc.media_url,
@@ -454,6 +481,7 @@ topicsRouter.get('/:topicId/details', requireAuth, async (req: AuthenticatedRequ
          tca.sort_order
        FROM topic_content_assignments tca
        INNER JOIN learning_contents lc ON lc.id = tca.content_id
+       LEFT JOIN subjects s ON s.id = lc.subject_id
        WHERE tca.topic_id = $1
        ORDER BY tca.sort_order ASC, tca.created_at ASC`,
       [topicId],
@@ -746,10 +774,11 @@ topicsRouter.get('/:topicId/quizzes', requireAuth, async (req: AuthenticatedRequ
 
   try {
     const result = await db.query(
-      `SELECT id, title, quiz_type, class_level, subject, is_published, total_questions, created_at
-       FROM quizzes
-       WHERE (organization_id = $1::uuid OR is_global = true) AND topic_id = $2
-       ORDER BY created_at DESC`,
+      `SELECT q.id, q.title, q.quiz_type, q.class_level, s.title AS subject, q.is_published, q.total_questions, q.created_at
+       FROM quizzes q
+       LEFT JOIN subjects s ON s.id = q.subject_id
+       WHERE (q.organization_id = $1::uuid OR q.is_global = true) AND q.topic_id = $2
+       ORDER BY q.created_at DESC`,
       [orgId, topicId],
     );
     return res.json({ quizzes: result.rows });
@@ -942,15 +971,16 @@ studentsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
 
     const result = await db.query(
       `SELECT
-         ct.id, ct.class_level, ct.subject, ct.title, ct.cover_image,
+         ct.id, ct.class_level, s.title AS subject, ct.title, ct.cover_image,
          ct.created_at, ct.updated_at,
          COUNT(DISTINCT tca.content_id) AS content_count
        FROM content_topics ct
+       LEFT JOIN subjects s ON s.id = ct.subject_id
        LEFT JOIN topic_content_assignments tca ON tca.topic_id = ct.id
        WHERE (ct.organization_id = $1::uuid OR ct.is_global = true)
          AND ct.class_level = $2
-       GROUP BY ct.id
-       ORDER BY ct.subject, ct.title`,
+       GROUP BY ct.id, s.title
+       ORDER BY s.title, ct.title`,
       [orgId, classLevel],
     );
 
@@ -1046,8 +1076,12 @@ studentsRouter.get('/:topicId', requireAuth, async (req: AuthenticatedRequest, r
 
   try {
     const topicRow = await db.query(
-      `SELECT id, class_level, subject, title, cover_image FROM content_topics
-       WHERE id = $1 AND (organization_id = $2::uuid OR is_global = true) LIMIT 1`,
+      `SELECT ct.id, ct.class_level,
+              (SELECT title FROM subjects WHERE id = ct.subject_id) AS subject,
+              ct.title, ct.cover_image
+         FROM content_topics ct
+        WHERE ct.id = $1 AND (ct.organization_id = $2::uuid OR ct.is_global = true)
+        LIMIT 1`,
       [topicId, orgId],
     );
     if ((topicRow.rowCount ?? 0) === 0) return res.status(404).json({ message: 'Topic not found' });

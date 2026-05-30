@@ -10,6 +10,7 @@ export const INTERNAL_HEADERS = {
   roles: 'x-internal-roles',
   isSuperAdmin: 'x-internal-is-superadmin',
   canPublishGlobal: 'x-internal-can-publish-global',
+  classLevel: 'x-internal-class-level',
 } as const;
 
 export type InternalUser = {
@@ -20,6 +21,7 @@ export type InternalUser = {
   roles?: string[];
   isSuperAdmin?: boolean;
   canPublishGlobal?: boolean;
+  classLevel?: string | null;
 };
 
 export interface AuthenticatedRequest extends Request {
@@ -51,6 +53,7 @@ function parseInternalHeaders(req: Request, requiredSecret: string): InternalUse
     roles,
     isSuperAdmin: readHeader(req, INTERNAL_HEADERS.isSuperAdmin) === 'true',
     canPublishGlobal: readHeader(req, INTERNAL_HEADERS.canPublishGlobal) === 'true',
+    classLevel: readHeader(req, INTERNAL_HEADERS.classLevel) || null,
   };
 }
 
@@ -67,6 +70,7 @@ function parseJwt(req: Request, jwtSecret: string): InternalUser | null {
       role: decoded.role,
       isSuperAdmin: Boolean(decoded.isSuperAdmin),
       canPublishGlobal: Boolean(decoded.canPublishGlobal),
+      classLevel: decoded.classLevel ?? null,
     };
   } catch (_error) {
     return null;
@@ -147,6 +151,9 @@ export function buildInternalHeaders(user: GatewayHeaderInput): Record<string, s
   if (user.roles && user.roles.length > 0) {
     headers[INTERNAL_HEADERS.roles] = user.roles.join(',');
   }
+  if (user.classLevel) {
+    headers[INTERNAL_HEADERS.classLevel] = user.classLevel;
+  }
   return headers;
 }
 
@@ -184,6 +191,7 @@ export function verifyJwtPayload(token: string, jwtSecret?: string): InternalUse
       role: decoded.role,
       isSuperAdmin: Boolean(decoded.isSuperAdmin),
       canPublishGlobal: Boolean(decoded.canPublishGlobal),
+      classLevel: decoded.classLevel ?? null,
     };
   } catch (_error) {
     return null;
