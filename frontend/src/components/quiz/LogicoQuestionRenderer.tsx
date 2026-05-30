@@ -313,14 +313,12 @@ const s = StyleSheet.create({
   cardImage: { ...StyleSheet.absoluteFillObject, width: '100%', height: '100%' },
   optionOverlayCol: {
     position: 'absolute', right: 0, top: 0, width: '18%', height: '100%',
-    backgroundColor: 'rgba(255,255,255,0.55)',
-    borderLeftWidth: 1, borderLeftColor: '#cbd5e1',
+    backgroundColor: 'transparent',
   },
-  optionHeaderSpacer: { borderBottomWidth: 1, borderBottomColor: '#e2e8f0' },
+  optionHeaderSpacer: {},
   optionRowsWrap:     { flex: 1 },
   optionRow: {
-    flex: 1, borderBottomWidth: 1, borderBottomColor: '#e2e8f0',
-    alignItems: 'center', justifyContent: 'center', gap: 2, paddingHorizontal: 2,
+    flex: 1, alignItems: 'center', justifyContent: 'center', gap: 2, paddingHorizontal: 2,
   },
 
   // Slot rail

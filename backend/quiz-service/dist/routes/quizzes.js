@@ -86,6 +86,33 @@ const teacherLibraryQuerySchema = z.object({
 const publishSchema = z.object({
     isPublished: z.boolean(),
 });
+const updateQuizSchema = z.object({
+    title: z.string().min(1).optional(),
+    description: z.string().nullable().optional(),
+    classLevel: z.string().nullable().optional(),
+    subject: z.string().nullable().optional(),
+    quizType: z.enum([
+        'drag_drop',
+        'image_select',
+        'sound_match',
+        'memory_game',
+        'drag_drop_match',
+        'guess_image',
+        'guess_audio',
+        'true_false',
+        'single_choice',
+        'multi_choice',
+        'memory_match',
+        'fill_blank',
+        'logico',
+        'jigsaw',
+        'jigsaw_puzzle',
+    ]).optional(),
+    difficultyLevel: z.string().nullable().optional(),
+    backgroundMusicUrl: z.string().nullable().optional(),
+    theme: z.any().optional(),
+    isPublished: z.boolean().optional(),
+});
 const reuseQuestionSchema = z.object({
     sourceQuestionId: z.string().uuid(),
 });
@@ -615,6 +642,127 @@ quizzesRouter.patch('/:id/publish', requireAuth, async (req, res) => {
     catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Failed to update quiz publish status' });
+    }
+});
+quizzesRouter.patch('/:id', requireAuth, async (req, res) => {
+    const { id } = req.params;
+    const parsed = updateQuizSchema.safeParse(req.body);
+    if (!parsed.success) {
+        return res.status(400).json({ message: 'Invalid payload', errors: parsed.error.issues });
+    }
+    const orgId = getOrganizationId(req);
+    if (!orgId) {
+        return res.status(400).json({ message: 'Organization not found in auth context' });
+    }
+    const userId = req.user.userId;
+    try {
+        const permission = await ensureQuizEditPermission(id, orgId, userId, req);
+        if (!permission.exists) {
+            return res.status(404).json({ message: 'Quiz not found' });
+        }
+        if (!permission.allowed) {
+            return res.status(403).json({ message: 'Only quiz creator can update this quiz' });
+        }
+        const data = parsed.data;
+        const fields = [];
+        const params = [];
+        const push = (col, value) => {
+            params.push(value);
+            fields.push(`${col} = $${params.length}`);
+        };
+        if (data.title !== undefined)
+            push('title', data.title);
+        if (data.description !== undefined)
+            push('description', data.description);
+        if (data.classLevel !== undefined)
+            push('class_level', data.classLevel);
+        if (data.subject !== undefined)
+            push('subject', data.subject);
+        if (data.quizType !== undefined) {
+            const normalizedQuizType = data.quizType === 'jigsaw_puzzle' ? 'jigsaw' : data.quizType;
+            push('quiz_type', normalizedQuizType);
+        }
+        if (data.difficultyLevel !== undefined)
+            push('difficulty_level', data.difficultyLevel);
+        if (data.backgroundMusicUrl !== undefined)
+            push('background_music_url', data.backgroundMusicUrl);
+        if (data.theme !== undefined)
+            push('theme', data.theme);
+        if (data.isPublished !== undefined)
+            push('is_published', data.isPublished);
+        if (fields.length === 0) {
+            return res.status(400).json({ message: 'No fields to update' });
+        }
+        fields.push('updated_at = NOW()');
+        params.push(id);
+        params.push(orgId);
+        const result = await db.query(`UPDATE quizzes
+       SET ${fields.join(', ')}
+       WHERE id = $${params.length - 1} AND (organization_id = $${params.length}::uuid OR is_global = true)
+       RETURNING *`, params);
+        if ((result.rowCount ?? 0) === 0) {
+            return res.status(404).json({ message: 'Quiz not found' });
+        }
+        return res.json(result.rows[0]);
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Failed to update quiz' });
+    }
+});
+quizzesRouter.delete('/:quizId/questions/:questionId', requireAuth, async (req, res) => {
+    const { quizId, questionId } = req.params;
+    const orgId = getOrganizationId(req);
+    if (!orgId) {
+        return res.status(400).json({ message: 'Organization not found in auth context' });
+    }
+    const userId = req.user.userId;
+    try {
+        const permission = await ensureQuizEditPermission(quizId, orgId, userId, req);
+        if (!permission.exists) {
+            return res.status(404).json({ message: 'Quiz not found' });
+        }
+        if (!permission.allowed) {
+            return res.status(403).json({ message: 'Only quiz creator can edit this quiz' });
+        }
+        const result = await db.query(`DELETE FROM quiz_questions WHERE id = $1 AND quiz_id = $2 RETURNING id`, [questionId, quizId]);
+        if ((result.rowCount ?? 0) === 0) {
+            return res.status(404).json({ message: 'Question not found in this quiz' });
+        }
+        await db.query(`UPDATE quizzes
+       SET total_questions = GREATEST(total_questions - 1, 0), updated_at = NOW()
+       WHERE id = $1`, [quizId]);
+        return res.json({ ok: true });
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Failed to detach question from quiz' });
+    }
+});
+quizzesRouter.delete('/:id', requireAuth, async (req, res) => {
+    const { id } = req.params;
+    const orgId = getOrganizationId(req);
+    if (!orgId) {
+        return res.status(400).json({ message: 'Organization not found in auth context' });
+    }
+    const userId = req.user.userId;
+    try {
+        const permission = await ensureQuizEditPermission(id, orgId, userId, req);
+        if (!permission.exists) {
+            return res.status(404).json({ message: 'Quiz not found' });
+        }
+        if (!permission.allowed) {
+            return res.status(403).json({ message: 'Only quiz creator can delete this quiz' });
+        }
+        const result = await db.query(`DELETE FROM quizzes WHERE id = $1 AND organization_id = $2::uuid RETURNING id`, [id, orgId]);
+        if ((result.rowCount ?? 0) === 0) {
+            return res.status(404).json({ message: 'Quiz not found' });
+        }
+        return res.json({ ok: true });
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Failed to delete quiz' });
     }
 });
 quizzesRouter.post('/:id/questions', requireAuth, async (req, res) => {

@@ -380,7 +380,7 @@ topicsRouter.get('/:topicId/details', requireAuth, async (req, res) => {
         const contentIds = contentItemsResult.rows.map((row) => row.id);
         let sectionsRows = [];
         if (contentIds.length > 0) {
-            const sectionsResult = await db.query(`SELECT id, content_id, section_order, title, content_type, media_url, external_url, text_content, created_at, updated_at
+            const sectionsResult = await db.query(`SELECT id, content_id, section_order, title, content_type, media_url, external_url, text_content, quiz_id, created_at, updated_at
          FROM learning_content_sections
          WHERE content_id = ANY($1::uuid[])
          ORDER BY content_id, section_order ASC, created_at ASC`, [contentIds]);
@@ -400,6 +400,7 @@ topicsRouter.get('/:topicId/details', requireAuth, async (req, res) => {
                 mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url) : undefined,
                 externalUrl: row.external_url || undefined,
                 textContent: row.text_content || undefined,
+                quizId: row.quiz_id || undefined,
                 createdAt: row.created_at,
                 updatedAt: row.updated_at,
             });
@@ -825,7 +826,7 @@ studentsRouter.get('/:topicId', requireAuth, async (req, res) => {
         const contentIds = contentResult.rows.map((row) => row.id);
         const sectionsByContentId = {};
         if (contentIds.length > 0) {
-            const sectionsResult = await db.query(`SELECT content_id, section_order, title, content_type, media_url, external_url, text_content
+            const sectionsResult = await db.query(`SELECT content_id, section_order, title, content_type, media_url, external_url, text_content, quiz_id
          FROM learning_content_sections
          WHERE content_id = ANY($1::uuid[])
          ORDER BY content_id, section_order ASC, created_at ASC`, [contentIds]);
@@ -852,6 +853,7 @@ studentsRouter.get('/:topicId', requireAuth, async (req, res) => {
                         mediaUrl: sec.media_url ? await getSignedMediaUrlIfNeeded(sec.media_url) : undefined,
                         externalUrl: sec.external_url || undefined,
                         textContent: sec.text_content || undefined,
+                        quizId: sec.quiz_id || undefined,
                         sortOrder: Number(row.sort_order || 0) * 1000 + Number(sec.section_order || i + 1),
                     });
                 }
@@ -864,6 +866,7 @@ studentsRouter.get('/:topicId', requireAuth, async (req, res) => {
                     mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url) : undefined,
                     externalUrl: row.external_url || undefined,
                     textContent: row.text_content || undefined,
+                    quizId: undefined,
                     sortOrder: Number(row.sort_order || 0),
                 });
             }

@@ -1,9 +1,10 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import { ActivityIndicator, Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { ChevronDown, ChevronUp, GripVertical, Clock, BookOpen, Trophy, ClipboardList, Settings, Eye, Zap, Calendar, Users, CheckCircle, School } from 'lucide-react-native';
+import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, GripVertical, Clock, BookOpen, Trophy, ClipboardList, Settings, Eye, Zap, Calendar, Users, CheckCircle, School } from 'lucide-react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import SelectorModal from '../../src/components/SelectorModal';
+import CreateQuizModal from '../../src/components/quiz/CreateQuizModal';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { useAuth } from '../../src/context/AuthContext';
@@ -305,6 +306,10 @@ export default function PlannerScreen() {
   const [quizFilters, setQuizFilters] = useState({ subject: '', category: '', difficulty: '', search: '' });
   const [isAssignContentOpen, setIsAssignContentOpen] = useState(false);
   const [isAssignQuizOpen, setIsAssignQuizOpen] = useState(false);
+  const [quizCreatorOpen, setQuizCreatorOpen] = useState(false);
+  const [assignQuizPage, setAssignQuizPage] = useState(0);
+  const [assignContentPage, setAssignContentPage] = useState(0);
+  const ASSIGN_PAGE_SIZE = 10;
   const [contentSearch, setContentSearch] = useState('');
   const [contentSubjectFilter, setContentSubjectFilter] = useState('');
   const [pendingDelete, setPendingDelete] = useState<ClassroomSummary | null>(null);
@@ -444,6 +449,9 @@ export default function PlannerScreen() {
         }),
     [form.classLevel, quizFilters.category, quizFilters.difficulty, quizFilters.search, quizFilters.subject, quizItems],
   );
+
+  useEffect(() => { setAssignQuizPage(0); }, [quizFilters.search, quizFilters.subject, quizFilters.category, quizFilters.difficulty, form.classLevel]);
+  useEffect(() => { setAssignContentPage(0); }, [contentSearch, contentSubjectFilter, form.classLevel]);
 
   const setFormPatch = (patch: Partial<ClassroomFormState>) => setForm((current) => ({ ...current, ...patch }));
 
@@ -1139,9 +1147,14 @@ export default function PlannerScreen() {
               <View style={p.secGroup}>
                 <View style={p.secGroupHeader}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><Trophy size={14} color="#FF7043" /><Text style={p.secGroupTitle}>Quizzes</Text></View>
-                  <Pressable style={[p.addSecBtn, !form.classLevel && { opacity: 0.4 }]} disabled={!form.classLevel} onPress={() => setIsAssignQuizOpen(true)}>
-                    <Text style={p.addSecBtnText}>+ Add</Text>
-                  </Pressable>
+                  <View style={{ flexDirection: 'row', gap: 6 }}>
+                    <Pressable style={[p.addSecBtn, !form.classLevel && { opacity: 0.4 }]} disabled={!form.classLevel} onPress={() => setIsAssignQuizOpen(true)}>
+                      <Text style={p.addSecBtnText}>+ Add</Text>
+                    </Pressable>
+                    <Pressable style={[p.addSecBtn, { backgroundColor: '#EBF4FF' }, !form.classLevel && { opacity: 0.4 }]} disabled={!form.classLevel} onPress={() => setQuizCreatorOpen(true)}>
+                      <Text style={[p.addSecBtnText, { color: '#4A90E2' }]}>+ Create</Text>
+                    </Pressable>
+                  </View>
                 </View>
                 {form.selectedQuizIds.length === 0 ? (
                   <Text style={p.secEmptyText}>No quizzes added yet.</Text>
@@ -1306,33 +1319,82 @@ export default function PlannerScreen() {
                 placeholderTextColor="#B0B8D0"
               />
             </View>
-            <ScrollView contentContainerStyle={{ padding: 12, gap: 8 }}>
-              {filteredContents.length === 0 ? (
-                <Text style={p.flatEmpty}>No content found.</Text>
-              ) : (
-                filteredContents.map((item) => {
-                  const sel = form.selectedContentIds.includes(item.id);
-                  return (
-                    <Pressable
-                      key={item.id}
-                      style={[p.pickerItem, sel && p.pickerItemSelected]}
-                      onPress={() => setFormPatch({ selectedContentIds: toggleId(form.selectedContentIds, item.id) })}
-                    >
-                      <View style={[p.checkBox, sel && p.checkBoxSelected]}>
-                        {sel && <Text style={p.checkTick}>✓</Text>}
-                      </View>
-                      <View style={{ flex: 1 }}>
-                        <Text style={p.pickerItemTitle}>{item.title}</Text>
-                        <Text style={p.pickerItemMeta}>{getStandardLabel(item.classLevel)} · {item.subject} · {item.contentType}</Text>
-                      </View>
-                    </Pressable>
-                  );
-                })
-              )}
-            </ScrollView>
+            {(() => {
+              const acTotalPages = Math.max(1, Math.ceil(filteredContents.length / ASSIGN_PAGE_SIZE));
+              const acPaged = filteredContents.slice(assignContentPage * ASSIGN_PAGE_SIZE, (assignContentPage + 1) * ASSIGN_PAGE_SIZE);
+              return (
+                <>
+                  <ScrollView contentContainerStyle={{ padding: 12, gap: 8 }}>
+                    {filteredContents.length === 0 ? (
+                      <Text style={p.flatEmpty}>No content found.</Text>
+                    ) : (
+                      acPaged.map((item) => {
+                        const sel = form.selectedContentIds.includes(item.id);
+                        return (
+                          <Pressable
+                            key={item.id}
+                            style={[p.pickerItem, sel && p.pickerItemSelected]}
+                            onPress={() => setFormPatch({ selectedContentIds: toggleId(form.selectedContentIds, item.id) })}
+                          >
+                            <View style={[p.checkBox, sel && p.checkBoxSelected]}>
+                              {sel && <Text style={p.checkTick}>✓</Text>}
+                            </View>
+                            <View style={{ flex: 1 }}>
+                              <Text style={p.pickerItemTitle}>{item.title}</Text>
+                              <Text style={p.pickerItemMeta}>{getStandardLabel(item.classLevel)} · {item.subject} · {item.contentType}</Text>
+                            </View>
+                          </Pressable>
+                        );
+                      })
+                    )}
+                  </ScrollView>
+                  {filteredContents.length > ASSIGN_PAGE_SIZE && (
+                    <View style={pagerS.bar}>
+                      <Pressable
+                        style={[pagerS.btn, assignContentPage === 0 && pagerS.btnDisabled]}
+                        onPress={() => setAssignContentPage((pg) => Math.max(0, pg - 1))}
+                        disabled={assignContentPage === 0}
+                      >
+                        <ChevronLeft size={16} color={assignContentPage === 0 ? '#C0C8D8' : '#4A90E2'} />
+                        <Text style={[pagerS.btnText, assignContentPage === 0 && pagerS.btnTextDisabled]}>Prev</Text>
+                      </Pressable>
+                      <Text style={pagerS.indicator}>Page {assignContentPage + 1} / {acTotalPages}</Text>
+                      <Pressable
+                        style={[pagerS.btn, assignContentPage >= acTotalPages - 1 && pagerS.btnDisabled]}
+                        onPress={() => setAssignContentPage((pg) => Math.min(acTotalPages - 1, pg + 1))}
+                        disabled={assignContentPage >= acTotalPages - 1}
+                      >
+                        <Text style={[pagerS.btnText, assignContentPage >= acTotalPages - 1 && pagerS.btnTextDisabled]}>Next</Text>
+                        <ChevronRight size={16} color={assignContentPage >= acTotalPages - 1 ? '#C0C8D8' : '#4A90E2'} />
+                      </Pressable>
+                    </View>
+                  )}
+                </>
+              );
+            })()}
           </View>
         </View>
       </Modal>
+
+      <CreateQuizModal
+        visible={quizCreatorOpen}
+        apiFetch={apiFetch}
+        initialClassLevel={form.classLevel || undefined}
+        onClose={() => setQuizCreatorOpen(false)}
+        onCreated={(quiz) => {
+          setQuizItems((prev) => {
+            if (prev.some((q) => q.id === quiz.id)) return prev;
+            return [{
+              id: quiz.id,
+              title: quiz.title,
+              class_level: quiz.classLevel,
+              subject: quiz.subject,
+            } as any, ...prev];
+          });
+          setFormPatch({ selectedQuizIds: [...form.selectedQuizIds, quiz.id] });
+          setQuizCreatorOpen(false);
+        }}
+      />
 
       {/* ── Assign Quiz picker ── */}
       <Modal visible={isAssignQuizOpen} transparent animationType="slide" onRequestClose={() => setIsAssignQuizOpen(false)}>
@@ -1360,30 +1422,59 @@ export default function PlannerScreen() {
                 />
               </View>
             </View>
-            <ScrollView contentContainerStyle={{ padding: 12, gap: 8 }}>
-              {filteredQuizzes.length === 0 ? (
-                <Text style={p.flatEmpty}>No quizzes found.</Text>
-              ) : (
-                filteredQuizzes.map((quiz) => {
-                  const sel = form.selectedQuizIds.includes(quiz.id);
-                  return (
-                    <Pressable
-                      key={quiz.id}
-                      style={[p.pickerItem, sel && p.pickerItemSelected]}
-                      onPress={() => setFormPatch({ selectedQuizIds: toggleId(form.selectedQuizIds, quiz.id) })}
-                    >
-                      <View style={[p.checkBox, sel && p.checkBoxSelected]}>
-                        {sel && <Text style={p.checkTick}>✓</Text>}
-                      </View>
-                      <View style={{ flex: 1 }}>
-                        <Text style={p.pickerItemTitle}>{quiz.title}</Text>
-                        <Text style={p.pickerItemMeta}>{quiz.subject || '-'} · {quiz.quiz_type || '-'} · {quiz.difficulty_level || '-'}</Text>
-                      </View>
-                    </Pressable>
-                  );
-                })
-              )}
-            </ScrollView>
+            {(() => {
+              const aqTotalPages = Math.max(1, Math.ceil(filteredQuizzes.length / ASSIGN_PAGE_SIZE));
+              const aqPaged = filteredQuizzes.slice(assignQuizPage * ASSIGN_PAGE_SIZE, (assignQuizPage + 1) * ASSIGN_PAGE_SIZE);
+              return (
+                <>
+                  <ScrollView contentContainerStyle={{ padding: 12, gap: 8 }}>
+                    {filteredQuizzes.length === 0 ? (
+                      <Text style={p.flatEmpty}>No quizzes found.</Text>
+                    ) : (
+                      aqPaged.map((quiz) => {
+                        const sel = form.selectedQuizIds.includes(quiz.id);
+                        return (
+                          <Pressable
+                            key={quiz.id}
+                            style={[p.pickerItem, sel && p.pickerItemSelected]}
+                            onPress={() => setFormPatch({ selectedQuizIds: toggleId(form.selectedQuizIds, quiz.id) })}
+                          >
+                            <View style={[p.checkBox, sel && p.checkBoxSelected]}>
+                              {sel && <Text style={p.checkTick}>✓</Text>}
+                            </View>
+                            <View style={{ flex: 1 }}>
+                              <Text style={p.pickerItemTitle}>{quiz.title}</Text>
+                              <Text style={p.pickerItemMeta}>{quiz.subject || '-'} · {quiz.quiz_type || '-'} · {quiz.difficulty_level || '-'}</Text>
+                            </View>
+                          </Pressable>
+                        );
+                      })
+                    )}
+                  </ScrollView>
+                  {filteredQuizzes.length > ASSIGN_PAGE_SIZE && (
+                    <View style={pagerS.bar}>
+                      <Pressable
+                        style={[pagerS.btn, assignQuizPage === 0 && pagerS.btnDisabled]}
+                        onPress={() => setAssignQuizPage((pg) => Math.max(0, pg - 1))}
+                        disabled={assignQuizPage === 0}
+                      >
+                        <ChevronLeft size={16} color={assignQuizPage === 0 ? '#C0C8D8' : '#4A90E2'} />
+                        <Text style={[pagerS.btnText, assignQuizPage === 0 && pagerS.btnTextDisabled]}>Prev</Text>
+                      </Pressable>
+                      <Text style={pagerS.indicator}>Page {assignQuizPage + 1} / {aqTotalPages}</Text>
+                      <Pressable
+                        style={[pagerS.btn, assignQuizPage >= aqTotalPages - 1 && pagerS.btnDisabled]}
+                        onPress={() => setAssignQuizPage((pg) => Math.min(aqTotalPages - 1, pg + 1))}
+                        disabled={assignQuizPage >= aqTotalPages - 1}
+                      >
+                        <Text style={[pagerS.btnText, assignQuizPage >= aqTotalPages - 1 && pagerS.btnTextDisabled]}>Next</Text>
+                        <ChevronRight size={16} color={assignQuizPage >= aqTotalPages - 1 ? '#C0C8D8' : '#4A90E2'} />
+                      </Pressable>
+                    </View>
+                  )}
+                </>
+              );
+            })()}
           </View>
         </View>
       </Modal>
@@ -1868,4 +1959,13 @@ const p = StyleSheet.create({
   historyDetailBtnText: { fontSize: 13, fontWeight: '800', color: '#1A4DA2' },
   historyRestartBtn: { flex: 1, borderRadius: 12, backgroundColor: '#D6F5D6', paddingVertical: 10, alignItems: 'center' },
   historyRestartBtnText: { fontSize: 13, fontWeight: '800', color: '#1A6B1A' },
+});
+
+const pagerS = StyleSheet.create({
+  bar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 14, paddingVertical: 10, borderTopWidth: 1, borderTopColor: '#F0F4FF' },
+  btn: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 10, backgroundColor: '#EBF4FF' },
+  btnDisabled: { backgroundColor: '#F4F5FF' },
+  btnText: { fontSize: 12, fontWeight: '700', color: '#4A90E2' },
+  btnTextDisabled: { color: '#C0C8D8' },
+  indicator: { fontSize: 12, fontWeight: '700', color: '#5A6A8A' },
 });

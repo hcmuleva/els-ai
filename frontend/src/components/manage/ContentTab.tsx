@@ -17,6 +17,7 @@ import React from 'react';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
 import SelectorModal from '../SelectorModal';
 import { API_BASE_URL } from '../../context/AuthContext';
+import CreateQuizModal from '../quiz/CreateQuizModal';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 export type LearningContentItem = {
@@ -245,6 +246,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, onClo
   const [quizLibrary, setQuizLibrary] = useState<QuizLite[]>([]);
   const [quizPickerFor, setQuizPickerFor] = useState<string | null>(null); // section draftId
   const [quizSearch, setQuizSearch] = useState('');
+  const [quizCreatorFor, setQuizCreatorFor] = useState<string | null>(null); // section draftId
 
   useEffect(() => {
     if (!isOpen) return;
@@ -546,13 +548,22 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, onClo
                               </View>
                             );
                           })() : (
-                            <Pressable
-                              style={c.quizAttachBtn}
-                              onPress={() => { setQuizSearch(''); setQuizPickerFor(sec.draftId); }}
-                            >
-                              <ListChecks size={16} color="#7C3AED" />
-                              <Text style={c.quizAttachBtnText}>+ Attach a quiz</Text>
-                            </Pressable>
+                            <View style={{ flexDirection: 'row', gap: 8 }}>
+                              <Pressable
+                                style={[c.quizAttachBtn, { flex: 1 }]}
+                                onPress={() => { setQuizSearch(''); setQuizPickerFor(sec.draftId); }}
+                              >
+                                <ListChecks size={16} color="#7C3AED" />
+                                <Text style={c.quizAttachBtnText}>+ Attach a quiz</Text>
+                              </Pressable>
+                              <Pressable
+                                style={[c.quizAttachBtn, { flex: 1, borderColor: '#86BFFF', backgroundColor: '#EBF4FF' }]}
+                                onPress={() => setQuizCreatorFor(sec.draftId)}
+                              >
+                                <Plus size={16} color="#4A90E2" />
+                                <Text style={[c.quizAttachBtnText, { color: '#4A90E2' }]}>+ Create new quiz</Text>
+                              </Pressable>
+                            </View>
                           )}
                         </View>
                       </View>
@@ -600,6 +611,26 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, onClo
 
       <SelectorModal visible={classOpen}   title="Select Class"   options={classOptions}   selected={classLevel} onSelect={(v) => { setClass(v); setSubject(''); }}   onClose={() => setClassOpen(false)} />
       <SelectorModal visible={subjectOpen} title="Select Subject" options={subjectOptions} selected={subject}     isSubject onSelect={setSubject} onClose={() => setSubjectOpen(false)} />
+
+      <CreateQuizModal
+        visible={quizCreatorFor !== null}
+        apiFetch={apiFetch}
+        initialClassLevel={classLevel || undefined}
+        initialSubject={subject || undefined}
+        subjectCatalog={subjectCatalog}
+        onClose={() => setQuizCreatorFor(null)}
+        onCreated={(quiz) => {
+          setQuizLibrary((prev) => {
+            if (prev.some((q) => q.id === quiz.id)) return prev;
+            return [
+              { id: quiz.id, title: quiz.title, classLevel: quiz.classLevel, subject: quiz.subject, questionCount: quiz.questionCount },
+              ...prev,
+            ];
+          });
+          if (quizCreatorFor) updateSection(quizCreatorFor, { quizId: quiz.id });
+          setQuizCreatorFor(null);
+        }}
+      />
 
       {/* ── Quiz picker (per section) ── */}
       <Modal visible={quizPickerFor !== null} transparent animationType="slide" onRequestClose={() => setQuizPickerFor(null)}>
@@ -737,6 +768,7 @@ export default function ContentTab({
   const [subjectFilterOpen, setSubjectFilterOpen]   = useState(false);
   const [editingItem, setEditingItem]               = useState<LearningContentItem | null | 'new'>(null);
   const [detailsItem, setDetailsItem]               = useState<LearningContentItem | null>(null);
+  const [searchQuery, setSearchQuery]               = useState('');
 
   const classOptions   = STANDARD_OPTIONS.map((o) => ({ label: o.label, value: o.value }));
   const subjectOptions = useMemo(() => {
