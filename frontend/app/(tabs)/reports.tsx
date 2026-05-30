@@ -1,88 +1,186 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useFocusEffect } from 'expo-router';
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useFocusEffect } from "expo-router";
 import {
-  ActivityIndicator, Dimensions, Modal, Platform, Pressable, ScrollView,
-  StyleSheet, Text, TouchableOpacity, View, Image, Linking,
-} from 'react-native';
+  ActivityIndicator,
+  Dimensions,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  Linking,
+} from "react-native";
 import Animated, {
-  useSharedValue, useAnimatedStyle,
-  withTiming, withDelay, withSpring, Easing,
-} from 'react-native-reanimated';
-import Svg, { Circle, Line } from 'react-native-svg';
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withDelay,
+  withSpring,
+  Easing,
+} from "react-native-reanimated";
+import Svg, { Circle, Line } from "react-native-svg";
 import {
-  Star, BookOpen, Trophy, Zap, TrendingUp, X, ChevronRight, Clock,
-  BarChart2, Calendar, Timer, School, Layers, ClipboardList,
-  Activity, RotateCw, User, Users, CheckCircle, SkipForward, Flame,
+  Star,
+  BookOpen,
+  Trophy,
+  Zap,
+  TrendingUp,
+  X,
+  ChevronRight,
+  Clock,
+  BarChart2,
+  Calendar,
+  Timer,
+  School,
+  Layers,
+  ClipboardList,
+  Activity,
+  RotateCw,
+  User,
+  Users,
+  CheckCircle,
+  SkipForward,
+  Flame,
   History,
-} from 'lucide-react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SvgXml } from 'react-native-svg';
+} from "lucide-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SvgXml } from "react-native-svg";
 
-import { useAuth, API_BASE_URL } from '../../src/context/AuthContext';
-import { Colors, Radius, Shadow } from '../../src/theme';
-import { OWL, PENGUIN, ELEPHANT, BUTTERFLY, GIRAFFE } from '../../src/assets/svgs';
-import { useStudentProfile, type ClassroomRemarkItem } from '../../src/context/StudentProfileContext';
-import { getStandardLabel } from '../../src/constants/standards';
+import { useAuth, API_BASE_URL } from "../../src/context/AuthContext";
+import { Colors, Radius, Shadow } from "../../src/theme";
 import {
-  CHART_DATA, SUBJECT_DETAILS, STUDENT_SUMMARY, BADGES_DATA,
-  type SubjectDetail, type ChartPoint,
-} from '../../src/data/studentMockData';
+  OWL,
+  PENGUIN,
+  ELEPHANT,
+  BUTTERFLY,
+  GIRAFFE,
+} from "../../src/assets/svgs";
+import {
+  useStudentProfile,
+  type ClassroomRemarkItem,
+} from "../../src/context/StudentProfileContext";
+import { getStandardLabel } from "../../src/constants/standards";
+import {
+  CHART_DATA,
+  SUBJECT_DETAILS,
+  STUDENT_SUMMARY,
+  BADGES_DATA,
+  type SubjectDetail,
+  type ChartPoint,
+} from "../../src/data/studentMockData";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type Classroom = {
-  id: string; title: string; classLevel: string;
-  completionPct: number; status: string;
-  contents:    Array<{ id: string; title: string; subject?: string }>;
-  quizzes:     Array<{ id: string; title: string; totalQuestions: number; difficultyLevel?: string; status: string }>;
+  id: string;
+  title: string;
+  classLevel: string;
+  completionPct: number;
+  status: string;
+  contents: Array<{ id: string; title: string; subject?: string }>;
+  quizzes: Array<{
+    id: string;
+    title: string;
+    totalQuestions: number;
+    difficultyLevel?: string;
+    status: string;
+  }>;
   assignments: Array<{ id: string; status: string }>;
 };
 
 type TeacherOverview = {
   summary: {
-    total_quizzes: string; published_quizzes: string;
-    ai_generated_quizzes: string; total_attempts: string; average_score_pct: string;
+    total_quizzes: string;
+    published_quizzes: string;
+    ai_generated_quizzes: string;
+    total_attempts: string;
+    average_score_pct: string;
   };
-  classPerformance: Array<{ class_level: string; attempts: string; average_score_pct: string }>;
-  topGaps:          Array<{ question_id: string; question_title: string; incorrect_pct: string }>;
+  classPerformance: Array<{
+    class_level: string;
+    attempts: string;
+    average_score_pct: string;
+  }>;
+  topGaps: Array<{
+    question_id: string;
+    question_title: string;
+    incorrect_pct: string;
+  }>;
 };
 
-type Period = 'hour' | 'day' | 'week' | 'month';
+type Period = "hour" | "day" | "week" | "month";
 
 type ClassActivityAttempt = {
-  attemptId: string; quizId: string; quizTitle: string;
-  completedAt: string; totalQuestions: number; correctCount: number; scorePct: number;
+  attemptId: string;
+  quizId: string;
+  quizTitle: string;
+  completedAt: string;
+  totalQuestions: number;
+  correctCount: number;
+  scorePct: number;
   hasGame: boolean;
-  gameMetrics: { clicksUsed: number; clickLimit: number; pairsMatched: number; totalPairs: number; accuracy: number } | null;
+  gameMetrics: {
+    clicksUsed: number;
+    clickLimit: number;
+    pairsMatched: number;
+    totalPairs: number;
+    accuracy: number;
+  } | null;
 };
 type ClassActivityStudent = {
-  studentId: string; firstName: string; lastName: string;
-  classLevel: string | null; profileImage: string | null;
+  studentId: string;
+  firstName: string;
+  lastName: string;
+  classLevel: string | null;
+  profileImage: string | null;
   attempts: ClassActivityAttempt[];
 };
 
 // ── Animated Bar ──────────────────────────────────────────────────────────────
 const MAX_BAR_H = 80;
 
-function AnimatedBar({ targetPct, isActive, color, label, value, delay }: {
-  targetPct: number; isActive: boolean;
-  color: string; label: string; value: number; delay: number;
+function AnimatedBar({
+  targetPct,
+  isActive,
+  color,
+  label,
+  value,
+  delay,
+}: {
+  targetPct: number;
+  isActive: boolean;
+  color: string;
+  label: string;
+  value: number;
+  delay: number;
 }) {
   const height = useSharedValue(0);
   const opacity = useSharedValue(0);
 
   useEffect(() => {
-    height.value  = 0;
+    height.value = 0;
     opacity.value = 0;
-    height.value  = withDelay(delay, withSpring(targetPct * MAX_BAR_H, {
-      damping: 14, stiffness: 120, mass: 0.8,
-    }));
-    opacity.value = withDelay(delay, withTiming(1, { duration: 220, easing: Easing.out(Easing.ease) }));
+    height.value = withDelay(
+      delay,
+      withSpring(targetPct * MAX_BAR_H, {
+        damping: 14,
+        stiffness: 120,
+        mass: 0.8,
+      }),
+    );
+    opacity.value = withDelay(
+      delay,
+      withTiming(1, { duration: 220, easing: Easing.out(Easing.ease) }),
+    );
   }, [targetPct, delay]);
 
   const barStyle = useAnimatedStyle(() => ({
     height: height.value,
     borderRadius: 8,
-    backgroundColor: isActive ? color : '#E8F0FE',
+    backgroundColor: isActive ? color : "#E8F0FE",
   }));
 
   const wrapStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
@@ -95,7 +193,15 @@ function AnimatedBar({ targetPct, isActive, color, label, value, delay }: {
       <View style={bc.barTrack}>
         <Animated.View style={barStyle} />
       </View>
-      <Text style={[bc.barLabel, { color: isActive ? color : '#B0B8D0', fontWeight: isActive ? '800' : '600' }]}>
+      <Text
+        style={[
+          bc.barLabel,
+          {
+            color: isActive ? color : "#B0B8D0",
+            fontWeight: isActive ? "800" : "600",
+          },
+        ]}
+      >
         {label}
       </Text>
     </Animated.View>
@@ -103,16 +209,23 @@ function AnimatedBar({ targetPct, isActive, color, label, value, delay }: {
 }
 
 // ── Bar Chart ─────────────────────────────────────────────────────────────────
-function BarChart({ data, activeColor = '#4A90E2', todayIdx }: {
-  data: ChartPoint[]; activeColor?: string; todayIdx?: number;
+function BarChart({
+  data,
+  activeColor = "#4A90E2",
+  todayIdx,
+}: {
+  data: ChartPoint[];
+  activeColor?: string;
+  todayIdx?: number;
 }) {
   const maxVal = Math.max(...data.map((d) => d.value), 1);
 
   return (
     <View style={bc.container}>
       {data.map((d, i) => {
-        const isNow = todayIdx !== undefined ? i === todayIdx : i === data.length - 1;
-        const pct   = d.value / maxVal;
+        const isNow =
+          todayIdx !== undefined ? i === todayIdx : i === data.length - 1;
+        const pct = d.value / maxVal;
         return (
           <AnimatedBar
             key={`${d.label}-${i}`}
@@ -130,16 +243,29 @@ function BarChart({ data, activeColor = '#4A90E2', todayIdx }: {
 }
 
 const bc = StyleSheet.create({
-  container: { flexDirection: 'row', alignItems: 'flex-end', gap: 6, paddingTop: 24, paddingBottom: 2 },
-  barCol:    { flex: 1, alignItems: 'center', gap: 5 },
-  barTrack:  { width: '100%', height: MAX_BAR_H, justifyContent: 'flex-end' },
-  barValue:  { fontSize: 9, fontWeight: '800', textAlign: 'center' },
-  barLabel:  { fontSize: 9, textAlign: 'center' },
+  container: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    gap: 6,
+    paddingTop: 24,
+    paddingBottom: 2,
+  },
+  barCol: { flex: 1, alignItems: "center", gap: 5 },
+  barTrack: { width: "100%", height: MAX_BAR_H, justifyContent: "flex-end" },
+  barValue: { fontSize: 9, fontWeight: "800", textAlign: "center" },
+  barLabel: { fontSize: 9, textAlign: "center" },
 });
 
 // ── Mini Score Sparkline ──────────────────────────────────────────────────────
-function ScoreSparkline({ scores, color }: { scores: number[]; color: string }) {
-  const W = 80, H = 28;
+function ScoreSparkline({
+  scores,
+  color,
+}: {
+  scores: number[];
+  color: string;
+}) {
+  const W = 80,
+    H = 28;
   const maxS = Math.max(...scores);
   const minS = Math.min(...scores);
   const range = maxS - minS || 1;
@@ -156,24 +282,56 @@ function ScoreSparkline({ scores, color }: { scores: number[]; color: string }) 
         if (i === 0) return null;
         const prev = points[i - 1];
         return (
-          <Line key={i} x1={prev.x} y1={prev.y} x2={p.x} y2={p.y}
-            stroke={color} strokeWidth={2} strokeLinecap="round" />
+          <Line
+            key={i}
+            x1={prev.x}
+            y1={prev.y}
+            x2={p.x}
+            y2={p.y}
+            stroke={color}
+            strokeWidth={2}
+            strokeLinecap="round"
+          />
         );
       })}
       {points.map((p, i) => (
-        <Circle key={i} cx={p.x} cy={p.y} r={i === points.length - 1 ? 3.5 : 2}
-          fill={i === points.length - 1 ? color : '#fff'}
-          stroke={color} strokeWidth={1.5} />
+        <Circle
+          key={i}
+          cx={p.x}
+          cy={p.y}
+          r={i === points.length - 1 ? 3.5 : 2}
+          fill={i === points.length - 1 ? color : "#fff"}
+          stroke={color}
+          strokeWidth={1.5}
+        />
       ))}
     </Svg>
   );
 }
 
 // ── Subject Detail Modal ──────────────────────────────────────────────────────
-function SubjectModal({ subject, onClose }: { subject: SubjectDetail; onClose: () => void }) {
-  const typeIconMap: Record<string, IconComp2> = { lesson: BookOpen, quiz: Layers, assignment: ClipboardList };
-  const typeColor: Record<string, string> = { lesson: '#4A90E2', quiz: '#FF7043', assignment: '#4CAF50' };
-  const typeBg   = { lesson: '#D6EAFF', quiz: '#FFE8D6', assignment: '#D6F5D6' } as const;
+function SubjectModal({
+  subject,
+  onClose,
+}: {
+  subject: SubjectDetail;
+  onClose: () => void;
+}) {
+  const typeIconMap: Record<string, IconComp2> = {
+    lesson: BookOpen,
+    quiz: Layers,
+    assignment: ClipboardList,
+  };
+  const typeColor: Record<string, string> = {
+    lesson: "#4A90E2",
+    quiz: "#FF7043",
+    assignment: "#4CAF50",
+  };
+  const typeBg = {
+    lesson: "#D6EAFF",
+    quiz: "#FFE8D6",
+    assignment: "#D6F5D6",
+  } as const;
 
   return (
     <Modal visible animationType="slide" transparent onRequestClose={onClose}>
@@ -185,7 +343,9 @@ function SubjectModal({ subject, onClose }: { subject: SubjectDetail; onClose: (
               <SvgXml xml={BUTTERFLY} width={36} height={36} />
               <View>
                 <Text style={m.sheetTitle}>{subject.label}</Text>
-                <Text style={m.sheetSub}>{subject.completedLessons} of {subject.totalLessons} completed</Text>
+                <Text style={m.sheetSub}>
+                  {subject.completedLessons} of {subject.totalLessons} completed
+                </Text>
               </View>
             </View>
             <TouchableOpacity style={m.closeBtn} onPress={onClose}>
@@ -196,22 +356,30 @@ function SubjectModal({ subject, onClose }: { subject: SubjectDetail; onClose: (
           {/* Stats row */}
           <View style={m.statRow}>
             <View style={m.statItem}>
-              <Text style={[m.statVal, { color: subject.color }]}>{subject.progressPct}%</Text>
+              <Text style={[m.statVal, { color: subject.color }]}>
+                {subject.progressPct}%
+              </Text>
               <Text style={m.statLbl}>Progress</Text>
             </View>
             <View style={m.statDivider} />
             <View style={m.statItem}>
-              <Text style={[m.statVal, { color: subject.color }]}>{subject.avgScore}%</Text>
+              <Text style={[m.statVal, { color: subject.color }]}>
+                {subject.avgScore}%
+              </Text>
               <Text style={m.statLbl}>Avg Score</Text>
             </View>
             <View style={m.statDivider} />
             <View style={m.statItem}>
-              <Text style={[m.statVal, { color: subject.color }]}>{subject.streak}d</Text>
+              <Text style={[m.statVal, { color: subject.color }]}>
+                {subject.streak}d
+              </Text>
               <Text style={m.statLbl}>Streak 🔥</Text>
             </View>
             <View style={m.statDivider} />
             <View style={m.statItem}>
-              <Text style={[m.statVal, { color: subject.color }]}>{subject.xpEarned}</Text>
+              <Text style={[m.statVal, { color: subject.color }]}>
+                {subject.xpEarned}
+              </Text>
               <Text style={m.statLbl}>XP Earned</Text>
             </View>
           </View>
@@ -220,10 +388,20 @@ function SubjectModal({ subject, onClose }: { subject: SubjectDetail; onClose: (
           <View style={m.progressSection}>
             <View style={m.pRow}>
               <Text style={m.pLabel}>Overall Progress</Text>
-              <Text style={[m.pPct, { color: subject.color }]}>{subject.progressPct}%</Text>
+              <Text style={[m.pPct, { color: subject.color }]}>
+                {subject.progressPct}%
+              </Text>
             </View>
             <View style={m.track}>
-              <View style={[m.fill, { width: `${subject.progressPct}%`, backgroundColor: subject.color }]} />
+              <View
+                style={[
+                  m.fill,
+                  {
+                    width: `${subject.progressPct}%`,
+                    backgroundColor: subject.color,
+                  },
+                ]}
+              />
             </View>
           </View>
 
@@ -233,7 +411,10 @@ function SubjectModal({ subject, onClose }: { subject: SubjectDetail; onClose: (
               <Text style={m.sparkTitle}>Recent Scores</Text>
               <Text style={m.sparkSub}>Last 5 quizzes</Text>
             </View>
-            <ScoreSparkline scores={subject.recentScores} color={subject.color} />
+            <ScoreSparkline
+              scores={subject.recentScores}
+              color={subject.color}
+            />
             <Text style={[m.sparkLast, { color: subject.color }]}>
               {subject.recentScores[subject.recentScores.length - 1]}%
             </Text>
@@ -245,29 +426,73 @@ function SubjectModal({ subject, onClose }: { subject: SubjectDetail; onClose: (
             {subject.topics.map((t, idx) => {
               const done = t.score >= 0;
               return (
-                <View key={t.id} style={[m.topicRow, idx < subject.topics.length - 1 && m.topicBorder]}>
-                  <View style={[m.topicIcon, { backgroundColor: typeBg[t.type] }]}>
-                    {(() => { const TIcon = typeIconMap[t.type] ?? BookOpen; return <TIcon size={14} color={typeColor[t.type] ?? '#4A90E2'} />; })()}
+                <View
+                  key={t.id}
+                  style={[
+                    m.topicRow,
+                    idx < subject.topics.length - 1 && m.topicBorder,
+                  ]}
+                >
+                  <View
+                    style={[m.topicIcon, { backgroundColor: typeBg[t.type] }]}
+                  >
+                    {(() => {
+                      const TIcon = typeIconMap[t.type] ?? BookOpen;
+                      return (
+                        <TIcon
+                          size={14}
+                          color={typeColor[t.type] ?? "#4A90E2"}
+                        />
+                      );
+                    })()}
                   </View>
                   <View style={m.topicInfo}>
-                    <Text style={[m.topicTitle, !done && { color: '#B0B8D0' }]}>{t.title}</Text>
+                    <Text style={[m.topicTitle, !done && { color: "#B0B8D0" }]}>
+                      {t.title}
+                    </Text>
                     <View style={m.topicMeta}>
                       <Clock size={10} color="#B0B8D0" />
                       <Text style={m.topicMetaTxt}>{t.durationMin} min</Text>
                       {t.completedAt ? (
-                        <Text style={m.topicMetaTxt}>· {t.completedAt.slice(5)}</Text>
+                        <Text style={m.topicMetaTxt}>
+                          · {t.completedAt.slice(5)}
+                        </Text>
                       ) : (
-                        <Text style={[m.topicMetaTxt, { color: '#C0C0D0' }]}>· Not started</Text>
+                        <Text style={[m.topicMetaTxt, { color: "#C0C0D0" }]}>
+                          · Not started
+                        </Text>
                       )}
                     </View>
                   </View>
                   {done ? (
-                    <View style={[m.scorePill, {
-                      backgroundColor: t.score >= 80 ? '#D6F5D6' : t.score >= 60 ? '#FFF5CC' : '#FFE8D6',
-                    }]}>
-                      <Text style={[m.scoreText, {
-                        color: t.score >= 80 ? '#3D9A6A' : t.score >= 60 ? '#B8860B' : '#FF7043',
-                      }]}>{t.score}%</Text>
+                    <View
+                      style={[
+                        m.scorePill,
+                        {
+                          backgroundColor:
+                            t.score >= 80
+                              ? "#D6F5D6"
+                              : t.score >= 60
+                                ? "#FFF5CC"
+                                : "#FFE8D6",
+                        },
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          m.scoreText,
+                          {
+                            color:
+                              t.score >= 80
+                                ? "#3D9A6A"
+                                : t.score >= 60
+                                  ? "#B8860B"
+                                  : "#FF7043",
+                          },
+                        ]}
+                      >
+                        {t.score}%
+                      </Text>
                     </View>
                   ) : (
                     <View style={m.lockedPill}>
@@ -286,39 +511,64 @@ function SubjectModal({ subject, onClose }: { subject: SubjectDetail; onClose: (
 
 // ── Main Screen ───────────────────────────────────────────────────────────────
 // ── PARENT REPORTS ────────────────────────────────────────────────────────────
-const CHILD_COLORS_PR = ['#4A90E2', '#7DC67A', '#FF7043', '#9B8EC4', '#E6A020'];
+const CHILD_COLORS_PR = ["#4A90E2", "#7DC67A", "#FF7043", "#9B8EC4", "#E6A020"];
 type IconComp2 = React.ComponentType<{ size: number; color: string }>;
-const ACT_ICON_MAP: Record<string, IconComp2> = { content: BookOpen, quiz: Layers, assignment: ClipboardList };
-function ActIcon({ type, size = 18, color }: { type: string; size?: number; color: string }) {
+const ACT_ICON_MAP: Record<string, IconComp2> = {
+  content: BookOpen,
+  quiz: Layers,
+  assignment: ClipboardList,
+};
+function ActIcon({
+  type,
+  size = 18,
+  color,
+}: {
+  type: string;
+  size?: number;
+  color: string;
+}) {
   const Icon = ACT_ICON_MAP[type] ?? BookOpen;
   return <Icon size={size} color={color} />;
 }
-const STATUS_CLR: Record<string, string> = { completed: '#4CAF50', attempted: '#E6A020', pending: '#9A9AB0' };
-const DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const STATUS_CLR: Record<string, string> = {
+  completed: "#4CAF50",
+  attempted: "#E6A020",
+  pending: "#9A9AB0",
+};
+const DAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 function fmtSec(sec: number) {
-  if (sec >= 3600) return `${Math.floor(sec / 3600)}h ${Math.floor((sec % 3600) / 60)}m`;
+  if (sec >= 3600)
+    return `${Math.floor(sec / 3600)}h ${Math.floor((sec % 3600) / 60)}m`;
   if (sec >= 60) return `${Math.floor(sec / 60)}m`;
   return `${sec}s`;
 }
 
 function scoreGrade(pct: number): { label: string; color: string; bg: string } {
-  if (pct >= 90) return { label: 'Excellent', color: '#4CAF50', bg: '#E8F5E9' };
-  if (pct >= 75) return { label: 'Good', color: '#4A90E2', bg: '#D6EAFF' };
-  if (pct >= 50) return { label: 'Average', color: '#E6A020', bg: '#FFF5CC' };
-  return { label: 'Needs Work', color: '#FF7043', bg: '#FFE8D6' };
+  if (pct >= 90) return { label: "Excellent", color: "#4CAF50", bg: "#E8F5E9" };
+  if (pct >= 75) return { label: "Good", color: "#4A90E2", bg: "#D6EAFF" };
+  if (pct >= 50) return { label: "Average", color: "#E6A020", bg: "#FFF5CC" };
+  return { label: "Needs Work", color: "#FF7043", bg: "#FFE8D6" };
 }
 
 function getClassroomAvgScore(item: ClassroomRemarkItem): number {
-  const vals = [item.scoreBehavior, item.scoreConfidence, item.scoreParticipation, item.scorePerformance]
-    .filter((v): v is number => typeof v === 'number' && v >= 0);
+  const vals = [
+    item.scoreBehavior,
+    item.scoreConfidence,
+    item.scoreParticipation,
+    item.scorePerformance,
+  ].filter((v): v is number => typeof v === "number" && v >= 0);
   if (!vals.length) return 0;
   return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
 }
 
 // Proper labeled bar chart with y-axis, gridlines, value labels
 function ProperBarChart({
-  data, color, unit = '', yTicks = 4, height = 120,
+  data,
+  color,
+  unit = "",
+  yTicks = 4,
+  height = 120,
 }: {
   data: { label: string; value: number }[];
   color: string;
@@ -329,48 +579,102 @@ function ProperBarChart({
   const maxVal = Math.max(...data.map((d) => d.value), 1);
   // Round up max to a nice number
   const niceMax = Math.ceil(maxVal / yTicks) * yTicks || yTicks;
-  const ticks = Array.from({ length: yTicks + 1 }, (_, i) => Math.round((niceMax / yTicks) * i));
+  const ticks = Array.from({ length: yTicks + 1 }, (_, i) =>
+    Math.round((niceMax / yTicks) * i),
+  );
   const BAR_H = height;
   const Y_LABEL_W = 32;
   const hasData = data.some((d) => d.value > 0);
 
   return (
     <View style={{ paddingTop: 4 }}>
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: "row" }}>
         {/* Y-axis */}
-        <View style={{ width: Y_LABEL_W, height: BAR_H, justifyContent: 'space-between', alignItems: 'flex-end', paddingRight: 6 }}>
+        <View
+          style={{
+            width: Y_LABEL_W,
+            height: BAR_H,
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            paddingRight: 6,
+          }}
+        >
           {[...ticks].reverse().map((t) => (
-            <Text key={t} style={{ fontSize: 9, color: '#B0B0C8', fontWeight: '600' }}>
-              {t}{unit}
+            <Text
+              key={t}
+              style={{ fontSize: 9, color: "#B0B0C8", fontWeight: "600" }}
+            >
+              {t}
+              {unit}
             </Text>
           ))}
         </View>
         {/* Chart area */}
-        <View style={{ flex: 1, height: BAR_H, position: 'relative' }}>
+        <View style={{ flex: 1, height: BAR_H, position: "relative" }}>
           {/* Horizontal gridlines */}
           {ticks.map((t, i) => (
             <View
               key={t}
               style={{
-                position: 'absolute', left: 0, right: 0,
+                position: "absolute",
+                left: 0,
+                right: 0,
                 bottom: i === 0 ? 0 : (t / niceMax) * BAR_H,
                 height: 1,
-                backgroundColor: i === 0 ? '#D8D8E8' : '#F0F0F8',
+                backgroundColor: i === 0 ? "#D8D8E8" : "#F0F0F8",
               }}
             />
           ))}
           {/* Bars */}
-          <View style={{ flexDirection: 'row', alignItems: 'flex-end', height: '100%', gap: 4, paddingBottom: 1 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "flex-end",
+              height: "100%",
+              gap: 4,
+              paddingBottom: 1,
+            }}
+          >
             {data.map((d, i) => {
-              const barH = niceMax > 0 ? Math.max(d.value > 0 ? 4 : 0, (d.value / niceMax) * (BAR_H - 2)) : 0;
+              const barH =
+                niceMax > 0
+                  ? Math.max(
+                      d.value > 0 ? 4 : 0,
+                      (d.value / niceMax) * (BAR_H - 2),
+                    )
+                  : 0;
               return (
-                <View key={i} style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
+                <View
+                  key={i}
+                  style={{
+                    flex: 1,
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                    height: "100%",
+                  }}
+                >
                   {d.value > 0 && (
-                    <Text style={{ fontSize: 8, fontWeight: '800', color: color, marginBottom: 2 }}>
-                      {d.value}{unit}
+                    <Text
+                      style={{
+                        fontSize: 8,
+                        fontWeight: "800",
+                        color: color,
+                        marginBottom: 2,
+                      }}
+                    >
+                      {d.value}
+                      {unit}
                     </Text>
                   )}
-                  <View style={{ width: '75%', height: barH, borderRadius: 5, backgroundColor: d.value > 0 ? color : '#F0F0F8', opacity: d.value > 0 ? 1 : 0.5 }} />
+                  <View
+                    style={{
+                      width: "75%",
+                      height: barH,
+                      borderRadius: 5,
+                      backgroundColor: d.value > 0 ? color : "#F0F0F8",
+                      opacity: d.value > 0 ? 1 : 0.5,
+                    }}
+                  />
                 </View>
               );
             })}
@@ -378,15 +682,39 @@ function ProperBarChart({
         </View>
       </View>
       {/* X-axis labels */}
-      <View style={{ flexDirection: 'row', marginLeft: Y_LABEL_W, marginTop: 6, gap: 4 }}>
+      <View
+        style={{
+          flexDirection: "row",
+          marginLeft: Y_LABEL_W,
+          marginTop: 6,
+          gap: 4,
+        }}
+      >
         {data.map((d, i) => (
-          <Text key={i} style={{ flex: 1, textAlign: 'center', fontSize: 9, color: '#9A9AB0', fontWeight: '700' }}>
+          <Text
+            key={i}
+            style={{
+              flex: 1,
+              textAlign: "center",
+              fontSize: 9,
+              color: "#9A9AB0",
+              fontWeight: "700",
+            }}
+          >
             {d.label}
           </Text>
         ))}
       </View>
       {!hasData && (
-        <Text style={{ textAlign: 'center', fontSize: 12, color: '#C8C8D8', fontWeight: '600', marginTop: 8 }}>
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: 12,
+            color: "#C8C8D8",
+            fontWeight: "600",
+            marginTop: 8,
+          }}
+        >
           No data yet
         </Text>
       )}
@@ -395,33 +723,65 @@ function ProperBarChart({
 }
 
 // 7-day streak calendar grid
-function StreakCalendar({ activeDates, streakDays }: { activeDates: string[]; streakDays: number }) {
+function StreakCalendar({
+  activeDates,
+  streakDays,
+}: {
+  activeDates: string[];
+  streakDays: number;
+}) {
   const today = new Date();
   const days = Array.from({ length: 7 }, (_, i) => {
     const d = new Date(today);
     d.setDate(today.getDate() - (6 - i));
-    return { date: d.toISOString().split('T')[0], label: DAY_LABELS[d.getDay() === 0 ? 6 : d.getDay() - 1] };
+    return {
+      date: d.toISOString().split("T")[0],
+      label: DAY_LABELS[d.getDay() === 0 ? 6 : d.getDay() - 1],
+    };
   });
   const activeSet = new Set(activeDates);
   return (
-    <View style={{ flexDirection: 'row', gap: 6 }}>
+    <View style={{ flexDirection: "row", gap: 6 }}>
       {days.map(({ date, label }) => {
         const active = activeSet.has(date);
-        const isToday = date === today.toISOString().split('T')[0];
+        const isToday = date === today.toISOString().split("T")[0];
         return (
-          <View key={date} style={{ flex: 1, alignItems: 'center', gap: 4 }}>
-            <View style={{
-              width: '100%', aspectRatio: 1, borderRadius: 10,
-              backgroundColor: active ? '#4A90E2' : isToday ? '#EBF4FF' : '#F4F4FB',
-              alignItems: 'center', justifyContent: 'center',
-              borderWidth: isToday && !active ? 1.5 : 0,
-              borderColor: '#4A90E2',
-            }}>
-              <Text style={{ fontSize: 14, fontWeight: '900', color: active ? '#fff' : isToday ? '#4A90E2' : '#D0D0E0' }}>
-                {active ? '✓' : '–'}
+          <View key={date} style={{ flex: 1, alignItems: "center", gap: 4 }}>
+            <View
+              style={{
+                width: "100%",
+                aspectRatio: 1,
+                borderRadius: 10,
+                backgroundColor: active
+                  ? "#4A90E2"
+                  : isToday
+                    ? "#EBF4FF"
+                    : "#F4F4FB",
+                alignItems: "center",
+                justifyContent: "center",
+                borderWidth: isToday && !active ? 1.5 : 0,
+                borderColor: "#4A90E2",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: "900",
+                  color: active ? "#fff" : isToday ? "#4A90E2" : "#D0D0E0",
+                }}
+              >
+                {active ? "✓" : "–"}
               </Text>
             </View>
-            <Text style={{ fontSize: 9, color: active ? '#4A90E2' : '#C0C0D0', fontWeight: '700' }}>{label}</Text>
+            <Text
+              style={{
+                fontSize: 9,
+                color: active ? "#4A90E2" : "#C0C0D0",
+                fontWeight: "700",
+              }}
+            >
+              {label}
+            </Text>
           </View>
         );
       })}
@@ -431,25 +791,49 @@ function StreakCalendar({ activeDates, streakDays }: { activeDates: string[]; st
 
 // ── Quiz attempt detail types ─────────────────────────────────────────────────
 type QuizAttemptDetail = {
-  attempt: { id: string; quizTitle: string; classLevel: string | null; completedAt: string; scorePct: number; correctCount: number; totalQuestions: number };
+  attempt: {
+    id: string;
+    quizTitle: string;
+    classLevel: string | null;
+    completedAt: string;
+    scorePct: number;
+    correctCount: number;
+    totalQuestions: number;
+  };
   questions: Array<{
-    questionId: string; questionTitle: string | null; questionInstruction: string | null;
+    questionId: string;
+    questionTitle: string | null;
+    questionInstruction: string | null;
     questionType: string;
     questionData: {
       options?: Array<{ id: string; label?: string; is_correct?: boolean }>;
       pairs?: Array<{ id: number; label: string; imageUrl?: string }>;
-      grid?: string; sentence?: string; answer?: string;
+      grid?: string;
+      sentence?: string;
+      answer?: string;
       [k: string]: unknown;
     };
-    sortOrder: number | null; isCorrect: boolean;
+    sortOrder: number | null;
+    isCorrect: boolean;
     responseData: {
-      selected_id?: string; selected_ids?: string[];
+      selected_id?: string;
+      selected_ids?: string[];
       // memory_match
-      clicksUsed?: number; clickLimit?: number; pairsMatched?: number; totalPairs?: number;
-      accuracy?: number; correctMatches?: Array<{ pairId: number; label: string; imageUrl?: string }>;
-      wrongAttempts?: number; completed?: boolean;
+      clicksUsed?: number;
+      clickLimit?: number;
+      pairsMatched?: number;
+      totalPairs?: number;
+      accuracy?: number;
+      correctMatches?: Array<{
+        pairId: number;
+        label: string;
+        imageUrl?: string;
+      }>;
+      wrongAttempts?: number;
+      completed?: boolean;
       // fill_blank
-      selected?: string; answer?: string;
+      selected?: string;
+      answer?: string;
       [k: string]: unknown;
     };
   }>;
@@ -457,46 +841,78 @@ type QuizAttemptDetail = {
 
 // ── Tab definitions ───────────────────────────────────────────────────────────
 type IconComp = React.ComponentType<{ size: number; color: string }>;
-type ParentTab = 'overview' | 'quizzes' | 'assignments' | 'classroom' | 'activity';
+type ParentTab =
+  | "overview"
+  | "quizzes"
+  | "assignments"
+  | "classroom"
+  | "activity";
 const PARENT_TABS: Array<{ key: ParentTab; label: string; Icon: IconComp }> = [
-  { key: 'overview',    label: 'Overview',  Icon: BarChart2     },
-  { key: 'quizzes',     label: 'Quizzes',   Icon: Layers        },
-  { key: 'assignments', label: 'Tasks',     Icon: ClipboardList },
-  { key: 'classroom',   label: 'Classroom', Icon: School        },
-  { key: 'activity',    label: 'Activity',  Icon: Activity      },
+  { key: "overview", label: "Overview", Icon: BarChart2 },
+  { key: "quizzes", label: "Quizzes", Icon: Layers },
+  { key: "assignments", label: "Tasks", Icon: ClipboardList },
+  { key: "classroom", label: "Classroom", Icon: School },
+  { key: "activity", label: "Activity", Icon: Activity },
 ];
 
-function QuizKindBadge({ kind }: { kind?: 'classroom' | 'story' | 'subject' }) {
-  const config = kind === 'story'
-    ? { bg: '#EFE7FB', fg: '#7C3AED', label: 'Story' }
-    : kind === 'classroom'
-      ? { bg: '#DBEAFE', fg: '#1D4ED8', label: 'Classroom' }
-      : { bg: '#DCFCE7', fg: '#15803D', label: 'Subject' };
+function QuizKindBadge({ kind }: { kind?: "classroom" | "story" | "subject" }) {
+  const config =
+    kind === "story"
+      ? { bg: "#EFE7FB", fg: "#7C3AED", label: "Story" }
+      : kind === "classroom"
+        ? { bg: "#DBEAFE", fg: "#1D4ED8", label: "Classroom" }
+        : { bg: "#DCFCE7", fg: "#15803D", label: "Subject" };
   return (
-    <View style={{ paddingHorizontal: 6, paddingVertical: 2, borderRadius: 8, backgroundColor: config.bg }}>
-      <Text style={{ fontSize: 9, fontWeight: '900', color: config.fg, letterSpacing: 0.4 }}>{config.label}</Text>
+    <View
+      style={{
+        paddingHorizontal: 6,
+        paddingVertical: 2,
+        borderRadius: 8,
+        backgroundColor: config.bg,
+      }}
+    >
+      <Text
+        style={{
+          fontSize: 9,
+          fontWeight: "900",
+          color: config.fg,
+          letterSpacing: 0.4,
+        }}
+      >
+        {config.label}
+      </Text>
     </View>
   );
 }
 
 function ParentReports() {
   const {
-    linkedStudents, activeStudent,
-    loadingStudents, loadingActivity,
-    activity, analytics, quizAttempts, assignments, upcomingClassrooms, classroomRemarks,
-    switchToStudent, refreshAll, refreshQuizAttempts,
+    linkedStudents,
+    activeStudent,
+    loadingStudents,
+    loadingActivity,
+    activity,
+    analytics,
+    quizAttempts,
+    assignments,
+    upcomingClassrooms,
+    classroomRemarks,
+    switchToStudent,
+    refreshAll,
+    refreshQuizAttempts,
   } = useStudentProfile();
   const { apiFetch } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<ParentTab>('overview');
-  const prevTab = useRef<ParentTab>('overview');
+  const [activeTab, setActiveTab] = useState<ParentTab>("overview");
+  const prevTab = useRef<ParentTab>("overview");
   // Persisted "last seen at" timestamps per tab (ms since epoch, 0 = never)
   const [tabSeenAt, setTabSeenAt] = useState<Record<string, number>>({});
   const [showAllQuizzes, setShowAllQuizzes] = useState(false);
   const [showAllClassrooms, setShowAllClassrooms] = useState(false);
   const [historySeenAt, setHistorySeenAt] = useState<number | null>(null);
   const [quizDetail, setQuizDetail] = useState<QuizAttemptDetail | null>(null);
-  const [classroomDetail, setClassroomDetail] = useState<ClassroomRemarkItem | null>(null);
+  const [classroomDetail, setClassroomDetail] =
+    useState<ClassroomRemarkItem | null>(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
 
   const openQuizDetail = async (attemptId: string) => {
@@ -505,25 +921,40 @@ function ParentReports() {
     setQuizDetail(null);
     setShowAllQuizzes(false);
     try {
-      const res = await apiFetch(`/students/${activeStudent.id}/quiz-attempts/${attemptId}`);
+      const res = await apiFetch(
+        `/students/${activeStudent.id}/quiz-attempts/${attemptId}`,
+      );
       if (res.ok) setQuizDetail(await res.json());
-    } catch { /* silent */ } finally { setLoadingDetail(false); }
+    } catch {
+      /* silent */
+    } finally {
+      setLoadingDetail(false);
+    }
   };
 
   const openClassroomMedia = async (url?: string | null) => {
     if (!url) return;
     try {
       await Linking.openURL(url);
-    } catch { /* silent */ }
+    } catch {
+      /* silent */
+    }
   };
 
   const getDateTimeParts = (iso?: string | null) => {
-    if (!iso) return { date: '—', time: '—' };
+    if (!iso) return { date: "—", time: "—" };
     const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return { date: '—', time: '—' };
+    if (Number.isNaN(d.getTime())) return { date: "—", time: "—" };
     return {
-      date: d.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }),
-      time: d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }),
+      date: d.toLocaleDateString(undefined, {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }),
+      time: d.toLocaleTimeString(undefined, {
+        hour: "numeric",
+        minute: "2-digit",
+      }),
     };
   };
 
@@ -535,40 +966,53 @@ function ParentReports() {
     const d = new Date(today);
     d.setDate(today.getDate() - (6 - i));
     return {
-      date: d.toISOString().split('T')[0],
+      date: d.toISOString().split("T")[0],
       label: DAY_LABELS[d.getDay() === 0 ? 6 : d.getDay() - 1].slice(0, 2),
     };
   });
 
   const timeChartData = last7.map(({ date, label }) => {
-    const row = daily.find((r) => r.date?.toString().split('T')[0] === date);
+    const row = daily.find((r) => r.date?.toString().split("T")[0] === date);
     return { label, value: Math.round((row?.totalTimeSeconds ?? 0) / 60) };
   });
 
   const completionChartData = last7.map(({ date, label }) => {
-    const row = daily.find((r) => r.date?.toString().split('T')[0] === date);
+    const row = daily.find((r) => r.date?.toString().split("T")[0] === date);
     return { label, value: Math.round(row?.completionRate ?? 0) };
   });
 
   const activeDates = daily
     .filter((r) => (r.attemptedCount ?? 0) > 0)
-    .map((r) => r.date?.toString().split('T')[0] ?? '');
+    .map((r) => r.date?.toString().split("T")[0] ?? "");
 
-  const pendingAssignments = assignments.filter((a) => a.status === 'pending');
-  const submittedAssignments = assignments.filter((a) => a.status !== 'pending');
+  const pendingAssignments = assignments.filter((a) => a.status === "pending");
+  const submittedAssignments = assignments.filter(
+    (a) => a.status !== "pending",
+  );
   const activeClassrooms = classroomRemarks.active;
   const completedClassrooms = classroomRemarks.completed;
 
-  const historyStorageKey = activeStudent?.id ? `parent_history_seen_at:${activeStudent.id}` : null;
+  const historyStorageKey = activeStudent?.id
+    ? `parent_history_seen_at:${activeStudent.id}`
+    : null;
 
   useEffect(() => {
     let cancelled = false;
-    if (!historyStorageKey) { setHistorySeenAt(null); return; }
-    AsyncStorage.getItem(historyStorageKey).then((val) => {
-      if (cancelled) return;
-      setHistorySeenAt(val ? Number(val) : 0);
-    }).catch(() => { if (!cancelled) setHistorySeenAt(0); });
-    return () => { cancelled = true; };
+    if (!historyStorageKey) {
+      setHistorySeenAt(null);
+      return;
+    }
+    AsyncStorage.getItem(historyStorageKey)
+      .then((val) => {
+        if (cancelled) return;
+        setHistorySeenAt(val ? Number(val) : 0);
+      })
+      .catch(() => {
+        if (!cancelled) setHistorySeenAt(0);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [historyStorageKey]);
 
   const newEndedCount = useMemo(() => {
@@ -583,15 +1027,27 @@ function ParentReports() {
     setShowAllClassrooms(true);
     if (historyStorageKey) {
       const now = Date.now();
-      try { await AsyncStorage.setItem(historyStorageKey, String(now)); } catch (_e) { /* silent */ }
+      try {
+        await AsyncStorage.setItem(historyStorageKey, String(now));
+      } catch (_e) {
+        /* silent */
+      }
       setHistorySeenAt(now);
     }
   }, [historyStorageKey]);
 
   // Load persisted tab-seen timestamps whenever the active student changes
   useEffect(() => {
-    if (!activeStudent?.id) { setTabSeenAt({}); return; }
-    const tabs: ParentTab[] = ['quizzes', 'assignments', 'classroom', 'activity'];
+    if (!activeStudent?.id) {
+      setTabSeenAt({});
+      return;
+    }
+    const tabs: ParentTab[] = [
+      "quizzes",
+      "assignments",
+      "classroom",
+      "activity",
+    ];
     Promise.all(
       tabs.map((k) =>
         AsyncStorage.getItem(`parent_tab_seen2:${activeStudent.id}:${k}`)
@@ -601,54 +1057,72 @@ function ParentReports() {
     ).then((entries) => setTabSeenAt(Object.fromEntries(entries)));
   }, [activeStudent?.id]);
 
-  const markTabSeen = useCallback(async (tabKey: ParentTab) => {
-    if (!activeStudent?.id) return;
-    const now = Date.now();
-    setTabSeenAt((prev) => ({ ...prev, [tabKey]: now }));
-    try {
-      await AsyncStorage.setItem(`parent_tab_seen2:${activeStudent.id}:${tabKey}`, String(now));
-    } catch { /* silent */ }
-  }, [activeStudent?.id]);
+  const markTabSeen = useCallback(
+    async (tabKey: ParentTab) => {
+      if (!activeStudent?.id) return;
+      const now = Date.now();
+      setTabSeenAt((prev) => ({ ...prev, [tabKey]: now }));
+      try {
+        await AsyncStorage.setItem(
+          `parent_tab_seen2:${activeStudent.id}:${tabKey}`,
+          String(now),
+        );
+      } catch {
+        /* silent */
+      }
+    },
+    [activeStudent?.id],
+  );
 
   // Notification dots — only show for activity that arrived AFTER last visit to that tab
   const recentQuizCount = useMemo(() => {
-    const seenTs = tabSeenAt['quizzes'] ?? 0;
-    return quizAttempts.filter((a) => a.attemptedAt && new Date(a.attemptedAt).getTime() > seenTs).length;
+    const seenTs = tabSeenAt["quizzes"] ?? 0;
+    return quizAttempts.filter(
+      (a) => a.attemptedAt && new Date(a.attemptedAt).getTime() > seenTs,
+    ).length;
   }, [quizAttempts, tabSeenAt]);
 
   const newPendingCount = useMemo(() => {
-    const seenTs = tabSeenAt['assignments'] ?? 0;
+    const seenTs = tabSeenAt["assignments"] ?? 0;
     // show dot for assignments that appeared (approximated by load time) after last visit
     return seenTs === 0 ? pendingAssignments.length : 0;
   }, [pendingAssignments, tabSeenAt]);
 
-  const classroomCards = activeClassrooms.length > 0
-    ? activeClassrooms
-    : upcomingClassrooms.map((c) => ({
-        id: c.id,
-        title: c.title,
-        classLevel: c.classLevel,
-        status: c.status,
-        createdAt: new Date().toISOString(),
-        endedAt: null,
-        remarkText: null,
-        parentNote: null,
-        remarkMediaUrl: null,
-        scoreBehavior: null,
-        scoreConfidence: null,
-        scoreParticipation: null,
-        scorePerformance: null,
-        achievements: [],
-      } as ClassroomRemarkItem));
+  const classroomCards =
+    activeClassrooms.length > 0
+      ? activeClassrooms
+      : upcomingClassrooms.map(
+          (c) =>
+            ({
+              id: c.id,
+              title: c.title,
+              classLevel: c.classLevel,
+              status: c.status,
+              createdAt: new Date().toISOString(),
+              endedAt: null,
+              remarkText: null,
+              parentNote: null,
+              remarkMediaUrl: null,
+              scoreBehavior: null,
+              scoreConfidence: null,
+              scoreParticipation: null,
+              scorePerformance: null,
+              achievements: [],
+            }) as ClassroomRemarkItem,
+        );
 
   return (
     <View style={pr.screen}>
       {/* ── TOP BAR + STICKY TABS (always visible) ── */}
-      <View style={[pr.topBar, { paddingTop: Platform.OS === 'ios' ? 52 : 18 }]}>
+      <View
+        style={[pr.topBar, { paddingTop: Platform.OS === "ios" ? 52 : 18 }]}
+      >
         <View>
           <Text style={pr.topBarSub}>Learning Reports</Text>
           <Text style={pr.topBarTitle}>
-            {activeStudent ? `${activeStudent.firstName}'s Progress` : 'My Children'}
+            {activeStudent
+              ? `${activeStudent.firstName}'s Progress`
+              : "My Children"}
           </Text>
         </View>
         <Pressable style={pr.refreshBtn} onPress={refreshAll}>
@@ -657,33 +1131,86 @@ function ParentReports() {
       </View>
 
       {loadingStudents ? (
-        <View style={pr.centerBlock}><ActivityIndicator color="#4A90E2" size="large" /></View>
+        <View style={pr.centerBlock}>
+          <ActivityIndicator color="#4A90E2" size="large" />
+        </View>
       ) : !activeStudent ? (
         <View style={pr.centerBlock}>
           <SvgXml xml={PENGUIN} width={96} height={96} />
           <Text style={pr.emptyTitle}>No children linked yet</Text>
-          <Text style={pr.emptySub}>Ask your school admin to link your children to your account.</Text>
+          <Text style={pr.emptySub}>
+            Ask your school admin to link your children to your account.
+          </Text>
         </View>
       ) : (
         <View style={{ flex: 1 }}>
           {/* ── PINNED HEADER: child switcher + tab bar ── */}
           <View style={{ flexShrink: 0 }}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
               style={pr.switcherBar}
-              contentContainerStyle={{ gap: 10, paddingHorizontal: 16, paddingVertical: 10 }}>
+              contentContainerStyle={{
+                gap: 10,
+                paddingHorizontal: 16,
+                paddingVertical: 10,
+              }}
+            >
               {linkedStudents.map((child, idx) => {
                 const isActive = child.id === activeStudent?.id;
                 const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
                 return (
-                  <Pressable key={child.id} onPress={() => { switchToStudent(child.id); setActiveTab('overview'); }}
-                    style={[pr.childChip, isActive ? { backgroundColor: cc } : { backgroundColor: '#fff', borderWidth: 1.5, borderColor: cc }]}>
-                    <View style={[pr.childChipAvatar, { backgroundColor: isActive ? 'rgba(255,255,255,0.2)' : cc + '22' }]}>
-                      <User size={14} color={isActive ? '#fff' : cc} />
+                  <Pressable
+                    key={child.id}
+                    onPress={() => {
+                      switchToStudent(child.id);
+                      setActiveTab("overview");
+                    }}
+                    style={[
+                      pr.childChip,
+                      isActive
+                        ? { backgroundColor: cc }
+                        : {
+                            backgroundColor: "#fff",
+                            borderWidth: 1.5,
+                            borderColor: cc,
+                          },
+                    ]}
+                  >
+                    <View
+                      style={[
+                        pr.childChipAvatar,
+                        {
+                          backgroundColor: isActive
+                            ? "rgba(255,255,255,0.2)"
+                            : cc + "22",
+                        },
+                      ]}
+                    >
+                      <User size={14} color={isActive ? "#fff" : cc} />
                     </View>
                     <View>
-                      <Text style={[pr.childChipName, { color: isActive ? '#fff' : '#1a1a2e' }]}>{child.firstName}</Text>
-                      <Text style={[pr.childChipSub, { color: isActive ? 'rgba(255,255,255,0.7)' : '#9A9AB0' }]}>
-                        {child.classLevel ? `Class ${child.classLevel}` : 'No class'}
+                      <Text
+                        style={[
+                          pr.childChipName,
+                          { color: isActive ? "#fff" : "#1a1a2e" },
+                        ]}
+                      >
+                        {child.firstName}
+                      </Text>
+                      <Text
+                        style={[
+                          pr.childChipSub,
+                          {
+                            color: isActive
+                              ? "rgba(255,255,255,0.7)"
+                              : "#9A9AB0",
+                          },
+                        ]}
+                      >
+                        {child.classLevel
+                          ? `Class ${child.classLevel}`
+                          : "No class"}
                       </Text>
                     </View>
                     {isActive && <View style={pr.activeChipDot} />}
@@ -692,40 +1219,62 @@ function ParentReports() {
               })}
             </ScrollView>
 
-          {/* ── TAB BAR ── */}
-          <View style={pr.tabBar}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}
-              contentContainerStyle={pr.tabBarContent}>
-              {PARENT_TABS.map((tab) => {
-                const isCurrent = activeTab === tab.key;
-                const dotCount =
-                  tab.key === 'quizzes'     ? recentQuizCount
-                  : tab.key === 'assignments' ? newPendingCount
-                  : tab.key === 'classroom'   ? newEndedCount
-                  : 0;
-                return (
-                  <Pressable key={tab.key}
-                    onPress={() => {
-                      if (tab.key === 'quizzes' && prevTab.current !== 'quizzes') {
-                        refreshQuizAttempts();
-                      }
-                      prevTab.current = tab.key;
-                      setActiveTab(tab.key);
-                      markTabSeen(tab.key);
-                      if (tab.key === 'classroom') openHistoryModal();
-                    }}
-                    style={[pr.tabBtn, isCurrent && pr.tabBtnActive]}>
-                    <View style={pr.tabBtnIconWrap}>
-                      <tab.Icon size={16} color={isCurrent ? '#4A90E2' : '#9A9AB0'} />
-                      {dotCount > 0 && <View style={pr.tabDot} />}
-                    </View>
-                    <Text style={[pr.tabBtnText, isCurrent && pr.tabBtnTextActive]}>{tab.label}</Text>
-                  </Pressable>
-                );
-              })}
-            </ScrollView>
+            {/* ── TAB BAR ── */}
+            <View style={pr.tabBar}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={pr.tabBarContent}
+              >
+                {PARENT_TABS.map((tab) => {
+                  const isCurrent = activeTab === tab.key;
+                  const dotCount =
+                    tab.key === "quizzes"
+                      ? recentQuizCount
+                      : tab.key === "assignments"
+                        ? newPendingCount
+                        : tab.key === "classroom"
+                          ? newEndedCount
+                          : 0;
+                  return (
+                    <Pressable
+                      key={tab.key}
+                      onPress={() => {
+                        if (
+                          tab.key === "quizzes" &&
+                          prevTab.current !== "quizzes"
+                        ) {
+                          refreshQuizAttempts();
+                        }
+                        prevTab.current = tab.key;
+                        setActiveTab(tab.key);
+                        markTabSeen(tab.key);
+                        if (tab.key === "classroom") openHistoryModal();
+                      }}
+                      style={[pr.tabBtn, isCurrent && pr.tabBtnActive]}
+                    >
+                      <View style={pr.tabBtnIconWrap}>
+                        <tab.Icon
+                          size={16}
+                          color={isCurrent ? "#4A90E2" : "#9A9AB0"}
+                        />
+                        {dotCount > 0 && <View style={pr.tabDot} />}
+                      </View>
+                      <Text
+                        style={[
+                          pr.tabBtnText,
+                          isCurrent && pr.tabBtnTextActive,
+                        ]}
+                      >
+                        {tab.label}
+                      </Text>
+                    </Pressable>
+                  );
+                })}
+              </ScrollView>
+            </View>
           </View>
-          </View>{/* end pinned header */}
+          {/* end pinned header */}
 
           {/* ── TAB CONTENT ── */}
           <ScrollView
@@ -734,22 +1283,39 @@ function ParentReports() {
             contentContainerStyle={pr.scroll}
             showsVerticalScrollIndicator={false}
           >
-
             {/* OVERVIEW */}
-            {activeTab === 'overview' && (
+            {activeTab === "overview" && (
               <>
                 <View style={pr.heroBanner}>
                   <View style={pr.heroLeft}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 5,
+                      }}
+                    >
                       <BarChart2 size={11} color="rgba(255,255,255,0.65)" />
                       <Text style={pr.heroSup}>Overall Progress</Text>
                     </View>
-                    <Text style={pr.heroScore}>{sum ? sum.completionRate.toFixed(0) : 0}%</Text>
+                    <Text style={pr.heroScore}>
+                      {sum ? sum.completionRate.toFixed(0) : 0}%
+                    </Text>
                     <Text style={pr.heroLabel}>completion rate</Text>
                     <View style={pr.heroTrack}>
-                      <View style={[pr.heroFill, { width: `${Math.min(100, sum?.completionRate ?? 0)}%` }]} />
+                      <View
+                        style={[
+                          pr.heroFill,
+                          {
+                            width: `${Math.min(100, sum?.completionRate ?? 0)}%`,
+                          },
+                        ]}
+                      />
                     </View>
-                    <Text style={pr.heroMeta}>Class {activeStudent.classLevel ?? '—'} · {activeStudent.firstName}</Text>
+                    <Text style={pr.heroMeta}>
+                      Class {activeStudent.classLevel ?? "—"} ·{" "}
+                      {activeStudent.firstName}
+                    </Text>
                   </View>
                   <View style={pr.heroRight}>
                     <View style={pr.streakBadge}>
@@ -762,15 +1328,52 @@ function ParentReports() {
 
                 {sum && (
                   <View style={pr.statRow}>
-                    {([
-                      { Icon: Layers,      val: sum.attemptedCount,           label: 'Attempted', color: '#4A90E2', bg: '#D6EAFF' },
-                      { Icon: CheckCircle, val: sum.completedCount,           label: 'Completed', color: '#4CAF50', bg: '#D6F5D6' },
-                      { Icon: SkipForward, val: sum.notAttemptedCount,        label: 'Skipped',   color: '#FF7043', bg: '#FFE8D6' },
-                      { Icon: Clock,       val: fmtSec(sum.totalTimeSeconds), label: 'Time',      color: '#9B8EC4', bg: '#EDE4FF' },
-                    ] as Array<{ Icon: IconComp; val: string | number; label: string; color: string; bg: string }>).map((st) => (
-                      <View key={st.label} style={[pr.statCard, { backgroundColor: st.bg }]}>
+                    {(
+                      [
+                        {
+                          Icon: Layers,
+                          val: sum.attemptedCount,
+                          label: "Attempted",
+                          color: "#4A90E2",
+                          bg: "#D6EAFF",
+                        },
+                        {
+                          Icon: CheckCircle,
+                          val: sum.completedCount,
+                          label: "Completed",
+                          color: "#4CAF50",
+                          bg: "#D6F5D6",
+                        },
+                        {
+                          Icon: SkipForward,
+                          val: sum.notAttemptedCount,
+                          label: "Skipped",
+                          color: "#FF7043",
+                          bg: "#FFE8D6",
+                        },
+                        {
+                          Icon: Clock,
+                          val: fmtSec(sum.totalTimeSeconds),
+                          label: "Time",
+                          color: "#9B8EC4",
+                          bg: "#EDE4FF",
+                        },
+                      ] as Array<{
+                        Icon: IconComp;
+                        val: string | number;
+                        label: string;
+                        color: string;
+                        bg: string;
+                      }>
+                    ).map((st) => (
+                      <View
+                        key={st.label}
+                        style={[pr.statCard, { backgroundColor: st.bg }]}
+                      >
                         <st.Icon size={18} color={st.color} />
-                        <Text style={[pr.statVal, { color: st.color }]}>{st.val}</Text>
+                        <Text style={[pr.statVal, { color: st.color }]}>
+                          {st.val}
+                        </Text>
                         <Text style={pr.statLabel}>{st.label}</Text>
                       </View>
                     ))}
@@ -779,50 +1382,85 @@ function ParentReports() {
 
                 <View style={pr.sectionHdr}>
                   <Text style={pr.sectionHdrTitle}>Active Days This Week</Text>
-                  <Text style={pr.sectionHdrChip}>{activeDates.length}/7 active</Text>
+                  <Text style={pr.sectionHdrChip}>
+                    {activeDates.length}/7 active
+                  </Text>
                 </View>
                 <View style={pr.card}>
-                  <StreakCalendar activeDates={activeDates} streakDays={sum?.streakDays ?? 0} />
+                  <StreakCalendar
+                    activeDates={activeDates}
+                    streakDays={sum?.streakDays ?? 0}
+                  />
                   <View style={pr.cardFooter}>
                     <Text style={pr.cardFooterText}>Consistency score</Text>
-                    <Text style={[pr.cardFooterVal, { color: '#4A90E2' }]}>{sum ? sum.consistencyScore.toFixed(0) : 0}%</Text>
+                    <Text style={[pr.cardFooterVal, { color: "#4A90E2" }]}>
+                      {sum ? sum.consistencyScore.toFixed(0) : 0}%
+                    </Text>
                   </View>
                 </View>
 
                 <View style={pr.sectionHdr}>
                   <Text style={pr.sectionHdrTitle}>Time Spent per Day</Text>
-                  <Text style={pr.sectionHdrChip}>{fmtSec(sum?.totalTimeSeconds ?? 0)} total</Text>
+                  <Text style={pr.sectionHdrChip}>
+                    {fmtSec(sum?.totalTimeSeconds ?? 0)} total
+                  </Text>
                 </View>
                 <View style={pr.card}>
-                  <ProperBarChart data={timeChartData} color="#4A90E2" unit="m" yTicks={4} height={110} />
-                  <Text style={pr.chartNote}>Minutes of learning per day (last 7 days)</Text>
+                  <ProperBarChart
+                    data={timeChartData}
+                    color="#4A90E2"
+                    unit="m"
+                    yTicks={4}
+                    height={110}
+                  />
+                  <Text style={pr.chartNote}>
+                    Minutes of learning per day (last 7 days)
+                  </Text>
                 </View>
 
                 <View style={pr.sectionHdr}>
                   <Text style={pr.sectionHdrTitle}>Daily Completion Rate</Text>
-                  <Text style={pr.sectionHdrChip}>avg {sum ? sum.completionRate.toFixed(0) : 0}%</Text>
+                  <Text style={pr.sectionHdrChip}>
+                    avg {sum ? sum.completionRate.toFixed(0) : 0}%
+                  </Text>
                 </View>
                 <View style={pr.card}>
-                  <ProperBarChart data={completionChartData} color="#7DC67A" unit="%" yTicks={4} height={110} />
-                  <Text style={pr.chartNote}>Percentage of activities completed each day</Text>
+                  <ProperBarChart
+                    data={completionChartData}
+                    color="#7DC67A"
+                    unit="%"
+                    yTicks={4}
+                    height={110}
+                  />
+                  <Text style={pr.chartNote}>
+                    Percentage of activities completed each day
+                  </Text>
                 </View>
               </>
             )}
 
             {/* QUIZZES */}
-            {activeTab === 'quizzes' && (
+            {activeTab === "quizzes" && (
               <>
                 <View style={pr.sectionHdr}>
                   <Text style={pr.sectionHdrTitle}>Quiz Results</Text>
-                  <Text style={pr.sectionHdrChip}>{quizAttempts.length} attempt{quizAttempts.length !== 1 ? 's' : ''}</Text>
+                  <Text style={pr.sectionHdrChip}>
+                    {quizAttempts.length} attempt
+                    {quizAttempts.length !== 1 ? "s" : ""}
+                  </Text>
                 </View>
                 {loadingActivity ? (
-                  <ActivityIndicator color="#4A90E2" style={{ marginVertical: 24 }} />
+                  <ActivityIndicator
+                    color="#4A90E2"
+                    style={{ marginVertical: 24 }}
+                  />
                 ) : quizAttempts.length === 0 ? (
                   <View style={pr.emptyStateCard}>
                     <SvgXml xml={OWL} width={64} height={64} />
                     <Text style={pr.emptyStateTitle}>No Quiz Attempts Yet</Text>
-                    <Text style={pr.emptyStateText}>Encourage {activeStudent.firstName} to try a quiz!</Text>
+                    <Text style={pr.emptyStateText}>
+                      Encourage {activeStudent.firstName} to try a quiz!
+                    </Text>
                   </View>
                 ) : (
                   <>
@@ -830,27 +1468,69 @@ function ParentReports() {
                       const grade = scoreGrade(attempt.scorePct);
                       const attended = getDateTimeParts(attempt.attemptedAt);
                       return (
-                        <Pressable key={attempt.id} style={pr.quizCard} onPress={() => openQuizDetail(attempt.id)}>
-                          <View style={[pr.quizIconBox, { backgroundColor: '#EDE4FF' }]}>
+                        <Pressable
+                          key={attempt.id}
+                          style={pr.quizCard}
+                          onPress={() => openQuizDetail(attempt.id)}
+                        >
+                          <View
+                            style={[
+                              pr.quizIconBox,
+                              { backgroundColor: "#EDE4FF" },
+                            ]}
+                          >
                             <Layers size={22} color="#9B8EC4" />
                           </View>
                           <View style={pr.quizInfo}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                              <Text style={pr.quizTitle} numberOfLines={1}>{attempt.quizTitle}</Text>
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                gap: 6,
+                                flexWrap: "wrap",
+                              }}
+                            >
+                              <Text style={pr.quizTitle} numberOfLines={1}>
+                                {attempt.quizTitle}
+                              </Text>
                               <QuizKindBadge kind={attempt.kind} />
                             </View>
-                            <Text style={pr.quizMeta}>{attempt.correctCount}/{attempt.totalQuestions} correct</Text>
+                            <Text style={pr.quizMeta}>
+                              {attempt.correctCount}/{attempt.totalQuestions}{" "}
+                              correct
+                            </Text>
                             <View style={pr.inlineMetaRow}>
                               <Calendar size={11} color="#9A9AB0" />
-                              <Text style={pr.inlineMetaText}>{attended.date} · {attended.time}</Text>
+                              <Text style={pr.inlineMetaText}>
+                                {attended.date} · {attended.time}
+                              </Text>
                             </View>
                             <View style={pr.quizProgressTrack}>
-                              <View style={[pr.quizProgressFill, { width: `${attempt.scorePct}%`, backgroundColor: grade.color }]} />
+                              <View
+                                style={[
+                                  pr.quizProgressFill,
+                                  {
+                                    width: `${attempt.scorePct}%`,
+                                    backgroundColor: grade.color,
+                                  },
+                                ]}
+                              />
                             </View>
                           </View>
-                          <View style={[pr.scoreBadge, { backgroundColor: grade.bg }]}>
-                            <Text style={[pr.scoreNum, { color: grade.color }]}>{attempt.scorePct}%</Text>
-                            <Text style={[pr.scoreLabel, { color: grade.color }]}>{grade.label}</Text>
+                          <View
+                            style={[
+                              pr.scoreBadge,
+                              { backgroundColor: grade.bg },
+                            ]}
+                          >
+                            <Text style={[pr.scoreNum, { color: grade.color }]}>
+                              {attempt.scorePct}%
+                            </Text>
+                            <Text
+                              style={[pr.scoreLabel, { color: grade.color }]}
+                            >
+                              {grade.label}
+                            </Text>
                           </View>
                         </Pressable>
                       );
@@ -861,27 +1541,51 @@ function ParentReports() {
             )}
 
             {/* ASSIGNMENTS */}
-            {activeTab === 'assignments' && (
+            {activeTab === "assignments" && (
               <>
                 {pendingAssignments.length > 0 && (
                   <>
                     <View style={pr.sectionHdr}>
                       <Text style={pr.sectionHdrTitle}>Pending</Text>
                       <View style={pr.urgentBadge}>
-                        <Text style={pr.urgentBadgeText}>{pendingAssignments.length} due</Text>
+                        <Text style={pr.urgentBadgeText}>
+                          {pendingAssignments.length} due
+                        </Text>
                       </View>
                     </View>
                     {pendingAssignments.map((a) => (
-                      <View key={a.id} style={[pr.assignCard, { borderLeftWidth: 3, borderLeftColor: '#FF7043' }]}>
-                        <View style={[pr.assignIconBox, { backgroundColor: '#FFE8D6' }]}>
+                      <View
+                        key={a.id}
+                        style={[
+                          pr.assignCard,
+                          { borderLeftWidth: 3, borderLeftColor: "#FF7043" },
+                        ]}
+                      >
+                        <View
+                          style={[
+                            pr.assignIconBox,
+                            { backgroundColor: "#FFE8D6" },
+                          ]}
+                        >
                           <ClipboardList size={20} color="#FF7043" />
                         </View>
                         <View style={pr.assignInfo}>
-                          <Text style={pr.assignTitle} numberOfLines={1}>{a.title || 'Untitled Assignment'}</Text>
+                          <Text style={pr.assignTitle} numberOfLines={1}>
+                            {a.title || "Untitled Assignment"}
+                          </Text>
                           <Text style={pr.assignMeta}>Not submitted yet</Text>
                         </View>
-                        <View style={[pr.statusChip, { backgroundColor: '#FFE8D6' }]}>
-                          <Text style={[pr.statusChipText, { color: '#FF7043' }]}>Pending</Text>
+                        <View
+                          style={[
+                            pr.statusChip,
+                            { backgroundColor: "#FFE8D6" },
+                          ]}
+                        >
+                          <Text
+                            style={[pr.statusChipText, { color: "#FF7043" }]}
+                          >
+                            Pending
+                          </Text>
                         </View>
                       </View>
                     ))}
@@ -890,29 +1594,62 @@ function ParentReports() {
 
                 {submittedAssignments.length > 0 && (
                   <>
-                    <View style={[pr.sectionHdr, { marginTop: pendingAssignments.length > 0 ? 8 : 0 }]}>
+                    <View
+                      style={[
+                        pr.sectionHdr,
+                        { marginTop: pendingAssignments.length > 0 ? 8 : 0 },
+                      ]}
+                    >
                       <Text style={pr.sectionHdrTitle}>Submitted</Text>
-                      <Text style={pr.sectionHdrChip}>{submittedAssignments.length} done</Text>
+                      <Text style={pr.sectionHdrChip}>
+                        {submittedAssignments.length} done
+                      </Text>
                     </View>
                     {submittedAssignments.map((a) => {
-                      const grade = a.grade !== undefined ? scoreGrade(a.grade) : null;
+                      const grade =
+                        a.grade !== undefined ? scoreGrade(a.grade) : null;
                       const submitted = getDateTimeParts(a.submittedAt);
                       return (
                         <View key={a.id} style={pr.assignCard}>
-                          <View style={[pr.assignIconBox, { backgroundColor: '#D6F5D6' }]}>
+                          <View
+                            style={[
+                              pr.assignIconBox,
+                              { backgroundColor: "#D6F5D6" },
+                            ]}
+                          >
                             <CheckCircle size={20} color="#4CAF50" />
                           </View>
                           <View style={pr.assignInfo}>
-                            <Text style={pr.assignTitle} numberOfLines={1}>{a.title || 'Untitled Assignment'}</Text>
+                            <Text style={pr.assignTitle} numberOfLines={1}>
+                              {a.title || "Untitled Assignment"}
+                            </Text>
                             <View style={pr.inlineMetaRow}>
                               <Calendar size={11} color="#9A9AB0" />
-                              <Text style={pr.inlineMetaText}>{submitted.date}</Text>
+                              <Text style={pr.inlineMetaText}>
+                                {submitted.date}
+                              </Text>
                             </View>
-                            {a.feedback && <Text style={pr.assignFeedback} numberOfLines={1}>{a.feedback}</Text>}
+                            {a.feedback && (
+                              <Text style={pr.assignFeedback} numberOfLines={1}>
+                                {a.feedback}
+                              </Text>
+                            )}
                           </View>
                           {grade && (
-                            <View style={[pr.scoreBadge, { backgroundColor: grade.bg }]}>
-                              <Text style={[pr.scoreNum, { color: grade.color, fontSize: 14 }]}>{a.grade}%</Text>
+                            <View
+                              style={[
+                                pr.scoreBadge,
+                                { backgroundColor: grade.bg },
+                              ]}
+                            >
+                              <Text
+                                style={[
+                                  pr.scoreNum,
+                                  { color: grade.color, fontSize: 14 },
+                                ]}
+                              >
+                                {a.grade}%
+                              </Text>
                             </View>
                           )}
                         </View>
@@ -925,23 +1662,39 @@ function ParentReports() {
                   <View style={pr.emptyStateCard}>
                     <SvgXml xml={ELEPHANT} width={64} height={64} />
                     <Text style={pr.emptyStateTitle}>No Assignments Found</Text>
-                    <Text style={pr.emptyStateText}>No assignments found for {activeStudent.firstName}.</Text>
+                    <Text style={pr.emptyStateText}>
+                      No assignments found for {activeStudent.firstName}.
+                    </Text>
                   </View>
                 )}
               </>
             )}
 
             {/* CLASSROOM */}
-            {activeTab === 'classroom' && (
+            {activeTab === "classroom" && (
               <>
                 <View style={pr.sectionHdr}>
                   <Text style={pr.sectionHdrTitle}>Active Classes</Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                    <Text style={pr.sectionHdrChip}>{classroomCards.length} active</Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 8,
+                    }}
+                  >
+                    <Text style={pr.sectionHdrChip}>
+                      {classroomCards.length} active
+                    </Text>
                     {completedClassrooms.length > 0 && (
-                      <Pressable style={pr.historyIconBtn} onPress={openHistoryModal} hitSlop={10}>
+                      <Pressable
+                        style={pr.historyIconBtn}
+                        onPress={openHistoryModal}
+                        hitSlop={10}
+                      >
                         <History size={16} color="#4A90E2" />
-                        {newEndedCount > 0 && <View style={pr.historyIconDot} />}
+                        {newEndedCount > 0 && (
+                          <View style={pr.historyIconDot} />
+                        )}
                       </Pressable>
                     )}
                   </View>
@@ -950,7 +1703,9 @@ function ParentReports() {
                   <View style={pr.emptyStateCard}>
                     <SvgXml xml={GIRAFFE} width={64} height={64} />
                     <Text style={pr.emptyStateTitle}>No Active Classrooms</Text>
-                    <Text style={pr.emptyStateText}>No classroom updates yet.</Text>
+                    <Text style={pr.emptyStateText}>
+                      No classroom updates yet.
+                    </Text>
                   </View>
                 ) : (
                   classroomCards.map((cls, idx) => {
@@ -958,26 +1713,73 @@ function ParentReports() {
                     const avg = getClassroomAvgScore(cls);
                     const grade = scoreGrade(avg);
                     return (
-                      <Pressable key={cls.id} style={pr.classCard} onPress={() => setClassroomDetail(cls)}>
-                        <View style={[pr.classIconBox, { backgroundColor: cc + '22' }]}>
+                      <Pressable
+                        key={cls.id}
+                        style={pr.classCard}
+                        onPress={() => setClassroomDetail(cls)}
+                      >
+                        <View
+                          style={[
+                            pr.classIconBox,
+                            { backgroundColor: cc + "22" },
+                          ]}
+                        >
                           <Text style={{ fontSize: 22 }}>📚</Text>
                         </View>
                         <View style={pr.classInfo}>
-                          <Text style={pr.classTitle} numberOfLines={1}>{cls.title}</Text>
-                          <Text style={pr.classMeta}>Class {cls.classLevel} · {cls.status}</Text>
+                          <Text style={pr.classTitle} numberOfLines={1}>
+                            {cls.title}
+                          </Text>
+                          <Text style={pr.classMeta}>
+                            Class {cls.classLevel} · {cls.status}
+                          </Text>
                           <Text style={pr.classDesc} numberOfLines={1}>
-                            {cls.remarkText ? `Teacher: ${cls.remarkText}` : 'Tap to see insights and teacher notes'}
+                            {cls.remarkText
+                              ? `Teacher: ${cls.remarkText}`
+                              : "Tap to see insights and teacher notes"}
                           </Text>
                         </View>
-                        <View style={{ alignItems: 'flex-end', gap: 6 }}>
-                          <View style={[pr.classStatusBadge, { backgroundColor: cls.status === 'active' ? '#D6F5D6' : '#F0F0F8' }]}>
-                            <Text style={[pr.classStatusText, { color: cls.status === 'active' ? '#4CAF50' : '#9A9AB0' }]}>
-                              {cls.status === 'active' ? 'Active' : cls.status}
+                        <View style={{ alignItems: "flex-end", gap: 6 }}>
+                          <View
+                            style={[
+                              pr.classStatusBadge,
+                              {
+                                backgroundColor:
+                                  cls.status === "active"
+                                    ? "#D6F5D6"
+                                    : "#F0F0F8",
+                              },
+                            ]}
+                          >
+                            <Text
+                              style={[
+                                pr.classStatusText,
+                                {
+                                  color:
+                                    cls.status === "active"
+                                      ? "#4CAF50"
+                                      : "#9A9AB0",
+                                },
+                              ]}
+                            >
+                              {cls.status === "active" ? "Active" : cls.status}
                             </Text>
                           </View>
                           {avg > 0 && (
-                            <View style={[pr.smallGradeBadge, { backgroundColor: grade.bg }]}>
-                              <Text style={[pr.smallGradeText, { color: grade.color }]}>{avg}%</Text>
+                            <View
+                              style={[
+                                pr.smallGradeBadge,
+                                { backgroundColor: grade.bg },
+                              ]}
+                            >
+                              <Text
+                                style={[
+                                  pr.smallGradeText,
+                                  { color: grade.color },
+                                ]}
+                              >
+                                {avg}%
+                              </Text>
                             </View>
                           )}
                         </View>
@@ -989,41 +1791,70 @@ function ParentReports() {
             )}
 
             {/* ACTIVITY */}
-            {activeTab === 'activity' && (
+            {activeTab === "activity" && (
               <>
                 <View style={pr.sectionHdr}>
                   <Text style={pr.sectionHdrTitle}>Recent Activity</Text>
                   <Text style={pr.sectionHdrChip}>{activity.length} total</Text>
                 </View>
                 {loadingActivity ? (
-                  <ActivityIndicator color="#4A90E2" style={{ marginVertical: 24 }} />
+                  <ActivityIndicator
+                    color="#4A90E2"
+                    style={{ marginVertical: 24 }}
+                  />
                 ) : activity.length === 0 ? (
                   <View style={pr.emptyStateCard}>
                     <SvgXml xml={BUTTERFLY} width={64} height={64} />
                     <Text style={pr.emptyStateTitle}>No Activity Yet</Text>
-                    <Text style={pr.emptyStateText}>No activity recorded for {activeStudent.firstName}.</Text>
+                    <Text style={pr.emptyStateText}>
+                      No activity recorded for {activeStudent.firstName}.
+                    </Text>
                   </View>
                 ) : (
                   activity.map((item) => {
-                    const dotColor = STATUS_CLR[item.status] ?? '#9A9AB0';
+                    const dotColor = STATUS_CLR[item.status] ?? "#9A9AB0";
                     return (
                       <View key={item.id} style={pr.actCard}>
-                        <View style={[pr.actIconBox, { backgroundColor: dotColor + '22' }]}>
-                          <ActIcon type={item.activityType} size={18} color={dotColor} />
+                        <View
+                          style={[
+                            pr.actIconBox,
+                            { backgroundColor: dotColor + "22" },
+                          ]}
+                        >
+                          <ActIcon
+                            type={item.activityType}
+                            size={18}
+                            color={dotColor}
+                          />
                         </View>
                         <View style={pr.actInfo}>
-                          <Text style={pr.actTitle} numberOfLines={1}>{item.referenceTitle ?? item.activityType}</Text>
+                          <Text style={pr.actTitle} numberOfLines={1}>
+                            {item.referenceTitle ?? item.activityType}
+                          </Text>
                           <Text style={pr.actMeta}>
                             {item.activityDate}
-                            {item.score !== undefined ? ` · Score: ${item.score}%` : ''}
+                            {item.score !== undefined
+                              ? ` · Score: ${item.score}%`
+                              : ""}
                           </Text>
                         </View>
-                        <View style={{ alignItems: 'flex-end', gap: 4 }}>
-                          <View style={[pr.statusChip, { backgroundColor: dotColor + '22' }]}>
-                            <Text style={[pr.statusChipText, { color: dotColor }]}>{item.status}</Text>
+                        <View style={{ alignItems: "flex-end", gap: 4 }}>
+                          <View
+                            style={[
+                              pr.statusChip,
+                              { backgroundColor: dotColor + "22" },
+                            ]}
+                          >
+                            <Text
+                              style={[pr.statusChipText, { color: dotColor }]}
+                            >
+                              {item.status}
+                            </Text>
                           </View>
                           {item.timeSpentSeconds > 0 && (
-                            <Text style={pr.actTime}>{fmtSec(item.timeSpentSeconds)}</Text>
+                            <Text style={pr.actTime}>
+                              {fmtSec(item.timeSpentSeconds)}
+                            </Text>
                           )}
                         </View>
                       </View>
@@ -1032,39 +1863,73 @@ function ParentReports() {
                 )}
               </>
             )}
-
           </ScrollView>
         </View>
       )}
 
       {/* ── VIEW ALL QUIZZES MODAL ── */}
-      <Modal visible={showAllQuizzes} animationType="slide" transparent onRequestClose={() => setShowAllQuizzes(false)}>
+      <Modal
+        visible={showAllQuizzes}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setShowAllQuizzes(false)}
+      >
         <View style={pr.modalOverlay}>
           <View style={pr.modalSheet}>
             <View style={pr.modalHeader}>
               <View>
                 <Text style={pr.modalTitle}>All Quiz Attempts</Text>
-                <Text style={pr.modalSub}>{activeStudent?.firstName} · {quizAttempts.length} total</Text>
+                <Text style={pr.modalSub}>
+                  {activeStudent?.firstName} · {quizAttempts.length} total
+                </Text>
               </View>
-              <Pressable style={pr.modalClose} onPress={() => setShowAllQuizzes(false)}>
+              <Pressable
+                style={pr.modalClose}
+                onPress={() => setShowAllQuizzes(false)}
+              >
                 <X size={18} color="#9A9AB0" />
               </Pressable>
             </View>
-            <ScrollView contentContainerStyle={{ paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
+            <ScrollView
+              contentContainerStyle={{ paddingBottom: 32 }}
+              showsVerticalScrollIndicator={false}
+            >
               {quizAttempts.map((attempt, idx) => {
                 const grade = scoreGrade(attempt.scorePct);
                 const attended = getDateTimeParts(attempt.attemptedAt);
                 return (
-                  <Pressable key={attempt.id} style={pr.modalQuizRow} onPress={() => openQuizDetail(attempt.id)}>
+                  <Pressable
+                    key={attempt.id}
+                    style={pr.modalQuizRow}
+                    onPress={() => openQuizDetail(attempt.id)}
+                  >
                     <View style={pr.modalQuizNum}>
-                      <Text style={{ fontSize: 12, fontWeight: '800', color: '#9A9AB0' }}>#{idx + 1}</Text>
+                      <Text
+                        style={{
+                          fontSize: 12,
+                          fontWeight: "800",
+                          color: "#9A9AB0",
+                        }}
+                      >
+                        #{idx + 1}
+                      </Text>
                     </View>
                     <View style={pr.quizInfo}>
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                        <Text style={pr.quizTitle} numberOfLines={1}>{attempt.quizTitle}</Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 6,
+                        }}
+                      >
+                        <Text style={pr.quizTitle} numberOfLines={1}>
+                          {attempt.quizTitle}
+                        </Text>
                         <QuizKindBadge kind={attempt.kind} />
                       </View>
-                      <Text style={pr.quizMeta}>{attempt.correctCount}/{attempt.totalQuestions} correct</Text>
+                      <Text style={pr.quizMeta}>
+                        {attempt.correctCount}/{attempt.totalQuestions} correct
+                      </Text>
                       <View style={pr.metaInfoStack}>
                         <View style={pr.metaInfoRow}>
                           <Calendar size={12} color="#9A9AB0" />
@@ -1078,9 +1943,15 @@ function ParentReports() {
                         </View>
                       </View>
                     </View>
-                    <View style={[pr.scoreBadge, { backgroundColor: grade.bg }]}>
-                      <Text style={[pr.scoreNum, { color: grade.color }]}>{attempt.scorePct}%</Text>
-                      <Text style={[pr.scoreLabel, { color: grade.color }]}>{grade.label}</Text>
+                    <View
+                      style={[pr.scoreBadge, { backgroundColor: grade.bg }]}
+                    >
+                      <Text style={[pr.scoreNum, { color: grade.color }]}>
+                        {attempt.scorePct}%
+                      </Text>
+                      <Text style={[pr.scoreLabel, { color: grade.color }]}>
+                        {grade.label}
+                      </Text>
                     </View>
                   </Pressable>
                 );
@@ -1091,32 +1962,69 @@ function ParentReports() {
       </Modal>
 
       {/* ── VIEW ALL CLASSROOM HISTORY MODAL ── */}
-      <Modal visible={showAllClassrooms} animationType="slide" transparent onRequestClose={() => setShowAllClassrooms(false)}>
+      <Modal
+        visible={showAllClassrooms}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setShowAllClassrooms(false)}
+      >
         <View style={pr.modalOverlay}>
           <View style={pr.modalSheet}>
             <View style={pr.modalHeader}>
               <View>
                 <Text style={pr.modalTitle}>Classroom History</Text>
-                <Text style={pr.modalSub}>{activeStudent?.firstName} · {completedClassrooms.length} ended classes</Text>
+                <Text style={pr.modalSub}>
+                  {activeStudent?.firstName} · {completedClassrooms.length}{" "}
+                  ended classes
+                </Text>
               </View>
-              <Pressable style={pr.modalClose} onPress={() => setShowAllClassrooms(false)}>
+              <Pressable
+                style={pr.modalClose}
+                onPress={() => setShowAllClassrooms(false)}
+              >
                 <X size={18} color="#9A9AB0" />
               </Pressable>
             </View>
-            <ScrollView contentContainerStyle={{ paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
+            <ScrollView
+              contentContainerStyle={{ paddingBottom: 32 }}
+              showsVerticalScrollIndicator={false}
+            >
               {completedClassrooms.map((cls, idx) => (
-                <Pressable key={cls.id} style={pr.modalQuizRow} onPress={() => { setShowAllClassrooms(false); setClassroomDetail(cls); }}>
+                <Pressable
+                  key={cls.id}
+                  style={pr.modalQuizRow}
+                  onPress={() => {
+                    setShowAllClassrooms(false);
+                    setClassroomDetail(cls);
+                  }}
+                >
                   <View style={pr.modalQuizNum}>
-                    <Text style={{ fontSize: 12, fontWeight: '800', color: '#9A9AB0' }}>#{idx + 1}</Text>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: "800",
+                        color: "#9A9AB0",
+                      }}
+                    >
+                      #{idx + 1}
+                    </Text>
                   </View>
                   <View style={pr.quizInfo}>
-                    <Text style={pr.quizTitle} numberOfLines={1}>{cls.title}</Text>
+                    <Text style={pr.quizTitle} numberOfLines={1}>
+                      {cls.title}
+                    </Text>
                     <Text style={pr.quizMeta}>
-                      Ended {cls.endedAt ? new Date(cls.endedAt).toLocaleDateString() : '—'} · Class {cls.classLevel}
+                      Ended{" "}
+                      {cls.endedAt
+                        ? new Date(cls.endedAt).toLocaleDateString()
+                        : "—"}{" "}
+                      · Class {cls.classLevel}
                     </Text>
                   </View>
                   <View style={pr.classStatusBadge}>
-                    <Text style={[pr.classStatusText, { color: '#4A90E2' }]}>Details</Text>
+                    <Text style={[pr.classStatusText, { color: "#4A90E2" }]}>
+                      Details
+                    </Text>
                   </View>
                 </Pressable>
               ))}
@@ -1126,32 +2034,66 @@ function ParentReports() {
       </Modal>
 
       {/* ── CLASSROOM DETAIL MODAL ── */}
-      <Modal visible={!!classroomDetail} animationType="slide" transparent onRequestClose={() => setClassroomDetail(null)}>
+      <Modal
+        visible={!!classroomDetail}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setClassroomDetail(null)}
+      >
         <View style={pr.modalOverlay}>
           <View style={pr.modalSheet}>
             {classroomDetail && (
               <>
                 <View style={pr.modalHeader}>
                   <View style={{ flex: 1, paddingRight: 12 }}>
-                    <Text style={pr.modalTitle} numberOfLines={2}>{classroomDetail.title}</Text>
+                    <Text style={pr.modalTitle} numberOfLines={2}>
+                      {classroomDetail.title}
+                    </Text>
                     <Text style={pr.modalSub}>
-                      Class {classroomDetail.classLevel} · {classroomDetail.status}
-                      {classroomDetail.endedAt ? ` · ${new Date(classroomDetail.endedAt).toLocaleDateString()}` : ''}
+                      Class {classroomDetail.classLevel} ·{" "}
+                      {classroomDetail.status}
+                      {classroomDetail.endedAt
+                        ? ` · ${new Date(classroomDetail.endedAt).toLocaleDateString()}`
+                        : ""}
                     </Text>
                   </View>
-                  <Pressable style={pr.modalClose} onPress={() => setClassroomDetail(null)}>
+                  <Pressable
+                    style={pr.modalClose}
+                    onPress={() => setClassroomDetail(null)}
+                  >
                     <X size={18} color="#9A9AB0" />
                   </Pressable>
                 </View>
-                <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32, gap: 12 }} showsVerticalScrollIndicator={false}>
+                <ScrollView
+                  contentContainerStyle={{
+                    paddingHorizontal: 16,
+                    paddingBottom: 32,
+                    gap: 12,
+                  }}
+                  showsVerticalScrollIndicator={false}
+                >
                   <View style={pr.detailPanel}>
-                    <Text style={pr.detailPanelTitle}>Classroom performance</Text>
+                    <Text style={pr.detailPanelTitle}>
+                      Classroom performance
+                    </Text>
                     <ProperBarChart
                       data={[
-                        { label: 'Beh', value: classroomDetail.scoreBehavior ?? 0 },
-                        { label: 'Conf', value: classroomDetail.scoreConfidence ?? 0 },
-                        { label: 'Part', value: classroomDetail.scoreParticipation ?? 0 },
-                        { label: 'Perf', value: classroomDetail.scorePerformance ?? 0 },
+                        {
+                          label: "Beh",
+                          value: classroomDetail.scoreBehavior ?? 0,
+                        },
+                        {
+                          label: "Conf",
+                          value: classroomDetail.scoreConfidence ?? 0,
+                        },
+                        {
+                          label: "Part",
+                          value: classroomDetail.scoreParticipation ?? 0,
+                        },
+                        {
+                          label: "Perf",
+                          value: classroomDetail.scorePerformance ?? 0,
+                        },
                       ]}
                       color="#4A90E2"
                       unit="%"
@@ -1163,12 +2105,17 @@ function ParentReports() {
                   <View style={pr.detailPanel}>
                     <Text style={pr.detailPanelTitle}>Teacher remarks</Text>
                     <Text style={pr.detailBodyText}>
-                      {classroomDetail.remarkText || 'No teacher remark added yet.'}
+                      {classroomDetail.remarkText ||
+                        "No teacher remark added yet."}
                     </Text>
                     {classroomDetail.parentNote && (
                       <>
-                        <Text style={[pr.detailPanelTitle, { marginTop: 10 }]}>Note for parent</Text>
-                        <Text style={pr.detailBodyText}>{classroomDetail.parentNote}</Text>
+                        <Text style={[pr.detailPanelTitle, { marginTop: 10 }]}>
+                          Note for parent
+                        </Text>
+                        <Text style={pr.detailBodyText}>
+                          {classroomDetail.parentNote}
+                        </Text>
                       </>
                     )}
                   </View>
@@ -1176,13 +2123,26 @@ function ParentReports() {
                   <View style={pr.detailPanel}>
                     <Text style={pr.detailPanelTitle}>Achievements</Text>
                     {classroomDetail.achievements.length === 0 ? (
-                      <Text style={pr.detailBodyText}>No achievements recorded yet.</Text>
+                      <Text style={pr.detailBodyText}>
+                        No achievements recorded yet.
+                      </Text>
                     ) : (
                       <View style={pr.achievementWrap}>
                         {classroomDetail.achievements.map((a) => (
-                          <View key={a.id} style={[pr.achievementChip, { backgroundColor: `${a.color}22` }]}>
+                          <View
+                            key={a.id}
+                            style={[
+                              pr.achievementChip,
+                              { backgroundColor: `${a.color}22` },
+                            ]}
+                          >
                             <Text style={pr.achievementEmoji}>{a.emoji}</Text>
-                            <Text style={[pr.achievementText, { color: a.color }]} numberOfLines={1}>{a.name}</Text>
+                            <Text
+                              style={[pr.achievementText, { color: a.color }]}
+                              numberOfLines={1}
+                            >
+                              {a.name}
+                            </Text>
                           </View>
                         ))}
                       </View>
@@ -1191,11 +2151,24 @@ function ParentReports() {
 
                   {classroomDetail.remarkMediaUrl && (
                     <View style={pr.detailPanel}>
-                      <Text style={pr.detailPanelTitle}>Teacher shared media</Text>
-                      {/\.(png|jpe?g|gif|webp)$/i.test(classroomDetail.remarkMediaUrl) && (
-                        <Image source={{ uri: classroomDetail.remarkMediaUrl }} style={pr.mediaPreview} resizeMode="cover" />
+                      <Text style={pr.detailPanelTitle}>
+                        Teacher shared media
+                      </Text>
+                      {/\.(png|jpe?g|gif|webp)$/i.test(
+                        classroomDetail.remarkMediaUrl,
+                      ) && (
+                        <Image
+                          source={{ uri: classroomDetail.remarkMediaUrl }}
+                          style={pr.mediaPreview}
+                          resizeMode="cover"
+                        />
                       )}
-                      <Pressable style={pr.mediaBtn} onPress={() => openClassroomMedia(classroomDetail.remarkMediaUrl)}>
+                      <Pressable
+                        style={pr.mediaBtn}
+                        onPress={() =>
+                          openClassroomMedia(classroomDetail.remarkMediaUrl)
+                        }
+                      >
                         <Text style={pr.mediaBtnText}>Open Media</Text>
                       </Pressable>
                     </View>
@@ -1208,303 +2181,888 @@ function ParentReports() {
       </Modal>
 
       {/* ── QUIZ DETAIL MODAL ── */}
-      <Modal visible={!!quizDetail || loadingDetail} animationType="slide" transparent onRequestClose={() => setQuizDetail(null)}>
+      <Modal
+        visible={!!quizDetail || loadingDetail}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setQuizDetail(null)}
+      >
         <View style={pr.modalOverlay}>
           <View style={pr.modalSheet}>
             {loadingDetail ? (
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 60 }}>
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  paddingVertical: 60,
+                }}
+              >
                 <ActivityIndicator size="large" color="#4A90E2" />
-                <Text style={{ marginTop: 12, color: '#9A9AB0', fontWeight: '600' }}>Loading questions…</Text>
+                <Text
+                  style={{ marginTop: 12, color: "#9A9AB0", fontWeight: "600" }}
+                >
+                  Loading questions…
+                </Text>
               </View>
             ) : quizDetail ? (
               <>
                 {(() => {
-                  const attended = getDateTimeParts(quizDetail.attempt.completedAt);
+                  const attended = getDateTimeParts(
+                    quizDetail.attempt.completedAt,
+                  );
                   return (
-                <View style={pr.modalHeader}>
-                  <View style={{ flex: 1, paddingRight: 12 }}>
-                    <Text style={pr.modalTitle} numberOfLines={2}>{quizDetail.attempt.quizTitle}</Text>
-                    <Text style={pr.modalSub}>{quizDetail.attempt.correctCount}/{quizDetail.attempt.totalQuestions} correct · {quizDetail.attempt.scorePct}%</Text>
-                    <View style={pr.modalMetaStack}>
-                      <View style={pr.modalMetaRow}>
-                        <Calendar size={12} color="#9A9AB0" />
-                        <Text style={pr.modalMetaLabel}>Date:</Text>
-                        <Text style={pr.modalMetaValue}>{attended.date}</Text>
+                    <View style={pr.modalHeader}>
+                      <View style={{ flex: 1, paddingRight: 12 }}>
+                        <Text style={pr.modalTitle} numberOfLines={2}>
+                          {quizDetail.attempt.quizTitle}
+                        </Text>
+                        <Text style={pr.modalSub}>
+                          {quizDetail.attempt.correctCount}/
+                          {quizDetail.attempt.totalQuestions} correct ·{" "}
+                          {quizDetail.attempt.scorePct}%
+                        </Text>
+                        <View style={pr.modalMetaStack}>
+                          <View style={pr.modalMetaRow}>
+                            <Calendar size={12} color="#9A9AB0" />
+                            <Text style={pr.modalMetaLabel}>Date:</Text>
+                            <Text style={pr.modalMetaValue}>
+                              {attended.date}
+                            </Text>
+                          </View>
+                          <View style={pr.modalMetaRow}>
+                            <Clock size={12} color="#9A9AB0" />
+                            <Text style={pr.modalMetaLabel}>Time:</Text>
+                            <Text style={pr.modalMetaValue}>
+                              {attended.time}
+                            </Text>
+                          </View>
+                        </View>
                       </View>
-                      <View style={pr.modalMetaRow}>
-                        <Clock size={12} color="#9A9AB0" />
-                        <Text style={pr.modalMetaLabel}>Time:</Text>
-                        <Text style={pr.modalMetaValue}>{attended.time}</Text>
-                      </View>
+                      <Pressable
+                        style={pr.modalClose}
+                        onPress={() => setQuizDetail(null)}
+                      >
+                        <X size={18} color="#9A9AB0" />
+                      </Pressable>
                     </View>
-                  </View>
-                  <Pressable style={pr.modalClose} onPress={() => setQuizDetail(null)}>
-                    <X size={18} color="#9A9AB0" />
-                  </Pressable>
-                </View>
                   );
                 })()}
-                <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
+                <ScrollView
+                  contentContainerStyle={{
+                    paddingHorizontal: 16,
+                    paddingBottom: 32,
+                  }}
+                  showsVerticalScrollIndicator={false}
+                >
                   {quizDetail.questions.map((q, i) => {
-                    const qType    = q.questionType;
-                    const isMemory = qType === 'memory_match';
-                    const isFill   = qType === 'fill_blank' || qType === 'fill_in_blank';
-                    const isJigsaw = qType === 'jigsaw' || qType === 'jigsaw_puzzle';
-                    const options  = (q.questionData.options ?? []) as Array<{ id: string; label?: string; is_correct?: boolean }>;
-                    const selectedId  = q.responseData.selected_id;
-                    const selectedIds = Array.isArray(q.responseData.selected_ids) ? q.responseData.selected_ids as string[] : [];
+                    const qType = q.questionType;
+                    const isMemory = qType === "memory_match";
+                    const isFill =
+                      qType === "fill_blank" || qType === "fill_in_blank";
+                    const isJigsaw =
+                      qType === "jigsaw" || qType === "jigsaw_puzzle";
+                    const options = (q.questionData.options ?? []) as Array<{
+                      id: string;
+                      label?: string;
+                      is_correct?: boolean;
+                    }>;
+                    const selectedId = q.responseData.selected_id;
+                    const selectedIds = Array.isArray(
+                      q.responseData.selected_ids,
+                    )
+                      ? (q.responseData.selected_ids as string[])
+                      : [];
                     const selectedAny = selectedId ?? selectedIds[0];
-                    const bannerBg    = isJigsaw ? '#E0F2FE' : q.isCorrect ? '#E8F5E9' : '#FFF3F0';
-                    const bannerColor = isJigsaw ? '#0C4A6E' : q.isCorrect ? '#2E7D32' : '#C62828';
+                    const bannerBg = isJigsaw
+                      ? "#E0F2FE"
+                      : q.isCorrect
+                        ? "#E8F5E9"
+                        : "#FFF3F0";
+                    const bannerColor = isJigsaw
+                      ? "#0C4A6E"
+                      : q.isCorrect
+                        ? "#2E7D32"
+                        : "#C62828";
                     const bannerLabel = isMemory
                       ? `${q.responseData.pairsMatched ?? 0}/${q.responseData.totalPairs ?? 0} pairs`
                       : isJigsaw
-                      ? (q.responseData.completed ? 'Completed' : 'Not finished')
-                      : q.isCorrect ? '✓ Correct' : '✗ Wrong';
+                        ? q.responseData.completed
+                          ? "Completed"
+                          : "Not finished"
+                        : q.isCorrect
+                          ? "✓ Correct"
+                          : "✗ Wrong";
 
                     return (
                       <View key={q.questionId} style={pr.detailQuestionCard}>
                         {/* Banner */}
-                        <View style={[pr.detailQuestionBanner, { backgroundColor: bannerBg }]}>
-                          <Text style={{ fontSize: 13, fontWeight: '800', color: bannerColor, opacity: 0.7 }}>
+                        <View
+                          style={[
+                            pr.detailQuestionBanner,
+                            { backgroundColor: bannerBg },
+                          ]}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 13,
+                              fontWeight: "800",
+                              color: bannerColor,
+                              opacity: 0.7,
+                            }}
+                          >
                             Question {i + 1}
-                            {isMemory ? '  ·  Memory Match' : isFill ? '  ·  Fill in the Blank' : isJigsaw ? '  ·  Jigsaw Puzzle' : ''}
+                            {isMemory
+                              ? "  ·  Memory Match"
+                              : isFill
+                                ? "  ·  Fill in the Blank"
+                                : isJigsaw
+                                  ? "  ·  Jigsaw Puzzle"
+                                  : ""}
                           </Text>
-                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: isJigsaw ? (q.responseData.completed ? '#0EA5E9' : '#FF5252') : q.isCorrect ? '#4CAF50' : '#FF5252', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 }}>
-                            <Text style={{ fontSize: 12, fontWeight: '900', color: '#fff' }}>{bannerLabel}</Text>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                              gap: 5,
+                              backgroundColor: isJigsaw
+                                ? q.responseData.completed
+                                  ? "#0EA5E9"
+                                  : "#FF5252"
+                                : q.isCorrect
+                                  ? "#4CAF50"
+                                  : "#FF5252",
+                              borderRadius: 999,
+                              paddingHorizontal: 12,
+                              paddingVertical: 5,
+                            }}
+                          >
+                            <Text
+                              style={{
+                                fontSize: 12,
+                                fontWeight: "900",
+                                color: "#fff",
+                              }}
+                            >
+                              {bannerLabel}
+                            </Text>
                           </View>
                         </View>
 
                         <View style={pr.detailQuestionInner}>
-                          <Text style={pr.detailQTitle}>{q.questionTitle ?? q.questionInstruction ?? `Question ${i + 1}`}</Text>
+                          <Text style={pr.detailQTitle}>
+                            {q.questionTitle ??
+                              q.questionInstruction ??
+                              `Question ${i + 1}`}
+                          </Text>
 
                           {/* ── MEMORY MATCH result board ── */}
-                          {isMemory && (() => {
-                            const rd        = q.responseData;
-                            const allPairs  = (q.questionData.pairs ?? []) as Array<{ id: number; label: string; imageUrl?: string }>;
-                            const matched   = new Set((rd.correctMatches ?? []).map((m: any) => m.pairId as number));
-                            const cols      = allPairs.length <= 2 ? 2 : 3;
-                            // chunk into rows
-                            const boardRows: typeof allPairs[] = [];
-                            for (let i = 0; i < allPairs.length; i += cols) boardRows.push(allPairs.slice(i, i + cols));
-                            return (
-                              <View style={{ marginTop: 12, gap: 12 }}>
-                                {/* Stats chips */}
-                                <View style={gr.chipRow}>
-                                  <View style={[gr.chip, { backgroundColor: '#E8F5E9' }]}>
-                                    <CheckCircle size={13} color="#4CAF50" />
-                                    <Text style={[gr.chipTxt, { color: '#2E7D32' }]}>{rd.pairsMatched ?? 0}/{rd.totalPairs ?? allPairs.length} pairs</Text>
-                                  </View>
-                                  {(rd.clickLimit ?? 0) > 0 && (
-                                    <View style={[gr.chip, { backgroundColor: '#FFF5CC' }]}>
-                                      <Text style={[gr.chipTxt, { color: '#E6A020' }]}>{rd.clicksUsed ?? 0}/{rd.clickLimit} clicks</Text>
+                          {isMemory &&
+                            (() => {
+                              const rd = q.responseData;
+                              const allPairs = (q.questionData.pairs ??
+                                []) as Array<{
+                                id: number;
+                                label: string;
+                                imageUrl?: string;
+                              }>;
+                              const matched = new Set(
+                                (rd.correctMatches ?? []).map(
+                                  (m: any) => m.pairId as number,
+                                ),
+                              );
+                              const cols = allPairs.length <= 2 ? 2 : 3;
+                              // chunk into rows
+                              const boardRows: (typeof allPairs)[] = [];
+                              for (let i = 0; i < allPairs.length; i += cols)
+                                boardRows.push(allPairs.slice(i, i + cols));
+                              return (
+                                <View style={{ marginTop: 12, gap: 12 }}>
+                                  {/* Stats chips */}
+                                  <View style={gr.chipRow}>
+                                    <View
+                                      style={[
+                                        gr.chip,
+                                        { backgroundColor: "#E8F5E9" },
+                                      ]}
+                                    >
+                                      <CheckCircle size={13} color="#4CAF50" />
+                                      <Text
+                                        style={[
+                                          gr.chipTxt,
+                                          { color: "#2E7D32" },
+                                        ]}
+                                      >
+                                        {rd.pairsMatched ?? 0}/
+                                        {rd.totalPairs ?? allPairs.length} pairs
+                                      </Text>
                                     </View>
-                                  )}
-                                  <View style={[gr.chip, { backgroundColor: '#EDE4FF' }]}>
-                                    <Text style={[gr.chipTxt, { color: '#7B4FCA' }]}>{rd.accuracy ?? 0}% acc</Text>
-                                  </View>
-                                  {(rd.wrongAttempts ?? 0) > 0 && (
-                                    <View style={[gr.chip, { backgroundColor: '#FFF3F0' }]}>
-                                      <Text style={[gr.chipTxt, { color: '#C62828' }]}>{rd.wrongAttempts} wrong</Text>
-                                    </View>
-                                  )}
-                                </View>
-
-                                {/* Accuracy progress bar */}
-                                {(() => {
-                                  const acc = rd.accuracy ?? 0;
-                                  const barColor = acc >= 80 ? '#4CAF50' : acc >= 50 ? '#E6A020' : '#FF5252';
-                                  return (
-                                    <View style={{ gap: 4 }}>
-                                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                        <Text style={{ fontSize: 11, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' }}>Accuracy</Text>
-                                        <Text style={{ fontSize: 11, fontWeight: '800', color: barColor }}>{acc}%</Text>
+                                    {(rd.clickLimit ?? 0) > 0 && (
+                                      <View
+                                        style={[
+                                          gr.chip,
+                                          { backgroundColor: "#FFF5CC" },
+                                        ]}
+                                      >
+                                        <Text
+                                          style={[
+                                            gr.chipTxt,
+                                            { color: "#E6A020" },
+                                          ]}
+                                        >
+                                          {rd.clicksUsed ?? 0}/{rd.clickLimit}{" "}
+                                          clicks
+                                        </Text>
                                       </View>
-                                      <View style={{ height: 8, backgroundColor: '#F0F0F5', borderRadius: 4, overflow: 'hidden' }}>
-                                        <View style={{ height: 8, width: `${acc}%` as any, backgroundColor: barColor, borderRadius: 4 }} />
-                                      </View>
+                                    )}
+                                    <View
+                                      style={[
+                                        gr.chip,
+                                        { backgroundColor: "#EDE4FF" },
+                                      ]}
+                                    >
+                                      <Text
+                                        style={[
+                                          gr.chipTxt,
+                                          { color: "#7B4FCA" },
+                                        ]}
+                                      >
+                                        {rd.accuracy ?? 0}% acc
+                                      </Text>
                                     </View>
-                                  );
-                                })()}
-
-                                {/* Board grid — flex rows, each card flex:1 to fill width */}
-                                <Text style={gr.boardLabel}>Board Result</Text>
-                                <View style={{ gap: 8 }}>
-                                  {boardRows.map((row, rIdx) => (
-                                    <View key={rIdx} style={{ flexDirection: 'row', gap: 8 }}>
-                                      {row.map((pair) => {
-                                        const isOk   = matched.has(pair.id);
-                                        const imgUrl = pair.imageUrl ? `${API_BASE_URL}${pair.imageUrl}` : undefined;
-                                        return (
-                                          <View key={pair.id} style={[gr.boardCard, { flex: 1, backgroundColor: isOk ? '#E8F5E9' : '#FFF3F0', borderColor: isOk ? '#4CAF50' : '#FF7043' }]}>
-                                            {imgUrl ? (
-                                              <Image source={{ uri: imgUrl }} style={gr.boardImg} resizeMode="contain" />
-                                            ) : (
-                                              <Text style={{ fontSize: 24 }}>?</Text>
-                                            )}
-                                            <Text style={[gr.boardCardLabel, { color: isOk ? '#2E7D32' : '#C62828' }]} numberOfLines={1}>{pair.label}</Text>
-                                            <View style={[gr.boardBadge, { backgroundColor: isOk ? '#4CAF50' : '#FF5252' }]}>
-                                              <Text style={gr.boardBadgeText}>{isOk ? '✓' : '✗'}</Text>
-                                            </View>
-                                          </View>
-                                        );
-                                      })}
-                                      {row.length < cols && Array.from({ length: cols - row.length }).map((_, fi) => (
-                                        <View key={`fill-${fi}`} style={{ flex: 1 }} />
-                                      ))}
-                                    </View>
-                                  ))}
-                                </View>
-                              </View>
-                            );
-                          })()}
-
-                          {/* ── FILL IN THE BLANK result ── */}
-                          {isFill && (() => {
-                            const sentence = q.questionData.sentence as string ?? '';
-                            const correct  = q.questionData.answer as string ?? q.responseData.answer ?? '';
-                            const chosen   = q.responseData.selected ?? '—';
-                            const isOk     = (chosen as string).toLowerCase() === (correct as string).toLowerCase();
-                            const parts    = sentence.split('___');
-                            return (
-                              <View style={{ marginTop: 12, gap: 10 }}>
-                                {/* Sentence with filled blank */}
-                                <View style={[gr.sentenceBox, { borderColor: isOk ? '#4CAF50' : '#FF7043' }]}>
-                                  <Text style={gr.sentenceText}>
-                                    <Text>{parts[0]}</Text>
-                                    <Text style={[gr.blankFilled, { color: isOk ? '#2E7D32' : '#C62828', backgroundColor: isOk ? '#E8F5E9' : '#FFF3F0' }]}>
-                                      {' '}{chosen}{' '}
-                                    </Text>
-                                    <Text>{parts[1] ?? ''}</Text>
-                                  </Text>
-                                </View>
-                                {!isOk && (
-                                  <View style={[gr.sentenceBox, { borderColor: '#4CAF50', backgroundColor: '#F0FFF4' }]}>
-                                    <Text style={[gr.sentenceText, { color: '#9A9AB0', fontSize: 11 }]}>Correct answer:</Text>
-                                    <Text style={[gr.sentenceText, { color: '#2E7D32', fontWeight: '800' }]}>
-                                      {parts[0]}<Text style={{ backgroundColor: '#D6F5D6', color: '#2E7D32' }}> {correct} </Text>{parts[1] ?? ''}
-                                    </Text>
-                                  </View>
-                                )}
-                              </View>
-                            );
-                          })()}
-
-                          {/* ── JIGSAW PUZZLE result ── */}
-                          {isJigsaw && (() => {
-                            const rd        = q.responseData;
-                            const completed = Boolean(rd.completed);
-                            const moves     = Number(rd.moves ?? 0);
-                            const clickLim  = rd.clickLimit != null ? Number(rd.clickLimit) : null;
-                            const timeTaken = Number(rd.timeTaken ?? 0);
-                            const gridSize  = (rd.gridSize as string) || (q.questionData as any).gridSize || '3x3';
-                            const difficulty= (rd.difficulty as string) || (q.questionData as any).difficulty || 'medium';
-                            const n         = Number(gridSize.split('x')[0]) || 3;
-                            const total     = n * n;
-                            const diffColor = difficulty === 'easy' ? '#15803D' : difficulty === 'medium' ? '#A16207' : '#B91C1C';
-                            const diffBg    = difficulty === 'easy' ? '#DCFCE7' : difficulty === 'medium' ? '#FEF9C3' : '#FEE2E2';
-                            const barColor  = completed ? '#0EA5E9' : '#FF5252';
-                            const rawImg    = (q.questionData as any).image || (q.questionData as any).prompt_image;
-                            const imgUrl    = rawImg ? (rawImg.startsWith('/media') ? `${API_BASE_URL}${rawImg}` : rawImg) : null;
-                            const slotArr   = Array.isArray(rd.slotArrangement) ? (rd.slotArrangement as Array<number | null>) : null;
-                            const CELL      = 58;
-                            const GAP2      = 2;
-                            return (
-                              <View style={{ marginTop: 12, gap: 10 }}>
-                                <View style={gr.chipRow}>
-                                  <View style={[gr.chip, { backgroundColor: '#E0F2FE' }]}>
-                                    <Text style={[gr.chipTxt, { color: '#0369A1' }]}>🧩 {gridSize} · {total} pieces</Text>
-                                  </View>
-                                  <View style={[gr.chip, { backgroundColor: diffBg }]}>
-                                    <Text style={[gr.chipTxt, { color: diffColor }]}>{difficulty}</Text>
-                                  </View>
-                                  <View style={[gr.chip, { backgroundColor: '#F1F5F9' }]}>
-                                    <Text style={[gr.chipTxt, { color: '#334155' }]}>{moves}{clickLim ? `/${clickLim}` : ''} moves</Text>
-                                  </View>
-                                  {timeTaken > 0 && (
-                                    <View style={[gr.chip, { backgroundColor: '#F1F5F9' }]}>
-                                      <Text style={[gr.chipTxt, { color: '#334155' }]}>{timeTaken}s</Text>
-                                    </View>
-                                  )}
-                                </View>
-                                <View style={{ gap: 4 }}>
-                                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Text style={{ fontSize: 11, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' }}>Result</Text>
-                                    <Text style={{ fontSize: 11, fontWeight: '800', color: barColor }}>{completed ? '✓ Completed' : '✗ Not finished'}</Text>
-                                  </View>
-                                  <View style={{ height: 8, backgroundColor: '#F0F0F5', borderRadius: 4, overflow: 'hidden' }}>
-                                    <View style={{ height: 8, width: completed ? ('100%' as any) : ('30%' as any), backgroundColor: barColor, borderRadius: 4 }} />
-                                  </View>
-                                </View>
-                                {/* Final answer image grid */}
-                                {imgUrl && slotArr ? (
-                                  <View style={{ gap: 6 }}>
-                                    <Text style={gr.boardLabel}>Final Answer</Text>
-                                    <View style={{ gap: GAP2 }}>
-                                      {Array.from({ length: n }, (_, r) => (
-                                        <View key={r} style={{ flexDirection: 'row', gap: GAP2 }}>
-                                          {Array.from({ length: n }, (_, c) => {
-                                            const slot     = r * n + c;
-                                            const piece    = slotArr[slot];
-                                            const isEmpty  = piece === null || piece === undefined;
-                                            const isCorr   = !isEmpty && piece === slot;
-                                            return (
-                                              <View key={c} style={{ width: CELL, height: CELL, borderRadius: 5, overflow: 'hidden', borderWidth: 2, borderColor: isEmpty ? '#CBD5E1' : isCorr ? '#4CAF50' : '#FF7043', backgroundColor: isEmpty ? '#F0F4FF' : undefined, alignItems: 'center', justifyContent: 'center' }}>
-                                                {!isEmpty ? (
-                                                  <Image
-                                                    source={{ uri: imgUrl }}
-                                                    resizeMode="stretch"
-                                                    style={{ width: CELL * n, height: CELL * n, position: 'absolute', left: -((piece! % n) * CELL), top: -(Math.floor(piece! / n) * CELL) }}
-                                                  />
-                                                ) : (
-                                                  <Text style={{ fontSize: 10, color: '#94A3B8', fontWeight: '700' }}>{slot + 1}</Text>
-                                                )}
-                                                {!isEmpty && (
-                                                  <View style={{ position: 'absolute', bottom: 2, right: 2, width: 12, height: 12, borderRadius: 6, backgroundColor: isCorr ? '#4CAF50' : '#FF7043', alignItems: 'center', justifyContent: 'center' }}>
-                                                    <Text style={{ fontSize: 7, color: '#fff', fontWeight: '900' }}>{isCorr ? '✓' : '✗'}</Text>
-                                                  </View>
-                                                )}
-                                              </View>
-                                            );
-                                          })}
-                                        </View>
-                                      ))}
-                                    </View>
-                                  </View>
-                                ) : imgUrl && completed ? (
-                                  <View style={{ gap: 6 }}>
-                                    <Text style={gr.boardLabel}>Final Answer</Text>
-                                    <Image source={{ uri: imgUrl }} style={{ width: '100%', height: 160, borderRadius: 10 }} resizeMode="contain" />
-                                  </View>
-                                ) : null}
-                              </View>
-                            );
-                          })()}
-
-                          {/* ── STANDARD options (choice-based) ── */}
-                          {!isMemory && !isFill && !isJigsaw && options.length > 0 && (
-                            <View style={{ gap: 8, marginTop: 12 }}>
-                              {options.map((o) => {
-                                const isSelected = o.id === selectedAny || selectedIds.includes(o.id);
-                                const isCor = o.is_correct === true;
-                                let optBg = '#F8F9FC', optBorder = '#EAECF0', optTextColor = '#374151';
-                                let iconEl: string | null = null;
-                                if (isCor && isSelected) { optBg = '#E8F5E9'; optBorder = '#4CAF50'; optTextColor = '#1B5E20'; iconEl = '✓'; }
-                                else if (isCor) { optBg = '#E8F5E9'; optBorder = '#4CAF50'; optTextColor = '#1B5E20'; iconEl = '✓'; }
-                                else if (isSelected) { optBg = '#FFF3F0'; optBorder = '#FF5252'; optTextColor = '#B71C1C'; iconEl = '✗'; }
-                                return (
-                                  <View key={o.id} style={[pr.detailOption, { backgroundColor: optBg, borderColor: optBorder }]}>
-                                    <Text style={[pr.detailOptionText, { color: optTextColor }]}>{o.label ?? o.id}</Text>
-                                    {iconEl && (
-                                      <View style={{ width: 24, height: 24, borderRadius: 12, backgroundColor: isCor ? '#4CAF50' : '#FF5252', alignItems: 'center', justifyContent: 'center' }}>
-                                        <Text style={{ fontSize: 13, color: '#fff', fontWeight: '900' }}>{iconEl}</Text>
+                                    {(rd.wrongAttempts ?? 0) > 0 && (
+                                      <View
+                                        style={[
+                                          gr.chip,
+                                          { backgroundColor: "#FFF3F0" },
+                                        ]}
+                                      >
+                                        <Text
+                                          style={[
+                                            gr.chipTxt,
+                                            { color: "#C62828" },
+                                          ]}
+                                        >
+                                          {rd.wrongAttempts} wrong
+                                        </Text>
                                       </View>
                                     )}
                                   </View>
-                                );
-                              })}
-                            </View>
-                          )}
+
+                                  {/* Accuracy progress bar */}
+                                  {(() => {
+                                    const acc = rd.accuracy ?? 0;
+                                    const barColor =
+                                      acc >= 80
+                                        ? "#4CAF50"
+                                        : acc >= 50
+                                          ? "#E6A020"
+                                          : "#FF5252";
+                                    return (
+                                      <View style={{ gap: 4 }}>
+                                        <View
+                                          style={{
+                                            flexDirection: "row",
+                                            justifyContent: "space-between",
+                                          }}
+                                        >
+                                          <Text
+                                            style={{
+                                              fontSize: 11,
+                                              fontWeight: "700",
+                                              color: "#9A9AB0",
+                                              textTransform: "uppercase",
+                                            }}
+                                          >
+                                            Accuracy
+                                          </Text>
+                                          <Text
+                                            style={{
+                                              fontSize: 11,
+                                              fontWeight: "800",
+                                              color: barColor,
+                                            }}
+                                          >
+                                            {acc}%
+                                          </Text>
+                                        </View>
+                                        <View
+                                          style={{
+                                            height: 8,
+                                            backgroundColor: "#F0F0F5",
+                                            borderRadius: 4,
+                                            overflow: "hidden",
+                                          }}
+                                        >
+                                          <View
+                                            style={{
+                                              height: 8,
+                                              width: `${acc}%` as any,
+                                              backgroundColor: barColor,
+                                              borderRadius: 4,
+                                            }}
+                                          />
+                                        </View>
+                                      </View>
+                                    );
+                                  })()}
+
+                                  {/* Board grid — flex rows, each card flex:1 to fill width */}
+                                  <Text style={gr.boardLabel}>
+                                    Board Result
+                                  </Text>
+                                  <View style={{ gap: 8 }}>
+                                    {boardRows.map((row, rIdx) => (
+                                      <View
+                                        key={rIdx}
+                                        style={{ flexDirection: "row", gap: 8 }}
+                                      >
+                                        {row.map((pair) => {
+                                          const isOk = matched.has(pair.id);
+                                          const imgUrl = pair.imageUrl
+                                            ? `${API_BASE_URL}${pair.imageUrl}`
+                                            : undefined;
+                                          return (
+                                            <View
+                                              key={pair.id}
+                                              style={[
+                                                gr.boardCard,
+                                                {
+                                                  flex: 1,
+                                                  backgroundColor: isOk
+                                                    ? "#E8F5E9"
+                                                    : "#FFF3F0",
+                                                  borderColor: isOk
+                                                    ? "#4CAF50"
+                                                    : "#FF7043",
+                                                },
+                                              ]}
+                                            >
+                                              {imgUrl ? (
+                                                <Image
+                                                  source={{ uri: imgUrl }}
+                                                  style={gr.boardImg}
+                                                  resizeMode="contain"
+                                                />
+                                              ) : (
+                                                <Text style={{ fontSize: 24 }}>
+                                                  ?
+                                                </Text>
+                                              )}
+                                              <Text
+                                                style={[
+                                                  gr.boardCardLabel,
+                                                  {
+                                                    color: isOk
+                                                      ? "#2E7D32"
+                                                      : "#C62828",
+                                                  },
+                                                ]}
+                                                numberOfLines={1}
+                                              >
+                                                {pair.label}
+                                              </Text>
+                                              <View
+                                                style={[
+                                                  gr.boardBadge,
+                                                  {
+                                                    backgroundColor: isOk
+                                                      ? "#4CAF50"
+                                                      : "#FF5252",
+                                                  },
+                                                ]}
+                                              >
+                                                <Text style={gr.boardBadgeText}>
+                                                  {isOk ? "✓" : "✗"}
+                                                </Text>
+                                              </View>
+                                            </View>
+                                          );
+                                        })}
+                                        {row.length < cols &&
+                                          Array.from({
+                                            length: cols - row.length,
+                                          }).map((_, fi) => (
+                                            <View
+                                              key={`fill-${fi}`}
+                                              style={{ flex: 1 }}
+                                            />
+                                          ))}
+                                      </View>
+                                    ))}
+                                  </View>
+                                </View>
+                              );
+                            })()}
+
+                          {/* ── FILL IN THE BLANK result ── */}
+                          {isFill &&
+                            (() => {
+                              const sentence =
+                                (q.questionData.sentence as string) ?? "";
+                              const correct =
+                                (q.questionData.answer as string) ??
+                                q.responseData.answer ??
+                                "";
+                              const chosen = q.responseData.selected ?? "—";
+                              const isOk =
+                                (chosen as string).toLowerCase() ===
+                                (correct as string).toLowerCase();
+                              const parts = sentence.split("___");
+                              return (
+                                <View style={{ marginTop: 12, gap: 10 }}>
+                                  {/* Sentence with filled blank */}
+                                  <View
+                                    style={[
+                                      gr.sentenceBox,
+                                      {
+                                        borderColor: isOk
+                                          ? "#4CAF50"
+                                          : "#FF7043",
+                                      },
+                                    ]}
+                                  >
+                                    <Text style={gr.sentenceText}>
+                                      <Text>{parts[0]}</Text>
+                                      <Text
+                                        style={[
+                                          gr.blankFilled,
+                                          {
+                                            color: isOk ? "#2E7D32" : "#C62828",
+                                            backgroundColor: isOk
+                                              ? "#E8F5E9"
+                                              : "#FFF3F0",
+                                          },
+                                        ]}
+                                      >
+                                        {" "}
+                                        {chosen}{" "}
+                                      </Text>
+                                      <Text>{parts[1] ?? ""}</Text>
+                                    </Text>
+                                  </View>
+                                  {!isOk && (
+                                    <View
+                                      style={[
+                                        gr.sentenceBox,
+                                        {
+                                          borderColor: "#4CAF50",
+                                          backgroundColor: "#F0FFF4",
+                                        },
+                                      ]}
+                                    >
+                                      <Text
+                                        style={[
+                                          gr.sentenceText,
+                                          { color: "#9A9AB0", fontSize: 11 },
+                                        ]}
+                                      >
+                                        Correct answer:
+                                      </Text>
+                                      <Text
+                                        style={[
+                                          gr.sentenceText,
+                                          {
+                                            color: "#2E7D32",
+                                            fontWeight: "800",
+                                          },
+                                        ]}
+                                      >
+                                        {parts[0]}
+                                        <Text
+                                          style={{
+                                            backgroundColor: "#D6F5D6",
+                                            color: "#2E7D32",
+                                          }}
+                                        >
+                                          {" "}
+                                          {correct}{" "}
+                                        </Text>
+                                        {parts[1] ?? ""}
+                                      </Text>
+                                    </View>
+                                  )}
+                                </View>
+                              );
+                            })()}
+
+                          {/* ── JIGSAW PUZZLE result ── */}
+                          {isJigsaw &&
+                            (() => {
+                              const rd = q.responseData;
+                              const completed = Boolean(rd.completed);
+                              const moves = Number(rd.moves ?? 0);
+                              const clickLim =
+                                rd.clickLimit != null
+                                  ? Number(rd.clickLimit)
+                                  : null;
+                              const timeTaken = Number(rd.timeTaken ?? 0);
+                              const gridSize =
+                                (rd.gridSize as string) ||
+                                (q.questionData as any).gridSize ||
+                                "3x3";
+                              const difficulty =
+                                (rd.difficulty as string) ||
+                                (q.questionData as any).difficulty ||
+                                "medium";
+                              const n = Number(gridSize.split("x")[0]) || 3;
+                              const total = n * n;
+                              const diffColor =
+                                difficulty === "easy"
+                                  ? "#15803D"
+                                  : difficulty === "medium"
+                                    ? "#A16207"
+                                    : "#B91C1C";
+                              const diffBg =
+                                difficulty === "easy"
+                                  ? "#DCFCE7"
+                                  : difficulty === "medium"
+                                    ? "#FEF9C3"
+                                    : "#FEE2E2";
+                              const barColor = completed
+                                ? "#0EA5E9"
+                                : "#FF5252";
+                              const rawImg =
+                                (q.questionData as any).image ||
+                                (q.questionData as any).prompt_image;
+                              const imgUrl = rawImg
+                                ? rawImg.startsWith("/media")
+                                  ? `${API_BASE_URL}${rawImg}`
+                                  : rawImg
+                                : null;
+                              const slotArr = Array.isArray(rd.slotArrangement)
+                                ? (rd.slotArrangement as Array<number | null>)
+                                : null;
+                              const CELL = 58;
+                              const GAP2 = 2;
+                              return (
+                                <View style={{ marginTop: 12, gap: 10 }}>
+                                  <View style={gr.chipRow}>
+                                    <View
+                                      style={[
+                                        gr.chip,
+                                        { backgroundColor: "#E0F2FE" },
+                                      ]}
+                                    >
+                                      <Text
+                                        style={[
+                                          gr.chipTxt,
+                                          { color: "#0369A1" },
+                                        ]}
+                                      >
+                                        🧩 {gridSize} · {total} pieces
+                                      </Text>
+                                    </View>
+                                    <View
+                                      style={[
+                                        gr.chip,
+                                        { backgroundColor: diffBg },
+                                      ]}
+                                    >
+                                      <Text
+                                        style={[
+                                          gr.chipTxt,
+                                          { color: diffColor },
+                                        ]}
+                                      >
+                                        {difficulty}
+                                      </Text>
+                                    </View>
+                                    <View
+                                      style={[
+                                        gr.chip,
+                                        { backgroundColor: "#F1F5F9" },
+                                      ]}
+                                    >
+                                      <Text
+                                        style={[
+                                          gr.chipTxt,
+                                          { color: "#334155" },
+                                        ]}
+                                      >
+                                        {moves}
+                                        {clickLim ? `/${clickLim}` : ""} moves
+                                      </Text>
+                                    </View>
+                                    {timeTaken > 0 && (
+                                      <View
+                                        style={[
+                                          gr.chip,
+                                          { backgroundColor: "#F1F5F9" },
+                                        ]}
+                                      >
+                                        <Text
+                                          style={[
+                                            gr.chipTxt,
+                                            { color: "#334155" },
+                                          ]}
+                                        >
+                                          {timeTaken}s
+                                        </Text>
+                                      </View>
+                                    )}
+                                  </View>
+                                  <View style={{ gap: 4 }}>
+                                    <View
+                                      style={{
+                                        flexDirection: "row",
+                                        justifyContent: "space-between",
+                                      }}
+                                    >
+                                      <Text
+                                        style={{
+                                          fontSize: 11,
+                                          fontWeight: "700",
+                                          color: "#9A9AB0",
+                                          textTransform: "uppercase",
+                                        }}
+                                      >
+                                        Result
+                                      </Text>
+                                      <Text
+                                        style={{
+                                          fontSize: 11,
+                                          fontWeight: "800",
+                                          color: barColor,
+                                        }}
+                                      >
+                                        {completed
+                                          ? "✓ Completed"
+                                          : "✗ Not finished"}
+                                      </Text>
+                                    </View>
+                                    <View
+                                      style={{
+                                        height: 8,
+                                        backgroundColor: "#F0F0F5",
+                                        borderRadius: 4,
+                                        overflow: "hidden",
+                                      }}
+                                    >
+                                      <View
+                                        style={{
+                                          height: 8,
+                                          width: completed
+                                            ? ("100%" as any)
+                                            : ("30%" as any),
+                                          backgroundColor: barColor,
+                                          borderRadius: 4,
+                                        }}
+                                      />
+                                    </View>
+                                  </View>
+                                  {/* Final answer image grid */}
+                                  {imgUrl && slotArr ? (
+                                    <View style={{ gap: 6 }}>
+                                      <Text style={gr.boardLabel}>
+                                        Final Answer
+                                      </Text>
+                                      <View style={{ gap: GAP2 }}>
+                                        {Array.from({ length: n }, (_, r) => (
+                                          <View
+                                            key={r}
+                                            style={{
+                                              flexDirection: "row",
+                                              gap: GAP2,
+                                            }}
+                                          >
+                                            {Array.from(
+                                              { length: n },
+                                              (_, c) => {
+                                                const slot = r * n + c;
+                                                const piece = slotArr[slot];
+                                                const isEmpty =
+                                                  piece === null ||
+                                                  piece === undefined;
+                                                const isCorr =
+                                                  !isEmpty && piece === slot;
+                                                return (
+                                                  <View
+                                                    key={c}
+                                                    style={{
+                                                      width: CELL,
+                                                      height: CELL,
+                                                      borderRadius: 5,
+                                                      overflow: "hidden",
+                                                      borderWidth: 2,
+                                                      borderColor: isEmpty
+                                                        ? "#CBD5E1"
+                                                        : isCorr
+                                                          ? "#4CAF50"
+                                                          : "#FF7043",
+                                                      backgroundColor: isEmpty
+                                                        ? "#F0F4FF"
+                                                        : undefined,
+                                                      alignItems: "center",
+                                                      justifyContent: "center",
+                                                    }}
+                                                  >
+                                                    {!isEmpty ? (
+                                                      <Image
+                                                        source={{ uri: imgUrl }}
+                                                        resizeMode="stretch"
+                                                        style={{
+                                                          width: CELL * n,
+                                                          height: CELL * n,
+                                                          position: "absolute",
+                                                          left: -(
+                                                            (piece! % n) *
+                                                            CELL
+                                                          ),
+                                                          top: -(
+                                                            Math.floor(
+                                                              piece! / n,
+                                                            ) * CELL
+                                                          ),
+                                                        }}
+                                                      />
+                                                    ) : (
+                                                      <Text
+                                                        style={{
+                                                          fontSize: 10,
+                                                          color: "#94A3B8",
+                                                          fontWeight: "700",
+                                                        }}
+                                                      >
+                                                        {slot + 1}
+                                                      </Text>
+                                                    )}
+                                                    {!isEmpty && (
+                                                      <View
+                                                        style={{
+                                                          position: "absolute",
+                                                          bottom: 2,
+                                                          right: 2,
+                                                          width: 12,
+                                                          height: 12,
+                                                          borderRadius: 6,
+                                                          backgroundColor:
+                                                            isCorr
+                                                              ? "#4CAF50"
+                                                              : "#FF7043",
+                                                          alignItems: "center",
+                                                          justifyContent:
+                                                            "center",
+                                                        }}
+                                                      >
+                                                        <Text
+                                                          style={{
+                                                            fontSize: 7,
+                                                            color: "#fff",
+                                                            fontWeight: "900",
+                                                          }}
+                                                        >
+                                                          {isCorr ? "✓" : "✗"}
+                                                        </Text>
+                                                      </View>
+                                                    )}
+                                                  </View>
+                                                );
+                                              },
+                                            )}
+                                          </View>
+                                        ))}
+                                      </View>
+                                    </View>
+                                  ) : imgUrl && completed ? (
+                                    <View style={{ gap: 6 }}>
+                                      <Text style={gr.boardLabel}>
+                                        Final Answer
+                                      </Text>
+                                      <Image
+                                        source={{ uri: imgUrl }}
+                                        style={{
+                                          width: "100%",
+                                          height: 160,
+                                          borderRadius: 10,
+                                        }}
+                                        resizeMode="contain"
+                                      />
+                                    </View>
+                                  ) : null}
+                                </View>
+                              );
+                            })()}
+
+                          {/* ── STANDARD options (choice-based) ── */}
+                          {!isMemory &&
+                            !isFill &&
+                            !isJigsaw &&
+                            options.length > 0 && (
+                              <View style={{ gap: 8, marginTop: 12 }}>
+                                {options.map((o) => {
+                                  const isSelected =
+                                    o.id === selectedAny ||
+                                    selectedIds.includes(o.id);
+                                  const isCor = o.is_correct === true;
+                                  let optBg = "#F8F9FC",
+                                    optBorder = "#EAECF0",
+                                    optTextColor = "#374151";
+                                  let iconEl: string | null = null;
+                                  if (isCor && isSelected) {
+                                    optBg = "#E8F5E9";
+                                    optBorder = "#4CAF50";
+                                    optTextColor = "#1B5E20";
+                                    iconEl = "✓";
+                                  } else if (isCor) {
+                                    optBg = "#E8F5E9";
+                                    optBorder = "#4CAF50";
+                                    optTextColor = "#1B5E20";
+                                    iconEl = "✓";
+                                  } else if (isSelected) {
+                                    optBg = "#FFF3F0";
+                                    optBorder = "#FF5252";
+                                    optTextColor = "#B71C1C";
+                                    iconEl = "✗";
+                                  }
+                                  return (
+                                    <View
+                                      key={o.id}
+                                      style={[
+                                        pr.detailOption,
+                                        {
+                                          backgroundColor: optBg,
+                                          borderColor: optBorder,
+                                        },
+                                      ]}
+                                    >
+                                      <Text
+                                        style={[
+                                          pr.detailOptionText,
+                                          { color: optTextColor },
+                                        ]}
+                                      >
+                                        {o.label ?? o.id}
+                                      </Text>
+                                      {iconEl && (
+                                        <View
+                                          style={{
+                                            width: 24,
+                                            height: 24,
+                                            borderRadius: 12,
+                                            backgroundColor: isCor
+                                              ? "#4CAF50"
+                                              : "#FF5252",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                          }}
+                                        >
+                                          <Text
+                                            style={{
+                                              fontSize: 13,
+                                              color: "#fff",
+                                              fontWeight: "900",
+                                            }}
+                                          >
+                                            {iconEl}
+                                          </Text>
+                                        </View>
+                                      )}
+                                    </View>
+                                  );
+                                })}
+                              </View>
+                            )}
                         </View>
                       </View>
                     );
@@ -1522,28 +3080,41 @@ function ParentReports() {
 export default function ReportsScreen() {
   const { user, apiFetch } = useAuth();
   const {
-    linkedStudents, activeStudent,
-    loadingStudents, loadingActivity, loadingAnalytics,
-    activity: studentActivity, analytics: studentAnalytics,
+    linkedStudents,
+    activeStudent,
+    loadingStudents,
+    loadingActivity,
+    loadingAnalytics,
+    activity: studentActivity,
+    analytics: studentAnalytics,
     switchToStudent,
   } = useStudentProfile();
 
-  const [loading, setLoading]         = useState(true);
-  const [error, setError]             = useState('');
-  const [classroom, setClassroom]     = useState<Classroom | null>(null);
-  const [overview, setOverview]       = useState<TeacherOverview | null>(null);
-  const [period, setPeriod]           = useState<Period>('day');
-  const [activeSubject, setActiveSubject] = useState<SubjectDetail | null>(null);
-  const [classActivity, setClassActivity] = useState<ClassActivityStudent[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [classroom, setClassroom] = useState<Classroom | null>(null);
+  const [overview, setOverview] = useState<TeacherOverview | null>(null);
+  const [period, setPeriod] = useState<Period>("day");
+  const [activeSubject, setActiveSubject] = useState<SubjectDetail | null>(
+    null,
+  );
+  const [classActivity, setClassActivity] = useState<ClassActivityStudent[]>(
+    [],
+  );
   const [expandedStudent, setExpandedStudent] = useState<string | null>(null);
-  const [teacherQuizDetail, setTeacherQuizDetail] = useState<QuizAttemptDetail | null>(null);
+  const [teacherQuizDetail, setTeacherQuizDetail] =
+    useState<QuizAttemptDetail | null>(null);
   const [loadingTeacherDetail, setLoadingTeacherDetail] = useState(false);
-  const [seenStudentAttempts, setSeenStudentAttempts] = useState<Set<string>>(new Set());
+  const [seenStudentAttempts, setSeenStudentAttempts] = useState<Set<string>>(
+    new Set(),
+  );
 
   // Load persisted seen attempts for this teacher on mount
   useEffect(() => {
-    AsyncStorage.getItem('teacher_seen_attempts')
-      .then((val) => { if (val) setSeenStudentAttempts(new Set(JSON.parse(val) as string[])); })
+    AsyncStorage.getItem("teacher_seen_attempts")
+      .then((val) => {
+        if (val) setSeenStudentAttempts(new Set(JSON.parse(val) as string[]));
+      })
       .catch(() => {});
   }, []);
 
@@ -1551,7 +3122,10 @@ export default function ReportsScreen() {
     setSeenStudentAttempts((prev) => {
       const next = new Set(prev);
       next.add(attemptId);
-      AsyncStorage.setItem('teacher_seen_attempts', JSON.stringify([...next])).catch(() => {});
+      AsyncStorage.setItem(
+        "teacher_seen_attempts",
+        JSON.stringify([...next]),
+      ).catch(() => {});
       return next;
     });
   };
@@ -1561,24 +3135,32 @@ export default function ReportsScreen() {
     setTeacherQuizDetail(null);
     markAttemptSeen(attemptId);
     try {
-      const res = await apiFetch(`/students/${studentId}/quiz-attempts/${attemptId}`);
+      const res = await apiFetch(
+        `/students/${studentId}/quiz-attempts/${attemptId}`,
+      );
       if (res.ok) setTeacherQuizDetail(await res.json());
-    } catch { /* silent */ } finally { setLoadingTeacherDetail(false); }
+    } catch {
+      /* silent */
+    } finally {
+      setLoadingTeacherDetail(false);
+    }
   };
 
-  const role = user?.activeRole ?? 'student';
-  const isTeacherView = role === 'teacher' || role === 'admin' || role === 'superadmin';
-  const isParentView  = role === 'parent';
+  const role = user?.activeRole ?? "student";
+  const isTeacherView =
+    role === "teacher" || role === "admin" || role === "superadmin";
+  const isParentView = role === "parent";
 
   const loadData = useCallback(async () => {
-    setLoading(true); setError('');
+    setLoading(true);
+    setError("");
     try {
       if (isTeacherView) {
         const [overviewRes, activityRes] = await Promise.all([
-          apiFetch('/quizzes/teacher/overview'),
-          apiFetch('/quizzes/teacher/class-activity?limit=200'),
+          apiFetch("/quizzes/teacher/overview"),
+          apiFetch("/quizzes/teacher/class-activity?limit=200"),
         ]);
-        if (!overviewRes.ok) throw new Error('Failed to load teacher reports');
+        if (!overviewRes.ok) throw new Error("Failed to load teacher reports");
         setOverview(await overviewRes.json());
         if (activityRes.ok) {
           const d = await activityRes.json();
@@ -1586,47 +3168,109 @@ export default function ReportsScreen() {
         }
       } else {
         // Both student and parent use classroom data for now
-        const res = await apiFetch('/classrooms/student');
+        const res = await apiFetch("/classrooms/student");
         if (res.ok) {
           const payload = await res.json();
           const rooms = (payload.classrooms ?? []) as Classroom[];
-          setClassroom(rooms.find((r) => r.status === 'active') ?? rooms[0] ?? null);
+          setClassroom(
+            rooms.find((r) => r.status === "active") ?? rooms[0] ?? null,
+          );
         }
       }
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Failed to load');
-    } finally { setLoading(false); }
+      setError(e instanceof Error ? e.message : "Failed to load");
+    } finally {
+      setLoading(false);
+    }
   }, [apiFetch, isTeacherView]);
 
-  useFocusEffect(useCallback(() => { loadData(); }, [loadData]));
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, [loadData]),
+  );
 
-  const chartData  = CHART_DATA[period];
-  const todayIdx   = period === 'day'
-    ? (new Date().getDay() === 0 ? 6 : new Date().getDay() - 1)
-    : period === 'hour' ? Math.floor(new Date().getHours() / 1.5) % chartData.length
-    : chartData.length - 1;
+  const chartData = CHART_DATA[period];
+  const todayIdx =
+    period === "day"
+      ? new Date().getDay() === 0
+        ? 6
+        : new Date().getDay() - 1
+      : period === "hour"
+        ? Math.floor(new Date().getHours() / 1.5) % chartData.length
+        : chartData.length - 1;
 
   // Merge mock stats with real classroom data where available
-  const stats = useMemo(() => ({
-    lessonsCompleted: classroom?.quizzes?.filter((q) => q.status === 'completed').length || STUDENT_SUMMARY.lessonsCompleted,
-    avgScore:         classroom?.completionPct || STUDENT_SUMMARY.avgScore,
-    xp:               classroom ? Math.round((classroom.completionPct ?? 0) * 15) || STUDENT_SUMMARY.totalXp : STUDENT_SUMMARY.totalXp,
-    dayStreak:        STUDENT_SUMMARY.dayStreak,
-    quizzesDone:      classroom?.quizzes?.length || STUDENT_SUMMARY.quizzesDone,
-    weeklyXp:         STUDENT_SUMMARY.weeklyXp,
-  }), [classroom]);
+  const stats = useMemo(
+    () => ({
+      lessonsCompleted:
+        classroom?.quizzes?.filter((q) => q.status === "completed").length ||
+        STUDENT_SUMMARY.lessonsCompleted,
+      avgScore: classroom?.completionPct || STUDENT_SUMMARY.avgScore,
+      xp: classroom
+        ? Math.round((classroom.completionPct ?? 0) * 15) ||
+          STUDENT_SUMMARY.totalXp
+        : STUDENT_SUMMARY.totalXp,
+      dayStreak: STUDENT_SUMMARY.dayStreak,
+      quizzesDone: classroom?.quizzes?.length || STUDENT_SUMMARY.quizzesDone,
+      weeklyXp: STUDENT_SUMMARY.weeklyXp,
+    }),
+    [classroom],
+  );
 
   const recentActivity = useMemo(() => {
-    const items: Array<{ id: string; title: string; type: string; xp: number; when: string }> = [];
-    classroom?.quizzes?.slice(0, 2).forEach((q) =>
-      items.push({ id: q.id, title: q.title, type: 'quiz', xp: 50, when: 'Today · 10 min ago' }));
-    classroom?.contents?.slice(0, 2).forEach((c) =>
-      items.push({ id: c.id, title: c.title, type: 'content', xp: 20, when: 'Today · 30 min ago' }));
+    const items: Array<{
+      id: string;
+      title: string;
+      type: string;
+      xp: number;
+      when: string;
+    }> = [];
+    classroom?.quizzes
+      ?.slice(0, 2)
+      .forEach((q) =>
+        items.push({
+          id: q.id,
+          title: q.title,
+          type: "quiz",
+          xp: 50,
+          when: "Today · 10 min ago",
+        }),
+      );
+    classroom?.contents
+      ?.slice(0, 2)
+      .forEach((c) =>
+        items.push({
+          id: c.id,
+          title: c.title,
+          type: "content",
+          xp: 20,
+          when: "Today · 30 min ago",
+        }),
+      );
     if (items.length === 0) {
       return [
-        { id: '1', title: 'Completed Numbers Quiz',    type: 'quiz',    xp: 50, when: 'Today · 10 min ago' },
-        { id: '2', title: 'Read Baby Dinosaur Story',  type: 'content', xp: 20, when: 'Today · 30 min ago' },
-        { id: '3', title: 'Alphabets Practice',        type: 'quiz',    xp: 35, when: 'Yesterday' },
+        {
+          id: "1",
+          title: "Completed Numbers Quiz",
+          type: "quiz",
+          xp: 50,
+          when: "Today · 10 min ago",
+        },
+        {
+          id: "2",
+          title: "Read Baby Dinosaur Story",
+          type: "content",
+          xp: 20,
+          when: "Today · 30 min ago",
+        },
+        {
+          id: "3",
+          title: "Alphabets Practice",
+          type: "quiz",
+          xp: 35,
+          when: "Yesterday",
+        },
       ];
     }
     return items.slice(0, 4);
@@ -1650,401 +3294,1263 @@ export default function ReportsScreen() {
   if (isTeacherView) {
     return (
       <>
-      <ScrollView style={s.screen} contentContainerStyle={s.scroll}>
-        <View style={[s.topBar, { paddingTop: Platform.OS === 'ios' ? 2 : 8 }]}>
-          <View>
-            <Text style={s.greetingSub}>Teacher Dashboard</Text>
-            <Text style={s.greetingName}>{user?.firstName ?? 'Teacher'}</Text>
+        <ScrollView style={s.screen} contentContainerStyle={s.scroll}>
+          <View
+            style={[s.topBar, { paddingTop: Platform.OS === "ios" ? 2 : 8 }]}
+          >
+            <View>
+              <Text style={s.greetingSub}>Teacher Dashboard</Text>
+              <Text style={s.greetingName}>{user?.firstName ?? "Teacher"}</Text>
+            </View>
+            <View style={s.xpChip}>
+              <TrendingUp size={13} color="#fff" />
+              <Text style={s.xpLabel}>Reports</Text>
+            </View>
           </View>
-          <View style={s.xpChip}><TrendingUp size={13} color="#fff" /><Text style={s.xpLabel}>Reports</Text></View>
-        </View>
 
-        {error ? <Text style={s.errorText}>{error}</Text> : (
-          <>
-            <View style={s.grid2}>
-              {[
-                { val: overview?.summary.total_quizzes ?? '0', label: 'Total Quizzes', bg: '#D6EAFF', color: '#4A90E2' },
-                { val: overview?.summary.published_quizzes ?? '0', label: 'Published', bg: '#D6F5D6', color: '#7DC67A' },
-                { val: `${Number(overview?.summary.average_score_pct ?? 0).toFixed(0)}%`, label: 'Avg Score', bg: '#FFF5CC', color: '#E6A817' },
-                { val: overview?.summary.total_attempts ?? '0', label: 'Attempts', bg: '#FFE8D6', color: '#FF7043' },
-              ].map((item) => (
-                <View key={item.label} style={[s.statCard2, { backgroundColor: item.bg }]}>
-                  <Text style={[s.statVal2, { color: item.color }]}>{item.val}</Text>
-                  <Text style={s.statLabel2}>{item.label}</Text>
-                </View>
-              ))}
-            </View>
+          {error ? (
+            <Text style={s.errorText}>{error}</Text>
+          ) : (
+            <>
+              <View style={s.grid2}>
+                {[
+                  {
+                    val: overview?.summary.total_quizzes ?? "0",
+                    label: "Total Quizzes",
+                    bg: "#D6EAFF",
+                    color: "#4A90E2",
+                  },
+                  {
+                    val: overview?.summary.published_quizzes ?? "0",
+                    label: "Published",
+                    bg: "#D6F5D6",
+                    color: "#7DC67A",
+                  },
+                  {
+                    val: `${Number(overview?.summary.average_score_pct ?? 0).toFixed(0)}%`,
+                    label: "Avg Score",
+                    bg: "#FFF5CC",
+                    color: "#E6A817",
+                  },
+                  {
+                    val: overview?.summary.total_attempts ?? "0",
+                    label: "Attempts",
+                    bg: "#FFE8D6",
+                    color: "#FF7043",
+                  },
+                ].map((item) => (
+                  <View
+                    key={item.label}
+                    style={[s.statCard2, { backgroundColor: item.bg }]}
+                  >
+                    <Text style={[s.statVal2, { color: item.color }]}>
+                      {item.val}
+                    </Text>
+                    <Text style={s.statLabel2}>{item.label}</Text>
+                  </View>
+                ))}
+              </View>
 
-            <Text style={s.secTitle}>Class Performance</Text>
-            <View style={s.card}>
-              {overview?.classPerformance?.length ? (
-                overview.classPerformance.map((cls) => {
-                  const pct = Math.round(Number(cls.average_score_pct));
-                  return (
-                    <View key={cls.class_level} style={s.progressItem}>
-                      <View style={s.pLabelRow}>
-                        <Text style={s.pLabel}>{getStandardLabel(cls.class_level)}</Text>
-                        <Text style={[s.pPct, { color: '#4A90E2' }]}>{pct}%</Text>
-                      </View>
-                      <View style={s.track}><View style={[s.fill, { width: `${Math.min(100, pct)}%`, backgroundColor: '#4A90E2' }]} /></View>
-                      <Text style={s.progressSub}>{cls.attempts} attempts</Text>
-                    </View>
-                  );
-                })
-              ) : <Text style={s.emptyText}>No class data yet.</Text>}
-            </View>
-
-            <Text style={s.secTitle}>Topic Gaps</Text>
-            <View style={s.card}>
-              {overview?.topGaps?.length ? (
-                overview.topGaps.map((gap) => {
-                  const pct = Number(gap.incorrect_pct);
-                  return (
-                    <View key={gap.question_id} style={s.gapRow}>
-                      <Text style={s.gapLabel} numberOfLines={1}>{gap.question_title}</Text>
-                      <View style={[s.pill, { backgroundColor: pct >= 25 ? '#FFE8D6' : '#D6F5D6' }]}>
-                        <Text style={[s.pillText, { color: pct >= 25 ? '#FF7043' : '#7DC67A' }]}>{pct.toFixed(0)}% wrong</Text>
-                      </View>
-                    </View>
-                  );
-                })
-              ) : <Text style={s.emptyText}>No topic gap data yet.</Text>}
-            </View>
-
-            {/* ── Student Activity ──────────────────────────────────────── */}
-            <Text style={s.secTitle}>Student Activity</Text>
-            {classActivity.length === 0 ? (
-              <View style={s.card}><Text style={s.emptyText}>No student attempts yet.</Text></View>
-            ) : (
-              <View style={{ gap: 10, marginHorizontal: 16, marginBottom: 8 }}>
-                {classActivity.map((student) => {
-                  const latest   = student.attempts[0];
-                  const totalAtt = student.attempts.length;
-                  const avgPct   = totalAtt > 0 ? Math.round(student.attempts.reduce((a, b) => a + b.scorePct, 0) / totalAtt) : 0;
-                  const isNew      = latest && !seenStudentAttempts.has(latest.attemptId) && (Date.now() - new Date(latest.completedAt).getTime()) < 24 * 60 * 60 * 1000;
-                  const isExpanded = expandedStudent === student.studentId;
-                  return (
-                    <View key={student.studentId} style={gr.studentCard}>
-                      <Pressable onPress={() => {
-                          setExpandedStudent(isExpanded ? null : student.studentId);
-                          if (!isExpanded && latest) markAttemptSeen(latest.attemptId);
-                        }}>
-                        <View style={gr.studentRow}>
-                          <View style={gr.studentAvatar}>
-                            <Text style={{ fontSize: 16, fontWeight: '900', color: '#7B4FCA' }}>
-                              {student.firstName[0]}{student.lastName[0]}
-                            </Text>
-                          </View>
-                          <View style={{ flex: 1 }}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                              <Text style={gr.studentName}>{student.firstName} {student.lastName}</Text>
-                              {isNew && <View style={gr.newBadge}><Text style={gr.newBadgeText}>New</Text></View>}
-                            </View>
-                            <Text style={gr.studentMeta}>
-                              {getStandardLabel(student.classLevel ?? '')} · {totalAtt} attempt{totalAtt !== 1 ? 's' : ''} · avg {avgPct}%
-                            </Text>
-                          </View>
-                          <View style={[gr.pctBadge, { backgroundColor: avgPct >= 70 ? '#D6F5D6' : avgPct >= 40 ? '#FFF5CC' : '#FFE8D6' }]}>
-                            <Text style={[gr.pctText, { color: avgPct >= 70 ? '#2E7D32' : avgPct >= 40 ? '#E6A020' : '#C62828' }]}>{avgPct}%</Text>
-                          </View>
+              <Text style={s.secTitle}>Class Performance</Text>
+              <View style={s.card}>
+                {overview?.classPerformance?.length ? (
+                  overview.classPerformance.map((cls) => {
+                    const pct = Math.round(Number(cls.average_score_pct));
+                    return (
+                      <View key={cls.class_level} style={s.progressItem}>
+                        <View style={s.pLabelRow}>
+                          <Text style={s.pLabel}>
+                            {getStandardLabel(cls.class_level)}
+                          </Text>
+                          <Text style={[s.pPct, { color: "#4A90E2" }]}>
+                            {pct}%
+                          </Text>
                         </View>
-                        {/* Latest attempt preview */}
-                        {latest && (
-                          <View style={gr.attemptRow}>
-                            <Text style={gr.attemptTitle} numberOfLines={1}>{latest.quizTitle}</Text>
-                            <Text style={{ fontSize: 11, color: '#9A9AB0', fontWeight: '600' }}>
-                              {latest.correctCount}/{latest.totalQuestions} · {latest.scorePct}%
-                            </Text>
-                          </View>
-                        )}
-                        {/* Game metrics chip row */}
-                        {latest?.gameMetrics && (
-                          <View style={gr.gameTag}>
-                            <View style={gr.gameTagItem}><Text style={gr.gameTagText}>Memory Match</Text></View>
-                            <View style={[gr.gameTagItem, { backgroundColor: '#D6F5D6' }]}>
-                              <Text style={[gr.gameTagText, { color: '#2E7D32' }]}>{latest.gameMetrics.pairsMatched}/{latest.gameMetrics.totalPairs} pairs</Text>
+                        <View style={s.track}>
+                          <View
+                            style={[
+                              s.fill,
+                              {
+                                width: `${Math.min(100, pct)}%`,
+                                backgroundColor: "#4A90E2",
+                              },
+                            ]}
+                          />
+                        </View>
+                        <Text style={s.progressSub}>
+                          {cls.attempts} attempts
+                        </Text>
+                      </View>
+                    );
+                  })
+                ) : (
+                  <Text style={s.emptyText}>No class data yet.</Text>
+                )}
+              </View>
+
+              <Text style={s.secTitle}>Topic Gaps</Text>
+              <View style={s.card}>
+                {overview?.topGaps?.length ? (
+                  overview.topGaps.map((gap) => {
+                    const pct = Number(gap.incorrect_pct);
+                    return (
+                      <View key={gap.question_id} style={s.gapRow}>
+                        <Text style={s.gapLabel} numberOfLines={1}>
+                          {gap.question_title}
+                        </Text>
+                        <View
+                          style={[
+                            s.pill,
+                            {
+                              backgroundColor:
+                                pct >= 25 ? "#FFE8D6" : "#D6F5D6",
+                            },
+                          ]}
+                        >
+                          <Text
+                            style={[
+                              s.pillText,
+                              { color: pct >= 25 ? "#FF7043" : "#7DC67A" },
+                            ]}
+                          >
+                            {pct.toFixed(0)}% wrong
+                          </Text>
+                        </View>
+                      </View>
+                    );
+                  })
+                ) : (
+                  <Text style={s.emptyText}>No topic gap data yet.</Text>
+                )}
+              </View>
+
+              {/* ── Student Activity ──────────────────────────────────────── */}
+              <Text style={s.secTitle}>Student Activity</Text>
+              {classActivity.length === 0 ? (
+                <View style={s.card}>
+                  <Text style={s.emptyText}>No student attempts yet.</Text>
+                </View>
+              ) : (
+                <View
+                  style={{ gap: 10, marginHorizontal: 16, marginBottom: 8 }}
+                >
+                  {classActivity.map((student) => {
+                    const latest = student.attempts[0];
+                    const totalAtt = student.attempts.length;
+                    const avgPct =
+                      totalAtt > 0
+                        ? Math.round(
+                            student.attempts.reduce(
+                              (a, b) => a + b.scorePct,
+                              0,
+                            ) / totalAtt,
+                          )
+                        : 0;
+                    const isNew =
+                      latest &&
+                      !seenStudentAttempts.has(latest.attemptId) &&
+                      Date.now() - new Date(latest.completedAt).getTime() <
+                        24 * 60 * 60 * 1000;
+                    const isExpanded = expandedStudent === student.studentId;
+                    return (
+                      <View key={student.studentId} style={gr.studentCard}>
+                        <Pressable
+                          onPress={() => {
+                            setExpandedStudent(
+                              isExpanded ? null : student.studentId,
+                            );
+                            if (!isExpanded && latest)
+                              markAttemptSeen(latest.attemptId);
+                          }}
+                        >
+                          <View style={gr.studentRow}>
+                            <View style={gr.studentAvatar}>
+                              <Text
+                                style={{
+                                  fontSize: 16,
+                                  fontWeight: "900",
+                                  color: "#7B4FCA",
+                                }}
+                              >
+                                {student.firstName[0]}
+                                {student.lastName[0]}
+                              </Text>
                             </View>
-                            {latest.gameMetrics.clickLimit > 0 && (
-                              <View style={[gr.gameTagItem, { backgroundColor: '#FFF5CC' }]}>
-                                <Text style={[gr.gameTagText, { color: '#E6A020' }]}>{latest.gameMetrics.clicksUsed}/{latest.gameMetrics.clickLimit} clicks</Text>
+                            <View style={{ flex: 1 }}>
+                              <View
+                                style={{
+                                  flexDirection: "row",
+                                  alignItems: "center",
+                                  gap: 6,
+                                }}
+                              >
+                                <Text style={gr.studentName}>
+                                  {student.firstName} {student.lastName}
+                                </Text>
+                                {isNew && (
+                                  <View style={gr.newBadge}>
+                                    <Text style={gr.newBadgeText}>New</Text>
+                                  </View>
+                                )}
                               </View>
-                            )}
-                            <View style={[gr.gameTagItem, { backgroundColor: '#EDE4FF' }]}>
-                              <Text style={gr.gameTagText}>{latest.gameMetrics.accuracy}% acc</Text>
+                              <Text style={gr.studentMeta}>
+                                {getStandardLabel(student.classLevel ?? "")} ·{" "}
+                                {totalAtt} attempt{totalAtt !== 1 ? "s" : ""} ·
+                                avg {avgPct}%
+                              </Text>
+                            </View>
+                            <View
+                              style={[
+                                gr.pctBadge,
+                                {
+                                  backgroundColor:
+                                    avgPct >= 70
+                                      ? "#D6F5D6"
+                                      : avgPct >= 40
+                                        ? "#FFF5CC"
+                                        : "#FFE8D6",
+                                },
+                              ]}
+                            >
+                              <Text
+                                style={[
+                                  gr.pctText,
+                                  {
+                                    color:
+                                      avgPct >= 70
+                                        ? "#2E7D32"
+                                        : avgPct >= 40
+                                          ? "#E6A020"
+                                          : "#C62828",
+                                  },
+                                ]}
+                              >
+                                {avgPct}%
+                              </Text>
                             </View>
                           </View>
-                        )}
-                      </Pressable>
-                      {/* Expanded: show all attempts — tap to see detail */}
-                      {isExpanded && student.attempts.slice(0, 8).map((att) => (
-                        <Pressable key={att.attemptId} style={[gr.attemptRow, { paddingLeft: 8 }]}
-                          onPress={() => openTeacherDetail(student.studentId, att.attemptId)}>
-                          <View style={{ flex: 1 }}>
-                            <Text style={gr.attemptTitle} numberOfLines={1}>{att.quizTitle}</Text>
-                            {att.gameMetrics ? (
-                              <View style={gr.gameTag}>
-                                <Text style={[gr.gameTagText, { color: '#7B4FCA' }]}>
-                                  {att.gameMetrics.pairsMatched}/{att.gameMetrics.totalPairs} pairs
-                                  {att.gameMetrics.clickLimit > 0 ? ` · ${att.gameMetrics.clicksUsed}/${att.gameMetrics.clickLimit} clicks` : ''}
-                                  {' · '}{att.gameMetrics.accuracy}% acc
+                          {/* Latest attempt preview */}
+                          {latest && (
+                            <View style={gr.attemptRow}>
+                              <Text style={gr.attemptTitle} numberOfLines={1}>
+                                {latest.quizTitle}
+                              </Text>
+                              <Text
+                                style={{
+                                  fontSize: 11,
+                                  color: "#9A9AB0",
+                                  fontWeight: "600",
+                                }}
+                              >
+                                {latest.correctCount}/{latest.totalQuestions} ·{" "}
+                                {latest.scorePct}%
+                              </Text>
+                            </View>
+                          )}
+                          {/* Game metrics chip row */}
+                          {latest?.gameMetrics && (
+                            <View style={gr.gameTag}>
+                              <View style={gr.gameTagItem}>
+                                <Text style={gr.gameTagText}>Memory Match</Text>
+                              </View>
+                              <View
+                                style={[
+                                  gr.gameTagItem,
+                                  { backgroundColor: "#D6F5D6" },
+                                ]}
+                              >
+                                <Text
+                                  style={[gr.gameTagText, { color: "#2E7D32" }]}
+                                >
+                                  {latest.gameMetrics.pairsMatched}/
+                                  {latest.gameMetrics.totalPairs} pairs
                                 </Text>
                               </View>
-                            ) : (
-                              <Text style={{ fontSize: 10, color: '#9A9AB0', fontWeight: '600' }}>Tap to view detail</Text>
-                            )}
-                          </View>
-                          <View style={[gr.pctBadge, { backgroundColor: att.scorePct >= 70 ? '#D6F5D6' : att.scorePct >= 40 ? '#FFF5CC' : '#FFE8D6' }]}>
-                            <Text style={[gr.pctText, { color: att.scorePct >= 70 ? '#2E7D32' : att.scorePct >= 40 ? '#E6A020' : '#C62828' }]}>{att.correctCount}/{att.totalQuestions}</Text>
-                          </View>
+                              {latest.gameMetrics.clickLimit > 0 && (
+                                <View
+                                  style={[
+                                    gr.gameTagItem,
+                                    { backgroundColor: "#FFF5CC" },
+                                  ]}
+                                >
+                                  <Text
+                                    style={[
+                                      gr.gameTagText,
+                                      { color: "#E6A020" },
+                                    ]}
+                                  >
+                                    {latest.gameMetrics.clicksUsed}/
+                                    {latest.gameMetrics.clickLimit} clicks
+                                  </Text>
+                                </View>
+                              )}
+                              <View
+                                style={[
+                                  gr.gameTagItem,
+                                  { backgroundColor: "#EDE4FF" },
+                                ]}
+                              >
+                                <Text style={gr.gameTagText}>
+                                  {latest.gameMetrics.accuracy}% acc
+                                </Text>
+                              </View>
+                            </View>
+                          )}
                         </Pressable>
-                      ))}
-                    </View>
-                  );
-                })}
-              </View>
-            )}
-          </>
-        )}
-      </ScrollView>
-
-      {/* ── Teacher quiz detail modal (same board UI as parent) ── */}
-      <Modal visible={!!teacherQuizDetail || loadingTeacherDetail} animationType="slide" transparent
-        onRequestClose={() => setTeacherQuizDetail(null)}>
-        <View style={pr.modalOverlay}>
-          <View style={pr.modalSheet}>
-            {loadingTeacherDetail ? (
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 60 }}>
-                <ActivityIndicator size="large" color="#4A90E2" />
-                <Text style={{ marginTop: 12, color: '#9A9AB0', fontWeight: '600' }}>Loading…</Text>
-              </View>
-            ) : teacherQuizDetail ? (
-              <>
-                <View style={pr.modalHeader}>
-                  <View style={{ flex: 1, paddingRight: 12 }}>
-                    <Text style={pr.modalTitle} numberOfLines={2}>{teacherQuizDetail.attempt.quizTitle}</Text>
-                    <Text style={pr.modalSub}>{teacherQuizDetail.attempt.correctCount}/{teacherQuizDetail.attempt.totalQuestions} correct · {teacherQuizDetail.attempt.scorePct}%</Text>
-                  </View>
-                  <Pressable style={pr.modalClose} onPress={() => setTeacherQuizDetail(null)}>
-                    <X size={18} color="#9A9AB0" />
-                  </Pressable>
+                        {/* Expanded: show all attempts — tap to see detail */}
+                        {isExpanded &&
+                          student.attempts.slice(0, 8).map((att) => (
+                            <Pressable
+                              key={att.attemptId}
+                              style={[gr.attemptRow, { paddingLeft: 8 }]}
+                              onPress={() =>
+                                openTeacherDetail(
+                                  student.studentId,
+                                  att.attemptId,
+                                )
+                              }
+                            >
+                              <View style={{ flex: 1 }}>
+                                <Text style={gr.attemptTitle} numberOfLines={1}>
+                                  {att.quizTitle}
+                                </Text>
+                                {att.gameMetrics ? (
+                                  <View style={gr.gameTag}>
+                                    <Text
+                                      style={[
+                                        gr.gameTagText,
+                                        { color: "#7B4FCA" },
+                                      ]}
+                                    >
+                                      {att.gameMetrics.pairsMatched}/
+                                      {att.gameMetrics.totalPairs} pairs
+                                      {att.gameMetrics.clickLimit > 0
+                                        ? ` · ${att.gameMetrics.clicksUsed}/${att.gameMetrics.clickLimit} clicks`
+                                        : ""}
+                                      {" · "}
+                                      {att.gameMetrics.accuracy}% acc
+                                    </Text>
+                                  </View>
+                                ) : (
+                                  <Text
+                                    style={{
+                                      fontSize: 10,
+                                      color: "#9A9AB0",
+                                      fontWeight: "600",
+                                    }}
+                                  >
+                                    Tap to view detail
+                                  </Text>
+                                )}
+                              </View>
+                              <View
+                                style={[
+                                  gr.pctBadge,
+                                  {
+                                    backgroundColor:
+                                      att.scorePct >= 70
+                                        ? "#D6F5D6"
+                                        : att.scorePct >= 40
+                                          ? "#FFF5CC"
+                                          : "#FFE8D6",
+                                  },
+                                ]}
+                              >
+                                <Text
+                                  style={[
+                                    gr.pctText,
+                                    {
+                                      color:
+                                        att.scorePct >= 70
+                                          ? "#2E7D32"
+                                          : att.scorePct >= 40
+                                            ? "#E6A020"
+                                            : "#C62828",
+                                    },
+                                  ]}
+                                >
+                                  {att.correctCount}/{att.totalQuestions}
+                                </Text>
+                              </View>
+                            </Pressable>
+                          ))}
+                      </View>
+                    );
+                  })}
                 </View>
-                <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
-                  {teacherQuizDetail.questions.map((q, i) => {
-                    const qType    = q.questionType;
-                    const isMemory = qType === 'memory_match';
-                    const isFill   = qType === 'fill_blank' || qType === 'fill_in_blank';
-                    const isJigsaw2 = qType === 'jigsaw' || qType === 'jigsaw_puzzle';
-                    const options  = (q.questionData.options ?? []) as Array<{ id: string; label?: string; is_correct?: boolean }>;
-                    const selectedId  = q.responseData.selected_id;
-                    const selectedIds = Array.isArray(q.responseData.selected_ids) ? q.responseData.selected_ids as string[] : [];
-                    const selectedAny = selectedId ?? selectedIds[0];
-                    const bannerBg    = isJigsaw2 ? '#E0F2FE' : q.isCorrect ? '#E8F5E9' : '#FFF3F0';
-                    const bannerColor = isJigsaw2 ? '#0C4A6E' : q.isCorrect ? '#2E7D32' : '#C62828';
-                    const bannerLabel = isMemory
-                      ? `${q.responseData.pairsMatched ?? 0}/${q.responseData.totalPairs ?? 0} pairs`
-                      : isJigsaw2
-                      ? (q.responseData.completed ? 'Completed' : 'Not finished')
-                      : q.isCorrect ? '✓ Correct' : '✗ Wrong';
-                    return (
-                      <View key={q.questionId} style={pr.detailQuestionCard}>
-                        <View style={[pr.detailQuestionBanner, { backgroundColor: bannerBg }]}>
-                          <Text style={{ fontSize: 13, fontWeight: '800', color: bannerColor, opacity: 0.7 }}>
-                            Q{i + 1}{isMemory ? ' · Memory Match' : isFill ? ' · Fill Blank' : isJigsaw2 ? ' · Jigsaw' : ''}
-                          </Text>
-                          <View style={{ backgroundColor: isJigsaw2 ? (q.responseData.completed ? '#0EA5E9' : '#FF5252') : q.isCorrect ? '#4CAF50' : '#FF5252', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 }}>
-                            <Text style={{ fontSize: 12, fontWeight: '900', color: '#fff' }}>{bannerLabel}</Text>
-                          </View>
-                        </View>
-                        <View style={pr.detailQuestionInner}>
-                          <Text style={pr.detailQTitle}>{q.questionTitle ?? q.questionInstruction ?? `Question ${i + 1}`}</Text>
-                          {isMemory && (() => {
-                            const rd       = q.responseData;
-                            const allPairs = (q.questionData.pairs ?? []) as Array<{ id: number; label: string; imageUrl?: string }>;
-                            const matchedSet = new Set((rd.correctMatches ?? []).map((m: any) => m.pairId as number));
-                            const cols = allPairs.length <= 2 ? 2 : 3;
-                            const boardRows2: typeof allPairs[] = [];
-                            for (let j = 0; j < allPairs.length; j += cols) boardRows2.push(allPairs.slice(j, j + cols));
-                            return (
-                              <View style={{ marginTop: 12, gap: 10 }}>
-                                <View style={gr.chipRow}>
-                                  <View style={[gr.chip, { backgroundColor: '#E8F5E9' }]}><CheckCircle size={13} color="#4CAF50" /><Text style={[gr.chipTxt, { color: '#2E7D32' }]}>{rd.pairsMatched ?? 0}/{rd.totalPairs ?? allPairs.length} pairs</Text></View>
-                                  {(rd.clickLimit ?? 0) > 0 && <View style={[gr.chip, { backgroundColor: '#FFF5CC' }]}><Text style={[gr.chipTxt, { color: '#E6A020' }]}>{rd.clicksUsed}/{rd.clickLimit} clicks</Text></View>}
-                                  <View style={[gr.chip, { backgroundColor: '#EDE4FF' }]}><Text style={[gr.chipTxt, { color: '#7B4FCA' }]}>{rd.accuracy ?? 0}% acc</Text></View>
-                                  {(rd.wrongAttempts ?? 0) > 0 && <View style={[gr.chip, { backgroundColor: '#FFF3F0' }]}><Text style={[gr.chipTxt, { color: '#C62828' }]}>{rd.wrongAttempts} wrong</Text></View>}
-                                </View>
-                                {/* Accuracy progress bar */}
-                                {(() => {
-                                  const acc = rd.accuracy ?? 0;
-                                  const barColor = acc >= 80 ? '#4CAF50' : acc >= 50 ? '#E6A020' : '#FF5252';
-                                  return (
-                                    <View style={{ gap: 4 }}>
-                                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                        <Text style={{ fontSize: 11, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' }}>Accuracy</Text>
-                                        <Text style={{ fontSize: 11, fontWeight: '800', color: barColor }}>{acc}%</Text>
-                                      </View>
-                                      <View style={{ height: 8, backgroundColor: '#F0F0F5', borderRadius: 4, overflow: 'hidden' }}>
-                                        <View style={{ height: 8, width: `${acc}%` as any, backgroundColor: barColor, borderRadius: 4 }} />
-                                      </View>
-                                    </View>
-                                  );
-                                })()}
+              )}
+            </>
+          )}
+        </ScrollView>
 
-                                <Text style={gr.boardLabel}>Board Result</Text>
-                                <View style={{ gap: 8 }}>
-                                  {boardRows2.map((row, rIdx) => (
-                                    <View key={rIdx} style={{ flexDirection: 'row', gap: 8 }}>
-                                      {row.map((pair) => {
-                                        const isOk   = matchedSet.has(pair.id);
-                                        const imgUrl = pair.imageUrl ? `${API_BASE_URL}${pair.imageUrl}` : undefined;
-                                        return (
-                                          <View key={pair.id} style={[gr.boardCard, { flex: 1, backgroundColor: isOk ? '#E8F5E9' : '#FFF3F0', borderColor: isOk ? '#4CAF50' : '#FF7043' }]}>
-                                            {imgUrl ? <Image source={{ uri: imgUrl }} style={gr.boardImg} resizeMode="contain" /> : <Text style={{ fontSize: 22 }}>?</Text>}
-                                            <Text style={[gr.boardCardLabel, { color: isOk ? '#2E7D32' : '#C62828' }]} numberOfLines={1}>{pair.label}</Text>
-                                            <View style={[gr.boardBadge, { backgroundColor: isOk ? '#4CAF50' : '#FF5252' }]}><Text style={gr.boardBadgeText}>{isOk ? '✓' : '✗'}</Text></View>
+        {/* ── Teacher quiz detail modal (same board UI as parent) ── */}
+        <Modal
+          visible={!!teacherQuizDetail || loadingTeacherDetail}
+          animationType="slide"
+          transparent
+          onRequestClose={() => setTeacherQuizDetail(null)}
+        >
+          <View style={pr.modalOverlay}>
+            <View style={pr.modalSheet}>
+              {loadingTeacherDetail ? (
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    paddingVertical: 60,
+                  }}
+                >
+                  <ActivityIndicator size="large" color="#4A90E2" />
+                  <Text
+                    style={{
+                      marginTop: 12,
+                      color: "#9A9AB0",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Loading…
+                  </Text>
+                </View>
+              ) : teacherQuizDetail ? (
+                <>
+                  <View style={pr.modalHeader}>
+                    <View style={{ flex: 1, paddingRight: 12 }}>
+                      <Text style={pr.modalTitle} numberOfLines={2}>
+                        {teacherQuizDetail.attempt.quizTitle}
+                      </Text>
+                      <Text style={pr.modalSub}>
+                        {teacherQuizDetail.attempt.correctCount}/
+                        {teacherQuizDetail.attempt.totalQuestions} correct ·{" "}
+                        {teacherQuizDetail.attempt.scorePct}%
+                      </Text>
+                    </View>
+                    <Pressable
+                      style={pr.modalClose}
+                      onPress={() => setTeacherQuizDetail(null)}
+                    >
+                      <X size={18} color="#9A9AB0" />
+                    </Pressable>
+                  </View>
+                  <ScrollView
+                    contentContainerStyle={{
+                      paddingHorizontal: 16,
+                      paddingBottom: 32,
+                    }}
+                    showsVerticalScrollIndicator={false}
+                  >
+                    {teacherQuizDetail.questions.map((q, i) => {
+                      const qType = q.questionType;
+                      const isMemory = qType === "memory_match";
+                      const isFill =
+                        qType === "fill_blank" || qType === "fill_in_blank";
+                      const isJigsaw2 =
+                        qType === "jigsaw" || qType === "jigsaw_puzzle";
+                      const options = (q.questionData.options ?? []) as Array<{
+                        id: string;
+                        label?: string;
+                        is_correct?: boolean;
+                      }>;
+                      const selectedId = q.responseData.selected_id;
+                      const selectedIds = Array.isArray(
+                        q.responseData.selected_ids,
+                      )
+                        ? (q.responseData.selected_ids as string[])
+                        : [];
+                      const selectedAny = selectedId ?? selectedIds[0];
+                      const bannerBg = isJigsaw2
+                        ? "#E0F2FE"
+                        : q.isCorrect
+                          ? "#E8F5E9"
+                          : "#FFF3F0";
+                      const bannerColor = isJigsaw2
+                        ? "#0C4A6E"
+                        : q.isCorrect
+                          ? "#2E7D32"
+                          : "#C62828";
+                      const bannerLabel = isMemory
+                        ? `${q.responseData.pairsMatched ?? 0}/${q.responseData.totalPairs ?? 0} pairs`
+                        : isJigsaw2
+                          ? q.responseData.completed
+                            ? "Completed"
+                            : "Not finished"
+                          : q.isCorrect
+                            ? "✓ Correct"
+                            : "✗ Wrong";
+                      return (
+                        <View key={q.questionId} style={pr.detailQuestionCard}>
+                          <View
+                            style={[
+                              pr.detailQuestionBanner,
+                              { backgroundColor: bannerBg },
+                            ]}
+                          >
+                            <Text
+                              style={{
+                                fontSize: 13,
+                                fontWeight: "800",
+                                color: bannerColor,
+                                opacity: 0.7,
+                              }}
+                            >
+                              Q{i + 1}
+                              {isMemory
+                                ? " · Memory Match"
+                                : isFill
+                                  ? " · Fill Blank"
+                                  : isJigsaw2
+                                    ? " · Jigsaw"
+                                    : ""}
+                            </Text>
+                            <View
+                              style={{
+                                backgroundColor: isJigsaw2
+                                  ? q.responseData.completed
+                                    ? "#0EA5E9"
+                                    : "#FF5252"
+                                  : q.isCorrect
+                                    ? "#4CAF50"
+                                    : "#FF5252",
+                                borderRadius: 999,
+                                paddingHorizontal: 12,
+                                paddingVertical: 5,
+                              }}
+                            >
+                              <Text
+                                style={{
+                                  fontSize: 12,
+                                  fontWeight: "900",
+                                  color: "#fff",
+                                }}
+                              >
+                                {bannerLabel}
+                              </Text>
+                            </View>
+                          </View>
+                          <View style={pr.detailQuestionInner}>
+                            <Text style={pr.detailQTitle}>
+                              {q.questionTitle ??
+                                q.questionInstruction ??
+                                `Question ${i + 1}`}
+                            </Text>
+                            {isMemory &&
+                              (() => {
+                                const rd = q.responseData;
+                                const allPairs = (q.questionData.pairs ??
+                                  []) as Array<{
+                                  id: number;
+                                  label: string;
+                                  imageUrl?: string;
+                                }>;
+                                const matchedSet = new Set(
+                                  (rd.correctMatches ?? []).map(
+                                    (m: any) => m.pairId as number,
+                                  ),
+                                );
+                                const cols = allPairs.length <= 2 ? 2 : 3;
+                                const boardRows2: (typeof allPairs)[] = [];
+                                for (let j = 0; j < allPairs.length; j += cols)
+                                  boardRows2.push(allPairs.slice(j, j + cols));
+                                return (
+                                  <View style={{ marginTop: 12, gap: 10 }}>
+                                    <View style={gr.chipRow}>
+                                      <View
+                                        style={[
+                                          gr.chip,
+                                          { backgroundColor: "#E8F5E9" },
+                                        ]}
+                                      >
+                                        <CheckCircle
+                                          size={13}
+                                          color="#4CAF50"
+                                        />
+                                        <Text
+                                          style={[
+                                            gr.chipTxt,
+                                            { color: "#2E7D32" },
+                                          ]}
+                                        >
+                                          {rd.pairsMatched ?? 0}/
+                                          {rd.totalPairs ?? allPairs.length}{" "}
+                                          pairs
+                                        </Text>
+                                      </View>
+                                      {(rd.clickLimit ?? 0) > 0 && (
+                                        <View
+                                          style={[
+                                            gr.chip,
+                                            { backgroundColor: "#FFF5CC" },
+                                          ]}
+                                        >
+                                          <Text
+                                            style={[
+                                              gr.chipTxt,
+                                              { color: "#E6A020" },
+                                            ]}
+                                          >
+                                            {rd.clicksUsed}/{rd.clickLimit}{" "}
+                                            clicks
+                                          </Text>
+                                        </View>
+                                      )}
+                                      <View
+                                        style={[
+                                          gr.chip,
+                                          { backgroundColor: "#EDE4FF" },
+                                        ]}
+                                      >
+                                        <Text
+                                          style={[
+                                            gr.chipTxt,
+                                            { color: "#7B4FCA" },
+                                          ]}
+                                        >
+                                          {rd.accuracy ?? 0}% acc
+                                        </Text>
+                                      </View>
+                                      {(rd.wrongAttempts ?? 0) > 0 && (
+                                        <View
+                                          style={[
+                                            gr.chip,
+                                            { backgroundColor: "#FFF3F0" },
+                                          ]}
+                                        >
+                                          <Text
+                                            style={[
+                                              gr.chipTxt,
+                                              { color: "#C62828" },
+                                            ]}
+                                          >
+                                            {rd.wrongAttempts} wrong
+                                          </Text>
+                                        </View>
+                                      )}
+                                    </View>
+                                    {/* Accuracy progress bar */}
+                                    {(() => {
+                                      const acc = rd.accuracy ?? 0;
+                                      const barColor =
+                                        acc >= 80
+                                          ? "#4CAF50"
+                                          : acc >= 50
+                                            ? "#E6A020"
+                                            : "#FF5252";
+                                      return (
+                                        <View style={{ gap: 4 }}>
+                                          <View
+                                            style={{
+                                              flexDirection: "row",
+                                              justifyContent: "space-between",
+                                            }}
+                                          >
+                                            <Text
+                                              style={{
+                                                fontSize: 11,
+                                                fontWeight: "700",
+                                                color: "#9A9AB0",
+                                                textTransform: "uppercase",
+                                              }}
+                                            >
+                                              Accuracy
+                                            </Text>
+                                            <Text
+                                              style={{
+                                                fontSize: 11,
+                                                fontWeight: "800",
+                                                color: barColor,
+                                              }}
+                                            >
+                                              {acc}%
+                                            </Text>
                                           </View>
-                                        );
-                                      })}
-                                      {row.length < cols && Array.from({ length: cols - row.length }).map((_, fi) => <View key={fi} style={{ flex: 1 }} />)}
-                                    </View>
-                                  ))}
-                                </View>
-                              </View>
-                            );
-                          })()}
-                          {isFill && (() => {
-                            const sentence = q.questionData.sentence as string ?? '';
-                            const correct  = q.questionData.answer as string ?? q.responseData.answer ?? '';
-                            const chosen   = q.responseData.selected ?? '—';
-                            const isOk     = (chosen as string).toLowerCase() === (correct as string).toLowerCase();
-                            const parts    = sentence.split('___');
-                            return (
-                              <View style={{ marginTop: 12, gap: 10 }}>
-                                <View style={[gr.sentenceBox, { borderColor: isOk ? '#4CAF50' : '#FF7043' }]}>
-                                  <Text style={gr.sentenceText}><Text>{parts[0]}</Text><Text style={[gr.blankFilled, { color: isOk ? '#2E7D32' : '#C62828', backgroundColor: isOk ? '#E8F5E9' : '#FFF3F0' }]}> {chosen as string} </Text><Text>{parts[1] ?? ''}</Text></Text>
-                                </View>
-                                {!isOk && <View style={[gr.sentenceBox, { borderColor: '#4CAF50' }]}><Text style={[gr.sentenceText, { color: '#2E7D32', fontWeight: '800' }]}>{parts[0]}<Text style={{ backgroundColor: '#D6F5D6' }}> {correct as string} </Text>{parts[1] ?? ''}</Text></View>}
-                              </View>
-                            );
-                          })()}
-                          {/* ── JIGSAW PUZZLE result (teacher) ── */}
-                          {isJigsaw2 && (() => {
-                            const rd        = q.responseData;
-                            const completed = Boolean(rd.completed);
-                            const moves     = Number(rd.moves ?? 0);
-                            const clickLim  = rd.clickLimit != null ? Number(rd.clickLimit) : null;
-                            const timeTaken = Number(rd.timeTaken ?? 0);
-                            const gridSize  = (rd.gridSize as string) || (q.questionData as any).gridSize || '3x3';
-                            const difficulty= (rd.difficulty as string) || (q.questionData as any).difficulty || 'medium';
-                            const n         = Number(gridSize.split('x')[0]) || 3;
-                            const total     = n * n;
-                            const diffColor = difficulty === 'easy' ? '#15803D' : difficulty === 'medium' ? '#A16207' : '#B91C1C';
-                            const diffBg    = difficulty === 'easy' ? '#DCFCE7' : difficulty === 'medium' ? '#FEF9C3' : '#FEE2E2';
-                            const barColor  = completed ? '#0EA5E9' : '#FF5252';
-                            const rawImg2   = (q.questionData as any).image || (q.questionData as any).prompt_image;
-                            const imgUrl2   = rawImg2 ? (rawImg2.startsWith('/media') ? `${API_BASE_URL}${rawImg2}` : rawImg2) : null;
-                            const slotArr2  = Array.isArray(rd.slotArrangement) ? (rd.slotArrangement as Array<number | null>) : null;
-                            const CELL2     = 58;
-                            const CGAP      = 2;
-                            return (
-                              <View style={{ marginTop: 12, gap: 10 }}>
-                                <View style={gr.chipRow}>
-                                  <View style={[gr.chip, { backgroundColor: '#E0F2FE' }]}>
-                                    <Text style={[gr.chipTxt, { color: '#0369A1' }]}>🧩 {gridSize} · {total} pieces</Text>
-                                  </View>
-                                  <View style={[gr.chip, { backgroundColor: diffBg }]}>
-                                    <Text style={[gr.chipTxt, { color: diffColor }]}>{difficulty}</Text>
-                                  </View>
-                                  <View style={[gr.chip, { backgroundColor: '#F1F5F9' }]}>
-                                    <Text style={[gr.chipTxt, { color: '#334155' }]}>{moves}{clickLim ? `/${clickLim}` : ''} moves</Text>
-                                  </View>
-                                  {timeTaken > 0 && (
-                                    <View style={[gr.chip, { backgroundColor: '#F1F5F9' }]}>
-                                      <Text style={[gr.chipTxt, { color: '#334155' }]}>{timeTaken}s</Text>
-                                    </View>
-                                  )}
-                                </View>
-                                <View style={{ gap: 4 }}>
-                                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Text style={{ fontSize: 11, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' }}>Result</Text>
-                                    <Text style={{ fontSize: 11, fontWeight: '800', color: barColor }}>{completed ? '✓ Completed' : '✗ Not finished'}</Text>
-                                  </View>
-                                  <View style={{ height: 8, backgroundColor: '#F0F0F5', borderRadius: 4, overflow: 'hidden' }}>
-                                    <View style={{ height: 8, width: completed ? ('100%' as any) : ('30%' as any), backgroundColor: barColor, borderRadius: 4 }} />
-                                  </View>
-                                </View>
-                                {/* Final answer image grid */}
-                                {imgUrl2 && slotArr2 ? (
-                                  <View style={{ gap: 6 }}>
-                                    <Text style={gr.boardLabel}>Final Answer</Text>
-                                    <View style={{ gap: CGAP }}>
-                                      {Array.from({ length: n }, (_, r) => (
-                                        <View key={r} style={{ flexDirection: 'row', gap: CGAP }}>
-                                          {Array.from({ length: n }, (_, c) => {
-                                            const slot    = r * n + c;
-                                            const piece   = slotArr2[slot];
-                                            const isEmpty = piece === null || piece === undefined;
-                                            const isCorr  = !isEmpty && piece === slot;
+                                          <View
+                                            style={{
+                                              height: 8,
+                                              backgroundColor: "#F0F0F5",
+                                              borderRadius: 4,
+                                              overflow: "hidden",
+                                            }}
+                                          >
+                                            <View
+                                              style={{
+                                                height: 8,
+                                                width: `${acc}%` as any,
+                                                backgroundColor: barColor,
+                                                borderRadius: 4,
+                                              }}
+                                            />
+                                          </View>
+                                        </View>
+                                      );
+                                    })()}
+
+                                    <Text style={gr.boardLabel}>
+                                      Board Result
+                                    </Text>
+                                    <View style={{ gap: 8 }}>
+                                      {boardRows2.map((row, rIdx) => (
+                                        <View
+                                          key={rIdx}
+                                          style={{
+                                            flexDirection: "row",
+                                            gap: 8,
+                                          }}
+                                        >
+                                          {row.map((pair) => {
+                                            const isOk = matchedSet.has(
+                                              pair.id,
+                                            );
+                                            const imgUrl = pair.imageUrl
+                                              ? `${API_BASE_URL}${pair.imageUrl}`
+                                              : undefined;
                                             return (
-                                              <View key={c} style={{ width: CELL2, height: CELL2, borderRadius: 5, overflow: 'hidden', borderWidth: 2, borderColor: isEmpty ? '#CBD5E1' : isCorr ? '#4CAF50' : '#FF7043', backgroundColor: isEmpty ? '#F0F4FF' : undefined, alignItems: 'center', justifyContent: 'center' }}>
-                                                {!isEmpty ? (
+                                              <View
+                                                key={pair.id}
+                                                style={[
+                                                  gr.boardCard,
+                                                  {
+                                                    flex: 1,
+                                                    backgroundColor: isOk
+                                                      ? "#E8F5E9"
+                                                      : "#FFF3F0",
+                                                    borderColor: isOk
+                                                      ? "#4CAF50"
+                                                      : "#FF7043",
+                                                  },
+                                                ]}
+                                              >
+                                                {imgUrl ? (
                                                   <Image
-                                                    source={{ uri: imgUrl2 }}
-                                                    resizeMode="stretch"
-                                                    style={{ width: CELL2 * n, height: CELL2 * n, position: 'absolute', left: -((piece! % n) * CELL2), top: -(Math.floor(piece! / n) * CELL2) }}
+                                                    source={{ uri: imgUrl }}
+                                                    style={gr.boardImg}
+                                                    resizeMode="contain"
                                                   />
                                                 ) : (
-                                                  <Text style={{ fontSize: 10, color: '#94A3B8', fontWeight: '700' }}>{slot + 1}</Text>
+                                                  <Text
+                                                    style={{ fontSize: 22 }}
+                                                  >
+                                                    ?
+                                                  </Text>
                                                 )}
-                                                {!isEmpty && (
-                                                  <View style={{ position: 'absolute', bottom: 2, right: 2, width: 12, height: 12, borderRadius: 6, backgroundColor: isCorr ? '#4CAF50' : '#FF7043', alignItems: 'center', justifyContent: 'center' }}>
-                                                    <Text style={{ fontSize: 7, color: '#fff', fontWeight: '900' }}>{isCorr ? '✓' : '✗'}</Text>
-                                                  </View>
-                                                )}
+                                                <Text
+                                                  style={[
+                                                    gr.boardCardLabel,
+                                                    {
+                                                      color: isOk
+                                                        ? "#2E7D32"
+                                                        : "#C62828",
+                                                    },
+                                                  ]}
+                                                  numberOfLines={1}
+                                                >
+                                                  {pair.label}
+                                                </Text>
+                                                <View
+                                                  style={[
+                                                    gr.boardBadge,
+                                                    {
+                                                      backgroundColor: isOk
+                                                        ? "#4CAF50"
+                                                        : "#FF5252",
+                                                    },
+                                                  ]}
+                                                >
+                                                  <Text
+                                                    style={gr.boardBadgeText}
+                                                  >
+                                                    {isOk ? "✓" : "✗"}
+                                                  </Text>
+                                                </View>
                                               </View>
                                             );
                                           })}
+                                          {row.length < cols &&
+                                            Array.from({
+                                              length: cols - row.length,
+                                            }).map((_, fi) => (
+                                              <View
+                                                key={fi}
+                                                style={{ flex: 1 }}
+                                              />
+                                            ))}
                                         </View>
                                       ))}
                                     </View>
                                   </View>
-                                ) : imgUrl2 && completed ? (
-                                  <View style={{ gap: 6 }}>
-                                    <Text style={gr.boardLabel}>Final Answer</Text>
-                                    <Image source={{ uri: imgUrl2 }} style={{ width: '100%', height: 160, borderRadius: 10 }} resizeMode="contain" />
-                                  </View>
-                                ) : null}
-                              </View>
-                            );
-                          })()}
-
-                          {!isMemory && !isFill && !isJigsaw2 && options.length > 0 && (
-                            <View style={{ gap: 8, marginTop: 12 }}>
-                              {options.map((o) => {
-                                const isSel = o.id === selectedAny || selectedIds.includes(o.id);
-                                const isCor = o.is_correct === true;
-                                let bg = '#F8F9FC', border = '#EAECF0', txtC = '#374151', icon: string | null = null;
-                                if (isCor && isSel) { bg='#E8F5E9'; border='#4CAF50'; txtC='#1B5E20'; icon='✓'; }
-                                else if (isCor)     { bg='#E8F5E9'; border='#4CAF50'; txtC='#1B5E20'; icon='✓'; }
-                                else if (isSel)     { bg='#FFF3F0'; border='#FF5252'; txtC='#B71C1C'; icon='✗'; }
+                                );
+                              })()}
+                            {isFill &&
+                              (() => {
+                                const sentence =
+                                  (q.questionData.sentence as string) ?? "";
+                                const correct =
+                                  (q.questionData.answer as string) ??
+                                  q.responseData.answer ??
+                                  "";
+                                const chosen = q.responseData.selected ?? "—";
+                                const isOk =
+                                  (chosen as string).toLowerCase() ===
+                                  (correct as string).toLowerCase();
+                                const parts = sentence.split("___");
                                 return (
-                                  <View key={o.id} style={[pr.detailOption, { backgroundColor: bg, borderColor: border }]}>
-                                    <Text style={[pr.detailOptionText, { color: txtC }]}>{o.label ?? o.id}</Text>
-                                    {icon && <View style={{ width: 24, height: 24, borderRadius: 12, backgroundColor: isCor ? '#4CAF50' : '#FF5252', alignItems: 'center', justifyContent: 'center' }}><Text style={{ fontSize: 13, color: '#fff', fontWeight: '900' }}>{icon}</Text></View>}
+                                  <View style={{ marginTop: 12, gap: 10 }}>
+                                    <View
+                                      style={[
+                                        gr.sentenceBox,
+                                        {
+                                          borderColor: isOk
+                                            ? "#4CAF50"
+                                            : "#FF7043",
+                                        },
+                                      ]}
+                                    >
+                                      <Text style={gr.sentenceText}>
+                                        <Text>{parts[0]}</Text>
+                                        <Text
+                                          style={[
+                                            gr.blankFilled,
+                                            {
+                                              color: isOk
+                                                ? "#2E7D32"
+                                                : "#C62828",
+                                              backgroundColor: isOk
+                                                ? "#E8F5E9"
+                                                : "#FFF3F0",
+                                            },
+                                          ]}
+                                        >
+                                          {" "}
+                                          {chosen as string}{" "}
+                                        </Text>
+                                        <Text>{parts[1] ?? ""}</Text>
+                                      </Text>
+                                    </View>
+                                    {!isOk && (
+                                      <View
+                                        style={[
+                                          gr.sentenceBox,
+                                          { borderColor: "#4CAF50" },
+                                        ]}
+                                      >
+                                        <Text
+                                          style={[
+                                            gr.sentenceText,
+                                            {
+                                              color: "#2E7D32",
+                                              fontWeight: "800",
+                                            },
+                                          ]}
+                                        >
+                                          {parts[0]}
+                                          <Text
+                                            style={{
+                                              backgroundColor: "#D6F5D6",
+                                            }}
+                                          >
+                                            {" "}
+                                            {correct as string}{" "}
+                                          </Text>
+                                          {parts[1] ?? ""}
+                                        </Text>
+                                      </View>
+                                    )}
                                   </View>
                                 );
-                              })}
-                            </View>
-                          )}
+                              })()}
+                            {/* ── JIGSAW PUZZLE result (teacher) ── */}
+                            {isJigsaw2 &&
+                              (() => {
+                                const rd = q.responseData;
+                                const completed = Boolean(rd.completed);
+                                const moves = Number(rd.moves ?? 0);
+                                const clickLim =
+                                  rd.clickLimit != null
+                                    ? Number(rd.clickLimit)
+                                    : null;
+                                const timeTaken = Number(rd.timeTaken ?? 0);
+                                const gridSize =
+                                  (rd.gridSize as string) ||
+                                  (q.questionData as any).gridSize ||
+                                  "3x3";
+                                const difficulty =
+                                  (rd.difficulty as string) ||
+                                  (q.questionData as any).difficulty ||
+                                  "medium";
+                                const n = Number(gridSize.split("x")[0]) || 3;
+                                const total = n * n;
+                                const diffColor =
+                                  difficulty === "easy"
+                                    ? "#15803D"
+                                    : difficulty === "medium"
+                                      ? "#A16207"
+                                      : "#B91C1C";
+                                const diffBg =
+                                  difficulty === "easy"
+                                    ? "#DCFCE7"
+                                    : difficulty === "medium"
+                                      ? "#FEF9C3"
+                                      : "#FEE2E2";
+                                const barColor = completed
+                                  ? "#0EA5E9"
+                                  : "#FF5252";
+                                const rawImg2 =
+                                  (q.questionData as any).image ||
+                                  (q.questionData as any).prompt_image;
+                                const imgUrl2 = rawImg2
+                                  ? rawImg2.startsWith("/media")
+                                    ? `${API_BASE_URL}${rawImg2}`
+                                    : rawImg2
+                                  : null;
+                                const slotArr2 = Array.isArray(
+                                  rd.slotArrangement,
+                                )
+                                  ? (rd.slotArrangement as Array<number | null>)
+                                  : null;
+                                const CELL2 = 58;
+                                const CGAP = 2;
+                                return (
+                                  <View style={{ marginTop: 12, gap: 10 }}>
+                                    <View style={gr.chipRow}>
+                                      <View
+                                        style={[
+                                          gr.chip,
+                                          { backgroundColor: "#E0F2FE" },
+                                        ]}
+                                      >
+                                        <Text
+                                          style={[
+                                            gr.chipTxt,
+                                            { color: "#0369A1" },
+                                          ]}
+                                        >
+                                          🧩 {gridSize} · {total} pieces
+                                        </Text>
+                                      </View>
+                                      <View
+                                        style={[
+                                          gr.chip,
+                                          { backgroundColor: diffBg },
+                                        ]}
+                                      >
+                                        <Text
+                                          style={[
+                                            gr.chipTxt,
+                                            { color: diffColor },
+                                          ]}
+                                        >
+                                          {difficulty}
+                                        </Text>
+                                      </View>
+                                      <View
+                                        style={[
+                                          gr.chip,
+                                          { backgroundColor: "#F1F5F9" },
+                                        ]}
+                                      >
+                                        <Text
+                                          style={[
+                                            gr.chipTxt,
+                                            { color: "#334155" },
+                                          ]}
+                                        >
+                                          {moves}
+                                          {clickLim ? `/${clickLim}` : ""} moves
+                                        </Text>
+                                      </View>
+                                      {timeTaken > 0 && (
+                                        <View
+                                          style={[
+                                            gr.chip,
+                                            { backgroundColor: "#F1F5F9" },
+                                          ]}
+                                        >
+                                          <Text
+                                            style={[
+                                              gr.chipTxt,
+                                              { color: "#334155" },
+                                            ]}
+                                          >
+                                            {timeTaken}s
+                                          </Text>
+                                        </View>
+                                      )}
+                                    </View>
+                                    <View style={{ gap: 4 }}>
+                                      <View
+                                        style={{
+                                          flexDirection: "row",
+                                          justifyContent: "space-between",
+                                        }}
+                                      >
+                                        <Text
+                                          style={{
+                                            fontSize: 11,
+                                            fontWeight: "700",
+                                            color: "#9A9AB0",
+                                            textTransform: "uppercase",
+                                          }}
+                                        >
+                                          Result
+                                        </Text>
+                                        <Text
+                                          style={{
+                                            fontSize: 11,
+                                            fontWeight: "800",
+                                            color: barColor,
+                                          }}
+                                        >
+                                          {completed
+                                            ? "✓ Completed"
+                                            : "✗ Not finished"}
+                                        </Text>
+                                      </View>
+                                      <View
+                                        style={{
+                                          height: 8,
+                                          backgroundColor: "#F0F0F5",
+                                          borderRadius: 4,
+                                          overflow: "hidden",
+                                        }}
+                                      >
+                                        <View
+                                          style={{
+                                            height: 8,
+                                            width: completed
+                                              ? ("100%" as any)
+                                              : ("30%" as any),
+                                            backgroundColor: barColor,
+                                            borderRadius: 4,
+                                          }}
+                                        />
+                                      </View>
+                                    </View>
+                                    {/* Final answer image grid */}
+                                    {imgUrl2 && slotArr2 ? (
+                                      <View style={{ gap: 6 }}>
+                                        <Text style={gr.boardLabel}>
+                                          Final Answer
+                                        </Text>
+                                        <View style={{ gap: CGAP }}>
+                                          {Array.from({ length: n }, (_, r) => (
+                                            <View
+                                              key={r}
+                                              style={{
+                                                flexDirection: "row",
+                                                gap: CGAP,
+                                              }}
+                                            >
+                                              {Array.from(
+                                                { length: n },
+                                                (_, c) => {
+                                                  const slot = r * n + c;
+                                                  const piece = slotArr2[slot];
+                                                  const isEmpty =
+                                                    piece === null ||
+                                                    piece === undefined;
+                                                  const isCorr =
+                                                    !isEmpty && piece === slot;
+                                                  return (
+                                                    <View
+                                                      key={c}
+                                                      style={{
+                                                        width: CELL2,
+                                                        height: CELL2,
+                                                        borderRadius: 5,
+                                                        overflow: "hidden",
+                                                        borderWidth: 2,
+                                                        borderColor: isEmpty
+                                                          ? "#CBD5E1"
+                                                          : isCorr
+                                                            ? "#4CAF50"
+                                                            : "#FF7043",
+                                                        backgroundColor: isEmpty
+                                                          ? "#F0F4FF"
+                                                          : undefined,
+                                                        alignItems: "center",
+                                                        justifyContent:
+                                                          "center",
+                                                      }}
+                                                    >
+                                                      {!isEmpty ? (
+                                                        <Image
+                                                          source={{
+                                                            uri: imgUrl2,
+                                                          }}
+                                                          resizeMode="stretch"
+                                                          style={{
+                                                            width: CELL2 * n,
+                                                            height: CELL2 * n,
+                                                            position:
+                                                              "absolute",
+                                                            left: -(
+                                                              (piece! % n) *
+                                                              CELL2
+                                                            ),
+                                                            top: -(
+                                                              Math.floor(
+                                                                piece! / n,
+                                                              ) * CELL2
+                                                            ),
+                                                          }}
+                                                        />
+                                                      ) : (
+                                                        <Text
+                                                          style={{
+                                                            fontSize: 10,
+                                                            color: "#94A3B8",
+                                                            fontWeight: "700",
+                                                          }}
+                                                        >
+                                                          {slot + 1}
+                                                        </Text>
+                                                      )}
+                                                      {!isEmpty && (
+                                                        <View
+                                                          style={{
+                                                            position:
+                                                              "absolute",
+                                                            bottom: 2,
+                                                            right: 2,
+                                                            width: 12,
+                                                            height: 12,
+                                                            borderRadius: 6,
+                                                            backgroundColor:
+                                                              isCorr
+                                                                ? "#4CAF50"
+                                                                : "#FF7043",
+                                                            alignItems:
+                                                              "center",
+                                                            justifyContent:
+                                                              "center",
+                                                          }}
+                                                        >
+                                                          <Text
+                                                            style={{
+                                                              fontSize: 7,
+                                                              color: "#fff",
+                                                              fontWeight: "900",
+                                                            }}
+                                                          >
+                                                            {isCorr ? "✓" : "✗"}
+                                                          </Text>
+                                                        </View>
+                                                      )}
+                                                    </View>
+                                                  );
+                                                },
+                                              )}
+                                            </View>
+                                          ))}
+                                        </View>
+                                      </View>
+                                    ) : imgUrl2 && completed ? (
+                                      <View style={{ gap: 6 }}>
+                                        <Text style={gr.boardLabel}>
+                                          Final Answer
+                                        </Text>
+                                        <Image
+                                          source={{ uri: imgUrl2 }}
+                                          style={{
+                                            width: "100%",
+                                            height: 160,
+                                            borderRadius: 10,
+                                          }}
+                                          resizeMode="contain"
+                                        />
+                                      </View>
+                                    ) : null}
+                                  </View>
+                                );
+                              })()}
+
+                            {!isMemory &&
+                              !isFill &&
+                              !isJigsaw2 &&
+                              options.length > 0 && (
+                                <View style={{ gap: 8, marginTop: 12 }}>
+                                  {options.map((o) => {
+                                    const isSel =
+                                      o.id === selectedAny ||
+                                      selectedIds.includes(o.id);
+                                    const isCor = o.is_correct === true;
+                                    let bg = "#F8F9FC",
+                                      border = "#EAECF0",
+                                      txtC = "#374151",
+                                      icon: string | null = null;
+                                    if (isCor && isSel) {
+                                      bg = "#E8F5E9";
+                                      border = "#4CAF50";
+                                      txtC = "#1B5E20";
+                                      icon = "✓";
+                                    } else if (isCor) {
+                                      bg = "#E8F5E9";
+                                      border = "#4CAF50";
+                                      txtC = "#1B5E20";
+                                      icon = "✓";
+                                    } else if (isSel) {
+                                      bg = "#FFF3F0";
+                                      border = "#FF5252";
+                                      txtC = "#B71C1C";
+                                      icon = "✗";
+                                    }
+                                    return (
+                                      <View
+                                        key={o.id}
+                                        style={[
+                                          pr.detailOption,
+                                          {
+                                            backgroundColor: bg,
+                                            borderColor: border,
+                                          },
+                                        ]}
+                                      >
+                                        <Text
+                                          style={[
+                                            pr.detailOptionText,
+                                            { color: txtC },
+                                          ]}
+                                        >
+                                          {o.label ?? o.id}
+                                        </Text>
+                                        {icon && (
+                                          <View
+                                            style={{
+                                              width: 24,
+                                              height: 24,
+                                              borderRadius: 12,
+                                              backgroundColor: isCor
+                                                ? "#4CAF50"
+                                                : "#FF5252",
+                                              alignItems: "center",
+                                              justifyContent: "center",
+                                            }}
+                                          >
+                                            <Text
+                                              style={{
+                                                fontSize: 13,
+                                                color: "#fff",
+                                                fontWeight: "900",
+                                              }}
+                                            >
+                                              {icon}
+                                            </Text>
+                                          </View>
+                                        )}
+                                      </View>
+                                    );
+                                  })}
+                                </View>
+                              )}
+                          </View>
                         </View>
-                      </View>
-                    );
-                  })}
-                </ScrollView>
-              </>
-            ) : null}
+                      );
+                    })}
+                  </ScrollView>
+                </>
+              ) : null}
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
       </>
     );
   }
@@ -2053,12 +4559,13 @@ export default function ReportsScreen() {
   return (
     <>
       <ScrollView style={s.screen} contentContainerStyle={s.scroll}>
-
         {/* ─── TOP BAR ─────────────────────────────────────────────────── */}
-        <View style={[s.topBar, { paddingTop: Platform.OS === 'ios' ? 2 : 8 }]}>
+        <View style={[s.topBar, { paddingTop: Platform.OS === "ios" ? 2 : 8 }]}>
           <View>
             <Text style={s.greetingSub}>My Progress</Text>
-            <Text style={s.greetingName}>{user?.firstName ?? 'Learner'} 👋</Text>
+            <Text style={s.greetingName}>
+              {user?.firstName ?? "Learner"} 👋
+            </Text>
           </View>
           <View style={s.xpChip}>
             <Star size={13} color="#F5C842" fill="#F5C842" />
@@ -2084,14 +4591,43 @@ export default function ReportsScreen() {
         {/* ─── 2×2 STATS ───────────────────────────────────────────────── */}
         <View style={s.grid2}>
           {[
-            { icon: <BookOpen size={20} color="#4A90E2" />, val: stats.lessonsCompleted, label: 'Lessons Done',  bg: '#D6EAFF', color: '#4A90E2' },
-            { icon: <Flame    size={20} color="#FF7043" />, val: `${stats.dayStreak}🔥`,  label: 'Day Streak',   bg: '#FFE8D6', color: '#FF7043' },
-            { icon: <Trophy   size={20} color="#7DC67A" />, val: stats.quizzesDone,       label: 'Quizzes Done', bg: '#D6F5D6', color: '#7DC67A' },
-            { icon: <Zap      size={20} color="#E6A817" />, val: stats.xp.toLocaleString(), label: 'Total XP',   bg: '#FFF5CC', color: '#E6A817' },
+            {
+              icon: <BookOpen size={20} color="#4A90E2" />,
+              val: stats.lessonsCompleted,
+              label: "Lessons Done",
+              bg: "#D6EAFF",
+              color: "#4A90E2",
+            },
+            {
+              icon: <Flame size={20} color="#FF7043" />,
+              val: `${stats.dayStreak}🔥`,
+              label: "Day Streak",
+              bg: "#FFE8D6",
+              color: "#FF7043",
+            },
+            {
+              icon: <Trophy size={20} color="#7DC67A" />,
+              val: stats.quizzesDone,
+              label: "Quizzes Done",
+              bg: "#D6F5D6",
+              color: "#7DC67A",
+            },
+            {
+              icon: <Zap size={20} color="#E6A817" />,
+              val: stats.xp.toLocaleString(),
+              label: "Total XP",
+              bg: "#FFF5CC",
+              color: "#E6A817",
+            },
           ].map((item) => (
-            <View key={item.label} style={[s.statCard2, { backgroundColor: item.bg }]}>
+            <View
+              key={item.label}
+              style={[s.statCard2, { backgroundColor: item.bg }]}
+            >
               {item.icon}
-              <Text style={[s.statVal2, { color: item.color }]}>{item.val}</Text>
+              <Text style={[s.statVal2, { color: item.color }]}>
+                {item.val}
+              </Text>
               <Text style={s.statLabel2}>{item.label}</Text>
             </View>
           ))}
@@ -2106,14 +4642,19 @@ export default function ReportsScreen() {
             </View>
             {/* Period selector */}
             <View style={s.periodTabs}>
-              {(['hour', 'day', 'week', 'month'] as Period[]).map((p) => (
+              {(["hour", "day", "week", "month"] as Period[]).map((p) => (
                 <TouchableOpacity
                   key={p}
                   style={[s.periodTab, period === p && s.periodTabActive]}
                   onPress={() => setPeriod(p)}
                   activeOpacity={0.75}
                 >
-                  <Text style={[s.periodTabText, period === p && s.periodTabTextActive]}>
+                  <Text
+                    style={[
+                      s.periodTabText,
+                      period === p && s.periodTabTextActive,
+                    ]}
+                  >
                     {p.charAt(0).toUpperCase() + p.slice(1)}
                   </Text>
                 </TouchableOpacity>
@@ -2123,14 +4664,24 @@ export default function ReportsScreen() {
 
           {/* Total for period */}
           <Text style={s.periodTotal}>
-            {chartData.reduce((a, b) => a + b.value, 0)} XP ·{' '}
+            {chartData.reduce((a, b) => a + b.value, 0)} XP ·{" "}
             <Text style={s.periodTotalSub}>
-              {period === 'hour' ? 'today' : period === 'day' ? 'this week' : period === 'week' ? 'this month' : 'this year'}
+              {period === "hour"
+                ? "today"
+                : period === "day"
+                  ? "this week"
+                  : period === "week"
+                    ? "this month"
+                    : "this year"}
             </Text>
           </Text>
 
-          <View style={{ alignItems: 'center', marginTop: 4 }}>
-            <BarChart data={chartData} activeColor="#4A90E2" todayIdx={todayIdx} />
+          <View style={{ alignItems: "center", marginTop: 4 }}>
+            <BarChart
+              data={chartData}
+              activeColor="#4A90E2"
+              todayIdx={todayIdx}
+            />
           </View>
         </View>
 
@@ -2149,14 +4700,26 @@ export default function ReportsScreen() {
             >
               <View style={s.subjectTop}>
                 <Text style={s.subjectEmoji}>{sub.emoji}</Text>
-                <Text style={[s.subjectPct, { color: sub.color }]}>{sub.progressPct}%</Text>
+                <Text style={[s.subjectPct, { color: sub.color }]}>
+                  {sub.progressPct}%
+                </Text>
               </View>
               <Text style={s.subjectLabel}>{sub.label}</Text>
               <View style={[s.track, { marginTop: 8 }]}>
-                <View style={[s.fill, { width: `${sub.progressPct}%`, backgroundColor: sub.color }]} />
+                <View
+                  style={[
+                    s.fill,
+                    {
+                      width: `${sub.progressPct}%`,
+                      backgroundColor: sub.color,
+                    },
+                  ]}
+                />
               </View>
               <View style={s.subjectMeta}>
-                <Text style={s.subjectMetaTxt}>{sub.completedLessons}/{sub.totalLessons} done</Text>
+                <Text style={s.subjectMetaTxt}>
+                  {sub.completedLessons}/{sub.totalLessons} done
+                </Text>
                 <ChevronRight size={12} color={sub.color} />
               </View>
             </TouchableOpacity>
@@ -2170,25 +4733,59 @@ export default function ReportsScreen() {
             <View style={s.card}>
               <View style={s.classroomTop}>
                 <View style={s.classroomDot} />
-                <Text style={s.classroomTitle} numberOfLines={1}>{classroom.title}</Text>
-                <View style={s.classBadge}><Text style={s.classBadgeText}>{classroom.classLevel}</Text></View>
+                <Text style={s.classroomTitle} numberOfLines={1}>
+                  {classroom.title}
+                </Text>
+                <View style={s.classBadge}>
+                  <Text style={s.classBadgeText}>{classroom.classLevel}</Text>
+                </View>
               </View>
               <View style={s.pLabelRow}>
                 <Text style={s.pLabel}>Completion</Text>
-                <Text style={[s.pPct, { color: '#4A90E2' }]}>{classroom.completionPct ?? 0}%</Text>
+                <Text style={[s.pPct, { color: "#4A90E2" }]}>
+                  {classroom.completionPct ?? 0}%
+                </Text>
               </View>
               <View style={s.track}>
-                <View style={[s.fill, { width: `${Math.min(100, classroom.completionPct ?? 0)}%`, backgroundColor: '#4A90E2' }]} />
+                <View
+                  style={[
+                    s.fill,
+                    {
+                      width: `${Math.min(100, classroom.completionPct ?? 0)}%`,
+                      backgroundColor: "#4A90E2",
+                    },
+                  ]}
+                />
               </View>
               <View style={s.countRow}>
                 {[
-                  { val: classroom.contents?.length ?? 0, label: 'Content', color: '#4A90E2' },
-                  { val: classroom.quizzes?.length ?? 0,  label: 'Quizzes', color: '#FF7043' },
-                  { val: classroom.assignments?.filter((a) => a.status === 'submitted').length ?? 0, label: 'Submitted', color: '#7DC67A' },
+                  {
+                    val: classroom.contents?.length ?? 0,
+                    label: "Content",
+                    color: "#4A90E2",
+                  },
+                  {
+                    val: classroom.quizzes?.length ?? 0,
+                    label: "Quizzes",
+                    color: "#FF7043",
+                  },
+                  {
+                    val:
+                      classroom.assignments?.filter(
+                        (a) => a.status === "submitted",
+                      ).length ?? 0,
+                    label: "Submitted",
+                    color: "#7DC67A",
+                  },
                 ].map((item, i, arr) => (
-                  <View key={item.label} style={{ flexDirection: 'row', flex: 1 }}>
+                  <View
+                    key={item.label}
+                    style={{ flexDirection: "row", flex: 1 }}
+                  >
                     <View style={s.countItem}>
-                      <Text style={[s.countVal, { color: item.color }]}>{item.val}</Text>
+                      <Text style={[s.countVal, { color: item.color }]}>
+                        {item.val}
+                      </Text>
                       <Text style={s.countLabel}>{item.label}</Text>
                     </View>
                     {i < arr.length - 1 && <View style={s.countDivider} />}
@@ -2203,15 +4800,34 @@ export default function ReportsScreen() {
         <Text style={s.secTitle}>Recent Activity</Text>
         <View style={s.card}>
           {recentActivity.map((act, idx, arr) => (
-            <View key={act.id} style={[s.actRow, idx < arr.length - 1 && s.actBorder]}>
-              <View style={[s.actIcon, { backgroundColor: act.type === 'quiz' ? '#FFE8D6' : '#D6EAFF' }]}>
-                <ActIcon type={act.type} size={18} color={act.type === 'quiz' ? '#FF7043' : '#4A90E2'} />
+            <View
+              key={act.id}
+              style={[s.actRow, idx < arr.length - 1 && s.actBorder]}
+            >
+              <View
+                style={[
+                  s.actIcon,
+                  {
+                    backgroundColor:
+                      act.type === "quiz" ? "#FFE8D6" : "#D6EAFF",
+                  },
+                ]}
+              >
+                <ActIcon
+                  type={act.type}
+                  size={18}
+                  color={act.type === "quiz" ? "#FF7043" : "#4A90E2"}
+                />
               </View>
               <View style={s.actInfo}>
-                <Text style={s.actTitle} numberOfLines={1}>{act.title}</Text>
+                <Text style={s.actTitle} numberOfLines={1}>
+                  {act.title}
+                </Text>
                 <Text style={s.actWhen}>{act.when}</Text>
               </View>
-              <View style={s.xpBadge}><Text style={s.xpBadgeText}>+{act.xp} XP</Text></View>
+              <View style={s.xpBadge}>
+                <Text style={s.xpBadgeText}>+{act.xp} XP</Text>
+              </View>
             </View>
           ))}
         </View>
@@ -2221,7 +4837,10 @@ export default function ReportsScreen() {
         <View style={s.card}>
           <View style={s.badgeGrid}>
             {BADGES_DATA.map((b) => (
-              <View key={b.label} style={[s.badgeItem, !b.earned && { opacity: 0.45 }]}>
+              <View
+                key={b.label}
+                style={[s.badgeItem, !b.earned && { opacity: 0.45 }]}
+              >
                 <View style={[s.badgeCircle, { backgroundColor: b.bg }]}>
                   <Text style={{ fontSize: 24 }}>{b.emoji}</Text>
                 </View>
@@ -2230,12 +4849,14 @@ export default function ReportsScreen() {
             ))}
           </View>
         </View>
-
       </ScrollView>
 
       {/* ─── SUBJECT DETAIL MODAL ────────────────────────────────────────── */}
       {activeSubject && (
-        <SubjectModal subject={activeSubject} onClose={() => setActiveSubject(null)} />
+        <SubjectModal
+          subject={activeSubject}
+          onClose={() => setActiveSubject(null)}
+        />
       )}
     </>
   );
@@ -2243,496 +4864,1532 @@ export default function ReportsScreen() {
 
 // ── Main Styles ───────────────────────────────────────────────────────────────
 const s = StyleSheet.create({
-  screen:      { flex: 1, backgroundColor: '#FFFFFF' },
-  scroll:      { paddingBottom: 48 },
-  center:      { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 },
-  loadingText: { fontSize: 13, color: '#9A9AB0' },
-  errorText:   { fontSize: 13, color: '#FF7043', paddingHorizontal: 20, marginTop: 12 },
+  screen: { flex: 1, backgroundColor: "#FFFFFF" },
+  scroll: { paddingBottom: 48 },
+  center: { flex: 1, alignItems: "center", justifyContent: "center", gap: 12 },
+  loadingText: { fontSize: 13, color: "#9A9AB0" },
+  errorText: {
+    fontSize: 13,
+    color: "#FF7043",
+    paddingHorizontal: 20,
+    marginTop: 12,
+  },
 
   // ── Parent view ──────────────────────────────────────────────────────────
-  childChip: { flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, borderWidth: 1.5 },
+  childChip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    borderRadius: 999,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderWidth: 1.5,
+  },
   childChipEmoji: { fontSize: 16 },
-  childChipName: { fontSize: 13, fontWeight: '800' },
-  childChipBadge: { borderRadius: 999, paddingHorizontal: 7, paddingVertical: 2 },
-  childChipBadgeText: { fontSize: 10, fontWeight: '800' },
-  parentHero:         { marginHorizontal: 16, marginBottom: 16, borderRadius: 22, padding: 20, gap: 10 },
-  parentHeroTop:      { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' },
-  parentHeroTitle:    { fontSize: 14, fontWeight: '700', color: 'rgba(255,255,255,0.85)' },
-  parentHeroPct:      { fontSize: 36, fontWeight: '900', color: '#fff' },
-  parentProgressTrack:{ height: 8, backgroundColor: 'rgba(255,255,255,0.25)', borderRadius: 999, overflow: 'hidden' },
-  parentProgressFill: { height: '100%', backgroundColor: '#fff', borderRadius: 999 },
-  parentHeroSub:      { fontSize: 12, color: 'rgba(255,255,255,0.7)', fontWeight: '500' },
-  statsStrip:         { flexDirection: 'row', gap: 10, paddingHorizontal: 16, marginBottom: 20 },
-  parentStat:         { flex: 1, borderRadius: 16, paddingVertical: 12, alignItems: 'center', gap: 4 },
-  parentStatVal:      { fontSize: 18, fontWeight: '900' },
-  parentStatLabel:    { fontSize: 10, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase', textAlign: 'center' },
-  parentSubjectRow:   { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 16, marginBottom: 12 },
-  parentSubjectDot:   { width: 10, height: 10, borderRadius: 5 },
-  parentSubjectName:  { fontSize: 13, fontWeight: '600', color: '#1a1a2e', width: 80 },
-  parentSubjectTrack: { flex: 1, height: 6, backgroundColor: '#F0F0F8', borderRadius: 999, overflow: 'hidden' },
-  parentSubjectFill:  { height: '100%', borderRadius: 999 },
-  parentSubjectScore: { fontSize: 12, fontWeight: '800', width: 36, textAlign: 'right' },
-  activityList:  { paddingHorizontal: 16, gap: 10, marginBottom: 24 },
-  activityRow:   { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: '#fff', borderRadius: 14, padding: 12, borderWidth: 1, borderColor: '#F0F0F8' },
-  activityDot:   { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: '#F0F0F8' },
-  activityBody:  { flex: 1, gap: 2 },
-  activityTitle: { fontSize: 13, fontWeight: '700', color: '#1a1a2e' },
-  activityWhen:  { fontSize: 11, color: '#9A9AB0', fontWeight: '500' },
-  xpPill:        { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
-  xpPillText:    { fontSize: 11, fontWeight: '800' },
+  childChipName: { fontSize: 13, fontWeight: "800" },
+  childChipBadge: {
+    borderRadius: 999,
+    paddingHorizontal: 7,
+    paddingVertical: 2,
+  },
+  childChipBadgeText: { fontSize: 10, fontWeight: "800" },
+  parentHero: {
+    marginHorizontal: 16,
+    marginBottom: 16,
+    borderRadius: 22,
+    padding: 20,
+    gap: 10,
+  },
+  parentHeroTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+  },
+  parentHeroTitle: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: "rgba(255,255,255,0.85)",
+  },
+  parentHeroPct: { fontSize: 36, fontWeight: "900", color: "#fff" },
+  parentProgressTrack: {
+    height: 8,
+    backgroundColor: "rgba(255,255,255,0.25)",
+    borderRadius: 999,
+    overflow: "hidden",
+  },
+  parentProgressFill: {
+    height: "100%",
+    backgroundColor: "#fff",
+    borderRadius: 999,
+  },
+  parentHeroSub: {
+    fontSize: 12,
+    color: "rgba(255,255,255,0.7)",
+    fontWeight: "500",
+  },
+  statsStrip: {
+    flexDirection: "row",
+    gap: 10,
+    paddingHorizontal: 16,
+    marginBottom: 20,
+  },
+  parentStat: {
+    flex: 1,
+    borderRadius: 16,
+    paddingVertical: 12,
+    alignItems: "center",
+    gap: 4,
+  },
+  parentStatVal: { fontSize: 18, fontWeight: "900" },
+  parentStatLabel: {
+    fontSize: 10,
+    fontWeight: "700",
+    color: "#9A9AB0",
+    textTransform: "uppercase",
+    textAlign: "center",
+  },
+  parentSubjectRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    paddingHorizontal: 16,
+    marginBottom: 12,
+  },
+  parentSubjectDot: { width: 10, height: 10, borderRadius: 5 },
+  parentSubjectName: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: "#1a1a2e",
+    width: 80,
+  },
+  parentSubjectTrack: {
+    flex: 1,
+    height: 6,
+    backgroundColor: "#F0F0F8",
+    borderRadius: 999,
+    overflow: "hidden",
+  },
+  parentSubjectFill: { height: "100%", borderRadius: 999 },
+  parentSubjectScore: {
+    fontSize: 12,
+    fontWeight: "800",
+    width: 36,
+    textAlign: "right",
+  },
+  activityList: { paddingHorizontal: 16, gap: 10, marginBottom: 24 },
+  activityRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    backgroundColor: "#fff",
+    borderRadius: 14,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: "#F0F0F8",
+  },
+  activityDot: {
+    width: 36,
+    height: 36,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#F0F0F8",
+  },
+  activityBody: { flex: 1, gap: 2 },
+  activityTitle: { fontSize: 13, fontWeight: "700", color: "#1a1a2e" },
+  activityWhen: { fontSize: 11, color: "#9A9AB0", fontWeight: "500" },
+  xpPill: { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
+  xpPillText: { fontSize: 11, fontWeight: "800" },
 
   topBar: {
-    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-    paddingHorizontal: 20, paddingVertical: 14,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 14,
   },
-  greetingSub:  { fontSize: 12, color: '#9A9AB0', fontWeight: '500' },
-  greetingName: { fontSize: 22, color: '#1a1a2e', fontWeight: '900', lineHeight: 28 },
+  greetingSub: { fontSize: 12, color: "#9A9AB0", fontWeight: "500" },
+  greetingName: {
+    fontSize: 22,
+    color: "#1a1a2e",
+    fontWeight: "900",
+    lineHeight: 28,
+  },
   xpChip: {
-    flexDirection: 'row', alignItems: 'center', gap: 5,
-    backgroundColor: '#4A90E2', borderRadius: 999,
-    paddingHorizontal: 12, paddingVertical: 6,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    backgroundColor: "#4A90E2",
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
   },
-  xpLabel: { fontSize: 13, fontWeight: '800', color: '#fff' },
+  xpLabel: { fontSize: 13, fontWeight: "800", color: "#fff" },
 
   // Hero
   heroBanner: {
-    marginHorizontal: 16, marginBottom: 20,
-    backgroundColor: '#4A7FE0', borderRadius: 24,
-    padding: 20, flexDirection: 'row', alignItems: 'center',
+    marginHorizontal: 16,
+    marginBottom: 20,
+    backgroundColor: "#4A7FE0",
+    borderRadius: 24,
+    padding: 20,
+    flexDirection: "row",
+    alignItems: "center",
   },
-  heroLeft:      { flex: 1 },
-  heroEyebrow:   { fontSize: 12, color: 'rgba(255,255,255,0.8)', fontWeight: '500', marginBottom: 2 },
-  heroXp:        { fontSize: 30, color: '#fff', fontWeight: '900', lineHeight: 36, marginBottom: 6 },
-  heroSub:       { fontSize: 11, color: 'rgba(255,255,255,0.85)', fontWeight: '500' },
+  heroLeft: { flex: 1 },
+  heroEyebrow: {
+    fontSize: 12,
+    color: "rgba(255,255,255,0.8)",
+    fontWeight: "500",
+    marginBottom: 2,
+  },
+  heroXp: {
+    fontSize: 30,
+    color: "#fff",
+    fontWeight: "900",
+    lineHeight: 36,
+    marginBottom: 6,
+  },
+  heroSub: { fontSize: 11, color: "rgba(255,255,255,0.85)", fontWeight: "500" },
   heroRing: {
-    width: 72, height: 72, borderRadius: 36,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    alignItems: 'center', justifyContent: 'center', marginLeft: 12,
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: "rgba(255,255,255,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 12,
   },
   heroRingInner: {
-    width: 58, height: 58, borderRadius: 29,
-    backgroundColor: 'rgba(255,255,255,0.25)',
-    alignItems: 'center', justifyContent: 'center',
+    width: 58,
+    height: 58,
+    borderRadius: 29,
+    backgroundColor: "rgba(255,255,255,0.25)",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  heroRingPct:   { fontSize: 16, fontWeight: '900', color: '#fff', lineHeight: 20 },
-  heroRingLbl:   { fontSize: 9,  fontWeight: '600', color: 'rgba(255,255,255,0.85)' },
+  heroRingPct: {
+    fontSize: 16,
+    fontWeight: "900",
+    color: "#fff",
+    lineHeight: 20,
+  },
+  heroRingLbl: {
+    fontSize: 9,
+    fontWeight: "600",
+    color: "rgba(255,255,255,0.85)",
+  },
 
   // 2-col grid
   grid2: {
-    flexDirection: 'row', flexWrap: 'wrap',
-    gap: 10, paddingHorizontal: 16, marginBottom: 20,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 10,
+    paddingHorizontal: 16,
+    marginBottom: 20,
   },
   statCard2: {
-    width: '47%', borderRadius: 20,
-    paddingVertical: 16, paddingHorizontal: 14, gap: 5,
+    width: "47%",
+    borderRadius: 20,
+    paddingVertical: 16,
+    paddingHorizontal: 14,
+    gap: 5,
   },
-  statVal2:   { fontSize: 24, fontWeight: '900', lineHeight: 28 },
-  statLabel2: { fontSize: 11, fontWeight: '600', color: '#5A5A7A' },
+  statVal2: { fontSize: 24, fontWeight: "900", lineHeight: 28 },
+  statLabel2: { fontSize: 11, fontWeight: "600", color: "#5A5A7A" },
 
   // Chart card
   chartCard: {
-    marginHorizontal: 16, marginBottom: 20,
-    backgroundColor: '#FFFFFF', borderRadius: 20,
+    marginHorizontal: 16,
+    marginBottom: 20,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 20,
     padding: 16,
-    borderWidth: 1, borderColor: '#F0F0F8',
-    shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.35, shadowRadius: 8, elevation: 2,
+    borderWidth: 1,
+    borderColor: "#F0F0F8",
+    shadowColor: "#C5D8F8",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.35,
+    shadowRadius: 8,
+    elevation: 2,
   },
-  chartTopRow:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 },
-  chartTitle:   { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
-  chartSub:     { fontSize: 11, fontWeight: '500', color: '#9A9AB0', marginTop: 2 },
-  periodTotal:  { fontSize: 20, fontWeight: '900', color: '#1a1a2e', marginBottom: 4 },
-  periodTotalSub: { fontSize: 13, fontWeight: '500', color: '#9A9AB0' },
+  chartTopRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: 8,
+  },
+  chartTitle: { fontSize: 14, fontWeight: "800", color: "#1a1a2e" },
+  chartSub: { fontSize: 11, fontWeight: "500", color: "#9A9AB0", marginTop: 2 },
+  periodTotal: {
+    fontSize: 20,
+    fontWeight: "900",
+    color: "#1a1a2e",
+    marginBottom: 4,
+  },
+  periodTotalSub: { fontSize: 13, fontWeight: "500", color: "#9A9AB0" },
 
   // Period tabs
-  periodTabs:       { flexDirection: 'row', gap: 4 },
-  periodTab:        { paddingHorizontal: 8, paddingVertical: 4, borderRadius: 999, backgroundColor: '#F0F0F8' },
-  periodTabActive:  { backgroundColor: '#4A90E2' },
-  periodTabText:    { fontSize: 10, fontWeight: '700', color: '#9A9AB0' },
-  periodTabTextActive: { color: '#fff' },
+  periodTabs: { flexDirection: "row", gap: 4 },
+  periodTab: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 999,
+    backgroundColor: "#F0F0F8",
+  },
+  periodTabActive: { backgroundColor: "#4A90E2" },
+  periodTabText: { fontSize: 10, fontWeight: "700", color: "#9A9AB0" },
+  periodTabTextActive: { color: "#fff" },
 
   // Section header
   sectionHeader: {
-    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-    paddingHorizontal: 20, marginBottom: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    marginBottom: 10,
   },
-  secTitle: { fontSize: 17, fontWeight: '900', color: '#1a1a2e', paddingHorizontal: 20, marginBottom: 10 },
-  secHint:  { fontSize: 11, fontWeight: '600', color: '#9A9AB0', paddingRight: 20 },
+  secTitle: {
+    fontSize: 17,
+    fontWeight: "900",
+    color: "#1a1a2e",
+    paddingHorizontal: 20,
+    marginBottom: 10,
+  },
+  secHint: {
+    fontSize: 11,
+    fontWeight: "600",
+    color: "#9A9AB0",
+    paddingRight: 20,
+  },
 
   // Subject cards
   subjectCard: {
-    width: '47%', borderRadius: 20, padding: 14,
+    width: "47%",
+    borderRadius: 20,
+    padding: 14,
   },
-  subjectTop:    { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 },
-  subjectEmoji:  { fontSize: 28 },
-  subjectPct:    { fontSize: 18, fontWeight: '900' },
-  subjectLabel:  { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
-  subjectMeta:   { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 6 },
-  subjectMetaTxt:{ fontSize: 10, fontWeight: '600', color: '#7A7A9A' },
+  subjectTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 4,
+  },
+  subjectEmoji: { fontSize: 28 },
+  subjectPct: { fontSize: 18, fontWeight: "900" },
+  subjectLabel: { fontSize: 13, fontWeight: "800", color: "#1a1a2e" },
+  subjectMeta: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 6,
+  },
+  subjectMetaTxt: { fontSize: 10, fontWeight: "600", color: "#7A7A9A" },
 
   // Generic card
   card: {
-    marginHorizontal: 16, marginBottom: 20,
-    backgroundColor: '#FFFFFF', borderRadius: 20, padding: 16, gap: 12,
-    borderWidth: 1, borderColor: '#F0F0F8',
-    shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.35, shadowRadius: 8, elevation: 2,
+    marginHorizontal: 16,
+    marginBottom: 20,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 20,
+    padding: 16,
+    gap: 12,
+    borderWidth: 1,
+    borderColor: "#F0F0F8",
+    shadowColor: "#C5D8F8",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.35,
+    shadowRadius: 8,
+    elevation: 2,
   },
 
   // Progress
   progressItem: { gap: 6 },
-  pLabelRow:    { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  pLabel:       { fontSize: 13, fontWeight: '700', color: '#1a1a2e' },
-  pPct:         { fontSize: 13, fontWeight: '900' },
-  progressSub:  { fontSize: 11, color: '#9A9AB0', fontWeight: '500' },
-  track:        { height: 8, backgroundColor: '#F0F0F8', borderRadius: 999, overflow: 'hidden' },
-  fill:         { height: '100%', borderRadius: 999 },
+  pLabelRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  pLabel: { fontSize: 13, fontWeight: "700", color: "#1a1a2e" },
+  pPct: { fontSize: 13, fontWeight: "900" },
+  progressSub: { fontSize: 11, color: "#9A9AB0", fontWeight: "500" },
+  track: {
+    height: 8,
+    backgroundColor: "#F0F0F8",
+    borderRadius: 999,
+    overflow: "hidden",
+  },
+  fill: { height: "100%", borderRadius: 999 },
 
   // Classroom
-  classroomTop:   { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4 },
-  classroomDot:   { width: 8, height: 8, borderRadius: 4, backgroundColor: '#7DC67A' },
-  classroomTitle: { flex: 1, fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
-  classBadge:     { backgroundColor: '#D6EAFF', borderRadius: 999, paddingHorizontal: 10, paddingVertical: 3 },
-  classBadgeText: { fontSize: 11, fontWeight: '700', color: '#4A90E2' },
-  countRow:       { flexDirection: 'row', paddingTop: 10, borderTopWidth: 1, borderTopColor: '#F0F0F8' },
-  countItem:      { flex: 1, alignItems: 'center', gap: 2 },
-  countVal:       { fontSize: 20, fontWeight: '900' },
-  countLabel:     { fontSize: 9, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase' },
-  countDivider:   { width: 1, backgroundColor: '#F0F0F8', alignSelf: 'stretch' },
+  classroomTop: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 4,
+  },
+  classroomDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#7DC67A",
+  },
+  classroomTitle: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: "800",
+    color: "#1a1a2e",
+  },
+  classBadge: {
+    backgroundColor: "#D6EAFF",
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+  },
+  classBadgeText: { fontSize: 11, fontWeight: "700", color: "#4A90E2" },
+  countRow: {
+    flexDirection: "row",
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: "#F0F0F8",
+  },
+  countItem: { flex: 1, alignItems: "center", gap: 2 },
+  countVal: { fontSize: 20, fontWeight: "900" },
+  countLabel: {
+    fontSize: 9,
+    fontWeight: "700",
+    color: "#9A9AB0",
+    textTransform: "uppercase",
+  },
+  countDivider: { width: 1, backgroundColor: "#F0F0F8", alignSelf: "stretch" },
 
   // Activity
-  actRow:    { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 2 },
-  actBorder: { paddingBottom: 12, marginBottom: 2, borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  actIcon:   { width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  actInfo:   { flex: 1 },
-  actTitle:  { fontSize: 13, fontWeight: '700', color: '#1a1a2e', marginBottom: 2 },
-  actWhen:   { fontSize: 11, fontWeight: '500', color: '#9A9AB0' },
-  xpBadge:     { backgroundColor: '#D6F5D6', borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
-  xpBadgeText: { fontSize: 11, fontWeight: '800', color: '#3D9A6A' },
+  actRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingVertical: 2,
+  },
+  actBorder: {
+    paddingBottom: 12,
+    marginBottom: 2,
+    borderBottomWidth: 1,
+    borderBottomColor: "#F0F0F8",
+  },
+  actIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  actInfo: { flex: 1 },
+  actTitle: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: "#1a1a2e",
+    marginBottom: 2,
+  },
+  actWhen: { fontSize: 11, fontWeight: "500", color: "#9A9AB0" },
+  xpBadge: {
+    backgroundColor: "#D6F5D6",
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
+  xpBadgeText: { fontSize: 11, fontWeight: "800", color: "#3D9A6A" },
 
   // Teacher
-  gapRow:   { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
-  gapLabel: { flex: 1, fontSize: 13, fontWeight: '600', color: '#1a1a2e' },
-  emptyText:{ fontSize: 12, color: '#9A9AB0', fontWeight: '500' },
-  pill:     { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
-  pillText: { fontSize: 11, fontWeight: '800' },
+  gapRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 8,
+  },
+  gapLabel: { flex: 1, fontSize: 13, fontWeight: "600", color: "#1a1a2e" },
+  emptyText: { fontSize: 12, color: "#9A9AB0", fontWeight: "500" },
+  pill: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
+  pillText: { fontSize: 11, fontWeight: "800" },
 
   // Badges
-  badgeGrid:   { flexDirection: 'row', flexWrap: 'wrap', gap: 16, justifyContent: 'center' },
-  badgeItem:   { alignItems: 'center', gap: 5, width: 64 },
-  badgeCircle: { width: 54, height: 54, borderRadius: 27, alignItems: 'center', justifyContent: 'center' },
-  badgeLabel:  { fontSize: 10, fontWeight: '700', color: '#5A5A7A', textAlign: 'center' },
-  emptyBlock: { alignItems: 'center', paddingVertical: 24, paddingHorizontal: 24, gap: 8 },
-  emptyTitle: { fontSize: 16, fontWeight: '800', color: '#1a1a2e', textAlign: 'center' },
-  emptyBody:  { fontSize: 13, fontWeight: '500', color: '#9A9AB0', textAlign: 'center', lineHeight: 20 },
+  badgeGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 16,
+    justifyContent: "center",
+  },
+  badgeItem: { alignItems: "center", gap: 5, width: 64 },
+  badgeCircle: {
+    width: 54,
+    height: 54,
+    borderRadius: 27,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  badgeLabel: {
+    fontSize: 10,
+    fontWeight: "700",
+    color: "#5A5A7A",
+    textAlign: "center",
+  },
+  emptyBlock: {
+    alignItems: "center",
+    paddingVertical: 24,
+    paddingHorizontal: 24,
+    gap: 8,
+  },
+  emptyTitle: {
+    fontSize: 16,
+    fontWeight: "800",
+    color: "#1a1a2e",
+    textAlign: "center",
+  },
+  emptyBody: {
+    fontSize: 13,
+    fontWeight: "500",
+    color: "#9A9AB0",
+    textAlign: "center",
+    lineHeight: 20,
+  },
 });
 
 // ── Game Result UI Styles (shared parent + teacher) ───────────────────────────
 const gr = StyleSheet.create({
-  chip:         { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 20 },
-  chipTxt:      { fontSize: 11, fontWeight: '800' },
-  chipRow:      { flexDirection: 'row', gap: 6, flexWrap: 'wrap' },
-  boardLabel:   { fontSize: 11, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase', letterSpacing: 0.4 },
-  boardCard:    { borderRadius: 12, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center', paddingVertical: 12, paddingHorizontal: 6, gap: 6 },
-  boardCardLabel: { fontSize: 11, fontWeight: '700', textAlign: 'center' },
-  boardImg:     { width: 48, height: 48 },
-  boardBadge:   { width: 22, height: 22, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
-  boardBadgeText: { fontSize: 12, fontWeight: '900', color: '#fff' },
-  sentenceBox:  { backgroundColor: '#F8F9FF', borderRadius: 12, borderWidth: 1.5, padding: 14 },
-  sentenceText: { fontSize: 14, color: '#1a1a2e', lineHeight: 22 },
-  blankFilled:  { fontWeight: '900', borderRadius: 6, paddingHorizontal: 4, overflow: 'hidden' },
+  chip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 20,
+  },
+  chipTxt: { fontSize: 11, fontWeight: "800" },
+  chipRow: { flexDirection: "row", gap: 6, flexWrap: "wrap" },
+  boardLabel: {
+    fontSize: 11,
+    fontWeight: "700",
+    color: "#9A9AB0",
+    textTransform: "uppercase",
+    letterSpacing: 0.4,
+  },
+  boardCard: {
+    borderRadius: 12,
+    borderWidth: 1.5,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 6,
+    gap: 6,
+  },
+  boardCardLabel: { fontSize: 11, fontWeight: "700", textAlign: "center" },
+  boardImg: { width: 48, height: 48 },
+  boardBadge: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  boardBadgeText: { fontSize: 12, fontWeight: "900", color: "#fff" },
+  sentenceBox: {
+    backgroundColor: "#F8F9FF",
+    borderRadius: 12,
+    borderWidth: 1.5,
+    padding: 14,
+  },
+  sentenceText: { fontSize: 14, color: "#1a1a2e", lineHeight: 22 },
+  blankFilled: {
+    fontWeight: "900",
+    borderRadius: 6,
+    paddingHorizontal: 4,
+    overflow: "hidden",
+  },
   // Teacher student activity
-  studentCard:  { backgroundColor: '#fff', borderRadius: 16, padding: 14, marginBottom: 10, shadowColor: '#9AA0C0', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.08, shadowRadius: 8, elevation: 2 },
-  studentRow:   { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 8 },
-  studentAvatar:{ width: 42, height: 42, borderRadius: 21, backgroundColor: '#EDE4FF', alignItems: 'center', justifyContent: 'center' },
-  studentName:  { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
-  studentMeta:  { fontSize: 11, color: '#9A9AB0', fontWeight: '600' },
-  attemptRow:   { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 7, borderTopWidth: 1, borderTopColor: '#F5F7FF' },
-  attemptTitle: { flex: 1, fontSize: 12, fontWeight: '700', color: '#1a1a2e' },
-  pctBadge:     { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
-  pctText:      { fontSize: 11, fontWeight: '900' },
-  gameTag:      { flexDirection: 'row', gap: 4, flexWrap: 'wrap', marginTop: 4 },
-  gameTagItem:  { paddingHorizontal: 7, paddingVertical: 2, borderRadius: 99, backgroundColor: '#EDE4FF' },
-  gameTagText:  { fontSize: 9, fontWeight: '800', color: '#7B4FCA' },
-  newBadge:     { paddingHorizontal: 7, paddingVertical: 2, borderRadius: 99, backgroundColor: '#FF5252' },
-  newBadgeText: { fontSize: 9, fontWeight: '900', color: '#fff' },
+  studentCard: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 14,
+    marginBottom: 10,
+    shadowColor: "#9AA0C0",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  studentRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    marginBottom: 8,
+  },
+  studentAvatar: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: "#EDE4FF",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  studentName: { fontSize: 14, fontWeight: "800", color: "#1a1a2e" },
+  studentMeta: { fontSize: 11, color: "#9A9AB0", fontWeight: "600" },
+  attemptRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingVertical: 7,
+    borderTopWidth: 1,
+    borderTopColor: "#F5F7FF",
+  },
+  attemptTitle: { flex: 1, fontSize: 12, fontWeight: "700", color: "#1a1a2e" },
+  pctBadge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
+  pctText: { fontSize: 11, fontWeight: "900" },
+  gameTag: { flexDirection: "row", gap: 4, flexWrap: "wrap", marginTop: 4 },
+  gameTagItem: {
+    paddingHorizontal: 7,
+    paddingVertical: 2,
+    borderRadius: 99,
+    backgroundColor: "#EDE4FF",
+  },
+  gameTagText: { fontSize: 9, fontWeight: "800", color: "#7B4FCA" },
+  newBadge: {
+    paddingHorizontal: 7,
+    paddingVertical: 2,
+    borderRadius: 99,
+    backgroundColor: "#FF5252",
+  },
+  newBadgeText: { fontSize: 9, fontWeight: "900", color: "#fff" },
 });
 
 // ── ParentReports Styles ──────────────────────────────────────────────────────
 const pr = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: '#F8F9FC' },
+  screen: { flex: 1, backgroundColor: "#F8F9FC" },
   scroll: { paddingBottom: 48, paddingTop: 0 },
 
   // Top bar — matches student dashboard
-  topBar: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, paddingBottom: 14, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  topBarSub:   { fontSize: 11, fontWeight: '700', color: '#9A9AB0', letterSpacing: 0.8, textTransform: 'uppercase' },
-  topBarTitle: { fontSize: 22, fontWeight: '900', color: '#1a1a2e', marginTop: 2 },
-  refreshBtn:  { width: 36, height: 36, borderRadius: 18, backgroundColor: '#EDE4FF', alignItems: 'center', justifyContent: 'center' },
-  refreshBtnText: { fontSize: 18, fontWeight: '700', color: '#7B4FCA' },
+  topBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingBottom: 14,
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#F0F0F8",
+  },
+  topBarSub: {
+    fontSize: 11,
+    fontWeight: "700",
+    color: "#9A9AB0",
+    letterSpacing: 0.8,
+    textTransform: "uppercase",
+  },
+  topBarTitle: {
+    fontSize: 22,
+    fontWeight: "900",
+    color: "#1a1a2e",
+    marginTop: 2,
+  },
+  refreshBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "#EDE4FF",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  refreshBtnText: { fontSize: 18, fontWeight: "700", color: "#7B4FCA" },
 
   // Child switcher bar
-  switcherBar: { backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  childChip:   { flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 14, paddingHorizontal: 12, paddingVertical: 8, height: 56 },
-  childChipAvatar: { width: 30, height: 30, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
-  childChipName:   { fontSize: 12, fontWeight: '800' },
-  childChipSub:    { fontSize: 9, fontWeight: '600', marginTop: 0 },
-  activeChipDot:   { width: 6, height: 6, borderRadius: 3, backgroundColor: 'rgba(255,255,255,0.6)', marginLeft: 2 },
+  switcherBar: {
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#F0F0F8",
+  },
+  childChip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    borderRadius: 14,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    height: 56,
+  },
+  childChipAvatar: {
+    width: 30,
+    height: 30,
+    borderRadius: 9,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  childChipName: { fontSize: 12, fontWeight: "800" },
+  childChipSub: { fontSize: 9, fontWeight: "600", marginTop: 0 },
+  activeChipDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "rgba(255,255,255,0.6)",
+    marginLeft: 2,
+  },
 
   // Center (loading / no children)
-  centerBlock: { alignItems: 'center', paddingVertical: 60, paddingHorizontal: 32, gap: 12 },
-  emptyTitle:  { fontSize: 18, fontWeight: '900', color: '#1a1a2e', textAlign: 'center' },
-  emptySub:    { fontSize: 13, color: '#9A9AB0', fontWeight: '500', textAlign: 'center', lineHeight: 20 },
+  centerBlock: {
+    alignItems: "center",
+    paddingVertical: 60,
+    paddingHorizontal: 32,
+    gap: 12,
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: "900",
+    color: "#1a1a2e",
+    textAlign: "center",
+  },
+  emptySub: {
+    fontSize: 13,
+    color: "#9A9AB0",
+    fontWeight: "500",
+    textAlign: "center",
+    lineHeight: 20,
+  },
 
   // Hero banner — matches student dashboard heroBanner
-  heroBanner: { marginHorizontal: 16, marginTop: 0, marginBottom: 8, borderRadius: 22, backgroundColor: '#4A90E2', padding: 20, flexDirection: 'row', alignItems: 'center', gap: 12, shadowColor: '#4A90E2', shadowOpacity: 0.35, shadowOffset: { width: 0, height: 6 }, shadowRadius: 14, elevation: 5 },
-  heroLeft:   { flex: 1, gap: 4 },
-  heroRight:  { justifyContent: 'center' },
-  heroSup:    { fontSize: 10, fontWeight: '800', color: 'rgba(255,255,255,0.65)', letterSpacing: 1, textTransform: 'uppercase' },
-  heroScore:  { fontSize: 48, fontWeight: '900', color: '#fff', lineHeight: 54 },
-  heroLabel:  { fontSize: 12, color: 'rgba(255,255,255,0.7)', fontWeight: '600' },
-  heroTrack:  { height: 6, backgroundColor: 'rgba(255,255,255,0.25)', borderRadius: 999, overflow: 'hidden', marginTop: 6 },
-  heroFill:   { height: '100%', backgroundColor: '#fff', borderRadius: 999 },
-  heroMeta:   { fontSize: 11, color: 'rgba(255,255,255,0.55)', fontWeight: '600', marginTop: 4 },
-  streakBadge: { backgroundColor: 'rgba(255,255,255,0.18)', borderRadius: 18, padding: 14, alignItems: 'center', gap: 2, minWidth: 72 },
-  streakNum:   { fontSize: 28, fontWeight: '900', color: '#fff' },
-  streakFire:  { fontSize: 18 },
-  streakLabel: { fontSize: 9, color: 'rgba(255,255,255,0.55)', fontWeight: '700', textTransform: 'uppercase' },
+  heroBanner: {
+    marginHorizontal: 16,
+    marginTop: 0,
+    marginBottom: 8,
+    borderRadius: 22,
+    backgroundColor: "#4A90E2",
+    padding: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    shadowColor: "#4A90E2",
+    shadowOpacity: 0.35,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 14,
+    elevation: 5,
+  },
+  heroLeft: { flex: 1, gap: 4 },
+  heroRight: { justifyContent: "center" },
+  heroSup: {
+    fontSize: 10,
+    fontWeight: "800",
+    color: "rgba(255,255,255,0.65)",
+    letterSpacing: 1,
+    textTransform: "uppercase",
+  },
+  heroScore: { fontSize: 48, fontWeight: "900", color: "#fff", lineHeight: 54 },
+  heroLabel: {
+    fontSize: 12,
+    color: "rgba(255,255,255,0.7)",
+    fontWeight: "600",
+  },
+  heroTrack: {
+    height: 6,
+    backgroundColor: "rgba(255,255,255,0.25)",
+    borderRadius: 999,
+    overflow: "hidden",
+    marginTop: 6,
+  },
+  heroFill: { height: "100%", backgroundColor: "#fff", borderRadius: 999 },
+  heroMeta: {
+    fontSize: 11,
+    color: "rgba(255,255,255,0.55)",
+    fontWeight: "600",
+    marginTop: 4,
+  },
+  streakBadge: {
+    backgroundColor: "rgba(255,255,255,0.18)",
+    borderRadius: 18,
+    padding: 14,
+    alignItems: "center",
+    gap: 2,
+    minWidth: 72,
+  },
+  streakNum: { fontSize: 28, fontWeight: "900", color: "#fff" },
+  streakFire: { fontSize: 18 },
+  streakLabel: {
+    fontSize: 9,
+    color: "rgba(255,255,255,0.55)",
+    fontWeight: "700",
+    textTransform: "uppercase",
+  },
 
   // 4-stat row
-  statRow:   { flexDirection: 'row', gap: 8, paddingHorizontal: 16, marginBottom: 8 },
-  statCard:  { flex: 1, borderRadius: 16, paddingVertical: 12, paddingHorizontal: 6, alignItems: 'center', gap: 4 },
+  statRow: {
+    flexDirection: "row",
+    gap: 8,
+    paddingHorizontal: 16,
+    marginBottom: 8,
+  },
+  statCard: {
+    flex: 1,
+    borderRadius: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 6,
+    alignItems: "center",
+    gap: 4,
+  },
   statEmoji: { fontSize: 20 },
-  statVal:   { fontSize: 15, fontWeight: '900' },
-  statLabel: { fontSize: 8, fontWeight: '700', color: '#9A9AB0', textTransform: 'uppercase', textAlign: 'center' },
+  statVal: { fontSize: 15, fontWeight: "900" },
+  statLabel: {
+    fontSize: 8,
+    fontWeight: "700",
+    color: "#9A9AB0",
+    textTransform: "uppercase",
+    textAlign: "center",
+  },
 
   // Section row header — matches student dashboard rowHeader
-  rowHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, marginTop: 20, marginBottom: 10 },
-  rowTitle:  { fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
-  rowChip:   { fontSize: 12, fontWeight: '700', color: '#4A90E2' },
+  rowHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  rowTitle: { fontSize: 17, fontWeight: "900", color: "#1a1a2e" },
+  rowChip: { fontSize: 12, fontWeight: "700", color: "#4A90E2" },
 
   // Card — matches student dashboard gameCard shadow
-  card: { marginHorizontal: 16, backgroundColor: '#fff', borderRadius: 20, padding: 16, borderWidth: 1, borderColor: '#F0F0F8', shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.5, shadowRadius: 8, elevation: 2 },
-  cardFooter: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 12, paddingTop: 10, borderTopWidth: 1, borderTopColor: '#F4F4FB' },
-  cardFooterText: { fontSize: 12, color: '#9A9AB0', fontWeight: '600' },
-  cardFooterVal:  { fontSize: 14, fontWeight: '900' },
-  chartNote: { fontSize: 10, color: '#B0B8CC', fontWeight: '600', marginTop: 10, textAlign: 'center' },
+  card: {
+    marginHorizontal: 16,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: "#F0F0F8",
+    shadowColor: "#C5D8F8",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  cardFooter: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 12,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: "#F4F4FB",
+  },
+  cardFooterText: { fontSize: 12, color: "#9A9AB0", fontWeight: "600" },
+  cardFooterVal: { fontSize: 14, fontWeight: "900" },
+  chartNote: {
+    fontSize: 10,
+    color: "#B0B8CC",
+    fontWeight: "600",
+    marginTop: 10,
+    textAlign: "center",
+  },
 
   // Live badge
-  liveBadge:     { backgroundColor: '#D6F5D6', borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
-  liveBadgeText: { fontSize: 11, fontWeight: '800', color: '#4CAF50' },
+  liveBadge: {
+    backgroundColor: "#D6F5D6",
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
+  liveBadgeText: { fontSize: 11, fontWeight: "800", color: "#4CAF50" },
 
   // Classroom card — matches gameCard
-  classCard:       { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', marginHorizontal: 16, marginBottom: 10, borderRadius: 18, padding: 14, gap: 12, borderWidth: 1, borderColor: '#F0F0F8', shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.4, shadowRadius: 6, elevation: 2 },
-  classIconBox:    { width: 48, height: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  classInfo:       { flex: 1, gap: 2 },
-  classTitle:      { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
-  classMeta:       { fontSize: 11, color: '#9A9AB0', fontWeight: '600' },
-  classDesc:       { fontSize: 11, color: '#B0B8CC', fontWeight: '500', marginTop: 2 },
-  classStatusBadge: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5 },
-  classStatusText:  { fontSize: 11, fontWeight: '800' },
-  smallGradeBadge:  { borderRadius: 10, paddingHorizontal: 8, paddingVertical: 2 },
-  smallGradeText:   { fontSize: 10, fontWeight: '800' },
-  historyIconBtn:   { width: 36, height: 36, borderRadius: 18, backgroundColor: '#EBF4FF', alignItems: 'center', justifyContent: 'center', position: 'relative' },
-  historyIconDot:   { position: 'absolute', top: 6, right: 6, width: 9, height: 9, borderRadius: 5, backgroundColor: '#4A90E2', borderWidth: 1.5, borderColor: '#fff' },
-  historyCard:      { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: '#fff', marginHorizontal: 16, marginBottom: 8, borderRadius: 14, paddingHorizontal: 14, paddingVertical: 12, borderWidth: 1, borderColor: '#F0F0F8' },
-  historyDot:       { width: 10, height: 10, borderRadius: 5, backgroundColor: '#4A90E2' },
-  historyTitle:     { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
-  historyMeta:      { fontSize: 11, color: '#9A9AB0', fontWeight: '600', marginTop: 2 },
-  historyCta:       { fontSize: 12, color: '#4A90E2', fontWeight: '800' },
+  classCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    marginHorizontal: 16,
+    marginBottom: 10,
+    borderRadius: 18,
+    padding: 14,
+    gap: 12,
+    borderWidth: 1,
+    borderColor: "#F0F0F8",
+    shadowColor: "#C5D8F8",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 6,
+    elevation: 2,
+  },
+  classIconBox: {
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  classInfo: { flex: 1, gap: 2 },
+  classTitle: { fontSize: 14, fontWeight: "800", color: "#1a1a2e" },
+  classMeta: { fontSize: 11, color: "#9A9AB0", fontWeight: "600" },
+  classDesc: {
+    fontSize: 11,
+    color: "#B0B8CC",
+    fontWeight: "500",
+    marginTop: 2,
+  },
+  classStatusBadge: {
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  classStatusText: { fontSize: 11, fontWeight: "800" },
+  smallGradeBadge: {
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  },
+  smallGradeText: { fontSize: 10, fontWeight: "800" },
+  historyIconBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "#EBF4FF",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+  },
+  historyIconDot: {
+    position: "absolute",
+    top: 6,
+    right: 6,
+    width: 9,
+    height: 9,
+    borderRadius: 5,
+    backgroundColor: "#4A90E2",
+    borderWidth: 1.5,
+    borderColor: "#fff",
+  },
+  historyCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    backgroundColor: "#fff",
+    marginHorizontal: 16,
+    marginBottom: 8,
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    borderWidth: 1,
+    borderColor: "#F0F0F8",
+  },
+  historyDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: "#4A90E2",
+  },
+  historyTitle: { fontSize: 13, fontWeight: "800", color: "#1a1a2e" },
+  historyMeta: {
+    fontSize: 11,
+    color: "#9A9AB0",
+    fontWeight: "600",
+    marginTop: 2,
+  },
+  historyCta: { fontSize: 12, color: "#4A90E2", fontWeight: "800" },
 
   // Quiz result card
-  quizCard:          { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', marginHorizontal: 16, marginBottom: 10, borderRadius: 18, padding: 14, gap: 12, borderWidth: 1, borderColor: '#F0F0F8', shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.4, shadowRadius: 6, elevation: 2 },
-  quizIconBox:       { width: 48, height: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  quizInfo:          { flex: 1, gap: 3 },
-  quizTitle:         { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
-  quizMeta:          { fontSize: 11, color: '#9A9AB0', fontWeight: '600' },
-  metaInfoStack:     { gap: 2, marginTop: 2 },
-  metaInfoRow:       { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  metaInfoLabel:     { fontSize: 10, fontWeight: '800', color: '#9A9AB0', minWidth: 34 },
-  metaInfoValue:     { fontSize: 10, fontWeight: '700', color: '#64748b', flexShrink: 1 },
-  quizProgressTrack: { height: 5, backgroundColor: '#F0F0F8', borderRadius: 999, overflow: 'hidden', marginTop: 4 },
-  quizProgressFill:  { height: '100%', borderRadius: 999 },
-  scoreBadge:        { borderRadius: 14, padding: 10, alignItems: 'center', minWidth: 68 },
-  scoreNum:          { fontSize: 18, fontWeight: '900' },
-  scoreLabel:        { fontSize: 9, fontWeight: '800', textTransform: 'uppercase', marginTop: 2 },
+  quizCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    marginHorizontal: 16,
+    marginBottom: 10,
+    borderRadius: 18,
+    padding: 14,
+    gap: 12,
+    borderWidth: 1,
+    borderColor: "#F0F0F8",
+    shadowColor: "#C5D8F8",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 6,
+    elevation: 2,
+  },
+  quizIconBox: {
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  quizInfo: { flex: 1, gap: 3 },
+  quizTitle: { fontSize: 14, fontWeight: "800", color: "#1a1a2e" },
+  quizMeta: { fontSize: 11, color: "#9A9AB0", fontWeight: "600" },
+  metaInfoStack: { gap: 2, marginTop: 2 },
+  metaInfoRow: { flexDirection: "row", alignItems: "center", gap: 5 },
+  metaInfoLabel: {
+    fontSize: 10,
+    fontWeight: "800",
+    color: "#9A9AB0",
+    minWidth: 34,
+  },
+  metaInfoValue: {
+    fontSize: 10,
+    fontWeight: "700",
+    color: "#64748b",
+    flexShrink: 1,
+  },
+  quizProgressTrack: {
+    height: 5,
+    backgroundColor: "#F0F0F8",
+    borderRadius: 999,
+    overflow: "hidden",
+    marginTop: 4,
+  },
+  quizProgressFill: { height: "100%", borderRadius: 999 },
+  scoreBadge: {
+    borderRadius: 14,
+    padding: 10,
+    alignItems: "center",
+    minWidth: 68,
+  },
+  scoreNum: { fontSize: 18, fontWeight: "900" },
+  scoreLabel: {
+    fontSize: 9,
+    fontWeight: "800",
+    textTransform: "uppercase",
+    marginTop: 2,
+  },
 
   // Assignments
-  groupLabel:    { fontSize: 11, fontWeight: '800', color: '#9A9AB0', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 6, marginHorizontal: 16 },
-  assignCard:    { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', marginHorizontal: 16, marginBottom: 8, borderRadius: 18, padding: 14, gap: 12, borderWidth: 1, borderColor: '#F0F0F8', shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.4, shadowRadius: 6, elevation: 2 },
-  assignIconBox: { width: 44, height: 44, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
-  assignInfo:    { flex: 1, gap: 3 },
-  assignTitle:   { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
-  assignMeta:    { fontSize: 11, color: '#9A9AB0', fontWeight: '600' },
-  assignFeedback: { fontSize: 11, color: '#4CAF50', fontWeight: '600', marginTop: 2 },
-  assignStatusBadge: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5 },
-  assignStatusText:  { fontSize: 11, fontWeight: '800' },
+  groupLabel: {
+    fontSize: 11,
+    fontWeight: "800",
+    color: "#9A9AB0",
+    textTransform: "uppercase",
+    letterSpacing: 0.8,
+    marginBottom: 6,
+    marginHorizontal: 16,
+  },
+  assignCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    marginHorizontal: 16,
+    marginBottom: 8,
+    borderRadius: 18,
+    padding: 14,
+    gap: 12,
+    borderWidth: 1,
+    borderColor: "#F0F0F8",
+    shadowColor: "#C5D8F8",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 6,
+    elevation: 2,
+  },
+  assignIconBox: {
+    width: 44,
+    height: 44,
+    borderRadius: 13,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  assignInfo: { flex: 1, gap: 3 },
+  assignTitle: { fontSize: 14, fontWeight: "800", color: "#1a1a2e" },
+  assignMeta: { fontSize: 11, color: "#9A9AB0", fontWeight: "600" },
+  assignFeedback: {
+    fontSize: 11,
+    color: "#4CAF50",
+    fontWeight: "600",
+    marginTop: 2,
+  },
+  assignStatusBadge: {
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  assignStatusText: { fontSize: 11, fontWeight: "800" },
 
   // Activity log
-  actCard:    { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', marginHorizontal: 16, marginBottom: 8, borderRadius: 18, padding: 14, gap: 12, borderWidth: 1, borderColor: '#F0F0F8', shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 6, elevation: 1 },
-  actIconBox: { width: 44, height: 44, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
-  actInfo:    { flex: 1, gap: 2 },
-  actTitle:   { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
-  actMeta:    { fontSize: 11, color: '#9A9AB0', fontWeight: '600' },
-  actTime:    { fontSize: 11, fontWeight: '800', color: '#4A90E2' },
-  statusPill:     { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
-  statusPillText: { fontSize: 10, fontWeight: '800' },
+  actCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    marginHorizontal: 16,
+    marginBottom: 8,
+    borderRadius: 18,
+    padding: 14,
+    gap: 12,
+    borderWidth: 1,
+    borderColor: "#F0F0F8",
+    shadowColor: "#C5D8F8",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 1,
+  },
+  actIconBox: {
+    width: 44,
+    height: 44,
+    borderRadius: 13,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  actInfo: { flex: 1, gap: 2 },
+  actTitle: { fontSize: 13, fontWeight: "800", color: "#1a1a2e" },
+  actMeta: { fontSize: 11, color: "#9A9AB0", fontWeight: "600" },
+  actTime: { fontSize: 11, fontWeight: "800", color: "#4A90E2" },
+  statusPill: { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
+  statusPillText: { fontSize: 10, fontWeight: "800" },
 
   // Empty state inline card
-  emptyCard:     { marginHorizontal: 16, backgroundColor: '#fff', borderRadius: 16, padding: 18, alignItems: 'center', borderWidth: 1, borderColor: '#F0F0F8', marginBottom: 4 },
-  emptyCardText: { fontSize: 13, color: '#B0B8CC', fontWeight: '600', textAlign: 'center', lineHeight: 20 },
+  emptyCard: {
+    marginHorizontal: 16,
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 18,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#F0F0F8",
+    marginBottom: 4,
+  },
+  emptyCardText: {
+    fontSize: 13,
+    color: "#B0B8CC",
+    fontWeight: "600",
+    textAlign: "center",
+    lineHeight: 20,
+  },
 
   // Tab bar
-  tabBar:           { backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  tabBarContent:    { flexDirection: 'row', gap: 4, paddingHorizontal: 12, paddingVertical: 10 },
-  tabBtn:           { flexDirection: 'column', alignItems: 'center', gap: 3, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 14, backgroundColor: '#F4F4FB', minWidth: 68 },
-  tabBtnActive:     { backgroundColor: '#EBF4FF' },
-  tabBtnIconWrap:   { position: 'relative', width: 20, height: 20, alignItems: 'center', justifyContent: 'center' },
-  tabBtnText:       { fontSize: 11, fontWeight: '700', color: '#9A9AB0' },
-  tabBtnTextActive: { color: '#4A90E2', fontWeight: '800' },
-  tabDot:           { position: 'absolute', top: -2, right: -4, width: 8, height: 8, borderRadius: 4, backgroundColor: '#FF7043', borderWidth: 1.5, borderColor: '#fff' },
+  tabBar: {
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#F0F0F8",
+  },
+  tabBarContent: {
+    flexDirection: "row",
+    gap: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+  },
+  tabBtn: {
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 3,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 14,
+    backgroundColor: "#F4F4FB",
+    minWidth: 68,
+  },
+  tabBtnActive: { backgroundColor: "#EBF4FF" },
+  tabBtnIconWrap: {
+    position: "relative",
+    width: 20,
+    height: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  tabBtnText: { fontSize: 11, fontWeight: "700", color: "#9A9AB0" },
+  tabBtnTextActive: { color: "#4A90E2", fontWeight: "800" },
+  tabDot: {
+    position: "absolute",
+    top: -2,
+    right: -4,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#FF7043",
+    borderWidth: 1.5,
+    borderColor: "#fff",
+  },
 
   // Section header inside tab content
-  sectionHdr:      { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, marginTop: 20, marginBottom: 10 },
-  sectionHdrTitle: { fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
-  sectionHdrChip:  { fontSize: 12, fontWeight: '700', color: '#4A90E2' },
+  sectionHdr: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  sectionHdrTitle: { fontSize: 17, fontWeight: "900", color: "#1a1a2e" },
+  sectionHdrChip: { fontSize: 12, fontWeight: "700", color: "#4A90E2" },
 
   // Inline meta row (compact date/time in one line)
-  inlineMetaRow:  { flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 2 },
-  inlineMetaText: { fontSize: 11, fontWeight: '600', color: '#9A9AB0', flexShrink: 1 },
+  inlineMetaRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    marginTop: 2,
+  },
+  inlineMetaText: {
+    fontSize: 11,
+    fontWeight: "600",
+    color: "#9A9AB0",
+    flexShrink: 1,
+  },
 
   // Urgent badge (pending assignments)
-  urgentBadge:     { backgroundColor: '#FFE8D6', borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
-  urgentBadgeText: { fontSize: 11, fontWeight: '800', color: '#FF7043' },
+  urgentBadge: {
+    backgroundColor: "#FFE8D6",
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
+  urgentBadgeText: { fontSize: 11, fontWeight: "800", color: "#FF7043" },
 
   // Generic status chip (replaces statusPill / assignStatusBadge)
-  statusChip:     { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
-  statusChipText: { fontSize: 10, fontWeight: '800' },
+  statusChip: { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
+  statusChipText: { fontSize: 10, fontWeight: "800" },
 
   // Empty state card
-  emptyStateCard:  { marginHorizontal: 16, marginTop: 24, backgroundColor: '#fff', borderRadius: 20, padding: 28, alignItems: 'center', gap: 8, borderWidth: 1, borderColor: '#F0F0F8' },
-  emptyStateTitle: { fontSize: 15, fontWeight: '900', color: '#1a1a2e', textAlign: 'center' },
-  emptyStateText:  { fontSize: 13, color: '#B0B8CC', fontWeight: '600', textAlign: 'center', lineHeight: 20 },
+  emptyStateCard: {
+    marginHorizontal: 16,
+    marginTop: 24,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 28,
+    alignItems: "center",
+    gap: 8,
+    borderWidth: 1,
+    borderColor: "#F0F0F8",
+  },
+  emptyStateTitle: {
+    fontSize: 15,
+    fontWeight: "900",
+    color: "#1a1a2e",
+    textAlign: "center",
+  },
+  emptyStateText: {
+    fontSize: 13,
+    color: "#B0B8CC",
+    fontWeight: "600",
+    textAlign: "center",
+    lineHeight: 20,
+  },
 
   // Sticky section tabs (kept for compatibility, no longer used in ParentReports)
-  stickyTabs:         { backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8', zIndex: 10 },
-  stickyTab:          { flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 12, paddingVertical: 7, borderRadius: 999, backgroundColor: '#F4F4FB' },
-  stickyTabActive:    { backgroundColor: '#4A90E2' },
-  stickyTabText:      { fontSize: 12, fontWeight: '700', color: '#9A9AB0' },
-  stickyTabTextActive:{ color: '#fff' },
+  stickyTabs: {
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#F0F0F8",
+    zIndex: 10,
+  },
+  stickyTab: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 999,
+    backgroundColor: "#F4F4FB",
+  },
+  stickyTabActive: { backgroundColor: "#4A90E2" },
+  stickyTabText: { fontSize: 12, fontWeight: "700", color: "#9A9AB0" },
+  stickyTabTextActive: { color: "#fff" },
 
   // View all / modals
-  viewAllBtn:     { marginHorizontal: 16, marginBottom: 8, backgroundColor: '#EDE4FF', borderRadius: 14, paddingVertical: 14, alignItems: 'center' },
-  viewAllBtnText: { fontSize: 14, fontWeight: '800', color: '#7B4FCA' },
-  modalOverlay:   { flex: 1, backgroundColor: 'rgba(10,10,30,0.5)', justifyContent: 'flex-end' },
-  modalSheet:     { backgroundColor: '#fff', borderTopLeftRadius: 28, borderTopRightRadius: 28, maxHeight: '88%', overflow: 'hidden' },
-  modalHeader:    { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20, borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  modalTitle:     { fontSize: 18, fontWeight: '900', color: '#1a1a2e' },
-  modalSub:       { fontSize: 12, color: '#9A9AB0', fontWeight: '600', marginTop: 2 },
+  viewAllBtn: {
+    marginHorizontal: 16,
+    marginBottom: 8,
+    backgroundColor: "#EDE4FF",
+    borderRadius: 14,
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+  viewAllBtnText: { fontSize: 14, fontWeight: "800", color: "#7B4FCA" },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(10,10,30,0.5)",
+    justifyContent: "flex-end",
+  },
+  modalSheet: {
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
+    maxHeight: "88%",
+    overflow: "hidden",
+  },
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#F0F0F8",
+  },
+  modalTitle: { fontSize: 18, fontWeight: "900", color: "#1a1a2e" },
+  modalSub: { fontSize: 12, color: "#9A9AB0", fontWeight: "600", marginTop: 2 },
   modalMetaStack: { gap: 2, marginTop: 4 },
-  modalMetaRow:   { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  modalMetaLabel: { fontSize: 11, fontWeight: '800', color: '#9A9AB0', minWidth: 36 },
-  modalMetaValue: { fontSize: 11, fontWeight: '700', color: '#64748b', flexShrink: 1 },
-  modalClose:     { width: 36, height: 36, borderRadius: 18, backgroundColor: '#F4F4FB', alignItems: 'center', justifyContent: 'center' },
-  modalQuizRow:   { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: '#F4F4FB' },
-  modalQuizNum:   { width: 28, alignItems: 'center' },
+  modalMetaRow: { flexDirection: "row", alignItems: "center", gap: 5 },
+  modalMetaLabel: {
+    fontSize: 11,
+    fontWeight: "800",
+    color: "#9A9AB0",
+    minWidth: 36,
+  },
+  modalMetaValue: {
+    fontSize: 11,
+    fontWeight: "700",
+    color: "#64748b",
+    flexShrink: 1,
+  },
+  modalClose: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "#F4F4FB",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modalQuizRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: "#F4F4FB",
+  },
+  modalQuizNum: { width: 28, alignItems: "center" },
 
   // Quiz detail
-  detailQuestionCard: { backgroundColor: '#fff', borderRadius: 20, marginBottom: 14, overflow: 'hidden', borderWidth: 1, borderColor: '#F0F0F8', shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.35, shadowRadius: 8, elevation: 3 },
+  detailQuestionCard: {
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    marginBottom: 14,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "#F0F0F8",
+    shadowColor: "#C5D8F8",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.35,
+    shadowRadius: 8,
+    elevation: 3,
+  },
   detailQuestionInner: { padding: 16 },
-  detailQuestionBanner: { paddingHorizontal: 16, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  detailQHeader:      { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 },
-  detailQNum:         { fontSize: 12, fontWeight: '900', color: '#9A9AB0' },
-  detailQBadge:       { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
-  detailQBadgeText:   { fontSize: 11, fontWeight: '800' },
-  detailQTitle:       { fontSize: 15, fontWeight: '700', color: '#1a1a2e', lineHeight: 22 },
-  detailOption:       { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1.5, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 10 },
-  detailOptionText:   { fontSize: 14, fontWeight: '600', flex: 1 },
-  detailAnswerRow:    { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', marginTop: 10, paddingTop: 10, borderTopWidth: 1, borderTopColor: '#F0F0F8' },
-  detailAnswerLabel:  { fontSize: 12, color: '#9A9AB0', fontWeight: '600' },
-  detailAnswerVal:    { fontSize: 12, fontWeight: '800' },
-  detailPanel:        { backgroundColor: '#fff', borderWidth: 1, borderColor: '#F0F0F8', borderRadius: 16, padding: 12 },
-  detailPanelTitle:   { fontSize: 13, fontWeight: '800', color: '#1a1a2e', marginBottom: 4 },
-  detailBodyText:     { fontSize: 12, color: '#4B5563', fontWeight: '500', lineHeight: 18 },
-  achievementWrap:    { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 8 },
-  achievementChip:    { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 999, paddingHorizontal: 10, paddingVertical: 6, maxWidth: '100%' },
-  achievementEmoji:   { fontSize: 14 },
-  achievementText:    { fontSize: 11, fontWeight: '700', maxWidth: 200 },
-  mediaPreview:       { width: '100%', height: 160, borderRadius: 12, marginTop: 8, backgroundColor: '#F4F4FB' },
-  mediaBtn:           { backgroundColor: '#EDE4FF', borderRadius: 12, alignItems: 'center', paddingVertical: 10, marginTop: 10 },
-  mediaBtnText:       { fontSize: 12, fontWeight: '800', color: '#7B4FCA' },
+  detailQuestionBanner: {
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  detailQHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+  detailQNum: { fontSize: 12, fontWeight: "900", color: "#9A9AB0" },
+  detailQBadge: {
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
+  detailQBadgeText: { fontSize: 11, fontWeight: "800" },
+  detailQTitle: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: "#1a1a2e",
+    lineHeight: 22,
+  },
+  detailOption: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderWidth: 1.5,
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+  },
+  detailOptionText: { fontSize: 14, fontWeight: "600", flex: 1 },
+  detailAnswerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    flexWrap: "wrap",
+    marginTop: 10,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: "#F0F0F8",
+  },
+  detailAnswerLabel: { fontSize: 12, color: "#9A9AB0", fontWeight: "600" },
+  detailAnswerVal: { fontSize: 12, fontWeight: "800" },
+  detailPanel: {
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#F0F0F8",
+    borderRadius: 16,
+    padding: 12,
+  },
+  detailPanelTitle: {
+    fontSize: 13,
+    fontWeight: "800",
+    color: "#1a1a2e",
+    marginBottom: 4,
+  },
+  detailBodyText: {
+    fontSize: 12,
+    color: "#4B5563",
+    fontWeight: "500",
+    lineHeight: 18,
+  },
+  achievementWrap: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    marginTop: 8,
+  },
+  achievementChip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    maxWidth: "100%",
+  },
+  achievementEmoji: { fontSize: 14 },
+  achievementText: { fontSize: 11, fontWeight: "700", maxWidth: 200 },
+  mediaPreview: {
+    width: "100%",
+    height: 160,
+    borderRadius: 12,
+    marginTop: 8,
+    backgroundColor: "#F4F4FB",
+  },
+  mediaBtn: {
+    backgroundColor: "#EDE4FF",
+    borderRadius: 12,
+    alignItems: "center",
+    paddingVertical: 10,
+    marginTop: 10,
+  },
+  mediaBtnText: { fontSize: 12, fontWeight: "800", color: "#7B4FCA" },
 });
 
 // ── Modal Styles ──────────────────────────────────────────────────────────────
 const m = StyleSheet.create({
   overlay: {
-    flex: 1, backgroundColor: 'rgba(10,10,30,0.45)',
-    justifyContent: 'flex-end',
+    flex: 1,
+    backgroundColor: "rgba(10,10,30,0.45)",
+    justifyContent: "flex-end",
   },
   sheet: {
-    backgroundColor: '#FFFFFF', borderTopLeftRadius: 28, borderTopRightRadius: 28,
-    maxHeight: '90%', overflow: 'hidden',
+    backgroundColor: "#FFFFFF",
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
+    maxHeight: "90%",
+    overflow: "hidden",
   },
 
   // Header
   sheetHeader: {
-    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-    padding: 20, paddingBottom: 16,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 20,
+    paddingBottom: 16,
   },
-  sheetHeaderLeft: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  sheetEmoji:  { fontSize: 36 },
-  sheetTitle:  { fontSize: 20, fontWeight: '900', color: '#1a1a2e' },
-  sheetSub:    { fontSize: 12, fontWeight: '500', color: '#7A7A9A', marginTop: 2 },
+  sheetHeaderLeft: { flexDirection: "row", alignItems: "center", gap: 12 },
+  sheetEmoji: { fontSize: 36 },
+  sheetTitle: { fontSize: 20, fontWeight: "900", color: "#1a1a2e" },
+  sheetSub: { fontSize: 12, fontWeight: "500", color: "#7A7A9A", marginTop: 2 },
   closeBtn: {
-    width: 34, height: 34, borderRadius: 17,
-    backgroundColor: 'rgba(90,90,122,0.12)',
-    alignItems: 'center', justifyContent: 'center',
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: "rgba(90,90,122,0.12)",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   // Stats row
   statRow: {
-    flexDirection: 'row', paddingHorizontal: 20, paddingVertical: 12,
-    borderTopWidth: 1, borderBottomWidth: 1, borderColor: '#F0F0F8',
+    flexDirection: "row",
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: "#F0F0F8",
   },
-  statItem:    { flex: 1, alignItems: 'center', gap: 2 },
-  statDivider: { width: 1, backgroundColor: '#F0F0F8', alignSelf: 'stretch' },
-  statVal:     { fontSize: 18, fontWeight: '900', lineHeight: 22 },
-  statLbl:     { fontSize: 9, fontWeight: '600', color: '#9A9AB0', textTransform: 'uppercase' },
+  statItem: { flex: 1, alignItems: "center", gap: 2 },
+  statDivider: { width: 1, backgroundColor: "#F0F0F8", alignSelf: "stretch" },
+  statVal: { fontSize: 18, fontWeight: "900", lineHeight: 22 },
+  statLbl: {
+    fontSize: 9,
+    fontWeight: "600",
+    color: "#9A9AB0",
+    textTransform: "uppercase",
+  },
 
   // Progress
   progressSection: { paddingHorizontal: 20, paddingVertical: 14, gap: 8 },
-  pRow:    { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  pLabel:  { fontSize: 13, fontWeight: '700', color: '#1a1a2e' },
-  pPct:    { fontSize: 13, fontWeight: '900' },
-  track:   { height: 10, backgroundColor: '#F0F0F8', borderRadius: 999, overflow: 'hidden' },
-  fill:    { height: '100%', borderRadius: 999 },
+  pRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  pLabel: { fontSize: 13, fontWeight: "700", color: "#1a1a2e" },
+  pPct: { fontSize: 13, fontWeight: "900" },
+  track: {
+    height: 10,
+    backgroundColor: "#F0F0F8",
+    borderRadius: 999,
+    overflow: "hidden",
+  },
+  fill: { height: "100%", borderRadius: 999 },
 
   // Sparkline
   sparkRow: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 20, paddingBottom: 14,
-    borderBottomWidth: 1, borderBottomColor: '#F0F0F8',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingBottom: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: "#F0F0F8",
   },
-  sparkTitle: { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
-  sparkSub:   { fontSize: 11, fontWeight: '500', color: '#9A9AB0', marginTop: 2 },
-  sparkLast:  { fontSize: 16, fontWeight: '900' },
+  sparkTitle: { fontSize: 13, fontWeight: "800", color: "#1a1a2e" },
+  sparkSub: { fontSize: 11, fontWeight: "500", color: "#9A9AB0", marginTop: 2 },
+  sparkLast: { fontSize: 16, fontWeight: "900" },
 
   // Topics
   topicsTitle: {
-    fontSize: 15, fontWeight: '900', color: '#1a1a2e',
-    paddingHorizontal: 20, paddingTop: 14, paddingBottom: 8,
+    fontSize: 15,
+    fontWeight: "900",
+    color: "#1a1a2e",
+    paddingHorizontal: 20,
+    paddingTop: 14,
+    paddingBottom: 8,
   },
   topicsList: { maxHeight: 280, paddingHorizontal: 20 },
-  topicRow:   { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10 },
-  topicBorder:{ borderBottomWidth: 1, borderBottomColor: '#F5F5FA' },
-  topicIcon:  { width: 36, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  topicInfo:  { flex: 1 },
-  topicTitle: { fontSize: 13, fontWeight: '700', color: '#1a1a2e', marginBottom: 3 },
-  topicMeta:  { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  topicMetaTxt: { fontSize: 10, fontWeight: '500', color: '#B0B8D0' },
+  topicRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingVertical: 10,
+  },
+  topicBorder: { borderBottomWidth: 1, borderBottomColor: "#F5F5FA" },
+  topicIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  topicInfo: { flex: 1 },
+  topicTitle: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: "#1a1a2e",
+    marginBottom: 3,
+  },
+  topicMeta: { flexDirection: "row", alignItems: "center", gap: 4 },
+  topicMetaTxt: { fontSize: 10, fontWeight: "500", color: "#B0B8D0" },
 
   // Score pills
-  scorePill:  { borderRadius: 999, paddingHorizontal: 9, paddingVertical: 4 },
-  scoreText:  { fontSize: 11, fontWeight: '800' },
-  lockedPill: { borderRadius: 999, paddingHorizontal: 9, paddingVertical: 4, backgroundColor: '#F0F0F8' },
-  lockedText: { fontSize: 11, fontWeight: '700', color: '#C0C0D0' },
+  scorePill: { borderRadius: 999, paddingHorizontal: 9, paddingVertical: 4 },
+  scoreText: { fontSize: 11, fontWeight: "800" },
+  lockedPill: {
+    borderRadius: 999,
+    paddingHorizontal: 9,
+    paddingVertical: 4,
+    backgroundColor: "#F0F0F8",
+  },
+  lockedText: { fontSize: 11, fontWeight: "700", color: "#C0C0D0" },
 });
