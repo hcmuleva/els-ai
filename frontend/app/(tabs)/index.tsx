@@ -8,13 +8,14 @@ import { useFocusEffect } from 'expo-router';
 import {
   Star, Users, BookOpen, TrendingUp, Calendar,
   ChevronRight, Clock, Zap, CheckCircle,
-  Hash, Type, Leaf, Palette, Trophy, PlayCircle,
+  Trophy, PlayCircle,
   Target, Layers, BarChart2, ClipboardList, User, History, BookOpenCheck,
 } from 'lucide-react-native';
 
 import { useAuth } from '../../src/context/AuthContext';
 import { useStudentProfile } from '../../src/context/StudentProfileContext';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
+import SubjectVisual from '../../src/components/subject/SubjectVisual';
 import { SvgXml } from 'react-native-svg';
 
 import { Colors, Radius, Shadow } from '../../src/theme';
@@ -25,59 +26,40 @@ type IconComp = React.ComponentType<{ size: number; color: string }>;
 
 type SubjectItem = {
   subject: string;
-  Icon: IconComp;
-  color: string;
-  bg: string;
+  coverImage: string | null;
+  icon: string | null;
+  iconBgColor: string | null;
 };
 
 type Classroom = {
   id: string; title: string; classLevel: string;
   completionPct: number; status: string;
   contents: Array<{ id: string; title: string; subject?: string; contentType?: string }>;
-  quizzes:  Array<{ id: string; title: string; totalQuestions: number; difficultyLevel?: string; status: string }>;
+  quizzes: Array<{ id: string; title: string; totalQuestions: number; difficultyLevel?: string; status: string }>;
   assignments: Array<{ id: string; status: string }>;
 };
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const CHILD_COLORS = [Colors.primary, Colors.success, Colors.accent, Colors.purple, Colors.warning];
 
-const SUBJECT_ICON_MAP: Record<string, { Icon: IconComp; color: string; bg: string }> = {
-  'Hindi Stories': { Icon: BookOpen, color: Colors.warning, bg: Colors.warningLight },
-  'English':       { Icon: Type,     color: Colors.primary, bg: Colors.primaryLight  },
-  'Maths':         { Icon: Hash,     color: Colors.success, bg: Colors.successLight  },
-  'Science':       { Icon: Zap,      color: Colors.purple,  bg: Colors.purpleLight   },
-  'Numbers':       { Icon: Hash,     color: Colors.accent,  bg: Colors.accentLight   },
-  'Alphabets':     { Icon: Type,     color: Colors.primary, bg: Colors.primaryLight  },
-  'Animals':       { Icon: Leaf,     color: Colors.success, bg: Colors.successLight  },
-  'Colors':        { Icon: Palette,  color: Colors.purple,  bg: Colors.purpleLight   },
-};
-const FALLBACK_ICONS: IconComp[]  = [Hash, BookOpen, Leaf, Palette, Type, Zap, Star, Target];
-const FALLBACK_COLORS = [Colors.accent, Colors.primary, Colors.success, Colors.purple, Colors.warning];
-const FALLBACK_BGS    = [Colors.accentLight, Colors.primaryLight, Colors.successLight, Colors.purpleLight, Colors.warningLight];
-
-const QUIZ_ICON_COMPS: IconComp[]  = [BookOpen, Zap, Star, Target];
+const QUIZ_ICON_COMPS: IconComp[] = [BookOpen, Zap, Star, Target];
 const QUIZ_ICON_COLORS = [Colors.accent, Colors.purple, Colors.warning, Colors.primary];
-const QUIZ_ICON_BGS    = [Colors.accentLight, Colors.purpleLight, Colors.warningLight, Colors.primaryLight];
+const QUIZ_ICON_BGS = [Colors.accentLight, Colors.purpleLight, Colors.warningLight, Colors.primaryLight];
 
 const STATUS_COLOR: Record<string, string> = {
   completed: Colors.success,
   attempted: Colors.warning,
-  pending:   Colors.textMuted,
+  pending: Colors.textMuted,
 };
 
 const QUICK_ACTIONS = [
-  { label: 'Reports',   Icon: BarChart2,  color: Colors.primary, bg: Colors.primaryLight, route: '/(tabs)/reports'   as const },
-  { label: 'Classroom', Icon: BookOpen,   color: Colors.accent,  bg: Colors.accentLight,  route: '/(tabs)/classroom' as const },
-  { label: 'Progress',  Icon: TrendingUp, color: Colors.success, bg: Colors.successLight, route: '/(tabs)/reports'   as const },
-  { label: 'Schedule',  Icon: Calendar,   color: Colors.purple,  bg: Colors.purpleLight,  route: '/(tabs)/reports'   as const },
+  { label: 'Reports', Icon: BarChart2, color: Colors.primary, bg: Colors.primaryLight, route: '/(tabs)/reports' as const },
+  { label: 'Classroom', Icon: BookOpen, color: Colors.accent, bg: Colors.accentLight, route: '/(tabs)/classroom' as const },
+  { label: 'Progress', Icon: TrendingUp, color: Colors.success, bg: Colors.successLight, route: '/(tabs)/reports' as const },
+  { label: 'Schedule', Icon: Calendar, color: Colors.purple, bg: Colors.purpleLight, route: '/(tabs)/reports' as const },
 ];
 
-const DEFAULT_SUBJECTS: SubjectItem[] = [
-  { subject: 'Numbers',   Icon: Hash,    color: Colors.accent,  bg: Colors.accentLight   },
-  { subject: 'Alphabets', Icon: Type,    color: Colors.primary, bg: Colors.primaryLight  },
-  { subject: 'Animals',   Icon: Leaf,    color: Colors.success, bg: Colors.successLight  },
-  { subject: 'Colors',    Icon: Palette, color: Colors.purple,  bg: Colors.purpleLight   },
-];
+const DEFAULT_SUBJECTS: SubjectItem[] = [];
 const HISTORY_PAGE_SIZE = 10;
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -142,8 +124,8 @@ function ParentDashboard() {
               contentContainerStyle={{ gap: 16, paddingHorizontal: 16, paddingVertical: 8 }}
             >
               {linkedStudents.map((child, idx) => {
-                const isActive   = child.id === activeStudent?.id;
-                const chipColor  = CHILD_COLORS[idx % CHILD_COLORS.length];
+                const isActive = child.id === activeStudent?.id;
+                const chipColor = CHILD_COLORS[idx % CHILD_COLORS.length];
                 return (
                   <Pressable key={child.id} style={s.avatarItem} onPress={() => switchToStudent(child.id)}>
                     <View style={[s.avatarCircle, { backgroundColor: chipColor, borderWidth: isActive ? 3 : 0, borderColor: Colors.text }]}>
@@ -288,10 +270,10 @@ export default function HomeScreen() {
   const { user, apiFetch } = useAuth();
   const role = user?.activeRole ?? 'student';
 
-  const [loading, setLoading]               = useState(true);
-  const [classroom, setClassroom]           = useState<Classroom | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [classroom, setClassroom] = useState<Classroom | null>(null);
   const [selectedQuizId, setSelectedQuizId] = useState<string | null>(null);
-  const [subjects, setSubjects]             = useState<SubjectItem[]>([]);
+  const [subjects, setSubjects] = useState<SubjectItem[]>([]);
   const [achievementGroups, setAchievementGroups] = useState<Array<{
     name: string; emoji: string; color: string; description: string; count: number;
   }>>([]);
@@ -328,21 +310,23 @@ export default function HomeScreen() {
         }
         if (classroomsRes.ok) {
           const payload = await classroomsRes.json();
-          const rooms   = (payload.classrooms ?? []) as Classroom[];
+          const rooms = (payload.classrooms ?? []) as Classroom[];
           setClassroom(rooms.find((r) => r.status === 'active') ?? rooms[0] ?? null);
         }
         if (subjectsRes.ok) {
           const payload = await subjectsRes.json();
           setSubjects(
-            ((payload.subjects ?? []) as Array<{ subject: string }>).map((s, i) => {
-              const mapped = SUBJECT_ICON_MAP[s.subject];
-              return {
-                subject: s.subject,
-                Icon:    mapped?.Icon  ?? FALLBACK_ICONS[i % FALLBACK_ICONS.length],
-                color:   mapped?.color ?? FALLBACK_COLORS[i % FALLBACK_COLORS.length],
-                bg:      mapped?.bg    ?? FALLBACK_BGS[i % FALLBACK_BGS.length],
-              };
-            }),
+            ((payload.subjects ?? []) as Array<{
+              subject: string;
+              coverImage?: string | null;
+              icon?: string | null;
+              iconBgColor?: string | null;
+            }>).map((s) => ({
+              subject: s.subject,
+              coverImage: s.coverImage ?? null,
+              icon: s.icon ?? null,
+              iconBgColor: s.iconBgColor ?? null,
+            })),
           );
         }
       }
@@ -373,12 +357,11 @@ export default function HomeScreen() {
   const canGoHistoryNext = historyPage.page < totalHistoryPages && !historyPage.loading;
 
 
-  const pending         = useMemo(() => classroom?.assignments.filter((a) => a.status !== 'submitted').length ?? 0, [classroom]);
-  const xp              = Math.round((classroom?.completionPct ?? 0) * 15);
-  const featured        = classroom?.contents?.[0] ?? null;
-  const quizzes         = classroom?.quizzes?.slice(0, 4) ?? [];
+  const pending = useMemo(() => classroom?.assignments.filter((a) => a.status !== 'submitted').length ?? 0, [classroom]);
+  const xp = Math.round((classroom?.completionPct ?? 0) * 15);
+  const featured = classroom?.contents?.[0] ?? null;
+  const quizzes = classroom?.quizzes?.slice(0, 4) ?? [];
   const displaySubjects = subjects.length > 0 ? subjects : DEFAULT_SUBJECTS;
-
   if (role === 'teacher') return <Redirect href="/(tabs)/planner" />;
   if (role === 'admin' || role === 'superadmin') return <Redirect href="/(tabs)/admin" />;
   if (role === 'parent') return <ParentDashboard />;
@@ -436,18 +419,28 @@ export default function HomeScreen() {
               </Pressable>
             </View>
             <View style={s.tilesGrid}>
-              {displaySubjects.map((tile, i) => (
-                <Pressable
-                  key={i}
-                  style={[s.tile, { backgroundColor: tile.bg }]}
-                  onPress={() => router.push({ pathname: '/(tabs)/subject', params: { subject: tile.subject } })}
-                >
-                  <View style={[s.tileIconWrap, { backgroundColor: tile.color + '20' }]}>
-                    <tile.Icon size={28} color={tile.color} />
-                  </View>
-                  <Text style={[s.tileLabel, { color: tile.color }]}>{tile.subject}</Text>
-                </Pressable>
-              ))}
+              {displaySubjects.map((tile, i) => {
+                const tintBg = tile.iconBgColor || Colors.surface;
+                const labelColor = Colors.text;
+                return (
+                  <Pressable
+                    key={`${tile.subject}-${i}`}
+                    style={[s.tile, { backgroundColor: tintBg }]}
+                    onPress={() => router.push({ pathname: '/(tabs)/subject', params: { subject: tile.subject } })}
+                  >
+                    <SubjectVisual
+                      coverImage={tile.coverImage}
+                      icon={tile.icon}
+                      iconBgColor={tile.iconBgColor || undefined}
+                      size={28}
+                      containerSize={54}
+                    />
+                    <Text style={[s.tileLabel, { color: labelColor }]} numberOfLines={1}>
+                      {tile.subject}
+                    </Text>
+                  </Pressable>
+                );
+              })}
             </View>
 
 
@@ -595,9 +588,9 @@ export default function HomeScreen() {
                   </Pressable>
                 </View>
                 {quizzes.map((quiz, idx) => {
-                  const QuizIcon  = QUIZ_ICON_COMPS[idx % QUIZ_ICON_COMPS.length];
+                  const QuizIcon = QUIZ_ICON_COMPS[idx % QUIZ_ICON_COMPS.length];
                   const iconColor = QUIZ_ICON_COLORS[idx % QUIZ_ICON_COLORS.length];
-                  const iconBg    = QUIZ_ICON_BGS[idx % QUIZ_ICON_BGS.length];
+                  const iconBg = QUIZ_ICON_BGS[idx % QUIZ_ICON_BGS.length];
                   return (
                     <Pressable key={quiz.id} style={s.gameCard} onPress={() => setSelectedQuizId(quiz.id)}>
                       <View style={[s.gameIconBox, { backgroundColor: iconBg }]}>
@@ -707,7 +700,7 @@ const s = StyleSheet.create({
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
     paddingHorizontal: 20, paddingVertical: 14, backgroundColor: Colors.surface,
   },
-  greetingSub:  { fontSize: 12, color: Colors.textMuted, fontWeight: '500' },
+  greetingSub: { fontSize: 12, color: Colors.textMuted, fontWeight: '500' },
   greetingName: { fontSize: 22, color: Colors.text, fontWeight: '900', lineHeight: 28 },
   xpChip: {
     flexDirection: 'row', alignItems: 'center', gap: 5,
@@ -723,7 +716,7 @@ const s = StyleSheet.create({
     paddingHorizontal: 20, marginBottom: 12,
   },
   rowTitle: { fontSize: 17, fontWeight: '900', color: Colors.text },
-  rowLink:  { fontSize: 13, fontWeight: '700', color: Colors.primary },
+  rowLink: { fontSize: 13, fontWeight: '700', color: Colors.primary },
   secTitle: { fontSize: 17, fontWeight: '900', color: Colors.text, paddingHorizontal: 20, marginBottom: 12 },
 
   // ── Hero banner ──────────────────────────────────────────────────────────
@@ -736,8 +729,8 @@ const s = StyleSheet.create({
     shadowColor: Colors.primary,
   },
   heroBannerPurple: { backgroundColor: Colors.purple, shadowColor: Colors.purple },
-  heroLeft:  { flex: 1, paddingRight: 8 },
-  heroSub:   { fontSize: 12, color: 'rgba(255,255,255,0.8)', fontWeight: '500', marginBottom: 4 },
+  heroLeft: { flex: 1, paddingRight: 8 },
+  heroSub: { fontSize: 12, color: 'rgba(255,255,255,0.8)', fontWeight: '500', marginBottom: 4 },
   heroTitle: { fontSize: 20, color: '#fff', fontWeight: '900', lineHeight: 26, marginBottom: 14 },
   heroBtn: {
     alignSelf: 'flex-start',
@@ -777,43 +770,43 @@ const s = StyleSheet.create({
     alignItems: 'center', justifyContent: 'space-between',
     ...Shadow.sm,
   },
-  storyLeft:          { flex: 1, paddingRight: 12 },
-  storyTitle:         { fontSize: 16, fontWeight: '900', color: Colors.text, lineHeight: 22, marginBottom: 6 },
-  storyMeta:          { flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 12 },
-  storyMetaText:      { fontSize: 11, color: Colors.textMuted, fontWeight: '500' },
+  storyLeft: { flex: 1, paddingRight: 12 },
+  storyTitle: { fontSize: 16, fontWeight: '900', color: Colors.text, lineHeight: 22, marginBottom: 6 },
+  storyMeta: { flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 12 },
+  storyMetaText: { fontSize: 11, color: Colors.textMuted, fontWeight: '500' },
   storyPlayBtn: {
     alignSelf: 'flex-start',
     flexDirection: 'row', alignItems: 'center', gap: 6,
     backgroundColor: Colors.accent, borderRadius: Radius.full,
     paddingHorizontal: 14, paddingVertical: 8,
   },
-  storyPlayText:      { fontSize: 12, fontWeight: '800', color: '#fff' },
-  storyIllustration:  { width: 70, alignItems: 'center', justifyContent: 'center' },
+  storyPlayText: { fontSize: 12, fontWeight: '800', color: '#fff' },
+  storyIllustration: { width: 70, alignItems: 'center', justifyContent: 'center' },
 
   storyHeaderRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, marginBottom: 8, marginTop: 16 },
-  nextDayPill:    { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 99, backgroundColor: '#FFF1D6' },
-  nextDayPillText:{ fontSize: 10, fontWeight: '800', color: '#B45309' },
-  historyBtn:     { width: 30, height: 30, borderRadius: 8, backgroundColor: '#F4F5FF', alignItems: 'center', justifyContent: 'center' },
+  nextDayPill: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 99, backgroundColor: '#FFF1D6' },
+  nextDayPillText: { fontSize: 10, fontWeight: '800', color: '#B45309' },
+  historyBtn: { width: 30, height: 30, borderRadius: 8, backgroundColor: '#F4F5FF', alignItems: 'center', justifyContent: 'center' },
 
-  historyModal:       { flex: 1, backgroundColor: '#F5F7FF' },
+  historyModal: { flex: 1, backgroundColor: '#F5F7FF' },
   historyModalHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, padding: 20, paddingTop: 24, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  historyModalTitle:  { flex: 1, fontSize: 18, fontWeight: '900', color: '#1a1a2e' },
-  historyModalCount:  { fontSize: 12, color: '#9A9AB0', fontWeight: '700', marginTop: 2 },
-  historyCloseBtn:    { width: 30, height: 30, borderRadius: 8, backgroundColor: '#F5F7FF', alignItems: 'center', justifyContent: 'center' },
-  historyCard:        { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: '#fff', borderRadius: 14, padding: 14, borderWidth: 1, borderColor: '#ECEEF4' },
-  historyCardNum:     { width: 24, height: 24, borderRadius: 12, backgroundColor: '#EEF2FF', alignItems: 'center', justifyContent: 'center' },
+  historyModalTitle: { flex: 1, fontSize: 18, fontWeight: '900', color: '#1a1a2e' },
+  historyModalCount: { fontSize: 12, color: '#9A9AB0', fontWeight: '700', marginTop: 2 },
+  historyCloseBtn: { width: 30, height: 30, borderRadius: 8, backgroundColor: '#F5F7FF', alignItems: 'center', justifyContent: 'center' },
+  historyCard: { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: '#fff', borderRadius: 14, padding: 14, borderWidth: 1, borderColor: '#ECEEF4' },
+  historyCardNum: { width: 24, height: 24, borderRadius: 12, backgroundColor: '#EEF2FF', alignItems: 'center', justifyContent: 'center' },
   historyCardNumText: { fontSize: 10, color: '#4A90E2', fontWeight: '900' },
-  historyCardIcon:    { width: 44, height: 44, borderRadius: 12, backgroundColor: '#F2EAFE', alignItems: 'center', justifyContent: 'center' },
-  historyCardTitle:   { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
-  historyCardMeta:    { fontSize: 11, color: '#9A9AB0', marginTop: 2, fontWeight: '600' },
-  historyReplayBtn:   { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 6, borderRadius: 99, backgroundColor: '#F2EAFE' },
-  historyReplayText:  { fontSize: 11, fontWeight: '800', color: '#9B8EC4' },
-  historyPagerRow:    { marginTop: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
-  historyPagerBtn:    { borderRadius: 10, backgroundColor: '#EBF4FF', paddingHorizontal: 14, paddingVertical: 8 },
+  historyCardIcon: { width: 44, height: 44, borderRadius: 12, backgroundColor: '#F2EAFE', alignItems: 'center', justifyContent: 'center' },
+  historyCardTitle: { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  historyCardMeta: { fontSize: 11, color: '#9A9AB0', marginTop: 2, fontWeight: '600' },
+  historyReplayBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 6, borderRadius: 99, backgroundColor: '#F2EAFE' },
+  historyReplayText: { fontSize: 11, fontWeight: '800', color: '#9B8EC4' },
+  historyPagerRow: { marginTop: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
+  historyPagerBtn: { borderRadius: 10, backgroundColor: '#EBF4FF', paddingHorizontal: 14, paddingVertical: 8 },
   historyPagerBtnDisabled: { backgroundColor: '#F0F0F8' },
   historyPagerBtnText: { fontSize: 12, fontWeight: '800', color: '#1A4DA2' },
   historyPagerBtnTextDisabled: { color: '#B0B8D0' },
-  historyPagerText:   { fontSize: 12, color: '#7A7A9A', fontWeight: '700' },
+  historyPagerText: { fontSize: 12, color: '#7A7A9A', fontWeight: '700' },
 
   // ── Game cards ───────────────────────────────────────────────────────────
   gameCard: {
@@ -823,11 +816,11 @@ const s = StyleSheet.create({
     borderWidth: 1, borderColor: Colors.borderLight,
     ...Shadow.sm,
   },
-  gameIconBox:  { width: 52, height: 52, borderRadius: Radius.md, alignItems: 'center', justifyContent: 'center' },
-  gameInfo:     { flex: 1 },
-  gameTitle:    { fontSize: 14, fontWeight: '800', color: Colors.text, marginBottom: 3 },
-  gameSub:      { fontSize: 11, fontWeight: '500', color: Colors.textMuted },
-  gamePlayBtn:  { borderRadius: Radius.full, paddingHorizontal: 16, paddingVertical: 8 },
+  gameIconBox: { width: 52, height: 52, borderRadius: Radius.md, alignItems: 'center', justifyContent: 'center' },
+  gameInfo: { flex: 1 },
+  gameTitle: { fontSize: 14, fontWeight: '800', color: Colors.text, marginBottom: 3 },
+  gameSub: { fontSize: 11, fontWeight: '500', color: Colors.textMuted },
+  gamePlayBtn: { borderRadius: Radius.full, paddingHorizontal: 16, paddingVertical: 8 },
   gamePlayText: { fontSize: 12, fontWeight: '800', color: '#fff' },
 
   // ── Progress card ────────────────────────────────────────────────────────
@@ -837,64 +830,64 @@ const s = StyleSheet.create({
     padding: 16, borderWidth: 1, borderColor: Colors.borderLight,
     ...Shadow.sm,
   },
-  progressRow:       { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
-  progressLabel:     { fontSize: 13, fontWeight: '800', color: Colors.text },
-  progressPct:       { fontSize: 13, fontWeight: '900', color: Colors.primary },
-  progressTrack:     { height: 8, backgroundColor: Colors.borderLight, borderRadius: Radius.full, overflow: 'hidden', marginBottom: 14 },
-  progressFill:      { height: '100%', borderRadius: Radius.full, backgroundColor: Colors.primary },
-  progressStats:     { flexDirection: 'row', justifyContent: 'space-around' },
-  progressStat:      { alignItems: 'center', gap: 2 },
-  progressStatVal:   { fontSize: 20, fontWeight: '900', color: Colors.text },
+  progressRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
+  progressLabel: { fontSize: 13, fontWeight: '800', color: Colors.text },
+  progressPct: { fontSize: 13, fontWeight: '900', color: Colors.primary },
+  progressTrack: { height: 8, backgroundColor: Colors.borderLight, borderRadius: Radius.full, overflow: 'hidden', marginBottom: 14 },
+  progressFill: { height: '100%', borderRadius: Radius.full, backgroundColor: Colors.primary },
+  progressStats: { flexDirection: 'row', justifyContent: 'space-around' },
+  progressStat: { alignItems: 'center', gap: 2 },
+  progressStatVal: { fontSize: 20, fontWeight: '900', color: Colors.text },
   progressStatLabel: { fontSize: 9, fontWeight: '700', color: Colors.textMuted, textTransform: 'uppercase' },
-  progressDivider:   { width: 1, backgroundColor: Colors.borderLight, alignSelf: 'stretch' },
+  progressDivider: { width: 1, backgroundColor: Colors.borderLight, alignSelf: 'stretch' },
 
   // ── Loading / empty ──────────────────────────────────────────────────────
   loadingBlock: { alignItems: 'center', paddingVertical: 60, gap: 12 },
   loadingLabel: { fontSize: 13, color: Colors.textMuted, fontWeight: '500' },
-  emptyBlock:   { alignItems: 'center', paddingHorizontal: 32, paddingVertical: 40, gap: 12 },
-  emptyTitle:   { fontSize: 18, fontWeight: '900', color: Colors.text, textAlign: 'center' },
-  emptyBody:    { fontSize: 13, fontWeight: '500', color: Colors.textMuted, textAlign: 'center', lineHeight: 20 },
+  emptyBlock: { alignItems: 'center', paddingHorizontal: 32, paddingVertical: 40, gap: 12 },
+  emptyTitle: { fontSize: 18, fontWeight: '900', color: Colors.text, textAlign: 'center' },
+  emptyBody: { fontSize: 13, fontWeight: '500', color: Colors.textMuted, textAlign: 'center', lineHeight: 20 },
 
   // ── Achievements ─────────────────────────────────────────────────────────
-  section:         { marginBottom: 20 },
-  sectionHeader:   { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, marginBottom: 10 },
+  section: { marginBottom: 20 },
+  sectionHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, marginBottom: 10 },
   sectionTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  sectionTitle:    { fontSize: 16, fontWeight: '900', color: Colors.text },
-  achievBadge:     { backgroundColor: Colors.surfaceAlt, borderRadius: Radius.full, paddingHorizontal: 10, paddingVertical: 4 },
+  sectionTitle: { fontSize: 16, fontWeight: '900', color: Colors.text },
+  achievBadge: { backgroundColor: Colors.surfaceAlt, borderRadius: Radius.full, paddingHorizontal: 10, paddingVertical: 4 },
   achievBadgeText: { fontSize: 11, fontWeight: '700', color: Colors.primary },
-  achievCard:      { width: 130, borderRadius: Radius.lg, padding: 14, alignItems: 'center', gap: 6 },
-  achievEmoji:     { fontSize: 36 },
-  achievCountBadge:{ position: 'absolute', top: 6, right: 6, borderRadius: Radius.full, paddingHorizontal: 6, paddingVertical: 2 },
+  achievCard: { width: 130, borderRadius: Radius.lg, padding: 14, alignItems: 'center', gap: 6 },
+  achievEmoji: { fontSize: 36 },
+  achievCountBadge: { position: 'absolute', top: 6, right: 6, borderRadius: Radius.full, paddingHorizontal: 6, paddingVertical: 2 },
   achievCountText: { fontSize: 10, fontWeight: '900', color: '#fff' },
-  achievName:      { fontSize: 12, fontWeight: '900', textAlign: 'center' },
-  achievDesc:      { fontSize: 10, color: Colors.textMuted, textAlign: 'center', lineHeight: 14 },
+  achievName: { fontSize: 12, fontWeight: '900', textAlign: 'center' },
+  achievDesc: { fontSize: 10, color: Colors.textMuted, textAlign: 'center', lineHeight: 14 },
 
   // ── Parent-specific ──────────────────────────────────────────────────────
-  profileSwitcherWrap:  { marginHorizontal: 16, marginBottom: 4, marginTop: 4 },
+  profileSwitcherWrap: { marginHorizontal: 16, marginBottom: 4, marginTop: 4 },
   profileSwitcherLabel: { fontSize: 12, fontWeight: '800', color: Colors.textMuted, letterSpacing: 0.8, textTransform: 'uppercase', marginBottom: 4, marginLeft: 2 },
-  avatarScroll:         { marginHorizontal: -16 },
-  avatarItem:           { alignItems: 'center', gap: 4, width: 64 },
+  avatarScroll: { marginHorizontal: -16 },
+  avatarItem: { alignItems: 'center', gap: 4, width: 64 },
   avatarCircle: {
     width: 52, height: 52, borderRadius: 26,
     alignItems: 'center', justifyContent: 'center',
     ...Shadow.sm,
   },
-  avatarName:      { fontSize: 11, fontWeight: '600', color: Colors.textSecondary, textAlign: 'center' },
+  avatarName: { fontSize: 11, fontWeight: '600', color: Colors.textSecondary, textAlign: 'center' },
   avatarActiveDot: { width: 8, height: 8, borderRadius: 4 },
 
-  activeChildHeader:  { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 16, marginTop: 12, marginBottom: 8 },
-  activeChildName:    { fontSize: 18, fontWeight: '900', color: Colors.text },
-  activeChildMeta:    { fontSize: 12, color: Colors.textMuted, fontWeight: '600', marginTop: 2 },
-  viewReportBtn:      { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: Colors.primary, borderRadius: Radius.full, paddingHorizontal: 12, paddingVertical: 7 },
-  viewReportBtnText:  { fontSize: 12, fontWeight: '800', color: '#fff' },
+  activeChildHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 16, marginTop: 12, marginBottom: 8 },
+  activeChildName: { fontSize: 18, fontWeight: '900', color: Colors.text },
+  activeChildMeta: { fontSize: 12, color: Colors.textMuted, fontWeight: '600', marginTop: 2 },
+  viewReportBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: Colors.primary, borderRadius: Radius.full, paddingHorizontal: 12, paddingVertical: 7 },
+  viewReportBtnText: { fontSize: 12, fontWeight: '800', color: '#fff' },
 
-  statsStrip:  { flexDirection: 'row', gap: 8, marginHorizontal: 16, marginBottom: 8 },
-  statPill:    { flex: 1, borderRadius: Radius.md, paddingVertical: 10, paddingHorizontal: 6, alignItems: 'center', gap: 4 },
+  statsStrip: { flexDirection: 'row', gap: 8, marginHorizontal: 16, marginBottom: 8 },
+  statPill: { flex: 1, borderRadius: Radius.md, paddingVertical: 10, paddingHorizontal: 6, alignItems: 'center', gap: 4 },
   statPillVal: { fontSize: 15, fontWeight: '900' },
   statPillLbl: { fontSize: 9, fontWeight: '700', color: Colors.textMuted, textTransform: 'uppercase' },
 
-  breakdownRow:   { flexDirection: 'row', gap: 10, marginHorizontal: 16, marginBottom: 8 },
-  breakdownCard:  { flex: 1, borderRadius: Radius.lg, padding: 12, alignItems: 'center', gap: 3, borderWidth: 1, borderColor: Colors.borderLight, ...Shadow.sm },
+  breakdownRow: { flexDirection: 'row', gap: 10, marginHorizontal: 16, marginBottom: 8 },
+  breakdownCard: { flex: 1, borderRadius: Radius.lg, padding: 12, alignItems: 'center', gap: 3, borderWidth: 1, borderColor: Colors.borderLight, ...Shadow.sm },
   breakdownCount: { fontSize: 20, fontWeight: '900', color: Colors.text },
   breakdownLabel: { fontSize: 10, fontWeight: '700', color: Colors.textMuted, textTransform: 'uppercase' },
   breakdownScore: { fontSize: 10, fontWeight: '700', color: Colors.success, marginTop: 2 },
@@ -906,14 +899,14 @@ const s = StyleSheet.create({
     ...Shadow.sm,
   },
   activityIconWrap: { width: 32, height: 32, borderRadius: Radius.sm, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  activityInfo:     { flex: 1, gap: 2 },
-  activityTitle:    { fontSize: 13, fontWeight: '700', color: Colors.text },
-  activityMeta:     { fontSize: 11, color: Colors.textMuted, fontWeight: '500' },
-  activityTime:     { fontSize: 11, fontWeight: '700', color: Colors.primary },
+  activityInfo: { flex: 1, gap: 2 },
+  activityTitle: { fontSize: 13, fontWeight: '700', color: Colors.text },
+  activityMeta: { fontSize: 11, color: Colors.textMuted, fontWeight: '500' },
+  activityTime: { fontSize: 11, fontWeight: '700', color: Colors.primary },
 
   quickActionsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, paddingHorizontal: 16, marginBottom: 24 },
-  quickActionTile:  { width: '47%', borderRadius: Radius.xl, paddingVertical: 18, paddingHorizontal: 14, alignItems: 'center', gap: 8, ...Shadow.sm },
-  quickActionIcon:  { width: 44, height: 44, borderRadius: Radius.md, alignItems: 'center', justifyContent: 'center' },
+  quickActionTile: { width: '47%', borderRadius: Radius.xl, paddingVertical: 18, paddingHorizontal: 14, alignItems: 'center', gap: 8, ...Shadow.sm },
+  quickActionIcon: { width: 44, height: 44, borderRadius: Radius.md, alignItems: 'center', justifyContent: 'center' },
   quickActionLabel: { fontSize: 13, fontWeight: '800' },
 
   logicoCard: {

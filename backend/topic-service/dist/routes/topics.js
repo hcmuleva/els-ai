@@ -781,11 +781,49 @@ studentsRouter.get('/', requireAuth, async (req, res) => {
          AND ct.class_level = $2
        GROUP BY ct.id
        ORDER BY ct.subject, ct.title`, [orgId, classLevel]);
+        const distinctSubjectTitles = Array.from(new Set(result.rows
+            .map((row) => String(row.subject ?? '').trim())
+            .filter((title) => title.length > 0)));
+        const subjectsMeta = new Map();
+        if (distinctSubjectTitles.length > 0) {
+            // Look up subject metadata by class_level + title across orgs.
+            // Prefer the user's own organization; fall back to any other org so global
+            // topics whose matching `subjects` row lives in a different org (e.g. the
+            // seed/system org) still get cover_image / icon / icon_bg_color.
+            const subjectsMetaResult = await db.query(`SELECT title, cover_image, icon_image, icon_bg_color, organization_id, updated_at
+         FROM subjects
+         WHERE class_level = $1
+           AND LOWER(title) = ANY($2::text[])
+         ORDER BY
+           CASE WHEN organization_id = $3::uuid THEN 0 ELSE 1 END,
+           updated_at DESC NULLS LAST`, [classLevel, distinctSubjectTitles.map((t) => t.toLowerCase()), orgId]);
+            for (const row of subjectsMetaResult.rows) {
+                const key = String(row.title ?? '').trim().toLowerCase();
+                if (!key || subjectsMeta.has(key))
+                    continue; // first match wins (user-org first)
+                const signedCover = row.cover_image
+                    ? await getSignedMediaUrlIfNeeded(row.cover_image)
+                    : null;
+                subjectsMeta.set(key, {
+                    coverImage: signedCover,
+                    icon: row.icon_image || null,
+                    iconBgColor: row.icon_bg_color || null,
+                });
+            }
+        }
         const subjectMap = {};
         for (const row of result.rows) {
             const sub = row.subject;
-            if (!subjectMap[sub])
-                subjectMap[sub] = { subject: sub, topics: [] };
+            if (!subjectMap[sub]) {
+                const meta = subjectsMeta.get(sub.trim().toLowerCase());
+                subjectMap[sub] = {
+                    subject: sub,
+                    coverImage: meta?.coverImage ?? null,
+                    icon: meta?.icon ?? null,
+                    iconBgColor: meta?.iconBgColor ?? null,
+                    topics: [],
+                };
+            }
             subjectMap[sub].topics.push({
                 id: row.id,
                 classLevel: row.class_level,

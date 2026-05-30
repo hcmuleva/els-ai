@@ -80,6 +80,9 @@ type ClassroomFormState = {
 type SubjectCatalogItem = {
   classLevel: string;
   subject: string;
+  coverImage?: string;
+  iconImage?: string;
+  iconBgColor?: string;
 };
 
 type PickedFile = { dataUrl: string; fileName: string; mimeType: string };
@@ -376,8 +379,11 @@ export default function PlannerScreen() {
       setSubjectCatalog(
         items
           .map((item: any) => ({
-            classLevel: String(item.class_level || '').trim(),
-            subject: String(item.subject || '').trim(),
+            classLevel: String(item.class_level || item.classLevel || '').trim(),
+            subject: String(item.subject || item.title || '').trim(),
+            coverImage: item.coverImage || undefined,
+            iconImage: item.iconImage || undefined,
+            iconBgColor: item.iconBgColor || undefined,
           }))
           .filter((item: SubjectCatalogItem) => item.classLevel && item.subject),
       );
@@ -403,14 +409,20 @@ export default function PlannerScreen() {
     }, [loadData]),
   );
 
-  const classLevelOptions = useMemo(() => STANDARD_OPTIONS.map((item) => item.value), []);
+  const classLevelOptions = useMemo(
+    () => ['ANY', ...STANDARD_OPTIONS.map((item) => item.value)],
+    [],
+  );
+  const isAnyClass = form.classLevel === 'ANY';
+  const matchesClassLevel = (itemClassLevel?: string) =>
+    !form.classLevel || isAnyClass || itemClassLevel === form.classLevel;
 
   const subjectOptions = useMemo(
     () =>
       [
         ...new Set(
           subjectCatalog
-            .filter((item) => !form.classLevel || item.classLevel === form.classLevel)
+            .filter((item) => matchesClassLevel(item.classLevel))
             .map((item) => item.subject),
         ),
       ].sort((a, b) => a.localeCompare(b)),
@@ -419,14 +431,14 @@ export default function PlannerScreen() {
 
   const contentSubjectOptions = useMemo(
     () => [...new Set(contentItems
-      .filter((item) => !form.classLevel || item.classLevel === form.classLevel)
+      .filter((item) => matchesClassLevel(item.classLevel))
       .map((item) => item.subject).filter(Boolean))].sort((a, b) => a.localeCompare(b)),
     [contentItems, form.classLevel],
   );
 
   const filteredContents = useMemo(() => {
     return contentItems
-      .filter((item) => !form.classLevel || item.classLevel === form.classLevel)
+      .filter((item) => matchesClassLevel(item.classLevel))
       .filter((item) => !contentSubjectFilter || item.subject === contentSubjectFilter)
       .filter((item) => {
         const keyword = contentSearch.trim().toLowerCase();
@@ -438,7 +450,7 @@ export default function PlannerScreen() {
   const filteredQuizzes = useMemo(
     () =>
       quizItems
-        .filter((quiz) => !form.classLevel || (quiz.class_level || '').trim() === form.classLevel)
+        .filter((quiz) => matchesClassLevel((quiz.class_level || '').trim()))
         .filter((quiz) => !quizFilters.subject || (quiz.subject || '').trim() === quizFilters.subject)
         .filter((quiz) => !quizFilters.category || (quiz.quiz_type || '').toLowerCase().includes(quizFilters.category.toLowerCase()))
         .filter((quiz) => !quizFilters.difficulty || (quiz.difficulty_level || '').toLowerCase().includes(quizFilters.difficulty.toLowerCase()))
@@ -1483,9 +1495,26 @@ export default function PlannerScreen() {
       <SelectorModal
         visible={selectorField !== null}
         title={selectorField === 'classLevel' ? 'Select Standard' : 'Select Subject'}
-        options={selectorOptions.map((o) => ({ label: selectorField === 'classLevel' ? getStandardLabel(o) : o, value: o }))}
+        options={selectorOptions.map((o) => {
+          if (selectorField === 'classLevel') {
+            return { label: getStandardLabel(o), value: o };
+          }
+          // Pull visual metadata from the class-scoped subjectCatalog so the
+          // picker shows admin-uploaded covers / icons / background colors.
+          const meta = subjectCatalog.find(
+            (item) => item.subject === o && (isAnyClass || !form.classLevel || item.classLevel === form.classLevel),
+          );
+          return {
+            label: o,
+            value: o,
+            coverImage: meta?.coverImage,
+            iconUrl: meta?.iconImage,
+            iconBgColor: meta?.iconBgColor,
+          };
+        })}
         selected={selectorField === 'classLevel' ? form.classLevel : ''}
         isSubject={selectorField !== 'classLevel'}
+        showAny={selectorField !== 'classLevel'}
         onSelect={applySelectorValue}
         onClose={() => setSelectorField(null)}
       />

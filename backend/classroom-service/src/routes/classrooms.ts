@@ -626,28 +626,34 @@ classroomsRouter.get('/student', requireAuth, async (req: any, res) => {
       classLevels.unshift(requestedClassLevel);
     }
 
-    if (!classLevel || role !== 'student') {
+    // 'ANY' is a sentinel class_level that should be visible to every student
+    // regardless of their own users.class_level value.
+    const ANY_CLASS_VALUE = 'ANY';
+
+    if (role !== 'student') {
       return res.json({ classrooms: [], classLevels, currentClassLevel: classLevel || '' });
     }
-
+    // If the student has no class set, fall through with sentinel so they still
+    // receive ANY-class rooms.
+    const effectiveClassLevel = classLevel || ANY_CLASS_VALUE;
     let classroomResult;
     try {
       classroomResult = await db.query(
         `SELECT id, title, description, schedule_type, start_time, end_time, duration_minutes, class_level, status, created_at, updated_at
          FROM classrooms
          WHERE (organization_id = $1::uuid OR is_global = true)
-           AND class_level = $2
+           AND (class_level = $2 OR class_level = $3)
          ORDER BY created_at DESC`,
-        [orgId, classLevel],
+        [orgId, effectiveClassLevel, ANY_CLASS_VALUE],
       );
     } catch (error: any) {
       if (error?.code === '42703') {
         classroomResult = await db.query(
           `SELECT id, title, description, schedule_type, start_time, end_time, duration_minutes, class_level, status, created_at, updated_at
            FROM classrooms
-           WHERE class_level = $1
+           WHERE class_level = $1 OR class_level = $2
            ORDER BY created_at DESC`,
-          [classLevel],
+          [effectiveClassLevel, ANY_CLASS_VALUE],
         );
       } else {
         throw error;
