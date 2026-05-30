@@ -107,306 +107,10 @@ export async function initSchemaAndSeed() {
   `);
     const schemaExists = Boolean(existingSchema.rows[0]?.exists);
     if (schemaExists && !forceReset) {
-        // Ensure all newer tables are created if they are missing
-        await db.query(`
-      CREATE OR REPLACE FUNCTION generate_registration_id()
-      RETURNS TEXT AS $$
-      BEGIN
-        RETURN 'ELS-' || UPPER(SUBSTRING(REPLACE(gen_random_uuid()::text, '-', '') FROM 1 FOR 10));
-      END;
-      $$ LANGUAGE plpgsql;
-
-      ALTER TABLE users ADD COLUMN IF NOT EXISTS unique_registration_id VARCHAR(20);
-      ALTER TABLE users ALTER COLUMN unique_registration_id SET DEFAULT generate_registration_id();
-
-      UPDATE users
-      SET unique_registration_id = generate_registration_id()
-      WHERE unique_registration_id IS NULL;
-
-      CREATE UNIQUE INDEX IF NOT EXISTS idx_users_unique_registration_id
-        ON users(unique_registration_id);
-
-      CREATE TABLE IF NOT EXISTS student_activity (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        student_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
-        activity_type VARCHAR(50) NOT NULL,
-        reference_id UUID,
-        reference_title VARCHAR(255),
-        status VARCHAR(50) DEFAULT 'attempted',
-        score INTEGER,
-        time_spent_seconds INTEGER DEFAULT 0,
-        activity_date DATE DEFAULT CURRENT_DATE,
-        created_at TIMESTAMP DEFAULT NOW()
-      );
-
-      CREATE TABLE IF NOT EXISTS student_analytics (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        student_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
-        analytics_date DATE NOT NULL DEFAULT CURRENT_DATE,
-        streak_days INTEGER DEFAULT 0,
-        consistency_score NUMERIC(5,2) DEFAULT 0,
-        attempted_count INTEGER DEFAULT 0,
-        not_attempted_count INTEGER DEFAULT 0,
-        completed_count INTEGER DEFAULT 0,
-        completion_rate NUMERIC(5,2) DEFAULT 0,
-        total_time_seconds INTEGER DEFAULT 0,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW(),
-        UNIQUE(student_id, analytics_date)
-      );
-
-      CREATE TABLE IF NOT EXISTS assignment_submissions (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        student_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
-        assignment_ref_id UUID,
-        assignment_title VARCHAR(255),
-        file_url TEXT,
-        submission_status VARCHAR(50) DEFAULT 'pending',
-        submitted_at TIMESTAMP,
-        graded_at TIMESTAMP,
-        grade INTEGER,
-        feedback TEXT,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW()
-      );
-
-      CREATE TABLE IF NOT EXISTS parent_student_links (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        parent_user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-        student_user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
-        created_at TIMESTAMP DEFAULT NOW(),
-        UNIQUE(parent_user_id, student_user_id, organization_id)
-      );
-
-      CREATE TABLE IF NOT EXISTS parent_assessments (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        parent_user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-        student_user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
-        behavior_score SMALLINT NOT NULL CHECK (behavior_score BETWEEN 0 AND 10),
-        focus_score SMALLINT NOT NULL CHECK (focus_score BETWEEN 0 AND 10),
-        regularity_score SMALLINT NOT NULL CHECK (regularity_score BETWEEN 0 AND 10),
-        creativity_score SMALLINT NOT NULL CHECK (creativity_score BETWEEN 0 AND 10),
-        academic_score SMALLINT NOT NULL CHECK (academic_score BETWEEN 0 AND 10),
-        outdoor_activity_score SMALLINT NOT NULL CHECK (outdoor_activity_score BETWEEN 0 AND 10),
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW()
-      );
-
-      CREATE TABLE IF NOT EXISTS parent_feedback (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        parent_user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-        student_user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
-        feedback_text TEXT NOT NULL,
-        attachment_url TEXT,
-        created_at TIMESTAMP DEFAULT NOW()
-      );
-
-      CREATE TABLE IF NOT EXISTS teacher_standard_subjects (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        teacher_user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
-        class_level VARCHAR(50) NOT NULL,
-        subject VARCHAR(100) NOT NULL,
-        created_at TIMESTAMP DEFAULT NOW(),
-        UNIQUE(teacher_user_id, organization_id, class_level, subject)
-      );
-
-      CREATE TABLE IF NOT EXISTS subjects (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
-        cover_image TEXT,
-        icon_image TEXT,
-        icon_bg_color VARCHAR(20),
-        title VARCHAR(255) NOT NULL,
-        description TEXT,
-        author VARCHAR(255),
-        author_user_id UUID REFERENCES users(id) ON DELETE SET NULL,
-        is_external_author BOOLEAN DEFAULT false,
-        class_level VARCHAR(50) NOT NULL,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW(),
-        UNIQUE(organization_id, class_level, title)
-      );
-
-      CREATE TABLE IF NOT EXISTS content_topics (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
-        class_level VARCHAR(50) NOT NULL,
-        subject VARCHAR(255) NOT NULL,
-        title VARCHAR(255) NOT NULL,
-        cover_image TEXT,
-        created_by UUID REFERENCES users(id) ON DELETE SET NULL,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW(),
-        UNIQUE(organization_id, class_level, subject, title)
-      );
-
-      CREATE TABLE IF NOT EXISTS topic_content_sections (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        topic_id UUID REFERENCES content_topics(id) ON DELETE CASCADE,
-        section_order INTEGER NOT NULL,
-        content_type VARCHAR(50) NOT NULL,
-        media_url TEXT,
-        external_url TEXT,
-        text_content TEXT,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW()
-      );
-
-      CREATE TABLE IF NOT EXISTS learning_contents (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
-        class_level VARCHAR(50) NOT NULL,
-        subject VARCHAR(255) NOT NULL,
-        title VARCHAR(255) NOT NULL,
-        content_type VARCHAR(50) NOT NULL,
-        media_url TEXT,
-        external_url TEXT,
-        text_content TEXT,
-        created_by UUID REFERENCES users(id) ON DELETE SET NULL,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW()
-      );
-
-      CREATE TABLE IF NOT EXISTS learning_content_sections (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        content_id UUID REFERENCES learning_contents(id) ON DELETE CASCADE,
-        section_order INTEGER NOT NULL,
-        content_type VARCHAR(50) NOT NULL,
-        media_url TEXT,
-        external_url TEXT,
-        text_content TEXT,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW()
-      );
-
-      CREATE TABLE IF NOT EXISTS topic_content_assignments (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        topic_id UUID REFERENCES content_topics(id) ON DELETE CASCADE,
-        content_id UUID REFERENCES learning_contents(id) ON DELETE CASCADE,
-        sort_order INTEGER NOT NULL DEFAULT 0,
-        created_at TIMESTAMP DEFAULT NOW(),
-        UNIQUE(topic_id, content_id)
-      );
-    `);
-        // Add topic_id column to quizzes if not present (migration for existing installs)
-        await db.query(`
-      ALTER TABLE quizzes ADD COLUMN IF NOT EXISTS topic_id UUID REFERENCES content_topics(id) ON DELETE SET NULL;
-    `);
-        // Add class_level column to users if not present (migration for existing installs)
-        await db.query(`
-      ALTER TABLE users ADD COLUMN IF NOT EXISTS class_level VARCHAR(50);
-      ALTER TABLE users ADD COLUMN IF NOT EXISTS branch VARCHAR(100);
-      ALTER TABLE subjects ADD COLUMN IF NOT EXISTS icon_image TEXT;
-      ALTER TABLE subjects ADD COLUMN IF NOT EXISTS icon_bg_color VARCHAR(20);
-
-      CREATE TABLE IF NOT EXISTS user_global_publish_permissions (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
-        enabled BOOLEAN DEFAULT false,
-        granted_by UUID REFERENCES users(id) ON DELETE SET NULL,
-        granted_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW(),
-        UNIQUE(user_id, organization_id)
-      );
-
-      CREATE TABLE IF NOT EXISTS subscription_plans (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        name VARCHAR(120) NOT NULL,
-        description TEXT,
-        membership_tier VARCHAR(30) NOT NULL CHECK (membership_tier IN ('bronze', 'silver', 'gold', 'platinum')),
-        billing_cycle VARCHAR(20) NOT NULL CHECK (billing_cycle IN ('monthly', 'quarterly', 'yearly')),
-        base_price NUMERIC(12,2) NOT NULL DEFAULT 0,
-        offer_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
-        special_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
-        group_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
-        max_users_for_group_discount INTEGER NOT NULL DEFAULT 10,
-        is_active BOOLEAN NOT NULL DEFAULT true,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW(),
-        UNIQUE(name, membership_tier, billing_cycle)
-      );
-
-      CREATE TABLE IF NOT EXISTS organization_subscriptions (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
-        plan_id UUID REFERENCES subscription_plans(id) ON DELETE SET NULL,
-        status VARCHAR(20) NOT NULL CHECK (status IN ('trialing', 'active', 'past_due', 'cancelled', 'expired')),
-        trial_start_at TIMESTAMP,
-        trial_end_at TIMESTAMP,
-        starts_at TIMESTAMP,
-        ends_at TIMESTAMP,
-        final_price NUMERIC(12,2),
-        seat_count INTEGER DEFAULT 1,
-        offer_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
-        special_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
-        group_discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW()
-      );
-
-    `);
-        await db.query(`
-      DELETE FROM subscription_plans sp
-      USING (
-        SELECT ctid
-        FROM (
-          SELECT
-            ctid,
-            ROW_NUMBER() OVER (
-              PARTITION BY name, membership_tier, billing_cycle
-              ORDER BY created_at ASC, ctid
-            ) AS row_num
-          FROM subscription_plans
-        ) ranked
-        WHERE ranked.row_num > 1
-      ) duplicates
-      WHERE sp.ctid = duplicates.ctid;
-    `);
-        await db.query(`
-      CREATE UNIQUE INDEX IF NOT EXISTS idx_subscription_plans_identity
-        ON subscription_plans (name, membership_tier, billing_cycle);
-    `);
-        await db.query(`
-      CREATE TABLE IF NOT EXISTS invoices (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
-        subscription_id UUID REFERENCES organization_subscriptions(id) ON DELETE SET NULL,
-        plan_id UUID REFERENCES subscription_plans(id) ON DELETE SET NULL,
-        invoice_number VARCHAR(40) NOT NULL UNIQUE,
-        status VARCHAR(20) NOT NULL CHECK (status IN ('pending', 'paid', 'expired', 'renewed', 'cancelled')) DEFAULT 'pending',
-        billing_kind VARCHAR(20) NOT NULL DEFAULT 'subscription',
-        plan_name VARCHAR(120),
-        membership_tier VARCHAR(30),
-        billing_cycle VARCHAR(20),
-        seat_count INTEGER DEFAULT 1,
-        subtotal NUMERIC(12,2) NOT NULL DEFAULT 0,
-        discount_total NUMERIC(12,2) NOT NULL DEFAULT 0,
-        amount_due NUMERIC(12,2) NOT NULL DEFAULT 0,
-        currency VARCHAR(10) NOT NULL DEFAULT 'INR',
-        period_start TIMESTAMP,
-        period_end TIMESTAMP,
-        due_at TIMESTAMP,
-        issued_at TIMESTAMP DEFAULT NOW(),
-        paid_at TIMESTAMP,
-        payment_method VARCHAR(40),
-        payment_reference VARCHAR(120),
-        notes TEXT,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW()
-      );
-
-      CREATE INDEX IF NOT EXISTS idx_invoices_org ON invoices(organization_id);
-      CREATE INDEX IF NOT EXISTS idx_invoices_status ON invoices(status);
-      CREATE INDEX IF NOT EXISTS idx_invoices_issued ON invoices(issued_at DESC);
-    `);
+        // Schema is owned by /migrations/* (run via `npm run migrate`).
+        // The previously-inlined DDL has been lifted into
+        // `migrations/0012_auth_seed_schema.sql`. Only DML seed work runs
+        // below (subjects catalog, demo users, default plans).
         // Ensure class-wise subject catalog (with icon metadata) exists and stays updated for every org
         const allOrgs = await db.query(`SELECT id FROM organizations`);
         for (const row of allOrgs.rows) {
@@ -493,7 +197,6 @@ export async function initSchemaAndSeed() {
       DROP TABLE IF EXISTS refresh_tokens CASCADE;
       DROP TABLE IF EXISTS subjects CASCADE;
       DROP TABLE IF EXISTS teacher_standard_subjects CASCADE;
-      DROP TABLE IF EXISTS assignment_submissions CASCADE;
       DROP TABLE IF EXISTS student_analytics CASCADE;
       DROP TABLE IF EXISTS student_activity CASCADE;
       DROP TABLE IF EXISTS parent_student_links CASCADE;
@@ -661,23 +364,8 @@ export async function initSchemaAndSeed() {
       UNIQUE(student_id, analytics_date)
     );
   `);
-    await db.query(`
-    CREATE TABLE assignment_submissions (
-      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-      student_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
-      assignment_ref_id UUID,
-      assignment_title VARCHAR(255),
-      file_url TEXT,
-      submission_status VARCHAR(50) DEFAULT 'pending',
-      submitted_at TIMESTAMP,
-      graded_at TIMESTAMP,
-      grade INTEGER,
-      feedback TEXT,
-      created_at TIMESTAMP DEFAULT NOW(),
-      updated_at TIMESTAMP DEFAULT NOW()
-    );
-  `);
+    // (legacy assignment_submissions table was dropped by migration 0013;
+    //  the active homework table is classroom_assignment_submissions.)
     // 5.1 Parent-Student links
     await db.query(`
     CREATE TABLE parent_student_links (
@@ -723,9 +411,9 @@ export async function initSchemaAndSeed() {
       teacher_user_id UUID REFERENCES users(id) ON DELETE CASCADE,
       organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
       class_level VARCHAR(50) NOT NULL,
-      subject VARCHAR(100) NOT NULL,
+      subject_id UUID REFERENCES subjects(id) ON DELETE RESTRICT,
       created_at TIMESTAMP DEFAULT NOW(),
-      UNIQUE(teacher_user_id, organization_id, class_level, subject)
+      UNIQUE(teacher_user_id, organization_id, class_level, subject_id)
     );
   `);
     // 5.3 Subject catalog by standard
@@ -753,13 +441,13 @@ export async function initSchemaAndSeed() {
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
       class_level VARCHAR(50) NOT NULL,
-      subject VARCHAR(255) NOT NULL,
+      subject_id UUID REFERENCES subjects(id) ON DELETE RESTRICT,
       title VARCHAR(255) NOT NULL,
       cover_image TEXT,
       created_by UUID REFERENCES users(id) ON DELETE SET NULL,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW(),
-      UNIQUE(organization_id, class_level, subject, title)
+      UNIQUE(organization_id, class_level, subject_id, title)
     );
   `);
     // 5.5 Topic content sections
@@ -782,7 +470,7 @@ export async function initSchemaAndSeed() {
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
       class_level VARCHAR(50) NOT NULL,
-      subject VARCHAR(255) NOT NULL,
+      subject_id UUID REFERENCES subjects(id) ON DELETE RESTRICT,
       title VARCHAR(255) NOT NULL,
       content_type VARCHAR(50) NOT NULL,
       media_url TEXT,
@@ -828,7 +516,7 @@ export async function initSchemaAndSeed() {
       thumbnail_image TEXT,
       created_by UUID, -- Can refer to a user ID or be null if system/AI
       class_level VARCHAR(50),
-      subject VARCHAR(100),
+      subject_id UUID REFERENCES subjects(id) ON DELETE RESTRICT,
       quiz_type VARCHAR(100) NOT NULL, -- drag_drop, image_select, sound_match, memory_game
       difficulty_level VARCHAR(50),
       background_music_url TEXT,
@@ -1031,13 +719,13 @@ export async function initSchemaAndSeed() {
     const playfulBgm = '/media/bg-audio/eliveta-kids-happy-music-474162.mp3';
     // Quiz 1: Drag & Drop Match
     const quiz1Result = await db.query(`
-    INSERT INTO quizzes (organization_id, title, description, class_level, subject, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
+    INSERT INTO quizzes (organization_id, title, description, class_level, subject_id, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
     VALUES (
       '${orgId}',
       'Where Do Animals Live?',
       'Help the animals find their homes in this fun matching game!',
       'LKG',
-      'Nature',
+      (SELECT id FROM subjects WHERE class_level='LKG' AND LOWER(title)=LOWER('Environmental Studies') AND organization_id='${orgId}'::uuid LIMIT 1),
       'drag_drop',
       'Easy',
       '${playfulBgm}',
@@ -1078,13 +766,13 @@ export async function initSchemaAndSeed() {
   `);
     // Quiz 2: Image Select (Sound Match)
     const quiz2Result = await db.query(`
-    INSERT INTO quizzes (organization_id, title, description, class_level, subject, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
+    INSERT INTO quizzes (organization_id, title, description, class_level, subject_id, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
     VALUES (
       '${orgId}',
       'What Animal Sound is That?',
       'Listen to the sound and choose the correct animal!',
       '1',
-      'Animals',
+      (SELECT id FROM subjects WHERE class_level='1' AND LOWER(title)=LOWER('English') AND organization_id='${orgId}'::uuid LIMIT 1),
       'image_select',
       'Medium',
       '${playfulBgm}',
@@ -1157,13 +845,13 @@ export async function initSchemaAndSeed() {
   `);
     // Class 1 English: Word Pictures (guess_image)
     const englishQuiz1Result = await db.query(`
-    INSERT INTO quizzes (organization_id, title, description, class_level, subject, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
+    INSERT INTO quizzes (organization_id, title, description, class_level, subject_id, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
     VALUES (
       '${orgId}',
       'Class 1 English: Word Pictures',
       'Look at the pictures and guess the correct English words!',
       '1',
-      'English',
+      (SELECT id FROM subjects WHERE class_level='1' AND LOWER(title)=LOWER('English') AND organization_id='${orgId}'::uuid LIMIT 1),
       'guess_image',
       'Easy',
       '${playfulBgm}',
@@ -1215,13 +903,13 @@ export async function initSchemaAndSeed() {
   `);
     // Class 1 English: Listen & Learn (guess_audio)
     const englishQuiz2Result = await db.query(`
-    INSERT INTO quizzes (organization_id, title, description, class_level, subject, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
+    INSERT INTO quizzes (organization_id, title, description, class_level, subject_id, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
     VALUES (
       '${orgId}',
       'Class 1 English: Listen & Learn',
       'Listen to the audio clips and choose the correct English words!',
       '1',
-      'English',
+      (SELECT id FROM subjects WHERE class_level='1' AND LOWER(title)=LOWER('English') AND organization_id='${orgId}'::uuid LIMIT 1),
       'guess_audio',
       'Easy',
       '${playfulBgm}',
@@ -1276,9 +964,10 @@ export async function initSchemaAndSeed() {
     console.log('Database successfully migrated and seeded with organizations, roles, users, and quizzes.');
 }
 async function ensureDefaultOrgAndPlanSeeds() {
-    await db.query(`INSERT INTO organizations (name, subdomain, settings)
-     VALUES ('ELS Default Org', 'default-org', '{"theme":"default"}')
-     ON CONFLICT (subdomain) DO NOTHING`);
+    // Note: we no longer create a separate "ELS Default Org" tenant. The
+    // platform's single default tenant is whichever organization has
+    // `is_default = true` (ELS ACADEMY in production). Demo super/admin
+    // users below are anchored to that org.
     await db.query(`INSERT INTO subscription_plans
        (name, description, membership_tier, billing_cycle, base_price, offer_discount_percent, special_discount_percent, group_discount_percent, max_users_for_group_discount, is_active)
      VALUES
@@ -1300,7 +989,7 @@ async function ensureDefaultOrgAndPlanSeeds() {
 }
 async function ensureAdminDemoUser() {
     const passwordHash = await bcrypt.hash('welcome', 10);
-    const defaultOrgResult = await db.query(`SELECT id FROM organizations WHERE subdomain = 'default-org' LIMIT 1`);
+    const defaultOrgResult = await db.query(`SELECT id FROM organizations WHERE is_default = true LIMIT 1`);
     const fallbackOrgResult = (defaultOrgResult.rowCount ?? 0) > 0
         ? defaultOrgResult
         : await db.query(`SELECT id FROM organizations WHERE subdomain = 'els-academy' LIMIT 1`);
@@ -1336,7 +1025,7 @@ async function ensureAdminDemoUser() {
 }
 async function ensureSuperAdminDemoUser() {
     const passwordHash = await bcrypt.hash('welcome', 10);
-    const defaultOrgResult = await db.query(`SELECT id FROM organizations WHERE subdomain = 'default-org' LIMIT 1`);
+    const defaultOrgResult = await db.query(`SELECT id FROM organizations WHERE is_default = true LIMIT 1`);
     const fallbackOrgResult = (defaultOrgResult.rowCount ?? 0) > 0
         ? defaultOrgResult
         : await db.query(`SELECT id FROM organizations WHERE subdomain = 'els-academy' LIMIT 1`);
@@ -1372,20 +1061,22 @@ async function ensureSuperAdminDemoUser() {
 }
 async function seedTopicsAndContent(orgId) {
     // Check if topic exists
-    const topicCheck = await db.query("SELECT id FROM content_topics WHERE organization_id = $1 AND class_level = '1' AND subject = 'English' AND title = 'Alphabet Sounds & Phonics' LIMIT 1", [orgId]);
+    const topicCheck = await db.query(`SELECT ct.id FROM content_topics ct
+     LEFT JOIN subjects s ON s.id = ct.subject_id
+     WHERE ct.organization_id = $1 AND ct.class_level = '1' AND s.title = 'English' AND ct.title = 'Alphabet Sounds & Phonics' LIMIT 1`, [orgId]);
     if ((topicCheck.rowCount ?? 0) > 0) {
         console.log('Class 1 English topics and content already seeded.');
         return;
     }
     console.log('Seeding Class 1 English topics and content...');
     // Topic 1: Alphabet Sounds & Phonics
-    const t1 = await db.query(`INSERT INTO content_topics (organization_id, class_level, subject, title, cover_image)
-     VALUES ($1, '1', 'English', 'Alphabet Sounds & Phonics', '/media/pictures/alphabet.png')
+    const t1 = await db.query(`INSERT INTO content_topics (organization_id, class_level, subject_id, title, cover_image)
+     VALUES ($1, '1', (SELECT id FROM subjects WHERE class_level='1' AND LOWER(title)=LOWER('English') AND organization_id=$1::uuid LIMIT 1), 'Alphabet Sounds & Phonics', '/media/pictures/alphabet.png')
      RETURNING id`, [orgId]);
     const t1Id = t1.rows[0].id;
     // Content 1.1: Interactive Phonics Guide
-    const c11 = await db.query(`INSERT INTO learning_contents (organization_id, class_level, subject, title, content_type, text_content)
-     VALUES ($1, '1', 'English', 'Interactive Phonics Guide', 'text', $2)
+    const c11 = await db.query(`INSERT INTO learning_contents (organization_id, class_level, subject_id, title, content_type, text_content)
+     VALUES ($1, '1', (SELECT id FROM subjects WHERE class_level='1' AND LOWER(title)=LOWER('English') AND organization_id=$1::uuid LIMIT 1), 'Interactive Phonics Guide', 'text', $2)
      RETURNING id`, [orgId, "Welcome to Phonics! Let's learn the sounds of English letters. 'A' says /æ/ as in Apple. 'B' says /b/ as in Ball. 'C' says /k/ as in Cat."]);
     const c11Id = c11.rows[0].id;
     await db.query(`INSERT INTO learning_content_sections (content_id, section_order, content_type, text_content)
@@ -1393,8 +1084,8 @@ async function seedTopicsAndContent(orgId) {
     await db.query(`INSERT INTO topic_content_assignments (topic_id, content_id, sort_order)
      VALUES ($1, $2, 1)`, [t1Id, c11Id]);
     // Content 1.2: Phonics Audio Practice
-    const c12 = await db.query(`INSERT INTO learning_contents (organization_id, class_level, subject, title, content_type, media_url, text_content)
-     VALUES ($1, '1', 'English', 'Phonics Audio Practice', 'audio', $2, $3)
+    const c12 = await db.query(`INSERT INTO learning_contents (organization_id, class_level, subject_id, title, content_type, media_url, text_content)
+     VALUES ($1, '1', (SELECT id FROM subjects WHERE class_level='1' AND LOWER(title)=LOWER('English') AND organization_id=$1::uuid LIMIT 1), 'Phonics Audio Practice', 'audio', $2, $3)
      RETURNING id`, [orgId, '/media/bg-audio/eliveta-kids-happy-music-474162.mp3', 'Listen to the sounds of the letters and repeat them aloud.']);
     const c12Id = c12.rows[0].id;
     await db.query(`INSERT INTO learning_content_sections (content_id, section_order, content_type, media_url, text_content)
@@ -1402,13 +1093,13 @@ async function seedTopicsAndContent(orgId) {
     await db.query(`INSERT INTO topic_content_assignments (topic_id, content_id, sort_order)
      VALUES ($1, $2, 2)`, [t1Id, c12Id]);
     // Topic 2: Nouns: Naming Words
-    const t2 = await db.query(`INSERT INTO content_topics (organization_id, class_level, subject, title, cover_image)
-     VALUES ($1, '1', 'English', 'Nouns: Naming Words', '/media/pictures/noun.png')
+    const t2 = await db.query(`INSERT INTO content_topics (organization_id, class_level, subject_id, title, cover_image)
+     VALUES ($1, '1', (SELECT id FROM subjects WHERE class_level='1' AND LOWER(title)=LOWER('English') AND organization_id=$1::uuid LIMIT 1), 'Nouns: Naming Words', '/media/pictures/noun.png')
      RETURNING id`, [orgId]);
     const t2Id = t2.rows[0].id;
     // Content 2.1: Introduction to Naming Words
-    const c21 = await db.query(`INSERT INTO learning_contents (organization_id, class_level, subject, title, content_type, text_content)
-     VALUES ($1, '1', 'English', 'Introduction to Naming Words', 'text', $2)
+    const c21 = await db.query(`INSERT INTO learning_contents (organization_id, class_level, subject_id, title, content_type, text_content)
+     VALUES ($1, '1', (SELECT id FROM subjects WHERE class_level='1' AND LOWER(title)=LOWER('English') AND organization_id=$1::uuid LIMIT 1), 'Introduction to Naming Words', 'text', $2)
      RETURNING id`, [orgId, 'A noun is a naming word. It names a person, place, animal, or thing. Examples: Boy (person), School (place), Dog (animal), Toy (thing).']);
     const c21Id = c21.rows[0].id;
     await db.query(`INSERT INTO learning_content_sections (content_id, section_order, content_type, text_content)
@@ -1416,13 +1107,13 @@ async function seedTopicsAndContent(orgId) {
     await db.query(`INSERT INTO topic_content_assignments (topic_id, content_id, sort_order)
      VALUES ($1, $2, 1)`, [t2Id, c21Id]);
     // Topic 3: Simple Action Words
-    const t3 = await db.query(`INSERT INTO content_topics (organization_id, class_level, subject, title, cover_image)
-     VALUES ($1, '1', 'English', 'Simple Action Words', '/media/pictures/verbs.png')
+    const t3 = await db.query(`INSERT INTO content_topics (organization_id, class_level, subject_id, title, cover_image)
+     VALUES ($1, '1', (SELECT id FROM subjects WHERE class_level='1' AND LOWER(title)=LOWER('English') AND organization_id=$1::uuid LIMIT 1), 'Simple Action Words', '/media/pictures/verbs.png')
      RETURNING id`, [orgId]);
     const t3Id = t3.rows[0].id;
     // Content 3.1: Action Words (Verbs)
-    const c31 = await db.query(`INSERT INTO learning_contents (organization_id, class_level, subject, title, content_type, text_content)
-     VALUES ($1, '1', 'English', 'Action Words (Verbs)', 'text', $2)
+    const c31 = await db.query(`INSERT INTO learning_contents (organization_id, class_level, subject_id, title, content_type, text_content)
+     VALUES ($1, '1', (SELECT id FROM subjects WHERE class_level='1' AND LOWER(title)=LOWER('English') AND organization_id=$1::uuid LIMIT 1), 'Action Words (Verbs)', 'text', $2)
      RETURNING id`, [orgId, 'Action words tell us what someone or something is doing. Examples: run, jump, read, write, play, sleep.']);
     const c31Id = c31.rows[0].id;
     await db.query(`INSERT INTO learning_content_sections (content_id, section_order, content_type, text_content)
@@ -1430,8 +1121,8 @@ async function seedTopicsAndContent(orgId) {
     await db.query(`INSERT INTO topic_content_assignments (topic_id, content_id, sort_order)
      VALUES ($1, $2, 1)`, [t3Id, c31Id]);
     // 1. Alphabet Sounds Quiz (Topic 1)
-    const q1Result = await db.query(`INSERT INTO quizzes (organization_id, topic_id, title, description, class_level, subject, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
-     VALUES ($1, $2, 'Alphabet Sounds Quiz', 'Listen to phonetic sounds and choose the correct English letter.', '1', 'English', 'guess_audio', 'Easy', '/media/bg-audio/eliveta-kids-happy-music-474162.mp3', '{"colors": {"primary": "#10b981", "background": "#ecfdf5"}}', 2, true)
+    const q1Result = await db.query(`INSERT INTO quizzes (organization_id, topic_id, title, description, class_level, subject_id, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
+     VALUES ($1, $2, 'Alphabet Sounds Quiz', 'Listen to phonetic sounds and choose the correct English letter.', '1', (SELECT id FROM subjects WHERE class_level='1' AND LOWER(title)=LOWER('English') AND organization_id=$1::uuid LIMIT 1), 'guess_audio', 'Easy', '/media/bg-audio/eliveta-kids-happy-music-474162.mp3', '{"colors": {"primary": "#10b981", "background": "#ecfdf5"}}', 2, true)
      RETURNING id`, [orgId, t1Id]);
     const q1Id = q1Result.rows[0].id;
     const q1q1Data = {
@@ -1457,8 +1148,8 @@ async function seedTopicsAndContent(orgId) {
     await db.query(`INSERT INTO quiz_questions (quiz_id, question_type, question_title, question_instruction, question_audio, question_data, sort_order, points)
      VALUES ($1, 'guess_audio', 'Listen carefully', 'Select the correct name of the animal.', '/media/sounds/dog.mp3', $2, 2, 10)`, [q1Id, JSON.stringify(q1q2Data)]);
     // 2. Nouns & Naming Words Quiz (Topic 2)
-    const q2Result = await db.query(`INSERT INTO quizzes (organization_id, topic_id, title, description, class_level, subject, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
-     VALUES ($1, $2, 'Nouns & Naming Words Quiz', 'Look at the pictures and identify the naming words.', '1', 'English', 'guess_image', 'Easy', '/media/bg-audio/eliveta-kids-happy-music-474162.mp3', '{"colors": {"primary": "#3b82f6", "background": "#eff6ff"}}', 2, true)
+    const q2Result = await db.query(`INSERT INTO quizzes (organization_id, topic_id, title, description, class_level, subject_id, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
+     VALUES ($1, $2, 'Nouns & Naming Words Quiz', 'Look at the pictures and identify the naming words.', '1', (SELECT id FROM subjects WHERE class_level='1' AND LOWER(title)=LOWER('English') AND organization_id=$1::uuid LIMIT 1), 'guess_image', 'Easy', '/media/bg-audio/eliveta-kids-happy-music-474162.mp3', '{"colors": {"primary": "#3b82f6", "background": "#eff6ff"}}', 2, true)
      RETURNING id`, [orgId, t2Id]);
     const q2Id = q2Result.rows[0].id;
     const q2q1Data = {
@@ -1484,8 +1175,8 @@ async function seedTopicsAndContent(orgId) {
     await db.query(`INSERT INTO quiz_questions (quiz_id, question_type, question_title, question_instruction, question_data, sort_order, points)
      VALUES ($1, 'guess_image', 'Name this bird', 'Choose the correct name for this bird.', $2, 2, 10)`, [q2Id, JSON.stringify(q2q2Data)]);
     // 3. Simple Action Words Quiz (Topic 3)
-    const q3Result = await db.query(`INSERT INTO quizzes (organization_id, topic_id, title, description, class_level, subject, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
-     VALUES ($1, $2, 'Simple Action Words Quiz', 'Look at the animals and identify their actions.', '1', 'English', 'guess_image', 'Easy', '/media/bg-audio/eliveta-kids-happy-music-474162.mp3', '{"colors": {"primary": "#3b82f6", "background": "#eff6ff"}}', 1, true)
+    const q3Result = await db.query(`INSERT INTO quizzes (organization_id, topic_id, title, description, class_level, subject_id, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
+     VALUES ($1, $2, 'Simple Action Words Quiz', 'Look at the animals and identify their actions.', '1', (SELECT id FROM subjects WHERE class_level='1' AND LOWER(title)=LOWER('English') AND organization_id=$1::uuid LIMIT 1), 'guess_image', 'Easy', '/media/bg-audio/eliveta-kids-happy-music-474162.mp3', '{"colors": {"primary": "#3b82f6", "background": "#eff6ff"}}', 1, true)
      RETURNING id`, [orgId, t3Id]);
     const q3Id = q3Result.rows[0].id;
     const q3q1Data = {
@@ -1500,8 +1191,8 @@ async function seedTopicsAndContent(orgId) {
     await db.query(`INSERT INTO quiz_questions (quiz_id, question_type, question_title, question_instruction, question_data, sort_order, points)
      VALUES ($1, 'guess_image', 'Identify the Action', 'What action does the rooster do in the morning?', $2, 1, 10)`, [q3Id, JSON.stringify(q3q1Data)]);
     // 4. Class 1 English: Comprehensive Master Quiz
-    const q4Result = await db.query(`INSERT INTO quizzes (organization_id, topic_id, title, description, class_level, subject, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
-     VALUES ($1, $2, 'Class 1 English: Comprehensive Master Quiz', 'Challenge yourself with different question types about letters, naming words, and actions!', '1', 'English', 'single_choice', 'Medium', '/media/bg-audio/eliveta-kids-happy-music-474162.mp3', '{"colors": {"primary": "#3b82f6", "background": "#eff6ff"}}', 6, true)
+    const q4Result = await db.query(`INSERT INTO quizzes (organization_id, topic_id, title, description, class_level, subject_id, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published)
+     VALUES ($1, $2, 'Class 1 English: Comprehensive Master Quiz', 'Challenge yourself with different question types about letters, naming words, and actions!', '1', (SELECT id FROM subjects WHERE class_level='1' AND LOWER(title)=LOWER('English') AND organization_id=$1::uuid LIMIT 1), 'single_choice', 'Medium', '/media/bg-audio/eliveta-kids-happy-music-474162.mp3', '{"colors": {"primary": "#3b82f6", "background": "#eff6ff"}}', 6, true)
      RETURNING id`, [orgId, t1Id]);
     const q4Id = q4Result.rows[0].id;
     // Q1: guess_image

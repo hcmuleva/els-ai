@@ -7,6 +7,7 @@
     "backend/shared/event-bus",
     "backend/shared/internal-auth",
     "backend/shared/media-client",
+    "backend/shared/db-tenant",
     "backend/gateway",
     "backend/auth-service",
     "backend/quiz-service",
@@ -25,13 +26,15 @@
   "scripts": {
     "typecheck": "npm run typecheck --workspaces",
     "build": "npm run build --workspace backend/shared/event-bus && npm run build --workspace backend/shared/internal-auth && npm run build --workspace backend/shared/media-client && npm run build --workspace backend/gateway && npm run build --workspace backend/auth-service && npm run build --workspace backend/quiz-service && npm run build --workspace backend/classroom-service && npm run build --workspace backend/achievement-service && npm run build --workspace backend/question-bank-service && npm run build --workspace backend/content-service && npm run build --workspace backend/topic-service && npm run build --workspace backend/assignment-service && npm run build --workspace backend/org-service && npm run build --workspace backend/media-service && npm run build --workspace backend/ai-service && npm run build --workspace backend/notification-service && npm run build --workspace backend/story-service",
-    "build:shared": "npm run build --workspace backend/shared/event-bus && npm run build --workspace backend/shared/internal-auth && npm run build --workspace backend/shared/media-client",
+    "build:shared": "npm run build --workspace backend/shared/event-bus && npm run build --workspace backend/shared/internal-auth && npm run build --workspace backend/shared/media-client && npm run build --workspace backend/shared/db-tenant",
     "services:start": "node scripts/manage-services.js start",
     "services:stop": "node scripts/manage-services.js stop",
     "services:restart": "node scripts/manage-services.js restart",
     "services:status": "node scripts/manage-services.js status",
     "services:health": "node scripts/manage-services.js health",
     "services:list": "node scripts/manage-services.js list",
-    "services:logs": "node scripts/manage-services.js logs"
+    "services:logs": "node scripts/manage-services.js logs",
+    "migrate": "node scripts/migrate.cjs",
+    "migrate:status": "node scripts/migrate.cjs --status"
   }
 }

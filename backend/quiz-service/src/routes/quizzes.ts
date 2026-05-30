@@ -52,6 +52,9 @@ const recordAttemptSchema = z.object({
   quizId: z.string().uuid(),
   score: z.number(),
   totalPoints: z.number(),
+  // Optional client-supplied idempotency key. When supplied, retries of the
+  // same submission collapse onto the same attempt row instead of duplicating.
+  idempotencyKey: z.string().trim().min(8).max(64).optional(),
   questionAttempts: z.array(z.object({
     questionId: z.string().uuid(),
     isCorrect: z.boolean(),
@@ -282,23 +285,24 @@ quizzesRouter.get('/', requireAuth, async (req: any, res) => {
 
   try {
     let queryStr = `
-      SELECT id, title, description, thumbnail_image, class_level, subject, quiz_type, difficulty_level, background_music_url, theme, total_questions, is_published, is_ai_generated, is_global, created_at
-      FROM quizzes
-      WHERE (organization_id = $1::uuid OR is_global = true) AND is_published = true
+      SELECT q.id, q.title, q.description, q.thumbnail_image, q.class_level, s.title AS subject, q.quiz_type, q.difficulty_level, q.background_music_url, q.theme, q.total_questions, q.is_published, q.is_ai_generated, q.is_global, q.created_at
+      FROM quizzes q
+      LEFT JOIN subjects s ON s.id = q.subject_id
+      WHERE (q.organization_id = $1::uuid OR q.is_global = true) AND q.is_published = true
     `;
     const params: unknown[] = [orgId];
 
     if (class_level) {
       params.push(class_level);
-      queryStr += ` AND class_level = $${params.length}`;
+      queryStr += ` AND q.class_level = $${params.length}`;
     }
 
     if (subject) {
       params.push(subject);
-      queryStr += ` AND subject = $${params.length}`;
+      queryStr += ` AND s.title = $${params.length}`;
     }
 
-    queryStr += ` ORDER BY created_at DESC`;
+    queryStr += ` ORDER BY q.created_at DESC`;
 
     const result = await db.query(queryStr, params);
     return res.json(result.rows);
@@ -323,47 +327,48 @@ quizzesRouter.get('/teacher/library', requireAuth, async (req: any, res) => {
   const { search, class_level, subject, quiz_type, difficulty_level, status, source, limit } = parsedQuery.data;
   const normalizedQuizType = quiz_type === 'jigsaw_puzzle' ? 'jigsaw' : quiz_type;
   const params: unknown[] = [orgId];
-  const whereClauses: string[] = ['(organization_id = $1::uuid OR is_global = true)'];
+  const whereClauses: string[] = ['(q.organization_id = $1::uuid OR q.is_global = true)'];
 
   if (search) {
     params.push(`%${search}%`);
-    whereClauses.push(`(title ILIKE $${params.length} OR COALESCE(description, '') ILIKE $${params.length})`);
+    whereClauses.push(`(q.title ILIKE $${params.length} OR COALESCE(q.description, '') ILIKE $${params.length})`);
   }
   if (class_level) {
     params.push(class_level);
-    whereClauses.push(`class_level = $${params.length}`);
+    whereClauses.push(`q.class_level = $${params.length}`);
   }
   if (subject) {
     params.push(subject);
-    whereClauses.push(`subject = $${params.length}`);
+    whereClauses.push(`s.title = $${params.length}`);
   }
   if (normalizedQuizType) {
     params.push(normalizedQuizType);
-    whereClauses.push(`quiz_type = $${params.length}`);
+    whereClauses.push(`q.quiz_type = $${params.length}`);
   }
   if (difficulty_level) {
     params.push(difficulty_level);
-    whereClauses.push(`difficulty_level = $${params.length}`);
+    whereClauses.push(`q.difficulty_level = $${params.length}`);
   }
   if (status === 'published') {
-    whereClauses.push('is_published = true');
+    whereClauses.push('q.is_published = true');
   } else if (status === 'draft') {
-    whereClauses.push('is_published = false');
+    whereClauses.push('q.is_published = false');
   }
   if (source === 'ai') {
-    whereClauses.push('is_ai_generated = true');
+    whereClauses.push('q.is_ai_generated = true');
   } else if (source === 'manual') {
-    whereClauses.push('is_ai_generated = false');
+    whereClauses.push('q.is_ai_generated = false');
   }
 
   params.push(limit);
 
   try {
     const result = await db.query(
-      `SELECT id, title, description, class_level, subject, quiz_type, difficulty_level, total_questions, is_published, is_ai_generated, is_global, created_at
-       FROM quizzes
+      `SELECT q.id, q.title, q.description, q.class_level, s.title AS subject, q.quiz_type, q.difficulty_level, q.total_questions, q.is_published, q.is_ai_generated, q.is_global, q.created_at
+       FROM quizzes q
+       LEFT JOIN subjects s ON s.id = q.subject_id
        WHERE ${whereClauses.join(' AND ')}
-       ORDER BY created_at DESC
+       ORDER BY q.created_at DESC
        LIMIT $${params.length}`,
       params,
     );
@@ -440,10 +445,11 @@ quizzesRouter.get('/teacher/overview', requireAuth, async (req: any, res) => {
     );
 
     const recentQuizzesResult = await db.query(
-      `SELECT id, title, class_level, subject, quiz_type, difficulty_level, total_questions, is_published, is_ai_generated, created_at
-       FROM quizzes
-       WHERE organization_id = $1::uuid
-       ORDER BY created_at DESC
+      `SELECT q.id, q.title, q.class_level, s.title AS subject, q.quiz_type, q.difficulty_level, q.total_questions, q.is_published, q.is_ai_generated, q.created_at
+       FROM quizzes q
+       LEFT JOIN subjects s ON s.id = q.subject_id
+       WHERE q.organization_id = $1::uuid
+       ORDER BY q.created_at DESC
        LIMIT 8`,
       [orgId],
     );
@@ -498,11 +504,12 @@ quizzesRouter.get('/teacher/class-activity', requireAuth, async (req: any, res) 
          MAX(CASE WHEN qq.question_type = 'memory_match'
            THEN (qa.response_data->>'accuracy')::int      END) AS mm_accuracy
        FROM users u
+       INNER JOIN user_roles ur ON ur.user_id = u.id AND ur.organization_id = $1::uuid
        INNER JOIN student_attempts sa ON sa.student_id = u.id
        INNER JOIN quizzes q ON q.id = sa.quiz_id AND q.organization_id = $1::uuid
        LEFT JOIN question_attempts qa ON qa.attempt_id = sa.id
        LEFT JOIN quiz_questions qq ON qq.id = qa.question_id
-       WHERE u.organization_id = $1::uuid AND u.role = 'student'
+       WHERE u.active_role = 'student'
        GROUP BY u.id, u.first_name, u.last_name, u.class_level, u.profile_image,
                 sa.id, sa.completed_at, q.id, q.title
        ORDER BY sa.completed_at DESC
@@ -637,7 +644,7 @@ quizzesRouter.post('/:quizId/questions/reuse', requireAuth, async (req: any, res
          qq.quiz_id,
          q.title AS quiz_title,
          q.class_level,
-         q.subject,
+         s.title AS subject,
          q.quiz_type,
          qq.question_type,
          qq.question_title,
@@ -650,6 +657,7 @@ quizzesRouter.post('/:quizId/questions/reuse', requireAuth, async (req: any, res
          qq.created_at
        FROM quiz_questions qq
        INNER JOIN quizzes q ON q.id = qq.quiz_id
+       LEFT JOIN subjects s ON s.id = q.subject_id
        WHERE qq.id = $1`,
       [createdId],
     );
@@ -690,7 +698,10 @@ quizzesRouter.get('/:id', requireAuth, async (req: any, res) => {
 
   try {
     const quizResult = await db.query(
-      `SELECT * FROM quizzes WHERE id = $1 AND (organization_id = $2::uuid OR is_global = true)`,
+      `SELECT q.*, s.title AS subject
+       FROM quizzes q
+       LEFT JOIN subjects s ON s.id = q.subject_id
+       WHERE q.id = $1 AND (q.organization_id = $2::uuid OR q.is_global = true)`,
       [id, orgId],
     );
 
@@ -736,9 +747,16 @@ quizzesRouter.post('/', requireAuth, async (req: any, res) => {
 
   try {
     const result = await db.query(
-      `INSERT INTO quizzes (organization_id, title, description, class_level, subject, quiz_type, difficulty_level, background_music_url, theme, is_published, is_ai_generated, created_by, is_global)
-       VALUES ($1::uuid, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-       RETURNING *`,
+      `INSERT INTO quizzes (organization_id, title, description, class_level, subject_id, quiz_type, difficulty_level, background_music_url, theme, is_published, is_ai_generated, created_by, is_global)
+       VALUES (
+         $1::uuid, $2, $3, $4::varchar,
+         (SELECT s.id FROM subjects s
+            WHERE s.class_level = $4::varchar AND LOWER(s.title) = LOWER($5::varchar)
+              AND (s.organization_id = $1::uuid OR $13::boolean = true)
+            ORDER BY (s.organization_id = $1::uuid) DESC, s.updated_at DESC NULLS LAST
+            LIMIT 1),
+         $6, $7, $8, $9, $10, $11, $12, $13)
+       RETURNING *, (SELECT title FROM subjects WHERE id = quizzes.subject_id) AS subject`,
       [orgId, title, description || null, classLevel || null, subject || null, normalizedQuizType, difficultyLevel || null, backgroundMusicUrl || null, theme, isPublished, isAiGenerated, userId, isGlobal],
     );
 
@@ -773,10 +791,10 @@ quizzesRouter.patch('/:id/publish', requireAuth, async (req: any, res) => {
     }
 
     const result = await db.query(
-      `UPDATE quizzes
+      `UPDATE quizzes q
        SET is_published = $1, updated_at = NOW()
-       WHERE id = $2 AND (organization_id = $3::uuid OR is_global = true)
-       RETURNING id, title, class_level, subject, quiz_type, difficulty_level, total_questions, is_published, is_ai_generated, is_global, created_at, updated_at`,
+       WHERE q.id = $2 AND (q.organization_id = $3::uuid OR q.is_global = true)
+       RETURNING q.id, q.title, q.class_level, (SELECT title FROM subjects WHERE id = q.subject_id) AS subject, q.quiz_type, q.difficulty_level, q.total_questions, q.is_published, q.is_ai_generated, q.is_global, q.created_at, q.updated_at`,
       [parsed.data.isPublished, id, orgId],
     );
 
@@ -826,7 +844,6 @@ quizzesRouter.patch('/:id', requireAuth, async (req: any, res) => {
     if (data.title !== undefined) push('title', data.title);
     if (data.description !== undefined) push('description', data.description);
     if (data.classLevel !== undefined) push('class_level', data.classLevel);
-    if (data.subject !== undefined) push('subject', data.subject);
     if (data.quizType !== undefined) {
       const normalizedQuizType = data.quizType === 'jigsaw_puzzle' ? 'jigsaw' : data.quizType;
       push('quiz_type', normalizedQuizType);
@@ -841,6 +858,28 @@ quizzesRouter.patch('/:id', requireAuth, async (req: any, res) => {
     }
 
     fields.push('updated_at = NOW()');
+
+    if (data.subject !== undefined) {
+      const existingRes = await db.query(`SELECT class_level FROM quizzes WHERE id = $1::uuid LIMIT 1`, [id]);
+      const nextClassLevel = (data.classLevel !== undefined ? data.classLevel : existingRes.rows[0]?.class_level) as string | null;
+      if (nextClassLevel) {
+        params.push(nextClassLevel);
+        const cl = `$${params.length}`;
+        params.push(data.subject);
+        const sj = `$${params.length}`;
+        fields.push(
+          `subject_id = (
+             SELECT s.id FROM subjects s
+              WHERE s.class_level = ${cl}::varchar
+                AND LOWER(s.title) = LOWER(${sj}::varchar)
+                AND (s.organization_id = quizzes.organization_id OR quizzes.is_global = true)
+              ORDER BY (s.organization_id = quizzes.organization_id) DESC,
+                       s.updated_at DESC NULLS LAST
+              LIMIT 1)`,
+        );
+      }
+    }
+
     params.push(id);
     params.push(orgId);
 
@@ -848,7 +887,7 @@ quizzesRouter.patch('/:id', requireAuth, async (req: any, res) => {
       `UPDATE quizzes
        SET ${fields.join(', ')}
        WHERE id = $${params.length - 1} AND (organization_id = $${params.length}::uuid OR is_global = true)
-       RETURNING *`,
+       RETURNING *, (SELECT title FROM subjects WHERE id = quizzes.subject_id) AS subject`,
       params,
     );
 
@@ -1010,6 +1049,10 @@ quizzesRouter.post('/attempts', requireAuth, async (req: any, res) => {
   }
 
   const { quizId, score, totalPoints, questionAttempts } = parsed.data;
+  // Honour both body-level and HTTP header idempotency keys.
+  const idempotencyKey = (parsed.data.idempotencyKey
+    || (req.headers['idempotency-key'] as string | undefined)
+    || '').trim() || null;
   const studentId = req.user.userId;
   const orgId = getOrganizationId(req);
   if (!orgId) {
@@ -1025,25 +1068,49 @@ quizzesRouter.post('/attempts', requireAuth, async (req: any, res) => {
       return res.status(404).json({ message: 'Quiz not found' });
     }
 
-    await db.query('BEGIN');
-
-    const attemptResult = await db.query(
-      `INSERT INTO student_attempts (student_id, quiz_id, score, total_points)
-       VALUES ($1, $2, $3, $4)
-       RETURNING id`,
-      [studentId, quizId, score, totalPoints],
-    );
-    const attemptId = attemptResult.rows[0].id;
-
-    for (const qAttempt of questionAttempts) {
-      await db.query(
-        `INSERT INTO question_attempts (attempt_id, question_id, is_correct, response_data, time_spent_seconds)
-         VALUES ($1, $2, $3, $4, $5)`,
-        [attemptId, qAttempt.questionId, qAttempt.isCorrect, qAttempt.responseData || {}, qAttempt.timeSpentSeconds || null],
+    // If the client supplied an idempotency key and we've already recorded
+    // this attempt, return the existing row without inserting question_attempts
+    // again.
+    if (idempotencyKey) {
+      const existing = await db.query(
+        `SELECT id FROM student_attempts
+         WHERE student_id = $1 AND quiz_id = $2 AND idempotency_key = $3
+         LIMIT 1`,
+        [studentId, quizId, idempotencyKey],
       );
+      if ((existing.rowCount ?? 0) > 0) {
+        return res.status(200).json({ message: 'Quiz attempt already recorded', attemptId: existing.rows[0].id, idempotent: true });
+      }
     }
 
-    await db.query('COMMIT');
+    const client = await db.connect();
+    let attemptId: string;
+    try {
+      await client.query('BEGIN');
+
+      const attemptResult = await client.query(
+        `INSERT INTO student_attempts (student_id, quiz_id, score, total_points, idempotency_key)
+         VALUES ($1::uuid, $2::uuid, $3, $4, $5)
+         RETURNING id`,
+        [studentId, quizId, score, totalPoints, idempotencyKey],
+      );
+      attemptId = attemptResult.rows[0].id;
+
+      for (const qAttempt of questionAttempts) {
+        await client.query(
+          `INSERT INTO question_attempts (attempt_id, question_id, is_correct, response_data, time_spent_seconds)
+           VALUES ($1::uuid, $2::uuid, $3, $4, $5)`,
+          [attemptId, qAttempt.questionId, qAttempt.isCorrect, qAttempt.responseData || {}, qAttempt.timeSpentSeconds || null],
+        );
+      }
+
+      await client.query('COMMIT');
+    } catch (txError) {
+      await client.query('ROLLBACK').catch(() => undefined);
+      throw txError;
+    } finally {
+      client.release();
+    }
 
     try {
       const meta = await db.query(
@@ -1084,7 +1151,6 @@ quizzesRouter.post('/attempts', requireAuth, async (req: any, res) => {
 
     return res.status(201).json({ message: 'Quiz attempt saved successfully', attemptId });
   } catch (error) {
-    await db.query('ROLLBACK');
     console.error(error);
     return res.status(500).json({ message: 'Failed to save quiz attempt' });
   }

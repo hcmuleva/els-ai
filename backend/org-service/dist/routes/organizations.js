@@ -295,7 +295,7 @@ organizationsRouter.get('/:id/users', requireAuth, async (req, res) => {
        )`);
     }
     try {
-        const result = await db.query(`SELECT
+        const sql = `SELECT
          u.id,
          u.first_name,
          u.last_name,
@@ -318,7 +318,15 @@ organizationsRouter.get('/:id/users', requireAuth, async (req, res) => {
          ON ugpp.user_id = u.id AND ugpp.organization_id = uom.organization_id
        WHERE ${where.join(' AND ')}
        GROUP BY u.id, uom.is_primary, ugpp.enabled
-       ORDER BY u.first_name, u.last_name`, params);
+       ORDER BY u.first_name, u.last_name`;
+        const runQuery = () => db.query(sql, params);
+        const callerUserId = req.user?.userId;
+        const callerOrgId = req.user?.organizationId;
+        // When a superadmin reads members of an org other than their own,
+        // override the tenant context so RLS lets them see those rows.
+        const result = (isSuperAdmin(req) && callerUserId && callerOrgId !== orgId)
+            ? await db.withTenantContext(orgId, callerUserId, runQuery)
+            : await runQuery();
         return res.json({
             users: result.rows.map((row) => ({
                 id: row.id,

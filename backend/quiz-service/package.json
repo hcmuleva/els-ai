@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@els-ai/db-tenant": "1.0.0",
     "@els-ai/event-bus": "1.0.0",
     "@els-ai/internal-auth": "1.0.0",
     "@els-ai/media-client": "1.0.0",

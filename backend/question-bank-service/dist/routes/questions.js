@@ -160,7 +160,7 @@ questionsRouter.get('/', requireAuth, async (req, res) => {
     }
     if (subject) {
         params.push(subject);
-        whereClauses.push(`COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), q.subject, '') = $${params.length}`);
+        whereClauses.push(`COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), qsubj.title, '') = $${params.length}`);
     }
     if (quiz_type) {
         params.push(quiz_type);
@@ -181,7 +181,7 @@ questionsRouter.get('/', requireAuth, async (req, res) => {
          qq.quiz_id,
          COALESCE(q.title, 'Question Bank') AS quiz_title,
          COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level) AS class_level,
-         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), q.subject) AS subject,
+         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), qsubj.title) AS subject,
          COALESCE(q.quiz_type, qq.question_type) AS quiz_type,
          qq.question_type,
          qq.question_title,
@@ -193,6 +193,7 @@ questionsRouter.get('/', requireAuth, async (req, res) => {
          qq.created_at
        FROM quiz_questions qq
        LEFT JOIN quizzes q ON q.id = qq.quiz_id
+       LEFT JOIN subjects qsubj ON qsubj.id = q.subject_id
        WHERE ${whereClauses.join(' AND ')}
        ORDER BY qq.created_at DESC
        LIMIT $${params.length}`, params);
@@ -214,7 +215,7 @@ questionsRouter.get('/:questionId', requireAuth, async (req, res) => {
          qq.quiz_id,
          COALESCE(q.title, 'Question Bank') AS quiz_title,
          COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level) AS class_level,
-         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), q.subject) AS subject,
+         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), qsubj.title) AS subject,
          COALESCE(q.quiz_type, qq.question_type) AS quiz_type,
          qq.question_type,
          qq.question_title,
@@ -227,6 +228,7 @@ questionsRouter.get('/:questionId', requireAuth, async (req, res) => {
          qq.created_at
        FROM quiz_questions qq
        LEFT JOIN quizzes q ON q.id = qq.quiz_id
+       LEFT JOIN subjects qsubj ON qsubj.id = q.subject_id
        WHERE qq.id = $1
          AND (q.organization_id = $2::uuid OR COALESCE(qq.question_data->'_meta'->>'organizationId', '') = $2::text)`, [questionId, orgId]);
         if ((result.rowCount ?? 0) === 0)
@@ -306,7 +308,7 @@ questionsRouter.post('/', requireAuth, async (req, res) => {
          qq.quiz_id,
          COALESCE(q.title, 'Question Bank') AS quiz_title,
          COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level) AS class_level,
-         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), q.subject) AS subject,
+         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), qsubj.title) AS subject,
          COALESCE(q.quiz_type, qq.question_type) AS quiz_type,
          qq.question_type,
          qq.question_title,
@@ -319,6 +321,7 @@ questionsRouter.post('/', requireAuth, async (req, res) => {
          qq.created_at
        FROM quiz_questions qq
        LEFT JOIN quizzes q ON q.id = qq.quiz_id
+       LEFT JOIN subjects qsubj ON qsubj.id = q.subject_id
        WHERE qq.id = $1`, [questionId]);
         await client.query('COMMIT');
         const signedCreatedRow = await signQuestionRowMedia(result.rows[0], new Map());
@@ -418,7 +421,7 @@ questionsRouter.patch('/:questionId', requireAuth, async (req, res) => {
          qq.quiz_id,
          COALESCE(q.title, 'Question Bank') AS quiz_title,
          COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level) AS class_level,
-         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), q.subject) AS subject,
+         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), qsubj.title) AS subject,
          COALESCE(q.quiz_type, qq.question_type) AS quiz_type,
          qq.question_type,
          qq.question_title,
@@ -431,6 +434,7 @@ questionsRouter.patch('/:questionId', requireAuth, async (req, res) => {
          qq.created_at
        FROM quiz_questions qq
        LEFT JOIN quizzes q ON q.id = qq.quiz_id
+       LEFT JOIN subjects qsubj ON qsubj.id = q.subject_id
        WHERE qq.id = $1`, [questionId]);
         const signedRow = await signQuestionRowMedia(result.rows[0], new Map());
         return res.json(signedRow);
@@ -462,6 +466,7 @@ questionsRouter.delete('/:questionId', requireAuth, async (req, res) => {
         const targetResult = await client.query(`SELECT qq.id, qq.quiz_id
        FROM quiz_questions qq
        LEFT JOIN quizzes q ON q.id = qq.quiz_id
+       LEFT JOIN subjects qsubj ON qsubj.id = q.subject_id
        WHERE qq.id = $1
          AND (
            q.organization_id = $2::uuid
@@ -516,7 +521,7 @@ questionBankRouter.get('/', requireAuth, async (req, res) => {
     }
     if (subject) {
         params.push(subject);
-        whereClauses.push(`COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), q.subject, '') = $${params.length}`);
+        whereClauses.push(`COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), qsubj.title, '') = $${params.length}`);
     }
     if (question_type) {
         params.push(question_type);
@@ -529,7 +534,7 @@ questionBankRouter.get('/', requireAuth, async (req, res) => {
          qq.quiz_id,
          COALESCE(q.title, 'Question Bank') AS quiz_title,
          COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level) AS class_level,
-         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), q.subject) AS subject,
+         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), qsubj.title) AS subject,
          qq.question_type,
          qq.question_title,
          qq.question_instruction,
@@ -542,6 +547,7 @@ questionBankRouter.get('/', requireAuth, async (req, res) => {
          qq.created_at
        FROM quiz_questions qq
        LEFT JOIN quizzes q ON q.id = qq.quiz_id
+       LEFT JOIN subjects qsubj ON qsubj.id = q.subject_id
        WHERE ${whereClauses.join(' AND ')}
        ORDER BY qq.created_at DESC
        LIMIT $${params.length}`, params);

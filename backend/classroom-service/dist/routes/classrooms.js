@@ -140,7 +140,7 @@ async function fetchClassroomResources(classroomId, orgId, studentId) {
          cc.content_id AS id,
          lc.title,
          lc.class_level,
-         lc.subject,
+         s.title AS subject,
          lc.content_type,
          lc.media_url,
          lc.external_url,
@@ -148,6 +148,7 @@ async function fetchClassroomResources(classroomId, orgId, studentId) {
          lc.created_at
        FROM classroom_contents cc
        INNER JOIN learning_contents lc ON lc.id = cc.content_id
+       LEFT JOIN subjects s ON s.id = lc.subject_id
        WHERE cc.classroom_id = $1
          AND (lc.organization_id = $2::uuid OR lc.is_global = true)
        ORDER BY cc.sort_order ASC, cc.created_at ASC`, [classroomId, orgId]),
@@ -155,7 +156,7 @@ async function fetchClassroomResources(classroomId, orgId, studentId) {
          cq.quiz_id AS id,
          q.title,
          q.class_level,
-         q.subject,
+         s.title AS subject,
          q.quiz_type,
          q.difficulty_level,
          q.total_questions,
@@ -163,6 +164,7 @@ async function fetchClassroomResources(classroomId, orgId, studentId) {
          q.created_at
        FROM classroom_quizzes cq
        INNER JOIN quizzes q ON q.id = cq.quiz_id
+       LEFT JOIN subjects s ON s.id = q.subject_id
        WHERE cq.classroom_id = $1
          AND (q.organization_id = $2::uuid OR q.is_global = true)
        ORDER BY cq.sort_order ASC, cq.created_at ASC`, [classroomId, orgId]),
@@ -288,6 +290,167 @@ async function fetchClassroomResources(classroomId, orgId, studentId) {
         quizzes: quizRows,
         assignments: assignmentRows,
     };
+}
+async function fetchClassroomResourcesBatch(classroomIds, orgId, studentId) {
+    const result = new Map();
+    if (classroomIds.length === 0)
+        return result;
+    for (const id of classroomIds) {
+        result.set(id, { contents: [], quizzes: [], assignments: [] });
+    }
+    const [contentsRes, quizzesRes, assignmentsRes] = await Promise.all([
+        db.query(`SELECT cc.classroom_id, cc.content_id AS id, cc.sort_order,
+              lc.title, lc.class_level, s.title AS subject, lc.content_type,
+              lc.media_url, lc.external_url, lc.text_content, lc.created_at
+       FROM classroom_contents cc
+       INNER JOIN learning_contents lc ON lc.id = cc.content_id
+       LEFT JOIN subjects s ON s.id = lc.subject_id
+       WHERE cc.classroom_id = ANY($1::uuid[])
+         AND (lc.organization_id = $2::uuid OR lc.is_global = true)
+       ORDER BY cc.classroom_id, cc.sort_order ASC, cc.created_at ASC`, [classroomIds, orgId]),
+        db.query(`SELECT cq.classroom_id, cq.quiz_id AS id, cq.sort_order,
+              q.title, q.class_level, s.title AS subject, q.quiz_type, q.difficulty_level,
+              q.total_questions, q.is_published, q.created_at
+       FROM classroom_quizzes cq
+       INNER JOIN quizzes q ON q.id = cq.quiz_id
+       LEFT JOIN subjects s ON s.id = q.subject_id
+       WHERE cq.classroom_id = ANY($1::uuid[])
+         AND (q.organization_id = $2::uuid OR q.is_global = true)
+       ORDER BY cq.classroom_id, cq.sort_order ASC, cq.created_at ASC`, [classroomIds, orgId]),
+        db.query(`SELECT classroom_id, id, title, description, attachment_url, instructions,
+              due_date, is_time_bound, created_at, updated_at
+       FROM classroom_assignments
+       WHERE classroom_id = ANY($1::uuid[])
+       ORDER BY classroom_id, created_at ASC`, [classroomIds]),
+    ]);
+    const allContentIds = contentsRes.rows.map((r) => r.id).filter(Boolean);
+    const allQuizIds = quizzesRes.rows.map((r) => r.id).filter(Boolean);
+    const allAssignmentIds = assignmentsRes.rows.map((r) => r.id).filter(Boolean);
+    const quizAttemptMap = new Map();
+    if (studentId && allQuizIds.length > 0) {
+        const att = await db.query(`SELECT sa.quiz_id, sa.score, sa.total_points, sa.completed_at AS attempted_at
+       FROM student_attempts sa
+       WHERE sa.student_id = $1
+         AND sa.quiz_id = ANY($2::uuid[])
+       ORDER BY sa.completed_at DESC`, [studentId, allQuizIds]);
+        for (const row of att.rows) {
+            const quizId = row.quiz_id;
+            if (quizAttemptMap.has(quizId))
+                continue;
+            const totalPoints = Number(row.total_points || 0);
+            const scoreValue = Number(row.score || 0);
+            const scorePct = totalPoints > 0 ? Math.round((scoreValue / totalPoints) * 100) : 0;
+            quizAttemptMap.set(quizId, {
+                status: 'completed',
+                score: scorePct,
+                attemptedAt: row.attempted_at,
+            });
+        }
+    }
+    const submissionMap = new Map();
+    if (studentId && allAssignmentIds.length > 0) {
+        const sub = await db.query(`SELECT classroom_assignment_id, submission_text, attachment_url, submitted_at
+       FROM classroom_assignment_submissions
+       WHERE student_id = $1
+         AND classroom_assignment_id = ANY($2::uuid[])`, [studentId, allAssignmentIds]);
+        for (const row of sub.rows) {
+            submissionMap.set(row.classroom_assignment_id, {
+                submitted: true,
+                submittedAt: row.submitted_at,
+                submissionText: row.submission_text || '',
+                attachmentUrl: row.attachment_url || '',
+            });
+        }
+    }
+    const sectionsByContentId = {};
+    if (allContentIds.length > 0) {
+        const sec = await db.query(`SELECT id, content_id, section_order, title, content_type, media_url, external_url, text_content
+       FROM learning_content_sections
+       WHERE content_id = ANY($1::uuid[])
+       ORDER BY content_id, section_order ASC`, [allContentIds]);
+        for (const row of sec.rows) {
+            const cId = row.content_id;
+            if (!sectionsByContentId[cId])
+                sectionsByContentId[cId] = [];
+            sectionsByContentId[cId].push({
+                id: row.id,
+                sectionOrder: Number(row.section_order),
+                title: row.title || undefined,
+                contentType: row.content_type,
+                mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url) : undefined,
+                externalUrl: row.external_url || undefined,
+                textContent: row.text_content || undefined,
+            });
+        }
+    }
+    for (const row of contentsRes.rows) {
+        const bucket = result.get(row.classroom_id);
+        if (!bucket)
+            continue;
+        bucket.contents.push({
+            id: row.id,
+            title: row.title,
+            classLevel: row.class_level || '',
+            subject: row.subject || '',
+            contentType: row.content_type || '',
+            mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url) : '',
+            externalUrl: row.external_url || '',
+            textContent: row.text_content || '',
+            status: 'not_started',
+            createdAt: row.created_at,
+            sections: sectionsByContentId[row.id] || [],
+        });
+    }
+    for (const row of quizzesRes.rows) {
+        const bucket = result.get(row.classroom_id);
+        if (!bucket)
+            continue;
+        const attempt = quizAttemptMap.get(row.id);
+        bucket.quizzes.push({
+            id: row.id,
+            title: row.title,
+            classLevel: row.class_level || '',
+            subject: row.subject || '',
+            quizType: row.quiz_type || '',
+            difficultyLevel: row.difficulty_level || '',
+            totalQuestions: Number(row.total_questions || 0),
+            isPublished: Boolean(row.is_published),
+            status: attempt?.status || 'not_attempted',
+            score: attempt?.score,
+            attemptedAt: attempt?.attemptedAt,
+            createdAt: row.created_at,
+        });
+    }
+    const now = Date.now();
+    for (const row of assignmentsRes.rows) {
+        const bucket = result.get(row.classroom_id);
+        if (!bucket)
+            continue;
+        const submission = submissionMap.get(row.id);
+        const dueDate = row.due_date ? new Date(row.due_date) : null;
+        const overdue = Boolean(dueDate && dueDate.getTime() < now && !submission?.submitted);
+        const status = submission?.submitted ? 'submitted' : overdue ? 'overdue' : 'pending';
+        bucket.assignments.push({
+            id: row.id,
+            title: row.title,
+            description: row.description || '',
+            attachmentUrl: row.attachment_url ? await getSignedMediaUrlIfNeeded(row.attachment_url) : '',
+            instructions: row.instructions || '',
+            dueDate: row.due_date,
+            isTimeBound: Boolean(row.is_time_bound),
+            status,
+            submission: submission
+                ? {
+                    submittedAt: submission.submittedAt || null,
+                    submissionText: submission.submissionText || '',
+                    attachmentUrl: submission.attachmentUrl ? await getSignedMediaUrlIfNeeded(submission.attachmentUrl) : '',
+                }
+                : null,
+            createdAt: row.created_at,
+            updatedAt: row.updated_at,
+        });
+    }
+    return result;
 }
 async function replaceClassroomResources(client, classroomId, orgId, contentIds, quizIds, assignments) {
     const uniqueContentIds = [...new Set(contentIds)];
@@ -475,46 +638,22 @@ classroomsRouter.get('/student', requireAuth, async (req, res) => {
     if (!orgId || !userId)
         return res.status(400).json({ message: 'Organization/user not found in auth context' });
     try {
-        let studentRow;
-        try {
-            studentRow = await db.query(`SELECT class_level, active_role
-         FROM users
-         WHERE id = $1
-           AND organization_id = $2::uuid
-         LIMIT 1`, [userId, orgId]);
-        }
-        catch (error) {
-            if (error?.code === '42703') {
-                studentRow = await db.query(`SELECT class_level, active_role
-           FROM users
-           WHERE id = $1
-           LIMIT 1`, [userId]);
-            }
-            else {
-                throw error;
-            }
-        }
+        // Tenant check: ensure the user is actually a member of the JWT's org via
+        // user_roles, since `users` does not carry an organization_id column.
+        const studentRow = await db.query(`SELECT u.class_level, u.active_role
+       FROM users u
+       INNER JOIN user_roles ur ON ur.user_id = u.id
+       WHERE u.id = $1
+         AND ur.organization_id = $2::uuid
+       LIMIT 1`, [userId, orgId]);
         const defaultClassLevel = studentRow?.rows?.[0]?.class_level || '';
         const role = studentRow?.rows?.[0]?.active_role || req?.user?.role || '';
         const requestedClassLevel = parsedQuery.data.class_level?.trim() || '';
         const classLevel = requestedClassLevel || defaultClassLevel;
-        let classRows;
-        try {
-            classRows = await db.query(`SELECT DISTINCT class_level
-         FROM classrooms
-         WHERE organization_id = $1::uuid OR is_global = true
-         ORDER BY class_level ASC`, [orgId]);
-        }
-        catch (error) {
-            if (error?.code === '42703') {
-                classRows = await db.query(`SELECT DISTINCT class_level
-           FROM classrooms
-           ORDER BY class_level ASC`);
-            }
-            else {
-                throw error;
-            }
-        }
+        const classRows = await db.query(`SELECT DISTINCT class_level
+       FROM classrooms
+       WHERE organization_id = $1::uuid OR is_global = true
+       ORDER BY class_level ASC`, [orgId]);
         const classLevels = classRows.rows
             .map((row) => row.class_level || '')
             .filter(Boolean);
@@ -524,30 +663,24 @@ classroomsRouter.get('/student', requireAuth, async (req, res) => {
         if (requestedClassLevel && !classLevels.includes(requestedClassLevel)) {
             classLevels.unshift(requestedClassLevel);
         }
-        if (!classLevel || role !== 'student') {
+        // 'ANY' is a sentinel class_level that should be visible to every student
+        // regardless of their own users.class_level value.
+        const ANY_CLASS_VALUE = 'ANY';
+        if (role !== 'student') {
             return res.json({ classrooms: [], classLevels, currentClassLevel: classLevel || '' });
         }
-        let classroomResult;
-        try {
-            classroomResult = await db.query(`SELECT id, title, description, schedule_type, start_time, end_time, duration_minutes, class_level, status, created_at, updated_at
-         FROM classrooms
-         WHERE (organization_id = $1::uuid OR is_global = true)
-           AND class_level = $2
-         ORDER BY created_at DESC`, [orgId, classLevel]);
-        }
-        catch (error) {
-            if (error?.code === '42703') {
-                classroomResult = await db.query(`SELECT id, title, description, schedule_type, start_time, end_time, duration_minutes, class_level, status, created_at, updated_at
-           FROM classrooms
-           WHERE class_level = $1
-           ORDER BY created_at DESC`, [classLevel]);
-            }
-            else {
-                throw error;
-            }
-        }
-        const classrooms = await Promise.all(classroomResult.rows.map(async (row) => {
-            const resources = await fetchClassroomResources(row.id, orgId, userId);
+        // If the student has no class set, fall through with sentinel so they still
+        // receive ANY-class rooms.
+        const effectiveClassLevel = classLevel || ANY_CLASS_VALUE;
+        const classroomResult = await db.query(`SELECT id, title, description, schedule_type, start_time, end_time, duration_minutes, class_level, status, created_at, updated_at
+       FROM classrooms
+       WHERE (organization_id = $1::uuid OR is_global = true)
+         AND (class_level = $2 OR class_level = $3)
+       ORDER BY created_at DESC`, [orgId, effectiveClassLevel, ANY_CLASS_VALUE]);
+        const classroomIds = classroomResult.rows.map((row) => row.id).filter(Boolean);
+        const resourcesByClassroom = await fetchClassroomResourcesBatch(classroomIds, orgId, userId);
+        const classrooms = classroomResult.rows.map((row) => {
+            const resources = resourcesByClassroom.get(row.id) ?? { contents: [], quizzes: [], assignments: [] };
             const completedQuizzes = resources.quizzes.filter((quiz) => quiz.status === 'completed').length;
             const submittedAssignments = resources.assignments.filter((assignment) => assignment.status === 'submitted').length;
             const completedActivities = completedQuizzes + submittedAssignments;
@@ -568,7 +701,7 @@ classroomsRouter.get('/student', requireAuth, async (req, res) => {
                 completionPct,
                 ...resources,
             };
-        }));
+        });
         return res.json({ classrooms: filterRestartedClassroomDuplicates(classrooms), classLevels, currentClassLevel: classLevel });
     }
     catch (error) {

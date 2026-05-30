@@ -1,6 +1,7 @@
 import { config } from 'dotenv';
 import { Pool } from 'pg';
 import { z } from 'zod';
+import { wrapPoolWithTenancy } from '@els-ai/db-tenant';
 config();
 const envSchema = z.object({
     DB_HOST: z.string().default('localhost'),
@@ -10,13 +11,14 @@ const envSchema = z.object({
     DB_NAME: z.string().default('els_ai_db'),
 });
 const env = envSchema.parse(process.env);
-export const db = new Pool({
+const pool = new Pool({
     host: env.DB_HOST,
     port: env.DB_PORT,
     user: env.DB_USER,
     password: env.DB_PASSWORD,
     database: env.DB_NAME,
 });
+export const db = wrapPoolWithTenancy(pool);
 export async function ensureSchema() {
     await db.query(`
     CREATE TABLE IF NOT EXISTS stories (

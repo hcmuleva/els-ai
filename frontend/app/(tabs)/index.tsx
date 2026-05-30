@@ -363,7 +363,8 @@ export default function HomeScreen() {
   const quizzes = classroom?.quizzes?.slice(0, 4) ?? [];
   const displaySubjects = subjects.length > 0 ? subjects : DEFAULT_SUBJECTS;
   if (role === 'teacher') return <Redirect href="/(tabs)/planner" />;
-  if (role === 'admin' || role === 'superadmin') return <Redirect href="/(tabs)/admin" />;
+  if (role === 'superadmin') return <Redirect href="/(tabs)/superadmin" />;
+  if (role === 'admin') return <Redirect href="/(tabs)/admin" />;
   if (role === 'parent') return <ParentDashboard />;
 
   return (

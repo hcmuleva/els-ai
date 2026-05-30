@@ -101,19 +101,19 @@ topicsRouter.get('/', requireAuth, async (req, res) => {
     }
     if (subject) {
         params.push(subject);
-        whereClauses.push(`ct.subject = $${params.length}`);
+        whereClauses.push(`s.title = $${params.length}`);
     }
     if (search) {
         params.push(`%${search}%`);
         const idx = params.length;
-        whereClauses.push(`(ct.title ILIKE $${idx} OR COALESCE(ct.subject, '') ILIKE $${idx})`);
+        whereClauses.push(`(ct.title ILIKE $${idx} OR COALESCE(s.title, '') ILIKE $${idx})`);
     }
     params.push(limit);
     try {
         const result = await db.query(`SELECT
          ct.id,
          ct.class_level,
-         ct.subject,
+         s.title AS subject,
          ct.title,
          ct.cover_image,
          ct.is_global,
@@ -127,9 +127,10 @@ topicsRouter.get('/', requireAuth, async (req, res) => {
            (SELECT COUNT(*) FROM quizzes q WHERE q.topic_id = ct.id), 0
          )::int AS quiz_count
        FROM content_topics ct
+       LEFT JOIN subjects s ON s.id = ct.subject_id
        WHERE ${whereClauses.join(' AND ')}
-       GROUP BY ct.id
-       ORDER BY ct.class_level ASC, ct.subject ASC, ct.title ASC
+       GROUP BY ct.id, s.title
+       ORDER BY ct.class_level ASC, s.title ASC, ct.title ASC
        LIMIT $${params.length}`, params);
         const topicRows = await Promise.all(result.rows.map(async (row) => {
             const signedCover = row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image) : null;
@@ -174,18 +175,28 @@ topicsRouter.post('/', requireAuth, async (req, res) => {
     }
     try {
         const duplicate = await db.query(`SELECT 1
-       FROM content_topics
-       WHERE organization_id = $1::uuid
-         AND class_level = $2
-         AND subject = $3
-         AND LOWER(title) = LOWER($4)
+       FROM content_topics ct
+       LEFT JOIN subjects s ON s.id = ct.subject_id
+       WHERE ct.organization_id = $1::uuid
+         AND ct.class_level = $2
+         AND s.title = $3
+         AND LOWER(ct.title) = LOWER($4)
        LIMIT 1`, [orgId, classLevel, subject, title]);
         if ((duplicate.rowCount ?? 0) > 0) {
             return res.status(400).json({ message: 'Topic already exists for this standard and subject' });
         }
-        const result = await db.query(`INSERT INTO content_topics (organization_id, class_level, subject, title, cover_image, created_by, is_global)
-       VALUES ($1::uuid, $2, $3, $4, $5, $6, $7)
-       RETURNING id, class_level, subject, title, cover_image, created_by, is_global, created_at, updated_at`, [orgId, classLevel, subject, title, coverImage ? toPersistentMediaUrl(coverImage) : null, userId, isGlobal]);
+        const result = await db.query(`INSERT INTO content_topics (organization_id, class_level, subject_id, title, cover_image, created_by, is_global)
+       VALUES (
+         $1::uuid, $2::varchar,
+         (SELECT s.id FROM subjects s
+            WHERE s.class_level = $2::varchar AND LOWER(s.title) = LOWER($3::varchar)
+              AND (s.organization_id = $1::uuid OR $7::boolean = true)
+            ORDER BY (s.organization_id = $1::uuid) DESC, s.updated_at DESC NULLS LAST
+            LIMIT 1),
+         $4::varchar, $5, $6::uuid, $7::boolean)
+       RETURNING id, class_level, subject_id,
+         (SELECT title FROM subjects WHERE id = content_topics.subject_id) AS subject,
+         title, cover_image, created_by, is_global, created_at, updated_at`, [orgId, classLevel, subject, title, coverImage ? toPersistentMediaUrl(coverImage) : null, userId, isGlobal]);
         const row = result.rows[0];
         const signedCover = row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image) : null;
         return res.status(201).json({
@@ -231,22 +242,24 @@ topicsRouter.patch('/:topicId', requireAuth, async (req, res) => {
         if (!permission.allowed) {
             return res.status(403).json({ message: 'Forbidden: not allowed to edit this topic' });
         }
-        const existing = await db.query(`SELECT class_level, subject, title
-       FROM content_topics
-       WHERE id = $1
-         AND organization_id = $2::uuid
+        const existing = await db.query(`SELECT ct.class_level, s.title AS subject, ct.title
+       FROM content_topics ct
+       LEFT JOIN subjects s ON s.id = ct.subject_id
+       WHERE ct.id = $1
+         AND ct.organization_id = $2::uuid
        LIMIT 1`, [topicId, orgId]);
         const existingRow = existing.rows[0];
         const nextClassLevel = parsedBody.data.classLevel ?? existingRow?.class_level;
         const nextSubject = parsedBody.data.subject ?? existingRow?.subject;
         const nextTitle = parsedBody.data.title ?? existingRow?.title;
         const duplicate = await db.query(`SELECT 1
-       FROM content_topics
-       WHERE organization_id = $1::uuid
-         AND class_level = $2
-         AND subject = $3
-         AND LOWER(title) = LOWER($4)
-         AND id <> $5
+       FROM content_topics ct
+       LEFT JOIN subjects s ON s.id = ct.subject_id
+       WHERE ct.organization_id = $1::uuid
+         AND ct.class_level = $2
+         AND s.title = $3
+         AND LOWER(ct.title) = LOWER($4)
+         AND ct.id <> $5
        LIMIT 1`, [orgId, nextClassLevel, nextSubject, nextTitle, topicId]);
         if ((duplicate.rowCount ?? 0) > 0) {
             return res.status(400).json({ message: 'Topic already exists for this standard and subject' });
@@ -256,10 +269,6 @@ topicsRouter.patch('/:topicId', requireAuth, async (req, res) => {
         if (parsedBody.data.classLevel !== undefined) {
             params.push(parsedBody.data.classLevel);
             updates.push(`class_level = $${params.length}`);
-        }
-        if (parsedBody.data.subject !== undefined) {
-            params.push(parsedBody.data.subject);
-            updates.push(`subject = $${params.length}`);
         }
         if (parsedBody.data.title !== undefined) {
             params.push(parsedBody.data.title);
@@ -276,12 +285,27 @@ topicsRouter.patch('/:topicId', requireAuth, async (req, res) => {
             params.push(parsedBody.data.isGlobal);
             updates.push(`is_global = $${params.length}`);
         }
+        if (parsedBody.data.subject !== undefined || parsedBody.data.classLevel !== undefined) {
+            params.push(nextClassLevel, nextSubject);
+            const cl = `$${params.length - 1}`;
+            const sj = `$${params.length}`;
+            updates.push(`subject_id = (
+           SELECT s.id FROM subjects s
+            WHERE s.class_level = ${cl}::varchar
+              AND LOWER(s.title) = LOWER(${sj}::varchar)
+              AND (s.organization_id = content_topics.organization_id OR content_topics.is_global = true)
+            ORDER BY (s.organization_id = content_topics.organization_id) DESC,
+                     s.updated_at DESC NULLS LAST
+            LIMIT 1)`);
+        }
         params.push(topicId, orgId);
         const result = await db.query(`UPDATE content_topics
        SET ${updates.join(', ')}
        WHERE id = $${params.length - 1}
          AND organization_id = $${params.length}::uuid
-       RETURNING id, class_level, subject, title, cover_image, created_by, is_global, created_at, updated_at`, params);
+       RETURNING id, class_level, subject_id,
+         (SELECT title FROM subjects WHERE id = content_topics.subject_id) AS subject,
+         title, cover_image, created_by, is_global, created_at, updated_at`, params);
         const row = result.rows[0];
         const countResult = await db.query(`SELECT COUNT(lcs.id)::int AS count
        FROM topic_content_assignments tca
@@ -350,10 +374,11 @@ topicsRouter.get('/:topicId/details', requireAuth, async (req, res) => {
         return res.status(400).json({ message: 'Organization not found in auth context' });
     }
     try {
-        const topicResult = await db.query(`SELECT id, class_level, subject, title, cover_image, created_by, created_at, updated_at
-       FROM content_topics
-       WHERE id = $1
-         AND (organization_id = $2::uuid OR is_global = true)
+        const topicResult = await db.query(`SELECT ct.id, ct.class_level, s.title AS subject, ct.title, ct.cover_image, ct.created_by, ct.created_at, ct.updated_at
+       FROM content_topics ct
+       LEFT JOIN subjects s ON s.id = ct.subject_id
+       WHERE ct.id = $1
+         AND (ct.organization_id = $2::uuid OR ct.is_global = true)
        LIMIT 1`, [topicId, orgId]);
         if ((topicResult.rowCount ?? 0) === 0) {
             return res.status(404).json({ message: 'Topic not found' });
@@ -361,7 +386,7 @@ topicsRouter.get('/:topicId/details', requireAuth, async (req, res) => {
         const contentItemsResult = await db.query(`SELECT
          lc.id,
          lc.class_level,
-         lc.subject,
+         s.title AS subject,
          lc.title,
          lc.content_type,
          lc.media_url,
@@ -373,6 +398,7 @@ topicsRouter.get('/:topicId/details', requireAuth, async (req, res) => {
          tca.sort_order
        FROM topic_content_assignments tca
        INNER JOIN learning_contents lc ON lc.id = tca.content_id
+       LEFT JOIN subjects s ON s.id = lc.subject_id
        WHERE tca.topic_id = $1
        ORDER BY tca.sort_order ASC, tca.created_at ASC`, [topicId]);
         const topic = topicResult.rows[0];
@@ -627,10 +653,11 @@ topicsRouter.get('/:topicId/quizzes', requireAuth, async (req, res) => {
     if (!orgId)
         return res.status(400).json({ message: 'Organization not found in auth context' });
     try {
-        const result = await db.query(`SELECT id, title, quiz_type, class_level, subject, is_published, total_questions, created_at
-       FROM quizzes
-       WHERE (organization_id = $1::uuid OR is_global = true) AND topic_id = $2
-       ORDER BY created_at DESC`, [orgId, topicId]);
+        const result = await db.query(`SELECT q.id, q.title, q.quiz_type, q.class_level, s.title AS subject, q.is_published, q.total_questions, q.created_at
+       FROM quizzes q
+       LEFT JOIN subjects s ON s.id = q.subject_id
+       WHERE (q.organization_id = $1::uuid OR q.is_global = true) AND q.topic_id = $2
+       ORDER BY q.created_at DESC`, [orgId, topicId]);
         return res.json({ quizzes: result.rows });
     }
     catch (error) {
@@ -747,14 +774,35 @@ catalogRouter.get('/', requireAuth, async (req, res) => {
     const orgId = getOrganizationId(req);
     if (!orgId)
         return res.status(400).json({ message: 'Organization not found in auth context' });
+    // Optional class_level filter: pickers can request only the subjects that
+    // exist for the currently-selected class so a teacher selecting "LKG" never
+    // sees a class-3 subject they can't actually use.
+    const classLevelFilter = String(req.query.class_level ?? req.query.classLevel ?? '').trim();
+    const params = [orgId];
+    let whereClause = `organization_id = $1::uuid`;
+    if (classLevelFilter) {
+        params.push(classLevelFilter);
+        whereClause += ` AND class_level = $${params.length}`;
+    }
     try {
-        const result = await db.query(`SELECT class_level, title AS subject
+        const result = await db.query(`SELECT id, class_level, title, cover_image, icon_image, icon_bg_color
        FROM subjects
-       WHERE organization_id = $1::uuid
-       ORDER BY class_level ASC, title ASC`, [orgId]);
-        const classLevels = [...new Set(result.rows.map((r) => r.class_level))];
-        const subjects = [...new Set(result.rows.map((r) => r.subject))];
-        return res.json({ classLevels, subjects, items: result.rows });
+       WHERE ${whereClause}
+       ORDER BY class_level ASC, title ASC`, params);
+        const items = await Promise.all(result.rows.map(async (row) => ({
+            id: row.id,
+            classLevel: row.class_level,
+            // back-compat: existing planner/quiz callers read `class_level` and `subject`
+            class_level: row.class_level,
+            title: row.title,
+            subject: row.title,
+            coverImage: row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image) : undefined,
+            iconImage: row.icon_image ? await getSignedMediaUrlIfNeeded(row.icon_image) : undefined,
+            iconBgColor: row.icon_bg_color || undefined,
+        })));
+        const classLevels = [...new Set(items.map((r) => r.classLevel))];
+        const subjects = [...new Set(items.map((r) => r.title))];
+        return res.json({ classLevels, subjects, items });
     }
     catch (error) {
         console.error(error);
@@ -772,15 +820,16 @@ studentsRouter.get('/', requireAuth, async (req, res) => {
         if (!classLevel)
             return res.json({ subjects: [], classLevel: null });
         const result = await db.query(`SELECT
-         ct.id, ct.class_level, ct.subject, ct.title, ct.cover_image,
+         ct.id, ct.class_level, s.title AS subject, ct.title, ct.cover_image,
          ct.created_at, ct.updated_at,
          COUNT(DISTINCT tca.content_id) AS content_count
        FROM content_topics ct
+       LEFT JOIN subjects s ON s.id = ct.subject_id
        LEFT JOIN topic_content_assignments tca ON tca.topic_id = ct.id
        WHERE (ct.organization_id = $1::uuid OR ct.is_global = true)
          AND ct.class_level = $2
-       GROUP BY ct.id
-       ORDER BY ct.subject, ct.title`, [orgId, classLevel]);
+       GROUP BY ct.id, s.title
+       ORDER BY s.title, ct.title`, [orgId, classLevel]);
         const distinctSubjectTitles = Array.from(new Set(result.rows
             .map((row) => String(row.subject ?? '').trim())
             .filter((title) => title.length > 0)));
@@ -851,8 +900,12 @@ studentsRouter.get('/:topicId', requireAuth, async (req, res) => {
     if (!orgId || !topicId)
         return res.status(400).json({ message: 'Invalid params' });
     try {
-        const topicRow = await db.query(`SELECT id, class_level, subject, title, cover_image FROM content_topics
-       WHERE id = $1 AND (organization_id = $2::uuid OR is_global = true) LIMIT 1`, [topicId, orgId]);
+        const topicRow = await db.query(`SELECT ct.id, ct.class_level,
+              (SELECT title FROM subjects WHERE id = ct.subject_id) AS subject,
+              ct.title, ct.cover_image
+         FROM content_topics ct
+        WHERE ct.id = $1 AND (ct.organization_id = $2::uuid OR ct.is_global = true)
+        LIMIT 1`, [topicId, orgId]);
         if ((topicRow.rowCount ?? 0) === 0)
             return res.status(404).json({ message: 'Topic not found' });
         const topic = topicRow.rows[0];

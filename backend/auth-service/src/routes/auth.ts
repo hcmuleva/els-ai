@@ -75,6 +75,7 @@ function generateAccessToken(payload: {
   role: string;
   isSuperAdmin: boolean;
   canPublishGlobal: boolean;
+  classLevel?: string | null;
 }) {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '15m' });
 }
@@ -217,11 +218,20 @@ authRouter.post('/login', async (req: Request, res: Response) => {
   }
 
   try {
-    // Find user
+    // Find user. Match strictly on the field the caller supplied; never let an
+    // unset field (NULL or '') in the DB collide with another unset field in
+    // the request, which would authenticate the caller as the wrong user.
     const userResult = await db.query(
       `SELECT id, first_name, last_name, email, mobile_number, class_level, unique_registration_id, password_hash, active_role, profile_image
-       FROM users WHERE lower(email) = $1 OR mobile_number = $2`,
-      [lookupEmail || '', lookupMobile || '']
+         FROM users
+        WHERE deleted_at IS NULL
+          AND (
+            ($1::text IS NOT NULL AND lower(email) = $1::text)
+            OR
+            ($2::text IS NOT NULL AND $2::text <> '' AND mobile_number = $2::text)
+          )
+        LIMIT 1`,
+      [lookupEmail ?? null, lookupMobile ?? null]
     );
 
     if (userResult.rowCount === 0) {
@@ -251,6 +261,14 @@ authRouter.post('/login', async (req: Request, res: Response) => {
       return res.status(403).json({ message: 'No organization assigned for this user' });
     }
     const isSuperAdmin = rolesList.includes('superadmin');
+
+    // Default a superadmin to land on the superadmin tab on every login.
+    // If the persisted active_role isn't superadmin, promote it now.
+    if (isSuperAdmin && user.active_role !== 'superadmin') {
+      await db.query(`UPDATE users SET active_role = $1 WHERE id = $2`, ['superadmin', user.id]);
+      user.active_role = 'superadmin';
+    }
+
     const globalPublishPermissionResult = await db.query(
       `SELECT enabled
        FROM user_global_publish_permissions
@@ -278,6 +296,7 @@ authRouter.post('/login', async (req: Request, res: Response) => {
       role: user.active_role,
       isSuperAdmin,
       canPublishGlobal,
+      classLevel: user.class_level ?? null,
     };
 
     const accessToken = generateAccessToken(tokenPayload);
@@ -359,7 +378,7 @@ authRouter.post('/refresh', async (req, res) => {
 
     // Fetch user details for new token
     const userResult = await db.query(
-      `SELECT id, email, active_role FROM users WHERE id = $1`,
+      `SELECT id, email, active_role, class_level FROM users WHERE id = $1`,
       [decoded.userId]
     );
     const user = userResult.rows[0];
@@ -381,6 +400,12 @@ authRouter.post('/refresh', async (req, res) => {
     );
     const allRoles = allRolesResult.rows.map((row: any) => row.role_name as string);
     const isSuperAdmin = allRoles.includes('superadmin');
+
+    if (isSuperAdmin && user.active_role !== 'superadmin') {
+      await db.query(`UPDATE users SET active_role = $1 WHERE id = $2`, ['superadmin', user.id]);
+      user.active_role = 'superadmin';
+    }
+
     const globalPublishPermissionResult = await db.query(
       `SELECT enabled
        FROM user_global_publish_permissions
@@ -408,6 +433,7 @@ authRouter.post('/refresh', async (req, res) => {
       role: user.active_role,
       isSuperAdmin,
       canPublishGlobal,
+      classLevel: user.class_level ?? null,
     });
 
     // Generate rotated refresh token

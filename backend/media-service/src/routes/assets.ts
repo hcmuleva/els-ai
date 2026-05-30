@@ -48,6 +48,7 @@ const resolveBatchSchema = z.object({
 });
 
 export const assetsRouter = Router();
+export const internalAssetsRouter = Router();
 
 function getOrganizationId(req: AuthenticatedRequest): string | null {
   return req.user?.organizationId || null;
@@ -183,7 +184,7 @@ assetsRouter.get('/:assetId', requireAuth, async (req: AuthenticatedRequest, res
     return res.status(500).json({ message });
   }
 });
-assetsRouter.post('/internal/upload', requireInternalSecret, async (req, res) => {
+internalAssetsRouter.post('/upload', requireInternalSecret, async (req, res) => {
   const parsedBody = internalUploadSchema.safeParse(req.body);
   if (!parsedBody.success) {
     return res.status(400).json({ message: 'Invalid upload payload', errors: parsedBody.error.issues });
@@ -237,7 +238,7 @@ assetsRouter.post('/internal/upload', requireInternalSecret, async (req, res) =>
   }
 });
 
-assetsRouter.post('/internal/resolve', requireInternalSecret, async (req, res) => {
+internalAssetsRouter.post('/resolve', requireInternalSecret, async (req, res) => {
   const parsedBody = internalResolveSchema.safeParse(req.body);
   if (!parsedBody.success) {
     return res.status(400).json({ message: 'Invalid resolve payload', errors: parsedBody.error.issues });
@@ -252,7 +253,7 @@ assetsRouter.post('/internal/resolve', requireInternalSecret, async (req, res) =
   }
 });
 
-assetsRouter.post('/internal/resolve/batch', requireInternalSecret, async (req, res) => {
+internalAssetsRouter.post('/resolve/batch', requireInternalSecret, async (req, res) => {
   const parsedBody = internalResolveBatchSchema.safeParse(req.body);
   if (!parsedBody.success) {
     return res.status(400).json({ message: 'Invalid batch resolve payload', errors: parsedBody.error.issues });
@@ -272,7 +273,7 @@ assetsRouter.post('/internal/resolve/batch', requireInternalSecret, async (req, 
   }
 });
 
-assetsRouter.post('/internal/canonicalize', requireInternalSecret, (req, res) => {
+internalAssetsRouter.post('/canonicalize', requireInternalSecret, (req, res) => {
   const parsedBody = internalResolveSchema.safeParse(req.body);
   if (!parsedBody.success) {
     return res.status(400).json({ message: 'Invalid canonicalize payload', errors: parsedBody.error.issues });

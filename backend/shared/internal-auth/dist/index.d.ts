@@ -8,6 +8,7 @@ export declare const INTERNAL_HEADERS: {
     readonly roles: "x-internal-roles";
     readonly isSuperAdmin: "x-internal-is-superadmin";
     readonly canPublishGlobal: "x-internal-can-publish-global";
+    readonly classLevel: "x-internal-class-level";
 };
 export type InternalUser = {
     userId: string;
@@ -17,6 +18,7 @@ export type InternalUser = {
     roles?: string[];
     isSuperAdmin?: boolean;
     canPublishGlobal?: boolean;
+    classLevel?: string | null;
 };
 export interface AuthenticatedRequest extends Request {
     user?: InternalUser;

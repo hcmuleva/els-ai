@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import { db } from '../db.js';
 import { AuthenticatedRequest, requireAuth } from './auth.js';
@@ -510,7 +511,7 @@ billingRouter.post('/invoices/:invoiceId/pay', requireAuth, async (req: Authenti
   const access = await isAdminOrSuper(req.user?.userId, row.organization_id);
   if (!access.ok) return res.status(403).json({ message: 'Forbidden: admin or superadmin required' });
 
-  const paymentReference = parsed.data.paymentReference || `PG-${Date.now()}`;
+  const paymentReference = parsed.data.paymentReference || `PG-${randomUUID()}`;
   const result = await db.query(
     `UPDATE invoices
      SET status = 'paid',

@@ -173,9 +173,18 @@ contentRouter.post('/items', requireAuth, async (req, res) => {
         const client = await db.connect();
         try {
             await client.query('BEGIN');
-            const contentResult = await client.query(`INSERT INTO learning_contents (organization_id, class_level, subject, title, content_type, media_url, external_url, text_content, created_by, is_global)
-         VALUES ($1::uuid, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-         RETURNING id, class_level, subject, title, content_type, media_url, external_url, text_content, created_by, is_global, created_at, updated_at`, [
+            const contentResult = await client.query(`INSERT INTO learning_contents (organization_id, class_level, subject_id, title, content_type, media_url, external_url, text_content, created_by, is_global)
+         VALUES (
+           $1::uuid, $2::varchar,
+           (SELECT s.id FROM subjects s
+              WHERE s.class_level = $2::varchar AND LOWER(s.title) = LOWER($3::varchar)
+                AND (s.organization_id = $1::uuid OR $10::boolean = true)
+              ORDER BY (s.organization_id = $1::uuid) DESC, s.updated_at DESC NULLS LAST
+              LIMIT 1),
+           $4::varchar, $5::varchar, $6, $7, $8, $9::uuid, $10::boolean)
+         RETURNING id, class_level, subject_id,
+           (SELECT title FROM subjects WHERE id = learning_contents.subject_id) AS subject,
+           title, content_type, media_url, external_url, text_content, created_by, is_global, created_at, updated_at`, [
                 orgId,
                 classLevel,
                 subject,
@@ -249,7 +258,7 @@ contentRouter.get('/items', requireAuth, async (req, res) => {
     }
     if (subject) {
         params.push(subject);
-        whereClauses.push(`lc.subject = $${params.length}`);
+        whereClauses.push(`s.title = $${params.length}`);
     }
     if (search) {
         params.push(`%${search}%`);
@@ -265,7 +274,7 @@ contentRouter.get('/items', requireAuth, async (req, res) => {
         const result = await db.query(`SELECT
          lc.id,
          lc.class_level,
-         lc.subject,
+         s.title AS subject,
          lc.title,
          lc.content_type,
          lc.media_url,
@@ -282,12 +291,13 @@ contentRouter.get('/items', requireAuth, async (req, res) => {
                'topicId', ct.id,
                'title', ct.title,
                'classLevel', ct.class_level,
-               'subject', ct.subject
+               'subject', cts.title
              )
            ) FILTER (WHERE ct.id IS NOT NULL),
            '[]'::jsonb
          ) AS assigned_topics
        FROM learning_contents lc
+       LEFT JOIN subjects s ON s.id = lc.subject_id
        LEFT JOIN (
          SELECT content_id, COUNT(*)::int AS count
          FROM learning_content_sections
@@ -295,8 +305,9 @@ contentRouter.get('/items', requireAuth, async (req, res) => {
        ) sec ON sec.content_id = lc.id
        LEFT JOIN topic_content_assignments tca ON tca.content_id = lc.id
        LEFT JOIN content_topics ct ON ct.id = tca.topic_id AND ct.organization_id = lc.organization_id
+       LEFT JOIN subjects cts ON cts.id = ct.subject_id
        WHERE ${whereClauses.join(' AND ')}
-       GROUP BY lc.id, sec.count
+       GROUP BY lc.id, s.title, sec.count
        ORDER BY lc.created_at DESC
        LIMIT $${params.length}`, params);
         const items = await Promise.all(result.rows.map(async (row) => ({
@@ -333,10 +344,11 @@ contentRouter.get('/items/:contentId', requireAuth, async (req, res) => {
     if (!orgId)
         return res.status(400).json({ message: 'Organization not found in auth context' });
     try {
-        const contentResult = await db.query(`SELECT id, class_level, subject, title, content_type, media_url, external_url, text_content, created_by, is_global, created_at, updated_at
-       FROM learning_contents
-       WHERE id = $1
-         AND (organization_id = $2::uuid OR is_global = true)
+        const contentResult = await db.query(`SELECT lc.id, lc.class_level, s.title AS subject, lc.title, lc.content_type, lc.media_url, lc.external_url, lc.text_content, lc.created_by, lc.is_global, lc.created_at, lc.updated_at
+       FROM learning_contents lc
+       LEFT JOIN subjects s ON s.id = lc.subject_id
+       WHERE lc.id = $1
+         AND (lc.organization_id = $2::uuid OR lc.is_global = true)
        LIMIT 1`, [contentId, orgId]);
         if ((contentResult.rowCount ?? 0) === 0) {
             return res.status(404).json({ message: 'Content item not found' });
@@ -432,19 +444,27 @@ contentRouter.put('/items/:contentId', requireAuth, async (req, res) => {
         const client = await db.connect();
         try {
             await client.query('BEGIN');
-            const updated = await client.query(`UPDATE learning_contents
-         SET class_level = $1,
-             subject = $2,
-             title = $3,
-             content_type = $4,
+            const updated = await client.query(`UPDATE learning_contents lc
+         SET class_level = $1::varchar,
+             subject_id = (
+               SELECT s.id FROM subjects s
+                WHERE s.class_level = $1::varchar AND LOWER(s.title) = LOWER($2::varchar)
+                  AND (s.organization_id = lc.organization_id OR $8::boolean = true)
+                ORDER BY (s.organization_id = lc.organization_id) DESC,
+                         s.updated_at DESC NULLS LAST
+                LIMIT 1),
+             title = $3::varchar,
+             content_type = $4::varchar,
              media_url = $5,
              external_url = $6,
              text_content = $7,
-             is_global = $8,
+             is_global = $8::boolean,
              updated_at = NOW()
-         WHERE id = $9
+         WHERE id = $9::uuid
            AND (organization_id = $10::uuid OR is_global = true)
-         RETURNING id, class_level, subject, title, content_type, media_url, external_url, text_content, created_by, is_global, created_at, updated_at`, [
+         RETURNING id, class_level, subject_id,
+           (SELECT title FROM subjects WHERE id = lc.subject_id) AS subject,
+           title, content_type, media_url, external_url, text_content, created_by, is_global, created_at, updated_at`, [
                 classLevel,
                 subject,
                 title,

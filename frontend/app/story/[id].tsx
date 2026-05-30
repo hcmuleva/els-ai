@@ -6,13 +6,14 @@ import {
 } from 'react-native';
 import WebView from 'react-native-webview';
 import {
-  BookOpen, BookOpenCheck, ChevronLeft, Headphones, Image as ImageIcon, ListChecks,
-  PlayCircle, Sparkles, Video as VideoIcon,
+  BookOpen, BookOpenCheck, ChevronLeft, Headphones, Image as ImageIcon,
+  Sparkles, Video as VideoIcon,
 } from 'lucide-react-native';
 
 import { useAuth } from '../../src/context/AuthContext';
 import { resolveMediaUrl } from '../../src/utils/media';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
+import PlayQuizCTA from '../../src/components/quiz/PlayQuizCTA';
 
 type Section = {
   id: string;
@@ -334,16 +335,12 @@ export default function StoryReaderScreen() {
             )}
 
             {section.quizId && (
-              <TouchableOpacity style={s.quizCta} onPress={() => handleQuiz(section.quizId!)}>
-                <View style={s.quizCtaIcon}>
-                  <ListChecks size={18} color="#7C3AED" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={s.quizCtaTitle}>Quick Challenge</Text>
-                  <Text style={s.quizCtaSub}>Test what you learned in this section</Text>
-                </View>
-                <PlayCircle size={22} color="#7C3AED" />
-              </TouchableOpacity>
+              <PlayQuizCTA
+                onPress={() => handleQuiz(section.quizId!)}
+                title="Play Quiz"
+                subtitle="Tap to test what you learned"
+                themeKey={section.id || section.quizId!}
+              />
             )}
 
             {/* Bottom action */}
@@ -463,10 +460,7 @@ const s = StyleSheet.create({
   textBlock: { backgroundColor: '#F8F9FF', borderRadius: 16, padding: 20 },
   textBody:  { fontSize: 16, color: '#1a1a2e', lineHeight: 28, fontWeight: '500' },
 
-  quizCta: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, borderRadius: 16, backgroundColor: '#F5EFFE', borderWidth: 1, borderColor: '#E5D9F8' },
-  quizCtaIcon: { width: 40, height: 40, borderRadius: 12, backgroundColor: '#EFE7FB', alignItems: 'center', justifyContent: 'center' },
-  quizCtaTitle: { fontSize: 14, fontWeight: '900', color: '#5B21B6' },
-  quizCtaSub: { fontSize: 11, color: '#7C3AED', marginTop: 2, fontWeight: '600' },
+
 
   bottomActionRow: { marginTop: 4 },
   primaryBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingVertical: 14, borderRadius: 14 },

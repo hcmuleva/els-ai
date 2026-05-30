@@ -46,8 +46,8 @@ type FeatureItem = {
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const DEMO_ACCOUNTS: DemoAccount[] = [
-  { label: 'Student', email: 'rahul@els.ai', Icon: GraduationCap, role: 'Student', color: Colors.primary, bg: Colors.primaryLight },
-  { label: 'Parent', email: 'ramesh@els.ai', Icon: Users, role: 'Parent', color: Colors.success, bg: Colors.successLight },
+  { label: 'Student', email: 'kartik@els.ai', Icon: GraduationCap, role: 'Student', color: Colors.primary, bg: Colors.primaryLight },
+  { label: 'Parent', email: 'kartikfather@els.ai', Icon: Users, role: 'Parent', color: Colors.success, bg: Colors.successLight },
   { label: 'Teacher', email: 'teacher@els.ai', Icon: BookOpen, role: 'Teacher', color: Colors.accent, bg: Colors.accentLight },
   { label: 'Admin', email: 'admin@els.ai', Icon: Settings2, role: 'Org Admin', color: Colors.warning, bg: Colors.warningLight },
   { label: 'Superadmin', email: 'super@els.ai', Icon: ShieldCheck, role: 'Superadmin', color: Colors.purple, bg: Colors.purpleLight },
