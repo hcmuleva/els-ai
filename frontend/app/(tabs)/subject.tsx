@@ -75,7 +75,7 @@ function isYouTube(url: string) { return url.includes('youtube.com') || url.incl
 
 function embedUrl(url: string): string {
   const m = url.match(/(?:youtu\.be\/|watch\?v=|embed\/)([^&?/]+)/);
-  return m ? `https://www.youtube.com/embed/${m[1]}?rel=0&controls=1&autoplay=1` : url;
+  return m ? `https://www.youtube.com/embed/${m[1]}?rel=0&controls=1` : url;
 }
 
 function thumbUrl(url: string): string | null {

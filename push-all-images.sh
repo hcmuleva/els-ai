@@ -28,14 +28,14 @@ for service in "${SERVICES[@]}"; do
   echo "----------------------------------------"
   echo "📤 Pushing Node service image: $service..."
   echo "----------------------------------------"
-  docker push "harishdell/els-ai-$service:1.1"
+  docker push "harishdell/els-ai-$service:1.3"
 done
 
 # 3. Push static Frontend
 echo "----------------------------------------"
 echo "📤 Pushing Frontend Service..."
 echo "----------------------------------------"
-docker push "harishdell/els-ai-frontend:1.1"
+docker push "harishdell/els-ai-frontend:1.3"
 
 echo "========================================"
 echo "🎉 Successfully pushed all Docker images!"

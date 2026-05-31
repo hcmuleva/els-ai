@@ -42,7 +42,7 @@ export default function AudioPlayer({
         await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
         const { sound } = await Audio.Sound.createAsync(
           { uri },
-          { shouldPlay: true },
+          { shouldPlay: false },
           (s) => {
             if (!mounted) return;
             if (s.isLoaded) {

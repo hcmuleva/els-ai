@@ -991,14 +991,14 @@ export default function ClassroomScreen() {
                           <View style={[styles.vVideoFrame, { borderColor: `${sCfg.accentColor}30` }]}>
                             {Platform.OS === 'web' ? (
                               <iframe
-                                src={getYouTubeEmbedUrl(url) + `&controls=1&modestbranding=1${isMediaInView(mediaKey) ? '&autoplay=1' : ''}`}
+                                src={getYouTubeEmbedUrl(url) + `&controls=1&modestbranding=1`}
                                 style={{ width: '100%', height: '100%', border: 'none', borderRadius: 16 }}
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
                               />
                             ) : (
                               <WebView
-                                source={{ uri: getYouTubeEmbedUrl(url) + `&controls=1${isMediaInView(mediaKey) ? '&autoplay=1' : ''}` }}
+                                source={{ uri: getYouTubeEmbedUrl(url) + `&controls=1` }}
                                 style={{ width: '100%', height: '100%', borderRadius: 16 }}
                                 allowsFullscreenVideo
                                 allowsInlineMediaPlayback

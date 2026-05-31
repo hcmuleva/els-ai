@@ -36,5 +36,8 @@
     "services:logs": "node scripts/manage-services.js logs",
     "migrate": "node scripts/migrate.cjs",
     "migrate:status": "node scripts/migrate.cjs --status"
+  },
+  "dependencies": {
+    "youtube-search-api": "^2.0.1"
   }
 }
