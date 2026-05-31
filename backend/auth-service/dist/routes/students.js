@@ -31,6 +31,157 @@ function getSingleParam(value) {
 function getRequestOrganizationId(req) {
     return req.user?.organizationId || null;
 }
+async function loadStudentEvents(studentId, organizationId) {
+    const orgId = organizationId;
+    const [loggedRes, attemptsRes, submissionsRes] = await Promise.all([
+        db.query(`SELECT id, activity_type, reference_id, reference_title, status, score,
+              time_spent_seconds, activity_date, created_at
+         FROM student_activity
+        WHERE student_id = $1
+          AND ($2::uuid IS NULL OR organization_id = $2::uuid)`, [studentId, orgId]),
+        db.query(`SELECT sa.id, sa.quiz_id, q.title, sa.score, sa.total_points, sa.completed_at
+         FROM student_attempts sa
+         JOIN quizzes q ON q.id = sa.quiz_id
+        WHERE sa.student_id = $1
+          AND ($2::uuid IS NULL OR q.organization_id = $2::uuid OR q.is_global = true)`, [studentId, orgId]),
+        db.query(`SELECT cas.id, cas.classroom_assignment_id AS assignment_id, ca.title, cas.submitted_at
+         FROM classroom_assignment_submissions cas
+         JOIN classroom_assignments ca ON ca.id = cas.classroom_assignment_id
+         JOIN classrooms c             ON c.id  = ca.classroom_id
+        WHERE cas.student_id = $1
+          AND ($2::uuid IS NULL OR c.organization_id = $2::uuid)`, [studentId, orgId]),
+    ]);
+    const events = [];
+    for (const r of loggedRes.rows) {
+        const dateStr = String(r.activity_date).slice(0, 10);
+        events.push({
+            id: String(r.id),
+            activityType: r.activity_type,
+            referenceId: r.reference_id ? String(r.reference_id) : undefined,
+            referenceTitle: r.reference_title ? String(r.reference_title) : undefined,
+            status: (r.status || 'attempted'),
+            score: r.score != null ? Number(r.score) : undefined,
+            timeSpentSeconds: Number(r.time_spent_seconds || 0),
+            activityDate: dateStr,
+            createdAt: new Date(r.created_at).toISOString(),
+        });
+    }
+    for (const r of attemptsRes.rows) {
+        const completedAt = r.completed_at ? new Date(r.completed_at) : new Date();
+        const dateStr = completedAt.toISOString().slice(0, 10);
+        const total = Number(r.total_points || 0);
+        const score = total > 0 ? Math.round((Number(r.score || 0) / total) * 100) : 0;
+        events.push({
+            id: `attempt-${r.id}`,
+            activityType: 'quiz',
+            referenceId: String(r.quiz_id),
+            referenceTitle: r.title ? String(r.title) : undefined,
+            status: 'completed',
+            score,
+            timeSpentSeconds: 60,
+            activityDate: dateStr,
+            createdAt: completedAt.toISOString(),
+        });
+    }
+    for (const r of submissionsRes.rows) {
+        const submittedAt = r.submitted_at ? new Date(r.submitted_at) : new Date();
+        const dateStr = submittedAt.toISOString().slice(0, 10);
+        events.push({
+            id: `submission-${r.id}`,
+            activityType: 'assignment',
+            referenceId: String(r.assignment_id),
+            referenceTitle: r.title ? String(r.title) : undefined,
+            status: 'completed',
+            timeSpentSeconds: 0,
+            activityDate: dateStr,
+            createdAt: submittedAt.toISOString(),
+        });
+    }
+    events.sort((a, b) => (a.createdAt < b.createdAt ? 1 : a.createdAt > b.createdAt ? -1 : 0));
+    return events;
+}
+function summariseEvents(events) {
+    const byDate = new Map();
+    for (const e of events) {
+        const bucket = byDate.get(e.activityDate) ?? { date: e.activityDate, attempted: 0, completed: 0, time: 0 };
+        bucket.attempted += 1;
+        if (e.status === 'completed')
+            bucket.completed += 1;
+        bucket.time += Number(e.timeSpentSeconds || 0);
+        byDate.set(e.activityDate, bucket);
+    }
+    const daily = Array.from(byDate.values()).sort((a, b) => (a.date < b.date ? 1 : -1));
+    // streak: count back from today (or latest date) skipping no-activity days
+    let streakDays = 0;
+    if (daily.length > 0) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const dateSet = new Set(daily.map((d) => d.date));
+        for (let offset = 0; offset < 365; offset++) {
+            const d = new Date(today);
+            d.setDate(today.getDate() - offset);
+            const key = d.toISOString().slice(0, 10);
+            if (dateSet.has(key))
+                streakDays++;
+            else if (offset > 0)
+                break;
+            else
+                continue;
+        }
+    }
+    // consistency: % of last 7 days that had at least 1 event
+    const last7 = new Set();
+    const today2 = new Date();
+    today2.setHours(0, 0, 0, 0);
+    for (let i = 0; i < 7; i++) {
+        const d = new Date(today2);
+        d.setDate(today2.getDate() - i);
+        last7.add(d.toISOString().slice(0, 10));
+    }
+    const activeDaysLast7 = daily.filter((d) => last7.has(d.date)).length;
+    const consistencyScore = Math.round((activeDaysLast7 / 7) * 100);
+    const attemptedCount = events.length;
+    const completedCount = events.filter((e) => e.status === 'completed').length;
+    const notAttemptedCount = Math.max(0, attemptedCount - completedCount);
+    const totalTimeSeconds = events.reduce((s, e) => s + Number(e.timeSpentSeconds || 0), 0);
+    const completionRate = attemptedCount > 0 ? Math.round((completedCount / attemptedCount) * 100) : 0;
+    const summary = {
+        streakDays,
+        consistencyScore,
+        attemptedCount,
+        notAttemptedCount,
+        completedCount,
+        completionRate,
+        totalTimeSeconds,
+    };
+    const dailyOut = daily.slice(0, 90).map((d) => ({
+        date: d.date,
+        streakDays: 0,
+        consistencyScore: 0,
+        attemptedCount: d.attempted,
+        completedCount: d.completed,
+        completionRate: d.attempted > 0 ? Math.round((d.completed / d.attempted) * 100) : 0,
+        totalTimeSeconds: d.time,
+    }));
+    // breakdown by activity_type (last 30 days)
+    const cutoffMs = Date.now() - 30 * 24 * 60 * 60 * 1000;
+    const breakdown = {};
+    for (const e of events) {
+        if (new Date(e.createdAt).getTime() < cutoffMs)
+            continue;
+        const key = e.activityType;
+        const entry = breakdown[key] ?? { count: 0, totalTime: 0, avgScore: null };
+        entry.count += 1;
+        entry.totalTime += Number(e.timeSpentSeconds || 0);
+        if (typeof e.score === 'number') {
+            const prev = entry.avgScore ?? 0;
+            const prevCount = entry.count - 1;
+            entry.avgScore = Math.round((prev * prevCount + e.score) / entry.count);
+        }
+        breakdown[key] = entry;
+    }
+    return { summary, daily: dailyOut, breakdown };
+}
 const logActivitySchema = z.object({
     activityType: z.enum(['content', 'quiz', 'assignment']),
     referenceId: z.string().uuid().optional(),
@@ -182,32 +333,16 @@ studentsRouter.get('/:id/activity', requireAuth, async (req, res) => {
             params.push(toDate);
             whereClauses.push(`sa.activity_date <= $${params.length}::date`);
         }
-        const result = await db.query(`SELECT
-         sa.id,
-         sa.activity_type,
-         sa.reference_id,
-         sa.reference_title,
-         sa.status,
-         sa.score,
-         sa.time_spent_seconds,
-         sa.activity_date,
-         sa.created_at
-       FROM student_activity sa
-       WHERE ${whereClauses.join(' AND ')}
-       ORDER BY sa.activity_date DESC, sa.created_at DESC
-       LIMIT $3`, params);
-        const activities = result.rows.map((row) => ({
-            id: row.id,
-            activityType: row.activity_type,
-            referenceId: row.reference_id || undefined,
-            referenceTitle: row.reference_title || undefined,
-            status: row.status,
-            score: row.score ?? undefined,
-            timeSpentSeconds: Number(row.time_spent_seconds || 0),
-            activityDate: row.activity_date,
-            createdAt: row.created_at,
-        }));
-        return res.json({ activities });
+        const events = await loadStudentEvents(studentId, organizationId);
+        let filtered = events;
+        if (activityType)
+            filtered = filtered.filter((e) => e.activityType === activityType);
+        if (fromDate)
+            filtered = filtered.filter((e) => e.activityDate >= fromDate);
+        if (toDate)
+            filtered = filtered.filter((e) => e.activityDate <= toDate);
+        filtered = filtered.slice(0, limit);
+        return res.json({ activities: filtered });
     }
     catch (error) {
         console.error(error);
@@ -316,9 +451,9 @@ studentsRouter.get('/:id/analytics', requireAuth, async (req, res) => {
             };
             return acc;
         }, {});
-        return res.json({
-            summary: latest
-                ? {
+        if (latest) {
+            return res.json({
+                summary: {
                     streakDays: Number(latest.streak_days || 0),
                     consistencyScore: Number(latest.consistency_score || 0),
                     attemptedCount: Number(latest.attempted_count || 0),
@@ -326,19 +461,30 @@ studentsRouter.get('/:id/analytics', requireAuth, async (req, res) => {
                     completedCount: Number(latest.completed_count || 0),
                     completionRate: Number(latest.completion_rate || 0),
                     totalTimeSeconds: Number(latest.total_time_seconds || 0),
-                }
-                : null,
-            daily: dailyResult.rows.map((row) => ({
-                date: row.analytics_date,
-                streakDays: Number(row.streak_days || 0),
-                consistencyScore: Number(row.consistency_score || 0),
-                attemptedCount: Number(row.attempted_count || 0),
-                completedCount: Number(row.completed_count || 0),
-                completionRate: Number(row.completion_rate || 0),
-                totalTimeSeconds: Number(row.total_time_seconds || 0),
-            })),
-            breakdown,
-        });
+                },
+                daily: dailyResult.rows.map((row) => ({
+                    date: row.analytics_date,
+                    streakDays: Number(row.streak_days || 0),
+                    consistencyScore: Number(row.consistency_score || 0),
+                    attemptedCount: Number(row.attempted_count || 0),
+                    completedCount: Number(row.completed_count || 0),
+                    completionRate: Number(row.completion_rate || 0),
+                    totalTimeSeconds: Number(row.total_time_seconds || 0),
+                })),
+                breakdown,
+            });
+        }
+        // Fallback: derive analytics live from source-of-truth tables (quiz attempts,
+        // assignment submissions, plus any logged student_activity). This keeps the
+        // Overview tab meaningful when the daily roll-up was never written.
+        const events = await loadStudentEvents(studentId, organizationId);
+        let filteredEvents = events;
+        if (fromDate)
+            filteredEvents = filteredEvents.filter((e) => e.activityDate >= fromDate);
+        if (toDate)
+            filteredEvents = filteredEvents.filter((e) => e.activityDate <= toDate);
+        const derived = summariseEvents(filteredEvents);
+        return res.json(derived);
     }
     catch (error) {
         console.error(error);

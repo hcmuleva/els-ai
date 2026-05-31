@@ -885,7 +885,7 @@ function QuizKindBadge({ kind }: { kind?: "classroom" | "story" | "subject" }) {
   );
 }
 
-function ParentReports({ mode = 'parent' }: { mode?: 'parent' | 'student' }) {
+function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
   const {
     linkedStudents,
     activeStudent,
@@ -902,17 +902,22 @@ function ParentReports({ mode = 'parent' }: { mode?: 'parent' | 'student' }) {
     refreshQuizAttempts,
   } = useStudentProfile();
   const { apiFetch } = useAuth();
-  const isStudentMode = mode === 'student';
+  const isStudentMode = mode === "student";
 
-  const [activeTab, setActiveTab] = useState<ParentTab>('overview');
-  const prevTab = useRef<ParentTab>('overview');
+  const [activeTab, setActiveTab] = useState<ParentTab>("overview");
+  const prevTab = useRef<ParentTab>("overview");
 
   const didInitialFocusRef = useRef(false);
-  useFocusEffect(useCallback(() => {
-    // skip the very first focus — the StudentProfileContext already fetches on mount
-    if (!didInitialFocusRef.current) { didInitialFocusRef.current = true; return; }
-    if (activeStudent?.id) refreshAll();
-  }, [activeStudent?.id]));
+  useFocusEffect(
+    useCallback(() => {
+      // skip the very first focus — the StudentProfileContext already fetches on mount
+      if (!didInitialFocusRef.current) {
+        didInitialFocusRef.current = true;
+        return;
+      }
+      if (activeStudent?.id) refreshAll();
+    }, [activeStudent?.id]),
+  );
   // Persisted "last seen at" timestamps per tab (ms since epoch, 0 = never)
   const [tabSeenAt, setTabSeenAt] = useState<Record<string, number>>({});
   const [showAllQuizzes, setShowAllQuizzes] = useState(false);
@@ -1129,8 +1134,10 @@ function ParentReports({ mode = 'parent' }: { mode?: 'parent' | 'student' }) {
           <Text style={pr.topBarSub}>Learning Reports</Text>
           <Text style={pr.topBarTitle}>
             {isStudentMode
-              ? 'My Progress'
-              : activeStudent ? `${activeStudent.firstName}'s Progress` : 'My Children'}
+              ? "My Progress"
+              : activeStudent
+                ? `${activeStudent.firstName}'s Progress`
+                : "My Children"}
           </Text>
         </View>
         <Pressable style={pr.refreshBtn} onPress={refreshAll}>
@@ -1145,11 +1152,13 @@ function ParentReports({ mode = 'parent' }: { mode?: 'parent' | 'student' }) {
       ) : !activeStudent ? (
         <View style={pr.centerBlock}>
           <SvgXml xml={PENGUIN} width={96} height={96} />
-          <Text style={pr.emptyTitle}>{isStudentMode ? 'Profile not ready yet' : 'No children linked yet'}</Text>
+          <Text style={pr.emptyTitle}>
+            {isStudentMode ? "Profile not ready yet" : "No children linked yet"}
+          </Text>
           <Text style={pr.emptySub}>
             {isStudentMode
-              ? 'We could not load your profile. Please pull to refresh, or sign out and sign back in.'
-              : 'Ask your school admin to link your children to your account.'}
+              ? "We could not load your profile. Please pull to refresh, or sign out and sign back in."
+              : "Ask your school admin to link your children to your account."}
           </Text>
         </View>
       ) : (
@@ -1157,109 +1166,133 @@ function ParentReports({ mode = 'parent' }: { mode?: 'parent' | 'student' }) {
           {/* ── PINNED HEADER: child switcher (parent only) + tab bar ── */}
           <View style={{ flexShrink: 0 }}>
             {!isStudentMode && (
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}
-              style={pr.switcherBar}
-              contentContainerStyle={{
-                gap: 10,
-                paddingHorizontal: 16,
-                paddingVertical: 10,
-              }}
-            >
-              {linkedStudents.map((child, idx) => {
-                const isActive = child.id === activeStudent?.id;
-                const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
-                return (
-                  <Pressable
-                    key={child.id}
-                    onPress={() => {
-                      switchToStudent(child.id);
-                      setActiveTab("overview");
-                    }}
-                    style={[
-                      pr.childChip,
-                      isActive
-                        ? { backgroundColor: cc }
-                        : {
-                            backgroundColor: "#fff",
-                            borderWidth: 1.5,
-                            borderColor: cc,
-                          },
-                    ]}
-                  >
-                    <View
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={pr.switcherBar}
+                contentContainerStyle={{
+                  gap: 10,
+                  paddingHorizontal: 16,
+                  paddingVertical: 10,
+                }}
+              >
+                {linkedStudents.map((child, idx) => {
+                  const isActive = child.id === activeStudent?.id;
+                  const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
+                  return (
+                    <Pressable
+                      key={child.id}
+                      onPress={() => {
+                        switchToStudent(child.id);
+                        setActiveTab("overview");
+                      }}
                       style={[
-                        pr.childChipAvatar,
-                        {
-                          backgroundColor: isActive
-                            ? "rgba(255,255,255,0.2)"
-                            : cc + "22",
-                        },
+                        pr.childChip,
+                        isActive
+                          ? { backgroundColor: cc }
+                          : {
+                              backgroundColor: "#fff",
+                              borderWidth: 1.5,
+                              borderColor: cc,
+                            },
                       ]}
                     >
-                      <User size={14} color={isActive ? "#fff" : cc} />
-                    </View>
-                    <View>
-                      <Text
+                      <View
                         style={[
-                          pr.childChipName,
-                          { color: isActive ? "#fff" : "#1a1a2e" },
-                        ]}
-                      >
-                        {child.firstName}
-                      </Text>
-                      <Text
-                        style={[
-                          pr.childChipSub,
+                          pr.childChipAvatar,
                           {
-                            color: isActive
-                              ? "rgba(255,255,255,0.7)"
-                              : "#9A9AB0",
+                            backgroundColor: isActive
+                              ? "rgba(255,255,255,0.2)"
+                              : cc + "22",
                           },
                         ]}
                       >
-                        {child.classLevel
-                          ? `Class ${child.classLevel}`
-                          : "No class"}
-                      </Text>
-                    </View>
-                    {isActive && <View style={pr.activeChipDot} />}
-                  </Pressable>
-                );
-              })}
-            </ScrollView>
+                        <User size={14} color={isActive ? "#fff" : cc} />
+                      </View>
+                      <View>
+                        <Text
+                          style={[
+                            pr.childChipName,
+                            { color: isActive ? "#fff" : "#1a1a2e" },
+                          ]}
+                        >
+                          {child.firstName}
+                        </Text>
+                        <Text
+                          style={[
+                            pr.childChipSub,
+                            {
+                              color: isActive
+                                ? "rgba(255,255,255,0.7)"
+                                : "#9A9AB0",
+                            },
+                          ]}
+                        >
+                          {child.classLevel
+                            ? `Class ${child.classLevel}`
+                            : "No class"}
+                        </Text>
+                      </View>
+                      {isActive && <View style={pr.activeChipDot} />}
+                    </Pressable>
+                  );
+                })}
+              </ScrollView>
             )}
 
-          {/* ── TAB BAR ── */}
-          <View style={pr.tabBar}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}
-              contentContainerStyle={pr.tabBarContent}>
-              {PARENT_TABS.map((tab) => {
-                const isCurrent = activeTab === tab.key;
-                const dotCount =
-                  tab.key === 'quizzes'     ? recentQuizCount
-                  : tab.key === 'assignments' ? newPendingCount
-                  : tab.key === 'classroom'   ? newEndedCount
-                  : 0;
-                return (
-                  <Pressable key={tab.key}
-                    onPress={() => {
-                      if (tab.key === 'quizzes' && prevTab.current !== 'quizzes') {
-                        refreshQuizAttempts();
-                      }
-                      prevTab.current = tab.key;
-                      setActiveTab(tab.key);
-                      markTabSeen(tab.key);
-                    }}
-                    style={[pr.tabBtn, isCurrent && pr.tabBtnActive]}>
-                    <View style={pr.tabBtnIconWrap}>
-                      <tab.Icon size={16} color={isCurrent ? '#4A90E2' : '#9A9AB0'} />
-                      {dotCount > 0 && <View style={pr.tabDot} />}
-                    </View>
-                    <Text style={[pr.tabBtnText, isCurrent && pr.tabBtnTextActive]}>{tab.label}</Text>
-                  </Pressable>
-                );
-              })}
-            </ScrollView>
+            {/* ── TAB BAR ── */}
+            <View style={pr.tabBar}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={pr.tabBarContent}
+              >
+                {PARENT_TABS.map((tab) => {
+                  const isCurrent = activeTab === tab.key;
+                  const dotCount =
+                    tab.key === "quizzes"
+                      ? recentQuizCount
+                      : tab.key === "assignments"
+                        ? newPendingCount
+                        : tab.key === "classroom"
+                          ? newEndedCount
+                          : 0;
+                  return (
+                    <Pressable
+                      key={tab.key}
+                      onPress={() => {
+                        if (
+                          tab.key === "quizzes" &&
+                          prevTab.current !== "quizzes"
+                        ) {
+                          refreshQuizAttempts();
+                        }
+                        prevTab.current = tab.key;
+                        setActiveTab(tab.key);
+                        markTabSeen(tab.key);
+                      }}
+                      style={[pr.tabBtn, isCurrent && pr.tabBtnActive]}
+                    >
+                      <View style={pr.tabBtnIconWrap}>
+                        <tab.Icon
+                          size={16}
+                          color={isCurrent ? "#4A90E2" : "#9A9AB0"}
+                        />
+                        {dotCount > 0 && <View style={pr.tabDot} />}
+                      </View>
+                      <Text
+                        style={[
+                          pr.tabBtnText,
+                          isCurrent && pr.tabBtnTextActive,
+                        ]}
+                      >
+                        {tab.label}
+                      </Text>
+                    </Pressable>
+                  );
+                })}
+              </ScrollView>
+            </View>
           </View>
           {/* end pinned header */}
 
@@ -1447,7 +1480,7 @@ function ParentReports({ mode = 'parent' }: { mode?: 'parent' | 'student' }) {
                     <Text style={pr.emptyStateTitle}>No Quiz Attempts Yet</Text>
                     <Text style={pr.emptyStateText}>
                       {isStudentMode
-                        ? 'You have not attempted any quiz yet. Open a classroom and try one!'
+                        ? "You have not attempted any quiz yet. Open a classroom and try one!"
                         : `Encourage ${activeStudent.firstName} to try a quiz!`}
                     </Text>
                   </View>
@@ -1653,7 +1686,7 @@ function ParentReports({ mode = 'parent' }: { mode?: 'parent' | 'student' }) {
                     <Text style={pr.emptyStateTitle}>No Assignments Found</Text>
                     <Text style={pr.emptyStateText}>
                       {isStudentMode
-                        ? 'You have no assignments yet. Your teacher will share them here.'
+                        ? "You have no assignments yet. Your teacher will share them here."
                         : `No assignments found for ${activeStudent.firstName}.`}
                     </Text>
                   </View>
@@ -1799,7 +1832,7 @@ function ParentReports({ mode = 'parent' }: { mode?: 'parent' | 'student' }) {
                     <Text style={pr.emptyStateTitle}>No Activity Yet</Text>
                     <Text style={pr.emptyStateText}>
                       {isStudentMode
-                        ? 'Start a quiz, story, or content - your activity will show up here.'
+                        ? "Start a quiz, story, or content - your activity will show up here."
                         : `No activity recorded for ${activeStudent.firstName}.`}
                     </Text>
                   </View>
@@ -3282,7 +3315,7 @@ export default function ReportsScreen() {
   if (isParentView) {
     return <ParentReports mode="parent" />;
   }
-  if (role === 'student') {
+  if (role === "student") {
     return <ParentReports mode="student" />;
   }
 

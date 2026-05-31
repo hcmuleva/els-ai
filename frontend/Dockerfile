@@ -8,7 +8,12 @@ ENV EXPO_PUBLIC_API_BASE_URL=${EXPO_PUBLIC_API_BASE_URL}
 ENV EXPO_PUBLIC_TTS_URL=${EXPO_PUBLIC_TTS_URL}
 
 COPY frontend/package.json frontend/package-lock.json ./
-RUN npm install --no-audit --no-fund
+RUN --mount=type=cache,target=/root/.npm \
+    npm config set registry https://registry.yarnpkg.com && \
+    npm config set fetch-retry-maxtimeout 120000 && \
+    npm config set fetch-retry-mintimeout 20000 && \
+    npm config set fetch-retries 10 && \
+    npm install --no-audit --no-fund
 
 COPY frontend ./
 

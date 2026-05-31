@@ -24,6 +24,9 @@ import { AudioManager } from '../../src/utils/audio';
 import TopicsTab from '../../src/components/manage/TopicsTab';
 import ContentTab from '../../src/components/manage/ContentTab';
 import QuestionsTab from '../../src/components/manage/QuestionsTab';
+import { Video, ResizeMode } from 'expo-av';
+import AudioPlayer from '../../src/components/media/AudioPlayer';
+import DocumentViewer from '../../src/components/media/DocumentViewer';
 import JigsawRenderer from '../../src/components/quiz/JigsawRenderer';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
 import QuestionEditor from '../../src/components/quiz/QuestionEditor';
@@ -4639,39 +4642,80 @@ export default function QuestionManagementScreen() {
                   <View key={`preview-content-section-${section.id}-${index}`} style={styles.previewMediaCard}>
                     <Text style={styles.previewMediaLabel}>{section.title ? `${section.title} — ` : `Section ${section.sectionOrder || index + 1} — `}{section.contentType}</Text>
                     {section.textContent ? <Text style={styles.previewInstruction}>{section.textContent}</Text> : null}
-                    {section.externalUrl ? (() => {
-                      const embedUrl = getYouTubeEmbedUrl(section.externalUrl);
-                      if (embedUrl || isVideoContentType(section.contentType)) {
-                        const src = embedUrl ?? (isVideoContentType(section.contentType) ? getYouTubeEmbedUrl(section.externalUrl) ?? section.externalUrl : section.externalUrl);
-                        return embedUrl ? (
-                          <WebView
-                            source={{ uri: embedUrl }}
-                            style={styles.previewVideoEmbed}
-                            allowsFullscreenVideo
-                            javaScriptEnabled
-                          />
-                        ) : (
-                          <Text style={styles.previewMeta}>{section.externalUrl}</Text>
+                    {(() => {
+                      const mUrl = section.mediaUrl ? resolveMediaUrl(section.mediaUrl) : '';
+                      const eUrl = section.externalUrl ? resolveMediaUrl(section.externalUrl) : '';
+                      const url = mUrl || eUrl || '';
+                      
+                      if (!url) return null;
+
+                      if (section.contentType === 'image' || isImageUrl(url)) {
+                        return <SafeImage uri={url} style={styles.previewImage} resizeMode="contain" />;
+                      }
+
+                      if (section.contentType === 'youtube' || isYouTubeUrl(url)) {
+                        const embedUrl = getYouTubeEmbedUrl(url);
+                        if (embedUrl) {
+                          return (
+                            <View style={styles.previewVideoEmbed}>
+                              {Platform.OS === 'web' ? (
+                                <iframe
+                                  src={embedUrl + `&controls=1&modestbranding=1`}
+                                  style={{ width: '100%', height: '100%', border: 'none', borderRadius: 16 }}
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                />
+                              ) : (
+                                <WebView
+                                  source={{ uri: embedUrl + `&controls=1` }}
+                                  style={{ width: '100%', height: '100%', borderRadius: 16 }}
+                                  allowsFullscreenVideo
+                                  allowsInlineMediaPlayback
+                                />
+                              )}
+                            </View>
+                          );
+                        }
+                      }
+
+                      if (section.contentType === 'audio' || url.match(/\.(mp3|wav|ogg|aac|m4a|flac)/i)) {
+                        return (
+                          <View style={{ marginTop: 10 }}>
+                            <AudioPlayer
+                              uri={url}
+                              title={section.title || previewContentItem.title}
+                              subtitle={previewContentItem.subject}
+                              emoji="🎵"
+                              accentColor="#4A90E2"
+                              bgColor="#D6EAFF"
+                            />
+                          </View>
                         );
                       }
-                      return <Text style={styles.previewMeta}>{section.externalUrl}</Text>;
-                    })() : null}
-                    {section.mediaUrl ? (
-                      section.contentType === 'image' ? (
-                        <SafeImage uri={resolveMediaUrl(section.mediaUrl)} style={styles.previewImage} resizeMode="contain" />
-                      ) : isVideoContentType(section.contentType) ? (
-                        (() => {
-                          const embedUrl = getYouTubeEmbedUrl(section.mediaUrl);
-                          return embedUrl ? (
-                            <WebView source={{ uri: embedUrl }} style={styles.previewVideoEmbed} allowsFullscreenVideo javaScriptEnabled />
-                          ) : (
-                            <Text style={styles.previewMeta}>{section.mediaUrl}</Text>
-                          );
-                        })()
-                      ) : (
-                        <Text style={styles.previewMeta}>{section.mediaUrl}</Text>
-                      )
-                    ) : null}
+
+                      if (section.contentType === 'video' || url.match(/\.(mp4|mov|webm|avi)/i)) {
+                        return (
+                          <View style={styles.previewVideoEmbed}>
+                            <Video
+                              source={{ uri: url }}
+                              useNativeControls
+                              resizeMode={ResizeMode.CONTAIN}
+                              style={{ width: '100%', height: '100%' }}
+                            />
+                          </View>
+                        );
+                      }
+
+                      if (url.match(/\.(pdf|doc|docx|xls|xlsx|ppt|pptx|zip|rar)/i)) {
+                        return <DocumentViewer uri={url} title={section.title} accentColor="#4A90E2" bgColor="#D6EAFF" />;
+                      }
+
+                      return (
+                        <Pressable style={[styles.primaryButton, { marginTop: 10 }]} onPress={() => openExternalResource(url)}>
+                          <Text style={styles.primaryButtonText}>Open Resource Link</Text>
+                        </Pressable>
+                      );
+                    })()}
                   </View>
                 ))}
               </ScrollView>
