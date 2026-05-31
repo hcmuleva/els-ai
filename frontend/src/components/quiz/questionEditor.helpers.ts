@@ -183,29 +183,91 @@ export const getLogicoButtonColor = (buttonId: string) => {
 export const isRingButton = (buttonId: string) =>
   normalizeLogicoButtonId(buttonId).includes('-ring');
 
+function toRecord(value: unknown): Record<string, unknown> | null {
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    return value as Record<string, unknown>;
+  }
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value);
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+        return parsed as Record<string, unknown>;
+      }
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}
+
+function pickString(record: Record<string, unknown>, keys: string[]): string {
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value === 'string') return value;
+  }
+  return '';
+}
+
+function pickBoolean(record: Record<string, unknown>, keys: string[]): boolean {
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value === 'boolean') return value;
+    if (typeof value === 'number') return value > 0;
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase();
+      if (normalized === 'true' || normalized === '1') return true;
+      if (normalized === 'false' || normalized === '0') return false;
+    }
+  }
+  return false;
+}
+
+function pickNumber(record: Record<string, unknown>, keys: string[]): number | null {
+  for (const key of keys) {
+    const value = record[key];
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+  return null;
+}
+
 export function questionDataToOptions(questionData: unknown): OptionDraft[] {
-  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
+  const data = toRecord(questionData);
+  if (!data) {
     return [makeEmptyOption()];
   }
-  const options = (questionData as Record<string, unknown>).options;
+  const options =
+    data.options ??
+    data.option_list ??
+    data.optionList ??
+    data.choices;
   if (!Array.isArray(options) || options.length === 0) {
     return [makeEmptyOption()];
   }
   return options.map((item) => {
-    if (item && typeof item === 'object' && !Array.isArray(item)) {
-      const r = item as Record<string, unknown>;
-      const rawSlot = Number(r.slot_position);
+    const record = toRecord(item);
+    if (record) {
+      const rawSlot = pickNumber(record, [
+        'slot_position',
+        'slotPosition',
+        'slot',
+        'position',
+      ]);
+      const resolvedSlot =
+        rawSlot !== null && Number.isInteger(rawSlot) && rawSlot > 0 ? rawSlot : 1;
+      const image = pickString(record, ['image', 'image_url', 'imageUrl', 'mediaUrl']);
+      const audio = pickString(record, ['audio', 'sound', 'audio_url', 'audioUrl', 'soundUrl']);
       return {
-        id: typeof r.id === 'string' ? r.id : '',
-        slotPosition: Number.isInteger(rawSlot) && rawSlot > 0 ? rawSlot : 1,
-        image: typeof r.image === 'string' ? r.image : '',
-        imageLabel: typeof r.image === 'string' ? toMediaLabel(r.image, 'image') : '',
-        imageAssetId: typeof r.image_asset_id === 'string' ? r.image_asset_id : '',
-        audio: typeof r.audio === 'string' ? r.audio : '',
-        audioLabel: typeof r.audio === 'string' ? toMediaLabel(r.audio, 'audio') : '',
-        audioAssetId: typeof r.audio_asset_id === 'string' ? r.audio_asset_id : '',
-        label: typeof r.label === 'string' ? r.label : '',
-        isCorrect: Boolean(r.is_correct),
+        id: pickString(record, ['id', 'option_id', 'optionId']),
+        slotPosition: resolvedSlot,
+        image,
+        imageLabel: image ? toMediaLabel(image, 'image') : '',
+        imageAssetId: pickString(record, ['image_asset_id', 'imageAssetId']),
+        audio,
+        audioLabel: audio ? toMediaLabel(audio, 'audio') : '',
+        audioAssetId: pickString(record, ['audio_asset_id', 'audioAssetId', 'sound_asset_id', 'soundAssetId']),
+        label: pickString(record, ['label', 'text', 'value', 'title', 'option']),
+        isCorrect: pickBoolean(record, ['is_correct', 'isCorrect', 'correct', 'answer']),
       };
     }
     return makeEmptyOption();
@@ -213,12 +275,12 @@ export function questionDataToOptions(questionData: unknown): OptionDraft[] {
 }
 
 export function questionDataToLogicoOptions(questionData: unknown): OptionDraft[] {
-  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
+  const data = toRecord(questionData);
+  if (!data) {
     return makeLogicoOptions();
   }
-  const data = questionData as Record<string, unknown>;
-  const buttonSlotMapRaw = data.button_slot_map;
-  const optionSlotsRaw = data.option_slots;
+  const buttonSlotMapRaw = data.button_slot_map ?? data.buttonSlotMap;
+  const optionSlotsRaw = data.option_slots ?? data.optionSlots;
   const buttonSlotMap: Record<string, number> =
     buttonSlotMapRaw && typeof buttonSlotMapRaw === 'object' && !Array.isArray(buttonSlotMapRaw)
       ? Object.fromEntries(
@@ -227,18 +289,22 @@ export function questionDataToLogicoOptions(questionData: unknown): OptionDraft[
             .filter(([, slot]) => Number.isInteger(slot)),
         )
       : {};
+  const normalizedButtonSlotMap = Object.fromEntries(
+    Object.entries(buttonSlotMap).map(([buttonId, slot]) => [normalizeLogicoButtonId(buttonId), slot]),
+  );
   const optionSlotLabelById = new Map<number, string>();
   if (Array.isArray(optionSlotsRaw)) {
     optionSlotsRaw.forEach((slot) => {
-      if (!slot || typeof slot !== 'object' || Array.isArray(slot)) return;
-      const record = slot as Record<string, unknown>;
-      const slotId = Number(record.id);
+      const record = toRecord(slot);
+      if (!record) return;
+      const slotId = Number(record.id ?? record.slot ?? record.slotId);
       if (!Number.isInteger(slotId)) return;
-      optionSlotLabelById.set(slotId, typeof record.value === 'string' ? record.value : '');
+      optionSlotLabelById.set(slotId, pickString(record, ['value', 'label', 'text']));
     });
   }
   return LOGICO_BUTTON_ORDER.map((buttonId, index) => {
-    const slotPosition = buttonSlotMap[buttonId];
+    const slotPosition =
+      buttonSlotMap[buttonId] ?? normalizedButtonSlotMap[normalizeLogicoButtonId(buttonId)];
     const safeSlot =
       Number.isInteger(slotPosition) && slotPosition >= 1 && slotPosition <= 10
         ? slotPosition
@@ -254,48 +320,43 @@ export function questionDataToLogicoOptions(questionData: unknown): OptionDraft[
 }
 
 export function questionDataToMatchPairs(questionData: unknown): MatchPairDraft[] {
-  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
+  const data = toRecord(questionData);
+  if (!data) {
     return [makeEmptyMatchPair()];
   }
-  const data = questionData as Record<string, unknown>;
-  const dragItems = Array.isArray(data.drag_items) ? data.drag_items : [];
-  const dropTargets = Array.isArray(data.drop_targets) ? data.drop_targets : [];
-  const matchRules = Array.isArray(data.match_rules) ? data.match_rules : [];
+  const dragItems = Array.isArray(data.drag_items) ? data.drag_items : Array.isArray(data.dragItems) ? data.dragItems : [];
+  const dropTargets = Array.isArray(data.drop_targets) ? data.drop_targets : Array.isArray(data.dropTargets) ? data.dropTargets : [];
+  const matchRules = Array.isArray(data.match_rules) ? data.match_rules : Array.isArray(data.matchRules) ? data.matchRules : [];
   if (dragItems.length === 0) return [makeEmptyMatchPair()];
 
   const dropTargetLabels = new Map<string, string>();
   for (const target of dropTargets) {
-    if (target && typeof target === 'object' && !Array.isArray(target)) {
-      const t = target as Record<string, unknown>;
-      const id = typeof t.id === 'string' ? t.id : '';
-      const label = typeof t.label === 'string' ? t.label : '';
+    const targetRecord = toRecord(target);
+    if (targetRecord) {
+      const id = pickString(targetRecord, ['id', 'target_id', 'targetId']);
+      const label = pickString(targetRecord, ['label', 'text', 'value']);
       if (id) dropTargetLabels.set(id, label);
     }
   }
   const matchedTargetByDragId = new Map<string, string>();
   for (const rule of matchRules) {
-    if (rule && typeof rule === 'object' && !Array.isArray(rule)) {
-      const r = rule as Record<string, unknown>;
-      const dragId = typeof r.drag_item_id === 'string' ? r.drag_item_id : '';
-      const targetId = typeof r.drop_target_id === 'string' ? r.drop_target_id : '';
+    const ruleRecord = toRecord(rule);
+    if (ruleRecord) {
+      const dragId = pickString(ruleRecord, ['drag_item_id', 'dragItemId', 'drag_id', 'dragId']);
+      const targetId = pickString(ruleRecord, ['drop_target_id', 'dropTargetId', 'target_id', 'targetId']);
       if (dragId && targetId) matchedTargetByDragId.set(dragId, targetId);
     }
   }
   const pairs: MatchPairDraft[] = [];
   for (const dragItem of dragItems) {
-    if (dragItem && typeof dragItem === 'object' && !Array.isArray(dragItem)) {
-      const d = dragItem as Record<string, unknown>;
-      const id = typeof d.id === 'string' ? d.id : '';
-      const itemLabel = typeof d.label === 'string' ? d.label : '';
-      const image = typeof d.image === 'string' ? d.image : '';
-      const imageAssetId = typeof d.image_asset_id === 'string' ? d.image_asset_id : '';
-      const audio = typeof d.sound === 'string' ? d.sound : '';
-      const audioAssetId =
-        typeof d.sound_asset_id === 'string'
-          ? d.sound_asset_id
-          : typeof d.audio_asset_id === 'string'
-          ? d.audio_asset_id
-          : '';
+    const dragRecord = toRecord(dragItem);
+    if (dragRecord) {
+      const id = pickString(dragRecord, ['id', 'drag_item_id', 'dragItemId']);
+      const itemLabel = pickString(dragRecord, ['label', 'itemLabel', 'text', 'value']);
+      const image = pickString(dragRecord, ['image', 'image_url', 'imageUrl']);
+      const imageAssetId = pickString(dragRecord, ['image_asset_id', 'imageAssetId']);
+      const audio = pickString(dragRecord, ['sound', 'audio', 'soundUrl', 'audioUrl']);
+      const audioAssetId = pickString(dragRecord, ['sound_asset_id', 'soundAssetId', 'audio_asset_id', 'audioAssetId']);
       const targetId = matchedTargetByDragId.get(id) || id;
       const targetLabel = dropTargetLabels.get(targetId || '') || '';
       pairs.push({
@@ -315,38 +376,28 @@ export function questionDataToMatchPairs(questionData: unknown): MatchPairDraft[
 }
 
 export function questionDataPromptAudio(questionData: unknown): string {
-  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) return '';
-  const v = (questionData as Record<string, unknown>).prompt_audio;
-  return typeof v === 'string' ? v : '';
+  const data = toRecord(questionData);
+  if (!data) return '';
+  return pickString(data, ['prompt_audio', 'promptAudio']);
 }
 export function questionDataPromptAudioAssetId(questionData: unknown): string {
-  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) return '';
-  const v = (questionData as Record<string, unknown>).prompt_audio_asset_id;
-  return typeof v === 'string' ? v : '';
+  const data = toRecord(questionData);
+  if (!data) return '';
+  return pickString(data, ['prompt_audio_asset_id', 'promptAudioAssetId']);
 }
 export function questionDataPromptImage(questionData: unknown): string {
-  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) return '';
-  const p = questionData as Record<string, unknown>;
-  const v = p.prompt_image ?? p.image;
-  return typeof v === 'string' ? v : '';
+  const data = toRecord(questionData);
+  if (!data) return '';
+  return pickString(data, ['prompt_image', 'promptImage', 'image', 'imageUrl']);
 }
 export function questionDataPromptImageAssetId(questionData: unknown): string {
-  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) return '';
-  const p = questionData as Record<string, unknown>;
-  const v = p.prompt_image_asset_id ?? p.image_asset_id;
-  return typeof v === 'string' ? v : '';
+  const data = toRecord(questionData);
+  if (!data) return '';
+  return pickString(data, ['prompt_image_asset_id', 'promptImageAssetId', 'image_asset_id', 'imageAssetId']);
 }
 
 export function toPersistentMediaUrl(url: string): string {
-  const trimmed = url.trim();
-  if (!trimmed) return '';
-  if (!trimmed.includes('X-Amz-') && !trimmed.includes('x-amz-')) return trimmed;
-  try {
-    const parsed = new URL(trimmed);
-    return `${parsed.origin}${parsed.pathname}`;
-  } catch {
-    return trimmed;
-  }
+  return url.trim();
 }
 
 export function draftToPayload(draft: QuestionDraft) {

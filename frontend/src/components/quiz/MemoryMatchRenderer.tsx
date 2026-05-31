@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  Animated, Dimensions, Image, Pressable, StyleSheet, Text, View,
+  Animated, Image, Pressable, StyleSheet, Text, View, useWindowDimensions,
 } from 'react-native';
 import { resolveMediaUrl } from './QuizRenderer';
 import { AudioManager } from '../../utils/audio';
@@ -149,9 +149,11 @@ const fc = StyleSheet.create({
 
 // ── Main Renderer ─────────────────────────────────────────────────────────────
 export default function MemoryMatchRenderer({ questionData, onComplete, theme, apiBase = '' }: Props) {
+  const { width: screenWidth } = useWindowDimensions();
   const grid       = (questionData.grid ?? '4x4') as keyof typeof GRID_CONFIG;
   const cfg        = GRID_CONFIG[grid] ?? GRID_CONFIG['4x4'];
   const clickLimit = questionData.clickLimit ?? 0; // 0 = unlimited
+  const [boardContainerWidth, setBoardContainerWidth] = useState(0);
 
   const usedPairs: MemoryPair[] = useMemo(() => {
     const raw = questionData.pairs ?? [];
@@ -266,11 +268,11 @@ export default function MemoryMatchRenderer({ questionData, onComplete, theme, a
     }
   }, [disabled, matched, flipped, cards, moves, clickCount, clickLimit, limitHit, completed, usedPairs, onComplete, buildResult]);
 
-  const { width: SW } = Dimensions.get('window');
-  const GAP      = 8;
-  const PADDING  = 20;
-  const cardSize = Math.floor((SW - PADDING * 2 - GAP * (cfg.cols - 1)) / cfg.cols);
-  const gridW    = cardSize * cfg.cols + GAP * (cfg.cols - 1);
+  const GAP = 8;
+  const fallbackWidth = Math.max(220, screenWidth - 72);
+  const availableWidth = boardContainerWidth > 0 ? boardContainerWidth : fallbackWidth;
+  const cardSize = Math.max(1, Math.floor((availableWidth - GAP * (cfg.cols - 1)) / cfg.cols));
+  const gridW = cardSize * cfg.cols + GAP * (cfg.cols - 1);
 
   // Split flat cards array into rows
   const rows: GameCard[][] = [];
@@ -294,7 +296,11 @@ export default function MemoryMatchRenderer({ questionData, onComplete, theme, a
     <View style={mm.wrapper}>
       {/* Everything is centred and locked to gridW */}
       <View style={{ alignItems: 'center' }}>
-        <View style={{ width: gridW }}>
+        <View
+          style={{ width: '100%' }}
+          onLayout={(event) => setBoardContainerWidth(event.nativeEvent.layout.width)}
+        >
+          <View style={{ width: gridW, alignSelf: 'center' }}>
 
           {/* ── Stats row ── */}
           <View style={mm.statsRow}>
@@ -378,6 +384,7 @@ export default function MemoryMatchRenderer({ questionData, onComplete, theme, a
             ))}
           </View>
 
+          </View>
         </View>
       </View>
 

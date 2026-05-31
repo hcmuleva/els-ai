@@ -19,6 +19,7 @@ import {
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
 import SelectorModal from '../SelectorModal';
 import { API_BASE_URL } from '../../context/AuthContext';
+import StudentContentViewer, { type StudentContentItem, type StudentTopicMeta } from '../subject/StudentContentViewer';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 export type ContentTopic = {
@@ -31,6 +32,7 @@ export type ContentTopic = {
 export type ContentItem = {
   id: string; classLevel: string; subject: string;
   title: string; contentType: string; sectionCount?: number;
+  mediaUrl?: string; externalUrl?: string; textContent?: string; quizId?: string | null;
 };
 type QuizItem = {
   id: string; title: string; quiz_type: string;
@@ -47,6 +49,17 @@ type TopicDetailContent = {
 type TopicDetailQuiz = {
   id: string; title: string; quiz_type: string;
   class_level: string; subject: string; total_questions: number;
+};
+
+type ContentSection = {
+  id?: string;
+  sectionOrder?: number;
+  title?: string;
+  contentType: string;
+  mediaUrl?: string;
+  externalUrl?: string;
+  textContent?: string;
+  quizId?: string | null;
 };
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -416,6 +429,9 @@ export default function TopicsTab({
   const [coverImage, setCoverImage] = useState('');
   const [contentIds, setContentIds] = useState<string[]>([]);
   const [quizIds, setQuizIds]       = useState<string[]>([]);
+  const [topicPreviewOpen, setTopicPreviewOpen] = useState(false);
+  const [loadingTopicPreview, setLoadingTopicPreview] = useState(false);
+  const [topicPreviewItems, setTopicPreviewItems] = useState<StudentContentItem[]>([]);
 
   // Picker state
   const [contentPickerOpen, setContentPickerOpen] = useState(false);
@@ -533,6 +549,7 @@ export default function TopicsTab({
   const openCreate = () => {
     setEditingId(null); setTitle(''); setClassLevel(''); setSubject('');
     setCoverImage(''); setContentIds([]); setQuizIds([]);
+    setTopicPreviewOpen(false); setTopicPreviewItems([]);
     setModalTab('setup'); setIsOpen(true);
   };
 
@@ -540,6 +557,7 @@ export default function TopicsTab({
     setEditingId(topic.id);
     setTitle(topic.title); setClassLevel(topic.classLevel);
     setSubject(topic.subject); setCoverImage(topic.coverImage ?? '');
+    setTopicPreviewOpen(false); setTopicPreviewItems([]);
     setModalTab('setup'); setSaving(false);
     // Load existing assignments
     const [contentRes, quizRes] = await Promise.all([
@@ -582,6 +600,7 @@ export default function TopicsTab({
         ]);
       }
       setToast({ type: 'success', text: editingId ? 'Topic updated.' : 'Topic created.' });
+      setTopicPreviewOpen(false);
       setIsOpen(false);
       onRefresh();
     } catch (e) {
@@ -625,6 +644,102 @@ export default function TopicsTab({
 
   const selectedContents = contentIds.map((id) => contentItems.find((c) => c.id === id)).filter(Boolean) as ContentItem[];
   const selectedQuizzes  = quizIds.map((id) => allQuizzes.find((q) => q.id === id)).filter(Boolean) as QuizItem[];
+  const previewTopicMeta: StudentTopicMeta = {
+    id: editingId || 'topic-preview',
+    classLevel: classLevel || '',
+    subject: subject || '',
+    title: title.trim() || 'Untitled Topic',
+  };
+
+  const openTopicStudentPreview = async () => {
+    if (selectedContents.length === 0 && selectedQuizzes.length === 0) {
+      setToast({ type: 'error', text: 'Add content or quizzes first to preview topic.' });
+      return;
+    }
+
+    setLoadingTopicPreview(true);
+    try {
+      const detailResults = await Promise.all(
+        selectedContents.map(async (content, contentIndex) => {
+          const res = await apiFetch(`/content/items/${content.id}`);
+          if (!res.ok) {
+            return [{
+              id: content.id,
+              title: content.title || `Content ${contentIndex + 1}`,
+              contentType: content.contentType,
+              mediaUrl: content.mediaUrl,
+              externalUrl: content.externalUrl,
+              textContent: content.textContent,
+              quizId: content.quizId || undefined,
+              sortOrder: contentIndex + 1,
+            }] as StudentContentItem[];
+          }
+          const payload = await res.json();
+          const sections = Array.isArray(payload.sections) ? (payload.sections as ContentSection[]) : [];
+          if (sections.length === 0) {
+            return [{
+              id: payload.id || content.id,
+              title: payload.title || content.title || `Content ${contentIndex + 1}`,
+              contentType: payload.contentType || content.contentType,
+              mediaUrl: payload.mediaUrl || content.mediaUrl,
+              externalUrl: payload.externalUrl || content.externalUrl,
+              textContent: payload.textContent || content.textContent,
+              quizId: payload.quizId || content.quizId || undefined,
+              sortOrder: contentIndex + 1,
+            }] as StudentContentItem[];
+          }
+          return sections.map((section, sectionIndex) => ({
+            id: `${content.id}-section-${section.id || sectionIndex + 1}`,
+            title: section.title || `${payload.title || content.title} • Section ${sectionIndex + 1}`,
+            contentType: section.contentType || payload.contentType || content.contentType || 'text',
+            mediaUrl: section.mediaUrl,
+            externalUrl: section.externalUrl,
+            textContent: section.textContent,
+            quizId: section.quizId || undefined,
+            sortOrder: section.sectionOrder ?? sectionIndex + 1,
+          })) as StudentContentItem[];
+        }),
+      );
+
+      const quizPreviewItems: StudentContentItem[] = selectedQuizzes.map((quiz, index) => ({
+        id: `topic-quiz-${quiz.id}`,
+        title: `Quiz: ${quiz.title}`,
+        contentType: 'text',
+        textContent: `${quiz.subject} • ${quiz.quiz_type} • ${quiz.total_questions} questions`,
+        quizId: quiz.id,
+        sortOrder: detailResults.flat().length + index + 1,
+      }));
+
+      const flattened = [...detailResults.flat(), ...quizPreviewItems];
+      setTopicPreviewItems(flattened);
+      setTopicPreviewOpen(true);
+    } catch {
+      const fallbackItems: StudentContentItem[] = [
+        ...selectedContents.map((content, index) => ({
+          id: content.id,
+          title: content.title || `Content ${index + 1}`,
+          contentType: content.contentType || 'text',
+          mediaUrl: content.mediaUrl,
+          externalUrl: content.externalUrl,
+          textContent: content.textContent,
+          quizId: content.quizId || undefined,
+          sortOrder: index + 1,
+        })),
+        ...selectedQuizzes.map((quiz, index) => ({
+          id: `topic-quiz-${quiz.id}`,
+          title: `Quiz: ${quiz.title}`,
+          contentType: 'text',
+          textContent: `${quiz.subject} • ${quiz.quiz_type} • ${quiz.total_questions} questions`,
+          quizId: quiz.id,
+          sortOrder: selectedContents.length + index + 1,
+        })),
+      ];
+      setTopicPreviewItems(fallbackItems);
+      setTopicPreviewOpen(true);
+    } finally {
+      setLoadingTopicPreview(false);
+    }
+  };
 
   return (
     <View style={s.root}>
@@ -748,12 +863,17 @@ export default function TopicsTab({
       />
 
       {/* ══ Full-screen Create / Edit Modal ══ */}
-      <Modal visible={isOpen} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setIsOpen(false)}>
+      <Modal
+        visible={isOpen}
+        animationType="slide"
+        presentationStyle="fullScreen"
+        onRequestClose={() => { setTopicPreviewOpen(false); setIsOpen(false); }}
+      >
         <View style={s.modalScreen}>
 
           {/* Header */}
           <View style={[s.modalHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
-            <Pressable onPress={() => setIsOpen(false)} style={s.modalBackBtn}>
+            <Pressable onPress={() => { setTopicPreviewOpen(false); setIsOpen(false); }} style={s.modalBackBtn}>
               <ChevronLeft size={24} color="#1a1a2e" />
             </Pressable>
             <Text style={s.modalTitle} numberOfLines={1}>{editingId ? 'Edit Topic' : 'New Topic'}</Text>
@@ -771,7 +891,18 @@ export default function TopicsTab({
             ] as [ModalTab, LucideIcon, string][]).map(([tab, TabIcon, label]) => {
               const active = modalTab === tab;
               return (
-                <Pressable key={tab} style={[s.modalTab, active && s.modalTabActive]} onPress={() => setModalTab(tab)}>
+                <Pressable
+                  key={tab}
+                  style={[s.modalTab, active && s.modalTabActive]}
+                  onPress={() => {
+                    setModalTab(tab);
+                    if (tab === 'preview') {
+                      void openTopicStudentPreview();
+                    } else {
+                      setTopicPreviewOpen(false);
+                    }
+                  }}
+                >
                   <TabIcon size={14} color={active ? '#4A90E2' : '#9A9AB0'} />
                   <Text style={[s.modalTabText, active && s.modalTabTextActive]}>{label}</Text>
                 </Pressable>
@@ -928,45 +1059,31 @@ export default function TopicsTab({
             <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
               <View style={s.previewCard}>
                 <View style={[s.previewHeader, { backgroundColor: '#4A7FE0' }]}>
-                  <Text style={s.previewTitle}>{title || 'Untitled Topic'}</Text>
-                  <Text style={s.previewSub}>
-                    {classLevel ? getStandardLabel(classLevel) : 'No class'}{' · '}{subject || 'No subject'}
-                  </Text>
+                  <Text style={s.previewTitle}>Student View Topic Preview</Text>
+                  <Text style={s.previewSub}>Preview uses the same student content player and quiz player flow.</Text>
                   <View style={s.previewStatsRow}>
                     <View style={s.previewStat}><Text style={s.previewStatVal}>{contentIds.length}</Text><Text style={s.previewStatLabel}>Content</Text></View>
                     <View style={s.previewStat}><Text style={s.previewStatVal}>{quizIds.length}</Text><Text style={s.previewStatLabel}>Quizzes</Text></View>
                   </View>
                 </View>
                 <View style={s.previewBody}>
-                  {selectedContents.length > 0 && (
-                    <>
-                      <Text style={s.previewSectionTitle}>📚 Content</Text>
-                      {selectedContents.map((c, i) => (
-                        <View key={c.id} style={s.previewItem}>
-                          <View style={[s.previewItemDot, { backgroundColor: '#4A90E2' }]}><Text style={{ color: '#fff', fontSize: 10, fontWeight: '800' }}>{i + 1}</Text></View>
-                          <View style={{ flex: 1 }}>
-                            <Text style={s.previewItemTitle}>{c.title}</Text>
-                            <Text style={s.previewItemMeta}>{c.subject} · {c.contentType}</Text>
-                          </View>
-                        </View>
-                      ))}
-                    </>
-                  )}
-                  {selectedQuizzes.length > 0 && (
-                    <>
-                      <Text style={[s.previewSectionTitle, { marginTop: 12 }]}>✏ Quizzes</Text>
-                      {selectedQuizzes.map((q, i) => (
-                        <View key={q.id} style={s.previewItem}>
-                          <View style={[s.previewItemDot, { backgroundColor: '#FF7043' }]}><Text style={{ color: '#fff', fontSize: 10, fontWeight: '800' }}>{i + 1}</Text></View>
-                          <View style={{ flex: 1 }}>
-                            <Text style={s.previewItemTitle}>{q.title}</Text>
-                            <Text style={s.previewItemMeta}>{q.subject} · {q.quiz_type} · {q.total_questions}Q</Text>
-                          </View>
-                        </View>
-                      ))}
-                    </>
-                  )}
-                  {selectedContents.length === 0 && selectedQuizzes.length === 0 && (
+                  <Text style={s.previewItemMeta}>
+                    {classLevel ? getStandardLabel(classLevel) : 'No class'} · {subject || 'No subject'}
+                  </Text>
+                  {loadingTopicPreview ? (
+                    <View style={s.previewEmpty}>
+                      <ActivityIndicator size="small" color="#4A90E2" />
+                      <Text style={s.previewEmptyText}>Preparing student preview…</Text>
+                    </View>
+                  ) : null}
+                  <Pressable
+                    style={[s.uploadBtn, (selectedContents.length === 0 && selectedQuizzes.length === 0) && { opacity: 0.5 }]}
+                    onPress={() => { void openTopicStudentPreview(); }}
+                    disabled={selectedContents.length === 0 && selectedQuizzes.length === 0}
+                  >
+                    <Text style={s.uploadBtnText}>Open Full Student Preview</Text>
+                  </Pressable>
+                  {selectedContents.length === 0 && selectedQuizzes.length === 0 && !loadingTopicPreview && (
                     <View style={s.previewEmpty}>
                       <Text style={{ fontSize: 36 }}>📭</Text>
                       <Text style={s.previewEmptyText}>No sections added yet. Go to the Sections tab to add content and quizzes.</Text>
@@ -1069,6 +1186,14 @@ export default function TopicsTab({
           </View>
           <SelectorModal visible={quizSubjectOpen} title="Filter by Subject" options={quizSubjectOptions} selected={quizSubjectFilter} anyLabel="All Subjects" isSubject onSelect={(v) => { setQuizSubjectFilter(v); setQuizSubjectOpen(false); }} onClose={() => setQuizSubjectOpen(false)} />
         </Modal>
+
+        <StudentContentViewer
+          visible={topicPreviewOpen && modalTab === 'preview' && topicPreviewItems.length > 0}
+          contents={topicPreviewItems}
+          startIdx={0}
+          topic={previewTopicMeta}
+          onClose={() => setTopicPreviewOpen(false)}
+        />
 
         {/* Draft selectors */}
         <SelectorModal visible={draftClassOpen} title="Select Class" options={classOptions} selected={classLevel} onSelect={(v) => { setClassLevel(v); setSubject(''); setDraftClassOpen(false); }} onClose={() => setDraftClassOpen(false)} />

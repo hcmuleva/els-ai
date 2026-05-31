@@ -16,6 +16,7 @@ import QuizRenderer from '../../src/components/quiz/QuizRenderer';
 import PlayQuizCTA from '../../src/components/quiz/PlayQuizCTA';
 import { useAuth } from '../../src/context/AuthContext';
 import { GIRAFFE, OWL, PANDA, PENGUIN, ELEPHANT, BUTTERFLY } from '../../src/assets/svgs';
+import StudentContentViewer from '../../src/components/subject/StudentContentViewer';
 
 const SCREEN_H = Dimensions.get('window').height;
 
@@ -107,177 +108,14 @@ function ContentViewer({
   topic: TopicDetail;
   onClose: () => void;
 }) {
-  const [curIdx, setCurIdx] = useState(startIdx);
-  const [scrollY, setScrollY] = useState(0);
-  const [quizModalQuizId, setQuizModalQuizId] = useState<string | null>(null);
-  const sectionYs = useRef<Record<string, number>>({});
-
-  const content = contents[curIdx];
-  const hasPrev = curIdx > 0;
-  const hasNext = curIdx < contents.length - 1;
-
-  const goTo = (idx: number) => { sectionYs.current = {}; setCurIdx(idx); };
-
-  const isInView = (key: string) => {
-    const y = sectionYs.current[key] ?? -1;
-    return y >= scrollY && y < scrollY + SCREEN_H * 0.9;
-  };
-
-  if (!content) return null;
-
-  const cfg = typeCfg(content.contentType);
-  const url = content.externalUrl ?? content.mediaUrl ?? '';
-  const ytThumb = url ? thumbUrl(url) : null;
-
   return (
-    <Modal visible animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
-      <View style={sv.screen}>
-        {/* Header */}
-        <View style={[sv.header, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
-          <Pressable onPress={onClose} style={sv.backBtn}>
-            <ChevronLeft size={22} color="#1a1a2e" />
-          </Pressable>
-          <View style={sv.headerMid}>
-            <View style={[sv.typeBadge, { backgroundColor: `${cfg.accent}18` }]}>
-              <cfg.Icon size={11} color={cfg.accent} />
-              <Text style={[sv.typeBadgeText, { color: cfg.accent }]}>{cfg.label}</Text>
-            </View>
-            <Text style={sv.headerTitle} numberOfLines={1}>{content.title}</Text>
-          </View>
-          <View style={[sv.counter, { backgroundColor: `${cfg.accent}15` }]}>
-            <Text style={[sv.counterTxt, { color: cfg.accent }]}>{curIdx + 1}/{contents.length}</Text>
-          </View>
-        </View>
-
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={sv.scroll}
-          scrollEventThrottle={100}
-          onScroll={(e) => setScrollY(e.nativeEvent.contentOffset.y)}
-        >
-          {/* Hero card */}
-          <View style={[sv.heroCard, { backgroundColor: cfg.bg }]}>
-            <View style={sv.heroRow}>
-              <View style={sv.heroLeft}>
-                <Text style={sv.heroTitle}>{content.title}</Text>
-                <Text style={sv.heroSub}>{topic.subject} · Class {topic.classLevel}</Text>
-              </View>
-              {ytThumb ? (
-                <Image source={{ uri: ytThumb }} style={sv.heroThumb} resizeMode="cover" />
-              ) : (
-                <View style={[sv.heroIconBox, { backgroundColor: `${cfg.accent}20` }]}>
-                  <cfg.Icon size={36} color={cfg.accent} />
-                </View>
-              )}
-            </View>
-            {/* Prev / Next nav */}
-            <View style={sv.heroNav}>
-              <Pressable style={[sv.heroNavBtn, !hasPrev && { opacity: 0.3 }]} disabled={!hasPrev} onPress={() => goTo(curIdx - 1)}>
-                <ChevronLeft size={16} color="#5A5A7A" />
-                <Text style={sv.heroNavArrow}>Prev</Text>
-              </Pressable>
-              <View style={[sv.heroNavDivider, { backgroundColor: `${cfg.accent}30` }]} />
-              <Pressable style={[sv.heroNavBtn, !hasNext && { opacity: 0.3 }]} disabled={!hasNext} onPress={() => goTo(curIdx + 1)}>
-                <Text style={sv.heroNavArrow}>Next</Text>
-                <ChevronLeft size={16} color="#5A5A7A" style={{ transform: [{ scaleX: -1 }] }} />
-              </Pressable>
-            </View>
-          </View>
-
-          {/* Content */}
-          <View
-            style={sv.section}
-            onLayout={(e) => { sectionYs.current[`s-${curIdx}`] = e.nativeEvent.layout.y; }}
-          >
-            {url && isYouTube(url) && (
-              <View style={sv.videoWrap}>
-                <View style={sv.videoFrame}>
-                  {Platform.OS === 'web' ? (
-                    // @ts-ignore
-                    <iframe
-                      src={embedUrl(url)}
-                      style={{ width: '100%', height: '100%', border: 'none', borderRadius: 16 }}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  ) : (
-                    <WebView
-                      source={{ uri: isInView(`s-${curIdx}`) ? embedUrl(url) : `https://www.youtube.com/embed/${url.match(/(?:youtu\.be\/|watch\?v=|embed\/)([^&?/]+)/)?.[1] ?? ''}?rel=0&controls=1` }}
-                      style={{ flex: 1 }}
-                      allowsFullscreenVideo
-                      allowsInlineMediaPlayback
-                      mediaPlaybackRequiresUserAction={false}
-                      javaScriptEnabled
-                    />
-                  )}
-                </View>
-              </View>
-            )}
-
-            {url && !isYouTube(url) && url.match(/\.(jpg|jpeg|png|gif|webp|svg)/i) && (
-              <View style={sv.imgWrap}>
-                <Image source={{ uri: url }} style={sv.img} resizeMode="cover" />
-              </View>
-            )}
-
-            {content.textContent && (
-              <View style={sv.textBlock}>
-                <Text style={sv.textBody}>{content.textContent}</Text>
-              </View>
-            )}
-
-            {content.quizId && (
-              <PlayQuizCTA
-                onPress={() => setQuizModalQuizId(content.quizId!)}
-                title="Play Quiz"
-                subtitle="Tap to test what you learned"
-                themeKey={content.id || content.quizId!}
-              />
-            )}
-          </View>
-
-          {/* More in this topic */}
-          {contents.length > 1 && (
-            <View style={sv.moreWrap}>
-              <Text style={sv.moreTitle}>More in {topic.title}</Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={sv.moreScroll}>
-                {contents.map((c, i) => {
-                  const yt = c.externalUrl ? thumbUrl(c.externalUrl) : null;
-                  const cc = typeCfg(c.contentType);
-                  const active = i === curIdx;
-                  return (
-                    <Pressable
-                      key={c.id}
-                      onPress={() => goTo(i)}
-                      style={[sv.moreCard, active && { backgroundColor: cc.bg, borderColor: cc.accent, borderWidth: 2 }]}
-                    >
-                      <View style={[sv.moreCardIconWrap, { backgroundColor: active ? `${cc.accent}20` : '#F0F0F8' }]}>
-                        {yt
-                          ? <Image source={{ uri: yt }} style={sv.moreCardImg} resizeMode="cover" />
-                          : <cc.Icon size={22} color={active ? cc.accent : '#9A9AB0'} />
-                        }
-                      </View>
-                      <Text style={sv.moreCardTitle} numberOfLines={2}>{c.title}</Text>
-                      <Text style={[sv.moreCardMeta, { color: active ? cc.accent : '#9A9AB0' }]}>
-                        {cc.label} · {i + 1}
-                      </Text>
-                    </Pressable>
-                  );
-                })}
-              </ScrollView>
-            </View>
-          )}
-        </ScrollView>
-      </View>
-
-      {quizModalQuizId && (
-        <QuizRenderer
-          quizId={quizModalQuizId}
-          visible={!!quizModalQuizId}
-          onClose={() => setQuizModalQuizId(null)}
-        />
-      )}
-    </Modal>
+    <StudentContentViewer
+      visible
+      contents={contents}
+      startIdx={startIdx}
+      topic={topic}
+      onClose={onClose}
+    />
   );
 }
 

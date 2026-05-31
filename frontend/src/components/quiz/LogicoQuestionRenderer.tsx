@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react';
-import { Animated, Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Animated, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import type { QuestionTheme } from './QuizRenderer';
 import { resolveMediaUrl } from './QuizRenderer';
+import SafeImage from './SafeImage';
 
 type LogicoOptionSlot = { id: number; value?: string };
 
@@ -51,8 +52,21 @@ type Phase = 'playing' | 'review';
 export default function LogicoQuestionRenderer({ questionData, onComplete, theme }: Props) {
   const { height: screenHeight, width: screenWidth } = useWindowDimensions();
   const accent = theme?.accent || '#4A90E2';
+  const rawQuestionData = questionData as Record<string, unknown>;
 
-  const cardImage   = resolveMediaUrl(questionData.prompt_image);
+  const cardImage = resolveMediaUrl(
+    String(
+      questionData.prompt_image ??
+        rawQuestionData.promptImage ??
+        rawQuestionData.mainImage ??
+        rawQuestionData.main_image ??
+        rawQuestionData.worksheetImage ??
+        rawQuestionData.worksheet_image ??
+        rawQuestionData.image ??
+        rawQuestionData.imageUrl ??
+        '',
+    ).trim(),
+  );
   const optionSlots = useMemo(() => {
     const source = Array.isArray(questionData.option_slots) ? questionData.option_slots : [];
     return source.length === 10 ? source : Array.from({ length: 10 }, (_, i) => ({ id: i + 1, value: '' }));
@@ -190,7 +204,7 @@ export default function LogicoQuestionRenderer({ questionData, onComplete, theme
           {/* Card */}
           <View style={s.cardWrap}>
             <View style={[s.cardFrame, { height: cardHeight, width: cardWidth }]}>
-              {cardImage ? <Image source={{ uri: cardImage }} style={s.cardImage} resizeMode="stretch" /> : null}
+              {cardImage ? <SafeImage uri={cardImage} style={s.cardImage} resizeMode="contain" /> : null}
               {/* Correct-answer overlay — shown only in review */}
               <View style={s.optionOverlayCol}>
                 <View style={[s.optionHeaderSpacer, { height: headerHeight }]} />

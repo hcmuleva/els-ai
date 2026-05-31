@@ -14,6 +14,7 @@ import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import SelectorModal from '../../src/components/SelectorModal';
 import CreateQuizModal from '../../src/components/quiz/CreateQuizModal';
+import StudentStoryViewer, { type StoryPreviewMeta, type StoryPreviewSection } from '../../src/components/stories/StudentStoryViewer';
 
 // ─────────────────────────── types ───────────────────────────
 type StoryStatus = 'draft' | 'scheduled' | 'live' | 'ended';
@@ -127,7 +128,8 @@ export default function StoriesScreen() {
 
   // story editor
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalTab, setModalTab]   = useState<'setup' | 'sections' | 'actions'>('setup');
+  const [modalTab, setModalTab]   = useState<'setup' | 'sections' | 'preview' | 'actions'>('setup');
+  const [storyPreviewOpen, setStoryPreviewOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [saving, setSaving]       = useState(false);
   const [readOnlyEndedView, setReadOnlyEndedView] = useState(false);
@@ -263,6 +265,7 @@ export default function StoriesScreen() {
   const openNew = () => {
     setReadOnlyEndedView(false);
     setEditingId(null); setFTitle(''); setFDesc(''); setFCover(''); setFCoverLabel(''); setFClass(''); setSections([]);
+    setStoryPreviewOpen(false);
     setModalTab('setup'); setModalOpen(true);
   };
 
@@ -272,6 +275,7 @@ export default function StoriesScreen() {
     setFCover(story.coverImageUrl || '');
     setFCoverLabel(story.coverImageUrl ? extractFileName(story.coverImageUrl) : '');
     setFClass(story.classLevel || '');
+    setStoryPreviewOpen(false);
     setModalTab('setup'); setSections([]);
     setModalOpen(true);
     try {
@@ -592,6 +596,23 @@ export default function StoriesScreen() {
   };
 
   const currentStory = stories.find((x) => x.id === editingId);
+  const previewStory: StoryPreviewMeta = {
+    id: editingId || 'story-preview',
+    title: fTitle.trim() || 'Untitled Story',
+    description: fDesc.trim() || undefined,
+    coverImageUrl: fCover || null,
+    classLevel: fClass || null,
+  };
+  const previewSections: StoryPreviewSection[] = sections
+    .map((section, index) => ({
+      ...section,
+      title: section.title || `Section ${index + 1}`,
+      bodyText: section.bodyText || '',
+      media: (section.media || []).filter((media) => !!media.url?.trim()).map((media) => ({ ...media, url: media.url.trim() })),
+      orderIndex: Number.isFinite(section.orderIndex) ? section.orderIndex : index,
+    }))
+    .sort((a, b) => a.orderIndex - b.orderIndex);
+  const previewQuizCount = previewSections.filter((section) => !!section.quizId).length;
 
   // ─────────────────────────── render ──────────────────────────
   return (
@@ -717,12 +738,17 @@ export default function StoriesScreen() {
       )}
 
       {/* ════════════════ STORY EDITOR MODAL ════════════════ */}
-      <Modal visible={modalOpen} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setModalOpen(false)}>
+      <Modal
+        visible={modalOpen}
+        animationType="slide"
+        presentationStyle="fullScreen"
+        onRequestClose={() => { setStoryPreviewOpen(false); setModalOpen(false); }}
+      >
         <View style={s.modalScreen}>
 
           {/* Header */}
           <View style={[s.modalHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
-            <Pressable onPress={() => setModalOpen(false)} style={s.modalBackBtn}>
+            <Pressable onPress={() => { setStoryPreviewOpen(false); setModalOpen(false); }} style={s.modalBackBtn}>
               <Text style={s.modalBackArrow}>‹</Text>
             </Pressable>
             <Text style={s.modalTitle} numberOfLines={1}>
@@ -740,9 +766,21 @@ export default function StoriesScreen() {
             {([
               ['setup',    'Setup',    BookOpen],
               ['sections', 'Sections', ListChecks],
+              ['preview',  'Preview',  Eye],
               ...(!readOnlyEndedView ? [['actions',  'Actions',  Zap] as [typeof modalTab, string, any]] : []),
             ] as [typeof modalTab, string, any][]).map(([tab, label, Icon]) => (
-              <Pressable key={tab} style={[s.modalTab, modalTab === tab && s.modalTabActive]} onPress={() => setModalTab(tab)}>
+              <Pressable
+                key={tab}
+                style={[s.modalTab, modalTab === tab && s.modalTabActive]}
+                onPress={() => {
+                  setModalTab(tab);
+                  if (tab === 'preview') {
+                    setStoryPreviewOpen(true);
+                  } else {
+                    setStoryPreviewOpen(false);
+                  }
+                }}
+              >
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
                   <Icon size={13} color={modalTab === tab ? '#4A90E2' : '#9A9AB0'} />
                   <Text style={[s.modalTabText, modalTab === tab && s.modalTabTextActive]}>{label}</Text>
@@ -905,6 +943,46 @@ export default function StoriesScreen() {
             </ScrollView>
           )}
 
+          {/* ── PREVIEW tab ── */}
+          {modalTab === 'preview' && (
+            <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
+              <View style={s.storyPreviewCard}>
+                <View style={[s.storyPreviewHeader, { backgroundColor: '#4A7FE0' }]}>
+                  <Text style={s.storyPreviewTitle}>Student View Story Preview</Text>
+                  <Text style={s.storyPreviewSub}>Open the exact story player flow and verify media + quiz behavior before publishing.</Text>
+                  <View style={s.storyPreviewStatsRow}>
+                    <View style={s.storyPreviewStat}>
+                      <Text style={s.storyPreviewStatVal}>{previewSections.length}</Text>
+                      <Text style={s.storyPreviewStatLabel}>Sections</Text>
+                    </View>
+                    <View style={s.storyPreviewStat}>
+                      <Text style={s.storyPreviewStatVal}>{previewQuizCount}</Text>
+                      <Text style={s.storyPreviewStatLabel}>Quizzes</Text>
+                    </View>
+                  </View>
+                </View>
+                <View style={s.storyPreviewBody}>
+                  <Text style={s.storyPreviewMeta}>
+                    {fClass ? getStandardLabel(fClass) : 'No class selected'} · {fTitle.trim() || 'Untitled Story'}
+                  </Text>
+                  <Pressable
+                    style={[s.uploadBtn, previewSections.length === 0 && { opacity: 0.5 }]}
+                    onPress={() => setStoryPreviewOpen(true)}
+                    disabled={previewSections.length === 0}
+                  >
+                    <Text style={s.uploadBtnText}>Open Full Story Preview</Text>
+                  </Pressable>
+                  {previewSections.length === 0 && (
+                    <View style={s.storyPreviewEmpty}>
+                      <Text style={{ fontSize: 34 }}>📭</Text>
+                      <Text style={s.storyPreviewEmptyText}>No sections yet. Add sections in the Sections tab to preview the story player.</Text>
+                    </View>
+                  )}
+                </View>
+              </View>
+            </ScrollView>
+          )}
+
           {/* ── ACTIONS tab ── */}
           {modalTab === 'actions' && (
             <ScrollView contentContainerStyle={s.tabContent}>
@@ -998,6 +1076,13 @@ export default function StoriesScreen() {
           )}
         </View>
       </Modal>
+
+      <StudentStoryViewer
+        visible={storyPreviewOpen && modalOpen && modalTab === 'preview'}
+        story={previewStory}
+        sections={previewSections}
+        onClose={() => setStoryPreviewOpen(false)}
+      />
 
       {/* ════════════════ SECTION EDITOR MODAL ════════════════ */}
       <Modal visible={secModalOpen} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setSecModalOpen(false)}>
@@ -1489,6 +1574,18 @@ const s = StyleSheet.create({
   modalTabText:   { fontSize: 13, fontWeight: '600', color: '#9A9AB0' },
   modalTabTextActive: { color: '#4A90E2', fontWeight: '800' },
   tabContent:     { padding: 16, gap: 16, paddingBottom: 48 },
+  storyPreviewCard:      { backgroundColor: '#fff', borderRadius: 20, overflow: 'hidden' },
+  storyPreviewHeader:    { padding: 20, gap: 6 },
+  storyPreviewTitle:     { fontSize: 20, fontWeight: '900', color: '#fff' },
+  storyPreviewSub:       { fontSize: 13, color: 'rgba(255,255,255,0.82)' },
+  storyPreviewStatsRow:  { flexDirection: 'row', gap: 20, marginTop: 8 },
+  storyPreviewStat:      { alignItems: 'center', gap: 2 },
+  storyPreviewStatVal:   { fontSize: 22, fontWeight: '900', color: '#fff' },
+  storyPreviewStatLabel: { fontSize: 10, fontWeight: '700', color: 'rgba(255,255,255,0.72)', textTransform: 'uppercase' },
+  storyPreviewBody:      { padding: 16, gap: 10 },
+  storyPreviewMeta:      { fontSize: 12, color: '#7A869F', fontWeight: '700' },
+  storyPreviewEmpty:     { alignItems: 'center', paddingVertical: 20, gap: 8 },
+  storyPreviewEmptyText: { fontSize: 13, color: '#9A9AB0', textAlign: 'center', lineHeight: 20 },
 
   // form
   fieldGroup:   { gap: 8 },

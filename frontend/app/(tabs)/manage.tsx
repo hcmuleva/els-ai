@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useFocusEffect, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Linking from 'expo-linking';
 import {
   ActivityIndicator,
   Dimensions,
@@ -16,7 +17,7 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-import { FolderOpen, Video, HelpCircle, BookOpen as BookOpenIcon, Trophy as TrophyIcon, ListChecks, SplitSquareHorizontal, Eye as EyeIcon, Volume2, CheckSquare, Image as ImageIcon, BookOpenCheck as StoriesIcon } from 'lucide-react-native';
+import { FolderOpen, Video as VideoIcon, HelpCircle, BookOpen as BookOpenIcon, Trophy as TrophyIcon, ListChecks, SplitSquareHorizontal, Eye as EyeIcon, Volume2, CheckSquare, Image as ImageIcon, BookOpenCheck as StoriesIcon } from 'lucide-react-native';
 import SelectorModal from '../../src/components/SelectorModal';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
@@ -1027,8 +1028,25 @@ function getYouTubeEmbedUrl(url: string): string | null {
   return null;
 }
 
+function isYouTubeUrl(url: string): boolean {
+  return /(?:youtube\.com|youtu\.be)/i.test(url);
+}
+
+function isImageUrl(url: string): boolean {
+  return /\.(png|jpe?g|gif|webp|bmp|svg)(?:$|[?#])/i.test(url);
+}
+
 function isVideoContentType(type: string): boolean {
   return ['video', 'youtube_url', 'youtube', 'video_url'].includes(type.toLowerCase());
+}
+
+function openExternalResource(url: string): void {
+  if (!url) return;
+  if (Platform.OS === 'web' && typeof globalThis.open === 'function') {
+    globalThis.open(url, '_blank', 'noopener,noreferrer');
+    return;
+  }
+  void Linking.openURL(url);
 }
 
 type PickedFile = { dataUrl: string; fileName: string; mimeType: string };
@@ -1106,6 +1124,7 @@ export default function QuestionManagementScreen() {
   const [savingQuestionId, setSavingQuestionId] = useState<string | null>(null);
   const [deletingQuestionId, setDeletingQuestionId] = useState<string | null>(null);
   const [editingQuestionId, setEditingQuestionId] = useState<string | null>(null);
+  const [editingQuestionPayload, setEditingQuestionPayload] = useState<QuestionItem | null>(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [questionFormTab, setQuestionFormTab] = useState<'setup' | 'options' | 'preview'>('setup');
   const [actionBadge, setActionBadge] = useState<string | null>(null);
@@ -2204,6 +2223,7 @@ export default function QuestionManagementScreen() {
 
   const openCreateDialog = () => {
     setCreateDraft(makeInitialDraft('guess_image'));
+    setEditingQuestionPayload(null);
     setActionBadge(null);
     setIsCreateDialogOpen(true);
     setQuestionFormTab('setup');
@@ -2238,6 +2258,7 @@ export default function QuestionManagementScreen() {
         ? makeTrueFalseOptions()
         : parsedOptions;
     setEditingQuestionId(question.id);
+    setEditingQuestionPayload(question as QuestionItem);
     setEditDraft({
       classLevel: resolvedClassLevel,
       subject: resolvedSubject,
@@ -2301,6 +2322,7 @@ export default function QuestionManagementScreen() {
         throw new Error(errorPayload.message || 'Failed to update question');
       }
       setEditingQuestionId(null);
+      setEditingQuestionPayload(null);
       setMessage({ type: 'success', text: 'Question updated successfully.' });
       await loadQuestions();
     } catch (error) {
@@ -2323,6 +2345,7 @@ export default function QuestionManagementScreen() {
       }
       if (editingQuestionId === questionId) {
         setEditingQuestionId(null);
+        setEditingQuestionPayload(null);
       }
       setMessage({ type: 'success', text: 'Question deleted successfully.' });
       await loadQuestions();
@@ -2642,7 +2665,12 @@ export default function QuestionManagementScreen() {
     const isSaving = mode === 'create' ? creating : savingQuestionId !== null;
     const closeAction = () => {
       setActionBadge(null);
-      mode === 'create' ? setIsCreateDialogOpen(false) : setEditingQuestionId(null);
+      if (mode === 'create') {
+        setIsCreateDialogOpen(false);
+        return;
+      }
+      setEditingQuestionId(null);
+      setEditingQuestionPayload(null);
     };
     const editorMode = getQuestionEditorMode(draft.questionType);
     const isLogicoMode = editorMode === 'logico';
@@ -3780,7 +3808,7 @@ export default function QuestionManagementScreen() {
             >
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
                 {tab === 'topic' && <FolderOpen size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
-                {tab === 'content' && <Video size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
+                {tab === 'content' && <VideoIcon size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
                 {tab === 'question' && <HelpCircle size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
                 {tab === 'exam' && <BookOpenIcon size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
                 {tab === 'quiz' && <TrophyIcon size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
@@ -4653,7 +4681,7 @@ export default function QuestionManagementScreen() {
                         return <SafeImage uri={url} style={styles.previewImage} resizeMode="contain" />;
                       }
 
-                      if (section.contentType === 'youtube' || isYouTubeUrl(url)) {
+                      if (section.contentType === 'youtube_url' || isYouTubeUrl(url)) {
                         const embedUrl = getYouTubeEmbedUrl(url);
                         if (embedUrl) {
                           return (
@@ -4693,7 +4721,7 @@ export default function QuestionManagementScreen() {
                         );
                       }
 
-                      if (section.contentType === 'video' || url.match(/\.(mp4|mov|webm|avi)/i)) {
+                      if (section.contentType === 'reel' || url.match(/\.(mp4|mov|webm|avi)/i)) {
                         return (
                           <View style={styles.previewVideoEmbed}>
                             <Video
@@ -4880,9 +4908,17 @@ export default function QuestionManagementScreen() {
         />
       </Modal>
 
-      <Modal visible={editingQuestionId !== null && activeLearningTab === 'question'} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setEditingQuestionId(null)}>
+      <Modal
+        visible={editingQuestionId !== null && activeLearningTab === 'question'}
+        animationType="slide"
+        presentationStyle="fullScreen"
+        onRequestClose={() => {
+          setEditingQuestionId(null);
+          setEditingQuestionPayload(null);
+        }}
+      >
         {(() => {
-          const q = questions.find((item) => item.id === editingQuestionId);
+          const q = editingQuestionPayload ?? questions.find((item) => item.id === editingQuestionId);
           if (!q) return null;
           return (
             <QuestionEditor
@@ -4902,8 +4938,14 @@ export default function QuestionManagementScreen() {
                 sort_order: q.sort_order,
                 question_data: q.question_data,
               }}
-              onSaved={() => { loadQuestions(); }}
-              onClose={() => setEditingQuestionId(null)}
+              onSaved={() => {
+                setEditingQuestionPayload(null);
+                loadQuestions();
+              }}
+              onClose={() => {
+                setEditingQuestionId(null);
+                setEditingQuestionPayload(null);
+              }}
             />
           );
         })()}

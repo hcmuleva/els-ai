@@ -224,14 +224,14 @@ export default function StoryReaderScreen() {
                 const firstImage = section.media.find((m) => m.kind === 'image');
                 const firstVideo = section.media.find((m) => m.kind === 'video');
                 if (firstImage?.url) {
-                  return <Image source={{ uri: resolveMediaUrl(firstImage.url) }} style={s.heroThumb} resizeMode="cover" />;
+                  return <Image source={{ uri: resolveMediaUrl(firstImage.url) }} style={s.heroThumb} resizeMode="contain" />;
                 }
                 if (firstVideo?.url && isYouTube(firstVideo.url)) {
                   const yt = ytThumb(firstVideo.url);
-                  if (yt) return <Image source={{ uri: yt }} style={s.heroThumb} resizeMode="cover" />;
+                  if (yt) return <Image source={{ uri: yt }} style={s.heroThumb} resizeMode="contain" />;
                 }
                 if (story.coverImageUrl) {
-                  return <Image source={{ uri: resolveMediaUrl(story.coverImageUrl) }} style={s.heroThumb} resizeMode="cover" />;
+                  return <Image source={{ uri: resolveMediaUrl(story.coverImageUrl) }} style={s.heroThumb} resizeMode="contain" />;
                 }
                 return (
                   <View style={[s.heroIconBox, { backgroundColor: `${cfg.accent}20` }]}>
@@ -302,7 +302,7 @@ export default function StoryReaderScreen() {
               if (m.kind === 'image' && m.url) {
                 return (
                   <View key={i} style={s.imgWrap}>
-                    <Image source={{ uri: resolveMediaUrl(m.url) }} style={s.img} resizeMode="cover" />
+                    <Image source={{ uri: resolveMediaUrl(m.url) }} style={s.img} resizeMode="contain" />
                     {!!m.caption && <Text style={s.mediaCaption}>{m.caption}</Text>}
                   </View>
                 );
@@ -384,7 +384,7 @@ export default function StoryReaderScreen() {
                     >
                       <View style={[s.moreCardIconWrap, { backgroundColor: active ? `${cc.accent}20` : '#F0F0F8' }]}>
                         {thumb
-                          ? <Image source={{ uri: resolveMediaUrl(thumb) }} style={s.moreCardImg} resizeMode="cover" />
+                          ? <Image source={{ uri: resolveMediaUrl(thumb) }} style={s.moreCardImg} resizeMode="contain" />
                           : <BookOpen size={22} color={active ? cc.accent : '#9A9AB0'} />}
                       </View>
                       <Text style={s.moreCardTitle} numberOfLines={2}>{c.title}</Text>
@@ -448,7 +448,7 @@ const s = StyleSheet.create({
   section:   { marginHorizontal: 16, marginBottom: 16, gap: 12 },
   videoWrap: { borderRadius: 20, overflow: 'hidden' },
   videoFrame:{ width: '100%', height: 230, borderRadius: 20, overflow: 'hidden', backgroundColor: '#0a0a0a' },
-  imgWrap:   { borderRadius: 20, overflow: 'hidden' },
+  imgWrap:   { borderRadius: 20, overflow: 'hidden', backgroundColor: '#F4F5FF', alignItems: 'center', justifyContent: 'center' },
   img:       { width: '100%', height: 220 },
   mediaCaption: { fontSize: 12, color: '#7A7A9A', fontWeight: '600', paddingHorizontal: 4, marginTop: 6 },
 

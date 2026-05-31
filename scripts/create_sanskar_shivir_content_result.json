@@ -1,0 +1,28 @@
+{
+  "topicId": "798d80a6-94d6-4a4b-a145-b57ef3719e4f",
+  "topicTitle": "संस्कार शिविर नंबर -१",
+  "classLevel": "10",
+  "subject": "Computer Applications / IT",
+  "sections": [
+    {
+      "name": "Baal Gopal",
+      "primaryUrl": "https://www.youtube.com/watch?v=ezUj91PVjgY",
+      "quizId": "c23eb182-4160-4a2d-8ef0-219107d4ea85"
+    },
+    {
+      "name": "NatKhat Gopal",
+      "primaryUrl": "https://www.youtube.com/watch?v=KIwrVsvIcm0",
+      "quizId": "66625f3b-5441-4e65-a15d-24294d65393b"
+    },
+    {
+      "name": "NandGopal",
+      "primaryUrl": "https://www.youtube.com/watch?v=X4fcI4PMvwg",
+      "quizId": "81ba1c5a-ebf0-4fc5-93f5-b44163bce6d5"
+    },
+    {
+      "name": "GwalGopal",
+      "primaryUrl": "https://www.youtube.com/watch?v=EFwx9_fZpbc",
+      "quizId": "590c1880-1cbb-459f-8234-6658ab63e1dd"
+    }
+  ]
+}
