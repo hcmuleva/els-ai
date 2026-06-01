@@ -41,6 +41,7 @@ import SelectorModal, { SelectorOption } from '../SelectorModal';
 import SafeImage from './SafeImage';
 import LogicoButtonBadge from './LogicoButtonBadge';
 import JigsawRenderer from './JigsawRenderer';
+import SingleQuestionPlayer from './SingleQuestionPlayer';
 import { API_BASE_URL } from '../../context/AuthContext';
 import { AudioManager } from '../../utils/audio';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
@@ -201,7 +202,7 @@ export default function QuestionEditor({
       const uploaded = await uploadPickedFileToS3(apiFetch, picked, 'audio');
       setDraft((c) => ({
         ...c,
-        mainAudio: uploaded.url,
+        mainAudio: uploaded.canonicalUrl || uploaded.url,
         mainAudioLabel: uploaded.fileName,
         mainAudioAssetId: uploaded.assetId,
       }));
@@ -216,7 +217,7 @@ export default function QuestionEditor({
       const uploaded = await uploadPickedFileToS3(apiFetch, picked, 'image');
       setDraft((c) => ({
         ...c,
-        mainImage: uploaded.url,
+        mainImage: uploaded.canonicalUrl || uploaded.url,
         mainImageLabel: uploaded.fileName,
         mainImageAssetId: uploaded.assetId,
       }));
@@ -289,7 +290,7 @@ export default function QuestionEditor({
       if (kind === 'image') {
         const uploaded = await uploadPickedFileToS3(apiFetch, picked, 'image');
         updateOption(index, {
-          image: uploaded.url,
+          image: uploaded.canonicalUrl || uploaded.url,
           imageLabel: uploaded.fileName,
           imageAssetId: uploaded.assetId,
         });
@@ -298,7 +299,7 @@ export default function QuestionEditor({
       if (kind === 'audio') {
         const uploaded = await uploadPickedFileToS3(apiFetch, picked, 'audio');
         updateOption(index, {
-          audio: uploaded.url,
+          audio: uploaded.canonicalUrl || uploaded.url,
           audioLabel: uploaded.fileName,
           audioAssetId: uploaded.assetId,
         });
@@ -336,7 +337,7 @@ export default function QuestionEditor({
       if (kind === 'image') {
         const uploaded = await uploadPickedFileToS3(apiFetch, picked, 'image');
         updateMatchPair(index, {
-          image: uploaded.url,
+          image: uploaded.canonicalUrl || uploaded.url,
           imageLabel: uploaded.fileName,
           imageAssetId: uploaded.assetId,
         });
@@ -345,7 +346,7 @@ export default function QuestionEditor({
       if (kind === 'audio') {
         const uploaded = await uploadPickedFileToS3(apiFetch, picked, 'audio');
         updateMatchPair(index, {
-          audio: uploaded.url,
+          audio: uploaded.canonicalUrl || uploaded.url,
           audioLabel: uploaded.fileName,
           audioAssetId: uploaded.assetId,
         });
@@ -1810,6 +1811,36 @@ function PreviewTab({
   hasPairs: boolean;
   normalizedQuestionType: string;
 }) {
+  const [memoryPreviewWidth, setMemoryPreviewWidth] = useState(0);
+  const livePlayerConfig = useMemo(() => {
+    try {
+      const payload = draftToPayload(draft) as {
+        questionType?: unknown;
+        questionAudio?: unknown;
+        questionData?: unknown;
+      };
+      return {
+        enabled: true,
+        error: '',
+        questionType: String(payload.questionType || normalizedQuestionType),
+        questionAudio:
+          typeof payload.questionAudio === 'string' ? payload.questionAudio : undefined,
+        questionData: payload.questionData ?? {},
+      };
+    } catch (error) {
+      return {
+        enabled: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : 'Complete required fields to enable live question player.',
+        questionType: normalizedQuestionType,
+        questionAudio: undefined,
+        questionData: {},
+      };
+    }
+  }, [draft, normalizedQuestionType]);
+
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
       <View style={qFormS.previewCard}>
@@ -1885,6 +1916,35 @@ function PreviewTab({
             <Text style={qFormS.previewInstText}>💬 {draft.questionInstruction}</Text>
           </View>
         ) : null}
+        <View style={{ paddingHorizontal: 14, paddingBottom: 12, gap: 8 }}>
+          <Text style={qFormS.groupLabel}>LIVE PLAYER</Text>
+          {livePlayerConfig.enabled ? (
+            <SingleQuestionPlayer
+              questionType={livePlayerConfig.questionType}
+              questionTitle={draft.questionTitle}
+              questionInstruction={draft.questionInstruction}
+              questionAudio={livePlayerConfig.questionAudio}
+              questionData={livePlayerConfig.questionData}
+            />
+          ) : (
+            <View
+              style={{
+                borderRadius: 12,
+                borderWidth: 1,
+                borderColor: '#FECACA',
+                backgroundColor: '#FEF2F2',
+                paddingHorizontal: 12,
+                paddingVertical: 10,
+                gap: 4,
+              }}
+            >
+              <Text style={{ fontSize: 12, fontWeight: '800', color: '#B91C1C' }}>
+                Complete required fields to play this question.
+              </Text>
+              <Text style={{ fontSize: 12, color: '#991B1B' }}>{livePlayerConfig.error}</Text>
+            </View>
+          )}
+        </View>
         {draft.mainImage.trim() ? (
           <SafeImage
             uri={resolveMediaUrl(draft.mainImage.trim())}
@@ -2134,7 +2194,8 @@ function PreviewTab({
           const pvCols = GRID_COLS[pvGrid] ?? 4;
           const pvNeeded = GRID_PAIR_COUNTS[pvGrid] ?? 4;
           const allCards = [...pvPairs, ...pvPairs].slice(0, pvNeeded * 2);
-          const previewW = Dimensions.get('window').width - 64;
+          const fallbackW = Math.max(220, Dimensions.get('window').width - 96);
+          const previewW = memoryPreviewWidth > 0 ? memoryPreviewWidth : fallbackW;
           const GAP = 6;
           const pvCardW = Math.floor((previewW - GAP * (pvCols - 1)) / pvCols);
           const pvRows: MMPair[][] = [];
@@ -2155,7 +2216,12 @@ function PreviewTab({
                 Board Preview — {pvPairs.length}/{pvNeeded} pairs · {pvNeeded * 2} cards
               </Text>
               <View style={{ alignItems: 'center' }}>
-                <View style={{ width: previewW, gap: GAP }}>
+                <View
+                  style={{ width: '100%', gap: GAP }}
+                  onLayout={(event) =>
+                    setMemoryPreviewWidth(Math.max(220, event.nativeEvent.layout.width))
+                  }
+                >
                   {pvRows.map((row, rIdx) => (
                     <View
                       key={rIdx}

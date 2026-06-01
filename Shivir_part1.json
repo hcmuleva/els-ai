@@ -1,0 +1,425 @@
+{
+  "shivir": "Shivir Part 1",
+  "validatedOn": "2026-05-31",
+  "validation": {
+    "oEmbed": "HTTP 200 from https://www.youtube.com/oembed",
+    "playableInEmbed": true,
+    "isShort": "canonicalUrl must NOT contain /shorts/ (Shorts trigger Error 153 in iframes)"
+  },
+  "sections": [
+    {
+      "id": "baal-gopal",
+      "name": "Baal Gopal",
+      "theme": "Krishna Animated Stories",
+      "audience": {
+        "grades": "LKG-5",
+        "language": "Hindi",
+        "level": "easy"
+      },
+      "videos": [
+        {
+          "title": "Shri Krishna Baal Leela – Kaliya Mardan",
+          "videoId": "ezUj91PVjgY",
+          "watchUrl": "https://www.youtube.com/watch?v=ezUj91PVjgY",
+          "embedUrl": "https://www.youtube.com/embed/ezUj91PVjgY",
+          "duration": "2:35",
+          "durationSeconds": 155,
+          "channel": "Quixot Kids Hindi",
+          "thumbnail": "https://img.youtube.com/vi/ezUj91PVjgY/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        },
+        {
+          "title": "Krishna and Govardhan Mountain – Animated Story for Kids",
+          "videoId": "oxMEU6MqolQ",
+          "watchUrl": "https://www.youtube.com/watch?v=oxMEU6MqolQ",
+          "embedUrl": "https://www.youtube.com/embed/oxMEU6MqolQ",
+          "duration": "1:28",
+          "durationSeconds": 88,
+          "channel": "Quixot Kids Hindi",
+          "thumbnail": "https://img.youtube.com/vi/oxMEU6MqolQ/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        },
+        {
+          "title": "Yashoda & Krishna – A Sweet Story of Love and Butter",
+          "videoId": "UTplR-eDaTo",
+          "watchUrl": "https://www.youtube.com/watch?v=UTplR-eDaTo",
+          "embedUrl": "https://www.youtube.com/embed/UTplR-eDaTo",
+          "duration": "1:20",
+          "durationSeconds": 80,
+          "channel": "KindnessCloud",
+          "thumbnail": "https://img.youtube.com/vi/UTplR-eDaTo/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        },
+        {
+          "title": "Putna Vadh – Little Krishna Animated (Hindi)",
+          "videoId": "5qH71QSUO8c",
+          "watchUrl": "https://www.youtube.com/watch?v=5qH71QSUO8c",
+          "embedUrl": "https://www.youtube.com/embed/5qH71QSUO8c",
+          "duration": "1:10",
+          "durationSeconds": 70,
+          "channel": "Little Krishna",
+          "thumbnail": "https://img.youtube.com/vi/5qH71QSUO8c/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        }
+      ],
+      "quiz": [
+        {
+          "id": "bg-q1",
+          "type": "SCQ",
+          "question": "Krishna ne kis saap ko nadi se bhagaya?",
+          "options": ["Sheshnag", "Vasuki", "Kaliya", "Takshak"],
+          "answer": "Kaliya"
+        },
+        {
+          "id": "bg-q2",
+          "type": "SCQ",
+          "question": "Krishna ne gaaon ko bachaane ke liye kaunsa parvat uthaaya tha?",
+          "options": ["Himalaya", "Govardhan", "Vindhya", "Kailash"],
+          "answer": "Govardhan"
+        },
+        {
+          "id": "bg-q3",
+          "type": "TF",
+          "question": "Krishna ki maa Yashoda thi.",
+          "options": ["True", "False"],
+          "answer": "True"
+        },
+        {
+          "id": "bg-q4",
+          "type": "MCQ",
+          "question": "Bal Krishna ko kya cheezein bahut pasand thi? (Select all)",
+          "options": ["Makhan", "Doodh", "Pizza", "Gopiyan ke saath khelna"],
+          "answer": ["Makhan", "Doodh", "Gopiyan ke saath khelna"]
+        },
+        {
+          "id": "bg-q5",
+          "type": "SCQ",
+          "question": "Putna kaun thi?",
+          "options": ["Krishna ki dost", "Ek raakshasi", "Krishna ki maasi", "Ek gaay"],
+          "answer": "Ek raakshasi"
+        }
+      ]
+    },
+    {
+      "id": "natkhat-gopal",
+      "name": "NatKhat Gopal",
+      "theme": "Rivers of India",
+      "audience": {
+        "grades": "6-10",
+        "language": "Hindi/English",
+        "level": "medium"
+      },
+      "videos": [
+        {
+          "title": "Major Rivers Of India | General Knowledge | Class-3",
+          "videoId": "KIwrVsvIcm0",
+          "watchUrl": "https://www.youtube.com/watch?v=KIwrVsvIcm0",
+          "embedUrl": "https://www.youtube.com/embed/KIwrVsvIcm0",
+          "duration": "2:51",
+          "durationSeconds": 171,
+          "channel": "Periwinkle",
+          "thumbnail": "https://img.youtube.com/vi/KIwrVsvIcm0/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        },
+        {
+          "title": "Indian Rivers and Tributaries Explained | Geography",
+          "videoId": "14YqdZBEydg",
+          "watchUrl": "https://www.youtube.com/watch?v=14YqdZBEydg",
+          "embedUrl": "https://www.youtube.com/embed/14YqdZBEydg",
+          "duration": "3:15",
+          "durationSeconds": 195,
+          "channel": "Geography Animated",
+          "thumbnail": "https://img.youtube.com/vi/14YqdZBEydg/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        },
+        {
+          "title": "Bhagirathi Ganga – भागीरथी गंगा | Class 3",
+          "videoId": "-HnwE5i3p7I",
+          "watchUrl": "https://www.youtube.com/watch?v=-HnwE5i3p7I",
+          "embedUrl": "https://www.youtube.com/embed/-HnwE5i3p7I",
+          "duration": "3:18",
+          "durationSeconds": 198,
+          "channel": "Periwinkle",
+          "thumbnail": "https://img.youtube.com/vi/-HnwE5i3p7I/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        },
+        {
+          "title": "Mahashivratri Special: How Shiva Brought Ganga to Earth",
+          "videoId": "Cs7jsaGf2AE",
+          "watchUrl": "https://www.youtube.com/watch?v=Cs7jsaGf2AE",
+          "embedUrl": "https://www.youtube.com/embed/Cs7jsaGf2AE",
+          "duration": "3:32",
+          "durationSeconds": 212,
+          "channel": "Cultural Stories",
+          "thumbnail": "https://img.youtube.com/vi/Cs7jsaGf2AE/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        }
+      ],
+      "quiz": [
+        {
+          "id": "ng-q1",
+          "type": "SCQ",
+          "question": "Which is the longest river of India?",
+          "options": ["Yamuna", "Godavari", "Ganga", "Brahmaputra"],
+          "answer": "Ganga"
+        },
+        {
+          "id": "ng-q2",
+          "type": "SCQ",
+          "question": "From which glacier does the Ganga river originate?",
+          "options": ["Siachen", "Gangotri", "Pindari", "Zemu"],
+          "answer": "Gangotri"
+        },
+        {
+          "id": "ng-q3",
+          "type": "MCQ",
+          "question": "Which of these are Himalayan rivers? (Select all)",
+          "options": ["Ganga", "Yamuna", "Krishna", "Brahmaputra"],
+          "answer": ["Ganga", "Yamuna", "Brahmaputra"]
+        },
+        {
+          "id": "ng-q4",
+          "type": "TF",
+          "question": "The Narmada river flows from east to west.",
+          "options": ["True", "False"],
+          "answer": "True"
+        },
+        {
+          "id": "ng-q5",
+          "type": "SCQ",
+          "question": "Yamuna river meets Ganga at which holy city?",
+          "options": ["Varanasi", "Haridwar", "Prayagraj (Allahabad)", "Patna"],
+          "answer": "Prayagraj (Allahabad)"
+        }
+      ]
+    },
+    {
+      "id": "nand-gopal",
+      "name": "NandGopal",
+      "theme": "Amazing Science",
+      "audience": {
+        "grades": "11+",
+        "language": "English",
+        "level": "advanced"
+      },
+      "videos": [
+        {
+          "title": "BLACK HOLE | The Dr. Binocs Show | Educational Videos for Kids",
+          "videoId": "X4fcI4PMvwg",
+          "watchUrl": "https://www.youtube.com/watch?v=X4fcI4PMvwg",
+          "embedUrl": "https://www.youtube.com/embed/X4fcI4PMvwg",
+          "duration": "3:24",
+          "durationSeconds": 204,
+          "channel": "Peekaboo Kidz",
+          "thumbnail": "https://img.youtube.com/vi/X4fcI4PMvwg/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        },
+        {
+          "title": "Tsunami | What causes Tsunamis? | The Dr. Binocs Show",
+          "videoId": "MfsugkikLJI",
+          "watchUrl": "https://www.youtube.com/watch?v=MfsugkikLJI",
+          "embedUrl": "https://www.youtube.com/embed/MfsugkikLJI",
+          "duration": "3:00",
+          "durationSeconds": 180,
+          "channel": "Peekaboo Kidz",
+          "thumbnail": "https://img.youtube.com/vi/MfsugkikLJI/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        },
+        {
+          "title": "The Human Skeleton: AMAZING FUN FACTS | Educational Videos For Kids",
+          "videoId": "gPbF-Edpx64",
+          "watchUrl": "https://www.youtube.com/watch?v=gPbF-Edpx64",
+          "embedUrl": "https://www.youtube.com/embed/gPbF-Edpx64",
+          "duration": "3:32",
+          "durationSeconds": 212,
+          "channel": "Free School",
+          "thumbnail": "https://img.youtube.com/vi/gPbF-Edpx64/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        },
+        {
+          "title": "Intro to Cool Science Experiments | Nat Geo Kids",
+          "videoId": "NYQl9-5FpQM",
+          "watchUrl": "https://www.youtube.com/watch?v=NYQl9-5FpQM",
+          "embedUrl": "https://www.youtube.com/embed/NYQl9-5FpQM",
+          "duration": "1:18",
+          "durationSeconds": 78,
+          "channel": "Nat Geo Kids",
+          "thumbnail": "https://img.youtube.com/vi/NYQl9-5FpQM/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        }
+      ],
+      "quiz": [
+        {
+          "id": "ndg-q1",
+          "type": "SCQ",
+          "question": "What is a black hole?",
+          "options": [
+            "A hole drilled in the Earth",
+            "A region of space-time with gravity so strong nothing can escape",
+            "A dark planet",
+            "An empty galaxy"
+          ],
+          "answer": "A region of space-time with gravity so strong nothing can escape"
+        },
+        {
+          "id": "ndg-q2",
+          "type": "SCQ",
+          "question": "Tsunamis are most commonly caused by:",
+          "options": ["Strong winds", "Underwater earthquakes", "Rainfall", "Tides"],
+          "answer": "Underwater earthquakes"
+        },
+        {
+          "id": "ndg-q3",
+          "type": "MCQ",
+          "question": "Which of these are bones in the human skeleton? (Select all)",
+          "options": ["Femur", "Skull", "Liver", "Ribcage"],
+          "answer": ["Femur", "Skull", "Ribcage"]
+        },
+        {
+          "id": "ndg-q4",
+          "type": "TF",
+          "question": "An adult human has 206 bones.",
+          "options": ["True", "False"],
+          "answer": "True"
+        },
+        {
+          "id": "ndg-q5",
+          "type": "SCQ",
+          "question": "What does the event horizon of a black hole represent?",
+          "options": [
+            "The black hole's surface temperature",
+            "The boundary beyond which nothing can return",
+            "The age of the black hole",
+            "Its colour"
+          ],
+          "answer": "The boundary beyond which nothing can return"
+        }
+      ]
+    },
+    {
+      "id": "gwal-gopal",
+      "name": "GwalGopal",
+      "theme": "Do You Know — Amazing Facts",
+      "audience": {
+        "grades": "All",
+        "language": "English",
+        "level": "general"
+      },
+      "videos": [
+        {
+          "title": "15 Facts You Wouldn't Believe | Weirdest, Bestest, Truest",
+          "videoId": "EFwx9_fZpbc",
+          "watchUrl": "https://www.youtube.com/watch?v=EFwx9_fZpbc",
+          "embedUrl": "https://www.youtube.com/embed/EFwx9_fZpbc",
+          "duration": "2:49",
+          "durationSeconds": 169,
+          "channel": "Nat Geo Kids",
+          "thumbnail": "https://img.youtube.com/vi/EFwx9_fZpbc/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        },
+        {
+          "title": "Interesting Animal Facts: We Bet You Didn't Know!",
+          "videoId": "IHcQMLT0fYw",
+          "watchUrl": "https://www.youtube.com/watch?v=IHcQMLT0fYw",
+          "embedUrl": "https://www.youtube.com/embed/IHcQMLT0fYw",
+          "duration": "2:25",
+          "durationSeconds": 145,
+          "channel": "Animal Facts for Kids",
+          "thumbnail": "https://img.youtube.com/vi/IHcQMLT0fYw/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        },
+        {
+          "title": "Learn National Symbols of India | Kids Pre School",
+          "videoId": "D5GTzVWvcPU",
+          "watchUrl": "https://www.youtube.com/watch?v=D5GTzVWvcPU",
+          "embedUrl": "https://www.youtube.com/embed/D5GTzVWvcPU",
+          "duration": "2:59",
+          "durationSeconds": 179,
+          "channel": "Kids Pre School",
+          "thumbnail": "https://img.youtube.com/vi/D5GTzVWvcPU/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        },
+        {
+          "title": "Medicine With A Side of Fries | Weird But True! Shorts",
+          "videoId": "lR_R2HsBnHE",
+          "watchUrl": "https://www.youtube.com/watch?v=lR_R2HsBnHE",
+          "embedUrl": "https://www.youtube.com/embed/lR_R2HsBnHE",
+          "duration": "1:10",
+          "durationSeconds": 70,
+          "channel": "Nat Geo Kids",
+          "thumbnail": "https://img.youtube.com/vi/lR_R2HsBnHE/hqdefault.jpg",
+          "isShort": false,
+          "isEmbeddable": true,
+          "validated": true
+        }
+      ],
+      "quiz": [
+        {
+          "id": "gg-q1",
+          "type": "SCQ",
+          "question": "What is the national animal of India?",
+          "options": ["Lion", "Tiger", "Elephant", "Peacock"],
+          "answer": "Tiger"
+        },
+        {
+          "id": "gg-q2",
+          "type": "SCQ",
+          "question": "Which is the national bird of India?",
+          "options": ["Parrot", "Crow", "Peacock", "Sparrow"],
+          "answer": "Peacock"
+        },
+        {
+          "id": "gg-q3",
+          "type": "TF",
+          "question": "An octopus has three hearts.",
+          "options": ["True", "False"],
+          "answer": "True"
+        },
+        {
+          "id": "gg-q4",
+          "type": "MCQ",
+          "question": "Which of the following are mammals? (Select all)",
+          "options": ["Dolphin", "Shark", "Bat", "Whale"],
+          "answer": ["Dolphin", "Bat", "Whale"]
+        },
+        {
+          "id": "gg-q5",
+          "type": "SCQ",
+          "question": "Which is the national flower of India?",
+          "options": ["Rose", "Lotus", "Sunflower", "Marigold"],
+          "answer": "Lotus"
+        }
+      ]
+    }
+  ]
+}

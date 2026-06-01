@@ -1,0 +1,23 @@
+{
+  "api": "https://emeelan.in/els-ai/api",
+  "org": "Kothnuru",
+  "organizationId": "e1811769-e50e-4b03-be07-16f0057b5749",
+  "classLevel": "ANY",
+  "subject": "संस्कार शिविर",
+  "topicId": "0b764fd2-ff91-4bd5-82b9-85a265ed1e79",
+  "topicTitle": "संस्कार शिविर नंबर -१",
+  "contentIds": [
+    "3f41c3a4-4d87-46b4-9df6-4c12823e9308",
+    "47f9da23-b674-496d-9931-f145d7074d98",
+    "50decc64-a76e-43c9-b6f8-af50733d0b4e",
+    "5fd3b6f8-0f1e-4806-bec0-bab4a89d3330"
+  ],
+  "quizIds": [
+    "0a8ce566-197d-4ee2-88bf-5264e9463a9f",
+    "57384605-3516-4c5a-a05a-3180b409fc58",
+    "dea45329-0d73-4789-b37b-1d24ee03c02c",
+    "7be9f396-2bc4-461a-b337-58b9b7ce9389"
+  ],
+  "classroomId": "72305357-70ae-497f-ae2f-25a7033a0d67",
+  "classroomTitle": "संस्कार शिविर नंबर -१ — Live Class"
+}

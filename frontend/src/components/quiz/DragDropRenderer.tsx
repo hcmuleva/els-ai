@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, View, PanResponder, Animated } from 'react-native';
 import { Check, RotateCcw } from 'lucide-react-native';
 import { AudioManager } from '../../utils/audio';
@@ -33,6 +33,7 @@ type Props = {
 };
 
 export default function DragDropRenderer({ questionData, onComplete, theme }: Props) {
+  const DRAG_CARD_SIZE = 70;
   const { drag_items, drop_targets, match_rules } = questionData;
   // Shuffle the displayed draggable items so they don't line up 1:1 with the
   // drop targets (otherwise the 1st image is always the 1st answer). IDs are
@@ -57,19 +58,27 @@ export default function DragDropRenderer({ questionData, onComplete, theme }: Pr
   const targetRefs = useRef<Record<string, View>>({});
   const [containerPageOffset, setContainerPageOffset] = useState<{ x: number; y: number } | null>(null);
   const [targetLayouts, setTargetLayouts] = useState<Record<string, { x: number; y: number; width: number; height: number }>>({});
+  const dragTouchOffsetRef = useRef<{ x: number; y: number }>({ x: DRAG_CARD_SIZE / 2, y: DRAG_CARD_SIZE / 2 });
+
+  useEffect(() => {
+    setPlacedItems(new Set(Object.values(matches)));
+  }, [matches]);
 
   // Animated coordinates for the active dragging item
   const pan = useRef(new Animated.ValueXY()).current;
 
   // Measure container and targets positions
-  const onContainerLayout = () => {
+  const measureContainerOffset = () => {
     if (containerRef.current) {
-      containerRef.current.measure((x, y, width, height, pageX, pageY) => {
-        setContainerPageOffset({ x: pageX, y: pageY });
+      containerRef.current.measureInWindow((x, y) => {
+        setContainerPageOffset({ x, y });
       });
-      // Delay target measurement slightly to ensure rendering completes
-      setTimeout(measureTargets, 150);
     }
+  };
+  const onContainerLayout = () => {
+    measureContainerOffset();
+    // Delay target measurement slightly to ensure rendering completes
+    setTimeout(measureTargets, 150);
   };
 
   const measureTargets = () => {
@@ -120,12 +129,6 @@ export default function DragDropRenderer({ questionData, onComplete, theme }: Pr
         next[foundTargetId!] = itemId;
         return next;
       });
-
-      setPlacedItems((prev) => {
-        const next = new Set(prev);
-        next.add(itemId);
-        return next;
-      });
     }
   };
 
@@ -138,17 +141,11 @@ export default function DragDropRenderer({ questionData, onComplete, theme }: Pr
         delete next[targetId];
         return next;
       });
-      setPlacedItems((prev) => {
-        const next = new Set(prev);
-        next.delete(filledItemId);
-        return next;
-      });
     }
   };
 
   const handleReset = () => {
     setMatches({});
-    setPlacedItems(new Set());
     setActiveDragId(null);
   };
 
@@ -194,6 +191,10 @@ export default function DragDropRenderer({ questionData, onComplete, theme }: Pr
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: (evt) => {
+        if (!containerPageOffset) {
+          measureContainerOffset();
+          return;
+        }
         setActiveDragId(item.id);
 
         // Play animal sound when selected
@@ -202,17 +203,24 @@ export default function DragDropRenderer({ questionData, onComplete, theme }: Pr
           if (resolvedSound) AudioManager.playSound(resolvedSound);
         }
 
-        // Set floating drag card initial position centered on the touch point
+        // Keep dragged card anchored to the exact finger hold position
         if (containerPageOffset) {
-          const startX = evt.nativeEvent.pageX - containerPageOffset.x - 45;
-          const startY = evt.nativeEvent.pageY - containerPageOffset.y - 45;
+          const touchOffsetX = Number.isFinite(evt.nativeEvent.locationX)
+            ? evt.nativeEvent.locationX
+            : DRAG_CARD_SIZE / 2;
+          const touchOffsetY = Number.isFinite(evt.nativeEvent.locationY)
+            ? evt.nativeEvent.locationY
+            : DRAG_CARD_SIZE / 2;
+          dragTouchOffsetRef.current = { x: touchOffsetX, y: touchOffsetY };
+          const startX = evt.nativeEvent.pageX - containerPageOffset.x - touchOffsetX;
+          const startY = evt.nativeEvent.pageY - containerPageOffset.y - touchOffsetY;
           pan.setValue({ x: startX, y: startY });
         }
       },
       onPanResponderMove: (evt) => {
         if (containerPageOffset) {
-          const dragX = evt.nativeEvent.pageX - containerPageOffset.x - 45;
-          const dragY = evt.nativeEvent.pageY - containerPageOffset.y - 45;
+          const dragX = evt.nativeEvent.pageX - containerPageOffset.x - dragTouchOffsetRef.current.x;
+          const dragY = evt.nativeEvent.pageY - containerPageOffset.y - dragTouchOffsetRef.current.y;
           pan.setValue({ x: dragX, y: dragY });
         }
       },
@@ -250,18 +258,12 @@ export default function DragDropRenderer({ questionData, onComplete, theme }: Pr
                     isCurrentlyDragging && styles.itemCardDragging,
                   ]}
                 >
-                  {isCurrentlyDragging ? (
-                    <View style={styles.placeholderBox} />
-                  ) : (
-                    <>
-                      <Image source={{ uri: resolveMediaUrl(item.image) }} style={styles.itemImage} />
-                      {item.label ? <Text style={styles.itemLabel}>{item.label}</Text> : null}
-                      {isPlaced && (
-                        <View style={styles.placedBadge}>
-                          <Check size={12} color="#ffffff" />
-                        </View>
-                      )}
-                    </>
+                  <Image source={{ uri: resolveMediaUrl(item.image) }} style={styles.itemImage} />
+                  {item.label ? <Text style={styles.itemLabel}>{item.label}</Text> : null}
+                  {isPlaced && (
+                    <View style={styles.placedBadge}>
+                      <Check size={12} color="#ffffff" />
+                    </View>
                   )}
                 </View>
               );
@@ -385,7 +387,7 @@ const styles = StyleSheet.create({
     height: 70,
   },
   itemCardDragging: {
-    opacity: 0.7,
+    opacity: 0.95,
     borderColor: '#4A90E2',
     borderStyle: 'dashed',
   },

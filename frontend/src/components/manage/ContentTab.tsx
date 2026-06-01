@@ -18,6 +18,7 @@ import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
 import SelectorModal from '../SelectorModal';
 import { API_BASE_URL } from '../../context/AuthContext';
 import CreateQuizModal from '../quiz/CreateQuizModal';
+import StudentContentViewer, { type StudentContentItem, type StudentTopicMeta } from '../subject/StudentContentViewer';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 export type LearningContentItem = {
@@ -247,6 +248,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, onClo
   const [quizPickerFor, setQuizPickerFor] = useState<string | null>(null); // section draftId
   const [quizSearch, setQuizSearch] = useState('');
   const [quizCreatorFor, setQuizCreatorFor] = useState<string | null>(null); // section draftId
+  const [studentPreviewOpen, setStudentPreviewOpen] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -285,7 +287,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, onClo
   // Load existing data when editing
   useEffect(() => {
     if (!isOpen) return;
-    setTab('setup'); setToast(null);
+    setTab('setup'); setToast(null); setStudentPreviewOpen(false);
     if (!isEdit) {
       setTitle(''); setClass(''); setSubject('');
       setSections([makeSection()]);
@@ -315,9 +317,37 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, onClo
       .finally(() => setLoadingEdit(false));
   }, [isOpen, editId]);
 
+  useEffect(() => {
+    if (tab !== 'preview') {
+      setStudentPreviewOpen(false);
+    }
+  }, [tab]);
+
   const updateSection = useCallback((id: string, patch: Partial<SectionDraft>) => {
     setSections((p) => p.map((s) => s.draftId === id ? { ...s, ...patch } : s));
   }, []);
+
+  const previewTopic: StudentTopicMeta = useMemo(() => ({
+    id: editId || 'preview',
+    classLevel: classLevel || '',
+    subject: subject || '',
+    title: title.trim() || 'Preview',
+  }), [classLevel, editId, subject, title]);
+
+  const previewContents: StudentContentItem[] = useMemo(
+    () =>
+      sections.map((section, index) => ({
+        id: section.draftId,
+        title: section.title.trim() || `Section ${index + 1}`,
+        contentType: section.contentType,
+        mediaUrl: section.mediaUrl.trim() || undefined,
+        externalUrl: section.externalUrl.trim() || undefined,
+        textContent: section.textContent.trim() || undefined,
+        quizId: section.quizId || undefined,
+        sortOrder: index + 1,
+      })),
+    [sections],
+  );
 
   const handleUpload = async (draftId: string) => {
     setUploadingId(draftId);
@@ -378,7 +408,14 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, onClo
         {/* Tab bar */}
         <View style={c.modalTabBar}>
           {([['setup', '⚙ Setup'], ['sections', '📄 Sections'], ['preview', '👁 Preview']] as [ModalTab, string][]).map(([t, l]) => (
-            <Pressable key={t} style={[c.modalTab, tab === t && c.modalTabActive]} onPress={() => setTab(t as ModalTab)}>
+            <Pressable
+              key={t}
+              style={[c.modalTab, tab === t && c.modalTabActive]}
+              onPress={() => {
+                setTab(t as ModalTab);
+                if (t === 'preview') setStudentPreviewOpen(true);
+              }}
+            >
               <Text style={[c.modalTabText, tab === t && c.modalTabTextActive]}>{l}</Text>
             </Pressable>
           ))}
@@ -575,35 +612,22 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, onClo
 
             {/* ── PREVIEW ── */}
             {tab === 'preview' && (
-              <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
+              <View style={{ flex: 1, padding: 16, justifyContent: 'center' }}>
                 <View style={c.previewCard}>
                   <View style={[c.previewHeader, { backgroundColor: '#4A7FE0' }]}>
-                    <Text style={c.previewTitle}>{title || 'Untitled Content'}</Text>
-                    <Text style={c.previewSub}>{classLevel ? getStandardLabel(classLevel) : 'No class'} · {subject || 'No subject'}</Text>
-                    <View style={c.previewStatsRow}>
-                      <View style={c.previewStat}><Text style={c.previewStatVal}>{sections.length}</Text><Text style={c.previewStatLabel}>Sections</Text></View>
-                    </View>
+                    <Text style={c.previewTitle}>Student View Preview</Text>
+                    <Text style={c.previewSub}>Uses the same student renderer with media players and quiz player.</Text>
                   </View>
-                  <View style={c.previewBody}>
-                    {sections.map((sec, i) => {
-                      const ss = ts(sec.contentType);
-                      return (
-                        <View key={sec.draftId} style={c.previewItem}>
-                          <View style={[c.previewItemDot, { backgroundColor: ss.color }]}><Text style={{ color: '#fff', fontSize: 10, fontWeight: '800' }}>{i + 1}</Text></View>
-                          <View style={{ flex: 1 }}>
-                            <Text style={c.previewItemTitle}>{sec.title || `Section ${i + 1}`}</Text>
-                            <Text style={c.previewItemMeta}>
-                              {ss.label}
-                              {sec.externalUrl ? ` · ${sec.externalUrl.slice(0, 40)}` : ''}
-                              {sec.textContent ? ` · ${sec.textContent.slice(0, 40)}` : ''}
-                            </Text>
-                          </View>
-                        </View>
-                      );
-                    })}
+                  <View style={[c.previewBody, { gap: 12 }]}>
+                    <Text style={c.previewItemMeta}>
+                      {previewContents.length} section{previewContents.length !== 1 ? 's' : ''} · {classLevel ? getStandardLabel(classLevel) : 'No class'} · {subject || 'No subject'}
+                    </Text>
+                    <Pressable style={c.uploadBtn} onPress={() => setStudentPreviewOpen(true)} disabled={previewContents.length === 0}>
+                      <Text style={c.uploadBtnText}>Open Full Student Preview</Text>
+                    </Pressable>
                   </View>
                 </View>
-              </ScrollView>
+              </View>
             )}
           </>
         )}
@@ -682,6 +706,13 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, onClo
           </View>
         </View>
       </Modal>
+      <StudentContentViewer
+        visible={studentPreviewOpen && tab === 'preview' && previewContents.length > 0}
+        contents={previewContents}
+        startIdx={0}
+        topic={previewTopic}
+        onClose={() => setStudentPreviewOpen(false)}
+      />
     </Modal>
   );
 }
