@@ -11,6 +11,7 @@ import { ChevronLeft, HelpCircle, Trophy } from 'lucide-react-native';
 
 import QuestionEditor, { SubjectCatalogItem } from './QuestionEditor';
 import QuizForm, { CreatedQuizSummary } from './QuizForm';
+import { AppUser } from '../../types/roles';
 
 type ApiFetch = (path: string, options?: RequestInit) => Promise<Response>;
 type Tab = 'quiz' | 'question';
@@ -26,6 +27,7 @@ export type CreateQuizModalProps = {
   /** Fired when the user finishes creating a quiz. The parent can attach it. */
   onCreated?: (quiz: CreatedQuizSummary) => void;
   title?: string;
+  user: AppUser | null;
 };
 
 export default function CreateQuizModal({
@@ -37,6 +39,7 @@ export default function CreateQuizModal({
   onClose,
   onCreated,
   title = 'Create Quiz',
+  user,
 }: CreateQuizModalProps) {
   const [tab, setTab] = useState<Tab>('quiz');
   const [extraSelectedIds, setExtraSelectedIds] = useState<string[]>([]);
@@ -113,6 +116,7 @@ export default function CreateQuizModal({
               refreshKey={refreshKey}
               onCreated={handleQuizCreated}
               embedded
+              user={user}
             />
           ) : (
             <QuestionEditor
@@ -124,6 +128,7 @@ export default function CreateQuizModal({
               onSaved={handleQuestionSaved}
               onClose={() => setTab('quiz')}
               embedded
+              user={user}
             />
           )}
         </View>

@@ -336,6 +336,7 @@ contentRouter.get('/items', requireAuth, async (req: any, res) => {
          lc.created_at,
          lc.updated_at,
          COALESCE(sec.count, 0)::int AS section_count,
+         COALESCE(sec.quiz_count, 0)::int AS quiz_count,
          COALESCE(
            jsonb_agg(
              DISTINCT jsonb_build_object(
@@ -350,7 +351,7 @@ contentRouter.get('/items', requireAuth, async (req: any, res) => {
        FROM learning_contents lc
        LEFT JOIN subjects s ON s.id = lc.subject_id
        LEFT JOIN (
-         SELECT content_id, COUNT(*)::int AS count
+         SELECT content_id, COUNT(*)::int AS count, COUNT(quiz_id)::int AS quiz_count
          FROM learning_content_sections
          GROUP BY content_id
        ) sec ON sec.content_id = lc.id
@@ -358,7 +359,7 @@ contentRouter.get('/items', requireAuth, async (req: any, res) => {
        LEFT JOIN content_topics ct ON ct.id = tca.topic_id AND ct.organization_id = lc.organization_id
        LEFT JOIN subjects cts ON cts.id = ct.subject_id
        WHERE ${whereClauses.join(' AND ')}
-       GROUP BY lc.id, s.title, sec.count
+       GROUP BY lc.id, s.title, sec.count, sec.quiz_count
        ORDER BY lc.created_at DESC
        LIMIT $${params.length}`,
       params,
@@ -372,6 +373,7 @@ contentRouter.get('/items', requireAuth, async (req: any, res) => {
         title: row.title as string,
         contentType: row.content_type as string,
         sectionCount: Number(row.section_count || 0),
+        quizCount: Number(row.quiz_count || 0),
         mediaUrl: row.media_url ? await getSignedMediaUrlIfNeeded(row.media_url as string) : undefined,
         externalUrl: (row.external_url as string | null) || undefined,
         textContent: (row.text_content as string | null) || undefined,

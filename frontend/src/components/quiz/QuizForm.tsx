@@ -36,6 +36,8 @@ import {
 } from 'lucide-react-native';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
+import { getAuthorizedClasses, getAuthorizedSubjects } from '../../utils/assignments';
+import { AppUser } from '../../types/roles';
 import SelectorModal from '../SelectorModal';
 
 export type QuizFormApiFetch = (path: string, options?: RequestInit) => Promise<Response>;
@@ -181,6 +183,7 @@ export type QuizFormProps = {
   onCreated?: (summary: CreatedQuizSummary) => void;
   /** Hides the outer page header when embedded in another modal. */
   embedded?: boolean;
+  user: AppUser | null;
 };
 
 export default function QuizForm({
@@ -192,6 +195,7 @@ export default function QuizForm({
   refreshKey,
   onCreated,
   embedded = false,
+  user,
 }: QuizFormProps) {
   const [activeMode, setActiveMode] = useState<CreationMode>(mode);
   const [bankTab, setBankTab] = useState<'question' | 'selected'>('question');
@@ -263,19 +267,31 @@ export default function QuizForm({
     loadQuestionBank();
   }, [loadSubjectCatalog, loadQuestionBank, refreshKey]);
 
-  const classOptions = useMemo(() => STANDARD_OPTIONS.map((item) => item.value), []);
+  const classOptions = useMemo(
+    () => getAuthorizedClasses(user, STANDARD_OPTIONS.map((item) => item.value)),
+    [user]
+  );
   const subjectOptions = useMemo(() => {
+    const titles = getAuthorizedSubjects(
+      user,
+      subjectCatalogItems,
+      (i) => i.classLevel,
+      (i) => i.subject,
+      draft.classLevel || undefined
+    );
     const byTitle = new Map<string, { coverImage?: string; iconImage?: string; iconBgColor?: string }>();
-    subjectCatalogItems
-      .filter((item) => !draft.classLevel || item.classLevel === draft.classLevel)
-      .forEach((item) => {
-        if (!item.subject || byTitle.has(item.subject)) return;
-        byTitle.set(item.subject, {
-          coverImage: item.coverImage,
-          iconImage: item.iconImage,
-          iconBgColor: item.iconBgColor,
-        });
+    titles.forEach((title) => {
+      const meta = subjectCatalogItems.find(
+        (i) =>
+          i.subject === title &&
+          (!draft.classLevel || i.classLevel === draft.classLevel)
+      );
+      byTitle.set(title, {
+        coverImage: meta?.coverImage,
+        iconImage: meta?.iconImage,
+        iconBgColor: meta?.iconBgColor,
       });
+    });
     return Array.from(byTitle.entries())
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([subject, meta]) => ({
@@ -285,7 +301,7 @@ export default function QuizForm({
         iconUrl: meta.iconImage,
         iconBgColor: meta.iconBgColor,
       }));
-  }, [draft.classLevel, subjectCatalogItems]);
+  }, [draft.classLevel, subjectCatalogItems, user]);
 
   const filteredQuestionBank = useMemo(() => {
     const keyword = questionBankSearch.trim().toLowerCase();

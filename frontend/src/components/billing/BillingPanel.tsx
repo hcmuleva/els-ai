@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text, View, Image } from 'react-native';
 import {
   AlertTriangle,
   CalendarClock,
   CheckCircle2,
   CircleDot,
   Clock,
+  ChevronDown,
+  Building2,
   FileDown,
   Filter,
   Hourglass,
@@ -20,6 +22,7 @@ import { Colors, Radius, Shadow } from '../../theme';
 import { Invoice, InvoiceStatus, exportInvoice, formatCurrency, formatDate } from '../../utils/billing';
 import { InvoiceRow } from './InvoiceRow';
 import { PaymentGatewayModal } from './PaymentGatewayModal';
+import SelectorModal, { SelectorOption } from '../SelectorModal';
 
 type Organization = { id: string; name: string; subdomain: string };
 
@@ -71,6 +74,16 @@ export function BillingPanel({ mode, organizations, currentOrganizationId, selec
   const activeOrg = useMemo(
     () => organizations.find((org) => org.id === activeOrgId) || null,
     [organizations, activeOrgId],
+  );
+
+  const [orgPickerOpen, setOrgPickerOpen] = useState(false);
+  const orgOptions: SelectorOption[] = useMemo(
+    () => organizations.map((org) => ({
+      label: org.name,
+      value: org.id,
+      coverImage: (org as any).logoUrl || (org as any).logo || undefined,
+    })),
+    [organizations],
   );
 
   const loadInvoices = useCallback(async () => {
@@ -223,26 +236,24 @@ export function BillingPanel({ mode, organizations, currentOrganizationId, selec
             <Text style={styles.cardTitle}>Organization</Text>
           </View>
           <Text style={styles.helperText}>Select an organization to manage its billing & invoices.</Text>
-          <View style={styles.orgGrid}>
-            {organizations.map((org) => {
-              const active = selectedOrgId === org.id;
-              return (
-                <Pressable
-                  key={org.id}
-                  onPress={() => onSelectOrg && onSelectOrg(org.id)}
-                  style={[styles.orgChip, active && styles.orgChipActive]}
-                >
-                  <CircleDot size={11} color={active ? Colors.primary : Colors.textMuted} />
-                  <Text style={[styles.orgChipText, active && styles.orgChipTextActive]} numberOfLines={1}>
-                    {org.name}
-                  </Text>
-                  <Text style={[styles.orgChipSub, active && styles.orgChipSubActive]} numberOfLines={1}>
-                    {org.subdomain}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </View>
+          <Pressable style={styles.orgSelector} onPress={() => setOrgPickerOpen(true)}>
+            <View style={styles.orgSelectorIcon}>
+              {(activeOrg as any)?.logoUrl || (activeOrg as any)?.logo ? (
+                <Image source={{ uri: (activeOrg as any).logoUrl || (activeOrg as any).logo || '' }} style={styles.orgSelectorImage} />
+              ) : (
+                <Building2 size={18} color={Colors.primary} />
+              )}
+            </View>
+            <View style={styles.orgSelectorMeta}>
+              <Text style={styles.orgSelectorName} numberOfLines={1}>
+                {activeOrg?.name || 'Select an organization'}
+              </Text>
+              <Text style={styles.orgSelectorSub} numberOfLines={1}>
+                {activeOrg?.subdomain || `${organizations.length} organizations`}
+              </Text>
+            </View>
+            <ChevronDown size={18} color={Colors.textMuted} />
+          </Pressable>
         </View>
       ) : null}
 
@@ -402,6 +413,15 @@ export function BillingPanel({ mode, organizations, currentOrganizationId, selec
         onClose={() => setActiveInvoice(null)}
         onConfirm={confirmPay}
       />
+      <SelectorModal
+        visible={orgPickerOpen}
+        title="Select Organization"
+        options={orgOptions}
+        selected={selectedOrgId}
+        showAny={false}
+        onSelect={(value) => onSelectOrg && onSelectOrg(value)}
+        onClose={() => setOrgPickerOpen(false)}
+      />
     </View>
   );
 }
@@ -425,17 +445,17 @@ const styles = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center',
     backgroundColor: Colors.primaryLight,
   },
-  orgGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  orgChip: {
-    flexDirection: 'row', alignItems: 'center', gap: 6,
-    borderRadius: Radius.full, borderWidth: 1, borderColor: Colors.border,
-    paddingHorizontal: 12, paddingVertical: 7, backgroundColor: Colors.surfaceAlt,
+  orgSelector: {
+    flexDirection: 'row', alignItems: 'center', gap: 12,
+    paddingHorizontal: 12, paddingVertical: 10,
+    borderWidth: 1, borderColor: Colors.border,
+    borderRadius: Radius.md, backgroundColor: Colors.surfaceAlt,
   },
-  orgChipActive: { backgroundColor: Colors.primaryLight, borderColor: Colors.primary },
-  orgChipText: { fontSize: 12, fontWeight: '700', color: Colors.textSecondary },
-  orgChipTextActive: { color: Colors.primary },
-  orgChipSub: { fontSize: 10, color: Colors.textMuted, fontWeight: '600' },
-  orgChipSubActive: { color: Colors.primary },
+  orgSelectorIcon: { width: 36, height: 36, borderRadius: Radius.md, alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.primaryLight, overflow: 'hidden' },
+  orgSelectorImage: { width: '100%', height: '100%' },
+  orgSelectorMeta: { flex: 1, gap: 2 },
+  orgSelectorName: { fontSize: 14, fontWeight: '800', color: Colors.text },
+  orgSelectorSub: { fontSize: 11, color: Colors.textMuted, fontWeight: '600' },
   statsRow: { flexDirection: 'row', gap: 10, flexWrap: 'wrap' },
   statCard: {
     flex: 1, minWidth: 140,

@@ -20,4 +20,5 @@ export type AppUser = {
   activeRole: UserRole;
   profileImage?: string;
   organizationId?: string;
+  classAssignments?: Array<{ classLevel: string; allSubjects: boolean; assignedSubjects: string[] }>;
 };

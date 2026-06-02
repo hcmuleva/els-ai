@@ -20,9 +20,12 @@ export type UserWithRoles = {
   branch?: string;
   activeRole: UserRole;
   roles: UserRole[];
+  classAssignments?: any[];
   profileImage?: string;
   organizationId?: string;
-  isActive?: boolean;
+  isActive: boolean;
+  isSuperAdmin?: boolean;
+  canPublishGlobal?: boolean;
 };
 
 export type QuizRecord = {

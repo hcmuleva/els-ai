@@ -1,5 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ActivityIndicator, Image, Platform, Pressable, ScrollView, StyleSheet, Text,
   TouchableOpacity, View,
@@ -58,6 +59,7 @@ function ytThumb(url: string): string | null {
 export default function StoryReaderScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { apiFetch } = useAuth();
+  const insets = useSafeAreaInsets();
   const [story, setStory] = useState<Story | null>(null);
   const [sections, setSections] = useState<Section[]>([]);
   const [loading, setLoading] = useState(true);
@@ -183,7 +185,7 @@ export default function StoryReaderScreen() {
   return (
     <View style={s.screen}>
       {/* Header */}
-      <View style={[s.header, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+      <View style={[s.header, { paddingTop: Math.max(insets.top, 20) }]}>
         <Pressable onPress={safeBack} style={s.backBtn} hitSlop={12}>
           <ChevronLeft size={22} color="#1a1a2e" />
         </Pressable>

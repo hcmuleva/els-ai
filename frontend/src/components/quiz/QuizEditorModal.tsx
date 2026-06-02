@@ -29,6 +29,8 @@ import {
 } from 'lucide-react-native';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
+import { getAuthorizedClasses, getAuthorizedSubjects } from '../../utils/assignments';
+import { AppUser } from '../../types/roles';
 import SelectorModal from '../SelectorModal';
 
 type ApiFetch = (path: string, options?: RequestInit) => Promise<Response>;
@@ -64,6 +66,7 @@ export type QuizEditorModalProps = {
   apiFetch: ApiFetch;
   onClose: () => void;
   onUpdated?: () => void;
+  user: AppUser | null;
 };
 
 const DIFFICULTIES: Difficulty[] = ['Easy', 'Medium', 'Hard'];
@@ -95,7 +98,7 @@ function normalizeQuestionType(type: string): string {
   return type;
 }
 
-export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, onUpdated }: QuizEditorModalProps) {
+export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, onUpdated, user }: QuizEditorModalProps) {
   const [tab, setTab] = useState<Tab>('setup');
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -269,7 +272,25 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
     }
   };
 
-  const classOptions = STANDARD_OPTIONS.map((o) => ({ label: o.label, value: o.value }));
+  const classOptions = useMemo(() =>
+    getAuthorizedClasses(user, STANDARD_OPTIONS.map((o) => o.value))
+      .map((v) => ({ label: getStandardLabel(v), value: v })),
+    [user]
+  );
+  const authorizedSubjectOpts = useMemo(() => {
+    // Subject catalog items in QuizEditorModal don't have classLevel mapping easily available since subjectOpts is just labels.
+    // However, subjectOpts are fetched from /content/subjects which has classLevel. Wait, we parse it into {label, value}.
+    // Actually, let's keep the user assignment filtering simpler or wait: subjectOpts is populated by loadSubjects.
+    // Let's filter subjectOpts based on getAuthorizedSubjects.
+    // getAuthorizedSubjects requires the full list. We will pass a stub.
+    return subjectOpts.filter((opt) => {
+      // In QuizEditorModal, subjectOpts are global. We can just use getAuthorizedSubjects to see if user has access.
+      // But getAuthorizedSubjects takes subjectCatalog. We can reconstruct a mock catalog.
+      const catalog = subjectOpts.map(o => ({ classLevel: classLevel || '', title: o.value }));
+      const allowed = getAuthorizedSubjects(user, catalog, (i) => i.classLevel, (i) => i.title, classLevel || undefined);
+      return allowed.includes(opt.value);
+    });
+  }, [subjectOpts, classLevel, user]);
 
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
@@ -521,7 +542,7 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
       <SelectorModal
         visible={selectorField === 'subject'}
         title="Select Subject"
-        options={subjectOpts}
+        options={authorizedSubjectOpts}
         selected={subject}
         isSubject
         onSelect={(v) => { setSubject(v); setSelectorField(null); }}

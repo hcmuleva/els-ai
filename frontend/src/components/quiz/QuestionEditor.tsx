@@ -45,6 +45,8 @@ import SingleQuestionPlayer from './SingleQuestionPlayer';
 import { API_BASE_URL } from '../../context/AuthContext';
 import { AudioManager } from '../../utils/audio';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
+import { getAuthorizedClasses, getAuthorizedSubjects } from '../../utils/assignments';
+import { AppUser } from '../../types/roles';
 import { frameButtons } from '../../../app/modules/logicopiccolo/generated/buttons';
 import {
   GRID_COLS,
@@ -112,6 +114,7 @@ export type QuestionEditorProps = {
   defaultSubject?: string;
   embedded?: boolean;
   hideTypeSelector?: boolean;
+  user: AppUser | null;
 };
 
 type SelectorField = 'classLevel' | 'subject' | null;
@@ -128,6 +131,7 @@ export default function QuestionEditor({
   defaultSubject,
   embedded = false,
   hideTypeSelector = false,
+  user,
 }: QuestionEditorProps) {
   const initialDraft = useMemo<QuestionDraft>(() => {
     if (mode === 'edit' && editingQuestion) {
@@ -424,27 +428,36 @@ export default function QuestionEditor({
 
   // ── Selector options ──────────────────────────────────────────────────────
   const classOptions = useMemo<SelectorOption[]>(
-    () => STANDARD_OPTIONS.map((o) => ({ label: o.label, value: o.value })),
-    [],
+    () =>
+      getAuthorizedClasses(
+        user,
+        STANDARD_OPTIONS.map((o) => o.value)
+      ).map((v) => ({ label: getStandardLabel(v), value: v })),
+    [user]
   );
   const subjectOptions = useMemo<SelectorOption[]>(() => {
-    const filtered = subjectCatalog.filter(
-      (item) => !draft.classLevel || item.classLevel === draft.classLevel,
+    const titles = getAuthorizedSubjects(
+      user,
+      subjectCatalog,
+      (i) => i.classLevel,
+      (i) => i.title,
+      draft.classLevel || undefined
     );
     const byTitle = new Map<
       string,
       { coverImage?: string; iconUrl?: string; iconBgColor?: string }
     >();
-    filtered.forEach((item) => {
-      const title = item.title.trim();
-      if (!title) return;
-      if (!byTitle.has(title)) {
-        byTitle.set(title, {
-          coverImage: item.coverImage,
-          iconUrl: item.iconImage,
-          iconBgColor: item.iconBgColor,
-        });
-      }
+    titles.forEach((title) => {
+      const meta = subjectCatalog.find(
+        (i) =>
+          i.title.trim() === title &&
+          (!draft.classLevel || i.classLevel === draft.classLevel)
+      );
+      byTitle.set(title, {
+        coverImage: meta?.coverImage,
+        iconUrl: meta?.iconImage,
+        iconBgColor: meta?.iconBgColor,
+      });
     });
     if (draft.subject && !byTitle.has(draft.subject)) byTitle.set(draft.subject, {});
     return Array.from(byTitle.entries())
@@ -456,7 +469,7 @@ export default function QuestionEditor({
         iconUrl: icon.iconUrl,
         iconBgColor: icon.iconBgColor,
       }));
-  }, [subjectCatalog, draft.classLevel, draft.subject]);
+  }, [subjectCatalog, draft.classLevel, draft.subject, user]);
 
   // ── Derived display state ────────────────────────────────────────────────
   const normalizedQuestionType = normalizeQuestionType(draft.questionType);

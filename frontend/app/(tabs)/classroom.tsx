@@ -7,6 +7,7 @@ import { Colors, Radius, Shadow } from '../../src/theme';
 import { GIRAFFE, OWL, PENGUIN, ELEPHANT, BUTTERFLY } from '../../src/assets/svgs';
 import { Video, ResizeMode } from 'expo-av';
 import { WebView } from 'react-native-webview';
+import YoutubePlayer from 'react-native-youtube-iframe';
 
 import AudioPlayer from '../../src/components/media/AudioPlayer';
 import DocumentViewer from '../../src/components/media/DocumentViewer';
@@ -145,10 +146,14 @@ function isYouTubeUrl(url: string): boolean {
   return url.includes('youtube.com') || url.includes('youtu.be');
 }
 
-function getYouTubeEmbedUrl(url: string): string {
-  if (!url) return '';
+function getYouTubeVideoId(url: string): string | null {
+  if (!url) return null;
   const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
-  const videoId = match ? match[1] : '';
+  return match ? match[1] : null;
+}
+
+function getYouTubeEmbedUrl(url: string): string {
+  const videoId = getYouTubeVideoId(url);
   return videoId ? `https://www.youtube.com/embed/${videoId}?rel=0` : url;
 }
 
@@ -157,6 +162,7 @@ export default function ClassroomScreen() {
   const [loading, setLoading] = useState(true);
   const [savingSubmission, setSavingSubmission] = useState(false);
   const [classrooms, setClassrooms] = useState<ClassroomItem[]>([]);
+  const [activeClassroomPage, setActiveClassroomPage] = useState(1);
   const [selectedClassroomId, setSelectedClassroomId] = useState<string | null>(null);
   const [nowTs, setNowTs] = useState<number>(Date.now());
   useEffect(() => {
@@ -408,13 +414,14 @@ export default function ClassroomScreen() {
             {!selectedClassroomId || !activeClassrooms.find((c) => c.id === selectedClassroomId) ? (
               <View style={clStyles.listSection}>
                 <Text style={clStyles.listSectionLabel}>{activeClassrooms.length} active session{activeClassrooms.length !== 1 ? 's' : ''}</Text>
-                {activeClassrooms.map((room, idx) => {
+                {activeClassrooms.slice((activeClassroomPage - 1) * 10, activeClassroomPage * 10).map((room, idx) => {
+                  const curIdx = (activeClassroomPage - 1) * 10 + idx;
                   const BG_COLORS    = ['#D6EAFF', '#D6F5D6', '#FFE8D6', '#EDE4FF', '#FFF5CC'];
                   const ICON_COLORS  = ['#4A90E2', '#4CAF50', '#FF7043', '#9B8EC4', '#E6A817'];
                   const ICON_COMPS   = [BookOpen, School, Star, Layers, Telescope];
-                  const bg           = BG_COLORS[idx % BG_COLORS.length];
-                  const iconColor    = ICON_COLORS[idx % ICON_COLORS.length];
-                  const IconComp     = ICON_COMPS[idx % ICON_COMPS.length];
+                  const bg           = BG_COLORS[curIdx % BG_COLORS.length];
+                  const iconColor    = ICON_COLORS[curIdx % ICON_COLORS.length];
+                  const IconComp     = ICON_COMPS[curIdx % ICON_COMPS.length];
                   const pending = room.assignments.filter((a) => a.status !== 'submitted').length;
                   return (
                     <Pressable key={room.id} style={[clStyles.roomCard, { backgroundColor: '#fff' }]}
@@ -458,6 +465,30 @@ export default function ClassroomScreen() {
                     </Pressable>
                   );
                 })}
+                {(() => {
+                  const itemsPerPage = 10;
+                  const totalPages = Math.ceil(activeClassrooms.length / itemsPerPage);
+                  if (totalPages <= 1) return null;
+                  return (
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
+                      <Pressable 
+                        style={[clStyles.pageBtn, activeClassroomPage === 1 && { opacity: 0.5 }]} 
+                        onPress={() => setActiveClassroomPage(p => Math.max(1, p - 1))}
+                        disabled={activeClassroomPage === 1}
+                      >
+                        <Text style={clStyles.pageBtnText}>Previous</Text>
+                      </Pressable>
+                      <Text style={clStyles.pageText}>Page {activeClassroomPage} of {totalPages}</Text>
+                      <Pressable 
+                        style={[clStyles.pageBtn, activeClassroomPage === totalPages && { opacity: 0.5 }]} 
+                        onPress={() => setActiveClassroomPage(p => Math.min(totalPages, p + 1))}
+                        disabled={activeClassroomPage === totalPages}
+                      >
+                        <Text style={clStyles.pageBtnText}>Next</Text>
+                      </Pressable>
+                    </View>
+                  );
+                })()}
               </View>
             ) : (
               <>
@@ -986,28 +1017,30 @@ export default function ClassroomScreen() {
                       )}
 
                       {/* YOUTUBE */}
-                      {url && isYouTubeUrl(url) && (
-                        <View style={styles.vVideoWrap}>
-                          <View style={[styles.vVideoFrame, { borderColor: `${sCfg.accentColor}30` }]}>
-                            {Platform.OS === 'web' ? (
-                              <iframe
-                                src={getYouTubeEmbedUrl(url) + `&controls=1&modestbranding=1`}
-                                style={{ width: '100%', height: '100%', border: 'none', borderRadius: 16 }}
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                              />
-                            ) : (
-                              <WebView
-                                source={{ uri: getYouTubeEmbedUrl(url) + `&controls=1` }}
-                                style={{ width: '100%', height: '100%', borderRadius: 16 }}
-                                allowsFullscreenVideo
-                                allowsInlineMediaPlayback
-                                mediaPlaybackRequiresUserAction={false}
-                              />
-                            )}
+                      {url && isYouTubeUrl(url) && (() => {
+                        const videoId = getYouTubeVideoId(url);
+                        if (!videoId) return null;
+                        return (
+                          <View style={styles.vVideoWrap}>
+                            <View style={[styles.vVideoFrame, { borderColor: `${sCfg.accentColor}30` }]}>
+                              {Platform.OS === 'web' ? (
+                                <iframe
+                                  src={`https://www.youtube.com/embed/${videoId}?rel=0&controls=1`}
+                                  style={{ width: '100%', height: '100%', border: 'none', borderRadius: 16 }}
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                />
+                              ) : (
+                                <YoutubePlayer
+                                  height={(Dimensions.get('window').width - 32) * (9 / 16)}
+                                  videoId={videoId}
+                                  webViewStyle={{ opacity: 0.99 }}
+                                />
+                              )}
+                            </View>
                           </View>
-                        </View>
-                      )}
+                        );
+                      })()}
 
                       {/* AUDIO */}
                       {url && url.match(/\.(mp3|wav|ogg|aac|m4a|flac)/i) && (
@@ -2046,7 +2079,7 @@ const styles = StyleSheet.create({
 
   // Video / YouTube
   vVideoWrap:  { borderRadius: 20, overflow: 'hidden', marginBottom: 4 },
-  vVideoFrame: { width: '100%', height: 220, borderRadius: 20, overflow: 'hidden', backgroundColor: '#0a0a0a', borderWidth: 2 },
+  vVideoFrame: { width: '100%', aspectRatio: 16 / 9, borderRadius: 20, overflow: 'hidden', backgroundColor: '#0a0a0a', borderWidth: 2 },
 
   // Text
   vTextBlock: {
@@ -2225,6 +2258,11 @@ const clStyles = StyleSheet.create({
 
   replayBtn:      { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: '#4A90E2', borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8 },
   replayBtnText:  { fontSize: 12, fontWeight: '800', color: '#fff' },
+
+  pageBtn:      { paddingHorizontal: 16, paddingVertical: 8, backgroundColor: '#EEF4FF', borderRadius: 8 },
+  pageBtnText:  { fontSize: 13, fontWeight: '700', color: '#4A90E2' },
+  pageText:     { fontSize: 13, fontWeight: '600', color: '#9A9AB0' },
+
 
   historyAssignCard: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
   historyAssignTitle:{ fontSize: 13, fontWeight: '700', color: '#1a1a2e', flex: 1, marginRight: 8 },

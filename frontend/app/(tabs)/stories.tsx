@@ -1,5 +1,6 @@
 import { useFocusEffect } from 'expo-router';
 import React, { useCallback, useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ActivityIndicator, Alert, Dimensions, FlatList, Image, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
@@ -10,6 +11,7 @@ import {
   Search, Send, Sparkles, Trophy, Video, X, Zap,
 } from 'lucide-react-native';
 
+import { getAuthorizedClasses } from '../../src/utils/assignments';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import SelectorModal from '../../src/components/SelectorModal';
@@ -110,7 +112,8 @@ async function pickFileAsDataUrl(accept: string, unsupportedMessage: string): Pr
 
 // ─────────────────────────── main screen ──────────────────────
 export default function StoriesScreen() {
-  const { apiFetch } = useAuth();
+  const { apiFetch, user } = useAuth();
+  const insets = useSafeAreaInsets();
 
   // list
   const [stories, setStories]     = useState<Story[]>([]);
@@ -619,7 +622,7 @@ export default function StoriesScreen() {
     <View style={s.screen}>
 
       {/* ── Top Header ── */}
-      <View style={s.topHeader}>
+      <View style={[s.topHeader, { paddingTop: Math.max(insets.top, 8) }]}>
         <View style={s.topHeaderLeft}>
           <Text style={s.topHeading}>Stories</Text>
           <Text style={s.topSub} numberOfLines={2}>Manage and schedule your story sessions</Text>
@@ -637,7 +640,7 @@ export default function StoriesScreen() {
 
       <Modal visible={historyOpen} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setHistoryOpen(false)}>
         <View style={s.historyScreen}>
-          <View style={[s.historyHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+          <View style={[s.historyHeader, { paddingTop: Math.max(insets.top, 20) }]}>
             <Pressable onPress={() => setHistoryOpen(false)} style={s.historyBackBtn}>
               <Text style={s.historyBackArrow}>‹</Text>
             </Pressable>
@@ -747,7 +750,7 @@ export default function StoriesScreen() {
         <View style={s.modalScreen}>
 
           {/* Header */}
-          <View style={[s.modalHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+          <View style={[s.modalHeader, { paddingTop: Math.max(insets.top, 20) }]}>
             <Pressable onPress={() => { setStoryPreviewOpen(false); setModalOpen(false); }} style={s.modalBackBtn}>
               <Text style={s.modalBackArrow}>‹</Text>
             </Pressable>
@@ -1087,7 +1090,7 @@ export default function StoriesScreen() {
       {/* ════════════════ SECTION EDITOR MODAL ════════════════ */}
       <Modal visible={secModalOpen} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setSecModalOpen(false)}>
         <View style={s.modalScreen}>
-          <View style={[s.modalHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+          <View style={[s.modalHeader, { paddingTop: Math.max(insets.top, 20) }]}>
             <Pressable onPress={() => setSecModalOpen(false)} style={s.modalBackBtn}>
               <Text style={s.modalBackArrow}>‹</Text>
             </Pressable>
@@ -1302,7 +1305,7 @@ export default function StoriesScreen() {
           {/* ── Quiz Picker Overlay (inside section modal) ── */}
           {pickerOpen && (
             <View style={s.pickerOverlay}>
-              <View style={[s.modalHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+              <View style={[s.modalHeader, { paddingTop: Math.max(insets.top, 20) }]}>
                 <Pressable onPress={() => setPickerOpen(false)} style={s.modalBackBtn}>
                   <Text style={s.modalBackArrow}>‹</Text>
                 </Pressable>
@@ -1389,6 +1392,7 @@ export default function StoriesScreen() {
       <CreateQuizModal
         visible={quizCreatorOpen}
         apiFetch={apiFetch}
+        user={user}
         initialClassLevel={fClass || undefined}
         onClose={() => setQuizCreatorOpen(false)}
         onCreated={(quiz) => {
@@ -1407,7 +1411,7 @@ export default function StoriesScreen() {
       <SelectorModal
         visible={classSelectorOpen}
         title="Class Level"
-        options={STANDARD_OPTIONS}
+        options={getAuthorizedClasses(user, STANDARD_OPTIONS.map(i => i.value)).map(val => STANDARD_OPTIONS.find(o => o.value === val)!)}
         selected={fClass}
         onSelect={(v) => { setFClass(v); setClassSelectorOpen(false); }}
         onClose={() => setClassSelectorOpen(false)}
@@ -1491,7 +1495,7 @@ const s = StyleSheet.create({
   emptyTitle: { fontSize: 18, fontWeight: '900', color: '#1a1a2e' },
   emptySub:   { fontSize: 13, color: '#9A9AB0', textAlign: 'center' },
 
-  topHeader:    { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', paddingHorizontal: 20, paddingBottom: 16, paddingTop: Platform.OS === 'ios' ? 2 : 8 },
+  topHeader:    { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', paddingHorizontal: 20, paddingBottom: 16 },
   topHeaderLeft:{ flex: 1, minWidth: 0, paddingRight: 8, flexShrink: 1 },
   topHeading:   { fontSize: 24, fontWeight: '900', color: '#1a1a2e' },
   topSub:       { fontSize: 12, color: '#9A9AB0', fontWeight: '500', marginTop: 2, flexShrink: 1 },
@@ -1517,7 +1521,7 @@ const s = StyleSheet.create({
   historyCardTop:    { flexDirection: 'row', alignItems: 'flex-start', gap: 14, padding: 16, paddingBottom: 8 },
   historyCardIcon:   { width: 46, height: 46, borderRadius: 13, backgroundColor: '#EEF4FF', alignItems: 'center', justifyContent: 'center' },
   historyCardBody:   { flex: 1, gap: 6 },
-  historyCardTitle:  { fontSize: 15, fontWeight: '800', color: '#1a1a2e', lineHeight: 22 },
+  historyCardTitle:  { fontSize: 16, fontWeight: '800', color: '#1a1a2e', lineHeight: 24 },
   historyModeRow:    { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   historyModeChip:   { borderRadius: 999, backgroundColor: '#F2F6FF', paddingHorizontal: 9, paddingVertical: 4, flexDirection: 'row', alignItems: 'center', gap: 4 },
   historyModeChipLabel: { fontSize: 10, fontWeight: '700', color: '#7A869F', textTransform: 'uppercase' },

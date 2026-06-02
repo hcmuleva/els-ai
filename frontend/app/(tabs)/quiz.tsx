@@ -42,6 +42,7 @@ import {
 } from 'lucide-react-native';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
+import { getAuthorizedClasses, getAuthorizedCatalogItems } from '../../src/utils/assignments';
 import { useAuth } from '../../src/context/AuthContext';
 import { Colors, Radius, Shadow } from '../../src/theme';
 import SelectorModal from '../../src/components/SelectorModal';
@@ -330,12 +331,18 @@ export default function QuizExamCreatorScreen() {
 
   useEffect(() => { setQuizBankPage(0); }, [quizBankSearch]);
 
-  const classOptions   = useMemo(() => STANDARD_OPTIONS.map((item) => item.value), []);
+  const classOptions = useMemo(() => getAuthorizedClasses(user, STANDARD_OPTIONS.map(i => i.value)), [user]);
   const subjectOptions = useMemo(() => {
     const byTitle = new Map<string, { coverImage?: string; iconImage?: string; iconBgColor?: string }>();
-    subjectCatalogItems
-      .filter((item) => !currentDraft.classLevel || item.classLevel === currentDraft.classLevel)
-      .forEach((item) => {
+    const items = getAuthorizedCatalogItems(
+      user, 
+      subjectCatalogItems, 
+      (i) => i.classLevel, 
+      (i) => i.subject, 
+      currentDraft.classLevel
+    );
+    
+    items.forEach((item) => {
         if (!item.subject || byTitle.has(item.subject)) return;
         byTitle.set(item.subject, {
           coverImage: item.coverImage,
@@ -352,7 +359,7 @@ export default function QuizExamCreatorScreen() {
         iconUrl: meta.iconImage,
         iconBgColor: meta.iconBgColor,
       }));
-  }, [currentDraft.classLevel, subjectCatalogItems]);
+  }, [currentDraft.classLevel, subjectCatalogItems, user]);
 
   const filteredQuestionBank = useMemo(() => {
     const keyword = questionBankSearch.trim().toLowerCase();
@@ -1046,6 +1053,7 @@ export default function QuizExamCreatorScreen() {
       visible={editingQuizId !== null}
       quizId={editingQuizId}
       apiFetch={apiFetch}
+      user={user}
       onClose={() => setEditingQuizId(null)}
       onUpdated={loadQuizBank}
     />

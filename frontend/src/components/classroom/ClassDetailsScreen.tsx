@@ -77,6 +77,11 @@ type StudentDetailPayload = {
 function resolveMediaUrl(url?: string) {
   if (!url) return '';
   if (url.startsWith('/media')) return `${API_BASE_URL}${url}`;
+  if (url.startsWith('/assets') || url.startsWith('./assets') || url.startsWith('assets/')) {
+    const cleanUrl = url.startsWith('./') ? url.slice(1) : url.startsWith('assets/') ? `/${url}` : url;
+    const frontendBaseUrl = API_BASE_URL.replace(/\/api\/?$/, '');
+    return `${frontendBaseUrl}${cleanUrl}`;
+  }
   return url;
 }
 

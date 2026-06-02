@@ -1,31 +1,32 @@
 {
   "expo": {
-    "name": "ELS AI",
-    "slug": "mobile",
+    "name": "ELS-AI",
+    "slug": "els-ai",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/favicon.png",
+    "icon": "./assets/els-ai-logo.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-els-edu.png",
+      "image": "./assets/els-ai-splash-screen.png",
       "resizeMode": "cover",
       "backgroundColor": "#f5fcff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.emeelan.elsai"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/els-ai-logo.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.mobile"
+      "package": "com.emeelan.elsai"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/els-ai-logo.png"
     },
     "experiments": {
       "baseUrl": "/els-ai"
@@ -34,6 +35,12 @@
       "expo-router",
       "expo-secure-store",
       "@react-native-community/datetimepicker"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "8aa17a55-f478-4f3f-8727-e1a75acd8054"
+      }
+    }
   }
 }

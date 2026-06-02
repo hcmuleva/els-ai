@@ -7,6 +7,7 @@ import SelectorModal from '../../src/components/SelectorModal';
 import CreateQuizModal from '../../src/components/quiz/CreateQuizModal';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
+import { getAuthorizedClasses, getAuthorizedCatalogItems } from '../../src/utils/assignments';
 import { useAuth } from '../../src/context/AuthContext';
 import ClassDetailsScreen from '../../src/components/classroom/ClassDetailsScreen';
 
@@ -299,6 +300,8 @@ export default function PlannerScreen() {
   const [saving, setSaving] = useState(false);
   const [deletingClassroomId, setDeletingClassroomId] = useState<string | null>(null);
   const [classrooms, setClassrooms] = useState<ClassroomSummary[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const [contentItems, setContentItems] = useState<ContentItem[]>([]);
   const [quizItems, setQuizItems] = useState<QuizItem[]>([]);
   const [subjectCatalog, setSubjectCatalog] = useState<SubjectCatalogItem[]>([]);
@@ -410,34 +413,63 @@ export default function PlannerScreen() {
   );
 
   const classLevelOptions = useMemo(
-    () => ['ANY', ...STANDARD_OPTIONS.map((item) => item.value)],
-    [],
+    () => {
+      const allClassOptions = STANDARD_OPTIONS.map((item) => item.value);
+      return ['ANY', ...getAuthorizedClasses(user, allClassOptions)];
+    },
+    [user],
   );
   const isAnyClass = form.classLevel === 'ANY';
   const matchesClassLevel = (itemClassLevel?: string) =>
     !form.classLevel || isAnyClass || itemClassLevel === form.classLevel;
 
   const subjectOptions = useMemo(
-    () =>
-      [
+    () => {
+      const authorizedItems = getAuthorizedCatalogItems(
+        user,
+        subjectCatalog,
+        (item) => item.classLevel,
+        (item) => item.subject,
+        isAnyClass ? undefined : form.classLevel || undefined
+      );
+      return [
         ...new Set(
-          subjectCatalog
+          authorizedItems
             .filter((item) => matchesClassLevel(item.classLevel))
             .map((item) => item.subject),
         ),
-      ].sort((a, b) => a.localeCompare(b)),
-    [form.classLevel, subjectCatalog],
+      ].sort((a, b) => a.localeCompare(b));
+    },
+    [form.classLevel, subjectCatalog, user, isAnyClass],
   );
 
   const contentSubjectOptions = useMemo(
-    () => [...new Set(contentItems
-      .filter((item) => matchesClassLevel(item.classLevel))
-      .map((item) => item.subject).filter(Boolean))].sort((a, b) => a.localeCompare(b)),
-    [contentItems, form.classLevel],
+    () => {
+      const authorizedItems = getAuthorizedCatalogItems(
+        user,
+        contentItems,
+        (item) => item.classLevel,
+        (item) => item.subject,
+        isAnyClass ? undefined : form.classLevel || undefined
+      );
+      return [...new Set(
+        authorizedItems
+          .filter((item) => matchesClassLevel(item.classLevel))
+          .map((item) => item.subject).filter(Boolean)
+      )].sort((a, b) => a.localeCompare(b));
+    },
+    [contentItems, form.classLevel, user, isAnyClass],
   );
 
   const filteredContents = useMemo(() => {
-    return contentItems
+    const authorizedItems = getAuthorizedCatalogItems(
+      user,
+      contentItems,
+      (item) => item.classLevel,
+      (item) => item.subject,
+      isAnyClass ? undefined : form.classLevel || undefined
+    );
+    return authorizedItems
       .filter((item) => matchesClassLevel(item.classLevel))
       .filter((item) => !contentSubjectFilter || item.subject === contentSubjectFilter)
       .filter((item) => {
@@ -445,22 +477,27 @@ export default function PlannerScreen() {
         if (!keyword) return true;
         return `${item.title} ${item.subject} ${item.contentType}`.toLowerCase().includes(keyword);
       });
-  }, [contentItems, form.classLevel, contentSearch, contentSubjectFilter]);
+  }, [contentItems, form.classLevel, contentSearch, contentSubjectFilter, user, isAnyClass]);
 
-  const filteredQuizzes = useMemo(
-    () =>
-      quizItems
-        .filter((quiz) => matchesClassLevel((quiz.class_level || '').trim()))
-        .filter((quiz) => !quizFilters.subject || (quiz.subject || '').trim() === quizFilters.subject)
-        .filter((quiz) => !quizFilters.category || (quiz.quiz_type || '').toLowerCase().includes(quizFilters.category.toLowerCase()))
-        .filter((quiz) => !quizFilters.difficulty || (quiz.difficulty_level || '').toLowerCase().includes(quizFilters.difficulty.toLowerCase()))
-        .filter((quiz) => {
-          const keyword = quizFilters.search.trim().toLowerCase();
-          if (!keyword) return true;
-          return `${quiz.title} ${quiz.subject || ''}`.toLowerCase().includes(keyword);
-        }),
-    [form.classLevel, quizFilters.category, quizFilters.difficulty, quizFilters.search, quizFilters.subject, quizItems],
-  );
+  const filteredQuizzes = useMemo(() => {
+    const authorizedItems = getAuthorizedCatalogItems(
+      user,
+      quizItems,
+      (quiz) => quiz.class_level || '',
+      (quiz) => quiz.subject || '',
+      isAnyClass ? undefined : form.classLevel || undefined
+    );
+    return authorizedItems
+      .filter((quiz) => matchesClassLevel((quiz.class_level || '').trim()))
+      .filter((quiz) => !quizFilters.subject || (quiz.subject || '').trim() === quizFilters.subject)
+      .filter((quiz) => !quizFilters.category || (quiz.quiz_type || '').toLowerCase().includes(quizFilters.category.toLowerCase()))
+      .filter((quiz) => !quizFilters.difficulty || (quiz.difficulty_level || '').toLowerCase().includes(quizFilters.difficulty.toLowerCase()))
+      .filter((quiz) => {
+        const keyword = quizFilters.search.trim().toLowerCase();
+        if (!keyword) return true;
+        return `${quiz.title} ${quiz.subject || ''}`.toLowerCase().includes(keyword);
+      });
+  }, [form.classLevel, quizFilters.category, quizFilters.difficulty, quizFilters.search, quizFilters.subject, quizItems, user, isAnyClass]);
 
   useEffect(() => { setAssignQuizPage(0); }, [quizFilters.search, quizFilters.subject, quizFilters.category, quizFilters.difficulty, form.classLevel]);
   useEffect(() => { setAssignContentPage(0); }, [contentSearch, contentSubjectFilter, form.classLevel]);
@@ -836,13 +873,21 @@ export default function PlannerScreen() {
         </View>
       ) : (
         <View style={p.classCardGrid}>
-          {classrooms.map((item, idx) => {
-            const pal = CARD_PALETTES[idx % CARD_PALETTES.length];
-            const IconComp = CARD_ICONS[idx % CARD_ICONS.length];
-            const tag = STATUS_TAG[item.status];
-            const startMeta = getDateTimeParts(item.startTime);
+          {(() => {
+            const totalPages = Math.ceil(classrooms.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const paginatedClassrooms = classrooms.slice(startIndex, startIndex + itemsPerPage);
+            
             return (
-              <View key={item.id} style={[p.classCard, { backgroundColor: pal.light, width: classCardWidth }]}>
+              <>
+                {paginatedClassrooms.map((item, idx) => {
+                  const actualIdx = startIndex + idx;
+                  const pal = CARD_PALETTES[actualIdx % CARD_PALETTES.length];
+                  const IconComp = CARD_ICONS[actualIdx % CARD_ICONS.length];
+                  const tag = STATUS_TAG[item.status];
+                  const startMeta = getDateTimeParts(item.startTime);
+                  return (
+                    <View key={item.id} style={[p.classCard, { backgroundColor: pal.light, width: classCardWidth }]}>
                 {/* Top row: icon art box + title + status */}
                 <View style={p.classCardTop}>
                   <View style={[p.classArtBox, { backgroundColor: `${pal.bg}22` }]}>
@@ -935,7 +980,30 @@ export default function PlannerScreen() {
               </View>
             );
           })}
-        </View>
+          
+          {totalPages > 1 && (
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 16, width: '100%' }}>
+              <Pressable 
+                style={[p.pageBtn, currentPage === 1 && { opacity: 0.5 }]} 
+                onPress={() => setCurrentPage(pg => Math.max(1, pg - 1))}
+                disabled={currentPage === 1}
+              >
+                <Text style={p.pageBtnText}>Previous</Text>
+              </Pressable>
+              <Text style={p.pageText}>Page {currentPage} of {totalPages}</Text>
+              <Pressable 
+                style={[p.pageBtn, currentPage === totalPages && { opacity: 0.5 }]} 
+                onPress={() => setCurrentPage(pg => Math.min(totalPages, pg + 1))}
+                disabled={currentPage === totalPages}
+              >
+                <Text style={p.pageBtnText}>Next</Text>
+              </Pressable>
+            </View>
+          )}
+          </>
+        )
+      })()}
+      </View>
       )}
 
       {/* ── Create / Edit Modal (full-screen slide) ── */}
@@ -1391,6 +1459,7 @@ export default function PlannerScreen() {
       <CreateQuizModal
         visible={quizCreatorOpen}
         apiFetch={apiFetch}
+        user={user}
         initialClassLevel={form.classLevel || undefined}
         onClose={() => setQuizCreatorOpen(false)}
         onCreated={(quiz) => {
@@ -1988,6 +2057,10 @@ const p = StyleSheet.create({
   historyDetailBtnText: { fontSize: 13, fontWeight: '800', color: '#1A4DA2' },
   historyRestartBtn: { flex: 1, borderRadius: 12, backgroundColor: '#D6F5D6', paddingVertical: 10, alignItems: 'center' },
   historyRestartBtnText: { fontSize: 13, fontWeight: '800', color: '#1A6B1A' },
+
+  pageBtn:      { paddingHorizontal: 16, paddingVertical: 8, backgroundColor: '#EEF4FF', borderRadius: 8 },
+  pageBtnText:  { fontSize: 13, fontWeight: '700', color: '#4A90E2' },
+  pageText:     { fontSize: 13, fontWeight: '600', color: '#9A9AB0' },
 });
 
 const pagerS = StyleSheet.create({

@@ -173,7 +173,7 @@ export default function SelectorModal({
 }
 
 const s = StyleSheet.create({
-  overlay:    { flex: 1, backgroundColor: 'rgba(15,23,42,0.45)', justifyContent: 'flex-end' },
+  overlay:    { flex: 1, backgroundColor: 'rgba(15,23,42,0.45)', justifyContent: 'flex-end', ...(Platform.OS === 'web' ? { zIndex: 99999, position: 'fixed' as any, top: 0, left: 0, right: 0, bottom: 0 } : {}) },
   sheet:      { backgroundColor: '#fff', borderTopLeftRadius: 24, borderTopRightRadius: 24, maxHeight: '82%', paddingBottom: Platform.OS === 'ios' ? 34 : 16 },
   handle:     { width: 40, height: 4, borderRadius: 2, backgroundColor: '#E0E4F0', alignSelf: 'center', marginTop: 12, marginBottom: 8 },
   header:     { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 18, paddingBottom: 12 },

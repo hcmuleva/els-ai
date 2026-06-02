@@ -10,10 +10,12 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions
 } from 'react-native';
 import WebView from 'react-native-webview';
 import { BookOpen, BookOpenCheck, ChevronLeft, Headphones, Sparkles } from 'lucide-react-native';
 import { Video, ResizeMode } from 'expo-av';
+import YoutubePlayer from 'react-native-youtube-iframe';
 
 import { resolveMediaUrl } from '../../utils/media';
 import QuizRenderer from '../quiz/QuizRenderer';
@@ -66,7 +68,7 @@ const getYouTubeId = (url: string): string | null => {
 };
 const getEmbedUrl = (url: string) => {
   const id = getYouTubeId(url);
-  return id ? `https://www.youtube.com/embed/${id}?rel=0&controls=1` : url;
+  return id ? `https://www.youtube.com/embed/${id}?rel=0&controls=1&playsinline=1` : url;
 };
 const getYouTubeThumb = (url: string): string | null => {
   const id = getYouTubeId(url);
@@ -198,17 +200,25 @@ export default function StudentStoryViewer({ visible, story, sections, onClose }
 
                   if (media.kind === 'video') {
                     if (isYouTube(media.url)) {
+                      const videoId = getYouTubeId(media.url);
+                      if (!videoId) return null;
                       return (
                         <View key={`media-${index}`} style={s.videoWrap}>
                           <View style={s.videoFrame}>
-                            <WebView
-                              source={{ uri: getEmbedUrl(media.url) }}
-                              style={{ flex: 1 }}
-                              allowsFullscreenVideo
-                              allowsInlineMediaPlayback
-                              mediaPlaybackRequiresUserAction={false}
-                              javaScriptEnabled
-                            />
+                            {Platform.OS === 'web' ? (
+                              <iframe
+                                src={`https://www.youtube.com/embed/${videoId}?rel=0&controls=1`}
+                                style={{ width: '100%', height: '100%', border: 'none', borderRadius: 16 }}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                              />
+                            ) : (
+                              <YoutubePlayer
+                                height={(Dimensions.get('window').width - 32) * (9 / 16)}
+                                videoId={videoId}
+                                webViewStyle={{ opacity: 0.99 }}
+                              />
+                            )}
                           </View>
                           {!!media.caption && <Text style={s.mediaCaption}>{media.caption}</Text>}
                         </View>
@@ -368,7 +378,7 @@ const s = StyleSheet.create({
 
   section: { marginHorizontal: 16, marginBottom: 16, gap: 12 },
   videoWrap: { borderRadius: 20, overflow: 'hidden' },
-  videoFrame: { width: '100%', height: 230, borderRadius: 20, overflow: 'hidden', backgroundColor: '#0a0a0a' },
+  videoFrame: { width: '100%', aspectRatio: 16 / 9, borderRadius: 20, overflow: 'hidden', backgroundColor: '#0a0a0a' },
   imgWrap: { borderRadius: 20, overflow: 'hidden', backgroundColor: '#F4F5FF', alignItems: 'center', justifyContent: 'center' },
   img: { width: '100%', height: 220 },
   mediaCaption: { fontSize: 12, color: '#7A7A9A', fontWeight: '600', paddingHorizontal: 4, marginTop: 6 },
