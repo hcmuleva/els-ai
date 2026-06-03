@@ -191,14 +191,27 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
 
   const filteredBank = useMemo(() => {
     const keyword = bankSearch.trim().toLowerCase();
+    
+    const attachedSignatures = new Set(
+      attached.map((a) => `${a.question_type}|${(a.question_title || '').trim().toLowerCase()}`)
+    );
+    const seenSigs = new Set<string>();
+
     return bank.filter((q) => {
+      const sig = `${q.question_type}|${(q.question_title || '').trim().toLowerCase()}`;
+      if (seenSigs.has(sig)) return false;
+      seenSigs.add(sig);
+
+      if (attachedIds.has(q.id)) return false;
+      if (attachedSignatures.has(sig)) return false;
+
       if (classLevel && q.class_level !== classLevel) return false;
       if (subject && q.subject !== subject) return false;
       if (!keyword) return true;
       return [q.question_title, q.quiz_title, q.question_instruction, q.question_type]
         .filter(Boolean).join(' ').toLowerCase().includes(keyword);
     });
-  }, [bank, bankSearch, classLevel, subject]);
+  }, [bank, bankSearch, classLevel, subject, attachedIds, attached]);
 
   useEffect(() => { setBankPage(0); }, [bankSearch, classLevel, subject]);
 
@@ -245,7 +258,6 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
         question_type: created.question_type,
         question_title: created.question_title,
         question_instruction: created.question_instruction,
-        points: created.points || 0,
         time_limit_seconds: created.time_limit_seconds || 30,
       }]);
       onUpdated?.();
@@ -447,10 +459,9 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
                     const bPaged = filteredBank.slice(bankPage * PAGE_SIZE, (bankPage + 1) * PAGE_SIZE);
                     return (<>
                       {bPaged.map((q) => {
-                        const isAttached = attachedIds.has(q.id);
                         const typeLabel = QUIZ_TYPE_LABELS[normalizeQuestionType(q.question_type)] || q.question_type;
                         return (
-                          <View key={q.id} style={[s.qRow, isAttached && s.qRowMuted]}>
+                          <View key={q.id} style={s.qRow}>
                             <View style={{ flex: 1 }}>
                               <Text style={s.qTitle} numberOfLines={2}>{q.question_title || 'Untitled'}</Text>
                               <View style={s.qBadgeRow}>
@@ -460,15 +471,13 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
                               </View>
                             </View>
                             <Pressable
-                              style={[s.attachBtn, isAttached && s.attachBtnDisabled]}
-                              onPress={() => !isAttached && handleAttach(q.id)}
-                              disabled={isAttached || busyQuestionId === q.id}
+                              style={s.attachBtn}
+                              onPress={() => handleAttach(q.id)}
+                              disabled={busyQuestionId === q.id}
                             >
                               {busyQuestionId === q.id
                                 ? <ActivityIndicator size="small" color="#16a34a" />
-                                : isAttached
-                                  ? <Text style={s.attachBtnTextMuted}>Added</Text>
-                                  : <><Plus size={13} color="#16a34a" /><Text style={s.attachBtnText}>Add</Text></>}
+                                : <><Plus size={13} color="#16a34a" /><Text style={s.attachBtnText}>Add</Text></>}
                             </Pressable>
                           </View>
                         );

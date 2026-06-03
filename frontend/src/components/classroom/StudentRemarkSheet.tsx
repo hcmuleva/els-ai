@@ -128,7 +128,9 @@ export default function StudentRemarkSheet({
     try {
       const { url } = await onUploadMedia();
       setMediaUrl(url);
-    } catch { setToast('Upload failed. Try again.'); }
+    } catch (e: any) { 
+      if (e?.message !== 'UPLOAD_CANCELLED') setToast('Upload failed. Try again.'); 
+    }
     finally { setUploading(false); }
   };
 

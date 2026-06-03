@@ -35,6 +35,8 @@ type AuthContextValue = {
   setActiveRole: (role: UserRole) => Promise<void>;
   refreshUser: () => Promise<void>;
   apiFetch: (path: string, options?: RequestInit) => Promise<Response>;
+  deleteChildAccount: (registrationId: string) => Promise<{ success: boolean; error?: string }>;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; error?: string }>;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -295,6 +297,51 @@ export function AuthProvider({ children }: PropsWithChildren) {
     }
   }, [user, apiFetch]);
 
+  const deleteAccount = async () => {
+    try {
+      const res = await apiFetch('/users/me', { method: 'DELETE' });
+      if (!res.ok) {
+        const err = await res.json();
+        return { success: false, error: err.message || 'Failed to delete account' };
+      }
+      await signOut();
+      return { success: true };
+    } catch (e: any) {
+      return { success: false, error: e.message || 'Network error' };
+    }
+  };
+
+  const deleteChildAccount = async (registrationId: string) => {
+    try {
+      const res = await apiFetch('/users/me/delete-child', {
+        method: 'POST',
+        body: JSON.stringify({ registrationId }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        return { success: false, error: err.message || 'Failed to delete child account' };
+      }
+      return { success: true };
+    } catch (e: any) {
+      return { success: false, error: e.message || 'Network error' };
+    }
+  };
+  const changePassword = async (currentPassword: string, newPassword: string) => {
+    try {
+      const res = await apiFetch('/users/me/password', {
+        method: 'PATCH',
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        return { success: false, error: err.message || 'Failed to change password' };
+      }
+      return { success: true };
+    } catch (e: any) {
+      return { success: false, error: e.message || 'Network error' };
+    }
+  };
+
   const value = useMemo(
     () => ({
       user,
@@ -306,8 +353,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
       setActiveRole,
       refreshUser,
       apiFetch,
+      deleteAccount,
+      deleteChildAccount,
+      changePassword,
     }),
-    [isAuthenticated, isLoading, user],
+    [isAuthenticated, isLoading, user, refreshUser, apiFetch],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

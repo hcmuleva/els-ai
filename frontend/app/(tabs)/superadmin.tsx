@@ -12,7 +12,7 @@ import { Colors, Radius, Shadow } from '../../src/theme';
 import { BillingPanel } from '../../src/components/billing/BillingPanel';
 import { PlansPanel } from '../../src/components/billing/PlansPanel';
 import SelectorModal, { SelectorOption } from '../../src/components/SelectorModal';
-import { pickFileAsDataUrl } from '../../src/components/quiz/questionEditor.helpers';
+import { pickFileAsDataUrl, uploadPickedFileToS3 } from '../../src/utils/fileUpload';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 
 type Organization = {
@@ -176,23 +176,10 @@ export default function SuperadminPage() {
     try {
       setUploading(true);
       const picked = await pickFileAsDataUrl('image/*', 'Logo upload is available on web. On mobile, please use web for upload.');
-      const res = await apiFetch('/assets/upload', {
-        method: 'POST',
-        body: JSON.stringify({
-          dataUrl: picked.dataUrl,
-          fileName: picked.fileName,
-          mimeType: picked.mimeType,
-          mediaType: 'image',
-          context: 'org_logo',
-        }),
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || 'Upload failed');
-      }
-      const payload = await res.json();
-      setUrl(String(payload.url || ''));
+      const payload = await uploadPickedFileToS3(picked, 'image', 'org_logo');
+      setUrl(payload.url || '');
     } catch (e: any) {
+      if (e instanceof Error && e.message === 'UPLOAD_CANCELLED') return;
       Alert.alert('Upload failed', e?.message || 'Failed to upload logo');
     } finally {
       setUploading(false);

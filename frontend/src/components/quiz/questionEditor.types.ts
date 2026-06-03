@@ -92,8 +92,8 @@ export type QuestionItemForEdit = {
 export const QUESTION_TYPE_CHOICES: Array<{ value: SupportedQuestionType; label: string; description: string }> = [
   {
     value: 'guess_image',
-    label: 'Guess the Image',
-    description: 'Show a main image prompt and let students choose the correct image option.',
+    label: 'Guess the Image / Video',
+    description: 'Show a main image/video prompt and let students choose the correct image option.',
   },
   {
     value: 'drag_drop_match',
@@ -143,7 +143,7 @@ export const QUESTION_TYPE_CHOICES: Array<{ value: SupportedQuestionType; label:
 ];
 
 export const QUESTION_TYPE_LABELS: Record<string, string> = {
-  guess_image: 'Guess the Image',
+  guess_image: 'Guess the Image / Video',
   drag_drop_match: 'Drag & Drop Match',
   guess_audio: 'Guess the Audio',
   true_false: 'True / False',
@@ -153,7 +153,7 @@ export const QUESTION_TYPE_LABELS: Record<string, string> = {
   memory_match: 'Memory Match',
   fill_blank: 'Fill in the Blank',
   jigsaw: 'Jigsaw Puzzle',
-  image_select: 'Guess the Image',
+  image_select: 'Guess the Image / Video',
   drag_drop: 'Drag & Drop Match',
   sound_match: 'Guess the Audio',
   memory_game: 'Multi Choice',

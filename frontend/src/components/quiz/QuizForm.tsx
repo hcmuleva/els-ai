@@ -305,7 +305,13 @@ export default function QuizForm({
 
   const filteredQuestionBank = useMemo(() => {
     const keyword = questionBankSearch.trim().toLowerCase();
+    const seenSigs = new Set<string>();
+
     return questionBank.filter((q) => {
+      const sig = `${q.question_type}|${(q.question_title || '').trim().toLowerCase()}`;
+      if (seenSigs.has(sig)) return false;
+      seenSigs.add(sig);
+
       if (draft.classLevel && q.class_level !== draft.classLevel) return false;
       if (draft.subject && q.subject !== draft.subject) return false;
       if (bankTypeFilter && normalizeQuestionType(q.question_type) !== bankTypeFilter) return false;

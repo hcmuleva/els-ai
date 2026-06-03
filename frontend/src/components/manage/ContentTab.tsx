@@ -14,6 +14,7 @@ import {
   Filter, LayoutList, Trophy, ListChecks, Search, X,
 } from 'lucide-react-native';
 import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
 import { getAuthorizedClasses, getAuthorizedSubjects } from '../../utils/assignments';
 import { AppUser } from '../../types/roles';
@@ -21,6 +22,7 @@ import SelectorModal from '../SelectorModal';
 import { API_BASE_URL } from '../../context/AuthContext';
 import CreateQuizModal from '../quiz/CreateQuizModal';
 import StudentContentViewer, { type StudentContentItem, type StudentTopicMeta } from '../subject/StudentContentViewer';
+import MediaUploader from '../media/MediaUploader';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 export type LearningContentItem = {
@@ -79,7 +81,7 @@ const TYPE_STYLE: Record<string, TypeCfg> = {
   reel_url:    { Icon: Film,       color: '#E91E8C', bg: '#FFE0F0', label: 'Reel' },
   reel:        { Icon: Film,       color: '#E91E8C', bg: '#FFE0F0', label: 'Reel' },
   audio:       { Icon: Headphones, color: '#9B8EC4', bg: '#EDE4FF', label: 'Audio' },
-  image:       { Icon: ImageIcon,  color: '#4A90E2', bg: '#D6EAFF', label: 'Image' },
+  image:       { Icon: ImageIcon,  color: '#4A90E2', bg: '#D6EAFF', label: 'Image / Video' },
   text:        { Icon: BookOpen,   color: '#7DC67A', bg: '#D6F5D6', label: 'Text' },
   document:    { Icon: FileText,   color: '#4A90E2', bg: '#D6EAFF', label: 'Doc' },
 };
@@ -89,7 +91,7 @@ function ts(t: string): TypeCfg { return TYPE_STYLE[t] ?? { ...DEFAULT_TYPE, lab
 const SECTION_TYPE_CHOICES: { value: SectionDraft['contentType']; label: string; Icon: LucideIcon; color: string }[] = [
   { value: 'youtube_url', label: 'YouTube', Icon: Play,       color: '#FF4444' },
   { value: 'reel_url',    label: 'Reel URL', Icon: Film,      color: '#E91E8C' },
-  { value: 'image',       label: 'Image',    Icon: ImageIcon, color: '#4A90E2' },
+  { value: 'image',       label: 'Image / Video',    Icon: ImageIcon, color: '#4A90E2' },
   { value: 'audio',       label: 'Audio',    Icon: Headphones,color: '#9B8EC4' },
   { value: 'text',        label: 'Text',     Icon: BookOpen,  color: '#7DC67A' },
 ];
@@ -229,7 +231,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
   user: AppUser | null;
   onClose: () => void;
   onSuccess: () => void;
-  onUploadMedia: (sectionDraftId: string) => Promise<{ url: string; contentType: SectionDraft['contentType'] }>;
+  onUploadMedia: (sectionDraftId: string, onProgress?: (pct: number) => void) => Promise<{ url: string; contentType: SectionDraft['contentType'] }>;
 }) {
   const isOpen   = editingItem !== null;
   const isEdit   = editingItem !== null && editingItem !== 'new';
@@ -243,6 +245,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
   const [saving, setSaving]     = useState(false);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [uploadingId, setUploadingId] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [toast, setToast]       = useState<string | null>(null);
   const [classOpen, setClassOpen]   = useState(false);
   const [subjectOpen, setSubjectOpen] = useState(false);
@@ -250,6 +253,39 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
   const [quizLibrary, setQuizLibrary] = useState<QuizLite[]>([]);
   const [quizPickerFor, setQuizPickerFor] = useState<string | null>(null); // section draftId
   const [quizSearch, setQuizSearch] = useState('');
+  const [hasLoadedDraft, setHasLoadedDraft] = useState(false);
+
+  // Auto-load draft
+  useEffect(() => {
+    if (editingItem === 'new') {
+      AsyncStorage.getItem('els_content_draft').then((str) => {
+        if (str) {
+          try {
+            const parsed = JSON.parse(str);
+            if (parsed.title) setTitle(parsed.title);
+            if (parsed.classLevel) setClass(parsed.classLevel);
+            if (parsed.subject) setSubject(parsed.subject);
+            if (parsed.sections && Array.isArray(parsed.sections) && parsed.sections.length > 0) {
+              setSections(parsed.sections);
+            }
+          } catch (e) {}
+        }
+        setHasLoadedDraft(true);
+      });
+    } else {
+      setHasLoadedDraft(true);
+    }
+  }, [editingItem]);
+
+  // Auto-save draft
+  useEffect(() => {
+    if (editingItem === 'new' && hasLoadedDraft) {
+      AsyncStorage.setItem('els_content_draft', JSON.stringify({
+        title, classLevel, subject, sections
+      }));
+    }
+  }, [title, classLevel, subject, sections, editingItem, hasLoadedDraft]);
+
   const [quizCreatorFor, setQuizCreatorFor] = useState<string | null>(null); // section draftId
   const [studentPreviewOpen, setStudentPreviewOpen] = useState(false);
 
@@ -357,11 +393,17 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
 
   const handleUpload = async (draftId: string) => {
     setUploadingId(draftId);
+    setUploadProgress(0);
     try {
-      const { url, contentType } = await onUploadMedia(draftId);
+      const { url, contentType } = await onUploadMedia(draftId, setUploadProgress);
       updateSection(draftId, { mediaUrl: url, contentType, externalUrl: '', textContent: '' });
-    } catch { setToast('Upload failed.'); }
-    finally { setUploadingId(null); }
+    } catch (e: any) {
+      if (e?.message !== 'UPLOAD_CANCELLED') setToast('Upload failed.'); 
+    }
+    finally { 
+      setUploadingId(null); 
+      setUploadProgress(null);
+    }
   };
 
   const handleSave = async () => {
@@ -392,6 +434,9 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
         body: JSON.stringify({ classLevel, subject, title: title.trim(), sections: normalized }),
       });
       if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.message || 'Failed'); }
+      if (editingItem === 'new') {
+        AsyncStorage.removeItem('els_content_draft');
+      }
       onSuccess();
       onClose();
     } catch (e) {
@@ -544,30 +589,24 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
                             />
                           ) : (
                             <View style={{ gap: 8 }}>
-                              <Pressable style={c.uploadBtn} onPress={() => handleUpload(sec.draftId)} disabled={uploadingId === sec.draftId}>
-                                {uploadingId === sec.draftId
-                                  ? <ActivityIndicator size="small" color="#4A90E2" />
-                                  : <Text style={c.uploadBtnText}>⬆ Upload {sec.contentType === 'audio' ? 'Audio' : 'Image / Video'}</Text>}
-                              </Pressable>
-                              {sec.mediaUrl ? (
-                                <View style={c.mediaPreviewRow}>
-                                  {sec.contentType === 'image' ? (
-                                    <Image source={{ uri: resolveUrl(sec.mediaUrl) }} style={c.mediaThumb} resizeMode="cover" />
-                                  ) : (
-                                    <Text style={c.mediaUrlText} numberOfLines={1}>{sec.mediaUrl}</Text>
-                                  )}
-                                  <Pressable onPress={() => updateSection(sec.draftId, { mediaUrl: '' })}>
-                                    <Text style={{ color: '#E05A3A', fontWeight: '700', fontSize: 13 }}>✕</Text>
-                                  </Pressable>
-                                </View>
-                              ) : null}
-                              <TextInput
+                              {!sec.mediaUrl && (
+                                <TextInput
+                                  value={sec.mediaUrl}
+                                  onChangeText={(v) => updateSection(sec.draftId, { mediaUrl: v })}
+                                  placeholder="Or paste media URL…"
+                                  autoCapitalize="none"
+                                  style={[c.fieldInput, { backgroundColor: '#F8F9FF', borderRadius: 10, padding: 12, borderWidth: 1, borderColor: '#ECEEF4' }]}
+                                  placeholderTextColor="#B0B8D0"
+                                />
+                              )}
+                              <MediaUploader
+                                accept={sec.contentType === 'audio' ? 'audio/*' : 'image/*,video/*'}
+                                mediaType={sec.contentType === 'audio' ? 'audio' : 'image'}
                                 value={sec.mediaUrl}
-                                onChangeText={(v) => updateSection(sec.draftId, { mediaUrl: v })}
-                                placeholder="Or paste media URL…"
-                                autoCapitalize="none"
-                                style={[c.fieldInput, { backgroundColor: '#F8F9FF', borderRadius: 10, padding: 12, borderWidth: 1, borderColor: '#ECEEF4' }]}
-                                placeholderTextColor="#B0B8D0"
+                                fileName={sec.mediaUrl ? sec.mediaUrl.split('/').pop() : ''}
+                                onUploadSuccess={(url) => updateSection(sec.draftId, { mediaUrl: url })}
+                                onClear={() => updateSection(sec.draftId, { mediaUrl: '' })}
+                                buttonLabel={`Upload ${sec.contentType === 'audio' ? 'Audio' : 'Image / Video'}`}
                               />
                             </View>
                           )}
@@ -1136,10 +1175,13 @@ const c = StyleSheet.create({
   uploadBtn:       { borderRadius: 8, borderWidth: 1, borderColor: '#D6EAFF', backgroundColor: '#F5F9FF', paddingVertical: 10, alignItems: 'center' },
   uploadBtnText:   { fontSize: 13, fontWeight: '700', color: '#4A90E2' },
   mediaPreviewRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  badge: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#F9FAFB', borderWidth: 1, borderColor: '#E5E7EB', borderRadius: 8, padding: 12, gap: 12, flex: 1 },
+  badgeInfo: { flex: 1, gap: 4 },
+  badgeTitle: { fontSize: 13, fontWeight: '600', color: '#374151' },
+  badgeSubtitle: { fontSize: 11, color: '#6B7280' },
+  mediaRemoveBtn: { paddingHorizontal: 12, paddingVertical: 8, borderRadius: 8, backgroundColor: '#FFE8E8', justifyContent: 'center', alignItems: 'center' },
+  mediaRemoveBtnText: { fontSize: 12, fontWeight: '800', color: '#DC2626' },
   mediaThumb:      { width: 60, height: 40, borderRadius: 8 },
-  mediaUrlText:    { flex: 1, fontSize: 11, color: '#9A9AB0' },
-
-  previewCard:        { backgroundColor: '#fff', borderRadius: 20, overflow: 'hidden' },
   previewHeader:      { padding: 20, gap: 6 },
   previewTitle:       { fontSize: 20, fontWeight: '900', color: '#fff' },
   previewSub:         { fontSize: 13, color: 'rgba(255,255,255,0.8)' },

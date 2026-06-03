@@ -10,7 +10,8 @@ import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standard
 import { getAuthorizedClasses, getAuthorizedCatalogItems } from '../../src/utils/assignments';
 import { useAuth } from '../../src/context/AuthContext';
 import ClassDetailsScreen from '../../src/components/classroom/ClassDetailsScreen';
-
+import { PickedFile, pickFileAsDataUrl, uploadPickedFileToS3 } from '../../src/utils/fileUpload';
+import MediaUploader from '../../src/components/media/MediaUploader';
 type ModalTab = 'setup' | 'sections' | 'preview';
 
 type ScheduleType = 'instant' | 'scheduled';
@@ -86,7 +87,8 @@ type SubjectCatalogItem = {
   iconBgColor?: string;
 };
 
-type PickedFile = { dataUrl: string; fileName: string; mimeType: string };
+
+
 
 const STATUS_COLORS: Record<ClassroomStatus, string> = {
   active: '#16a34a',
@@ -121,43 +123,8 @@ const makeAssignment = (): AssignmentDraft => ({
   isTimeBound: false,
 });
 
-async function pickFileAsDataUrl(accept: string): Promise<PickedFile> {
-  if (Platform.OS !== 'web') {
-    throw new Error('File upload is currently supported on web. On mobile, paste attachment URL manually.');
-  }
 
-  return await new Promise((resolve, reject) => {
-    const doc = (globalThis as any).document;
-    if (!doc) {
-      reject(new Error('File picker is unavailable in this environment.'));
-      return;
-    }
 
-    const input = doc.createElement('input');
-    input.type = 'file';
-    input.accept = accept;
-
-    input.onchange = () => {
-      const file = input.files?.[0];
-      if (!file) {
-        reject(new Error('No file selected.'));
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () =>
-        resolve({
-          dataUrl: String(reader.result || ''),
-          fileName: file.name || 'uploaded-file',
-          mimeType: file.type || '',
-        });
-      reader.onerror = () => reject(new Error('Failed to read selected file.'));
-      reader.readAsDataURL(file);
-    };
-
-    input.click();
-  });
-}
 
 function resolveUploadMediaType(file: PickedFile): 'image' | 'audio' | 'video' {
   const mime = file.mimeType.toLowerCase();
@@ -595,30 +562,7 @@ export default function PlannerScreen() {
     });
   };
 
-  const uploadAssignmentAttachment = async (id: string) => {
-    try {
-      const picked = await pickFileAsDataUrl('image/*,audio/*,video/*');
-      const mediaType = resolveUploadMediaType(picked);
-      const res = await apiFetch('/assets/upload', {
-        method: 'POST',
-        body: JSON.stringify({
-          dataUrl: picked.dataUrl,
-          fileName: picked.fileName,
-          mimeType: picked.mimeType,
-          mediaType,
-        }),
-      });
-      if (!res.ok) {
-        const payload = await res.json().catch(() => ({}));
-        throw new Error(payload.message || 'Failed to upload attachment');
-      }
-      const payload = await res.json();
-      updateAssignment(id, { attachmentUrl: payload.url || '' });
-      setMessage({ type: 'success', text: 'Attachment uploaded successfully.' });
-    } catch (error) {
-      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload attachment' });
-    }
-  };
+
 
   const saveClassroom = async () => {
     if (!form.title.trim()) {
@@ -1283,8 +1227,18 @@ export default function PlannerScreen() {
                     <TextInput value={asgn.instructions} onChangeText={(v) => updateAssignment(asgn.id, { instructions: v })} placeholder="Optional" style={p.fieldInput} multiline placeholderTextColor="#B0B8D0" />
                     <View style={p.fieldDivider} />
                     <Text style={p.fieldLabel}>Attachment URL</Text>
-                    <TextInput value={asgn.attachmentUrl} onChangeText={(v) => updateAssignment(asgn.id, { attachmentUrl: v })} placeholder="URL or upload below" style={p.fieldInput} placeholderTextColor="#B0B8D0" />
-                    <Pressable style={p.uploadBtn} onPress={() => uploadAssignmentAttachment(asgn.id)}><Text style={p.uploadBtnText}>⬆ Upload File</Text></Pressable>
+                    {!asgn.attachmentUrl && (
+                      <TextInput value={asgn.attachmentUrl} onChangeText={(v) => updateAssignment(asgn.id, { attachmentUrl: v })} placeholder="URL or upload below" style={p.fieldInput} placeholderTextColor="#B0B8D0" />
+                    )}
+                    <MediaUploader
+                      accept="image/*,audio/*,video/*,application/pdf"
+                      mediaType="document"
+                      value={asgn.attachmentUrl || null}
+                      fileName={asgn.attachmentUrl ? asgn.attachmentUrl.split('/').pop() : ''}
+                      onUploadSuccess={(url) => updateAssignment(asgn.id, { attachmentUrl: url })}
+                      onClear={() => updateAssignment(asgn.id, { attachmentUrl: '' })}
+                      buttonLabel="Upload File"
+                    />
                     <View style={p.chipRow}>
                       <Pressable style={[p.chip, asgn.isTimeBound && p.chipActive]} onPress={() => updateAssignment(asgn.id, { isTimeBound: !asgn.isTimeBound })}>
                         <Text style={[p.chipText, asgn.isTimeBound && p.chipTextActive]}>⏰ Time Bound</Text>
@@ -1739,13 +1693,8 @@ export default function PlannerScreen() {
         onClose={() => setDetailsClassroomId(null)}
         onUploadMedia={async () => {
           const picked = await pickFileAsDataUrl('image/*');
-          const res = await apiFetch('/assets/upload', {
-            method: 'POST',
-            body: JSON.stringify({ dataUrl: picked.dataUrl, fileName: picked.fileName, mimeType: picked.mimeType, mediaType: 'image' }),
-          });
-          if (!res.ok) throw new Error('Upload failed');
-          const payload = await res.json();
-          return { url: payload.url };
+          const uploaded = await uploadPickedFileToS3(picked, 'image', 'class_details');
+          return { url: uploaded.url };
         }}
       />
 

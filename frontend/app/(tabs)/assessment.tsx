@@ -5,7 +5,8 @@ import { ActivityIndicator, Platform, Pressable, ScrollView, StyleSheet, Text, T
 import { useAuth } from '../../src/context/AuthContext';
 import { useStudentProfile } from '../../src/context/StudentProfileContext';
 import { getStandardLabel } from '../../src/constants/standards';
-
+import { PickedFile, pickFileAsDataUrl } from '../../src/utils/fileUpload';
+import MediaUploader from '../../src/components/media/MediaUploader';
 type TeacherOverview = {
   summary: {
     total_quizzes: string;
@@ -46,7 +47,6 @@ type ParentFeedbackItem = {
   createdAt: string;
 };
 
-type PickedFile = { dataUrl: string; fileName: string; mimeType: string };
 
 const ASSESSMENT_FIELDS: Array<{ key: keyof Omit<ParentAssessment, 'id' | 'createdAt'>; label: string }> = [
   { key: 'behavior', label: 'Behavior' },
@@ -66,29 +66,8 @@ const defaultScores: Record<keyof Omit<ParentAssessment, 'id' | 'createdAt'>, nu
   outdoorActivity: 0,
 };
 
-async function pickFileAsDataUrl(accept: string): Promise<PickedFile> {
-  if (Platform.OS !== 'web') throw new Error('Attachment upload is currently available on web.');
-  return await new Promise((resolve, reject) => {
-    const doc = (globalThis as any).document;
-    if (!doc) return reject(new Error('File picker is unavailable.'));
-    const input = doc.createElement('input');
-    input.type = 'file';
-    input.accept = accept;
-    input.onchange = () => {
-      const file = input.files?.[0];
-      if (!file) return reject(new Error('No file selected.'));
-      const reader = new FileReader();
-      reader.onload = () => resolve({
-        dataUrl: String(reader.result || ''),
-        fileName: file.name || 'uploaded-file',
-        mimeType: file.type || 'image/png',
-      });
-      reader.onerror = () => reject(new Error('Failed to read file.'));
-      reader.readAsDataURL(file);
-    };
-    input.click();
-  });
-}
+
+
 
 function TeacherAssessmentDashboard() {
   const { user, apiFetch } = useAuth();
@@ -278,30 +257,7 @@ function ParentAssessmentDashboard() {
     }
   };
 
-  const uploadAttachment = async () => {
-    setUploading(true);
-    setMessage('');
-    setError('');
-    try {
-      const picked = await pickFileAsDataUrl('image/*');
-      const res = await apiFetch('/assets/upload', {
-        method: 'POST',
-        body: JSON.stringify({
-          fileName: picked.fileName,
-          dataUrl: picked.dataUrl,
-          mediaType: 'image',
-        }),
-      });
-      const payload = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(payload.message || 'Failed to upload attachment');
-      setAttachmentUrl(String(payload.url || payload.canonicalUrl || ''));
-      setMessage('Attachment uploaded.');
-    } catch (uploadError) {
-      setError(uploadError instanceof Error ? uploadError.message : 'Failed to upload attachment');
-    } finally {
-      setUploading(false);
-    }
-  };
+
 
   const submitFeedback = async () => {
     if (!selectedStudent || !feedbackText.trim()) return;
@@ -398,15 +354,23 @@ function ParentAssessmentDashboard() {
           onChangeText={setFeedbackText}
           style={styles.textArea}
         />
-        <TextInput
-          placeholder="Attachment URL (optional)"
+        {!attachmentUrl && (
+          <TextInput
+            placeholder="Attachment URL (optional)"
+            value={attachmentUrl}
+            onChangeText={setAttachmentUrl}
+            style={styles.input}
+          />
+        )}
+        <MediaUploader
+          accept="image/*,audio/*,video/*,application/pdf"
+          mediaType="document"
           value={attachmentUrl}
-          onChangeText={setAttachmentUrl}
-          style={styles.input}
+          fileName={attachmentUrl ? attachmentUrl.split('/').pop() : ''}
+          onUploadSuccess={(url) => setAttachmentUrl(url)}
+          onClear={() => setAttachmentUrl('')}
+          buttonLabel="Upload Attachment"
         />
-        <Pressable style={styles.secondaryBtn} onPress={uploadAttachment} disabled={uploading}>
-          <Text style={styles.secondaryBtnText}>{uploading ? 'Uploading...' : 'Upload Attachment'}</Text>
-        </Pressable>
         <Pressable style={styles.primaryBtn} onPress={submitFeedback} disabled={savingFeedback}>
           <Text style={styles.primaryBtnText}>{savingFeedback ? 'Submitting...' : 'Submit Feedback'}</Text>
         </Pressable>

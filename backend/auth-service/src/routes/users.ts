@@ -400,6 +400,110 @@ usersRouter.post('/me/connect-by-registration-id', requireAuth, async (req: Auth
   }
 });
 
+usersRouter.patch('/me/password', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const userId = req.user?.userId;
+  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ message: 'Both currentPassword and newPassword are required' });
+  }
+  if (newPassword.length < 4) {
+    return res.status(400).json({ message: 'New password must be at least 4 characters long' });
+  }
+
+  try {
+    const userRes = await db.query(`SELECT password_hash FROM users WHERE id = $1`, [userId]);
+    if ((userRes.rowCount ?? 0) === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, userRes.rows[0].password_hash);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Incorrect current password' });
+    }
+
+    const newHash = await bcrypt.hash(newPassword, 10);
+    await db.query(`UPDATE users SET password_hash = $1, updated_at = NOW() WHERE id = $2`, [newHash, userId]);
+
+    return res.json({ message: 'Password updated successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to update password' });
+  }
+});
+
+usersRouter.delete('/me', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const userId = req.user?.userId;
+  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+  
+  try {
+    const role = req.user?.role;
+    if (role === 'student') {
+      const parentLink = await db.query(
+        `SELECT 1 FROM parent_student_links WHERE student_user_id = $1 LIMIT 1`,
+        [userId]
+      );
+      if ((parentLink.rowCount ?? 0) > 0) {
+        return res.status(400).json({ message: "Only parents can delete child's account" });
+      }
+    }
+
+    await db.query(
+      `UPDATE users SET deleted_at = NOW(), is_active = false WHERE id = $1`,
+      [userId]
+    );
+    return res.json({ message: 'Account deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to delete account' });
+  }
+});
+
+usersRouter.post('/me/delete-child', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const parentUserId = req.user?.userId;
+  if (!parentUserId || req.user?.role !== 'parent') {
+    return res.status(403).json({ message: 'Only parents can delete child accounts' });
+  }
+
+  const { registrationId } = req.body;
+  if (!registrationId) {
+    return res.status(400).json({ message: 'Registration ID is required' });
+  }
+
+  try {
+    const childResult = await db.query(
+      `SELECT u.id FROM users u
+       INNER JOIN parent_student_links psl ON psl.student_user_id = u.id AND psl.parent_user_id = $1
+       WHERE u.unique_registration_id = $2
+         AND u.deleted_at IS NULL
+       LIMIT 1`,
+      [parentUserId, registrationId.trim().toUpperCase()]
+    );
+
+    if ((childResult.rowCount ?? 0) === 0) {
+      return res.status(404).json({ message: 'Child account not found or not linked to you' });
+    }
+
+    const childId = childResult.rows[0].id;
+
+    await db.query(
+      `UPDATE users SET deleted_at = NOW(), is_active = false WHERE id = $1`,
+      [childId]
+    );
+
+    await db.query(
+      `DELETE FROM parent_student_links WHERE student_user_id = $1`,
+      [childId]
+    );
+
+    return res.json({ message: 'Child account deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to delete child account' });
+  }
+});
+
 usersRouter.get('/admin/counts', requireAuth, async (req: AuthenticatedRequest, res) => {
   const organizationId = getRequestOrganizationId(req);
   if (!organizationId) {

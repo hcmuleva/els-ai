@@ -37,8 +37,10 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import SelectorModal, { SelectorOption } from '../SelectorModal';
 import SafeImage from './SafeImage';
+import MediaUploader from '../media/MediaUploader';
 import LogicoButtonBadge from './LogicoButtonBadge';
 import JigsawRenderer from './JigsawRenderer';
 import SingleQuestionPlayer from './SingleQuestionPlayer';
@@ -69,6 +71,7 @@ import {
   QuestionItemForEdit,
   SupportedQuestionType,
 } from './questionEditor.types';
+import { uploadPickedFileToS3 } from '../../utils/fileUpload';
 import {
   draftToPayload,
   getDefaultInstructionByType,
@@ -82,12 +85,11 @@ import {
   makeTrueFalseOptions,
   normalizeQuestionType,
   pickAudioAsDataUrl,
-  pickImageAsDataUrl,
+  pickImageOrVideoAsDataUrl,
   pickMediaAsDataUrl,
   resolveMediaUrl,
   resolvePickedMediaKind,
   toMediaLabel,
-  uploadPickedFileToS3,
   QEApiFetch,
 } from './questionEditor.helpers';
 import { fbS, mmS, qFormS } from './questionEditor.styles';
@@ -146,8 +148,36 @@ export default function QuestionEditor({
   }, [mode, editingQuestion, defaultClassLevel, defaultSubject]);
 
   const [draft, setDraft] = useState<QuestionDraft>(initialDraft);
+  const [hasLoadedDraft, setHasLoadedDraft] = useState(false);
+
+  // Auto-load draft
+  useEffect(() => {
+    if (mode === 'create') {
+      AsyncStorage.getItem('els_question_draft').then((str) => {
+        if (str) {
+          try {
+            const parsed = JSON.parse(str);
+            if (parsed && typeof parsed === 'object') {
+              setDraft((c) => ({ ...c, ...parsed }));
+            }
+          } catch (e) {}
+        }
+        setHasLoadedDraft(true);
+      });
+    } else {
+      setHasLoadedDraft(true);
+    }
+  }, [mode]);
+
+  // Auto-save draft
+  useEffect(() => {
+    if (mode === 'create' && hasLoadedDraft) {
+      AsyncStorage.setItem('els_question_draft', JSON.stringify(draft));
+    }
+  }, [draft, mode, hasLoadedDraft]);
   const [tab, setTab] = useState<'setup' | 'options' | 'preview'>('setup');
   const [saving, setSaving] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{ id: string; pct: number } | null>(null);
   const [actionBadge, setActionBadge] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [selectorField, setSelectorField] = useState<SelectorField>(null);
@@ -203,30 +233,38 @@ export default function QuestionEditor({
   const uploadAudio = async () => {
     try {
       const picked = await pickAudioAsDataUrl();
-      const uploaded = await uploadPickedFileToS3(apiFetch, picked, 'audio');
+      setUploadProgress({ id: 'mainAudio', pct: 0 });
+      const uploaded = await uploadPickedFileToS3(picked, 'audio', 'question_management', (pct) => setUploadProgress({ id: 'mainAudio', pct }));
       setDraft((c) => ({
         ...c,
         mainAudio: uploaded.canonicalUrl || uploaded.url,
         mainAudioLabel: uploaded.fileName,
         mainAudioAssetId: uploaded.assetId,
       }));
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.message === 'UPLOAD_CANCELLED') return;
       setMessage({ type: 'error', text: e instanceof Error ? e.message : 'Failed to upload audio' });
+    } finally {
+      setUploadProgress(null);
     }
   };
 
   const uploadImage = async () => {
     try {
-      const picked = await pickImageAsDataUrl();
-      const uploaded = await uploadPickedFileToS3(apiFetch, picked, 'image');
+      const picked = await pickImageOrVideoAsDataUrl();
+      setUploadProgress({ id: 'mainImage', pct: 0 });
+      const uploaded = await uploadPickedFileToS3(picked, 'image', 'question_management', (pct) => setUploadProgress({ id: 'mainImage', pct }));
       setDraft((c) => ({
         ...c,
         mainImage: uploaded.canonicalUrl || uploaded.url,
         mainImageLabel: uploaded.fileName,
         mainImageAssetId: uploaded.assetId,
       }));
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.message === 'UPLOAD_CANCELLED') return;
       setMessage({ type: 'error', text: e instanceof Error ? e.message : 'Failed to upload image' });
+    } finally {
+      setUploadProgress(null);
     }
   };
 
@@ -243,7 +281,8 @@ export default function QuestionEditor({
     }
     try {
       await AudioManager.playSound(resolveMediaUrl(url));
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.message === 'UPLOAD_CANCELLED') return;
       setMessage({ type: 'error', text: e instanceof Error ? e.message : 'Failed to play audio preview' });
     }
   };
@@ -291,8 +330,9 @@ export default function QuestionEditor({
     try {
       const picked = await pickMediaAsDataUrl();
       const kind = resolvePickedMediaKind(picked);
+      setUploadProgress({ id: `option-${index}`, pct: 0 });
       if (kind === 'image') {
-        const uploaded = await uploadPickedFileToS3(apiFetch, picked, 'image');
+        const uploaded = await uploadPickedFileToS3(picked, 'image', 'question_management', (pct) => setUploadProgress({ id: `option-${index}`, pct }));
         updateOption(index, {
           image: uploaded.canonicalUrl || uploaded.url,
           imageLabel: uploaded.fileName,
@@ -301,7 +341,7 @@ export default function QuestionEditor({
         return;
       }
       if (kind === 'audio') {
-        const uploaded = await uploadPickedFileToS3(apiFetch, picked, 'audio');
+        const uploaded = await uploadPickedFileToS3(picked, 'audio', 'question_management', (pct) => setUploadProgress({ id: `option-${index}`, pct }));
         updateOption(index, {
           audio: uploaded.canonicalUrl || uploaded.url,
           audioLabel: uploaded.fileName,
@@ -310,8 +350,11 @@ export default function QuestionEditor({
         return;
       }
       setMessage({ type: 'error', text: 'Unsupported media type. Please upload image or audio.' });
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.message === 'UPLOAD_CANCELLED') return;
       setMessage({ type: 'error', text: e instanceof Error ? e.message : 'Failed to upload media' });
+    } finally {
+      setUploadProgress(null);
     }
   };
 
@@ -338,8 +381,9 @@ export default function QuestionEditor({
     try {
       const picked = await pickMediaAsDataUrl();
       const kind = resolvePickedMediaKind(picked);
+      setUploadProgress({ id: `pair-${index}`, pct: 0 });
       if (kind === 'image') {
-        const uploaded = await uploadPickedFileToS3(apiFetch, picked, 'image');
+        const uploaded = await uploadPickedFileToS3(picked, 'image', 'question_management', (pct) => setUploadProgress({ id: `pair-${index}`, pct }));
         updateMatchPair(index, {
           image: uploaded.canonicalUrl || uploaded.url,
           imageLabel: uploaded.fileName,
@@ -348,7 +392,7 @@ export default function QuestionEditor({
         return;
       }
       if (kind === 'audio') {
-        const uploaded = await uploadPickedFileToS3(apiFetch, picked, 'audio');
+        const uploaded = await uploadPickedFileToS3(picked, 'audio', 'question_management', (pct) => setUploadProgress({ id: `pair-${index}`, pct }));
         updateMatchPair(index, {
           audio: uploaded.canonicalUrl || uploaded.url,
           audioLabel: uploaded.fileName,
@@ -357,8 +401,11 @@ export default function QuestionEditor({
         return;
       }
       setMessage({ type: 'error', text: 'Unsupported media type. Please upload image or audio.' });
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.message === 'UPLOAD_CANCELLED') return;
       setMessage({ type: 'error', text: e instanceof Error ? e.message : 'Failed to upload media' });
+    } finally {
+      setUploadProgress(null);
     }
   };
   const clearPairMedia = (index: number, mediaType: 'image' | 'audio') => {
@@ -417,9 +464,13 @@ export default function QuestionEditor({
           : typeof saved.questionId === 'string'
           ? saved.questionId
           : editingQuestion?.id || '';
+      if (mode === 'create') {
+        AsyncStorage.removeItem('els_question_draft');
+      }
       onSaved?.({ id });
       onClose();
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.message === 'UPLOAD_CANCELLED') return;
       setMessage({ type: 'error', text: e instanceof Error ? e.message : 'Failed to save question' });
     } finally {
       setSaving(false);
@@ -740,40 +791,28 @@ export default function QuestionEditor({
                   ? 'WORKSHEET IMAGE'
                   : normalizedQuestionType === 'jigsaw'
                   ? 'PUZZLE IMAGE'
-                  : 'PROMPT IMAGE'}
+                  : 'PROMPT IMAGE / VIDEO'}
               </Text>
               <View style={qFormS.fieldCard}>
-                <Pressable style={qFormS.uploadBtn} onPress={uploadImage}>
-                  <Text style={qFormS.uploadBtnText}>
-                    {normalizedQuestionType === 'logico'
-                      ? '⬆ Upload Worksheet Image'
+                <MediaUploader
+                  accept={normalizedQuestionType === 'logico' || normalizedQuestionType === 'jigsaw' ? 'image/*' : 'image/*,video/*'}
+                  mediaType="image"
+                  value={draft.mainImage.trim() || null}
+                  fileName={draft.mainImageLabel || (draft.mainImage.trim() ? draft.mainImage.split('/').pop() : '')}
+                  thumbnailUrl={draft.mainImage.trim() ? resolveMediaUrl(draft.mainImage.trim()) : undefined}
+                  onUploadSuccess={(url, name) => {
+                    updateField('mainImage', url);
+                    updateField('mainImageLabel', name);
+                  }}
+                  onClear={() => requestMediaRemoval({ scope: 'question', mediaType: 'image' })}
+                  buttonLabel={
+                    normalizedQuestionType === 'logico'
+                      ? 'Upload Worksheet Image'
                       : normalizedQuestionType === 'jigsaw'
-                      ? '⬆ Upload Puzzle Image'
-                      : '⬆ Upload Prompt Image'}
-                  </Text>
-                </Pressable>
-                {draft.mainImage.trim() ? (
-                  <View style={qFormS.mediaRow}>
-                    <SafeImage
-                      uri={resolveMediaUrl(draft.mainImage.trim())}
-                      style={qFormS.mediaThumb}
-                      resizeMode="contain"
-                    />
-                    <View style={{ flex: 1 }}>
-                      <Text style={qFormS.mediaName} numberOfLines={2}>
-                        {toMediaLabel(draft.mainImage, 'image', draft.mainImageLabel)}
-                      </Text>
-                    </View>
-                    <Pressable
-                      onPress={() =>
-                        requestMediaRemoval({ scope: 'question', mediaType: 'image' })
-                      }
-                      style={qFormS.removeBtn}
-                    >
-                      <Text style={qFormS.removeBtnText}>✕</Text>
-                    </Pressable>
-                  </View>
-                ) : null}
+                      ? 'Upload Puzzle Image'
+                      : 'Upload Prompt Image / Video'
+                  }
+                />
               </View>
             </View>
           )}
@@ -782,33 +821,19 @@ export default function QuestionEditor({
             <View style={qFormS.group}>
               <Text style={qFormS.groupLabel}>PROMPT AUDIO</Text>
               <View style={qFormS.fieldCard}>
-                <Pressable style={qFormS.uploadBtn} onPress={uploadAudio}>
-                  <Text style={qFormS.uploadBtnText}>⬆ Upload Prompt Audio</Text>
-                </Pressable>
-                {draft.mainAudio.trim() ? (
-                  <View style={qFormS.mediaRow}>
-                    <Text style={qFormS.audioIcon}>🎵</Text>
-                    <View style={{ flex: 1 }}>
-                      <Text style={qFormS.mediaName} numberOfLines={2}>
-                        {toMediaLabel(draft.mainAudio, 'audio', draft.mainAudioLabel)}
-                      </Text>
-                    </View>
-                    <Pressable
-                      onPress={() => playAudioPreview(draft.mainAudio)}
-                      style={qFormS.playBtn}
-                    >
-                      <Text style={qFormS.playBtnText}>▶ Play</Text>
-                    </Pressable>
-                    <Pressable
-                      onPress={() =>
-                        requestMediaRemoval({ scope: 'question', mediaType: 'audio' })
-                      }
-                      style={qFormS.removeBtn}
-                    >
-                      <Text style={qFormS.removeBtnText}>✕</Text>
-                    </Pressable>
-                  </View>
-                ) : null}
+                <MediaUploader
+                  accept="audio/*"
+                  mediaType="audio"
+                  value={draft.mainAudio.trim() || null}
+                  fileName={draft.mainAudioLabel || (draft.mainAudio.trim() ? draft.mainAudio.split('/').pop() : '')}
+                  onPlayPreview={() => playAudioPreview(draft.mainAudio)}
+                  onUploadSuccess={(url, name) => {
+                    updateField('mainAudio', url);
+                    updateField('mainAudioLabel', name);
+                  }}
+                  onClear={() => requestMediaRemoval({ scope: 'question', mediaType: 'audio' })}
+                  buttonLabel="Upload Prompt Audio"
+                />
               </View>
             </View>
           )}
@@ -936,68 +961,27 @@ export default function QuestionEditor({
                       {normalizedQuestionType !== 'true_false' && (
                         <Pressable
                           onPress={() => requestOptionRemoval({ index })}
-                          style={qFormS.removeBtn}
+                          style={qFormS.removeBtnWide}
                         >
-                          <Text style={qFormS.removeBtnText}>✕</Text>
+                          <Text style={qFormS.removeBtnText}>✕ Remove</Text>
                         </Pressable>
                       )}
                     </View>
                     <View style={{ paddingHorizontal: 14, paddingBottom: 12 }}>
-                      <Pressable
-                        style={qFormS.uploadBtn}
-                        onPress={() => uploadMediaForOption(index)}
-                      >
-                        <Text style={qFormS.uploadBtnText}>
-                          {normalizedQuestionType === 'guess_audio'
-                            ? '⬆ Upload Option Audio / Image'
-                            : '⬆ Upload Option Image / Audio'}
-                        </Text>
-                      </Pressable>
-                      {option.image.trim() ? (
-                        <View style={[qFormS.mediaRow, { marginTop: 8 }]}>
-                          <SafeImage
-                            uri={resolveMediaUrl(option.image.trim())}
-                            style={qFormS.mediaThumb}
-                            resizeMode="cover"
-                          />
-                          <Text style={qFormS.mediaName} numberOfLines={1}>
-                            {toMediaLabel(option.image, 'image', option.imageLabel)}
-                          </Text>
-                          <Pressable
-                            onPress={() =>
-                              requestMediaRemoval({ scope: 'option', index, mediaType: 'image' })
-                            }
-                            style={qFormS.removeBtn}
-                          >
-                            <Text style={qFormS.removeBtnText}>✕</Text>
-                          </Pressable>
-                        </View>
-                      ) : null}
-                      {option.audio.trim() ? (
-                        <View style={[qFormS.mediaRow, { marginTop: 8 }]}>
-                          <Text style={qFormS.audioIcon}>🎵</Text>
-                          <Text
-                            style={[qFormS.mediaName, { flex: 1 }]}
-                            numberOfLines={1}
-                          >
-                            {toMediaLabel(option.audio, 'audio', option.audioLabel)}
-                          </Text>
-                          <Pressable
-                            onPress={() => playAudioPreview(option.audio)}
-                            style={qFormS.playBtn}
-                          >
-                            <Text style={qFormS.playBtnText}>▶</Text>
-                          </Pressable>
-                          <Pressable
-                            onPress={() =>
-                              requestMediaRemoval({ scope: 'option', index, mediaType: 'audio' })
-                            }
-                            style={qFormS.removeBtn}
-                          >
-                            <Text style={qFormS.removeBtnText}>✕</Text>
-                          </Pressable>
-                        </View>
-                      ) : null}
+                      <MediaUploader
+                        accept="image/*,audio/*"
+                        mediaType={option.image.trim() ? 'image' : option.audio.trim() ? 'audio' : 'document'}
+                        value={option.image.trim() || option.audio.trim() || null}
+                        fileName={option.imageLabel || option.audioLabel || ''}
+                        thumbnailUrl={option.image.trim() ? resolveMediaUrl(option.image.trim()) : undefined}
+                        onPlayPreview={option.audio.trim() ? () => playAudioPreview(option.audio) : undefined}
+                        onUploadSuccess={(url, name, kind) => {
+                          if (kind === 'image') updateOption(index, { image: url, imageLabel: name, audio: '', audioLabel: '' });
+                          else if (kind === 'audio') updateOption(index, { audio: url, audioLabel: name, image: '', imageLabel: '' });
+                        }}
+                        onClear={() => clearOptionMedia(index, option.image.trim() ? 'image' : 'audio')}
+                        buttonLabel={normalizedQuestionType === 'guess_audio' ? 'Upload Option Audio / Image' : 'Upload Option Image / Audio'}
+                      />
                     </View>
                   </View>
                 ))}
@@ -1052,57 +1036,22 @@ export default function QuestionEditor({
                       placeholderTextColor="#B0B8D0"
                     />
                   </View>
-                  <Pressable
-                    style={qFormS.uploadBtn}
-                    onPress={() => uploadMediaForMatchPair(index)}
-                  >
-                    <Text style={qFormS.uploadBtnText}>⬆ Upload Image / Audio</Text>
-                  </Pressable>
-                  {pair.image.trim() ? (
-                    <View style={qFormS.mediaRow}>
-                      <SafeImage
-                        uri={resolveMediaUrl(pair.image.trim())}
-                        style={qFormS.mediaThumb}
-                        resizeMode="cover"
-                      />
-                      <Text style={qFormS.mediaName} numberOfLines={1}>
-                        {toMediaLabel(pair.image, 'image', pair.imageLabel)}
-                      </Text>
-                      <Pressable
-                        onPress={() =>
-                          requestMediaRemoval({ scope: 'pair', index, mediaType: 'image' })
-                        }
-                        style={qFormS.removeBtn}
-                      >
-                        <Text style={qFormS.removeBtnText}>✕</Text>
-                      </Pressable>
-                    </View>
-                  ) : null}
-                  {pair.audio.trim() ? (
-                    <View style={qFormS.mediaRow}>
-                      <Text style={qFormS.audioIcon}>🎵</Text>
-                      <Text
-                        style={[qFormS.mediaName, { flex: 1 }]}
-                        numberOfLines={1}
-                      >
-                        {toMediaLabel(pair.audio, 'audio', pair.audioLabel)}
-                      </Text>
-                      <Pressable
-                        onPress={() => playAudioPreview(pair.audio)}
-                        style={qFormS.playBtn}
-                      >
-                        <Text style={qFormS.playBtnText}>▶</Text>
-                      </Pressable>
-                      <Pressable
-                        onPress={() =>
-                          requestMediaRemoval({ scope: 'pair', index, mediaType: 'audio' })
-                        }
-                        style={qFormS.removeBtn}
-                      >
-                        <Text style={qFormS.removeBtnText}>✕</Text>
-                      </Pressable>
-                    </View>
-                  ) : null}
+                  <MediaUploader
+                    accept="image/*,audio/*"
+                    mediaType={pair.image.trim() ? 'image' : pair.audio.trim() ? 'audio' : 'document'}
+                    value={pair.image.trim() || pair.audio.trim() || null}
+                    fileName={pair.imageLabel || pair.audioLabel || ''}
+                    thumbnailUrl={pair.image.trim() ? resolveMediaUrl(pair.image.trim()) : undefined}
+                    onPlayPreview={pair.audio.trim() ? () => playAudioPreview(pair.audio) : undefined}
+                    onUploadSuccess={(url, name, kind) => {
+                      if (kind === 'image') updateMatchPair(index, { image: url, imageLabel: name, audio: '', audioLabel: '' });
+                      else if (kind === 'audio') updateMatchPair(index, { audio: url, audioLabel: name, image: '', imageLabel: '' });
+                    }}
+                    onClear={() => {
+                      updateMatchPair(index, { image: '', imageLabel: '', audio: '', audioLabel: '' });
+                    }}
+                    buttonLabel="Upload Image / Audio"
+                  />
                 </View>
               </View>
             ))}
@@ -1763,7 +1712,7 @@ function FillBlankTab({
                   </Text>
                 </Pressable>
                 <Pressable
-                  style={qFormS.removeBtn}
+                  style={qFormS.removeBtnWide}
                   onPress={() => {
                     const removed = opts.filter((_, i) => i !== idx);
                     const newData: Record<string, unknown> = { options: removed };
@@ -1771,7 +1720,7 @@ function FillBlankTab({
                     setRaw(newData);
                   }}
                 >
-                  <Text style={qFormS.removeBtnText}>✕</Text>
+                  <Text style={qFormS.removeBtnText}>✕ Remove</Text>
                 </Pressable>
               </View>
             </View>

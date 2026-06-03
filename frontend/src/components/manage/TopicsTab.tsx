@@ -578,7 +578,9 @@ export default function TopicsTab({
   const handleUploadCover = async () => {
     setUploadingCover(true);
     try { const url = await onUploadCover(); setCoverImage(url); }
-    catch (e) { setToast({ type: 'error', text: 'Image upload failed.' }); }
+    catch (e: any) { 
+      if (e?.message !== 'UPLOAD_CANCELLED') setToast({ type: 'error', text: 'Image upload failed.' }); 
+    }
     finally { setUploadingCover(false); }
   };
 

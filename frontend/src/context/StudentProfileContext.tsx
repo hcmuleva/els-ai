@@ -176,10 +176,17 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
         const data = await res.json();
         const students: StudentProfile[] = data.students || [];
         setLinkedStudents(students);
-        if (students.length > 0 && !activeStudentId) {
-          const savedId = restoredId ?? await AsyncStorage.getItem(SELECTED_STUDENT_KEY).catch(() => null);
-          const match = savedId ? students.find((s) => s.id === savedId) : null;
-          setActiveStudentId(match ? match.id : students[0].id);
+        if (students.length > 0) {
+          if (!activeStudentId || !students.some(s => s.id === activeStudentId)) {
+            const savedId = restoredId ?? await AsyncStorage.getItem(SELECTED_STUDENT_KEY).catch(() => null);
+            const match = savedId ? students.find((s) => s.id === savedId) : null;
+            const newActiveId = match ? match.id : students[0].id;
+            setActiveStudentId(newActiveId);
+            AsyncStorage.setItem(SELECTED_STUDENT_KEY, newActiveId).catch(() => {});
+          }
+        } else {
+          setActiveStudentId(null);
+          AsyncStorage.removeItem(SELECTED_STUDENT_KEY).catch(() => {});
         }
       }
     } catch (e) {

@@ -49,7 +49,7 @@ const TYPE_CONFIG: Record<string, TypeCfg> = {
   reel_url: { label: 'Reel', Icon: Film, accent: '#E91E8C', bg: '#FFE0F0' },
   reel: { label: 'Reel', Icon: Film, accent: '#E91E8C', bg: '#FFE0F0' },
   audio: { label: 'Audio', Icon: Headphones, accent: '#9B8EC4', bg: '#EDE4FF' },
-  image: { label: 'Image', Icon: ImageIcon, accent: '#4A90E2', bg: '#D6EAFF' },
+  image: { label: 'Image / Video', Icon: ImageIcon, accent: '#4A90E2', bg: '#D6EAFF' },
   text: { label: 'Reading', Icon: BookOpen, accent: '#7DC67A', bg: '#D6F5D6' },
   document: { label: 'Document', Icon: FileText, accent: '#4A90E2', bg: '#D6EAFF' },
 };
@@ -195,19 +195,19 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
                 );
               })()}
 
-              {url && (content.contentType === 'image' || isImageUrl(url)) && (
+              {url && (content.contentType === 'image' || isImageUrl(url)) && !isVideoUrl(url) && !isYouTubeUrl(url) && !isAudioUrl(url) && !isDocumentUrl(url) && (
                 <View style={s.imgWrap}>
                   <Image source={{ uri: url }} style={s.img} resizeMode="cover" />
                 </View>
               )}
 
-              {url && (content.contentType === 'audio' || isAudioUrl(url)) && (
+              {url && (content.contentType === 'audio' || isAudioUrl(url)) && !isVideoUrl(url) && !isYouTubeUrl(url) && (
                 <View style={{ marginTop: 10 }}>
                   <AudioPlayer uri={url} title={content.title} subtitle={topic.subject} accentColor="#4A90E2" bgColor="#D6EAFF" />
                 </View>
               )}
 
-              {url && (content.contentType === 'reel' || content.contentType === 'reel_url' || isVideoUrl(url)) && (
+              {url && (content.contentType === 'reel' || content.contentType === 'reel_url' || isVideoUrl(url)) && !isYouTubeUrl(url) && (
                 <View style={s.videoWrap}>
                   <View style={s.videoFrame}>
                     {Platform.OS === 'web' ? (

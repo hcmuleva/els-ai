@@ -22,6 +22,7 @@ import SelectorModal from '../../src/components/SelectorModal';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { getAuthorizedClasses, getAuthorizedSubjects } from '../../src/utils/assignments';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
+import { PickedFile, pickFileAsDataUrl, uploadPickedFileToS3 } from '../../src/utils/fileUpload';
 import { AudioManager } from '../../src/utils/audio';
 import TopicsTab from '../../src/components/manage/TopicsTab';
 import ContentTab from '../../src/components/manage/ContentTab';
@@ -209,7 +210,7 @@ type TopicSectionDraft = {
 
 const CONTENT_TYPE_CHOICES: Array<{ value: TopicSectionDraft['contentType']; label: string }> = [
   { value: 'reel', label: 'Reel (Video Upload)' },
-  { value: 'image', label: 'Image Upload' },
+  { value: 'image', label: 'Image / Video Upload' },
   { value: 'text', label: 'Text' },
   { value: 'audio', label: 'Audio Upload' },
   { value: 'youtube_url', label: 'Youtube URL' },
@@ -225,8 +226,8 @@ const CREATE_CONTENT_TYPE_CHOICES: Array<{ value: 'media' | 'text' | 'youtube_ur
 const QUESTION_TYPE_CHOICES: Array<{ value: SupportedQuestionType; label: string; description: string }> = [
   {
     value: 'guess_image',
-    label: 'Guess the Image',
-    description: 'Show a main image prompt and let students choose the correct image option.',
+    label: 'Guess the Image / Video',
+    description: 'Show a main image/video prompt and let students choose the correct image option.',
   },
   {
     value: 'drag_drop_match',
@@ -276,7 +277,7 @@ const QUESTION_TYPE_CHOICES: Array<{ value: SupportedQuestionType; label: string
 ];
 
 const QUESTION_TYPE_LABELS: Record<string, string> = {
-  guess_image: 'Guess the Image',
+  guess_image: 'Guess the Image / Video',
   drag_drop_match: 'Drag & Drop Match',
   guess_audio: 'Guess the Audio',
   true_false: 'True / False',
@@ -286,7 +287,7 @@ const QUESTION_TYPE_LABELS: Record<string, string> = {
   memory_match: 'Memory Match',
   fill_blank: 'Fill in the Blank',
   jigsaw: 'Jigsaw Puzzle',
-  image_select: 'Guess the Image',
+  image_select: 'Guess the Image / Video',
   drag_drop: 'Drag & Drop Match',
   sound_match: 'Guess the Audio',
   memory_game: 'Multi Choice',
@@ -774,7 +775,7 @@ function draftToPayload(draft: QuestionDraft) {
 
     if (normalizedType === 'guess_image') {
       if (!mainImage) {
-        throw new Error('Add main image for Guess the Image questions.');
+        throw new Error('Add main media for Guess the Image / Video questions.');
       }
       preparedOptions.forEach((option, index) => {
         if (!option.image) {
@@ -1064,50 +1065,13 @@ function resolvePickedMediaKind(file: PickedFile): 'image' | 'audio' | null {
   return null;
 }
 
-async function pickFileAsDataUrl(accept: string, unsupportedMessage: string): Promise<PickedFile> {
-  if (Platform.OS !== 'web') {
-    throw new Error(unsupportedMessage);
-  }
-
-  return await new Promise((resolve, reject) => {
-    const doc = (globalThis as any).document;
-    if (!doc) {
-      reject(new Error('File picker is unavailable in this environment.'));
-      return;
-    }
-
-    const input = doc.createElement('input');
-    input.type = 'file';
-    input.accept = accept;
-
-    input.onchange = () => {
-      const file = input.files?.[0];
-      if (!file) {
-        reject(new Error('No file selected.'));
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () =>
-        resolve({
-          dataUrl: String(reader.result || ''),
-          fileName: file.name || 'uploaded-file',
-          mimeType: file.type || '',
-        });
-      reader.onerror = () => reject(new Error('Failed to read selected file.'));
-      reader.readAsDataURL(file);
-    };
-
-    input.click();
-  });
-}
 
 async function pickAudioAsDataUrl(): Promise<PickedFile> {
   return pickFileAsDataUrl('audio/*', 'Audio upload is currently available on web. On mobile, paste audio URL manually.');
 }
 
 async function pickImageAsDataUrl(): Promise<PickedFile> {
-  return pickFileAsDataUrl('image/*', 'Image upload is currently available on web. On mobile, paste image URL manually.');
+  return pickFileAsDataUrl('image/*,video/*', 'Media upload is currently available on web. On mobile, paste media URL manually.');
 }
 
 async function pickMediaAsDataUrl(): Promise<PickedFile> {
@@ -1516,7 +1480,7 @@ export default function QuestionManagementScreen() {
           : 'image';
       const uploaded = await uploadPickedFileToS3(picked, mediaType);
       updateCreateSection(sectionId, {
-        contentType: mediaType === 'video' ? 'reel' : mediaType === 'audio' ? 'audio' : 'image',
+        contentType: mediaType === 'video' ? 'image' : mediaType === 'audio' ? 'audio' : 'image',
         mediaUrl: uploaded.url,
         mediaLabel: uploaded.fileName,
         externalUrl: '',
@@ -1978,31 +1942,7 @@ export default function QuestionManagementScreen() {
     }));
   };
 
-  const uploadPickedFileToS3 = async (picked: PickedFile, mediaType: 'image' | 'audio' | 'video') => {
-    const res = await apiFetch('/assets/upload', {
-      method: 'POST',
-      body: JSON.stringify({
-        dataUrl: picked.dataUrl,
-        fileName: picked.fileName,
-        mimeType: picked.mimeType,
-        mediaType,
-        context: 'question_management',
-      }),
-    });
-
-    if (!res.ok) {
-      const errorPayload = await res.json().catch(() => ({}));
-      throw new Error(errorPayload.message || 'Failed to upload media');
-    }
-
-    const payload = await res.json();
-    return {
-      url: String(payload.url || ''),
-      canonicalUrl: String(payload.canonicalUrl || ''),
-      assetId: String(payload.assetId || ''),
-      fileName: String(payload.fileName || picked.fileName || 'uploaded-file'),
-    };
-  };
+  // using shared uploadPickedFileToS3
 
   const uploadAudioForQuestion = async (mode: 'create' | 'edit') => {
     try {
@@ -3936,7 +3876,7 @@ export default function QuestionManagementScreen() {
           onApplyFilters={loadContentItems}
           onDeleteContent={(id) => deleteContentItem(id)}
           onRefresh={() => { loadContentItems(); loadTopics(); }}
-          onUploadMedia={async (_draftId) => {
+          onUploadMedia={async (_draftId, onProgress) => {
             const picked = await pickFileAsDataUrl(
               'image/*,audio/*,video/*',
               'Media upload is currently available on web. On mobile, provide URL-based content.',
@@ -3948,9 +3888,9 @@ export default function QuestionManagementScreen() {
               : lm.startsWith('audio/') || /\.(mp3|wav|ogg|aac|m4a|flac)$/.test(ln)
                 ? 'audio'
                 : 'image';
-            const uploaded = await uploadPickedFileToS3(picked, mediaType);
+            const uploaded = await uploadPickedFileToS3(picked, mediaType, onProgress);
             const contentType: 'reel_url' | 'audio' | 'image' | 'youtube_url' | 'text' =
-              mediaType === 'video' ? 'reel_url' : mediaType === 'audio' ? 'audio' : 'image';
+              mediaType === 'video' ? 'image' : mediaType === 'audio' ? 'audio' : 'image';
             return { url: uploaded.url, contentType };
           }}
           message={message}

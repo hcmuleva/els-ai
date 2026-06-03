@@ -6,7 +6,8 @@ import { getStandardLabel, STANDARD_OPTIONS } from '../../src/constants/standard
 import SelectorModal from '../../src/components/SelectorModal';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
-
+import { PickedFile, pickFileAsDataUrl } from '../../src/utils/fileUpload';
+import MediaUploader from '../../src/components/media/MediaUploader';
 type ContentSection = {
   id: string;
   sectionOrder: number;
@@ -74,7 +75,7 @@ type ClassroomItem = {
 
 type SelectorField = 'class';
 type StudentTab = 'content' | 'quiz' | 'assignments';
-type PickedFile = { dataUrl: string; fileName: string; mimeType: string };
+
 
 const STATUS_COLORS: Record<ClassroomItem['status'], string> = {
   active: '#16a34a',
@@ -82,39 +83,8 @@ const STATUS_COLORS: Record<ClassroomItem['status'], string> = {
   draft: '#2563eb',
 };
 
-async function pickFileAsDataUrl(accept: string): Promise<PickedFile> {
-  if (Platform.OS !== 'web') {
-    throw new Error('File upload is currently supported on web. On mobile, paste submission URL manually.');
-  }
 
-  return await new Promise((resolve, reject) => {
-    const doc = (globalThis as any).document;
-    if (!doc) {
-      reject(new Error('File picker is unavailable in this environment.'));
-      return;
-    }
-    const input = doc.createElement('input');
-    input.type = 'file';
-    input.accept = accept;
-    input.onchange = () => {
-      const file = input.files?.[0];
-      if (!file) {
-        reject(new Error('No file selected.'));
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () =>
-        resolve({
-          dataUrl: String(reader.result || ''),
-          fileName: file.name || 'uploaded-file',
-          mimeType: file.type || '',
-        });
-      reader.onerror = () => reject(new Error('Failed to read selected file.'));
-      reader.readAsDataURL(file);
-    };
-    input.click();
-  });
-}
+
 
 function resolveMediaType(file: PickedFile): 'image' | 'audio' | 'video' {
   const mime = file.mimeType.toLowerCase();
@@ -243,31 +213,7 @@ export default function PracticeScreen() {
     setSubmissionAttachmentUrl(assignment.submission?.attachmentUrl || '');
   };
 
-  const uploadSubmissionAttachment = async () => {
-    if (!assignmentModal) return;
-    try {
-      const picked = await pickFileAsDataUrl('image/*,audio/*,video/*');
-      const mediaType = resolveMediaType(picked);
-      const res = await apiFetch('/assets/upload', {
-        method: 'POST',
-        body: JSON.stringify({
-          dataUrl: picked.dataUrl,
-          fileName: picked.fileName,
-          mimeType: picked.mimeType,
-          mediaType,
-        }),
-      });
-      if (!res.ok) {
-        const payload = await res.json().catch(() => ({}));
-        throw new Error(payload.message || 'Failed to upload submission attachment');
-      }
-      const payload = await res.json();
-      setSubmissionAttachmentUrl(payload.url || '');
-      setMessage({ type: 'success', text: 'Attachment uploaded successfully.' });
-    } catch (error) {
-      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload attachment' });
-    }
-  };
+
 
   const submitAssignment = async () => {
     if (!assignmentModal || !selectedClassroom) return;
@@ -633,15 +579,15 @@ export default function PracticeScreen() {
                     style={styles.input}
                     multiline
                   />
-                  <TextInput
+                  <MediaUploader
+                    accept="image/*,audio/*,video/*,application/pdf"
+                    mediaType="document"
                     value={submissionAttachmentUrl}
-                    onChangeText={setSubmissionAttachmentUrl}
-                    placeholder="Submission attachment URL"
-                    style={styles.input}
+                    fileName={submissionAttachmentUrl ? submissionAttachmentUrl.split('/').pop() : ''}
+                    onUploadSuccess={(url) => setSubmissionAttachmentUrl(url)}
+                    onClear={() => setSubmissionAttachmentUrl('')}
+                    buttonLabel="Upload Attachment"
                   />
-                  <Pressable style={styles.secondaryButton} onPress={uploadSubmissionAttachment}>
-                    <Text style={styles.secondaryButtonText}>Upload Attachment</Text>
-                  </Pressable>
                 </>
               )}
             </ScrollView>

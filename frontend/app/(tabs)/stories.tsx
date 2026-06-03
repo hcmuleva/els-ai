@@ -17,6 +17,7 @@ import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standard
 import SelectorModal from '../../src/components/SelectorModal';
 import CreateQuizModal from '../../src/components/quiz/CreateQuizModal';
 import StudentStoryViewer, { type StoryPreviewMeta, type StoryPreviewSection } from '../../src/components/stories/StudentStoryViewer';
+import { PickedFile, pickFileAsDataUrl, uploadPickedFileToS3 } from '../../src/utils/fileUpload';
 
 // ─────────────────────────── types ───────────────────────────
 type StoryStatus = 'draft' | 'scheduled' | 'live' | 'ended';
@@ -85,30 +86,8 @@ function getDateTimeParts(value?: string | null): { date: string; time: string }
     time: d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }),
   };
 }
-type PickedFile = { dataUrl: string; fileName: string; mimeType: string };
-async function pickFileAsDataUrl(accept: string, unsupportedMessage: string): Promise<PickedFile> {
-  if (Platform.OS !== 'web') throw new Error(unsupportedMessage);
-  return await new Promise((resolve, reject) => {
-    const doc = (globalThis as any).document;
-    if (!doc) { reject(new Error('File picker is unavailable in this environment.')); return; }
-    const input = doc.createElement('input');
-    input.type = 'file';
-    input.accept = accept;
-    input.onchange = () => {
-      const file = input.files?.[0];
-      if (!file) { reject(new Error('No file selected.')); return; }
-      const reader = new FileReader();
-      reader.onload = () => resolve({
-        dataUrl: String(reader.result || ''),
-        fileName: file.name || 'uploaded-file',
-        mimeType: file.type || '',
-      });
-      reader.onerror = () => reject(new Error('Failed to read selected file.'));
-      reader.readAsDataURL(file);
-    };
-    input.click();
-  });
-}
+
+
 
 // ─────────────────────────── main screen ──────────────────────
 export default function StoriesScreen() {
@@ -290,36 +269,17 @@ export default function StoriesScreen() {
     } catch { /* ignore */ }
   };
 
-  const uploadPickedFileToS3 = async (picked: PickedFile, mediaType: 'image' | 'audio' | 'video') => {
-    const res = await apiFetch('/assets/upload', {
-      method: 'POST',
-      body: JSON.stringify({
-        dataUrl: picked.dataUrl,
-        fileName: picked.fileName,
-        mimeType: picked.mimeType,
-        mediaType,
-        context: 'story_management',
-      }),
-    });
-    if (!res.ok) {
-      const errorPayload = await res.json().catch(() => ({}));
-      throw new Error(errorPayload.message || 'Failed to upload media');
-    }
-    const payload = await res.json();
-    return {
-      url: String(payload.url || ''),
-      fileName: String(payload.fileName || picked.fileName || 'uploaded-file'),
-    };
-  };
+  // Using shared uploadPickedFileToS3
 
   const uploadCoverImage = async () => {
     try {
       setCoverUploading(true);
       const picked = await pickFileAsDataUrl('image/*', 'Image upload is available on web. On mobile, please use web for upload.');
-      const uploaded = await uploadPickedFileToS3(picked, 'image');
+      const uploaded = await uploadPickedFileToS3(picked, 'image', 'story_management');
       setFCover(uploaded.url);
       setFCoverLabel(uploaded.fileName);
     } catch (error) {
+      if (error instanceof Error && error.message === 'UPLOAD_CANCELLED') return;
       Alert.alert('Upload failed', error instanceof Error ? error.message : 'Failed to upload cover image');
     } finally { setCoverUploading(false); }
   };
@@ -335,13 +295,14 @@ export default function StoriesScreen() {
     try {
       setSecMediaUploading(true);
       const picked = await pickFileAsDataUrl(accept, 'Upload is available on web. On mobile, use paste-link mode.');
-      const uploaded = await uploadPickedFileToS3(picked, mediaType);
+      const uploaded = await uploadPickedFileToS3(picked, mediaType, 'story_management');
       setEditingSec({
         ...editingSec,
         media: [{ kind, url: uploaded.url, caption: uploaded.fileName }],
       });
       setSecMediaSource('upload');
     } catch (error) {
+      if (error instanceof Error && error.message === 'UPLOAD_CANCELLED') return;
       Alert.alert('Upload failed', error instanceof Error ? error.message : 'Failed to upload media');
     } finally { setSecMediaUploading(false); }
   };
