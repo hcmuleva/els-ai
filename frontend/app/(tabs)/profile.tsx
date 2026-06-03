@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, View, Modal } from 'react-native';
 import { router } from 'expo-router';
 import {
   LogOut,
@@ -16,10 +16,12 @@ import {
   Users,
   Shield,
   Check,
+  Trash2,
   type LucideIcon,
 } from 'lucide-react-native';
 
 import { useAuth } from '../../src/context/AuthContext';
+import { useStudentProfile } from '../../src/context/StudentProfileContext';
 import { UserRole } from '../../src/types/roles';
 
 const ROLE_COLORS: Record<string, string> = {
@@ -39,11 +41,20 @@ const ROLE_ICONS: Record<string, LucideIcon> = {
 };
 
 export default function ProfileScreen() {
-  const { user, setActiveRole, signOut, apiFetch } = useAuth();
+  const { user, setActiveRole, signOut, apiFetch, deleteAccount, deleteChildAccount } = useAuth();
+  const { refreshAll } = useStudentProfile();
   const [connectId, setConnectId] = useState('');
   const [connectMessage, setConnectMessage] = useState('');
   const [connectError, setConnectError] = useState('');
   const [connecting, setConnecting] = useState(false);
+  const [deleteChildId, setDeleteChildId] = useState('');
+  const [deleteChildLoading, setDeleteChildLoading] = useState(false);
+  const [deleteChildError, setDeleteChildError] = useState('');
+
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [deleteAccountLoading, setDeleteAccountLoading] = useState(false);
+  const [deleteAccountError, setDeleteAccountError] = useState('');
+  const [deleteChildModalVisible, setDeleteChildModalVisible] = useState(false);
 
   const handleRoleSelect = (role: UserRole) => {
     setActiveRole(role);
@@ -73,12 +84,52 @@ export default function ProfileScreen() {
       if (!res.ok) throw new Error(payload.message || 'Failed to connect');
       setConnectMessage(payload.message || 'Connected successfully');
       setConnectId('');
+      refreshAll();
     } catch (error) {
       setConnectError(error instanceof Error ? error.message : 'Failed to connect');
     } finally {
       setConnecting(false);
     }
   };
+
+  const handleDeleteAccount = () => {
+    setDeleteAccountError('');
+    setDeleteModalVisible(true);
+  };
+
+  const confirmDeleteAccount = async () => {
+    setDeleteAccountLoading(true);
+    setDeleteAccountError('');
+    const res = await deleteAccount();
+    setDeleteAccountLoading(false);
+    if (!res.success) {
+      setDeleteAccountError(res.error || "Failed to delete account");
+    } else {
+      setDeleteModalVisible(false);
+    }
+  };
+
+  const handleDeleteChildAccount = () => {
+    if (!deleteChildId.trim()) {
+      setDeleteChildError('Please enter child registration ID');
+      return;
+    }
+    setDeleteChildModalVisible(true);
+  };
+
+  const confirmDeleteChildAccount = async () => {
+    setDeleteChildLoading(true);
+    setDeleteChildError('');
+    const res = await deleteChildAccount(deleteChildId.trim());
+    setDeleteChildLoading(false);
+    if (res.success) {
+      setDeleteChildModalVisible(false);
+      setDeleteChildId('');
+    } else {
+      setDeleteChildError(res.error || "Failed to delete child account");
+    }
+  };
+
 
   return (
     <ScrollView style={s.screen} contentContainerStyle={s.scroll}>
@@ -209,11 +260,87 @@ export default function ProfileScreen() {
         </>
       )}
 
-      {/* ─── Sign out ──────────────────────────────────────────────────── */}
-      <Pressable style={s.signOutBtn} onPress={signOut}>
-        <LogOut size={18} color="#FF4444" />
-        <Text style={s.signOutText}>Sign Out</Text>
+      {user?.activeRole === 'parent' && (
+        <>
+          <Text style={s.sectionTitle}>Danger Zone</Text>
+          <View style={[s.menuCard, s.dangerCard]}>
+            <View style={s.connectWrap}>
+              <Text style={s.connectTitle}>Delete Child's Account</Text>
+              <Text style={s.menuSub}>Enter child's registration ID to delete their account</Text>
+              <TextInput
+                value={deleteChildId}
+                onChangeText={setDeleteChildId}
+                autoCapitalize="characters"
+                placeholder="ELS-XXXXXXXXXX"
+                placeholderTextColor="#9A9AB0"
+                style={s.connectInput}
+              />
+              <Pressable style={s.deleteBtn} onPress={handleDeleteChildAccount} disabled={deleteChildLoading}>
+                {deleteChildLoading ? <ActivityIndicator color="#fff" /> : <Text style={s.deleteBtnText}>Delete Child's Account</Text>}
+              </Pressable>
+              {!!deleteChildError && <Text style={s.connectError}>{deleteChildError}</Text>}
+            </View>
+          </View>
+        </>
+      )}
+
+      {/* ─── Delete Account ──────────────────────────────────────────────────── */}
+      <Pressable style={s.signOutBtn} onPress={handleDeleteAccount}>
+        <Trash2 size={18} color="#FF4444" />
+        <Text style={s.signOutText}>Delete Account</Text>
       </Pressable>
+
+      <Modal
+        visible={deleteModalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setDeleteModalVisible(false)}
+      >
+        <View style={s.modalOverlay}>
+          <View style={s.modalContent}>
+            <Text style={s.modalTitle}>Delete Account</Text>
+            <Text style={s.modalText}>
+              Are you sure you want to delete your account?{'\n\n'}
+              This will permanently delete your profile, progress, scores, and all associated data. This action cannot be undone.
+            </Text>
+            {!!deleteAccountError && <Text style={s.connectError}>{deleteAccountError}</Text>}
+            <View style={s.modalActions}>
+              <Pressable style={s.modalBtnCancel} onPress={() => setDeleteModalVisible(false)}>
+                <Text style={s.modalBtnCancelText}>Cancel</Text>
+              </Pressable>
+              <Pressable style={s.modalBtnDelete} onPress={confirmDeleteAccount} disabled={deleteAccountLoading}>
+                {deleteAccountLoading ? <ActivityIndicator color="#fff" /> : <Text style={s.modalBtnDeleteText}>Delete</Text>}
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        visible={deleteChildModalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setDeleteChildModalVisible(false)}
+      >
+        <View style={s.modalOverlay}>
+          <View style={s.modalContent}>
+            <Text style={s.modalTitle}>Delete Child's Account</Text>
+            <Text style={s.modalText}>
+              Are you sure you want to delete this child's account?{'\n\n'}
+              This will permanently delete their profile, learning progress, scores, and all associated data. This action cannot be undone.
+            </Text>
+            {!!deleteChildError && <Text style={s.connectError}>{deleteChildError}</Text>}
+            <View style={s.modalActions}>
+              <Pressable style={s.modalBtnCancel} onPress={() => setDeleteChildModalVisible(false)}>
+                <Text style={s.modalBtnCancelText}>Cancel</Text>
+              </Pressable>
+              <Pressable style={s.modalBtnDelete} onPress={confirmDeleteChildAccount} disabled={deleteChildLoading}>
+                {deleteChildLoading ? <ActivityIndicator color="#fff" /> : <Text style={s.modalBtnDeleteText}>Delete</Text>}
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
 
     </ScrollView>
   );
@@ -329,7 +456,20 @@ const s = StyleSheet.create({
   connectSuccess: { fontSize: 12, color: '#2E7D32', fontWeight: '600' },
   connectError: { fontSize: 12, color: '#C62828', fontWeight: '600' },
 
-  // Sign out
+  // Danger
+  dangerCard: {
+    borderColor: '#FFD8D8',
+    shadowColor: '#FF8888',
+  },
+  deleteBtn: {
+    backgroundColor: '#FF4444',
+    borderRadius: 12,
+    paddingVertical: 11,
+    alignItems: 'center',
+  },
+  deleteBtnText: { color: '#fff', fontSize: 13, fontWeight: '800' },
+
+  // Sign out / Delete Account
   signOutBtn: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
     marginHorizontal: 16, marginBottom: 12,
@@ -338,4 +478,59 @@ const s = StyleSheet.create({
     borderWidth: 1, borderColor: '#FFD8D8',
   },
   signOutText: { fontSize: 14, fontWeight: '800', color: '#FF4444' },
+
+  // Modal
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 24,
+    width: '100%',
+    maxWidth: 400,
+    gap: 16,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#1a1a2e',
+  },
+  modalText: {
+    fontSize: 14,
+    color: '#5A5A7A',
+    lineHeight: 20,
+  },
+  modalActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 12,
+    marginTop: 8,
+  },
+  modalBtnCancel: {
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    backgroundColor: '#F4F5FF',
+  },
+  modalBtnCancelText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#5A5A7A',
+  },
+  modalBtnDelete: {
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    backgroundColor: '#FF4444',
+  },
+  modalBtnDeleteText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#fff',
+  },
 });

@@ -12,7 +12,7 @@ import { Colors, Radius, Shadow } from '../../src/theme';
 import { BillingPanel } from '../../src/components/billing/BillingPanel';
 import { PlansPanel } from '../../src/components/billing/PlansPanel';
 import SelectorModal, { SelectorOption } from '../../src/components/SelectorModal';
-import { pickFileAsDataUrl } from '../../src/components/quiz/questionEditor.helpers';
+import { pickFileAsDataUrl, uploadPickedFileToS3 } from '../../src/utils/fileUpload';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 
 type Organization = {
@@ -31,6 +31,8 @@ type OrganizationUser = {
   email: string;
   activeRole: string;
   roles: string[];
+  classLevel?: string;
+  mobileNumber?: string;
   canPublishGlobal?: boolean;
 };
 
@@ -97,6 +99,13 @@ export default function SuperadminPage() {
   const [assignTargetPickerOpen, setAssignTargetPickerOpen] = useState(false);
   const [assignSaving, setAssignSaving] = useState(false);
 
+  // Member Search & Pagination state
+  const [memberSearchQuery, setMemberSearchQuery] = useState('');
+  const [memberStandardFilter, setMemberStandardFilter] = useState('');
+  const [memberCurrentPage, setMemberCurrentPage] = useState(1);
+  const [memberFilterPickerOpen, setMemberFilterPickerOpen] = useState(false);
+  const MEMBER_PAGE_SIZE = 10;
+
   const selectedOrg = useMemo(
     () => organizations.find((item) => item.id === selectedOrgId) || null,
     [organizations, selectedOrgId],
@@ -110,6 +119,21 @@ export default function SuperadminPage() {
     })),
     [organizations],
   );
+
+  const filteredOrgUsers = useMemo(() => {
+    return orgUsers.filter((user) => {
+      if (memberStandardFilter && user.classLevel !== memberStandardFilter) return false;
+      if (memberSearchQuery) {
+        const q = memberSearchQuery.toLowerCase();
+        const name = `${user.firstName || ''} ${user.lastName || ''}`.toLowerCase();
+        const email = user.email?.toLowerCase() || '';
+        const phone = user.mobileNumber?.toLowerCase() || '';
+        const id = user.id?.toLowerCase() || '';
+        if (!name.includes(q) && !email.includes(q) && !phone.includes(q) && !id.includes(q)) return false;
+      }
+      return true;
+    });
+  }, [orgUsers, memberSearchQuery, memberStandardFilter]);
 
   const loadOrganizations = useCallback(async () => {
     const response = await apiFetch('/organizations');
@@ -126,6 +150,7 @@ export default function SuperadminPage() {
     if (!response.ok) throw new Error('Failed to load organization users');
     const data = await response.json();
     setOrgUsers((data.users || []) as OrganizationUser[]);
+    setMemberCurrentPage(1); // reset to page 1 on load
   }, [apiFetch, selectedOrgId]);
 
   useEffect(() => {
@@ -151,23 +176,10 @@ export default function SuperadminPage() {
     try {
       setUploading(true);
       const picked = await pickFileAsDataUrl('image/*', 'Logo upload is available on web. On mobile, please use web for upload.');
-      const res = await apiFetch('/assets/upload', {
-        method: 'POST',
-        body: JSON.stringify({
-          dataUrl: picked.dataUrl,
-          fileName: picked.fileName,
-          mimeType: picked.mimeType,
-          mediaType: 'image',
-          context: 'org_logo',
-        }),
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || 'Upload failed');
-      }
-      const payload = await res.json();
-      setUrl(String(payload.url || ''));
+      const payload = await uploadPickedFileToS3(picked, 'image', 'org_logo');
+      setUrl(payload.url || '');
     } catch (e: any) {
+      if (e instanceof Error && e.message === 'UPLOAD_CANCELLED') return;
       Alert.alert('Upload failed', e?.message || 'Failed to upload logo');
     } finally {
       setUploading(false);
@@ -490,13 +502,35 @@ export default function SuperadminPage() {
                 Members {selectedOrg ? `· ${selectedOrg.name}` : ''}
               </Text>
             </View>
-            {orgUsers.length === 0 ? (
+            <View style={{ flexDirection: 'row', gap: 8, marginBottom: 12 }}>
+              <View style={styles.searchBar}>
+                <Search size={16} color={Colors.textMuted} />
+                <TextInput
+                  value={memberSearchQuery}
+                  onChangeText={(v) => { setMemberSearchQuery(v); setMemberCurrentPage(1); }}
+                  placeholder="Search name, email, or ID..."
+                  style={styles.searchBarInput}
+                  placeholderTextColor={Colors.textDisabled}
+                />
+              </View>
+              <Pressable style={styles.filterChipBtn} onPress={() => setMemberFilterPickerOpen(true)}>
+                <Text style={memberStandardFilter ? styles.filterChipActive : styles.filterChipPlaceholder}>
+                  {memberStandardFilter ? getStandardLabel(memberStandardFilter) : 'Standard ▾'}
+                </Text>
+              </Pressable>
+              {memberStandardFilter ? (
+                <Pressable style={styles.filterChipBtn} onPress={() => { setMemberStandardFilter(''); setMemberCurrentPage(1); }}>
+                  <Text style={[styles.filterChipActive, { color: '#DC2626' }]}>Clear</Text>
+                </Pressable>
+              ) : null}
+            </View>
+            {filteredOrgUsers.length === 0 ? (
               <View style={styles.emptyBox}>
-                <Text style={styles.emptyText}>No members in this organization yet.</Text>
+                <Text style={styles.emptyText}>No members found.</Text>
               </View>
             ) : (
               <View style={styles.memberList}>
-                {orgUsers.map((member) => (
+                {filteredOrgUsers.slice((memberCurrentPage - 1) * MEMBER_PAGE_SIZE, memberCurrentPage * MEMBER_PAGE_SIZE).map((member) => (
                   <View key={member.id} style={styles.memberCard}>
                     <View style={styles.memberMain}>
                       <View style={styles.memberAvatar}>
@@ -519,6 +553,29 @@ export default function SuperadminPage() {
                     ) : null}
                   </View>
                 ))}
+                {(() => {
+                  const totalPages = Math.ceil(filteredOrgUsers.length / MEMBER_PAGE_SIZE);
+                  if (totalPages <= 1) return null;
+                  return (
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 12, paddingHorizontal: 16 }}>
+                      <Pressable 
+                        style={[styles.pageBtn, memberCurrentPage === 1 && { opacity: 0.5 }]} 
+                        onPress={() => setMemberCurrentPage(p => Math.max(1, p - 1))}
+                        disabled={memberCurrentPage === 1}
+                      >
+                        <Text style={styles.pageBtnText}>Prev</Text>
+                      </Pressable>
+                      <Text style={styles.pageText}>Page {memberCurrentPage} of {totalPages}</Text>
+                      <Pressable 
+                        style={[styles.pageBtn, memberCurrentPage === totalPages && { opacity: 0.5 }]} 
+                        onPress={() => setMemberCurrentPage(p => Math.min(totalPages, p + 1))}
+                        disabled={memberCurrentPage === totalPages}
+                      >
+                        <Text style={styles.pageBtnText}>Next</Text>
+                      </Pressable>
+                    </View>
+                  );
+                })()}
               </View>
             )}
           </View>
@@ -816,6 +873,17 @@ export default function SuperadminPage() {
         onClose={() => setStandardPickerOpen(false)}
       />
 
+      {/* ── Member Filter picker ── */}
+      <SelectorModal
+        visible={memberFilterPickerOpen}
+        title="Filter by Standard"
+        options={STANDARD_OPTIONS}
+        selected={memberStandardFilter}
+        showAny={true}
+        onSelect={(value) => { setMemberStandardFilter(value); setMemberCurrentPage(1); }}
+        onClose={() => setMemberFilterPickerOpen(false)}
+      />
+
       {/* ── Assign user modal ── */}
       <FormModal
         visible={assignOpen}
@@ -1049,8 +1117,9 @@ function FormModal({
 }) {
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
-      <Pressable style={styles.overlay} onPress={onClose}>
-        <Pressable style={styles.modalSheet} onPress={(e) => e.stopPropagation()}>
+      <View style={styles.overlay}>
+        <Pressable style={StyleSheet.absoluteFill} onPress={onClose} />
+        <View style={styles.modalSheet}>
           <View style={styles.modalHeader}>
             {Icon ? (
               <View style={styles.modalHeroIcon}>
@@ -1073,8 +1142,8 @@ function FormModal({
             {children}
           </ScrollView>
           {footer ? <View style={styles.modalFooterFixed}>{footer}</View> : null}
-        </Pressable>
-      </Pressable>
+        </View>
+      </View>
     </Modal>
   );
 }
@@ -1519,4 +1588,15 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   warnText: { flex: 1, fontSize: 11, fontWeight: '600', color: '#92400E', lineHeight: 16 },
+
+  filterChipBtn: { borderRadius: 10, backgroundColor: '#F0F0F8', paddingHorizontal: 12, paddingVertical: 9, justifyContent: 'center' },
+  filterChipActive:     { fontSize: 12, fontWeight: '700', color: '#4A90E2' },
+  filterChipPlaceholder:{ fontSize: 12, fontWeight: '600', color: '#9A9AB0' },
+
+  searchBar:      { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: '#F8F9FF', borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 9 },
+  searchBarInput: { flex: 1, fontSize: 13, color: '#1a1a2e', paddingVertical: 0 },
+
+  pageBtn:      { paddingHorizontal: 16, paddingVertical: 8, backgroundColor: '#EEF4FF', borderRadius: 8 },
+  pageBtnText:  { fontSize: 13, fontWeight: '700', color: '#4A90E2' },
+  pageText:     { fontSize: 13, fontWeight: '600', color: '#9A9AB0' },
 });

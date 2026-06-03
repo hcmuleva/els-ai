@@ -7,9 +7,11 @@ import SelectorModal from '../../src/components/SelectorModal';
 import CreateQuizModal from '../../src/components/quiz/CreateQuizModal';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
+import { getAuthorizedClasses, getAuthorizedCatalogItems } from '../../src/utils/assignments';
 import { useAuth } from '../../src/context/AuthContext';
 import ClassDetailsScreen from '../../src/components/classroom/ClassDetailsScreen';
-
+import { PickedFile, pickFileAsDataUrl, uploadPickedFileToS3 } from '../../src/utils/fileUpload';
+import MediaUploader from '../../src/components/media/MediaUploader';
 type ModalTab = 'setup' | 'sections' | 'preview';
 
 type ScheduleType = 'instant' | 'scheduled';
@@ -85,7 +87,8 @@ type SubjectCatalogItem = {
   iconBgColor?: string;
 };
 
-type PickedFile = { dataUrl: string; fileName: string; mimeType: string };
+
+
 
 const STATUS_COLORS: Record<ClassroomStatus, string> = {
   active: '#16a34a',
@@ -120,43 +123,8 @@ const makeAssignment = (): AssignmentDraft => ({
   isTimeBound: false,
 });
 
-async function pickFileAsDataUrl(accept: string): Promise<PickedFile> {
-  if (Platform.OS !== 'web') {
-    throw new Error('File upload is currently supported on web. On mobile, paste attachment URL manually.');
-  }
 
-  return await new Promise((resolve, reject) => {
-    const doc = (globalThis as any).document;
-    if (!doc) {
-      reject(new Error('File picker is unavailable in this environment.'));
-      return;
-    }
 
-    const input = doc.createElement('input');
-    input.type = 'file';
-    input.accept = accept;
-
-    input.onchange = () => {
-      const file = input.files?.[0];
-      if (!file) {
-        reject(new Error('No file selected.'));
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () =>
-        resolve({
-          dataUrl: String(reader.result || ''),
-          fileName: file.name || 'uploaded-file',
-          mimeType: file.type || '',
-        });
-      reader.onerror = () => reject(new Error('Failed to read selected file.'));
-      reader.readAsDataURL(file);
-    };
-
-    input.click();
-  });
-}
 
 function resolveUploadMediaType(file: PickedFile): 'image' | 'audio' | 'video' {
   const mime = file.mimeType.toLowerCase();
@@ -299,6 +267,8 @@ export default function PlannerScreen() {
   const [saving, setSaving] = useState(false);
   const [deletingClassroomId, setDeletingClassroomId] = useState<string | null>(null);
   const [classrooms, setClassrooms] = useState<ClassroomSummary[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const [contentItems, setContentItems] = useState<ContentItem[]>([]);
   const [quizItems, setQuizItems] = useState<QuizItem[]>([]);
   const [subjectCatalog, setSubjectCatalog] = useState<SubjectCatalogItem[]>([]);
@@ -410,34 +380,63 @@ export default function PlannerScreen() {
   );
 
   const classLevelOptions = useMemo(
-    () => ['ANY', ...STANDARD_OPTIONS.map((item) => item.value)],
-    [],
+    () => {
+      const allClassOptions = STANDARD_OPTIONS.map((item) => item.value);
+      return ['ANY', ...getAuthorizedClasses(user, allClassOptions)];
+    },
+    [user],
   );
   const isAnyClass = form.classLevel === 'ANY';
   const matchesClassLevel = (itemClassLevel?: string) =>
     !form.classLevel || isAnyClass || itemClassLevel === form.classLevel;
 
   const subjectOptions = useMemo(
-    () =>
-      [
+    () => {
+      const authorizedItems = getAuthorizedCatalogItems(
+        user,
+        subjectCatalog,
+        (item) => item.classLevel,
+        (item) => item.subject,
+        isAnyClass ? undefined : form.classLevel || undefined
+      );
+      return [
         ...new Set(
-          subjectCatalog
+          authorizedItems
             .filter((item) => matchesClassLevel(item.classLevel))
             .map((item) => item.subject),
         ),
-      ].sort((a, b) => a.localeCompare(b)),
-    [form.classLevel, subjectCatalog],
+      ].sort((a, b) => a.localeCompare(b));
+    },
+    [form.classLevel, subjectCatalog, user, isAnyClass],
   );
 
   const contentSubjectOptions = useMemo(
-    () => [...new Set(contentItems
-      .filter((item) => matchesClassLevel(item.classLevel))
-      .map((item) => item.subject).filter(Boolean))].sort((a, b) => a.localeCompare(b)),
-    [contentItems, form.classLevel],
+    () => {
+      const authorizedItems = getAuthorizedCatalogItems(
+        user,
+        contentItems,
+        (item) => item.classLevel,
+        (item) => item.subject,
+        isAnyClass ? undefined : form.classLevel || undefined
+      );
+      return [...new Set(
+        authorizedItems
+          .filter((item) => matchesClassLevel(item.classLevel))
+          .map((item) => item.subject).filter(Boolean)
+      )].sort((a, b) => a.localeCompare(b));
+    },
+    [contentItems, form.classLevel, user, isAnyClass],
   );
 
   const filteredContents = useMemo(() => {
-    return contentItems
+    const authorizedItems = getAuthorizedCatalogItems(
+      user,
+      contentItems,
+      (item) => item.classLevel,
+      (item) => item.subject,
+      isAnyClass ? undefined : form.classLevel || undefined
+    );
+    return authorizedItems
       .filter((item) => matchesClassLevel(item.classLevel))
       .filter((item) => !contentSubjectFilter || item.subject === contentSubjectFilter)
       .filter((item) => {
@@ -445,22 +444,27 @@ export default function PlannerScreen() {
         if (!keyword) return true;
         return `${item.title} ${item.subject} ${item.contentType}`.toLowerCase().includes(keyword);
       });
-  }, [contentItems, form.classLevel, contentSearch, contentSubjectFilter]);
+  }, [contentItems, form.classLevel, contentSearch, contentSubjectFilter, user, isAnyClass]);
 
-  const filteredQuizzes = useMemo(
-    () =>
-      quizItems
-        .filter((quiz) => matchesClassLevel((quiz.class_level || '').trim()))
-        .filter((quiz) => !quizFilters.subject || (quiz.subject || '').trim() === quizFilters.subject)
-        .filter((quiz) => !quizFilters.category || (quiz.quiz_type || '').toLowerCase().includes(quizFilters.category.toLowerCase()))
-        .filter((quiz) => !quizFilters.difficulty || (quiz.difficulty_level || '').toLowerCase().includes(quizFilters.difficulty.toLowerCase()))
-        .filter((quiz) => {
-          const keyword = quizFilters.search.trim().toLowerCase();
-          if (!keyword) return true;
-          return `${quiz.title} ${quiz.subject || ''}`.toLowerCase().includes(keyword);
-        }),
-    [form.classLevel, quizFilters.category, quizFilters.difficulty, quizFilters.search, quizFilters.subject, quizItems],
-  );
+  const filteredQuizzes = useMemo(() => {
+    const authorizedItems = getAuthorizedCatalogItems(
+      user,
+      quizItems,
+      (quiz) => quiz.class_level || '',
+      (quiz) => quiz.subject || '',
+      isAnyClass ? undefined : form.classLevel || undefined
+    );
+    return authorizedItems
+      .filter((quiz) => matchesClassLevel((quiz.class_level || '').trim()))
+      .filter((quiz) => !quizFilters.subject || (quiz.subject || '').trim() === quizFilters.subject)
+      .filter((quiz) => !quizFilters.category || (quiz.quiz_type || '').toLowerCase().includes(quizFilters.category.toLowerCase()))
+      .filter((quiz) => !quizFilters.difficulty || (quiz.difficulty_level || '').toLowerCase().includes(quizFilters.difficulty.toLowerCase()))
+      .filter((quiz) => {
+        const keyword = quizFilters.search.trim().toLowerCase();
+        if (!keyword) return true;
+        return `${quiz.title} ${quiz.subject || ''}`.toLowerCase().includes(keyword);
+      });
+  }, [form.classLevel, quizFilters.category, quizFilters.difficulty, quizFilters.search, quizFilters.subject, quizItems, user, isAnyClass]);
 
   useEffect(() => { setAssignQuizPage(0); }, [quizFilters.search, quizFilters.subject, quizFilters.category, quizFilters.difficulty, form.classLevel]);
   useEffect(() => { setAssignContentPage(0); }, [contentSearch, contentSubjectFilter, form.classLevel]);
@@ -558,30 +562,7 @@ export default function PlannerScreen() {
     });
   };
 
-  const uploadAssignmentAttachment = async (id: string) => {
-    try {
-      const picked = await pickFileAsDataUrl('image/*,audio/*,video/*');
-      const mediaType = resolveUploadMediaType(picked);
-      const res = await apiFetch('/assets/upload', {
-        method: 'POST',
-        body: JSON.stringify({
-          dataUrl: picked.dataUrl,
-          fileName: picked.fileName,
-          mimeType: picked.mimeType,
-          mediaType,
-        }),
-      });
-      if (!res.ok) {
-        const payload = await res.json().catch(() => ({}));
-        throw new Error(payload.message || 'Failed to upload attachment');
-      }
-      const payload = await res.json();
-      updateAssignment(id, { attachmentUrl: payload.url || '' });
-      setMessage({ type: 'success', text: 'Attachment uploaded successfully.' });
-    } catch (error) {
-      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload attachment' });
-    }
-  };
+
 
   const saveClassroom = async () => {
     if (!form.title.trim()) {
@@ -836,13 +817,21 @@ export default function PlannerScreen() {
         </View>
       ) : (
         <View style={p.classCardGrid}>
-          {classrooms.map((item, idx) => {
-            const pal = CARD_PALETTES[idx % CARD_PALETTES.length];
-            const IconComp = CARD_ICONS[idx % CARD_ICONS.length];
-            const tag = STATUS_TAG[item.status];
-            const startMeta = getDateTimeParts(item.startTime);
+          {(() => {
+            const totalPages = Math.ceil(classrooms.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const paginatedClassrooms = classrooms.slice(startIndex, startIndex + itemsPerPage);
+            
             return (
-              <View key={item.id} style={[p.classCard, { backgroundColor: pal.light, width: classCardWidth }]}>
+              <>
+                {paginatedClassrooms.map((item, idx) => {
+                  const actualIdx = startIndex + idx;
+                  const pal = CARD_PALETTES[actualIdx % CARD_PALETTES.length];
+                  const IconComp = CARD_ICONS[actualIdx % CARD_ICONS.length];
+                  const tag = STATUS_TAG[item.status];
+                  const startMeta = getDateTimeParts(item.startTime);
+                  return (
+                    <View key={item.id} style={[p.classCard, { backgroundColor: pal.light, width: classCardWidth }]}>
                 {/* Top row: icon art box + title + status */}
                 <View style={p.classCardTop}>
                   <View style={[p.classArtBox, { backgroundColor: `${pal.bg}22` }]}>
@@ -935,7 +924,30 @@ export default function PlannerScreen() {
               </View>
             );
           })}
-        </View>
+          
+          {totalPages > 1 && (
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 16, width: '100%' }}>
+              <Pressable 
+                style={[p.pageBtn, currentPage === 1 && { opacity: 0.5 }]} 
+                onPress={() => setCurrentPage(pg => Math.max(1, pg - 1))}
+                disabled={currentPage === 1}
+              >
+                <Text style={p.pageBtnText}>Previous</Text>
+              </Pressable>
+              <Text style={p.pageText}>Page {currentPage} of {totalPages}</Text>
+              <Pressable 
+                style={[p.pageBtn, currentPage === totalPages && { opacity: 0.5 }]} 
+                onPress={() => setCurrentPage(pg => Math.min(totalPages, pg + 1))}
+                disabled={currentPage === totalPages}
+              >
+                <Text style={p.pageBtnText}>Next</Text>
+              </Pressable>
+            </View>
+          )}
+          </>
+        )
+      })()}
+      </View>
       )}
 
       {/* ── Create / Edit Modal (full-screen slide) ── */}
@@ -1215,8 +1227,18 @@ export default function PlannerScreen() {
                     <TextInput value={asgn.instructions} onChangeText={(v) => updateAssignment(asgn.id, { instructions: v })} placeholder="Optional" style={p.fieldInput} multiline placeholderTextColor="#B0B8D0" />
                     <View style={p.fieldDivider} />
                     <Text style={p.fieldLabel}>Attachment URL</Text>
-                    <TextInput value={asgn.attachmentUrl} onChangeText={(v) => updateAssignment(asgn.id, { attachmentUrl: v })} placeholder="URL or upload below" style={p.fieldInput} placeholderTextColor="#B0B8D0" />
-                    <Pressable style={p.uploadBtn} onPress={() => uploadAssignmentAttachment(asgn.id)}><Text style={p.uploadBtnText}>⬆ Upload File</Text></Pressable>
+                    {!asgn.attachmentUrl && (
+                      <TextInput value={asgn.attachmentUrl} onChangeText={(v) => updateAssignment(asgn.id, { attachmentUrl: v })} placeholder="URL or upload below" style={p.fieldInput} placeholderTextColor="#B0B8D0" />
+                    )}
+                    <MediaUploader
+                      accept="image/*,audio/*,video/*,application/pdf"
+                      mediaType="document"
+                      value={asgn.attachmentUrl || null}
+                      fileName={asgn.attachmentUrl ? asgn.attachmentUrl.split('/').pop() : ''}
+                      onUploadSuccess={(url) => updateAssignment(asgn.id, { attachmentUrl: url })}
+                      onClear={() => updateAssignment(asgn.id, { attachmentUrl: '' })}
+                      buttonLabel="Upload File"
+                    />
                     <View style={p.chipRow}>
                       <Pressable style={[p.chip, asgn.isTimeBound && p.chipActive]} onPress={() => updateAssignment(asgn.id, { isTimeBound: !asgn.isTimeBound })}>
                         <Text style={[p.chipText, asgn.isTimeBound && p.chipTextActive]}>⏰ Time Bound</Text>
@@ -1391,6 +1413,7 @@ export default function PlannerScreen() {
       <CreateQuizModal
         visible={quizCreatorOpen}
         apiFetch={apiFetch}
+        user={user}
         initialClassLevel={form.classLevel || undefined}
         onClose={() => setQuizCreatorOpen(false)}
         onCreated={(quiz) => {
@@ -1670,13 +1693,8 @@ export default function PlannerScreen() {
         onClose={() => setDetailsClassroomId(null)}
         onUploadMedia={async () => {
           const picked = await pickFileAsDataUrl('image/*');
-          const res = await apiFetch('/assets/upload', {
-            method: 'POST',
-            body: JSON.stringify({ dataUrl: picked.dataUrl, fileName: picked.fileName, mimeType: picked.mimeType, mediaType: 'image' }),
-          });
-          if (!res.ok) throw new Error('Upload failed');
-          const payload = await res.json();
-          return { url: payload.url };
+          const uploaded = await uploadPickedFileToS3(picked, 'image', 'class_details');
+          return { url: uploaded.url };
         }}
       />
 
@@ -1988,6 +2006,10 @@ const p = StyleSheet.create({
   historyDetailBtnText: { fontSize: 13, fontWeight: '800', color: '#1A4DA2' },
   historyRestartBtn: { flex: 1, borderRadius: 12, backgroundColor: '#D6F5D6', paddingVertical: 10, alignItems: 'center' },
   historyRestartBtnText: { fontSize: 13, fontWeight: '800', color: '#1A6B1A' },
+
+  pageBtn:      { paddingHorizontal: 16, paddingVertical: 8, backgroundColor: '#EEF4FF', borderRadius: 8 },
+  pageBtnText:  { fontSize: 13, fontWeight: '700', color: '#4A90E2' },
+  pageText:     { fontSize: 13, fontWeight: '600', color: '#9A9AB0' },
 });
 
 const pagerS = StyleSheet.create({

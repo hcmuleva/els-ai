@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Switch, Text, View, Modal, ActivityIndicator, TextInput, Alert } from 'react-native';
 import {
   ChevronRight,
   Moon,
@@ -14,10 +14,12 @@ import {
   Trash2,
   Settings,
   Volume2,
+  Lock,
   type LucideIcon,
 } from 'lucide-react-native';
 
 import { useAuth } from '../../src/context/AuthContext';
+import { useNotifications } from '../../src/context/NotificationContext';
 
 type SettingRow = {
   Icon: LucideIcon;
@@ -36,6 +38,12 @@ const SECTIONS: { title: string; rows: SettingRow[] }[] = [
       { Icon: Moon, label: 'Dark Mode',          sub: 'Easy on your eyes at night',  type: 'toggle', key: 'darkMode',       color: '#9B8EC4', bg: '#EDE4FF' },
       { Icon: Bell, label: 'Push Notifications',  sub: 'Assignments, quizzes & more', type: 'toggle', key: 'notifications',  color: '#FF7043', bg: '#FFE8D6' },
       { Icon: Volume2, label: 'Sound Effects',        sub: 'Play sounds in quizzes',      type: 'toggle', key: 'sounds',         color: '#4A90E2', bg: '#D6EAFF' },
+    ],
+  },
+  {
+    title: 'Account',
+    rows: [
+      { Icon: Lock, label: 'Change Password', sub: 'Update your login password', type: 'nav', color: '#4A90E2', bg: '#D6EAFF' },
     ],
   },
   {
@@ -64,7 +72,8 @@ const SECTIONS: { title: string; rows: SettingRow[] }[] = [
 ];
 
 export default function SettingsScreen() {
-  const { user } = useAuth();
+  const { user, changePassword } = useAuth();
+  const { deleteRange } = useNotifications();
   const [toggles, setToggles] = useState<Record<string, boolean>>({
     darkMode:      false,
     notifications: true,
@@ -73,6 +82,50 @@ export default function SettingsScreen() {
 
   const flip = (key: string) =>
     setToggles((prev) => ({ ...prev, [key]: !prev[key] }));
+
+  const [clearModalVisible, setClearModalVisible] = useState(false);
+  const [clearing, setClearing] = useState(false);
+
+  const [passwordModalVisible, setPasswordModalVisible] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [changingPassword, setChangingPassword] = useState(false);
+
+  const handleClearData = async () => {
+    setClearing(true);
+    try {
+      await deleteRange('all');
+      setClearModalVisible(false);
+    } catch (err) {
+      /* silent */
+    } finally {
+      setClearing(false);
+    }
+  };
+
+  const handleChangePassword = async () => {
+    if (!currentPassword || !newPassword) {
+      Alert.alert('Error', 'Please enter both current and new passwords.');
+      return;
+    }
+    if (newPassword.length < 4) {
+      Alert.alert('Error', 'New password must be at least 4 characters long.');
+      return;
+    }
+
+    setChangingPassword(true);
+    const result = await changePassword(currentPassword, newPassword);
+    setChangingPassword(false);
+
+    if (result.success) {
+      Alert.alert('Success', 'Your password has been changed successfully.');
+      setPasswordModalVisible(false);
+      setCurrentPassword('');
+      setNewPassword('');
+    } else {
+      Alert.alert('Error', result.error || 'Failed to change password');
+    }
+  };
 
   return (
     <ScrollView style={s.screen} contentContainerStyle={s.scroll}>
@@ -97,7 +150,11 @@ export default function SettingsScreen() {
               <Pressable
                 key={row.label}
                 style={[s.row, idx < arr.length - 1 && s.rowBorder]}
-                onPress={() => row.type === 'toggle' && row.key ? flip(row.key) : undefined}
+                onPress={() => {
+                  if (row.type === 'toggle' && row.key) flip(row.key);
+                  else if (row.type === 'danger' && row.label === 'Clear App Data') setClearModalVisible(true);
+                  else if (row.label === 'Change Password') setPasswordModalVisible(true);
+                }}
               >
                 <View style={[s.iconBox, { backgroundColor: row.bg ?? '#F4F5FF' }]}>
                   <row.Icon size={18} color={row.color ?? '#7A7A9A'} />
@@ -126,6 +183,104 @@ export default function SettingsScreen() {
       ))}
 
       <Text style={s.footerText}>ELS·AI © 2026 · Made for young minds</Text>
+
+      {/* ─── Clear Data Modal ──────────────────────────────────────────── */}
+      <Modal visible={clearModalVisible} transparent animationType="fade">
+        <View style={s.modalOverlay}>
+          <View style={s.modalContent}>
+            <View style={s.modalHeader}>
+              <View style={[s.modalIcon, { backgroundColor: '#FFF0F0' }]}>
+                <Trash2 size={24} color="#FF4444" />
+              </View>
+              <Text style={s.modalTitle}>Clear App Data?</Text>
+            </View>
+
+            <Text style={s.modalDesc}>
+              This will clear all notifications and local data. Are you sure?
+            </Text>
+
+            <View style={s.modalActions}>
+              <Pressable
+                style={[s.modalBtn, s.modalBtnCancel]}
+                onPress={() => setClearModalVisible(false)}
+                disabled={clearing}
+              >
+                <Text style={s.modalBtnCancelText}>Cancel</Text>
+              </Pressable>
+              <Pressable
+                style={[s.modalBtn, s.modalBtnDanger]}
+                onPress={handleClearData}
+                disabled={clearing}
+              >
+                {clearing ? (
+                  <ActivityIndicator color="#fff" />
+                ) : (
+                  <Text style={s.modalBtnDangerText}>Clear Data</Text>
+                )}
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* ─── Change Password Modal ───────────────────────────────────────── */}
+      <Modal visible={passwordModalVisible} transparent animationType="fade">
+        <View style={s.modalOverlay}>
+          <View style={s.modalContent}>
+            <View style={s.modalHeader}>
+              <View style={[s.modalIcon, { backgroundColor: '#D6EAFF' }]}>
+                <Lock size={24} color="#4A90E2" />
+              </View>
+              <Text style={s.modalTitle}>Change Password</Text>
+            </View>
+
+            <View style={s.inputGroup}>
+              <Text style={s.inputLabel}>Current Password</Text>
+              <TextInput
+                style={s.input}
+                secureTextEntry
+                placeholder="Enter current password"
+                value={currentPassword}
+                onChangeText={setCurrentPassword}
+                placeholderTextColor="#A0A0A0"
+              />
+            </View>
+
+            <View style={s.inputGroup}>
+              <Text style={s.inputLabel}>New Password</Text>
+              <TextInput
+                style={s.input}
+                secureTextEntry
+                placeholder="Enter new password"
+                value={newPassword}
+                onChangeText={setNewPassword}
+                placeholderTextColor="#A0A0A0"
+              />
+            </View>
+
+            <View style={s.modalActions}>
+              <Pressable
+                style={[s.modalBtn, s.modalBtnCancel]}
+                onPress={() => setPasswordModalVisible(false)}
+                disabled={changingPassword}
+              >
+                <Text style={s.modalBtnCancelText}>Cancel</Text>
+              </Pressable>
+              <Pressable
+                style={[s.modalBtn, { backgroundColor: '#4A90E2' }]}
+                onPress={handleChangePassword}
+                disabled={changingPassword}
+              >
+                {changingPassword ? (
+                  <ActivityIndicator color="#fff" />
+                ) : (
+                  <Text style={s.modalBtnDangerText}>Update</Text>
+                )}
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
 
     </ScrollView>
   );
@@ -188,5 +343,44 @@ const s = StyleSheet.create({
   footerText: {
     textAlign: 'center', fontSize: 11, color: '#B0B8CC',
     fontWeight: '500', paddingBottom: 8,
+  },
+
+  modalOverlay: {
+    flex: 1, backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center', alignItems: 'center', padding: 20,
+  },
+  modalContent: {
+    backgroundColor: '#fff', borderRadius: 24, padding: 24,
+    width: '100%', maxWidth: 400,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.15, shadowRadius: 20, elevation: 10,
+  },
+  modalHeader: { alignItems: 'center', marginBottom: 16 },
+  modalIcon: {
+    width: 64, height: 64, borderRadius: 32,
+    alignItems: 'center', justifyContent: 'center', marginBottom: 16,
+  },
+  modalTitle: { fontSize: 22, fontWeight: '800', color: '#1a1a2e', textAlign: 'center' },
+  modalDesc: { fontSize: 14, color: '#6A6A8B', textAlign: 'center', marginBottom: 24, lineHeight: 20 },
+  modalActions: { flexDirection: 'row', gap: 12 },
+  modalBtn: {
+    flex: 1, height: 48, borderRadius: 12,
+    alignItems: 'center', justifyContent: 'center',
+  },
+  modalBtnCancel: { backgroundColor: '#F4F5FF' },
+  modalBtnCancelText: { color: '#6A6A8B', fontSize: 15, fontWeight: '700' },
+  modalBtnDanger: { backgroundColor: '#FF4444' },
+  modalBtnDangerText: { color: '#fff', fontSize: 15, fontWeight: '700' },
+
+  inputGroup: { marginBottom: 16 },
+  inputLabel: { fontSize: 13, fontWeight: '700', color: '#1a1a2e', marginBottom: 6 },
+  input: {
+    backgroundColor: '#F4F5FF',
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 15,
+    color: '#1a1a2e',
+    fontWeight: '500',
   },
 });

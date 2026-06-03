@@ -4,6 +4,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import { db } from '../db.js';
+import { eventBus } from '../events/bus.js';
+import { AblyEventBus, PushChannel } from '@els-ai/event-bus';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'els-secret-key-super-secure';
 import { UserRole, UserWithRoles } from '../types.js';
@@ -64,10 +66,11 @@ const upsertParentStudentsSchema = z.object({
   studentIds: z.array(z.string().uuid()),
 });
 const upsertTeacherAssignmentsSchema = z.object({
-  assignments: z.array(
+  classAssignments: z.array(
     z.object({
       classLevel: z.string().trim().min(1).max(50),
-      subject: z.string().trim().min(1).max(100),
+      allSubjects: z.boolean(),
+      assignedSubjects: z.array(z.string().trim().min(1).max(100)),
     }),
   ),
 });
@@ -157,6 +160,56 @@ async function getUserWithRoles(userId: string, organizationId?: string): Promis
     return null;
   }
 
+  let classAssignments: any[] | undefined = undefined;
+  const resolvedOrgId = organizationId || rolesResult.rows[0]?.organization_id;
+
+  if (roles.includes('teacher') && resolvedOrgId) {
+    const classAssigmentsResult = await db.query(
+      `SELECT COALESCE(
+        (
+          SELECT jsonb_agg(
+            jsonb_build_object(
+              'classLevel', tca.class_level,
+              'allSubjects', tca.all_subjects,
+              'assignedSubjects', COALESCE(
+                (
+                  SELECT jsonb_agg(s.title)
+                  FROM teacher_standard_subjects tss
+                  JOIN subjects s ON s.id = tss.subject_id
+                  WHERE tss.teacher_user_id = $1::uuid
+                    AND tss.organization_id = $2::uuid
+                    AND tss.class_level = tca.class_level
+                ),
+                '[]'::jsonb
+              )
+            )
+          )
+          FROM teacher_class_assignments tca
+          WHERE tca.teacher_user_id = $1::uuid
+            AND tca.organization_id = $2::uuid
+        ),
+        '[]'::jsonb
+      ) AS assignments`,
+      [userId, resolvedOrgId]
+    );
+    classAssignments = classAssigmentsResult.rows[0]?.assignments || [];
+  }
+
+  const isSuperAdmin = roles.includes('superadmin');
+  
+  let canPublishGlobal = false;
+  if (resolvedOrgId) {
+    const globalPublishPermissionResult = await db.query(
+      `SELECT enabled
+       FROM user_global_publish_permissions
+       WHERE user_id = $1
+         AND organization_id = $2::uuid
+       LIMIT 1`,
+      [userId, resolvedOrgId],
+    );
+    canPublishGlobal = Boolean(globalPublishPermissionResult.rows[0]?.enabled);
+  }
+
   return {
     id: user.id,
     firstName: user.first_name,
@@ -168,9 +221,12 @@ async function getUserWithRoles(userId: string, organizationId?: string): Promis
     branch: user.branch || undefined,
     activeRole: user.active_role as UserRole,
     roles,
+    classAssignments,
     profileImage: user.profile_image,
-    organizationId: rolesResult.rows[0]?.organization_id || undefined,
+    organizationId: resolvedOrgId || undefined,
     isActive: user.is_active,
+    isSuperAdmin,
+    canPublishGlobal,
   };
 }
 
@@ -341,6 +397,110 @@ usersRouter.post('/me/connect-by-registration-id', requireAuth, async (req: Auth
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Failed to connect by registration ID' });
+  }
+});
+
+usersRouter.patch('/me/password', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const userId = req.user?.userId;
+  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ message: 'Both currentPassword and newPassword are required' });
+  }
+  if (newPassword.length < 4) {
+    return res.status(400).json({ message: 'New password must be at least 4 characters long' });
+  }
+
+  try {
+    const userRes = await db.query(`SELECT password_hash FROM users WHERE id = $1`, [userId]);
+    if ((userRes.rowCount ?? 0) === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, userRes.rows[0].password_hash);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Incorrect current password' });
+    }
+
+    const newHash = await bcrypt.hash(newPassword, 10);
+    await db.query(`UPDATE users SET password_hash = $1, updated_at = NOW() WHERE id = $2`, [newHash, userId]);
+
+    return res.json({ message: 'Password updated successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to update password' });
+  }
+});
+
+usersRouter.delete('/me', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const userId = req.user?.userId;
+  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+  
+  try {
+    const role = req.user?.role;
+    if (role === 'student') {
+      const parentLink = await db.query(
+        `SELECT 1 FROM parent_student_links WHERE student_user_id = $1 LIMIT 1`,
+        [userId]
+      );
+      if ((parentLink.rowCount ?? 0) > 0) {
+        return res.status(400).json({ message: "Only parents can delete child's account" });
+      }
+    }
+
+    await db.query(
+      `UPDATE users SET deleted_at = NOW(), is_active = false WHERE id = $1`,
+      [userId]
+    );
+    return res.json({ message: 'Account deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to delete account' });
+  }
+});
+
+usersRouter.post('/me/delete-child', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const parentUserId = req.user?.userId;
+  if (!parentUserId || req.user?.role !== 'parent') {
+    return res.status(403).json({ message: 'Only parents can delete child accounts' });
+  }
+
+  const { registrationId } = req.body;
+  if (!registrationId) {
+    return res.status(400).json({ message: 'Registration ID is required' });
+  }
+
+  try {
+    const childResult = await db.query(
+      `SELECT u.id FROM users u
+       INNER JOIN parent_student_links psl ON psl.student_user_id = u.id AND psl.parent_user_id = $1
+       WHERE u.unique_registration_id = $2
+         AND u.deleted_at IS NULL
+       LIMIT 1`,
+      [parentUserId, registrationId.trim().toUpperCase()]
+    );
+
+    if ((childResult.rowCount ?? 0) === 0) {
+      return res.status(404).json({ message: 'Child account not found or not linked to you' });
+    }
+
+    const childId = childResult.rows[0].id;
+
+    await db.query(
+      `UPDATE users SET deleted_at = NOW(), is_active = false WHERE id = $1`,
+      [childId]
+    );
+
+    await db.query(
+      `DELETE FROM parent_student_links WHERE student_user_id = $1`,
+      [childId]
+    );
+
+    return res.json({ message: 'Child account deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to delete child account' });
   }
 });
 
@@ -1026,19 +1186,33 @@ usersRouter.get('/teachers/assignments', requireAuth, async (req: AuthenticatedR
          u.email,
          u.mobile_number,
          COALESCE(
-           jsonb_agg(
-             DISTINCT jsonb_build_object(
-               'classLevel', tss.class_level,
-               'subject', s.title
+           (
+             SELECT jsonb_agg(
+               jsonb_build_object(
+                 'classLevel', tca.class_level,
+                 'allSubjects', tca.all_subjects,
+                 'assignedSubjects', COALESCE(
+                   (
+                     SELECT jsonb_agg(s.title)
+                     FROM teacher_standard_subjects tss
+                     JOIN subjects s ON s.id = tss.subject_id
+                     WHERE tss.teacher_user_id = u.id
+                       AND tss.organization_id = $1::uuid
+                       AND tss.class_level = tca.class_level
+                   ),
+                   '[]'::jsonb
+                 )
+               )
              )
-           ) FILTER (WHERE tss.id IS NOT NULL),
+             FROM teacher_class_assignments tca
+             WHERE tca.teacher_user_id = u.id
+               AND tca.organization_id = $1::uuid
+           ),
            '[]'::jsonb
-         ) AS assignments
+         ) AS class_assignments
        FROM users u
        INNER JOIN user_roles ur ON ur.user_id = u.id
        INNER JOIN roles r ON r.id = ur.role_id
-       LEFT JOIN teacher_standard_subjects tss ON tss.teacher_user_id = u.id AND tss.organization_id = ur.organization_id
-       LEFT JOIN subjects s ON s.id = tss.subject_id
        WHERE ${whereClauses.join(' AND ')}
        GROUP BY u.id, u.first_name, u.last_name, u.email, u.mobile_number
        ORDER BY u.first_name, u.last_name
@@ -1052,7 +1226,7 @@ usersRouter.get('/teachers/assignments', requireAuth, async (req: AuthenticatedR
         lastName: row.last_name as string,
         email: row.email as string,
         mobileNumber: (row.mobile_number as string | null) || undefined,
-        assignments: row.assignments as Array<{ classLevel: string; subject: string }>,
+        classAssignments: row.class_assignments as Array<{ classLevel: string; allSubjects: boolean; assignedSubjects: string[] }>,
       })),
     });
   } catch (error) {
@@ -1084,37 +1258,69 @@ usersRouter.put('/teachers/:id/assignments', requireAuth, async (req: Authentica
     return res.status(404).json({ message: 'Teacher not found in your organization' });
   }
 
-  const uniqueAssignments = Array.from(
+  const uniqueClassAssignments = Array.from(
     new Map(
-      parsedBody.data.assignments.map((item) => [`${item.classLevel.toLowerCase()}::${item.subject.toLowerCase()}`, item]),
+      parsedBody.data.classAssignments.map((item) => [item.classLevel.toLowerCase(), item]),
     ).values(),
   );
 
   const client = await db.connect();
   try {
     await client.query('BEGIN');
+    
+    await client.query(
+      `DELETE FROM teacher_class_assignments
+       WHERE teacher_user_id = $1
+         AND organization_id = $2::uuid`,
+      [teacherUserId, organizationId],
+    );
     await client.query(
       `DELETE FROM teacher_standard_subjects
        WHERE teacher_user_id = $1
          AND organization_id = $2::uuid`,
       [teacherUserId, organizationId],
     );
-    for (const assignment of uniqueAssignments) {
+
+    for (const ca of uniqueClassAssignments) {
       await client.query(
-        `INSERT INTO teacher_standard_subjects (teacher_user_id, organization_id, class_level, subject_id)
-         SELECT $1::uuid, $2::uuid, $3::varchar, s.id
-         FROM subjects s
-         WHERE s.class_level = $3::varchar
-           AND LOWER(s.title) = LOWER($4::varchar)
-           AND (s.organization_id = $2::uuid OR s.organization_id IS NULL)
-         ORDER BY (s.organization_id = $2::uuid) DESC, s.updated_at DESC NULLS LAST
-         LIMIT 1
-         ON CONFLICT (teacher_user_id, organization_id, class_level, subject_id) DO NOTHING`,
-        [teacherUserId, organizationId, assignment.classLevel, assignment.subject],
+        `INSERT INTO teacher_class_assignments (teacher_user_id, organization_id, class_level, all_subjects)
+         VALUES ($1::uuid, $2::uuid, $3::varchar, $4::boolean)
+         ON CONFLICT (teacher_user_id, organization_id, class_level) DO NOTHING`,
+        [teacherUserId, organizationId, ca.classLevel, ca.allSubjects],
       );
+
+      if (!ca.allSubjects) {
+        const uniqueSubjects = [...new Set(ca.assignedSubjects)];
+        for (const subject of uniqueSubjects) {
+          await client.query(
+            `INSERT INTO teacher_standard_subjects (teacher_user_id, organization_id, class_level, subject_id)
+             SELECT $1::uuid, $2::uuid, $3::varchar, s.id
+             FROM subjects s
+             WHERE s.class_level = $3::varchar
+               AND LOWER(s.title) = LOWER($4::varchar)
+               AND (s.organization_id = $2::uuid OR s.organization_id IS NULL)
+             ORDER BY (s.organization_id = $2::uuid) DESC, s.updated_at DESC NULLS LAST
+             LIMIT 1
+             ON CONFLICT (teacher_user_id, organization_id, class_level, subject_id) DO NOTHING`,
+            [teacherUserId, organizationId, ca.classLevel, subject],
+          );
+        }
+      }
     }
     await client.query('COMMIT');
-    return res.json({ teacherUserId, assignments: uniqueAssignments });
+
+    if (eventBus instanceof AblyEventBus) {
+      const push: PushChannel = {
+        channel: `notification:${organizationId}:${teacherUserId}`,
+        name: 'teacher_assignments_updated',
+        data: { teacherUserId },
+      };
+      await eventBus.notify(push).catch(err => {
+        console.error('[auth-service] failed to push assignment update event', err);
+      });
+    }
+
+    return res.json({ teacherUserId, classAssignments: uniqueClassAssignments });
   } catch (error) {
     await client.query('ROLLBACK');
     console.error(error);

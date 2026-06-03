@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { LayoutChangeEvent, Modal, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, {
   Easing, useAnimatedStyle, useSharedValue, withTiming,
 } from 'react-native-reanimated';
@@ -59,6 +60,7 @@ function MoreItem({
 
 // ── CustomTabBar ──────────────────────────────────────────────────────────────
 export default function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
+  const insets = useSafeAreaInsets();
   const { user }   = useAuth();
   const activeRole = user?.activeRole ?? 'student';
   const visibleRoutes = new Set(roleTabs[activeRole]?.map((r) => r.route) ?? []);
@@ -119,7 +121,7 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
   };
 
   return (
-    <View style={s.safeArea}>
+    <View style={[s.safeArea, { paddingBottom: Math.max(insets.bottom, 8) }]}>
       {/* ── More panel modal ── */}
       <Modal
         visible={moreOpen}
@@ -128,7 +130,7 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
         onRequestClose={() => setMoreOpen(false)}
       >
         <Pressable style={s.moreBackdrop} onPress={() => setMoreOpen(false)}>
-          <View style={s.morePanel} onStartShouldSetResponder={() => true}>
+          <View style={[s.morePanel, { paddingBottom: Math.max(insets.bottom, 20) }]} onStartShouldSetResponder={() => true}>
             <View style={s.morePanelHandle} />
             <Text style={s.morePanelTitle}>All Tabs</Text>
             {visibleTabs.map((route) => {
@@ -205,7 +207,6 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
 const s = StyleSheet.create({
   safeArea: {
     backgroundColor: '#FFFFFF',
-    paddingBottom: Platform.OS === 'ios' ? 26 : 8,
     shadowColor: '#1a1a3e',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.05,
@@ -265,7 +266,6 @@ const s = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     paddingTop: 12,
-    paddingBottom: Platform.OS === 'ios' ? 36 : 20,
     paddingHorizontal: 20,
     shadowColor: '#1a1a2e',
     shadowOffset: { width: 0, height: -4 },

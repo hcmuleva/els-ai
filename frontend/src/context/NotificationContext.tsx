@@ -35,13 +35,18 @@ const NotificationContext = createContext<NotificationContextValue | null>(null)
 const POLL_FALLBACK_MS = 60_000;
 
 export function NotificationProvider({ children }: PropsWithChildren) {
-  const { isAuthenticated, user, apiFetch } = useAuth();
+  const { isAuthenticated, user, apiFetch, refreshUser } = useAuth();
   const [notifications, setNotifications] = useState<AppNotification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const ablyRef = useRef<any>(null);
   const channelRef = useRef<any>(null);
   const pollTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const refreshUserRef = useRef(refreshUser);
+
+  useEffect(() => {
+    refreshUserRef.current = refreshUser;
+  }, [refreshUser]);
 
   const fetchInitial = useCallback(async () => {
     if (!isAuthenticated) return;
@@ -141,6 +146,10 @@ export function NotificationProvider({ children }: PropsWithChildren) {
       ch.subscribe('notifications_cleared', (msg: any) => {
         console.log('[notifications] ← notifications_cleared', msg?.data);
         fetchInitial();
+      });
+      ch.subscribe('teacher_assignments_updated', (msg: any) => {
+        console.log('[notifications] ← teacher_assignments_updated', msg?.data);
+        refreshUserRef.current?.();
       });
       console.log('[notifications] subscribed to all events on', channel);
     } catch (err) {

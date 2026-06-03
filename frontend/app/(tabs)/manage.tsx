@@ -20,7 +20,9 @@ import { WebView } from 'react-native-webview';
 import { FolderOpen, Video as VideoIcon, HelpCircle, BookOpen as BookOpenIcon, Trophy as TrophyIcon, ListChecks, SplitSquareHorizontal, Eye as EyeIcon, Volume2, CheckSquare, Image as ImageIcon, BookOpenCheck as StoriesIcon } from 'lucide-react-native';
 import SelectorModal from '../../src/components/SelectorModal';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
+import { getAuthorizedClasses, getAuthorizedSubjects } from '../../src/utils/assignments';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
+import { PickedFile, pickFileAsDataUrl, uploadPickedFileToS3 } from '../../src/utils/fileUpload';
 import { AudioManager } from '../../src/utils/audio';
 import TopicsTab from '../../src/components/manage/TopicsTab';
 import ContentTab from '../../src/components/manage/ContentTab';
@@ -166,6 +168,7 @@ type LearningContentItem = {
   title: string;
   contentType: string;
   sectionCount?: number;
+  quizCount?: number;
   mediaUrl?: string;
   externalUrl?: string;
   textContent?: string;
@@ -207,7 +210,7 @@ type TopicSectionDraft = {
 
 const CONTENT_TYPE_CHOICES: Array<{ value: TopicSectionDraft['contentType']; label: string }> = [
   { value: 'reel', label: 'Reel (Video Upload)' },
-  { value: 'image', label: 'Image Upload' },
+  { value: 'image', label: 'Image / Video Upload' },
   { value: 'text', label: 'Text' },
   { value: 'audio', label: 'Audio Upload' },
   { value: 'youtube_url', label: 'Youtube URL' },
@@ -223,8 +226,8 @@ const CREATE_CONTENT_TYPE_CHOICES: Array<{ value: 'media' | 'text' | 'youtube_ur
 const QUESTION_TYPE_CHOICES: Array<{ value: SupportedQuestionType; label: string; description: string }> = [
   {
     value: 'guess_image',
-    label: 'Guess the Image',
-    description: 'Show a main image prompt and let students choose the correct image option.',
+    label: 'Guess the Image / Video',
+    description: 'Show a main image/video prompt and let students choose the correct image option.',
   },
   {
     value: 'drag_drop_match',
@@ -274,7 +277,7 @@ const QUESTION_TYPE_CHOICES: Array<{ value: SupportedQuestionType; label: string
 ];
 
 const QUESTION_TYPE_LABELS: Record<string, string> = {
-  guess_image: 'Guess the Image',
+  guess_image: 'Guess the Image / Video',
   drag_drop_match: 'Drag & Drop Match',
   guess_audio: 'Guess the Audio',
   true_false: 'True / False',
@@ -284,7 +287,7 @@ const QUESTION_TYPE_LABELS: Record<string, string> = {
   memory_match: 'Memory Match',
   fill_blank: 'Fill in the Blank',
   jigsaw: 'Jigsaw Puzzle',
-  image_select: 'Guess the Image',
+  image_select: 'Guess the Image / Video',
   drag_drop: 'Drag & Drop Match',
   sound_match: 'Guess the Audio',
   memory_game: 'Multi Choice',
@@ -772,7 +775,7 @@ function draftToPayload(draft: QuestionDraft) {
 
     if (normalizedType === 'guess_image') {
       if (!mainImage) {
-        throw new Error('Add main image for Guess the Image questions.');
+        throw new Error('Add main media for Guess the Image / Video questions.');
       }
       preparedOptions.forEach((option, index) => {
         if (!option.image) {
@@ -1062,50 +1065,13 @@ function resolvePickedMediaKind(file: PickedFile): 'image' | 'audio' | null {
   return null;
 }
 
-async function pickFileAsDataUrl(accept: string, unsupportedMessage: string): Promise<PickedFile> {
-  if (Platform.OS !== 'web') {
-    throw new Error(unsupportedMessage);
-  }
-
-  return await new Promise((resolve, reject) => {
-    const doc = (globalThis as any).document;
-    if (!doc) {
-      reject(new Error('File picker is unavailable in this environment.'));
-      return;
-    }
-
-    const input = doc.createElement('input');
-    input.type = 'file';
-    input.accept = accept;
-
-    input.onchange = () => {
-      const file = input.files?.[0];
-      if (!file) {
-        reject(new Error('No file selected.'));
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () =>
-        resolve({
-          dataUrl: String(reader.result || ''),
-          fileName: file.name || 'uploaded-file',
-          mimeType: file.type || '',
-        });
-      reader.onerror = () => reject(new Error('Failed to read selected file.'));
-      reader.readAsDataURL(file);
-    };
-
-    input.click();
-  });
-}
 
 async function pickAudioAsDataUrl(): Promise<PickedFile> {
   return pickFileAsDataUrl('audio/*', 'Audio upload is currently available on web. On mobile, paste audio URL manually.');
 }
 
 async function pickImageAsDataUrl(): Promise<PickedFile> {
-  return pickFileAsDataUrl('image/*', 'Image upload is currently available on web. On mobile, paste image URL manually.');
+  return pickFileAsDataUrl('image/*,video/*', 'Media upload is currently available on web. On mobile, paste media URL manually.');
 }
 
 async function pickMediaAsDataUrl(): Promise<PickedFile> {
@@ -1267,17 +1233,13 @@ export default function QuestionManagementScreen() {
   }, [questionFormTab, isCreateDialogOpen, editingQuestionId]);
 
   const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
-  const classOptions = useMemo(() => STANDARD_OPTIONS.map((item) => item.value), []);
-  const contentClassOptions = useMemo(
-    () => STANDARD_OPTIONS.map((item) => item.value),
-    [],
+  const classOptions = useMemo(() => getAuthorizedClasses(user, STANDARD_OPTIONS.map(i => i.value)), [user]);
+  
+  const contentClassOptions = useMemo(() => getAuthorizedClasses(user, STANDARD_OPTIONS.map(i => i.value)), [user]);
+  const contentSubjectOptions = useMemo(
+    () => getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, contentFilters.classLevel),
+    [contentFilters.classLevel, subjectCatalog, user]
   );
-  const contentSubjectOptions = useMemo(() => {
-    const filtered = subjectCatalog.filter(
-      (item) => !contentFilters.classLevel || item.classLevel.trim() === contentFilters.classLevel.trim(),
-    );
-    return [...new Set(filtered.map((item) => item.title.trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b));
-  }, [contentFilters.classLevel, subjectCatalog]);
   const createContentTopicOptions = useMemo(
     () =>
       topics
@@ -1316,21 +1278,10 @@ export default function QuestionManagementScreen() {
         .sort((a, b) => a.title.localeCompare(b.title)),
     [allOrgQuizzes, quizDialogFilters.classLevel, quizDialogFilters.search, quizDialogFilters.subject],
   );
-  const quizClassOptions = useMemo(
-    () => STANDARD_OPTIONS.map((item) => item.value),
-    [],
-  );
+  const quizClassOptions = useMemo(() => getAuthorizedClasses(user, STANDARD_OPTIONS.map(i => i.value)), [user]);
   const quizSubjectOptions = useMemo(
-    () =>
-      [
-        ...new Set(
-          quizCatalogItems
-            .filter((item) => !quizDialogFilters.classLevel || item.classLevel.trim() === quizDialogFilters.classLevel.trim())
-            .map((item) => item.subject.trim())
-            .filter(Boolean),
-        ),
-      ].sort((a, b) => a.localeCompare(b)),
-    [quizCatalogItems, quizDialogFilters.classLevel],
+    () => getAuthorizedSubjects(user, quizCatalogItems, (i) => i.classLevel, (i) => i.subject, quizDialogFilters.classLevel),
+    [quizCatalogItems, quizDialogFilters.classLevel, user]
   );
 
   const showActionBadge = useCallback((text: string) => {
@@ -1529,7 +1480,7 @@ export default function QuestionManagementScreen() {
           : 'image';
       const uploaded = await uploadPickedFileToS3(picked, mediaType);
       updateCreateSection(sectionId, {
-        contentType: mediaType === 'video' ? 'reel' : mediaType === 'audio' ? 'audio' : 'image',
+        contentType: mediaType === 'video' ? 'image' : mediaType === 'audio' ? 'audio' : 'image',
         mediaUrl: uploaded.url,
         mediaLabel: uploaded.fileName,
         externalUrl: '',
@@ -1547,6 +1498,20 @@ export default function QuestionManagementScreen() {
       setMessage({ type: 'error', text: 'Topic title, standard and subject are required.' });
       return;
     }
+    
+    if (user?.activeRole === 'teacher') {
+      const allowedClasses = getAuthorizedClasses(user, STANDARD_OPTIONS.map(i => i.value));
+      if (!allowedClasses.includes(topicDraft.classLevel.trim())) {
+        setMessage({ type: 'error', text: 'You are not authorized to create content for this standard.' });
+        return;
+      }
+      const allowedSubjects = getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, topicDraft.classLevel);
+      if (!allowedSubjects.includes(topicDraft.subject.trim())) {
+        setMessage({ type: 'error', text: 'You are not authorized to create content for this subject.' });
+        return;
+      }
+    }
+    
     setSavingTopic(true);
     try {
       const payload = {
@@ -1644,6 +1609,19 @@ export default function QuestionManagementScreen() {
     if (!contentCreateMeta.title.trim()) {
       setMessage({ type: 'error', text: 'Content title is required.' });
       return;
+    }
+    
+    if (user?.activeRole === 'teacher') {
+      const allowedClasses = getAuthorizedClasses(user, STANDARD_OPTIONS.map(i => i.value));
+      if (!allowedClasses.includes(contentCreateMeta.classLevel.trim())) {
+        setMessage({ type: 'error', text: 'You are not authorized to create content for this standard.' });
+        return;
+      }
+      const allowedSubjects = getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, contentCreateMeta.classLevel);
+      if (!allowedSubjects.includes(contentCreateMeta.subject.trim())) {
+        setMessage({ type: 'error', text: 'You are not authorized to create content for this subject.' });
+        return;
+      }
     }
     const normalizedSections = contentCreateSections.map((section) => ({
       title: section.title?.trim() || undefined,
@@ -1964,31 +1942,7 @@ export default function QuestionManagementScreen() {
     }));
   };
 
-  const uploadPickedFileToS3 = async (picked: PickedFile, mediaType: 'image' | 'audio' | 'video') => {
-    const res = await apiFetch('/assets/upload', {
-      method: 'POST',
-      body: JSON.stringify({
-        dataUrl: picked.dataUrl,
-        fileName: picked.fileName,
-        mimeType: picked.mimeType,
-        mediaType,
-        context: 'question_management',
-      }),
-    });
-
-    if (!res.ok) {
-      const errorPayload = await res.json().catch(() => ({}));
-      throw new Error(errorPayload.message || 'Failed to upload media');
-    }
-
-    const payload = await res.json();
-    return {
-      url: String(payload.url || ''),
-      canonicalUrl: String(payload.canonicalUrl || ''),
-      assetId: String(payload.assetId || ''),
-      fileName: String(payload.fileName || picked.fileName || 'uploaded-file'),
-    };
-  };
+  // using shared uploadPickedFileToS3
 
   const uploadAudioForQuestion = async (mode: 'create' | 'edit') => {
     try {
@@ -2599,11 +2553,10 @@ export default function QuestionManagementScreen() {
       : editingQuestionId
         ? editDraft.classLevel
         : createDraft.classLevel;
-  const questionSubjectOptions = subjectCatalog
-    .filter((item) => !questionSubjectClassLevel || item.classLevel.trim() === questionSubjectClassLevel.trim())
-    .map((item) => item.title.trim())
-    .filter((value, index, arr) => value && arr.indexOf(value) === index)
-    .sort((a, b) => a.localeCompare(b));
+  const questionSubjectOptions = useMemo(
+    () => getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, questionSubjectClassLevel),
+    [subjectCatalog, questionSubjectClassLevel, user]
+  );
   const selectorOptions =
     selectorField === 'classLevel' || selectorField === 'filterClassLevel' ? classOptions : questionSubjectOptions;
   const selectorTitle =
@@ -2618,8 +2571,7 @@ export default function QuestionManagementScreen() {
           contentSelectorField === 'topicClassLevel' ||
           contentSelectorField === 'assignTargetClassLevel'
           ? contentClassOptions
-          : subjectCatalog
-            .filter((item) => {
+          : (() => {
               const classLevelFilter =
                 contentSelectorField === 'topicSubject'
                   ? topicDraft.classLevel
@@ -2630,11 +2582,8 @@ export default function QuestionManagementScreen() {
                         ? contentCreateMeta.classLevel
                         : contentItemFilters.classLevel
                       : contentFilters.classLevel;
-              return !classLevelFilter || item.classLevel === classLevelFilter;
-            })
-            .map((item) => item.title)
-            .filter((value, index, arr) => value && arr.indexOf(value) === index)
-            .sort((a, b) => a.localeCompare(b));
+              return getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, classLevelFilter);
+            })();
   const contentSelectorTitle =
     contentSelectorField === 'contentFilterClassLevel' ||
       contentSelectorField === 'topicClassLevel' ||
@@ -3830,6 +3779,7 @@ export default function QuestionManagementScreen() {
           subjectCatalog={subjectCatalog}
           contentItems={contentItems}
           apiFetch={apiFetch}
+          user={user}
           onFiltersChange={(f) => setContentFilters(f)}
           onApplyFilters={loadTopics}
           onTopicAction={(topic, action) => {
@@ -3921,11 +3871,12 @@ export default function QuestionManagementScreen() {
           subjectCatalog={subjectCatalog}
           topics={topics.map((t) => ({ id: t.id, title: t.title, classLevel: t.classLevel, subject: t.subject }))}
           apiFetch={apiFetch}
+          user={user}
           onFiltersChange={(f) => setContentFilters((p) => ({ ...p, ...f }))}
           onApplyFilters={loadContentItems}
           onDeleteContent={(id) => deleteContentItem(id)}
           onRefresh={() => { loadContentItems(); loadTopics(); }}
-          onUploadMedia={async (_draftId) => {
+          onUploadMedia={async (_draftId, onProgress) => {
             const picked = await pickFileAsDataUrl(
               'image/*,audio/*,video/*',
               'Media upload is currently available on web. On mobile, provide URL-based content.',
@@ -3937,9 +3888,9 @@ export default function QuestionManagementScreen() {
               : lm.startsWith('audio/') || /\.(mp3|wav|ogg|aac|m4a|flac)$/.test(ln)
                 ? 'audio'
                 : 'image';
-            const uploaded = await uploadPickedFileToS3(picked, mediaType);
+            const uploaded = await uploadPickedFileToS3(picked, mediaType, onProgress);
             const contentType: 'reel_url' | 'audio' | 'image' | 'youtube_url' | 'text' =
-              mediaType === 'video' ? 'reel_url' : mediaType === 'audio' ? 'audio' : 'image';
+              mediaType === 'video' ? 'image' : mediaType === 'audio' ? 'audio' : 'image';
             return { url: uploaded.url, contentType };
           }}
           message={message}
@@ -4153,6 +4104,7 @@ export default function QuestionManagementScreen() {
           filters={filters}
           subjectCatalog={subjectCatalog}
           apiFetch={apiFetch}
+          user={user}
           onFiltersChange={(patch) => setFilters((p) => ({ ...p, ...patch }))}
           onApplyFilters={loadData}
           onOpenCreate={openCreateDialog}
@@ -4243,36 +4195,51 @@ export default function QuestionManagementScreen() {
       ) : null}
 
       {activeLearningTab === 'exam' ? (
-        <ScrollView contentContainerStyle={{ padding: 16 }}>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Exam Workspace</Text>
-            <Text style={styles.metaText}>Exam flow can be aligned with content topics in the next step.</Text>
-            <Pressable style={styles.primaryButton} onPress={() => router.push('/quiz')}>
-              <Text style={styles.primaryButtonText}>Open Quiz Builder</Text>
+        <ScrollView contentContainerStyle={{ padding: 24, flexGrow: 1 }}>
+          <View style={{ flex: 1, backgroundColor: '#fff', borderRadius: 16, borderWidth: 1, borderColor: '#e2e8f0', alignItems: 'center', justifyContent: 'center', padding: 40, minHeight: 400 }}>
+            <View style={{ width: 80, height: 80, borderRadius: 40, backgroundColor: '#F0FDF4', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
+              <ListChecks size={40} color="#16A34A" />
+            </View>
+            <Text style={{ fontSize: 24, fontWeight: '700', color: '#0F172A', marginBottom: 12 }}>Exam Workspace</Text>
+            <Text style={{ fontSize: 15, color: '#64748B', textAlign: 'center', maxWidth: 480, marginBottom: 32, lineHeight: 22 }}>
+              Configure comprehensive exams, assign them to classes, and review detailed analytics in the Exam console.
+            </Text>
+            <Pressable style={[styles.primaryButton, { backgroundColor: '#16A34A', paddingHorizontal: 32, paddingVertical: 14, borderRadius: 12 }]} onPress={() => router.push('/quiz')}>
+              <Text style={[styles.primaryButtonText, { fontSize: 16, fontWeight: '600' }]}>Open Exam Console</Text>
             </Pressable>
           </View>
         </ScrollView>
       ) : null}
 
       {activeLearningTab === 'quiz' ? (
-        <ScrollView contentContainerStyle={{ padding: 16 }}>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Quiz Workspace</Text>
-            <Text style={styles.metaText}>Build and manage quizzes here.</Text>
-            <Pressable style={styles.primaryButton} onPress={() => router.push('/quiz')}>
-              <Text style={styles.primaryButtonText}>Open Quiz Builder</Text>
+        <ScrollView contentContainerStyle={{ padding: 24, flexGrow: 1 }}>
+          <View style={{ flex: 1, backgroundColor: '#fff', borderRadius: 16, borderWidth: 1, borderColor: '#e2e8f0', alignItems: 'center', justifyContent: 'center', padding: 40, minHeight: 400 }}>
+            <View style={{ width: 80, height: 80, borderRadius: 40, backgroundColor: '#EFF6FF', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
+              <TrophyIcon size={40} color="#2563EB" />
+            </View>
+            <Text style={{ fontSize: 24, fontWeight: '700', color: '#0F172A', marginBottom: 12 }}>Quiz Workspace</Text>
+            <Text style={{ fontSize: 15, color: '#64748B', textAlign: 'center', maxWidth: 480, marginBottom: 32, lineHeight: 22 }}>
+              Design interactive quizzes, manage question banks, and align assessments directly with your lesson topics.
+            </Text>
+            <Pressable style={[styles.primaryButton, { backgroundColor: '#2563EB', paddingHorizontal: 32, paddingVertical: 14, borderRadius: 12 }]} onPress={() => router.push('/quiz')}>
+              <Text style={[styles.primaryButtonText, { fontSize: 16, fontWeight: '600' }]}>Open Quiz Builder</Text>
             </Pressable>
           </View>
         </ScrollView>
       ) : null}
 
       {activeLearningTab === 'stories' ? (
-        <ScrollView contentContainerStyle={{ padding: 16 }}>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Stories Workspace</Text>
-            <Text style={styles.metaText}>Create and manage stories for your students here.</Text>
-            <Pressable style={styles.primaryButton} onPress={() => router.push('/stories')}>
-              <Text style={styles.primaryButtonText}>Open Stories</Text>
+        <ScrollView contentContainerStyle={{ padding: 24, flexGrow: 1 }}>
+          <View style={{ flex: 1, backgroundColor: '#fff', borderRadius: 16, borderWidth: 1, borderColor: '#e2e8f0', alignItems: 'center', justifyContent: 'center', padding: 40, minHeight: 400 }}>
+            <View style={{ width: 80, height: 80, borderRadius: 40, backgroundColor: '#FAF5FF', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
+              <StoriesIcon size={40} color="#9333EA" />
+            </View>
+            <Text style={{ fontSize: 24, fontWeight: '700', color: '#0F172A', marginBottom: 12 }}>Stories Workspace</Text>
+            <Text style={{ fontSize: 15, color: '#64748B', textAlign: 'center', maxWidth: 480, marginBottom: 32, lineHeight: 22 }}>
+              Engage your students by writing and assigning captivating educational stories with integrated media and interactive questions.
+            </Text>
+            <Pressable style={[styles.primaryButton, { backgroundColor: '#9333EA', paddingHorizontal: 32, paddingVertical: 14, borderRadius: 12 }]} onPress={() => router.push('/stories')}>
+              <Text style={[styles.primaryButtonText, { fontSize: 16, fontWeight: '600' }]}>Open Stories Studio</Text>
             </Pressable>
           </View>
         </ScrollView>
@@ -4903,6 +4870,7 @@ export default function QuestionManagementScreen() {
           apiFetch={apiFetch}
           mode="create"
           subjectCatalog={subjectCatalog}
+          user={user}
           onSaved={() => { loadQuestions(); }}
           onClose={() => setIsCreateDialogOpen(false)}
         />
@@ -4925,6 +4893,7 @@ export default function QuestionManagementScreen() {
               apiFetch={apiFetch}
               mode="edit"
               subjectCatalog={subjectCatalog}
+              user={user}
               editingQuestion={{
                 id: q.id,
                 class_level: q.class_level,

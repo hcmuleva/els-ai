@@ -226,6 +226,35 @@ authRouter.post('/login', async (req, res) => {
                 subscription,
             });
         }
+        let classAssignments = undefined;
+        if (rolesList.includes('teacher')) {
+            const classAssigmentsResult = await db.query(`SELECT COALESCE(
+          (
+            SELECT jsonb_agg(
+              jsonb_build_object(
+                'classLevel', tca.class_level,
+                'allSubjects', tca.all_subjects,
+                'assignedSubjects', COALESCE(
+                  (
+                    SELECT jsonb_agg(s.title)
+                    FROM teacher_standard_subjects tss
+                    JOIN subjects s ON s.id = tss.subject_id
+                    WHERE tss.teacher_user_id = $1::uuid
+                      AND tss.organization_id = $2::uuid
+                      AND tss.class_level = tca.class_level
+                  ),
+                  '[]'::jsonb
+                )
+              )
+            )
+            FROM teacher_class_assignments tca
+            WHERE tca.teacher_user_id = $1::uuid
+              AND tca.organization_id = $2::uuid
+          ),
+          '[]'::jsonb
+        ) AS assignments`, [user.id, organizationId]);
+            classAssignments = classAssigmentsResult.rows[0]?.assignments || [];
+        }
         // Generate tokens
         const tokenPayload = {
             userId: user.id,
@@ -266,6 +295,7 @@ authRouter.post('/login', async (req, res) => {
                 organizationId,
                 canPublishGlobal,
                 isSuperAdmin,
+                classAssignments,
             },
             subscription,
         });

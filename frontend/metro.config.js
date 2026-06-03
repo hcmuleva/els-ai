@@ -14,4 +14,10 @@ config.resolver.nodeModulesPaths = [
   path.resolve(workspaceRoot, 'node_modules'),
 ];
 
+// Limit the number of concurrent worker processes to 2
+// This prevents out-of-memory crashes on multi-core environments (like EAS Cloud or local)
+config.maxWorkers = 2;
+
 module.exports = config;
+
+

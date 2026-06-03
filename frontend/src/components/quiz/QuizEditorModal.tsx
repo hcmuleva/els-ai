@@ -29,6 +29,8 @@ import {
 } from 'lucide-react-native';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
+import { getAuthorizedClasses, getAuthorizedSubjects } from '../../utils/assignments';
+import { AppUser } from '../../types/roles';
 import SelectorModal from '../SelectorModal';
 
 type ApiFetch = (path: string, options?: RequestInit) => Promise<Response>;
@@ -64,6 +66,7 @@ export type QuizEditorModalProps = {
   apiFetch: ApiFetch;
   onClose: () => void;
   onUpdated?: () => void;
+  user: AppUser | null;
 };
 
 const DIFFICULTIES: Difficulty[] = ['Easy', 'Medium', 'Hard'];
@@ -95,7 +98,7 @@ function normalizeQuestionType(type: string): string {
   return type;
 }
 
-export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, onUpdated }: QuizEditorModalProps) {
+export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, onUpdated, user }: QuizEditorModalProps) {
   const [tab, setTab] = useState<Tab>('setup');
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -188,14 +191,27 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
 
   const filteredBank = useMemo(() => {
     const keyword = bankSearch.trim().toLowerCase();
+    
+    const attachedSignatures = new Set(
+      attached.map((a) => `${a.question_type}|${(a.question_title || '').trim().toLowerCase()}`)
+    );
+    const seenSigs = new Set<string>();
+
     return bank.filter((q) => {
+      const sig = `${q.question_type}|${(q.question_title || '').trim().toLowerCase()}`;
+      if (seenSigs.has(sig)) return false;
+      seenSigs.add(sig);
+
+      if (attachedIds.has(q.id)) return false;
+      if (attachedSignatures.has(sig)) return false;
+
       if (classLevel && q.class_level !== classLevel) return false;
       if (subject && q.subject !== subject) return false;
       if (!keyword) return true;
       return [q.question_title, q.quiz_title, q.question_instruction, q.question_type]
         .filter(Boolean).join(' ').toLowerCase().includes(keyword);
     });
-  }, [bank, bankSearch, classLevel, subject]);
+  }, [bank, bankSearch, classLevel, subject, attachedIds, attached]);
 
   useEffect(() => { setBankPage(0); }, [bankSearch, classLevel, subject]);
 
@@ -242,7 +258,6 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
         question_type: created.question_type,
         question_title: created.question_title,
         question_instruction: created.question_instruction,
-        points: created.points || 0,
         time_limit_seconds: created.time_limit_seconds || 30,
       }]);
       onUpdated?.();
@@ -269,7 +284,25 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
     }
   };
 
-  const classOptions = STANDARD_OPTIONS.map((o) => ({ label: o.label, value: o.value }));
+  const classOptions = useMemo(() =>
+    getAuthorizedClasses(user, STANDARD_OPTIONS.map((o) => o.value))
+      .map((v) => ({ label: getStandardLabel(v), value: v })),
+    [user]
+  );
+  const authorizedSubjectOpts = useMemo(() => {
+    // Subject catalog items in QuizEditorModal don't have classLevel mapping easily available since subjectOpts is just labels.
+    // However, subjectOpts are fetched from /content/subjects which has classLevel. Wait, we parse it into {label, value}.
+    // Actually, let's keep the user assignment filtering simpler or wait: subjectOpts is populated by loadSubjects.
+    // Let's filter subjectOpts based on getAuthorizedSubjects.
+    // getAuthorizedSubjects requires the full list. We will pass a stub.
+    return subjectOpts.filter((opt) => {
+      // In QuizEditorModal, subjectOpts are global. We can just use getAuthorizedSubjects to see if user has access.
+      // But getAuthorizedSubjects takes subjectCatalog. We can reconstruct a mock catalog.
+      const catalog = subjectOpts.map(o => ({ classLevel: classLevel || '', title: o.value }));
+      const allowed = getAuthorizedSubjects(user, catalog, (i) => i.classLevel, (i) => i.title, classLevel || undefined);
+      return allowed.includes(opt.value);
+    });
+  }, [subjectOpts, classLevel, user]);
 
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
@@ -426,10 +459,9 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
                     const bPaged = filteredBank.slice(bankPage * PAGE_SIZE, (bankPage + 1) * PAGE_SIZE);
                     return (<>
                       {bPaged.map((q) => {
-                        const isAttached = attachedIds.has(q.id);
                         const typeLabel = QUIZ_TYPE_LABELS[normalizeQuestionType(q.question_type)] || q.question_type;
                         return (
-                          <View key={q.id} style={[s.qRow, isAttached && s.qRowMuted]}>
+                          <View key={q.id} style={s.qRow}>
                             <View style={{ flex: 1 }}>
                               <Text style={s.qTitle} numberOfLines={2}>{q.question_title || 'Untitled'}</Text>
                               <View style={s.qBadgeRow}>
@@ -439,15 +471,13 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
                               </View>
                             </View>
                             <Pressable
-                              style={[s.attachBtn, isAttached && s.attachBtnDisabled]}
-                              onPress={() => !isAttached && handleAttach(q.id)}
-                              disabled={isAttached || busyQuestionId === q.id}
+                              style={s.attachBtn}
+                              onPress={() => handleAttach(q.id)}
+                              disabled={busyQuestionId === q.id}
                             >
                               {busyQuestionId === q.id
                                 ? <ActivityIndicator size="small" color="#16a34a" />
-                                : isAttached
-                                  ? <Text style={s.attachBtnTextMuted}>Added</Text>
-                                  : <><Plus size={13} color="#16a34a" /><Text style={s.attachBtnText}>Add</Text></>}
+                                : <><Plus size={13} color="#16a34a" /><Text style={s.attachBtnText}>Add</Text></>}
                             </Pressable>
                           </View>
                         );
@@ -521,7 +551,7 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
       <SelectorModal
         visible={selectorField === 'subject'}
         title="Select Subject"
-        options={subjectOpts}
+        options={authorizedSubjectOpts}
         selected={subject}
         isSubject
         onSelect={(v) => { setSubject(v); setSelectorField(null); }}

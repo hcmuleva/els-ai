@@ -4,6 +4,7 @@ import { WebView } from 'react-native-webview';
 import { ChevronLeft, BookOpen, Play, Film, Headphones, Image as ImageIcon, FileText, Layers } from 'lucide-react-native';
 import { Video, ResizeMode } from 'expo-av';
 import * as Linking from 'expo-linking';
+import YoutubePlayer from 'react-native-youtube-iframe';
 
 import QuizRenderer from '../quiz/QuizRenderer';
 import PlayQuizCTA from '../quiz/PlayQuizCTA';
@@ -48,7 +49,7 @@ const TYPE_CONFIG: Record<string, TypeCfg> = {
   reel_url: { label: 'Reel', Icon: Film, accent: '#E91E8C', bg: '#FFE0F0' },
   reel: { label: 'Reel', Icon: Film, accent: '#E91E8C', bg: '#FFE0F0' },
   audio: { label: 'Audio', Icon: Headphones, accent: '#9B8EC4', bg: '#EDE4FF' },
-  image: { label: 'Image', Icon: ImageIcon, accent: '#4A90E2', bg: '#D6EAFF' },
+  image: { label: 'Image / Video', Icon: ImageIcon, accent: '#4A90E2', bg: '#D6EAFF' },
   text: { label: 'Reading', Icon: BookOpen, accent: '#7DC67A', bg: '#D6F5D6' },
   document: { label: 'Document', Icon: FileText, accent: '#4A90E2', bg: '#D6EAFF' },
 };
@@ -57,6 +58,11 @@ const typeCfg = (type: string): TypeCfg => TYPE_CONFIG[type] ?? DEFAULT_TYPE;
 
 const resolveMediaUrl = (url?: string): string => {
   if (!url) return '';
+  if (url.startsWith('/assets') || url.startsWith('./assets') || url.startsWith('assets/')) {
+    const cleanUrl = url.startsWith('./') ? url.slice(1) : url.startsWith('assets/') ? `/${url}` : url;
+    const frontendBaseUrl = API_BASE_URL.replace(/\/api\/?$/, '');
+    return `${frontendBaseUrl}${cleanUrl}`;
+  }
   return url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
 };
 
@@ -66,9 +72,9 @@ const isAudioUrl = (url: string): boolean => /\.(mp3|wav|ogg|aac|m4a|flac)(?:$|[
 const isVideoUrl = (url: string): boolean => /\.(mp4|mov|m4v|webm|avi|mkv)(?:$|[?#])/i.test(url);
 const isDocumentUrl = (url: string): boolean => /\.(pdf|doc|docx|xls|xlsx|ppt|pptx|zip|rar)(?:$|[?#])/i.test(url);
 
-const getYouTubeEmbedUrl = (url: string): string | null => {
+const getYouTubeVideoId = (url: string): string | null => {
   const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
-  return match ? `https://www.youtube.com/embed/${match[1]}?rel=0&controls=1` : null;
+  return match ? match[1] : null;
 };
 
 const getYouTubeThumbUrl = (url: string): string | null => {
@@ -165,26 +171,23 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
 
             <View style={s.section} onLayout={(e) => { sectionYs.current[`s-${curIdx}`] = e.nativeEvent.layout.y; }}>
               {url && (content.contentType === 'youtube_url' || content.contentType === 'video' || isYouTubeUrl(url)) && (() => {
-                const embedUrl = getYouTubeEmbedUrl(url);
-                if (!embedUrl) return null;
+                const videoId = getYouTubeVideoId(url);
+                if (!videoId) return null;
                 return (
                   <View style={s.videoWrap}>
                     <View style={s.videoFrame}>
                       {Platform.OS === 'web' ? (
                         <iframe
-                          src={embedUrl}
+                          src={`https://www.youtube.com/embed/${videoId}?rel=0&controls=1`}
                           style={{ width: '100%', height: '100%', border: 'none', borderRadius: 16 }}
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen
                         />
                       ) : (
-                        <WebView
-                          source={{ uri: isInView(`s-${curIdx}`) ? embedUrl : embedUrl }}
-                          style={{ flex: 1 }}
-                          allowsFullscreenVideo
-                          allowsInlineMediaPlayback
-                          mediaPlaybackRequiresUserAction={false}
-                          javaScriptEnabled
+                        <YoutubePlayer
+                          height={(Dimensions.get('window').width - 32) * (9 / 16)}
+                          videoId={videoId}
+                          webViewStyle={{ opacity: 0.99 }}
                         />
                       )}
                     </View>
@@ -192,19 +195,19 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
                 );
               })()}
 
-              {url && (content.contentType === 'image' || isImageUrl(url)) && (
+              {url && (content.contentType === 'image' || isImageUrl(url)) && !isVideoUrl(url) && !isYouTubeUrl(url) && !isAudioUrl(url) && !isDocumentUrl(url) && (
                 <View style={s.imgWrap}>
                   <Image source={{ uri: url }} style={s.img} resizeMode="cover" />
                 </View>
               )}
 
-              {url && (content.contentType === 'audio' || isAudioUrl(url)) && (
+              {url && (content.contentType === 'audio' || isAudioUrl(url)) && !isVideoUrl(url) && !isYouTubeUrl(url) && (
                 <View style={{ marginTop: 10 }}>
                   <AudioPlayer uri={url} title={content.title} subtitle={topic.subject} accentColor="#4A90E2" bgColor="#D6EAFF" />
                 </View>
               )}
 
-              {url && (content.contentType === 'reel' || content.contentType === 'reel_url' || isVideoUrl(url)) && (
+              {url && (content.contentType === 'reel' || content.contentType === 'reel_url' || isVideoUrl(url)) && !isYouTubeUrl(url) && (
                 <View style={s.videoWrap}>
                   <View style={s.videoFrame}>
                     {Platform.OS === 'web' ? (
@@ -312,7 +315,7 @@ const s = StyleSheet.create({
 
   section: { marginHorizontal: 16, marginBottom: 16, gap: 12 },
   videoWrap: { borderRadius: 20, overflow: 'hidden', marginBottom: 4 },
-  videoFrame: { width: '100%', height: 230, borderRadius: 20, overflow: 'hidden', backgroundColor: '#0a0a0a' },
+  videoFrame: { width: '100%', aspectRatio: 16 / 9, borderRadius: 20, overflow: 'hidden', backgroundColor: '#0a0a0a' },
   imgWrap: { borderRadius: 20, overflow: 'hidden' },
   img: { width: '100%', height: 220 },
   textBlock: { backgroundColor: '#F8F9FF', borderRadius: 16, padding: 20 },

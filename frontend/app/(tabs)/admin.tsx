@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Activity, BookOpen, ChevronLeft, ChevronRight, CreditCard, FlaskConical, Globe, GraduationCap, Hash, Languages, Leaf, Monitor, Palette, Plus, Search, Shield, Sparkles, Users, UserCheck, X } from 'lucide-react-native';
+import { Activity, BookOpen, ChevronLeft, ChevronRight, CreditCard, FlaskConical, Globe, GraduationCap, Hash, Languages, Leaf, Monitor, Palette, Plus, Search, Shield, Sparkles, Users, UserCheck, X, Check, Trash2, ShieldCheck, CheckCircle2 } from 'lucide-react-native';
 
 import { ScreenTemplate } from '../../src/components/ScreenTemplate';
 import SelectorModal from '../../src/components/SelectorModal';
@@ -33,6 +33,18 @@ type AssignmentPair = {
   subject: string;
 };
 
+export interface TeacherClassAssignment {
+  classLevel: string;
+  allSubjects: boolean;
+  assignedSubjects: string[];
+}
+
+// Sorts a class assignment list by canonical STANDARD_OPTIONS order
+const STANDARD_ORDER = new Map(STANDARD_OPTIONS.map((s, i) => [s.value, i]));
+function sortByStandard(list: TeacherClassAssignment[]): TeacherClassAssignment[] {
+  return [...list].sort((a, b) => (STANDARD_ORDER.get(a.classLevel) ?? 99) - (STANDARD_ORDER.get(b.classLevel) ?? 99));
+}
+
 type TeacherAssignmentUser = {
   id: string;
   firstName: string;
@@ -40,6 +52,7 @@ type TeacherAssignmentUser = {
   email: string;
   mobileNumber?: string;
   assignments: AssignmentPair[];
+  classAssignments?: TeacherClassAssignment[];
 };
 
 type ParentStudent = {
@@ -296,7 +309,10 @@ export default function AdminScreen() {
   });
   const [adminCounts, setAdminCounts] = useState({ subjects: 0, students: 0, teachers: 0, parents: 0 });
   const [assignmentCatalog, setAssignmentCatalog] = useState<AssignmentPair[]>([]);
-  const [studentFilters, setStudentFilters] = useState({ search: '', name: '' });
+  const [studentFilters, setStudentFilters] = useState({ search: '', classLevel: '' });
+  const [teacherSearch, setTeacherSearch] = useState('');
+  const [parentSearch, setParentSearch] = useState('');
+  const [subjectSearch, setSubjectSearch] = useState('');
   const [subjectClassFilter, setSubjectClassFilter] = useState('');
   const [loadingTable, setLoadingTable] = useState(false);
   const [savingUser, setSavingUser] = useState(false);
@@ -306,6 +322,8 @@ export default function AdminScreen() {
   const [savingTeacherAssignments, setSavingTeacherAssignments] = useState(false);
   const [savingParentStudents, setSavingParentStudents] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [toast, setToast] = useState<{ text: string } | null>(null);
+  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [dialogMode, setDialogMode] = useState<DialogMode | null>(null);
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
@@ -320,7 +338,10 @@ export default function AdminScreen() {
   const [subjectLogoLibraryOpen, setSubjectLogoLibraryOpen] = useState(false);
 
   const [teacherModalUser, setTeacherModalUser] = useState<TeacherAssignmentUser | null>(null);
-  const [teacherSelectedPairs, setTeacherSelectedPairs] = useState<AssignmentPair[]>([]);
+  const [teacherSelectedPairs, setTeacherSelectedPairs] = useState<AssignmentPair[]>([]); // Deprecated, will be removed soon
+  const [teacherSelectedClasses, setTeacherSelectedClasses] = useState<TeacherClassAssignment[]>([]);
+  const [teacherManageTab, setTeacherManageTab] = useState<'class' | 'subject'>('class');
+  const [teacherSubjectTargetClass, setTeacherSubjectTargetClass] = useState<string>('');
 
   const [parentModalUser, setParentModalUser] = useState<ParentAssignmentUser | null>(null);
   const [parentStudentSearch, setParentStudentSearch] = useState('');
@@ -328,9 +349,30 @@ export default function AdminScreen() {
   const [parentStudentResults, setParentStudentResults] = useState<StudentSearchResult[]>([]);
   const [parentSelectedStudentIds, setParentSelectedStudentIds] = useState<string[]>([]);
   const [loadingParentStudents, setLoadingParentStudents] = useState(false);
+  const [viewMoreParent, setViewMoreParent] = useState<ParentAssignmentUser | null>(null);
+  const [viewMoreSearch, setViewMoreSearch] = useState('');
+  const [viewMoreClassFilter, setViewMoreClassFilter] = useState('');
+  const [viewMorePage, setViewMorePage] = useState(1);
   const [standardSelectorTarget, setStandardSelectorTarget] = useState<
-    'userFormClassLevel' | 'parentStudentClassLevel' | 'subjectFormClassLevel' | 'subjectFilterClassLevel' | null
+    'userFormClassLevel' | 'parentStudentClassLevel' | 'subjectFormClassLevel' | 'subjectFilterClassLevel' | 'studentFilterClassLevel' | 'viewMoreClassLevel' | 'viewMoreTeacherClassLevel' | 'teacherAssignClass' | null
   >(null);
+
+  const showToast = (text: string) => {
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    setToast({ text });
+    toastTimerRef.current = setTimeout(() => setToast(null), 3000);
+  };
+
+  const [teacherAssignSearch, setTeacherAssignSearch] = useState('');
+  const [pendingRemoveTeacherPair, setPendingRemoveTeacherPair] = useState<AssignmentPair | null>(null);
+  const [pendingBulkSubjectAction, setPendingBulkSubjectAction] = useState<'add' | 'remove' | null>(null);
+  const [pendingBulkClassAction, setPendingBulkClassAction] = useState<'add' | 'remove' | null>(null);
+  const [pendingRemoveTeacherClass, setPendingRemoveTeacherClass] = useState<string | null>(null);
+  
+  const [viewMoreTeacher, setViewMoreTeacher] = useState<TeacherAssignmentUser | null>(null);
+  const [viewMoreTeacherSearch, setViewMoreTeacherSearch] = useState('');
+  const [viewMoreTeacherClassFilter, setViewMoreTeacherClassFilter] = useState('');
+  const [viewMoreTeacherPage, setViewMoreTeacherPage] = useState(1);
 
   const isAdminView = user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
 
@@ -396,7 +438,7 @@ export default function AdminScreen() {
     const query = new URLSearchParams();
     query.set('role', 'student');
     if (studentFilters.search.trim()) query.set('search', studentFilters.search.trim());
-    if (studentFilters.name.trim()) query.set('name', studentFilters.name.trim());
+    if (studentFilters.classLevel) query.set('classLevel', studentFilters.classLevel);
     const res = await apiFetch(`/users?${query.toString()}`);
     if (!res.ok) {
       const errorPayload = await res.json().catch(() => ({}));
@@ -404,7 +446,7 @@ export default function AdminScreen() {
     }
     const payload = await res.json();
     setStudents((payload.users || []) as ManagedUser[]);
-  }, [apiFetch, isAdminView, studentFilters.name, studentFilters.search]);
+  }, [apiFetch, isAdminView, studentFilters.classLevel, studentFilters.search]);
 
   const loadTeachers = useCallback(async () => {
     if (!isAdminView) return;
@@ -528,7 +570,7 @@ export default function AdminScreen() {
       }
     }, 250);
     return () => clearTimeout(timeoutId);
-  }, [activeTab, isAdminView, loadStudents, studentFilters.name, studentFilters.search]);
+  }, [activeTab, isAdminView, loadStudents, studentFilters.classLevel, studentFilters.search]);
 
   const openCreateDialog = (roleFromTab?: ManagedRole) => {
     const role =
@@ -606,7 +648,7 @@ export default function AdminScreen() {
       setDialogMode(null);
       setEditingUserId(null);
       setUserForm(EMPTY_USER_FORM);
-      setMessage({ type: 'success', text: dialogMode === 'create' ? 'User created successfully.' : 'User updated successfully.' });
+      showToast(dialogMode === 'create' ? 'User created successfully.' : 'User updated successfully.');
       await Promise.all([loadStudents(), loadTeachers(), loadParents(), loadAdminCounts()]);
     } catch (error) {
       const text = error instanceof Error ? error.message : dialogMode === 'create' ? 'Failed to create user' : 'Failed to update user';
@@ -748,7 +790,7 @@ export default function AdminScreen() {
       setSubjectForm(EMPTY_SUBJECT_FORM);
       setAuthorSearchEmail('');
       setAuthorSearchResults([]);
-      setMessage({ type: 'success', text: subjectDialogMode === 'create' ? 'Subject created successfully.' : 'Subject updated successfully.' });
+      showToast(subjectDialogMode === 'create' ? 'Subject created successfully.' : 'Subject updated successfully.');
       await Promise.all([loadSubjects(), loadAssignmentCatalog(), loadAdminCounts()]);
     } catch (error) {
       const text =
@@ -790,18 +832,92 @@ export default function AdminScreen() {
 
   const openTeacherAssignmentDialog = (teacher: TeacherAssignmentUser) => {
     setTeacherModalUser(teacher);
-    setTeacherSelectedPairs(teacher.assignments || []);
+    if (teacher.classAssignments && teacher.classAssignments.length > 0) {
+      setTeacherSelectedClasses(teacher.classAssignments);
+      setTeacherSubjectTargetClass(teacher.classAssignments[0].classLevel);
+    } else {
+      const grouped = new Map<string, string[]>();
+      (teacher.assignments || []).forEach(a => {
+        if (!grouped.has(a.classLevel)) grouped.set(a.classLevel, []);
+        grouped.get(a.classLevel)!.push(a.subject);
+      });
+      const parsed: TeacherClassAssignment[] = sortByStandard(
+        Array.from(grouped.entries()).map(([classLevel, subjects]) => {
+          const totalInCatalog = assignmentCatalog.filter(c => c.classLevel === classLevel).length;
+          const allSubjects = subjects.length === totalInCatalog && totalInCatalog > 0;
+          return { classLevel, allSubjects, assignedSubjects: subjects };
+        })
+      );
+      setTeacherSelectedClasses(parsed);
+      setTeacherSubjectTargetClass(parsed.length > 0 ? parsed[0].classLevel : '');
+    }
+    setTeacherManageTab('class');
   };
 
-  const addTeacherPair = (pair: AssignmentPair) => {
-    setTeacherSelectedPairs((current) => {
-      if (current.some((item) => pairKey(item) === pairKey(pair))) return current;
-      return [...current, pair];
+  const toggleTeacherClassAllSubjects = (classLevel: string, allSubjects: boolean) => {
+    setTeacherSelectedClasses(current => current.map(c => 
+      c.classLevel === classLevel ? { ...c, allSubjects, assignedSubjects: allSubjects ? [] : c.assignedSubjects } : c
+    ));
+  };
+
+  const addTeacherClass = (classLevel: string) => {
+    setTeacherSelectedClasses(current => {
+      if (current.some(c => c.classLevel === classLevel)) return current;
+      const updated = sortByStandard([...current, { classLevel, allSubjects: true, assignedSubjects: [] }]);
+      if (current.length === 0) setTeacherSubjectTargetClass(classLevel);
+      return updated;
     });
   };
 
-  const removeTeacherPair = (pair: AssignmentPair) => {
-    setTeacherSelectedPairs((current) => current.filter((item) => pairKey(item) !== pairKey(pair)));
+  const removeTeacherClass = (classLevel: string) => {
+    setTeacherSelectedClasses(current => {
+      const updated = current.filter(c => c.classLevel !== classLevel);
+      if (teacherSubjectTargetClass === classLevel) {
+        setTeacherSubjectTargetClass(updated.length > 0 ? updated[0].classLevel : '');
+      }
+      return updated;
+    });
+  };
+
+  const toggleTeacherSubject = (classLevel: string, subjectTitle: string) => {
+    setTeacherSelectedClasses(current => current.map(c => {
+      if (c.classLevel !== classLevel) return c;
+      const hasSubject = c.assignedSubjects.includes(subjectTitle);
+      if (hasSubject) {
+        return { ...c, assignedSubjects: c.assignedSubjects.filter(s => s !== subjectTitle) };
+      }
+      return { ...c, assignedSubjects: [...c.assignedSubjects, subjectTitle] };
+    }));
+  };
+
+  const assignAllSubjectsForClass = (classLevel: string) => {
+    const allSubjectsForClass = assignmentCatalog
+      .filter(a => a.classLevel === classLevel)
+      .map(a => a.subject);
+    setTeacherSelectedClasses(current => current.map(c =>
+      c.classLevel === classLevel ? { ...c, assignedSubjects: allSubjectsForClass } : c
+    ));
+  };
+
+  const removeAllSubjectsForClass = (classLevel: string) => {
+    setTeacherSelectedClasses(current => current.map(c =>
+      c.classLevel === classLevel ? { ...c, assignedSubjects: [] } : c
+    ));
+  };
+
+  const assignAllClasses = () => {
+    setTeacherSelectedClasses(current => {
+      const alreadyAssigned = new Set(current.map(c => c.classLevel));
+      const newClasses = STANDARD_OPTIONS
+        .filter(s => !alreadyAssigned.has(s.value))
+        .map(s => ({ classLevel: s.value, allSubjects: true, assignedSubjects: [] }));
+      return sortByStandard([...current, ...newClasses]);
+    });
+  };
+
+  const removeAllClasses = () => {
+    setTeacherSelectedClasses([]);
+    setTeacherSubjectTargetClass('');
   };
 
   const saveTeacherAssignments = async () => {
@@ -811,14 +927,14 @@ export default function AdminScreen() {
     try {
       const res = await apiFetch(`/users/teachers/${teacherModalUser.id}/assignments`, {
         method: 'PUT',
-        body: JSON.stringify({ assignments: teacherSelectedPairs }),
+        body: JSON.stringify({ classAssignments: sortByStandard(teacherSelectedClasses) }),
       });
       if (!res.ok) {
         const errorPayload = await res.json().catch(() => ({}));
         throw new Error(errorPayload.message || 'Failed to assign standards and subjects');
       }
       setTeacherModalUser(null);
-      setMessage({ type: 'success', text: 'Teacher assignments updated successfully.' });
+      showToast('Teacher assignments updated successfully.');
       await loadTeachers();
     } catch (error) {
       const text = error instanceof Error ? error.message : 'Failed to assign standards and subjects';
@@ -882,7 +998,7 @@ export default function AdminScreen() {
         throw new Error(errorPayload.message || 'Failed to assign students to parent');
       }
       setParentModalUser(null);
-      setMessage({ type: 'success', text: 'Parent student mapping updated successfully.' });
+      showToast('Parent student mapping updated successfully.');
       await loadParents();
     } catch (error) {
       const text = error instanceof Error ? error.message : 'Failed to assign students to parent';
@@ -896,7 +1012,7 @@ export default function AdminScreen() {
     const selected = new Set(teacherSelectedPairs.map((pair) => pairKey(pair)));
     const base = [...assignmentCatalog];
     if (teacherModalUser) {
-      teacherModalUser.assignments.forEach((pair) => {
+      (teacherModalUser.assignments || []).forEach((pair) => {
         if (!base.some((item) => pairKey(item) === pairKey(pair))) {
           base.push(pair);
         }
@@ -904,6 +1020,18 @@ export default function AdminScreen() {
     }
     return base.filter((pair) => !selected.has(pairKey(pair)));
   }, [assignmentCatalog, teacherModalUser, teacherSelectedPairs]);
+
+  const filteredAvailableTeacherPairs = useMemo(() => {
+    let list = availableTeacherPairs;
+    if (teacherAssignSearch.trim()) {
+      const q = teacherAssignSearch.toLowerCase().trim();
+      list = list.filter(pair => 
+        (pair.subject || '').toLowerCase().includes(q) ||
+        getStandardLabel(pair.classLevel).toLowerCase().includes(q)
+      );
+    }
+    return list;
+  }, [availableTeacherPairs, teacherAssignSearch]);
 
   const filteredParentStudentResults = useMemo(() => {
     if (!parentStudentClassLevel) return parentStudentResults;
@@ -917,12 +1045,22 @@ export default function AdminScreen() {
   useEffect(() => {
     if (activeTab !== 'student') return;
     setTabPage((current) => ({ ...current, student: 1 }));
-  }, [activeTab, studentFilters.name, studentFilters.search]);
+  }, [activeTab, studentFilters.classLevel, studentFilters.search]);
+
+  useEffect(() => {
+    if (activeTab !== 'teacher') return;
+    setTabPage((current) => ({ ...current, teacher: 1 }));
+  }, [activeTab, teacherSearch]);
+
+  useEffect(() => {
+    if (activeTab !== 'parent') return;
+    setTabPage((current) => ({ ...current, parent: 1 }));
+  }, [activeTab, parentSearch]);
 
   useEffect(() => {
     if (activeTab !== 'subject') return;
     setTabPage((current) => ({ ...current, subject: 1 }));
-  }, [activeTab, subjectClassFilter]);
+  }, [activeTab, subjectClassFilter, subjectSearch]);
 
   const toPaginationMeta = useCallback(
     (tab: AdminTab, totalItems: number) => {
@@ -938,14 +1076,45 @@ export default function AdminScreen() {
   );
 
   const filteredSubjects = useMemo(() => {
-    if (!subjectClassFilter) return subjects;
-    return subjects.filter((subject) => (subject.classLevel || '').trim() === subjectClassFilter.trim());
-  }, [subjectClassFilter, subjects]);
+    let result = subjects;
+    if (subjectClassFilter) {
+      result = result.filter((subject) => (subject.classLevel || '').trim() === subjectClassFilter.trim());
+    }
+    if (subjectSearch.trim()) {
+      const q = subjectSearch.toLowerCase().trim();
+      result = result.filter((subject) => (subject.title || '').toLowerCase().includes(q));
+    }
+    return result;
+  }, [subjectClassFilter, subjectSearch, subjects]);
+
+  const filteredTeachers = useMemo(() => {
+    if (!teacherSearch.trim()) return teachers;
+    const q = teacherSearch.toLowerCase().trim();
+    return teachers.filter((t) => 
+      t.firstName?.toLowerCase().includes(q) ||
+      t.lastName?.toLowerCase().includes(q) ||
+      t.email?.toLowerCase().includes(q) ||
+      t.mobileNumber?.toLowerCase().includes(q) ||
+      t.id?.toLowerCase().includes(q)
+    );
+  }, [teacherSearch, teachers]);
+
+  const filteredParents = useMemo(() => {
+    if (!parentSearch.trim()) return parents;
+    const q = parentSearch.toLowerCase().trim();
+    return parents.filter((p) => 
+      p.firstName?.toLowerCase().includes(q) ||
+      p.lastName?.toLowerCase().includes(q) ||
+      p.email?.toLowerCase().includes(q) ||
+      p.mobileNumber?.toLowerCase().includes(q) ||
+      p.id?.toLowerCase().includes(q)
+    );
+  }, [parentSearch, parents]);
 
   const subjectPagination = useMemo(() => toPaginationMeta('subject', filteredSubjects.length), [filteredSubjects.length, toPaginationMeta]);
   const studentPagination = useMemo(() => toPaginationMeta('student', students.length), [students.length, toPaginationMeta]);
-  const teacherPagination = useMemo(() => toPaginationMeta('teacher', teachers.length), [teachers.length, toPaginationMeta]);
-  const parentPagination = useMemo(() => toPaginationMeta('parent', parents.length), [parents.length, toPaginationMeta]);
+  const teacherPagination = useMemo(() => toPaginationMeta('teacher', filteredTeachers.length), [filteredTeachers.length, toPaginationMeta]);
+  const parentPagination = useMemo(() => toPaginationMeta('parent', filteredParents.length), [filteredParents.length, toPaginationMeta]);
 
   const paginatedSubjects = useMemo(
     () => filteredSubjects.slice(subjectPagination.start, subjectPagination.end),
@@ -956,12 +1125,44 @@ export default function AdminScreen() {
     [students, studentPagination.end, studentPagination.start],
   );
   const paginatedTeachers = useMemo(
-    () => teachers.slice(teacherPagination.start, teacherPagination.end),
-    [teachers, teacherPagination.end, teacherPagination.start],
+    () => filteredTeachers.slice(teacherPagination.start, teacherPagination.end),
+    [filteredTeachers, teacherPagination.end, teacherPagination.start],
   );
   const paginatedParents = useMemo(
-    () => parents.slice(parentPagination.start, parentPagination.end),
-    [parents, parentPagination.end, parentPagination.start],
+    () => filteredParents.slice(parentPagination.start, parentPagination.end),
+    [filteredParents, parentPagination.end, parentPagination.start],
+  );
+
+  const filteredViewMoreStudents = useMemo(() => {
+    if (!viewMoreParent) return [];
+    let students = viewMoreParent.students || [];
+    if (viewMoreClassFilter) {
+      students = students.filter(s => (s.classLevel || '').trim() === viewMoreClassFilter.trim());
+    }
+    if (viewMoreSearch.trim()) {
+      const q = viewMoreSearch.toLowerCase().trim();
+      students = students.filter(s => 
+        (s.firstName || '').toLowerCase().includes(q) ||
+        (s.lastName || '').toLowerCase().includes(q)
+      );
+    }
+    return students;
+  }, [viewMoreParent, viewMoreClassFilter, viewMoreSearch]);
+
+  const viewMorePagination = useMemo(() => {
+    const totalItems = filteredViewMoreStudents.length;
+    const totalPages = Math.max(1, Math.ceil(totalItems / TABLE_PAGE_SIZE));
+    const page = Math.max(1, Math.min(viewMorePage, totalPages));
+    const start = (page - 1) * TABLE_PAGE_SIZE;
+    const end = start + TABLE_PAGE_SIZE;
+    const from = totalItems === 0 ? 0 : start + 1;
+    const to = totalItems === 0 ? 0 : Math.min(end, totalItems);
+    return { page, totalPages, start, end, from, to, totalItems };
+  }, [filteredViewMoreStudents.length, viewMorePage]);
+
+  const paginatedViewMoreStudents = useMemo(
+    () => filteredViewMoreStudents.slice(viewMorePagination.start, viewMorePagination.end),
+    [filteredViewMoreStudents, viewMorePagination.start, viewMorePagination.end]
   );
 
   const updateTabPage = (tab: AdminTab, nextPage: number) => {
@@ -979,6 +1180,49 @@ export default function AdminScreen() {
     [adminCounts.subjects, adminCounts.students, adminCounts.teachers, adminCounts.parents],
   );
 
+  const viewMoreGroupedClasses = useMemo(() => {
+    if (!viewMoreTeacher) return [];
+    let grouped: { classLevel: string; allSubjects: boolean; assignedSubjects: string[] }[] = [];
+    
+    if (viewMoreTeacher.classAssignments && viewMoreTeacher.classAssignments.length > 0) {
+      grouped = viewMoreTeacher.classAssignments.map(ca => ({
+        classLevel: ca.classLevel,
+        allSubjects: ca.allSubjects,
+        assignedSubjects: [...ca.assignedSubjects]
+      }));
+    } else if (viewMoreTeacher.assignments) {
+      const classMap = new Map<string, Set<string>>();
+      viewMoreTeacher.assignments.forEach(a => {
+        if (!a.classLevel) return;
+        if (!classMap.has(a.classLevel)) classMap.set(a.classLevel, new Set());
+        classMap.get(a.classLevel)!.add(a.subject || '');
+      });
+      grouped = Array.from(classMap.entries()).map(([classLevel, subjects]) => {
+        const hasAll = subjects.has('All Subjects');
+        return {
+          classLevel,
+          allSubjects: hasAll,
+          assignedSubjects: hasAll ? [] : Array.from(subjects)
+        };
+      });
+    }
+    
+    if (viewMoreTeacherClassFilter) {
+      grouped = grouped.filter(g => (g.classLevel || '').trim() === viewMoreTeacherClassFilter.trim());
+    }
+    if (viewMoreTeacherSearch.trim()) {
+      const q = viewMoreTeacherSearch.toLowerCase().trim();
+      grouped = grouped.map(g => {
+        if (g.allSubjects) return g;
+        return {
+          ...g,
+          assignedSubjects: g.assignedSubjects.filter(s => s.toLowerCase().includes(q))
+        };
+      }).filter(g => g.allSubjects || g.assignedSubjects.length > 0);
+    }
+    return grouped;
+  }, [viewMoreTeacher, viewMoreTeacherClassFilter, viewMoreTeacherSearch]);
+
   const applyStandardSelection = (value: string) => {
     if (standardSelectorTarget === 'userFormClassLevel') {
       setUserForm((current) => ({ ...current, classLevel: value }));
@@ -991,6 +1235,20 @@ export default function AdminScreen() {
     }
     if (standardSelectorTarget === 'subjectFilterClassLevel') {
       setSubjectClassFilter(value);
+    }
+    if (standardSelectorTarget === 'studentFilterClassLevel') {
+      setStudentFilters((current) => ({ ...current, classLevel: value }));
+    }
+    if (standardSelectorTarget === 'viewMoreClassLevel') {
+      setViewMoreClassFilter(value);
+      setViewMorePage(1);
+    }
+    if (standardSelectorTarget === 'viewMoreTeacherClassLevel') {
+      setViewMoreTeacherClassFilter(value);
+      setViewMoreTeacherPage(1);
+    }
+    if (standardSelectorTarget === 'teacherAssignClass') {
+      addTeacherClass(value);
     }
     setStandardSelectorTarget(null);
   };
@@ -1067,7 +1325,18 @@ export default function AdminScreen() {
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <View style={{ flex: 1, backgroundColor: Colors.background }}>
+      {/* Floating Toast (Rendered outside ScrollView so it stays fixed relative to the screen) */}
+      {toast && (
+        <View style={styles.toastOverlay} pointerEvents="none">
+          <View style={styles.toastCard}>
+            <CheckCircle2 size={18} color={Colors.success} />
+            <Text style={styles.toastText}>{toast.text}</Text>
+          </View>
+        </View>
+      )}
+      
+      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.heroBanner}>
         <View style={styles.heroLeft}>
           <View style={styles.heroBadge}>
@@ -1098,6 +1367,7 @@ export default function AdminScreen() {
           </Text>
         </View>
       )}
+
 
       <View style={styles.tabGrid}>
         {TAB_OPTIONS.map((tab) => {
@@ -1144,22 +1414,35 @@ export default function AdminScreen() {
             </Pressable>
           </View>
           <Text style={styles.sectionHint}>Keep subject title, class standard, and author details up to date for smooth content publishing.</Text>
-          <View style={styles.row}>
-            <View style={styles.half}>
-              <Text style={styles.fieldLabel}>Filter by Standard</Text>
-              <Pressable style={styles.selectorInput} onPress={() => setStandardSelectorTarget('subjectFilterClassLevel')}>
-                <Text style={subjectClassFilter ? styles.selectorText : styles.selectorPlaceholder}>
-                  {subjectClassFilter ? getStandardLabel(subjectClassFilter) : 'All standards'}
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <Pressable style={styles.filterChipBtn} onPress={() => setStandardSelectorTarget('subjectFilterClassLevel')}>
+                <Text style={subjectClassFilter ? styles.filterChipActive : styles.filterChipPlaceholder}>
+                  {subjectClassFilter ? getStandardLabel(subjectClassFilter) : 'Standard ▾'}
                 </Text>
               </Pressable>
+              {subjectClassFilter ? (
+                <Pressable style={styles.filterChipBtn} onPress={() => setSubjectClassFilter('')}>
+                  <Text style={[styles.filterChipActive, { color: '#DC2626' }]}>Clear</Text>
+                </Pressable>
+              ) : null}
             </View>
-            <Pressable
-              style={[styles.secondaryButton, styles.half, styles.alignBottomButton]}
-              onPress={() => setSubjectClassFilter('')}
-              disabled={!subjectClassFilter}
-            >
-              <Text style={styles.secondaryButtonText}>Clear</Text>
-            </Pressable>
+            <View style={[styles.searchBar, { flex: 1, width: 'auto' }]}>
+              <Search size={16} color={Colors.textMuted} />
+              <TextInput
+                style={styles.searchBarInput}
+                placeholder="Search subjects..."
+                placeholderTextColor={Colors.textMuted}
+                value={subjectSearch}
+                onChangeText={setSubjectSearch}
+                returnKeyType="search"
+              />
+              {subjectSearch ? (
+                <Pressable onPress={() => setSubjectSearch('')} style={{ padding: 4 }}>
+                  <X size={16} color={Colors.textMuted} />
+                </Pressable>
+              ) : null}
+            </View>
           </View>
           {loadingTable && subjects.length === 0 ? (
             <ActivityIndicator size="small" color={Colors.primary} />
@@ -1170,63 +1453,44 @@ export default function AdminScreen() {
                   <ActivityIndicator size="small" color={Colors.primary} />
                 </View>
               ) : null}
-              <ScrollView horizontal>
-                <View>
-                  <View style={[styles.tableRow, styles.tableHeader]}>
-                    <Text style={[styles.tableCell, styles.colSubjectCover]}>Icon</Text>
-                  <Text style={[styles.tableCell, styles.colSubjectTitle]}>Title</Text>
-                  <Text style={[styles.tableCell, styles.colSubjectDescription]}>Description</Text>
-                  <Text style={[styles.tableCell, styles.colSubjectAuthor]}>Author</Text>
-                  <Text style={[styles.tableCell, styles.colClass]}>Standard</Text>
-                  <Text style={[styles.tableCell, styles.colAction]}>Actions</Text>
-                </View>
+              <View style={styles.listContainer}>
                 {paginatedSubjects.map((subject) => (
-                  <View key={subject.id} style={styles.tableRow}>
-                    <View style={[styles.tableCell, styles.colSubjectCover, styles.coverCell]}>
-                      {renderSubjectIconVisual(subject)}
-                    </View>
-                    <Text style={[styles.tableCell, styles.colSubjectTitle]}>{subject.title}</Text>
-                    <Text style={[styles.tableCell, styles.colSubjectDescription]} numberOfLines={2}>
-                      {subject.description || '-'}
-                    </Text>
-                    <View style={[styles.tableCell, styles.colSubjectAuthor, styles.authorCell]}>
-                      {subject.authorUser?.profileImage ? (
-                        <Image source={{ uri: resolveMediaUrl(subject.authorUser.profileImage) }} style={styles.authorAvatar} />
-                      ) : (
-                        <View style={styles.authorAvatarPlaceholder}>
-                          <Text style={styles.authorAvatarPlaceholderText}>{getAvatarInitials(subject.author || 'AU')}</Text>
-                        </View>
-                      )}
-                      <View style={styles.authorMeta}>
-                        <Text style={styles.authorNameText} numberOfLines={1}>
-                          {subject.author || '-'}
+                  <View key={subject.id} style={styles.listCard}>
+                    <View style={styles.listMainRow}>
+                      <View style={{ width: 44, height: 44, borderRadius: 8, overflow: 'hidden' }}>
+                        {renderSubjectIconVisual(subject, 44)}
+                      </View>
+                      <View style={styles.listMeta}>
+                        <Text style={styles.listTitle}>{subject.title}</Text>
+                        <Text style={styles.listSub} numberOfLines={1}>
+                          {getStandardLabel(subject.classLevel)} • {subject.author || 'Unknown Author'}
                         </Text>
-                        <Text style={styles.authorSubText} numberOfLines={1}>
-                          {subject.isExternalAuthor ? 'External author' : subject.authorUser?.mobileNumber || 'Internal author'}
-                        </Text>
+                        {subject.description ? (
+                          <Text style={[styles.listSub, { marginTop: 2 }]} numberOfLines={1}>
+                            {subject.description}
+                          </Text>
+                        ) : null}
                       </View>
                     </View>
-                    <Text style={[styles.tableCell, styles.colClass]}>{getStandardLabel(subject.classLevel)}</Text>
-                    <View style={[styles.colAction, styles.actionCell]}>
-                      <Pressable style={styles.actionButton} onPress={() => openEditSubjectDialog(subject)}>
-                        <Text style={styles.actionButtonText}>Edit</Text>
+                    <View style={styles.listActions}>
+                      <Pressable style={styles.ghostBtn} onPress={() => openEditSubjectDialog(subject)}>
+                        <Text style={styles.ghostBtnText}>Edit</Text>
                       </Pressable>
                       <Pressable
-                        style={[styles.actionButton, styles.deleteActionButton]}
+                        style={styles.dangerBtn}
                         onPress={() => requestDeleteSubject(subject)}
                         disabled={deletingSubjectId === subject.id}
                       >
                         {deletingSubjectId === subject.id ? (
                           <ActivityIndicator size="small" color="#b91c1c" />
                         ) : (
-                          <Text style={styles.deleteActionButtonText}>Delete</Text>
+                          <Text style={styles.dangerBtnText}>Delete</Text>
                         )}
                       </Pressable>
                     </View>
                   </View>
-                  ))}
-                </View>
-              </ScrollView>
+                ))}
+              </View>
             </View>
           )}
           {renderPagination('subject', 'Subjects', subjectPagination)}
@@ -1234,52 +1498,53 @@ export default function AdminScreen() {
       ) : null}
 
       {activeTab === 'student' ? (
-        <>
-          <View style={styles.card}>
-            <View style={styles.sectionHeaderRow}>
-              <View style={styles.sectionHeaderLeft}>
-                <View style={[styles.sectionHeaderIcon, { backgroundColor: Colors.primaryLight }]}>
-                  <Search size={18} color={Colors.primary} />
-                </View>
-                <View>
-                  <Text style={styles.cardTitle}>Find Students</Text>
-                  <Text style={styles.cardCount}>Filters apply as you type</Text>
-                </View>
+        <View style={styles.card}>
+          <View style={styles.sectionHeaderRow}>
+            <View style={styles.sectionHeaderLeft}>
+              <View style={[styles.sectionHeaderIcon, { backgroundColor: Colors.primaryLight }]}>
+                <GraduationCap size={18} color={Colors.primary} />
               </View>
-              <Pressable style={[styles.cta, { backgroundColor: Colors.primary }]} onPress={() => openCreateDialog('student')}>
-                <Plus size={14} color="#fff" />
-                <Text style={styles.ctaText}>New Student</Text>
-              </Pressable>
+              <View>
+                <Text style={styles.cardTitle}>Students</Text>
+                <Text style={styles.cardCount}>{adminCounts.students} total</Text>
+              </View>
             </View>
-            <Text style={styles.fieldLabel}>Global Search</Text>
-            <TextInput
-              value={studentFilters.search}
-              onChangeText={(search) => setStudentFilters((current) => ({ ...current, search }))}
-              placeholder="Search by name, email, or mobile"
-              style={styles.input}
-            />
-            <Text style={styles.fieldLabel}>Student Name</Text>
-            <TextInput
-              value={studentFilters.name}
-              onChangeText={(name) => setStudentFilters((current) => ({ ...current, name }))}
-              placeholder="Filter by student name"
-              style={styles.input}
-            />
+            <Pressable style={[styles.cta, { backgroundColor: Colors.primary }]} onPress={() => openCreateDialog('student')}>
+              <Plus size={14} color="#fff" />
+              <Text style={styles.ctaText}>New Student</Text>
+            </Pressable>
           </View>
-
-          <View style={styles.card}>
-            <View style={styles.sectionHeaderRow}>
-              <View style={styles.sectionHeaderLeft}>
-                <View style={[styles.sectionHeaderIcon, { backgroundColor: Colors.primaryLight }]}>
-                  <GraduationCap size={18} color={Colors.primary} />
-                </View>
-                <View>
-                  <Text style={styles.cardTitle}>Students</Text>
-                  <Text style={styles.cardCount}>{adminCounts.students} total</Text>
-                </View>
-              </View>
+          <Text style={styles.sectionHint}>Use this table to update student profile details and verify standard assignments quickly.</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <Pressable style={styles.filterChipBtn} onPress={() => setStandardSelectorTarget('studentFilterClassLevel')}>
+                <Text style={studentFilters.classLevel ? styles.filterChipActive : styles.filterChipPlaceholder}>
+                  {studentFilters.classLevel ? getStandardLabel(studentFilters.classLevel) : 'Standard ▾'}
+                </Text>
+              </Pressable>
+              {studentFilters.classLevel ? (
+                <Pressable style={styles.filterChipBtn} onPress={() => setStudentFilters(curr => ({...curr, classLevel: ''}))}>
+                  <Text style={[styles.filterChipActive, { color: '#DC2626' }]}>Clear</Text>
+                </Pressable>
+              ) : null}
             </View>
-            <Text style={styles.sectionHint}>Use this table to update student profile details and verify standard assignments quickly.</Text>
+            <View style={[styles.searchBar, { flex: 1, width: 'auto' }]}>
+              <Search size={16} color={Colors.textMuted} />
+              <TextInput
+                style={styles.searchBarInput}
+                placeholder="Search..."
+                placeholderTextColor={Colors.textMuted}
+                value={studentFilters.search}
+                onChangeText={(text) => setStudentFilters(curr => ({...curr, search: text}))}
+                returnKeyType="search"
+              />
+              {studentFilters.search ? (
+                <Pressable onPress={() => setStudentFilters(curr => ({...curr, search: ''}))} style={{ padding: 4 }}>
+                  <X size={16} color={Colors.textMuted} />
+                </Pressable>
+              ) : null}
+            </View>
+          </View>
             {loadingTable && students.length === 0 ? (
               <ActivityIndicator size="small" color={Colors.primary} />
             ) : (
@@ -1289,35 +1554,35 @@ export default function AdminScreen() {
                     <ActivityIndicator size="small" color={Colors.primary} />
                   </View>
                 ) : null}
-                <ScrollView horizontal>
-                  <View>
-                    <View style={[styles.tableRow, styles.tableHeader]}>
-                      <Text style={[styles.tableCell, styles.colName]}>Name</Text>
-                      <Text style={[styles.tableCell, styles.colClass]}>Standard</Text>
-                      <Text style={[styles.tableCell, styles.colEmail]}>Email</Text>
-                      <Text style={[styles.tableCell, styles.colMobile]}>Mobile</Text>
-                      <Text style={[styles.tableCell, styles.colAction]}>Actions</Text>
-                    </View>
-                    {paginatedStudents.map((student) => (
-                      <View key={student.id} style={styles.tableRow}>
-                        <Text style={[styles.tableCell, styles.colName]}>{student.firstName} {student.lastName}</Text>
-                        <Text style={[styles.tableCell, styles.colClass]}>{getStandardLabel(student.classLevel)}</Text>
-                        <Text style={[styles.tableCell, styles.colEmail]}>{student.email}</Text>
-                        <Text style={[styles.tableCell, styles.colMobile]}>{student.mobileNumber || '-'}</Text>
-                        <View style={[styles.colAction, styles.actionCell]}>
-                          <Pressable style={styles.actionButton} onPress={() => openEditDialog(student)}>
-                            <Text style={styles.actionButtonText}>Edit</Text>
-                          </Pressable>
-                        </View>
+              <View style={styles.listContainer}>
+                {paginatedStudents.map((student) => (
+                  <View key={student.id} style={styles.listCard}>
+                    <View style={styles.listMainRow}>
+                      <View style={styles.listAvatar}>
+                        <Text style={styles.listAvatarText}>
+                          {(student.firstName?.[0] || '').toUpperCase()}{(student.lastName?.[0] || '').toUpperCase()}
+                        </Text>
                       </View>
-                    ))}
+                      <View style={styles.listMeta}>
+                        <Text style={styles.listTitle}>{student.firstName} {student.lastName}</Text>
+                        <Text style={styles.listSub} numberOfLines={1}>
+                          {student.email} {student.mobileNumber ? `• ${student.mobileNumber}` : ''}
+                        </Text>
+                        <Text style={styles.listRole}>{getStandardLabel(student.classLevel).toUpperCase()}</Text>
+                      </View>
+                    </View>
+                    <View style={styles.listActions}>
+                      <Pressable style={styles.ghostBtn} onPress={() => openEditDialog(student)}>
+                        <Text style={styles.ghostBtnText}>Edit</Text>
+                      </Pressable>
+                    </View>
                   </View>
-                </ScrollView>
+                ))}
+              </View>
               </View>
             )}
             {renderPagination('student', 'Students', studentPagination)}
           </View>
-        </>
       ) : null}
 
       {activeTab === 'teacher' ? (
@@ -1338,6 +1603,22 @@ export default function AdminScreen() {
             </Pressable>
           </View>
           <Text style={styles.sectionHint}>Manage teacher assignments by standard and subject to keep classroom ownership clear.</Text>
+          <View style={[styles.searchBar, { marginBottom: 12 }]}>
+            <Search size={16} color={Colors.textMuted} />
+            <TextInput
+              style={styles.searchBarInput}
+              placeholder="Search by name, email or mobile..."
+              placeholderTextColor={Colors.textMuted}
+              value={teacherSearch}
+              onChangeText={setTeacherSearch}
+              returnKeyType="search"
+            />
+            {teacherSearch ? (
+              <Pressable onPress={() => setTeacherSearch('')} style={{ padding: 4 }}>
+                <X size={16} color={Colors.textMuted} />
+              </Pressable>
+            ) : null}
+          </View>
           {loadingTable && teachers.length === 0 ? (
             <ActivityIndicator size="small" color={Colors.primary} />
           ) : (
@@ -1347,55 +1628,67 @@ export default function AdminScreen() {
                   <ActivityIndicator size="small" color={Colors.primary} />
                 </View>
               ) : null}
-              <ScrollView horizontal>
-                <View>
-                  <View style={[styles.tableRow, styles.tableHeader]}>
-                    <Text style={[styles.tableCell, styles.colName]}>Name</Text>
-                    <Text style={[styles.tableCell, styles.colEmail]}>Email</Text>
-                    <Text style={[styles.tableCell, styles.colAssignments]}>Assigned Standard / Subject</Text>
-                    <Text style={[styles.tableCell, styles.colAction]}>Actions</Text>
-                  </View>
-                  {paginatedTeachers.map((teacher) => (
-                  <View key={teacher.id} style={styles.tableRow}>
-                    <Text style={[styles.tableCell, styles.colName]}>{teacher.firstName} {teacher.lastName}</Text>
-                    <Text style={[styles.tableCell, styles.colEmail]}>{teacher.email}</Text>
-                    <View style={[styles.tableCell, styles.colAssignments, styles.pillsWrap]}>
-                      {teacher.assignments.length === 0 ? (
-                        <Text style={styles.metaText}>No assignments</Text>
-                      ) : (
-                        teacher.assignments.map((assignment) => (
-                          <View key={pairKey(assignment)} style={styles.pill}>
-                            <Text style={styles.pillText}>{getStandardLabel(assignment.classLevel)} • {assignment.subject}</Text>
-                          </View>
-                        ))
-                      )}
+              <View style={styles.listContainer}>
+                {paginatedTeachers.map((teacher) => (
+                  <View key={teacher.id} style={styles.listCardCol}>
+                    <View style={styles.listMainCol}>
+                      <View style={[styles.listAvatar, { backgroundColor: Colors.purpleLight }]}>
+                        <Text style={[styles.listAvatarText, { color: Colors.purple }]}>
+                          {(teacher.firstName?.[0] || '').toUpperCase()}{(teacher.lastName?.[0] || '').toUpperCase()}
+                        </Text>
+                      </View>
+                      <View style={styles.listMeta}>
+                        <Text style={styles.listTitle}>{teacher.firstName} {teacher.lastName}</Text>
+                        <Text style={styles.listSub} numberOfLines={1}>{teacher.email}</Text>
+                      </View>
+                      <View style={styles.listActions}>
+                        <Pressable style={styles.actionBtn} onPress={() => openTeacherAssignmentDialog(teacher)}>
+                          <Text style={styles.actionBtnText}>Manage</Text>
+                        </Pressable>
+                        <Pressable style={styles.ghostBtn} onPress={() => openEditDialog({ id: teacher.id, firstName: teacher.firstName, lastName: teacher.lastName, email: teacher.email, mobileNumber: teacher.mobileNumber, classLevel: '', activeRole: 'teacher', roles: ['teacher'] })}>
+                          <Text style={styles.ghostBtnText}>Edit</Text>
+                        </Pressable>
+                      </View>
                     </View>
-                    <View style={[styles.colAction, styles.actionCell]}>
-                      <Pressable style={styles.actionButton} onPress={() => openTeacherAssignmentDialog(teacher)}>
-                        <Text style={styles.actionButtonText}>Manage Assignments</Text>
-                      </Pressable>
-                      <Pressable
-                        style={[styles.actionButton, styles.secondaryActionButton]}
-                        onPress={() =>
-                          openEditDialog({
-                            id: teacher.id,
-                            firstName: teacher.firstName,
-                            lastName: teacher.lastName,
-                            email: teacher.email,
-                            mobileNumber: teacher.mobileNumber,
-                            classLevel: '',
-                            activeRole: 'teacher',
-                            roles: ['teacher'],
-                          })
+                    <View style={styles.listPillsWrap}>
+                      {(() => {
+                        let totalCount = 0;
+                        let firstText = '';
+                        if (teacher.classAssignments && teacher.classAssignments.length > 0) {
+                           totalCount = teacher.classAssignments.reduce((acc, ca) => acc + (ca.allSubjects ? 1 : ca.assignedSubjects.length), 0);
+                           if (totalCount > 0) {
+                             const ca = teacher.classAssignments[0];
+                             firstText = `${getStandardLabel(ca.classLevel)} • ${ca.allSubjects ? 'All Subjects' : (ca.assignedSubjects.length > 0 ? ca.assignedSubjects[0] : 'None')}`;
+                           }
+                        } else {
+                           totalCount = (teacher.assignments || []).length;
+                           if (totalCount > 0) {
+                             const a = teacher.assignments[0];
+                             firstText = `${getStandardLabel(a.classLevel)} • ${a.subject}`;
+                           }
                         }
-                      >
-                        <Text style={styles.actionButtonText}>Edit</Text>
-                      </Pressable>
+
+                        if (totalCount === 0) {
+                          return <Text style={styles.metaText}>No assignments</Text>;
+                        }
+                        
+                        return (
+                          <>
+                            <View style={styles.pill}>
+                              <Text style={styles.pillText}>{firstText}</Text>
+                            </View>
+                            {totalCount > 1 && (
+                              <Pressable style={styles.pillMore} onPress={() => { setViewMoreTeacher(teacher); setViewMoreTeacherSearch(''); setViewMoreTeacherClassFilter(''); setViewMoreTeacherPage(1); }}>
+                                <Text style={styles.pillMoreText}>+{totalCount - 1} more</Text>
+                              </Pressable>
+                            )}
+                          </>
+                        );
+                      })()}
                     </View>
                   </View>
-                  ))}
-                </View>
-              </ScrollView>
+                ))}
+              </View>
             </View>
           )}
           {renderPagination('teacher', 'Teachers', teacherPagination)}
@@ -1429,6 +1722,22 @@ export default function AdminScreen() {
             </Pressable>
           </View>
           <Text style={styles.sectionHint}>Link parents with students so they can track attendance, progress, and assignments.</Text>
+          <View style={[styles.searchBar, { marginBottom: 12 }]}>
+            <Search size={16} color={Colors.textMuted} />
+            <TextInput
+              style={styles.searchBarInput}
+              placeholder="Search by name, email or mobile..."
+              placeholderTextColor={Colors.textMuted}
+              value={parentSearch}
+              onChangeText={setParentSearch}
+              returnKeyType="search"
+            />
+            {parentSearch ? (
+              <Pressable onPress={() => setParentSearch('')} style={{ padding: 4 }}>
+                <X size={16} color={Colors.textMuted} />
+              </Pressable>
+            ) : null}
+          </View>
           {loadingTable && parents.length === 0 ? (
             <ActivityIndicator size="small" color={Colors.primary} />
           ) : (
@@ -1438,63 +1747,158 @@ export default function AdminScreen() {
                   <ActivityIndicator size="small" color={Colors.primary} />
                 </View>
               ) : null}
-              <ScrollView horizontal>
-                <View>
-                  <View style={[styles.tableRow, styles.tableHeader]}>
-                    <Text style={[styles.tableCell, styles.colName]}>Name</Text>
-                    <Text style={[styles.tableCell, styles.colEmail]}>Email</Text>
-                    <Text style={[styles.tableCell, styles.colAssignments]}>Assigned Students</Text>
-                    <Text style={[styles.tableCell, styles.colAction]}>Actions</Text>
-                  </View>
-                  {paginatedParents.map((parent) => (
-                  <View key={parent.id} style={styles.tableRow}>
-                    <Text style={[styles.tableCell, styles.colName]}>{parent.firstName} {parent.lastName}</Text>
-                    <Text style={[styles.tableCell, styles.colEmail]}>{parent.email}</Text>
-                    <View style={[styles.tableCell, styles.colAssignments, styles.pillsWrap]}>
+              <View style={styles.listContainer}>
+                {paginatedParents.map((parent) => (
+                  <View key={parent.id} style={styles.listCardCol}>
+                    <View style={styles.listMainCol}>
+                      <View style={[styles.listAvatar, { backgroundColor: Colors.successLight }]}>
+                        <Text style={[styles.listAvatarText, { color: Colors.success }]}>
+                          {(parent.firstName?.[0] || '').toUpperCase()}{(parent.lastName?.[0] || '').toUpperCase()}
+                        </Text>
+                      </View>
+                      <View style={styles.listMeta}>
+                        <Text style={styles.listTitle}>{parent.firstName} {parent.lastName}</Text>
+                        <Text style={styles.listSub} numberOfLines={1}>{parent.email}</Text>
+                      </View>
+                      <View style={styles.listActions}>
+                        <Pressable style={styles.actionBtn} onPress={() => openParentAssignmentDialog(parent)}>
+                          <Text style={styles.actionBtnText}>Students</Text>
+                        </Pressable>
+                        <Pressable style={styles.ghostBtn} onPress={() => openEditDialog({ id: parent.id, firstName: parent.firstName, lastName: parent.lastName, email: parent.email, mobileNumber: parent.mobileNumber, classLevel: '', activeRole: 'parent', roles: ['parent'] })}>
+                          <Text style={styles.ghostBtnText}>Edit</Text>
+                        </Pressable>
+                      </View>
+                    </View>
+                    <View style={styles.listPillsWrap}>
                       {parent.students.length === 0 ? (
                         <Text style={styles.metaText}>No students assigned</Text>
                       ) : (
-                        parent.students.map((student) => (
-                          <View key={student.id} style={styles.pill}>
-                            <Text style={styles.pillText}>
-                              {student.firstName} {student.lastName}
-                              {student.classLevel ? ` (${getStandardLabel(student.classLevel)})` : ''}
-                            </Text>
-                          </View>
-                        ))
+                        <>
+                          {parent.students.slice(0, 1).map((student) => (
+                            <View key={student.id} style={styles.pill}>
+                              <Text style={styles.pillText}>
+                                {student.firstName} {student.lastName}
+                                {student.classLevel ? ` (${getStandardLabel(student.classLevel)})` : ''}
+                              </Text>
+                            </View>
+                          ))}
+                          {parent.students.length > 1 && (
+                            <Pressable style={styles.pillMore} onPress={() => { setViewMoreParent(parent); setViewMoreSearch(''); setViewMoreClassFilter(''); setViewMorePage(1); }}>
+                              <Text style={styles.pillMoreText}>+{parent.students.length - 1} more</Text>
+                            </Pressable>
+                          )}
+                        </>
                       )}
                     </View>
-                    <View style={[styles.colAction, styles.actionCell]}>
-                      <Pressable style={styles.actionButton} onPress={() => openParentAssignmentDialog(parent)}>
-                        <Text style={styles.actionButtonText}>Manage Students</Text>
-                      </Pressable>
-                      <Pressable
-                        style={[styles.actionButton, styles.secondaryActionButton]}
-                        onPress={() =>
-                          openEditDialog({
-                            id: parent.id,
-                            firstName: parent.firstName,
-                            lastName: parent.lastName,
-                            email: parent.email,
-                            mobileNumber: parent.mobileNumber,
-                            classLevel: '',
-                            activeRole: 'parent',
-                            roles: ['parent'],
-                          })
-                        }
-                      >
-                        <Text style={styles.actionButtonText}>Edit Profile</Text>
-                      </Pressable>
-                    </View>
                   </View>
-                  ))}
-                </View>
-              </ScrollView>
+                ))}
+              </View>
             </View>
           )}
           {renderPagination('parent', 'Parents', parentPagination)}
         </View>
       ) : null}
+
+      <Modal visible={viewMoreParent !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setViewMoreParent(null)}>
+        <View style={styles.sheetContainer}>
+          <View style={styles.sheetHandle} />
+          <View style={styles.sheetHeader}>
+            <View style={styles.sheetHeaderLeft}>
+              <View style={[styles.sectionHeaderIcon, { backgroundColor: Colors.primaryLight }]}>
+                <Users size={18} color={Colors.primary} />
+              </View>
+              <View style={styles.sheetHeaderTextWrap}>
+                <Text style={styles.sheetTitle} numberOfLines={1}>Assigned Students</Text>
+                <Text style={styles.sheetSubtitle} numberOfLines={1}>{viewMoreParent?.firstName} {viewMoreParent?.lastName}</Text>
+              </View>
+            </View>
+            <Pressable style={styles.sheetCloseButton} onPress={() => setViewMoreParent(null)}>
+              <X size={18} color={Colors.textSecondary} />
+            </Pressable>
+          </View>
+          <View style={{ paddingHorizontal: 16, paddingTop: 16 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+              <Pressable style={styles.filterChipBtn} onPress={() => setStandardSelectorTarget('viewMoreClassLevel')}>
+                <Text style={viewMoreClassFilter ? styles.filterChipActive : styles.filterChipPlaceholder}>
+                  {viewMoreClassFilter ? getStandardLabel(viewMoreClassFilter) : 'Standard ▾'}
+                </Text>
+              </Pressable>
+              {viewMoreClassFilter ? (
+                <Pressable style={styles.filterChipBtn} onPress={() => { setViewMoreClassFilter(''); setViewMorePage(1); }}>
+                  <Text style={[styles.filterChipActive, { color: '#DC2626' }]}>Clear</Text>
+                </Pressable>
+              ) : null}
+              <View style={[styles.searchBar, { flex: 1, width: 'auto', marginBottom: 0 }]}>
+                <Search size={16} color={Colors.textMuted} />
+                <TextInput
+                  style={styles.searchBarInput}
+                  placeholder="Search students..."
+                  placeholderTextColor={Colors.textMuted}
+                  value={viewMoreSearch}
+                  onChangeText={(text) => { setViewMoreSearch(text); setViewMorePage(1); }}
+                  returnKeyType="search"
+                />
+                {viewMoreSearch ? (
+                  <Pressable onPress={() => { setViewMoreSearch(''); setViewMorePage(1); }} style={{ padding: 4 }}>
+                    <X size={16} color={Colors.textMuted} />
+                  </Pressable>
+                ) : null}
+              </View>
+            </View>
+          </View>
+          <ScrollView style={styles.sheetBody} contentContainerStyle={styles.sheetBodyContent} showsVerticalScrollIndicator={false}>
+            <View style={styles.listContainer}>
+              {paginatedViewMoreStudents.length === 0 ? (
+                <Text style={styles.metaText}>No students found.</Text>
+              ) : (
+                paginatedViewMoreStudents.map((student) => (
+                  <View key={student.id} style={styles.listCard}>
+                    <View style={styles.listMainRow}>
+                      <View style={styles.listAvatar}>
+                        <Text style={styles.listAvatarText}>
+                          {(student.firstName?.[0] || '').toUpperCase()}{(student.lastName?.[0] || '').toUpperCase()}
+                        </Text>
+                      </View>
+                      <View style={styles.listMeta}>
+                        <Text style={styles.listTitle}>{student.firstName} {student.lastName}</Text>
+                        <Text style={styles.listRole}>{getStandardLabel(student.classLevel).toUpperCase()}</Text>
+                      </View>
+                    </View>
+                  </View>
+                ))
+              )}
+            </View>
+          </ScrollView>
+          <View style={[styles.sheetFooter, { flexDirection: 'column', alignItems: 'stretch' }]}>
+            <View style={styles.paginationRow}>
+              <Text style={styles.paginationInfo}>
+                {viewMorePagination.totalItems > 0
+                  ? `Showing ${viewMorePagination.from}-${viewMorePagination.to} of ${viewMorePagination.totalItems}`
+                  : 'No results'}
+              </Text>
+              <View style={styles.paginationControls}>
+                <Pressable
+                  style={[styles.paginationButton, viewMorePagination.page <= 1 && styles.paginationButtonDisabled]}
+                  onPress={() => setViewMorePage(p => Math.max(1, p - 1))}
+                  disabled={viewMorePagination.page <= 1}
+                >
+                  <ChevronLeft size={14} color={viewMorePagination.page <= 1 ? Colors.textMuted : Colors.primaryDark} />
+                  <Text style={[styles.paginationButtonText, viewMorePagination.page <= 1 && styles.paginationButtonTextDisabled]}>Prev</Text>
+                </Pressable>
+                <Text style={styles.paginationPageText}>Page {viewMorePagination.page} of {viewMorePagination.totalPages}</Text>
+                <Pressable
+                  style={[styles.paginationButton, viewMorePagination.page >= viewMorePagination.totalPages && styles.paginationButtonDisabled]}
+                  onPress={() => setViewMorePage(p => Math.min(viewMorePagination.totalPages, p + 1))}
+                  disabled={viewMorePagination.page >= viewMorePagination.totalPages}
+                >
+                  <Text style={[styles.paginationButtonText, viewMorePagination.page >= viewMorePagination.totalPages && styles.paginationButtonTextDisabled]}>Next</Text>
+                  <ChevronRight size={14} color={viewMorePagination.page >= viewMorePagination.totalPages ? Colors.textMuted : Colors.primaryDark} />
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
 
       <Modal visible={dialogMode !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setDialogMode(null)}>
         <View style={styles.sheetContainer}>
@@ -1569,23 +1973,11 @@ export default function AdminScreen() {
               secureTextEntry
               style={styles.input}
             />
-            <Text style={styles.fieldLabel}>Role *</Text>
+            <Text style={styles.fieldLabel}>Role</Text>
             <View style={styles.roleRow}>
-              {roleOptions.map((role) => (
-                <Pressable
-                  key={`dialog-${role}`}
-                  onPress={() =>
-                    setUserForm((current) => ({
-                      ...current,
-                      role,
-                      classLevel: role === 'student' ? current.classLevel : '',
-                    }))
-                  }
-                  style={[styles.roleChip, userForm.role === role && styles.roleChipActive]}
-                >
-                  <Text style={[styles.roleChipText, userForm.role === role && styles.roleChipTextActive]}>{role}</Text>
-                </Pressable>
-              ))}
+              <View style={[styles.roleChip, styles.roleChipActive]}>
+                <Text style={[styles.roleChipText, styles.roleChipTextActive]}>{userForm.role}</Text>
+              </View>
             </View>
           </ScrollView>
           <View style={styles.sheetFooter}>
@@ -1901,15 +2293,112 @@ export default function AdminScreen() {
         </View>
       </Modal>
 
-      <SelectorModal
-        visible={standardSelectorTarget !== null}
-        title="Select Standard"
-        options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
-        selected={''}
-        showAny={standardSelectorTarget === 'parentStudentClassLevel' || standardSelectorTarget === 'subjectFilterClassLevel'}
-        onSelect={applyStandardSelection}
-        onClose={() => setStandardSelectorTarget(null)}
-      />
+      <Modal visible={viewMoreTeacher !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setViewMoreTeacher(null)}>
+        <View style={styles.sheetContainer}>
+          <View style={styles.sheetHandle} />
+          <View style={styles.sheetHeader}>
+            <View style={styles.sheetHeaderLeft}>
+              <View style={[styles.sectionHeaderIcon, { backgroundColor: Colors.primaryLight }]}>
+                <BookOpen size={18} color={Colors.primary} />
+              </View>
+              <View style={styles.sheetHeaderTextWrap}>
+                <Text style={styles.sheetTitle} numberOfLines={1}>Assigned Classes & Subjects</Text>
+                <Text style={styles.sheetSubtitle} numberOfLines={1}>{viewMoreTeacher?.firstName} {viewMoreTeacher?.lastName}</Text>
+              </View>
+            </View>
+            <Pressable style={styles.sheetCloseButton} onPress={() => setViewMoreTeacher(null)}>
+              <X size={18} color={Colors.textSecondary} />
+            </Pressable>
+          </View>
+          <View style={{ paddingHorizontal: 16, paddingTop: 16 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+              <Pressable style={styles.filterChipBtn} onPress={() => setStandardSelectorTarget('viewMoreTeacherClassLevel')}>
+                <Text style={viewMoreTeacherClassFilter ? styles.filterChipActive : styles.filterChipPlaceholder}>
+                  {viewMoreTeacherClassFilter ? getStandardLabel(viewMoreTeacherClassFilter) : 'Standard ▾'}
+                </Text>
+              </Pressable>
+              {viewMoreTeacherClassFilter ? (
+                <Pressable style={styles.filterChipBtn} onPress={() => { setViewMoreTeacherClassFilter(''); setViewMoreTeacherPage(1); }}>
+                  <Text style={[styles.filterChipActive, { color: '#DC2626' }]}>Clear</Text>
+                </Pressable>
+              ) : null}
+              <View style={[styles.searchBar, { flex: 1, width: 'auto', marginBottom: 0 }]}>
+                <Search size={16} color={Colors.textMuted} />
+                <TextInput
+                  style={styles.searchBarInput}
+                  placeholder="Search subjects..."
+                  placeholderTextColor={Colors.textMuted}
+                  value={viewMoreTeacherSearch}
+                  onChangeText={(text) => { setViewMoreTeacherSearch(text); setViewMoreTeacherPage(1); }}
+                  returnKeyType="search"
+                />
+                {viewMoreTeacherSearch ? (
+                  <Pressable onPress={() => { setViewMoreTeacherSearch(''); setViewMoreTeacherPage(1); }} style={{ padding: 4 }}>
+                    <X size={16} color={Colors.textMuted} />
+                  </Pressable>
+                ) : null}
+              </View>
+            </View>
+          </View>
+          <ScrollView style={styles.sheetBody} contentContainerStyle={styles.sheetBodyContent} showsVerticalScrollIndicator={false}>
+            <View style={{ paddingBottom: 24 }}>
+              {viewMoreGroupedClasses.length === 0 ? (
+                <View style={styles.emptyStateCard}>
+                  <BookOpen size={32} color={Colors.textMuted} style={{ marginBottom: 12 }} />
+                  <Text style={styles.emptyStateTitle}>No Assignments</Text>
+                  <Text style={styles.emptyStateSub}>This teacher has no assigned classes or subjects matching your filters.</Text>
+                </View>
+              ) : (
+                <View style={{ gap: 12 }}>
+                  {viewMoreGroupedClasses.map(c => {
+                    const hasMore = !c.allSubjects && c.assignedSubjects.length > 2;
+                    const displaySubjects = hasMore ? c.assignedSubjects.slice(0, 2) : c.assignedSubjects;
+                    const remaining = hasMore ? c.assignedSubjects.length - 2 : 0;
+                    return (
+                      <View key={c.classLevel} style={styles.premiumCard}>
+                        <View style={styles.premiumCardHeader}>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                            <View style={[styles.sectionHeaderIcon, { backgroundColor: Colors.primaryLight }]}>
+                              <GraduationCap size={20} color={Colors.primary} />
+                            </View>
+                            <View>
+                              <Text style={styles.premiumCardTitle}>{getStandardLabel(c.classLevel)}</Text>
+                              <Text style={styles.premiumCardSub}>
+                                {c.allSubjects ? 'Full Access: All Subjects' : (c.assignedSubjects.length === 0 ? 'No Subjects Assigned' : `${c.assignedSubjects.length} Specific Subject(s)`)}
+                              </Text>
+                            </View>
+                          </View>
+                        </View>
+                        {!c.allSubjects && (
+                          <View style={styles.premiumCardBody}>
+                            {c.assignedSubjects.length > 0 ? (
+                              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                                {displaySubjects.map(sub => (
+                                  <View key={sub} style={[styles.subjectChip, { backgroundColor: Colors.primaryLight, borderColor: Colors.primaryLight }]}>
+                                    <Text style={[styles.subjectChipText, { color: Colors.primaryDark }]}>{sub}</Text>
+                                  </View>
+                                ))}
+                                {hasMore && (
+                                  <View style={[styles.subjectChip, { backgroundColor: Colors.surfaceAlt, borderColor: Colors.borderLight }]}>
+                                    <Text style={[styles.subjectChipText, { color: Colors.textSecondary }]}>+{remaining} more</Text>
+                                  </View>
+                                )}
+                              </View>
+                            ) : (
+                              <Text style={[styles.metaText, { marginTop: 0 }]}>No subjects currently assigned for this class.</Text>
+                            )}
+                          </View>
+                        )}
+                      </View>
+                    );
+                  })}
+                </View>
+              )}
+            </View>
+          </ScrollView>
+        </View>
+      </Modal>
+
 
       <Modal visible={teacherModalUser !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setTeacherModalUser(null)}>
         <View style={styles.sheetContainer}>
@@ -1920,7 +2409,7 @@ export default function AdminScreen() {
                 <UserCheck size={18} color={Colors.purple} />
               </View>
               <View style={styles.sheetHeaderTextWrap}>
-                <Text style={styles.sheetTitle} numberOfLines={1}>Assign Subjects</Text>
+                <Text style={styles.sheetTitle} numberOfLines={1}>Assign Classes & Subjects</Text>
                 <Text style={styles.sheetSubtitle} numberOfLines={1}>{teacherModalUser?.firstName} {teacherModalUser?.lastName}</Text>
               </View>
             </View>
@@ -1928,36 +2417,247 @@ export default function AdminScreen() {
               <X size={18} color={Colors.textSecondary} />
             </Pressable>
           </View>
+          <View style={{ flexDirection: 'row', backgroundColor: '#f1f5f9', borderRadius: 8, padding: 4, marginHorizontal: 16, marginTop: 16 }}>
+            <Pressable 
+              style={{ flex: 1, paddingVertical: 8, alignItems: 'center', borderRadius: 6, backgroundColor: teacherManageTab === 'class' ? '#ffffff' : 'transparent', shadowColor: teacherManageTab === 'class' ? '#000' : 'transparent', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.1, shadowRadius: 2, elevation: teacherManageTab === 'class' ? 2 : 0 }} 
+              onPress={() => setTeacherManageTab('class')}
+            >
+              <Text style={{ fontSize: 14, fontWeight: '600', color: teacherManageTab === 'class' ? Colors.primary : Colors.textSecondary }}>Assign Classes</Text>
+            </Pressable>
+            <Pressable 
+              style={{ flex: 1, paddingVertical: 8, alignItems: 'center', borderRadius: 6, backgroundColor: teacherManageTab === 'subject' ? '#ffffff' : 'transparent', shadowColor: teacherManageTab === 'subject' ? '#000' : 'transparent', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.1, shadowRadius: 2, elevation: teacherManageTab === 'subject' ? 2 : 0 }} 
+              onPress={() => setTeacherManageTab('subject')}
+            >
+              <Text style={{ fontSize: 14, fontWeight: '600', color: teacherManageTab === 'subject' ? Colors.primary : Colors.textSecondary }}>Assign Subjects</Text>
+            </Pressable>
+          </View>
           <ScrollView style={styles.sheetBody} contentContainerStyle={styles.sheetBodyContent} showsVerticalScrollIndicator={false}>
-            <Text style={styles.metaText}>Add and remove standard/subject pairs to correct assignments.</Text>
-            <View style={styles.transferRow}>
-              <View style={styles.transferColumn}>
-                <Text style={styles.transferTitle}>Available</Text>
-                <ScrollView style={styles.transferList}>
-                  {availableTeacherPairs.map((pair) => (
-                    <View key={`available-${pairKey(pair)}`} style={styles.transferItem}>
-                      <Text style={styles.transferItemText}>{getStandardLabel(pair.classLevel)} • {pair.subject}</Text>
-                      <Pressable style={styles.inlineAddButton} onPress={() => addTeacherPair(pair)}>
-                        <Text style={styles.inlineAddButtonText}>Add</Text>
-                      </Pressable>
-                    </View>
-                  ))}
-                </ScrollView>
+            {teacherManageTab === 'class' ? (
+              <View>
+                <View style={styles.sectionHeaderRow}>
+                  <View>
+                    <Text style={styles.fieldLabel}>Assigned Standards</Text>
+                    <Text style={styles.metaText}>Add classes that this teacher is responsible for.</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row', gap: 8 }}>
+                    <Pressable style={[styles.addButtonSmall, { backgroundColor: Colors.error }]} onPress={() => setPendingBulkClassAction('remove')}>
+                      <Trash2 size={14} color="#fff" />
+                      <Text style={styles.addButtonSmallText}>Remove All</Text>
+                    </Pressable>
+                    <Pressable style={styles.addButtonSmall} onPress={() => setPendingBulkClassAction('add')}>
+                      <Plus size={16} color="#fff" />
+                      <Text style={styles.addButtonSmallText}>All Standards</Text>
+                    </Pressable>
+                    <Pressable style={styles.addButtonSmall} onPress={() => setStandardSelectorTarget('teacherAssignClass')}>
+                      <Plus size={16} color="#fff" />
+                      <Text style={styles.addButtonSmallText}>Add</Text>
+                    </Pressable>
+                  </View>
+                </View>
+
+                {teacherSelectedClasses.length === 0 ? (
+                  <View style={styles.emptyStateCard}>
+                    <GraduationCap size={32} color={Colors.textMuted} style={{ marginBottom: 12 }} />
+                    <Text style={styles.emptyStateTitle}>No Classes Assigned</Text>
+                    <Text style={styles.emptyStateSub}>Assign a standard to get started.</Text>
+                  </View>
+                ) : (
+                  <View style={{ gap: 12, marginTop: 12 }}>
+                    {teacherSelectedClasses.map(c => (
+                      <View key={c.classLevel} style={styles.premiumCard}>
+                        <View style={styles.premiumCardHeader}>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                            <View style={[styles.sectionHeaderIcon, { backgroundColor: Colors.primaryLight }]}>
+                              <GraduationCap size={20} color={Colors.primary} />
+                            </View>
+                            <View>
+                              <Text style={styles.premiumCardTitle}>{getStandardLabel(c.classLevel)}</Text>
+                              <Text style={styles.premiumCardSub}>
+                                {c.allSubjects ? 'Full Access: All Subjects' : `${c.assignedSubjects.length} Specific Subject(s)`}
+                              </Text>
+                            </View>
+                          </View>
+                          <Pressable style={styles.iconButton} onPress={() => setPendingRemoveTeacherClass(c.classLevel)}>
+                            <Trash2 size={18} color={Colors.error} />
+                          </Pressable>
+                        </View>
+                        
+                        <View style={styles.premiumCardBody}>
+                          <Pressable 
+                            style={[styles.toggleRow, !c.allSubjects && styles.toggleRowActive]} 
+                            onPress={() => toggleTeacherClassAllSubjects(c.classLevel, !c.allSubjects)}
+                          >
+                            <View style={[styles.checkboxContainer, !c.allSubjects && styles.checkboxContainerActive]}>
+                              {!c.allSubjects && <Check size={14} color="#fff" />}
+                            </View>
+                            <View style={{ flex: 1 }}>
+                              <Text style={[styles.toggleTitle, !c.allSubjects && { color: Colors.primaryDark }]}>Restrict Subject Access</Text>
+                              <Text style={styles.toggleSub}>Only allow assignment of explicitly selected subjects</Text>
+                            </View>
+                          </Pressable>
+                        </View>
+                      </View>
+                    ))}
+                  </View>
+                )}
               </View>
-              <View style={styles.transferColumn}>
-                <Text style={styles.transferTitle}>Assigned</Text>
-                <ScrollView style={styles.transferList}>
-                  {teacherSelectedPairs.map((pair) => (
-                    <View key={`selected-${pairKey(pair)}`} style={styles.transferItem}>
-                      <Text style={styles.transferItemText}>{getStandardLabel(pair.classLevel)} • {pair.subject}</Text>
-                      <Pressable style={styles.inlineRemoveButton} onPress={() => removeTeacherPair(pair)}>
-                        <Text style={styles.inlineRemoveButtonText}>Remove</Text>
-                      </Pressable>
+            ) : (
+              <View>
+                {/* Class filter dropdown */}
+                {teacherSelectedClasses.filter(c => !c.allSubjects).length === 0 ? (
+                  <View style={styles.emptyStateCard}>
+                    <ShieldCheck size={32} color={Colors.textMuted} style={{ marginBottom: 12 }} />
+                    <Text style={styles.emptyStateTitle}>No Restricted Classes</Text>
+                    <Text style={styles.emptyStateSub}>Go to "Assign Classes" and enable "Restrict Subject Access" on a class first.</Text>
+                  </View>
+                ) : (
+                  <View style={{ gap: 20 }}>
+                    <View>
+                      <Text style={styles.fieldLabel}>Filter by Class</Text>
+                      <View style={styles.classDropdownWrap}>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, padding: 4 }}>
+                          {teacherSelectedClasses.filter(c => !c.allSubjects).map(c => (
+                            <Pressable
+                              key={c.classLevel}
+                              style={[styles.pillSelector, teacherSubjectTargetClass === c.classLevel && styles.pillSelectorActive]}
+                              onPress={() => setTeacherSubjectTargetClass(c.classLevel)}
+                            >
+                              <Text style={[styles.pillSelectorText, teacherSubjectTargetClass === c.classLevel && styles.pillSelectorTextActive]}>
+                                {getStandardLabel(c.classLevel)}
+                              </Text>
+                            </Pressable>
+                          ))}
+                        </ScrollView>
+                      </View>
                     </View>
-                  ))}
-                </ScrollView>
+
+                    {teacherSubjectTargetClass ? (
+                      <View style={{ gap: 20 }}>
+                        <View>
+                          <Text style={styles.fieldLabel}>Add Subjects to {getStandardLabel(teacherSubjectTargetClass)}</Text>
+                          <View style={[styles.searchBar, { marginBottom: 10, marginTop: 8 }]}>
+                            <Search size={18} color={Colors.textMuted} />
+                            <TextInput
+                              style={styles.searchBarInput}
+                              placeholder="Search available subjects..."
+                              placeholderTextColor={Colors.textMuted}
+                              value={teacherAssignSearch}
+                              onChangeText={setTeacherAssignSearch}
+                              returnKeyType="search"
+                            />
+                            {teacherAssignSearch ? (
+                              <Pressable onPress={() => setTeacherAssignSearch('')} style={{ padding: 4 }}>
+                                <X size={16} color={Colors.textMuted} />
+                              </Pressable>
+                            ) : null}
+                          </View>
+
+                          {(() => {
+                            const currentClass = teacherSelectedClasses.find(c => c.classLevel === teacherSubjectTargetClass);
+                            const assigned = new Set(currentClass?.assignedSubjects || []);
+                            let avail = assignmentCatalog.filter(a => a.classLevel === teacherSubjectTargetClass && !assigned.has(a.subject));
+                            if (teacherAssignSearch.trim()) {
+                              const q = teacherAssignSearch.toLowerCase().trim();
+                              avail = avail.filter(a => (a.subject || '').toLowerCase().includes(q));
+                            }
+                            if (avail.length === 0) {
+                              return (
+                                <View style={[styles.emptyStateCard, { paddingVertical: 20 }]}>
+                                  <Text style={styles.emptyStateSub}>{teacherAssignSearch ? 'No subjects match your search.' : 'All subjects already assigned.'}</Text>
+                                </View>
+                              );
+                            }
+                            return (
+                              <View>
+                                <Pressable
+                                  style={styles.bulkActionRow}
+                                  onPress={() => setPendingBulkSubjectAction('add')}
+                                >
+                                  <View style={styles.bulkActionLeft}>
+                                    <View style={styles.bulkCheckbox}>
+                                      <Plus size={12} color={Colors.primary} />
+                                    </View>
+                                    <Text style={styles.bulkActionText}>Add All ({avail.length}) Subjects</Text>
+                                  </View>
+                                </Pressable>
+                                <View style={styles.transferListContainer}>
+                                  <ScrollView nestedScrollEnabled style={{ maxHeight: 220 }} contentContainerStyle={{ padding: 8, gap: 6 }}>
+                                    {avail.map(pair => (
+                                      <View key={`avail-${pairKey(pair)}`} style={styles.transferCard}>
+                                        <View style={{ flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                                          <View style={[styles.transferIconWrap, { backgroundColor: '#f1f5f9' }]}>
+                                            <BookOpen size={16} color={Colors.textSecondary} />
+                                          </View>
+                                          <Text style={styles.transferCardText} numberOfLines={1} ellipsizeMode="tail">{pair.subject}</Text>
+                                        </View>
+                                        <Pressable style={styles.transferAddBtn} onPress={() => { toggleTeacherSubject(teacherSubjectTargetClass, pair.subject); setTeacherAssignSearch(''); }}>
+                                          <Plus size={14} color="#fff" />
+                                          <Text style={styles.transferAddBtnText}>Add</Text>
+                                        </Pressable>
+                                      </View>
+                                    ))}
+                                  </ScrollView>
+                                </View>
+                              </View>
+                            );
+                          })()}
+                        </View>
+
+                        <View>
+                          <Text style={styles.fieldLabel}>Assigned Subjects — {getStandardLabel(teacherSubjectTargetClass)}</Text>
+                          {(() => {
+                            const currentClass = teacherSelectedClasses.find(c => c.classLevel === teacherSubjectTargetClass);
+                            if (!currentClass || currentClass.assignedSubjects.length === 0) {
+                              return (
+                                <View style={[styles.emptyStateCard, { marginTop: 8, paddingVertical: 20 }]}>
+                                  <Text style={styles.emptyStateSub}>No subjects assigned yet. Add some above.</Text>
+                                </View>
+                              );
+                            }
+                            return (
+                              <View style={{ marginTop: 8 }}>
+                                <Pressable
+                                  style={[styles.bulkActionRow, styles.bulkActionRowDanger]}
+                                  onPress={() => setPendingBulkSubjectAction('remove')}
+                                >
+                                  <View style={styles.bulkActionLeft}>
+                                    <View style={[styles.bulkCheckbox, styles.bulkCheckboxDanger]}>
+                                      <Trash2 size={12} color={Colors.error} />
+                                    </View>
+                                    <Text style={styles.bulkActionTextDanger}>Remove All ({currentClass.assignedSubjects.length}) Subjects</Text>
+                                  </View>
+                                </Pressable>
+                                <View style={styles.transferListContainer}>
+                                  <ScrollView nestedScrollEnabled style={{ maxHeight: 280 }} contentContainerStyle={{ padding: 8, gap: 6 }}>
+                                    {currentClass.assignedSubjects.map(subject => (
+                                      <View key={subject} style={styles.transferCardSelected}>
+                                        <View style={{ flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                                          <View style={[styles.transferIconWrap, { backgroundColor: Colors.primaryLight }]}>
+                                            <CheckCircle2 size={16} color={Colors.primary} />
+                                          </View>
+                                          <Text style={styles.transferCardTextSelected} numberOfLines={1} ellipsizeMode="tail">{subject}</Text>
+                                        </View>
+                                        <Pressable style={styles.transferRemoveBtn} onPress={() => setPendingRemoveTeacherPair({ classLevel: teacherSubjectTargetClass, subject })}>
+                                          <Trash2 size={16} color={Colors.error} />
+                                        </Pressable>
+                                      </View>
+                                    ))}
+                                  </ScrollView>
+                                </View>
+                              </View>
+                            );
+                          })()}
+                        </View>
+                      </View>
+                    ) : (
+                      <View style={[styles.emptyStateCard, { marginTop: 4 }]}>
+                        <Text style={styles.emptyStateSub}>Select a class above to manage its subjects.</Text>
+                      </View>
+                    )}
+                  </View>
+                )}
               </View>
-            </View>
+            )}
           </ScrollView>
           <View style={styles.sheetFooter}>
             <Pressable style={[styles.secondaryButton, styles.half]} onPress={() => setTeacherModalUser(null)}>
@@ -1967,6 +2667,113 @@ export default function AdminScreen() {
               {savingTeacherAssignments ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Save Assignments</Text>}
             </Pressable>
           </View>
+
+          {/* Confirm Overlays Rendered INSIDE the modal so they stack properly on web */}
+          {pendingRemoveTeacherPair !== null && (
+            <View style={[StyleSheet.absoluteFill, styles.modalOverlay, { zIndex: 100 }]}>
+              <View style={styles.confirmModalCard}>
+                <Text style={styles.cardTitle}>Remove Assignment?</Text>
+                <Text style={styles.metaText}>
+                  Are you sure you want to remove the assignment "{pendingRemoveTeacherPair?.subject}" for {getStandardLabel(pendingRemoveTeacherPair?.classLevel || '')}?
+                </Text>
+                <View style={styles.confirmActions}>
+                  <Pressable style={[styles.secondaryButton, styles.confirmActionButton]} onPress={() => setPendingRemoveTeacherPair(null)}>
+                    <Text style={styles.secondaryButtonText}>Cancel</Text>
+                  </Pressable>
+                  <Pressable style={[styles.confirmDeleteButton, styles.confirmActionButton]} onPress={() => {
+                    if (pendingRemoveTeacherPair) {
+                      toggleTeacherSubject(pendingRemoveTeacherPair.classLevel, pendingRemoveTeacherPair.subject);
+                      setPendingRemoveTeacherPair(null);
+                    }
+                  }}>
+                    <Text style={styles.deleteActionButtonText}>Remove</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          )}
+
+          {pendingBulkSubjectAction !== null && (
+            <View style={[StyleSheet.absoluteFill, styles.modalOverlay, { zIndex: 100 }]}>
+              <View style={styles.confirmModalCard}>
+                <Text style={styles.cardTitle}>
+                  {pendingBulkSubjectAction === 'add' ? 'Add All Subjects?' : 'Remove All Subjects?'}
+                </Text>
+                <Text style={styles.metaText}>
+                  {pendingBulkSubjectAction === 'add'
+                    ? `This will assign all available subjects for ${getStandardLabel(teacherSubjectTargetClass)} to this teacher.`
+                    : `This will remove all assigned subjects for ${getStandardLabel(teacherSubjectTargetClass)} from this teacher.`
+                  }
+                </Text>
+                <View style={styles.confirmActions}>
+                  <Pressable style={[styles.secondaryButton, styles.confirmActionButton]} onPress={() => setPendingBulkSubjectAction(null)}>
+                    <Text style={styles.secondaryButtonText}>Cancel</Text>
+                  </Pressable>
+                  <Pressable style={[styles.confirmDeleteButton, styles.confirmActionButton]} onPress={() => {
+                    if (pendingBulkSubjectAction === 'add') assignAllSubjectsForClass(teacherSubjectTargetClass);
+                    else removeAllSubjectsForClass(teacherSubjectTargetClass);
+                    setPendingBulkSubjectAction(null);
+                  }}>
+                    <Text style={styles.deleteActionButtonText}>{pendingBulkSubjectAction === 'add' ? 'Add All' : 'Remove All'}</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          )}
+
+          {pendingBulkClassAction !== null && (
+            <View style={[StyleSheet.absoluteFill, styles.modalOverlay, { zIndex: 100 }]}>
+              <View style={styles.confirmModalCard}>
+                <Text style={styles.cardTitle}>
+                  {pendingBulkClassAction === 'add' ? 'Assign All Standards?' : 'Remove All Standards?'}
+                </Text>
+                <Text style={styles.metaText}>
+                  {pendingBulkClassAction === 'add'
+                    ? 'This will assign all available standards to this teacher.'
+                    : 'This will remove all currently assigned standards and their subjects from this teacher.'
+                  }
+                </Text>
+                <View style={styles.confirmActions}>
+                  <Pressable style={[styles.secondaryButton, styles.confirmActionButton]} onPress={() => setPendingBulkClassAction(null)}>
+                    <Text style={styles.secondaryButtonText}>Cancel</Text>
+                  </Pressable>
+                  <Pressable style={[styles.confirmDeleteButton, styles.confirmActionButton]} onPress={() => {
+                    if (pendingBulkClassAction === 'add') assignAllClasses();
+                    else removeAllClasses();
+                    setPendingBulkClassAction(null);
+                  }}>
+                    <Text style={styles.deleteActionButtonText}>{pendingBulkClassAction === 'add' ? 'Assign All' : 'Remove All'}</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          )}
+
+          {/* Remove Individual Standard Confirm */}
+          {pendingRemoveTeacherClass !== null && (
+            <View style={[StyleSheet.absoluteFill, styles.modalOverlay, { zIndex: 100 }]}>
+              <View style={styles.confirmModalCard}>
+                <Text style={styles.cardTitle}>Remove Standard?</Text>
+                <Text style={styles.metaText}>
+                  Are you sure you want to remove the standard {getStandardLabel(pendingRemoveTeacherClass)} and all its assigned subjects?
+                </Text>
+                <View style={styles.confirmActions}>
+                  <Pressable style={[styles.secondaryButton, styles.confirmActionButton]} onPress={() => setPendingRemoveTeacherClass(null)}>
+                    <Text style={styles.secondaryButtonText}>Cancel</Text>
+                  </Pressable>
+                  <Pressable style={[styles.confirmDeleteButton, styles.confirmActionButton]} onPress={() => {
+                    if (pendingRemoveTeacherClass) {
+                      removeTeacherClass(pendingRemoveTeacherClass);
+                      setPendingRemoveTeacherClass(null);
+                    }
+                  }}>
+                    <Text style={styles.deleteActionButtonText}>Remove</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          )}
+
         </View>
       </Modal>
 
@@ -2047,7 +2854,18 @@ export default function AdminScreen() {
           </View>
         </View>
       </Modal>
-    </ScrollView>
+
+      <SelectorModal
+        visible={standardSelectorTarget !== null}
+        title="Select Standard"
+        options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
+        selected={''}
+        showAny={standardSelectorTarget === 'parentStudentClassLevel' || standardSelectorTarget === 'subjectFilterClassLevel' || standardSelectorTarget === 'studentFilterClassLevel' || standardSelectorTarget === 'viewMoreClassLevel'}
+        onSelect={applyStandardSelection}
+        onClose={() => setStandardSelectorTarget(null)}
+      />
+      </ScrollView>
+    </View>
   );
 }
 
@@ -2375,6 +3193,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 22,
   },
+  searchBar: { width: '100%', flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: Colors.surfaceAlt, borderWidth: 1, borderColor: Colors.border, borderRadius: Radius.md, paddingHorizontal: 12, paddingVertical: 8 },
+  searchBarInput: { flex: 1, fontSize: 13, color: Colors.text, paddingVertical: 0 },
+  
   roleChip: {
     borderWidth: 1,
     borderColor: '#cbd5e1',
@@ -2383,6 +3204,39 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     backgroundColor: '#f8fafc',
   },
+  filterChipBtn: { borderRadius: 10, backgroundColor: '#F0F0F8', paddingHorizontal: 12, paddingVertical: 9, justifyContent: 'center' },
+  filterChipActive:     { fontSize: 12, fontWeight: '700', color: Colors.primary },
+  filterChipPlaceholder:{ fontSize: 12, fontWeight: '600', color: Colors.textMuted },
+  
+  listContainer: { gap: 10, marginTop: 4 },
+  listCard: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+    borderWidth: 1, borderColor: Colors.border, borderRadius: Radius.md,
+    padding: 14, backgroundColor: Colors.surface,
+  },
+  listCardCol: {
+    flexDirection: 'column', alignItems: 'stretch', gap: 12,
+    borderWidth: 1, borderColor: Colors.border, borderRadius: Radius.md,
+    padding: 14, backgroundColor: Colors.surface,
+  },
+  listMainRow: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 12 },
+  listMainCol: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  listAvatar: { width: 40, height: 40, borderRadius: 999, backgroundColor: Colors.primaryLight, alignItems: 'center', justifyContent: 'center' },
+  listAvatarText: { color: Colors.primary, fontWeight: '900', fontSize: 14 },
+  listMeta: { flex: 1, gap: 2 },
+  listTitle: { fontSize: 14, fontWeight: '800', color: Colors.text },
+  listSub: { fontSize: 12, color: Colors.textSecondary },
+  listRole: { fontSize: 10, color: Colors.primary, fontWeight: '800', letterSpacing: 0.6 },
+  pillMore: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999, backgroundColor: Colors.primaryLight, alignItems: 'center', justifyContent: 'center' },
+  pillMoreText: { fontSize: 11, color: Colors.primary, fontWeight: '700' },
+  listPillsWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  listActions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  actionBtn: { paddingHorizontal: 12, paddingVertical: 8, backgroundColor: Colors.primary, borderRadius: Radius.md },
+  actionBtnText: { color: '#fff', fontSize: 11, fontWeight: '700' },
+  ghostBtn: { paddingHorizontal: 12, paddingVertical: 8, backgroundColor: Colors.surfaceAlt, borderRadius: Radius.md, borderWidth: 1, borderColor: Colors.border },
+  ghostBtnText: { color: Colors.text, fontSize: 11, fontWeight: '700' },
+  dangerBtn: { paddingHorizontal: 12, paddingVertical: 8, backgroundColor: Colors.errorLight, borderRadius: Radius.md },
+  dangerBtnText: { color: Colors.error, fontSize: 11, fontWeight: '700' },
   roleChipActive: {
     backgroundColor: '#dbeafe',
     borderColor: '#60a5fa',
@@ -2397,10 +3251,9 @@ const styles = StyleSheet.create({
     color: '#1d4ed8',
   },
   primaryButton: {
-    marginTop: 4,
     borderRadius: Radius.full,
     backgroundColor: Colors.primary,
-    paddingVertical: 12,
+    paddingVertical: 13,
     alignItems: 'center',
     ...Shadow.sm,
   },
@@ -2414,7 +3267,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.primary,
     backgroundColor: Colors.primaryLight,
-    paddingVertical: 11,
+    paddingVertical: 13,
     alignItems: 'center',
   },
   secondaryButtonText: {
@@ -2738,6 +3591,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(15, 23, 42, 0.45)',
     padding: 16,
     justifyContent: 'center',
+    ...(Platform.OS === 'web' ? { zIndex: 99999, position: 'fixed' as any, top: 0, left: 0, right: 0, bottom: 0 } : {}),
   },
   modalCard: {
     backgroundColor: '#fff',
@@ -3086,4 +3940,49 @@ const styles = StyleSheet.create({
   errorText: {
     color: '#b91c1c',
   },
+
+  // Premium Modal Styles
+  addButtonSmall: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.primary, paddingHorizontal: 12, paddingVertical: 8, borderRadius: 8, gap: 6 },
+  addButtonSmallText: { color: '#fff', fontSize: 12, fontWeight: '700' },
+  emptyStateCard: { padding: 24, backgroundColor: Colors.surfaceAlt, borderRadius: 12, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: Colors.border, borderStyle: 'dashed' },
+  emptyStateTitle: { fontSize: 16, fontWeight: '700', color: Colors.text, marginBottom: 4 },
+  emptyStateSub: { fontSize: 13, color: Colors.textSecondary, textAlign: 'center' },
+  premiumCard: { backgroundColor: '#fff', borderRadius: 12, borderWidth: 1, borderColor: Colors.border, overflow: 'hidden' },
+  premiumCardHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 14, backgroundColor: '#f8fafc', borderBottomWidth: 1, borderBottomColor: Colors.border },
+  premiumCardTitle: { fontSize: 15, fontWeight: '700', color: Colors.text },
+  premiumCardSub: { fontSize: 12, color: Colors.textSecondary, marginTop: 2 },
+  premiumCardBody: { padding: 14 },
+  iconButton: { padding: 8, borderRadius: 8, backgroundColor: Colors.surfaceAlt },
+  toggleRow: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 8, backgroundColor: '#f8fafc', borderWidth: 1, borderColor: 'transparent' },
+  toggleRowActive: { backgroundColor: '#eff6ff', borderColor: '#bfdbfe' },
+  checkboxContainer: { width: 22, height: 22, borderRadius: 6, borderWidth: 1.5, borderColor: '#cbd5e1', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' },
+  checkboxContainerActive: { borderColor: Colors.primary, backgroundColor: Colors.primary },
+  toggleTitle: { fontSize: 14, fontWeight: '600', color: Colors.text },
+  toggleSub: { fontSize: 12, color: Colors.textMuted, marginTop: 2 },
+  pillSelector: { paddingHorizontal: 16, paddingVertical: 10, borderRadius: 20, backgroundColor: Colors.surfaceAlt, borderWidth: 1, borderColor: Colors.border },
+  pillSelectorActive: { backgroundColor: Colors.primary, borderColor: Colors.primary },
+  pillSelectorText: { fontSize: 13, fontWeight: '600', color: Colors.textSecondary },
+  pillSelectorTextActive: { color: '#fff' },
+  transferListContainer: { backgroundColor: '#f8fafc', borderRadius: 12, borderWidth: 1, borderColor: Colors.border, overflow: 'hidden' },
+  transferCard: { flexDirection: 'row', alignItems: 'center', gap: 8, padding: 10, backgroundColor: '#fff', borderRadius: 8, borderWidth: 1, borderColor: Colors.border },
+  transferCardSelected: { flexDirection: 'row', alignItems: 'center', gap: 8, padding: 10, backgroundColor: '#f0fdf4', borderRadius: 8, borderWidth: 1, borderColor: '#bbf7d0' },
+  transferCardText: { flex: 1, fontSize: 14, fontWeight: '600', color: Colors.text },
+  transferCardTextSelected: { flex: 1, fontSize: 14, fontWeight: '700', color: '#166534' },
+  transferIconWrap: { width: 32, height: 32, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
+  transferAddBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 12, paddingVertical: 6, backgroundColor: Colors.text, borderRadius: 6 },
+  transferAddBtnText: { color: '#fff', fontSize: 12, fontWeight: '700' },
+  transferRemoveBtn: { padding: 8, borderRadius: 6, backgroundColor: '#fee2e2' },
+  classDropdownWrap: { backgroundColor: Colors.surfaceAlt, borderRadius: 10, borderWidth: 1, borderColor: Colors.border, marginTop: 8, overflow: 'hidden' },
+  bulkActionRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12, paddingVertical: 10, backgroundColor: Colors.primaryLight, borderRadius: 8, marginBottom: 8, borderWidth: 1, borderColor: '#bfdbfe' },
+  bulkActionRowDanger: { backgroundColor: '#fee2e2', borderColor: '#fecaca' },
+  bulkActionLeft: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  bulkCheckbox: { width: 24, height: 24, borderRadius: 6, backgroundColor: '#fff', borderWidth: 1, borderColor: Colors.primary, alignItems: 'center', justifyContent: 'center' },
+  bulkCheckboxDanger: { borderColor: Colors.error },
+  bulkActionText: { fontSize: 13, fontWeight: '700', color: Colors.primaryDark },
+  bulkActionTextDanger: { fontSize: 13, fontWeight: '700', color: Colors.error },
+  toastOverlay: { position: 'absolute', top: Platform.OS === 'ios' ? 120 : 100, left: 16, right: 16, alignItems: 'center', zIndex: 999999, elevation: 99, ...(Platform.OS === 'web' ? { position: 'fixed' as any } : {}) },
+  toastCard: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: Colors.successLight, paddingHorizontal: 20, paddingVertical: 14, borderRadius: 14, borderWidth: 1, borderColor: Colors.success, ...Shadow.md, width: '100%', maxWidth: 400 },
+  toastText: { color: Colors.success, fontSize: 14, fontWeight: '700', flex: 1 },
+  subjectChip: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, borderWidth: 1 },
+  subjectChipText: { fontSize: 12, fontWeight: '600' },
 });

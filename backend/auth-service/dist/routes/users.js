@@ -3,6 +3,8 @@ import { z } from 'zod';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { db } from '../db.js';
+import { eventBus } from '../events/bus.js';
+import { AblyEventBus } from '@els-ai/event-bus';
 const JWT_SECRET = process.env.JWT_SECRET || 'els-secret-key-super-secure';
 import { requireAuth } from './auth.js';
 const roleSchema = z.enum(['student', 'teacher', 'parent', 'admin', 'superadmin']);
@@ -60,9 +62,10 @@ const upsertParentStudentsSchema = z.object({
     studentIds: z.array(z.string().uuid()),
 });
 const upsertTeacherAssignmentsSchema = z.object({
-    assignments: z.array(z.object({
+    classAssignments: z.array(z.object({
         classLevel: z.string().trim().min(1).max(50),
-        subject: z.string().trim().min(1).max(100),
+        allSubjects: z.boolean(),
+        assignedSubjects: z.array(z.string().trim().min(1).max(100)),
     })),
 });
 const listSubjectsQuerySchema = z.object({
@@ -136,6 +139,46 @@ async function getUserWithRoles(userId, organizationId) {
     if (organizationId && roles.length === 0) {
         return null;
     }
+    let classAssignments = undefined;
+    const resolvedOrgId = organizationId || rolesResult.rows[0]?.organization_id;
+    if (roles.includes('teacher') && resolvedOrgId) {
+        const classAssigmentsResult = await db.query(`SELECT COALESCE(
+        (
+          SELECT jsonb_agg(
+            jsonb_build_object(
+              'classLevel', tca.class_level,
+              'allSubjects', tca.all_subjects,
+              'assignedSubjects', COALESCE(
+                (
+                  SELECT jsonb_agg(s.title)
+                  FROM teacher_standard_subjects tss
+                  JOIN subjects s ON s.id = tss.subject_id
+                  WHERE tss.teacher_user_id = $1::uuid
+                    AND tss.organization_id = $2::uuid
+                    AND tss.class_level = tca.class_level
+                ),
+                '[]'::jsonb
+              )
+            )
+          )
+          FROM teacher_class_assignments tca
+          WHERE tca.teacher_user_id = $1::uuid
+            AND tca.organization_id = $2::uuid
+        ),
+        '[]'::jsonb
+      ) AS assignments`, [userId, resolvedOrgId]);
+        classAssignments = classAssigmentsResult.rows[0]?.assignments || [];
+    }
+    const isSuperAdmin = roles.includes('superadmin');
+    let canPublishGlobal = false;
+    if (resolvedOrgId) {
+        const globalPublishPermissionResult = await db.query(`SELECT enabled
+       FROM user_global_publish_permissions
+       WHERE user_id = $1
+         AND organization_id = $2::uuid
+       LIMIT 1`, [userId, resolvedOrgId]);
+        canPublishGlobal = Boolean(globalPublishPermissionResult.rows[0]?.enabled);
+    }
     return {
         id: user.id,
         firstName: user.first_name,
@@ -147,9 +190,12 @@ async function getUserWithRoles(userId, organizationId) {
         branch: user.branch || undefined,
         activeRole: user.active_role,
         roles,
+        classAssignments,
         profileImage: user.profile_image,
-        organizationId: rolesResult.rows[0]?.organization_id || undefined,
+        organizationId: resolvedOrgId || undefined,
         isActive: user.is_active,
+        isSuperAdmin,
+        canPublishGlobal,
     };
 }
 function getRequestOrganizationId(req) {
@@ -828,19 +874,33 @@ usersRouter.get('/teachers/assignments', requireAuth, async (req, res) => {
          u.email,
          u.mobile_number,
          COALESCE(
-           jsonb_agg(
-             DISTINCT jsonb_build_object(
-               'classLevel', tss.class_level,
-               'subject', s.title
+           (
+             SELECT jsonb_agg(
+               jsonb_build_object(
+                 'classLevel', tca.class_level,
+                 'allSubjects', tca.all_subjects,
+                 'assignedSubjects', COALESCE(
+                   (
+                     SELECT jsonb_agg(s.title)
+                     FROM teacher_standard_subjects tss
+                     JOIN subjects s ON s.id = tss.subject_id
+                     WHERE tss.teacher_user_id = u.id
+                       AND tss.organization_id = $1::uuid
+                       AND tss.class_level = tca.class_level
+                   ),
+                   '[]'::jsonb
+                 )
+               )
              )
-           ) FILTER (WHERE tss.id IS NOT NULL),
+             FROM teacher_class_assignments tca
+             WHERE tca.teacher_user_id = u.id
+               AND tca.organization_id = $1::uuid
+           ),
            '[]'::jsonb
-         ) AS assignments
+         ) AS class_assignments
        FROM users u
        INNER JOIN user_roles ur ON ur.user_id = u.id
        INNER JOIN roles r ON r.id = ur.role_id
-       LEFT JOIN teacher_standard_subjects tss ON tss.teacher_user_id = u.id AND tss.organization_id = ur.organization_id
-       LEFT JOIN subjects s ON s.id = tss.subject_id
        WHERE ${whereClauses.join(' AND ')}
        GROUP BY u.id, u.first_name, u.last_name, u.email, u.mobile_number
        ORDER BY u.first_name, u.last_name
@@ -852,7 +912,7 @@ usersRouter.get('/teachers/assignments', requireAuth, async (req, res) => {
                 lastName: row.last_name,
                 email: row.email,
                 mobileNumber: row.mobile_number || undefined,
-                assignments: row.assignments,
+                classAssignments: row.class_assignments,
             })),
         });
     }
@@ -881,26 +941,47 @@ usersRouter.put('/teachers/:id/assignments', requireAuth, async (req, res) => {
     if (!isTeacher) {
         return res.status(404).json({ message: 'Teacher not found in your organization' });
     }
-    const uniqueAssignments = Array.from(new Map(parsedBody.data.assignments.map((item) => [`${item.classLevel.toLowerCase()}::${item.subject.toLowerCase()}`, item])).values());
+    const uniqueClassAssignments = Array.from(new Map(parsedBody.data.classAssignments.map((item) => [item.classLevel.toLowerCase(), item])).values());
     const client = await db.connect();
     try {
         await client.query('BEGIN');
+        await client.query(`DELETE FROM teacher_class_assignments
+       WHERE teacher_user_id = $1
+         AND organization_id = $2::uuid`, [teacherUserId, organizationId]);
         await client.query(`DELETE FROM teacher_standard_subjects
        WHERE teacher_user_id = $1
          AND organization_id = $2::uuid`, [teacherUserId, organizationId]);
-        for (const assignment of uniqueAssignments) {
-            await client.query(`INSERT INTO teacher_standard_subjects (teacher_user_id, organization_id, class_level, subject_id)
-         SELECT $1::uuid, $2::uuid, $3::varchar, s.id
-         FROM subjects s
-         WHERE s.class_level = $3::varchar
-           AND LOWER(s.title) = LOWER($4::varchar)
-           AND (s.organization_id = $2::uuid OR s.organization_id IS NULL)
-         ORDER BY (s.organization_id = $2::uuid) DESC, s.updated_at DESC NULLS LAST
-         LIMIT 1
-         ON CONFLICT (teacher_user_id, organization_id, class_level, subject_id) DO NOTHING`, [teacherUserId, organizationId, assignment.classLevel, assignment.subject]);
+        for (const ca of uniqueClassAssignments) {
+            await client.query(`INSERT INTO teacher_class_assignments (teacher_user_id, organization_id, class_level, all_subjects)
+         VALUES ($1::uuid, $2::uuid, $3::varchar, $4::boolean)
+         ON CONFLICT (teacher_user_id, organization_id, class_level) DO NOTHING`, [teacherUserId, organizationId, ca.classLevel, ca.allSubjects]);
+            if (!ca.allSubjects) {
+                const uniqueSubjects = [...new Set(ca.assignedSubjects)];
+                for (const subject of uniqueSubjects) {
+                    await client.query(`INSERT INTO teacher_standard_subjects (teacher_user_id, organization_id, class_level, subject_id)
+             SELECT $1::uuid, $2::uuid, $3::varchar, s.id
+             FROM subjects s
+             WHERE s.class_level = $3::varchar
+               AND LOWER(s.title) = LOWER($4::varchar)
+               AND (s.organization_id = $2::uuid OR s.organization_id IS NULL)
+             ORDER BY (s.organization_id = $2::uuid) DESC, s.updated_at DESC NULLS LAST
+             LIMIT 1
+             ON CONFLICT (teacher_user_id, organization_id, class_level, subject_id) DO NOTHING`, [teacherUserId, organizationId, ca.classLevel, subject]);
+                }
+            }
         }
         await client.query('COMMIT');
-        return res.json({ teacherUserId, assignments: uniqueAssignments });
+        if (eventBus instanceof AblyEventBus) {
+            const push = {
+                channel: `notification:${organizationId}:${teacherUserId}`,
+                name: 'teacher_assignments_updated',
+                data: { teacherUserId },
+            };
+            await eventBus.notify(push).catch(err => {
+                console.error('[auth-service] failed to push assignment update event', err);
+            });
+        }
+        return res.json({ teacherUserId, classAssignments: uniqueClassAssignments });
     }
     catch (error) {
         await client.query('ROLLBACK');

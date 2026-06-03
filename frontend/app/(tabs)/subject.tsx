@@ -1,5 +1,6 @@
 import { useLocalSearchParams, router } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ActivityIndicator, Dimensions, Image, Modal, Platform,
   Pressable, ScrollView, StyleSheet, Text, View,
@@ -122,6 +123,7 @@ function ContentViewer({
 // ── Topic Contents Screen ─────────────────────────────────────────────────────
 function TopicScreen({ topic, onBack }: { topic: TopicDetail; onBack: () => void }) {
   const { apiFetch } = useAuth();
+  const insets = useSafeAreaInsets();
   const [loading, setLoading] = useState(true);
   const [contents, setContents] = useState<ContentItem[]>([]);
   const [viewerIdx, setViewerIdx] = useState<number | null>(null);
@@ -139,7 +141,7 @@ function TopicScreen({ topic, onBack }: { topic: TopicDetail; onBack: () => void
   return (
     <View style={sc.screen}>
       {/* Header */}
-      <View style={[sc.topicHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 18 }]}>
+      <View style={[sc.topicHeader, { paddingTop: Math.max(insets.top, 16) }]}>
         <Pressable onPress={onBack} style={sc.backBtn}>
           <ChevronLeft size={22} color="#1a1a2e" />
         </Pressable>
@@ -246,6 +248,7 @@ function TopicScreen({ topic, onBack }: { topic: TopicDetail; onBack: () => void
 // ── Subject List Screen ───────────────────────────────────────────────────────
 export default function SubjectScreen() {
   const { apiFetch } = useAuth();
+  const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ subject?: string }>();
   const filterSubject = params.subject;
 
@@ -262,6 +265,10 @@ export default function SubjectScreen() {
       .finally(() => setLoading(false));
   }, [apiFetch]);
 
+  useEffect(() => {
+    setSelectedTopic(null);
+  }, [filterSubject]);
+
   if (selectedTopic) {
     return <TopicScreen topic={selectedTopic} onBack={() => setSelectedTopic(null)} />;
   }
@@ -273,7 +280,7 @@ export default function SubjectScreen() {
   return (
     <View style={sc.screen}>
       {/* Header */}
-      <View style={[sc.header, { paddingTop: Platform.OS === 'ios' ? 52 : 18, backgroundColor: hs.accent }]}>
+      <View style={[sc.header, { paddingTop: Math.max(insets.top, 16), backgroundColor: hs.accent }]}>
         <Pressable onPress={() => router.back()} style={sc.headerBackBtn}>
           <ChevronLeft size={22} color="#fff" />
         </Pressable>

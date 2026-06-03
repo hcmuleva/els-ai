@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState, useCallback } from 'react';
 import { AppUser, UserRole } from '../types/roles';
 import { getStorageItem, setStorageItem, deleteStorageItem } from '../utils/storage';
 
@@ -33,7 +33,10 @@ type AuthContextValue = {
   }) => Promise<{ success: boolean; error?: string }>;
   signOut: () => Promise<void>;
   setActiveRole: (role: UserRole) => Promise<void>;
+  refreshUser: () => Promise<void>;
   apiFetch: (path: string, options?: RequestInit) => Promise<Response>;
+  deleteChildAccount: (registrationId: string) => Promise<{ success: boolean; error?: string }>;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; error?: string }>;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -47,21 +50,42 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const getAccessToken = async () => getStorageItem('accessToken');
   const getRefreshToken = async () => getStorageItem('refreshToken');
 
-  // Load profile on start
+  // Load profile on start, then background-refresh to get fresh classAssignments
   useEffect(() => {
     async function loadUser() {
+      let parsedUser: AppUser | null = null;
       try {
         const cachedUser = await getStorageItem('user');
         const token = await getAccessToken();
         if (cachedUser && token) {
-          const parsed = JSON.parse(cachedUser);
-          setUser(parsed);
+          parsedUser = JSON.parse(cachedUser);
+          setUser(parsedUser);
           setIsAuthenticated(true);
         }
       } catch (e) {
         console.warn('Failed to load user state', e);
       } finally {
         setIsLoading(false);
+      }
+
+      // Background refresh: pull fresh profile (including classAssignments)
+      // so stale cached data is hydrated without requiring re-login
+      if (parsedUser) {
+        try {
+          const token = await getAccessToken();
+          if (token) {
+            const res = await fetch(`${API_BASE_URL}/users/${parsedUser.id}`, {
+              headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+            });
+            if (res.ok) {
+              const freshUser = await res.json();
+              await setStorageItem('user', JSON.stringify(freshUser));
+              setUser(freshUser);
+            }
+          }
+        } catch (_e) {
+          // Non-critical; stale cache still works for the session
+        }
       }
     }
     loadUser();
@@ -259,6 +283,65 @@ export function AuthProvider({ children }: PropsWithChildren) {
     }
   };
 
+  const refreshUser = useCallback(async () => {
+    if (!user) return;
+    try {
+      const res = await apiFetch(`/users/${user.id}`);
+      if (res.ok) {
+        const updatedUser = await res.json();
+        await setStorageItem('user', JSON.stringify(updatedUser));
+        setUser(updatedUser);
+      }
+    } catch (e) {
+      console.warn('Network error refreshing user', e);
+    }
+  }, [user, apiFetch]);
+
+  const deleteAccount = async () => {
+    try {
+      const res = await apiFetch('/users/me', { method: 'DELETE' });
+      if (!res.ok) {
+        const err = await res.json();
+        return { success: false, error: err.message || 'Failed to delete account' };
+      }
+      await signOut();
+      return { success: true };
+    } catch (e: any) {
+      return { success: false, error: e.message || 'Network error' };
+    }
+  };
+
+  const deleteChildAccount = async (registrationId: string) => {
+    try {
+      const res = await apiFetch('/users/me/delete-child', {
+        method: 'POST',
+        body: JSON.stringify({ registrationId }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        return { success: false, error: err.message || 'Failed to delete child account' };
+      }
+      return { success: true };
+    } catch (e: any) {
+      return { success: false, error: e.message || 'Network error' };
+    }
+  };
+  const changePassword = async (currentPassword: string, newPassword: string) => {
+    try {
+      const res = await apiFetch('/users/me/password', {
+        method: 'PATCH',
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        return { success: false, error: err.message || 'Failed to change password' };
+      }
+      return { success: true };
+    } catch (e: any) {
+      return { success: false, error: e.message || 'Network error' };
+    }
+  };
+
   const value = useMemo(
     () => ({
       user,
@@ -268,9 +351,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
       signUp,
       signOut,
       setActiveRole,
+      refreshUser,
       apiFetch,
+      deleteAccount,
+      deleteChildAccount,
+      changePassword,
     }),
-    [isAuthenticated, isLoading, user],
+    [isAuthenticated, isLoading, user, refreshUser, apiFetch],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

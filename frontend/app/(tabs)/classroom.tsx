@@ -7,6 +7,7 @@ import { Colors, Radius, Shadow } from '../../src/theme';
 import { GIRAFFE, OWL, PENGUIN, ELEPHANT, BUTTERFLY } from '../../src/assets/svgs';
 import { Video, ResizeMode } from 'expo-av';
 import { WebView } from 'react-native-webview';
+import YoutubePlayer from 'react-native-youtube-iframe';
 
 import AudioPlayer from '../../src/components/media/AudioPlayer';
 import DocumentViewer from '../../src/components/media/DocumentViewer';
@@ -14,7 +15,8 @@ import DocumentViewer from '../../src/components/media/DocumentViewer';
 import { getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
-
+import { PickedFile, pickFileAsDataUrl, uploadPickedFileToS3 } from '../../src/utils/fileUpload';
+import MediaUploader from '../../src/components/media/MediaUploader';
 type LearningContentItem = {
   id: string;
   title: string;
@@ -79,7 +81,7 @@ type ClassroomItem = {
 };
 
 type StudentTab = 'content' | 'quiz' | 'assignments';
-type PickedFile = { dataUrl: string; fileName: string; mimeType: string };
+
 
 const STATUS_COLORS: Record<ClassroomItem['status'], string> = {
   active: '#16a34a',
@@ -87,39 +89,8 @@ const STATUS_COLORS: Record<ClassroomItem['status'], string> = {
   draft: '#2563eb',
 };
 
-async function pickFileAsDataUrl(accept: string): Promise<PickedFile> {
-  if (Platform.OS !== 'web') {
-    throw new Error('File upload is currently supported on web. On mobile, paste submission URL manually.');
-  }
 
-  return await new Promise((resolve, reject) => {
-    const doc = (globalThis as any).document;
-    if (!doc) {
-      reject(new Error('File picker is unavailable in this environment.'));
-      return;
-    }
-    const input = doc.createElement('input');
-    input.type = 'file';
-    input.accept = accept;
-    input.onchange = () => {
-      const file = input.files?.[0];
-      if (!file) {
-        reject(new Error('No file selected.'));
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () =>
-        resolve({
-          dataUrl: String(reader.result || ''),
-          fileName: file.name || 'uploaded-file',
-          mimeType: file.type || '',
-        });
-      reader.onerror = () => reject(new Error('Failed to read selected file.'));
-      reader.readAsDataURL(file);
-    };
-    input.click();
-  });
-}
+
 
 function resolveMediaType(file: PickedFile): 'image' | 'audio' | 'video' {
   const mime = file.mimeType.toLowerCase();
@@ -145,10 +116,14 @@ function isYouTubeUrl(url: string): boolean {
   return url.includes('youtube.com') || url.includes('youtu.be');
 }
 
-function getYouTubeEmbedUrl(url: string): string {
-  if (!url) return '';
+function getYouTubeVideoId(url: string): string | null {
+  if (!url) return null;
   const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
-  const videoId = match ? match[1] : '';
+  return match ? match[1] : null;
+}
+
+function getYouTubeEmbedUrl(url: string): string {
+  const videoId = getYouTubeVideoId(url);
   return videoId ? `https://www.youtube.com/embed/${videoId}?rel=0` : url;
 }
 
@@ -157,6 +132,7 @@ export default function ClassroomScreen() {
   const [loading, setLoading] = useState(true);
   const [savingSubmission, setSavingSubmission] = useState(false);
   const [classrooms, setClassrooms] = useState<ClassroomItem[]>([]);
+  const [activeClassroomPage, setActiveClassroomPage] = useState(1);
   const [selectedClassroomId, setSelectedClassroomId] = useState<string | null>(null);
   const [nowTs, setNowTs] = useState<number>(Date.now());
   useEffect(() => {
@@ -167,7 +143,7 @@ export default function ClassroomScreen() {
   const [selectedQuizId, setSelectedQuizId] = useState<string | null>(null);
   const [previewContentIndex, setPreviewContentIndex] = useState<number | null>(null);
   const [assignmentModal, setAssignmentModal] = useState<ClassroomAssignment | null>(null);
-  const [submissionText, setSubmissionText] = useState('');
+  const [submissionText, setSubmissionText]                   = useState('');
   const [submissionAttachmentUrl, setSubmissionAttachmentUrl] = useState('');
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [isHistoryOpen, setIsHistoryOpen]           = useState(false);
@@ -302,31 +278,7 @@ export default function ClassroomScreen() {
     setSubmissionAttachmentUrl(assignment.submission?.attachmentUrl || '');
   };
 
-  const uploadSubmissionAttachment = async () => {
-    if (!assignmentModal) return;
-    try {
-      const picked = await pickFileAsDataUrl('image/*,audio/*,video/*');
-      const mediaType = resolveMediaType(picked);
-      const res = await apiFetch('/assets/upload', {
-        method: 'POST',
-        body: JSON.stringify({
-          dataUrl: picked.dataUrl,
-          fileName: picked.fileName,
-          mimeType: picked.mimeType,
-          mediaType,
-        }),
-      });
-      if (!res.ok) {
-        const payload = await res.json().catch(() => ({}));
-        throw new Error(payload.message || 'Failed to upload submission attachment');
-      }
-      const payload = await res.json();
-      setSubmissionAttachmentUrl(payload.url || '');
-      setMessage({ type: 'success', text: 'Attachment uploaded successfully.' });
-    } catch (error) {
-      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload attachment' });
-    }
-  };
+
 
   const submitAssignment = async () => {
     if (!assignmentModal || !selectedClassroom) return;
@@ -408,13 +360,14 @@ export default function ClassroomScreen() {
             {!selectedClassroomId || !activeClassrooms.find((c) => c.id === selectedClassroomId) ? (
               <View style={clStyles.listSection}>
                 <Text style={clStyles.listSectionLabel}>{activeClassrooms.length} active session{activeClassrooms.length !== 1 ? 's' : ''}</Text>
-                {activeClassrooms.map((room, idx) => {
+                {activeClassrooms.slice((activeClassroomPage - 1) * 10, activeClassroomPage * 10).map((room, idx) => {
+                  const curIdx = (activeClassroomPage - 1) * 10 + idx;
                   const BG_COLORS    = ['#D6EAFF', '#D6F5D6', '#FFE8D6', '#EDE4FF', '#FFF5CC'];
                   const ICON_COLORS  = ['#4A90E2', '#4CAF50', '#FF7043', '#9B8EC4', '#E6A817'];
                   const ICON_COMPS   = [BookOpen, School, Star, Layers, Telescope];
-                  const bg           = BG_COLORS[idx % BG_COLORS.length];
-                  const iconColor    = ICON_COLORS[idx % ICON_COLORS.length];
-                  const IconComp     = ICON_COMPS[idx % ICON_COMPS.length];
+                  const bg           = BG_COLORS[curIdx % BG_COLORS.length];
+                  const iconColor    = ICON_COLORS[curIdx % ICON_COLORS.length];
+                  const IconComp     = ICON_COMPS[curIdx % ICON_COMPS.length];
                   const pending = room.assignments.filter((a) => a.status !== 'submitted').length;
                   return (
                     <Pressable key={room.id} style={[clStyles.roomCard, { backgroundColor: '#fff' }]}
@@ -458,6 +411,30 @@ export default function ClassroomScreen() {
                     </Pressable>
                   );
                 })}
+                {(() => {
+                  const itemsPerPage = 10;
+                  const totalPages = Math.ceil(activeClassrooms.length / itemsPerPage);
+                  if (totalPages <= 1) return null;
+                  return (
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
+                      <Pressable 
+                        style={[clStyles.pageBtn, activeClassroomPage === 1 && { opacity: 0.5 }]} 
+                        onPress={() => setActiveClassroomPage(p => Math.max(1, p - 1))}
+                        disabled={activeClassroomPage === 1}
+                      >
+                        <Text style={clStyles.pageBtnText}>Previous</Text>
+                      </Pressable>
+                      <Text style={clStyles.pageText}>Page {activeClassroomPage} of {totalPages}</Text>
+                      <Pressable 
+                        style={[clStyles.pageBtn, activeClassroomPage === totalPages && { opacity: 0.5 }]} 
+                        onPress={() => setActiveClassroomPage(p => Math.min(totalPages, p + 1))}
+                        disabled={activeClassroomPage === totalPages}
+                      >
+                        <Text style={clStyles.pageBtnText}>Next</Text>
+                      </Pressable>
+                    </View>
+                  );
+                })()}
               </View>
             ) : (
               <>
@@ -986,28 +963,30 @@ export default function ClassroomScreen() {
                       )}
 
                       {/* YOUTUBE */}
-                      {url && isYouTubeUrl(url) && (
-                        <View style={styles.vVideoWrap}>
-                          <View style={[styles.vVideoFrame, { borderColor: `${sCfg.accentColor}30` }]}>
-                            {Platform.OS === 'web' ? (
-                              <iframe
-                                src={getYouTubeEmbedUrl(url) + `&controls=1&modestbranding=1`}
-                                style={{ width: '100%', height: '100%', border: 'none', borderRadius: 16 }}
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                              />
-                            ) : (
-                              <WebView
-                                source={{ uri: getYouTubeEmbedUrl(url) + `&controls=1` }}
-                                style={{ width: '100%', height: '100%', borderRadius: 16 }}
-                                allowsFullscreenVideo
-                                allowsInlineMediaPlayback
-                                mediaPlaybackRequiresUserAction={false}
-                              />
-                            )}
+                      {url && isYouTubeUrl(url) && (() => {
+                        const videoId = getYouTubeVideoId(url);
+                        if (!videoId) return null;
+                        return (
+                          <View style={styles.vVideoWrap}>
+                            <View style={[styles.vVideoFrame, { borderColor: `${sCfg.accentColor}30` }]}>
+                              {Platform.OS === 'web' ? (
+                                <iframe
+                                  src={`https://www.youtube.com/embed/${videoId}?rel=0&controls=1`}
+                                  style={{ width: '100%', height: '100%', border: 'none', borderRadius: 16 }}
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                />
+                              ) : (
+                                <YoutubePlayer
+                                  height={(Dimensions.get('window').width - 32) * (9 / 16)}
+                                  videoId={videoId}
+                                  webViewStyle={{ opacity: 0.99 }}
+                                />
+                              )}
+                            </View>
                           </View>
-                        </View>
-                      )}
+                        );
+                      })()}
 
                       {/* AUDIO */}
                       {url && url.match(/\.(mp3|wav|ogg|aac|m4a|flac)/i) && (
@@ -1235,28 +1214,27 @@ export default function ClassroomScreen() {
                 <View style={aStyles.fieldGroup}>
                   <Text style={aStyles.fieldLabel}>Attachment (optional)</Text>
                   <Text style={aStyles.fieldHint}>Upload a file or paste a link to your work.</Text>
-                  <View style={aStyles.uploadRow}>
-                    <TextInput
-                      value={submissionAttachmentUrl}
-                      onChangeText={setSubmissionAttachmentUrl}
-                      placeholder="https://… or tap Upload"
-                      style={aStyles.urlInput}
-                      autoCapitalize="none"
-                      placeholderTextColor="#B0B8D0"
-                    />
-                  </View>
-                  <Pressable style={aStyles.uploadFileBtn} onPress={uploadSubmissionAttachment}>
-                    <Text style={aStyles.uploadFileBtnText}>Upload File</Text>
-                  </Pressable>
-                  {submissionAttachmentUrl ? (
-                    <View style={aStyles.attachPreviewRow}>
-                      <FileText size={13} color="#1A4DA2" />
-                      <Text style={aStyles.attachPreviewText} numberOfLines={1}>{submissionAttachmentUrl}</Text>
-                      <Pressable onPress={() => setSubmissionAttachmentUrl('')}>
-                        <X size={14} color="#FF7043" />
-                      </Pressable>
+                  {!submissionAttachmentUrl && (
+                    <View style={aStyles.uploadRow}>
+                      <TextInput
+                        value={submissionAttachmentUrl}
+                        onChangeText={setSubmissionAttachmentUrl}
+                        placeholder="https://… or tap Upload"
+                        style={aStyles.urlInput}
+                        autoCapitalize="none"
+                        placeholderTextColor="#B0B8D0"
+                      />
                     </View>
-                  ) : null}
+                  )}
+                  <MediaUploader
+                    accept="image/*,audio/*,video/*,application/pdf"
+                    mediaType="document"
+                    value={submissionAttachmentUrl || null}
+                    fileName={submissionAttachmentUrl ? submissionAttachmentUrl.split('/').pop() : ''}
+                    onUploadSuccess={(url) => setSubmissionAttachmentUrl(url)}
+                    onClear={() => setSubmissionAttachmentUrl('')}
+                    buttonLabel="Upload File"
+                  />
                 </View>
               </View>
             )}
@@ -1959,17 +1937,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#1a1a2e',
   },
-  uploadBtn: {
-    backgroundColor: '#D6EAFF',
-    paddingHorizontal: 18,
-    justifyContent: 'center',
-    borderRadius: 999,
-  },
-  uploadBtnText: {
-    color: '#4A90E2',
-    fontWeight: '800',
-    fontSize: 13,
-  },
   modalFooter: {
     padding: 20,
     borderTopWidth: 1,
@@ -2046,7 +2013,7 @@ const styles = StyleSheet.create({
 
   // Video / YouTube
   vVideoWrap:  { borderRadius: 20, overflow: 'hidden', marginBottom: 4 },
-  vVideoFrame: { width: '100%', height: 220, borderRadius: 20, overflow: 'hidden', backgroundColor: '#0a0a0a', borderWidth: 2 },
+  vVideoFrame: { width: '100%', aspectRatio: 16 / 9, borderRadius: 20, overflow: 'hidden', backgroundColor: '#0a0a0a', borderWidth: 2 },
 
   // Text
   vTextBlock: {
@@ -2121,12 +2088,16 @@ const aStyles = StyleSheet.create({
   fieldHint:   { fontSize: 12, color: '#9A9AB0', fontWeight: '500', lineHeight: 18, marginBottom: 2 },
   textArea:    { backgroundColor: '#F8F9FF', borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 12, padding: 14, minHeight: 120, fontSize: 14, color: '#1a1a2e', lineHeight: 22 },
   uploadRow:   { gap: 8 },
-  urlInput:    { backgroundColor: '#F8F9FF', borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 11, fontSize: 13, color: '#1a1a2e' },
-  uploadFileBtn:    { borderRadius: 12, borderWidth: 1.5, borderColor: '#D6EAFF', backgroundColor: '#F5F9FF', paddingVertical: 12, alignItems: 'center' },
-  uploadFileBtnText:{ fontSize: 13, fontWeight: '700', color: '#4A90E2' },
-  attachPreviewRow: { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: '#EEF4FF', borderRadius: 10, padding: 10 },
-  attachPreviewText:{ flex: 1, fontSize: 12, color: '#1A4DA2', fontWeight: '500' },
-  attachClearBtn:   { fontSize: 13, fontWeight: '800', color: '#FF7043' },
+  urlInput:    { flex: 1, height: 44, fontSize: 13, color: '#1a1a2e', fontWeight: '500', backgroundColor: '#F8F9FF', borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 12, paddingHorizontal: 14 },
+  uploadBtn:   { borderRadius: 10, borderWidth: 1, borderColor: '#D6EAFF', backgroundColor: '#F5F9FF', paddingVertical: 12, alignItems: 'center', borderStyle: 'dashed', marginTop: 10 },
+  uploadBtnText: { fontSize: 13, fontWeight: '700', color: '#4A90E2' },
+  mediaPreviewRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 12 },
+  badge: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: '#F8F9FF', borderRadius: 12, borderWidth: 1, borderColor: '#ECEEF4', padding: 10 },
+  badgeInfo: { flex: 1, gap: 4 },
+  badgeTitle: { fontSize: 13, fontWeight: '600', color: '#374151' },
+  badgeSubtitle: { fontSize: 11, color: '#6B7280' },
+  mediaRemoveBtn: { paddingHorizontal: 12, paddingVertical: 8, borderRadius: 8, backgroundColor: '#FFE8E8', justifyContent: 'center', alignItems: 'center' },
+  mediaRemoveBtnText: { fontSize: 12, fontWeight: '800', color: '#DC2626' },
 
   footer:        { padding: 16, paddingBottom: Platform.OS === 'ios' ? 32 : 16, backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: '#F0F0F8' },
   submitBtn:     { backgroundColor: '#4A90E2', borderRadius: 16, paddingVertical: 16, alignItems: 'center' },
@@ -2225,6 +2196,11 @@ const clStyles = StyleSheet.create({
 
   replayBtn:      { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: '#4A90E2', borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8 },
   replayBtnText:  { fontSize: 12, fontWeight: '800', color: '#fff' },
+
+  pageBtn:      { paddingHorizontal: 16, paddingVertical: 8, backgroundColor: '#EEF4FF', borderRadius: 8 },
+  pageBtnText:  { fontSize: 13, fontWeight: '700', color: '#4A90E2' },
+  pageText:     { fontSize: 13, fontWeight: '600', color: '#9A9AB0' },
+
 
   historyAssignCard: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
   historyAssignTitle:{ fontSize: 13, fontWeight: '700', color: '#1a1a2e', flex: 1, marginRight: 8 },

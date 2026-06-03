@@ -12,6 +12,8 @@ import {
   QUESTION_TYPE_LABELS,
   SupportedQuestionType,
 } from './questionEditor.types';
+import { PickedFile, pickFileAsDataUrl } from '../../utils/fileUpload';
+import { getStorageItem } from '../../utils/storage';
 
 export const LOGICO_BUTTON_ORDER = frameButtons.map((button) => button.id);
 export const LOGICO_BUTTON_COLOR_MAP: Record<string, string> = Object.fromEntries(
@@ -75,8 +77,17 @@ export const getQuestionTypeLabel = (questionType: string) => {
 
 export const resolveMediaUrl = (url: string | undefined): string => {
   if (!url) return '';
-  if (url.startsWith('/media')) {
-    return `${API_BASE_URL}${url}`;
+  if (url.includes('media.els-ai.in')) {
+    const clean = url.split('?')[0].split('#')[0];
+    const base = clean.substring(clean.lastIndexOf('/') + 1).replace(/\.[a-z0-9]+$/i, '');
+    const label = base.replace(/[-_]+/g, ' ').trim().replace(/\b\w/g, (m) => m.toUpperCase()) || 'Image';
+    return `https://placehold.co/400x400/EEF2FF/4338CA?text=${encodeURIComponent(label)}`;
+  }
+  if (url.startsWith('/media')) return `${API_BASE_URL}${url}`;
+  if (url.startsWith('/assets') || url.startsWith('./assets') || url.startsWith('assets/')) {
+    const cleanUrl = url.startsWith('./') ? url.slice(1) : url.startsWith('assets/') ? `/${url}` : url;
+    const frontendBaseUrl = API_BASE_URL.replace(/\/api\/?$/, '');
+    return `${frontendBaseUrl}${cleanUrl}`;
   }
   return url;
 };
@@ -444,7 +455,7 @@ export function draftToPayload(draft: QuestionDraft) {
       throw new Error('Mark exactly one option as the correct answer.');
     }
     if (normalizedType === 'guess_image') {
-      if (!mainImage) throw new Error('Add main image for Guess the Image questions.');
+      if (!mainImage) throw new Error('Add main media for Guess the Image / Video questions.');
       preparedOptions.forEach((o, i) => {
         if (!o.image) throw new Error(`Add an image for option ${i + 1}.`);
       });
@@ -620,7 +631,8 @@ export function draftToPayload(draft: QuestionDraft) {
   return payload;
 }
 
-export type PickedFile = { dataUrl: string; fileName: string; mimeType: string };
+export type { PickedFile };
+export { pickFileAsDataUrl };
 
 export function resolvePickedMediaKind(file: PickedFile): 'image' | 'audio' | null {
   const mimeType = file.mimeType.toLowerCase();
@@ -630,37 +642,6 @@ export function resolvePickedMediaKind(file: PickedFile): 'image' | 'audio' | nu
   if (/\.(png|jpg|jpeg|gif|webp|bmp|svg)$/.test(fileName)) return 'image';
   if (/\.(mp3|wav|ogg|aac|m4a|flac)$/.test(fileName)) return 'audio';
   return null;
-}
-
-export async function pickFileAsDataUrl(accept: string, unsupportedMessage: string): Promise<PickedFile> {
-  if (Platform.OS !== 'web') throw new Error(unsupportedMessage);
-  return await new Promise((resolve, reject) => {
-    const doc = (globalThis as any).document;
-    if (!doc) {
-      reject(new Error('File picker is unavailable in this environment.'));
-      return;
-    }
-    const input = doc.createElement('input');
-    input.type = 'file';
-    input.accept = accept;
-    input.onchange = () => {
-      const file = input.files?.[0];
-      if (!file) {
-        reject(new Error('No file selected.'));
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () =>
-        resolve({
-          dataUrl: String(reader.result || ''),
-          fileName: file.name || 'uploaded-file',
-          mimeType: file.type || '',
-        });
-      reader.onerror = () => reject(new Error('Failed to read selected file.'));
-      reader.readAsDataURL(file);
-    };
-    input.click();
-  });
 }
 
 export const pickAudioAsDataUrl = () =>
@@ -673,6 +654,11 @@ export const pickImageAsDataUrl = () =>
     'image/*',
     'Image upload is currently available on web. On mobile, paste image URL manually.',
   );
+export const pickImageOrVideoAsDataUrl = () =>
+  pickFileAsDataUrl(
+    'image/*,video/*',
+    'Media upload is currently available on web. On mobile, paste media URL manually.',
+  );
 export const pickMediaAsDataUrl = () =>
   pickFileAsDataUrl(
     'image/*,audio/*',
@@ -680,35 +666,6 @@ export const pickMediaAsDataUrl = () =>
   );
 
 export type QEApiFetch = (path: string, options?: RequestInit) => Promise<Response>;
-
-export async function uploadPickedFileToS3(
-  apiFetch: QEApiFetch,
-  picked: PickedFile,
-  mediaType: 'image' | 'audio' | 'video',
-): Promise<{ url: string; canonicalUrl: string; assetId: string; fileName: string }> {
-  const res = await apiFetch('/assets/upload', {
-    method: 'POST',
-    body: JSON.stringify({
-      dataUrl: picked.dataUrl,
-      fileName: picked.fileName,
-      mimeType: picked.mimeType,
-      mediaType,
-      context: 'question_management',
-    }),
-  });
-  if (!res.ok) {
-    const errorPayload = await res.json().catch(() => ({}));
-    throw new Error(errorPayload.message || 'Failed to upload media');
-  }
-  const payload = await res.json();
-  return {
-    url: String(payload.url || ''),
-    canonicalUrl: String(payload.canonicalUrl || ''),
-    assetId: String(payload.assetId || ''),
-    fileName: String(payload.fileName || picked.fileName || 'uploaded-file'),
-  };
-}
-
 export function hydrateDraftFromQuestion(question: import('./questionEditor.types').QuestionItemForEdit): QuestionDraft {
   const rawMeta =
     question.question_data &&

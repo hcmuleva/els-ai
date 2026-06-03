@@ -30,7 +30,7 @@ for service in "${SERVICES[@]}"; do
   echo "----------------------------------------"
   docker build \
     --build-arg SERVICE_WORKSPACE="backend/$service" \
-    -t "harishdell/els-ai-$service:1.3" \
+    -t "harishdell/els-ai-$service:1.5" \
     -f Dockerfile.service .
 done
 
@@ -41,7 +41,7 @@ echo "----------------------------------------"
 docker build \
   --build-arg EXPO_PUBLIC_API_BASE_URL="https://emeelan.in/els-ai/api" \
   --build-arg EXPO_PUBLIC_TTS_URL="https://emeelan.in/els-ai/tts" \
-  -t "harishdell/els-ai-frontend:1.3" \
+  -t "harishdell/els-ai-frontend:1.5" \
   -f frontend/Dockerfile .
 
 echo "========================================"

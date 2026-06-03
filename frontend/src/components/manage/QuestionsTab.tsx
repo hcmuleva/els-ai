@@ -19,6 +19,8 @@ import SelectorModal from '../SelectorModal';
 import JigsawRenderer from '../quiz/JigsawRenderer';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
+import { getAuthorizedClasses, getAuthorizedSubjects } from '../../utils/assignments';
+import { AppUser } from '../../types/roles';
 import { API_BASE_URL } from '../../context/AuthContext';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -616,6 +618,7 @@ type Props = {
   filters: Filters;
   subjectCatalog: SubjectCatalogItem[];
   apiFetch: ApiFetch;
+  user: AppUser | null;
   onFiltersChange: (patch: Partial<Filters>) => void;
   onApplyFilters: () => void;
   onOpenCreate: () => void;
@@ -625,7 +628,7 @@ type Props = {
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default function QuestionsTab({
-  questions, loading, deletingQuestionId, filters, subjectCatalog, apiFetch,
+  questions, loading, deletingQuestionId, filters, subjectCatalog, apiFetch, user,
   onFiltersChange, onApplyFilters, onOpenCreate, onQuestionAction, message,
 }: Props) {
   const [classOpen, setClassOpen]         = useState(false);
@@ -652,28 +655,22 @@ export default function QuestionsTab({
     }
   };
 
-  const classOptions   = STANDARD_OPTIONS.map((o) => ({ label: o.label, value: o.value }));
+  const classOptions = useMemo(() =>
+    getAuthorizedClasses(user, STANDARD_OPTIONS.map((o) => o.value))
+      .map((v) => ({ label: getStandardLabel(v), value: v })),
+    [user]
+  );
   const subjectOptions = useMemo(() => {
-    const filtered = subjectCatalog.filter((item) => !filters.classLevel || item.classLevel === filters.classLevel);
+    const titles = getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, filters.classLevel || undefined);
     const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
-    filtered.forEach((item) => {
-      const title = item.title.trim();
-      if (!title) return;
-      if (!byTitle.has(title)) {
-        byTitle.set(title, { coverImage: item.coverImage, iconUrl: item.iconImage, iconBgColor: item.iconBgColor });
-      }
+    titles.forEach((title) => {
+      const meta = subjectCatalog.find((i) => i.title.trim() === title && (!filters.classLevel || i.classLevel === filters.classLevel));
+      byTitle.set(title, { coverImage: meta?.coverImage, iconUrl: meta?.iconImage, iconBgColor: meta?.iconBgColor });
     });
     if (filters.subject && !byTitle.has(filters.subject)) byTitle.set(filters.subject, {});
-    return Array.from(byTitle.entries())
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([title, icon]) => ({
-        label: title,
-        value: title,
-        coverImage: icon.coverImage,
-        iconUrl: icon.iconUrl,
-        iconBgColor: icon.iconBgColor,
-      }));
-  }, [filters.classLevel, filters.subject, subjectCatalog]);
+    return Array.from(byTitle.entries()).sort(([a], [b]) => a.localeCompare(b))
+      .map(([title, icon]) => ({ label: title, value: title, coverImage: icon.coverImage, iconUrl: icon.iconUrl, iconBgColor: icon.iconBgColor }));
+  }, [filters.classLevel, filters.subject, subjectCatalog, user]);
 
   const hasFilters = !!(filters.classLevel || filters.subject || filters.category || filters.search);
 

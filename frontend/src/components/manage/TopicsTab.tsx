@@ -17,6 +17,8 @@ import {
 } from 'lucide-react-native';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
+import { getAuthorizedClasses, getAuthorizedSubjects } from '../../utils/assignments';
+import { AppUser } from '../../types/roles';
 import SelectorModal from '../SelectorModal';
 import { API_BASE_URL } from '../../context/AuthContext';
 import StudentContentViewer, { type StudentContentItem, type StudentTopicMeta } from '../subject/StudentContentViewer';
@@ -391,6 +393,7 @@ type Props = {
   subjectCatalog: SubjectCatalogItem[];
   contentItems: ContentItem[];
   apiFetch: ApiFetch;
+  user: AppUser | null;
   onFiltersChange: (f: { classLevel: string; subject: string }) => void;
   onApplyFilters: () => void;
   onTopicAction: (topic: ContentTopic, action: 'delete') => void;
@@ -401,7 +404,7 @@ type Props = {
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default function TopicsTab({
-  topics, loading, filters, subjectCatalog, contentItems, apiFetch,
+  topics, loading, filters, subjectCatalog, contentItems, apiFetch, user,
   onFiltersChange, onApplyFilters, onTopicAction, onRefresh, onUploadCover, message,
 }: Props) {
   // List filter selectors
@@ -449,91 +452,55 @@ export default function TopicsTab({
   const [contentPickerClass, setContentPickerClass]     = useState('');
   const [contentPickerSubject, setContentPickerSubject] = useState('');
 
-  const classOptions   = STANDARD_OPTIONS.map((o) => ({ label: o.label, value: o.value }));
+  const classOptions = useMemo(() =>
+    getAuthorizedClasses(user, STANDARD_OPTIONS.map((o) => o.value))
+      .map((v) => ({ label: getStandardLabel(v), value: v })),
+    [user]
+  );
   const subjectOptions = useMemo(() => {
-    const filtered = subjectCatalog.filter((item) => !filters.classLevel || item.classLevel === filters.classLevel);
+    const titles = getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, filters.classLevel || undefined);
     const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
-    filtered.forEach((item) => {
-      const title = item.title.trim();
-      if (!title) return;
-      if (!byTitle.has(title)) {
-        byTitle.set(title, { coverImage: item.coverImage, iconUrl: item.iconImage, iconBgColor: item.iconBgColor });
-      }
+    titles.forEach((title) => {
+      const meta = subjectCatalog.find((i) => i.title.trim() === title && (!filters.classLevel || i.classLevel === filters.classLevel));
+      byTitle.set(title, { coverImage: meta?.coverImage, iconUrl: meta?.iconImage, iconBgColor: meta?.iconBgColor });
     });
     if (filters.subject && !byTitle.has(filters.subject)) byTitle.set(filters.subject, {});
-    return Array.from(byTitle.entries())
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([title, icon]) => ({
-        label: title,
-        value: title,
-        coverImage: icon.coverImage,
-        iconUrl: icon.iconUrl,
-        iconBgColor: icon.iconBgColor,
-      }));
-  }, [filters.classLevel, filters.subject, subjectCatalog]);
+    return Array.from(byTitle.entries()).sort(([a], [b]) => a.localeCompare(b))
+      .map(([title, icon]) => ({ label: title, value: title, coverImage: icon.coverImage, iconUrl: icon.iconUrl, iconBgColor: icon.iconBgColor }));
+  }, [filters.classLevel, filters.subject, subjectCatalog, user]);
   const draftSubjectOptions = useMemo(() => {
-    const filtered = subjectCatalog.filter((item) => !classLevel || item.classLevel === classLevel);
+    const titles = getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, classLevel || undefined);
     const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
-    filtered.forEach((item) => {
-      const title = item.title.trim();
-      if (!title) return;
-      if (!byTitle.has(title)) {
-        byTitle.set(title, { coverImage: item.coverImage, iconUrl: item.iconImage, iconBgColor: item.iconBgColor });
-      }
+    titles.forEach((title) => {
+      const meta = subjectCatalog.find((i) => i.title.trim() === title && (!classLevel || i.classLevel === classLevel));
+      byTitle.set(title, { coverImage: meta?.coverImage, iconUrl: meta?.iconImage, iconBgColor: meta?.iconBgColor });
     });
     if (subject && !byTitle.has(subject)) byTitle.set(subject, {});
-    return Array.from(byTitle.entries())
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([title, icon]) => ({
-        label: title,
-        value: title,
-        coverImage: icon.coverImage,
-        iconUrl: icon.iconUrl,
-        iconBgColor: icon.iconBgColor,
-      }));
-  }, [classLevel, subject, subjectCatalog]);
+    return Array.from(byTitle.entries()).sort(([a], [b]) => a.localeCompare(b))
+      .map(([title, icon]) => ({ label: title, value: title, coverImage: icon.coverImage, iconUrl: icon.iconUrl, iconBgColor: icon.iconBgColor }));
+  }, [classLevel, subject, subjectCatalog, user]);
   const contentPickerSubjectOptions = useMemo(() => {
-    const filtered = subjectCatalog.filter((item) => !contentPickerClass || item.classLevel === contentPickerClass);
+    const titles = getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, contentPickerClass || undefined);
     const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
-    filtered.forEach((item) => {
-      const title = item.title.trim();
-      if (!title) return;
-      if (!byTitle.has(title)) {
-        byTitle.set(title, { coverImage: item.coverImage, iconUrl: item.iconImage, iconBgColor: item.iconBgColor });
-      }
+    titles.forEach((title) => {
+      const meta = subjectCatalog.find((i) => i.title.trim() === title && (!contentPickerClass || i.classLevel === contentPickerClass));
+      byTitle.set(title, { coverImage: meta?.coverImage, iconUrl: meta?.iconImage, iconBgColor: meta?.iconBgColor });
     });
     if (contentPickerSubject && !byTitle.has(contentPickerSubject)) byTitle.set(contentPickerSubject, {});
-    return Array.from(byTitle.entries())
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([title, icon]) => ({
-        label: title,
-        value: title,
-        coverImage: icon.coverImage,
-        iconUrl: icon.iconUrl,
-        iconBgColor: icon.iconBgColor,
-      }));
-  }, [contentPickerClass, contentPickerSubject, subjectCatalog]);
+    return Array.from(byTitle.entries()).sort(([a], [b]) => a.localeCompare(b))
+      .map(([title, icon]) => ({ label: title, value: title, coverImage: icon.coverImage, iconUrl: icon.iconUrl, iconBgColor: icon.iconBgColor }));
+  }, [contentPickerClass, contentPickerSubject, subjectCatalog, user]);
   const quizSubjectOptions = useMemo(() => {
-    const filtered = subjectCatalog.filter((item) => !classLevel || item.classLevel === classLevel);
+    const titles = getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, classLevel || undefined);
     const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
-    filtered.forEach((item) => {
-      const title = item.title.trim();
-      if (!title) return;
-      if (!byTitle.has(title)) {
-        byTitle.set(title, { coverImage: item.coverImage, iconUrl: item.iconImage, iconBgColor: item.iconBgColor });
-      }
+    titles.forEach((title) => {
+      const meta = subjectCatalog.find((i) => i.title.trim() === title && (!classLevel || i.classLevel === classLevel));
+      byTitle.set(title, { coverImage: meta?.coverImage, iconUrl: meta?.iconImage, iconBgColor: meta?.iconBgColor });
     });
     if (quizSubjectFilter && !byTitle.has(quizSubjectFilter)) byTitle.set(quizSubjectFilter, {});
-    return Array.from(byTitle.entries())
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([title, icon]) => ({
-        label: title,
-        value: title,
-        coverImage: icon.coverImage,
-        iconUrl: icon.iconUrl,
-        iconBgColor: icon.iconBgColor,
-      }));
-  }, [classLevel, quizSubjectFilter, subjectCatalog]);
+    return Array.from(byTitle.entries()).sort(([a], [b]) => a.localeCompare(b))
+      .map(([title, icon]) => ({ label: title, value: title, coverImage: icon.coverImage, iconUrl: icon.iconUrl, iconBgColor: icon.iconBgColor }));
+  }, [classLevel, quizSubjectFilter, subjectCatalog, user]);
 
   // Load quiz library when class is selected
   useEffect(() => {
@@ -611,7 +578,9 @@ export default function TopicsTab({
   const handleUploadCover = async () => {
     setUploadingCover(true);
     try { const url = await onUploadCover(); setCoverImage(url); }
-    catch (e) { setToast({ type: 'error', text: 'Image upload failed.' }); }
+    catch (e: any) { 
+      if (e?.message !== 'UPLOAD_CANCELLED') setToast({ type: 'error', text: 'Image upload failed.' }); 
+    }
     finally { setUploadingCover(false); }
   };
 
@@ -741,6 +710,37 @@ export default function TopicsTab({
     }
   };
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  // Reset page on filter or search change
+  useEffect(() => { setCurrentPage(1); }, [searchQuery, filters]);
+
+  // Pagination helper
+  const renderPagination = (totalItems: number) => {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    if (totalPages <= 1) return null;
+    return (
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16 }}>
+        <Pressable 
+          style={[s.pageBtn, currentPage === 1 && { opacity: 0.5 }]} 
+          onPress={() => setCurrentPage(p => Math.max(1, p - 1))}
+          disabled={currentPage === 1}
+        >
+          <Text style={s.pageBtnText}>Previous</Text>
+        </Pressable>
+        <Text style={s.pageText}>Page {currentPage} of {totalPages}</Text>
+        <Pressable 
+          style={[s.pageBtn, currentPage === totalPages && { opacity: 0.5 }]} 
+          onPress={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+          disabled={currentPage === totalPages}
+        >
+          <Text style={s.pageBtnText}>Next</Text>
+        </Pressable>
+      </View>
+    );
+  };
+
   return (
     <View style={s.root}>
       {/* ── Page header ── */}
@@ -837,16 +837,23 @@ export default function TopicsTab({
               </View>
             );
           }
-          return visibleTopics.map((topic, idx) => (
-            <TopicCard
-              key={topic.id} topic={topic} idx={idx}
-              onAction={(action) => {
-                if (action === 'edit') openEdit(topic);
-                else if (action === 'details') setDetailsTopic(topic);
-                else if (action === 'delete') onTopicAction(topic, 'delete');
-              }}
-            />
-          ));
+          const startIndex = (currentPage - 1) * itemsPerPage;
+          const paginatedTopics = visibleTopics.slice(startIndex, startIndex + itemsPerPage);
+          return (
+            <>
+              {paginatedTopics.map((topic, idx) => (
+                <TopicCard
+                  key={topic.id} topic={topic} idx={startIndex + idx}
+                  onAction={(action) => {
+                    if (action === 'edit') openEdit(topic);
+                    else if (action === 'details') setDetailsTopic(topic);
+                    else if (action === 'delete') onTopicAction(topic, 'delete');
+                  }}
+                />
+              ))}
+              {renderPagination(visibleTopics.length)}
+            </>
+          );
         })()}
       </ScrollView>
 
@@ -1349,4 +1356,7 @@ const s = StyleSheet.create({
   checkBoxSelectedQuiz:{ backgroundColor: '#7C3AED', borderColor: '#7C3AED' },
   checkTick:          { color: '#fff', fontSize: 11, fontWeight: '900' },
   flatEmpty:          { fontSize: 13, color: '#B0B8D0', paddingVertical: 16, textAlign: 'center' },
+  pageBtn:      { paddingHorizontal: 16, paddingVertical: 8, backgroundColor: '#EEF4FF', borderRadius: 8 },
+  pageBtnText:  { fontSize: 13, fontWeight: '700', color: '#4A90E2' },
+  pageText:     { fontSize: 13, fontWeight: '600', color: '#9A9AB0' },
 });
