@@ -1,12 +1,76 @@
 import { Platform } from 'react-native';
 import { API_BASE_URL } from '../context/AuthContext';
 import { getStorageItem } from './storage';
+import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
+import * as ImagePicker from 'expo-image-picker';
 
 export type PickedFile = { dataUrl: string; fileName: string; mimeType: string };
 
 export async function pickFileAsDataUrl(accept: string, unsupportedMessage = 'File upload is currently supported on web.'): Promise<PickedFile> {
   if (Platform.OS !== 'web') {
-    throw new Error(unsupportedMessage);
+    const isImage = accept.includes('image');
+    const isVideo = accept.includes('video');
+    const isMedia = isImage || isVideo;
+
+    if (isMedia) {
+      let mediaTypes: ImagePicker.MediaTypeOptions = ImagePicker.MediaTypeOptions.All;
+      if (isImage && !isVideo) {
+        mediaTypes = ImagePicker.MediaTypeOptions.Images;
+      } else if (isVideo && !isImage) {
+        mediaTypes = ImagePicker.MediaTypeOptions.Videos;
+      }
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes,
+        base64: true,
+      });
+
+      if (result.canceled || !result.assets || result.assets.length === 0) {
+        throw new Error('UPLOAD_CANCELLED');
+      }
+
+      const asset = result.assets[0];
+      const mimeType = asset.type === 'video' ? 'video/mp4' : 'image/jpeg';
+      let dataUrl = '';
+      if (asset.base64) {
+        dataUrl = `data:${mimeType};base64,${asset.base64}`;
+      } else {
+        const base64 = await FileSystem.readAsStringAsync(asset.uri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+        dataUrl = `data:${mimeType};base64,${base64}`;
+      }
+
+      return {
+        dataUrl,
+        fileName: asset.fileName || asset.uri.split('/').pop() || 'uploaded-media',
+        mimeType,
+      };
+    } else {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: accept === '*/*' ? '*/*' : accept,
+        copyToCacheDirectory: true,
+      });
+      
+      if (result.canceled || !result.assets || result.assets.length === 0) {
+        throw new Error('UPLOAD_CANCELLED');
+      }
+      
+      const asset = result.assets[0];
+      const base64 = await FileSystem.readAsStringAsync(asset.uri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      
+      const mimeType = asset.mimeType || 'application/octet-stream';
+      const dataUrl = `data:${mimeType};base64,${base64}`;
+      
+      return {
+        dataUrl,
+        fileName: asset.name || 'uploaded-file',
+        mimeType,
+      };
+    }
   }
 
   return await new Promise((resolve, reject) => {
