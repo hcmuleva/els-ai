@@ -978,7 +978,7 @@ studentsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
        LEFT JOIN subjects s ON s.id = ct.subject_id
        LEFT JOIN topic_content_assignments tca ON tca.topic_id = ct.id
        WHERE (ct.organization_id = $1::uuid OR ct.is_global = true)
-         AND ct.class_level = $2
+         AND (ct.class_level = $2 OR ct.class_level = 'ANY')
        GROUP BY ct.id, s.title
        ORDER BY s.title, ct.title`,
       [orgId, classLevel],
@@ -1006,7 +1006,7 @@ studentsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
       const subjectsMetaResult = await db.query(
         `SELECT title, cover_image, icon_image, icon_bg_color, organization_id, updated_at
          FROM subjects
-         WHERE class_level = $1
+         WHERE class_level IN ($1, 'ANY')
            AND LOWER(title) = ANY($2::text[])
          ORDER BY
            CASE WHEN organization_id = $3::uuid THEN 0 ELSE 1 END,

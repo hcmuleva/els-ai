@@ -420,14 +420,14 @@ export default function PlannerScreen() {
   const classLevelOptions = useMemo(
     () => {
       const allClassOptions = STANDARD_OPTIONS.map((item) => item.value);
-      return ['ANY', ...getAuthorizedClasses(user, allClassOptions)];
+      return [...new Set(['ANY', ...getAuthorizedClasses(user, allClassOptions)])];
     },
     [user],
   );
   // Classes the teacher is assigned to (no 'ANY'); used for per-modal class filters
   // so resources from other assigned classes can be added, but never unassigned ones.
   const assignableClasses = useMemo(
-    () => getAuthorizedClasses(user, STANDARD_OPTIONS.map((item) => item.value)),
+    () => getAuthorizedClasses(user, STANDARD_OPTIONS.map((item) => item.value)).filter((c) => c !== 'ANY'),
     [user],
   );
   const isAnyClass = form.classLevel === 'ANY';

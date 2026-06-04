@@ -48,4 +48,10 @@ CREATE INDEX IF NOT EXISTS idx_bookmarks_org_teacher
 CREATE INDEX IF NOT EXISTS idx_bookmark_items_bookmark
   ON teacher_bookmark_items(bookmark_id);
 
+-- Grant CRUD to the RLS-bound app role and the background-job admin role.
+-- (ALTER DEFAULT PRIVILEGES only auto-grants for tables created by the role
+--  that set them, so newer-migration tables must grant explicitly.)
+GRANT SELECT, INSERT, UPDATE, DELETE ON teacher_bookmarks, teacher_bookmark_items TO els_app;
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER ON teacher_bookmarks, teacher_bookmark_items TO els_admin;
+
 COMMIT;

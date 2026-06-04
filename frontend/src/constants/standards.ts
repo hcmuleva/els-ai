@@ -27,6 +27,21 @@ export const STANDARD_OPTIONS: StandardOption[] = [
   { value: '10', label: '10 - Tenth' },
   { value: '11', label: '11 - Eleventh' },
   { value: '12', label: '12 - Twelfth' },
+  { value: ANY_CLASS_VALUE, label: ANY_CLASS_LABEL },
+];
+
+/**
+ * Subjects that are common across all classes. They are authored under the
+ * global `ANY` class (class_level = 'ANY') so they surface for every student
+ * regardless of their own class level.
+ */
+export const GLOBAL_SUBJECTS: string[] = [
+  'Tips and Tricks',
+  'IQ Test',
+  'Logical Reasoning',
+  'Brain Training',
+  'Experimental Learning',
+  'General Awareness',
 ];
 
 export const getStandardLabel = (value?: string) => {
