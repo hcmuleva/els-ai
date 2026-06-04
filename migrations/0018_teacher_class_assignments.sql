@@ -7,3 +7,7 @@
     created_at TIMESTAMP DEFAULT NOW(),
     UNIQUE(teacher_user_id, organization_id, class_level)
   );
+
+-- Grant CRUD to the RLS-bound app role and the background-job admin role.
+GRANT SELECT, INSERT, UPDATE, DELETE ON teacher_class_assignments TO els_app;
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER ON teacher_class_assignments TO els_admin;

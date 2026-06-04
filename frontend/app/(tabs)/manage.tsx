@@ -3750,7 +3750,7 @@ export default function QuestionManagementScreen() {
       {/* ── Tab bar ── */}
       <View style={styles.newTabBar}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flex: 1 }} contentContainerStyle={{ paddingHorizontal: 8, alignItems: 'center' }}>
-          {(['topic', 'content', 'question', 'quiz', 'exam', 'stories', 'bookmark'] as LearningTab[]).map((tab) => (
+          {(['topic', 'content', 'question', 'bookmark', 'quiz', 'exam', 'stories'] as LearningTab[]).map((tab) => (
             <Pressable
               key={tab}
               style={[styles.newTab, activeLearningTab === tab && styles.newTabActive]}
