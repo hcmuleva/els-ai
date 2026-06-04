@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import { ActivityIndicator, Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, GripVertical, Clock, BookOpen, Trophy, ClipboardList, Settings, Eye, Zap, Calendar, Users, CheckCircle, School } from 'lucide-react-native';
+import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, GripVertical, Clock, BookOpen, Trophy, ClipboardList, Settings, Eye, Zap, Calendar, Users, CheckCircle, School, Bookmark, FileText } from 'lucide-react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import SelectorModal from '../../src/components/SelectorModal';
 import CreateQuizModal from '../../src/components/quiz/CreateQuizModal';
@@ -16,7 +16,7 @@ type ModalTab = 'setup' | 'sections' | 'preview';
 
 type ScheduleType = 'instant' | 'scheduled';
 type ClassroomStatus = 'draft' | 'active' | 'completed';
-type SelectorField = 'classLevel' | 'quizSubject';
+type SelectorField = 'classLevel' | 'quizSubject' | 'contentClass' | 'contentSubject' | 'quizClass' | 'bookmarkClass';
 
 type ClassroomSummary = {
   id: string;
@@ -86,6 +86,34 @@ type SubjectCatalogItem = {
   iconImage?: string;
   iconBgColor?: string;
 };
+
+type BookmarkSummary = {
+  id: string;
+  name: string;
+  description?: string;
+  classLevel?: string;
+  itemCount: number;
+  contentCount: number;
+  quizCount: number;
+  subjects: string[];
+};
+
+type BookmarkDetailItem = {
+  id: string;
+  itemType: 'content' | 'quiz';
+  contentId?: string;
+  quizId?: string;
+  title: string;
+  subject?: string;
+  classLevel?: string;
+  contentType?: string;
+  quizType?: string;
+  totalQuestions?: number;
+};
+
+type BookmarkDetail = { id: string; name: string; items: BookmarkDetailItem[] };
+
+const bookmarkItemKey = (itemType: 'content' | 'quiz', resourceId: string) => `${itemType}:${resourceId}`;
 
 
 
@@ -285,6 +313,16 @@ export default function PlannerScreen() {
   const ASSIGN_PAGE_SIZE = 10;
   const [contentSearch, setContentSearch] = useState('');
   const [contentSubjectFilter, setContentSubjectFilter] = useState('');
+  const [contentClassFilter, setContentClassFilter] = useState('');
+  const [quizClassFilter, setQuizClassFilter] = useState('');
+  const [bookmarkClassFilter, setBookmarkClassFilter] = useState('');
+  const [isBookmarkPickerOpen, setIsBookmarkPickerOpen] = useState(false);
+  const [bookmarkList, setBookmarkList] = useState<BookmarkSummary[]>([]);
+  const [loadingBookmarks, setLoadingBookmarks] = useState(false);
+  const [bookmarkSearch, setBookmarkSearch] = useState('');
+  const [activeBookmark, setActiveBookmark] = useState<BookmarkDetail | null>(null);
+  const [loadingBookmarkDetail, setLoadingBookmarkDetail] = useState(false);
+  const [bookmarkItemSel, setBookmarkItemSel] = useState<Set<string>>(new Set());
   const [pendingDelete, setPendingDelete] = useState<ClassroomSummary | null>(null);
   const [pendingEndClassroom, setPendingEndClassroom] = useState<ClassroomSummary | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -386,6 +424,12 @@ export default function PlannerScreen() {
     },
     [user],
   );
+  // Classes the teacher is assigned to (no 'ANY'); used for per-modal class filters
+  // so resources from other assigned classes can be added, but never unassigned ones.
+  const assignableClasses = useMemo(
+    () => getAuthorizedClasses(user, STANDARD_OPTIONS.map((item) => item.value)),
+    [user],
+  );
   const isAnyClass = form.classLevel === 'ANY';
   const matchesClassLevel = (itemClassLevel?: string) =>
     !form.classLevel || isAnyClass || itemClassLevel === form.classLevel;
@@ -417,15 +461,29 @@ export default function PlannerScreen() {
         contentItems,
         (item) => item.classLevel,
         (item) => item.subject,
-        isAnyClass ? undefined : form.classLevel || undefined
+        contentClassFilter || undefined
       );
       return [...new Set(
-        authorizedItems
-          .filter((item) => matchesClassLevel(item.classLevel))
-          .map((item) => item.subject).filter(Boolean)
+        authorizedItems.map((item) => item.subject).filter(Boolean)
       )].sort((a, b) => a.localeCompare(b));
     },
-    [contentItems, form.classLevel, user, isAnyClass],
+    [contentItems, contentClassFilter, user],
+  );
+
+  const quizSubjectOptions = useMemo(
+    () => {
+      const authorizedItems = getAuthorizedCatalogItems(
+        user,
+        quizItems,
+        (quiz) => quiz.class_level || '',
+        (quiz) => quiz.subject || '',
+        quizClassFilter || undefined
+      );
+      return [...new Set(
+        authorizedItems.map((quiz) => (quiz.subject || '').trim()).filter(Boolean)
+      )].sort((a, b) => a.localeCompare(b));
+    },
+    [quizItems, quizClassFilter, user],
   );
 
   const filteredContents = useMemo(() => {
@@ -434,17 +492,16 @@ export default function PlannerScreen() {
       contentItems,
       (item) => item.classLevel,
       (item) => item.subject,
-      isAnyClass ? undefined : form.classLevel || undefined
+      contentClassFilter || undefined
     );
     return authorizedItems
-      .filter((item) => matchesClassLevel(item.classLevel))
       .filter((item) => !contentSubjectFilter || item.subject === contentSubjectFilter)
       .filter((item) => {
         const keyword = contentSearch.trim().toLowerCase();
         if (!keyword) return true;
         return `${item.title} ${item.subject} ${item.contentType}`.toLowerCase().includes(keyword);
       });
-  }, [contentItems, form.classLevel, contentSearch, contentSubjectFilter, user, isAnyClass]);
+  }, [contentItems, contentClassFilter, contentSearch, contentSubjectFilter, user]);
 
   const filteredQuizzes = useMemo(() => {
     const authorizedItems = getAuthorizedCatalogItems(
@@ -452,10 +509,9 @@ export default function PlannerScreen() {
       quizItems,
       (quiz) => quiz.class_level || '',
       (quiz) => quiz.subject || '',
-      isAnyClass ? undefined : form.classLevel || undefined
+      quizClassFilter || undefined
     );
     return authorizedItems
-      .filter((quiz) => matchesClassLevel((quiz.class_level || '').trim()))
       .filter((quiz) => !quizFilters.subject || (quiz.subject || '').trim() === quizFilters.subject)
       .filter((quiz) => !quizFilters.category || (quiz.quiz_type || '').toLowerCase().includes(quizFilters.category.toLowerCase()))
       .filter((quiz) => !quizFilters.difficulty || (quiz.difficulty_level || '').toLowerCase().includes(quizFilters.difficulty.toLowerCase()))
@@ -464,10 +520,22 @@ export default function PlannerScreen() {
         if (!keyword) return true;
         return `${quiz.title} ${quiz.subject || ''}`.toLowerCase().includes(keyword);
       });
-  }, [form.classLevel, quizFilters.category, quizFilters.difficulty, quizFilters.search, quizFilters.subject, quizItems, user, isAnyClass]);
+  }, [quizClassFilter, quizFilters.category, quizFilters.difficulty, quizFilters.search, quizFilters.subject, quizItems, user]);
 
-  useEffect(() => { setAssignQuizPage(0); }, [quizFilters.search, quizFilters.subject, quizFilters.category, quizFilters.difficulty, form.classLevel]);
-  useEffect(() => { setAssignContentPage(0); }, [contentSearch, contentSubjectFilter, form.classLevel]);
+  useEffect(() => { setAssignQuizPage(0); }, [quizFilters.search, quizFilters.subject, quizFilters.category, quizFilters.difficulty, quizClassFilter]);
+  useEffect(() => { setAssignContentPage(0); }, [contentSearch, contentSubjectFilter, contentClassFilter]);
+
+  // Seed the per-modal class/subject filters to the classroom's class whenever it
+  // changes. Manual changes inside the Add modals are NOT reset here, so the most
+  // recently selected class persists across modal open/close.
+  useEffect(() => {
+    const cls = form.classLevel && form.classLevel !== 'ANY' ? form.classLevel : '';
+    setContentClassFilter(cls);
+    setQuizClassFilter(cls);
+    setBookmarkClassFilter(cls);
+    setContentSubjectFilter('');
+    setQuizFilters((current) => ({ ...current, subject: '' }));
+  }, [form.classLevel]);
 
   const setFormPatch = (patch: Partial<ClassroomFormState>) => setForm((current) => ({ ...current, ...patch }));
 
@@ -560,6 +628,109 @@ export default function PlannerScreen() {
       const next = current.assignments.filter((item) => item.id !== id);
       return { ...current, assignments: next.length > 0 ? next : [makeAssignment()] };
     });
+  };
+
+  const fetchBookmarks = useCallback(async (classFilter: string) => {
+    setLoadingBookmarks(true);
+    try {
+      const query = new URLSearchParams();
+      if (classFilter) query.set('class_level', classFilter);
+      const res = await apiFetch(`/bookmarks?${query.toString()}`);
+      const data = res.ok ? await res.json() : { bookmarks: [] };
+      setBookmarkList(data.bookmarks || []);
+    } catch {
+      setBookmarkList([]);
+    } finally {
+      setLoadingBookmarks(false);
+    }
+  }, [apiFetch]);
+
+  const openBookmarkPicker = useCallback(async () => {
+    setIsBookmarkPickerOpen(true);
+    setActiveBookmark(null);
+    setBookmarkItemSel(new Set());
+    setBookmarkSearch('');
+    await fetchBookmarks(bookmarkClassFilter);
+  }, [fetchBookmarks, bookmarkClassFilter]);
+
+  const openBookmarkDetail = useCallback(async (id: string) => {
+    setLoadingBookmarkDetail(true);
+    try {
+      const res = await apiFetch(`/bookmarks/${id}`);
+      const data = res.ok ? await res.json() : null;
+      if (data?.bookmark) {
+        setActiveBookmark(data.bookmark as BookmarkDetail);
+        const preselect = new Set<string>(
+          (data.bookmark.items || [])
+            .map((it: BookmarkDetailItem) => {
+              const rid = it.itemType === 'content' ? it.contentId : it.quizId;
+              return rid ? bookmarkItemKey(it.itemType, rid) : null;
+            })
+            .filter((k: string | null): k is string => !!k),
+        );
+        setBookmarkItemSel(preselect);
+      }
+    } catch {
+      /* ignore */
+    } finally {
+      setLoadingBookmarkDetail(false);
+    }
+  }, [apiFetch]);
+
+  const toggleBookmarkItem = (key: string) => {
+    setBookmarkItemSel((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
+  const applyBookmarkSelection = () => {
+    if (!activeBookmark) return;
+    const contentIdsToAdd: string[] = [];
+    const quizIdsToAdd: string[] = [];
+    const newContentItems: ContentItem[] = [];
+    const newQuizItems: QuizItem[] = [];
+    activeBookmark.items.forEach((it) => {
+      const rid = it.itemType === 'content' ? it.contentId : it.quizId;
+      if (!rid || !bookmarkItemSel.has(bookmarkItemKey(it.itemType, rid))) return;
+      if (it.itemType === 'content') {
+        contentIdsToAdd.push(rid);
+        newContentItems.push({
+          id: rid,
+          classLevel: it.classLevel || form.classLevel || '',
+          subject: it.subject || '',
+          title: it.title,
+          contentType: it.contentType || 'content',
+        });
+      } else {
+        quizIdsToAdd.push(rid);
+        newQuizItems.push({
+          id: rid,
+          title: it.title,
+          class_level: it.classLevel,
+          subject: it.subject,
+          quiz_type: it.quizType,
+          total_questions: it.totalQuestions,
+        });
+      }
+    });
+    setContentItems((prev) => {
+      const ids = new Set(prev.map((x) => x.id));
+      return [...prev, ...newContentItems.filter((x) => !ids.has(x.id))];
+    });
+    setQuizItems((prev) => {
+      const ids = new Set(prev.map((x) => x.id));
+      return [...prev, ...newQuizItems.filter((x) => !ids.has(x.id))];
+    });
+    setForm((current) => ({
+      ...current,
+      selectedContentIds: [...current.selectedContentIds, ...contentIdsToAdd.filter((id) => !current.selectedContentIds.includes(id))],
+      selectedQuizIds: [...current.selectedQuizIds, ...quizIdsToAdd.filter((id) => !current.selectedQuizIds.includes(id))],
+    }));
+    setIsBookmarkPickerOpen(false);
+    setMessage({ type: 'success', text: `Added ${contentIdsToAdd.length + quizIdsToAdd.length} item(s) from bookmark.` });
   };
 
 
@@ -736,7 +907,29 @@ export default function PlannerScreen() {
     } finally { setRestartingId(null); }
   };
 
-  const selectorOptions = selectorField === 'classLevel' ? classLevelOptions : subjectOptions;
+  const isClassSelector = selectorField === 'classLevel' || selectorField === 'contentClass' || selectorField === 'quizClass' || selectorField === 'bookmarkClass';
+  const selectorOptions = (() => {
+    switch (selectorField) {
+      case 'classLevel': return classLevelOptions;
+      case 'contentClass':
+      case 'quizClass':
+      case 'bookmarkClass': return assignableClasses;
+      case 'contentSubject': return contentSubjectOptions;
+      case 'quizSubject': return quizSubjectOptions;
+      default: return subjectOptions;
+    }
+  })();
+  const selectorSelected = (() => {
+    switch (selectorField) {
+      case 'classLevel': return form.classLevel;
+      case 'contentClass': return contentClassFilter;
+      case 'quizClass': return quizClassFilter;
+      case 'bookmarkClass': return bookmarkClassFilter;
+      case 'contentSubject': return contentSubjectFilter;
+      case 'quizSubject': return quizFilters.subject;
+      default: return '';
+    }
+  })();
 
   const applySelectorValue = (value: string) => {
     if (selectorField === 'classLevel') {
@@ -744,6 +937,17 @@ export default function PlannerScreen() {
       setQuizFilters((current) => ({ ...current, subject: '' }));
     } else if (selectorField === 'quizSubject') {
       setQuizFilters((current) => ({ ...current, subject: value }));
+    } else if (selectorField === 'quizClass') {
+      setQuizClassFilter(value);
+      setQuizFilters((current) => ({ ...current, subject: '' }));
+    } else if (selectorField === 'contentClass') {
+      setContentClassFilter(value);
+      setContentSubjectFilter('');
+    } else if (selectorField === 'contentSubject') {
+      setContentSubjectFilter(value);
+    } else if (selectorField === 'bookmarkClass') {
+      setBookmarkClassFilter(value);
+      fetchBookmarks(value);
     }
     setSelectorField(null);
   };
@@ -1137,6 +1341,11 @@ export default function PlannerScreen() {
                 </View>
               )}
 
+              <Pressable style={[p.bookmarkBtn, !form.classLevel && { opacity: 0.4 }]} disabled={!form.classLevel} onPress={openBookmarkPicker}>
+                <Bookmark size={15} color="#7C3AED" />
+                <Text style={p.bookmarkBtnText}>Add from Bookmark</Text>
+              </Pressable>
+
               <View style={p.secGroup}>
                 <View style={p.secGroupHeader}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><BookOpen size={14} color="#4A90E2" /><Text style={p.secGroupTitle}>Learning Content</Text></View>
@@ -1345,11 +1554,26 @@ export default function PlannerScreen() {
               </Pressable>
             </View>
             <View style={p.pickerSearch}>
+              <View style={p.quizFilterRow}>
+                <Pressable style={p.filterChipBtn} onPress={() => setSelectorField('contentClass')}>
+                  <Text style={contentClassFilter ? p.filterChipActive : p.filterChipPlaceholder}>
+                    {contentClassFilter ? getStandardLabel(contentClassFilter) : 'All Classes ▾'}
+                  </Text>
+                </Pressable>
+                <Pressable style={p.filterChipBtn} onPress={() => setSelectorField('contentSubject')}>
+                  <Text style={contentSubjectFilter ? p.filterChipActive : p.filterChipPlaceholder}>
+                    {contentSubjectFilter || 'Subject ▾'}
+                  </Text>
+                </Pressable>
+                <Pressable style={p.filterClearBtn} onPress={() => { setContentClassFilter(''); setContentSubjectFilter(''); }}>
+                  <Text style={p.filterClearText}>Clear</Text>
+                </Pressable>
+              </View>
               <TextInput
                 value={contentSearch}
                 onChangeText={setContentSearch}
                 placeholder="Search content…"
-                style={p.searchInput}
+                style={[p.searchInput, { marginTop: 8 }]}
                 placeholderTextColor="#B0B8D0"
               />
             </View>
@@ -1410,6 +1634,109 @@ export default function PlannerScreen() {
         </View>
       </Modal>
 
+      {/* ── Add from Bookmark picker ── */}
+      <Modal visible={isBookmarkPickerOpen} transparent animationType="slide" onRequestClose={() => setIsBookmarkPickerOpen(false)}>
+        <View style={p.pickerOverlay}>
+          <View style={p.pickerSheet}>
+            <View style={p.pickerHeader}>
+              {activeBookmark ? (
+                <Pressable style={p.bmBackBtn} onPress={() => setActiveBookmark(null)}>
+                  <ChevronLeft size={16} color="#4A90E2" />
+                  <Text style={p.bmBackText}>Bookmarks</Text>
+                </Pressable>
+              ) : (
+                <Text style={p.pickerTitle}>Add from Bookmark</Text>
+              )}
+              <Pressable style={p.pickerDoneBtn} onPress={() => setIsBookmarkPickerOpen(false)}>
+                <Text style={p.pickerDoneText}>Close</Text>
+              </Pressable>
+            </View>
+
+            {!activeBookmark ? (
+              <>
+                <View style={p.pickerSearch}>
+                  <View style={p.quizFilterRow}>
+                    <Pressable style={p.filterChipBtn} onPress={() => setSelectorField('bookmarkClass')}>
+                      <Text style={bookmarkClassFilter ? p.filterChipActive : p.filterChipPlaceholder}>
+                        {bookmarkClassFilter ? getStandardLabel(bookmarkClassFilter) : 'All Classes ▾'}
+                      </Text>
+                    </Pressable>
+                    <Pressable style={p.filterClearBtn} onPress={() => { setBookmarkClassFilter(''); fetchBookmarks(''); }}>
+                      <Text style={p.filterClearText}>Clear</Text>
+                    </Pressable>
+                  </View>
+                  <TextInput
+                    value={bookmarkSearch}
+                    onChangeText={setBookmarkSearch}
+                    placeholder="Search bookmarks…"
+                    style={[p.searchInput, { marginTop: 8 }]}
+                    placeholderTextColor="#B0B8D0"
+                  />
+                </View>
+                <ScrollView contentContainerStyle={{ padding: 12, gap: 8 }}>
+                  {loadingBookmarks ? (
+                    <ActivityIndicator size="small" color="#4A90E2" style={{ marginTop: 16 }} />
+                  ) : (() => {
+                    const kw = bookmarkSearch.trim().toLowerCase();
+                    const list = kw
+                      ? bookmarkList.filter((b) => `${b.name} ${b.description || ''}`.toLowerCase().includes(kw))
+                      : bookmarkList;
+                    if (list.length === 0) return <Text style={p.flatEmpty}>No bookmarks found.</Text>;
+                    return list.map((b) => (
+                      <Pressable key={b.id} style={p.pickerItem} onPress={() => openBookmarkDetail(b.id)}>
+                        <View style={p.bmIcon}><Bookmark size={16} color="#7C3AED" /></View>
+                        <View style={{ flex: 1 }}>
+                          <Text style={p.pickerItemTitle}>{b.name}</Text>
+                          <Text style={p.pickerItemMeta}>
+                            {b.classLevel ? `${getStandardLabel(b.classLevel)} · ` : ''}{b.itemCount} item{b.itemCount !== 1 ? 's' : ''} · {b.contentCount} content · {b.quizCount} quiz
+                          </Text>
+                        </View>
+                        <ChevronRight size={16} color="#B0B8D0" />
+                      </Pressable>
+                    ));
+                  })()}
+                </ScrollView>
+              </>
+            ) : (
+              <>
+                <View style={p.pickerSearch}>
+                  <Text style={p.bmDetailName} numberOfLines={1}>{activeBookmark.name}</Text>
+                </View>
+                <ScrollView contentContainerStyle={{ padding: 12, gap: 8 }}>
+                  {loadingBookmarkDetail ? (
+                    <ActivityIndicator size="small" color="#4A90E2" style={{ marginTop: 16 }} />
+                  ) : activeBookmark.items.length === 0 ? (
+                    <Text style={p.flatEmpty}>This bookmark has no items.</Text>
+                  ) : (
+                    activeBookmark.items.map((it) => {
+                      const rid = it.itemType === 'content' ? it.contentId : it.quizId;
+                      if (!rid) return null;
+                      const key = bookmarkItemKey(it.itemType, rid);
+                      const sel = bookmarkItemSel.has(key);
+                      return (
+                        <Pressable key={key} style={[p.pickerItem, sel && p.pickerItemSelected]} onPress={() => toggleBookmarkItem(key)}>
+                          <View style={[p.checkBox, sel && p.checkBoxSelected]}>{sel && <Text style={p.checkTick}>✓</Text>}</View>
+                          {it.itemType === 'content' ? <FileText size={13} color="#5A7AB0" /> : <Trophy size={13} color="#FF7043" />}
+                          <View style={{ flex: 1 }}>
+                            <Text style={p.pickerItemTitle}>{it.title}</Text>
+                            <Text style={p.pickerItemMeta}>{(it.subject || '-')} · {it.itemType === 'content' ? (it.contentType || 'content') : (it.quizType || 'quiz')}</Text>
+                          </View>
+                        </Pressable>
+                      );
+                    })
+                  )}
+                </ScrollView>
+                <View style={p.bmFooter}>
+                  <Pressable style={[p.bmAddBtn, bookmarkItemSel.size === 0 && { opacity: 0.4 }]} disabled={bookmarkItemSel.size === 0} onPress={applyBookmarkSelection}>
+                    <Text style={p.bmAddText}>Add {bookmarkItemSel.size} item{bookmarkItemSel.size !== 1 ? 's' : ''}</Text>
+                  </Pressable>
+                </View>
+              </>
+            )}
+          </View>
+        </View>
+      </Modal>
+
       <CreateQuizModal
         visible={quizCreatorOpen}
         apiFetch={apiFetch}
@@ -1443,19 +1770,27 @@ export default function PlannerScreen() {
             </View>
             <View style={p.pickerSearch}>
               <View style={p.quizFilterRow}>
+                <Pressable style={p.filterChipBtn} onPress={() => setSelectorField('quizClass')}>
+                  <Text style={quizClassFilter ? p.filterChipActive : p.filterChipPlaceholder}>
+                    {quizClassFilter ? getStandardLabel(quizClassFilter) : 'All Classes ▾'}
+                  </Text>
+                </Pressable>
                 <Pressable style={p.filterChipBtn} onPress={() => setSelectorField('quizSubject')}>
                   <Text style={quizFilters.subject ? p.filterChipActive : p.filterChipPlaceholder}>
                     {quizFilters.subject || 'Subject ▾'}
                   </Text>
                 </Pressable>
-                <TextInput
-                  value={quizFilters.search}
-                  onChangeText={(v) => setQuizFilters((c) => ({ ...c, search: v }))}
-                  placeholder="Search quizzes…"
-                  style={[p.searchInput, { flex: 1 }]}
-                  placeholderTextColor="#B0B8D0"
-                />
+                <Pressable style={p.filterClearBtn} onPress={() => { setQuizClassFilter(''); setQuizFilters((c) => ({ ...c, subject: '' })); }}>
+                  <Text style={p.filterClearText}>Clear</Text>
+                </Pressable>
               </View>
+              <TextInput
+                value={quizFilters.search}
+                onChangeText={(v) => setQuizFilters((c) => ({ ...c, search: v }))}
+                placeholder="Search quizzes…"
+                style={[p.searchInput, { marginTop: 8 }]}
+                placeholderTextColor="#B0B8D0"
+              />
             </View>
             {(() => {
               const aqTotalPages = Math.max(1, Math.ceil(filteredQuizzes.length / ASSIGN_PAGE_SIZE));
@@ -1517,15 +1852,20 @@ export default function PlannerScreen() {
       {/* ── Selector (class level / subject) ── */}
       <SelectorModal
         visible={selectorField !== null}
-        title={selectorField === 'classLevel' ? 'Select Standard' : 'Select Subject'}
+        title={isClassSelector ? 'Select Class' : 'Select Subject'}
         options={selectorOptions.map((o) => {
-          if (selectorField === 'classLevel') {
+          if (isClassSelector) {
             return { label: getStandardLabel(o), value: o };
           }
           // Pull visual metadata from the class-scoped subjectCatalog so the
           // picker shows admin-uploaded covers / icons / background colors.
+          const scopeClass = selectorField === 'contentSubject'
+            ? contentClassFilter
+            : selectorField === 'quizSubject'
+              ? quizClassFilter
+              : form.classLevel;
           const meta = subjectCatalog.find(
-            (item) => item.subject === o && (isAnyClass || !form.classLevel || item.classLevel === form.classLevel),
+            (item) => item.subject === o && (!scopeClass || scopeClass === 'ANY' || item.classLevel === scopeClass),
           );
           return {
             label: o,
@@ -1535,9 +1875,10 @@ export default function PlannerScreen() {
             iconBgColor: meta?.iconBgColor,
           };
         })}
-        selected={selectorField === 'classLevel' ? form.classLevel : ''}
-        isSubject={selectorField !== 'classLevel'}
+        selected={selectorSelected}
+        isSubject={!isClassSelector}
         showAny={selectorField !== 'classLevel'}
+        anyLabel={isClassSelector ? 'All Classes' : 'All Subjects'}
         onSelect={applySelectorValue}
         onClose={() => setSelectorField(null)}
       />
@@ -1839,6 +2180,15 @@ const p = StyleSheet.create({
   addSecBtn:      { backgroundColor: '#D6EAFF', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 },
   addSecBtnText:  { fontSize: 12, fontWeight: '800', color: '#1A4DA2' },
   secEmptyText:   { fontSize: 13, color: '#B0B8D0', padding: 14, textAlign: 'center' },
+  bookmarkBtn:    { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, paddingVertical: 11, borderRadius: 12, borderWidth: 1.5, borderColor: '#E5D9F8', backgroundColor: '#F7F2FE', borderStyle: 'dashed', marginBottom: 12 },
+  bookmarkBtnText:{ fontSize: 13, fontWeight: '800', color: '#7C3AED' },
+  bmBackBtn:      { flexDirection: 'row', alignItems: 'center', gap: 2 },
+  bmBackText:     { fontSize: 14, fontWeight: '700', color: '#4A90E2' },
+  bmIcon:         { width: 32, height: 32, borderRadius: 16, backgroundColor: '#EFE7FB', alignItems: 'center', justifyContent: 'center' },
+  bmDetailName:   { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  bmFooter:       { padding: 12, borderTopWidth: 1, borderTopColor: '#F0F0F8' },
+  bmAddBtn:       { backgroundColor: '#7C3AED', borderRadius: 12, paddingVertical: 12, alignItems: 'center' },
+  bmAddText:      { color: '#fff', fontWeight: '800', fontSize: 14 },
   sectionItem:    { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 10, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
   dragHandle:     { alignItems: 'center', gap: 2, paddingHorizontal: 4 },
   sectionItemOrder: { fontSize: 10, fontWeight: '800', color: '#B0B8D0' },
@@ -1943,6 +2293,8 @@ const p = StyleSheet.create({
   filterChipBtn: { borderRadius: 10, backgroundColor: '#F0F0F8', paddingHorizontal: 12, paddingVertical: 9 },
   filterChipActive:     { fontSize: 12, fontWeight: '700', color: '#4A90E2' },
   filterChipPlaceholder:{ fontSize: 12, fontWeight: '600', color: '#9A9AB0' },
+  filterClearBtn: { borderRadius: 10, paddingHorizontal: 10, paddingVertical: 9 },
+  filterClearText: { fontSize: 12, fontWeight: '700', color: '#FF7043' },
   pickerItem:         { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: '#F9FAFF', borderRadius: 12, padding: 12 },
   pickerItemSelected: { backgroundColor: '#D6EAFF', borderWidth: 1, borderColor: '#4A90E2' },
   pickerItemTitle:    { fontSize: 13, fontWeight: '700', color: '#1a1a2e' },

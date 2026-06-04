@@ -268,8 +268,10 @@ export const NotificationStore = {
         return result.rowCount ?? 0;
     },
     async cleanupExpired() {
-        const result = await db.query(`UPDATE notifications SET deleted_at = NOW()
+        const expiredResult = await db.query(`UPDATE notifications SET deleted_at = NOW()
          WHERE deleted_at IS NULL AND expiry_at < NOW()`);
-        return result.rowCount ?? 0;
+        const readResult = await db.query(`UPDATE notifications SET deleted_at = NOW()
+         WHERE deleted_at IS NULL AND status = 'read' AND read_at < NOW() - interval '30 days'`);
+        return (expiredResult.rowCount ?? 0) + (readResult.rowCount ?? 0);
     },
 };
