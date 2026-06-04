@@ -1,0 +1,694 @@
+{
+  "subject": "Math Tricks",
+  "topic": "tricks1",
+  "source": {
+    "type": "channel",
+    "value": "UC8jByrca7IIWFQJFNlHJzDg",
+    "input": "https://www.youtube.com/@JustQuant/shorts"
+  },
+  "sourceHistory": [
+    {
+      "type": "channel",
+      "value": "UC8jByrca7IIWFQJFNlHJzDg",
+      "input": "https://www.youtube.com/@JustQuant/shorts",
+      "runAt": "2026-06-02T17:25:41.925Z"
+    }
+  ],
+  "generatedAt": "2026-06-02T17:25:41.925Z",
+  "totalFetched": 32,
+  "totalValid": 32,
+  "videos": [
+    {
+      "videoId": "o2scnGkegD8",
+      "title": "Unit Digit Math | How To Find Unit Digit Of A Number Raised To Power | Advanced Math Tricks",
+      "url": "https://www.youtube.com/watch?v=o2scnGkegD8",
+      "embedUrl": "https://www.youtube.com/embed/o2scnGkegD8?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/o2scnGkegD8/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:39.754Z"
+    },
+    {
+      "videoId": "wfXtdWfuGqM",
+      "title": "Square Tricks - Square of Two Digit Numbers - Example 2 - Math Tricks For Fast Calculation",
+      "url": "https://www.youtube.com/watch?v=wfXtdWfuGqM",
+      "embedUrl": "https://www.youtube.com/embed/wfXtdWfuGqM?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/wfXtdWfuGqM/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:39.880Z"
+    },
+    {
+      "videoId": "7d_ILWkZKwI",
+      "title": "Square of Three Digit Numbers - Example 2 - Fast Math Tricks - Learn As You See",
+      "url": "https://www.youtube.com/watch?v=7d_ILWkZKwI",
+      "embedUrl": "https://www.youtube.com/embed/7d_ILWkZKwI?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/7d_ILWkZKwI/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:39.960Z"
+    },
+    {
+      "videoId": "UJcgkzo4pic",
+      "title": "Square of Three Digit Numbers - Example 1 - Fast Math Tricks - Learn As You See",
+      "url": "https://www.youtube.com/watch?v=UJcgkzo4pic",
+      "embedUrl": "https://www.youtube.com/embed/UJcgkzo4pic?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/UJcgkzo4pic/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:40.033Z"
+    },
+    {
+      "videoId": "r4Khr96eM5A",
+      "title": "Trick to Find Square of a Number | Square Of Two Digit Number | Example 1",
+      "url": "https://www.youtube.com/watch?v=r4Khr96eM5A",
+      "embedUrl": "https://www.youtube.com/embed/r4Khr96eM5A?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/r4Khr96eM5A/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:40.105Z"
+    },
+    {
+      "videoId": "BoWLHq6A8sU",
+      "title": "Vedic Maths Multiplication Tricks - How to Multiply 3 Digit Numbers fast - Part 2 - Fast Math Tricks",
+      "url": "https://www.youtube.com/watch?v=BoWLHq6A8sU",
+      "embedUrl": "https://www.youtube.com/embed/BoWLHq6A8sU?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/BoWLHq6A8sU/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:40.179Z"
+    },
+    {
+      "videoId": "si4CzrcZqc4",
+      "title": "How to Multiply 3 Digit Numbers | Part 1 | Vedic Maths Multiplication Tricks",
+      "url": "https://www.youtube.com/watch?v=si4CzrcZqc4",
+      "embedUrl": "https://www.youtube.com/embed/si4CzrcZqc4?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/si4CzrcZqc4/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:40.240Z"
+    },
+    {
+      "videoId": "FD00tDeor2Y",
+      "title": "Vedic Maths Multiplication Tricks | How to Multiply 2 Digit Numbers - Part 2 | Speed Maths",
+      "url": "https://www.youtube.com/watch?v=FD00tDeor2Y",
+      "embedUrl": "https://www.youtube.com/embed/FD00tDeor2Y?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/FD00tDeor2Y/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:40.315Z"
+    },
+    {
+      "videoId": "Dgcbn-Ehz7Y",
+      "title": "How to Multiply 2 Digit Numbers | Part 1",
+      "url": "https://www.youtube.com/watch?v=Dgcbn-Ehz7Y",
+      "embedUrl": "https://www.youtube.com/embed/Dgcbn-Ehz7Y?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/Dgcbn-Ehz7Y/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:40.380Z"
+    },
+    {
+      "videoId": "9mfiTnWwYGU",
+      "title": "Addition and Subtraction Tricks - Subtraction using Addition - Math Tricks for Fast Calculation",
+      "url": "https://www.youtube.com/watch?v=9mfiTnWwYGU",
+      "embedUrl": "https://www.youtube.com/embed/9mfiTnWwYGU?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/9mfiTnWwYGU/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:40.440Z"
+    },
+    {
+      "videoId": "ca_MJ9bCRXc",
+      "title": "Addition and Subtraction Tricks | Subtraction of 3 Digit Numbers Without Carry",
+      "url": "https://www.youtube.com/watch?v=ca_MJ9bCRXc",
+      "embedUrl": "https://www.youtube.com/embed/ca_MJ9bCRXc?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/ca_MJ9bCRXc/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:40.511Z"
+    },
+    {
+      "videoId": "a9Jszy2gCTM",
+      "title": "Addition and Subtraction Tricks - Subtraction of Two Digit Numbers from Left to Right - Subtraction",
+      "url": "https://www.youtube.com/watch?v=a9Jszy2gCTM",
+      "embedUrl": "https://www.youtube.com/embed/a9Jszy2gCTM?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/a9Jszy2gCTM/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:40.584Z"
+    },
+    {
+      "videoId": "ruKRCRItE_U",
+      "title": "Math Tricks - Fractions Tricks - Mental Math Hacks - Simplification Tricks - Quick Maths #mathtricks",
+      "url": "https://www.youtube.com/watch?v=ruKRCRItE_U",
+      "embedUrl": "https://www.youtube.com/embed/ruKRCRItE_U?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/ruKRCRItE_U/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:40.650Z"
+    },
+    {
+      "videoId": "5GigtRd-2Ug",
+      "title": "Math Tricks - Double & Halve Division Trick - Mental Math Hacks - Quick Math Tricks #mathtricks",
+      "url": "https://www.youtube.com/watch?v=5GigtRd-2Ug",
+      "embedUrl": "https://www.youtube.com/embed/5GigtRd-2Ug?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/5GigtRd-2Ug/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:40.715Z"
+    },
+    {
+      "videoId": "6sZNbu5ouOs",
+      "title": "Math Tricks - Addition Tricks - Easy Math Tricks - Mental Math Hacks - Quick Math Tricks #mathtricks",
+      "url": "https://www.youtube.com/watch?v=6sZNbu5ouOs",
+      "embedUrl": "https://www.youtube.com/embed/6sZNbu5ouOs?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/6sZNbu5ouOs/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:40.784Z"
+    },
+    {
+      "videoId": "o9_V06pHIJo",
+      "title": "Math Tricks - Square Tricks - Quick Math Shortcuts - Easy Math Tricks #mathtricks #fastmath",
+      "url": "https://www.youtube.com/watch?v=o9_V06pHIJo",
+      "embedUrl": "https://www.youtube.com/embed/o9_V06pHIJo?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/o9_V06pHIJo/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:40.848Z"
+    },
+    {
+      "videoId": "hLMyHVfuWT4",
+      "title": "Fun Math Tricks - Multiplication by Multiple of 11 - Mental Math Hacks - Quick Maths #mathtricks",
+      "url": "https://www.youtube.com/watch?v=hLMyHVfuWT4",
+      "embedUrl": "https://www.youtube.com/embed/hLMyHVfuWT4?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/hLMyHVfuWT4/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:40.915Z"
+    },
+    {
+      "videoId": "CN5mbn_kKRw",
+      "title": "Math Tricks - Percentage Tricks - Simplification Tricks - Mental Math Hacks - Quick Math #mathtricks",
+      "url": "https://www.youtube.com/watch?v=CN5mbn_kKRw",
+      "embedUrl": "https://www.youtube.com/embed/CN5mbn_kKRw?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/CN5mbn_kKRw/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:40.971Z"
+    },
+    {
+      "videoId": "bdm3L5d49ok",
+      "title": "Math Magic Trick - Division Tricks - Fun Math Tricks - Mental Maths - Math Tricks #mathtricks",
+      "url": "https://www.youtube.com/watch?v=bdm3L5d49ok",
+      "embedUrl": "https://www.youtube.com/embed/bdm3L5d49ok?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/bdm3L5d49ok/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:41.039Z"
+    },
+    {
+      "videoId": "s3X0YCaVQ1Y",
+      "title": "Math Tricks - Subtraction Tricks - Mental Maths - Quick Math Shortcuts - Easy Maths #mathstricks",
+      "url": "https://www.youtube.com/watch?v=s3X0YCaVQ1Y",
+      "embedUrl": "https://www.youtube.com/embed/s3X0YCaVQ1Y?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/s3X0YCaVQ1Y/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:41.098Z"
+    },
+    {
+      "videoId": "vLXNISAiXh0",
+      "title": "Math Tricks - Square Tricks - Mental Math Hacks - Quick Math Shortcuts - Easy Maths #mathtricks",
+      "url": "https://www.youtube.com/watch?v=vLXNISAiXh0",
+      "embedUrl": "https://www.youtube.com/embed/vLXNISAiXh0?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/vLXNISAiXh0/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:41.165Z"
+    },
+    {
+      "videoId": "YA-8eJFxhFE",
+      "title": "Vedic Math Tricks - Multiplication Tricks - Mental Math Hacks - Quick Math Shortcuts #vedicmaths",
+      "url": "https://www.youtube.com/watch?v=YA-8eJFxhFE",
+      "embedUrl": "https://www.youtube.com/embed/YA-8eJFxhFE?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/YA-8eJFxhFE/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:41.226Z"
+    },
+    {
+      "videoId": "yxP8hw-FyEA",
+      "title": "Stop struggling with Fraction Ratios! Solve A/B : B/C : C/A in SECONDS #ratios #mathstricks",
+      "url": "https://www.youtube.com/watch?v=yxP8hw-FyEA",
+      "embedUrl": "https://www.youtube.com/embed/yxP8hw-FyEA?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/yxP8hw-FyEA/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:41.292Z"
+    },
+    {
+      "videoId": "xq9rBbMAl10",
+      "title": "Math Tricks - Division Tricks - Simplification Tricks - Mental Maths - Easy Math tricks #mathtricks",
+      "url": "https://www.youtube.com/watch?v=xq9rBbMAl10",
+      "embedUrl": "https://www.youtube.com/embed/xq9rBbMAl10?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/xq9rBbMAl10/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:41.368Z"
+    },
+    {
+      "videoId": "fwn9bRdoXYw",
+      "title": "Fun Math Tricks - Left to Right Addition - Mental Math Hack - Quick Math Tricks #mathtricks",
+      "url": "https://www.youtube.com/watch?v=fwn9bRdoXYw",
+      "embedUrl": "https://www.youtube.com/embed/fwn9bRdoXYw?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/fwn9bRdoXYw/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:41.431Z"
+    },
+    {
+      "videoId": "rL9GAWZFtR0",
+      "title": "Math Tricks - Square Any Two Digit Number - Mental Math Hacks - Quick Math Tricks #mathtricks",
+      "url": "https://www.youtube.com/watch?v=rL9GAWZFtR0",
+      "embedUrl": "https://www.youtube.com/embed/rL9GAWZFtR0?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/rL9GAWZFtR0/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:41.507Z"
+    },
+    {
+      "videoId": "L1KJgLFd0sc",
+      "title": "Math Tricks - Multiplication Tricks - Vedic Math Tricks - Mental Math Hacks - Speed Math #mathtricks",
+      "url": "https://www.youtube.com/watch?v=L1KJgLFd0sc",
+      "embedUrl": "https://www.youtube.com/embed/L1KJgLFd0sc?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/L1KJgLFd0sc/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:41.572Z"
+    },
+    {
+      "videoId": "-sK0V5aQIoE",
+      "title": "Math Tricks - Percentage Tricks - Simplification Tricks - Quick Math - #mathstricks #percentages",
+      "url": "https://www.youtube.com/watch?v=-sK0V5aQIoE",
+      "embedUrl": "https://www.youtube.com/embed/-sK0V5aQIoE?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/-sK0V5aQIoE/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:41.632Z"
+    },
+    {
+      "videoId": "zG34-XhwzlA",
+      "title": "Math Tricks - Division Tricks - Simplification Tricks - Easy Math Tricks - Vedic Maths #mathstricks",
+      "url": "https://www.youtube.com/watch?v=zG34-XhwzlA",
+      "embedUrl": "https://www.youtube.com/embed/zG34-XhwzlA?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/zG34-XhwzlA/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:41.696Z"
+    },
+    {
+      "videoId": "4e227DH6Rdk",
+      "title": "Fun Math Tricks - Left to Right Subtraction - Mental Math Tricks - Quick Maths #mathtricks",
+      "url": "https://www.youtube.com/watch?v=4e227DH6Rdk",
+      "embedUrl": "https://www.youtube.com/embed/4e227DH6Rdk?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/4e227DH6Rdk/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:41.762Z"
+    },
+    {
+      "videoId": "i3cq_wDHxhY",
+      "title": "Math Tricks - Square Tricks - Mental Math - Fast Math - Math Hacks - Quick Math #mathstricks",
+      "url": "https://www.youtube.com/watch?v=i3cq_wDHxhY",
+      "embedUrl": "https://www.youtube.com/embed/i3cq_wDHxhY?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/i3cq_wDHxhY/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:41.840Z"
+    },
+    {
+      "videoId": "cejRDQhqpmg",
+      "title": "Math Tricks - Multiplication Tricks - Mental Math Hacks - Easy Math - Quick Math Tricks #mathstricks",
+      "url": "https://www.youtube.com/watch?v=cejRDQhqpmg",
+      "embedUrl": "https://www.youtube.com/embed/cejRDQhqpmg?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/cejRDQhqpmg/hqdefault.jpg",
+      "channel": "JustQuant",
+      "channelUrl": "https://www.youtube.com/@JustQuant",
+      "duration": "",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "channel",
+        "value": "UC8jByrca7IIWFQJFNlHJzDg",
+        "input": "https://www.youtube.com/@JustQuant/shorts"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:25:41.925Z"
+    }
+  ]
+}

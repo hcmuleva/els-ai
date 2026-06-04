@@ -1,0 +1,120 @@
+{
+  "subject": "learn",
+  "topic": "learning1",
+  "source": {
+    "type": "playlist",
+    "value": "PLElNKdhR_6YvwHuE0-0It6q_uZ8hC9sK5"
+  },
+  "sourceHistory": [
+    {
+      "type": "playlist",
+      "value": "PLElNKdhR_6YvwHuE0-0It6q_uZ8hC9sK5",
+      "runAt": "2026-06-02T17:48:53.433Z"
+    }
+  ],
+  "generatedAt": "2026-06-02T17:48:53.433Z",
+  "totalFetched": 5,
+  "totalValid": 5,
+  "videos": [
+    {
+      "videoId": "Bd8pehKHSrI",
+      "title": "100 Cartoon Animals for Kids and Toddlers, Vocabulary for Kids",
+      "url": "https://www.youtube.com/watch?v=Bd8pehKHSrI",
+      "embedUrl": "https://www.youtube.com/embed/Bd8pehKHSrI?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/Bd8pehKHSrI/hqdefault.jpg",
+      "channel": "Academics Plus",
+      "channelUrl": "https://www.youtube.com/@Academicsplus",
+      "duration": "11:00",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLElNKdhR_6YvwHuE0-0It6q_uZ8hC9sK5"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:48:52.793Z"
+    },
+    {
+      "videoId": "7P0i1Qssaqg",
+      "title": "100 Videos of Real Animals for Kids and Toddlers, Vocabulary for Kids",
+      "url": "https://www.youtube.com/watch?v=7P0i1Qssaqg",
+      "embedUrl": "https://www.youtube.com/embed/7P0i1Qssaqg?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/7P0i1Qssaqg/hqdefault.jpg",
+      "channel": "Academics Plus",
+      "channelUrl": "https://www.youtube.com/@Academicsplus",
+      "duration": "18:46",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLElNKdhR_6YvwHuE0-0It6q_uZ8hC9sK5"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:48:52.940Z"
+    },
+    {
+      "videoId": "7iKvkqEZRug",
+      "title": "Animal Sounds for Kids To Learn",
+      "url": "https://www.youtube.com/watch?v=7iKvkqEZRug",
+      "embedUrl": "https://www.youtube.com/embed/7iKvkqEZRug?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/7iKvkqEZRug/hqdefault.jpg",
+      "channel": "Academics Plus",
+      "channelUrl": "https://www.youtube.com/@Academicsplus",
+      "duration": "15:29",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLElNKdhR_6YvwHuE0-0It6q_uZ8hC9sK5"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:48:52.994Z"
+    },
+    {
+      "videoId": "h4KBQOuaIQE",
+      "title": "100 Photos of Real Animals for Kids and Toddlers, Vocabulary for Kids",
+      "url": "https://www.youtube.com/watch?v=h4KBQOuaIQE",
+      "embedUrl": "https://www.youtube.com/embed/h4KBQOuaIQE?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/h4KBQOuaIQE/hqdefault.jpg",
+      "channel": "Academics Plus",
+      "channelUrl": "https://www.youtube.com/@Academicsplus",
+      "duration": "18:46",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLElNKdhR_6YvwHuE0-0It6q_uZ8hC9sK5"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:48:53.241Z"
+    },
+    {
+      "videoId": "CVF4f7IZvOs",
+      "title": "Learn the Alphabet FRUITS",
+      "url": "https://www.youtube.com/watch?v=CVF4f7IZvOs",
+      "embedUrl": "https://www.youtube.com/embed/CVF4f7IZvOs?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/CVF4f7IZvOs/hqdefault.jpg",
+      "channel": "Academics Plus",
+      "channelUrl": "https://www.youtube.com/@Academicsplus",
+      "duration": "4:26",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLElNKdhR_6YvwHuE0-0It6q_uZ8hC9sK5"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:48:53.433Z"
+    }
+  ]
+}

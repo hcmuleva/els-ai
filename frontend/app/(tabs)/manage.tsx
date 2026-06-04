@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-import { FolderOpen, Video as VideoIcon, HelpCircle, BookOpen as BookOpenIcon, Trophy as TrophyIcon, ListChecks, SplitSquareHorizontal, Eye as EyeIcon, Volume2, CheckSquare, Image as ImageIcon, BookOpenCheck as StoriesIcon } from 'lucide-react-native';
+import { FolderOpen, Video as VideoIcon, HelpCircle, BookOpen as BookOpenIcon, Trophy as TrophyIcon, ListChecks, SplitSquareHorizontal, Eye as EyeIcon, Volume2, CheckSquare, Image as ImageIcon, BookOpenCheck as StoriesIcon, Bookmark as BookmarkIcon } from 'lucide-react-native';
 import SelectorModal from '../../src/components/SelectorModal';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { getAuthorizedClasses, getAuthorizedSubjects } from '../../src/utils/assignments';
@@ -27,6 +27,7 @@ import { AudioManager } from '../../src/utils/audio';
 import TopicsTab from '../../src/components/manage/TopicsTab';
 import ContentTab from '../../src/components/manage/ContentTab';
 import QuestionsTab from '../../src/components/manage/QuestionsTab';
+import BookmarksTab from '../../src/components/manage/BookmarksTab';
 import { Video, ResizeMode } from 'expo-av';
 import AudioPlayer from '../../src/components/media/AudioPlayer';
 import DocumentViewer from '../../src/components/media/DocumentViewer';
@@ -121,7 +122,7 @@ type MediaRemovalRequest =
 
 type OptionRemovalRequest = { mode: 'create' | 'edit'; index: number };
 type SelectorField = 'classLevel' | 'subject' | 'filterClassLevel' | 'filterSubject';
-type LearningTab = 'topic' | 'content' | 'question' | 'exam' | 'quiz' | 'stories';
+type LearningTab = 'topic' | 'content' | 'question' | 'exam' | 'quiz' | 'stories' | 'bookmark';
 type ContentModeTab = 'create' | 'assign';
 type ContentSelectorField =
   | 'contentFilterClassLevel'
@@ -3749,7 +3750,7 @@ export default function QuestionManagementScreen() {
       {/* ── Tab bar ── */}
       <View style={styles.newTabBar}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flex: 1 }} contentContainerStyle={{ paddingHorizontal: 8, alignItems: 'center' }}>
-          {(['topic', 'content', 'question', 'quiz', 'exam', 'stories'] as LearningTab[]).map((tab) => (
+          {(['topic', 'content', 'question', 'quiz', 'exam', 'stories', 'bookmark'] as LearningTab[]).map((tab) => (
             <Pressable
               key={tab}
               style={[styles.newTab, activeLearningTab === tab && styles.newTabActive]}
@@ -3762,8 +3763,9 @@ export default function QuestionManagementScreen() {
                 {tab === 'exam' && <BookOpenIcon size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
                 {tab === 'quiz' && <TrophyIcon size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
                 {tab === 'stories' && <StoriesIcon size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
+                {tab === 'bookmark' && <BookmarkIcon size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
                 <Text style={[styles.newTabText, activeLearningTab === tab && styles.newTabTextActive]}>
-                  {tab === 'topic' ? 'Topic' : tab === 'content' ? 'Content' : tab === 'question' ? 'Questions' : tab === 'exam' ? 'Exam' : tab === 'quiz' ? 'Quiz' : 'Stories'}
+                  {tab === 'topic' ? 'Topic' : tab === 'content' ? 'Content' : tab === 'question' ? 'Questions' : tab === 'exam' ? 'Exam' : tab === 'quiz' ? 'Quiz' : tab === 'stories' ? 'Stories' : 'Bookmarks'}
                 </Text>
               </View>
             </Pressable>
@@ -3895,6 +3897,10 @@ export default function QuestionManagementScreen() {
           }}
           message={message}
         />
+      ) : null}
+
+      {activeLearningTab === 'bookmark' ? (
+        <BookmarksTab apiFetch={apiFetch} user={user} />
       ) : null}
       {(false as boolean) && activeLearningTab === ('content_legacy' as LearningTab) ? (
         <>

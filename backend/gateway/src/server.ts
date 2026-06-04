@@ -82,6 +82,7 @@ app.use('/achievements', makeProxy(ACHIEVEMENT_SERVICE_URL, '/achievements'));
 app.use('/questions', makeProxy(QUESTION_BANK_SERVICE_URL, '/questions'));
 app.use('/question-bank', makeProxy(QUESTION_BANK_SERVICE_URL, '/question-bank'));
 app.use('/content', makeProxy(CONTENT_SERVICE_URL, '/content'));
+app.use('/bookmarks', makeProxy(CONTENT_SERVICE_URL, '/bookmarks'));
 app.use('/topics', makeProxy(TOPIC_SERVICE_URL, '/topics'));
 app.use('/catalog/subjects', makeProxy(TOPIC_SERVICE_URL, '/catalog/subjects'));
 app.use('/students/subjects', makeProxy(TOPIC_SERVICE_URL, '/students/subjects'));

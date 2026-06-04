@@ -1,0 +1,1320 @@
+{
+  "subject": "stories",
+  "topic": "panchtantra2",
+  "source": {
+    "type": "playlist",
+    "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+  },
+  "sourceHistory": [
+    {
+      "type": "playlist",
+      "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas",
+      "runAt": "2026-06-02T17:39:56.947Z"
+    }
+  ],
+  "generatedAt": "2026-06-02T17:39:56.947Z",
+  "totalFetched": 65,
+  "totalValid": 65,
+  "videos": [
+    {
+      "videoId": "m6x9S8rDARw",
+      "title": "The Lake Monster | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=m6x9S8rDARw",
+      "embedUrl": "https://www.youtube.com/embed/m6x9S8rDARw?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/m6x9S8rDARw/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:54",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:52.347Z"
+    },
+    {
+      "videoId": "DlCgVsfrp8o",
+      "title": "Frog and the Snake | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=DlCgVsfrp8o",
+      "embedUrl": "https://www.youtube.com/embed/DlCgVsfrp8o?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/DlCgVsfrp8o/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "6:11",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:52.465Z"
+    },
+    {
+      "videoId": "WpIiWum0ua4",
+      "title": "Camel and the Jackal | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=WpIiWum0ua4",
+      "embedUrl": "https://www.youtube.com/embed/WpIiWum0ua4?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/WpIiWum0ua4/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "6:21",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:52.523Z"
+    },
+    {
+      "videoId": "dD9AGRlPtro",
+      "title": "Bedbug and the Mosquito |  Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=dD9AGRlPtro",
+      "embedUrl": "https://www.youtube.com/embed/dD9AGRlPtro?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/dD9AGRlPtro/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:04",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:52.590Z"
+    },
+    {
+      "videoId": "CVfa9V3M6TM",
+      "title": "Brahman and the Three Crooks | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=CVfa9V3M6TM",
+      "embedUrl": "https://www.youtube.com/embed/CVfa9V3M6TM?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/CVfa9V3M6TM/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:45",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:52.649Z"
+    },
+    {
+      "videoId": "I53cV_QOVKU",
+      "title": "Tiger and the Golden Bangle | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=I53cV_QOVKU",
+      "embedUrl": "https://www.youtube.com/embed/I53cV_QOVKU?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/I53cV_QOVKU/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:21",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:52.700Z"
+    },
+    {
+      "videoId": "PuV8SkysZSU",
+      "title": "The Tortoise and the Eagle | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=PuV8SkysZSU",
+      "embedUrl": "https://www.youtube.com/embed/PuV8SkysZSU?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/PuV8SkysZSU/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:11",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:52.763Z"
+    },
+    {
+      "videoId": "L1cq45m2N-8",
+      "title": "Singing Donkey | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=L1cq45m2N-8",
+      "embedUrl": "https://www.youtube.com/embed/L1cq45m2N-8?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/L1cq45m2N-8/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "4:30",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:52.832Z"
+    },
+    {
+      "videoId": "Rm5Foqf0tfQ",
+      "title": "Bird and the Monkeys | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=Rm5Foqf0tfQ",
+      "embedUrl": "https://www.youtube.com/embed/Rm5Foqf0tfQ?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/Rm5Foqf0tfQ/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "4:56",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:52.903Z"
+    },
+    {
+      "videoId": "FJscMQhsW2w",
+      "title": "The Two Headed Weaver | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=FJscMQhsW2w",
+      "embedUrl": "https://www.youtube.com/embed/FJscMQhsW2w?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/FJscMQhsW2w/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:49",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:52.968Z"
+    },
+    {
+      "videoId": "hLg-WErGtMk",
+      "title": "The Proud Tree and the Honey Bees | Panchatantra English Moral Stories For Kids | Aesop Fables",
+      "url": "https://www.youtube.com/watch?v=hLg-WErGtMk",
+      "embedUrl": "https://www.youtube.com/embed/hLg-WErGtMk?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/hLg-WErGtMk/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "4:44",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:53.035Z"
+    },
+    {
+      "videoId": "9GD7sKQR1vQ",
+      "title": "Lion and the Wild Boar | Panchatantra English Moral Stories For Kids | Best Of Aesop fable",
+      "url": "https://www.youtube.com/watch?v=9GD7sKQR1vQ",
+      "embedUrl": "https://www.youtube.com/embed/9GD7sKQR1vQ?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/9GD7sKQR1vQ/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:22",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:53.088Z"
+    },
+    {
+      "videoId": "prmG5EcEkfo",
+      "title": "The Foolish Horse | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=prmG5EcEkfo",
+      "embedUrl": "https://www.youtube.com/embed/prmG5EcEkfo?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/prmG5EcEkfo/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:26",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:53.144Z"
+    },
+    {
+      "videoId": "_oiVv-nj3jk",
+      "title": "The Lion Makers | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=_oiVv-nj3jk",
+      "embedUrl": "https://www.youtube.com/embed/_oiVv-nj3jk?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/_oiVv-nj3jk/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "4:37",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:53.214Z"
+    },
+    {
+      "videoId": "os59h-JwJcE",
+      "title": "The Curious Cub | Panchatantra English Moral Stories For Kids | Best Of Aesop Fables",
+      "url": "https://www.youtube.com/watch?v=os59h-JwJcE",
+      "embedUrl": "https://www.youtube.com/embed/os59h-JwJcE?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/os59h-JwJcE/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "6:18",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:53.287Z"
+    },
+    {
+      "videoId": "X3UySP0aSX8",
+      "title": "The Talking Cave | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=X3UySP0aSX8",
+      "embedUrl": "https://www.youtube.com/embed/X3UySP0aSX8?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/X3UySP0aSX8/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:05",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:53.344Z"
+    },
+    {
+      "videoId": "EHW4bHXqLgA",
+      "title": "The Blind Vulture | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=EHW4bHXqLgA",
+      "embedUrl": "https://www.youtube.com/embed/EHW4bHXqLgA?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/EHW4bHXqLgA/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "3:58",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:53.415Z"
+    },
+    {
+      "videoId": "xu2gr74Twwc",
+      "title": "Jackal And The Dead Elephant | Panchatantra English Moral Stories For Kids | MahaCartoonTV English",
+      "url": "https://www.youtube.com/watch?v=xu2gr74Twwc",
+      "embedUrl": "https://www.youtube.com/embed/xu2gr74Twwc?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/xu2gr74Twwc/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:02",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:53.485Z"
+    },
+    {
+      "videoId": "ffB7a3JTM14",
+      "title": "Innocent Dog | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=ffB7a3JTM14",
+      "embedUrl": "https://www.youtube.com/embed/ffB7a3JTM14?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/ffB7a3JTM14/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "6:58",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:53.557Z"
+    },
+    {
+      "videoId": "NJEle1ubSeQ",
+      "title": "Monkey and the Crocodile | Panchatantra English Moral Stories For Kids | MahaCartoonTV English",
+      "url": "https://www.youtube.com/watch?v=NJEle1ubSeQ",
+      "embedUrl": "https://www.youtube.com/embed/NJEle1ubSeQ?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/NJEle1ubSeQ/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "7:51",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:53.623Z"
+    },
+    {
+      "videoId": "Uh1bh5VsYRk",
+      "title": "The Clever Mouse | Panchatantra English Moral Stories For Kids | MahaCartoonTV English",
+      "url": "https://www.youtube.com/watch?v=Uh1bh5VsYRk",
+      "embedUrl": "https://www.youtube.com/embed/Uh1bh5VsYRk?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/Uh1bh5VsYRk/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "4:48",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:53.691Z"
+    },
+    {
+      "videoId": "qngc83sLvtg",
+      "title": "Lion and Rabbit | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=qngc83sLvtg",
+      "embedUrl": "https://www.youtube.com/embed/qngc83sLvtg?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/qngc83sLvtg/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "4:44",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:53.756Z"
+    },
+    {
+      "videoId": "B7-VB6sP1Xo",
+      "title": "Clever Crab | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=B7-VB6sP1Xo",
+      "embedUrl": "https://www.youtube.com/embed/B7-VB6sP1Xo?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/B7-VB6sP1Xo/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "6:15",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:53.826Z"
+    },
+    {
+      "videoId": "BoiCxELARdA",
+      "title": "The Magical Bell | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=BoiCxELARdA",
+      "embedUrl": "https://www.youtube.com/embed/BoiCxELARdA?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/BoiCxELARdA/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "7:31",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:53.893Z"
+    },
+    {
+      "videoId": "KQ6fo6Jf4Y8",
+      "title": "The Cat's Justice | Panchatantra English Moral Stories For Kids | MahaCartoonTV English",
+      "url": "https://www.youtube.com/watch?v=KQ6fo6Jf4Y8",
+      "embedUrl": "https://www.youtube.com/embed/KQ6fo6Jf4Y8?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/KQ6fo6Jf4Y8/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:24",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:53.967Z"
+    },
+    {
+      "videoId": "ob6NSvecI3k",
+      "title": "The Wise Pigeon | Panchatantra English Moral Stories For Kids | MahaCartoonTV English",
+      "url": "https://www.youtube.com/watch?v=ob6NSvecI3k",
+      "embedUrl": "https://www.youtube.com/embed/ob6NSvecI3k?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/ob6NSvecI3k/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "3:42",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:54.032Z"
+    },
+    {
+      "videoId": "qz1o57IeC3M",
+      "title": "The True Friend | Panchatantra English Moral Stories For Kids | MahaCartoonTV English",
+      "url": "https://www.youtube.com/watch?v=qz1o57IeC3M",
+      "embedUrl": "https://www.youtube.com/embed/qz1o57IeC3M?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/qz1o57IeC3M/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "4:41",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:54.102Z"
+    },
+    {
+      "videoId": "V0_uE2vnv3k",
+      "title": "The Talking Tortoise | Panchatantra English Moral Stories For Kids | MahaCartoonTV English",
+      "url": "https://www.youtube.com/watch?v=V0_uE2vnv3k",
+      "embedUrl": "https://www.youtube.com/embed/V0_uE2vnv3k?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/V0_uE2vnv3k/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "3:54",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:54.164Z"
+    },
+    {
+      "videoId": "zxoDvhNrQU4",
+      "title": "The Ghost And The Tail | Panchatantra English Moral Stories For Kids | Maha Cartoon Tv English",
+      "url": "https://www.youtube.com/watch?v=zxoDvhNrQU4",
+      "embedUrl": "https://www.youtube.com/embed/zxoDvhNrQU4?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/zxoDvhNrQU4/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "6:56",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:54.218Z"
+    },
+    {
+      "videoId": "mg0Aloo_nyk",
+      "title": "Ghost And The Spirit | Panchatantra English Moral Stories For Kids | MahaCartoonTV English",
+      "url": "https://www.youtube.com/watch?v=mg0Aloo_nyk",
+      "embedUrl": "https://www.youtube.com/embed/mg0Aloo_nyk?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/mg0Aloo_nyk/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "4:47",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:54.289Z"
+    },
+    {
+      "videoId": "so9dtazmcpQ",
+      "title": "The Cunning Fox | Cartoons for kids | English Cartoon Stories | Moral Stories for Kids in English",
+      "url": "https://www.youtube.com/watch?v=so9dtazmcpQ",
+      "embedUrl": "https://www.youtube.com/embed/so9dtazmcpQ?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/so9dtazmcpQ/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "6:07",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:54.365Z"
+    },
+    {
+      "videoId": "y_5Flc0oBrg",
+      "title": "The Blue Jackal | Panchatantra English Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=y_5Flc0oBrg",
+      "embedUrl": "https://www.youtube.com/embed/y_5Flc0oBrg?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/y_5Flc0oBrg/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "6:13",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:54.430Z"
+    },
+    {
+      "videoId": "CzWfLYLknzI",
+      "title": "Mouse's Marriage | Panchatantra English Moral Stories For Kids | MahaCartoonTV English",
+      "url": "https://www.youtube.com/watch?v=CzWfLYLknzI",
+      "embedUrl": "https://www.youtube.com/embed/CzWfLYLknzI?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/CzWfLYLknzI/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:07",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:54.517Z"
+    },
+    {
+      "videoId": "eSh3PmsRLks",
+      "title": "The Clever Rooster | English Cartoon | Panchatantra Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=eSh3PmsRLks",
+      "embedUrl": "https://www.youtube.com/embed/eSh3PmsRLks?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/eSh3PmsRLks/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "4:25",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:54.578Z"
+    },
+    {
+      "videoId": "mqRRx-LFOoY",
+      "title": "The Clever Monkey | Panchatantra Moral Stories for Kids in English | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=mqRRx-LFOoY",
+      "embedUrl": "https://www.youtube.com/embed/mqRRx-LFOoY?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/mqRRx-LFOoY/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "4:59",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:54.649Z"
+    },
+    {
+      "videoId": "BzteO-roxc0",
+      "title": "Boastful Horse | Panchatantra Moral Stories for Kids in English | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=BzteO-roxc0",
+      "embedUrl": "https://www.youtube.com/embed/BzteO-roxc0?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/BzteO-roxc0/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:22",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:54.710Z"
+    },
+    {
+      "videoId": "zTk7G73kbHo",
+      "title": "Four Friends | English Cartoon | Panchatantra Moral Stories | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=zTk7G73kbHo",
+      "embedUrl": "https://www.youtube.com/embed/zTk7G73kbHo?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/zTk7G73kbHo/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:41",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:54.774Z"
+    },
+    {
+      "videoId": "4lSOgTZniWA",
+      "title": "Ghost And The Elephant | Panchatantra Moral Stories for Kids In English | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=4lSOgTZniWA",
+      "embedUrl": "https://www.youtube.com/embed/4lSOgTZniWA?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/4lSOgTZniWA/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:44",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:54.848Z"
+    },
+    {
+      "videoId": "XqJC7ehHgJU",
+      "title": "The Haunted Tree | Panchatantra Moral Stories For Kids In English | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=XqJC7ehHgJU",
+      "embedUrl": "https://www.youtube.com/embed/XqJC7ehHgJU?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/XqJC7ehHgJU/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:26",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:54.914Z"
+    },
+    {
+      "videoId": "M_I8S9iy6-E",
+      "title": "Secret Of The Seed | Panchatantra Moral Stories For Kids In English | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=M_I8S9iy6-E",
+      "embedUrl": "https://www.youtube.com/embed/M_I8S9iy6-E?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/M_I8S9iy6-E/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "4:53",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:54.979Z"
+    },
+    {
+      "videoId": "iuAR3BUH4nQ",
+      "title": "Treasure Hunt | Panchatantra Moral Stories For Kids In English | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=iuAR3BUH4nQ",
+      "embedUrl": "https://www.youtube.com/embed/iuAR3BUH4nQ?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/iuAR3BUH4nQ/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:13",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:55.056Z"
+    },
+    {
+      "videoId": "EMTzBRo07YQ",
+      "title": "The Magical Cow | English Cartoon | Moral Stories For Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=EMTzBRo07YQ",
+      "embedUrl": "https://www.youtube.com/embed/EMTzBRo07YQ?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/EMTzBRo07YQ/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:15",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:55.123Z"
+    },
+    {
+      "videoId": "H9-YEdyFlLo",
+      "title": "Hawk and the Hunter | Panchatantra Moral Stories For Kids In English | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=H9-YEdyFlLo",
+      "embedUrl": "https://www.youtube.com/embed/H9-YEdyFlLo?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/H9-YEdyFlLo/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:07",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:55.197Z"
+    },
+    {
+      "videoId": "3ebjAhvN6lc",
+      "title": "Demon And The Magical Herbs | Moral Stories For Kids In English | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=3ebjAhvN6lc",
+      "embedUrl": "https://www.youtube.com/embed/3ebjAhvN6lc?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/3ebjAhvN6lc/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "8:40",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:55.263Z"
+    },
+    {
+      "videoId": "bQQWSLuyS4s",
+      "title": "The Coward Lion | Panchatantra Moral Stories for Kids in English | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=bQQWSLuyS4s",
+      "embedUrl": "https://www.youtube.com/embed/bQQWSLuyS4s?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/bQQWSLuyS4s/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "3:12",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:55.324Z"
+    },
+    {
+      "videoId": "sx_3gfXYfT4",
+      "title": "Lion And The Jackal | Cartoon In English For Kids | Moral Stories | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=sx_3gfXYfT4",
+      "embedUrl": "https://www.youtube.com/embed/sx_3gfXYfT4?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/sx_3gfXYfT4/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "4:53",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:55.393Z"
+    },
+    {
+      "videoId": "ztwJxM2tIco",
+      "title": "Elephant And The Rabbit | Panchatantra Moral Stories for Kids | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=ztwJxM2tIco",
+      "embedUrl": "https://www.youtube.com/embed/ztwJxM2tIco?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/ztwJxM2tIco/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:15",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:55.464Z"
+    },
+    {
+      "videoId": "l5_RyxMfxOc",
+      "title": "The Slacker Donkey | Panchatantra Moral Stories for Kids | English Cartoon | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=l5_RyxMfxOc",
+      "embedUrl": "https://www.youtube.com/embed/l5_RyxMfxOc?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/l5_RyxMfxOc/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "4:27",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:55.529Z"
+    },
+    {
+      "videoId": "_bEvPq-8r40",
+      "title": "Ant And The Arrogant Elephant | Panchatantra Moral Stories for Kids | Maha CartoonTV English",
+      "url": "https://www.youtube.com/watch?v=_bEvPq-8r40",
+      "embedUrl": "https://www.youtube.com/embed/_bEvPq-8r40?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/_bEvPq-8r40/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "6:16",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:55.595Z"
+    },
+    {
+      "videoId": "mY29nWQ65Po",
+      "title": "The Hungry Mouse | Panchatantra Moral Stories for Kids | English Cartoon | Maha CartoonTV English",
+      "url": "https://www.youtube.com/watch?v=mY29nWQ65Po",
+      "embedUrl": "https://www.youtube.com/embed/mY29nWQ65Po?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/mY29nWQ65Po/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:04",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:55.662Z"
+    },
+    {
+      "videoId": "O-AUIiQeFMk",
+      "title": "The Dummy Parrot | Panchatantra Moral Stories for Kids | English Cartoon | Maha CartoonTV English",
+      "url": "https://www.youtube.com/watch?v=O-AUIiQeFMk",
+      "embedUrl": "https://www.youtube.com/embed/O-AUIiQeFMk?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/O-AUIiQeFMk/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "6:10",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:55.728Z"
+    },
+    {
+      "videoId": "Xl5hJencmxE",
+      "title": "Eidi Of Honesty | Moral Stories for Kids | English Cartoon | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=Xl5hJencmxE",
+      "embedUrl": "https://www.youtube.com/embed/Xl5hJencmxE?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/Xl5hJencmxE/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:45",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:55.793Z"
+    },
+    {
+      "videoId": "VlLE76hC9eM",
+      "title": "Saleem And The Beggar | Moral Stories for Kids in English | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=VlLE76hC9eM",
+      "embedUrl": "https://www.youtube.com/embed/VlLE76hC9eM?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/VlLE76hC9eM/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "6:53",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:55.859Z"
+    },
+    {
+      "videoId": "JDpleLVLOik",
+      "title": "The Two Headed Bird | Moral Stories for Kids in English | English Cartoon | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=JDpleLVLOik",
+      "embedUrl": "https://www.youtube.com/embed/JDpleLVLOik?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/JDpleLVLOik/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:16",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:56.078Z"
+    },
+    {
+      "videoId": "CWSYyAC0EqM",
+      "title": "Arrogant Lioness | Panchatantra Moral Story | English Cartoon For Children | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=CWSYyAC0EqM",
+      "embedUrl": "https://www.youtube.com/embed/CWSYyAC0EqM?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/CWSYyAC0EqM/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "8:39",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:56.148Z"
+    },
+    {
+      "videoId": "eqMMT8lQWSk",
+      "title": "Kangaroos And The Monkeys | Panchatantra Moral Story | English Cartoon | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=eqMMT8lQWSk",
+      "embedUrl": "https://www.youtube.com/embed/eqMMT8lQWSk?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/eqMMT8lQWSk/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "5:59",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:56.220Z"
+    },
+    {
+      "videoId": "cn8YVYqEv2Y",
+      "title": "The Stupid Donkey | Panchatantra Moral Story | English Cartoon | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=cn8YVYqEv2Y",
+      "embedUrl": "https://www.youtube.com/embed/cn8YVYqEv2Y?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/cn8YVYqEv2Y/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "7:14",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:56.283Z"
+    },
+    {
+      "videoId": "rBcc0SSwM2Q",
+      "title": "Jackal's Destiny | Panchatantra Moral Story | English Cartoon | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=rBcc0SSwM2Q",
+      "embedUrl": "https://www.youtube.com/embed/rBcc0SSwM2Q?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/rBcc0SSwM2Q/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "6:12",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:56.355Z"
+    },
+    {
+      "videoId": "nsqZBVOxe-k",
+      "title": "Panda's Friendship | Panchatantra Moral Story | English Cartoon | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=nsqZBVOxe-k",
+      "embedUrl": "https://www.youtube.com/embed/nsqZBVOxe-k?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/nsqZBVOxe-k/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "7:30",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:56.450Z"
+    },
+    {
+      "videoId": "TRImDimcXYk",
+      "title": "The Lion And The Cheetah | Panchatantra Moral Stories for Kids in English | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=TRImDimcXYk",
+      "embedUrl": "https://www.youtube.com/embed/TRImDimcXYk?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/TRImDimcXYk/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "6:43",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:56.509Z"
+    },
+    {
+      "videoId": "PepW0wJr0Is",
+      "title": "The Fox's Ghost | Panchatantra Moral Stories for Kids in English | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=PepW0wJr0Is",
+      "embedUrl": "https://www.youtube.com/embed/PepW0wJr0Is?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/PepW0wJr0Is/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "11:22",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:56.633Z"
+    },
+    {
+      "videoId": "iA680aoFiwA",
+      "title": "Bloody Wolf Part 1 | Panchatantra Moral Story | English Cartoon | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=iA680aoFiwA",
+      "embedUrl": "https://www.youtube.com/embed/iA680aoFiwA?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/iA680aoFiwA/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "7:01",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:56.742Z"
+    },
+    {
+      "videoId": "CwZs8vB9EQY",
+      "title": "Bloody Wolf Part 2 | Panchatantra Moral Story | English Cartoon | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=CwZs8vB9EQY",
+      "embedUrl": "https://www.youtube.com/embed/CwZs8vB9EQY?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/CwZs8vB9EQY/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "8:29",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:56.833Z"
+    },
+    {
+      "videoId": "unwGIGZGyrs",
+      "title": "The Cuckoo Queen | English Stories | English Cartoon | Maha Cartoon TV English",
+      "url": "https://www.youtube.com/watch?v=unwGIGZGyrs",
+      "embedUrl": "https://www.youtube.com/embed/unwGIGZGyrs?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/unwGIGZGyrs/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "6:01",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:56.895Z"
+    },
+    {
+      "videoId": "rcJLSLWMNpc",
+      "title": "Fairy And Witch | English Cartoon  | Maha Catoon Tv English | Cartoon",
+      "url": "https://www.youtube.com/watch?v=rcJLSLWMNpc",
+      "embedUrl": "https://www.youtube.com/embed/rcJLSLWMNpc?rel=0&playsinline=1",
+      "thumbnail": "https://i.ytimg.com/vi/rcJLSLWMNpc/hqdefault.jpg",
+      "channel": "Maha Cartoon TV English",
+      "channelUrl": "https://www.youtube.com/@MahaCartoonTVEnglish",
+      "duration": "9:33",
+      "isShort": false,
+      "originalIsShort": false,
+      "provider": "YouTube",
+      "contentType": "youtube_url",
+      "source": {
+        "type": "playlist",
+        "value": "PLGCjirCko2E1crrgMWkX9tKpQ3FkGWUas"
+      },
+      "validated": true,
+      "validatedAt": "2026-06-02T17:39:56.947Z"
+    }
+  ]
+}

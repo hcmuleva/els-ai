@@ -5,6 +5,7 @@ import { createTenantContextMiddleware } from '@els-ai/db-tenant';
 import { db } from './db.js';
 import { requireAuth } from './middleware/auth.js';
 import { contentRouter } from './routes/content.js';
+import { bookmarksRouter } from './routes/bookmarks.js';
 config();
 const PORT = Number(process.env.PORT || 4009);
 const tenantContext = createTenantContextMiddleware();
@@ -15,6 +16,7 @@ app.get('/health', (_req, res) => {
     res.json({ status: 'ok', service: 'content-service' });
 });
 app.use('/content', requireAuth, tenantContext, contentRouter);
+app.use('/bookmarks', requireAuth, tenantContext, bookmarksRouter);
 async function bootstrap() {
     app.listen(PORT, () => {
         console.log(`Content Service listening on http://localhost:${PORT}`);
