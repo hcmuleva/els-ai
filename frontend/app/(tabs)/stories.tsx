@@ -195,15 +195,31 @@ export default function StoriesScreen() {
 
   const loadQuizLibrary = useCallback(async () => {
     try {
-      const r = await apiFetch('/quizzes/teacher/library?status=all&limit=200');
-      if (r.ok) {
+      const merged: any[] = [];
+      let offset = 0;
+      let guard = 0;
+      while (guard < 1000) {
+        const query = new URLSearchParams({ status: 'all', limit: '200', offset: String(offset) });
+        const r = await apiFetch(`/quizzes/teacher/library?${query.toString()}`);
+        if (!r.ok) break;
         const d = await r.json();
-        setQuizLibrary((d.quizzes || d.items || []).map((q: any) => ({
-          id: q.id, title: q.title || q.quiz_title || 'Untitled',
-          classLevel: q.class_level || q.classLevel,
-          questionCount: q.question_count ?? q.questionCount,
-        })));
+        const rows = Array.isArray(d.quizzes) ? d.quizzes : Array.isArray(d.items) ? d.items : [];
+        merged.push(...rows);
+        if (rows.length === 0) break;
+        const total = Number(d.total ?? NaN);
+        if (Number.isFinite(total)) {
+          if (merged.length >= total) break;
+        } else if (rows.length < 200) {
+          break;
+        }
+        offset += rows.length;
+        guard += 1;
       }
+      setQuizLibrary(merged.map((q: any) => ({
+        id: q.id, title: q.title || q.quiz_title || 'Untitled',
+        classLevel: q.class_level || q.classLevel,
+        questionCount: q.question_count ?? q.questionCount,
+      })));
     } catch { /* ignore */ }
   }, [apiFetch]);
 

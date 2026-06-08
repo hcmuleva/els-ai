@@ -255,29 +255,64 @@ export default function QuizExamCreatorScreen() {
     } catch { /* silently fail */ }
   }, [apiFetch, isTeacherView]);
 
+  const fetchPagedRows = useCallback(
+    async (endpoint: string, key: 'questions' | 'quizzes', baseQuery: URLSearchParams, chunkSize = 200) => {
+      const merged: any[] = [];
+      let offset = 0;
+      let guard = 0;
+      while (guard < 1000) {
+        const query = new URLSearchParams(baseQuery);
+        query.set('limit', String(chunkSize));
+        query.set('offset', String(offset));
+        const res = await apiFetch(`${endpoint}?${query.toString()}`);
+        if (!res.ok) {
+          const payload = await res.json().catch(() => ({}));
+          throw new Error(payload.message || `Failed to load ${key}`);
+        }
+        const payload = await res.json();
+        const rows = Array.isArray(payload[key]) ? payload[key] : [];
+        merged.push(...rows);
+        if (rows.length === 0) break;
+        const total = Number(payload.total ?? NaN);
+        if (Number.isFinite(total)) {
+          if (merged.length >= total) break;
+        } else if (rows.length < chunkSize) {
+          break;
+        }
+        offset += rows.length;
+        guard += 1;
+      }
+      return merged;
+    },
+    [apiFetch],
+  );
+
   const loadQuestionBank = useCallback(async () => {
     if (!isTeacherView) return;
     setLoadingQuestionBank(true);
     try {
-      const res = await apiFetch('/question-bank?limit=300');
-      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).message || 'Failed to load question bank');
-      const payload = await res.json();
-      setQuestionBank(payload.questions || []);
+      const query = new URLSearchParams();
+      if (currentDraft.classLevel.trim()) query.set('class_level', currentDraft.classLevel.trim());
+      if (currentDraft.subject.trim()) query.set('subject', currentDraft.subject.trim());
+      const rows = await fetchPagedRows('/question-bank', 'questions', query, 200);
+      setQuestionBank(rows as QuestionBankItem[]);
     } catch (error) {
       setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load question bank' });
     } finally {
       setLoadingQuestionBank(false);
     }
-  }, [apiFetch, isTeacherView]);
+  }, [currentDraft.classLevel, currentDraft.subject, fetchPagedRows, isTeacherView]);
 
   const loadQuizBank = useCallback(async () => {
     if (!isTeacherView) return;
     setLoadingQuizBank(true);
     try {
-      const res = await apiFetch('/quizzes/teacher/library?status=all&limit=300');
-      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).message || 'Failed to load quizzes');
-      const payload = await res.json();
-      const items = Array.isArray(payload.quizzes) ? payload.quizzes : Array.isArray(payload.items) ? payload.items : [];
+      const items = await fetchPagedRows(
+        '/quizzes/teacher/library',
+        'quizzes',
+        new URLSearchParams({ status: 'all' }),
+        200,
+      );
       setQuizBank(items.map((q: any) => ({
         id: String(q.id),
         title: q.title || 'Untitled',
@@ -295,7 +330,7 @@ export default function QuizExamCreatorScreen() {
     } finally {
       setLoadingQuizBank(false);
     }
-  }, [apiFetch, isTeacherView]);
+  }, [fetchPagedRows, isTeacherView]);
 
   const handleDeleteQuiz = async (id: string) => {
     setDeletingQuizId(id);
@@ -316,9 +351,14 @@ export default function QuizExamCreatorScreen() {
   useFocusEffect(
     useCallback(() => {
       loadSubjectCatalog();
-      loadQuestionBank();
       loadQuizBank();
-    }, [loadSubjectCatalog, loadQuestionBank, loadQuizBank]),
+    }, [loadSubjectCatalog, loadQuizBank]),
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      loadQuestionBank();
+    }, [loadQuestionBank]),
   );
 
   const filteredQuizBank = useMemo(() => {

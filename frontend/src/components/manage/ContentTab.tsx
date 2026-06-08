@@ -2,11 +2,12 @@
  * ContentTab — full-screen classroom-style create/edit/details modals.
  * Matches TopicsTab UI style exactly.
  */
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import {
   ActivityIndicator, Image, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
 } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 import {
   ChevronDown, ChevronUp, GripVertical, ChevronLeft,
   Play, Video as VideoIcon, Headphones, Image as ImageIcon, BookOpen,
@@ -19,6 +20,9 @@ import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
 import { getAuthorizedClasses, getAuthorizedSubjects } from '../../utils/assignments';
 import { AppUser } from '../../types/roles';
 import SelectorModal from '../SelectorModal';
+import PaginationControls from '../common/PaginationControls';
+import { usePaginatedResource } from '../../hooks/usePaginatedResource';
+import { createOffsetPageFetcher } from '../../utils/paginationFetcher';
 import { API_BASE_URL } from '../../context/AuthContext';
 import CreateQuizModal from '../quiz/CreateQuizModal';
 import StudentContentViewer, { type StudentContentItem, type StudentTopicMeta } from '../subject/StudentContentViewer';
@@ -291,14 +295,45 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
 
   useEffect(() => {
     if (!isOpen) return;
-    apiFetch('/quizzes/teacher/library?status=all&limit=200')
-      .then((r) => r.ok ? r.json() : { quizzes: [] })
-      .then((d) => setQuizLibrary((d.quizzes ?? d.items ?? []).map((q: any) => ({
-        id: q.id, title: q.title || 'Untitled', classLevel: q.class_level, subject: q.subject,
-        questionCount: q.total_questions ?? q.questionCount ?? 0,
-      }))))
-      .catch(() => {});
-  }, [isOpen]);
+    let cancelled = false;
+    const run = async () => {
+      try {
+        const merged: any[] = [];
+        let offset = 0;
+        let guard = 0;
+        while (!cancelled && guard < 1000) {
+          const query = new URLSearchParams({ status: 'all', limit: '200', offset: String(offset) });
+          if (classLevel.trim()) query.set('class_level', classLevel.trim());
+          if (subject.trim()) query.set('subject', subject.trim());
+          const r = await apiFetch(`/quizzes/teacher/library?${query.toString()}`);
+          if (!r.ok) break;
+          const d = await r.json();
+          const rows = Array.isArray(d.quizzes) ? d.quizzes : Array.isArray(d.items) ? d.items : [];
+          merged.push(...rows);
+          if (rows.length === 0) break;
+          const total = Number(d.total ?? NaN);
+          if (Number.isFinite(total)) {
+            if (merged.length >= total) break;
+          } else if (rows.length < 200) {
+            break;
+          }
+          offset += rows.length;
+          guard += 1;
+        }
+        if (cancelled) return;
+        setQuizLibrary(merged.map((q: any) => ({
+          id: q.id, title: q.title || 'Untitled', classLevel: q.class_level, subject: q.subject,
+          questionCount: q.total_questions ?? q.questionCount ?? 0,
+        })));
+      } catch {
+        if (!cancelled) setQuizLibrary([]);
+      }
+    };
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [apiFetch, classLevel, isOpen, subject]);
 
   const classOptions = useMemo(() =>
     getAuthorizedClasses(user, STANDARD_OPTIONS.map((o) => o.value))
@@ -825,8 +860,8 @@ function ContentCard({ item, idx, onAction }: {
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 type Props = {
-  contentItems: LearningContentItem[];
-  loadingContent: boolean;
+  enabled: boolean;
+  reloadToken: number;
   deletingContentId: string | null;
   filters: { classLevel: string; subject: string };
   subjectCatalog: SubjectCatalogItem[];
@@ -843,7 +878,7 @@ type Props = {
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default function ContentTab({
-  contentItems, loadingContent, deletingContentId, filters, topics,
+  enabled, reloadToken, deletingContentId, filters, topics,
   subjectCatalog, user,
   apiFetch, onFiltersChange, onApplyFilters, onDeleteContent, onRefresh,
   onUploadMedia, message,
@@ -880,36 +915,35 @@ export default function ContentTab({
       }));
   }, [filters.classLevel, filters.subject, subjectCatalog, user]);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  // Debounce the search box into an applied (server-side) search term.
+  const [appliedSearch, setAppliedSearch] = useState('');
+  useEffect(() => {
+    const t = setTimeout(() => setAppliedSearch(searchQuery.trim()), 350);
+    return () => clearTimeout(t);
+  }, [searchQuery]);
 
-  // Reset page on filter or search change
-  useEffect(() => { setCurrentPage(1); }, [searchQuery, filters]);
+  const pageSize = 10;
+  const cacheKey = useMemo(
+    () => `content|${filters.classLevel}|${filters.subject}|${appliedSearch}`,
+    [filters.classLevel, filters.subject, appliedSearch],
+  );
+  const fetchPage = useMemo(() => {
+    const baseQuery = new URLSearchParams();
+    if (filters.classLevel.trim()) baseQuery.set('class_level', filters.classLevel.trim());
+    if (filters.subject.trim()) baseQuery.set('subject', filters.subject.trim());
+    if (appliedSearch.trim()) baseQuery.set('search', appliedSearch.trim());
+    return createOffsetPageFetcher<LearningContentItem>({ apiFetch, endpoint: '/content/items', dataKey: 'items', baseQuery });
+  }, [apiFetch, filters.classLevel, filters.subject, appliedSearch]);
 
-  // Pagination helper
-  const renderPagination = (totalItems: number) => {
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-    if (totalPages <= 1) return null;
-    return (
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16 }}>
-        <Pressable 
-          style={[c.pageBtn, currentPage === 1 && { opacity: 0.5 }]} 
-          onPress={() => setCurrentPage(p => Math.max(1, p - 1))}
-          disabled={currentPage === 1}
-        >
-          <Text style={c.pageBtnText}>Previous</Text>
-        </Pressable>
-        <Text style={c.pageText}>Page {currentPage} of {totalPages}</Text>
-        <Pressable 
-          style={[c.pageBtn, currentPage === totalPages && { opacity: 0.5 }]} 
-          onPress={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-          disabled={currentPage === totalPages}
-        >
-          <Text style={c.pageBtnText}>Next</Text>
-        </Pressable>
-      </View>
-    );
-  };
+  const pager = usePaginatedResource<LearningContentItem>({ cacheKey, pageSize, fetchPage, enabled, persist: true });
+  const loadingContent = pager.loading;
+
+  const firstReloadRef = useRef(true);
+  useEffect(() => {
+    if (firstReloadRef.current) { firstReloadRef.current = false; return; }
+    pager.refresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reloadToken]);
 
   return (
     <View style={c.root}>
@@ -917,7 +951,7 @@ export default function ContentTab({
       <View style={c.pageHeader}>
         <View>
           <Text style={c.pageTitle}>Content</Text>
-          <Text style={c.pageSub}>{contentItems.length} item{contentItems.length !== 1 ? 's' : ''}</Text>
+          <Text style={c.pageSub}>{pager.totalCount} item{pager.totalCount !== 1 ? 's' : ''}</Text>
         </View>
         <Pressable style={c.createBtn} onPress={() => setEditingItem('new')}>
           <Plus size={14} color="#fff" />
@@ -974,49 +1008,61 @@ export default function ContentTab({
       </View>
 
       {/* List */}
-      <ScrollView contentContainerStyle={c.list} showsVerticalScrollIndicator={false}>
-        {loadingContent ? (
-          <View style={c.emptyWrap}><ActivityIndicator size="large" color="#4A90E2" /><Text style={c.loadingText}>Loading content…</Text></View>
-        ) : contentItems.length === 0 ? (
-          <View style={c.emptyWrap}>
-            <View style={{ width: 72, height: 72, borderRadius: 20, backgroundColor: '#FFE8D6', alignItems: 'center', justifyContent: 'center' }}>
-              <VideoIcon size={36} color="#FF4444" />
-            </View>
-            <Text style={c.emptyTitle}>No content yet</Text>
-            <Text style={c.emptySub}>Create your first content item to get started.</Text>
-            <Pressable style={c.emptyBtn} onPress={() => setEditingItem('new')}><Text style={c.emptyBtnText}>Create Content</Text></Pressable>
-          </View>
-        ) : (() => {
-          const keyword = searchQuery.trim().toLowerCase();
-          const visibleItems = keyword
-            ? contentItems.filter((t) => `${t.title} ${t.classLevel} ${t.subject}`.toLowerCase().includes(keyword))
-            : contentItems;
-          if (visibleItems.length === 0) {
-            return (
+      <View style={{ flex: 1 }}>
+        <FlashList
+          data={pager.data}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={c.list}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item, index }) => (
+            <ContentCard
+              item={item}
+              idx={(pager.currentPage - 1) * pager.pageSize + index}
+              onAction={(action) => {
+                if (action === 'details') setDetailsItem(item);
+                else if (action === 'edit') setEditingItem(item);
+                else if (action === 'delete') onDeleteContent(item.id);
+              }}
+            />
+          )}
+          ListEmptyComponent={
+            loadingContent ? (
+              <View style={c.emptyWrap}><ActivityIndicator size="large" color="#4A90E2" /><Text style={c.loadingText}>Loading content…</Text></View>
+            ) : pager.error ? (
               <View style={c.emptyWrap}>
                 <VideoIcon size={36} color="#D0D8F0" />
-                <Text style={c.emptyTitle}>No content matches "{searchQuery}"</Text>
+                <Text style={c.emptyTitle}>Couldn’t load content</Text>
+                <Text style={c.emptySub}>{pager.error}</Text>
+                <Pressable style={c.emptyBtn} onPress={pager.retry}><Text style={c.emptyBtnText}>Retry</Text></Pressable>
               </View>
-            );
+            ) : (
+              <View style={c.emptyWrap}>
+                <View style={{ width: 72, height: 72, borderRadius: 20, backgroundColor: '#FFE8D6', alignItems: 'center', justifyContent: 'center' }}>
+                  <VideoIcon size={36} color="#FF4444" />
+                </View>
+                <Text style={c.emptyTitle}>{appliedSearch ? `No content matches "${appliedSearch}"` : 'No content yet'}</Text>
+                <Text style={c.emptySub}>{appliedSearch ? 'Try a different search or clear filters.' : 'Create your first content item to get started.'}</Text>
+                <Pressable style={c.emptyBtn} onPress={() => setEditingItem('new')}><Text style={c.emptyBtnText}>Create Content</Text></Pressable>
+              </View>
+            )
           }
-          const startIndex = (currentPage - 1) * itemsPerPage;
-          const paginatedItems = visibleItems.slice(startIndex, startIndex + itemsPerPage);
-          return (
-            <>
-              {paginatedItems.map((item, idx) => (
-                <ContentCard key={item.id} item={item} idx={startIndex + idx}
-                  onAction={(action) => {
-                    if (action === 'details') setDetailsItem(item);
-                    else if (action === 'edit') setEditingItem(item);
-                    else if (action === 'delete') onDeleteContent(item.id);
-                  }}
-                />
-              ))}
-              {renderPagination(visibleItems.length)}
-            </>
-          );
-        })()}
-      </ScrollView>
+          ListFooterComponent={
+            pager.data.length > 0 ? (
+              <PaginationControls
+                currentPage={pager.currentPage}
+                totalPages={pager.totalPages}
+                totalCount={pager.totalCount}
+                loading={pager.loading}
+                itemLabel="items"
+                onFirst={pager.goFirst}
+                onPrev={pager.goPrev}
+                onNext={pager.goNext}
+                onLast={pager.goLast}
+              />
+            ) : null
+          }
+        />
+      </View>
 
       {/* Filter selectors */}
       <SelectorModal visible={classFilterOpen}   title="Select Class"   options={classOptions}   selected={filters.classLevel} anyLabel="All Classes"   onSelect={(v) => { onFiltersChange({ classLevel: v, subject: '' }); setClassFilterOpen(false); }}   onClose={() => setClassFilterOpen(false)} />
@@ -1076,9 +1122,13 @@ const c = StyleSheet.create({
   applyBtnText:   { fontSize: 12, fontWeight: '700', color: '#fff' },
   searchBar:      { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: '#F8F9FF', borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 9, marginBottom: 8 },
   searchBarInput: { flex: 1, fontSize: 13, color: '#1a1a2e', paddingVertical: 0 },
-  pageBtn:        { paddingHorizontal: 16, paddingVertical: 8, backgroundColor: '#EEF4FF', borderRadius: 8 },
-  pageBtnText:    { fontSize: 13, fontWeight: '700', color: '#4A90E2' },
-  pageText:       { fontSize: 13, fontWeight: '600', color: '#9A9AB0' },
+  paginationWrap:       { paddingTop: 14, paddingBottom: 4, gap: 10, alignItems: 'center' },
+  paginationButtonsRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 8, width: '100%' },
+  pageBtn:              { minWidth: 88, paddingHorizontal: 14, paddingVertical: 9, backgroundColor: '#EAF2FF', borderRadius: 10, borderWidth: 1, borderColor: '#DCE9FF', alignItems: 'center', justifyContent: 'center' },
+  pageBtnDisabled:      { backgroundColor: '#F2F5FB', borderColor: '#E3E8F4' },
+  pageBtnText:          { fontSize: 14, fontWeight: '700', color: '#2B6FD5' },
+  pageBtnTextDisabled:  { color: '#9BAAC2' },
+  pageText:             { fontSize: 14, fontWeight: '700', color: '#4B5B78', textAlign: 'center' },
 
   emptyWrap:    { alignItems: 'center', paddingVertical: 60, gap: 8 },
   loadingText:  { fontSize: 13, color: '#9A9AB0', fontWeight: '500' },

@@ -345,7 +345,7 @@ export default function ClassroomScreen() {
             <ActivityIndicator size="large" color="#4f46e5" />
             <Text style={styles.loadingText}>Loading Playroom...</Text>
           </View>
-        ) : activeClassrooms.length === 0 ? (
+        ) : activeClassrooms.length === 0 && !(selectedClassroomId && classrooms.find((c) => c.id === selectedClassroomId)) ? (
           <View style={styles.centerWrapper}>
             <SvgXml xml={PENGUIN} width={96} height={96} />
             <Text style={[styles.emptyText, { marginTop: 12, fontSize: 15, fontWeight: '700', color: '#1a1a2e' }]}>No active sessions yet</Text>
@@ -357,7 +357,7 @@ export default function ClassroomScreen() {
         ) : (
           <>
             {/* ── Active Classrooms List ── */}
-            {!selectedClassroomId || !activeClassrooms.find((c) => c.id === selectedClassroomId) ? (
+            {!selectedClassroomId || !classrooms.find((c) => c.id === selectedClassroomId) ? (
               <View style={clStyles.listSection}>
                 <Text style={clStyles.listSectionLabel}>{activeClassrooms.length} active session{activeClassrooms.length !== 1 ? 's' : ''}</Text>
                 {activeClassrooms.slice((activeClassroomPage - 1) * 10, activeClassroomPage * 10).map((room, idx) => {
@@ -439,9 +439,32 @@ export default function ClassroomScreen() {
             ) : (
               <>
                 {/* Back to list */}
-                <Pressable style={clStyles.backToList} onPress={() => setSelectedClassroomId(null)}>
-                  <Text style={clStyles.backToListText}>‹ All Classes</Text>
-                </Pressable>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <Pressable style={clStyles.backToList} onPress={() => setSelectedClassroomId(null)}>
+                    <Text style={clStyles.backToListText}>‹ All Classes</Text>
+                  </Pressable>
+                  {selectedClassroom?.status === 'completed' && (
+                    <View style={{ backgroundColor: '#E5E7EB', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12 }}>
+                      <Text style={{ color: '#4B5563', fontSize: 11, fontWeight: '700' }}>ENDED</Text>
+                    </View>
+                  )}
+                </View>
+
+                {/* Classroom name + class */}
+                {selectedClassroom && (
+                  <View style={{ marginTop: 10, marginBottom: 20 }}>
+                    <Text style={{ fontSize: 20, fontWeight: '800', color: '#1a1a2e' }} numberOfLines={2}>
+                      {selectedClassroom.title}
+                    </Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 4 }}>
+                      <View style={{ backgroundColor: '#E0E7FF', paddingHorizontal: 10, paddingVertical: 3, borderRadius: 10 }}>
+                        <Text style={{ color: '#4f46e5', fontSize: 12, fontWeight: '700' }}>
+                          {getStandardLabel(selectedClassroom.classLevel)}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                )}
 
                 {selectedClassroom && selectedClassroom.scheduleType === 'scheduled' && selectedClassroom.startTime && new Date(selectedClassroom.startTime).getTime() > nowTs ? (
                   <View style={clStyles.notStartedCard}>
@@ -698,7 +721,7 @@ export default function ClassroomScreen() {
                   const ICON_COMPS  = [School, BookOpen, Layers, Trophy, Star];
                   const IconComp    = ICON_COMPS[idx % ICON_COMPS.length];
                   return (
-                    <Pressable key={room.id} style={clStyles.historyCard} onPress={() => setHistorySelectedId(room.id)}>
+                    <Pressable key={room.id} style={clStyles.historyCard} onPress={() => { setSelectedClassroomId(room.id); setActiveTab('content'); setIsHistoryOpen(false); setHistorySelectedId(null); }}>
                       <View style={[clStyles.historyCardIcon, { backgroundColor: BG_COLORS[idx % BG_COLORS.length] }]}>
                         <IconComp size={22} color={ICON_COLORS[idx % ICON_COLORS.length]} />
                       </View>

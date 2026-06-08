@@ -36,6 +36,13 @@ const PUBLIC_PATH_PREFIXES = ['/auth/login', '/auth/register', '/auth/refresh', 
 const app = express();
 app.use(cors());
 
+app.use((req, _res, next) => {
+  if (req.url === '/api' || req.url.startsWith('/api/')) {
+    req.url = req.url.slice(4) || '/';
+  }
+  next();
+});
+
 app.use('/media', express.static(MEDIA_DIR));
 
 app.get('/health', (_req, res) => {
@@ -43,7 +50,8 @@ app.get('/health', (_req, res) => {
 });
 
 function authGuard(req: Request, res: Response, next: NextFunction) {
-  if (PUBLIC_PATH_PREFIXES.some((prefix) => req.path === prefix || req.path.startsWith(`${prefix}/`))) {
+  const normalizedPath = req.path.replace(/^\/api(?=\/|$)/, '') || '/';
+  if (PUBLIC_PATH_PREFIXES.some((prefix) => normalizedPath === prefix || normalizedPath.startsWith(`${prefix}/`))) {
     return next();
   }
   const authHeader = req.headers.authorization;
@@ -66,7 +74,10 @@ function makeProxy(target: string, basePath: string) {
   return createProxyMiddleware({
     target,
     changeOrigin: true,
-    pathRewrite: (incoming) => (incoming.startsWith(basePath) ? incoming : `${basePath}${incoming}`),
+    pathRewrite: (incoming) => {
+      const normalized = incoming.replace(/^\/api(?=\/|$)/, '') || '/';
+      return normalized.startsWith(basePath) ? normalized : `${basePath}${normalized}`;
+    },
     on: {
       proxyReq: fixRequestBody,
     },

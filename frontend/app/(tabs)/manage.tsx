@@ -1120,6 +1120,9 @@ export default function QuestionManagementScreen() {
   const [subjectCatalog, setSubjectCatalog] = useState<SubjectCatalogItem[]>([]);
   const [topics, setTopics] = useState<ContentTopic[]>([]);
   const [loadingTopics, setLoadingTopics] = useState(false);
+  const [topicReloadToken, setTopicReloadToken] = useState(0);
+  const [contentReloadToken, setContentReloadToken] = useState(0);
+  const [questionReloadToken, setQuestionReloadToken] = useState(0);
   const [topicDraft, setTopicDraft] = useState<TopicDraft>(makeInitialTopicDraft());
   const [topicDialogMode, setTopicDialogMode] = useState<'create' | 'edit' | null>(null);
   const [editingTopicId, setEditingTopicId] = useState<string | null>(null);
@@ -1303,23 +1306,64 @@ export default function QuestionManagementScreen() {
     };
   }, []);
 
+  const fetchPaginatedCollection = useCallback(
+    async (endpoint: string, key: string, baseQuery: URLSearchParams, chunkSize = 200) => {
+      const merged: any[] = [];
+      let offset = 0;
+      let guard = 0;
+
+      while (guard < 1000) {
+        const query = new URLSearchParams(baseQuery);
+        query.set('limit', String(chunkSize));
+        query.set('offset', String(offset));
+
+        const res = await apiFetch(`${endpoint}?${query.toString()}`);
+        if (!res.ok) {
+          const errorPayload = await res.json().catch(() => ({}));
+          throw new Error(errorPayload.message || `Failed to load ${key}`);
+        }
+
+        const payload = await res.json();
+        const rows = Array.isArray(payload[key]) ? payload[key] : [];
+        merged.push(...rows);
+
+        if (rows.length === 0) break;
+
+        const total = Number(payload.total ?? NaN);
+        if (Number.isFinite(total)) {
+          if (merged.length >= total) break;
+        } else if (rows.length < chunkSize) {
+          break;
+        }
+
+        offset += rows.length;
+        guard += 1;
+      }
+
+      return merged;
+    },
+    [apiFetch],
+  );
+
   const loadQuestions = useCallback(async () => {
     const query = new URLSearchParams();
-    query.set('limit', '100');
     if (filters.search.trim()) query.set('search', filters.search.trim());
     if (filters.classLevel.trim()) query.set('class_level', filters.classLevel.trim());
     if (filters.subject.trim()) query.set('subject', filters.subject.trim());
     if (filters.category.trim()) query.set('category', filters.category.trim());
 
-    const res = await apiFetch(`/questions?${query.toString()}`);
-    if (!res.ok) {
-      const errorPayload = await res.json().catch(() => ({}));
-      throw new Error(errorPayload.message || 'Failed to load question list');
-    }
-    const payload = await res.json();
-    setQuestions(payload.questions || []);
+    // Refresh the paginated QuestionsTab list.
+    setQuestionReloadToken((t) => t + 1);
+    const rows = await fetchPaginatedCollection('/questions', 'questions', query, 200);
+    setQuestions(rows as QuestionItem[]);
     setQuestionPage(0);
-  }, [apiFetch, filters.category, filters.classLevel, filters.search, filters.subject]);
+  }, [
+    fetchPaginatedCollection,
+    filters.category,
+    filters.classLevel,
+    filters.search,
+    filters.subject,
+  ]);
 
   const loadSubjectCatalog = useCallback(async () => {
     const res = await apiFetch('/content/subjects');
@@ -1348,20 +1392,15 @@ export default function QuestionManagementScreen() {
   }, [apiFetch]);
 
   const loadTopics = useCallback(async () => {
+    // Refresh the paginated TopicsTab list.
+    setTopicReloadToken((t) => t + 1);
+    // Keep the full topic list cached for selector dropdowns (create/assign flows).
     const query = new URLSearchParams();
-    query.set('limit', '200');
     if (contentFilters.classLevel.trim()) query.set('class_level', contentFilters.classLevel.trim());
     if (contentFilters.subject.trim()) query.set('subject', contentFilters.subject.trim());
-
-    const res = await apiFetch(`/topics?${query.toString()}`);
-    if (!res.ok) {
-      const errorPayload = await res.json().catch(() => ({}));
-      throw new Error(errorPayload.message || 'Failed to load topics');
-    }
-    const payload = await res.json();
-    setTopics((payload.topics || []) as ContentTopic[]);
-    setTopicPage(0);
-  }, [apiFetch, contentFilters.classLevel, contentFilters.subject]);
+    const rows = await fetchPaginatedCollection('/topics', 'topics', query, 150);
+    setTopics(rows as ContentTopic[]);
+  }, [contentFilters.classLevel, contentFilters.subject, fetchPaginatedCollection]);
 
   const loadTopicDetails = useCallback(
     async (topicId: string) => {
@@ -1584,19 +1623,24 @@ export default function QuestionManagementScreen() {
 
   const loadContentItems = useCallback(async () => {
     const query = new URLSearchParams();
-    query.set('limit', '300');
-    if (contentItemFilters.classLevel.trim()) query.set('class_level', contentItemFilters.classLevel.trim());
-    if (contentItemFilters.subject.trim()) query.set('subject', contentItemFilters.subject.trim());
+    const classLevelFilter = contentFilters.classLevel.trim() || contentItemFilters.classLevel.trim();
+    const subjectFilter = contentFilters.subject.trim() || contentItemFilters.subject.trim();
+    if (classLevelFilter) query.set('class_level', classLevelFilter);
+    if (subjectFilter) query.set('subject', subjectFilter);
     if (contentItemFilters.topicId.trim()) query.set('topic_id', contentItemFilters.topicId.trim());
-    const res = await apiFetch(`/content/items?${query.toString()}`);
-    if (!res.ok) {
-      const errorPayload = await res.json().catch(() => ({}));
-      throw new Error(errorPayload.message || 'Failed to load content items');
-    }
-    const payload = await res.json();
-    setContentItems((payload.items || []) as LearningContentItem[]);
+    // Refresh the paginated ContentTab list.
+    setContentReloadToken((t) => t + 1);
+    const rows = await fetchPaginatedCollection('/content/items', 'items', query, 200);
+    setContentItems(rows as LearningContentItem[]);
     setContentPage(0);
-  }, [apiFetch, contentItemFilters.classLevel, contentItemFilters.subject, contentItemFilters.topicId]);
+  }, [
+    fetchPaginatedCollection,
+    contentFilters.classLevel,
+    contentFilters.subject,
+    contentItemFilters.classLevel,
+    contentItemFilters.subject,
+    contentItemFilters.topicId,
+  ]);
 
   const createSingleContentItem = async () => {
     if (!contentCreateMeta.classLevel.trim() || !contentCreateMeta.subject.trim()) {
@@ -1755,20 +1799,20 @@ export default function QuestionManagementScreen() {
   const loadTopicQuizzes = async (topicId: string) => {
     setLoadingTopicQuizzes(true);
     try {
-      const [assignedRes, libraryRes] = await Promise.all([
-        apiFetch(`/topics/${topicId}/quizzes`),
-        apiFetch(`/quizzes/teacher/library?status=all&limit=200`),
-      ]);
+      const assignedRes = await apiFetch(`/topics/${topicId}/quizzes`);
       if (assignedRes.ok) {
         const payload = await assignedRes.json();
         const assigned = (payload.quizzes || []) as QuizItem[];
         setTopicQuizzes(assigned);
         setSelectedQuizIds(assigned.map((quiz) => quiz.id));
       }
-      if (libraryRes.ok) {
-        const payload = await libraryRes.json();
-        setAllOrgQuizzes((payload.quizzes || []) as QuizItem[]);
-      }
+      const libraryRows = await fetchPaginatedCollection(
+        '/quizzes/teacher/library',
+        'quizzes',
+        new URLSearchParams({ status: 'all' }),
+        200,
+      );
+      setAllOrgQuizzes(libraryRows as QuizItem[]);
     } catch {
       // silently fail
     } finally {
@@ -2581,7 +2625,7 @@ export default function QuestionManagementScreen() {
                     : activeLearningTab === 'content'
                       ? contentModeTab === 'create'
                         ? contentCreateMeta.classLevel
-                        : contentItemFilters.classLevel
+                        : contentFilters.classLevel || contentItemFilters.classLevel
                       : contentFilters.classLevel;
               return getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, classLevelFilter);
             })();
@@ -3775,8 +3819,8 @@ export default function QuestionManagementScreen() {
 
       {activeLearningTab === 'topic' ? (
         <TopicsTab
-          topics={topics}
-          loading={loadingTopics}
+          enabled={activeLearningTab === 'topic'}
+          reloadToken={topicReloadToken}
           filters={contentFilters}
           subjectCatalog={subjectCatalog}
           contentItems={contentItems}
@@ -3866,8 +3910,8 @@ export default function QuestionManagementScreen() {
 
       {activeLearningTab === 'content' ? (
         <ContentTab
-          contentItems={contentItems}
-          loadingContent={loadingContentItems}
+          enabled={activeLearningTab === 'content'}
+          reloadToken={contentReloadToken}
           deletingContentId={deletingContentId}
           filters={{ classLevel: contentFilters.classLevel, subject: contentFilters.subject }}
           subjectCatalog={subjectCatalog}
@@ -4104,8 +4148,8 @@ export default function QuestionManagementScreen() {
 
       {activeLearningTab === 'question' ? (
         <QuestionsTab
-          questions={questions}
-          loading={loading}
+          enabled={activeLearningTab === 'question'}
+          reloadToken={questionReloadToken}
           deletingQuestionId={deletingQuestionId}
           filters={filters}
           subjectCatalog={subjectCatalog}
