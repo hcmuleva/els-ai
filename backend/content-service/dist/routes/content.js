@@ -53,6 +53,7 @@ const listLearningContentQuerySchema = z.object({
     topic_id: z.string().uuid().optional(),
     search: z.string().trim().optional(),
     limit: z.coerce.number().int().min(1).max(500).default(200),
+    offset: z.coerce.number().int().min(0).max(100000).default(0),
 });
 function getOrganizationId(req) {
     return req?.user?.organizationId || null;
@@ -249,7 +250,7 @@ contentRouter.get('/items', requireAuth, async (req, res) => {
     if (!orgId) {
         return res.status(400).json({ message: 'Organization not found in auth context' });
     }
-    const { class_level, subject, topic_id, search, limit } = parsedQuery.data;
+    const { class_level, subject, topic_id, search, limit, offset } = parsedQuery.data;
     const params = [orgId];
     const whereClauses = ['(lc.organization_id = $1::uuid OR lc.is_global = true)'];
     if (class_level) {
@@ -269,8 +270,13 @@ contentRouter.get('/items', requireAuth, async (req, res) => {
         params.push(topic_id);
         whereClauses.push(`EXISTS (SELECT 1 FROM topic_content_assignments tca WHERE tca.topic_id = $${params.length} AND tca.content_id = lc.id)`);
     }
-    params.push(limit);
+    const filterParams = [...params];
+    params.push(limit, offset);
     try {
+        const countResult = await db.query(`SELECT COUNT(*)::text AS count
+       FROM learning_contents lc
+       LEFT JOIN subjects s ON s.id = lc.subject_id
+       WHERE ${whereClauses.join(' AND ')}`, filterParams);
         const result = await db.query(`SELECT
          lc.id,
          lc.class_level,
@@ -310,7 +316,8 @@ contentRouter.get('/items', requireAuth, async (req, res) => {
        WHERE ${whereClauses.join(' AND ')}
        GROUP BY lc.id, s.title, sec.count, sec.quiz_count
        ORDER BY lc.created_at DESC
-       LIMIT $${params.length}`, params);
+       LIMIT $${params.length - 1}
+       OFFSET $${params.length}`, params);
         const items = await Promise.all(result.rows.map(async (row) => ({
             id: row.id,
             classLevel: row.class_level,
@@ -328,7 +335,12 @@ contentRouter.get('/items', requireAuth, async (req, res) => {
             createdAt: row.created_at,
             updatedAt: row.updated_at,
         })));
-        return res.json({ items });
+        return res.json({
+            items,
+            total: Number(countResult.rows[0]?.count || 0),
+            limit,
+            offset,
+        });
     }
     catch (error) {
         console.error(error);

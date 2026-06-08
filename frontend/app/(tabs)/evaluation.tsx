@@ -40,13 +40,30 @@ export default function ContentEvaluationScreen() {
     setLoading(true);
     setError('');
     try {
-      const res = await apiFetch('/quizzes/teacher/library?source=ai&status=all&limit=100');
-      if (!res.ok) {
-        const errorPayload = await res.json().catch(() => ({}));
-        throw new Error(errorPayload.message || 'Failed to load AI evaluation list');
+      const merged: AiQuizItem[] = [];
+      let offset = 0;
+      let guard = 0;
+      while (guard < 1000) {
+        const query = new URLSearchParams({ source: 'ai', status: 'all', limit: '200', offset: String(offset) });
+        const res = await apiFetch(`/quizzes/teacher/library?${query.toString()}`);
+        if (!res.ok) {
+          const errorPayload = await res.json().catch(() => ({}));
+          throw new Error(errorPayload.message || 'Failed to load AI evaluation list');
+        }
+        const payload = await res.json();
+        const rows = Array.isArray(payload.quizzes) ? payload.quizzes : [];
+        merged.push(...rows);
+        if (rows.length === 0) break;
+        const total = Number(payload.total ?? NaN);
+        if (Number.isFinite(total)) {
+          if (merged.length >= total) break;
+        } else if (rows.length < 200) {
+          break;
+        }
+        offset += rows.length;
+        guard += 1;
       }
-      const payload = await res.json();
-      setAiQuizzes(payload.quizzes || []);
+      setAiQuizzes(merged);
     } catch (loadError) {
       setError(loadError instanceof Error ? loadError.message : 'Failed to load AI evaluation list');
     } finally {

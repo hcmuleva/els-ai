@@ -23,6 +23,7 @@ const listContentTopicsQuerySchema = z.object({
   subject: z.string().trim().optional(),
   search: z.string().trim().optional(),
   limit: z.coerce.number().int().min(1).max(300).default(100),
+  offset: z.coerce.number().int().min(0).max(100000).default(0),
 });
 
 const createContentTopicSchema = z.object({
@@ -125,7 +126,7 @@ topicsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
     return res.status(400).json({ message: 'Organization not found in auth context' });
   }
 
-  const { class_level, subject, search, limit } = parsedQuery.data;
+  const { class_level, subject, search, limit, offset } = parsedQuery.data;
   const params: unknown[] = [orgId];
   const whereClauses: string[] = ['(ct.organization_id = $1::uuid OR ct.is_global = true)'];
 
@@ -142,9 +143,18 @@ topicsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
     const idx = params.length;
     whereClauses.push(`(ct.title ILIKE $${idx} OR COALESCE(s.title, '') ILIKE $${idx})`);
   }
-  params.push(limit);
+  const filterParams = [...params];
+  params.push(limit, offset);
 
   try {
+    const countResult = await db.query<{ count: string }>(
+      `SELECT COUNT(*)::text AS count
+       FROM content_topics ct
+       LEFT JOIN subjects s ON s.id = ct.subject_id
+       WHERE ${whereClauses.join(' AND ')}`,
+      filterParams,
+    );
+
     const result = await db.query(
       `SELECT
          ct.id,
@@ -167,7 +177,8 @@ topicsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
        WHERE ${whereClauses.join(' AND ')}
        GROUP BY ct.id, s.title
        ORDER BY ct.class_level ASC, s.title ASC, ct.title ASC
-       LIMIT $${params.length}`,
+       LIMIT $${params.length - 1}
+       OFFSET $${params.length}`,
       params,
     );
 
@@ -191,7 +202,12 @@ topicsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
       }),
     );
 
-    return res.json({ topics: topicRows });
+    return res.json({
+      topics: topicRows,
+      total: Number(countResult.rows[0]?.count || 0),
+      limit,
+      offset,
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Failed to fetch content topics' });

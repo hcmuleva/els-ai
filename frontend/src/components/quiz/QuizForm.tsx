@@ -201,6 +201,9 @@ export default function QuizForm({
   const [bankTab, setBankTab] = useState<'question' | 'selected'>('question');
   const [questionBankSearch, setQuestionBankSearch] = useState('');
   const [bankTypeFilter, setBankTypeFilter] = useState('');
+  const [bankClassFilter, setBankClassFilter] = useState(initialClassLevel || '');
+  const [bankSubjectFilter, setBankSubjectFilter] = useState(initialSubject || '');
+  const [bankSelectorField, setBankSelectorField] = useState<'bankClass' | 'bankSubject' | null>(null);
   const [loadingQuestionBank, setLoadingQuestionBank] = useState(false);
   const [creating, setCreating] = useState(false);
   const [selectorField, setSelectorField] = useState<SelectorField | null>(null);
@@ -248,24 +251,66 @@ export default function QuizForm({
     } catch { /* ignore */ }
   }, [apiFetch]);
 
+  const fetchPagedQuestions = useCallback(
+    async (baseQuery: URLSearchParams, chunkSize = 200) => {
+      const merged: QuizFormQuestion[] = [];
+      let offset = 0;
+      let guard = 0;
+      while (guard < 1000) {
+        const query = new URLSearchParams(baseQuery);
+        query.set('limit', String(chunkSize));
+        query.set('offset', String(offset));
+        const res = await apiFetch(`/question-bank?${query.toString()}`);
+        if (!res.ok) {
+          throw new Error((await res.json().catch(() => ({}))).message || 'Failed to load question bank');
+        }
+        const payload = await res.json();
+        const rows = Array.isArray(payload.questions) ? payload.questions : [];
+        merged.push(...rows);
+        if (rows.length === 0) break;
+        const total = Number(payload.total ?? NaN);
+        if (Number.isFinite(total)) {
+          if (merged.length >= total) break;
+        } else if (rows.length < chunkSize) {
+          break;
+        }
+        offset += rows.length;
+        guard += 1;
+      }
+      return merged;
+    },
+    [apiFetch],
+  );
+
   const loadQuestionBank = useCallback(async () => {
     setLoadingQuestionBank(true);
     try {
-      const res = await apiFetch('/question-bank?limit=300');
-      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).message || 'Failed to load question bank');
-      const payload = await res.json();
-      setQuestionBank(payload.questions || []);
+      const query = new URLSearchParams();
+      if (bankClassFilter.trim()) query.set('class_level', bankClassFilter.trim());
+      if (bankSubjectFilter.trim()) query.set('subject', bankSubjectFilter.trim());
+      const rows = await fetchPagedQuestions(query, 200);
+      setQuestionBank(rows);
     } catch (error) {
       setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load question bank' });
     } finally {
       setLoadingQuestionBank(false);
     }
-  }, [apiFetch]);
+  }, [bankClassFilter, bankSubjectFilter, fetchPagedQuestions]);
+
+  // Keep the bank scoped to the quiz's class/subject when those change in Setup.
+  useEffect(() => {
+    setBankClassFilter(draft.classLevel || '');
+    setBankSubjectFilter(draft.subject || '');
+    setBankPage(0);
+  }, [draft.classLevel, draft.subject]);
 
   useEffect(() => {
     loadSubjectCatalog();
+  }, [loadSubjectCatalog, refreshKey]);
+
+  useEffect(() => {
     loadQuestionBank();
-  }, [loadSubjectCatalog, loadQuestionBank, refreshKey]);
+  }, [loadQuestionBank, refreshKey]);
 
   const classOptions = useMemo(
     () => getAuthorizedClasses(user, STANDARD_OPTIONS.map((item) => item.value)),
@@ -303,6 +348,36 @@ export default function QuizForm({
       }));
   }, [draft.classLevel, subjectCatalogItems, user]);
 
+  const bankSubjectOptions = useMemo(() => {
+    const titles = getAuthorizedSubjects(
+      user,
+      subjectCatalogItems,
+      (i) => i.classLevel,
+      (i) => i.subject,
+      bankClassFilter || undefined
+    );
+    const byTitle = new Map<string, { coverImage?: string; iconImage?: string; iconBgColor?: string }>();
+    titles.forEach((title) => {
+      const meta = subjectCatalogItems.find(
+        (i) => i.subject === title && (!bankClassFilter || i.classLevel === bankClassFilter)
+      );
+      byTitle.set(title, {
+        coverImage: meta?.coverImage,
+        iconImage: meta?.iconImage,
+        iconBgColor: meta?.iconBgColor,
+      });
+    });
+    return Array.from(byTitle.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([subject, meta]) => ({
+        label: subject,
+        value: subject,
+        coverImage: meta.coverImage,
+        iconUrl: meta.iconImage,
+        iconBgColor: meta.iconBgColor,
+      }));
+  }, [bankClassFilter, subjectCatalogItems, user]);
+
   const filteredQuestionBank = useMemo(() => {
     const keyword = questionBankSearch.trim().toLowerCase();
     const seenSigs = new Set<string>();
@@ -312,14 +387,14 @@ export default function QuizForm({
       if (seenSigs.has(sig)) return false;
       seenSigs.add(sig);
 
-      if (draft.classLevel && q.class_level !== draft.classLevel) return false;
-      if (draft.subject && q.subject !== draft.subject) return false;
+      if (bankClassFilter && q.class_level !== bankClassFilter) return false;
+      if (bankSubjectFilter && q.subject !== bankSubjectFilter) return false;
       if (bankTypeFilter && normalizeQuestionType(q.question_type) !== bankTypeFilter) return false;
       if (!keyword) return true;
       return [q.quiz_title, q.question_title, q.question_instruction, q.question_type]
         .filter(Boolean).join(' ').toLowerCase().includes(keyword);
     });
-  }, [draft.classLevel, draft.subject, bankTypeFilter, questionBank, questionBankSearch]);
+  }, [bankClassFilter, bankSubjectFilter, bankTypeFilter, questionBank, questionBankSearch]);
 
   const selectedQuestionMap = useMemo(() => {
     const map = new Map<string, QuizFormQuestion>();
@@ -666,6 +741,39 @@ export default function QuizForm({
           <View>
             <View style={s.filterRow}>
               <Filter size={13} color="#5A6A8A" />
+              <Text style={s.filterLabel}>Filter by class &amp; subject</Text>
+            </View>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.typeFilterChips}>
+              <Pressable
+                style={[s.typeFilterChip, !!bankClassFilter && s.typeFilterChipActive]}
+                onPress={() => setBankSelectorField('bankClass')}
+              >
+                <Text style={[s.typeFilterChipText, !!bankClassFilter && s.typeFilterChipTextActive]}>
+                  {bankClassFilter ? getStandardLabel(bankClassFilter) : 'All Classes'}
+                </Text>
+              </Pressable>
+              <Pressable
+                style={[s.typeFilterChip, !!bankSubjectFilter && s.typeFilterChipActive]}
+                onPress={() => setBankSelectorField('bankSubject')}
+              >
+                <Text style={[s.typeFilterChipText, !!bankSubjectFilter && s.typeFilterChipTextActive]}>
+                  {bankSubjectFilter || 'All Subjects'}
+                </Text>
+              </Pressable>
+              {(bankClassFilter || bankSubjectFilter) && (
+                <Pressable
+                  style={s.typeFilterChip}
+                  onPress={() => { setBankClassFilter(''); setBankSubjectFilter(''); setBankPage(0); }}
+                >
+                  <Text style={s.typeFilterChipText}>✕ Clear</Text>
+                </Pressable>
+              )}
+            </ScrollView>
+          </View>
+
+          <View>
+            <View style={s.filterRow}>
+              <Filter size={13} color="#5A6A8A" />
               <Text style={s.filterLabel}>Filter by type</Text>
             </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.typeFilterChips}>
@@ -805,6 +913,26 @@ export default function QuizForm({
         isSubject={selectorField === 'subject'}
         onSelect={applySelectorValue}
         onClose={() => setSelectorField(null)}
+      />
+
+      <SelectorModal
+        visible={bankSelectorField !== null}
+        title={bankSelectorField === 'bankClass' ? 'Filter by Standard' : 'Filter by Subject'}
+        options={
+          bankSelectorField === 'bankClass'
+            ? classOptions.map((o) => ({ label: getStandardLabel(o), value: o }))
+            : bankSubjectOptions
+        }
+        selected={bankSelectorField === 'bankClass' ? bankClassFilter : bankSubjectFilter}
+        isSubject={bankSelectorField === 'bankSubject'}
+        anyLabel={bankSelectorField === 'bankClass' ? 'All Classes' : 'All Subjects'}
+        onSelect={(value) => {
+          if (bankSelectorField === 'bankClass') { setBankClassFilter(value); setBankSubjectFilter(''); }
+          else if (bankSelectorField === 'bankSubject') { setBankSubjectFilter(value); }
+          setBankPage(0);
+          setBankSelectorField(null);
+        }}
+        onClose={() => setBankSelectorField(null)}
       />
 
       <Modal visible={viewQuestion !== null} transparent animationType="fade" onRequestClose={() => setViewQuestion(null)}>

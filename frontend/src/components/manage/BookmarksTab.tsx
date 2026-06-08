@@ -328,12 +328,31 @@ function BookmarkEditorModal({ editing, apiFetch, user, catalog, onClose, onSave
   const loadTopics = useCallback(async (cls: string, subj: string) => {
     setLoadingTopics(true);
     try {
-      const query = new URLSearchParams();
-      query.set('class_level', cls);
-      query.set('subject', subj);
-      const res = await apiFetch(`/topics?${query.toString()}`);
-      const data = res.ok ? await res.json() : { topics: [] };
-      setTopics((data.topics || []).map((t: any) => ({
+      const merged: any[] = [];
+      let offset = 0;
+      let guard = 0;
+      while (guard < 1000) {
+        const query = new URLSearchParams();
+        query.set('class_level', cls);
+        query.set('subject', subj);
+        query.set('limit', '150');
+        query.set('offset', String(offset));
+        const res = await apiFetch(`/topics?${query.toString()}`);
+        if (!res.ok) break;
+        const data = await res.json();
+        const rows = Array.isArray(data.topics) ? data.topics : [];
+        merged.push(...rows);
+        if (rows.length === 0) break;
+        const total = Number(data.total ?? NaN);
+        if (Number.isFinite(total)) {
+          if (merged.length >= total) break;
+        } else if (rows.length < 150) {
+          break;
+        }
+        offset += rows.length;
+        guard += 1;
+      }
+      setTopics(merged.map((t: any) => ({
         id: t.id, title: t.title, subject: t.subject, classLevel: t.classLevel,
         contentCount: t.contentCount, quizCount: t.quizCount,
       })));

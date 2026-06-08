@@ -15,6 +15,7 @@ const questionManagementQuerySchema = z.object({
   quiz_type: z.string().trim().optional(),
   quiz_id: z.string().uuid().optional(),
   limit: z.coerce.number().int().min(1).max(500).default(100),
+  offset: z.coerce.number().int().min(0).max(100000).default(0),
 });
 
 const questionBankQuerySchema = z.object({
@@ -23,6 +24,7 @@ const questionBankQuerySchema = z.object({
   subject: z.string().trim().optional(),
   question_type: z.string().trim().optional(),
   limit: z.coerce.number().int().min(1).max(300).default(120),
+  offset: z.coerce.number().int().min(0).max(100000).default(0),
 });
 
 const updateQuestionSchema = z
@@ -187,7 +189,7 @@ questionsRouter.get('/', requireAuth, async (req: any, res) => {
     return res.status(400).json({ message: 'Organization not found in auth context' });
   }
 
-  const { search, class_level, subject, category, quiz_type, quiz_id, limit } = parsedQuery.data;
+  const { search, class_level, subject, category, quiz_type, quiz_id, limit, offset } = parsedQuery.data;
   const params: unknown[] = [orgId];
   const whereClauses: string[] = [
     `(q.organization_id = $1::uuid OR COALESCE(qq.question_data->'_meta'->>'organizationId', '') = $1::text)`,
@@ -222,9 +224,19 @@ questionsRouter.get('/', requireAuth, async (req: any, res) => {
     whereClauses.push(`qq.quiz_id = $${params.length}`);
   }
 
-  params.push(limit);
+  const filterParams = [...params];
+  params.push(limit, offset);
 
   try {
+    const countResult = await db.query<{ count: string }>(
+      `SELECT COUNT(*)::text AS count
+       FROM quiz_questions qq
+       LEFT JOIN quizzes q ON q.id = qq.quiz_id
+       LEFT JOIN subjects qsubj ON qsubj.id = q.subject_id
+       WHERE ${whereClauses.join(' AND ')}`,
+      filterParams,
+    );
+
     const result = await db.query(
       `SELECT
          qq.id,
@@ -246,10 +258,16 @@ questionsRouter.get('/', requireAuth, async (req: any, res) => {
        LEFT JOIN subjects qsubj ON qsubj.id = q.subject_id
        WHERE ${whereClauses.join(' AND ')}
        ORDER BY qq.created_at DESC
-       LIMIT $${params.length}`,
+       LIMIT $${params.length - 1}
+       OFFSET $${params.length}`,
       params,
     );
-    return res.json({ questions: result.rows });
+    return res.json({
+      questions: result.rows,
+      total: Number(countResult.rows[0]?.count || 0),
+      limit,
+      offset,
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Failed to fetch questions' });
@@ -647,7 +665,7 @@ questionBankRouter.get('/', requireAuth, async (req: any, res) => {
     return res.status(400).json({ message: 'Organization not found in auth context' });
   }
 
-  const { search, class_level, subject, question_type, limit } = parsedQuery.data;
+  const { search, class_level, subject, question_type, limit, offset } = parsedQuery.data;
   const params: unknown[] = [orgId];
   const whereClauses: string[] = [
     `(q.organization_id = $1::uuid OR COALESCE(qq.question_data->'_meta'->>'organizationId', '') = $1::text)`,
@@ -674,9 +692,19 @@ questionBankRouter.get('/', requireAuth, async (req: any, res) => {
     whereClauses.push(`qq.question_type = $${params.length}`);
   }
 
-  params.push(limit);
+  const filterParams = [...params];
+  params.push(limit, offset);
 
   try {
+    const countResult = await db.query<{ count: string }>(
+      `SELECT COUNT(*)::text AS count
+       FROM quiz_questions qq
+       LEFT JOIN quizzes q ON q.id = qq.quiz_id
+       LEFT JOIN subjects qsubj ON qsubj.id = q.subject_id
+       WHERE ${whereClauses.join(' AND ')}`,
+      filterParams,
+    );
+
     const result = await db.query(
       `SELECT
          qq.id,
@@ -699,11 +727,17 @@ questionBankRouter.get('/', requireAuth, async (req: any, res) => {
        LEFT JOIN subjects qsubj ON qsubj.id = q.subject_id
        WHERE ${whereClauses.join(' AND ')}
        ORDER BY qq.created_at DESC
-       LIMIT $${params.length}`,
+       LIMIT $${params.length - 1}
+       OFFSET $${params.length}`,
       params,
     );
     const signedRows = await signQuestionRowsMedia(result.rows as Record<string, unknown>[]);
-    return res.json({ questions: signedRows });
+    return res.json({
+      questions: signedRows,
+      total: Number(countResult.rows[0]?.count || 0),
+      limit,
+      offset,
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Failed to load question bank' });

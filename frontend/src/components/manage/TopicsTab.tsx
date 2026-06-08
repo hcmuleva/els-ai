@@ -3,11 +3,12 @@
  * Tabs: ⚙ Setup | 📚 Sections | 👁 Preview
  * Sections tab: assign content + quizzes with order management (planner style).
  */
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import {
   ActivityIndicator, Image, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
 } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 import {
   ChevronDown, ChevronUp, GripVertical,
   Play, Video as VideoIcon, Headphones, Image as ImageIcon, BookOpen,
@@ -20,6 +21,9 @@ import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
 import { getAuthorizedClasses, getAuthorizedSubjects } from '../../utils/assignments';
 import { AppUser } from '../../types/roles';
 import SelectorModal from '../SelectorModal';
+import PaginationControls from '../common/PaginationControls';
+import { usePaginatedResource } from '../../hooks/usePaginatedResource';
+import { createOffsetPageFetcher } from '../../utils/paginationFetcher';
 import { API_BASE_URL } from '../../context/AuthContext';
 import StudentContentViewer, { type StudentContentItem, type StudentTopicMeta } from '../subject/StudentContentViewer';
 
@@ -387,8 +391,8 @@ function TopicCard({ topic, idx, onAction }: {
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 type Props = {
-  topics: ContentTopic[];
-  loading: boolean;
+  enabled: boolean;
+  reloadToken: number;
   filters: { classLevel: string; subject: string };
   subjectCatalog: SubjectCatalogItem[];
   contentItems: ContentItem[];
@@ -404,7 +408,7 @@ type Props = {
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default function TopicsTab({
-  topics, loading, filters, subjectCatalog, contentItems, apiFetch, user,
+  enabled, reloadToken, filters, subjectCatalog, contentItems, apiFetch, user,
   onFiltersChange, onApplyFilters, onTopicAction, onRefresh, onUploadCover, message,
 }: Props) {
   // List filter selectors
@@ -505,13 +509,43 @@ export default function TopicsTab({
   // Load quiz library when class is selected
   useEffect(() => {
     if (!classLevel || !isOpen) return;
-    setLoadingQuizzes(true);
-    apiFetch(`/quizzes/teacher/library?status=all&limit=200`)
-      .then((r) => r.ok ? r.json() : { quizzes: [] })
-      .then((d) => setAllQuizzes(d.quizzes ?? []))
-      .catch(() => {})
-      .finally(() => setLoadingQuizzes(false));
-  }, [classLevel, isOpen]);
+    let cancelled = false;
+    const run = async () => {
+      setLoadingQuizzes(true);
+      try {
+        const merged: QuizItem[] = [];
+        let offset = 0;
+        let guard = 0;
+        while (!cancelled && guard < 1000) {
+          const q = new URLSearchParams({ status: 'all', class_level: classLevel, limit: '200', offset: String(offset) });
+          if (quizSubjectFilter.trim()) q.set('subject', quizSubjectFilter.trim());
+          const r = await apiFetch(`/quizzes/teacher/library?${q.toString()}`);
+          if (!r.ok) break;
+          const d = await r.json();
+          const rows = Array.isArray(d.quizzes) ? d.quizzes : [];
+          merged.push(...rows);
+          if (rows.length === 0) break;
+          const total = Number(d.total ?? NaN);
+          if (Number.isFinite(total)) {
+            if (merged.length >= total) break;
+          } else if (rows.length < 200) {
+            break;
+          }
+          offset += rows.length;
+          guard += 1;
+        }
+        if (!cancelled) setAllQuizzes(merged);
+      } catch {
+        if (!cancelled) setAllQuizzes([]);
+      } finally {
+        if (!cancelled) setLoadingQuizzes(false);
+      }
+    };
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [apiFetch, classLevel, isOpen, quizSubjectFilter]);
 
   const openCreate = () => {
     setEditingId(null); setTitle(''); setClassLevel(''); setSubject('');
@@ -569,6 +603,7 @@ export default function TopicsTab({
       setToast({ type: 'success', text: editingId ? 'Topic updated.' : 'Topic created.' });
       setTopicPreviewOpen(false);
       setIsOpen(false);
+      pager.refresh();
       onRefresh();
     } catch (e) {
       setToast({ type: 'error', text: e instanceof Error ? e.message : 'Failed to save topic' });
@@ -710,36 +745,36 @@ export default function TopicsTab({
     }
   };
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  // Debounce the search box into an applied (server-side) search term.
+  const [appliedSearch, setAppliedSearch] = useState('');
+  useEffect(() => {
+    const t = setTimeout(() => setAppliedSearch(searchQuery.trim()), 350);
+    return () => clearTimeout(t);
+  }, [searchQuery]);
 
-  // Reset page on filter or search change
-  useEffect(() => { setCurrentPage(1); }, [searchQuery, filters]);
+  const pageSize = 10;
+  const cacheKey = useMemo(
+    () => `topics|${filters.classLevel}|${filters.subject}|${appliedSearch}`,
+    [filters.classLevel, filters.subject, appliedSearch],
+  );
+  const fetchPage = useMemo(() => {
+    const baseQuery = new URLSearchParams();
+    if (filters.classLevel.trim()) baseQuery.set('class_level', filters.classLevel.trim());
+    if (filters.subject.trim()) baseQuery.set('subject', filters.subject.trim());
+    if (appliedSearch.trim()) baseQuery.set('search', appliedSearch.trim());
+    return createOffsetPageFetcher<ContentTopic>({ apiFetch, endpoint: '/topics', dataKey: 'topics', baseQuery });
+  }, [apiFetch, filters.classLevel, filters.subject, appliedSearch]);
 
-  // Pagination helper
-  const renderPagination = (totalItems: number) => {
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-    if (totalPages <= 1) return null;
-    return (
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16 }}>
-        <Pressable 
-          style={[s.pageBtn, currentPage === 1 && { opacity: 0.5 }]} 
-          onPress={() => setCurrentPage(p => Math.max(1, p - 1))}
-          disabled={currentPage === 1}
-        >
-          <Text style={s.pageBtnText}>Previous</Text>
-        </Pressable>
-        <Text style={s.pageText}>Page {currentPage} of {totalPages}</Text>
-        <Pressable 
-          style={[s.pageBtn, currentPage === totalPages && { opacity: 0.5 }]} 
-          onPress={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-          disabled={currentPage === totalPages}
-        >
-          <Text style={s.pageBtnText}>Next</Text>
-        </Pressable>
-      </View>
-    );
-  };
+  const pager = usePaginatedResource<ContentTopic>({ cacheKey, pageSize, fetchPage, enabled, persist: true });
+  const loading = pager.loading;
+
+  // Refresh current page when the parent signals a mutation (create/edit/delete).
+  const firstReloadRef = useRef(true);
+  useEffect(() => {
+    if (firstReloadRef.current) { firstReloadRef.current = false; return; }
+    pager.refresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reloadToken]);
 
   return (
     <View style={s.root}>
@@ -747,7 +782,7 @@ export default function TopicsTab({
       <View style={s.pageHeader}>
         <View>
           <Text style={s.pageTitle}>Topics</Text>
-          <Text style={s.pageSub}>{topics.length} topic{topics.length !== 1 ? 's' : ''}</Text>
+          <Text style={s.pageSub}>{pager.totalCount} topic{pager.totalCount !== 1 ? 's' : ''}</Text>
         </View>
         <Pressable style={s.createBtn} onPress={openCreate}>
           <Plus size={14} color="#fff" />
@@ -809,53 +844,64 @@ export default function TopicsTab({
       </View>
 
       {/* ── Topic list ── */}
-      <ScrollView contentContainerStyle={s.list} showsVerticalScrollIndicator={false}>
-        {loading ? (
-          <View style={s.emptyWrap}>
-            <ActivityIndicator size="large" color="#4A90E2" />
-            <Text style={s.loadingText}>Loading topics…</Text>
-          </View>
-        ) : topics.length === 0 ? (
-          <View style={s.emptyWrap}>
-            <View style={{ width: 72, height: 72, borderRadius: 20, backgroundColor: '#EEF4FF', alignItems: 'center', justifyContent: 'center' }}>
-              <FolderOpen size={36} color="#4A90E2" />
-            </View>
-            <Text style={s.emptyTitle}>No topics yet</Text>
-            <Text style={s.emptySub}>Create your first topic to get started.</Text>
-            <Pressable style={s.emptyBtn} onPress={openCreate}><Text style={s.emptyBtnText}>Create Topic</Text></Pressable>
-          </View>
-        ) : (() => {
-          const keyword = searchQuery.trim().toLowerCase();
-          const visibleTopics = keyword
-            ? topics.filter((t) => `${t.title} ${t.classLevel} ${t.subject}`.toLowerCase().includes(keyword))
-            : topics;
-          if (visibleTopics.length === 0) {
-            return (
+      <View style={{ flex: 1 }}>
+        <FlashList
+          data={pager.data}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={s.list}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item, index }) => (
+            <TopicCard
+              topic={item}
+              idx={(pager.currentPage - 1) * pager.pageSize + index}
+              onAction={(action) => {
+                if (action === 'edit') openEdit(item);
+                else if (action === 'details') setDetailsTopic(item);
+                else if (action === 'delete') onTopicAction(item, 'delete');
+              }}
+            />
+          )}
+          ListEmptyComponent={
+            loading ? (
+              <View style={s.emptyWrap}>
+                <ActivityIndicator size="large" color="#4A90E2" />
+                <Text style={s.loadingText}>Loading topics…</Text>
+              </View>
+            ) : pager.error ? (
               <View style={s.emptyWrap}>
                 <FolderOpen size={36} color="#D0D8F0" />
-                <Text style={s.emptyTitle}>No topics match "{searchQuery}"</Text>
+                <Text style={s.emptyTitle}>Couldn’t load topics</Text>
+                <Text style={s.emptySub}>{pager.error}</Text>
+                <Pressable style={s.emptyBtn} onPress={pager.retry}><Text style={s.emptyBtnText}>Retry</Text></Pressable>
               </View>
-            );
+            ) : (
+              <View style={s.emptyWrap}>
+                <View style={{ width: 72, height: 72, borderRadius: 20, backgroundColor: '#EEF4FF', alignItems: 'center', justifyContent: 'center' }}>
+                  <FolderOpen size={36} color="#4A90E2" />
+                </View>
+                <Text style={s.emptyTitle}>{appliedSearch ? `No topics match "${appliedSearch}"` : 'No topics yet'}</Text>
+                <Text style={s.emptySub}>{appliedSearch ? 'Try a different search or clear filters.' : 'Create your first topic to get started.'}</Text>
+                <Pressable style={s.emptyBtn} onPress={openCreate}><Text style={s.emptyBtnText}>Create Topic</Text></Pressable>
+              </View>
+            )
           }
-          const startIndex = (currentPage - 1) * itemsPerPage;
-          const paginatedTopics = visibleTopics.slice(startIndex, startIndex + itemsPerPage);
-          return (
-            <>
-              {paginatedTopics.map((topic, idx) => (
-                <TopicCard
-                  key={topic.id} topic={topic} idx={startIndex + idx}
-                  onAction={(action) => {
-                    if (action === 'edit') openEdit(topic);
-                    else if (action === 'details') setDetailsTopic(topic);
-                    else if (action === 'delete') onTopicAction(topic, 'delete');
-                  }}
-                />
-              ))}
-              {renderPagination(visibleTopics.length)}
-            </>
-          );
-        })()}
-      </ScrollView>
+          ListFooterComponent={
+            pager.data.length > 0 ? (
+              <PaginationControls
+                currentPage={pager.currentPage}
+                totalPages={pager.totalPages}
+                totalCount={pager.totalCount}
+                loading={pager.loading}
+                itemLabel="topics"
+                onFirst={pager.goFirst}
+                onPrev={pager.goPrev}
+                onNext={pager.goNext}
+                onLast={pager.goLast}
+              />
+            ) : null
+          }
+        />
+      </View>
 
       {/* ── Filter selectors ── */}
       <SelectorModal visible={classFilterOpen} title="Select Class" options={classOptions} selected={filters.classLevel} anyLabel="All Classes" onSelect={(v) => { onFiltersChange({ classLevel: v, subject: '' }); setClassFilterOpen(false); }} onClose={() => setClassFilterOpen(false)} />

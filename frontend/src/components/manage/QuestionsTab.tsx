@@ -9,6 +9,7 @@ import {
   ActivityIndicator, Dimensions, Image, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
 } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 import {
   ChevronLeft, ChevronRight, Search, Filter, X,
   Zap, Clock, Eye, Volume2, CheckSquare, SplitSquareHorizontal, ListChecks, Layers, HelpCircle, ClipboardList,
@@ -16,6 +17,9 @@ import {
 } from 'lucide-react-native';
 import { Audio } from 'expo-av';
 import SelectorModal from '../SelectorModal';
+import PaginationControls from '../common/PaginationControls';
+import { usePaginatedResource } from '../../hooks/usePaginatedResource';
+import { createOffsetPageFetcher } from '../../utils/paginationFetcher';
 import JigsawRenderer from '../quiz/JigsawRenderer';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
@@ -612,8 +616,8 @@ function QuestionCard({ question, idx, onAction }: {
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 type Props = {
-  questions: QuestionItem[];
-  loading: boolean;
+  enabled: boolean;
+  reloadToken: number;
   deletingQuestionId: string | null;
   filters: Filters;
   subjectCatalog: SubjectCatalogItem[];
@@ -628,14 +632,43 @@ type Props = {
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default function QuestionsTab({
-  questions, loading, deletingQuestionId, filters, subjectCatalog, apiFetch, user,
+  enabled, reloadToken, deletingQuestionId, filters, subjectCatalog, apiFetch, user,
   onFiltersChange, onApplyFilters, onOpenCreate, onQuestionAction, message,
 }: Props) {
   const [classOpen, setClassOpen]         = useState(false);
   const [subjectOpen, setSubjectOpen]     = useState(false);
   const [detailsQuestion, setDetailsQuestion] = useState<QuestionFull | null>(null);
   const [fetchingDetails, setFetchingDetails] = useState(false);
-  const [page, setPage] = useState(0);
+
+  // Debounce the search box into an applied (server-side) search term.
+  const [appliedSearch, setAppliedSearch] = useState(filters.search || '');
+  useEffect(() => {
+    const t = setTimeout(() => setAppliedSearch((filters.search || '').trim()), 350);
+    return () => clearTimeout(t);
+  }, [filters.search]);
+
+  const cacheKey = useMemo(
+    () => `questions|${filters.classLevel}|${filters.subject}|${filters.category}|${appliedSearch}`,
+    [filters.classLevel, filters.subject, filters.category, appliedSearch],
+  );
+  const fetchPage = useMemo(() => {
+    const baseQuery = new URLSearchParams();
+    if (appliedSearch.trim()) baseQuery.set('search', appliedSearch.trim());
+    if (filters.classLevel.trim()) baseQuery.set('class_level', filters.classLevel.trim());
+    if (filters.subject.trim()) baseQuery.set('subject', filters.subject.trim());
+    if (filters.category.trim()) baseQuery.set('category', filters.category.trim());
+    return createOffsetPageFetcher<QuestionItem>({ apiFetch, endpoint: '/questions', dataKey: 'questions', baseQuery });
+  }, [apiFetch, appliedSearch, filters.classLevel, filters.subject, filters.category]);
+
+  const pager = usePaginatedResource<QuestionItem>({ cacheKey, pageSize: PAGE_SIZE, fetchPage, enabled, persist: true });
+  const loading = pager.loading;
+
+  const firstReloadRef = useRef(true);
+  useEffect(() => {
+    if (firstReloadRef.current) { firstReloadRef.current = false; return; }
+    pager.refresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reloadToken]);
 
   const openDetails = async (q: QuestionItem) => {
     setFetchingDetails(true);
@@ -680,7 +713,7 @@ export default function QuestionsTab({
       <View style={q.pageHeader}>
         <View>
           <Text style={q.pageTitle}>Questions</Text>
-          <Text style={q.pageSub}>{questions.length} question{questions.length !== 1 ? 's' : ''}</Text>
+          <Text style={q.pageSub}>{pager.totalCount} question{pager.totalCount !== 1 ? 's' : ''}</Text>
         </View>
         <Pressable style={q.createBtn} onPress={onOpenCreate}>
           <Text style={q.createBtnText}>+ New Question</Text>
@@ -702,7 +735,7 @@ export default function QuestionsTab({
             <Text style={q.filterLabel}>Filters</Text>
           </View>
           {hasFilters && (
-            <Pressable style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }} onPress={() => { onFiltersChange({ classLevel: '', subject: '', category: '', search: '' }); onApplyFilters(); setPage(0); }}>
+            <Pressable style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }} onPress={() => { onFiltersChange({ classLevel: '', subject: '', category: '', search: '' }); onApplyFilters(); pager.goFirst(); }}>
               <X size={11} color="#DC2626" />
               <Text style={q.clearAllText}>Clear all</Text>
             </Pressable>
@@ -715,14 +748,14 @@ export default function QuestionsTab({
           <TextInput
             value={filters.search}
             onChangeText={(v) => onFiltersChange({ search: v })}
-            onSubmitEditing={() => { onApplyFilters(); setPage(0); }}
+            onSubmitEditing={() => { onApplyFilters(); pager.goFirst(); }}
             returnKeyType="search"
             placeholder="Search questions..."
             placeholderTextColor="#A0A8C0"
             style={q.searchInput}
           />
           {filters.search !== '' && (
-            <Pressable onPress={() => { onFiltersChange({ search: '' }); onApplyFilters(); setPage(0); }}>
+            <Pressable onPress={() => { onFiltersChange({ search: '' }); onApplyFilters(); pager.goFirst(); }}>
               <X size={14} color="#9A9AB0" />
             </Pressable>
           )}
@@ -765,7 +798,7 @@ export default function QuestionsTab({
               <Pressable
                 key={key}
                 style={[q.typeChip, active && { backgroundColor: cfg.bg, borderColor: cfg.color }]}
-                onPress={() => { onFiltersChange({ category: active ? '' : key }); setPage(0); }}
+                onPress={() => { onFiltersChange({ category: active ? '' : key }); pager.goFirst(); }}
               >
                 <cfg.Icon size={13} color={active ? cfg.color : '#9A9AB0'} />
                 <Text style={[q.typeChipText, active && { color: cfg.color, fontWeight: '800' }]}>{cfg.label}</Text>
@@ -776,17 +809,56 @@ export default function QuestionsTab({
       </View>
 
       {/* List */}
-      {(() => {
-        const totalPages = Math.max(1, Math.ceil(questions.length / PAGE_SIZE));
-        const pagedQuestions = questions.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
-        return (
-          <ScrollView contentContainerStyle={q.list} showsVerticalScrollIndicator={false}>
-            {loading ? (
+      <View style={{ flex: 1 }}>
+        <FlashList
+          data={pager.data}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={q.list}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item, index }) => (
+            <QuestionCard
+              question={item}
+              idx={(pager.currentPage - 1) * pager.pageSize + index}
+              onAction={async (action) => {
+                if (action === 'view') {
+                  openDetails(item);
+                } else if (action === 'edit') {
+                  setFetchingDetails(true);
+                  try {
+                    const res = await apiFetch(`/questions/${item.id}`);
+                    if (res.ok) {
+                      const payload = await res.json();
+                      onQuestionAction(payload.question, 'edit');
+                    } else {
+                      onQuestionAction(item, 'edit');
+                    }
+                  } catch {
+                    onQuestionAction(item, 'edit');
+                  } finally {
+                    setFetchingDetails(false);
+                  }
+                } else {
+                  onQuestionAction(item, action);
+                }
+              }}
+            />
+          )}
+          ListEmptyComponent={
+            loading ? (
               <View style={q.emptyWrap}>
                 <ActivityIndicator size="large" color="#4A90E2" />
                 <Text style={q.loadingText}>Loading questions…</Text>
               </View>
-            ) : questions.length === 0 ? (
+            ) : pager.error ? (
+              <View style={q.emptyWrap}>
+                <HelpCircle size={48} color="#D0D8F0" />
+                <Text style={q.emptyTitle}>Couldn’t load questions</Text>
+                <Text style={q.emptySub}>{pager.error}</Text>
+                <Pressable style={q.emptyBtn} onPress={pager.retry}>
+                  <Text style={q.emptyBtnText}>Retry</Text>
+                </Pressable>
+              </View>
+            ) : (
               <View style={q.emptyWrap}>
                 <HelpCircle size={48} color="#D0D8F0" />
                 <Text style={q.emptyTitle}>No questions found</Text>
@@ -795,67 +867,29 @@ export default function QuestionsTab({
                   <Text style={q.emptyBtnText}>Create Question</Text>
                 </Pressable>
               </View>
-            ) : (
-              <>
-                {pagedQuestions.map((question, idx) => (
-                  <QuestionCard
-                    key={question.id}
-                    question={question}
-                    idx={page * PAGE_SIZE + idx}
-                    onAction={async (action) => {
-                      if (action === 'view') {
-                        openDetails(question);
-                      } else if (action === 'edit') {
-                        setFetchingDetails(true);
-                        try {
-                          const res = await apiFetch(`/questions/${question.id}`);
-                          if (res.ok) {
-                            const payload = await res.json();
-                            onQuestionAction(payload.question, 'edit');
-                          } else {
-                            onQuestionAction(question, 'edit');
-                          }
-                        } catch {
-                          onQuestionAction(question, 'edit');
-                        } finally {
-                          setFetchingDetails(false);
-                        }
-                      } else {
-                        onQuestionAction(question, action);
-                      }
-                    }}
-                  />
-                ))}
-                {questions.length > PAGE_SIZE && (
-                  <View style={q.paginationBar}>
-                    <Pressable
-                      style={[q.pageBtn, page === 0 && q.pageBtnDisabled]}
-                      onPress={() => setPage((p) => Math.max(0, p - 1))}
-                      disabled={page === 0}
-                    >
-                      <ChevronLeft size={15} color={page === 0 ? '#C0C8D8' : '#4A90E2'} />
-                      <Text style={[q.pageBtnText, page === 0 && q.pageBtnTextDisabled]}>Prev</Text>
-                    </Pressable>
-                    <Text style={q.pageIndicator}>Page {page + 1} / {totalPages}</Text>
-                    <Pressable
-                      style={[q.pageBtn, page >= totalPages - 1 && q.pageBtnDisabled]}
-                      onPress={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
-                      disabled={page >= totalPages - 1}
-                    >
-                      <Text style={[q.pageBtnText, page >= totalPages - 1 && q.pageBtnTextDisabled]}>Next</Text>
-                      <ChevronRight size={15} color={page >= totalPages - 1 ? '#C0C8D8' : '#4A90E2'} />
-                    </Pressable>
-                  </View>
-                )}
-              </>
-            )}
-          </ScrollView>
-        );
-      })()}
+            )
+          }
+          ListFooterComponent={
+            pager.data.length > 0 ? (
+              <PaginationControls
+                currentPage={pager.currentPage}
+                totalPages={pager.totalPages}
+                totalCount={pager.totalCount}
+                loading={pager.loading}
+                itemLabel="questions"
+                onFirst={pager.goFirst}
+                onPrev={pager.goPrev}
+                onNext={pager.goNext}
+                onLast={pager.goLast}
+              />
+            ) : null
+          }
+        />
+      </View>
 
       {/* Selector modals */}
-      <SelectorModal visible={classOpen}   title="Select Class"   options={classOptions}   selected={filters.classLevel} isSubject={false} anyLabel="All Classes"   onSelect={(v) => { onFiltersChange({ classLevel: v, subject: '' }); setPage(0); }} onClose={() => setClassOpen(false)} />
-      <SelectorModal visible={subjectOpen} title="Select Subject" options={subjectOptions} selected={filters.subject}     isSubject={true}  anyLabel="All Subjects" onSelect={(v) => { onFiltersChange({ subject: v }); setPage(0); }}   onClose={() => setSubjectOpen(false)} />
+      <SelectorModal visible={classOpen}   title="Select Class"   options={classOptions}   selected={filters.classLevel} isSubject={false} anyLabel="All Classes"   onSelect={(v) => { onFiltersChange({ classLevel: v, subject: '' }); pager.goFirst(); }} onClose={() => setClassOpen(false)} />
+      <SelectorModal visible={subjectOpen} title="Select Subject" options={subjectOptions} selected={filters.subject}     isSubject={true}  anyLabel="All Subjects" onSelect={(v) => { onFiltersChange({ subject: v }); pager.goFirst(); }}   onClose={() => setSubjectOpen(false)} />
 
       {/* Fetching details overlay */}
       {fetchingDetails && (
@@ -921,12 +955,13 @@ const q = StyleSheet.create({
 
   searchRow:           { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: '#F8F9FF', borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 9, marginBottom: 8 },
   searchInput:         { flex: 1, fontSize: 13, color: '#1a1a2e', paddingVertical: 0 },
-  paginationBar:       { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 14, borderTopWidth: 1, borderTopColor: '#F0F4FF', marginTop: 4 },
-  pageBtn:             { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 10, backgroundColor: '#EBF4FF' },
-  pageBtnDisabled:     { backgroundColor: '#F4F5FF' },
-  pageBtnText:         { fontSize: 12, fontWeight: '700', color: '#4A90E2' },
-  pageBtnTextDisabled: { color: '#C0C8D8' },
-  pageIndicator:       { fontSize: 12, fontWeight: '700', color: '#5A6A8A' },
+  paginationBar:       { paddingVertical: 14, borderTopWidth: 1, borderTopColor: '#F0F4FF', marginTop: 4, alignItems: 'center', gap: 10 },
+  paginationButtonsRow:{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 8, width: '100%' },
+  pageBtn:             { minWidth: 86, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, paddingHorizontal: 14, paddingVertical: 9, borderRadius: 10, backgroundColor: '#EAF2FF', borderWidth: 1, borderColor: '#DCE9FF' },
+  pageBtnDisabled:     { backgroundColor: '#F2F5FB', borderColor: '#E3E8F4' },
+  pageBtnText:         { fontSize: 13, fontWeight: '700', color: '#2B6FD5' },
+  pageBtnTextDisabled: { color: '#9BAAC2' },
+  pageIndicator:       { fontSize: 14, fontWeight: '700', color: '#4B5B78', textAlign: 'center' },
 
 
 

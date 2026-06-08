@@ -146,15 +146,36 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
   const loadBank = useCallback(async () => {
     setLoadingBank(true);
     try {
-      const res = await apiFetch('/question-bank?limit=300');
-      if (!res.ok) return;
-      const payload = await res.json();
-      setBank(payload.questions || []);
+      const merged: QuestionBankItem[] = [];
+      let offset = 0;
+      let guard = 0;
+      while (guard < 1000) {
+        const query = new URLSearchParams();
+        query.set('limit', '200');
+        query.set('offset', String(offset));
+        if (classLevel.trim()) query.set('class_level', classLevel.trim());
+        if (subject.trim()) query.set('subject', subject.trim());
+        const res = await apiFetch(`/question-bank?${query.toString()}`);
+        if (!res.ok) break;
+        const payload = await res.json();
+        const rows = Array.isArray(payload.questions) ? payload.questions : [];
+        merged.push(...rows);
+        if (rows.length === 0) break;
+        const total = Number(payload.total ?? NaN);
+        if (Number.isFinite(total)) {
+          if (merged.length >= total) break;
+        } else if (rows.length < 200) {
+          break;
+        }
+        offset += rows.length;
+        guard += 1;
+      }
+      setBank(merged);
     } catch { /* ignore */ }
     finally {
       setLoadingBank(false);
     }
-  }, [apiFetch]);
+  }, [apiFetch, classLevel, subject]);
 
   const loadSubjects = useCallback(async () => {
     try {
@@ -182,10 +203,14 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
     setBankSearch('');
     if (quizId) {
       loadQuiz();
-      loadBank();
       loadSubjects();
     }
-  }, [visible, quizId, loadQuiz, loadBank, loadSubjects]);
+  }, [visible, quizId, loadQuiz, loadSubjects]);
+
+  useEffect(() => {
+    if (!visible || !quizId) return;
+    loadBank();
+  }, [visible, quizId, loadBank]);
 
   const attachedIds = useMemo(() => new Set(attached.map((q) => q.id)), [attached]);
 
@@ -258,6 +283,7 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
         question_type: created.question_type,
         question_title: created.question_title,
         question_instruction: created.question_instruction,
+        points: Number(created.points) || 10,
         time_limit_seconds: created.time_limit_seconds || 30,
       }]);
       onUpdated?.();

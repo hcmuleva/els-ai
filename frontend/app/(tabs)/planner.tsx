@@ -365,21 +365,45 @@ export default function PlannerScreen() {
   }, [apiFetch]);
 
   const loadResources = useCallback(async () => {
-    const [contentRes, quizRes, catalogRes] = await Promise.all([
-      apiFetch('/content/items?limit=300'),
-      apiFetch('/quizzes/teacher/library?status=all&limit=300'),
+    const fetchPagedRows = async (
+      endpoint: string,
+      key: 'items' | 'quizzes',
+      baseQuery: URLSearchParams,
+      chunkSize = 200,
+    ) => {
+      const merged: any[] = [];
+      let offset = 0;
+      let guard = 0;
+      while (guard < 1000) {
+        const query = new URLSearchParams(baseQuery);
+        query.set('limit', String(chunkSize));
+        query.set('offset', String(offset));
+        const res = await apiFetch(`${endpoint}?${query.toString()}`);
+        if (!res.ok) break;
+        const payload = await res.json();
+        const rows = Array.isArray(payload[key]) ? payload[key] : [];
+        merged.push(...rows);
+        if (rows.length === 0) break;
+        const total = Number(payload.total ?? NaN);
+        if (Number.isFinite(total)) {
+          if (merged.length >= total) break;
+        } else if (rows.length < chunkSize) {
+          break;
+        }
+        offset += rows.length;
+        guard += 1;
+      }
+      return merged;
+    };
+
+    const [contentRows, quizRows, catalogRes] = await Promise.all([
+      fetchPagedRows('/content/items', 'items', new URLSearchParams(), 200),
+      fetchPagedRows('/quizzes/teacher/library', 'quizzes', new URLSearchParams({ status: 'all' }), 200),
       apiFetch('/catalog/subjects'),
     ]);
 
-    if (contentRes.ok) {
-      const payload = await contentRes.json();
-      setContentItems((payload.items || []) as ContentItem[]);
-    }
-
-    if (quizRes.ok) {
-      const payload = await quizRes.json();
-      setQuizItems((payload.quizzes || []) as QuizItem[]);
-    }
+    setContentItems(contentRows as ContentItem[]);
+    setQuizItems(quizRows as QuizItem[]);
 
     if (catalogRes.ok) {
       const payload = await catalogRes.json();

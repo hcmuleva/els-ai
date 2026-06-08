@@ -30,12 +30,19 @@ const INTERNAL_SECRET = process.env.INTERNAL_SECRET || 'els-internal-secret-chan
 const PUBLIC_PATH_PREFIXES = ['/auth/login', '/auth/register', '/auth/refresh', '/health', '/media', '/assets/public'];
 const app = express();
 app.use(cors());
+app.use((req, _res, next) => {
+    if (req.url === '/api' || req.url.startsWith('/api/')) {
+        req.url = req.url.slice(4) || '/';
+    }
+    next();
+});
 app.use('/media', express.static(MEDIA_DIR));
 app.get('/health', (_req, res) => {
     res.json({ status: 'ok', service: 'gateway' });
 });
 function authGuard(req, res, next) {
-    if (PUBLIC_PATH_PREFIXES.some((prefix) => req.path === prefix || req.path.startsWith(`${prefix}/`))) {
+    const normalizedPath = req.path.replace(/^\/api(?=\/|$)/, '') || '/';
+    if (PUBLIC_PATH_PREFIXES.some((prefix) => normalizedPath === prefix || normalizedPath.startsWith(`${prefix}/`))) {
         return next();
     }
     const authHeader = req.headers.authorization;
@@ -56,7 +63,10 @@ function makeProxy(target, basePath) {
     return createProxyMiddleware({
         target,
         changeOrigin: true,
-        pathRewrite: (incoming) => (incoming.startsWith(basePath) ? incoming : `${basePath}${incoming}`),
+        pathRewrite: (incoming) => {
+            const normalized = incoming.replace(/^\/api(?=\/|$)/, '') || '/';
+            return normalized.startsWith(basePath) ? normalized : `${basePath}${normalized}`;
+        },
         on: {
             proxyReq: fixRequestBody,
         },

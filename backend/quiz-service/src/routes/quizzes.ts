@@ -90,6 +90,7 @@ const teacherLibraryQuerySchema = z.object({
   status: z.enum(['all', 'published', 'draft']).default('all'),
   source: z.enum(['all', 'ai', 'manual']).default('all'),
   limit: z.coerce.number().int().min(1).max(500).default(50),
+  offset: z.coerce.number().int().min(0).max(100000).default(0),
 });
 
 const publishSchema = z.object({
@@ -324,7 +325,7 @@ quizzesRouter.get('/teacher/library', requireAuth, async (req: any, res) => {
     return res.status(400).json({ message: 'Organization not found in auth context' });
   }
 
-  const { search, class_level, subject, quiz_type, difficulty_level, status, source, limit } = parsedQuery.data;
+  const { search, class_level, subject, quiz_type, difficulty_level, status, source, limit, offset } = parsedQuery.data;
   const normalizedQuizType = quiz_type === 'jigsaw_puzzle' ? 'jigsaw' : quiz_type;
   const params: unknown[] = [orgId];
   const whereClauses: string[] = ['(q.organization_id = $1::uuid OR q.is_global = true)'];
@@ -360,20 +361,35 @@ quizzesRouter.get('/teacher/library', requireAuth, async (req: any, res) => {
     whereClauses.push('q.is_ai_generated = false');
   }
 
-  params.push(limit);
+  const filterParams = [...params];
+  params.push(limit, offset);
 
   try {
+    const countResult = await db.query<{ count: string }>(
+      `SELECT COUNT(*)::text AS count
+       FROM quizzes q
+       LEFT JOIN subjects s ON s.id = q.subject_id
+       WHERE ${whereClauses.join(' AND ')}`,
+      filterParams,
+    );
+
     const result = await db.query(
       `SELECT q.id, q.title, q.description, q.class_level, s.title AS subject, q.quiz_type, q.difficulty_level, q.total_questions, q.is_published, q.is_ai_generated, q.is_global, q.created_at
        FROM quizzes q
        LEFT JOIN subjects s ON s.id = q.subject_id
        WHERE ${whereClauses.join(' AND ')}
        ORDER BY q.created_at DESC
-       LIMIT $${params.length}`,
+       LIMIT $${params.length - 1}
+       OFFSET $${params.length}`,
       params,
     );
 
-    return res.json({ quizzes: result.rows });
+    return res.json({
+      quizzes: result.rows,
+      total: Number(countResult.rows[0]?.count || 0),
+      limit,
+      offset,
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Failed to load teacher quiz library' });

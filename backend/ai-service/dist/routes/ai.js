@@ -1,7 +1,154 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { requireAuth } from '../middleware/auth.js';
+import { runContentPipeline } from '../content-generator/pipeline.js';
+import { persistPipelineResults } from '../content-generator/persist.js';
 export const aiRouter = Router();
+const pipelineSubjectSchema = z.enum([
+    'DoYouKnow',
+    'TipsTricks',
+    'HowToThink',
+    'Story',
+    'Creativity',
+    'Dharm',
+    'Puzzle',
+    'JrScientist',
+    'HowThingsWork',
+    'MemoryDevelopment',
+    'DIY',
+]);
+const pipelineRequestSchema = z.object({
+    subject: pipelineSubjectSchema,
+    candidates: z.array(z.object({
+        source_type: z.enum(['youtube', 'web']).optional(),
+        url: z.string().url(),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        duration_seconds: z.number().int().nonnegative().optional(),
+        raw_content: z.string().optional(),
+        youtube_meta: z
+            .object({
+            is_public: z.boolean().optional(),
+            is_embeddable: z.boolean().optional(),
+            is_age_restricted: z.boolean().optional(),
+        })
+            .optional(),
+    })).min(1),
+    human_review: z
+        .object({
+        approved: z.boolean().optional(),
+        reviewer: z.string().nullable().optional(),
+        comment: z.string().nullable().optional(),
+    })
+        .optional(),
+});
+const pipelinePersistSchema = z.object({
+    classLevel: z.string().trim().min(1).default('ANY'),
+    subject: z.string().trim().min(1),
+    topicTitle: z.string().trim().min(1),
+    isGlobal: z.boolean().optional(),
+    persistRejected: z.boolean().default(false),
+    pipelineOutput: z.object({
+        results: z.array(z.object({
+            source_type: z.enum(['youtube', 'web']).optional(),
+            url: z.string().url().optional(),
+            title: z.string().optional(),
+            description: z.string().optional(),
+            raw_content: z.string().optional(),
+            status: z.string().optional(),
+            output: z
+                .object({
+                review_status: z.string().optional(),
+            })
+                .optional(),
+        })),
+    }),
+});
+const runAndPersistSchema = z.object({
+    runRequest: pipelineRequestSchema,
+    persistTarget: z.object({
+        classLevel: z.string().trim().min(1).default('ANY'),
+        subject: z.string().trim().min(1),
+        topicTitle: z.string().trim().min(1),
+        isGlobal: z.boolean().optional(),
+        persistRejected: z.boolean().default(false),
+    }),
+});
+aiRouter.post('/content-generator/run', requireAuth, async (req, res) => {
+    const parsed = pipelineRequestSchema.safeParse(req.body);
+    if (!parsed.success) {
+        return res.status(400).json({ message: 'Invalid payload', errors: parsed.error.issues });
+    }
+    const output = runContentPipeline(parsed.data);
+    return res.json(output);
+});
+aiRouter.post('/content-generator/persist', requireAuth, async (req, res) => {
+    const parsed = pipelinePersistSchema.safeParse(req.body);
+    if (!parsed.success) {
+        return res.status(400).json({ message: 'Invalid payload', errors: parsed.error.issues });
+    }
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(401).json({ message: 'Authorization header required for persistence' });
+    }
+    const gatewayBaseUrl = process.env.API_GATEWAY_URL || 'http://localhost:4000';
+    const target = {
+        classLevel: parsed.data.classLevel,
+        subject: parsed.data.subject,
+        topicTitle: parsed.data.topicTitle,
+        isGlobal: parsed.data.isGlobal ?? parsed.data.classLevel.toUpperCase() === 'ANY',
+    };
+    try {
+        const persisted = await persistPipelineResults({
+            gatewayBaseUrl,
+            authorization: authHeader,
+            target,
+            results: parsed.data.pipelineOutput.results,
+            persistRejected: parsed.data.persistRejected,
+        });
+        return res.status(201).json(persisted);
+    }
+    catch (error) {
+        const message = error instanceof Error ? error.message : 'Failed to persist pipeline output';
+        return res.status(400).json({ message });
+    }
+});
+aiRouter.post('/content-generator/run-and-persist', requireAuth, async (req, res) => {
+    const parsed = runAndPersistSchema.safeParse(req.body);
+    if (!parsed.success) {
+        return res.status(400).json({ message: 'Invalid payload', errors: parsed.error.issues });
+    }
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(401).json({ message: 'Authorization header required for persistence' });
+    }
+    const gatewayBaseUrl = process.env.API_GATEWAY_URL || 'http://localhost:4000';
+    const runOutput = runContentPipeline(parsed.data.runRequest);
+    const target = {
+        classLevel: parsed.data.persistTarget.classLevel,
+        subject: parsed.data.persistTarget.subject,
+        topicTitle: parsed.data.persistTarget.topicTitle,
+        isGlobal: parsed.data.persistTarget.isGlobal ??
+            parsed.data.persistTarget.classLevel.toUpperCase() === 'ANY',
+    };
+    try {
+        const persisted = await persistPipelineResults({
+            gatewayBaseUrl,
+            authorization: authHeader,
+            target,
+            results: runOutput.results,
+            persistRejected: parsed.data.persistTarget.persistRejected,
+        });
+        return res.status(201).json({
+            pipeline: runOutput,
+            persisted,
+        });
+    }
+    catch (error) {
+        const message = error instanceof Error ? error.message : 'Failed to persist pipeline output';
+        return res.status(400).json({ message, pipeline: runOutput });
+    }
+});
 const generateSchema = z.object({
     topic: z.string().min(1),
     classLevel: z.string().default('LKG'),

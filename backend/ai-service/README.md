@@ -12,6 +12,9 @@ Stateless AI capabilities only — generates drafts/suggestions/insights. Owning
 | Method | Path | Purpose |
 |---|---|---|
 | POST | `/ai/generate` | Generate a quiz draft from `{ topic, classLevel, difficulty, quizType }`. |
+| POST | `/ai/content-generator/run` | Run ELS content ingestion-validation-classification-planning pipeline from `{ subject, candidates[], human_review? }`. |
+| POST | `/ai/content-generator/persist` | Persist approved pipeline results to topic/content services from `{ classLevel, subject, topicTitle, pipelineOutput }`. |
+| POST | `/ai/content-generator/run-and-persist` | Run pipeline and persist approved results in one call from `{ runRequest, persistTarget }`. |
 
 ### Planned
 - `POST /ai/recommend` — next-topic recommendation.
