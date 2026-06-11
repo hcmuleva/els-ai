@@ -2016,8 +2016,8 @@ usersRouter.patch('/:id/active-role', requireAuth, async (req: AuthenticatedRequ
     };
 
     const accessToken = jwt.sign(tokenPayload, JWT_SECRET, { expiresIn: '15m' });
-    const rawRefreshToken = jwt.sign({ userId: updatedUser.id }, JWT_SECRET, { expiresIn: '30d' });
-    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    const rawRefreshToken = jwt.sign({ userId: updatedUser.id }, JWT_SECRET, { expiresIn: '365d' });
+    const expiresAt = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
 
     await db.query(
       `INSERT INTO refresh_tokens (user_id, token_hash, expires_at)

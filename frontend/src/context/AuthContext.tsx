@@ -41,6 +41,8 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+let refreshPromise: Promise<boolean> | null = null;
+
 export function AuthProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<AppUser | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -93,10 +95,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   // Authenticated fetch wrapper with automatic token refresh rotation
   const apiFetch = async (path: string, options: RequestInit = {}): Promise<Response> => {
-    let token = await getAccessToken();
+    let originalToken = await getAccessToken();
     const headers = new Headers(options.headers || {});
-    if (token) {
-      headers.set('Authorization', `Bearer ${token}`);
+    if (originalToken) {
+      headers.set('Authorization', `Bearer ${originalToken}`);
     }
     headers.set('Content-Type', 'application/json');
 
@@ -105,33 +107,52 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
     // If unauthorized, attempt to refresh token
     if (response.status === 401) {
-      const refresh = await getRefreshToken();
-      if (refresh) {
-        try {
-          const refreshResponse = await fetch(`${API_BASE_URL}/auth/refresh`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ refreshToken: refresh }),
-          });
+      if (!refreshPromise) {
+        refreshPromise = (async () => {
+          const refresh = await getRefreshToken();
+          if (!refresh) return false;
+          
+          try {
+            const refreshResponse = await fetch(`${API_BASE_URL}/auth/refresh`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ refreshToken: refresh }),
+            });
 
-          if (refreshResponse.ok) {
-            const tokens = await refreshResponse.json();
-            await setStorageItem('accessToken', tokens.accessToken);
-            await setStorageItem('refreshToken', tokens.refreshToken);
-
-            // Retry original request with new token
-            headers.set('Authorization', `Bearer ${tokens.accessToken}`);
-            response = await fetch(`${API_BASE_URL}${path}`, fetchOptions);
-          } else {
-            // Refresh token invalid/revoked
-            await cleanAuth();
+            if (refreshResponse.ok) {
+              const tokens = await refreshResponse.json();
+              await setStorageItem('accessToken', tokens.accessToken);
+              await setStorageItem('refreshToken', tokens.refreshToken);
+              return true;
+            } else {
+              return false;
+            }
+          } catch (e) {
+            console.warn('Token refresh failed', e);
+            return false;
+          } finally {
+            refreshPromise = null;
           }
-        } catch (e) {
-          console.warn('Token refresh failed', e);
-          await cleanAuth();
+        })();
+      }
+
+      const success = await refreshPromise;
+      if (success) {
+        const newToken = await getAccessToken();
+        if (newToken) {
+          headers.set('Authorization', `Bearer ${newToken}`);
+          response = await fetch(`${API_BASE_URL}${path}`, fetchOptions);
         }
       } else {
-        await cleanAuth();
+        // Cross-tab race condition check: if another tab refreshed the token while this one failed,
+        // the access token in storage will be different from the one we used originally.
+        const latestAccessToken = await getAccessToken();
+        if (latestAccessToken && latestAccessToken !== originalToken) {
+          headers.set('Authorization', `Bearer ${latestAccessToken}`);
+          response = await fetch(`${API_BASE_URL}${path}`, fetchOptions);
+        } else {
+          await cleanAuth();
+        }
       }
     }
 
