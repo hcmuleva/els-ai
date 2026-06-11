@@ -2,14 +2,13 @@ import { useRef, useState } from 'react';
 import { Dimensions, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { ChevronLeft, BookOpen, Play, Film, Headphones, Image as ImageIcon, FileText, Layers } from 'lucide-react-native';
-import { Video, ResizeMode } from 'expo-av';
 import * as Linking from 'expo-linking';
-import YoutubePlayer from 'react-native-youtube-iframe';
 
 import QuizRenderer from '../quiz/QuizRenderer';
 import PlayQuizCTA from '../quiz/PlayQuizCTA';
 import AudioPlayer from '../media/AudioPlayer';
 import DocumentViewer from '../media/DocumentViewer';
+import VideoPlayer, { isYouTubeUrl as isYT, isDirectVideoUrl } from '../media/VideoPlayer';
 import { API_BASE_URL } from '../../context/AuthContext';
 
 const SCREEN_H = Dimensions.get('window').height;
@@ -66,10 +65,10 @@ const resolveMediaUrl = (url?: string): string => {
   return url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
 };
 
-const isYouTubeUrl = (url: string): boolean => /(?:youtube\.com|youtu\.be)/i.test(url);
+const isYouTubeUrl = (url: string): boolean => isYT(url);
 const isImageUrl = (url: string): boolean => /\.(png|jpe?g|gif|webp|bmp|svg)(?:$|[?#])/i.test(url);
 const isAudioUrl = (url: string): boolean => /\.(mp3|wav|ogg|aac|m4a|flac)(?:$|[?#])/i.test(url);
-const isVideoUrl = (url: string): boolean => /\.(mp4|mov|m4v|webm|avi|mkv)(?:$|[?#])/i.test(url);
+const isVideoUrl = (url: string): boolean => isDirectVideoUrl(url);
 const isDocumentUrl = (url: string): boolean => /\.(pdf|doc|docx|xls|xlsx|ppt|pptx|zip|rar)(?:$|[?#])/i.test(url);
 
 const getYouTubeVideoId = (url: string): string | null => {
@@ -170,30 +169,10 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
             </View>
 
             <View style={s.section} onLayout={(e) => { sectionYs.current[`s-${curIdx}`] = e.nativeEvent.layout.y; }}>
-              {url && (content.contentType === 'youtube_url' || content.contentType === 'video' || isYouTubeUrl(url)) && (() => {
-                const videoId = getYouTubeVideoId(url);
-                if (!videoId) return null;
-                return (
-                  <View style={s.videoWrap}>
-                    <View style={s.videoFrame}>
-                      {Platform.OS === 'web' ? (
-                        <iframe
-                          src={`https://www.youtube.com/embed/${videoId}?rel=0&controls=1`}
-                          style={{ width: '100%', height: '100%', border: 'none', borderRadius: 16 }}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
-                      ) : (
-                        <YoutubePlayer
-                          height={(Dimensions.get('window').width - 32) * (9 / 16)}
-                          videoId={videoId}
-                          webViewStyle={{ opacity: 0.99 }}
-                        />
-                      )}
-                    </View>
-                  </View>
-                );
-              })()}
+              {/* YouTube or content-type=video with YouTube URL */}
+              {url && (content.contentType === 'youtube_url' || content.contentType === 'video' || isYouTubeUrl(url)) && (
+                <VideoPlayer url={url} />
+              )}
 
               {url && (content.contentType === 'image' || isImageUrl(url)) && !isVideoUrl(url) && !isYouTubeUrl(url) && !isAudioUrl(url) && !isDocumentUrl(url) && (
                 <View style={s.imgWrap}>
@@ -207,16 +186,9 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
                 </View>
               )}
 
+              {/* S3 / direct video */}
               {url && (content.contentType === 'reel' || content.contentType === 'reel_url' || isVideoUrl(url)) && !isYouTubeUrl(url) && (
-                <View style={s.videoWrap}>
-                  <View style={s.videoFrame}>
-                    {Platform.OS === 'web' ? (
-                      <video src={url} controls style={{ width: '100%', height: '100%', borderRadius: 16 }} />
-                    ) : (
-                      <Video source={{ uri: url }} useNativeControls resizeMode={ResizeMode.CONTAIN} style={{ width: '100%', height: '100%' }} />
-                    )}
-                  </View>
-                </View>
+                <VideoPlayer url={url} />
               )}
 
               {url && isDocumentUrl(url) && (
@@ -314,8 +286,7 @@ const s = StyleSheet.create({
   heroNavDivider: { width: 1, height: 20, alignSelf: 'center' },
 
   section: { marginHorizontal: 16, marginBottom: 16, gap: 12 },
-  videoWrap: { borderRadius: 20, overflow: 'hidden', marginBottom: 4 },
-  videoFrame: { width: '100%', aspectRatio: 16 / 9, borderRadius: 20, overflow: 'hidden', backgroundColor: '#0a0a0a' },
+  // videoWrap/nativeVideo removed — VideoPlayer component handles layout
   imgWrap: { borderRadius: 20, overflow: 'hidden' },
   img: { width: '100%', height: 220 },
   textBlock: { backgroundColor: '#F8F9FF', borderRadius: 16, padding: 20 },

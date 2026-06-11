@@ -45,6 +45,9 @@ export default function CreateQuizModal({
   const [extraSelectedIds, setExtraSelectedIds] = useState<string[]>([]);
   const [refreshKey, setRefreshKey] = useState(0);
   const [toast, setToast] = useState<string | null>(null);
+  const [internalCatalog, setInternalCatalog] = useState<SubjectCatalogItem[]>([]);
+
+  const activeCatalog = subjectCatalog && subjectCatalog.length > 0 ? subjectCatalog : internalCatalog;
 
   useEffect(() => {
     if (!visible) {
@@ -52,8 +55,27 @@ export default function CreateQuizModal({
       setExtraSelectedIds([]);
       setRefreshKey(0);
       setToast(null);
+    } else if (!subjectCatalog || subjectCatalog.length === 0) {
+      apiFetch('/content/subjects')
+        .then((res) => {
+          if (!res.ok) return null;
+          return res.json();
+        })
+        .then((payload) => {
+          if (!payload) return;
+          const rawSubjects = payload.subjects || [];
+          const normalized = rawSubjects.map((item: any) => ({
+            title: item.title || item.subject || '',
+            classLevel: item.classLevel || item.class_level || '',
+            coverImage: item.coverImage || item.cover_image,
+            iconImage: item.iconImage || item.icon_image,
+            iconBgColor: item.iconBgColor || item.icon_bg_color,
+          }));
+          setInternalCatalog(normalized);
+        })
+        .catch(() => {});
     }
-  }, [visible]);
+  }, [visible, subjectCatalog, apiFetch]);
 
   const handleQuestionSaved = (q: { id: string }) => {
     if (q.id) {
@@ -122,7 +144,7 @@ export default function CreateQuizModal({
             <QuestionEditor
               apiFetch={apiFetch}
               mode="create"
-              subjectCatalog={subjectCatalog}
+              subjectCatalog={activeCatalog}
               defaultClassLevel={initialClassLevel}
               defaultSubject={initialSubject}
               onSaved={handleQuestionSaved}

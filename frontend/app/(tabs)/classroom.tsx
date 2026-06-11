@@ -11,6 +11,7 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 
 import AudioPlayer from '../../src/components/media/AudioPlayer';
 import DocumentViewer from '../../src/components/media/DocumentViewer';
+import VideoPlayer, { isDirectVideoUrl } from '../../src/components/media/VideoPlayer';
 
 import { getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
@@ -639,6 +640,15 @@ export default function ClassroomScreen() {
                       <Text style={styles.taskMeta}>
                         Due: {assignment.dueDate ? new Date(assignment.dueDate).toLocaleString() : 'No due date'}
                       </Text>
+                      {/* Video/YouTube badge on card */}
+                      {assignment.attachmentUrl && (isYouTubeUrl(assignment.attachmentUrl) || isDirectVideoUrl(resolveMediaUrl(assignment.attachmentUrl))) ? (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 6, marginBottom: 8 }}>
+                          <View style={{ backgroundColor: '#FFE8D6', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3, flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                            <Text style={{ fontSize: 12 }}>🎬</Text>
+                            <Text style={{ fontSize: 11, fontWeight: '700', color: '#FF7043' }}>Video attached</Text>
+                          </View>
+                        </View>
+                      ) : null}
                       <Pressable style={styles.taskButton} onPress={() => openAssignment(assignment)}>
                         <Text style={styles.taskButtonText}>{assignment.status === 'submitted' ? 'View Details' : 'Complete Task'}</Text>
                       </Pressable>
@@ -962,31 +972,10 @@ export default function ClassroomScreen() {
                         </View>
                       )}
 
-                      {/* YOUTUBE */}
-                      {url && isYouTubeUrl(url) && (() => {
-                        const videoId = getYouTubeVideoId(url);
-                        if (!videoId) return null;
-                        return (
-                          <View style={styles.vVideoWrap}>
-                            <View style={[styles.vVideoFrame, { borderColor: `${sCfg.accentColor}30` }]}>
-                              {Platform.OS === 'web' ? (
-                                <iframe
-                                  src={`https://www.youtube.com/embed/${videoId}?rel=0&controls=1`}
-                                  style={{ width: '100%', height: '100%', border: 'none', borderRadius: 16 }}
-                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                  allowFullScreen
-                                />
-                              ) : (
-                                <YoutubePlayer
-                                  height={(Dimensions.get('window').width - 32) * (9 / 16)}
-                                  videoId={videoId}
-                                  webViewStyle={{ opacity: 0.99 }}
-                                />
-                              )}
-                            </View>
-                          </View>
-                        );
-                      })()}
+                      {/* VIDEO & YOUTUBE */}
+                      {url && (isYouTubeUrl(url) || url.match(/\.(mp4|mov|webm|avi)/i)) && (
+                        <VideoPlayer url={url} shouldPlay={isMediaInView(mediaKey)} />
+                      )}
 
                       {/* AUDIO */}
                       {url && url.match(/\.(mp3|wav|ogg|aac|m4a|flac)/i) && (
@@ -1002,21 +991,6 @@ export default function ClassroomScreen() {
                           onPrev={() => openContentAt(curIdx > 0 ? curIdx - 1 : null)}
                           onNext={() => openContentAt(curIdx + 1 < contents.length ? curIdx + 1 : null)}
                         />
-                      )}
-
-                      {/* VIDEO (non-YouTube, non-audio) */}
-                      {url && !isImageUrl(url) && !isYouTubeUrl(url) && !url.match(/\.(mp3|wav|ogg|aac|m4a|flac)/i) && url.match(/\.(mp4|mov|webm|avi)/i) && (
-                        <View style={styles.vVideoWrap}>
-                          <View style={[styles.vVideoFrame, { borderColor: `${sCfg.accentColor}30` }]}>
-                            <Video
-                              source={{ uri: url }}
-                              useNativeControls
-                              shouldPlay={isMediaInView(mediaKey)}
-                              resizeMode={ResizeMode.CONTAIN}
-                              style={{ width: '100%', height: '100%' }}
-                            />
-                          </View>
-                        </View>
                       )}
 
                       {/* TEXT */}
@@ -1143,20 +1117,30 @@ export default function ClassroomScreen() {
               </View>
             ) : null}
 
-            {/* Teacher attachment */}
-            {assignmentModal?.attachmentUrl ? (
-              <View style={aStyles.section}>
-                <Text style={aStyles.sectionLabel}>Reference Material</Text>
-                <Pressable style={aStyles.attachmentRow} onPress={() => openExternalResource(assignmentModal.attachmentUrl!)}>
-                  <View style={aStyles.attachmentIcon}><Link size={18} color="#4A90E2" /></View>
-                  <View style={{ flex: 1 }}>
-                    <Text style={aStyles.attachmentTitle}>View Attachment</Text>
-                    <Text style={aStyles.attachmentUrl} numberOfLines={1}>{assignmentModal.attachmentUrl}</Text>
-                  </View>
-                  <Text style={aStyles.attachmentArrow}>›</Text>
-                </Pressable>
-              </View>
-            ) : null}
+            {/* Teacher attachment: video player or link */}
+            {assignmentModal?.attachmentUrl ? (() => {
+              const attUrl = resolveMediaUrl(assignmentModal.attachmentUrl);
+              const isVideo = isYouTubeUrl(attUrl) || isDirectVideoUrl(attUrl);
+              return (
+                <View style={aStyles.section}>
+                  <Text style={aStyles.sectionLabel}>📎 Reference Material</Text>
+                  {isVideo ? (
+                    // Full video player for video/YouTube attachments
+                    <VideoPlayer url={attUrl} />
+                  ) : (
+                    // Link row for images/docs/other
+                    <Pressable style={aStyles.attachmentRow} onPress={() => openExternalResource(assignmentModal.attachmentUrl!)}>
+                      <View style={aStyles.attachmentIcon}><Link size={18} color="#4A90E2" /></View>
+                      <View style={{ flex: 1 }}>
+                        <Text style={aStyles.attachmentTitle}>View Attachment</Text>
+                        <Text style={aStyles.attachmentUrl} numberOfLines={1}>{assignmentModal.attachmentUrl}</Text>
+                      </View>
+                      <Text style={aStyles.attachmentArrow}>›</Text>
+                    </Pressable>
+                  )}
+                </View>
+              );
+            })() : null}
 
             {/* ── Submitted view ── */}
             {assignmentModal?.status === 'submitted' ? (
@@ -2011,9 +1995,8 @@ const styles = StyleSheet.create({
   vImgWrap: { borderRadius: 20, overflow: 'hidden' },
   vImg:     { width: '100%', height: 220 },
 
-  // Video / YouTube
-  vVideoWrap:  { borderRadius: 20, overflow: 'hidden', marginBottom: 4 },
-  vVideoFrame: { width: '100%', aspectRatio: 16 / 9, borderRadius: 20, overflow: 'hidden', backgroundColor: '#0a0a0a', borderWidth: 2 },
+  // Video / YouTube — layout handled by shared VideoPlayer component
+  vVideoWrap: { borderRadius: 20, marginBottom: 4 },
 
   // Text
   vTextBlock: {

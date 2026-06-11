@@ -870,14 +870,12 @@ function draftToPayload(draft: QuestionDraft) {
     }
 
     const dragItems = preparedPairs.map((pair, index) => {
-      if (!pair.image) {
-        throw new Error(`Add an image for pair ${index + 1}.`);
-      }
+      // Image is optional — label alone is sufficient for a drag item
       const id = pair.id || buildAutoId(pair.itemLabel || pair.targetLabel, 'item', index);
       return {
         id,
-        image: pair.image,
-        image_asset_id: pair.imageAssetId || undefined,
+        ...(pair.image ? { image: pair.image } : {}),
+        ...(pair.imageAssetId ? { image_asset_id: pair.imageAssetId } : {}),
         label: pair.itemLabel || `Item ${index + 1}`,
         ...(pair.audio ? { sound: pair.audio } : {}),
         ...(pair.audioAssetId ? { sound_asset_id: pair.audioAssetId } : {}),
@@ -1328,7 +1326,15 @@ export default function QuestionManagementScreen() {
       throw new Error(errorPayload.message || 'Failed to load subject catalog');
     }
     const payload = await res.json();
-    setSubjectCatalog((payload.subjects || []) as SubjectCatalogItem[]);
+    const rawSubjects = payload.subjects || [];
+    const normalized = rawSubjects.map((item: any) => ({
+      title: item.title || item.subject || '',
+      classLevel: item.classLevel || item.class_level || '',
+      coverImage: item.coverImage || item.cover_image,
+      iconImage: item.iconImage || item.icon_image,
+      iconBgColor: item.iconBgColor || item.icon_bg_color,
+    }));
+    setSubjectCatalog(normalized);
   }, [apiFetch]);
 
   const loadQuizCatalog = useCallback(async () => {
@@ -1585,8 +1591,9 @@ export default function QuestionManagementScreen() {
   const loadContentItems = useCallback(async () => {
     const query = new URLSearchParams();
     query.set('limit', '300');
-    if (contentItemFilters.classLevel.trim()) query.set('class_level', contentItemFilters.classLevel.trim());
-    if (contentItemFilters.subject.trim()) query.set('subject', contentItemFilters.subject.trim());
+    if (contentFilters.classLevel.trim()) query.set('class_level', contentFilters.classLevel.trim());
+    if (contentFilters.subject.trim()) query.set('subject', contentFilters.subject.trim());
+    // legacy topicId filter still supported if set via old UI
     if (contentItemFilters.topicId.trim()) query.set('topic_id', contentItemFilters.topicId.trim());
     const res = await apiFetch(`/content/items?${query.toString()}`);
     if (!res.ok) {
@@ -1596,7 +1603,7 @@ export default function QuestionManagementScreen() {
     const payload = await res.json();
     setContentItems((payload.items || []) as LearningContentItem[]);
     setContentPage(0);
-  }, [apiFetch, contentItemFilters.classLevel, contentItemFilters.subject, contentItemFilters.topicId]);
+  }, [apiFetch, contentFilters.classLevel, contentFilters.subject, contentItemFilters.topicId]);
 
   const createSingleContentItem = async () => {
     if (!contentCreateMeta.classLevel.trim() || !contentCreateMeta.subject.trim()) {

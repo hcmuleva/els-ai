@@ -267,8 +267,8 @@ authRouter.post('/login', async (req, res) => {
         };
         const accessToken = generateAccessToken(tokenPayload);
         // Create refresh token
-        const rawRefreshToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30d' });
-        const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
+        const rawRefreshToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '365d' });
+        const expiresAt = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000); // 365 days
         await db.query(`INSERT INTO refresh_tokens (user_id, token_hash, expires_at)
        VALUES ($1, $2, $3)`, [user.id, rawRefreshToken, expiresAt]);
         void eventBus.publish({
@@ -371,8 +371,8 @@ authRouter.post('/refresh', async (req, res) => {
             classLevel: user.class_level ?? null,
         });
         // Generate rotated refresh token
-        const newRefreshToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30d' });
-        const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+        const newRefreshToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '365d' });
+        const expiresAt = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
         await db.query(`INSERT INTO refresh_tokens (user_id, token_hash, expires_at)
        VALUES ($1, $2, $3)`, [user.id, newRefreshToken, expiresAt]);
         return res.json({
