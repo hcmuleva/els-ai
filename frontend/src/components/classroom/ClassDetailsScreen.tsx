@@ -18,6 +18,7 @@ import { getStandardLabel } from '../../constants/standards';
 import { API_BASE_URL } from '../../context/AuthContext';
 import { OWL } from '../../assets/svgs';
 import StudentRemarkSheet, { Achievement, StudentRemarkData } from './StudentRemarkSheet';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type DetailTab = 'overview' | 'students' | 'analytics';
@@ -317,6 +318,7 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
   const [studentSearch, setStudentSearch] = useState('');
   const [studentPage, setStudentPage] = useState(0);
   const [studentFilter, setStudentFilter] = useState<StudentFilter>('all');
+  const insets = useSafeAreaInsets();
 
   const loadData = useCallback(async () => {
     if (!classroomId) return;
@@ -805,7 +807,7 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
     <Modal visible={!!classroomId} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
       <View style={ds.screen}>
         {/* Header */}
-        <View style={[ds.header, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+        <View style={[ds.header, { paddingTop: Math.max(insets.top, 12) }]}>
           <Pressable onPress={onClose} style={ds.backBtn}>
             <ChevronLeft size={24} color="#1a1a2e" />
           </Pressable>
@@ -1098,7 +1100,7 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
 
       <Modal visible={!!detailStudent} animationType="slide" presentationStyle="pageSheet" onRequestClose={closeStudentDetails}>
         <View style={ds.detailModalScreen}>
-          <View style={[ds.detailModalHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+          <View style={[ds.detailModalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
             <Pressable onPress={closeStudentDetails} style={ds.backBtn}>
               <ChevronLeft size={24} color="#1a1a2e" />
             </Pressable>

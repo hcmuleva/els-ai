@@ -16,6 +16,7 @@ import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
 import { getAuthorizedClasses, getAuthorizedSubjects } from '../../utils/assignments';
 import { AppUser } from '../../types/roles';
 import SelectorModal from '../SelectorModal';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type ApiFetch = (path: string, options?: RequestInit) => Promise<Response>;
 
@@ -271,6 +272,7 @@ function BookmarkEditorModal({ editing, apiFetch, user, catalog, onClose, onSave
   const [subjectOpen, setSubjectOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
+  const insets = useSafeAreaInsets();
 
   // reset on open / load existing
   useEffect(() => {
@@ -471,7 +473,7 @@ function BookmarkEditorModal({ editing, apiFetch, user, catalog, onClose, onSave
   return (
     <Modal visible={isOpen} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
       <View style={c.modalScreen}>
-        <View style={[c.modalHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+        <View style={[c.modalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
           <Pressable onPress={onClose} style={c.modalBackBtn}><ChevronLeft size={24} color="#1a1a2e" /></Pressable>
           <Text style={c.modalTitle} numberOfLines={1}>{isEdit ? 'Edit Bookmark' : 'Create Bookmark'}</Text>
           <Pressable style={c.modalSaveBtn} onPress={handleSave} disabled={saving}>

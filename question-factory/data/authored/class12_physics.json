@@ -1,0 +1,242 @@
+{
+  "class_level": "12",
+  "subject": "physics",
+  "items": [
+    {
+      "questionType": "SCQ",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Electrostatics",
+      "topic": "Coulomb's law",
+      "question": "Two point charges $q_1 = 2\\,\\mu\\text{C}$ and $q_2 = 3\\,\\mu\\text{C}$ are placed $0.1\\,\\text{m}$ apart in vacuum. Taking $k = 9\\times10^9\\,\\text{N m}^2\\text{C}^{-2}$, the electrostatic force between them is:",
+      "options": [
+        {"text": "$5.4\\ \\text{N}$", "is_correct": true},
+        {"text": "$54\\ \\text{N}$", "is_correct": false},
+        {"text": "$0.54\\ \\text{N}$", "is_correct": false},
+        {"text": "$2.7\\ \\text{N}$", "is_correct": false}
+      ],
+      "solution": {
+        "finalAnswer": "$5.4\\ \\text{N}$ (repulsive)",
+        "stepByStep": [
+          "Coulomb's law: $F = \\dfrac{k q_1 q_2}{r^2}$.",
+          "Substitute: $F = \\dfrac{(9\\times10^9)(2\\times10^{-6})(3\\times10^{-6})}{(0.1)^2}$.",
+          "Numerator $= 9\\times10^9 \\times 6\\times10^{-12} = 5.4\\times10^{-2}$; divide by $0.01$.",
+          "$F = 5.4\\ \\text{N}$, directed along the line joining the charges (repulsive, both positive)."
+        ],
+        "formulaUsed": ["F = k q_1 q_2 / r^2"],
+        "commonMistake": "Forgetting to square the distance, or mishandling the $10^{-6}$ in microcoulombs.",
+        "examinerNote": "Magnitude and direction both expected for full marks."
+      },
+      "verification": {"kind": "numeric", "expression": "9e9*2e-6*3e-6/0.1**2", "expected": 5.4, "tol": 0.001},
+      "tags": ["numerical", "application-based"]
+    },
+    {
+      "questionType": "SCQ",
+      "difficulty": "Board",
+      "bloomLevel": "Remember",
+      "marks": 1,
+      "chapter": "Electrostatics",
+      "topic": "Electric field due to continuous charge distribution",
+      "question": "The SI unit of electric field intensity is:",
+      "options": [
+        {"text": "$\\text{N C}^{-1}$ (equivalently $\\text{V m}^{-1}$)", "is_correct": true},
+        {"text": "$\\text{C N}^{-1}$", "is_correct": false},
+        {"text": "$\\text{V m}$", "is_correct": false},
+        {"text": "$\\text{J C}^{-1}$", "is_correct": false}
+      ],
+      "solution": {
+        "finalAnswer": "$\\text{N C}^{-1}$ (= $\\text{V m}^{-1}$)",
+        "stepByStep": [
+          "Electric field is force per unit charge: $E = F/q$.",
+          "Units: $\\text{N}/\\text{C} = \\text{N C}^{-1}$.",
+          "Since $1\\ \\text{V} = 1\\ \\text{J C}^{-1}$ and $E = -dV/dr$, this is also $\\text{V m}^{-1}$."
+        ],
+        "formulaUsed": ["E = F/q"],
+        "commonMistake": "Confusing $\\text{N C}^{-1}$ with $\\text{J C}^{-1}$ (which is the volt, a unit of potential).",
+        "examinerNote": "Both equivalent forms are acceptable."
+      },
+      "tags": ["conceptual", "units"]
+    },
+    {
+      "questionType": "Numerical",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Electrostatics",
+      "topic": "Electric potential and potential energy",
+      "question": "A point charge $q = 2\\,\\mu\\text{C}$ is placed in vacuum. Using $k = 9\\times10^9\\,\\text{N m}^2\\text{C}^{-2}$, find the electric potential (in volts) at a point $0.3\\,\\text{m}$ from the charge.",
+      "numericAnswer": 60000,
+      "solution": {
+        "finalAnswer": "$6\\times10^{4}\\ \\text{V} = 60000\\ \\text{V}$",
+        "stepByStep": [
+          "Potential of a point charge: $V = \\dfrac{kq}{r}$.",
+          "Substitute: $V = \\dfrac{(9\\times10^9)(2\\times10^{-6})}{0.3}$.",
+          "$= \\dfrac{1.8\\times10^{4}}{0.3} = 6\\times10^{4}\\ \\text{V}$."
+        ],
+        "formulaUsed": ["V = kq/r"],
+        "commonMistake": "Using $r^2$ in the denominator (that is for field/force, not potential).",
+        "examinerNote": "Potential is a scalar; sign follows the sign of the charge."
+      },
+      "verification": {"kind": "numeric", "expression": "9e9*2e-6/0.3", "expected": 60000, "tol": 1},
+      "tags": ["numerical", "application-based"]
+    },
+    {
+      "questionType": "AssertionReason",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Analyze",
+      "marks": 4,
+      "chapter": "Electrostatics",
+      "topic": "Gauss's law and applications",
+      "question": "Assertion (A): The electrostatic field at every point inside the material of a charged hollow conductor is zero.\nReason (R): In electrostatic equilibrium the net charge enclosed by any Gaussian surface drawn inside the conductor's material is zero.",
+      "options": [
+        {"text": "Both A and R are true and R is the correct explanation of A.", "is_correct": true},
+        {"text": "Both A and R are true but R is NOT the correct explanation of A.", "is_correct": false},
+        {"text": "A is true but R is false.", "is_correct": false},
+        {"text": "A is false but R is true.", "is_correct": false}
+      ],
+      "solution": {
+        "finalAnswer": "Both A and R are true and R correctly explains A.",
+        "stepByStep": [
+          "Excess charge on a conductor resides on its outer surface, so a Gaussian surface inside the material encloses zero net charge.",
+          "By Gauss's law $\\oint \\vec{E}\\cdot d\\vec{A} = q_{enc}/\\varepsilon_0 = 0$, giving $E = 0$ inside the material.",
+          "Hence R is the precise reason for A."
+        ],
+        "formulaUsed": ["Gauss's law"],
+        "commonMistake": "Confusing the field inside the conductor's material (zero) with the field in a cavity that contains a charge.",
+        "examinerNote": "Standard assertion-reason; identify the correct-explanation case."
+      },
+      "tags": ["assertion-reason", "conceptual"]
+    },
+    {
+      "questionType": "MCQ",
+      "difficulty": "JEE_Advanced",
+      "bloomLevel": "Analyze",
+      "marks": 4,
+      "chapter": "Electrostatics",
+      "topic": "Capacitance and capacitors",
+      "question": "A parallel-plate capacitor remains connected to a battery of constant voltage. A dielectric slab is now fully inserted between the plates. Select ALL correct statements.",
+      "options": [
+        {"text": "The capacitance increases.", "is_correct": true},
+        {"text": "The charge stored on the plates increases.", "is_correct": true},
+        {"text": "The potential difference across the plates stays the same.", "is_correct": true},
+        {"text": "The electric field between the plates increases.", "is_correct": false}
+      ],
+      "solution": {
+        "finalAnswer": "Statements 1, 2 and 3 are correct.",
+        "stepByStep": [
+          "Battery connected $\\Rightarrow$ $V$ is held constant.",
+          "$C = \\kappa C_0$ increases with the dielectric.",
+          "$Q = CV$ increases since $C$ rises and $V$ is fixed.",
+          "$E = V/d$ is unchanged because both $V$ and $d$ are constant, so the last statement is false."
+        ],
+        "formulaUsed": ["C = kappa*C0", "Q = CV", "E = V/d"],
+        "commonMistake": "Assuming charge is constant; that holds only for an isolated (disconnected) capacitor.",
+        "examinerNote": "Battery-connected vs isolated is the key distinction."
+      },
+      "tags": ["multiple-correct", "analysis"]
+    },
+    {
+      "questionType": "SCQ",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Current Electricity",
+      "topic": "Series and parallel combinations",
+      "question": "Two resistors $R_1 = 4\\,\\Omega$ and $R_2 = 6\\,\\Omega$ are connected in series across an ideal $10\\,\\text{V}$ battery. The current drawn from the battery is:",
+      "options": [
+        {"text": "$1\\ \\text{A}$", "is_correct": true},
+        {"text": "$0.6\\ \\text{A}$", "is_correct": false},
+        {"text": "$2.5\\ \\text{A}$", "is_correct": false},
+        {"text": "$10\\ \\text{A}$", "is_correct": false}
+      ],
+      "solution": {
+        "finalAnswer": "$1\\ \\text{A}$",
+        "stepByStep": [
+          "Series resistance: $R = R_1 + R_2 = 10\\,\\Omega$.",
+          "Ohm's law: $I = V/R = 10/10 = 1\\ \\text{A}$."
+        ],
+        "formulaUsed": ["R = R1 + R2", "I = V/R"],
+        "commonMistake": "Using the parallel formula for a series connection.",
+        "examinerNote": "Ideal battery means zero internal resistance."
+      },
+      "verification": {"kind": "numeric", "expression": "10/(4+6)", "expected": 1, "tol": 0.0001},
+      "tags": ["numerical", "application-based"]
+    },
+    {
+      "questionType": "Numerical",
+      "difficulty": "Board",
+      "bloomLevel": "Apply",
+      "marks": 3,
+      "chapter": "Current Electricity",
+      "topic": "Electrical power and energy",
+      "question": "An electric bulb is rated $60\\,\\text{W}$ at $120\\,\\text{V}$. Assuming constant resistance, find its filament resistance (in ohms).",
+      "numericAnswer": 240,
+      "solution": {
+        "finalAnswer": "$240\\ \\Omega$",
+        "stepByStep": [
+          "Power in terms of voltage and resistance: $P = V^2/R$.",
+          "Rearrange: $R = V^2/P$.",
+          "$R = 120^2/60 = 14400/60 = 240\\ \\Omega$."
+        ],
+        "formulaUsed": ["P = V^2/R"],
+        "commonMistake": "Using $P = I^2 R$ without first finding $I$, or using $R = P/V^2$.",
+        "examinerNote": "Rated values define the operating point."
+      },
+      "verification": {"kind": "numeric", "expression": "120**2/60", "expected": 240, "tol": 0.001},
+      "tags": ["numerical", "board"]
+    },
+    {
+      "questionType": "SCQ",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Modern Physics",
+      "topic": "Photoelectric effect",
+      "question": "Light of photon energy $5\\,\\text{eV}$ is incident on a metal of work function $2\\,\\text{eV}$. The maximum kinetic energy of the emitted photoelectrons is:",
+      "options": [
+        {"text": "$3\\ \\text{eV}$", "is_correct": true},
+        {"text": "$7\\ \\text{eV}$", "is_correct": false},
+        {"text": "$2.5\\ \\text{eV}$", "is_correct": false},
+        {"text": "$10\\ \\text{eV}$", "is_correct": false}
+      ],
+      "solution": {
+        "finalAnswer": "$3\\ \\text{eV}$",
+        "stepByStep": [
+          "Einstein's photoelectric equation: $K_{max} = E_{photon} - \\phi$.",
+          "$K_{max} = 5 - 2 = 3\\ \\text{eV}$."
+        ],
+        "formulaUsed": ["K_max = hf - phi"],
+        "commonMistake": "Adding the work function instead of subtracting it.",
+        "examinerNote": "Only photons with energy above $\\phi$ eject electrons."
+      },
+      "verification": {"kind": "numeric", "expression": "5-2", "expected": 3, "tol": 0.0001},
+      "tags": ["numerical", "conceptual"]
+    },
+    {
+      "questionType": "TF",
+      "difficulty": "Board",
+      "bloomLevel": "Understand",
+      "marks": 1,
+      "chapter": "Modern Physics",
+      "topic": "Photoelectric effect",
+      "question": "State whether True or False: In the photoelectric effect, the maximum kinetic energy of emitted electrons depends on the frequency of the incident light and not on its intensity.",
+      "options": [
+        {"text": "True", "is_correct": true},
+        {"text": "False", "is_correct": false}
+      ],
+      "solution": {
+        "finalAnswer": "True",
+        "stepByStep": [
+          "$K_{max} = hf - \\phi$ depends on frequency $f$.",
+          "Intensity changes the NUMBER of photons (hence the current), not the energy per photon.",
+          "So $K_{max}$ is independent of intensity."
+        ],
+        "formulaUsed": ["K_max = hf - phi"],
+        "commonMistake": "Believing brighter light gives faster electrons.",
+        "examinerNote": "A classic conceptual discriminator of the photoelectric effect."
+      },
+      "tags": ["true-false", "conceptual"]
+    }
+  ]
+}

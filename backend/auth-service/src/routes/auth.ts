@@ -77,7 +77,7 @@ function generateAccessToken(payload: {
   canPublishGlobal: boolean;
   classLevel?: string | null;
 }) {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: '15m' });
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' });
 }
 
 // 1. Register Endpoint
@@ -279,14 +279,15 @@ authRouter.post('/login', async (req: Request, res: Response) => {
     );
     const canPublishGlobal = Boolean(globalPublishPermissionResult.rows[0]?.enabled);
     const subscription = await enforceSubscriptionState(organizationId);
-    const subscriptionActive = isSubscriptionActive(subscription);
-    if (!subscriptionActive && !isSuperAdmin) {
-      return res.status(402).json({
-        message: 'Trial has expired. Please subscribe to continue.',
-        code: 'PAYMENT_REQUIRED',
-        subscription,
-      });
-    }
+    // Subscription/trial-expiry gate temporarily disabled — allow login regardless of status.
+    // const subscriptionActive = isSubscriptionActive(subscription);
+    // if (!subscriptionActive && !isSuperAdmin) {
+    //   return res.status(402).json({
+    //     message: 'Trial has expired. Please subscribe to continue.',
+    //     code: 'PAYMENT_REQUIRED',
+    //     subscription,
+    //   });
+    // }
 
     let classAssignments: any[] | undefined = undefined;
     if (rolesList.includes('teacher')) {
@@ -335,8 +336,8 @@ authRouter.post('/login', async (req: Request, res: Response) => {
     const accessToken = generateAccessToken(tokenPayload);
 
     // Create refresh token
-    const rawRefreshToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30d' });
-    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
+    const rawRefreshToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '90d' });
+    const expiresAt = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000); // 90 days
 
     await db.query(
       `INSERT INTO refresh_tokens (user_id, token_hash, expires_at)
@@ -450,14 +451,15 @@ authRouter.post('/refresh', async (req, res) => {
     );
     const canPublishGlobal = Boolean(globalPublishPermissionResult.rows[0]?.enabled);
     const subscription = await enforceSubscriptionState(orgId);
-    const subscriptionActive = isSubscriptionActive(subscription);
-    if (!subscriptionActive && !isSuperAdmin) {
-      return res.status(402).json({
-        message: 'Trial has expired. Please subscribe to continue.',
-        code: 'PAYMENT_REQUIRED',
-        subscription,
-      });
-    }
+    // Subscription/trial-expiry gate temporarily disabled — allow token refresh regardless of status.
+    // const subscriptionActive = isSubscriptionActive(subscription);
+    // if (!subscriptionActive && !isSuperAdmin) {
+    //   return res.status(402).json({
+    //     message: 'Trial has expired. Please subscribe to continue.',
+    //     code: 'PAYMENT_REQUIRED',
+    //     subscription,
+    //   });
+    // }
 
     // Generate new access token
     const newAccessToken = generateAccessToken({
@@ -471,8 +473,8 @@ authRouter.post('/refresh', async (req, res) => {
     });
 
     // Generate rotated refresh token
-    const newRefreshToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30d' });
-    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    const newRefreshToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '90d' });
+    const expiresAt = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
 
     await db.query(
       `INSERT INTO refresh_tokens (user_id, token_hash, expires_at)

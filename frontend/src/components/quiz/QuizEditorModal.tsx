@@ -32,6 +32,7 @@ import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
 import { getAuthorizedClasses, getAuthorizedSubjects } from '../../utils/assignments';
 import { AppUser } from '../../types/roles';
 import SelectorModal from '../SelectorModal';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type ApiFetch = (path: string, options?: RequestInit) => Promise<Response>;
 type Tab = 'setup' | 'questions' | 'preview';
@@ -119,6 +120,7 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
   const [toast, setToast] = useState<string | null>(null);
   const [subjectOpts, setSubjectOpts] = useState<{ label: string; value: string }[]>([]);
   const [bankPage, setBankPage] = useState(0);
+  const insets = useSafeAreaInsets();
   const PAGE_SIZE = 10;
 
   const loadQuiz = useCallback(async () => {
@@ -333,7 +335,7 @@ export default function QuizEditorModal({ visible, quizId, apiFetch, onClose, on
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
       <View style={s.screen}>
-        <View style={[s.header, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+        <View style={[s.header, { paddingTop: Math.max(insets.top, 12) }]}>
           <Pressable onPress={onClose} style={s.backBtn}>
             <ChevronLeft size={24} color="#1a1a2e" />
           </Pressable>

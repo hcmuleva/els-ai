@@ -1,0 +1,10 @@
+{
+  "class": 12,
+  "subject": "Physics",
+  "chapter": "Electrostatics",
+  "difficulty": "JEE_Main",
+  "questionCount": 5,
+  "questionTypes": ["SCQ", "Numerical", "AssertionReason"],
+  "includeSolutions": true,
+  "outputFormat": "JSON"
+}

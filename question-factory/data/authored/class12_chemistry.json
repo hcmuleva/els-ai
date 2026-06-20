@@ -1,0 +1,211 @@
+{
+  "class_level": "12",
+  "subject": "chemistry",
+  "items": [
+    {
+      "questionType": "SCQ",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Electrochemistry",
+      "topic": "Galvanic cells and electrode potential",
+      "question": "For the Daniell cell, $E^\\circ_{\\text{Cu}^{2+}/\\text{Cu}} = +0.34\\,\\text{V}$ and $E^\\circ_{\\text{Zn}^{2+}/\\text{Zn}} = -0.76\\,\\text{V}$. The standard cell potential $E^\\circ_{cell}$ is:",
+      "options": [
+        {"text": "$1.10\\ \\text{V}$", "is_correct": true},
+        {"text": "$0.42\\ \\text{V}$", "is_correct": false},
+        {"text": "$-1.10\\ \\text{V}$", "is_correct": false},
+        {"text": "$0.76\\ \\text{V}$", "is_correct": false}
+      ],
+      "solution": {
+        "finalAnswer": "$1.10\\ \\text{V}$",
+        "stepByStep": [
+          "Cu has the higher reduction potential, so it is the cathode; Zn is the anode.",
+          "$E^\\circ_{cell} = E^\\circ_{cathode} - E^\\circ_{anode}$.",
+          "$E^\\circ_{cell} = 0.34 - (-0.76) = 1.10\\ \\text{V}$."
+        ],
+        "formulaUsed": ["E_cell = E_cathode - E_anode"],
+        "commonMistake": "Subtracting in the wrong order or dropping the sign of the anode potential.",
+        "examinerNote": "A positive $E^\\circ_{cell}$ confirms a spontaneous (galvanic) cell."
+      },
+      "verification": {"kind": "numeric", "expression": "0.34 - (-0.76)", "expected": 1.10, "tol": 0.001},
+      "tags": ["numerical", "application-based"]
+    },
+    {
+      "questionType": "Numerical",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Electrochemistry",
+      "topic": "Faraday's laws of electrolysis",
+      "question": "Using Faraday's laws, find the charge (in coulombs) required to deposit $1\\,\\text{mol}$ of aluminium from $\\text{Al}^{3+}$. Take $F = 96500\\,\\text{C mol}^{-1}$.",
+      "numericAnswer": 289500,
+      "solution": {
+        "finalAnswer": "$289500\\ \\text{C}$",
+        "stepByStep": [
+          "$\\text{Al}^{3+} + 3e^- \\rightarrow \\text{Al}$, so $n = 3$ electrons per ion.",
+          "Charge $Q = nF = 3 \\times 96500$.",
+          "$Q = 289500\\ \\text{C}$."
+        ],
+        "formulaUsed": ["Q = nF"],
+        "commonMistake": "Using $n = 1$ and forgetting that $\\text{Al}^{3+}$ needs 3 electrons.",
+        "examinerNote": "Identify electrons transferred from the half-reaction."
+      },
+      "verification": {"kind": "numeric", "expression": "3*96500", "expected": 289500, "tol": 1},
+      "tags": ["numerical", "application-based"]
+    },
+    {
+      "questionType": "AssertionReason",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Analyze",
+      "marks": 4,
+      "chapter": "Electrochemistry",
+      "topic": "Galvanic cells and electrode potential",
+      "question": "Assertion (A): In a galvanic cell, oxidation occurs at the anode.\nReason (R): The anode is the electrode from which electrons leave the cell to flow through the external circuit.",
+      "options": [
+        {"text": "Both A and R are true and R is the correct explanation of A.", "is_correct": true},
+        {"text": "Both A and R are true but R is NOT the correct explanation of A.", "is_correct": false},
+        {"text": "A is true but R is false.", "is_correct": false},
+        {"text": "A is false but R is true.", "is_correct": false}
+      ],
+      "solution": {
+        "finalAnswer": "Both A and R are true and R correctly explains A.",
+        "stepByStep": [
+          "Oxidation is loss of electrons; those electrons are released at the anode.",
+          "They leave the cell at the anode and travel through the external wire to the cathode.",
+          "So the defining behaviour in R is exactly why oxidation is at the anode."
+        ],
+        "formulaUsed": [],
+        "commonMistake": "Mixing up anode/cathode signs between galvanic and electrolytic cells.",
+        "examinerNote": "In a galvanic cell the anode is negative; in electrolysis it is positive."
+      },
+      "tags": ["assertion-reason", "conceptual"]
+    },
+    {
+      "questionType": "SCQ",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Chemical Kinetics",
+      "topic": "First-order reactions and half-life",
+      "question": "A first-order reaction has a rate constant $k = 0.0693\\,\\text{s}^{-1}$. Its half-life is:",
+      "options": [
+        {"text": "$10\\ \\text{s}$", "is_correct": true},
+        {"text": "$6.93\\ \\text{s}$", "is_correct": false},
+        {"text": "$0.693\\ \\text{s}$", "is_correct": false},
+        {"text": "$100\\ \\text{s}$", "is_correct": false}
+      ],
+      "solution": {
+        "finalAnswer": "$10\\ \\text{s}$",
+        "stepByStep": [
+          "First-order half-life: $t_{1/2} = 0.693/k$.",
+          "$t_{1/2} = 0.693/0.0693 = 10\\ \\text{s}$."
+        ],
+        "formulaUsed": ["t_half = 0.693/k"],
+        "commonMistake": "Using the zero-order or second-order half-life formula.",
+        "examinerNote": "First-order half-life is independent of initial concentration."
+      },
+      "verification": {"kind": "numeric", "expression": "0.693/0.0693", "expected": 10, "tol": 0.01},
+      "tags": ["numerical", "conceptual"]
+    },
+    {
+      "questionType": "MCQ",
+      "difficulty": "JEE_Advanced",
+      "bloomLevel": "Analyze",
+      "marks": 4,
+      "chapter": "Chemical Kinetics",
+      "topic": "First-order reactions and half-life",
+      "question": "Select ALL correct statements about a first-order reaction.",
+      "options": [
+        {"text": "Its half-life is independent of the initial concentration.", "is_correct": true},
+        {"text": "A plot of $\\ln[A]$ versus time is a straight line.", "is_correct": true},
+        {"text": "$t_{1/2} = 0.693/k$.", "is_correct": true},
+        {"text": "The rate is independent of the reactant concentration.", "is_correct": false}
+      ],
+      "solution": {
+        "finalAnswer": "Statements 1, 2 and 3 are correct.",
+        "stepByStep": [
+          "$[A] = [A]_0 e^{-kt} \\Rightarrow \\ln[A] = \\ln[A]_0 - kt$ (straight line, slope $-k$).",
+          "Setting $[A] = [A]_0/2$ gives $t_{1/2} = 0.693/k$, with $[A]_0$ cancelling out.",
+          "Rate $= k[A]$ clearly depends on concentration, so the last statement is false."
+        ],
+        "formulaUsed": ["[A] = [A]0 e^{-kt}", "t_half = 0.693/k"],
+        "commonMistake": "Assuming the rate is constant; that is zero-order behaviour.",
+        "examinerNote": "Distinguish rate (depends on $[A]$) from half-life (does not)."
+      },
+      "tags": ["multiple-correct", "analysis"]
+    },
+    {
+      "questionType": "Numerical",
+      "difficulty": "Board",
+      "bloomLevel": "Apply",
+      "marks": 3,
+      "chapter": "Solutions",
+      "topic": "Concentration terms and molarity",
+      "question": "Find the molarity (in mol/L) of a solution that contains $0.5\\,\\text{mol}$ of solute dissolved to make $2\\,\\text{L}$ of solution.",
+      "numericAnswer": 0.25,
+      "solution": {
+        "finalAnswer": "$0.25\\ \\text{M}$",
+        "stepByStep": [
+          "Molarity $M = \\dfrac{\\text{moles of solute}}{\\text{volume of solution in L}}$.",
+          "$M = 0.5/2 = 0.25\\ \\text{M}$."
+        ],
+        "formulaUsed": ["M = n/V"],
+        "commonMistake": "Using the mass of solute instead of moles, or volume in mL.",
+        "examinerNote": "Volume must be the total solution volume in litres."
+      },
+      "verification": {"kind": "numeric", "expression": "0.5/2", "expected": 0.25, "tol": 0.0001},
+      "tags": ["numerical", "board"]
+    },
+    {
+      "questionType": "SCQ",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Solutions",
+      "topic": "Depression in freezing point",
+      "question": "For an aqueous solution with $K_f = 1.86\\,\\text{K kg mol}^{-1}$ and molality $0.5\\,\\text{m}$ (no association/dissociation), the depression in freezing point $\\Delta T_f$ is:",
+      "options": [
+        {"text": "$0.93\\ \\text{K}$", "is_correct": true},
+        {"text": "$1.86\\ \\text{K}$", "is_correct": false},
+        {"text": "$3.72\\ \\text{K}$", "is_correct": false},
+        {"text": "$0.5\\ \\text{K}$", "is_correct": false}
+      ],
+      "solution": {
+        "finalAnswer": "$0.93\\ \\text{K}$",
+        "stepByStep": [
+          "Colligative relation: $\\Delta T_f = K_f \\, m$.",
+          "$\\Delta T_f = 1.86 \\times 0.5 = 0.93\\ \\text{K}$."
+        ],
+        "formulaUsed": ["Delta T_f = K_f * m"],
+        "commonMistake": "Forgetting the van't Hoff factor when the solute does dissociate (here it does not).",
+        "examinerNote": "State the assumption of no dissociation explicitly."
+      },
+      "verification": {"kind": "numeric", "expression": "1.86*0.5", "expected": 0.93, "tol": 0.001},
+      "tags": ["numerical", "application-based"]
+    },
+    {
+      "questionType": "TF",
+      "difficulty": "Board",
+      "bloomLevel": "Understand",
+      "marks": 1,
+      "chapter": "Solutions",
+      "topic": "Raoult's law",
+      "question": "State whether True or False: For an ideal solution, Raoult's law states that the partial vapour pressure of a component equals its mole fraction times the vapour pressure of the pure component.",
+      "options": [
+        {"text": "True", "is_correct": true},
+        {"text": "False", "is_correct": false}
+      ],
+      "solution": {
+        "finalAnswer": "True",
+        "stepByStep": [
+          "Raoult's law for an ideal solution: $p_A = x_A\\, p_A^{\\circ}$.",
+          "Partial pressure is proportional to mole fraction, with the pure-component vapour pressure as the constant."
+        ],
+        "formulaUsed": ["p_A = x_A * p_A^o"],
+        "commonMistake": "Confusing Raoult's law with Henry's law (used for dilute gases in solution).",
+        "examinerNote": "Ideal solutions obey Raoult's law over the whole composition range."
+      },
+      "tags": ["true-false", "conceptual"]
+    }
+  ]
+}

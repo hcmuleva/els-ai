@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useFocusEffect, useRouter } from 'expo-router';
+import { ModalHeader } from '../../src/components/common/ModalHeader';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Linking from 'expo-linking';
 import {
@@ -1084,6 +1086,7 @@ async function pickMediaAsDataUrl(): Promise<PickedFile> {
 
 export default function QuestionManagementScreen() {
   const { user, apiFetch } = useAuth();
+  const insets = useSafeAreaInsets();
   const router = useRouter();
   const actionBadgeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [loading, setLoading] = useState(true);
@@ -2721,20 +2724,16 @@ export default function QuestionManagementScreen() {
     return (
       <View style={qFormS.screen}>
         {/* Header */}
-        <View style={[qFormS.header, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
-          <Pressable onPress={closeAction} style={qFormS.backBtn}>
-            <Text style={qFormS.backArrow}>‹</Text>
-          </Pressable>
-          <View style={{ flex: 1 }}>
-            <Text style={qFormS.titleText}>{dialogTitle}</Text>
-            {mode === 'edit' ? (
-              <Text style={qFormS.subTitle}>{getQuestionTypeLabel(draft.questionType)}</Text>
-            ) : null}
-          </View>
-          <Pressable style={[qFormS.saveBtn, !canSave && qFormS.saveBtnDisabled]} onPress={saveAction} disabled={!canSave}>
-            {isSaving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={qFormS.saveBtnText}>Save</Text>}
-          </Pressable>
-        </View>
+        <ModalHeader
+          title={dialogTitle}
+          subtitle={mode === 'edit' ? getQuestionTypeLabel(draft.questionType) : undefined}
+          onBack={closeAction}
+          right={
+            <Pressable style={[qFormS.saveBtn, !canSave && qFormS.saveBtnDisabled]} onPress={saveAction} disabled={!canSave}>
+              {isSaving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={qFormS.saveBtnText}>Save</Text>}
+            </Pressable>
+          }
+        />
 
         {/* Tab bar */}
         <View style={qFormS.tabBar}>
@@ -3269,7 +3268,7 @@ export default function QuestionManagementScreen() {
               {/* ── Asset picker modal ── */}
               <Modal visible={assetPickerOpen} animationType="slide" transparent onRequestClose={() => { setAssetPickerOpen(false); setAssetPickerTarget(null); }}>
                 <View style={mmS.modalOverlay}>
-                  <View style={[mmS.modalSheet, { paddingBottom: 32 }]}>
+                  <View style={[mmS.modalSheet, { paddingBottom: Math.max(insets.bottom, 32) }]}>
                     {/* modal header gradient */}
                     <LinearGradient colors={['#F4EFFF', '#EDE4FF']} style={mmS.modalHeaderGrad}>
                       <View style={mmS.modalHeaderRow}>

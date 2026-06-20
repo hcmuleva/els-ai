@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QuestionFactoryQuestion",
+  "type": "object",
+  "required": ["id", "questionType", "difficulty", "chapter", "topic", "question", "options", "correctAnswer"],
+  "properties": {
+    "id": {"type": "string"},
+    "questionType": {"enum": ["SCQ", "MCQ", "TF", "Numerical", "AssertionReason"]},
+    "difficulty": {"enum": ["Board", "Board_HOTS", "JEE_Main", "JEE_Advanced", "NEET", "Mixed"]},
+    "bloomLevel": {"type": "string"},
+    "marks": {"type": "number"},
+    "chapter": {"type": "string"},
+    "topic": {"type": "string"},
+    "question": {"type": "string"},
+    "options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "text"],
+        "properties": {
+          "key": {"type": "string"},
+          "text": {"type": "string"}
+        }
+      }
+    },
+    "correctAnswer": {
+      "oneOf": [
+        {"type": "string"},
+        {"type": "array", "items": {"type": "string"}}
+      ]
+    },
+    "solution": {
+      "type": "object",
+      "properties": {
+        "finalAnswer": {"type": "string"},
+        "stepByStep": {"type": "array", "items": {"type": "string"}},
+        "formulaUsed": {"type": "array", "items": {"type": "string"}},
+        "commonMistake": {"type": "string"},
+        "examinerNote": {"type": "string"}
+      }
+    },
+    "qualityChecks": {"type": "object"},
+    "tags": {"type": "array", "items": {"type": "string"}}
+  }
+}

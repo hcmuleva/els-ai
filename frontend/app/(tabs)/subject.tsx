@@ -1,6 +1,6 @@
 import { useLocalSearchParams, router } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ModalHeader } from '../../src/components/common/ModalHeader';
 import {
   ActivityIndicator, Dimensions, Image, Modal, Platform,
   Pressable, ScrollView, StyleSheet, Text, View,
@@ -123,7 +123,6 @@ function ContentViewer({
 // ── Topic Contents Screen ─────────────────────────────────────────────────────
 function TopicScreen({ topic, onBack }: { topic: TopicDetail; onBack: () => void }) {
   const { apiFetch } = useAuth();
-  const insets = useSafeAreaInsets();
   const [loading, setLoading] = useState(true);
   const [contents, setContents] = useState<ContentItem[]>([]);
   const [viewerIdx, setViewerIdx] = useState<number | null>(null);
@@ -141,19 +140,26 @@ function TopicScreen({ topic, onBack }: { topic: TopicDetail; onBack: () => void
   return (
     <View style={sc.screen}>
       {/* Header */}
-      <View style={[sc.topicHeader, { paddingTop: Math.max(insets.top, 16) }]}>
-        <Pressable onPress={onBack} style={sc.backBtn}>
-          <ChevronLeft size={22} color="#1a1a2e" />
-        </Pressable>
-        <View style={{ flex: 1 }}>
-          <Text style={sc.topicHeaderTitle} numberOfLines={1}>{topic.title}</Text>
-          <Text style={sc.topicHeaderSub}>{topic.subject} · Class {topic.classLevel}</Text>
-        </View>
-        <View style={[sc.lessonBadge, { backgroundColor: ss.accent + '22' }]}>
-          <BookOpen size={13} color={ss.accent} />
-          <Text style={[sc.lessonBadgeText, { color: ss.accent }]}>{contents.length} lesson{contents.length !== 1 ? 's' : ''}</Text>
-        </View>
-      </View>
+      <ModalHeader
+        style={{ paddingHorizontal: 16, paddingBottom: 14, gap: 10 }}
+        left={
+          <Pressable onPress={onBack} style={sc.backBtn}>
+            <ChevronLeft size={22} color="#1a1a2e" />
+          </Pressable>
+        }
+        center={
+          <View style={{ flex: 1 }}>
+            <Text style={sc.topicHeaderTitle} numberOfLines={1}>{topic.title}</Text>
+            <Text style={sc.topicHeaderSub}>{topic.subject} · Class {topic.classLevel}</Text>
+          </View>
+        }
+        right={
+          <View style={[sc.lessonBadge, { backgroundColor: ss.accent + '22' }]}>
+            <BookOpen size={13} color={ss.accent} />
+            <Text style={[sc.lessonBadgeText, { color: ss.accent }]}>{contents.length} lesson{contents.length !== 1 ? 's' : ''}</Text>
+          </View>
+        }
+      />
 
       {/* Subject accent bar */}
       <View style={[sc.accentBar, { backgroundColor: ss.accent }]} />
@@ -248,7 +254,6 @@ function TopicScreen({ topic, onBack }: { topic: TopicDetail; onBack: () => void
 // ── Subject List Screen ───────────────────────────────────────────────────────
 export default function SubjectScreen() {
   const { apiFetch } = useAuth();
-  const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ subject?: string }>();
   const filterSubject = params.subject;
 
@@ -280,18 +285,28 @@ export default function SubjectScreen() {
   return (
     <View style={sc.screen}>
       {/* Header */}
-      <View style={[sc.header, { paddingTop: Math.max(insets.top, 16), backgroundColor: hs.accent }]}>
-        <Pressable onPress={() => router.back()} style={sc.headerBackBtn}>
-          <ChevronLeft size={22} color="#fff" />
-        </Pressable>
-        <View style={{ flex: 1 }}>
-          <Text style={sc.headerTitle}>{headerSubject}</Text>
-          {classLevel && <Text style={sc.headerSub}>Class {classLevel}</Text>}
-        </View>
-        <View style={[sc.headerIconBox, { backgroundColor: 'rgba(255,255,255,0.2)' }]}>
-          <hs.Icon size={20} color="#fff" />
-        </View>
-      </View>
+      <ModalHeader
+        tone={hs.accent}
+        titleColor="#fff"
+        borderless
+        style={{ paddingHorizontal: 16, paddingBottom: 16, gap: 10 }}
+        left={
+          <Pressable onPress={() => router.back()} style={sc.headerBackBtn}>
+            <ChevronLeft size={22} color="#fff" />
+          </Pressable>
+        }
+        center={
+          <View style={{ flex: 1 }}>
+            <Text style={sc.headerTitle}>{headerSubject}</Text>
+            {classLevel && <Text style={sc.headerSub}>Class {classLevel}</Text>}
+          </View>
+        }
+        right={
+          <View style={[sc.headerIconBox, { backgroundColor: 'rgba(255,255,255,0.2)' }]}>
+            <hs.Icon size={20} color="#fff" />
+          </View>
+        }
+      />
 
       {loading ? (
         <View style={sc.center}>

@@ -1,0 +1,183 @@
+{
+  "metadata": {
+    "class": "12",
+    "subject": "physics",
+    "chapter": "Electrostatics",
+    "topic": null,
+    "difficulty": "JEE_Main",
+    "questionSetType": "Practice",
+    "totalQuestions": 3,
+    "requestedCount": 5,
+    "questionTypes": [
+      "SCQ",
+      "Numerical",
+      "AssertionReason"
+    ],
+    "provider": "droid-authored-offline",
+    "generatedAt": "2026-06-20T12:32:04.803325+00:00"
+  },
+  "validation": {
+    "passed": true,
+    "schemaValid": true,
+    "totalAccepted": 3,
+    "verified": 2,
+    "refuted": 0,
+    "qualityRejected": 0,
+    "checks": [
+      "3 questions passed structural + quality-gate validation",
+      "answer keys derived from verified correct options / numeric answers",
+      "2 independently verified by sympy",
+      "0 candidates rejected by the quality gate",
+      "syllabus scope matched"
+    ],
+    "warnings": []
+  },
+  "questions": [
+    {
+      "id": "PHY12_ELECTROSTATICS_JM_001",
+      "questionType": "SCQ",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Electrostatics",
+      "topic": "Coulomb's law",
+      "question": "Two point charges $q_1 = 2\\,\\mu\\text{C}$ and $q_2 = 3\\,\\mu\\text{C}$ are placed $0.1\\,\\text{m}$ apart in vacuum. Taking $k = 9\\times10^9\\,\\text{N m}^2\\text{C}^{-2}$, the electrostatic force between them is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "$5.4\\ \\text{N}$"
+        },
+        {
+          "key": "B",
+          "text": "$54\\ \\text{N}$"
+        },
+        {
+          "key": "C",
+          "text": "$0.54\\ \\text{N}$"
+        },
+        {
+          "key": "D",
+          "text": "$2.7\\ \\text{N}$"
+        }
+      ],
+      "correctAnswer": "A",
+      "solution": {
+        "finalAnswer": "$5.4\\ \\text{N}$ (repulsive)",
+        "stepByStep": [
+          "Coulomb's law: $F = \\dfrac{k q_1 q_2}{r^2}$.",
+          "Substitute: $F = \\dfrac{(9\\times10^9)(2\\times10^{-6})(3\\times10^{-6})}{(0.1)^2}$.",
+          "Numerator $= 9\\times10^9 \\times 6\\times10^{-12} = 5.4\\times10^{-2}$; divide by $0.01$.",
+          "$F = 5.4\\ \\text{N}$, directed along the line joining the charges (repulsive, both positive)."
+        ],
+        "formulaUsed": [
+          "F = k q_1 q_2 / r^2"
+        ],
+        "commonMistake": "Forgetting to square the distance, or mishandling the $10^{-6}$ in microcoulombs.",
+        "examinerNote": "Magnitude and direction both expected for full marks."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": true,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "numerical",
+        "application-based"
+      ]
+    },
+    {
+      "id": "PHY12_ELECTROSTATICS_JM_002",
+      "questionType": "AssertionReason",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Analyze",
+      "marks": 4,
+      "chapter": "Electrostatics",
+      "topic": "Gauss's law and applications",
+      "question": "Assertion (A): The electrostatic field at every point inside the material of a charged hollow conductor is zero.\nReason (R): In electrostatic equilibrium the net charge enclosed by any Gaussian surface drawn inside the conductor's material is zero.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Both A and R are true and R is the correct explanation of A."
+        },
+        {
+          "key": "B",
+          "text": "Both A and R are true but R is NOT the correct explanation of A."
+        },
+        {
+          "key": "C",
+          "text": "A is true but R is false."
+        },
+        {
+          "key": "D",
+          "text": "A is false but R is true."
+        }
+      ],
+      "correctAnswer": "A",
+      "solution": {
+        "finalAnswer": "Both A and R are true and R correctly explains A.",
+        "stepByStep": [
+          "Excess charge on a conductor resides on its outer surface, so a Gaussian surface inside the material encloses zero net charge.",
+          "By Gauss's law $\\oint \\vec{E}\\cdot d\\vec{A} = q_{enc}/\\varepsilon_0 = 0$, giving $E = 0$ inside the material.",
+          "Hence R is the precise reason for A."
+        ],
+        "formulaUsed": [
+          "Gauss's law"
+        ],
+        "commonMistake": "Confusing the field inside the conductor's material (zero) with the field in a cavity that contains a charge.",
+        "examinerNote": "Standard assertion-reason; identify the correct-explanation case."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": false,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "assertion-reason",
+        "conceptual"
+      ]
+    },
+    {
+      "id": "PHY12_ELECTROSTATICS_JM_003",
+      "questionType": "Numerical",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Electrostatics",
+      "topic": "Electric potential and potential energy",
+      "question": "A point charge $q = 2\\,\\mu\\text{C}$ is placed in vacuum. Using $k = 9\\times10^9\\,\\text{N m}^2\\text{C}^{-2}$, find the electric potential (in volts) at a point $0.3\\,\\text{m}$ from the charge.",
+      "options": [],
+      "correctAnswer": "60000",
+      "solution": {
+        "finalAnswer": "$6\\times10^{4}\\ \\text{V} = 60000\\ \\text{V}$",
+        "stepByStep": [
+          "Potential of a point charge: $V = \\dfrac{kq}{r}$.",
+          "Substitute: $V = \\dfrac{(9\\times10^9)(2\\times10^{-6})}{0.3}$.",
+          "$= \\dfrac{1.8\\times10^{4}}{0.3} = 6\\times10^{4}\\ \\text{V}$."
+        ],
+        "formulaUsed": [
+          "V = kq/r"
+        ],
+        "commonMistake": "Using $r^2$ in the denominator (that is for field/force, not potential).",
+        "examinerNote": "Potential is a scalar; sign follows the sign of the charge."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": true,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "numerical",
+        "application-based"
+      ]
+    }
+  ]
+}

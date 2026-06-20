@@ -1,0 +1,153 @@
+{
+  "meta": {
+    "class_level": "12",
+    "subject": "chemistry",
+    "difficulty": "medium",
+    "requested_count": 4,
+    "returned_count": 3,
+    "topic": "solutions",
+    "allowed_types": [
+      "single_choice",
+      "true_false"
+    ],
+    "provider": "droid-authored",
+    "format": "book-markdown-latex",
+    "generated_at": "2026-06-20T12:04:44.476846+00:00"
+  },
+  "source": {
+    "mode": "sample",
+    "dataset": null,
+    "pdf_path": null,
+    "pdf_url": null,
+    "detected_topic": "electrochemistry",
+    "text_chars": 566,
+    "note": "PDF_SOURCE_MODE=sample"
+  },
+  "validation": {
+    "passed": true,
+    "checks": [
+      "3 questions passed structural validation",
+      "answer keys derived from correct options",
+      "book-format math delimiters checked",
+      "2 verified by deterministic sympy checks",
+      "LLM critic skipped (no API key)"
+    ],
+    "warnings": [],
+    "deduped": 3,
+    "verified": 2,
+    "refuted": 0,
+    "critic": "skipped",
+    "repaired": 0,
+    "attempts": 2
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single_choice",
+      "title_markdown": "What is the molarity of a solution containing $0.5\\,\\text{mol}$ of solute dissolved to make $2\\,\\text{L}$ of solution?",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "medium",
+      "points": 10,
+      "sort_order": 1,
+      "options": [
+        {
+          "id": "q1_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$0.25\\,\\text{M}$",
+          "is_correct": true
+        },
+        {
+          "id": "q1_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$1\\,\\text{M}$",
+          "is_correct": false
+        },
+        {
+          "id": "q1_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$2.5\\,\\text{M}$",
+          "is_correct": false
+        },
+        {
+          "id": "q1_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$4\\,\\text{M}$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q1_opt_1"
+      ],
+      "explanation_markdown": "**Given.** $n = 0.5\\,\\text{mol}$ in $V = 2\\,\\text{L}$.\n\n**Step 1 — Definition.** $$M = \\dfrac{n_{solute}}{V_{solution\\,(\\text{L})}}.$$\n\n**Step 2 — Substitute.** $$M = \\dfrac{0.5}{2} = 0.25\\,\\text{M}.$$\n\n**Answer.** $0.25\\,\\text{M}$.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q2",
+      "type": "single_choice",
+      "title_markdown": "For an aqueous solution, $K_f = 1.86\\,\\text{K kg mol}^{-1}$ and the molality is $0.5\\,\\text{m}$. Assuming no association/dissociation, the depression in freezing point $\\Delta T_f$ is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "hard",
+      "points": 10,
+      "sort_order": 2,
+      "options": [
+        {
+          "id": "q2_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$0.93\\,\\text{K}$",
+          "is_correct": true
+        },
+        {
+          "id": "q2_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$1.86\\,\\text{K}$",
+          "is_correct": false
+        },
+        {
+          "id": "q2_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$3.72\\,\\text{K}$",
+          "is_correct": false
+        },
+        {
+          "id": "q2_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$0.5\\,\\text{K}$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q2_opt_1"
+      ],
+      "explanation_markdown": "**Given.** $K_f = 1.86\\,\\text{K kg mol}^{-1}$, molality $m = 0.5\\,\\text{m}$.\n\n**Step 1 — Colligative relation.** $$\\Delta T_f = K_f \\, m.$$\n\n**Step 2 — Substitute.** $$\\Delta T_f = 1.86 \\times 0.5 = 0.93\\,\\text{K}.$$\n\n**Answer.** $\\Delta T_f = 0.93\\,\\text{K}$.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "title_markdown": "According to Raoult's law, for an ideal solution the partial vapour pressure of a component equals its mole fraction times the vapour pressure of the pure component.",
+      "instruction": "State whether the statement is True or False.",
+      "difficulty": "easy",
+      "points": 10,
+      "sort_order": 3,
+      "options": [
+        {
+          "id": "q3_opt_1",
+          "slot_position": 1,
+          "label_markdown": "True",
+          "is_correct": true
+        },
+        {
+          "id": "q3_opt_2",
+          "slot_position": 2,
+          "label_markdown": "False",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q3_opt_1"
+      ],
+      "explanation_markdown": "**Idea.** Raoult's law for an ideal solution states $p_A = x_A\\, p_A^{\\circ}$.\n\nThe partial pressure of each volatile component is proportional to its mole fraction in the liquid, the constant being the pure-component vapour pressure. The statement is **true**.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    }
+  ]
+}

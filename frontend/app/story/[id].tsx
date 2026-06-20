@@ -15,6 +15,7 @@ import { useAuth } from '../../src/context/AuthContext';
 import { resolveMediaUrl } from '../../src/utils/media';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
 import PlayQuizCTA from '../../src/components/quiz/PlayQuizCTA';
+import { ModalHeader } from '../../src/components/common/ModalHeader';
 
 type Section = {
   id: string;
@@ -185,23 +186,30 @@ export default function StoryReaderScreen() {
   return (
     <View style={s.screen}>
       {/* Header */}
-      <View style={[s.header, { paddingTop: Math.max(insets.top, 20) }]}>
-        <Pressable onPress={safeBack} style={s.backBtn} hitSlop={12}>
-          <ChevronLeft size={22} color="#1a1a2e" />
-        </Pressable>
-        <View style={s.headerMid}>
-          <View style={[s.typeBadge, { backgroundColor: `${cfg.accent}18` }]}>
-            <Sparkles size={11} color={cfg.accent} />
-            <Text style={[s.typeBadgeText, { color: cfg.accent }]}>Story</Text>
+      <ModalHeader
+        style={{ paddingHorizontal: 16, paddingBottom: 12, gap: 10 }}
+        left={
+          <Pressable onPress={safeBack} style={s.backBtn} hitSlop={12}>
+            <ChevronLeft size={22} color="#1a1a2e" />
+          </Pressable>
+        }
+        center={
+          <View style={s.headerMid}>
+            <View style={[s.typeBadge, { backgroundColor: `${cfg.accent}18` }]}>
+              <Sparkles size={11} color={cfg.accent} />
+              <Text style={[s.typeBadgeText, { color: cfg.accent }]}>Story</Text>
+            </View>
+            <Text style={s.headerTitle} numberOfLines={1}>{story.title}</Text>
           </View>
-          <Text style={s.headerTitle} numberOfLines={1}>{story.title}</Text>
-        </View>
-        {sections.length > 0 && (
-          <View style={[s.counter, { backgroundColor: `${cfg.accent}15` }]}>
-            <Text style={[s.counterTxt, { color: cfg.accent }]}>{curIdx + 1}/{sections.length}</Text>
-          </View>
-        )}
-      </View>
+        }
+        right={
+          sections.length > 0 ? (
+            <View style={[s.counter, { backgroundColor: `${cfg.accent}15` }]}>
+              <Text style={[s.counterTxt, { color: cfg.accent }]}>{curIdx + 1}/{sections.length}</Text>
+            </View>
+          ) : undefined
+        }
+      />
 
       {sections.length === 0 ? (
         <View style={s.center}>
@@ -213,7 +221,7 @@ export default function StoryReaderScreen() {
         <ScrollView
           ref={scrollRef}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={s.scroll}
+          contentContainerStyle={[s.scroll, { paddingBottom: 48 + insets.bottom }]}
         >
           {/* Hero card */}
           <View style={[s.heroCard, { backgroundColor: cfg.bg }]}>

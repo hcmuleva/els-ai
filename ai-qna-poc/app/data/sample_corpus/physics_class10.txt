@@ -1,0 +1,11 @@
+CBSE CLASS X SCIENCE (PHYSICS) - SAMPLE QUESTION PAPER (bundled fallback)
+
+1. State Ohm's law and define the SI unit of resistance.
+2. An electric bulb is rated 60 W at 230 V. Calculate the current it draws and
+   its resistance.
+3. In a series circuit the same current flows through every component; in a
+   parallel circuit the potential difference is the same across each branch.
+4. Define the power of a lens. State its SI unit (dioptre) and the mirror
+   formula relating object distance, image distance and focal length.
+5. Describe image formation by a concave mirror for different object positions
+   (reflection and refraction of light).

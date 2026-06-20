@@ -5,6 +5,8 @@ import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, GripVertical, Clock,
 import DateTimePicker from '@react-native-community/datetimepicker';
 import SelectorModal from '../../src/components/SelectorModal';
 import CreateQuizModal from '../../src/components/quiz/CreateQuizModal';
+import { ModalHeader } from '../../src/components/common/ModalHeader';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { getAuthorizedClasses, getAuthorizedCatalogItems } from '../../src/utils/assignments';
@@ -291,6 +293,7 @@ function DateTimeInput({ kind, value, onChange, placeholder, minDate }: {
 
 export default function PlannerScreen() {
   const { user, apiFetch } = useAuth();
+  const insets = useSafeAreaInsets();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deletingClassroomId, setDeletingClassroomId] = useState<string | null>(null);
@@ -1183,17 +1186,15 @@ export default function PlannerScreen() {
         <View style={p.modalScreen}>
 
           {/* Modal header */}
-          <View style={[p.modalHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
-            <Pressable onPress={() => setIsFormOpen(false)} style={p.modalBackBtn}>
-              <Text style={p.modalBackArrow}>‹</Text>
-            </Pressable>
-            <Text style={p.modalTitle} numberOfLines={1}>
-              {editingClassroomId ? 'Edit Classroom' : 'New Classroom'}
-            </Text>
-            <Pressable style={p.modalSaveBtn} onPress={saveClassroom} disabled={saving}>
-              {saving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={p.modalSaveBtnText}>Save</Text>}
-            </Pressable>
-          </View>
+          <ModalHeader
+            title={editingClassroomId ? 'Edit Classroom' : 'New Classroom'}
+            onBack={() => setIsFormOpen(false)}
+            right={
+              <Pressable style={p.modalSaveBtn} onPress={saveClassroom} disabled={saving}>
+                {saving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={p.modalSaveBtnText}>Save</Text>}
+              </Pressable>
+            }
+          />
 
           {/* Tab bar */}
           <View style={p.modalTabBar}>
@@ -1570,7 +1571,7 @@ export default function PlannerScreen() {
       {/* ── Assign Content picker ── */}
       <Modal visible={isAssignContentOpen} transparent animationType="slide" onRequestClose={() => setIsAssignContentOpen(false)}>
         <View style={p.pickerOverlay}>
-          <View style={p.pickerSheet}>
+          <View style={[p.pickerSheet, { paddingBottom: Math.max(insets.bottom, 16) }]}>
             <View style={p.pickerHeader}>
               <Text style={p.pickerTitle}>Add Learning Content</Text>
               <Pressable style={p.pickerDoneBtn} onPress={() => setIsAssignContentOpen(false)}>
@@ -1661,7 +1662,7 @@ export default function PlannerScreen() {
       {/* ── Add from Bookmark picker ── */}
       <Modal visible={isBookmarkPickerOpen} transparent animationType="slide" onRequestClose={() => setIsBookmarkPickerOpen(false)}>
         <View style={p.pickerOverlay}>
-          <View style={p.pickerSheet}>
+          <View style={[p.pickerSheet, { paddingBottom: Math.max(insets.bottom, 16) }]}>
             <View style={p.pickerHeader}>
               {activeBookmark ? (
                 <Pressable style={p.bmBackBtn} onPress={() => setActiveBookmark(null)}>
@@ -1785,7 +1786,7 @@ export default function PlannerScreen() {
       {/* ── Assign Quiz picker ── */}
       <Modal visible={isAssignQuizOpen} transparent animationType="slide" onRequestClose={() => setIsAssignQuizOpen(false)}>
         <View style={p.pickerOverlay}>
-          <View style={p.pickerSheet}>
+          <View style={[p.pickerSheet, { paddingBottom: Math.max(insets.bottom, 16) }]}>
             <View style={p.pickerHeader}>
               <Text style={p.pickerTitle}>Add Quizzes</Text>
               <Pressable style={p.pickerDoneBtn} onPress={() => setIsAssignQuizOpen(false)}>
@@ -1910,7 +1911,7 @@ export default function PlannerScreen() {
       {/* ── Delete confirm ── */}
       <Modal visible={pendingDelete !== null} transparent animationType="fade" onRequestClose={() => setPendingDelete(null)}>
         <View style={p.pickerOverlay}>
-          <View style={p.confirmCard}>
+          <View style={[p.confirmCard, { paddingBottom: Math.max(insets.bottom, 24) }]}>
             <Text style={{ fontSize: 40, textAlign: 'center' }}>🗑</Text>
             <Text style={p.confirmTitle}>Delete Classroom?</Text>
             <Text style={p.confirmSub}>"{pendingDelete?.title}" will be permanently removed.</Text>
@@ -1929,7 +1930,7 @@ export default function PlannerScreen() {
       {/* ── End class confirm ── */}
       <Modal visible={pendingEndClassroom !== null} transparent animationType="fade" onRequestClose={() => setPendingEndClassroom(null)}>
         <View style={p.pickerOverlay}>
-          <View style={p.confirmCard}>
+          <View style={[p.confirmCard, { paddingBottom: Math.max(insets.bottom, 24) }]}>
             <Text style={{ fontSize: 40, textAlign: 'center' }}>⏹</Text>
             <Text style={p.confirmTitle}>End this class?</Text>
             <Text style={p.confirmSub}>
@@ -1956,15 +1957,11 @@ export default function PlannerScreen() {
       {/* ── History Modal ── */}
       <Modal visible={isHistoryOpen} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setIsHistoryOpen(false)}>
         <View style={p.historyScreen}>
-          <View style={[p.historyHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
-            <Pressable onPress={() => setIsHistoryOpen(false)} style={p.historyBackBtn}>
-              <Text style={p.historyBackArrow}>‹</Text>
-            </Pressable>
-            <View style={{ flex: 1 }}>
-              <Text style={p.historyTitle}>Previous Classes</Text>
-              <Text style={p.historySubtitle}>All your ended classroom sessions</Text>
-            </View>
-          </View>
+          <ModalHeader
+            title="Previous Classes"
+            subtitle="All your ended classroom sessions"
+            onBack={() => setIsHistoryOpen(false)}
+          />
 
           {historyLoading ? (
             <View style={p.historyCenter}>

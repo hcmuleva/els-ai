@@ -1,0 +1,29 @@
+[
+  {
+    "class": 12,
+    "subject": "Physics",
+    "difficulty": "Mixed",
+    "questionCount": 8,
+    "questionTypes": ["SCQ", "MCQ", "TF", "Numerical", "AssertionReason"],
+    "includeSolutions": true,
+    "outputFormat": "JSON"
+  },
+  {
+    "class": 12,
+    "subject": "Chemistry",
+    "difficulty": "Mixed",
+    "questionCount": 8,
+    "questionTypes": ["SCQ", "MCQ", "TF", "Numerical", "AssertionReason"],
+    "includeSolutions": true,
+    "outputFormat": "JSON"
+  },
+  {
+    "class": 12,
+    "subject": "Mathematics",
+    "difficulty": "Mixed",
+    "questionCount": 8,
+    "questionTypes": ["SCQ", "MCQ", "TF", "Numerical", "AssertionReason"],
+    "includeSolutions": true,
+    "outputFormat": "CSV"
+  }
+]

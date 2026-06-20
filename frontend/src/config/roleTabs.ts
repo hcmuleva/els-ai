@@ -42,6 +42,7 @@ export const hiddenTabRoutes = [
   'logicopiccolo',
   'assessment',
   'evaluation',
+  'counseling',
   'manage',
   'admin',
   'superadmin',

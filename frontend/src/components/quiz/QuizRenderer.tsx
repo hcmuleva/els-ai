@@ -20,6 +20,7 @@ import LogicoQuestionRenderer from './LogicoQuestionRenderer';
 import MemoryMatchRenderer from './MemoryMatchRenderer';
 import FillBlankRenderer from './FillBlankRenderer';
 import JigsawRenderer from './JigsawRenderer';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type QuizQuestion = {
   id: string;
@@ -162,6 +163,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
   // firing multiple advances (which skipped questions/levels).
   const isAdvancingRef = useRef(false);
   const [isMuted, setIsMuted] = useState(() => AudioManager.isMuted());
+  const insets = useSafeAreaInsets();
 
   const toggleMute = () => {
     const next = !isMuted;
@@ -424,7 +426,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
           <View style={[styles.blob, styles.blob2]} />
           <View style={[styles.blob, styles.blob3]} />
 
-          <View style={[styles.introTopBar, { paddingTop: Platform.OS === 'ios' ? 52 : 18 }]}>
+          <View style={[styles.introTopBar, { paddingTop: Math.max(insets.top, 12) }]}>
             <Pressable onPress={handleClose} style={styles.introCloseBtn}>
               <X size={20} color="#64748b" />
             </Pressable>
@@ -472,7 +474,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
       <View style={styles.gameContainer}>
 
         {/* Header */}
-        <View style={[styles.gameHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 18 }]}>
+        <View style={[styles.gameHeader, { paddingTop: Math.max(insets.top, 12) }]}>
           <Pressable onPress={handleClose} style={styles.closeBtn}>
             <X size={18} color="#475569" />
           </Pressable>
@@ -515,7 +517,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
 
         {/* ── RESULT / QUESTION VIEW ── */}
         {showResultScreen ? (
-          <ScrollView contentContainerStyle={styles.resultScroll} showsVerticalScrollIndicator={false}>
+          <ScrollView contentContainerStyle={[styles.resultScroll, { paddingBottom: Math.max(insets.bottom + 24, 48) }]} showsVerticalScrollIndicator={false}>
             <View style={styles.celebChip}>
               <Text style={styles.celebChipText}>✅  Level {currentQuestionIndex} passed!</Text>
             </View>

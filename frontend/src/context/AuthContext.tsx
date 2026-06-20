@@ -14,6 +14,49 @@ const resolveApiBaseUrl = () => {
 
 export const API_BASE_URL = resolveApiBaseUrl();
 
+// Refresh tokens are single-use (rotated + revoked server-side), so concurrent
+// 401s must share ONE refresh call. Otherwise the losing requests retry with an
+// already-revoked token and the user is falsely logged out (e.g. on the burst
+// of requests that fires on every reload / app update).
+let inFlightRefresh: Promise<{ accessToken: string | null; revoked: boolean }> | null = null;
+
+async function performTokenRefresh(): Promise<{ accessToken: string | null; revoked: boolean }> {
+  const refresh = await getStorageItem('refreshToken');
+  if (!refresh) return { accessToken: null, revoked: true };
+  try {
+    const refreshResponse = await fetch(`${API_BASE_URL}/auth/refresh`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refreshToken: refresh }),
+    });
+    if (refreshResponse.ok) {
+      const tokens = await refreshResponse.json();
+      await setStorageItem('accessToken', tokens.accessToken);
+      await setStorageItem('refreshToken', tokens.refreshToken);
+      return { accessToken: tokens.accessToken as string, revoked: false };
+    }
+    // Only an explicit auth rejection means the session is genuinely dead.
+    if (refreshResponse.status === 401 || refreshResponse.status === 403) {
+      return { accessToken: null, revoked: true };
+    }
+    // Server hiccup (5xx etc.) — transient, keep the session.
+    return { accessToken: null, revoked: false };
+  } catch (e) {
+    // Network/transient failure — keep the session and let the caller retry.
+    console.warn('Token refresh failed', e);
+    return { accessToken: null, revoked: false };
+  }
+}
+
+function refreshAccessTokenOnce() {
+  if (!inFlightRefresh) {
+    inFlightRefresh = performTokenRefresh().finally(() => {
+      inFlightRefresh = null;
+    });
+  }
+  return inFlightRefresh;
+}
+
 type AuthContextValue = {
   user: AppUser | null;
   isAuthenticated: boolean;
@@ -48,7 +91,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   // Helper: Get cached tokens
   const getAccessToken = async () => getStorageItem('accessToken');
-  const getRefreshToken = async () => getStorageItem('refreshToken');
 
   // Load profile on start, then background-refresh to get fresh classAssignments
   useEffect(() => {
@@ -103,34 +145,15 @@ export function AuthProvider({ children }: PropsWithChildren) {
     const fetchOptions = { ...options, headers };
     let response = await fetch(`${API_BASE_URL}${path}`, fetchOptions);
 
-    // If unauthorized, attempt to refresh token
+    // If unauthorized, run a single shared token refresh and retry once.
     if (response.status === 401) {
-      const refresh = await getRefreshToken();
-      if (refresh) {
-        try {
-          const refreshResponse = await fetch(`${API_BASE_URL}/auth/refresh`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ refreshToken: refresh }),
-          });
-
-          if (refreshResponse.ok) {
-            const tokens = await refreshResponse.json();
-            await setStorageItem('accessToken', tokens.accessToken);
-            await setStorageItem('refreshToken', tokens.refreshToken);
-
-            // Retry original request with new token
-            headers.set('Authorization', `Bearer ${tokens.accessToken}`);
-            response = await fetch(`${API_BASE_URL}${path}`, fetchOptions);
-          } else {
-            // Refresh token invalid/revoked
-            await cleanAuth();
-          }
-        } catch (e) {
-          console.warn('Token refresh failed', e);
-          await cleanAuth();
-        }
-      } else {
+      const { accessToken, revoked } = await refreshAccessTokenOnce();
+      if (accessToken) {
+        headers.set('Authorization', `Bearer ${accessToken}`);
+        response = await fetch(`${API_BASE_URL}${path}`, fetchOptions);
+      } else if (revoked) {
+        // Only sign out when the refresh token is genuinely revoked/expired —
+        // never on a transient network/server error.
         await cleanAuth();
       }
     }

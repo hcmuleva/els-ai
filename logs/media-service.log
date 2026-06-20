@@ -235,3 +235,211 @@ and security updates please upgrade to node >=22.
 More information can be found at: https://a.co/c895JFp
 (Use `node --trace-warnings ...` to show where the warning was created)
 Media Service listening on http://localhost:4004
+npm error Lifecycle script `dev` failed with error:
+npm error code 15
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/media-service
+npm error workspace media-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/media-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> media-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:45430) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004
+
+> media-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:46096) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004
+
+> media-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:48078) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004
+8:20:50 PM [tsx] change in ./src/db.ts Restarting...
+c(node:72038) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004
+8:20:59 PM [tsx] change in ./src/server.ts Restarting...
+c(node:72137) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004
+8:31:01 PM [tsx] change in ./../shared/db-tenant/dist/index.js Rerunning...
+c(node:84284) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004
+10:06:57 PM [tsx] change in ./src/routes/assets.ts Restarting...
+c(node:57631) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004
+10:07:08 PM [tsx] change in ./src/routes/assets.ts Rerunning...
+c(node:57765) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004
+10:07:19 PM [tsx] change in ./src/routes/assets.ts Rerunning...
+c(node:57888) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004
+10:07:25 PM [tsx] change in ./src/routes/assets.ts Rerunning...
+c(node:57956) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004
+10:07:30 PM [tsx] change in ./src/routes/assets.ts Restarting...
+c(node:58034) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004
+10:07:36 PM [tsx] change in ./src/server.ts Rerunning...
+c(node:58084) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004
+10:07:42 PM [tsx] change in ./src/server.ts Rerunning...
+c(node:58175) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004
+
+> media-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:70656) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004
+
+> media-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:72225) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/media-service
+npm error workspace media-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/media-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> media-service@1.0.0 dev
+> tsx watch src/server.ts
+
+(node:84034) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.19.4.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Media Service listening on http://localhost:4004

@@ -1,14 +1,14 @@
 {
-  "auth-service": 37104,
-  "quiz-service": 37147,
-  "classroom-service": 37150,
-  "achievement-service": 37154,
-  "question-bank-service": 37157,
-  "content-service": 37186,
-  "topic-service": 37215,
-  "assignment-service": 37242,
-  "org-service": 37367,
-  "media-service": 37407,
-  "ai-service": 37453,
-  "gateway": 37495
+  "auth-service": 83606,
+  "quiz-service": 83609,
+  "classroom-service": 83612,
+  "achievement-service": 83615,
+  "question-bank-service": 83618,
+  "content-service": 83651,
+  "topic-service": 83684,
+  "assignment-service": 83717,
+  "org-service": 83750,
+  "media-service": 83789,
+  "ai-service": 83792,
+  "gateway": 83795
 }

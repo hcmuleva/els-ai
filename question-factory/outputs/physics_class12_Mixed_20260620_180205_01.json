@@ -1,0 +1,437 @@
+{
+  "metadata": {
+    "class": "12",
+    "subject": "physics",
+    "chapter": null,
+    "topic": null,
+    "difficulty": "Mixed",
+    "questionSetType": "Practice",
+    "totalQuestions": 8,
+    "requestedCount": 8,
+    "questionTypes": [
+      "SCQ",
+      "MCQ",
+      "TF",
+      "Numerical",
+      "AssertionReason"
+    ],
+    "provider": "droid-authored-offline",
+    "generatedAt": "2026-06-20T12:32:05.017863+00:00"
+  },
+  "validation": {
+    "passed": true,
+    "schemaValid": true,
+    "totalAccepted": 8,
+    "verified": 4,
+    "refuted": 0,
+    "qualityRejected": 0,
+    "checks": [
+      "8 questions passed structural + quality-gate validation",
+      "answer keys derived from verified correct options / numeric answers",
+      "4 independently verified by sympy",
+      "0 candidates rejected by the quality gate",
+      "syllabus scope matched"
+    ],
+    "warnings": []
+  },
+  "questions": [
+    {
+      "id": "PHY12_CURRENTELECTRI_BRD_001",
+      "questionType": "Numerical",
+      "difficulty": "Board",
+      "bloomLevel": "Apply",
+      "marks": 3,
+      "chapter": "Current Electricity",
+      "topic": "Electrical power and energy",
+      "question": "An electric bulb is rated $60\\,\\text{W}$ at $120\\,\\text{V}$. Assuming constant resistance, find its filament resistance (in ohms).",
+      "options": [],
+      "correctAnswer": "240",
+      "solution": {
+        "finalAnswer": "$240\\ \\Omega$",
+        "stepByStep": [
+          "Power in terms of voltage and resistance: $P = V^2/R$.",
+          "Rearrange: $R = V^2/P$.",
+          "$R = 120^2/60 = 14400/60 = 240\\ \\Omega$."
+        ],
+        "formulaUsed": [
+          "P = V^2/R"
+        ],
+        "commonMistake": "Using $P = I^2 R$ without first finding $I$, or using $R = P/V^2$.",
+        "examinerNote": "Rated values define the operating point."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": true,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "numerical",
+        "board"
+      ]
+    },
+    {
+      "id": "PHY12_MODERNPHYSICS_BRD_002",
+      "questionType": "TF",
+      "difficulty": "Board",
+      "bloomLevel": "Understand",
+      "marks": 1,
+      "chapter": "Modern Physics",
+      "topic": "Photoelectric effect",
+      "question": "State whether True or False: In the photoelectric effect, the maximum kinetic energy of emitted electrons depends on the frequency of the incident light and not on its intensity.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True"
+        },
+        {
+          "key": "B",
+          "text": "False"
+        }
+      ],
+      "correctAnswer": "true",
+      "solution": {
+        "finalAnswer": "True",
+        "stepByStep": [
+          "$K_{max} = hf - \\phi$ depends on frequency $f$.",
+          "Intensity changes the NUMBER of photons (hence the current), not the energy per photon.",
+          "So $K_{max}$ is independent of intensity."
+        ],
+        "formulaUsed": [
+          "K_max = hf - phi"
+        ],
+        "commonMistake": "Believing brighter light gives faster electrons.",
+        "examinerNote": "A classic conceptual discriminator of the photoelectric effect."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": false,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "true-false",
+        "conceptual"
+      ]
+    },
+    {
+      "id": "PHY12_ELECTROSTATICS_BRD_003",
+      "questionType": "SCQ",
+      "difficulty": "Board",
+      "bloomLevel": "Remember",
+      "marks": 1,
+      "chapter": "Electrostatics",
+      "topic": "Electric field due to continuous charge distribution",
+      "question": "The SI unit of electric field intensity is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "$\\text{N C}^{-1}$ (equivalently $\\text{V m}^{-1}$)"
+        },
+        {
+          "key": "B",
+          "text": "$\\text{C N}^{-1}$"
+        },
+        {
+          "key": "C",
+          "text": "$\\text{V m}$"
+        },
+        {
+          "key": "D",
+          "text": "$\\text{J C}^{-1}$"
+        }
+      ],
+      "correctAnswer": "A",
+      "solution": {
+        "finalAnswer": "$\\text{N C}^{-1}$ (= $\\text{V m}^{-1}$)",
+        "stepByStep": [
+          "Electric field is force per unit charge: $E = F/q$.",
+          "Units: $\\text{N}/\\text{C} = \\text{N C}^{-1}$.",
+          "Since $1\\ \\text{V} = 1\\ \\text{J C}^{-1}$ and $E = -dV/dr$, this is also $\\text{V m}^{-1}$."
+        ],
+        "formulaUsed": [
+          "E = F/q"
+        ],
+        "commonMistake": "Confusing $\\text{N C}^{-1}$ with $\\text{J C}^{-1}$ (which is the volt, a unit of potential).",
+        "examinerNote": "Both equivalent forms are acceptable."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": false,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "conceptual",
+        "units"
+      ]
+    },
+    {
+      "id": "PHY12_ELECTROSTATICS_JM_004",
+      "questionType": "SCQ",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Electrostatics",
+      "topic": "Coulomb's law",
+      "question": "Two point charges $q_1 = 2\\,\\mu\\text{C}$ and $q_2 = 3\\,\\mu\\text{C}$ are placed $0.1\\,\\text{m}$ apart in vacuum. Taking $k = 9\\times10^9\\,\\text{N m}^2\\text{C}^{-2}$, the electrostatic force between them is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "$5.4\\ \\text{N}$"
+        },
+        {
+          "key": "B",
+          "text": "$54\\ \\text{N}$"
+        },
+        {
+          "key": "C",
+          "text": "$0.54\\ \\text{N}$"
+        },
+        {
+          "key": "D",
+          "text": "$2.7\\ \\text{N}$"
+        }
+      ],
+      "correctAnswer": "A",
+      "solution": {
+        "finalAnswer": "$5.4\\ \\text{N}$ (repulsive)",
+        "stepByStep": [
+          "Coulomb's law: $F = \\dfrac{k q_1 q_2}{r^2}$.",
+          "Substitute: $F = \\dfrac{(9\\times10^9)(2\\times10^{-6})(3\\times10^{-6})}{(0.1)^2}$.",
+          "Numerator $= 9\\times10^9 \\times 6\\times10^{-12} = 5.4\\times10^{-2}$; divide by $0.01$.",
+          "$F = 5.4\\ \\text{N}$, directed along the line joining the charges (repulsive, both positive)."
+        ],
+        "formulaUsed": [
+          "F = k q_1 q_2 / r^2"
+        ],
+        "commonMistake": "Forgetting to square the distance, or mishandling the $10^{-6}$ in microcoulombs.",
+        "examinerNote": "Magnitude and direction both expected for full marks."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": true,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "numerical",
+        "application-based"
+      ]
+    },
+    {
+      "id": "PHY12_ELECTROSTATICS_JM_005",
+      "questionType": "AssertionReason",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Analyze",
+      "marks": 4,
+      "chapter": "Electrostatics",
+      "topic": "Gauss's law and applications",
+      "question": "Assertion (A): The electrostatic field at every point inside the material of a charged hollow conductor is zero.\nReason (R): In electrostatic equilibrium the net charge enclosed by any Gaussian surface drawn inside the conductor's material is zero.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Both A and R are true and R is the correct explanation of A."
+        },
+        {
+          "key": "B",
+          "text": "Both A and R are true but R is NOT the correct explanation of A."
+        },
+        {
+          "key": "C",
+          "text": "A is true but R is false."
+        },
+        {
+          "key": "D",
+          "text": "A is false but R is true."
+        }
+      ],
+      "correctAnswer": "A",
+      "solution": {
+        "finalAnswer": "Both A and R are true and R correctly explains A.",
+        "stepByStep": [
+          "Excess charge on a conductor resides on its outer surface, so a Gaussian surface inside the material encloses zero net charge.",
+          "By Gauss's law $\\oint \\vec{E}\\cdot d\\vec{A} = q_{enc}/\\varepsilon_0 = 0$, giving $E = 0$ inside the material.",
+          "Hence R is the precise reason for A."
+        ],
+        "formulaUsed": [
+          "Gauss's law"
+        ],
+        "commonMistake": "Confusing the field inside the conductor's material (zero) with the field in a cavity that contains a charge.",
+        "examinerNote": "Standard assertion-reason; identify the correct-explanation case."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": false,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "assertion-reason",
+        "conceptual"
+      ]
+    },
+    {
+      "id": "PHY12_ELECTROSTATICS_JA_006",
+      "questionType": "MCQ",
+      "difficulty": "JEE_Advanced",
+      "bloomLevel": "Analyze",
+      "marks": 4,
+      "chapter": "Electrostatics",
+      "topic": "Capacitance and capacitors",
+      "question": "A parallel-plate capacitor remains connected to a battery of constant voltage. A dielectric slab is now fully inserted between the plates. Select ALL correct statements.",
+      "options": [
+        {
+          "key": "A",
+          "text": "The capacitance increases."
+        },
+        {
+          "key": "B",
+          "text": "The charge stored on the plates increases."
+        },
+        {
+          "key": "C",
+          "text": "The potential difference across the plates stays the same."
+        },
+        {
+          "key": "D",
+          "text": "The electric field between the plates increases."
+        }
+      ],
+      "correctAnswer": [
+        "A",
+        "B",
+        "C"
+      ],
+      "solution": {
+        "finalAnswer": "Statements 1, 2 and 3 are correct.",
+        "stepByStep": [
+          "Battery connected $\\Rightarrow$ $V$ is held constant.",
+          "$C = \\kappa C_0$ increases with the dielectric.",
+          "$Q = CV$ increases since $C$ rises and $V$ is fixed.",
+          "$E = V/d$ is unchanged because both $V$ and $d$ are constant, so the last statement is false."
+        ],
+        "formulaUsed": [
+          "C = kappa*C0",
+          "Q = CV",
+          "E = V/d"
+        ],
+        "commonMistake": "Assuming charge is constant; that holds only for an isolated (disconnected) capacitor.",
+        "examinerNote": "Battery-connected vs isolated is the key distinction."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": false,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "multiple-correct",
+        "analysis"
+      ]
+    },
+    {
+      "id": "PHY12_CURRENTELECTRI_JM_007",
+      "questionType": "SCQ",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Current Electricity",
+      "topic": "Series and parallel combinations",
+      "question": "Two resistors $R_1 = 4\\,\\Omega$ and $R_2 = 6\\,\\Omega$ are connected in series across an ideal $10\\,\\text{V}$ battery. The current drawn from the battery is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "$1\\ \\text{A}$"
+        },
+        {
+          "key": "B",
+          "text": "$0.6\\ \\text{A}$"
+        },
+        {
+          "key": "C",
+          "text": "$2.5\\ \\text{A}$"
+        },
+        {
+          "key": "D",
+          "text": "$10\\ \\text{A}$"
+        }
+      ],
+      "correctAnswer": "A",
+      "solution": {
+        "finalAnswer": "$1\\ \\text{A}$",
+        "stepByStep": [
+          "Series resistance: $R = R_1 + R_2 = 10\\,\\Omega$.",
+          "Ohm's law: $I = V/R = 10/10 = 1\\ \\text{A}$."
+        ],
+        "formulaUsed": [
+          "R = R1 + R2",
+          "I = V/R"
+        ],
+        "commonMistake": "Using the parallel formula for a series connection.",
+        "examinerNote": "Ideal battery means zero internal resistance."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": true,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "numerical",
+        "application-based"
+      ]
+    },
+    {
+      "id": "PHY12_ELECTROSTATICS_JM_008",
+      "questionType": "Numerical",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Electrostatics",
+      "topic": "Electric potential and potential energy",
+      "question": "A point charge $q = 2\\,\\mu\\text{C}$ is placed in vacuum. Using $k = 9\\times10^9\\,\\text{N m}^2\\text{C}^{-2}$, find the electric potential (in volts) at a point $0.3\\,\\text{m}$ from the charge.",
+      "options": [],
+      "correctAnswer": "60000",
+      "solution": {
+        "finalAnswer": "$6\\times10^{4}\\ \\text{V} = 60000\\ \\text{V}$",
+        "stepByStep": [
+          "Potential of a point charge: $V = \\dfrac{kq}{r}$.",
+          "Substitute: $V = \\dfrac{(9\\times10^9)(2\\times10^{-6})}{0.3}$.",
+          "$= \\dfrac{1.8\\times10^{4}}{0.3} = 6\\times10^{4}\\ \\text{V}$."
+        ],
+        "formulaUsed": [
+          "V = kq/r"
+        ],
+        "commonMistake": "Using $r^2$ in the denominator (that is for field/force, not potential).",
+        "examinerNote": "Potential is a scalar; sign follows the sign of the charge."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": true,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "numerical",
+        "application-based"
+      ]
+    }
+  ]
+}

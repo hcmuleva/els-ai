@@ -1,0 +1,8 @@
+CBSE CLASS XII BIOLOGY - SAMPLE QUESTION PAPER (bundled fallback)
+
+1. State Mendel's laws. Give the phenotypic ratio of a monohybrid and a
+   dihybrid cross (dominant, recessive, allele, inheritance).
+2. Explain semi-conservative DNA replication with reference to the
+   Meselson-Stahl experiment.
+3. Describe the nephron as the functional unit of the kidney and the path of
+   blood through the heart (circulation).

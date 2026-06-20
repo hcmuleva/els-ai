@@ -7,6 +7,7 @@ import {
   ActivityIndicator, Image, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export type Achievement = {
   id: string; name: string; emoji: string; color: string; description?: string; count?: number;
@@ -85,6 +86,7 @@ export default function StudentRemarkSheet({
   visible, student, classroomId, achievements,
   onClose, onSave, onGrantAchievement, onUploadMedia,
 }: Props) {
+  const insets = useSafeAreaInsets();
   const [remarkText, setRemarkText]   = useState('');
   const [parentNote, setParentNote]   = useState('');
   const [mediaUrl, setMediaUrl]       = useState('');
@@ -162,7 +164,7 @@ export default function StudentRemarkSheet({
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <View style={sh.overlay}>
         <Pressable style={sh.overlayDismiss} onPress={onClose} />
-        <View style={sh.sheet}>
+        <View style={[sh.sheet, { paddingBottom: Math.max(insets.bottom, 16) }]}>
           {/* Drag handle */}
           <View style={sh.handle} />
 

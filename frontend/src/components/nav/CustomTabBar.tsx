@@ -120,6 +120,11 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
     if (!isFocused && !ev.defaultPrevented) navigation.navigate(route.name);
   };
 
+  // Allow screens to hide the tab bar via options.tabBarStyle = { display: 'none' }.
+  const focusedKey = state.routes[state.index]?.key;
+  const focusedTabBarStyle = focusedKey ? (descriptors[focusedKey]?.options?.tabBarStyle as { display?: string } | undefined) : undefined;
+  if (focusedTabBarStyle?.display === 'none') return null;
+
   return (
     <View style={[s.safeArea, { paddingBottom: Math.max(insets.bottom, 8) }]}>
       {/* ── More panel modal ── */}

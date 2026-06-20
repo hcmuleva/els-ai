@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useMemo, useState } from 'react';
 import { Image, Modal, Platform, Pressable, ScrollView, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAuth } from '../../../src/context/AuthContext';
 import { buildLogicoTenSlotPositions, LOGICO_CARD_HEIGHT, LOGICO_CARD_WIDTH, LOGICO_LAYOUT_SPLIT } from './sourceframe/constants/logicoLayout';
@@ -26,6 +27,7 @@ const WORKSHEET_IMAGE_STORE_NAME = 'images';
 
 export function LogicopiccoloFrame() {
   const { user } = useAuth();
+  const insets = useSafeAreaInsets();
   const {
     currentCard,
     placements,
@@ -215,7 +217,7 @@ export function LogicopiccoloFrame() {
         onRequestClose={() => setIsFrameOpen(false)}
       >
         <View style={logicopiccoloStyles.screen}>
-          <View style={logicopiccoloStyles.content}>
+          <View style={[logicopiccoloStyles.content, { paddingTop: Math.max(insets.top, 10) }]}>
             <View style={logicopiccoloStyles.headerBar}>
               <Pressable style={logicopiccoloStyles.headerBtn} onPress={() => setIsFrameOpen(false)}>
                 <Text style={[logicopiccoloStyles.headerBtnText, { color: '#F1C84D' }]}>← Cards</Text>

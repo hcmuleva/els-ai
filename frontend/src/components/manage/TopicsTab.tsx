@@ -26,6 +26,7 @@ import { usePaginatedResource } from '../../hooks/usePaginatedResource';
 import { createOffsetPageFetcher } from '../../utils/paginationFetcher';
 import { API_BASE_URL } from '../../context/AuthContext';
 import StudentContentViewer, { type StudentContentItem, type StudentTopicMeta } from '../subject/StudentContentViewer';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 export type ContentTopic = {
@@ -134,6 +135,7 @@ function TopicDetailsModal({ topic, apiFetch, onClose, onEdit }: {
   const [loading, setLoading]       = useState(false);
   const [contents, setContents]     = useState<TopicDetailContent[]>([]);
   const [quizzes, setQuizzes]       = useState<TopicDetailQuiz[]>([]);
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     if (!topic) return;
@@ -159,7 +161,7 @@ function TopicDetailsModal({ topic, apiFetch, onClose, onEdit }: {
     <Modal visible={!!topic} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
       <View style={d.screen}>
         {/* Header */}
-        <View style={[d.header, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+        <View style={[d.header, { paddingTop: Math.max(insets.top, 12) }]}>
           <Pressable onPress={onClose} style={d.backBtn}>
             <ChevronLeft size={24} color="#1a1a2e" />
           </Pressable>
@@ -415,6 +417,7 @@ export default function TopicsTab({
   const [classFilterOpen, setClassFilterOpen]     = useState(false);
   const [subjectFilterOpen, setSubjectFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery]             = useState('');
+  const insets = useSafeAreaInsets();
 
   // Details modal
   const [detailsTopic, setDetailsTopic] = useState<ContentTopic | null>(null);
@@ -925,7 +928,7 @@ export default function TopicsTab({
         <View style={s.modalScreen}>
 
           {/* Header */}
-          <View style={[s.modalHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+          <View style={[s.modalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
             <Pressable onPress={() => { setTopicPreviewOpen(false); setIsOpen(false); }} style={s.modalBackBtn}>
               <ChevronLeft size={24} color="#1a1a2e" />
             </Pressable>
@@ -1151,7 +1154,7 @@ export default function TopicsTab({
         {/* ── Content picker (bottom sheet) ── */}
         <Modal visible={contentPickerOpen} transparent animationType="slide" onRequestClose={() => setContentPickerOpen(false)}>
           <View style={s.pickerOverlay}>
-            <View style={s.pickerSheet}>
+            <View style={[s.pickerSheet, { paddingBottom: Math.max(insets.bottom, 16) }]}>
               <View style={s.pickerHeader}>
                 <Text style={s.pickerTitle}>Add Learning Content</Text>
                 <Pressable style={s.pickerDoneBtn} onPress={() => setContentPickerOpen(false)}>
@@ -1203,7 +1206,7 @@ export default function TopicsTab({
         {/* ── Quiz picker (bottom sheet) ── */}
         <Modal visible={quizPickerOpen} transparent animationType="slide" onRequestClose={() => setQuizPickerOpen(false)}>
           <View style={s.pickerOverlay}>
-            <View style={s.pickerSheet}>
+            <View style={[s.pickerSheet, { paddingBottom: Math.max(insets.bottom, 16) }]}>
               <View style={s.pickerHeader}>
                 <Text style={s.pickerTitle}>Add Quizzes</Text>
                 <Pressable style={s.pickerDoneBtn} onPress={() => setQuizPickerOpen(false)}>

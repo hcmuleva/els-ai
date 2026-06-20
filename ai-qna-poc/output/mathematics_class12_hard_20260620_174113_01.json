@@ -1,0 +1,412 @@
+{
+  "meta": {
+    "class_level": "12",
+    "subject": "mathematics",
+    "difficulty": "hard",
+    "requested_count": 10,
+    "returned_count": 10,
+    "topic": "calculus",
+    "allowed_types": [
+      "single_choice",
+      "multi_choice",
+      "true_false"
+    ],
+    "provider": "droid-authored",
+    "format": "book-markdown-latex",
+    "generated_at": "2026-06-20T12:11:13.032344+00:00"
+  },
+  "source": {
+    "mode": "sample",
+    "dataset": null,
+    "pdf_path": null,
+    "pdf_url": null,
+    "detected_topic": "calculus",
+    "text_chars": 499,
+    "note": "PDF_SOURCE_MODE=sample"
+  },
+  "validation": {
+    "passed": true,
+    "checks": [
+      "10 questions passed structural validation",
+      "answer keys derived from correct options",
+      "book-format math delimiters checked",
+      "4 verified by deterministic sympy checks",
+      "LLM critic skipped (no API key)"
+    ],
+    "warnings": [],
+    "deduped": 0,
+    "verified": 4,
+    "refuted": 0,
+    "critic": "skipped",
+    "repaired": 0,
+    "attempts": 1
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multi_choice",
+      "title_markdown": "Select **all** correct statements about the vector (cross) product $\\vec{a} \\times \\vec{b}$.",
+      "instruction": "Select all correct options.",
+      "difficulty": "hard",
+      "points": 10,
+      "sort_order": 1,
+      "options": [
+        {
+          "id": "q1_opt_1",
+          "slot_position": 1,
+          "label_markdown": "It is anti-commutative: $\\vec{a} \\times \\vec{b} = -(\\vec{b} \\times \\vec{a})$.",
+          "is_correct": true
+        },
+        {
+          "id": "q1_opt_2",
+          "slot_position": 2,
+          "label_markdown": "Its magnitude equals the area of the parallelogram formed by $\\vec{a}$ and $\\vec{b}$.",
+          "is_correct": true
+        },
+        {
+          "id": "q1_opt_3",
+          "slot_position": 3,
+          "label_markdown": "It is zero when $\\vec{a}$ and $\\vec{b}$ are parallel.",
+          "is_correct": true
+        },
+        {
+          "id": "q1_opt_4",
+          "slot_position": 4,
+          "label_markdown": "The result is a scalar.",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q1_opt_1",
+        "q1_opt_2",
+        "q1_opt_3"
+      ],
+      "explanation_markdown": "**Idea.** The cross product yields a vector perpendicular to both inputs.\n\n- $\\vec{a}\\times\\vec{b} = -(\\vec{b}\\times\\vec{a})$ (anti-commutative) — **correct**.\n- $|\\vec{a}\\times\\vec{b}|$ is the parallelogram area — **correct**.\n- For parallel vectors $\\sin\\theta = 0$, so the product is the zero vector — **correct**.\n- The result is a **vector**, not a scalar (that is the dot product) — **wrong**.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q2",
+      "type": "single_choice",
+      "title_markdown": "Evaluate the definite integral $$\\int_1^{2} 3x^2 \\, dx.$$",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "hard",
+      "points": 10,
+      "sort_order": 2,
+      "options": [
+        {
+          "id": "q2_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$7$",
+          "is_correct": true
+        },
+        {
+          "id": "q2_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$9$",
+          "is_correct": false
+        },
+        {
+          "id": "q2_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$8$",
+          "is_correct": false
+        },
+        {
+          "id": "q2_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$3$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q2_opt_1"
+      ],
+      "explanation_markdown": "**Step 1 — Antiderivative.** $$\\int 3x^2\\,dx = x^3.$$\n\n**Step 2 — Apply limits $1$ to $2$.** $$\\left[x^3\\right]_1^{2} = 2^3 - 1^3.$$\n\n**Step 3 — Simplify.** $$= 8 - 1 = 7.$$\n\n**Answer.** $7$.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "title_markdown": "Two lines in space with direction ratios $(a_1, b_1, c_1)$ and $(a_2, b_2, c_2)$ are perpendicular if $a_1 a_2 + b_1 b_2 + c_1 c_2 = 0$.",
+      "instruction": "State whether the statement is True or False.",
+      "difficulty": "hard",
+      "points": 10,
+      "sort_order": 3,
+      "options": [
+        {
+          "id": "q3_opt_1",
+          "slot_position": 1,
+          "label_markdown": "True",
+          "is_correct": true
+        },
+        {
+          "id": "q3_opt_2",
+          "slot_position": 2,
+          "label_markdown": "False",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q3_opt_1"
+      ],
+      "explanation_markdown": "**Idea.** The angle between two lines is found from the dot product of their direction vectors.\n\nPerpendicular lines have $\\cos 90^\\circ = 0$, which forces $a_1 a_2 + b_1 b_2 + c_1 c_2 = 0$. The statement is **true**.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q4",
+      "type": "single_choice",
+      "title_markdown": "The magnitude of the vector $\\vec{a} = \\hat{i} + 2\\hat{j} + 2\\hat{k}$ is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "hard",
+      "points": 10,
+      "sort_order": 4,
+      "options": [
+        {
+          "id": "q4_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$3$",
+          "is_correct": true
+        },
+        {
+          "id": "q4_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$5$",
+          "is_correct": false
+        },
+        {
+          "id": "q4_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$9$",
+          "is_correct": false
+        },
+        {
+          "id": "q4_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$\\sqrt{5}$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q4_opt_1"
+      ],
+      "explanation_markdown": "**Rule — magnitude.** $$|\\vec{a}| = \\sqrt{a_x^2 + a_y^2 + a_z^2}.$$\n\n**Step 1 — Square and add components.** $1^2 + 2^2 + 2^2 = 1 + 4 + 4 = 9$.\n\n**Step 2 — Take the square root.** $$|\\vec{a}| = \\sqrt{9} = 3.$$\n\n**Answer.** $|\\vec{a}| = 3$.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q5",
+      "type": "single_choice",
+      "title_markdown": "The principal value of $\\cos^{-1}\\!\\left(-\\dfrac{1}{2}\\right)$ is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "hard",
+      "points": 10,
+      "sort_order": 5,
+      "options": [
+        {
+          "id": "q5_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$\\dfrac{2\\pi}{3}$",
+          "is_correct": true
+        },
+        {
+          "id": "q5_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$\\dfrac{\\pi}{3}$",
+          "is_correct": false
+        },
+        {
+          "id": "q5_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$\\dfrac{\\pi}{6}$",
+          "is_correct": false
+        },
+        {
+          "id": "q5_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$-\\dfrac{\\pi}{3}$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q5_opt_1"
+      ],
+      "explanation_markdown": "**Idea.** $\\cos^{-1}x$ returns the angle in the principal range $[0, \\pi]$ whose cosine is $x$.\n\n**Step 1.** We need $\\theta \\in [0,\\pi]$ with $\\cos\\theta = -\\tfrac{1}{2}$.\n\n**Step 2.** Since $\\cos\\dfrac{2\\pi}{3} = -\\dfrac{1}{2}$ and $\\dfrac{2\\pi}{3} \\in [0,\\pi]$, $$\\cos^{-1}\\!\\left(-\\dfrac{1}{2}\\right) = \\dfrac{2\\pi}{3}.$$\n\n**Answer.** $\\dfrac{2\\pi}{3}$.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q6",
+      "type": "true_false",
+      "title_markdown": "For a definite integral, swapping the limits changes the sign: $\\displaystyle\\int_a^b f(x)\\,dx = -\\int_b^a f(x)\\,dx$.",
+      "instruction": "State whether the statement is True or False.",
+      "difficulty": "hard",
+      "points": 10,
+      "sort_order": 6,
+      "options": [
+        {
+          "id": "q6_opt_1",
+          "slot_position": 1,
+          "label_markdown": "True",
+          "is_correct": true
+        },
+        {
+          "id": "q6_opt_2",
+          "slot_position": 2,
+          "label_markdown": "False",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q6_opt_1"
+      ],
+      "explanation_markdown": "**Idea.** Reversing the direction of integration reverses the sign of every signed-area element.\n\nFormally $\\int_a^b f = F(b) - F(a)$ and $\\int_b^a f = F(a) - F(b)$, which are negatives of each other. The statement is **true**.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q7",
+      "type": "single_choice",
+      "title_markdown": "A fair coin is tossed $4$ times. Using the binomial distribution, the probability of getting exactly $2$ heads is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "hard",
+      "points": 10,
+      "sort_order": 7,
+      "options": [
+        {
+          "id": "q7_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$0.375$",
+          "is_correct": true
+        },
+        {
+          "id": "q7_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$0.25$",
+          "is_correct": false
+        },
+        {
+          "id": "q7_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$0.5$",
+          "is_correct": false
+        },
+        {
+          "id": "q7_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$0.125$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q7_opt_1"
+      ],
+      "explanation_markdown": "**Given.** $n = 4$ tosses, $p = 0.5$, want $P(X = 2)$.\n\n**Step 1 — Binomial formula.** $$P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}.$$\n\n**Step 2 — Substitute.** $$P(X=2) = \\binom{4}{2}(0.5)^2(0.5)^2 = 6 \\times (0.5)^4.$$\n\n**Step 3 — Simplify.** $$= 6 \\times 0.0625 = 0.375.$$\n\n**Answer.** $0.375$.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q8",
+      "type": "true_false",
+      "title_markdown": "If $A$ and $B$ are independent events with $P(B) > 0$, then $P(A \\mid B) = P(A)$.",
+      "instruction": "State whether the statement is True or False.",
+      "difficulty": "hard",
+      "points": 10,
+      "sort_order": 8,
+      "options": [
+        {
+          "id": "q8_opt_1",
+          "slot_position": 1,
+          "label_markdown": "True",
+          "is_correct": true
+        },
+        {
+          "id": "q8_opt_2",
+          "slot_position": 2,
+          "label_markdown": "False",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q8_opt_1"
+      ],
+      "explanation_markdown": "**Idea.** Conditional probability is $P(A\\mid B) = \\dfrac{P(A \\cap B)}{P(B)}$.\n\nFor independent events $P(A\\cap B) = P(A)P(B)$, so $P(A\\mid B) = \\dfrac{P(A)P(B)}{P(B)} = P(A)$. Independence means $B$ gives no information about $A$. The statement is **true**.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q9",
+      "type": "single_choice",
+      "title_markdown": "The direction cosines $l, m, n$ of any line satisfy:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "hard",
+      "points": 10,
+      "sort_order": 9,
+      "options": [
+        {
+          "id": "q9_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$l^2 + m^2 + n^2 = 1$",
+          "is_correct": true
+        },
+        {
+          "id": "q9_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$l + m + n = 1$",
+          "is_correct": false
+        },
+        {
+          "id": "q9_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$l^2 + m^2 + n^2 = 0$",
+          "is_correct": false
+        },
+        {
+          "id": "q9_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$lmn = 1$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q9_opt_1"
+      ],
+      "explanation_markdown": "**Idea.** Direction cosines are the cosines of the angles a line makes with the $x, y, z$ axes.\n\nThey are the components of a unit vector along the line, so the sum of their squares is $1$: $$l^2 + m^2 + n^2 = 1.$$\n\n**Answer.** $l^2 + m^2 + n^2 = 1$.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q10",
+      "type": "single_choice",
+      "title_markdown": "For two mutually perpendicular vectors with $|\\vec{a}| = 2$ and $|\\vec{b}| = 3$, the magnitude of the cross product $|\\vec{a} \\times \\vec{b}|$ is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "hard",
+      "points": 10,
+      "sort_order": 10,
+      "options": [
+        {
+          "id": "q10_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$6$",
+          "is_correct": true
+        },
+        {
+          "id": "q10_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$0$",
+          "is_correct": false
+        },
+        {
+          "id": "q10_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$5$",
+          "is_correct": false
+        },
+        {
+          "id": "q10_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$1$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q10_opt_1"
+      ],
+      "explanation_markdown": "**Rule.** $$|\\vec{a} \\times \\vec{b}| = |\\vec{a}|\\,|\\vec{b}|\\sin\\theta.$$\n\n**Step 1 — Perpendicular vectors.** $\\theta = 90^\\circ$, so $\\sin\\theta = 1$.\n\n**Step 2 — Substitute.** $$|\\vec{a} \\times \\vec{b}| = 2 \\times 3 \\times 1 = 6.$$\n\n**Answer.** $6$.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    }
+  ]
+}

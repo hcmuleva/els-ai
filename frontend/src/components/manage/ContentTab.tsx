@@ -27,6 +27,7 @@ import { API_BASE_URL } from '../../context/AuthContext';
 import CreateQuizModal from '../quiz/CreateQuizModal';
 import StudentContentViewer, { type StudentContentItem, type StudentTopicMeta } from '../subject/StudentContentViewer';
 import MediaUploader from '../media/MediaUploader';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 export type LearningContentItem = {
@@ -111,6 +112,7 @@ function ContentDetailsModal({ item, apiFetch, onClose, onEdit }: {
 }) {
   const [loading, setLoading] = useState(false);
   const [detail, setDetail]   = useState<LearningContentItem | null>(null);
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     if (!item) { setDetail(null); return; }
@@ -130,7 +132,7 @@ function ContentDetailsModal({ item, apiFetch, onClose, onEdit }: {
   return (
     <Modal visible={!!item} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
       <View style={c.modalScreen}>
-        <View style={[c.modalHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+        <View style={[c.modalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
           <Pressable onPress={onClose} style={c.modalBackBtn}><ChevronLeft size={24} color="#1a1a2e" /></Pressable>
           <Text style={c.modalTitle} numberOfLines={1}>Content Details</Text>
           {data && (
@@ -258,6 +260,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
   const [quizPickerFor, setQuizPickerFor] = useState<string | null>(null); // section draftId
   const [quizSearch, setQuizSearch] = useState('');
   const [hasLoadedDraft, setHasLoadedDraft] = useState(false);
+  const insets = useSafeAreaInsets();
 
   // Auto-load draft
   useEffect(() => {
@@ -483,7 +486,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
     <Modal visible={isOpen} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
       <View style={c.modalScreen}>
         {/* Header */}
-        <View style={[c.modalHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+        <View style={[c.modalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
           <Pressable onPress={onClose} style={c.modalBackBtn}><ChevronLeft size={24} color="#1a1a2e" /></Pressable>
           <Text style={c.modalTitle} numberOfLines={1}>{isEdit ? 'Edit Content' : 'New Content'}</Text>
           <Pressable style={c.modalSaveBtn} onPress={handleSave} disabled={saving}>
@@ -740,7 +743,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
       {/* ── Quiz picker (per section) ── */}
       <Modal visible={quizPickerFor !== null} transparent animationType="slide" onRequestClose={() => setQuizPickerFor(null)}>
         <View style={c.pickerBackdrop}>
-          <View style={c.pickerSheet}>
+          <View style={[c.pickerSheet, { paddingBottom: Math.max(insets.bottom, 24) }]}>
             <View style={c.pickerHeader}>
               <Text style={c.pickerTitle}>Attach a Quiz</Text>
               <Pressable onPress={() => setQuizPickerFor(null)}><X size={20} color="#9A9AB0" /></Pressable>

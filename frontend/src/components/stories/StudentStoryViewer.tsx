@@ -21,6 +21,7 @@ import { resolveMediaUrl } from '../../utils/media';
 import QuizRenderer from '../quiz/QuizRenderer';
 import PlayQuizCTA from '../quiz/PlayQuizCTA';
 import AudioPlayer from '../media/AudioPlayer';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export type StoryPreviewMedia = {
   kind: 'image' | 'video' | 'audio';
@@ -79,6 +80,7 @@ export default function StudentStoryViewer({ visible, story, sections, onClose }
   const [curIdx, setCurIdx] = useState(0);
   const [finishing, setFinishing] = useState(false);
   const [quizModalQuizId, setQuizModalQuizId] = useState<string | null>(null);
+  const insets = useSafeAreaInsets();
 
   const sortedSections = useMemo(
     () => [...sections].sort((a, b) => a.orderIndex - b.orderIndex),
@@ -126,7 +128,7 @@ export default function StudentStoryViewer({ visible, story, sections, onClose }
     <>
       <Modal visible={visible} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
         <View style={s.screen}>
-          <View style={[s.header, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+          <View style={[s.header, { paddingTop: Math.max(insets.top, 12) }]}>
             <Pressable onPress={onClose} style={s.backBtn} hitSlop={12}>
               <ChevronLeft size={22} color="#1a1a2e" />
             </Pressable>

@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { Redirect, router } from 'expo-router';
 import { useFocusEffect } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   Star, Users, BookOpen, TrendingUp, Calendar,
   ChevronRight, Clock, Zap, CheckCircle,
@@ -54,9 +55,9 @@ const STATUS_COLOR: Record<string, string> = {
 
 const QUICK_ACTIONS = [
   { label: 'Reports', Icon: BarChart2, color: Colors.primary, bg: Colors.primaryLight, route: '/(tabs)/reports' as const },
-  { label: 'Classroom', Icon: BookOpen, color: Colors.accent, bg: Colors.accentLight, route: '/(tabs)/classroom' as const },
-  { label: 'Progress', Icon: TrendingUp, color: Colors.success, bg: Colors.successLight, route: '/(tabs)/reports' as const },
-  { label: 'Schedule', Icon: Calendar, color: Colors.purple, bg: Colors.purpleLight, route: '/(tabs)/reports' as const },
+  { label: 'Counseling', Icon: ClipboardList, color: Colors.accent, bg: Colors.accentLight, route: '/(tabs)/counseling' as const },
+  { label: 'Classroom', Icon: BookOpen, color: Colors.success, bg: Colors.successLight, route: '/(tabs)/classroom' as const },
+  { label: 'Progress', Icon: TrendingUp, color: Colors.purple, bg: Colors.purpleLight, route: '/(tabs)/reports' as const },
 ];
 
 const DEFAULT_SUBJECTS: SubjectItem[] = [];
@@ -85,13 +86,40 @@ function ActivityTypeIcon({ type, size = 16, color = Colors.textMuted }: {
 
 // ── Parent Dashboard ──────────────────────────────────────────────────────────
 function ParentDashboard() {
-  const { user } = useAuth();
+  const { user, apiFetch } = useAuth();
   const {
     linkedStudents, activeStudent,
     loadingStudents, loadingActivity,
     activity, analytics,
     switchToStudent, refreshAll,
   } = useStudentProfile();
+
+  const [counselingDone, setCounselingDone] = useState<Record<string, boolean>>({});
+
+  const checkCounseling = useCallback(async (studentId: string) => {
+    try {
+      const res = await apiFetch(`/counseling/students/${studentId}/sessions`);
+      if (!res.ok) return;
+      const data = await res.json();
+      const done = (data.sessions ?? []).some(
+        (sn: { status?: string; reportCreatedAt?: string | null }) =>
+          sn.reportCreatedAt != null || sn.status === 'reported',
+      );
+      setCounselingDone((prev) => ({ ...prev, [studentId]: done }));
+    } catch {
+      /* ignore */
+    }
+  }, [apiFetch]);
+
+  useEffect(() => {
+    if (activeStudent?.id) checkCounseling(activeStudent.id);
+  }, [activeStudent?.id, checkCounseling]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (activeStudent?.id) checkCounseling(activeStudent.id);
+    }, [activeStudent?.id, checkCounseling]),
+  );
 
   return (
     <View style={s.screen}>
@@ -157,6 +185,36 @@ function ParentDashboard() {
                 <ChevronRight size={12} color="#fff" />
               </Pressable>
             </View>
+
+            {/* Start Counseling CTA — hidden once a session is completed */}
+            {!counselingDone[activeStudent.id] && (
+            <Pressable
+              onPress={() => router.push('/(tabs)/counseling')}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 12,
+                backgroundColor: Colors.accent,
+                borderRadius: Radius.card,
+                paddingVertical: 14,
+                paddingHorizontal: 16,
+                marginHorizontal: 16,
+                marginBottom: 12,
+                ...Shadow.sm,
+              }}
+            >
+              <View style={{ width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.22)' }}>
+                <ClipboardList size={22} color="#fff" />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={{ fontSize: 15, fontWeight: '800', color: '#fff' }}>Start Counseling</Text>
+                <Text style={{ fontSize: 12, color: 'rgba(255,255,255,0.9)', marginTop: 2 }}>
+                  5–10 min guided check-in + AI report for {activeStudent.firstName}
+                </Text>
+              </View>
+              <ChevronRight size={18} color="#fff" />
+            </Pressable>
+            )}
 
             {/* Analytics strip */}
             {analytics?.summary && (
@@ -269,6 +327,7 @@ function ParentDashboard() {
 export default function HomeScreen() {
   const { user, apiFetch } = useAuth();
   const role = user?.activeRole ?? 'student';
+  const insets = useSafeAreaInsets();
 
   const [loading, setLoading] = useState(true);
   const [classroom, setClassroom] = useState<Classroom | null>(null);
@@ -506,7 +565,7 @@ export default function HomeScreen() {
                 {/* Previous Stories History Modal */}
                 <Modal visible={historyOpen} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setHistoryOpen(false)}>
                   <View style={s.historyModal}>
-                    <View style={s.historyModalHeader}>
+                    <View style={[s.historyModalHeader, { paddingTop: Math.max(insets.top, 24) }]}>
                       <BookOpenCheck size={20} color="#9B8EC4" />
                       <View style={{ flex: 1 }}>
                         <Text style={s.historyModalTitle}>Previous Stories</Text>

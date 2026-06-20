@@ -39,6 +39,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SelectorModal, { SelectorOption } from '../SelectorModal';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import SafeImage from './SafeImage';
 import MediaUploader from '../media/MediaUploader';
 import LogicoButtonBadge from './LogicoButtonBadge';
@@ -185,6 +186,7 @@ export default function QuestionEditor({
   const [pendingOptionRemoval, setPendingOptionRemoval] = useState<OptionRemovalRequest | null>(null);
   const [assetPickerOpen, setAssetPickerOpen] = useState(false);
   const [assetPickerTarget, setAssetPickerTarget] = useState<{ pairIdx: number } | null>(null);
+  const insets = useSafeAreaInsets();
 
   const actionBadgeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => {
@@ -570,7 +572,7 @@ export default function QuestionEditor({
   return (
     <View style={qFormS.screen}>
       {!embedded && (
-        <View style={[qFormS.header, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+        <View style={[qFormS.header, { paddingTop: Math.max(insets.top, 12) }]}>
           <Pressable onPress={onClose} style={qFormS.backBtn}>
             <Text style={qFormS.backArrow}>‹</Text>
           </Pressable>
@@ -1223,6 +1225,7 @@ function MemoryMatchTab({
   openAssetPicker: (pairIdx: number) => void;
   closeAssetPicker: () => void;
 }) {
+  const insets = useSafeAreaInsets();
   const mmGrid = ((draft.rawQuestionData as any)?.grid as string) || '4x4';
   const mmPairs = (((draft.rawQuestionData as any)?.pairs ?? []) as MMPair[]);
   const required = GRID_PAIR_COUNTS[mmGrid] ?? 8;
@@ -1413,7 +1416,7 @@ function MemoryMatchTab({
         onRequestClose={closeAssetPicker}
       >
         <View style={mmS.modalOverlay}>
-          <View style={[mmS.modalSheet, { paddingBottom: 32 }]}>
+          <View style={[mmS.modalSheet, { paddingBottom: Math.max(insets.bottom, 32) }]}>
             <LinearGradient colors={['#F4EFFF', '#EDE4FF']} style={mmS.modalHeaderGrad}>
               <View style={mmS.modalHeaderRow}>
                 <View>

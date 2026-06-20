@@ -1,0 +1,24 @@
+{
+  "class_level": "12",
+  "subject": "chemistry",
+  "chapters": {
+    "Electrochemistry": [
+      "Galvanic cells and electrode potential",
+      "Nernst equation",
+      "Faraday's laws of electrolysis",
+      "Conductance of electrolytic solutions"
+    ],
+    "Chemical Kinetics": [
+      "Rate of reaction and rate law",
+      "Order and molecularity",
+      "First-order reactions and half-life",
+      "Arrhenius equation and activation energy"
+    ],
+    "Solutions": [
+      "Concentration terms and molarity",
+      "Raoult's law",
+      "Colligative properties",
+      "Depression in freezing point"
+    ]
+  }
+}

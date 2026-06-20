@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Activity, BookOpen, ChevronLeft, ChevronRight, CreditCard, FlaskConical, Globe, GraduationCap, Hash, Languages, Leaf, Monitor, Palette, Plus, Search, Shield, Sparkles, Users, UserCheck, X, Check, Trash2, ShieldCheck, CheckCircle2 } from 'lucide-react-native';
 
@@ -295,6 +296,7 @@ async function pickImageAsDataUrl(): Promise<PickedFile> {
 
 export default function AdminScreen() {
   const { user, apiFetch } = useAuth();
+  const insets = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState<AdminTab>('subject');
   const [subjects, setSubjects] = useState<SubjectRecord[]>([]);
   const [students, setStudents] = useState<ManagedUser[]>([]);
@@ -1800,7 +1802,7 @@ export default function AdminScreen() {
       ) : null}
 
       <Modal visible={viewMoreParent !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setViewMoreParent(null)}>
-        <View style={styles.sheetContainer}>
+        <View style={[styles.sheetContainer, { paddingTop: insets.top }]}>
           <View style={styles.sheetHandle} />
           <View style={styles.sheetHeader}>
             <View style={styles.sheetHeaderLeft}>
@@ -1901,7 +1903,7 @@ export default function AdminScreen() {
       </Modal>
 
       <Modal visible={dialogMode !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setDialogMode(null)}>
-        <View style={styles.sheetContainer}>
+        <View style={[styles.sheetContainer, { paddingTop: insets.top }]}>
           <View style={styles.sheetHandle} />
           <View style={styles.sheetHeader}>
             <View style={styles.sheetHeaderLeft}>
@@ -2000,7 +2002,7 @@ export default function AdminScreen() {
           setAuthorSearchResults([]);
         }}
       >
-        <View style={styles.sheetContainer}>
+        <View style={[styles.sheetContainer, { paddingTop: insets.top }]}>
           <View style={styles.sheetHandle} />
           <View style={styles.sheetHeader}>
             <View style={styles.sheetHeaderLeft}>
@@ -2241,7 +2243,7 @@ export default function AdminScreen() {
 
       <Modal visible={subjectLogoLibraryOpen} transparent animationType="slide" onRequestClose={() => setSubjectLogoLibraryOpen(false)}>
         <View style={styles.logoPickerOverlay}>
-          <View style={styles.logoPickerSheet}>
+          <View style={[styles.logoPickerSheet, { paddingBottom: Math.max(insets.bottom, 14) }]}>
             <View style={styles.logoPickerHeader}>
               <Text style={styles.sheetTitle}>Pick Subject Logo</Text>
               <Pressable style={styles.sheetCloseButton} onPress={() => setSubjectLogoLibraryOpen(false)}>
@@ -2294,7 +2296,7 @@ export default function AdminScreen() {
       </Modal>
 
       <Modal visible={viewMoreTeacher !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setViewMoreTeacher(null)}>
-        <View style={styles.sheetContainer}>
+        <View style={[styles.sheetContainer, { paddingTop: insets.top }]}>
           <View style={styles.sheetHandle} />
           <View style={styles.sheetHeader}>
             <View style={styles.sheetHeaderLeft}>
@@ -2401,7 +2403,7 @@ export default function AdminScreen() {
 
 
       <Modal visible={teacherModalUser !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setTeacherModalUser(null)}>
-        <View style={styles.sheetContainer}>
+        <View style={[styles.sheetContainer, { paddingTop: insets.top }]}>
           <View style={styles.sheetHandle} />
           <View style={styles.sheetHeader}>
             <View style={styles.sheetHeaderLeft}>
@@ -2778,7 +2780,7 @@ export default function AdminScreen() {
       </Modal>
 
       <Modal visible={parentModalUser !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setParentModalUser(null)}>
-        <View style={styles.sheetContainer}>
+        <View style={[styles.sheetContainer, { paddingTop: insets.top }]}>
           <View style={styles.sheetHandle} />
           <View style={styles.sheetHeader}>
             <View style={styles.sheetHeaderLeft}>
