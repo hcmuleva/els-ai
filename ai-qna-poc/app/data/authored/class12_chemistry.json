@@ -1,0 +1,194 @@
+{
+  "class_level": "12",
+  "subject": "chemistry",
+  "topics": {
+    "electrochemistry": [
+      {
+        "type": "single_choice",
+        "difficulty": "medium",
+        "title_md": "For the Daniell cell, $E^\\circ_{\\text{Cu}^{2+}/\\text{Cu}} = +0.34\\,\\text{V}$ and $E^\\circ_{\\text{Zn}^{2+}/\\text{Zn}} = -0.76\\,\\text{V}$. The standard cell potential $E^\\circ_{cell}$ is:",
+        "options": [
+          {"label_md": "$1.10\\,\\text{V}$", "is_correct": true},
+          {"label_md": "$0.42\\,\\text{V}$", "is_correct": false},
+          {"label_md": "$-1.10\\,\\text{V}$", "is_correct": false},
+          {"label_md": "$0.76\\,\\text{V}$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** $E^\\circ_{cathode} = +0.34\\,\\text{V}$ (Cu) and $E^\\circ_{anode} = -0.76\\,\\text{V}$ (Zn).\n\n**Idea.** Copper has the higher reduction potential, so it is the cathode and zinc is the anode.\n\n**Step 1.** $$E^\\circ_{cell} = E^\\circ_{cathode} - E^\\circ_{anode}.$$\n\n**Step 2.** $$E^\\circ_{cell} = 0.34 - (-0.76) = 1.10\\,\\text{V}.$$\n\n**Answer.** $E^\\circ_{cell} = 1.10\\,\\text{V}$.",
+        "verification": {"kind": "numeric", "expression": "0.34 - (-0.76)", "expected": 1.10, "tol": 0.001, "exact_label": "$1.10\\,\\text{V}$"}
+      },
+      {
+        "type": "single_choice",
+        "difficulty": "hard",
+        "title_md": "Using Faraday's laws, the charge required to deposit $1\\,\\text{mol}$ of aluminium from $\\text{Al}^{3+}$ (take $F = 96500\\,\\text{C mol}^{-1}$) is:",
+        "options": [
+          {"label_md": "$289500\\,\\text{C}$", "is_correct": true},
+          {"label_md": "$96500\\,\\text{C}$", "is_correct": false},
+          {"label_md": "$193000\\,\\text{C}$", "is_correct": false},
+          {"label_md": "$32167\\,\\text{C}$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** $\\text{Al}^{3+} + 3e^- \\rightarrow \\text{Al}$, so $n = 3$ and $F = 96500\\,\\text{C mol}^{-1}$.\n\n**Step 1.** Charge needed is $$Q = nF.$$\n\n**Step 2.** $$Q = 3 \\times 96500 = 289500\\,\\text{C}.$$\n\n**Answer.** $Q = 289500\\,\\text{C}$.",
+        "verification": {"kind": "numeric", "expression": "3*96500", "expected": 289500, "exact_label": "$289500\\,\\text{C}$"}
+      },
+      {
+        "type": "true_false",
+        "difficulty": "easy",
+        "title_md": "In a galvanic (voltaic) cell, chemical energy is converted into electrical energy.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** A galvanic cell uses a spontaneous redox reaction.\n\nThe spontaneous reaction ($\\Delta G < 0$) drives electrons through the external circuit, so chemical energy is turned into electrical energy. The statement is **true** (an electrolytic cell does the reverse)."
+      }
+    ],
+    "chemical_kinetics": [
+      {
+        "type": "single_choice",
+        "difficulty": "medium",
+        "title_md": "A first-order reaction has rate constant $k = 0.0693\\,\\text{s}^{-1}$. Its half-life is:",
+        "options": [
+          {"label_md": "$10\\,\\text{s}$", "is_correct": true},
+          {"label_md": "$6.93\\,\\text{s}$", "is_correct": false},
+          {"label_md": "$0.693\\,\\text{s}$", "is_correct": false},
+          {"label_md": "$100\\,\\text{s}$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** First-order reaction with $k = 0.0693\\,\\text{s}^{-1}$.\n\n**Step 1 — Half-life formula.** For first order, $$t_{1/2} = \\dfrac{0.693}{k}.$$\n\n**Step 2 — Substitute.** $$t_{1/2} = \\dfrac{0.693}{0.0693} = 10\\,\\text{s}.$$\n\n**Answer.** $t_{1/2} = 10\\,\\text{s}$ (independent of initial concentration).",
+        "verification": {"kind": "numeric", "expression": "0.693/0.0693", "expected": 10, "tol": 0.01, "exact_label": "$10\\,\\text{s}$"}
+      },
+      {
+        "type": "single_choice",
+        "difficulty": "easy",
+        "title_md": "The rate of a reaction generally increases with temperature mainly because:",
+        "options": [
+          {"label_md": "the fraction of molecules with energy above the activation energy increases", "is_correct": true},
+          {"label_md": "the activation energy of the reaction decreases", "is_correct": false},
+          {"label_md": "the enthalpy change of the reaction increases", "is_correct": false},
+          {"label_md": "the order of the reaction increases", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Temperature shifts the Maxwell-Boltzmann energy distribution.\n\nA higher temperature raises the fraction of molecules whose energy exceeds the activation energy $E_a$, so more collisions are effective and the rate rises (Arrhenius: $k = A e^{-E_a/RT}$). $E_a$ itself is fixed for a given reaction.\n\n**Answer.** More molecules cross the activation-energy barrier."
+      }
+    ],
+    "solutions": [
+      {
+        "type": "single_choice",
+        "difficulty": "medium",
+        "title_md": "What is the molarity of a solution containing $0.5\\,\\text{mol}$ of solute dissolved to make $2\\,\\text{L}$ of solution?",
+        "options": [
+          {"label_md": "$0.25\\,\\text{M}$", "is_correct": true},
+          {"label_md": "$1\\,\\text{M}$", "is_correct": false},
+          {"label_md": "$2.5\\,\\text{M}$", "is_correct": false},
+          {"label_md": "$4\\,\\text{M}$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** $n = 0.5\\,\\text{mol}$ in $V = 2\\,\\text{L}$.\n\n**Step 1 — Definition.** $$M = \\dfrac{n_{solute}}{V_{solution\\,(\\text{L})}}.$$\n\n**Step 2 — Substitute.** $$M = \\dfrac{0.5}{2} = 0.25\\,\\text{M}.$$\n\n**Answer.** $0.25\\,\\text{M}$.",
+        "verification": {"kind": "numeric", "expression": "0.5/2", "expected": 0.25, "exact_label": "$0.25\\,\\text{M}$"}
+      },
+      {
+        "type": "single_choice",
+        "difficulty": "hard",
+        "title_md": "For an aqueous solution, $K_f = 1.86\\,\\text{K kg mol}^{-1}$ and the molality is $0.5\\,\\text{m}$. Assuming no association/dissociation, the depression in freezing point $\\Delta T_f$ is:",
+        "options": [
+          {"label_md": "$0.93\\,\\text{K}$", "is_correct": true},
+          {"label_md": "$1.86\\,\\text{K}$", "is_correct": false},
+          {"label_md": "$3.72\\,\\text{K}$", "is_correct": false},
+          {"label_md": "$0.5\\,\\text{K}$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** $K_f = 1.86\\,\\text{K kg mol}^{-1}$, molality $m = 0.5\\,\\text{m}$.\n\n**Step 1 — Colligative relation.** $$\\Delta T_f = K_f \\, m.$$\n\n**Step 2 — Substitute.** $$\\Delta T_f = 1.86 \\times 0.5 = 0.93\\,\\text{K}.$$\n\n**Answer.** $\\Delta T_f = 0.93\\,\\text{K}$.",
+        "verification": {"kind": "numeric", "expression": "1.86*0.5", "expected": 0.93, "tol": 0.001, "exact_label": "$0.93\\,\\text{K}$"}
+      },
+      {
+        "type": "true_false",
+        "difficulty": "easy",
+        "title_md": "According to Raoult's law, for an ideal solution the partial vapour pressure of a component equals its mole fraction times the vapour pressure of the pure component.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Raoult's law for an ideal solution states $p_A = x_A\\, p_A^{\\circ}$.\n\nThe partial pressure of each volatile component is proportional to its mole fraction in the liquid, the constant being the pure-component vapour pressure. The statement is **true**."
+      }
+    ],
+    "coordination_compounds": [
+      {
+        "type": "single_choice",
+        "difficulty": "medium",
+        "title_md": "The oxidation state of the central metal ion in the complex $[\\text{Fe(CN)}_6]^{3-}$ (each $\\text{CN}^-$ carries a charge of $-1$) is:",
+        "options": [
+          {"label_md": "$+3$", "is_correct": true},
+          {"label_md": "$+2$", "is_correct": false},
+          {"label_md": "$-3$", "is_correct": false},
+          {"label_md": "$+6$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** Overall charge $= -3$; six $\\text{CN}^-$ ligands, each $-1$.\n\n**Step 1 — Charge balance.** Let the oxidation state of Fe be $x$: $$x + 6(-1) = -3.$$\n\n**Step 2 — Solve.** $$x = -3 + 6 = +3.$$\n\n**Answer.** Iron is in the $+3$ state.",
+        "verification": {"kind": "numeric", "expression": "(-3) - (6*(-1))", "expected": 3, "exact_label": "$+3$"}
+      },
+      {
+        "type": "single_choice",
+        "difficulty": "easy",
+        "title_md": "The coordination number of the central cobalt ion in $[\\text{Co(NH}_3)_6]^{3+}$ is:",
+        "options": [
+          {"label_md": "$6$", "is_correct": true},
+          {"label_md": "$3$", "is_correct": false},
+          {"label_md": "$4$", "is_correct": false},
+          {"label_md": "$2$", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** The coordination number is the number of ligand donor atoms directly bonded to the central metal.\n\n$\\text{NH}_3$ is a monodentate ligand and there are six of them, so the coordination number is $6$.\n\n**Answer.** $6$."
+      },
+      {
+        "type": "true_false",
+        "difficulty": "medium",
+        "title_md": "In the complex $[\\text{Co(NH}_3)_6]^{3+}$, the ligand $\\text{NH}_3$ is monodentate.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** A monodentate ligand donates a lone pair through a single donor atom.\n\nAmmonia binds through the lone pair on its single nitrogen atom, so it is **monodentate**. The statement is **true**."
+      }
+    ],
+    "haloalkanes_and_haloarenes": [
+      {
+        "type": "true_false",
+        "difficulty": "medium",
+        "title_md": "An $S_N2$ reaction proceeds through a single concerted step and results in inversion of configuration at the carbon under attack (Walden inversion).",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** $S_N2$ is bimolecular: the nucleophile attacks as the leaving group departs in one step.\n\nThe nucleophile approaches from the side opposite the leaving group, so the configuration is inverted, like an umbrella turning inside out. The statement is **true**."
+      },
+      {
+        "type": "single_choice",
+        "difficulty": "hard",
+        "title_md": "Which alkyl halide is expected to undergo an $S_N1$ reaction most readily?",
+        "options": [
+          {"label_md": "tert-butyl bromide (3$^\\circ$)", "is_correct": true},
+          {"label_md": "n-butyl bromide (1$^\\circ$)", "is_correct": false},
+          {"label_md": "methyl bromide", "is_correct": false},
+          {"label_md": "ethyl bromide (1$^\\circ$)", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** $S_N1$ rate depends on the stability of the carbocation intermediate.\n\nA tertiary carbocation is stabilised by three alkyl groups (hyperconjugation + inductive effect), so tert-butyl bromide ionises fastest and favours $S_N1$. Primary and methyl halides form unstable cations and prefer $S_N2$.\n\n**Answer.** tert-butyl bromide."
+      }
+    ],
+    "biomolecules": [
+      {
+        "type": "single_choice",
+        "difficulty": "easy",
+        "title_md": "The building-block monomer units of proteins are:",
+        "options": [
+          {"label_md": "$\\alpha$-amino acids", "is_correct": true},
+          {"label_md": "monosaccharides", "is_correct": false},
+          {"label_md": "nucleotides", "is_correct": false},
+          {"label_md": "fatty acids", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Proteins are polymers (polypeptides).\n\nTheir monomers are $\\alpha$-amino acids joined by peptide bonds. Monosaccharides build polysaccharides, and nucleotides build nucleic acids.\n\n**Answer.** $\\alpha$-amino acids."
+      },
+      {
+        "type": "true_false",
+        "difficulty": "medium",
+        "title_md": "DNA contains the nitrogenous base thymine, whereas in RNA thymine is replaced by uracil.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** DNA and RNA differ in one pyrimidine base and the sugar.\n\nDNA uses adenine, guanine, cytosine and thymine; RNA uses uracil in place of thymine (and ribose instead of deoxyribose). The statement is **true**."
+      }
+    ]
+  }
+}

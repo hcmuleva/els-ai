@@ -26,6 +26,7 @@ import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
 import { getAuthorizedClasses, getAuthorizedSubjects } from '../../utils/assignments';
 import { AppUser } from '../../types/roles';
 import { API_BASE_URL } from '../../context/AuthContext';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 export type QuestionItem = {
@@ -204,6 +205,7 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
   onClose: () => void;
   onEdit: (q: QuestionFull) => void;
 }) {
+  const insets = useSafeAreaInsets();
   if (!question) return null;
   const questionType = question.question_type === 'jigsaw_puzzle' ? 'jigsaw' : question.question_type;
   const cfg  = qtypeCfg(questionType);
@@ -224,7 +226,7 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
     <Modal visible={!!question} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
       <View style={q.modalScreen}>
         {/* Header */}
-        <View style={[q.modalHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+        <View style={[q.modalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
           <Pressable onPress={onClose} style={q.modalBack}>
             <ChevronLeft size={24} color="#1a1a2e" />
           </Pressable>

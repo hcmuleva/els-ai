@@ -1,0 +1,224 @@
+{
+  "class_level": "12",
+  "subject": "physics",
+  "topics": {
+    "semiconductors": [
+      {
+        "type": "single_choice",
+        "difficulty": "medium",
+        "title_md": "In a common-emitter configuration, a transistor has base current $I_B = 0.02\\,\\text{mA}$ and current gain $\\beta = 50$. The collector current $I_C$ is:",
+        "options": [
+          {"label_md": "$1\\,\\text{mA}$", "is_correct": true},
+          {"label_md": "$0.4\\,\\text{mA}$", "is_correct": false},
+          {"label_md": "$2.5\\,\\text{mA}$", "is_correct": false},
+          {"label_md": "$52\\,\\text{mA}$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** $I_B = 0.02\\,\\text{mA}$ and $\\beta = 50$.\n\n**Idea.** In a transistor the collector current is the current gain times the base current.\n\n**Step 1.** $$I_C = \\beta\\, I_B.$$\n\n**Step 2.** $$I_C = 50 \\times 0.02 = 1\\,\\text{mA}.$$\n\n**Answer.** $I_C = 1\\,\\text{mA}$.",
+        "verification": {"kind": "numeric", "expression": "50*0.02", "expected": 1, "exact_label": "$1\\,\\text{mA}$"}
+      },
+      {
+        "type": "true_false",
+        "difficulty": "easy",
+        "title_md": "In a $p$-$n$ junction diode, the width of the depletion region **increases** when the junction is reverse biased.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Reverse bias pulls majority carriers away from the junction.\n\nWith fewer mobile carriers near the junction, more immobile ions are exposed, so the depletion region **widens** and the barrier potential rises. Hence the statement is **true**."
+      },
+      {
+        "type": "single_choice",
+        "difficulty": "easy",
+        "title_md": "The forbidden energy gap $E_g$ of pure silicon at room temperature is closest to:",
+        "options": [
+          {"label_md": "$1.1\\,\\text{eV}$", "is_correct": true},
+          {"label_md": "$0\\,\\text{eV}$", "is_correct": false},
+          {"label_md": "$6.0\\,\\text{eV}$", "is_correct": false},
+          {"label_md": "$0.3\\,\\text{eV}$", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** The band gap sets whether a solid is a conductor, semiconductor or insulator.\n\nFor silicon $E_g \\approx 1.1\\,\\text{eV}$ (germanium $\\approx 0.7\\,\\text{eV}$). A gap of $0\\,\\text{eV}$ is a conductor and $\\approx 6\\,\\text{eV}$ is an insulator (diamond).\n\n**Answer.** $E_g \\approx 1.1\\,\\text{eV}$."
+      },
+      {
+        "type": "multi_choice",
+        "difficulty": "hard",
+        "title_md": "For an **intrinsic** semiconductor at a temperature $T > 0\\,\\text{K}$, which statements are correct?",
+        "options": [
+          {"label_md": "The electron and hole concentrations are equal, $n_e = n_h$.", "is_correct": true},
+          {"label_md": "Its conductivity increases as the temperature rises.", "is_correct": true},
+          {"label_md": "It behaves as a perfect insulator at all temperatures.", "is_correct": false},
+          {"label_md": "Doping is essential before any conduction can occur.", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** In an intrinsic (undoped) semiconductor, thermal energy creates electron-hole pairs.\n\n- Each broken bond gives one electron and one hole, so $n_e = n_h$ (**correct**).\n- Higher $T$ creates more pairs, so conductivity rises (**correct**).\n- It is not a perfect insulator above $0\\,\\text{K}$ (**wrong**).\n- It conducts intrinsically without doping (**wrong**)."
+      }
+    ],
+    "current_electricity": [
+      {
+        "type": "single_choice",
+        "difficulty": "medium",
+        "title_md": "Two resistors $R_1 = 4\\,\\Omega$ and $R_2 = 6\\,\\Omega$ are joined in **series** across a $10\\,\\text{V}$ battery of negligible internal resistance. The current drawn from the battery is:",
+        "options": [
+          {"label_md": "$1\\,\\text{A}$", "is_correct": true},
+          {"label_md": "$0.6\\,\\text{A}$", "is_correct": false},
+          {"label_md": "$2.5\\,\\text{A}$", "is_correct": false},
+          {"label_md": "$10\\,\\text{A}$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** $R_1 = 4\\,\\Omega$, $R_2 = 6\\,\\Omega$ in series, $V = 10\\,\\text{V}$.\n\n**Step 1 — Equivalent resistance.** $$R = R_1 + R_2 = 10\\,\\Omega.$$\n\n**Step 2 — Ohm's law.** $$I = \\dfrac{V}{R} = \\dfrac{10}{10} = 1\\,\\text{A}.$$\n\n**Answer.** $I = 1\\,\\text{A}$.",
+        "verification": {"kind": "numeric", "expression": "10/(4+6)", "expected": 1, "exact_label": "$1\\,\\text{A}$"}
+      },
+      {
+        "type": "single_choice",
+        "difficulty": "hard",
+        "title_md": "An electric bulb is rated $60\\,\\text{W}$ at $120\\,\\text{V}$. Its filament resistance (assumed constant) is:",
+        "options": [
+          {"label_md": "$240\\,\\Omega$", "is_correct": true},
+          {"label_md": "$2\\,\\Omega$", "is_correct": false},
+          {"label_md": "$0.5\\,\\Omega$", "is_correct": false},
+          {"label_md": "$7200\\,\\Omega$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** $P = 60\\,\\text{W}$ at $V = 120\\,\\text{V}$.\n\n**Idea.** Power, voltage and resistance are linked by $P = V^2/R$.\n\n**Step 1.** $$R = \\dfrac{V^2}{P}.$$\n\n**Step 2.** $$R = \\dfrac{120^2}{60} = \\dfrac{14400}{60} = 240\\,\\Omega.$$\n\n**Answer.** $R = 240\\,\\Omega$.",
+        "verification": {"kind": "numeric", "expression": "120**2/60", "expected": 240, "exact_label": "$240\\,\\Omega$"}
+      },
+      {
+        "type": "true_false",
+        "difficulty": "medium",
+        "title_md": "The equivalent resistance of resistors connected in **parallel** is always smaller than the smallest individual resistance.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Parallel branches give current extra paths, so the combination conducts more easily than any single branch.\n\nSince $\\frac{1}{R_{eq}} = \\sum \\frac{1}{R_i}$, $R_{eq}$ is less than the smallest $R_i$. The statement is **true**."
+      }
+    ],
+    "electrostatics_capacitors": [
+      {
+        "type": "single_choice",
+        "difficulty": "medium",
+        "title_md": "Two capacitors of $2\\,\\mu\\text{F}$ and $3\\,\\mu\\text{F}$ are connected in **parallel**. Their equivalent capacitance is:",
+        "options": [
+          {"label_md": "$5\\,\\mu\\text{F}$", "is_correct": true},
+          {"label_md": "$1.2\\,\\mu\\text{F}$", "is_correct": false},
+          {"label_md": "$6\\,\\mu\\text{F}$", "is_correct": false},
+          {"label_md": "$0.5\\,\\mu\\text{F}$", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Capacitors in parallel share the same voltage and their charges add, so capacitances add.\n\n**Step 1.** $$C = C_1 + C_2 = 2 + 3 = 5\\,\\mu\\text{F}.$$\n\n**Answer.** $C = 5\\,\\mu\\text{F}$.",
+        "verification": {"kind": "numeric", "expression": "2+3", "expected": 5, "exact_label": "$5\\,\\mu\\text{F}$"}
+      },
+      {
+        "type": "single_choice",
+        "difficulty": "hard",
+        "title_md": "Two capacitors of $3\\,\\mu\\text{F}$ and $6\\,\\mu\\text{F}$ are connected in **series**. The equivalent capacitance is:",
+        "options": [
+          {"label_md": "$2\\,\\mu\\text{F}$", "is_correct": true},
+          {"label_md": "$9\\,\\mu\\text{F}$", "is_correct": false},
+          {"label_md": "$18\\,\\mu\\text{F}$", "is_correct": false},
+          {"label_md": "$4.5\\,\\mu\\text{F}$", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** In series the same charge sits on each capacitor and the reciprocals add.\n\n**Step 1.** $$\\dfrac{1}{C} = \\dfrac{1}{C_1} + \\dfrac{1}{C_2}\\;\\Rightarrow\\; C = \\dfrac{C_1 C_2}{C_1 + C_2}.$$\n\n**Step 2.** $$C = \\dfrac{3 \\times 6}{3 + 6} = \\dfrac{18}{9} = 2\\,\\mu\\text{F}.$$\n\n**Answer.** $C = 2\\,\\mu\\text{F}$.",
+        "verification": {"kind": "numeric", "expression": "(3*6)/(3+6)", "expected": 2, "exact_label": "$2\\,\\mu\\text{F}$"}
+      },
+      {
+        "type": "true_false",
+        "difficulty": "easy",
+        "title_md": "In electrostatic equilibrium, the electric field everywhere inside a charged conductor is zero.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** If a field existed inside a conductor, free electrons would keep moving.\n\nCharges redistribute on the surface until the interior field is exactly zero, which is the equilibrium condition. The statement is **true**."
+      }
+    ],
+    "ray_optics": [
+      {
+        "type": "single_choice",
+        "difficulty": "medium",
+        "title_md": "An object is placed $30\\,\\text{cm}$ in front of a thin converging lens of focal length $20\\,\\text{cm}$. Using $\\dfrac{1}{v} - \\dfrac{1}{u} = \\dfrac{1}{f}$ with $u = -30\\,\\text{cm}$, the image distance $v$ is:",
+        "options": [
+          {"label_md": "$60\\,\\text{cm}$", "is_correct": true},
+          {"label_md": "$12\\,\\text{cm}$", "is_correct": false},
+          {"label_md": "$-60\\,\\text{cm}$", "is_correct": false},
+          {"label_md": "$15\\,\\text{cm}$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** $f = 20\\,\\text{cm}$, $u = -30\\,\\text{cm}$.\n\n**Step 1 — Lens equation.** $$\\dfrac{1}{v} = \\dfrac{1}{f} + \\dfrac{1}{u} = \\dfrac{1}{20} + \\dfrac{1}{-30}.$$\n\n**Step 2 — Combine.** $$\\dfrac{1}{v} = \\dfrac{3 - 2}{60} = \\dfrac{1}{60}\\;\\Rightarrow\\; v = 60\\,\\text{cm}.$$\n\n**Answer.** A real image forms $60\\,\\text{cm}$ behind the lens.",
+        "verification": {"kind": "numeric", "expression": "1/(1/20 + 1/(-30))", "expected": 60, "exact_label": "$60\\,\\text{cm}$"}
+      },
+      {
+        "type": "true_false",
+        "difficulty": "easy",
+        "title_md": "For a spherical concave mirror, the focal length equals half the radius of curvature, $f = R/2$.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Rays close to the principal axis reflecting from a concave mirror meet at the focus.\n\nGeometry gives $f = R/2$ for paraxial rays. The statement is **true**."
+      }
+    ],
+    "modern_physics": [
+      {
+        "type": "single_choice",
+        "difficulty": "medium",
+        "title_md": "Light of photon energy $5\\,\\text{eV}$ falls on a metal whose work function is $2\\,\\text{eV}$. The maximum kinetic energy of the emitted photoelectrons is:",
+        "options": [
+          {"label_md": "$3\\,\\text{eV}$", "is_correct": true},
+          {"label_md": "$7\\,\\text{eV}$", "is_correct": false},
+          {"label_md": "$2.5\\,\\text{eV}$", "is_correct": false},
+          {"label_md": "$10\\,\\text{eV}$", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Einstein's photoelectric equation: photon energy splits into the work function plus the electron's kinetic energy.\n\n**Step 1.** $$K_{max} = E_{photon} - \\phi.$$\n\n**Step 2.** $$K_{max} = 5 - 2 = 3\\,\\text{eV}.$$\n\n**Answer.** $K_{max} = 3\\,\\text{eV}$.",
+        "verification": {"kind": "numeric", "expression": "5-2", "expected": 3, "exact_label": "$3\\,\\text{eV}$"}
+      },
+      {
+        "type": "single_choice",
+        "difficulty": "hard",
+        "title_md": "Using the Bohr model, $E_n = -\\dfrac{13.6}{n^2}\\,\\text{eV}$, the energy of the electron in the $n = 2$ state of a hydrogen atom is:",
+        "options": [
+          {"label_md": "$-3.4\\,\\text{eV}$", "is_correct": true},
+          {"label_md": "$-13.6\\,\\text{eV}$", "is_correct": false},
+          {"label_md": "$-6.8\\,\\text{eV}$", "is_correct": false},
+          {"label_md": "$-1.51\\,\\text{eV}$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** $E_n = -\\dfrac{13.6}{n^2}\\,\\text{eV}$ with $n = 2$.\n\n**Step 1.** $$E_2 = -\\dfrac{13.6}{2^2} = -\\dfrac{13.6}{4}.$$\n\n**Step 2.** $$E_2 = -3.4\\,\\text{eV}.$$\n\n**Answer.** $E_2 = -3.4\\,\\text{eV}$.",
+        "verification": {"kind": "numeric", "expression": "-13.6/2**2", "expected": -3.4, "exact_label": "$-3.4\\,\\text{eV}$"}
+      }
+    ],
+    "electromagnetic_induction": [
+      {
+        "type": "single_choice",
+        "difficulty": "medium",
+        "title_md": "A coil of $100$ turns links a magnetic flux that falls uniformly from $2\\,\\text{mWb}$ to $0$ in $0.1\\,\\text{s}$. The magnitude of the induced emf is:",
+        "options": [
+          {"label_md": "$2\\,\\text{V}$", "is_correct": true},
+          {"label_md": "$0.2\\,\\text{V}$", "is_correct": false},
+          {"label_md": "$20\\,\\text{V}$", "is_correct": false},
+          {"label_md": "$200\\,\\text{V}$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** $N = 100$, $\\Delta\\Phi = 2\\,\\text{mWb} = 2\\times10^{-3}\\,\\text{Wb}$, $\\Delta t = 0.1\\,\\text{s}$.\n\n**Step 1 — Faraday's law.** $$|\\varepsilon| = N\\,\\dfrac{|\\Delta\\Phi|}{\\Delta t}.$$\n\n**Step 2.** $$|\\varepsilon| = 100 \\times \\dfrac{0.002}{0.1} = 2\\,\\text{V}.$$\n\n**Answer.** $|\\varepsilon| = 2\\,\\text{V}$.",
+        "verification": {"kind": "numeric", "expression": "100*0.002/0.1", "expected": 2, "exact_label": "$2\\,\\text{V}$"}
+      },
+      {
+        "type": "true_false",
+        "difficulty": "easy",
+        "title_md": "By Lenz's law, the induced current always flows in a direction that opposes the change in magnetic flux producing it.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Lenz's law is a statement of energy conservation for induction.\n\nThe induced current opposes the flux change that creates it; otherwise energy would be produced from nothing. The statement is **true**."
+      }
+    ],
+    "moving_charges_magnetism": [
+      {
+        "type": "single_choice",
+        "difficulty": "medium",
+        "title_md": "A charge of $2\\,\\text{C}$ moves with speed $3\\,\\text{m/s}$ at right angles to a uniform magnetic field $B = 4\\,\\text{T}$. The magnetic force on the charge is:",
+        "options": [
+          {"label_md": "$24\\,\\text{N}$", "is_correct": true},
+          {"label_md": "$9\\,\\text{N}$", "is_correct": false},
+          {"label_md": "$12\\,\\text{N}$", "is_correct": false},
+          {"label_md": "$0\\,\\text{N}$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** $q = 2\\,\\text{C}$, $v = 3\\,\\text{m/s}$, $B = 4\\,\\text{T}$, with $\\theta = 90^\\circ$.\n\n**Step 1 — Lorentz force.** $$F = qvB\\sin\\theta.$$\n\n**Step 2.** With $\\sin 90^\\circ = 1$, $$F = 2 \\times 3 \\times 4 = 24\\,\\text{N}.$$\n\n**Answer.** $F = 24\\,\\text{N}$.",
+        "verification": {"kind": "numeric", "expression": "2*3*4", "expected": 24, "exact_label": "$24\\,\\text{N}$"}
+      }
+    ]
+  }
+}

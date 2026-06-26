@@ -1,0 +1,17 @@
+CBSE CLASS XII PHYSICS - SAMPLE QUESTION PAPER (bundled fallback)
+
+SECTION A
+1. Define electric resistance and state its SI unit. A wire of resistivity rho,
+   length L and cross-sectional area A carries a steady current.
+2. Two resistors are connected first in series and then in parallel. Derive the
+   equivalent resistance in each case.
+3. State Ohm's law. Draw the V-I characteristic for an ohmic conductor.
+4. A cell of emf and internal resistance r drives a current through an external
+   resistor R. Obtain the expression for terminal potential difference.
+5. State Kirchhoff's junction rule and loop rule and apply them to a circuit.
+6. Define electric power dissipated in a resistor and express it in three forms.
+
+SECTION B (Electrostatics)
+7. State Coulomb's law. Using Gauss's law obtain the electric field due to an
+   infinite line charge of linear charge density lambda.
+8. Explain why two electric field lines never intersect.

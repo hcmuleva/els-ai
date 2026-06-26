@@ -171,6 +171,15 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="counseling"
+        options={{
+          href: null,
+          title: 'Counseling',
+          headerShown: false,
+          tabBarStyle: { display: 'none' },
+        }}
+      />
+      <Tabs.Screen
         name="reports"
         options={{
           href: tabRoutes.has('reports') ? undefined : null,

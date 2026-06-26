@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Dimensions, Image, Linking, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from 'expo-router';
+import { ModalHeader } from '../../src/components/common/ModalHeader';
 import { ChevronRight, Play, Star, BookOpen, Clock, X, Trophy, GraduationCap, Layers, ClipboardList, CheckCircle, AlertCircle, School, FileText, Telescope, Video as VideoIcon, Headphones, Image as ImageIcon, Link, Calendar, Lock, Timer } from 'lucide-react-native';
 import { SvgXml } from 'react-native-svg';
 import { Colors, Radius, Shadow } from '../../src/theme';
@@ -129,6 +131,7 @@ function getYouTubeEmbedUrl(url: string): string {
 
 export default function ClassroomScreen() {
   const { apiFetch, isAuthenticated, user } = useAuth();
+  const insets = useSafeAreaInsets();
   const [loading, setLoading] = useState(true);
   const [savingSubmission, setSavingSubmission] = useState(false);
   const [classrooms, setClassrooms] = useState<ClassroomItem[]>([]);
@@ -681,24 +684,18 @@ export default function ClassroomScreen() {
       {/* ── History Modal ── */}
       <Modal visible={isHistoryOpen} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => { setIsHistoryOpen(false); setHistorySelectedId(null); }}>
         <View style={clStyles.historyScreen}>
-          <View style={[clStyles.historyHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
-            <Pressable onPress={() => { setIsHistoryOpen(false); setHistorySelectedId(null); }} style={clStyles.historyBackBtn}>
-              <Text style={clStyles.historyBackArrow}>‹</Text>
-            </Pressable>
-            <View style={{ flex: 1 }}>
-              <Text style={clStyles.historyTitle}>
-                {historySelectedId ? historySelected?.title ?? 'Class Details' : 'Previous Classes'}
-              </Text>
-              <Text style={clStyles.historySubtitle}>
-                {historySelectedId ? 'Tap a quiz to play or replay' : 'Your completed classroom sessions'}
-              </Text>
-            </View>
-            {historySelectedId && (
-              <Pressable onPress={() => setHistorySelectedId(null)} style={clStyles.historyBackToListBtn}>
-                <Text style={clStyles.historyBackToListText}>All Classes</Text>
-              </Pressable>
-            )}
-          </View>
+          <ModalHeader
+            title={historySelectedId ? historySelected?.title ?? 'Class Details' : 'Previous Classes'}
+            subtitle={historySelectedId ? 'Tap a quiz to play or replay' : 'Your completed classroom sessions'}
+            onBack={() => { setIsHistoryOpen(false); setHistorySelectedId(null); }}
+            right={
+              historySelectedId ? (
+                <Pressable onPress={() => setHistorySelectedId(null)} style={clStyles.historyBackToListBtn}>
+                  <Text style={clStyles.historyBackToListText}>All Classes</Text>
+                </Pressable>
+              ) : undefined
+            }
+          />
 
           {historyLoading ? (
             <View style={clStyles.historyCenter}>
@@ -882,20 +879,22 @@ export default function ClassroomScreen() {
             <View style={styles.viewerContainer}>
 
               {/* ── Header ── */}
-              <View style={[styles.vHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
-                <Pressable onPress={() => setPreviewContentIndex(null)} style={styles.vBackBtn}>
-                  <Text style={styles.vBackArrow}>‹</Text>
-                </Pressable>
-                <View style={styles.vHeaderMid}>
-                  <View style={[styles.vTypeBadge, { backgroundColor: `${typeCfg.accentColor}18` }]}>
-                    <Text style={[styles.vTypeBadgeText, { color: typeCfg.accentColor }]}>{typeCfg.label}</Text>
+              <ModalHeader
+                onBack={() => setPreviewContentIndex(null)}
+                center={
+                  <View style={styles.vHeaderMid}>
+                    <View style={[styles.vTypeBadge, { backgroundColor: `${typeCfg.accentColor}18` }]}>
+                      <Text style={[styles.vTypeBadgeText, { color: typeCfg.accentColor }]}>{typeCfg.label}</Text>
+                    </View>
+                    <Text style={styles.vHeaderTitle} numberOfLines={1}>{content?.title || 'Content'}</Text>
                   </View>
-                  <Text style={styles.vHeaderTitle} numberOfLines={1}>{content?.title || 'Content'}</Text>
-                </View>
-                <View style={[styles.vCounter, { backgroundColor: `${typeCfg.accentColor}15` }]}>
-                  <Text style={[styles.vCounterTxt, { color: typeCfg.accentColor }]}>{curIdx + 1}/{contents.length}</Text>
-                </View>
-              </View>
+                }
+                right={
+                  <View style={[styles.vCounter, { backgroundColor: `${typeCfg.accentColor}15` }]}>
+                    <Text style={[styles.vCounterTxt, { color: typeCfg.accentColor }]}>{curIdx + 1}/{contents.length}</Text>
+                  </View>
+                }
+              />
 
               <ScrollView
                 showsVerticalScrollIndicator={false}
@@ -1107,25 +1106,32 @@ export default function ClassroomScreen() {
       <Modal visible={assignmentModal !== null} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setAssignmentModal(null)}>
         <View style={aStyles.screen}>
           {/* Header */}
-          <View style={[aStyles.header, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
-            <Pressable onPress={() => setAssignmentModal(null)} style={aStyles.backBtn}>
-              <X size={20} color="#1a1a2e" />
-            </Pressable>
-            <View style={{ flex: 1 }}>
-              <Text style={aStyles.headerLabel}>Assignment</Text>
-              <Text style={aStyles.headerTitle} numberOfLines={1}>{assignmentModal?.title || 'Task'}</Text>
-            </View>
-            {assignmentModal?.status === 'submitted' ? (
-              <View style={[aStyles.statusBadgeSubmitted, { flexDirection: 'row', alignItems: 'center', gap: 4 }]}>
-                <CheckCircle size={12} color="#1A6B1A" />
-                <Text style={aStyles.statusBadgeText}>Submitted</Text>
+          <ModalHeader
+            tone="#fff"
+            left={
+              <Pressable onPress={() => setAssignmentModal(null)} style={aStyles.backBtn}>
+                <X size={20} color="#1a1a2e" />
+              </Pressable>
+            }
+            center={
+              <View style={{ flex: 1 }}>
+                <Text style={aStyles.headerLabel}>Assignment</Text>
+                <Text style={aStyles.headerTitle} numberOfLines={1}>{assignmentModal?.title || 'Task'}</Text>
               </View>
-            ) : assignmentModal?.status === 'overdue' ? (
-              <View style={aStyles.statusBadgeOverdue}><Text style={aStyles.statusBadgeText}>⚠ Overdue</Text></View>
-            ) : (
-              <View style={aStyles.statusBadgePending}><Text style={aStyles.statusBadgeText}>📋 Pending</Text></View>
-            )}
-          </View>
+            }
+            right={
+              assignmentModal?.status === 'submitted' ? (
+                <View style={[aStyles.statusBadgeSubmitted, { flexDirection: 'row', alignItems: 'center', gap: 4 }]}>
+                  <CheckCircle size={12} color="#1A6B1A" />
+                  <Text style={aStyles.statusBadgeText}>Submitted</Text>
+                </View>
+              ) : assignmentModal?.status === 'overdue' ? (
+                <View style={aStyles.statusBadgeOverdue}><Text style={aStyles.statusBadgeText}>⚠ Overdue</Text></View>
+              ) : (
+                <View style={aStyles.statusBadgePending}><Text style={aStyles.statusBadgeText}>📋 Pending</Text></View>
+              )
+            }
+          />
 
           <ScrollView contentContainerStyle={aStyles.scrollContent} showsVerticalScrollIndicator={false}>
 
@@ -1267,7 +1273,7 @@ export default function ClassroomScreen() {
 
           {/* Footer submit button */}
           {assignmentModal?.status !== 'submitted' && (
-            <View style={aStyles.footer}>
+            <View style={[aStyles.footer, { paddingBottom: Math.max(insets.bottom, 16) }]}>
               <Pressable style={aStyles.submitBtn} onPress={submitAssignment} disabled={savingSubmission}>
                 {savingSubmission
                   ? <ActivityIndicator color="#fff" />

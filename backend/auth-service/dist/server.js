@@ -5,6 +5,8 @@ import { db } from './db.js';
 import { authRouter } from './routes/auth.js';
 import { usersRouter } from './routes/users.js';
 import { studentsRouter } from './routes/students.js';
+import { counselingRouter } from './routes/counseling.js';
+import { feedbackRouter } from './routes/feedback.js';
 import { billingRouter } from './routes/billing.js';
 import { initSchemaAndSeed } from './seed/seed.js';
 import { registerNotificationHandlers } from './events/notifications.js';
@@ -20,6 +22,8 @@ app.get('/health', (_req, res) => {
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/students', studentsRouter);
+app.use('/counseling', counselingRouter);
+app.use('/feedback', feedbackRouter);
 app.use('/billing', billingRouter);
 async function bootstrap() {
     // Seeding run from auth-service since it owns the users database initialization

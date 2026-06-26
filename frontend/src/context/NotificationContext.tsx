@@ -18,6 +18,14 @@ export type AppNotification = {
   expiryAt: string;
 };
 
+type FeedbackMessageEvent = {
+  threadId: string;
+  studentUserId: string;
+  senderRole: string;
+  message: string;
+  sentAt: string;
+};
+
 type NotificationContextValue = {
   notifications: AppNotification[];
   unreadCount: number;
@@ -28,6 +36,7 @@ type NotificationContextValue = {
   deleteOne: (id: string) => Promise<void>;
   deleteRange: (range: 'hour' | 'day' | 'week' | 'all') => Promise<void>;
   deleteAllRead: () => Promise<void>;
+  onFeedbackMessage: (cb: (event: FeedbackMessageEvent) => void) => () => void;
 };
 
 const NotificationContext = createContext<NotificationContextValue | null>(null);
@@ -43,6 +52,7 @@ export function NotificationProvider({ children }: PropsWithChildren) {
   const channelRef = useRef<any>(null);
   const pollTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const refreshUserRef = useRef(refreshUser);
+  const feedbackListenersRef = useRef<Set<(event: FeedbackMessageEvent) => void>>(new Set());
 
   useEffect(() => {
     refreshUserRef.current = refreshUser;
@@ -151,6 +161,13 @@ export function NotificationProvider({ children }: PropsWithChildren) {
         console.log('[notifications] ← teacher_assignments_updated', msg?.data);
         refreshUserRef.current?.();
       });
+      ch.subscribe('feedback_new_message', (msg: any) => {
+        const data = msg?.data as FeedbackMessageEvent | undefined;
+        if (!data) return;
+        for (const cb of feedbackListenersRef.current) {
+          try { cb(data); } catch { /* silent */ }
+        }
+      });
       console.log('[notifications] subscribed to all events on', channel);
     } catch (err) {
       console.warn('[notifications] realtime init failed, polling instead', err);
@@ -236,9 +253,16 @@ export function NotificationProvider({ children }: PropsWithChildren) {
     await fetchInitial();
   }, [apiFetch, fetchInitial]);
 
+  const onFeedbackMessage = useCallback((cb: (event: FeedbackMessageEvent) => void) => {
+    feedbackListenersRef.current.add(cb);
+    return () => { feedbackListenersRef.current.delete(cb); };
+  }, []);
+
+
+
   const value = useMemo(
-    () => ({ notifications, unreadCount, loading, refresh: fetchInitial, markRead, markAllRead, deleteOne, deleteRange, deleteAllRead }),
-    [notifications, unreadCount, loading, fetchInitial, markRead, markAllRead, deleteOne, deleteRange, deleteAllRead],
+    () => ({ notifications, unreadCount, loading, refresh: fetchInitial, markRead, markAllRead, deleteOne, deleteRange, deleteAllRead, onFeedbackMessage }),
+    [notifications, unreadCount, loading, fetchInitial, markRead, markAllRead, deleteOne, deleteRange, deleteAllRead, onFeedbackMessage],
   );
 
   return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;

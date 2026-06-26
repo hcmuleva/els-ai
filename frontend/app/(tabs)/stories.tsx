@@ -1,6 +1,7 @@
 import { useFocusEffect } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ModalHeader } from '../../src/components/common/ModalHeader';
 import {
   ActivityIndicator, Alert, Dimensions, FlatList, Image, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
@@ -617,15 +618,11 @@ export default function StoriesScreen() {
 
       <Modal visible={historyOpen} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setHistoryOpen(false)}>
         <View style={s.historyScreen}>
-          <View style={[s.historyHeader, { paddingTop: Math.max(insets.top, 20) }]}>
-            <Pressable onPress={() => setHistoryOpen(false)} style={s.historyBackBtn}>
-              <Text style={s.historyBackArrow}>‹</Text>
-            </Pressable>
-            <View style={{ flex: 1 }}>
-              <Text style={s.historyTitle}>Previous Stories</Text>
-              <Text style={s.historySubtitle}>All your ended story sessions</Text>
-            </View>
-          </View>
+          <ModalHeader
+            title="Previous Stories"
+            subtitle="All your ended story sessions"
+            onBack={() => setHistoryOpen(false)}
+          />
           {historyLoading ? (
             <View style={s.historyCenter}>
               <ActivityIndicator color="#4A90E2" size="large" />
@@ -727,19 +724,17 @@ export default function StoriesScreen() {
         <View style={s.modalScreen}>
 
           {/* Header */}
-          <View style={[s.modalHeader, { paddingTop: Math.max(insets.top, 20) }]}>
-            <Pressable onPress={() => { setStoryPreviewOpen(false); setModalOpen(false); }} style={s.modalBackBtn}>
-              <Text style={s.modalBackArrow}>‹</Text>
-            </Pressable>
-            <Text style={s.modalTitle} numberOfLines={1}>
-              {editingId ? `${readOnlyEndedView ? 'View' : 'Edit'}: ${fTitle || 'Story'}` : 'New Story'}
-            </Text>
-            {!readOnlyEndedView && (
-              <Pressable style={s.modalSaveBtn} onPress={saveStory} disabled={saving}>
-                {saving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={s.modalSaveBtnText}>Save</Text>}
-              </Pressable>
-            )}
-          </View>
+          <ModalHeader
+            title={editingId ? `${readOnlyEndedView ? 'View' : 'Edit'}: ${fTitle || 'Story'}` : 'New Story'}
+            onBack={() => { setStoryPreviewOpen(false); setModalOpen(false); }}
+            right={
+              !readOnlyEndedView ? (
+                <Pressable style={s.modalSaveBtn} onPress={saveStory} disabled={saving}>
+                  {saving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={s.modalSaveBtnText}>Save</Text>}
+                </Pressable>
+              ) : undefined
+            }
+          />
 
           {/* Tab bar */}
           <View style={s.modalTabBar}>
@@ -1067,19 +1062,17 @@ export default function StoriesScreen() {
       {/* ════════════════ SECTION EDITOR MODAL ════════════════ */}
       <Modal visible={secModalOpen} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setSecModalOpen(false)}>
         <View style={s.modalScreen}>
-          <View style={[s.modalHeader, { paddingTop: Math.max(insets.top, 20) }]}>
-            <Pressable onPress={() => setSecModalOpen(false)} style={s.modalBackBtn}>
-              <Text style={s.modalBackArrow}>‹</Text>
-            </Pressable>
-            <Text style={s.modalTitle} numberOfLines={1}>
-              {readOnlyEndedView ? 'Section Preview' : (editingSec && sections.find((x) => x.id === editingSec.id) ? 'Edit Section' : 'New Section')}
-            </Text>
-            {!readOnlyEndedView && (
-              <Pressable style={s.modalSaveBtn} onPress={() => editingSec && saveSec(editingSec)} disabled={secSaving}>
-                {secSaving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={s.modalSaveBtnText}>Save</Text>}
-              </Pressable>
-            )}
-          </View>
+          <ModalHeader
+            title={readOnlyEndedView ? 'Section Preview' : (editingSec && sections.find((x) => x.id === editingSec.id) ? 'Edit Section' : 'New Section')}
+            onBack={() => setSecModalOpen(false)}
+            right={
+              !readOnlyEndedView ? (
+                <Pressable style={s.modalSaveBtn} onPress={() => editingSec && saveSec(editingSec)} disabled={secSaving}>
+                  {secSaving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={s.modalSaveBtnText}>Save</Text>}
+                </Pressable>
+              ) : undefined
+            }
+          />
 
           <View style={s.modalTabBar}>
             {([
@@ -1282,14 +1275,10 @@ export default function StoriesScreen() {
           {/* ── Quiz Picker Overlay (inside section modal) ── */}
           {pickerOpen && (
             <View style={s.pickerOverlay}>
-              <View style={[s.modalHeader, { paddingTop: Math.max(insets.top, 20) }]}>
-                <Pressable onPress={() => setPickerOpen(false)} style={s.modalBackBtn}>
-                  <Text style={s.modalBackArrow}>‹</Text>
-                </Pressable>
-                <View style={{ flex: 1 }}>
-                  <Text style={s.modalTitle}>Quiz Library</Text>
-                </View>
-              </View>
+              <ModalHeader
+                title="Quiz Library"
+                onBack={() => setPickerOpen(false)}
+              />
               <View style={s.pickerToolbar}>
                 <View style={s.searchRow}>
                   <Search size={15} color="#9A9AB0" />

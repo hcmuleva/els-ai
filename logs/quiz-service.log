@@ -362,3 +362,1295 @@ Quiz Service listening on http://localhost:4002
 cQuiz Service listening on http://localhost:4002
 3:24:09 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
 cQuiz Service listening on http://localhost:4002
+22:30:22.775 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2033680ms; assuming connection has dropped
+22:40:12.123 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 589117ms; assuming connection has dropped
+11:50:49 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+12:30:31 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:30:32 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:56:17 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:56:18 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+2:13:25 AM [tsx] change in ./src/routes/quizzes.ts Rerunning...
+cQuiz Service listening on http://localhost:4002
+2:13:31 AM [tsx] change in ./src/routes/quizzes.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+2:14:16 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+2:14:17 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+02:47:02.732 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 943779ms; assuming connection has dropped
+03:18:08.281 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 926231ms; assuming connection has dropped
+03:19:46.461 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82952ms; assuming connection has dropped
+03:51:05.958 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1849192ms; assuming connection has dropped
+10:49:24.566 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98402ms; assuming connection has dropped
+10:51:17.530 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82772ms; assuming connection has dropped
+10:53:26.146 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98348ms; assuming connection has dropped
+10:55:19.116 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82780ms; assuming connection has dropped
+10:57:12.811 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83346ms; assuming connection has dropped
+10:59:20.786 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82790ms; assuming connection has dropped
+11:01:14.404 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83436ms; assuming connection has dropped
+11:03:25 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+11:03:27 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+11:56:48 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+11:56:50 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:16:08 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+12:16:09 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+2:12:47 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+2:12:48 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+3:08:07 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+3:08:08 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+4:10:14 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+4:10:16 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+4:13:37 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+4:15:11 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+4:16:12 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+4:16:13 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+4:54:35 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+4:54:36 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+5:00:46 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+5:00:47 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+17:23:26.823 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 293176ms; assuming connection has dropped
+17:29:20.111 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 263075ms; assuming connection has dropped
+22:27:30.053 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1929734ms; assuming connection has dropped
+22:44:02.689 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 992321ms; assuming connection has dropped
+23:51:44.177 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 4060613ms; assuming connection has dropped
+00:36:15.643 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1392601ms; assuming connection has dropped
+01:59:48.613 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 5012766ms; assuming connection has dropped
+02:11:27.039 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 697743ms; assuming connection has dropped
+02:37:32.087 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1564862ms; assuming connection has dropped
+03:38:16.147 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3643885ms; assuming connection has dropped
+04:32:08.608 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3232274ms; assuming connection has dropped
+09:08:33.973 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1974901ms; assuming connection has dropped
+09:13:55.078 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 320920ms; assuming connection has dropped
+1:51:13 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+1:51:32 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+14:09:43.887 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25100ms; assuming connection has dropped
+2:16:02 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+2:16:03 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+2:56:38 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+15:17:27.431 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1112633ms; assuming connection has dropped
+5:00:57 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+5:00:58 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+5:42:03 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+5:42:04 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+7:03:11 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error workspace quiz-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002
+7:08:10 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+7:08:26 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+7:10:52 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+7:11:04 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error workspace quiz-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error workspace quiz-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002
+8:25:10 PM [tsx] change in ./src/db.ts Rerunning...
+c8:25:10 PM [tsx] change in ./src/db.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+8:25:19 PM [tsx] change in ./src/server.ts Restarting...
+8:25:19 PM [tsx] change in ./src/server.ts Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+8:25:53 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+8:25:53 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+8:26:08 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+8:26:08 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+8:31:01 PM [tsx] change in ./../shared/db-tenant/dist/index.js Restarting...
+8:31:01 PM [tsx] change in ./../shared/db-tenant/dist/index.js Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+9:33:12 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+9:33:12 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+9:33:25 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+9:33:25 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+9:33:33 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+9:33:33 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+9:33:47 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+9:33:47 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+9:33:59 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+9:33:59 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+9:34:09 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+9:34:09 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+9:34:17 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+9:34:17 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+9:34:28 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+9:34:28 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+9:34:39 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+9:34:39 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+error: inconsistent types deduced for parameter $4
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 155,
+  severity: 'ERROR',
+  code: '42P08',
+  detail: 'text versus character varying',
+  hint: undefined,
+  position: '239',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_param.c',
+  line: '226',
+  routine: 'variable_coerce_param_hook'
+}
+9:51:50 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+9:51:50 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+9:53:38 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+9:53:38 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+error: null value in column "subject_id" of relation "quizzes" violates not-null constraint
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (/Users/Harish.Muleva/personal/els-ai/backend/shared/db-tenant/src/index.ts:59:80)
+    at async <anonymous> (/Users/Harish.Muleva/personal/els-ai/backend/quiz-service/src/routes/quizzes.ts:749:20) {
+  length: 176,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'quizzes',
+  column: 'subject_id',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'execMain.c',
+  line: '1987',
+  routine: 'ExecConstraints'
+}
+12:21:33 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+12:21:33 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+01:11:06.719 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 31025ms; assuming connection has dropped
+01:44:21.330 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1964667ms; assuming connection has dropped
+02:01:05.376 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2968371ms; assuming connection has dropped
+02:09:51.066 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 254921ms; assuming connection has dropped
+02:09:51.423 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 254920ms; assuming connection has dropped
+02:14:30.425 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 248908ms; assuming connection has dropped
+02:14:30.568 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 248907ms; assuming connection has dropped
+02:46:47.439 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1906767ms; assuming connection has dropped
+02:46:47.470 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1906675ms; assuming connection has dropped
+03:55:06.757 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 4098616ms; assuming connection has dropped
+03:55:06.757 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 4098617ms; assuming connection has dropped
+04:06:42.387 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 695300ms; assuming connection has dropped
+04:06:42.387 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 695300ms; assuming connection has dropped
+04:58:31.382 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3078652ms; assuming connection has dropped
+04:58:31.384 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3078654ms; assuming connection has dropped
+05:07:39.985 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 548293ms; assuming connection has dropped
+05:07:39.985 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 548293ms; assuming connection has dropped
+8:45:04 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+8:45:04 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+8:45:06 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+8:45:06 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+ccQuiz Service listening on http://localhost:4002
+Quiz Service listening on http://localhost:4002
+09:34:49.627 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25105ms; assuming connection has dropped
+09:57:47.162 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 910642ms; assuming connection has dropped
+10:04:12.930 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 354717ms; assuming connection has dropped
+10:05:21.890 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 38468ms; assuming connection has dropped
+10:38:17.308 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25103ms; assuming connection has dropped
+11:36:19.250 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 281537ms; assuming connection has dropped
+11:42:12.115 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 337621ms; assuming connection has dropped
+12:17:20.073 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2077616ms; assuming connection has dropped
+13:19:29.859 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3729544ms; assuming connection has dropped
+13:37:57.661 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1077621ms; assuming connection has dropped
+14:03:03.180 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1505333ms; assuming connection has dropped
+18:54:28.653 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 70312ms; assuming connection has dropped
+18:58:30.098 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 241264ms; assuming connection has dropped
+19:04:24.762 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 354494ms; assuming connection has dropped
+19:08:27.784 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 242842ms; assuming connection has dropped
+19:14:23.889 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 355775ms; assuming connection has dropped
+19:18:29.480 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 244901ms; assuming connection has dropped
+19:24:24.232 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 354571ms; assuming connection has dropped
+19:28:29.568 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 245155ms; assuming connection has dropped
+19:31:22.863 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 173114ms; assuming connection has dropped
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+Error [TransformError]: The service was stopped: write EPIPE
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/esbuild/lib/main.js:999:38
+    at responseCallbacks.<computed> (/Users/Harish.Muleva/personal/els-ai/node_modules/esbuild/lib/main.js:884:9)
+    at afterClose (/Users/Harish.Muleva/personal/els-ai/node_modules/esbuild/lib/main.js:875:28)
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/esbuild/lib/main.js:2276:18
+    at onwriteError (node:internal/streams/writable:605:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:84:21)
+
+Node.js v20.19.4
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002
+23:25:53.702 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 111962ms; assuming connection has dropped
+23:28:01.590 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82679ms; assuming connection has dropped
+23:29:55.157 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83365ms; assuming connection has dropped
+23:32:03.364 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97751ms; assuming connection has dropped
+23:33:57.047 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83508ms; assuming connection has dropped
+23:36:05.032 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97752ms; assuming connection has dropped
+23:37:58.523 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83241ms; assuming connection has dropped
+23:40:06.400 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97706ms; assuming connection has dropped
+23:42:12.326 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 125756ms; assuming connection has dropped
+23:43:54.949 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 87447ms; assuming connection has dropped
+23:46:03.643 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98363ms; assuming connection has dropped
+23:47:56.652 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82797ms; assuming connection has dropped
+23:50:05.459 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98408ms; assuming connection has dropped
+23:51:58.425 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82657ms; assuming connection has dropped
+23:54:06.920 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98331ms; assuming connection has dropped
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error workspace quiz-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/quiz-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> quiz-service@1.0.0 dev
+> tsx watch src/server.ts
+
+Quiz Service listening on http://localhost:4002
+00:06:02.014 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83378ms; assuming connection has dropped
+00:07:54.912 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82713ms; assuming connection has dropped
+00:10:03.614 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98366ms; assuming connection has dropped
+00:11:56.864 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83096ms; assuming connection has dropped
+00:14:05.552 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98392ms; assuming connection has dropped
+00:15:58.464 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82754ms; assuming connection has dropped
+00:18:07.026 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98343ms; assuming connection has dropped
+00:19:59.995 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82696ms; assuming connection has dropped
+00:21:53.632 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83477ms; assuming connection has dropped
+00:24:01.617 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82687ms; assuming connection has dropped
+00:25:55.165 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83383ms; assuming connection has dropped
+00:28:03.139 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97685ms; assuming connection has dropped
+00:29:56.807 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83433ms; assuming connection has dropped
+00:32:04.983 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97727ms; assuming connection has dropped
+00:33:58.530 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83273ms; assuming connection has dropped
+00:36:06.447 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97754ms; assuming connection has dropped
+00:37:59.978 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83329ms; assuming connection has dropped
+00:53:53.635 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83455ms; assuming connection has dropped
+00:56:01.550 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82739ms; assuming connection has dropped
+00:58:06.612 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 124898ms; assuming connection has dropped
+00:59:59.449 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82563ms; assuming connection has dropped
+01:01:53.074 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83460ms; assuming connection has dropped
+01:04:01.480 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82722ms; assuming connection has dropped
+01:05:55.033 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83230ms; assuming connection has dropped
+01:08:03.006 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97744ms; assuming connection has dropped
+01:09:56.516 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83344ms; assuming connection has dropped
+01:12:04.434 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97711ms; assuming connection has dropped
+01:13:58.108 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83432ms; assuming connection has dropped
+01:16:06.086 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97725ms; assuming connection has dropped
+01:17:59.628 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83387ms; assuming connection has dropped
+01:19:52.723 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82933ms; assuming connection has dropped
+01:22:01.962 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83478ms; assuming connection has dropped
+01:23:54.910 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82703ms; assuming connection has dropped
+01:26:03.779 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98405ms; assuming connection has dropped
+01:28:09.049 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 125110ms; assuming connection has dropped
+01:30:02.592 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83383ms; assuming connection has dropped
+01:31:55.605 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82817ms; assuming connection has dropped
+01:34:04.460 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98422ms; assuming connection has dropped
+01:35:57.429 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82779ms; assuming connection has dropped
+01:38:06.005 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98386ms; assuming connection has dropped
+01:39:58.975 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82761ms; assuming connection has dropped
+01:42:07.539 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98372ms; assuming connection has dropped
+01:44:00.581 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82850ms; assuming connection has dropped
+01:45:54.214 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83405ms; assuming connection has dropped
+01:48:02.161 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82769ms; assuming connection has dropped
+01:49:55.808 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83477ms; assuming connection has dropped
+01:52:03.867 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97692ms; assuming connection has dropped
+01:53:57.573 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83499ms; assuming connection has dropped
+01:56:05.538 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97696ms; assuming connection has dropped
+01:57:59.123 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83379ms; assuming connection has dropped
+02:00:07.107 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97708ms; assuming connection has dropped
+02:02:00.721 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83423ms; assuming connection has dropped
+02:03:53.691 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82728ms; assuming connection has dropped
+02:06:02.205 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83333ms; assuming connection has dropped
+02:07:55.130 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82755ms; assuming connection has dropped
+02:09:22.647 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 57246ms; assuming connection has dropped
+02:11:56.717 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 123894ms; assuming connection has dropped
+02:14:05.479 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98381ms; assuming connection has dropped
+02:15:58.346 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82672ms; assuming connection has dropped
+02:18:06.970 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98357ms; assuming connection has dropped
+02:19:59.854 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82627ms; assuming connection has dropped
+02:21:53.409 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83336ms; assuming connection has dropped
+02:24:01.465 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82672ms; assuming connection has dropped
+02:25:55.035 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83295ms; assuming connection has dropped
+02:28:03.173 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97768ms; assuming connection has dropped
+02:29:59.962 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 101545ms; assuming connection has dropped
+02:31:52.946 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82790ms; assuming connection has dropped
+02:34:01.921 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83380ms; assuming connection has dropped
+02:35:54.859 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82755ms; assuming connection has dropped
+02:38:03.514 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98341ms; assuming connection has dropped
+02:39:56.468 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82762ms; assuming connection has dropped
+02:42:05.139 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98319ms; assuming connection has dropped
+02:44:06.582 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 121178ms; assuming connection has dropped
+02:46:00.164 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83378ms; assuming connection has dropped
+02:47:53.103 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82779ms; assuming connection has dropped
+02:50:01.879 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83427ms; assuming connection has dropped
+02:52:06.432 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97694ms; assuming connection has dropped
+02:53:59.976 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83375ms; assuming connection has dropped
+02:55:52.956 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82752ms; assuming connection has dropped
+02:58:01.889 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83374ms; assuming connection has dropped
+02:59:54.815 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82739ms; assuming connection has dropped
+03:02:03.462 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98348ms; assuming connection has dropped
+03:03:56.340 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82595ms; assuming connection has dropped
+03:06:05.002 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98360ms; assuming connection has dropped
+03:07:58.073 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82884ms; assuming connection has dropped
+03:10:06.564 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98308ms; assuming connection has dropped
+03:11:59.476 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82724ms; assuming connection has dropped
+03:13:52.453 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82701ms; assuming connection has dropped
+03:16:01.519 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83305ms; assuming connection has dropped
+03:17:54.407 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82636ms; assuming connection has dropped
+03:20:03.077 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98358ms; assuming connection has dropped
+03:21:56.109 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82775ms; assuming connection has dropped
+03:24:04.763 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98419ms; assuming connection has dropped
+03:25:57.772 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82772ms; assuming connection has dropped
+03:28:06.294 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98328ms; assuming connection has dropped
+03:29:59.288 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82809ms; assuming connection has dropped
+03:31:52.823 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83303ms; assuming connection has dropped
+03:34:01.263 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82812ms; assuming connection has dropped
+03:35:54.762 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83337ms; assuming connection has dropped
+03:38:02.816 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97752ms; assuming connection has dropped
+03:39:56.373 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83307ms; assuming connection has dropped
+03:42:04.463 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97732ms; assuming connection has dropped
+03:43:58.259 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83527ms; assuming connection has dropped
+03:46:06.147 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97720ms; assuming connection has dropped
+03:47:59.684 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83359ms; assuming connection has dropped
+03:49:52.511 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82654ms; assuming connection has dropped
+03:51:53.916 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 30772ms; assuming connection has dropped
+03:54:01.827 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82699ms; assuming connection has dropped
+03:57:31.903 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 69942ms; assuming connection has dropped
+03:59:55.222 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 104704ms; assuming connection has dropped
+04:02:03.242 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97713ms; assuming connection has dropped
+04:03:56.879 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83468ms; assuming connection has dropped
+04:06:03.236 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 96132ms; assuming connection has dropped
+04:07:56.758 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83313ms; assuming connection has dropped
+04:10:04.667 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97678ms; assuming connection has dropped
+04:11:58.641 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83406ms; assuming connection has dropped
+04:14:06.613 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97783ms; assuming connection has dropped
+04:16:00.216 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83416ms; assuming connection has dropped
+04:17:53.163 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82693ms; assuming connection has dropped
+04:20:01.801 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83433ms; assuming connection has dropped
+04:21:55.382 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83349ms; assuming connection has dropped
+04:24:03.347 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97751ms; assuming connection has dropped
+04:25:56.933 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83387ms; assuming connection has dropped
+04:28:04.858 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97697ms; assuming connection has dropped
+04:29:58.518 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83458ms; assuming connection has dropped
+04:32:06.441 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97716ms; assuming connection has dropped
+05:31:33.640 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 41952ms; assuming connection has dropped
+05:47:27.390 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 908439ms; assuming connection has dropped
+06:03:03.288 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 905740ms; assuming connection has dropped
+06:21:57.025 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 922980ms; assuming connection has dropped
+06:38:52.936 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 985702ms; assuming connection has dropped
+06:41:09.081 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 75974ms; assuming connection has dropped
+06:46:22.712 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 283460ms; assuming connection has dropped
+06:47:12.548 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25100ms; assuming connection has dropped
+07:35:55.206 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 865173ms; assuming connection has dropped
+07:46:32.359 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 606668ms; assuming connection has dropped
+12:43:15.060 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 155257ms; assuming connection has dropped
+12:44:16.169 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 30930ms; assuming connection has dropped
+12:46:35.170 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 123692ms; assuming connection has dropped
+14:13:19.188 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 916624ms; assuming connection has dropped
+14:24:52.063 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 662631ms; assuming connection has dropped
+15:30:41.820 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3919546ms; assuming connection has dropped
+15:45:10.942 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 74026ms; assuming connection has dropped
+16:40:14.885 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 333750ms; assuming connection has dropped
+6:01:54 PM [tsx] change in ./../shared/event-bus/dist/index.js Rerunning...
+cQuiz Service listening on http://localhost:4002
+6:01:55 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+6:22:18 PM [tsx] change in ./../shared/event-bus/dist/index.js Rerunning...
+cQuiz Service listening on http://localhost:4002
+6:22:19 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+6:31:49 PM [tsx] change in ./src/routes/quizzes.ts Restarting...
+cQuiz Service listening on http://localhost:4002
+6:37:54 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+6:37:55 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+6:57:48 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+6:57:48 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+7:24:01 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+7:24:01 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cQuiz Service listening on http://localhost:4002
+21:23:09.914 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1993760ms; assuming connection has dropped
+21:42:19.504 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1149378ms; assuming connection has dropped
+22:17:25.874 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2091209ms; assuming connection has dropped
+23:51:46.489 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3663288ms; assuming connection has dropped
+00:09:16.606 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1018880ms; assuming connection has dropped
+00:26:21.553 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 994732ms; assuming connection has dropped
+01:27:20.168 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2032070ms; assuming connection has dropped
+01:53:58.720 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1598385ms; assuming connection has dropped
+02:10:04.420 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 295156ms; assuming connection has dropped
+02:26:42.769 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 968108ms; assuming connection has dropped
+02:41:53.259 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 910150ms; assuming connection has dropped
+02:55:02.405 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 788492ms; assuming connection has dropped
+03:45:08.622 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2991042ms; assuming connection has dropped
+03:55:42.141 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 632445ms; assuming connection has dropped
+04:28:46.175 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1938376ms; assuming connection has dropped
+04:56:59.352 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1692983ms; assuming connection has dropped
+05:29:51.517 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1956892ms; assuming connection has dropped
+05:55:22.798 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 492734ms; assuming connection has dropped
+05:57:56.019 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 138045ms; assuming connection has dropped
+05:59:39.036 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 72613ms; assuming connection has dropped
+06:15:32.347 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 923148ms; assuming connection has dropped
+06:33:25.603 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 908095ms; assuming connection has dropped
+06:49:03.438 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 907653ms; assuming connection has dropped
+06:58:50.598 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 541666ms; assuming connection has dropped
+07:16:26.311 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1025493ms; assuming connection has dropped
+07:44:22.885 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1001304ms; assuming connection has dropped
+07:46:38.187 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 90133ms; assuming connection has dropped
+07:59:44.043 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 770674ms; assuming connection has dropped
+08:34:31.216 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2056627ms; assuming connection has dropped
+11:29:09.129 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1536024ms; assuming connection has dropped
+12:07:49.947 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1851400ms; assuming connection has dropped
+12:43:49.518 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2158412ms; assuming connection has dropped
+12:53:27.360 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 547674ms; assuming connection has dropped
+13:31:38.805 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2261274ms; assuming connection has dropped
+13:54:27.706 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1338705ms; assuming connection has dropped
+14:08:16.911 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 799013ms; assuming connection has dropped
+14:40:58.787 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1931616ms; assuming connection has dropped
+14:55:43.674 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 884722ms; assuming connection has dropped
+15:11:26.954 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 928005ms; assuming connection has dropped
+15:46:43.645 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2116497ms; assuming connection has dropped
+16:40:18.329 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3034542ms; assuming connection has dropped
+17:34:09.168 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3230309ms; assuming connection has dropped
+18:55:16.807 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2823584ms; assuming connection has dropped
+19:02:17.595 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 420223ms; assuming connection has dropped
+23:18:04.661 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1052278ms; assuming connection has dropped
+00:05:07.163 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1823696ms; assuming connection has dropped
+02:58:10.703 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1953310ms; assuming connection has dropped
+04:06:24.620 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 4093707ms; assuming connection has dropped
+04:26:54.610 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 284743ms; assuming connection has dropped
+05:15:39.099 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2909302ms; assuming connection has dropped
+05:26:03.929 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 624651ms; assuming connection has dropped
+05:27:35.286 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 75958ms; assuming connection has dropped
+05:43:28.481 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 907963ms; assuming connection has dropped
+06:01:21.714 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 908044ms; assuming connection has dropped
+06:18:00.097 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 923200ms; assuming connection has dropped
+06:28:43.703 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 418408ms; assuming connection has dropped
+06:48:37.102 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 908172ms; assuming connection has dropped
+07:06:04.685 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1002374ms; assuming connection has dropped
+07:23:10.878 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 996011ms; assuming connection has dropped
+07:26:50.220 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 189160ms; assuming connection has dropped
+08:30:49.568 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 649690ms; assuming connection has dropped
+08:51:38.873 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1219149ms; assuming connection has dropped
+08:53:42.539 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 93451ms; assuming connection has dropped
+08:53:43.007 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+09:21:14.247 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+09:46:44.927 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+10:10:10.073 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 160142ms; assuming connection has dropped
+10:28:15.311 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1055011ms; assuming connection has dropped
+10:35:33.945 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 437754ms; assuming connection has dropped
+11:08:14.491 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25102ms; assuming connection has dropped
+11:14:54.952 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25100ms; assuming connection has dropped
+11:14:55.854 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+11:15:35.992 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25101ms; assuming connection has dropped
+11:15:36.321 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+11:25:23.027 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25100ms; assuming connection has dropped
+11:46:40.006 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1006267ms; assuming connection has dropped
+12:27:32.095 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 353227ms; assuming connection has dropped
+13:07:56.235 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 128505ms; assuming connection has dropped
+13:09:38.115 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 71633ms; assuming connection has dropped
+22:37:14.256 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 45391ms; assuming connection has dropped
+22:42:41.828 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 297255ms; assuming connection has dropped
+23:02:04.928 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1132893ms; assuming connection has dropped
+23:05:17.928 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 117827ms; assuming connection has dropped
+23:40:29.982 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1871493ms; assuming connection has dropped
+23:58:08.319 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1058026ms; assuming connection has dropped
+00:30:17.941 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1929454ms; assuming connection has dropped
+01:03:14.695 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1961578ms; assuming connection has dropped
+01:10:30.992 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 436026ms; assuming connection has dropped
+01:11:58.954 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 72796ms; assuming connection has dropped
+01:44:35.166 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1925981ms; assuming connection has dropped
+02:04:39.420 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1202706ms; assuming connection has dropped
+02:09:50.484 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 280894ms; assuming connection has dropped
+02:27:36.622 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1035847ms; assuming connection has dropped
+03:11:23.775 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2626960ms; assuming connection has dropped
+03:27:30.013 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 936072ms; assuming connection has dropped
+04:12:32.475 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 661706ms; assuming connection has dropped
+05:01:45.256 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2952617ms; assuming connection has dropped
+05:13:27.656 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 672217ms; assuming connection has dropped
+06:03:13.316 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2985497ms; assuming connection has dropped
+06:14:13.069 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 658920ms; assuming connection has dropped
+06:22:31.806 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 453037ms; assuming connection has dropped
+06:40:01.043 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1018982ms; assuming connection has dropped
+07:15:24.330 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2122967ms; assuming connection has dropped
+16:38:20.378 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1322472ms; assuming connection has dropped
+18:02:30.977 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 418197ms; assuming connection has dropped
+18:08:16.883 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 315711ms; assuming connection has dropped
+18:41:27.496 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1944816ms; assuming connection has dropped
+18:59:06.077 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1058278ms; assuming connection has dropped
+19:29:23.600 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1817314ms; assuming connection has dropped
+19:49:12.485 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1173555ms; assuming connection has dropped
+22:00:51.998 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2008069ms; assuming connection has dropped
+22:17:17.674 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 985269ms; assuming connection has dropped
+23:07:26.560 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3008386ms; assuming connection has dropped
+23:28:39.614 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 255733ms; assuming connection has dropped
+00:21:42.283 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3167481ms; assuming connection has dropped
+00:29:41.197 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 478748ms; assuming connection has dropped
+00:45:45.717 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 948933ms; assuming connection has dropped
+01:30:28.890 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2682977ms; assuming connection has dropped
+01:47:24.228 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 985151ms; assuming connection has dropped
+02:03:49.866 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 984573ms; assuming connection has dropped
+02:10:07.958 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 302110ms; assuming connection has dropped
+02:31:23.168 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1215019ms; assuming connection has dropped
+03:21:28.708 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2975309ms; assuming connection has dropped
+03:32:41.677 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 672765ms; assuming connection has dropped
+04:06:56.008 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2038987ms; assuming connection has dropped
+04:33:38.590 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1602359ms; assuming connection has dropped
+04:51:46.583 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1072752ms; assuming connection has dropped
+05:34:25.025 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2528307ms; assuming connection has dropped
+05:43:26.658 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 511202ms; assuming connection has dropped
+05:58:23.633 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 866797ms; assuming connection has dropped
+06:14:17.826 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 924029ms; assuming connection has dropped
+06:35:27.778 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 549794ms; assuming connection has dropped
+06:40:27.505 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 269468ms; assuming connection has dropped
+06:42:37.104 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 99426ms; assuming connection has dropped
+07:36:35.388 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 688398ms; assuming connection has dropped
+07:52:54.526 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 948989ms; assuming connection has dropped
+09:25:00.626 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 63130ms; assuming connection has dropped
+09:26:24.680 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+09:28:43.083 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 108402ms; assuming connection has dropped
+09:29:01.977 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+09:30:31.842 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 74901ms; assuming connection has dropped
+09:31:13.298 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+09:32:36.464 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 38076ms; assuming connection has dropped
+10:04:18.212 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1871305ms; assuming connection has dropped
+10:09:58.471 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 295048ms; assuming connection has dropped
+10:25:54.276 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 925638ms; assuming connection has dropped
+11:25:04.276 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3549840ms; assuming connection has dropped
+11:38:58.602 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 804150ms; assuming connection has dropped
+11:54:11.343 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 597559ms; assuming connection has dropped
+12:00:21.523 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 55974ms; assuming connection has dropped
+12:00:39.234 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+12:32:24.414 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1905180ms; assuming connection has dropped
+13:45:17.669 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 540370ms; assuming connection has dropped
+14:01:22.912 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 934984ms; assuming connection has dropped
+14:46:21.121 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2698028ms; assuming connection has dropped
+15:20:14.981 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2003681ms; assuming connection has dropped
+15:47:25.017 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1629317ms; assuming connection has dropped
+16:19:27.853 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1892654ms; assuming connection has dropped
+16:48:28.492 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1740432ms; assuming connection has dropped
+17:41:59.013 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3195333ms; assuming connection has dropped
+17:49:32.414 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 452705ms; assuming connection has dropped
+18:30:27.753 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25101ms; assuming connection has dropped
+20:56:02.757 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 909957ms; assuming connection has dropped
+20:58:18.008 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 104968ms; assuming connection has dropped
+21:15:14.645 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 908791ms; assuming connection has dropped
+21:37:53.260 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 908381ms; assuming connection has dropped
+21:53:47.135 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 923648ms; assuming connection has dropped
+22:09:41.288 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 908928ms; assuming connection has dropped
+22:14:50.109 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 278588ms; assuming connection has dropped
+22:19:44.545 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 263942ms; assuming connection has dropped
+22:24:38.897 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 264174ms; assuming connection has dropped
+22:29:48.093 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 264017ms; assuming connection has dropped
+22:46:18.346 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 960032ms; assuming connection has dropped
+22:59:31.708 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 628063ms; assuming connection has dropped
+23:16:16.938 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 975046ms; assuming connection has dropped
+23:28:27.045 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 699866ms; assuming connection has dropped
+00:15:32.438 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1025224ms; assuming connection has dropped
+01:29:51.072 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3467466ms; assuming connection has dropped
+01:57:48.937 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1647681ms; assuming connection has dropped
+02:04:38.404 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 409301ms; assuming connection has dropped
+02:10:14.549 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 320844ms; assuming connection has dropped
+03:00:03.073 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2958179ms; assuming connection has dropped
+03:58:48.176 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3524583ms; assuming connection has dropped
+04:44:59.912 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2756546ms; assuming connection has dropped
+04:59:58.302 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 868166ms; assuming connection has dropped
+05:29:55.911 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1767396ms; assuming connection has dropped
+09:38:29.106 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 105806ms; assuming connection has dropped
+13:47:43.862 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 29534ms; assuming connection has dropped
+13:52:54.207 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25101ms; assuming connection has dropped
+21:17:06.184 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1280710ms; assuming connection has dropped
+03:56:33.408 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2105635ms; assuming connection has dropped
+05:44:20.431 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1282293ms; assuming connection has dropped
+07:45:19.288 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 917299ms; assuming connection has dropped
+09:55:35.716 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 89427ms; assuming connection has dropped
+09:57:29.325 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83433ms; assuming connection has dropped
+09:59:36.525 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 81562ms; assuming connection has dropped
+10:01:30.072 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83345ms; assuming connection has dropped
+10:03:37.971 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82676ms; assuming connection has dropped
+10:04:44.872 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 36660ms; assuming connection has dropped
+10:07:39.569 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 144521ms; assuming connection has dropped
+10:09:33.175 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83326ms; assuming connection has dropped
+10:11:41.073 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97666ms; assuming connection has dropped
+10:13:34.611 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83366ms; assuming connection has dropped
+10:15:42.593 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97708ms; assuming connection has dropped
+10:17:36.148 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83276ms; assuming connection has dropped
+10:19:29.125 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82589ms; assuming connection has dropped
+10:21:38.140 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83419ms; assuming connection has dropped
+10:23:31.040 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82702ms; assuming connection has dropped
+10:24:45.593 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 44101ms; assuming connection has dropped
+11:59:35.199 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 106574ms; assuming connection has dropped
+12:01:43.114 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97645ms; assuming connection has dropped
+12:03:36.576 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83297ms; assuming connection has dropped
+12:05:29.808 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83030ms; assuming connection has dropped
+12:07:35.328 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 80180ms; assuming connection has dropped
+12:09:30.637 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 85142ms; assuming connection has dropped
+12:10:31.380 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25368ms; assuming connection has dropped
+12:13:40.274 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98313ms; assuming connection has dropped
+12:15:33.220 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82774ms; assuming connection has dropped
+12:17:41.770 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98364ms; assuming connection has dropped
+12:19:33.479 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 81507ms; assuming connection has dropped
+12:21:41.664 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98002ms; assuming connection has dropped
+12:23:34.876 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83008ms; assuming connection has dropped
+12:25:43.439 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98317ms; assuming connection has dropped
+12:27:35.223 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 81607ms; assuming connection has dropped
+12:29:43.928 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98370ms; assuming connection has dropped
+12:31:36.794 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82694ms; assuming connection has dropped
+12:33:30.420 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83451ms; assuming connection has dropped
+12:35:38.303 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82670ms; assuming connection has dropped
+12:37:31.808 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83300ms; assuming connection has dropped
+12:39:39.923 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97675ms; assuming connection has dropped
+12:41:33.553 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83382ms; assuming connection has dropped
+12:43:41.388 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97644ms; assuming connection has dropped
+12:45:35.037 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83400ms; assuming connection has dropped
+12:47:43.183 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97683ms; assuming connection has dropped
+12:49:36.862 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83386ms; assuming connection has dropped
+12:51:29.778 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82724ms; assuming connection has dropped
+12:53:38.356 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83330ms; assuming connection has dropped
+12:55:31.351 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82799ms; assuming connection has dropped
+12:57:26.315 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 84556ms; assuming connection has dropped
+13:26:40.978 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 164460ms; assuming connection has dropped
+14:32:35.846 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 999581ms; assuming connection has dropped
+16:14:47.137 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1502396ms; assuming connection has dropped
+18:07:41.156 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 283629ms; assuming connection has dropped
+18:34:59.976 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1608200ms; assuming connection has dropped
+19:09:25.269 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25101ms; assuming connection has dropped
+22:03:56.211 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25100ms; assuming connection has dropped
+22:04:10.996 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+02:00:30.776 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+03:52:19.048 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1968256ms; assuming connection has dropped
+04:09:38.692 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1039077ms; assuming connection has dropped
+05:16:40.762 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 4021721ms; assuming connection has dropped
+05:56:30.438 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2118683ms; assuming connection has dropped
+06:21:38.610 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1507852ms; assuming connection has dropped
+06:54:28.451 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1939680ms; assuming connection has dropped
+07:22:41.068 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1692323ms; assuming connection has dropped
+07:56:37.899 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2006674ms; assuming connection has dropped
+08:23:43.368 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1625313ms; assuming connection has dropped
+08:28:50.261 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 291714ms; assuming connection has dropped
+08:59:30.636 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25101ms; assuming connection has dropped
+08:59:41.923 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+10:48:32.115 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+11:10:24.459 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1027388ms; assuming connection has dropped
+11:45:54.848 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2130197ms; assuming connection has dropped
+11:54:40.724 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 495716ms; assuming connection has dropped
+12:24:50.179 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1779291ms; assuming connection has dropped
+12:38:30.584 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25102ms; assuming connection has dropped
+22:38:14.864 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25102ms; assuming connection has dropped
+22:54:51.725 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 120337ms; assuming connection has dropped
+23:27:52.234 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1965311ms; assuming connection has dropped
+01:31:40.751 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2080745ms; assuming connection has dropped
+01:57:32.380 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1551463ms; assuming connection has dropped
+02:04:36.663 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 409101ms; assuming connection has dropped
+02:09:50.136 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 283295ms; assuming connection has dropped
+02:57:57.617 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2857212ms; assuming connection has dropped
+03:13:47.288 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 949253ms; assuming connection has dropped
+03:59:05.598 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2718081ms; assuming connection has dropped
+04:16:23.438 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1007137ms; assuming connection has dropped
+05:00:09.684 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2626016ms; assuming connection has dropped
+05:17:11.792 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 991868ms; assuming connection has dropped
+09:11:53.319 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 950026ms; assuming connection has dropped
+09:14:21.089 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 66713ms; assuming connection has dropped
+12:16:27.264 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2128808ms; assuming connection has dropped
+15:10:05.647 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 415732ms; assuming connection has dropped
+15:24:54.622 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 843439ms; assuming connection has dropped
+15:53:32.299 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1687421ms; assuming connection has dropped
+20:30:08.302 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1055267ms; assuming connection has dropped
+20:31:13.539 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 63900ms; assuming connection has dropped
+21:14:53.890 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25100ms; assuming connection has dropped

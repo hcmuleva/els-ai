@@ -9,6 +9,7 @@
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
     "db:seed": "tsx src/seed/run.ts",
+    "db:seed:demo-trends": "tsx src/seed/run-demo-trends.ts",
     "db:seed:generated-content": "tsx src/seed/seed-generated-content.ts"
   },
   "dependencies": {

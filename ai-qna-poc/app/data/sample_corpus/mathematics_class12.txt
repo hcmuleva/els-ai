@@ -1,0 +1,8 @@
+CBSE CLASS XII MATHEMATICS - SAMPLE QUESTION PAPER (bundled fallback)
+
+1. Find the derivative of sin x and of x^n using first principles / power rule.
+2. Evaluate the definite integral of cos x from 0 to pi/2.
+3. Discuss maxima and minima of f(x) = x^3 - 3x using the second derivative test.
+4. For a 2x2 matrix, define the determinant and state the condition for the
+   inverse of a matrix to exist (adjoint method).
+5. If a function is differentiable at a point, show that it is continuous there.

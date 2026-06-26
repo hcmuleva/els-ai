@@ -2,104 +2,1006 @@
 > auth-service@1.0.0 dev
 > tsx watch src/server.ts
 
-
-> auth-service@1.0.0 dev
-> tsx watch src/server.ts
-
-
-> auth-service@1.0.0 dev
-> tsx watch src/server.ts
-
-sh: 1: tsx: not found
-npm error Lifecycle script `dev` failed with error:
-npm error code 127
-npm error path /home/dhruv/work-dhruv/hph/els-ai/els-ai/backend/auth-service
-npm error workspace auth-service@1.0.0
-npm error location /home/dhruv/work-dhruv/hph/els-ai/els-ai/backend/auth-service
-npm error command failed
-npm error command sh -c tsx watch src/server.ts
-
-> auth-service@1.0.0 dev
-> tsx watch src/server.ts
-
-sh: 1: tsx: not found
-npm error Lifecycle script `dev` failed with error:
-npm error code 127
-npm error path /home/dhruv/work-dhruv/hph/els-ai/els-ai/backend/auth-service
-npm error workspace auth-service@1.0.0
-npm error location /home/dhruv/work-dhruv/hph/els-ai/els-ai/backend/auth-service
-npm error command failed
-npm error command sh -c tsx watch src/server.ts
-
-> auth-service@1.0.0 dev
-> tsx watch src/server.ts
-
-sh: 1: tsx: not found
-npm error Lifecycle script `dev` failed with error:
-npm error code 127
-npm error path /home/dhruv/work-dhruv/hph/els-ai/els-ai/backend/auth-service
-npm error workspace auth-service@1.0.0
-npm error location /home/dhruv/work-dhruv/hph/els-ai/els-ai/backend/auth-service
-npm error command failed
-npm error command sh -c tsx watch src/server.ts
-
-> auth-service@1.0.0 dev
-> tsx watch src/server.ts
-
-sh: 1: tsx: not found
-npm error Lifecycle script `dev` failed with error:
-npm error code 127
-npm error path /home/dhruv/work-dhruv/hph/els-ai/els-ai/backend/auth-service
-npm error workspace auth-service@1.0.0
-npm error location /home/dhruv/work-dhruv/hph/els-ai/els-ai/backend/auth-service
-npm error command failed
-npm error command sh -c tsx watch src/server.ts
-
-> auth-service@1.0.0 dev
-> tsx watch src/server.ts
-
-sh: 1: tsx: not found
-npm error Lifecycle script `dev` failed with error:
-npm error code 127
-npm error path /home/dhruv/work-dhruv/hph/els-ai/els-ai/backend/auth-service
-npm error workspace auth-service@1.0.0
-npm error location /home/dhruv/work-dhruv/hph/els-ai/els-ai/backend/auth-service
-npm error command failed
-npm error command sh -c tsx watch src/server.ts
-
-> auth-service@1.0.0 dev
-> tsx watch src/server.ts
-
 Class 1 English topics and content already seeded.
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
-
-> auth-service@1.0.0 dev
-> tsx watch src/server.ts
-
-Auth Service bootstrap failed: error: could not create unique index "idx_subscription_plans_identity"
+12:56:17 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:56:18 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+2:14:16 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+2:14:17 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+02:47:02.290 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 943801ms; assuming connection has dropped
+03:17:51.279 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1848682ms; assuming connection has dropped
+03:19:44.517 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82949ms; assuming connection has dropped
+03:35:28.403 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 913563ms; assuming connection has dropped
+05:57:29.327 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+07:56:46.579 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+10:16:16 AM [tsx] change in ./src/seed/seed.ts Restarting...
+cAuth Service bootstrap failed: error: duplicate key value violates unique constraint "pg_type_typname_nsp_index"
     at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:168:5)
-    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:33:3) {
-  length: 305,
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:18:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 258,
   severity: 'ERROR',
   code: '23505',
-  detail: 'Key (name, membership_tier, billing_cycle)=(Bronze Starter, bronze, monthly) is duplicated.',
+  detail: 'Key (typname, typnamespace)=(parent_assessments, 2200) already exists.',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'pg_catalog',
+  table: 'pg_type',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'pg_type_typname_nsp_index',
+  file: 'nbtinsert.c',
+  line: '673',
+  routine: '_bt_check_unique'
+}
+10:16:55 AM [tsx] change in ./src/routes/students.ts Rerunning...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+10:17:16 AM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+10:18:31 AM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+10:47:13.380 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82772ms; assuming connection has dropped
+10:49:22.014 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98402ms; assuming connection has dropped
+10:51:14.884 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82683ms; assuming connection has dropped
+10:53:23.598 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98349ms; assuming connection has dropped
+10:55:16.618 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82693ms; assuming connection has dropped
+10:57:25.151 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98338ms; assuming connection has dropped
+10:59:18.025 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82690ms; assuming connection has dropped
+11:01:11.609 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83333ms; assuming connection has dropped
+11:03:25 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:03:27 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:54:24 AM [tsx] change in ./src/routes/auth.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:56:48 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:56:50 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:08:44 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cAuth Service bootstrap failed: error: duplicate key value violates unique constraint "pg_proc_proname_args_nsp_index"
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:18:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 289,
+  severity: 'ERROR',
+  code: '23505',
+  detail: 'Key (proname, proargtypes, pronamespace)=(generate_registration_id, , 2200) already exists.',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'pg_catalog',
+  table: 'pg_proc',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'pg_proc_proname_args_nsp_index',
+  file: 'nbtinsert.c',
+  line: '673',
+  routine: '_bt_check_unique'
+}
+12:09:23 PM [tsx] change in ./src/routes/auth.ts Rerunning...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:09:44 PM [tsx] change in ./src/routes/users.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:16:08 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:16:09 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:18:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+12:24:57 PM [tsx] change in ./src/routes/auth.ts Rerunning...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:25:08 PM [tsx] change in ./src/routes/users.ts Restarting...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:18:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+12:25:54 PM [tsx] change in ./src/routes/auth.ts Rerunning...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:18:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+2:12:47 PM [tsx] change in ./../shared/event-bus/dist/index.js Rerunning...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+2:12:48 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+3:08:07 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+3:08:08 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+3:11:40 PM [tsx] change in ./src/routes/users.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+3:12:01 PM [tsx] change in ./src/routes/users.ts Restarting...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:18:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+3:12:22 PM [tsx] change in ./src/seed/seed.ts Rerunning...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+3:47:24 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:137:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+3:47:35 PM [tsx] change in ./src/seed/seed.ts Rerunning...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:137:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+3:48:03 PM [tsx] change in ./src/seed/seed.ts Rerunning...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+4:10:14 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+4:10:16 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cAuth Service bootstrap failed: error: insert or update on table "subjects" violates foreign key constraint "subjects_organization_id_fkey"
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async upsertSubjectCatalogForOrganization (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:108:9)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:445:7)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 321,
+  severity: 'ERROR',
+  code: '23503',
+  detail: 'Key (organization_id)=(1a3c2bca-5b21-404c-99a8-fa687be94c26) is not present in table "organizations".',
   hint: undefined,
   position: undefined,
   internalPosition: undefined,
   internalQuery: undefined,
   where: undefined,
   schema: 'public',
-  table: 'subscription_plans',
+  table: 'subjects',
   column: undefined,
   dataType: undefined,
-  constraint: 'idx_subscription_plans_identity',
-  file: 'tuplesortvariants.c',
-  line: '1557',
-  routine: 'comparetup_index_btree_tiebreak'
+  constraint: 'subjects_organization_id_fkey',
+  file: 'ri_triggers.c',
+  line: '2610',
+  routine: 'ri_ReportViolation'
 }
+4:16:12 PM [tsx] change in ./../shared/event-bus/dist/index.js Rerunning...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:137:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+4:16:13 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAuth Service bootstrap failed: error: insert or update on table "subjects" violates foreign key constraint "subjects_organization_id_fkey"
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async upsertSubjectCatalogForOrganization (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:108:9)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:445:7)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 321,
+  severity: 'ERROR',
+  code: '23503',
+  detail: 'Key (organization_id)=(d48bedb9-c7a8-407c-a6e3-18670d00afe3) is not present in table "organizations".',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'subjects',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'subjects_organization_id_fkey',
+  file: 'ri_triggers.c',
+  line: '2610',
+  routine: 'ri_ReportViolation'
+}
+4:54:35 PM [tsx] change in ./../shared/event-bus/dist/index.js Rerunning...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:137:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+4:54:36 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAuth Service bootstrap failed: error: insert or update on table "subjects" violates foreign key constraint "subjects_organization_id_fkey"
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async upsertSubjectCatalogForOrganization (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:108:9)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:445:7)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 321,
+  severity: 'ERROR',
+  code: '23503',
+  detail: 'Key (organization_id)=(8ea3da1b-a1e2-4324-8bfa-17af982b709a) is not present in table "organizations".',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'subjects',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'subjects_organization_id_fkey',
+  file: 'ri_triggers.c',
+  line: '2610',
+  routine: 'ri_ReportViolation'
+}
+4:58:59 PM [tsx] change in ./src/routes/students.ts Rerunning...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+4:59:09 PM [tsx] change in ./src/routes/students.ts Restarting...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:137:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+5:00:46 PM [tsx] change in ./../shared/event-bus/dist/index.js Rerunning...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:137:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+5:00:47 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAuth Service bootstrap failed: error: insert or update on table "subjects" violates foreign key constraint "subjects_organization_id_fkey"
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async upsertSubjectCatalogForOrganization (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:108:9)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:445:7)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 321,
+  severity: 'ERROR',
+  code: '23503',
+  detail: 'Key (organization_id)=(cb7a28d7-27c1-4b6d-b3af-f40e713a4510) is not present in table "organizations".',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'subjects',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'subjects_organization_id_fkey',
+  file: 'ri_triggers.c',
+  line: '2610',
+  routine: 'ri_ReportViolation'
+}
+2:16:02 PM [tsx] change in ./../shared/event-bus/dist/index.js Rerunning...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:137:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+2:16:03 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:137:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+2:56:38 PM [tsx] change in ./../shared/event-bus/dist/index.js Rerunning...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:137:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+5:00:57 PM [tsx] change in ./../shared/event-bus/dist/index.js Rerunning...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+5:00:58 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:137:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+5:42:03 PM [tsx] change in ./../shared/event-bus/dist/index.js Rerunning...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:137:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+5:42:04 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAuth Service bootstrap failed: error: insert or update on table "subjects" violates foreign key constraint "subjects_organization_id_fkey"
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async upsertSubjectCatalogForOrganization (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:108:9)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:445:7)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 321,
+  severity: 'ERROR',
+  code: '23503',
+  detail: 'Key (organization_id)=(ea6dc43a-a09b-4244-a385-4bb0c85f33f8) is not present in table "organizations".',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'subjects',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'subjects_organization_id_fkey',
+  file: 'ri_triggers.c',
+  line: '2610',
+  routine: 'ri_ReportViolation'
+}
+7:41:01 PM [tsx] change in ./src/routes/billing.ts Rerunning...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+7:41:07 PM [tsx] change in ./src/routes/billing.ts Restarting...
+cAuth Service bootstrap failed: error: tuple concurrently updated
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:137:5)
+    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
+  length: 90,
+  severity: 'ERROR',
+  code: 'XX000',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'heapam.c',
+  line: '4467',
+  routine: 'simple_heap_update'
+}
+8:38:28 PM [tsx] change in ./src/seed/seed.ts Rerunning...
+c
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+Error [TransformError]: Transform failed with 1 error:
+/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:1915:0: ERROR: Unexpected end of file
+    at failureErrorWithLog (/Users/Harish.Muleva/personal/els-ai/node_modules/esbuild/lib/main.js:1748:15)
+    at /Users/Harish.Muleva/personal/els-ai/node_modules/esbuild/lib/main.js:1017:50
+    at responseCallbacks.<computed> (/Users/Harish.Muleva/personal/els-ai/node_modules/esbuild/lib/main.js:884:9)
+    at handleIncomingPacket (/Users/Harish.Muleva/personal/els-ai/node_modules/esbuild/lib/main.js:939:12)
+    at Socket.readFromStdout (/Users/Harish.Muleva/personal/els-ai/node_modules/esbuild/lib/main.js:862:7)
+    at Socket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:191:23)
+
+Node.js v20.19.4
+8:38:39 PM [tsx] change in ./src/seed/seed.ts Rerunning...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+8:39:11 PM [tsx] change in ./src/db.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+8:51:15 PM [tsx] change in ./src/seed/seed.ts Rerunning...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+8:51:44 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+8:54:27 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+8:54:36 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:30:51 PM [tsx] change in ./src/routes/users.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:30:58 PM [tsx] change in ./src/routes/users.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:31:27 PM [tsx] change in ./src/routes/users.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:40:21 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:40:27 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:40:33 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:40:41 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:40:48 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:40:55 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:41:01 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:41:11 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:41:20 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:41:29 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:41:37 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:41:45 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:41:54 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:42:01 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:42:09 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:42:16 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:42:25 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:42:33 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:42:43 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:42:50 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+9:52:24 PM [tsx] change in ./src/routes/users.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+10:34:41 PM [tsx] change in ./src/routes/users.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+10:34:48 PM [tsx] change in ./src/routes/users.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+10:35:03 PM [tsx] change in ./src/routes/users.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+10:35:13 PM [tsx] change in ./src/routes/users.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+10:35:26 PM [tsx] change in ./src/routes/users.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:09:50 PM [tsx] change in ./src/routes/auth.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:10:12 PM [tsx] change in ./src/routes/auth.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:14:29 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:14:39 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:14:48 PM [tsx] change in ./src/seed/seed.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+11:24:31 PM [tsx] change in ./src/routes/auth.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:21:07 AM [tsx] change in ./src/routes/auth.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:21:16 AM [tsx] change in ./src/routes/auth.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:21:24 AM [tsx] change in ./src/routes/auth.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:21:33 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:22:00 AM [tsx] change in ./src/routes/auth.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:23:15 AM [tsx] change in ./src/server.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:50:40 AM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:50:51 AM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:51:19 AM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:51:40 AM [tsx] change in ./src/server.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:54:05 AM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:54:41 AM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:54:48 AM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+12:55:03 AM [tsx] change in ./src/routes/students.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+01:11:20.061 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 46083ms; assuming connection has dropped
+01:44:20.467 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1949703ms; assuming connection has dropped
+02:09:51.057 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 254919ms; assuming connection has dropped
+02:14:30.425 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 248909ms; assuming connection has dropped
+02:46:47.439 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1906762ms; assuming connection has dropped
+03:02:50.131 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 961427ms; assuming connection has dropped
+03:38:23.584 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2133136ms; assuming connection has dropped
+03:55:02.386 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 997773ms; assuming connection has dropped
+04:06:44.775 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 701249ms; assuming connection has dropped
+04:24:41.498 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1046489ms; assuming connection has dropped
+04:58:29.400 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2026525ms; assuming connection has dropped
+05:07:44.737 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 553625ms; assuming connection has dropped
+05:09:06.966 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 51992ms; assuming connection has dropped
+8:45:04 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+8:45:06 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+09:34:47.673 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25101ms; assuming connection has dropped
+09:57:49.215 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 910466ms; assuming connection has dropped
+10:04:14.398 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 354717ms; assuming connection has dropped
+10:38:18.583 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25102ms; assuming connection has dropped
+11:36:04.444 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 266358ms; assuming connection has dropped
+11:42:12.174 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 337494ms; assuming connection has dropped
+12:17:20.073 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2077616ms; assuming connection has dropped
+12:53:13.511 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2153053ms; assuming connection has dropped
+13:19:25.078 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1571239ms; assuming connection has dropped
+14:02:47.961 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2572710ms; assuming connection has dropped
+18:54:31.757 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 70313ms; assuming connection has dropped
+18:56:27.938 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 115844ms; assuming connection has dropped
+18:58:28.340 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 120144ms; assuming connection has dropped
+19:02:33.388 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 244826ms; assuming connection has dropped
+19:08:27.090 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 242780ms; assuming connection has dropped
+19:12:33.381 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 245799ms; assuming connection has dropped
+19:18:29.480 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 244850ms; assuming connection has dropped
+19:24:24.228 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 354520ms; assuming connection has dropped
+19:28:29.570 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 245101ms; assuming connection has dropped
+19:31:22.858 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 173061ms; assuming connection has dropped
+ts.ts Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+01:11:20.044 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 46083ms; assuming connection has dropped
+01:44:20.612 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1949651ms; assuming connection has dropped
+02:09:51.059 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 254921ms; assuming connection has dropped
+02:14:30.516 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 248909ms; assuming connection has dropped
+02:46:47.615 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1906741ms; assuming connection has dropped
+03:20:41.382 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2032678ms; assuming connection has dropped
+04:06:49.108 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2766005ms; assuming connection has dropped
+04:24:45.856 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1046490ms; assuming connection has dropped
+05:07:54.439 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1630916ms; assuming connection has dropped
+8:45:04 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+8:45:06 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+Auth Service listening on http://localhost:4101
+09:34:49.627 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25105ms; assuming connection has dropped
+09:57:48.465 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 910609ms; assuming connection has dropped
+10:04:14.352 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 354717ms; assuming connection has dropped
+10:38:12.784 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25102ms; assuming connection has dropped
+11:36:14.518 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 281463ms; assuming connection has dropped
+11:42:18.532 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 333775ms; assuming connection has dropped
+12:00:47.646 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1078817ms; assuming connection has dropped
+12:35:14.392 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2066446ms; assuming connection has dropped
+13:19:33.148 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2657714ms; assuming connection has dropped
+13:38:00.928 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1077600ms; assuming connection has dropped
+14:02:52.739 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 506282ms; assuming connection has dropped
+18:54:33.242 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 70313ms; assuming connection has dropped
+18:56:29.393 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 115879ms; assuming connection has dropped
+19:02:24.675 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 355052ms; assuming connection has dropped
+19:06:27.492 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 242596ms; assuming connection has dropped
+19:12:23.670 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 355625ms; assuming connection has dropped
+19:16:28.935 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 244722ms; assuming connection has dropped
+19:22:24.222 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 354908ms; assuming connection has dropped
+19:26:29.483 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 244900ms; assuming connection has dropped
+19:31:12.469 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 282765ms; assuming connection has dropped
 
 > auth-service@1.0.0 dev
 > tsx watch src/server.ts
@@ -111,16 +1013,29 @@ Auth Service listening on http://localhost:4101
 > auth-service@1.0.0 dev
 > tsx watch src/server.ts
 
-Class 1 English topics and content already seeded.
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
 
 > auth-service@1.0.0 dev
 > tsx watch src/server.ts
 
-Class 1 English topics and content already seeded.
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
+23:25:53.702 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 111984ms; assuming connection has dropped
+23:28:01.594 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82683ms; assuming connection has dropped
+23:29:55.155 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83363ms; assuming connection has dropped
+23:32:03.364 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97751ms; assuming connection has dropped
+23:33:57.047 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83511ms; assuming connection has dropped
+23:36:05.032 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97752ms; assuming connection has dropped
+23:37:58.714 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83325ms; assuming connection has dropped
+23:40:06.602 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97706ms; assuming connection has dropped
+23:42:12.536 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 125697ms; assuming connection has dropped
+23:43:55.159 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 87232ms; assuming connection has dropped
+23:46:03.797 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98362ms; assuming connection has dropped
+23:47:56.662 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82632ms; assuming connection has dropped
+23:50:05.459 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98408ms; assuming connection has dropped
+23:51:58.425 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82657ms; assuming connection has dropped
+23:54:06.920 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98333ms; assuming connection has dropped
 npm error Lifecycle script `dev` failed with error:
 npm error code 143
 npm error path /Users/Harish.Muleva/personal/els-ai/backend/auth-service
@@ -135,309 +1050,475 @@ npm error command sh -c tsx watch src/server.ts
 Class 1 English topics and content already seeded.
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
-npm error Lifecycle script `dev` failed with error:
-npm error code 15
-npm error path /Users/Harish.Muleva/personal/els-ai/backend/auth-service
-npm error workspace auth-service@1.0.0
-npm error location /Users/Harish.Muleva/personal/els-ai/backend/auth-service
-npm error command failed
-npm error command sh -c tsx watch src/server.ts
-
-> auth-service@1.0.0 dev
-> tsx watch src/server.ts
-
-Class 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-
-> auth-service@1.0.0 dev
-> tsx watch src/server.ts
-
-Class 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-8:34:30 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-8:34:31 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-21:06:28.728 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 956090ms; assuming connection has dropped
-9:12:33 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-9:12:34 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Auth Service bootstrap failed: error: insert or update on table "organization_subscriptions" violates foreign key constraint "organization_subscriptions_organization_id_fkey"
-    at /Users/Harish.Muleva/personal/els-ai/node_modules/pg-pool/index.js:45:11
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async ensureDefaultOrgAndPlanSeeds (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:1276:3)
-    at async initSchemaAndSeed (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/seed/seed.ts:394:5)
-    at async bootstrap (/Users/Harish.Muleva/personal/els-ai/backend/auth-service/src/server.ts:34:3) {
-  length: 393,
-  severity: 'ERROR',
-  code: '23503',
-  detail: 'Key (organization_id)=(ccb3daa8-4e15-40db-8212-397eb18aa8a7) is not present in table "organizations".',
-  hint: undefined,
-  position: undefined,
-  internalPosition: undefined,
-  internalQuery: undefined,
-  where: undefined,
-  schema: 'public',
-  table: 'organization_subscriptions',
-  column: undefined,
-  dataType: undefined,
-  constraint: 'organization_subscriptions_organization_id_fkey',
-  file: 'ri_triggers.c',
-  line: '2610',
-  routine: 'ri_ReportViolation'
-}
-npm error Lifecycle script `dev` failed with error:
-npm error code 15
-npm error path /Users/Harish.Muleva/personal/els-ai/backend/auth-service
-npm error workspace auth-service@1.0.0
-npm error location /Users/Harish.Muleva/personal/els-ai/backend/auth-service
-npm error command failed
-npm error command sh -c tsx watch src/server.ts
-
-> auth-service@1.0.0 dev
-> tsx watch src/server.ts
-
-Class 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-9:19:57 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-9:19:58 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-10:38:41 PM [tsx] change in ./src/routes/users.ts Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-10:39:19 PM [tsx] change in ./src/routes/users.ts Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-10:50:42 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-10:50:44 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-10:52:21 PM [tsx] change in ./src/routes/users.ts Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-10:56:30 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-10:56:31 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-11:27:36 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-11:27:37 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-11:29:03 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-11:29:04 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-11:36:55 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-11:36:56 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-11:41:37 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-11:41:38 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-11:47:03 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-11:47:04 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-11:52:45 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-11:52:46 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+00:06:02.018 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83383ms; assuming connection has dropped
+00:07:54.912 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82713ms; assuming connection has dropped
+00:10:03.614 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98366ms; assuming connection has dropped
+00:11:56.864 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83096ms; assuming connection has dropped
+00:14:05.552 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98392ms; assuming connection has dropped
+00:15:58.464 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82744ms; assuming connection has dropped
+00:18:07.025 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98342ms; assuming connection has dropped
+00:19:59.995 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82696ms; assuming connection has dropped
+00:21:53.632 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83477ms; assuming connection has dropped
+00:24:01.617 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82687ms; assuming connection has dropped
+00:25:55.165 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83391ms; assuming connection has dropped
+00:28:03.139 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97683ms; assuming connection has dropped
+00:29:56.807 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83433ms; assuming connection has dropped
+00:32:04.983 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97727ms; assuming connection has dropped
+00:33:58.513 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83255ms; assuming connection has dropped
+00:36:06.455 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97755ms; assuming connection has dropped
+00:37:59.975 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83329ms; assuming connection has dropped
+00:53:53.635 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83455ms; assuming connection has dropped
+00:56:01.544 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82737ms; assuming connection has dropped
+00:58:06.606 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 124852ms; assuming connection has dropped
+00:59:59.449 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82563ms; assuming connection has dropped
+01:01:53.074 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83460ms; assuming connection has dropped
+01:04:01.431 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82744ms; assuming connection has dropped
+01:05:54.974 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83171ms; assuming connection has dropped
+01:08:03.017 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97744ms; assuming connection has dropped
+01:09:56.516 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83332ms; assuming connection has dropped
+01:12:04.434 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97711ms; assuming connection has dropped
+01:13:58.108 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83432ms; assuming connection has dropped
+01:16:06.086 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97724ms; assuming connection has dropped
+01:17:59.630 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83388ms; assuming connection has dropped
+01:19:52.723 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82933ms; assuming connection has dropped
+01:22:01.962 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83485ms; assuming connection has dropped
+01:23:54.910 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82703ms; assuming connection has dropped
+01:26:03.779 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98405ms; assuming connection has dropped
+01:28:09.045 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 125058ms; assuming connection has dropped
+01:30:02.592 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83383ms; assuming connection has dropped
+01:31:55.605 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82817ms; assuming connection has dropped
+01:34:04.460 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98422ms; assuming connection has dropped
+01:35:57.426 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82776ms; assuming connection has dropped
+01:38:06.004 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98386ms; assuming connection has dropped
+01:39:58.975 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82761ms; assuming connection has dropped
+01:42:07.539 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98372ms; assuming connection has dropped
+01:44:00.780 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82686ms; assuming connection has dropped
+01:45:54.370 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83422ms; assuming connection has dropped
+01:48:02.315 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82772ms; assuming connection has dropped
+01:49:55.986 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83497ms; assuming connection has dropped
+01:52:03.953 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97693ms; assuming connection has dropped
+01:53:57.573 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83428ms; assuming connection has dropped
+01:56:05.538 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97696ms; assuming connection has dropped
+01:57:59.125 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83381ms; assuming connection has dropped
+02:00:07.110 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97711ms; assuming connection has dropped
+02:02:00.721 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83423ms; assuming connection has dropped
+02:03:53.691 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82728ms; assuming connection has dropped
+02:06:02.205 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83341ms; assuming connection has dropped
+02:07:55.130 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82749ms; assuming connection has dropped
+02:09:22.653 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 57244ms; assuming connection has dropped
+02:11:56.717 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 123894ms; assuming connection has dropped
+02:14:05.479 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98381ms; assuming connection has dropped
+02:15:58.346 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82672ms; assuming connection has dropped
+02:18:06.970 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98357ms; assuming connection has dropped
+02:19:59.854 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82627ms; assuming connection has dropped
+02:21:53.409 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83336ms; assuming connection has dropped
+02:24:01.465 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82672ms; assuming connection has dropped
+02:25:55.035 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83295ms; assuming connection has dropped
+02:28:03.188 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97768ms; assuming connection has dropped
+02:29:59.974 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 101557ms; assuming connection has dropped
+02:31:52.946 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82790ms; assuming connection has dropped
+02:34:01.921 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83380ms; assuming connection has dropped
+02:35:54.859 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82755ms; assuming connection has dropped
+02:38:03.514 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98341ms; assuming connection has dropped
+02:39:56.468 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82762ms; assuming connection has dropped
+02:42:05.139 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98319ms; assuming connection has dropped
+02:44:06.583 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 121077ms; assuming connection has dropped
+02:46:00.164 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83378ms; assuming connection has dropped
+02:47:53.103 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82772ms; assuming connection has dropped
+02:50:01.879 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83427ms; assuming connection has dropped
+02:51:54.785 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82743ms; assuming connection has dropped
+02:54:03.643 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98372ms; assuming connection has dropped
+02:55:56.552 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82723ms; assuming connection has dropped
+02:58:05.202 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98363ms; assuming connection has dropped
+02:59:58.224 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82767ms; assuming connection has dropped
+03:02:06.731 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98347ms; assuming connection has dropped
+03:03:59.607 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82677ms; assuming connection has dropped
+03:05:53.263 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83489ms; assuming connection has dropped
+03:08:01.603 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82726ms; assuming connection has dropped
+03:09:55.545 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83722ms; assuming connection has dropped
+03:12:03.640 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97742ms; assuming connection has dropped
+03:13:56.111 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82287ms; assuming connection has dropped
+03:16:05.000 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98357ms; assuming connection has dropped
+03:17:57.871 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82619ms; assuming connection has dropped
+03:20:06.401 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98357ms; assuming connection has dropped
+03:21:59.388 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82814ms; assuming connection has dropped
+03:23:53.010 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83451ms; assuming connection has dropped
+03:26:01.229 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82723ms; assuming connection has dropped
+03:27:54.778 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83347ms; assuming connection has dropped
+03:30:02.874 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97779ms; assuming connection has dropped
+03:31:56.404 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83358ms; assuming connection has dropped
+03:34:04.541 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97763ms; assuming connection has dropped
+03:35:58.068 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83289ms; assuming connection has dropped
+03:38:06.093 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97752ms; assuming connection has dropped
+03:39:59.652 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83381ms; assuming connection has dropped
+03:41:52.625 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82720ms; assuming connection has dropped
+03:44:01.536 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83404ms; assuming connection has dropped
+03:45:54.425 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82649ms; assuming connection has dropped
+03:48:03.130 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98361ms; assuming connection has dropped
+03:49:55.971 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82629ms; assuming connection has dropped
+03:51:56.917 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 30760ms; assuming connection has dropped
+03:54:05.100 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97747ms; assuming connection has dropped
+03:55:01.871 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 36935ms; assuming connection has dropped
+03:57:35.179 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 78034ms; assuming connection has dropped
+03:59:54.021 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 100236ms; assuming connection has dropped
+04:02:02.014 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82713ms; assuming connection has dropped
+04:03:55.807 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83492ms; assuming connection has dropped
+04:06:02.188 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 81050ms; assuming connection has dropped
+04:07:55.838 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83474ms; assuming connection has dropped
+04:10:03.907 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97678ms; assuming connection has dropped
+04:11:58.641 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83406ms; assuming connection has dropped
+04:14:06.613 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97783ms; assuming connection has dropped
+04:16:00.216 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83417ms; assuming connection has dropped
+04:17:53.163 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82694ms; assuming connection has dropped
+04:20:01.801 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83433ms; assuming connection has dropped
+04:21:55.382 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83349ms; assuming connection has dropped
+04:24:03.347 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97751ms; assuming connection has dropped
+04:25:56.933 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83387ms; assuming connection has dropped
+04:28:04.858 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97697ms; assuming connection has dropped
+04:29:58.518 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83458ms; assuming connection has dropped
+04:32:06.441 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97716ms; assuming connection has dropped
+05:31:33.649 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 41961ms; assuming connection has dropped
+05:47:27.386 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 908441ms; assuming connection has dropped
+06:03:03.288 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 905740ms; assuming connection has dropped
+06:21:57.025 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 922980ms; assuming connection has dropped
+06:38:52.936 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 985702ms; assuming connection has dropped
+06:41:09.081 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 75974ms; assuming connection has dropped
+06:46:22.712 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 283460ms; assuming connection has dropped
+06:47:12.548 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25100ms; assuming connection has dropped
+07:15:32.342 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25101ms; assuming connection has dropped
+07:35:52.047 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 865161ms; assuming connection has dropped
+07:46:20.173 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 591663ms; assuming connection has dropped
+10:44:23.887 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+12:43:14.198 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 155258ms; assuming connection has dropped
+12:44:15.301 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 30877ms; assuming connection has dropped
+12:46:34.335 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 123781ms; assuming connection has dropped
+14:13:19.188 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 916624ms; assuming connection has dropped
+14:24:52.308 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 662631ms; assuming connection has dropped
+15:30:42.045 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3919489ms; assuming connection has dropped
+15:45:10.761 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 74026ms; assuming connection has dropped
+16:40:14.703 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 333751ms; assuming connection has dropped
+6:01:54 PM [tsx] change in ./../shared/event-bus/dist/index.js Rerunning...
+c6:01:55 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
 cClass 1 English topics and content already seeded.
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
-11:59:37 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+6:22:18 PM [tsx] change in ./../shared/event-bus/dist/index.js Rerunning...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+6:22:19 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
 cClass 1 English topics and content already seeded.
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
-11:59:50 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+6:37:54 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
 cClass 1 English topics and content already seeded.
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
-11:59:51 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+6:37:55 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
 cClass 1 English topics and content already seeded.
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
-12:07:34 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+6:57:48 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+cClass 1 English topics and content already seeded.
+Schema already exists. Skipping destructive seed.
+6:57:48 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
 cClass 1 English topics and content already seeded.
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
-12:07:35 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+7:24:01 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
 cClass 1 English topics and content already seeded.
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
-12:15:50 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
+7:24:01 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
 cClass 1 English topics and content already seeded.
 Schema already exists. Skipping destructive seed.
 Auth Service listening on http://localhost:4101
-12:15:51 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-12:18:21 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-12:18:23 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-12:29:25 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-12:29:27 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-12:40:51 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-12:40:52 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-12:43:16 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-12:43:17 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-12:56:20 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-12:56:21 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-1:03:57 AM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-1:03:58 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-01:30:12.402 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 972932ms; assuming connection has dropped
-02:01:52.524 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 993111ms; assuming connection has dropped
-02:04:04.882 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 130862ms; assuming connection has dropped
-02:09:57.711 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 337654ms; assuming connection has dropped
-02:43:52.876 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2004967ms; assuming connection has dropped
-02:59:22.482 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 929065ms; assuming connection has dropped
-03:15:05.621 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 941675ms; assuming connection has dropped
-04:06:35.129 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3059313ms; assuming connection has dropped
-04:16:23.006 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 587649ms; assuming connection has dropped
-04:27:02.933 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 624708ms; assuming connection has dropped
-04:59:44.051 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1915948ms; assuming connection has dropped
-05:01:19.216 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 94943ms; assuming connection has dropped
-05:09:23.310 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 468750ms; assuming connection has dropped
-06:13:50.114 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83326ms; assuming connection has dropped
-06:15:58.002 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82367ms; assuming connection has dropped
-06:17:51.159 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82905ms; assuming connection has dropped
-06:19:59.094 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82745ms; assuming connection has dropped
-06:21:52.946 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83668ms; assuming connection has dropped
-06:24:00.651 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97375ms; assuming connection has dropped
-06:25:53.900 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82952ms; assuming connection has dropped
-07:41:54.949 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 29969ms; assuming connection has dropped
-07:44:02.543 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82358ms; assuming connection has dropped
-07:45:56.001 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83111ms; assuming connection has dropped
-07:48:03.958 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97750ms; assuming connection has dropped
-07:49:57.576 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83417ms; assuming connection has dropped
-07:51:50.347 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82534ms; assuming connection has dropped
-07:53:58.547 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83029ms; assuming connection has dropped
-07:55:51.495 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82732ms; assuming connection has dropped
-07:58:00.055 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98343ms; assuming connection has dropped
-09:50:00.645 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 616568ms; assuming connection has dropped
-1:44:13 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-1:44:15 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-2:20:21 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-2:31:15 PM [tsx] change in ./src/routes/students.ts Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-2:31:22 PM [tsx] change in ./src/routes/students.ts Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-2:32:50 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-2:32:51 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-2:35:05 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-2:35:06 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-3:24:07 PM [tsx] change in ./../shared/event-bus/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
-3:24:09 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
-cClass 1 English topics and content already seeded.
-Schema already exists. Skipping destructive seed.
-Auth Service listening on http://localhost:4101
+21:23:09.914 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1993768ms; assuming connection has dropped
+21:42:04.408 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1134230ms; assuming connection has dropped
+22:17:25.917 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2091210ms; assuming connection has dropped
+23:22:00.499 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1876981ms; assuming connection has dropped
+23:38:13.616 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 971569ms; assuming connection has dropped
+00:09:11.738 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1003871ms; assuming connection has dropped
+00:26:21.376 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 998237ms; assuming connection has dropped
+01:27:20.168 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2032070ms; assuming connection has dropped
+01:53:58.718 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1598328ms; assuming connection has dropped
+02:04:33.005 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 604114ms; assuming connection has dropped
+02:09:58.341 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 295150ms; assuming connection has dropped
+02:41:58.175 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1889539ms; assuming connection has dropped
+03:11:41.597 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 974300ms; assuming connection has dropped
+03:45:07.131 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2004993ms; assuming connection has dropped
+03:56:02.254 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 654169ms; assuming connection has dropped
+04:44:22.061 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2884629ms; assuming connection has dropped
+04:56:48.911 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 746537ms; assuming connection has dropped
+05:13:46.319 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 987144ms; assuming connection has dropped
+05:29:52.312 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 965143ms; assuming connection has dropped
+05:57:51.031 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 123045ms; assuming connection has dropped
+05:59:34.270 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 72556ms; assuming connection has dropped
+06:15:27.614 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 908153ms; assuming connection has dropped
+06:33:20.879 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 908057ms; assuming connection has dropped
+06:49:13.772 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 922641ms; assuming connection has dropped
+06:58:45.605 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 541669ms; assuming connection has dropped
+07:16:36.208 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1040391ms; assuming connection has dropped
+07:44:32.857 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1016386ms; assuming connection has dropped
+07:46:33.248 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 75180ms; assuming connection has dropped
+07:59:54.224 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 785688ms; assuming connection has dropped
+08:34:26.185 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2041659ms; assuming connection has dropped
+08:57:42.366 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1395251ms; assuming connection has dropped
+12:43:37.776 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3999670ms; assuming connection has dropped
+12:53:30.632 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 547680ms; assuming connection has dropped
+13:10:25.840 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 985038ms; assuming connection has dropped
+13:31:52.370 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1286308ms; assuming connection has dropped
+13:54:26.242 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1338704ms; assuming connection has dropped
+14:08:15.502 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 799013ms; assuming connection has dropped
+14:40:57.496 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1931800ms; assuming connection has dropped
+14:55:42.388 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 884665ms; assuming connection has dropped
+15:45:57.439 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2999861ms; assuming connection has dropped
+16:24:41.100 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2099635ms; assuming connection has dropped
+17:34:06.489 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 4165159ms; assuming connection has dropped
+18:55:16.807 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2823584ms; assuming connection has dropped
+19:02:17.595 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 420149ms; assuming connection has dropped
+23:34:44.388 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2048933ms; assuming connection has dropped
+23:51:22.014 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 996877ms; assuming connection has dropped
+00:05:12.277 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 830020ms; assuming connection has dropped
+03:15:28.385 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2999891ms; assuming connection has dropped
+03:49:12.952 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2023875ms; assuming connection has dropped
+04:22:09.391 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1975494ms; assuming connection has dropped
+04:26:39.521 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 269342ms; assuming connection has dropped
+05:15:39.036 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2909302ms; assuming connection has dropped
+05:26:03.866 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 624367ms; assuming connection has dropped
+05:27:35.283 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 75955ms; assuming connection has dropped
+05:43:28.482 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 907964ms; assuming connection has dropped
+06:01:21.714 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 908044ms; assuming connection has dropped
+06:18:00.092 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 923199ms; assuming connection has dropped
+06:28:43.701 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 418407ms; assuming connection has dropped
+06:48:37.102 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 908162ms; assuming connection has dropped
+07:06:04.641 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1002372ms; assuming connection has dropped
+07:23:10.718 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 995852ms; assuming connection has dropped
+07:26:50.062 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 189160ms; assuming connection has dropped
+08:30:49.415 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 649393ms; assuming connection has dropped
+08:51:38.719 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1219150ms; assuming connection has dropped
+08:53:42.389 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 93151ms; assuming connection has dropped
+08:53:42.818 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+10:10:08.070 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 145216ms; assuming connection has dropped
+10:28:13.446 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1055112ms; assuming connection has dropped
+10:35:32.080 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 438061ms; assuming connection has dropped
+11:08:12.971 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25102ms; assuming connection has dropped
+11:14:53.475 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25101ms; assuming connection has dropped
+11:14:54.063 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+11:15:34.226 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25101ms; assuming connection has dropped
+11:15:34.608 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+11:25:23.898 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25101ms; assuming connection has dropped
+12:04:31.242 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2076829ms; assuming connection has dropped
+12:27:11.540 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1357430ms; assuming connection has dropped
+13:07:50.791 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 113581ms; assuming connection has dropped
+13:09:33.156 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 71590ms; assuming connection has dropped
+23:02:05.074 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1132894ms; assuming connection has dropped
+23:05:17.955 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 117703ms; assuming connection has dropped
+23:40:29.923 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1871554ms; assuming connection has dropped
+00:14:53.085 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2062436ms; assuming connection has dropped
+01:03:13.550 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1946577ms; assuming connection has dropped
+01:10:13.852 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 419626ms; assuming connection has dropped
+01:11:56.947 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 72798ms; assuming connection has dropped
+01:28:06.517 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 939398ms; assuming connection has dropped
+02:00:21.024 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1933935ms; assuming connection has dropped
+02:04:46.299 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 264809ms; assuming connection has dropped
+02:09:42.393 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 280897ms; assuming connection has dropped
+02:42:54.076 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1946439ms; assuming connection has dropped
+03:11:15.784 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1700921ms; assuming connection has dropped
+04:01:31.580 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2985310ms; assuming connection has dropped
+04:12:18.433 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 646251ms; assuming connection has dropped
+04:46:24.155 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2030444ms; assuming connection has dropped
+05:01:41.403 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 916694ms; assuming connection has dropped
+05:13:23.841 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 672217ms; assuming connection has dropped
+05:46:07.897 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1948889ms; assuming connection has dropped
+06:14:15.443 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1686778ms; assuming connection has dropped
+06:22:33.711 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 468035ms; assuming connection has dropped
+06:40:02.938 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1019060ms; assuming connection has dropped
+07:15:26.076 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2122677ms; assuming connection has dropped
+16:38:20.378 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1322472ms; assuming connection has dropped
+18:02:26.380 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 418315ms; assuming connection has dropped
+18:08:27.243 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 330578ms; assuming connection has dropped
+18:25:02.637 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 965221ms; assuming connection has dropped
+18:59:07.056 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2043919ms; assuming connection has dropped
+19:16:06.641 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1018263ms; assuming connection has dropped
+19:29:07.280 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 779330ms; assuming connection has dropped
+19:49:11.320 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1158455ms; assuming connection has dropped
+21:45:18.439 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1080417ms; assuming connection has dropped
+22:17:17.971 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1918972ms; assuming connection has dropped
+22:51:08.613 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2029081ms; assuming connection has dropped
+23:24:23.237 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1992888ms; assuming connection has dropped
+23:28:24.521 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 239630ms; assuming connection has dropped
+00:21:42.169 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3167481ms; assuming connection has dropped
+00:29:25.992 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 463105ms; assuming connection has dropped
+00:45:45.181 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 949012ms; assuming connection has dropped
+01:30:28.968 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2682682ms; assuming connection has dropped
+01:47:24.228 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 985105ms; assuming connection has dropped
+02:04:30.956 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1026189ms; assuming connection has dropped
+02:10:18.259 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 317104ms; assuming connection has dropped
+02:29:01.776 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1078275ms; assuming connection has dropped
+02:31:28.648 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 146149ms; assuming connection has dropped
+02:48:37.575 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 998763ms; assuming connection has dropped
+03:32:32.786 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2634293ms; assuming connection has dropped
+04:23:14.792 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3026592ms; assuming connection has dropped
+04:33:44.717 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 629002ms; assuming connection has dropped
+04:51:37.023 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1057094ms; assuming connection has dropped
+05:09:29.278 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1026951ms; assuming connection has dropped
+05:34:25.752 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1495918ms; assuming connection has dropped
+05:43:28.461 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 511203ms; assuming connection has dropped
+05:58:25.743 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 866767ms; assuming connection has dropped
+06:14:19.943 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 924028ms; assuming connection has dropped
+06:35:29.987 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 549846ms; assuming connection has dropped
+06:40:29.824 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 269469ms; assuming connection has dropped
+06:42:39.364 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 99365ms; assuming connection has dropped
+07:36:37.500 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 688262ms; assuming connection has dropped
+07:52:56.509 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 948861ms; assuming connection has dropped
+09:25:05.868 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 63203ms; assuming connection has dropped
+09:26:15.599 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 39030ms; assuming connection has dropped
+09:26:34.842 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+09:28:53.254 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 123366ms; assuming connection has dropped
+09:28:53.557 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+09:30:38.446 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 74834ms; assuming connection has dropped
+09:32:29.436 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+10:04:25.723 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1886287ms; assuming connection has dropped
+10:09:50.973 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 295091ms; assuming connection has dropped
+10:42:13.670 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 980634ms; assuming connection has dropped
+11:25:13.900 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1528976ms; assuming connection has dropped
+11:38:53.221 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 789144ms; assuming connection has dropped
+11:54:05.960 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 597471ms; assuming connection has dropped
+12:00:21.523 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 55974ms; assuming connection has dropped
+12:00:38.805 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+12:32:23.987 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1904966ms; assuming connection has dropped
+13:45:17.248 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 540331ms; assuming connection has dropped
+14:01:22.564 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 935119ms; assuming connection has dropped
+14:32:45.074 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1881900ms; assuming connection has dropped
+14:46:15.868 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 810311ms; assuming connection has dropped
+15:03:30.202 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1004072ms; assuming connection has dropped
+15:47:20.014 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2626954ms; assuming connection has dropped
+16:03:39.514 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 949037ms; assuming connection has dropped
+16:48:23.726 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2683741ms; assuming connection has dropped
+17:24:04.642 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2110724ms; assuming connection has dropped
+17:49:27.158 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1522009ms; assuming connection has dropped
+18:30:22.444 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25101ms; assuming connection has dropped
+20:55:55.697 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 909989ms; assuming connection has dropped
+20:58:26.311 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 104904ms; assuming connection has dropped
+21:15:20.601 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 923789ms; assuming connection has dropped
+21:37:59.287 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 923394ms; assuming connection has dropped
+21:53:38.432 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 908798ms; assuming connection has dropped
+22:09:47.585 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 923957ms; assuming connection has dropped
+22:14:41.403 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 263640ms; assuming connection has dropped
+22:19:50.795 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 279072ms; assuming connection has dropped
+22:24:45.063 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 264053ms; assuming connection has dropped
+22:29:39.289 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 263981ms; assuming connection has dropped
+22:46:24.705 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 959943ms; assuming connection has dropped
+22:59:22.957 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 613064ms; assuming connection has dropped
+23:16:23.189 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 990032ms; assuming connection has dropped
+23:28:18.211 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 684864ms; assuming connection has dropped
+00:47:55.928 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2977343ms; assuming connection has dropped
+01:29:56.603 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2519538ms; assuming connection has dropped
+01:46:11.805 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 944934ms; assuming connection has dropped
+02:04:32.000 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 409000ms; assuming connection has dropped
+02:10:23.205 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 335952ms; assuming connection has dropped
+02:26:27.213 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 933846ms; assuming connection has dropped
+03:00:06.798 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2019034ms; assuming connection has dropped
+03:58:53.934 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2588660ms; assuming connection has dropped
+04:32:15.028 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1985926ms; assuming connection has dropped
+04:45:16.765 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 780111ms; assuming connection has dropped
+04:59:45.105 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 853126ms; assuming connection has dropped
+05:29:59.986 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 834951ms; assuming connection has dropped
+07:31:14.383 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1986275ms; assuming connection has dropped
+08:21:06.577 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2070949ms; assuming connection has dropped
+08:27:36.174 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 388880ms; assuming connection has dropped
+13:52:45.999 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25101ms; assuming connection has dropped
+13:52:56.758 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+14:40:02.491 Ably: ConnectionManager.activateTransport(): error = [_ErrorInfo: Unable to resume connection from another site; statusCode=400; code=80023; see https://help.ably.io/error/80023 ]
+21:16:51.086 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1265556ms; assuming connection has dropped
+03:38:47.339 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1043047ms; assuming connection has dropped
+04:12:01.849 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1993951ms; assuming connection has dropped
+04:59:01.953 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1852978ms; assuming connection has dropped
+05:22:27.336 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1404867ms; assuming connection has dropped
+05:44:19.916 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1282290ms; assuming connection has dropped
+08:01:20.424 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1874984ms; assuming connection has dropped
+08:17:12.701 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 951812ms; assuming connection has dropped
+09:55:42.441 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 104464ms; assuming connection has dropped
+09:57:36.032 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83399ms; assuming connection has dropped
+09:59:42.876 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 96576ms; assuming connection has dropped
+10:01:36.377 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83306ms; assuming connection has dropped
+10:03:29.335 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82702ms; assuming connection has dropped
+10:07:39.237 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 144520ms; assuming connection has dropped
+10:09:32.818 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83350ms; assuming connection has dropped
+10:11:40.721 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97668ms; assuming connection has dropped
+10:13:34.265 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83363ms; assuming connection has dropped
+10:15:42.234 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97707ms; assuming connection has dropped
+10:17:35.733 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83331ms; assuming connection has dropped
+10:19:28.785 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82657ms; assuming connection has dropped
+10:21:38.140 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83411ms; assuming connection has dropped
+10:23:31.032 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82702ms; assuming connection has dropped
+10:24:45.593 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 44101ms; assuming connection has dropped
+11:59:32.629 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 106528ms; assuming connection has dropped
+12:01:40.509 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97644ms; assuming connection has dropped
+12:03:33.980 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83169ms; assuming connection has dropped
+12:05:42.606 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98026ms; assuming connection has dropped
+12:07:33.217 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 80222ms; assuming connection has dropped
+12:09:28.725 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 85224ms; assuming connection has dropped
+12:13:36.976 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83316ms; assuming connection has dropped
+12:15:29.901 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82741ms; assuming connection has dropped
+12:19:41.142 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 96508ms; assuming connection has dropped
+12:21:34.390 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82947ms; assuming connection has dropped
+12:23:42.638 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98039ms; assuming connection has dropped
+12:25:36.130 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83318ms; assuming connection has dropped
+12:27:42.830 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 96538ms; assuming connection has dropped
+12:29:36.453 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83452ms; assuming connection has dropped
+12:31:29.582 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82679ms; assuming connection has dropped
+12:35:43.333 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 97685ms; assuming connection has dropped
+12:37:36.802 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83309ms; assuming connection has dropped
+12:39:29.749 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82696ms; assuming connection has dropped
+12:41:38.292 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83326ms; assuming connection has dropped
+12:43:31.106 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82645ms; assuming connection has dropped
+12:45:39.788 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98383ms; assuming connection has dropped
+12:47:32.708 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82730ms; assuming connection has dropped
+12:49:41.427 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98340ms; assuming connection has dropped
+12:51:34.709 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 83104ms; assuming connection has dropped
+12:53:43.234 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 98329ms; assuming connection has dropped
+12:55:36.218 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 82694ms; assuming connection has dropped
+12:57:16.072 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 69658ms; assuming connection has dropped
+15:06:54.551 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1042786ms; assuming connection has dropped
+15:38:41.184 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1905882ms; assuming connection has dropped
+15:49:20.422 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 638353ms; assuming connection has dropped
+16:14:53.126 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1517380ms; assuming connection has dropped
+18:07:41.155 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 283626ms; assuming connection has dropped
+18:34:59.796 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1608199ms; assuming connection has dropped
+22:03:55.312 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25101ms; assuming connection has dropped
+03:35:12.111 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 948890ms; assuming connection has dropped
+04:43:32.783 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 4098794ms; assuming connection has dropped
+05:20:46.913 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 249351ms; assuming connection has dropped
+06:14:18.506 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 3196288ms; assuming connection has dropped
+06:21:34.245 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 435224ms; assuming connection has dropped
+06:39:17.432 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1033013ms; assuming connection has dropped
+07:22:36.593 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2598689ms; assuming connection has dropped
+07:40:10.864 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1024002ms; assuming connection has dropped
+08:23:38.943 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2607598ms; assuming connection has dropped
+08:28:45.876 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 276713ms; assuming connection has dropped
+11:27:21.166 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2049945ms; assuming connection has dropped
+11:54:38.802 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 499439ms; assuming connection has dropped
+12:24:48.445 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1764284ms; assuming connection has dropped
+12:38:28.719 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25101ms; assuming connection has dropped
+22:38:12.865 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25102ms; assuming connection has dropped
+22:54:51.727 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 120337ms; assuming connection has dropped
+23:27:52.215 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1965312ms; assuming connection has dropped
+01:31:40.751 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2080746ms; assuming connection has dropped
+01:57:17.286 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1536000ms; assuming connection has dropped
+02:04:36.576 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 409103ms; assuming connection has dropped
+02:09:50.136 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 283389ms; assuming connection has dropped
+02:57:57.617 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2857212ms; assuming connection has dropped
+03:29:07.307 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1868929ms; assuming connection has dropped
+03:59:11.959 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1804173ms; assuming connection has dropped
+04:33:09.024 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2021620ms; assuming connection has dropped
+05:17:13.502 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 991867ms; assuming connection has dropped
+09:11:46.493 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 935381ms; assuming connection has dropped
+09:14:21.427 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 66280ms; assuming connection has dropped
+12:16:24.099 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 2128372ms; assuming connection has dropped
+15:10:19.180 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 436827ms; assuming connection has dropped
+15:24:52.799 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 843435ms; assuming connection has dropped
+15:53:30.741 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1687544ms; assuming connection has dropped
+20:30:08.302 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 1055267ms; assuming connection has dropped
+20:31:13.538 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 63661ms; assuming connection has dropped
+21:14:53.890 Ably: Transport.onIdleTimerExpire(): No activity seen from realtime in 25101ms; assuming connection has dropped

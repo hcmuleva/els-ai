@@ -13,6 +13,7 @@
  *   />
  */
 import { Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   Activity, BookOpen, Check, FlaskConical, Globe, Hash, Languages, Leaf, Monitor, Palette, School, Sparkles, X,
 } from 'lucide-react-native';
@@ -95,10 +96,11 @@ export default function SelectorModal({
   onSelect,
   onClose,
 }: SelectorModalProps) {
+  const insets = useSafeAreaInsets();
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <Pressable style={s.overlay} onPress={onClose}>
-        <Pressable style={s.sheet} onPress={(e) => e.stopPropagation()}>
+        <Pressable style={[s.sheet, { paddingBottom: Math.max(insets.bottom, 16) }]} onPress={(e) => e.stopPropagation()}>
           {/* Handle */}
           <View style={s.handle} />
 

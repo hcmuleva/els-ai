@@ -172,3 +172,97 @@ AI Service listening on http://localhost:4003
 cAI Service listening on http://localhost:4003
 3:24:09 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
 cAI Service listening on http://localhost:4003
+12:30:32 AM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+12:56:18 AM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+2:14:17 AM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+11:03:27 AM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+11:56:50 AM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+12:16:09 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+2:12:48 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+3:08:08 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+4:10:16 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+4:16:13 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+4:54:36 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+5:00:47 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+2:16:03 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+5:00:58 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+5:42:04 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+npm error Lifecycle script `dev` failed with error:
+npm error code 15
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/ai-service
+npm error workspace ai-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/ai-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+12:21:33 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cAI Service listening on http://localhost:4003
+8:45:06 AM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cAI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+npm error Lifecycle script `dev` failed with error:
+npm error code 143
+npm error path /Users/Harish.Muleva/personal/els-ai/backend/ai-service
+npm error workspace ai-service@1.0.0
+npm error location /Users/Harish.Muleva/personal/els-ai/backend/ai-service
+npm error command failed
+npm error command sh -c tsx watch src/server.ts
+
+> ai-service@1.0.0 dev
+> tsx watch src/server.ts
+
+AI Service listening on http://localhost:4003
+10:07:20 AM [tsx] change in ./src/routes/ai.ts Rerunning...
+cAI Service listening on http://localhost:4003
+10:10:31 AM [tsx] change in ./src/routes/ai.ts Restarting...
+cAI Service listening on http://localhost:4003
+10:12:56 AM [tsx] change in ./src/routes/ai.ts Restarting...
+cAI Service listening on http://localhost:4003
+6:01:55 PM [tsx] change in ./../shared/internal-auth/dist/index.js Restarting...
+cAI Service listening on http://localhost:4003
+6:22:19 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+6:37:55 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+6:57:48 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003
+7:24:01 PM [tsx] change in ./../shared/internal-auth/dist/index.js Rerunning...
+cAI Service listening on http://localhost:4003

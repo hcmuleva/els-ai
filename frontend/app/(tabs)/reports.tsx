@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useFocusEffect } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import {
   ActivityIndicator,
   Dimensions,
@@ -14,6 +14,7 @@ import {
   Image,
   Linking,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -46,6 +47,11 @@ import {
   SkipForward,
   Flame,
   History,
+  Brain,
+  Download,
+  Sparkles,
+  MessageCircle,
+  Send,
 } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SvgXml } from "react-native-svg";
@@ -64,6 +70,13 @@ import {
   type ClassroomRemarkItem,
 } from "../../src/context/StudentProfileContext";
 import { getStandardLabel } from "../../src/constants/standards";
+import {
+  exportCounselingReportPdf,
+  type CounselingReportData,
+} from "../../src/utils/counselingPdf";
+import ParentFeedbackTab from "../../src/components/feedback/ParentFeedbackTab";
+import TeacherFeedbackTab from "../../src/components/feedback/TeacherFeedbackTab";
+import TrendAnalysisTab from "../../src/components/reports/TrendAnalysisTab";
 import {
   CHART_DATA,
   SUBJECT_DETAILS,
@@ -317,6 +330,7 @@ function SubjectModal({
   subject: SubjectDetail;
   onClose: () => void;
 }) {
+  const insets = useSafeAreaInsets();
   const typeIconMap: Record<string, IconComp2> = {
     lesson: BookOpen,
     quiz: Layers,
@@ -336,7 +350,7 @@ function SubjectModal({
   return (
     <Modal visible animationType="slide" transparent onRequestClose={onClose}>
       <View style={m.overlay}>
-        <View style={m.sheet}>
+        <View style={[m.sheet, { paddingBottom: Math.max(insets.bottom, 16) }]}>
           {/* Header */}
           <View style={[m.sheetHeader, { backgroundColor: subject.bg }]}>
             <View style={m.sheetHeaderLeft}>
@@ -843,16 +857,22 @@ type QuizAttemptDetail = {
 type IconComp = React.ComponentType<{ size: number; color: string }>;
 type ParentTab =
   | "overview"
+  | "trends"
   | "quizzes"
   | "assignments"
   | "classroom"
-  | "activity";
+  | "feedback"
+  | "activity"
+  | "counseling";
 const PARENT_TABS: Array<{ key: ParentTab; label: string; Icon: IconComp }> = [
   { key: "overview", label: "Overview", Icon: BarChart2 },
+  { key: "trends", label: "Growth Trends", Icon: TrendingUp },
   { key: "quizzes", label: "Quizzes", Icon: Layers },
   { key: "assignments", label: "Tasks", Icon: ClipboardList },
   { key: "classroom", label: "Classroom", Icon: School },
+  { key: "feedback", label: "Feedback", Icon: MessageCircle },
   { key: "activity", label: "Activity", Icon: Activity },
+  { key: "counseling", label: "Counsel", Icon: Brain },
 ];
 
 function QuizKindBadge({ kind }: { kind?: "classroom" | "story" | "subject" }) {
@@ -885,6 +905,431 @@ function QuizKindBadge({ kind }: { kind?: "classroom" | "story" | "subject" }) {
   );
 }
 
+// ── Counseling history tab ────────────────────────────────────────────────────
+type CounselingSessionRow = {
+  id: string;
+  status: string;
+  startedAt: string;
+  submittedAt: string | null;
+  durationSec: number;
+  overallScore: number | null;
+  level: string | null;
+  reportCreatedAt: string | null;
+};
+
+function CounselingTab({
+  studentId,
+  studentName,
+}: {
+  studentId: string;
+  studentName: string;
+}) {
+  const { apiFetch } = useAuth();
+  const insets = useSafeAreaInsets();
+  const [sessions, setSessions] = useState<CounselingSessionRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState("");
+  const [report, setReport] = useState<CounselingReportData | null>(null);
+  const [loadingReport, setLoadingReport] = useState(false);
+  const [exporting, setExporting] = useState(false);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setErr("");
+    try {
+      const res = await apiFetch(`/counseling/students/${studentId}/sessions`);
+      if (!res.ok) throw new Error("Failed to load sessions");
+      const data = await res.json();
+      setSessions((data.sessions ?? []) as CounselingSessionRow[]);
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Failed to load sessions");
+    } finally {
+      setLoading(false);
+    }
+  }, [apiFetch, studentId]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  const openReport = useCallback(
+    async (sessionId: string) => {
+      setLoadingReport(true);
+      setReport(null);
+      try {
+        const res = await apiFetch(`/counseling/sessions/${sessionId}/report`);
+        if (!res.ok) throw new Error("No report");
+        const data = await res.json();
+        setReport(data.report as CounselingReportData);
+      } catch {
+        setErr("This session has no report yet.");
+      } finally {
+        setLoadingReport(false);
+      }
+    },
+    [apiFetch],
+  );
+
+  const onDownload = useCallback(async () => {
+    if (!report) return;
+    setExporting(true);
+    try {
+      await exportCounselingReportPdf(report);
+    } catch {
+      /* silent */
+    } finally {
+      setExporting(false);
+    }
+  }, [report]);
+
+  const fmtDate = (iso?: string | null) => {
+    if (!iso) return "—";
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return "—";
+    return d.toLocaleDateString(undefined, {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  const reportedCount = sessions.filter((s) => s.reportCreatedAt != null).length;
+
+  return (
+    <>
+      {/* Intro hero */}
+      <View style={cs.intro}>
+        <View style={cs.introIcon}>
+          <Brain size={24} color="#fff" />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={cs.introTitle}>AI Counseling</Text>
+          <Text style={cs.introSub}>
+            Guided check-in and a holistic AI report card.
+          </Text>
+        </View>
+        <Pressable
+          style={cs.introBtn}
+          onPress={() => router.push("/(tabs)/counseling")}
+        >
+          <Sparkles size={14} color="#7B5FC7" />
+          <Text style={cs.introBtnText}>Start</Text>
+        </Pressable>
+      </View>
+
+      <View style={pr.sectionHdr}>
+        <Text style={pr.sectionHdrTitle}>History</Text>
+        <Text style={pr.sectionHdrChip}>
+          {reportedCount} report{reportedCount !== 1 ? "s" : ""}
+        </Text>
+      </View>
+
+      {loading ? (
+        <ActivityIndicator color="#4A90E2" style={{ marginVertical: 24 }} />
+      ) : sessions.length === 0 ? (
+        <View style={pr.emptyStateCard}>
+          <SvgXml xml={OWL} width={64} height={64} />
+          <Text style={pr.emptyStateTitle}>No counseling yet</Text>
+          <Text style={pr.emptyStateText}>
+            Run a guided counseling session for {studentName} to generate an AI
+            report card.
+          </Text>
+        </View>
+      ) : (
+        sessions.map((sn) => {
+          const hasReport = sn.reportCreatedAt != null;
+          const grade =
+            sn.overallScore != null ? scoreGrade(sn.overallScore) : null;
+          return (
+            <Pressable
+              key={sn.id}
+              style={pr.quizCard}
+              disabled={!hasReport}
+              onPress={() => hasReport && openReport(sn.id)}
+            >
+              <View style={[pr.quizIconBox, { backgroundColor: "#EDE4FF" }]}>
+                <Brain size={22} color="#9B8EC4" />
+              </View>
+              <View style={pr.quizInfo}>
+                <Text style={pr.quizTitle} numberOfLines={1}>
+                  {hasReport
+                    ? "Counseling Report"
+                    : sn.status === "submitted"
+                      ? "Awaiting report"
+                      : "In progress"}
+                </Text>
+                {hasReport && sn.level ? (
+                  <Text style={pr.quizMeta}>Level: {sn.level}</Text>
+                ) : null}
+                <View style={pr.inlineMetaRow}>
+                  <Calendar size={11} color="#9A9AB0" />
+                  <Text style={pr.inlineMetaText}>
+                    {fmtDate(sn.reportCreatedAt || sn.startedAt)}
+                  </Text>
+                </View>
+              </View>
+              {grade ? (
+                <View style={[pr.scoreBadge, { backgroundColor: grade.bg }]}>
+                  <Text style={[pr.scoreNum, { color: grade.color }]}>
+                    {sn.overallScore}
+                  </Text>
+                  <Text style={[pr.scoreLabel, { color: grade.color }]}>
+                    {grade.label}
+                  </Text>
+                </View>
+              ) : (
+                <View
+                  style={[pr.statusChip, { backgroundColor: "#F0F0F8" }]}
+                >
+                  <Text style={[pr.statusChipText, { color: "#9A9AB0" }]}>
+                    {sn.status}
+                  </Text>
+                </View>
+              )}
+            </Pressable>
+          );
+        })
+      )}
+
+      {err ? (
+        <Text style={[cs.err, { marginHorizontal: 16 }]}>{err}</Text>
+      ) : null}
+
+      {/* Report detail + download */}
+      <Modal
+        visible={!!report || loadingReport}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setReport(null)}
+      >
+        <View style={pr.modalOverlay}>
+          <View style={[pr.modalSheet, { paddingBottom: Math.max(insets.bottom, 16) }]}>
+            <View style={pr.modalHeader}>
+              <View>
+                <Text style={pr.modalTitle}>Counseling Report</Text>
+                <Text style={pr.modalSub}>{studentName}</Text>
+              </View>
+              <Pressable style={pr.modalClose} onPress={() => setReport(null)}>
+                <X size={18} color="#9A9AB0" />
+              </Pressable>
+            </View>
+
+            {loadingReport || !report ? (
+              <ActivityIndicator
+                color="#4A90E2"
+                style={{ marginVertical: 40 }}
+              />
+            ) : (
+              <ScrollView
+                contentContainerStyle={{ padding: 16, paddingBottom: 28 }}
+                showsVerticalScrollIndicator={false}
+              >
+                <View style={cs.summaryCard}>
+                  <View style={cs.summaryScoreWrap}>
+                    <Text style={cs.summaryScore}>
+                      {report.summary.overallScore}
+                    </Text>
+                    <Text style={cs.summaryScoreMax}>/ 100</Text>
+                  </View>
+                  <View style={cs.summaryPills}>
+                    <View style={cs.pill}>
+                      <Text style={cs.pillText}>
+                        Level: {report.summary.level}
+                      </Text>
+                    </View>
+                    <View style={cs.pill}>
+                      <Text style={cs.pillText}>
+                        Growth: {report.summary.growthPotential}
+                      </Text>
+                    </View>
+                    <View style={cs.pill}>
+                      <Text style={cs.pillText}>
+                        {report.summary.studyPatternType}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+
+                <Text style={cs.secTitle}>Subject Performance</Text>
+                {report.subjectPerformance.map((s) => (
+                  <View key={s.subject} style={cs.barRow}>
+                    <Text style={cs.barLabel} numberOfLines={1}>
+                      {s.subject}
+                    </Text>
+                    <View style={cs.barTrack}>
+                      <View
+                        style={[
+                          cs.barFill,
+                          { width: `${Math.max(0, Math.min(100, s.score))}%` },
+                        ]}
+                      />
+                    </View>
+                    <Text style={cs.barVal}>{s.score}</Text>
+                  </View>
+                ))}
+
+                {report.keyInsights.length > 0 && (
+                  <>
+                    <Text style={cs.secTitle}>Key Insights</Text>
+                    {report.keyInsights.map((i, idx) => (
+                      <View key={idx} style={cs.bullet}>
+                        <CheckCircle size={14} color="#4CAF50" />
+                        <Text style={cs.bulletText}>{i}</Text>
+                      </View>
+                    ))}
+                  </>
+                )}
+
+                {report.recommendations.subjectLevel.length +
+                  report.recommendations.skillLevel.length >
+                  0 && (
+                  <>
+                    <Text style={cs.secTitle}>Recommendations</Text>
+                    {[
+                      ...report.recommendations.subjectLevel,
+                      ...report.recommendations.skillLevel,
+                    ].map((r, idx) => (
+                      <View key={idx} style={cs.bullet}>
+                        <TrendingUp size={14} color="#4A90E2" />
+                        <Text style={cs.bulletText}>{r}</Text>
+                      </View>
+                    ))}
+                  </>
+                )}
+
+                <Pressable
+                  style={cs.dlBtn}
+                  onPress={onDownload}
+                  disabled={exporting}
+                >
+                  {exporting ? (
+                    <ActivityIndicator color="#fff" />
+                  ) : (
+                    <>
+                      <Download size={18} color="#fff" />
+                      <Text style={cs.dlBtnText}>Download PDF</Text>
+                    </>
+                  )}
+                </Pressable>
+              </ScrollView>
+            )}
+          </View>
+        </View>
+      </Modal>
+    </>
+  );
+}
+
+const cs = StyleSheet.create({
+  intro: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    marginHorizontal: 16,
+    marginBottom: 8,
+    borderRadius: 22,
+    backgroundColor: "#8B7DD8",
+    padding: 18,
+    shadowColor: "#8B7DD8",
+    shadowOpacity: 0.32,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 14,
+    elevation: 5,
+  },
+  introIcon: {
+    width: 46,
+    height: 46,
+    borderRadius: 14,
+    backgroundColor: "rgba(255,255,255,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  introTitle: { fontSize: 16, fontWeight: "900", color: "#fff" },
+  introSub: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "rgba(255,255,255,0.82)",
+    marginTop: 2,
+  },
+  introBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    backgroundColor: "#fff",
+    borderRadius: 999,
+    paddingHorizontal: 14,
+    paddingVertical: 9,
+  },
+  introBtnText: { fontSize: 13, fontWeight: "800", color: "#7B5FC7" },
+  err: {
+    color: Colors.error,
+    fontSize: 12,
+    fontWeight: "600",
+    marginTop: 6,
+  },
+  summaryCard: {
+    gap: 12,
+    backgroundColor: "#8B7DD8",
+    borderRadius: Radius.card,
+    padding: 18,
+    marginBottom: 16,
+    shadowColor: "#8B7DD8",
+    shadowOpacity: 0.28,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 14,
+    elevation: 5,
+  },
+  summaryScoreWrap: { flexDirection: "row", alignItems: "flex-end" },
+  summaryScore: { fontSize: 42, fontWeight: "900", color: "#fff", lineHeight: 46 },
+  summaryScoreMax: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: "rgba(255,255,255,0.7)",
+    marginBottom: 8,
+    marginLeft: 3,
+  },
+  summaryPills: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
+  pill: {
+    backgroundColor: "rgba(255,255,255,0.2)",
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  pillText: { fontSize: 11, fontWeight: "800", color: "#fff" },
+  secTitle: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: Colors.text,
+    marginTop: 6,
+    marginBottom: 8,
+  },
+  barRow: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 10 },
+  barLabel: { width: 96, fontSize: 12, fontWeight: "600", color: Colors.textSecondary },
+  barTrack: {
+    flex: 1,
+    height: 10,
+    borderRadius: 999,
+    backgroundColor: Colors.border,
+    overflow: "hidden",
+  },
+  barFill: { height: 10, borderRadius: 999, backgroundColor: Colors.primary },
+  barVal: { width: 26, textAlign: "right", fontSize: 12, fontWeight: "800", color: Colors.text },
+  bullet: { flexDirection: "row", gap: 8, alignItems: "flex-start", marginBottom: 8 },
+  bulletText: { flex: 1, fontSize: 13, color: Colors.textSecondary, lineHeight: 18 },
+  dlBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    backgroundColor: Colors.accent,
+    borderRadius: Radius.lg,
+    paddingVertical: 15,
+    marginTop: 18,
+    ...Shadow.sm,
+  },
+  dlBtnText: { fontSize: 15, fontWeight: "800", color: "#fff" },
+});
+
 function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
   const {
     linkedStudents,
@@ -903,6 +1348,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
   } = useStudentProfile();
   const { apiFetch } = useAuth();
   const isStudentMode = mode === "student";
+  const insets = useSafeAreaInsets();
 
   const [activeTab, setActiveTab] = useState<ParentTab>("overview");
   const prevTab = useRef<ParentTab>("overview");
@@ -1459,6 +1905,14 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
               </>
             )}
 
+            {/* GROWTH TRENDS */}
+            {activeTab === "trends" && activeStudent && (
+              <TrendAnalysisTab
+                studentId={activeStudent.id}
+                studentName={activeStudent.firstName}
+              />
+            )}
+
             {/* QUIZZES */}
             {activeTab === "quizzes" && (
               <>
@@ -1889,6 +2343,23 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                 )}
               </>
             )}
+
+            {/* FEEDBACK */}
+            {activeTab === "feedback" && activeStudent && (
+              <ParentFeedbackTab
+                studentId={activeStudent.id}
+                studentName={activeStudent.firstName}
+                classLevel={activeStudent.classLevel || ''}
+              />
+            )}
+
+            {/* COUNSELING */}
+            {activeTab === "counseling" && activeStudent && (
+              <CounselingTab
+                studentId={activeStudent.id}
+                studentName={activeStudent.firstName}
+              />
+            )}
           </ScrollView>
         </View>
       )}
@@ -1901,7 +2372,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
         onRequestClose={() => setShowAllQuizzes(false)}
       >
         <View style={pr.modalOverlay}>
-          <View style={pr.modalSheet}>
+          <View style={[pr.modalSheet, { paddingBottom: Math.max(insets.bottom, 16) }]}>
             <View style={pr.modalHeader}>
               <View>
                 <Text style={pr.modalTitle}>All Quiz Attempts</Text>
@@ -1995,7 +2466,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
         onRequestClose={() => setShowAllClassrooms(false)}
       >
         <View style={pr.modalOverlay}>
-          <View style={pr.modalSheet}>
+          <View style={[pr.modalSheet, { paddingBottom: Math.max(insets.bottom, 16) }]}>
             <View style={pr.modalHeader}>
               <View>
                 <Text style={pr.modalTitle}>Classroom History</Text>
@@ -2067,7 +2538,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
         onRequestClose={() => setClassroomDetail(null)}
       >
         <View style={pr.modalOverlay}>
-          <View style={pr.modalSheet}>
+          <View style={[pr.modalSheet, { paddingBottom: Math.max(insets.bottom, 16) }]}>
             {classroomDetail && (
               <>
                 <View style={pr.modalHeader}>
@@ -2214,7 +2685,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
         onRequestClose={() => setQuizDetail(null)}
       >
         <View style={pr.modalOverlay}>
-          <View style={pr.modalSheet}>
+          <View style={[pr.modalSheet, { paddingBottom: Math.max(insets.bottom, 16) }]}>
             {loadingDetail ? (
               <View
                 style={{
@@ -3105,6 +3576,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
 
 export default function ReportsScreen() {
   const { user, apiFetch } = useAuth();
+  const insets = useSafeAreaInsets();
   const {
     linkedStudents,
     activeStudent,
@@ -3134,6 +3606,7 @@ export default function ReportsScreen() {
   const [seenStudentAttempts, setSeenStudentAttempts] = useState<Set<string>>(
     new Set(),
   );
+  const [teacherSection, setTeacherSection] = useState<"dashboard" | "feedback">("feedback");
 
   // Load persisted seen attempts for this teacher on mount
   useEffect(() => {
@@ -3336,6 +3809,29 @@ export default function ReportsScreen() {
               <Text style={s.xpLabel}>Reports</Text>
             </View>
           </View>
+
+          {/* Teacher section switcher */}
+          <View style={{ flexDirection: 'row', marginHorizontal: 16, marginBottom: 12, backgroundColor: '#F5F7FF', borderRadius: 14, padding: 4 }}>
+            <Pressable
+              style={{ flex: 1, paddingVertical: 10, borderRadius: 11, alignItems: 'center', backgroundColor: teacherSection === 'dashboard' ? '#fff' : 'transparent' }}
+              onPress={() => setTeacherSection('dashboard')}
+            >
+              <Text style={{ fontSize: 12, fontWeight: teacherSection === 'dashboard' ? '800' : '600', color: teacherSection === 'dashboard' ? '#4A90E2' : '#9A9AB0' }}>Dashboard</Text>
+            </Pressable>
+            <Pressable
+              style={{ flex: 1, paddingVertical: 10, borderRadius: 11, alignItems: 'center', backgroundColor: teacherSection === 'feedback' ? '#fff' : 'transparent' }}
+              onPress={() => setTeacherSection('feedback')}
+            >
+              <Text style={{ fontSize: 12, fontWeight: teacherSection === 'feedback' ? '800' : '600', color: teacherSection === 'feedback' ? '#4A90E2' : '#9A9AB0' }}>Feedback</Text>
+            </Pressable>
+          </View>
+
+          {teacherSection === 'feedback' ? (
+            <View style={{ paddingHorizontal: 16 }}>
+              <TeacherFeedbackTab />
+            </View>
+          ) : (
+          <>
 
           {error ? (
             <Text style={s.errorText}>{error}</Text>
@@ -3710,6 +4206,8 @@ export default function ReportsScreen() {
               )}
             </>
           )}
+          </>
+          )}
         </ScrollView>
 
         {/* ── Teacher quiz detail modal (same board UI as parent) ── */}
@@ -3720,7 +4218,7 @@ export default function ReportsScreen() {
           onRequestClose={() => setTeacherQuizDetail(null)}
         >
           <View style={pr.modalOverlay}>
-            <View style={pr.modalSheet}>
+            <View style={[pr.modalSheet, { paddingBottom: Math.max(insets.bottom, 16) }]}>
               {loadingTeacherDetail ? (
                 <View
                   style={{

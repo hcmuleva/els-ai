@@ -13,3 +13,9 @@ venv/
 __pycache__/
 **/.venv/
 k8s-els-ai
+
+# Local-only content, DB dumps, and archives (kept on disk, not tracked)
+content_generator/
+dump/
+Before_AI_AUOMATIN_dump.zip
+*.dump

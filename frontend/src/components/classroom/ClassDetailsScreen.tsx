@@ -12,12 +12,13 @@ import {
   ChevronLeft, Users, CheckCircle, ClipboardList, Target,
   BookOpen, Trophy, LayoutList, BarChart2, Calendar, Clock,
   CheckCheck, AlertCircle, Star, Check, Circle as CircleIcon,
-  Pencil, Plus, TrendingUp,
+  Pencil, Plus, TrendingUp, MessageCircle,
 } from 'lucide-react-native';
 import { getStandardLabel } from '../../constants/standards';
 import { API_BASE_URL } from '../../context/AuthContext';
 import { OWL } from '../../assets/svgs';
 import StudentRemarkSheet, { Achievement, StudentRemarkData } from './StudentRemarkSheet';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type DetailTab = 'overview' | 'students' | 'analytics';
@@ -310,13 +311,16 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [remarkStudent, setRemarkStudent] = useState<Student | null>(null);
   const [detailStudent, setDetailStudent] = useState<Student | null>(null);
-  const [detailTab, setDetailTab] = useState<'quiz' | 'assignment'>('quiz');
+  const [detailTab, setDetailTab] = useState<'quiz' | 'assignment' | 'parentFeedback'>('quiz');
   const [detailLoading, setDetailLoading] = useState(false);
   const [studentDetails, setStudentDetails] = useState<StudentDetailPayload | null>(null);
+  const [parentFeedbackItems, setParentFeedbackItems] = useState<Array<{ id: string; feedback: string; createdAt: string }>>([]);
+  const [parentFeedbackLoading, setParentFeedbackLoading] = useState(false);
   const [selectedQuizAttemptId, setSelectedQuizAttemptId] = useState<string | null>(null);
   const [studentSearch, setStudentSearch] = useState('');
   const [studentPage, setStudentPage] = useState(0);
   const [studentFilter, setStudentFilter] = useState<StudentFilter>('all');
+  const insets = useSafeAreaInsets();
 
   const loadData = useCallback(async () => {
     if (!classroomId) return;
@@ -374,10 +378,23 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
     }
   };
 
+  const loadParentFeedback = async (studentId: string) => {
+    setParentFeedbackLoading(true);
+    try {
+      const res = await apiFetch(`/students/${studentId}/parent-feedback?limit=20`);
+      if (res.ok) {
+        const data = await res.json();
+        setParentFeedbackItems(data.items || []);
+      }
+    } catch { /* silent */ }
+    finally { setParentFeedbackLoading(false); }
+  };
+
   const closeStudentDetails = () => {
     setDetailStudent(null);
     setStudentDetails(null);
     setSelectedQuizAttemptId(null);
+    setParentFeedbackItems([]);
   };
 
   const openAttachment = async (url?: string) => {
@@ -805,7 +822,7 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
     <Modal visible={!!classroomId} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
       <View style={ds.screen}>
         {/* Header */}
-        <View style={[ds.header, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+        <View style={[ds.header, { paddingTop: Math.max(insets.top, 12) }]}>
           <Pressable onPress={onClose} style={ds.backBtn}>
             <ChevronLeft size={24} color="#1a1a2e" />
           </Pressable>
@@ -1098,7 +1115,7 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
 
       <Modal visible={!!detailStudent} animationType="slide" presentationStyle="pageSheet" onRequestClose={closeStudentDetails}>
         <View style={ds.detailModalScreen}>
-          <View style={[ds.detailModalHeader, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+          <View style={[ds.detailModalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
             <Pressable onPress={closeStudentDetails} style={ds.backBtn}>
               <ChevronLeft size={24} color="#1a1a2e" />
             </Pressable>
@@ -1110,10 +1127,13 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
 
           <View style={ds.detailSwitchRow}>
             <Pressable style={[ds.detailSwitchBtn, detailTab === 'quiz' && ds.detailSwitchBtnActive]} onPress={() => setDetailTab('quiz')}>
-              <Text style={[ds.detailSwitchBtnText, detailTab === 'quiz' && ds.detailSwitchBtnTextActive]}>Quiz Attempts</Text>
+              <Text style={[ds.detailSwitchBtnText, detailTab === 'quiz' && ds.detailSwitchBtnTextActive]}>Quizzes</Text>
             </Pressable>
             <Pressable style={[ds.detailSwitchBtn, detailTab === 'assignment' && ds.detailSwitchBtnActive]} onPress={() => setDetailTab('assignment')}>
-              <Text style={[ds.detailSwitchBtnText, detailTab === 'assignment' && ds.detailSwitchBtnTextActive]}>Assignment Submissions</Text>
+              <Text style={[ds.detailSwitchBtnText, detailTab === 'assignment' && ds.detailSwitchBtnTextActive]}>Assignments</Text>
+            </Pressable>
+            <Pressable style={[ds.detailSwitchBtn, detailTab === 'parentFeedback' && ds.detailSwitchBtnActive]} onPress={() => { setDetailTab('parentFeedback'); if (detailStudent) loadParentFeedback(detailStudent.studentId); }}>
+              <Text style={[ds.detailSwitchBtnText, detailTab === 'parentFeedback' && ds.detailSwitchBtnTextActive]}>Parent Feedback</Text>
             </Pressable>
           </View>
 
@@ -1123,7 +1143,28 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
             </View>
           ) : (
             <ScrollView contentContainerStyle={ds.content} showsVerticalScrollIndicator={false}>
-              {detailTab === 'quiz' ? (
+              {detailTab === 'parentFeedback' ? (
+                parentFeedbackLoading ? (
+                  <View style={ds.centerWrap}><ActivityIndicator size="large" color="#4A90E2" /></View>
+                ) : parentFeedbackItems.length === 0 ? (
+                  <View style={ds.emptyWrap}>
+                    <View style={ds.emptyIconBox}>
+                      <MessageCircle size={36} color="#9A9AB0" />
+                    </View>
+                    <Text style={ds.emptyTitle}>No parent feedback</Text>
+                    <Text style={ds.emptySub}>No feedback submitted by this student's parent yet.</Text>
+                  </View>
+                ) : (
+                  parentFeedbackItems.map((item) => (
+                    <View key={item.id} style={ds.detailCard}>
+                      <Text style={{ fontSize: 13, color: '#1a1a2e', lineHeight: 20 }}>{item.feedback}</Text>
+                      <Text style={{ fontSize: 10, color: '#9A9AB0', marginTop: 6 }}>
+                        {new Date(item.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </Text>
+                    </View>
+                  ))
+                )
+              ) : detailTab === 'quiz' ? (
                 (studentDetails?.quizzes?.length ?? 0) === 0 ? (
                   <View style={ds.emptyWrap}>
                     <View style={ds.emptyIconBox}>

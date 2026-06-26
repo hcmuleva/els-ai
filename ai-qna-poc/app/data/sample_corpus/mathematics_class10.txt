@@ -1,0 +1,7 @@
+CBSE CLASS X MATHEMATICS - SAMPLE QUESTION PAPER (bundled fallback)
+
+1. Write the quadratic formula and the nature of roots in terms of the
+   discriminant b^2 - 4ac (roots, factorisation).
+2. Solve x^2 - 5x + 6 = 0 by factorisation.
+3. State the value of sin 30 and prove the identity sin^2 + cos^2 = 1
+   (trigonometry, trigonometric identity).

@@ -1,0 +1,6 @@
+[
+  { "class_level": "12", "subject": "physics", "difficulty": "hard", "count": 4, "types": ["sc", "mcq", "tf"], "topic": "semiconductors", "seed": 7 },
+  { "class_level": "12", "subject": "chemistry", "difficulty": "medium", "count": 4, "types": ["sc", "tf"], "topic": "solutions", "seed": 11 },
+  { "class_level": "12", "subject": "mathematics", "difficulty": "medium", "count": 4, "types": ["sc", "tf"], "topic": "vector_algebra", "seed": 5 },
+  { "class_level": "12", "subject": "biology", "difficulty": "hard", "count": 3, "types": ["sc", "tf"], "topic": "ecology", "seed": 9 }
+]

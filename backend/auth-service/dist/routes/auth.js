@@ -3,7 +3,7 @@ import { z } from 'zod';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { db } from '../db.js';
-import { enforceSubscriptionState, isSubscriptionActive } from '../services/billing.js';
+import { enforceSubscriptionState } from '../services/billing.js';
 import { createRequireAuth, requireRole as sharedRequireRole, } from '@els-ai/internal-auth';
 import { eventBus } from '../events/bus.js';
 const JWT_SECRET = process.env.JWT_SECRET || 'els-secret-key-super-secure';
@@ -57,7 +57,7 @@ function hitRegisterRateLimit(req) {
 }
 // Helper: Generate tokens
 function generateAccessToken(payload) {
-    return jwt.sign(payload, JWT_SECRET, { expiresIn: '15m' });
+    return jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' });
 }
 // 1. Register Endpoint
 authRouter.post('/register', async (req, res) => {
@@ -218,14 +218,15 @@ authRouter.post('/login', async (req, res) => {
        LIMIT 1`, [user.id, organizationId]);
         const canPublishGlobal = Boolean(globalPublishPermissionResult.rows[0]?.enabled);
         const subscription = await enforceSubscriptionState(organizationId);
-        const subscriptionActive = isSubscriptionActive(subscription);
-        if (!subscriptionActive && !isSuperAdmin) {
-            return res.status(402).json({
-                message: 'Trial has expired. Please subscribe to continue.',
-                code: 'PAYMENT_REQUIRED',
-                subscription,
-            });
-        }
+        // Subscription/trial-expiry gate temporarily disabled — allow login regardless of status.
+        // const subscriptionActive = isSubscriptionActive(subscription);
+        // if (!subscriptionActive && !isSuperAdmin) {
+        //   return res.status(402).json({
+        //     message: 'Trial has expired. Please subscribe to continue.',
+        //     code: 'PAYMENT_REQUIRED',
+        //     subscription,
+        //   });
+        // }
         let classAssignments = undefined;
         if (rolesList.includes('teacher')) {
             const classAssigmentsResult = await db.query(`SELECT COALESCE(
@@ -267,8 +268,8 @@ authRouter.post('/login', async (req, res) => {
         };
         const accessToken = generateAccessToken(tokenPayload);
         // Create refresh token
-        const rawRefreshToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30d' });
-        const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
+        const rawRefreshToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '90d' });
+        const expiresAt = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000); // 90 days
         await db.query(`INSERT INTO refresh_tokens (user_id, token_hash, expires_at)
        VALUES ($1, $2, $3)`, [user.id, rawRefreshToken, expiresAt]);
         void eventBus.publish({
@@ -352,14 +353,15 @@ authRouter.post('/refresh', async (req, res) => {
        LIMIT 1`, [user.id, orgId]);
         const canPublishGlobal = Boolean(globalPublishPermissionResult.rows[0]?.enabled);
         const subscription = await enforceSubscriptionState(orgId);
-        const subscriptionActive = isSubscriptionActive(subscription);
-        if (!subscriptionActive && !isSuperAdmin) {
-            return res.status(402).json({
-                message: 'Trial has expired. Please subscribe to continue.',
-                code: 'PAYMENT_REQUIRED',
-                subscription,
-            });
-        }
+        // Subscription/trial-expiry gate temporarily disabled — allow token refresh regardless of status.
+        // const subscriptionActive = isSubscriptionActive(subscription);
+        // if (!subscriptionActive && !isSuperAdmin) {
+        //   return res.status(402).json({
+        //     message: 'Trial has expired. Please subscribe to continue.',
+        //     code: 'PAYMENT_REQUIRED',
+        //     subscription,
+        //   });
+        // }
         // Generate new access token
         const newAccessToken = generateAccessToken({
             userId: user.id,
@@ -371,8 +373,8 @@ authRouter.post('/refresh', async (req, res) => {
             classLevel: user.class_level ?? null,
         });
         // Generate rotated refresh token
-        const newRefreshToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30d' });
-        const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+        const newRefreshToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '90d' });
+        const expiresAt = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
         await db.query(`INSERT INTO refresh_tokens (user_id, token_hash, expires_at)
        VALUES ($1, $2, $3)`, [user.id, newRefreshToken, expiresAt]);
         return res.json({

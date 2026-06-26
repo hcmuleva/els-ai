@@ -1,0 +1,24 @@
+{
+  "class_level": "12",
+  "subject": "mathematics",
+  "chapters": {
+    "Calculus": [
+      "Differentiation and applications of derivatives",
+      "Indefinite integrals",
+      "Definite integrals and area",
+      "Differential equations"
+    ],
+    "Vectors and 3D Geometry": [
+      "Scalar (dot) product",
+      "Vector (cross) product",
+      "Magnitude and direction cosines",
+      "Lines and planes in space"
+    ],
+    "Probability": [
+      "Conditional probability and independence",
+      "Bayes' theorem",
+      "Binomial distribution",
+      "Mean and variance of a distribution"
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import {
   Bell,
@@ -118,10 +119,11 @@ function NotificationPanel(props: {
   const { open, onClose, notifications, unreadCount, onMarkAllRead, onDeleteAllRead, onItemPress, onItemDelete } = props;
   const sorted = useMemo(() => [...notifications].sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1)), [notifications]);
   const readCount = useMemo(() => notifications.filter((n) => n.status === 'read').length, [notifications]);
+  const insets = useSafeAreaInsets();
 
   return (
     <Modal visible={open} animationType="slide" presentationStyle={Platform.OS === 'web' ? undefined : 'pageSheet'} onRequestClose={onClose} transparent={Platform.OS === 'web'}>
-      <View style={p.container}>
+      <View style={[p.container, { paddingTop: Math.max(insets.top, 8) }]}>
         <View style={p.handle} />
         <View style={p.header}>
           <Text style={p.title}>Notifications</Text>
@@ -144,7 +146,7 @@ function NotificationPanel(props: {
           </View>
         </View>
 
-        <ScrollView style={p.list} contentContainerStyle={p.listContent} showsVerticalScrollIndicator={false}>
+        <ScrollView style={p.list} contentContainerStyle={[p.listContent, { paddingBottom: Math.max(insets.bottom, 8) }]} showsVerticalScrollIndicator={false}>
           {sorted.length === 0 ? (
             <View style={p.empty}>
               <Bell size={36} color="#C9CCD8" />

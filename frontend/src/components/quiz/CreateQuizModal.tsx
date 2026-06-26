@@ -12,6 +12,7 @@ import { ChevronLeft, HelpCircle, Trophy } from 'lucide-react-native';
 import QuestionEditor, { SubjectCatalogItem } from './QuestionEditor';
 import QuizForm, { CreatedQuizSummary } from './QuizForm';
 import { AppUser } from '../../types/roles';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type ApiFetch = (path: string, options?: RequestInit) => Promise<Response>;
 type Tab = 'quiz' | 'question';
@@ -45,6 +46,7 @@ export default function CreateQuizModal({
   const [extraSelectedIds, setExtraSelectedIds] = useState<string[]>([]);
   const [refreshKey, setRefreshKey] = useState(0);
   const [toast, setToast] = useState<string | null>(null);
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     if (!visible) {
@@ -73,7 +75,7 @@ export default function CreateQuizModal({
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
       <View style={s.screen}>
-        <View style={[s.header, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+        <View style={[s.header, { paddingTop: Math.max(insets.top, 12) }]}>
           <Pressable onPress={onClose} style={s.backBtn}>
             <ChevronLeft size={24} color="#1a1a2e" />
           </Pressable>

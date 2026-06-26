@@ -11,6 +11,7 @@ import PlayQuizCTA from '../quiz/PlayQuizCTA';
 import AudioPlayer from '../media/AudioPlayer';
 import DocumentViewer from '../media/DocumentViewer';
 import { API_BASE_URL } from '../../context/AuthContext';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SCREEN_H = Dimensions.get('window').height;
 
@@ -96,6 +97,7 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
   const [scrollY, setScrollY] = useState(0);
   const [quizModalQuizId, setQuizModalQuizId] = useState<string | null>(null);
   const sectionYs = useRef<Record<string, number>>({});
+  const insets = useSafeAreaInsets();
 
   const content = contents[curIdx];
   const hasPrev = curIdx > 0;
@@ -120,7 +122,7 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
     <>
       <Modal visible={visible} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
         <View style={s.screen}>
-          <View style={[s.header, { paddingTop: Platform.OS === 'ios' ? 52 : 20 }]}>
+          <View style={[s.header, { paddingTop: Math.max(insets.top, 12) }]}>
             <Pressable onPress={onClose} style={s.backBtn}>
               <ChevronLeft size={22} color="#1a1a2e" />
             </Pressable>

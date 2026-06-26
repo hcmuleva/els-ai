@@ -4,6 +4,7 @@ import { Check, RotateCcw } from 'lucide-react-native';
 import { AudioManager } from '../../utils/audio';
 import { resolveMediaUrl } from './QuizRenderer';
 import type { QuestionTheme } from './QuizRenderer';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type DragItem = {
   id: string;
@@ -33,6 +34,7 @@ type Props = {
 };
 
 export default function DragDropRenderer({ questionData, onComplete, theme }: Props) {
+  const insets = useSafeAreaInsets();
   const DRAG_CARD_SIZE = 70;
   const { drag_items, drop_targets, match_rules } = questionData;
   // Shuffle the displayed draggable items so they don't line up 1:1 with the
@@ -329,7 +331,7 @@ export default function DragDropRenderer({ questionData, onComplete, theme }: Pr
         </Animated.View>
       )}
 
-      <View style={styles.footer}>
+      <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 16) }]}>
         <Pressable onPress={handleReset} style={styles.resetButton}>
           <RotateCcw size={16} color="#78350f" />
           <Text style={styles.resetButtonText}>Reset</Text>

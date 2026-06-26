@@ -1,0 +1,113 @@
+{
+  "meta": {
+    "class_level": "12",
+    "subject": "biology",
+    "difficulty": "hard",
+    "requested_count": 3,
+    "returned_count": 2,
+    "topic": "ecology",
+    "allowed_types": [
+      "single_choice",
+      "true_false"
+    ],
+    "provider": "droid-authored",
+    "format": "book-markdown-latex",
+    "generated_at": "2026-06-20T12:04:44.479650+00:00"
+  },
+  "source": {
+    "mode": "sample",
+    "dataset": null,
+    "pdf_path": null,
+    "pdf_url": null,
+    "detected_topic": "genetics",
+    "text_chars": 417,
+    "note": "PDF_SOURCE_MODE=sample"
+  },
+  "validation": {
+    "passed": true,
+    "checks": [
+      "2 questions passed structural validation",
+      "answer keys derived from correct options",
+      "book-format math delimiters checked",
+      "1 verified by deterministic sympy checks",
+      "LLM critic skipped (no API key)"
+    ],
+    "warnings": [],
+    "deduped": 2,
+    "verified": 1,
+    "refuted": 0,
+    "critic": "skipped",
+    "repaired": 0,
+    "attempts": 2
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single_choice",
+      "title_markdown": "In a food chain, producers capture $1000\\,\\text{J}$ of energy. Applying the $10\\%$ law of energy transfer, the energy available to the secondary consumers (third trophic level) is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "hard",
+      "points": 10,
+      "sort_order": 1,
+      "options": [
+        {
+          "id": "q1_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$10\\,\\text{J}$",
+          "is_correct": true
+        },
+        {
+          "id": "q1_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$100\\,\\text{J}$",
+          "is_correct": false
+        },
+        {
+          "id": "q1_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$1\\,\\text{J}$",
+          "is_correct": false
+        },
+        {
+          "id": "q1_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$0.1\\,\\text{J}$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q1_opt_1"
+      ],
+      "explanation_markdown": "**Given.** Producers (1st level) have $1000\\,\\text{J}$; only $10\\%$ passes to each next level.\n\n**Step 1 — Primary consumers (2nd level).** $1000 \\times 0.1 = 100\\,\\text{J}$.\n\n**Step 2 — Secondary consumers (3rd level).** $100 \\times 0.1 = 10\\,\\text{J}$, i.e. $1000 \\times 0.1 \\times 0.1$.\n\n**Answer.** $10\\,\\text{J}$.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "title_markdown": "An ecological pyramid of energy is always upright (energy decreases at each higher trophic level).",
+      "instruction": "State whether the statement is True or False.",
+      "difficulty": "easy",
+      "points": 10,
+      "sort_order": 2,
+      "options": [
+        {
+          "id": "q2_opt_1",
+          "slot_position": 1,
+          "label_markdown": "True",
+          "is_correct": true
+        },
+        {
+          "id": "q2_opt_2",
+          "slot_position": 2,
+          "label_markdown": "False",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q2_opt_1"
+      ],
+      "explanation_markdown": "**Idea.** Energy is lost as heat at every transfer (only ~10% passes up).\n\nBecause usable energy always decreases up the chain, the pyramid of energy can never be inverted; it is always upright. The statement is **true**.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    }
+  ]
+}

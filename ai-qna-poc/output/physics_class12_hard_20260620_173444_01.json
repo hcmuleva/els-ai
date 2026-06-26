@@ -1,0 +1,195 @@
+{
+  "meta": {
+    "class_level": "12",
+    "subject": "physics",
+    "difficulty": "hard",
+    "requested_count": 4,
+    "returned_count": 4,
+    "topic": "semiconductors",
+    "allowed_types": [
+      "single_choice",
+      "multi_choice",
+      "true_false"
+    ],
+    "provider": "droid-authored",
+    "format": "book-markdown-latex",
+    "generated_at": "2026-06-20T12:04:44.475004+00:00"
+  },
+  "source": {
+    "mode": "sample",
+    "dataset": null,
+    "pdf_path": null,
+    "pdf_url": null,
+    "detected_topic": "current_electricity",
+    "text_chars": 944,
+    "note": "PDF_SOURCE_MODE=sample"
+  },
+  "validation": {
+    "passed": true,
+    "checks": [
+      "4 questions passed structural validation",
+      "answer keys derived from correct options",
+      "book-format math delimiters checked",
+      "1 verified by deterministic sympy checks",
+      "LLM critic skipped (no API key)"
+    ],
+    "warnings": [],
+    "deduped": 0,
+    "verified": 1,
+    "refuted": 0,
+    "critic": "skipped",
+    "repaired": 0,
+    "attempts": 1
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multi_choice",
+      "title_markdown": "For an **intrinsic** semiconductor at a temperature $T > 0\\,\\text{K}$, which statements are correct?",
+      "instruction": "Select all correct options.",
+      "difficulty": "hard",
+      "points": 10,
+      "sort_order": 1,
+      "options": [
+        {
+          "id": "q1_opt_1",
+          "slot_position": 1,
+          "label_markdown": "The electron and hole concentrations are equal, $n_e = n_h$.",
+          "is_correct": true
+        },
+        {
+          "id": "q1_opt_2",
+          "slot_position": 2,
+          "label_markdown": "Its conductivity increases as the temperature rises.",
+          "is_correct": true
+        },
+        {
+          "id": "q1_opt_3",
+          "slot_position": 3,
+          "label_markdown": "It behaves as a perfect insulator at all temperatures.",
+          "is_correct": false
+        },
+        {
+          "id": "q1_opt_4",
+          "slot_position": 4,
+          "label_markdown": "Doping is essential before any conduction can occur.",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q1_opt_1",
+        "q1_opt_2"
+      ],
+      "explanation_markdown": "**Idea.** In an intrinsic (undoped) semiconductor, thermal energy creates electron-hole pairs.\n\n- Each broken bond gives one electron and one hole, so $n_e = n_h$ (**correct**).\n- Higher $T$ creates more pairs, so conductivity rises (**correct**).\n- It is not a perfect insulator above $0\\,\\text{K}$ (**wrong**).\n- It conducts intrinsically without doping (**wrong**).",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q2",
+      "type": "single_choice",
+      "title_markdown": "The forbidden energy gap $E_g$ of pure silicon at room temperature is closest to:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "easy",
+      "points": 10,
+      "sort_order": 2,
+      "options": [
+        {
+          "id": "q2_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$1.1\\,\\text{eV}$",
+          "is_correct": true
+        },
+        {
+          "id": "q2_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$0\\,\\text{eV}$",
+          "is_correct": false
+        },
+        {
+          "id": "q2_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$6.0\\,\\text{eV}$",
+          "is_correct": false
+        },
+        {
+          "id": "q2_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$0.3\\,\\text{eV}$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q2_opt_1"
+      ],
+      "explanation_markdown": "**Idea.** The band gap sets whether a solid is a conductor, semiconductor or insulator.\n\nFor silicon $E_g \\approx 1.1\\,\\text{eV}$ (germanium $\\approx 0.7\\,\\text{eV}$). A gap of $0\\,\\text{eV}$ is a conductor and $\\approx 6\\,\\text{eV}$ is an insulator (diamond).\n\n**Answer.** $E_g \\approx 1.1\\,\\text{eV}$.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q3",
+      "type": "single_choice",
+      "title_markdown": "In a common-emitter configuration, a transistor has base current $I_B = 0.02\\,\\text{mA}$ and current gain $\\beta = 50$. The collector current $I_C$ is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "medium",
+      "points": 10,
+      "sort_order": 3,
+      "options": [
+        {
+          "id": "q3_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$1\\,\\text{mA}$",
+          "is_correct": true
+        },
+        {
+          "id": "q3_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$0.4\\,\\text{mA}$",
+          "is_correct": false
+        },
+        {
+          "id": "q3_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$2.5\\,\\text{mA}$",
+          "is_correct": false
+        },
+        {
+          "id": "q3_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$52\\,\\text{mA}$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q3_opt_1"
+      ],
+      "explanation_markdown": "**Given.** $I_B = 0.02\\,\\text{mA}$ and $\\beta = 50$.\n\n**Idea.** In a transistor the collector current is the current gain times the base current.\n\n**Step 1.** $$I_C = \\beta\\, I_B.$$\n\n**Step 2.** $$I_C = 50 \\times 0.02 = 1\\,\\text{mA}.$$\n\n**Answer.** $I_C = 1\\,\\text{mA}$.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q4",
+      "type": "true_false",
+      "title_markdown": "In a $p$-$n$ junction diode, the width of the depletion region **increases** when the junction is reverse biased.",
+      "instruction": "State whether the statement is True or False.",
+      "difficulty": "easy",
+      "points": 10,
+      "sort_order": 4,
+      "options": [
+        {
+          "id": "q4_opt_1",
+          "slot_position": 1,
+          "label_markdown": "True",
+          "is_correct": true
+        },
+        {
+          "id": "q4_opt_2",
+          "slot_position": 2,
+          "label_markdown": "False",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q4_opt_1"
+      ],
+      "explanation_markdown": "**Idea.** Reverse bias pulls majority carriers away from the junction.\n\nWith fewer mobile carriers near the junction, more immobile ions are exposed, so the depletion region **widens** and the barrier potential rises. Hence the statement is **true**.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    }
+  ]
+}
