@@ -100,6 +100,7 @@ app.use('/students/subjects', makeProxy(TOPIC_SERVICE_URL, '/students/subjects')
 app.use('/assignments', makeProxy(ASSIGNMENT_SERVICE_URL, '/assignments'));
 app.use('/students', makeProxy(AUTH_SERVICE_URL, '/students'));
 app.use('/counseling', makeProxy(AUTH_SERVICE_URL, '/counseling'));
+app.use('/feedback', makeProxy(AUTH_SERVICE_URL, '/feedback'));
 app.use('/quizzes', makeProxy(QUIZ_SERVICE_URL, '/quizzes'));
 app.use('/ai', makeProxy(AI_SERVICE_URL, '/ai'));
 app.use('/assets', makeProxy(MEDIA_SERVICE_URL, '/assets'));

@@ -214,6 +214,8 @@ async function canAccessStudent(req, studentId, organizationId) {
     const isSelf = user.userId === studentId;
     if (isAdmin || isSelf)
         return true;
+    if (user.role === 'teacher')
+        return true;
     const parentCheck = await db.query(`SELECT 1 FROM parent_student_links
      WHERE parent_user_id = $1 AND student_user_id = $2 AND organization_id = $3::uuid LIMIT 1`, [user.userId, studentId, organizationId]);
     return (parentCheck.rowCount ?? 0) > 0;
@@ -429,7 +431,7 @@ studentsRouter.get('/:id/analytics', requireAuth, async (req, res) => {
        FROM student_analytics sa
        WHERE ${whereClauses.join(' AND ')}
        ORDER BY sa.analytics_date DESC
-       LIMIT 90`, params);
+       LIMIT 1200`, params);
         // Latest summary
         const latest = dailyResult.rows[0];
         // Activity type breakdown (last 30 days)
@@ -970,6 +972,89 @@ studentsRouter.get('/:id/parent-feedback', requireAuth, async (req, res) => {
     catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Failed to fetch parent feedback' });
+    }
+});
+// ── GET /students/:id/parent-dashboard — Consolidated parent view ────────────
+studentsRouter.get('/:id/parent-dashboard', requireAuth, async (req, res) => {
+    const studentId = getSingleParam(req.params.id);
+    const organizationId = getRequestOrganizationId(req);
+    if (!studentId)
+        return res.status(400).json({ message: 'Invalid student id' });
+    if (!(await canAccessStudent(req, studentId, organizationId)))
+        return res.status(403).json({ message: 'Forbidden' });
+    try {
+        const [remarksRes, feedbackRes, threadsRes, assessmentRes] = await Promise.all([
+            db.query(`SELECT c.id AS classroom_id, c.title AS classroom_title, c.class_level,
+                r.remark_text, r.parent_note, r.remark_media_url,
+                r.score_behavior, r.score_confidence, r.score_participation, r.score_performance,
+                r.updated_at AS remark_date,
+                TRIM(CONCAT(t.first_name, ' ', COALESCE(t.last_name, ''))) AS teacher_name
+         FROM classroom_student_remarks r
+         INNER JOIN classrooms c ON c.id = r.classroom_id
+         LEFT JOIN users t ON t.id = r.teacher_id
+         WHERE r.student_id = $1 AND c.organization_id = $2::uuid
+         ORDER BY r.updated_at DESC LIMIT 10`, [studentId, organizationId]),
+            db.query(`SELECT id, feedback_text, attachment_url, created_at
+         FROM parent_feedback
+         WHERE student_user_id = $1 AND organization_id = $2::uuid
+         ORDER BY created_at DESC LIMIT 5`, [studentId, organizationId]),
+            db.query(`SELECT ft.id, ft.subject, ft.status, ft.created_by_role, ft.updated_at,
+                (SELECT COUNT(*)::int FROM feedback_messages fm
+                 WHERE fm.thread_id = ft.id AND fm.is_read = false AND fm.sender_user_id != $3) AS unread_count
+         FROM feedback_threads ft
+         WHERE ft.student_user_id = $1 AND ft.organization_id = $2::uuid
+         ORDER BY ft.updated_at DESC LIMIT 10`, [studentId, organizationId, req.user?.userId]),
+            db.query(`SELECT behavior_score, focus_score, regularity_score,
+                creativity_score, academic_score, outdoor_activity_score, created_at
+         FROM parent_assessments
+         WHERE student_user_id = $1 AND organization_id = $2::uuid
+         ORDER BY created_at DESC LIMIT 1`, [studentId, organizationId]),
+        ]);
+        const totalUnread = threadsRes.rows.reduce((sum, r) => sum + Number(r.unread_count || 0), 0);
+        return res.json({
+            teacherRemarks: remarksRes.rows.map((r) => ({
+                classroomId: r.classroom_id,
+                classroomTitle: r.classroom_title,
+                classLevel: r.class_level,
+                remarkText: r.remark_text || null,
+                parentNote: r.parent_note || null,
+                remarkMediaUrl: r.remark_media_url || null,
+                scoreBehavior: r.score_behavior != null ? Number(r.score_behavior) : null,
+                scoreConfidence: r.score_confidence != null ? Number(r.score_confidence) : null,
+                scoreParticipation: r.score_participation != null ? Number(r.score_participation) : null,
+                scorePerformance: r.score_performance != null ? Number(r.score_performance) : null,
+                teacherName: (r.teacher_name || '').trim(),
+                remarkDate: r.remark_date,
+            })),
+            recentFeedback: feedbackRes.rows.map((r) => ({
+                id: r.id,
+                feedback: r.feedback_text,
+                attachmentUrl: r.attachment_url || null,
+                createdAt: r.created_at,
+            })),
+            threads: threadsRes.rows.map((r) => ({
+                id: r.id,
+                subject: r.subject,
+                status: r.status,
+                createdByRole: r.created_by_role,
+                unreadCount: Number(r.unread_count || 0),
+                updatedAt: r.updated_at,
+            })),
+            latestAssessment: assessmentRes.rows[0] ? {
+                behavior: Number(assessmentRes.rows[0].behavior_score),
+                focus: Number(assessmentRes.rows[0].focus_score),
+                regularity: Number(assessmentRes.rows[0].regularity_score),
+                creativity: Number(assessmentRes.rows[0].creativity_score),
+                academic: Number(assessmentRes.rows[0].academic_score),
+                outdoorActivity: Number(assessmentRes.rows[0].outdoor_activity_score),
+                createdAt: assessmentRes.rows[0].created_at,
+            } : null,
+            totalUnreadMessages: totalUnread,
+        });
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Failed to fetch parent dashboard' });
     }
 });
 // ── Helper: recompute daily analytics ───────────────────────────────────────

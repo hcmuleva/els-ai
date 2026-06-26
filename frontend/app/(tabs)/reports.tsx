@@ -50,6 +50,8 @@ import {
   Brain,
   Download,
   Sparkles,
+  MessageCircle,
+  Send,
 } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SvgXml } from "react-native-svg";
@@ -72,6 +74,9 @@ import {
   exportCounselingReportPdf,
   type CounselingReportData,
 } from "../../src/utils/counselingPdf";
+import ParentFeedbackTab from "../../src/components/feedback/ParentFeedbackTab";
+import TeacherFeedbackTab from "../../src/components/feedback/TeacherFeedbackTab";
+import TrendAnalysisTab from "../../src/components/reports/TrendAnalysisTab";
 import {
   CHART_DATA,
   SUBJECT_DETAILS,
@@ -852,16 +857,20 @@ type QuizAttemptDetail = {
 type IconComp = React.ComponentType<{ size: number; color: string }>;
 type ParentTab =
   | "overview"
+  | "trends"
   | "quizzes"
   | "assignments"
   | "classroom"
+  | "feedback"
   | "activity"
   | "counseling";
 const PARENT_TABS: Array<{ key: ParentTab; label: string; Icon: IconComp }> = [
   { key: "overview", label: "Overview", Icon: BarChart2 },
+  { key: "trends", label: "Growth Trends", Icon: TrendingUp },
   { key: "quizzes", label: "Quizzes", Icon: Layers },
   { key: "assignments", label: "Tasks", Icon: ClipboardList },
   { key: "classroom", label: "Classroom", Icon: School },
+  { key: "feedback", label: "Feedback", Icon: MessageCircle },
   { key: "activity", label: "Activity", Icon: Activity },
   { key: "counseling", label: "Counsel", Icon: Brain },
 ];
@@ -1896,6 +1905,14 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
               </>
             )}
 
+            {/* GROWTH TRENDS */}
+            {activeTab === "trends" && activeStudent && (
+              <TrendAnalysisTab
+                studentId={activeStudent.id}
+                studentName={activeStudent.firstName}
+              />
+            )}
+
             {/* QUIZZES */}
             {activeTab === "quizzes" && (
               <>
@@ -2325,6 +2342,15 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                   })
                 )}
               </>
+            )}
+
+            {/* FEEDBACK */}
+            {activeTab === "feedback" && activeStudent && (
+              <ParentFeedbackTab
+                studentId={activeStudent.id}
+                studentName={activeStudent.firstName}
+                classLevel={activeStudent.classLevel || ''}
+              />
             )}
 
             {/* COUNSELING */}
@@ -3580,6 +3606,7 @@ export default function ReportsScreen() {
   const [seenStudentAttempts, setSeenStudentAttempts] = useState<Set<string>>(
     new Set(),
   );
+  const [teacherSection, setTeacherSection] = useState<"dashboard" | "feedback">("feedback");
 
   // Load persisted seen attempts for this teacher on mount
   useEffect(() => {
@@ -3782,6 +3809,29 @@ export default function ReportsScreen() {
               <Text style={s.xpLabel}>Reports</Text>
             </View>
           </View>
+
+          {/* Teacher section switcher */}
+          <View style={{ flexDirection: 'row', marginHorizontal: 16, marginBottom: 12, backgroundColor: '#F5F7FF', borderRadius: 14, padding: 4 }}>
+            <Pressable
+              style={{ flex: 1, paddingVertical: 10, borderRadius: 11, alignItems: 'center', backgroundColor: teacherSection === 'dashboard' ? '#fff' : 'transparent' }}
+              onPress={() => setTeacherSection('dashboard')}
+            >
+              <Text style={{ fontSize: 12, fontWeight: teacherSection === 'dashboard' ? '800' : '600', color: teacherSection === 'dashboard' ? '#4A90E2' : '#9A9AB0' }}>Dashboard</Text>
+            </Pressable>
+            <Pressable
+              style={{ flex: 1, paddingVertical: 10, borderRadius: 11, alignItems: 'center', backgroundColor: teacherSection === 'feedback' ? '#fff' : 'transparent' }}
+              onPress={() => setTeacherSection('feedback')}
+            >
+              <Text style={{ fontSize: 12, fontWeight: teacherSection === 'feedback' ? '800' : '600', color: teacherSection === 'feedback' ? '#4A90E2' : '#9A9AB0' }}>Feedback</Text>
+            </Pressable>
+          </View>
+
+          {teacherSection === 'feedback' ? (
+            <View style={{ paddingHorizontal: 16 }}>
+              <TeacherFeedbackTab />
+            </View>
+          ) : (
+          <>
 
           {error ? (
             <Text style={s.errorText}>{error}</Text>
@@ -4155,6 +4205,8 @@ export default function ReportsScreen() {
                 </View>
               )}
             </>
+          )}
+          </>
           )}
         </ScrollView>
 

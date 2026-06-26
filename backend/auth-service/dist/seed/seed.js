@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { db } from '../db.js';
+import { seedDemoTrends } from './seed-demo-trends.js';
 const LKG_UKG_SUBJECTS = [
     { title: 'English', description: 'Foundational language skills for listening, speaking, and early literacy.', iconImage: 'symbol:book-open', iconBgColor: '#D6EAFF' },
     { title: 'Mathematics', description: 'Number sense, counting, and early problem-solving activities.', iconImage: 'symbol:hash', iconBgColor: '#FFE8D6', aliases: ['Maths'] },
@@ -179,6 +180,14 @@ export async function initSchemaAndSeed() {
             }
         }
         await ensureDefaultOrgAndPlanSeeds();
+        if (process.env.SEED_DEMO_TRENDS === 'true') {
+            try {
+                await seedDemoTrends();
+            }
+            catch (err) {
+                console.error('[seed] demo-trends seeding failed (non-fatal):', err);
+            }
+        }
         console.log('Schema already exists. Skipping destructive seed.');
         return;
     }
@@ -403,6 +412,47 @@ export async function initSchemaAndSeed() {
       feedback_text TEXT NOT NULL,
       attachment_url TEXT,
       created_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+    // 5.1b Feedback threads (parent-teacher communication)
+    await db.query(`
+    CREATE TABLE IF NOT EXISTS feedback_threads (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      student_user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE NOT NULL,
+      classroom_id UUID,
+      subject TEXT,
+      created_by UUID REFERENCES users(id),
+      created_by_role VARCHAR(20) NOT NULL DEFAULT 'parent',
+      status VARCHAR(20) NOT NULL DEFAULT 'open',
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+    await db.query(`
+    CREATE TABLE IF NOT EXISTS feedback_messages (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      thread_id UUID REFERENCES feedback_threads(id) ON DELETE CASCADE NOT NULL,
+      sender_user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+      sender_role VARCHAR(20) NOT NULL,
+      message_text TEXT NOT NULL,
+      attachment_url TEXT,
+      is_read BOOLEAN DEFAULT false,
+      created_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+    // 5.1c Feedback topics (non-academic categories for structured feedback)
+    await db.query(`
+    CREATE TABLE IF NOT EXISTS feedback_topics (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+      category VARCHAR(30) NOT NULL DEFAULT 'non_academic',
+      title VARCHAR(255) NOT NULL,
+      description TEXT,
+      class_level VARCHAR(50) DEFAULT 'any',
+      is_active BOOLEAN DEFAULT true,
+      created_at TIMESTAMP DEFAULT NOW(),
+      UNIQUE(organization_id, category, title, class_level)
     );
   `);
     // 5.2 Teacher standard-subject assignments

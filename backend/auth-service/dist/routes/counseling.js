@@ -184,7 +184,30 @@ async function loadAnswers(sessionId) {
 }
 // ── Routes ───────────────────────────────────────────────────────────────────
 // GET /counseling/questionnaire — the versioned survey definition.
-counselingRouter.get('/questionnaire', requireAuth, (_req, res) => {
+// Accepts optional ?classLevel=X to dynamically populate subjects from DB.
+counselingRouter.get('/questionnaire', requireAuth, async (req, res) => {
+    const classLevel = req.query.classLevel;
+    const organizationId = orgId(req);
+    if (classLevel && organizationId) {
+        try {
+            const subjectsResult = await db.query(`SELECT title FROM subjects WHERE organization_id = $1::uuid AND class_level = $2 ORDER BY title ASC`, [organizationId, classLevel]);
+            if (subjectsResult.rows.length > 0) {
+                const dynamicSubjects = subjectsResult.rows.map((row) => ({
+                    key: row.title.toLowerCase().replace(/[^a-z0-9]+/g, '_'),
+                    label: row.title,
+                }));
+                const questionnaire = JSON.parse(JSON.stringify(QUESTIONNAIRE));
+                const academicSection = questionnaire.sections.find((s) => s.id === 'academic');
+                if (academicSection) {
+                    academicSection.subjects = dynamicSubjects;
+                }
+                return res.json(questionnaire);
+            }
+        }
+        catch (err) {
+            console.error('[counseling] failed to fetch subjects for questionnaire', err);
+        }
+    }
     res.json(QUESTIONNAIRE);
 });
 // POST /counseling/sessions — start a session for a child.

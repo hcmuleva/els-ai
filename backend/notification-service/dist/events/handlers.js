@@ -1,7 +1,18 @@
 import { eventBus } from './bus.js';
+import { AblyEventBus } from '@els-ai/event-bus';
 import { db } from '../db.js';
 import { NotificationStore } from '../services/notification-store.js';
 import { Targeting } from '../services/targeting.js';
+async function pushToUserChannel(orgId, userId, name, data) {
+    if (eventBus instanceof AblyEventBus) {
+        try {
+            await eventBus.notify({ channel: `notification:${orgId}:${userId}`, name, data });
+        }
+        catch (err) {
+            console.error('[handlers] ably push failed', { name, err });
+        }
+    }
+}
 function classroomRoute(_classroomId, _isScheduled) {
     return '/(tabs)/classroom';
 }
@@ -255,6 +266,98 @@ export async function registerNotificationHandlers() {
                     sourceEventId: event.id,
                     parentNotificationId: studentNotif?.id,
                 });
+            }
+        }
+        if (event.payload && event.payload.kind === 'feedback_thread_created') {
+            const orgId = event.organizationId;
+            if (!orgId)
+                return;
+            const data = event.payload;
+            const { studentId, parentIds } = await Targeting.resolveStudentAndParents(data.studentUserId);
+            if (data.createdByRole === 'parent') {
+                const teacherIds = await Targeting.resolveTeachersForStudent(studentId, orgId);
+                for (const teacherId of teacherIds) {
+                    await NotificationStore.create({
+                        userId: teacherId,
+                        organizationId: orgId,
+                        type: 'FEEDBACK_THREAD',
+                        category: 'feedback',
+                        title: 'New parent message',
+                        message: `A parent started a conversation: "${(data.subject || '').slice(0, 100)}"`,
+                        ctaLabel: 'View',
+                        ctaRoute: '/(tabs)/classroom',
+                        metadata: { threadId: data.threadId, studentUserId: studentId },
+                        sourceEventId: event.id,
+                    });
+                }
+            }
+            else if (data.createdByRole === 'teacher') {
+                for (const parentId of parentIds) {
+                    await NotificationStore.create({
+                        userId: parentId,
+                        organizationId: orgId,
+                        type: 'FEEDBACK_THREAD',
+                        category: 'feedback',
+                        title: 'Teacher started a conversation',
+                        message: `Teacher wants to discuss: "${(data.subject || '').slice(0, 100)}"`,
+                        ctaLabel: 'View',
+                        ctaRoute: '/(tabs)/reports',
+                        metadata: { threadId: data.threadId, studentUserId: studentId },
+                        sourceEventId: event.id,
+                    });
+                }
+            }
+        }
+        if (event.payload && event.payload.kind === 'feedback_message') {
+            const orgId = event.organizationId;
+            if (!orgId)
+                return;
+            const data = event.payload;
+            const studentId = data.studentUserId;
+            const parentId = data.parentId;
+            const realtimePayload = {
+                threadId: data.threadId,
+                studentUserId: studentId,
+                senderRole: data.senderRole,
+                message: (data.message || '').slice(0, 200),
+                sentAt: new Date().toISOString(),
+            };
+            if (data.senderRole === 'parent') {
+                // Parent sent a message - notify teachers of the student
+                const teacherIds = await Targeting.resolveTeachersForStudent(studentId, orgId);
+                for (const teacherId of teacherIds) {
+                    await NotificationStore.create({
+                        userId: teacherId,
+                        organizationId: orgId,
+                        type: 'FEEDBACK_MESSAGE',
+                        category: 'feedback',
+                        title: 'New parent reply',
+                        message: (data.message || '').slice(0, 150),
+                        ctaLabel: 'Reply',
+                        ctaRoute: '/(tabs)/classroom',
+                        metadata: { threadId: data.threadId, studentUserId: studentId },
+                        sourceEventId: event.id,
+                    });
+                    await pushToUserChannel(orgId, teacherId, 'feedback_new_message', realtimePayload);
+                }
+            }
+            else if (data.senderRole === 'teacher') {
+                // Teacher sent a message - notify ONLY the specific parent involved in this thread
+                if (parentId) {
+                    await NotificationStore.create({
+                        userId: parentId,
+                        organizationId: orgId,
+                        type: 'FEEDBACK_MESSAGE',
+                        category: 'feedback',
+                        title: 'Teacher replied',
+                        message: (data.message || '').slice(0, 150),
+                        ctaLabel: 'View',
+                        ctaRoute: '/(tabs)/reports',
+                        metadata: { threadId: data.threadId, studentUserId: studentId },
+                        sourceEventId: event.id,
+                    });
+                    await pushToUserChannel(orgId, parentId, 'feedback_new_message', realtimePayload);
+                }
             }
         }
     });

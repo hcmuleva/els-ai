@@ -4,6 +4,7 @@ import {
   ChartColumn,
   FileText,
   House,
+  MessageCircle,
   Settings,
   Shield,
   SquareLibrary,
@@ -20,6 +21,7 @@ export const roleTabs: Record<UserRole, RoleTabItem[]> = {
   teacher: [
     { route: 'planner', label: 'Planner', icon: SquareLibrary },
     { route: 'manage', label: 'Manage', icon: FileText },
+    { route: 'reports', label: 'Feedback', icon: MessageCircle },
     { route: 'stories', label: 'Stories', icon: BookOpenCheck },
     { route: 'quiz', label: 'Quiz', icon: FileText },
   ],

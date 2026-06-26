@@ -44,4 +44,17 @@ export const Targeting = {
     );
     return { studentId: studentUserId, parentIds: result.rows.map((r) => r.parent_user_id) };
   },
+
+  async resolveTeachersForStudent(studentUserId: string, organizationId: string): Promise<string[]> {
+    const result = await db.query<{ created_by: string }>(
+      `SELECT DISTINCT c.created_by
+       FROM classrooms c
+       INNER JOIN users u ON u.class_level = c.class_level
+       WHERE u.id = $1::uuid
+         AND c.organization_id = $2::uuid
+         AND c.created_by IS NOT NULL`,
+      [studentUserId, organizationId],
+    );
+    return result.rows.map((r) => r.created_by);
+  },
 };
