@@ -69,6 +69,12 @@ export type CreatedQuizSummary = {
 type Difficulty = 'Easy' | 'Medium' | 'Hard';
 type CreationMode = 'quiz' | 'exam';
 type SelectorField = 'classLevel' | 'subject';
+type ExplanationMode = 'per_question' | 'end';
+
+const EXPLANATION_MODES: Array<{ value: ExplanationMode; label: string; hint: string }> = [
+  { value: 'per_question', label: 'After each question', hint: 'Show the solution right after a student answers.' },
+  { value: 'end', label: 'After the quiz ends', hint: 'Collect all solutions and show them on the results screen.' },
+];
 
 type SubjectCatalogItem = {
   classLevel: string;
@@ -86,6 +92,7 @@ type AssessmentDraft = {
   difficultyLevel: Difficulty;
   hasTimeLimit: boolean;
   timeLimitMinutes: string;
+  explanationMode: ExplanationMode;
 };
 
 const QUIZ_TYPE_LABELS: Record<string, string> = {
@@ -169,6 +176,7 @@ const INITIAL_DRAFT: AssessmentDraft = {
   difficultyLevel: 'Easy',
   hasTimeLimit: false,
   timeLimitMinutes: '10',
+  explanationMode: 'per_question',
 };
 
 export type QuizFormProps = {
@@ -459,6 +467,7 @@ export default function QuizForm({
               hasTimeLimit: draft.hasTimeLimit,
               timeLimitMinutes: draft.hasTimeLimit ? Number(draft.timeLimitMinutes) : null,
               pointPolicy: activeMode === 'exam' ? 'use_question_points' : 'ignore_question_points',
+              explanationMode: draft.explanationMode,
             },
           },
         }),
@@ -654,6 +663,27 @@ export default function QuizForm({
                 );
               })}
             </View>
+          </View>
+
+          <View style={s.fieldGroup}>
+            <Text style={s.fieldLabel}>Show Explanations</Text>
+            <View style={s.explnRow}>
+              {EXPLANATION_MODES.map((opt) => {
+                const isActive = draft.explanationMode === opt.value;
+                return (
+                  <Pressable
+                    key={opt.value}
+                    style={[s.explnChip, isActive && s.explnChipActive]}
+                    onPress={() => setCurrentDraft({ explanationMode: opt.value })}
+                  >
+                    <Text style={[s.explnChipText, isActive && s.explnChipTextActive]}>{opt.label}</Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+            <Text style={s.explnHint}>
+              {EXPLANATION_MODES.find((o) => o.value === draft.explanationMode)?.hint}
+            </Text>
           </View>
 
           <Pressable
@@ -1019,6 +1049,13 @@ const s = StyleSheet.create({
   chipsRow:    { flexDirection: 'row', gap: 8 },
   diffChip:    { flexDirection: 'row', alignItems: 'center', gap: 5, borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 999, paddingHorizontal: 14, paddingVertical: 7, backgroundColor: '#F8F9FF' },
   diffChipText:{ fontSize: 12, fontWeight: '700', color: '#9A9AB0' },
+
+  explnRow:          { flexDirection: 'row', gap: 8 },
+  explnChip:         { flex: 1, borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 10, backgroundColor: '#F8F9FF', alignItems: 'center' },
+  explnChipActive:   { borderColor: '#4A90E2', backgroundColor: '#EBF4FF' },
+  explnChipText:     { fontSize: 12, fontWeight: '700', color: '#9A9AB0', textAlign: 'center' },
+  explnChipTextActive:{ color: '#4A90E2' },
+  explnHint:         { fontSize: 11, color: '#9A9AB0', fontStyle: 'italic', marginTop: 2 },
 
   checkboxRow: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 2 },
   checkbox: { width: 20, height: 20, borderRadius: 6, borderWidth: 1.5, borderColor: '#D0D8F0', alignItems: 'center', justifyContent: 'center', backgroundColor: '#F8F9FF' },

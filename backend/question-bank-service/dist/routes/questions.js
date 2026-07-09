@@ -30,6 +30,7 @@ const updateQuestionSchema = z
     questionType: z.string().trim().optional(),
     questionTitle: z.string().trim().optional(),
     questionInstruction: z.string().trim().optional(),
+    explanation: z.string().trim().optional(),
     questionAudio: z.string().trim().optional(),
     timeLimitSeconds: z.number().int().min(1).max(600).optional(),
     points: z.number().int().min(0).max(1000).optional(),
@@ -46,6 +47,7 @@ const createManagedQuestionSchema = z.object({
     questionType: z.string().trim().min(1),
     questionTitle: z.string().trim().min(1),
     questionInstruction: z.string().trim().optional(),
+    explanation: z.string().trim().optional(),
     questionAudio: z.string().trim().optional(),
     timeLimitSeconds: z.number().int().min(1).max(600).default(30),
     points: z.number().int().min(0).max(1000).default(10),
@@ -194,6 +196,7 @@ questionsRouter.get('/', requireAuth, async (req, res) => {
          qq.question_type,
          qq.question_title,
          qq.question_instruction,
+         qq.explanation,
          qq.question_audio,
          qq.time_limit_seconds,
          qq.points,
@@ -234,6 +237,7 @@ questionsRouter.get('/:questionId', requireAuth, async (req, res) => {
          qq.question_type,
          qq.question_title,
          qq.question_instruction,
+         qq.explanation,
          qq.question_audio,
          qq.time_limit_seconds,
          qq.points,
@@ -266,7 +270,7 @@ questionsRouter.post('/', requireAuth, async (req, res) => {
         return res.status(400).json({ message: 'Organization not found in auth context' });
     }
     const userId = req.user.userId;
-    const { quizId, classLevel, subject, questionType, questionTitle, questionInstruction, questionAudio, timeLimitSeconds, points, sortOrder, questionData, } = parsedBody.data;
+    const { quizId, classLevel, subject, questionType, questionTitle, questionInstruction, explanation, questionAudio, timeLimitSeconds, points, sortOrder, questionData, } = parsedBody.data;
     const client = await db.connect();
     try {
         await client.query('BEGIN');
@@ -298,13 +302,14 @@ questionsRouter.post('/', requireAuth, async (req, res) => {
                 },
             }
             : { payload: questionData, _meta: { creatorId: userId, organizationId: orgId, classLevel: classLevel || null, subject: subject || null } };
-        const insertResult = await client.query(`INSERT INTO quiz_questions (quiz_id, question_type, question_title, question_instruction, question_audio, time_limit_seconds, points, sort_order, question_data)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        const insertResult = await client.query(`INSERT INTO quiz_questions (quiz_id, question_type, question_title, question_instruction, explanation, question_audio, time_limit_seconds, points, sort_order, question_data)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
        RETURNING id`, [
             quizId || null,
             questionType,
             questionTitle,
             questionInstruction || null,
+            explanation || null,
             questionAudio || null,
             timeLimitSeconds,
             points,
@@ -327,6 +332,7 @@ questionsRouter.post('/', requireAuth, async (req, res) => {
          qq.question_type,
          qq.question_title,
          qq.question_instruction,
+         qq.explanation,
          qq.question_audio,
          qq.time_limit_seconds,
          qq.points,
@@ -369,7 +375,7 @@ questionsRouter.patch('/:questionId', requireAuth, async (req, res) => {
         if (!permission.allowed) {
             return res.status(403).json({ message: 'Only original creator or quiz creator can edit this question' });
         }
-        const { classLevel, subject, questionType, questionTitle, questionInstruction, questionAudio, timeLimitSeconds, points, sortOrder, questionData, } = parsedBody.data;
+        const { classLevel, subject, questionType, questionTitle, questionInstruction, explanation, questionAudio, timeLimitSeconds, points, sortOrder, questionData, } = parsedBody.data;
         let preparedQuestionData = questionData;
         if (classLevel !== undefined || subject !== undefined) {
             const existingQuestion = await db.query(`SELECT question_data FROM quiz_questions WHERE id = $1`, [questionId]);
@@ -406,6 +412,10 @@ questionsRouter.patch('/:questionId', requireAuth, async (req, res) => {
             params.push(questionInstruction || null);
             updates.push(`question_instruction = $${params.length}`);
         }
+        if (explanation !== undefined) {
+            params.push(explanation || null);
+            updates.push(`explanation = $${params.length}`);
+        }
         if (questionAudio !== undefined) {
             params.push(questionAudio || null);
             updates.push(`question_audio = $${params.length}`);
@@ -440,6 +450,7 @@ questionsRouter.patch('/:questionId', requireAuth, async (req, res) => {
          qq.question_type,
          qq.question_title,
          qq.question_instruction,
+         qq.explanation,
          qq.question_audio,
          qq.time_limit_seconds,
          qq.points,
@@ -558,6 +569,7 @@ questionBankRouter.get('/', requireAuth, async (req, res) => {
          qq.question_type,
          qq.question_title,
          qq.question_instruction,
+         qq.explanation,
          qq.question_audio,
          qq.time_limit_seconds,
          qq.points,

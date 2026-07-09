@@ -41,6 +41,7 @@ const createQuestionSchema = z.object({
   questionType: z.string(),
   questionTitle: z.string().optional(),
   questionInstruction: z.string().optional(),
+  explanation: z.string().optional(),
   questionAudio: z.string().optional(),
   timeLimitSeconds: z.number().default(30),
   points: z.number().default(10),
@@ -631,14 +632,15 @@ quizzesRouter.post('/:quizId/questions/reuse', requireAuth, async (req: any, res
     };
 
     const insertResult = await client.query(
-      `INSERT INTO quiz_questions (quiz_id, question_type, question_title, question_instruction, question_audio, time_limit_seconds, points, sort_order, question_data)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, NULL, $8)
+      `INSERT INTO quiz_questions (quiz_id, question_type, question_title, question_instruction, explanation, question_audio, time_limit_seconds, points, sort_order, question_data)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NULL, $9)
        RETURNING id`,
       [
         quizId,
         source.question_type,
         source.question_title,
         source.question_instruction,
+        source.explanation,
         source.question_audio,
         source.time_limit_seconds,
         source.points,
@@ -665,6 +667,7 @@ quizzesRouter.post('/:quizId/questions/reuse', requireAuth, async (req: any, res
          qq.question_type,
          qq.question_title,
          qq.question_instruction,
+         qq.explanation,
          qq.question_audio,
          qq.time_limit_seconds,
          qq.points,
@@ -1004,7 +1007,7 @@ quizzesRouter.post('/:id/questions', requireAuth, async (req: any, res) => {
   }
   const userId = req.user.userId as string;
 
-  const { questionType, questionTitle, questionInstruction, questionAudio, timeLimitSeconds, points, sortOrder, questionData } = parsed.data;
+  const { questionType, questionTitle, questionInstruction, explanation, questionAudio, timeLimitSeconds, points, sortOrder, questionData } = parsed.data;
 
   try {
     const permission = await ensureQuizEditPermission(id, orgId, userId, req);
@@ -1035,10 +1038,10 @@ quizzesRouter.post('/:id/questions', requireAuth, async (req: any, res) => {
         : { payload: questionData, _meta: { creatorId: userId } };
 
     const result = await db.query(
-      `INSERT INTO quiz_questions (quiz_id, question_type, question_title, question_instruction, question_audio, time_limit_seconds, points, sort_order, question_data)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      `INSERT INTO quiz_questions (quiz_id, question_type, question_title, question_instruction, explanation, question_audio, time_limit_seconds, points, sort_order, question_data)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
        RETURNING *`,
-      [id, questionType, questionTitle || null, questionInstruction || null, questionAudio || null, timeLimitSeconds, points, sortOrder || null, preparedQuestionData],
+      [id, questionType, questionTitle || null, questionInstruction || null, explanation || null, questionAudio || null, timeLimitSeconds, points, sortOrder || null, preparedQuestionData],
     );
 
     await db.query(

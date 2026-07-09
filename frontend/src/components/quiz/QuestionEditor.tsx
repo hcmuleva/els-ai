@@ -721,6 +721,16 @@ export default function QuestionEditor({
                 multiline
                 placeholderTextColor="#B0B8D0"
               />
+              <View style={qFormS.divider} />
+              <Text style={qFormS.fieldLabel}>Explanation (optional)</Text>
+              <TextInput
+                value={draft.explanation}
+                onChangeText={(v) => updateField('explanation', v)}
+                placeholder="Explain why the correct answer is right. Shown to students as the solution."
+                style={[qFormS.input, { minHeight: 72 }]}
+                multiline
+                placeholderTextColor="#B0B8D0"
+              />
             </View>
           </View>
 
