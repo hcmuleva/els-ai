@@ -6,6 +6,7 @@ import { db } from './db.js';
 import { requireAuth } from './middleware/auth.js';
 import { contentRouter } from './routes/content.js';
 import { bookmarksRouter } from './routes/bookmarks.js';
+import { videoContentRouter, videoSectionsRouter } from './routes/video-sections.js';
 
 config();
 
@@ -21,6 +22,8 @@ app.get('/health', (_req, res) => {
 });
 
 app.use('/content', requireAuth, tenantContext, contentRouter);
+app.use('/content', requireAuth, tenantContext, videoContentRouter);
+app.use('/video-sections', requireAuth, tenantContext, videoSectionsRouter);
 app.use('/bookmarks', requireAuth, tenantContext, bookmarksRouter);
 
 async function bootstrap() {

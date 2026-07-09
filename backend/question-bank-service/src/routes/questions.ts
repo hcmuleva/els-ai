@@ -34,6 +34,7 @@ const updateQuestionSchema = z
     questionType: z.string().trim().optional(),
     questionTitle: z.string().trim().optional(),
     questionInstruction: z.string().trim().optional(),
+    explanation: z.string().trim().optional(),
     questionAudio: z.string().trim().optional(),
     timeLimitSeconds: z.number().int().min(1).max(600).optional(),
     points: z.number().int().min(0).max(1000).optional(),
@@ -51,6 +52,7 @@ const createManagedQuestionSchema = z.object({
   questionType: z.string().trim().min(1),
   questionTitle: z.string().trim().min(1),
   questionInstruction: z.string().trim().optional(),
+  explanation: z.string().trim().optional(),
   questionAudio: z.string().trim().optional(),
   timeLimitSeconds: z.number().int().min(1).max(600).default(30),
   points: z.number().int().min(0).max(1000).default(10),
@@ -248,6 +250,7 @@ questionsRouter.get('/', requireAuth, async (req: any, res) => {
          qq.question_type,
          qq.question_title,
          qq.question_instruction,
+         qq.explanation,
          qq.question_audio,
          qq.time_limit_seconds,
          qq.points,
@@ -291,6 +294,7 @@ questionsRouter.get('/:questionId', requireAuth, async (req: any, res) => {
          qq.question_type,
          qq.question_title,
          qq.question_instruction,
+         qq.explanation,
          qq.question_audio,
          qq.time_limit_seconds,
          qq.points,
@@ -334,6 +338,7 @@ questionsRouter.post('/', requireAuth, async (req: any, res) => {
     questionType,
     questionTitle,
     questionInstruction,
+    explanation,
     questionAudio,
     timeLimitSeconds,
     points,
@@ -381,14 +386,15 @@ questionsRouter.post('/', requireAuth, async (req: any, res) => {
         : { payload: questionData, _meta: { creatorId: userId, organizationId: orgId, classLevel: classLevel || null, subject: subject || null } };
 
     const insertResult = await client.query(
-      `INSERT INTO quiz_questions (quiz_id, question_type, question_title, question_instruction, question_audio, time_limit_seconds, points, sort_order, question_data)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      `INSERT INTO quiz_questions (quiz_id, question_type, question_title, question_instruction, explanation, question_audio, time_limit_seconds, points, sort_order, question_data)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
        RETURNING id`,
       [
         quizId || null,
         questionType,
         questionTitle,
         questionInstruction || null,
+        explanation || null,
         questionAudio || null,
         timeLimitSeconds,
         points,
@@ -418,6 +424,7 @@ questionsRouter.post('/', requireAuth, async (req: any, res) => {
          qq.question_type,
          qq.question_title,
          qq.question_instruction,
+         qq.explanation,
          qq.question_audio,
          qq.time_limit_seconds,
          qq.points,
@@ -475,6 +482,7 @@ questionsRouter.patch('/:questionId', requireAuth, async (req: any, res) => {
       questionType,
       questionTitle,
       questionInstruction,
+      explanation,
       questionAudio,
       timeLimitSeconds,
       points,
@@ -525,6 +533,10 @@ questionsRouter.patch('/:questionId', requireAuth, async (req: any, res) => {
       params.push(questionInstruction || null);
       updates.push(`question_instruction = $${params.length}`);
     }
+    if (explanation !== undefined) {
+      params.push(explanation || null);
+      updates.push(`explanation = $${params.length}`);
+    }
     if (questionAudio !== undefined) {
       params.push(questionAudio || null);
       updates.push(`question_audio = $${params.length}`);
@@ -566,6 +578,7 @@ questionsRouter.patch('/:questionId', requireAuth, async (req: any, res) => {
          qq.question_type,
          qq.question_title,
          qq.question_instruction,
+         qq.explanation,
          qq.question_audio,
          qq.time_limit_seconds,
          qq.points,
@@ -715,6 +728,7 @@ questionBankRouter.get('/', requireAuth, async (req: any, res) => {
          qq.question_type,
          qq.question_title,
          qq.question_instruction,
+         qq.explanation,
          qq.question_audio,
          qq.time_limit_seconds,
          qq.points,

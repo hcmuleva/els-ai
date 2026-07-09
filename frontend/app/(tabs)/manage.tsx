@@ -50,6 +50,7 @@ type QuestionItem = {
   question_type: string;
   question_title?: string;
   question_instruction?: string;
+  explanation?: string;
   question_audio?: string;
   time_limit_seconds: number;
   points: number;
@@ -102,6 +103,7 @@ type QuestionDraft = {
   subject: string;
   questionTitle: string;
   questionInstruction: string;
+  explanation: string;
   questionType: string;
   mainImage: string;
   mainImageLabel: string;
@@ -452,6 +454,7 @@ const makeInitialDraft = (questionType: string = 'guess_image'): QuestionDraft =
   subject: '',
   questionTitle: '',
   questionInstruction: getDefaultInstructionByType(questionType),
+  explanation: '',
   questionType,
   mainImage: '',
   mainImageLabel: '',
@@ -2266,6 +2269,7 @@ export default function QuestionManagementScreen() {
       subject: resolvedSubject,
       questionTitle: question.question_title || '',
       questionInstruction: question.question_instruction || getDefaultInstructionByType(normalizedType),
+      explanation: question.explanation || '',
       questionType: normalizedType,
       mainImage: resolvedMainImage,
       mainImageLabel: toMediaLabel(resolvedMainImage, 'image'),
@@ -4950,6 +4954,7 @@ export default function QuestionManagementScreen() {
                 question_type: q.question_type,
                 question_title: q.question_title,
                 question_instruction: q.question_instruction,
+                explanation: q.explanation,
                 question_audio: q.question_audio,
                 time_limit_seconds: q.time_limit_seconds,
                 points: q.points,

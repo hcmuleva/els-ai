@@ -12,7 +12,7 @@ import {
   ChevronDown, ChevronUp, GripVertical, ChevronLeft,
   Play, Video as VideoIcon, Headphones, Image as ImageIcon, BookOpen,
   FileText, Film, Link, Layers, Plus, FolderOpen, Pencil, Trash2, Eye,
-  Filter, LayoutList, Trophy, ListChecks, Search, X,
+  Filter, LayoutList, Trophy, ListChecks, Search, X, Info,
 } from 'lucide-react-native';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -27,6 +27,9 @@ import { API_BASE_URL } from '../../context/AuthContext';
 import CreateQuizModal from '../quiz/CreateQuizModal';
 import StudentContentViewer, { type StudentContentItem, type StudentTopicMeta } from '../subject/StudentContentViewer';
 import MediaUploader from '../media/MediaUploader';
+import VideoSectionBuilder from '../content/VideoSectionBuilder';
+import QuizAttachPanel from '../content/QuizAttachPanel';
+import { createVideoSectionsApi } from '../../api/videoSections';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -258,7 +261,6 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
   // quiz attach (per section), story-style picker
   const [quizLibrary, setQuizLibrary] = useState<QuizLite[]>([]);
   const [quizPickerFor, setQuizPickerFor] = useState<string | null>(null); // section draftId
-  const [quizSearch, setQuizSearch] = useState('');
   const [hasLoadedDraft, setHasLoadedDraft] = useState(false);
   const insets = useSafeAreaInsets();
 
@@ -295,6 +297,16 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
 
   const [quizCreatorFor, setQuizCreatorFor] = useState<string | null>(null); // section draftId
   const [studentPreviewOpen, setStudentPreviewOpen] = useState(false);
+  // Id of a content item saved from within this modal (new-content flow), so the
+  // Video Section Builder can attach sections before the modal is closed.
+  const [savedContentId, setSavedContentId] = useState<string | null>(null);
+  // Per-content-section video builder: which content section (1-based order) is
+  // open in the modal, plus that section's video URL.
+  const [videoSectionModalFor, setVideoSectionModalFor] = useState<{ order: number; url: string } | null>(null);
+  // Live count of video learning sections per content section order.
+  const [videoSectionCounts, setVideoSectionCounts] = useState<Record<number, number>>({});
+  // Toggles the quiz/video mutual-exclusivity info note in the Sections header.
+  const [showSectionInfo, setShowSectionInfo] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -305,9 +317,8 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
         let offset = 0;
         let guard = 0;
         while (!cancelled && guard < 1000) {
+          // Load the full library so any quiz (any class/subject) can be attached.
           const query = new URLSearchParams({ status: 'all', limit: '200', offset: String(offset) });
-          if (classLevel.trim()) query.set('class_level', classLevel.trim());
-          if (subject.trim()) query.set('subject', subject.trim());
           const r = await apiFetch(`/quizzes/teacher/library?${query.toString()}`);
           if (!r.ok) break;
           const d = await r.json();
@@ -336,7 +347,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
     return () => {
       cancelled = true;
     };
-  }, [apiFetch, classLevel, isOpen, subject]);
+  }, [apiFetch, isOpen]);
 
   const classOptions = useMemo(() =>
     getAuthorizedClasses(user, STANDARD_OPTIONS.map((o) => o.value))
@@ -364,10 +375,60 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
       }));
   }, [classLevel, subject, subjectCatalog, user]);
 
+  // The content id sections attach to: an existing item when editing, or the id
+  // returned after saving a brand-new content item from this modal.
+  const effectiveContentId = editId || savedContentId;
+
+  // A content section can host video learning sections when it is a video URL
+  // section (YouTube or reel) that carries a URL.
+  const sectionVideoUrl = useCallback((sec: SectionDraft): string => {
+    if (sec.contentType === 'youtube_url' || sec.contentType === 'reel_url') {
+      return sec.externalUrl?.trim() || sec.mediaUrl?.trim() || '';
+    }
+    return '';
+  }, []);
+
+  // Load counts of video learning sections grouped by content section order.
+  const loadVideoSectionCounts = useCallback(async () => {
+    if (!effectiveContentId) { setVideoSectionCounts({}); return; }
+    try {
+      const rows = await createVideoSectionsApi(apiFetch).list(effectiveContentId);
+      const counts: Record<number, number> = {};
+      rows.forEach((r) => {
+        const ord = r.contentSectionOrder ?? 1;
+        counts[ord] = (counts[ord] || 0) + 1;
+      });
+      setVideoSectionCounts(counts);
+    } catch {
+      /* keep last known counts on failure */
+    }
+  }, [effectiveContentId, apiFetch]);
+
+  // Quiz and video sections are mutually exclusive per content section: when a
+  // quiz is attached to a section, any video sections on it are removed.
+  const removeVideoSectionsForDraft = useCallback(async (draftId: string) => {
+    const order = sections.findIndex((s) => s.draftId === draftId) + 1;
+    if (order < 1) return;
+    if (effectiveContentId) {
+      try {
+        const api = createVideoSectionsApi(apiFetch);
+        const rows = await api.list(effectiveContentId, order);
+        await Promise.all(rows.map((r) => api.remove(r.id)));
+      } catch {
+        /* best-effort cleanup */
+      }
+    }
+    setVideoSectionCounts((prev) => ({ ...prev, [order]: 0 }));
+  }, [sections, effectiveContentId, apiFetch]);
+
+  useEffect(() => {
+    if (isOpen && tab === 'sections') loadVideoSectionCounts();
+  }, [isOpen, tab, loadVideoSectionCounts]);
+
   // Load existing data when editing
   useEffect(() => {
     if (!isOpen) return;
-    setTab('setup'); setToast(null); setStudentPreviewOpen(false);
+    setTab('setup'); setToast(null); setStudentPreviewOpen(false); setSavedContentId(null);
     if (!isEdit) {
       setTitle(''); setClass(''); setSubject('');
       setSections([makeSection()]);
@@ -444,9 +505,11 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
     }
   };
 
-  const handleSave = async () => {
+  // Persists the content (create or update) and returns the content id, without
+  // closing the modal. Returns null on validation/request failure.
+  const persistContent = async (): Promise<string | null> => {
     if (!title.trim() || !classLevel || !subject) {
-      setToast('Title, class and subject are required.'); return;
+      setToast('Title, class and subject are required.'); return null;
     }
     const normalized = sections.map((s) => ({
       title: s.title.trim() || undefined,
@@ -461,25 +524,42 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
       if (s.contentType === 'youtube_url' || s.contentType === 'reel_url') return !s.externalUrl;
       return !s.mediaUrl;
     });
-    if (invalid > -1) { setToast(`Section ${invalid + 1} is incomplete.`); return; }
+    if (invalid > -1) { setToast(`Section ${invalid + 1} is incomplete.`); return null; }
 
     setSaving(true);
     try {
-      const endpoint = editId ? `/content/items/${editId}` : '/content/items';
-      const method   = editId ? 'PUT' : 'POST';
+      const targetId = editId || savedContentId;
+      const endpoint = targetId ? `/content/items/${targetId}` : '/content/items';
+      const method   = targetId ? 'PUT' : 'POST';
       const res = await apiFetch(endpoint, {
         method,
         body: JSON.stringify({ classLevel, subject, title: title.trim(), sections: normalized }),
       });
       if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.message || 'Failed'); }
+      const data = await res.json().catch(() => ({}));
       if (editingItem === 'new') {
         AsyncStorage.removeItem('els_content_draft');
       }
-      onSuccess();
-      onClose();
+      return targetId || (data?.id as string | undefined) || null;
     } catch (e) {
       setToast(e instanceof Error ? e.message : 'Failed to save');
+      return null;
     } finally { setSaving(false); }
+  };
+
+  const handleSave = async () => {
+    const id = await persistContent();
+    if (id) { onSuccess(); onClose(); }
+  };
+
+  // Persist the content (so DB section_order matches the UI order) then open the
+  // per-section video builder modal for the content section at `order`.
+  const openVideoSectionsFor = async (order: number, url: string) => {
+    if (!url) { setToast('Add a video URL to this section first.'); return; }
+    const id = await persistContent();
+    if (!id) return;
+    setSavedContentId(id);
+    setVideoSectionModalFor({ order, url });
   };
 
   return (
@@ -496,7 +576,11 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
 
         {/* Tab bar */}
         <View style={c.modalTabBar}>
-          {([['setup', '⚙ Setup'], ['sections', '📄 Sections'], ['preview', '👁 Preview']] as [ModalTab, string][]).map(([t, l]) => (
+          {([
+            ['setup', '⚙ Setup'],
+            ['sections', '📄 Sections'],
+            ['preview', '👁 Preview'],
+          ] as [ModalTab, string][]).map(([t, l]) => (
             <Pressable
               key={t}
               style={[c.modalTab, tab === t && c.modalTabActive]}
@@ -553,15 +637,30 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
                 <View style={c.secGroup}>
                   <View style={c.secGroupHeader}>
                     <Text style={c.secGroupTitle}>📄 Content Sections</Text>
-                    <Pressable style={c.addSecBtn} onPress={() => setSections((p) => [...p, makeSection()])}>
-                      <Text style={c.addSecBtnText}>+ Add</Text>
-                    </Pressable>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                      <Pressable onPress={() => setShowSectionInfo((v) => !v)} hitSlop={8} style={c.secInfoBtn}>
+                        <Info size={18} color="#4A90E2" />
+                      </Pressable>
+                      <Pressable style={c.addSecBtn} onPress={() => setSections((p) => [...p, makeSection()])}>
+                        <Text style={c.addSecBtnText}>+ Add</Text>
+                      </Pressable>
+                    </View>
                   </View>
+
+                  {showSectionInfo && (
+                    <View style={c.secInfoNote}>
+                      <Info size={14} color="#4A90E2" />
+                      <Text style={c.secInfoNoteText}>
+                        A section can have either a Quick Challenge quiz or Video Sections, not both. Attaching or creating a quiz removes that section's video sections, and adding video sections hides the quiz options.
+                      </Text>
+                    </View>
+                  )}
 
                   {sections.map((sec, idx) => {
                     const isUrl  = sec.contentType === 'youtube_url' || sec.contentType === 'reel_url';
                     const isText = sec.contentType === 'text';
                     const isMedia = !isUrl && !isText;
+                    const hasVideoSections = (videoSectionCounts[idx + 1] || 0) > 0;
 
                     return (
                       <View key={sec.draftId} style={c.sectionBlock}>
@@ -667,29 +766,45 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
                                 </TouchableOpacity>
                               </View>
                             );
-                          })() : (
+                          })() : hasVideoSections ? (
+                            <View style={c.quizBlockedNote}>
+                              <Info size={13} color="#9A9AB0" />
+                              <Text style={c.quizBlockedNoteText}>Not available — this section has video sections.</Text>
+                            </View>
+                          ) : (
                             <View style={{ flexDirection: 'row', gap: 8 }}>
                               <Pressable
                                 style={[c.quizAttachBtn, { flex: 1 }]}
-                                onPress={() => { setQuizSearch(''); setQuizPickerFor(sec.draftId); }}
+                                onPress={() => setQuizPickerFor(sec.draftId)}
                               >
                                 <ListChecks size={16} color="#7C3AED" />
-                                <Text style={c.quizAttachBtnText}>+ Attach a quiz</Text>
+                                <Text style={c.quizAttachBtnText}>Attach a quiz</Text>
                               </Pressable>
                               <Pressable
                                 style={[c.quizAttachBtn, { flex: 1, borderColor: '#86BFFF', backgroundColor: '#EBF4FF' }]}
                                 onPress={() => setQuizCreatorFor(sec.draftId)}
                               >
                                 <Plus size={16} color="#4A90E2" />
-                                <Text style={[c.quizAttachBtnText, { color: '#4A90E2' }]}>+ Create new quiz</Text>
+                                <Text style={[c.quizAttachBtnText, { color: '#4A90E2' }]}>Create new quiz</Text>
                               </Pressable>
                             </View>
                           )}
                         </View>
+
+                        {/* Per-section video learning sections (hidden when a quiz is attached) */}
+                        {sectionVideoUrl(sec) && !sec.quizId ? (
+                          <View style={{ paddingHorizontal: 14, paddingBottom: 14 }}>
+                            <Pressable style={c.videoSecBtn} onPress={() => openVideoSectionsFor(idx + 1, sectionVideoUrl(sec))}>
+                              <Film size={16} color="#2FA36B" />
+                              <Text style={c.videoSecBtnText}>Video Sections ({videoSectionCounts[idx + 1] || 0})</Text>
+                            </Pressable>
+                          </View>
+                        ) : null}
                       </View>
                     );
                   })}
                 </View>
+
               </ScrollView>
             )}
 
@@ -719,6 +834,46 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
       <SelectorModal visible={classOpen}   title="Select Class"   options={classOptions}   selected={classLevel} onSelect={(v) => { setClass(v); setSubject(''); }}   onClose={() => setClassOpen(false)} />
       <SelectorModal visible={subjectOpen} title="Select Subject" options={subjectOptions} selected={subject}     isSubject onSelect={setSubject} onClose={() => setSubjectOpen(false)} />
 
+      {/* Per-content-section video learning sections builder */}
+      <Modal
+        visible={videoSectionModalFor !== null}
+        animationType="slide"
+        presentationStyle="fullScreen"
+        onRequestClose={() => { setVideoSectionModalFor(null); loadVideoSectionCounts(); }}
+      >
+        <View style={c.modalScreen}>
+          <View style={[c.modalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
+            <Pressable onPress={() => { setVideoSectionModalFor(null); loadVideoSectionCounts(); }} style={c.modalBackBtn}>
+              <ChevronLeft size={24} color="#1a1a2e" />
+            </Pressable>
+            <Text style={c.modalTitle} numberOfLines={1}>🎬 Video Sections</Text>
+            <View style={{ width: 40 }} />
+          </View>
+          <ScrollView contentContainerStyle={c.tabContent}>
+            {videoSectionModalFor && effectiveContentId ? (
+              <View style={{ paddingBottom: 24 }}>
+                <Text style={{ fontSize: 13, color: '#5A5A7A', lineHeight: 19, marginBottom: 12 }}>
+                  Divide this video into timed learning sections, each with its own quiz.
+                </Text>
+                <VideoSectionBuilder
+                  contentId={effectiveContentId}
+                  contentSectionOrder={videoSectionModalFor.order}
+                  videoUrl={videoSectionModalFor.url}
+                  apiFetch={apiFetch}
+                  classLevel={classLevel}
+                  subject={subject}
+                  user={user}
+                  subjectCatalog={subjectCatalog}
+                  onSectionsChange={(rows) =>
+                    setVideoSectionCounts((prev) => ({ ...prev, [videoSectionModalFor.order]: rows.length }))
+                  }
+                />
+              </View>
+            ) : null}
+          </ScrollView>
+        </View>
+      </Modal>
+
       <CreateQuizModal
         visible={quizCreatorFor !== null}
         apiFetch={apiFetch}
@@ -735,61 +890,23 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
               ...prev,
             ];
           });
-          if (quizCreatorFor) updateSection(quizCreatorFor, { quizId: quiz.id });
+          if (quizCreatorFor) { const d = quizCreatorFor; updateSection(d, { quizId: quiz.id }); removeVideoSectionsForDraft(d); }
           setQuizCreatorFor(null);
         }}
       />
 
-      {/* ── Quiz picker (per section) ── */}
-      <Modal visible={quizPickerFor !== null} transparent animationType="slide" onRequestClose={() => setQuizPickerFor(null)}>
-        <View style={c.pickerBackdrop}>
-          <View style={[c.pickerSheet, { paddingBottom: Math.max(insets.bottom, 24) }]}>
-            <View style={c.pickerHeader}>
-              <Text style={c.pickerTitle}>Attach a Quiz</Text>
-              <Pressable onPress={() => setQuizPickerFor(null)}><X size={20} color="#9A9AB0" /></Pressable>
-            </View>
-            <View style={c.pickerSearchRow}>
-              <Search size={15} color="#9A9AB0" />
-              <TextInput
-                value={quizSearch}
-                onChangeText={setQuizSearch}
-                placeholder="Search quizzes…"
-                placeholderTextColor="#A0A8C0"
-                autoCapitalize="none"
-                style={{ flex: 1, fontSize: 14, color: '#1A1A2E', paddingVertical: 8 }}
-              />
-              {quizSearch !== '' && <Pressable onPress={() => setQuizSearch('')}><X size={15} color="#9A9AB0" /></Pressable>}
-            </View>
-            <ScrollView style={{ maxHeight: 380 }} contentContainerStyle={{ padding: 12, gap: 8 }} keyboardShouldPersistTaps="handled">
-              {(() => {
-                const base = subject ? quizLibrary.filter((q) => !q.subject || q.subject === subject) : quizLibrary;
-                const pool = base.length === 0 ? quizLibrary : base;
-                const list = quizSearch.trim()
-                  ? pool.filter((q) => q.title.toLowerCase().includes(quizSearch.toLowerCase()))
-                  : pool;
-                if (list.length === 0) return <Text style={c.pickerEmpty}>No quizzes found.</Text>;
-                return list.map((q) => (
-                  <Pressable
-                    key={q.id}
-                    style={c.quizPickRow}
-                    onPress={() => {
-                      if (quizPickerFor) updateSection(quizPickerFor, { quizId: q.id });
-                      setQuizPickerFor(null);
-                    }}
-                  >
-                    <View style={c.quizAttachedIcon}><Trophy size={15} color="#7C3AED" /></View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={c.quizAttachedTitle} numberOfLines={2}>{q.title}</Text>
-                      <Text style={c.quizAttachedMeta}>{q.classLevel ? getStandardLabel(q.classLevel) : 'Any'} · {q.subject || '—'} · {q.questionCount ?? 0}Q</Text>
-                    </View>
-                    <Text style={c.quizPickAttach}>+ Attach</Text>
-                  </Pressable>
-                ));
-              })()}
-            </ScrollView>
-          </View>
-        </View>
-      </Modal>
+      {/* ── Quiz picker (per section) — same panel as the video sections ── */}
+      <QuizAttachPanel
+        visible={quizPickerFor !== null}
+        apiFetch={apiFetch}
+        classLevel={classLevel || undefined}
+        subject={subject || undefined}
+        currentQuizId={sections.find((s) => s.draftId === quizPickerFor)?.quizId || undefined}
+        onAttach={(quizId) => { if (quizPickerFor) { const d = quizPickerFor; updateSection(d, { quizId }); removeVideoSectionsForDraft(d); } }}
+        onDetach={() => { if (quizPickerFor) updateSection(quizPickerFor, { quizId: null }); }}
+        onCreateNew={() => { const s = quizPickerFor; setQuizPickerFor(null); setQuizCreatorFor(s); }}
+        onClose={() => setQuizPickerFor(null)}
+      />
       <StudentContentViewer
         visible={studentPreviewOpen && tab === 'preview' && previewContents.length > 0}
         contents={previewContents}
@@ -1191,8 +1308,13 @@ const c = StyleSheet.create({
   secGroup:       { backgroundColor: '#fff', borderRadius: 16, overflow: 'hidden', shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
   secGroupHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
   secGroupTitle:  { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  secInfoBtn:     { padding: 2, borderRadius: 999 },
+  secInfoNote:    { flexDirection: 'row', alignItems: 'flex-start', gap: 8, paddingHorizontal: 14, paddingVertical: 10, backgroundColor: '#EBF4FF', borderBottomWidth: 1, borderBottomColor: '#DCEBFF' },
+  secInfoNoteText:{ flex: 1, fontSize: 12, color: '#2A5F9E', fontWeight: '500', lineHeight: 17 },
   addSecBtn:      { backgroundColor: '#D6EAFF', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 },
   addSecBtnText:  { fontSize: 12, fontWeight: '800', color: '#1A4DA2' },
+  quizBlockedNote:{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 10, paddingHorizontal: 12, borderRadius: 10, backgroundColor: '#F5F6FA', borderWidth: 1, borderColor: '#ECEEF4' },
+  quizBlockedNoteText:{ flex: 1, fontSize: 12, color: '#9A9AB0', fontWeight: '600' },
 
   sectionBlock:       { borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
   sectionBlockHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 10, paddingVertical: 10 },
@@ -1205,6 +1327,8 @@ const c = StyleSheet.create({
   removeBtn:           { width: 26, height: 26, alignItems: 'center', justifyContent: 'center', borderRadius: 6, backgroundColor: '#FFE8E8', marginLeft: 2 },
   removeBtnText:       { fontSize: 11, fontWeight: '800', color: '#FF7043' },
 
+  videoSecBtn:       { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, paddingVertical: 11, borderRadius: 10, borderWidth: 1.5, borderColor: '#BFE6D2', backgroundColor: '#EDF9F2', borderStyle: 'dashed' },
+  videoSecBtnText:   { fontSize: 13, fontWeight: '800', color: '#2FA36B' },
   quizAttachLabel:   { fontSize: 10, fontWeight: '800', color: '#9A9AB0', letterSpacing: 0.5, marginBottom: 2 },
   quizAttachBtn:     { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, paddingVertical: 11, borderRadius: 10, borderWidth: 1.5, borderColor: '#E5D9F8', backgroundColor: '#F7F2FE', borderStyle: 'dashed' },
   quizAttachBtnText: { fontSize: 13, fontWeight: '800', color: '#7C3AED' },

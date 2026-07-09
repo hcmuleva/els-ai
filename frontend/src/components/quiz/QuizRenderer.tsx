@@ -27,22 +27,35 @@ type QuizQuestion = {
   question_type: string;
   question_title?: string;
   question_instruction?: string;
+  explanation?: string;
   question_audio?: string;
   question_data: any;
   points: number;
 };
 
+type ExplanationMode = 'per_question' | 'end';
+
 type Quiz = {
   id: string;
   title: string;
   background_music_url?: string;
+  theme?: any;
   questions: QuizQuestion[];
+};
+
+type PendingExplanation = {
+  title?: string;
+  text: string;
+  isCorrect: boolean;
+  nextCorrectCount: number;
+  newAttempts: any[];
 };
 
 type Props = {
   quizId: string;
   visible: boolean;
   onClose: () => void;
+  onCompleted?: (result: { score: number; totalPoints: number }) => void;
 };
 
 // Kids background tracks (served from assets/bg-audio at /media). One is
@@ -149,7 +162,7 @@ function getQuestionTheme(questionType: string): QuestionTheme {
 
 
 
-export default function QuizRenderer({ quizId, visible, onClose }: Props) {
+export default function QuizRenderer({ quizId, visible, onClose, onCompleted }: Props) {
   const { apiFetch } = useAuth();
   const [loading, setLoading] = useState(true);
   const [quiz, setQuiz] = useState<Quiz | null>(null);
@@ -159,6 +172,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
   const [showResultScreen, setShowResultScreen] = useState(false);
   const [savingAttempt, setSavingAttempt] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  const [pendingExplanation, setPendingExplanation] = useState<PendingExplanation | null>(null);
   // Re-entrancy guard: prevents spamming a renderer's confirm/next button from
   // firing multiple advances (which skipped questions/levels).
   const isAdvancingRef = useRef(false);
@@ -277,6 +291,8 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
 
   const currentQuestion = quiz?.questions?.[currentQuestionIndex];
   const totalQuestions = quiz?.questions?.length || 0;
+  const explanationMode: ExplanationMode =
+    quiz?.theme?.settings?.explanationMode === 'end' ? 'end' : 'per_question';
   const isLogicoQuestion = Boolean(
     currentQuestion && normalizeQuestionType(currentQuestion.question_type) === 'logico',
   );
@@ -310,6 +326,14 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
     }
   };
 
+  const advanceAfterQuestion = (nextCorrectCount: number, newAttempts: any[]) => {
+    if (currentQuestionIndex + 1 < totalQuestions) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    } else {
+      finishQuiz(nextCorrectCount, newAttempts);
+    }
+  };
+
   const handleQuestionComplete = (isCorrect: boolean, responseData: any) => {
     // Ignore repeated completions for the same question (button spam).
     if (isAdvancingRef.current) return;
@@ -329,14 +353,29 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
     ];
     setAttempts(newAttempts);
 
+    // When a per-question explanation exists, hold the flow on a solution card
+    // until the student taps Next. Questions without an explanation behave as
+    // before (auto-advance).
+    const explanation = (currentQuestion?.explanation || '').trim();
+    if (explanationMode === 'per_question' && explanation) {
+      setPendingExplanation({
+        title: currentQuestion?.question_title,
+        text: explanation,
+        isCorrect,
+        nextCorrectCount,
+        newAttempts,
+      });
+      return;
+    }
+
     // Go to next question or show results
-    setTimeout(() => {
-      if (currentQuestionIndex + 1 < totalQuestions) {
-        setCurrentQuestionIndex((prev) => prev + 1);
-      } else {
-        finishQuiz(nextCorrectCount, newAttempts);
-      }
-    }, 1200);
+    setTimeout(() => advanceAfterQuestion(nextCorrectCount, newAttempts), 1200);
+  };
+
+  const handleExplanationNext = () => {
+    const pending = pendingExplanation;
+    setPendingExplanation(null);
+    if (pending) advanceAfterQuestion(pending.nextCorrectCount, pending.newAttempts);
   };
 
   const finishQuiz = async (finalCorrectCount: number, finalAttempts: any[]) => {
@@ -382,6 +421,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
           questionAttempts: finalAttempts,
         }),
       });
+      onCompleted?.({ score, totalPoints });
     } catch (e) {
       console.warn('Failed to save score attempt on backend', e);
     } finally {
@@ -397,6 +437,7 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
     setCurrentQuestionIndex(0);
     setCorrectCount(0);
     setAttempts([]);
+    setPendingExplanation(null);
     isAdvancingRef.current = false;
     onClose();
   };
@@ -551,6 +592,28 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
               ))}
             </View>
 
+            {explanationMode === 'end' &&
+              quiz?.questions.some((q) => (q.explanation || '').trim()) && (
+                <View style={styles.solutionsCard}>
+                  <Text style={styles.solutionsHeading}>📖  Solutions</Text>
+                  {quiz.questions.map((q, i) => {
+                    const text = (q.explanation || '').trim();
+                    if (!text) return null;
+                    const att = attempts.find((a) => a.questionId === q.id);
+                    const ok = att ? att.isCorrect : null;
+                    return (
+                      <View key={q.id} style={styles.solutionItem}>
+                        <Text style={styles.solutionQ}>
+                          {i + 1}. {q.question_title || 'Question'}
+                          {ok == null ? '' : ok ? '  ✅' : '  ❌'}
+                        </Text>
+                        <Text style={styles.solutionText}>{text}</Text>
+                      </View>
+                    );
+                  })}
+                </View>
+              )}
+
             {savingAttempt ? (
               <View style={styles.savingRow}>
                 <ActivityIndicator size="small" color="#4A90E2" />
@@ -684,6 +747,36 @@ export default function QuizRenderer({ quizId, visible, onClose }: Props) {
               <Text style={styles.xpBarLabel}>{correctCount * 10} XP</Text>
             </View>
           </>
+        )}
+
+        {/* Per-question explanation card (only when the question has one) */}
+        {pendingExplanation && !showResultScreen && (
+          <View style={styles.explnOverlay}>
+            <View style={styles.explnCard}>
+              <View
+                style={[
+                  styles.explnStatusPill,
+                  pendingExplanation.isCorrect ? styles.explnStatusOk : styles.explnStatusNo,
+                ]}
+              >
+                <Text style={styles.explnStatusText}>
+                  {pendingExplanation.isCorrect ? '✅  Correct!' : '💡  Good try!'}
+                </Text>
+              </View>
+              {pendingExplanation.title ? (
+                <Text style={styles.explnQTitle}>{pendingExplanation.title}</Text>
+              ) : null}
+              <Text style={styles.explnLabel}>Explanation</Text>
+              <ScrollView style={styles.explnScroll} showsVerticalScrollIndicator={false}>
+                <Text style={styles.explnText}>{pendingExplanation.text}</Text>
+              </ScrollView>
+              <Pressable style={styles.explnNextBtn} onPress={handleExplanationNext}>
+                <Text style={styles.explnNextText}>
+                  {currentQuestionIndex + 1 < totalQuestions ? 'Next  ›' : 'See Results  ›'}
+                </Text>
+              </Pressable>
+            </View>
+          </View>
         )}
       </View>
     </Modal>
@@ -887,4 +980,49 @@ const styles = StyleSheet.create({
   restBtn: { paddingVertical: 12, alignItems: 'center' },
   restBtnText: { color: '#7A7A9A', fontSize: 13, fontWeight: '700' },
   resultFooter: { fontSize: 10, color: '#A5D6A7', fontWeight: '700', marginTop: 4 },
+
+  // ── EXPLANATION CARD (per-question) ────────────────────────────────────────
+  explnOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(15,23,42,0.45)',
+    justifyContent: 'center', alignItems: 'center', padding: 20,
+  },
+  explnCard: {
+    backgroundColor: '#fff', borderRadius: 22, padding: 20, width: '100%', maxWidth: 460,
+    maxHeight: '80%', gap: 12,
+    shadowColor: '#000', shadowOpacity: 0.18, shadowOffset: { width: 0, height: 8 },
+    shadowRadius: 20, elevation: 8,
+  },
+  explnStatusPill: {
+    alignSelf: 'flex-start', borderRadius: 999, paddingHorizontal: 14, paddingVertical: 6,
+  },
+  explnStatusOk: { backgroundColor: '#E8F7E8' },
+  explnStatusNo: { backgroundColor: '#FFF1F2' },
+  explnStatusText: { fontSize: 13, fontWeight: '900', color: '#1a1a2e' },
+  explnQTitle: { fontSize: 16, fontWeight: '800', color: '#1a1a2e', lineHeight: 22 },
+  explnLabel: {
+    fontSize: 11, fontWeight: '800', color: '#4A90E2',
+    textTransform: 'uppercase', letterSpacing: 0.6,
+  },
+  explnScroll: { maxHeight: 220 },
+  explnText: { fontSize: 14, color: '#334155', lineHeight: 21 },
+  explnNextBtn: {
+    backgroundColor: '#4A90E2', borderRadius: 999, paddingVertical: 14, alignItems: 'center',
+    shadowColor: '#4A90E2', shadowOpacity: 0.32, shadowOffset: { width: 0, height: 5 },
+    shadowRadius: 12, elevation: 4,
+  },
+  explnNextText: { color: '#fff', fontSize: 15, fontWeight: '900' },
+
+  // ── SOLUTIONS REVIEW (end-of-quiz) ─────────────────────────────────────────
+  solutionsCard: {
+    backgroundColor: '#fff', borderRadius: 18, padding: 16, width: '100%', gap: 12,
+    shadowColor: '#000', shadowOpacity: 0.05, shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 8, elevation: 2,
+  },
+  solutionsHeading: { fontSize: 15, fontWeight: '900', color: '#1a1a2e' },
+  solutionItem: {
+    gap: 4, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: '#F0F4FF',
+  },
+  solutionQ: { fontSize: 13, fontWeight: '800', color: '#1a1a2e', lineHeight: 19 },
+  solutionText: { fontSize: 13, color: '#475569', lineHeight: 20 },
 });

@@ -53,6 +53,7 @@ export type QuestionDraft = {
   subject: string;
   questionTitle: string;
   questionInstruction: string;
+  explanation: string;
   questionType: string;
   mainImage: string;
   mainImageLabel: string;
@@ -82,6 +83,7 @@ export type QuestionItemForEdit = {
   question_type: string;
   question_title?: string;
   question_instruction?: string;
+  explanation?: string;
   question_audio?: string;
   time_limit_seconds: number;
   points: number;

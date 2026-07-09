@@ -17,6 +17,8 @@ import DocumentViewer from '../../src/components/media/DocumentViewer';
 import { getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
+import StudentVideoLearningView from '../../src/components/student/StudentVideoLearningView';
+import { createVideoSectionsApi } from '../../src/api/videoSections';
 import { PickedFile, pickFileAsDataUrl, uploadPickedFileToS3 } from '../../src/utils/fileUpload';
 import MediaUploader from '../../src/components/media/MediaUploader';
 type LearningContentItem = {
@@ -105,6 +107,18 @@ function resolveMediaUrl(url: string | undefined): string {
   if (!url) return '';
   if (url.startsWith('/media')) return `${API_BASE_URL}${url}`;
   return url;
+}
+
+// Some feeds key content by a composite `<contentUuid>:<sectionOrder>` id;
+// video-section endpoints need the raw content UUID.
+function baseContentId(id: string): string {
+  return String(id).split(':')[0];
+}
+
+// Draft/preview ids (e.g. "d-25") are not persisted content; skip video APIs.
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+function isUuid(id: string): boolean {
+  return UUID_RE.test(String(id));
 }
 
 function isImageUrl(url: string): boolean {
@@ -244,6 +258,46 @@ export default function ClassroomScreen() {
   const hasPrevContent = previewContentIndex !== null 
     ? previewContentIndex > 0 
     : false;
+
+  // Detect whether the currently opened content has published video sections so
+  // we can render the sectioned watch -> quiz -> progress experience.
+  const vsApi = useMemo(() => createVideoSectionsApi(apiFetch), [apiFetch]);
+  // Video learning sections are scoped to a specific content section, keyed here
+  // by `<contentUuid>:<sectionOrder>` (1-based). Each video content section is
+  // checked independently for published sections.
+  const [sectionedMap, setSectionedMap] = useState<Record<string, { url: string }>>({});
+  useEffect(() => {
+    const c = previewContent as any;
+    if (!c?.id) return undefined;
+    const secs = c.sections?.length ? c.sections : [c];
+    const baseId = baseContentId(c.id);
+    if (!isUuid(baseId)) return undefined;
+    let cancelled = false;
+    (async () => {
+      const found: Record<string, { url: string }> = {};
+      await Promise.all(
+        secs.map(async (s: any, idx: number) => {
+          const u = resolveMediaUrl(s?.externalUrl) || resolveMediaUrl(s?.mediaUrl) || '';
+          if (!u || !(isYouTubeUrl(u) || /\.(mp4|mov|webm|avi)/i.test(u))) return;
+          const order = idx + 1;
+          try {
+            const rows = await vsApi.list(baseId, order);
+            if (rows.length > 0) {
+              found[`${baseId}:${order}`] = { url: u };
+            }
+          } catch {
+            /* ignore */
+          }
+        }),
+      );
+      if (!cancelled && Object.keys(found).length > 0) {
+        setSectionedMap((m) => ({ ...m, ...found }));
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [previewContent, vsApi]);
 
   const pendingAssignments = useMemo(
     () => selectedClassroom?.assignments.filter((assignment) => assignment.status !== 'submitted').length || 0,
@@ -951,6 +1005,8 @@ export default function ClassroomScreen() {
                   const sCfg  = TYPE_CONFIG[sType] ?? typeCfg;
 
                   const mediaKey = `s-${curIdx}-${idx}`;
+                  const secKey = content?.id ? `${baseContentId(content.id)}:${idx + 1}` : '';
+                  const sectioned = secKey ? sectionedMap[secKey] : null;
 
                   return (
                     <View
@@ -977,6 +1033,15 @@ export default function ClassroomScreen() {
                         </View>
                       ) : null}
 
+                      {sectioned ? (
+                        <StudentVideoLearningView
+                          contentId={baseContentId(content?.id || '')}
+                          contentSectionOrder={idx + 1}
+                          videoUrl={sectioned.url}
+                          apiFetch={apiFetch}
+                        />
+                      ) : (
+                      <>
                       {/* IMAGE */}
                       {url && isImageUrl(url) && (
                         <View style={styles.vImgWrap}>
@@ -1067,6 +1132,8 @@ export default function ClassroomScreen() {
                           </Pressable>
                         )
                       ) : null}
+                      </>
+                      )}
                     </View>
                   );
                 })}

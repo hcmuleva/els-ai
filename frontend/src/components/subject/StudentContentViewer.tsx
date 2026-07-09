@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Dimensions, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { ChevronLeft, BookOpen, Play, Film, Headphones, Image as ImageIcon, FileText, Layers } from 'lucide-react-native';
@@ -10,7 +10,9 @@ import QuizRenderer from '../quiz/QuizRenderer';
 import PlayQuizCTA from '../quiz/PlayQuizCTA';
 import AudioPlayer from '../media/AudioPlayer';
 import DocumentViewer from '../media/DocumentViewer';
-import { API_BASE_URL } from '../../context/AuthContext';
+import StudentVideoLearningView from '../student/StudentVideoLearningView';
+import { createVideoSectionsApi } from '../../api/videoSections';
+import { API_BASE_URL, useAuth } from '../../context/AuthContext';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SCREEN_H = Dimensions.get('window').height;
@@ -67,6 +69,22 @@ const resolveMediaUrl = (url?: string): string => {
   return url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
 };
 
+// The student topic feed flattens content sections into lessons with composite
+// ids like `<contentUuid>:<sectionOrder>`. Video-section endpoints need the raw
+// content UUID, so strip any suffix before calling them.
+const baseContentId = (id: string): string => String(id).split(':')[0];
+// The suffix (when present) is the 1-based content section order, used to scope
+// video learning sections to the specific content section being viewed.
+const sectionOrderFromId = (id: string): number | undefined => {
+  const parts = String(id).split(':');
+  if (parts.length < 2) return undefined;
+  const n = Number(parts[1]);
+  return Number.isFinite(n) ? n : undefined;
+};
+// Draft/preview ids (e.g. "d-25") are not persisted content; skip API calls.
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const isUuid = (id: string): boolean => UUID_RE.test(String(id));
+
 const isYouTubeUrl = (url: string): boolean => /(?:youtube\.com|youtu\.be)/i.test(url);
 const isImageUrl = (url: string): boolean => /\.(png|jpe?g|gif|webp|bmp|svg)(?:$|[?#])/i.test(url);
 const isAudioUrl = (url: string): boolean => /\.(mp3|wav|ogg|aac|m4a|flac)(?:$|[?#])/i.test(url);
@@ -98,6 +116,9 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
   const [quizModalQuizId, setQuizModalQuizId] = useState<string | null>(null);
   const sectionYs = useRef<Record<string, number>>({});
   const insets = useSafeAreaInsets();
+  const { apiFetch } = useAuth();
+  const api = useMemo(() => createVideoSectionsApi(apiFetch), [apiFetch]);
+  const [hasSections, setHasSections] = useState<Record<string, boolean>>({});
 
   const content = contents[curIdx];
   const hasPrev = curIdx > 0;
@@ -112,11 +133,39 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
     return y >= scrollY && y < scrollY + SCREEN_H * 0.9;
   };
 
+  // Detect whether the current video content has learning sections; if so we
+  // render the sectioned watch -> quiz -> progress experience.
+  useEffect(() => {
+    const c = contents[curIdx];
+    if (!c) return undefined;
+    const u = resolveMediaUrl(c.externalUrl ?? c.mediaUrl);
+    const videoish =
+      ['youtube_url', 'video', 'reel_url', 'reel'].includes(c.contentType) ||
+      (!!u && (isYouTubeUrl(u) || isVideoUrl(u)));
+    if (!videoish) return undefined;
+    const baseId = baseContentId(c.id);
+    if (!isUuid(baseId)) return undefined;
+    const order = sectionOrderFromId(c.id);
+    let cancelled = false;
+    api
+      .list(baseId, order)
+      .then((rows) => {
+        if (!cancelled) setHasSections((m) => ({ ...m, [c.id]: rows.length > 0 }));
+      })
+      .catch(() => {
+        if (!cancelled) setHasSections((m) => ({ ...m, [c.id]: false }));
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [contents, curIdx, api]);
+
   if (!content) return null;
 
   const cfg = typeCfg(content.contentType);
   const url = resolveMediaUrl(content.externalUrl ?? content.mediaUrl);
   const ytThumb = url ? getYouTubeThumbUrl(url) : null;
+  const isSectioned = !!hasSections[content.id];
 
   return (
     <>
@@ -172,7 +221,11 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
             </View>
 
             <View style={s.section} onLayout={(e) => { sectionYs.current[`s-${curIdx}`] = e.nativeEvent.layout.y; }}>
-              {url && (content.contentType === 'youtube_url' || content.contentType === 'video' || isYouTubeUrl(url)) && (() => {
+              {isSectioned && url ? (
+                <StudentVideoLearningView contentId={baseContentId(content.id)} contentSectionOrder={sectionOrderFromId(content.id)} videoUrl={url} apiFetch={apiFetch} />
+              ) : null}
+
+              {!isSectioned && url && (content.contentType === 'youtube_url' || content.contentType === 'video' || isYouTubeUrl(url)) && (() => {
                 const videoId = getYouTubeVideoId(url);
                 if (!videoId) return null;
                 return (
@@ -237,7 +290,7 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
                 </View>
               )}
 
-              {content.quizId && (
+              {content.quizId && !isSectioned && (
                 <PlayQuizCTA
                   onPress={() => setQuizModalQuizId(content.quizId!)}
                   title="Play Quiz"
