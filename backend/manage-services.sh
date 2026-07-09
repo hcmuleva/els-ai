@@ -85,6 +85,24 @@ is_pid_running() {
   kill -0 "$pid" 2>/dev/null
 }
 
+# Apply any pending DB migrations before starting services. Schema DDL requires
+# the table owner/superuser (services run as els_app and cannot run DDL), so this
+# only runs when MIGRATE_DB_USER + MIGRATE_DB_PASSWORD are provided. Otherwise it
+# is skipped with a hint — startup is never blocked (non-breaking).
+run_migrations() {
+  local repo_root
+  repo_root="$(cd "$SCRIPT_DIR/.." && pwd)"
+  if [ -z "${MIGRATE_DB_USER:-}" ] || [ -z "${MIGRATE_DB_PASSWORD:-}" ]; then
+    echo "ℹ️  Skipping auto-migrate. Set MIGRATE_DB_USER & MIGRATE_DB_PASSWORD to enable, or run 'npm run migrate' manually."
+    return 0
+  fi
+  echo "🗄️  Applying pending database migrations as ${MIGRATE_DB_USER}..."
+  (
+    cd "$repo_root" || exit 0
+    DB_USER="$MIGRATE_DB_USER" DB_PASSWORD="$MIGRATE_DB_PASSWORD" node scripts/migrate.cjs
+  ) || echo "⚠️  Auto-migrate failed; continuing startup. Run 'npm run migrate' manually."
+}
+
 find_service_pids() {
   local service="$1"
   local service_dir="$SCRIPT_DIR/$service"
@@ -276,6 +294,7 @@ run_action() {
 
   if [ "$ACTION" = "start" ] || [ "$ACTION" = "restart" ]; then
     build_shared_packages
+    run_migrations
   fi
 
   for service in $(get_services); do
