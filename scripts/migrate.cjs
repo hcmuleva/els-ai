@@ -83,7 +83,41 @@ async function runMigration(file) {
   console.log(`[migrate] ${file} ok (${duration}ms)`);
 }
 
+const STATUS_ONLY = process.argv.includes('--status') || process.argv.includes('--check');
+
+async function trackerExists() {
+  const r = await pool.query(`SELECT 1 FROM information_schema.tables WHERE table_name = 'schema_migrations'`);
+  return r.rowCount > 0;
+}
+
+async function status() {
+  const files = listMigrationFiles().filter((f) => parseVersion(f) !== '0000');
+  if (!(await trackerExists())) {
+    console.log('[migrate:status] schema_migrations table not found — no migrations applied yet.');
+    console.log(`[migrate:status] ${files.length} migration file(s) on disk, all pending.`);
+    for (const f of files) console.log(`  pending  ${f}`);
+    await pool.end();
+    return;
+  }
+  const applied = await loadAppliedVersions();
+  let pending = 0;
+  for (const file of files) {
+    const version = parseVersion(file);
+    const sql = fs.readFileSync(path.join(MIGRATIONS_DIR, file), 'utf8');
+    const sum = checksum(sql);
+    const previous = applied.get(version);
+    if (!previous) { console.log(`  pending  ${file}`); pending += 1; }
+    else if (previous !== sum) { console.log(`  DRIFT    ${file} (checksum changed since applied)`); pending += 1; }
+    else { console.log(`  applied  ${file}`); }
+  }
+  console.log(pending === 0
+    ? '[migrate:status] DB is up to date.'
+    : `[migrate:status] ${pending} migration(s) pending/changed. Run "npm run migrate" as the DB owner.`);
+  await pool.end();
+}
+
 async function main() {
+  if (STATUS_ONLY) { return status(); }
   await ensureTrackerExists();
   const applied = await loadAppliedVersions();
   const files = listMigrationFiles().filter((f) => parseVersion(f) !== '0000'); // skip bootstrap
