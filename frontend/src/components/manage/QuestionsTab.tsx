@@ -8,6 +8,7 @@ import { useMemo, useState, useRef, useEffect } from 'react';
 import {
   ActivityIndicator, Dimensions, Image, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
+  useWindowDimensions,
 } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import {
@@ -17,6 +18,7 @@ import {
 } from 'lucide-react-native';
 import { Audio } from 'expo-av';
 import SelectorModal from '../SelectorModal';
+import ConfirmModal from '../common/ConfirmModal';
 import PaginationControls from '../common/PaginationControls';
 import { usePaginatedResource } from '../../hooks/usePaginatedResource';
 import { createOffsetPageFetcher } from '../../utils/paginationFetcher';
@@ -206,6 +208,8 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
   onEdit: (q: QuestionFull) => void;
 }) {
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 768;
   if (!question) return null;
   const questionType = question.question_type === 'jigsaw_puzzle' ? 'jigsaw' : question.question_type;
   const cfg  = qtypeCfg(questionType);
@@ -224,19 +228,20 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
 
   return (
     <Modal visible={!!question} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
-      <View style={q.modalScreen}>
-        {/* Header */}
-        <View style={[q.modalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
-          <Pressable onPress={onClose} style={q.modalBack}>
-            <ChevronLeft size={24} color="#1a1a2e" />
-          </Pressable>
-          <Text style={q.modalTitle} numberOfLines={1}>Question Details</Text>
-          <Pressable style={q.modalEditBtn} onPress={() => { onClose(); onEdit(question); }}>
-            <Text style={q.modalEditText}>Edit</Text>
-          </Pressable>
-        </View>
+      <View style={[q.modalScreen, isDesktop && q.modalScreenDesktop]}>
+        <View style={[q.modalInner, isDesktop && q.modalInnerDesktop]}>
+          {/* Header */}
+          <View style={[q.modalHeader, { paddingTop: Math.max(insets.top, isDesktop ? 12 : 12) }]}>
+            <Pressable onPress={onClose} style={q.modalBack}>
+              <ChevronLeft size={24} color="#1a1a2e" />
+            </Pressable>
+            <Text style={q.modalTitle} numberOfLines={1}>Question Details</Text>
+            <Pressable style={q.modalEditBtn} onPress={() => { onClose(); onEdit(question); }}>
+              <Text style={q.modalEditText}>Edit</Text>
+            </Pressable>
+          </View>
 
-        <ScrollView contentContainerStyle={{ paddingBottom: 48 }}>
+          <ScrollView contentContainerStyle={{ paddingBottom: 48 }}>
           {/* Hero */}
           <View style={[q.hero, { backgroundColor: cfg.bg }]}>
             <View style={q.heroIconWrap}>
@@ -561,7 +566,8 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
               <Text style={q.infoBlockMeta}>{question.quiz_type}</Text>
             </View>
           </View>
-        </ScrollView>
+          </ScrollView>
+        </View>
       </View>
     </Modal>
   );
@@ -637,9 +643,13 @@ export default function QuestionsTab({
   enabled, reloadToken, deletingQuestionId, filters, subjectCatalog, apiFetch, user,
   onFiltersChange, onApplyFilters, onOpenCreate, onQuestionAction, message,
 }: Props) {
+  const { width } = useWindowDimensions();
+  const numCols = width >= 768 ? 2 : 1;
+
   const [classOpen, setClassOpen]         = useState(false);
   const [subjectOpen, setSubjectOpen]     = useState(false);
   const [detailsQuestion, setDetailsQuestion] = useState<QuestionFull | null>(null);
+  const [confirmDeleteQuestion, setConfirmDeleteQuestion] = useState<QuestionItem | null>(null);
   const [fetchingDetails, setFetchingDetails] = useState(false);
 
   // Debounce the search box into an applied (server-side) search term.
@@ -699,7 +709,7 @@ export default function QuestionsTab({
     const titles = getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, filters.classLevel || undefined);
     const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
     titles.forEach((title) => {
-      const meta = subjectCatalog.find((i) => i.title.trim() === title && (!filters.classLevel || i.classLevel === filters.classLevel));
+      const meta = subjectCatalog.find((i) => i.title.trim() === title && (!filters.classLevel || i.classLevel === filters.classLevel || i.classLevel === 'ANY'));
       byTitle.set(title, { coverImage: meta?.coverImage, iconUrl: meta?.iconImage, iconBgColor: meta?.iconBgColor });
     });
     if (filters.subject && !byTitle.has(filters.subject)) byTitle.set(filters.subject, {});
@@ -781,6 +791,18 @@ export default function QuestionsTab({
               {filters.subject || 'All Subjects'}
             </Text>
           </Pressable>
+          {hasFilters && (
+            <Pressable
+              style={q.clearChip}
+              onPress={() => {
+                onFiltersChange({ classLevel: '', subject: '', category: '', search: '' });
+                onApplyFilters();
+                pager.goFirst();
+              }}
+            >
+              <Text style={q.clearChipText}>✕ Clear</Text>
+            </Pressable>
+          )}
           <Pressable style={q.applyBtn} onPress={onApplyFilters} disabled={loading}>
             {loading ? <ActivityIndicator size="small" color="#fff" /> : <Text style={q.applyBtnText}>Apply</Text>}
           </Pressable>
@@ -813,37 +835,43 @@ export default function QuestionsTab({
       {/* List */}
       <View style={{ flex: 1 }}>
         <FlashList
+          key={numCols}
           data={pager.data}
           keyExtractor={(item) => item.id}
+          numColumns={numCols}
           contentContainerStyle={q.list}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
-            <QuestionCard
-              question={item}
-              idx={(pager.currentPage - 1) * pager.pageSize + index}
-              onAction={async (action) => {
-                if (action === 'view') {
-                  openDetails(item);
-                } else if (action === 'edit') {
-                  setFetchingDetails(true);
-                  try {
-                    const res = await apiFetch(`/questions/${item.id}`);
-                    if (res.ok) {
-                      const payload = await res.json();
-                      onQuestionAction(payload.question, 'edit');
-                    } else {
+            <View style={numCols === 2 ? { flex: 1, marginHorizontal: 6 } : undefined}>
+              <QuestionCard
+                question={item}
+                idx={(pager.currentPage - 1) * pager.pageSize + index}
+                onAction={async (action) => {
+                  if (action === 'view') {
+                    openDetails(item);
+                  } else if (action === 'edit') {
+                    setFetchingDetails(true);
+                    try {
+                      const res = await apiFetch(`/questions/${item.id}`);
+                      if (res.ok) {
+                        const payload = await res.json();
+                        onQuestionAction(payload.question, 'edit');
+                      } else {
+                        onQuestionAction(item, 'edit');
+                      }
+                    } catch {
                       onQuestionAction(item, 'edit');
+                    } finally {
+                      setFetchingDetails(false);
                     }
-                  } catch {
-                    onQuestionAction(item, 'edit');
-                  } finally {
-                    setFetchingDetails(false);
+                  } else if (action === 'delete') {
+                    setConfirmDeleteQuestion(item);
+                  } else {
+                    onQuestionAction(item, action);
                   }
-                } else {
-                  onQuestionAction(item, action);
-                }
-              }}
-            />
+                }}
+              />
+            </View>
           )}
           ListEmptyComponent={
             loading ? (
@@ -909,6 +937,20 @@ export default function QuestionsTab({
         onClose={() => setDetailsQuestion(null)}
         onEdit={(item) => { setDetailsQuestion(null); onQuestionAction(item, 'edit'); }}
       />
+
+      <ConfirmModal
+        visible={confirmDeleteQuestion !== null}
+        title="Delete Question"
+        itemName={confirmDeleteQuestion?.question_title || 'Untitled Question'}
+        loading={deletingQuestionId === confirmDeleteQuestion?.id}
+        onConfirm={async () => {
+          if (confirmDeleteQuestion) {
+            await onQuestionAction(confirmDeleteQuestion, 'delete');
+            setConfirmDeleteQuestion(null);
+          }
+        }}
+        onClose={() => setConfirmDeleteQuestion(null)}
+      />
     </View>
   );
 }
@@ -948,6 +990,8 @@ const q = StyleSheet.create({
   chipTextActive: { color: '#1A4DA2', fontWeight: '700' },
   applyBtn:       { borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: '#4A90E2' },
   applyBtnText:   { fontSize: 12, fontWeight: '700', color: '#fff' },
+  clearChip:      { borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: '#FEE2E2', justifyContent: 'center', alignItems: 'center' },
+  clearChipText:  { fontSize: 12, fontWeight: '700', color: '#DC2626' },
 
   typeChip:      { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 999, paddingHorizontal: 12, paddingVertical: 7, backgroundColor: '#F0F0F8', borderWidth: 1.5, borderColor: 'transparent' },
   typeChipText:  { fontSize: 12, fontWeight: '600', color: '#9A9AB0' },
@@ -993,7 +1037,10 @@ const q = StyleSheet.create({
 
 
   // Full-screen details modal
-  modalScreen:    { flex: 1, backgroundColor: '#F5F7FF' },
+  modalScreen:        { flex: 1, backgroundColor: '#F5F7FF' },
+  modalScreenDesktop: { backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'center', alignItems: 'center' },
+  modalInner:         { flex: 1, width: '100%', backgroundColor: '#F5F7FF', overflow: 'hidden' },
+  modalInnerDesktop:  { flex: undefined as any, width: '100%', maxWidth: 900, maxHeight: '92%', borderRadius: 20, overflow: 'hidden' },
   modalHeader:    { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 12, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
   modalBack:      { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
 

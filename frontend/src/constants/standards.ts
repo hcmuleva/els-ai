@@ -13,6 +13,7 @@ export const ANY_CLASS_VALUE = 'ANY';
 export const ANY_CLASS_LABEL = 'Any Class';
 
 export const STANDARD_OPTIONS: StandardOption[] = [
+  { value: ANY_CLASS_VALUE, label: ANY_CLASS_LABEL },
   { value: 'LKG', label: 'LKG' },
   { value: 'UKG', label: 'UKG' },
   { value: '1', label: '1 - First' },
@@ -27,7 +28,6 @@ export const STANDARD_OPTIONS: StandardOption[] = [
   { value: '10', label: '10 - Tenth' },
   { value: '11', label: '11 - Eleventh' },
   { value: '12', label: '12 - Twelfth' },
-  { value: ANY_CLASS_VALUE, label: ANY_CLASS_LABEL },
 ];
 
 /**
@@ -36,13 +36,29 @@ export const STANDARD_OPTIONS: StandardOption[] = [
  * regardless of their own class level.
  */
 export const GLOBAL_SUBJECTS: string[] = [
-  'Tips and Tricks',
-  'IQ Test',
-  'Logical Reasoning',
+  'Activity / Play-based Learning',
   'Brain Training',
+  'Creativity',
+  'Dharm',
+  'DIY & Crafts',
+  'Do You Know?',
+  'Drawing & Coloring',
   'Experimental Learning',
+  'Extracurricular Activities',
   'General Awareness',
+  'General Knowledge',
+  'How Things Work',
+  'How to Think',
+  'IQ Test',
+  'Jr. Scientist',
+  'Logical Reasoning',
+  'Memory Development',
+  'Puzzles & Logic',
+  'Rhymes & Stories',
+  'Stories & Tales',
+  'Tips and Tricks',
 ];
+
 
 export const getStandardLabel = (value?: string) => {
   if (!value) return '-';

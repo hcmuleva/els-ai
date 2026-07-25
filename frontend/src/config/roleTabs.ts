@@ -23,7 +23,6 @@ export const roleTabs: Record<UserRole, RoleTabItem[]> = {
     { route: 'manage', label: 'Manage', icon: FileText },
     { route: 'reports', label: 'Feedback', icon: MessageCircle },
     { route: 'stories', label: 'Stories', icon: BookOpenCheck },
-    { route: 'quiz', label: 'Quiz', icon: FileText },
   ],
   parent: [
     { route: 'index', label: 'Home', icon: House },

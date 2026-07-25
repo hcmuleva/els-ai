@@ -1151,7 +1151,7 @@ usersRouter.get('/subjects', requireAuth, async (req, res) => {
     }
     if (classLevel) {
         params.push(classLevel);
-        whereClauses.push(`s.class_level = $${params.length}`);
+        whereClauses.push(`(s.class_level = $${params.length} OR s.class_level = 'ANY')`);
     }
     params.push(limit);
     try {

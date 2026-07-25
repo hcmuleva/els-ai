@@ -2,11 +2,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Activity, BookOpen, ChevronLeft, ChevronRight, CreditCard, FlaskConical, Globe, GraduationCap, Hash, Languages, Leaf, Monitor, Palette, Plus, Search, Shield, Sparkles, Users, UserCheck, X, Check, Trash2, ShieldCheck, CheckCircle2 } from 'lucide-react-native';
+import { Activity, BookOpen, ChevronLeft, ChevronRight, CreditCard, FileSpreadsheet, FlaskConical, Globe, GraduationCap, Hash, Languages, Leaf, Monitor, Palette, Plus, Search, Shield, Sparkles, Users, UserCheck, X, Check, Trash2, ShieldCheck, CheckCircle2 } from 'lucide-react-native';
 
 import { ScreenTemplate } from '../../src/components/ScreenTemplate';
 import SelectorModal from '../../src/components/SelectorModal';
 import { BillingPanel } from '../../src/components/billing/BillingPanel';
+import { QuestionDumpTab } from '../../src/components/admin/QuestionDumpTab';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import { Colors, Radius, Shadow } from '../../src/theme';
@@ -15,7 +16,7 @@ import { UserRole } from '../../src/types/roles';
 type IconComp = React.ComponentType<{ size?: number; color?: string }>;
 
 type ManagedRole = Extract<UserRole, 'student' | 'teacher' | 'parent' | 'admin'>;
-type AdminTab = 'subject' | 'student' | 'teacher' | 'parent' | 'billing';
+type AdminTab = 'subject' | 'student' | 'teacher' | 'parent' | 'billing' | 'question_dump';
 type DialogMode = 'create' | 'edit';
 
 type ManagedUser = {
@@ -147,10 +148,11 @@ const TAB_OPTIONS: Array<{ key: AdminTab; label: string; description: string; ti
   { key: 'teacher', label: 'Teachers', description: 'Assign standards and subjects to teachers in one place.', tint: Colors.purple, tintLight: Colors.purpleLight, Icon: UserCheck },
   { key: 'parent', label: 'Parents', description: 'Map student accounts with parents for visibility and reports.', tint: Colors.success, tintLight: Colors.successLight, Icon: Users },
   { key: 'billing', label: 'Billing', description: 'Track subscriptions and organizational billing settings.', tint: Colors.warning, tintLight: Colors.warningLight, Icon: CreditCard },
+  { key: 'question_dump', label: 'Question Dump', description: 'Bulk create questions from JSON format.', tint: '#0EA5E9', tintLight: '#E0F2FE', Icon: FileSpreadsheet },
 ];
 const TABLE_PAGE_SIZE = 8;
 const ADMIN_ACTIVE_TAB_KEY = 'admin:activeTab';
-const ADMIN_TAB_KEYS: AdminTab[] = ['subject', 'student', 'teacher', 'parent', 'billing'];
+const ADMIN_TAB_KEYS: AdminTab[] = ['subject', 'student', 'teacher', 'parent', 'billing', 'question_dump'];
 
 const EMPTY_USER_FORM: UserFormState = {
   firstName: '',
@@ -308,6 +310,7 @@ export default function AdminScreen() {
     teacher: 1,
     parent: 1,
     billing: 1,
+    question_dump: 1,
   });
   const [adminCounts, setAdminCounts] = useState({ subjects: 0, students: 0, teachers: 0, parents: 0 });
   const [assignmentCatalog, setAssignmentCatalog] = useState<AssignmentPair[]>([]);
@@ -1704,6 +1707,10 @@ export default function AdminScreen() {
           currentOrganizationId={user?.organizationId}
           selectedOrgId={user?.organizationId || ''}
         />
+      ) : null}
+
+      {activeTab === 'question_dump' ? (
+        <QuestionDumpTab apiFetch={apiFetch} subjectCatalog={assignmentCatalog} />
       ) : null}
 
       {activeTab === 'parent' ? (

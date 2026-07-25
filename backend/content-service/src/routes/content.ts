@@ -145,7 +145,7 @@ contentRouter.get('/subjects', requireAuth, async (req: any, res) => {
   const whereClauses: string[] = ['organization_id = $1::uuid'];
   if (class_level) {
     params.push(class_level);
-    whereClauses.push(`class_level = $${params.length}`);
+    whereClauses.push(`(class_level = $${params.length} OR class_level = 'ANY')`);
   }
 
   try {

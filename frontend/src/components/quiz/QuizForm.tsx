@@ -337,7 +337,7 @@ export default function QuizForm({
       const meta = subjectCatalogItems.find(
         (i) =>
           i.subject === title &&
-          (!draft.classLevel || i.classLevel === draft.classLevel)
+          (!draft.classLevel || i.classLevel === draft.classLevel || i.classLevel === 'ANY')
       );
       byTitle.set(title, {
         coverImage: meta?.coverImage,
