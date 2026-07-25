@@ -16,6 +16,7 @@ import {
   Text,
   TextInput,
   View,
+  useWindowDimensions,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
@@ -30,6 +31,7 @@ import TopicsTab from '../../src/components/manage/TopicsTab';
 import ContentTab from '../../src/components/manage/ContentTab';
 import QuestionsTab from '../../src/components/manage/QuestionsTab';
 import BookmarksTab from '../../src/components/manage/BookmarksTab';
+import QuizTab from '../../src/components/manage/QuizTab';
 import { Video, ResizeMode } from 'expo-av';
 import AudioPlayer from '../../src/components/media/AudioPlayer';
 import DocumentViewer from '../../src/components/media/DocumentViewer';
@@ -1090,6 +1092,8 @@ async function pickMediaAsDataUrl(): Promise<PickedFile> {
 export default function QuestionManagementScreen() {
   const { user, apiFetch } = useAuth();
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 768;
   const router = useRouter();
   const actionBadgeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [loading, setLoading] = useState(true);
@@ -1255,7 +1259,7 @@ export default function QuestionManagementScreen() {
       topics
         .filter(
           (topic) =>
-            (!contentCreateMeta.classLevel || topic.classLevel === contentCreateMeta.classLevel) &&
+            (!contentCreateMeta.classLevel || topic.classLevel === contentCreateMeta.classLevel || topic.classLevel === 'ANY') &&
             (!contentCreateMeta.subject || topic.subject === contentCreateMeta.subject) &&
             (!createTopicSearch.trim() || topic.title.toLowerCase().includes(createTopicSearch.trim().toLowerCase())),
         )
@@ -1267,7 +1271,7 @@ export default function QuestionManagementScreen() {
       topics
         .filter(
           (topic) =>
-            (!assignTopicFilters.classLevel || topic.classLevel === assignTopicFilters.classLevel) &&
+            (!assignTopicFilters.classLevel || topic.classLevel === assignTopicFilters.classLevel || topic.classLevel === 'ANY') &&
             (!assignTopicFilters.subject || topic.subject === assignTopicFilters.subject) &&
             (!assignTopicFilters.search.trim() ||
               topic.title.toLowerCase().includes(assignTopicFilters.search.trim().toLowerCase())),
@@ -1280,7 +1284,7 @@ export default function QuestionManagementScreen() {
       allOrgQuizzes
         .filter(
           (quiz) =>
-            (!quizDialogFilters.classLevel || (quiz.class_level || '').trim() === quizDialogFilters.classLevel.trim()) &&
+            (!quizDialogFilters.classLevel || (quiz.class_level || '').trim() === quizDialogFilters.classLevel.trim() || (quiz.class_level || '').trim() === 'ANY') &&
             (!quizDialogFilters.subject || (quiz.subject || '').trim() === quizDialogFilters.subject.trim()) &&
             (!quizDialogFilters.search.trim() ||
               `${quiz.title} ${quiz.subject || ''}`.toLowerCase().includes(quizDialogFilters.search.trim().toLowerCase())),
@@ -3797,7 +3801,7 @@ export default function QuestionManagementScreen() {
       {/* ── Tab bar ── */}
       <View style={styles.newTabBar}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flex: 1 }} contentContainerStyle={{ paddingHorizontal: 8, alignItems: 'center' }}>
-          {(['topic', 'content', 'question', 'bookmark', 'quiz', 'exam', 'stories'] as LearningTab[]).map((tab) => (
+          {(['topic', 'content', 'question', 'quiz', 'bookmark', 'stories'] as LearningTab[]).map((tab) => (
             <Pressable
               key={tab}
               style={[styles.newTab, activeLearningTab === tab && styles.newTabActive]}
@@ -3807,12 +3811,11 @@ export default function QuestionManagementScreen() {
                 {tab === 'topic' && <FolderOpen size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
                 {tab === 'content' && <VideoIcon size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
                 {tab === 'question' && <HelpCircle size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
-                {tab === 'exam' && <BookOpenIcon size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
                 {tab === 'quiz' && <TrophyIcon size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
                 {tab === 'stories' && <StoriesIcon size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
                 {tab === 'bookmark' && <BookmarkIcon size={11} color={activeLearningTab === tab ? '#4A90E2' : '#9A9AB0'} />}
                 <Text style={[styles.newTabText, activeLearningTab === tab && styles.newTabTextActive]}>
-                  {tab === 'topic' ? 'Topic' : tab === 'content' ? 'Content' : tab === 'question' ? 'Questions' : tab === 'exam' ? 'Exam' : tab === 'quiz' ? 'Quiz' : tab === 'stories' ? 'Stories' : 'Bookmarks'}
+                  {tab === 'topic' ? 'Topic' : tab === 'content' ? 'Content' : tab === 'question' ? 'Questions' : tab === 'quiz' ? 'Quiz' : tab === 'stories' ? 'Stories' : 'Bookmarks'}
                 </Text>
               </View>
             </Pressable>
@@ -3829,7 +3832,10 @@ export default function QuestionManagementScreen() {
           contentItems={contentItems}
           apiFetch={apiFetch}
           user={user}
-          onFiltersChange={(f) => setContentFilters(f)}
+          onFiltersChange={(f) => {
+            setContentFilters(f);
+            setFilters((p) => ({ ...p, ...f }));
+          }}
           onApplyFilters={loadTopics}
           onTopicAction={(topic, action) => {
             if (action === 'delete') runTopicAction(topic, 'delete');
@@ -3921,7 +3927,10 @@ export default function QuestionManagementScreen() {
           topics={topics.map((t) => ({ id: t.id, title: t.title, classLevel: t.classLevel, subject: t.subject }))}
           apiFetch={apiFetch}
           user={user}
-          onFiltersChange={(f) => setContentFilters((p) => ({ ...p, ...f }))}
+          onFiltersChange={(f) => {
+            setContentFilters((p) => ({ ...p, ...f }));
+            setFilters((p) => ({ ...p, ...f }));
+          }}
           onApplyFilters={loadContentItems}
           onDeleteContent={(id) => deleteContentItem(id)}
           onRefresh={() => { loadContentItems(); loadTopics(); }}
@@ -4158,7 +4167,16 @@ export default function QuestionManagementScreen() {
           subjectCatalog={subjectCatalog}
           apiFetch={apiFetch}
           user={user}
-          onFiltersChange={(patch) => setFilters((p) => ({ ...p, ...patch }))}
+          onFiltersChange={(patch) => {
+            setFilters((p) => ({ ...p, ...patch }));
+            if (patch.classLevel !== undefined || patch.subject !== undefined) {
+              setContentFilters((p) => ({
+                ...p,
+                ...(patch.classLevel !== undefined ? { classLevel: patch.classLevel } : {}),
+                ...(patch.subject !== undefined ? { subject: patch.subject } : {}),
+              }));
+            }
+          }}
           onApplyFilters={loadData}
           onOpenCreate={openCreateDialog}
           onQuestionAction={(q, action) => {
@@ -4247,38 +4265,14 @@ export default function QuestionManagementScreen() {
         </>
       ) : null}
 
-      {activeLearningTab === 'exam' ? (
-        <ScrollView contentContainerStyle={{ padding: 24, flexGrow: 1 }}>
-          <View style={{ flex: 1, backgroundColor: '#fff', borderRadius: 16, borderWidth: 1, borderColor: '#e2e8f0', alignItems: 'center', justifyContent: 'center', padding: 40, minHeight: 400 }}>
-            <View style={{ width: 80, height: 80, borderRadius: 40, backgroundColor: '#F0FDF4', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
-              <ListChecks size={40} color="#16A34A" />
-            </View>
-            <Text style={{ fontSize: 24, fontWeight: '700', color: '#0F172A', marginBottom: 12 }}>Exam Workspace</Text>
-            <Text style={{ fontSize: 15, color: '#64748B', textAlign: 'center', maxWidth: 480, marginBottom: 32, lineHeight: 22 }}>
-              Configure comprehensive exams, assign them to classes, and review detailed analytics in the Exam console.
-            </Text>
-            <Pressable style={[styles.primaryButton, { backgroundColor: '#16A34A', paddingHorizontal: 32, paddingVertical: 14, borderRadius: 12 }]} onPress={() => router.push('/quiz')}>
-              <Text style={[styles.primaryButtonText, { fontSize: 16, fontWeight: '600' }]}>Open Exam Console</Text>
-            </Pressable>
-          </View>
-        </ScrollView>
-      ) : null}
-
       {activeLearningTab === 'quiz' ? (
-        <ScrollView contentContainerStyle={{ padding: 24, flexGrow: 1 }}>
-          <View style={{ flex: 1, backgroundColor: '#fff', borderRadius: 16, borderWidth: 1, borderColor: '#e2e8f0', alignItems: 'center', justifyContent: 'center', padding: 40, minHeight: 400 }}>
-            <View style={{ width: 80, height: 80, borderRadius: 40, backgroundColor: '#EFF6FF', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
-              <TrophyIcon size={40} color="#2563EB" />
-            </View>
-            <Text style={{ fontSize: 24, fontWeight: '700', color: '#0F172A', marginBottom: 12 }}>Quiz Workspace</Text>
-            <Text style={{ fontSize: 15, color: '#64748B', textAlign: 'center', maxWidth: 480, marginBottom: 32, lineHeight: 22 }}>
-              Design interactive quizzes, manage question banks, and align assessments directly with your lesson topics.
-            </Text>
-            <Pressable style={[styles.primaryButton, { backgroundColor: '#2563EB', paddingHorizontal: 32, paddingVertical: 14, borderRadius: 12 }]} onPress={() => router.push('/quiz')}>
-              <Text style={[styles.primaryButtonText, { fontSize: 16, fontWeight: '600' }]}>Open Quiz Builder</Text>
-            </Pressable>
-          </View>
-        </ScrollView>
+        <QuizTab
+          filters={contentFilters}
+          onFiltersChange={(f) => {
+            setContentFilters((p) => ({ ...p, ...f }));
+            setFilters((p) => ({ ...p, ...f }));
+          }}
+        />
       ) : null}
 
       {activeLearningTab === 'stories' ? (
@@ -4919,14 +4913,18 @@ export default function QuestionManagementScreen() {
       </Modal>
 
       <Modal visible={isCreateDialogOpen && activeLearningTab === 'question'} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setIsCreateDialogOpen(false)}>
-        <QuestionEditor
-          apiFetch={apiFetch}
-          mode="create"
-          subjectCatalog={subjectCatalog}
-          user={user}
-          onSaved={() => { loadQuestions(); }}
-          onClose={() => setIsCreateDialogOpen(false)}
-        />
+        <View style={[styles.modalScreen, isDesktop && styles.modalScreenDesktop]}>
+          <View style={[styles.modalInner, isDesktop && styles.modalInnerDesktop]}>
+            <QuestionEditor
+              apiFetch={apiFetch}
+              mode="create"
+              subjectCatalog={subjectCatalog}
+              user={user}
+              onSaved={() => { loadQuestions(); }}
+              onClose={() => setIsCreateDialogOpen(false)}
+            />
+          </View>
+        </View>
       </Modal>
 
       <Modal
@@ -4938,40 +4936,44 @@ export default function QuestionManagementScreen() {
           setEditingQuestionPayload(null);
         }}
       >
-        {(() => {
-          const q = editingQuestionPayload ?? questions.find((item) => item.id === editingQuestionId);
-          if (!q) return null;
-          return (
-            <QuestionEditor
-              apiFetch={apiFetch}
-              mode="edit"
-              subjectCatalog={subjectCatalog}
-              user={user}
-              editingQuestion={{
-                id: q.id,
-                class_level: q.class_level,
-                subject: q.subject,
-                question_type: q.question_type,
-                question_title: q.question_title,
-                question_instruction: q.question_instruction,
-                explanation: q.explanation,
-                question_audio: q.question_audio,
-                time_limit_seconds: q.time_limit_seconds,
-                points: q.points,
-                sort_order: q.sort_order,
-                question_data: q.question_data,
-              }}
-              onSaved={() => {
-                setEditingQuestionPayload(null);
-                loadQuestions();
-              }}
-              onClose={() => {
-                setEditingQuestionId(null);
-                setEditingQuestionPayload(null);
-              }}
-            />
-          );
-        })()}
+        <View style={[styles.modalScreen, isDesktop && styles.modalScreenDesktop]}>
+          <View style={[styles.modalInner, isDesktop && styles.modalInnerDesktop]}>
+            {(() => {
+              const q = editingQuestionPayload ?? questions.find((item) => item.id === editingQuestionId);
+              if (!q) return null;
+              return (
+                <QuestionEditor
+                  apiFetch={apiFetch}
+                  mode="edit"
+                  subjectCatalog={subjectCatalog}
+                  user={user}
+                  editingQuestion={{
+                    id: q.id,
+                    class_level: q.class_level,
+                    subject: q.subject,
+                    question_type: q.question_type,
+                    question_title: q.question_title,
+                    question_instruction: q.question_instruction,
+                    explanation: q.explanation,
+                    question_audio: q.question_audio,
+                    time_limit_seconds: q.time_limit_seconds,
+                    points: q.points,
+                    sort_order: q.sort_order,
+                    question_data: q.question_data,
+                  }}
+                  onSaved={() => {
+                    setEditingQuestionPayload(null);
+                    loadQuestions();
+                  }}
+                  onClose={() => {
+                    setEditingQuestionId(null);
+                    setEditingQuestionPayload(null);
+                  }}
+                />
+              );
+            })()}
+          </View>
+        </View>
       </Modal>
 
       <SelectorModal
@@ -5145,6 +5147,10 @@ export default function QuestionManagementScreen() {
 }
 
 const styles = StyleSheet.create({
+  modalScreen: { flex: 1, backgroundColor: '#F5F7FF' },
+  modalScreenDesktop: { backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'center', alignItems: 'center' },
+  modalInner: { flex: 1, width: '100%', backgroundColor: '#F5F7FF', overflow: 'hidden' },
+  modalInnerDesktop: { flex: undefined as any, width: '100%', maxWidth: 900, maxHeight: '92%', borderRadius: 20, overflow: 'hidden' },
   container: {
     flex: 1,
     backgroundColor: '#f8fafc',

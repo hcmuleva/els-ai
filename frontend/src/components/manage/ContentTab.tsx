@@ -6,6 +6,7 @@ import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import {
   ActivityIndicator, Image, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
+  useWindowDimensions,
 } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import {
@@ -25,6 +26,7 @@ import { usePaginatedResource } from '../../hooks/usePaginatedResource';
 import { createOffsetPageFetcher } from '../../utils/paginationFetcher';
 import { API_BASE_URL } from '../../context/AuthContext';
 import CreateQuizModal from '../quiz/CreateQuizModal';
+import ConfirmModal from '../common/ConfirmModal';
 import StudentContentViewer, { type StudentContentItem, type StudentTopicMeta } from '../subject/StudentContentViewer';
 import MediaUploader from '../media/MediaUploader';
 import VideoSectionBuilder from '../content/VideoSectionBuilder';
@@ -113,12 +115,15 @@ function ContentDetailsModal({ item, apiFetch, onClose, onEdit }: {
   onClose: () => void;
   onEdit: (item: LearningContentItem) => void;
 }) {
-  const [loading, setLoading] = useState(false);
-  const [detail, setDetail]   = useState<LearningContentItem | null>(null);
+  const [loading, setLoading]       = useState(false);
+  const [detail, setDetail]         = useState<LearningContentItem | null>(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 768;
 
   useEffect(() => {
-    if (!item) { setDetail(null); return; }
+    if (!item) { setDetail(null); setPreviewOpen(false); return; }
     setLoading(true);
     apiFetch(`/content/items/${item.id}`)
       .then((r) => r.ok ? r.json() : null)
@@ -132,101 +137,135 @@ function ContentDetailsModal({ item, apiFetch, onClose, onEdit }: {
   const topics   = data?.assignedTopics ?? [];
   const style    = ts(data?.contentType ?? '');
 
+  // Map content sections → StudentContentItem[]
+  const previewContents: StudentContentItem[] = sections.map((sec, i) => ({
+    id: sec.id ?? `sec-${i}`,
+    title: sec.title || data?.title || '',
+    contentType: sec.contentType,
+    mediaUrl: sec.mediaUrl,
+    externalUrl: sec.externalUrl,
+    textContent: sec.textContent,
+    quizId: sec.quizId,
+    sortOrder: i,
+  }));
+  const previewTopic: StudentTopicMeta = {
+    id: data?.id ?? '',
+    classLevel: data?.classLevel ?? '',
+    subject: data?.subject ?? '',
+    title: data?.title ?? '',
+  };
+
   return (
     <Modal visible={!!item} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
-      <View style={c.modalScreen}>
-        <View style={[c.modalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
-          <Pressable onPress={onClose} style={c.modalBackBtn}><ChevronLeft size={24} color="#1a1a2e" /></Pressable>
-          <Text style={c.modalTitle} numberOfLines={1}>Content Details</Text>
-          {data && (
-            <Pressable style={c.modalSaveBtn} onPress={() => { onClose(); onEdit(data); }}>
-              <Text style={c.modalSaveBtnText}>Edit</Text>
-            </Pressable>
-          )}
-        </View>
+      <View style={[c.modalScreen, isDesktop && c.modalScreenDesktop]}>
+        <View style={[c.modalInner, isDesktop && c.modalInnerDesktop]}>
+          <View style={[c.modalHeader, { paddingTop: Math.max(insets.top, isDesktop ? 12 : 12) }]}>
+            <Pressable onPress={onClose} style={c.modalBackBtn}><ChevronLeft size={24} color="#1a1a2e" /></Pressable>
+            <Text style={c.modalTitle} numberOfLines={1}>Content Details</Text>
+            {data && previewContents.length > 0 && (
+              <Pressable style={c.previewBtn} onPress={() => setPreviewOpen(true)}>
+                <Eye size={14} color="#7DC67A" />
+                <Text style={c.previewBtnText}>Preview</Text>
+              </Pressable>
+            )}
+            {data && (
+              <Pressable style={c.modalSaveBtn} onPress={() => { onClose(); onEdit(data); }}>
+                <Text style={c.modalSaveBtnText}>Edit</Text>
+              </Pressable>
+            )}
+          </View>
 
-        {loading ? (
-          <View style={c.centerWrap}><ActivityIndicator size="large" color="#4A90E2" /><Text style={c.loadingText}>Loading…</Text></View>
-        ) : data ? (
-          <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
-            {/* Hero */}
-            <View style={[c.detailHero, { backgroundColor: style.bg }]}>
-              <View style={c.detailHeroIcon}>
-                <style.Icon size={48} color={style.color} />
-              </View>
-              <View style={c.detailHeroInfo}>
-                <View style={c.detailBadgeRow}>
-                  <View style={[c.detailBadge, { backgroundColor: `${style.color}20` }]}>
-                    <Text style={[c.detailBadgeText, { color: style.color }]}>{style.label}</Text>
-                  </View>
-                  <View style={c.detailBadge}>
-                    <Text style={c.detailBadgeText}>{getStandardLabel(data.classLevel)} · {data.subject}</Text>
-                  </View>
+          {loading ? (
+            <View style={c.centerWrap}><ActivityIndicator size="large" color="#4A90E2" /><Text style={c.loadingText}>Loading…</Text></View>
+          ) : data ? (
+            <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+              {/* Hero */}
+              <View style={[c.detailHero, { backgroundColor: style.bg }]}>
+                <View style={c.detailHeroIcon}>
+                  <style.Icon size={48} color={style.color} />
                 </View>
-                <Text style={c.detailTitle}>{data.title}</Text>
-              </View>
-            </View>
-
-            {/* Stats */}
-            <View style={c.statsRow}>
-              <View style={c.statCard}>
-                <Text style={c.statVal}>{sections.length || data.sectionCount || 1}</Text>
-                <Text style={c.statLabel}>Sections</Text>
-              </View>
-              <View style={c.statCard}>
-                <Text style={c.statVal}>{topics.length}</Text>
-                <Text style={c.statLabel}>Topics</Text>
-              </View>
-            </View>
-
-            {/* Sections */}
-            <View style={c.detailSection}>
-              <View style={c.detailSectionTitleRow}>
-                <LayoutList size={14} color="#4A90E2" />
-                <Text style={c.detailSectionTitle}>Sections</Text>
-              </View>
-              {sections.length === 0 ? (
-                <View style={c.emptyCard}><Text style={c.emptyText}>No sections loaded.</Text></View>
-              ) : sections.map((sec, idx) => {
-                const ss = ts(sec.contentType);
-                const url = resolveUrl(sec.mediaUrl ?? sec.externalUrl);
-                return (
-                  <View key={sec.id ?? idx} style={c.itemCard}>
-                    <View style={[c.itemIcon, { backgroundColor: ss.bg }]}>
-                      <ss.Icon size={20} color={ss.color} />
+                <View style={c.detailHeroInfo}>
+                  <View style={c.detailBadgeRow}>
+                    <View style={[c.detailBadge, { backgroundColor: `${style.color}20` }]}>
+                      <Text style={[c.detailBadgeText, { color: style.color }]}>{style.label}</Text>
                     </View>
-                    <View style={c.itemInfo}>
-                      <Text style={c.itemTitle}>{sec.title || `Section ${idx + 1}`}</Text>
-                      <View style={[c.typeChip, { backgroundColor: ss.bg, alignSelf: 'flex-start' }]}>
-                        <Text style={[c.typeChipText, { color: ss.color }]}>{ss.label}</Text>
-                      </View>
-                      {sec.textContent ? <Text style={c.itemMeta} numberOfLines={2}>{sec.textContent}</Text> : null}
-                      {url ? <Text style={c.itemMeta} numberOfLines={1}>{url}</Text> : null}
+                    <View style={c.detailBadge}>
+                      <Text style={c.detailBadgeText}>{getStandardLabel(data.classLevel)} · {data.subject}</Text>
                     </View>
-                    <View style={c.orderBadge}><Text style={c.orderBadgeText}>{idx + 1}</Text></View>
                   </View>
-                );
-              })}
-            </View>
+                  <Text style={c.detailTitle}>{data.title}</Text>
+                </View>
+              </View>
 
-            {/* Assigned topics */}
-            {topics.length > 0 && (
+              {/* Stats */}
+              <View style={c.statsRow}>
+                <View style={c.statCard}>
+                  <Text style={c.statVal}>{sections.length || data.sectionCount || 1}</Text>
+                  <Text style={c.statLabel}>Sections</Text>
+                </View>
+                <View style={c.statCard}>
+                  <Text style={c.statVal}>{topics.length}</Text>
+                  <Text style={c.statLabel}>Topics</Text>
+                </View>
+              </View>
+
+              {/* Sections */}
               <View style={c.detailSection}>
                 <View style={c.detailSectionTitleRow}>
-                  <FolderOpen size={14} color="#9B8EC4" />
-                  <Text style={c.detailSectionTitle}>Assigned Topics</Text>
+                  <LayoutList size={14} color="#4A90E2" />
+                  <Text style={c.detailSectionTitle}>Sections</Text>
                 </View>
-                {topics.map((t) => (
-                  <View key={t.topicId} style={c.topicRow}>
-                    <Text style={c.topicRowTitle}>{t.title}</Text>
-                    <Text style={c.topicRowMeta}>{getStandardLabel(t.classLevel)} · {t.subject}</Text>
-                  </View>
-                ))}
+                {sections.length === 0 ? (
+                  <View style={c.emptyCard}><Text style={c.emptyText}>No sections loaded.</Text></View>
+                ) : sections.map((sec, idx) => {
+                  const ss = ts(sec.contentType);
+                  const url = resolveUrl(sec.mediaUrl ?? sec.externalUrl);
+                  return (
+                    <View key={sec.id ?? idx} style={c.itemCard}>
+                      <View style={[c.itemIcon, { backgroundColor: ss.bg }]}>
+                        <ss.Icon size={20} color={ss.color} />
+                      </View>
+                      <View style={c.itemInfo}>
+                        <Text style={c.itemTitle}>{sec.title || `Section ${idx + 1}`}</Text>
+                        <View style={[c.typeChip, { backgroundColor: ss.bg, alignSelf: 'flex-start' }]}>
+                          <Text style={[c.typeChipText, { color: ss.color }]}>{ss.label}</Text>
+                        </View>
+                        {sec.textContent ? <Text style={c.itemMeta} numberOfLines={2}>{sec.textContent}</Text> : null}
+                        {url ? <Text style={c.itemMeta} numberOfLines={1}>{url}</Text> : null}
+                      </View>
+                      <View style={c.orderBadge}><Text style={c.orderBadgeText}>{idx + 1}</Text></View>
+                    </View>
+                  );
+                })}
               </View>
-            )}
-          </ScrollView>
-        ) : null}
+
+              {/* Assigned topics */}
+              {topics.length > 0 && (
+                <View style={c.detailSection}>
+                  <View style={c.detailSectionTitleRow}>
+                    <FolderOpen size={14} color="#9B8EC4" />
+                    <Text style={c.detailSectionTitle}>Assigned Topics</Text>
+                  </View>
+                  {topics.map((t) => (
+                    <View key={t.topicId} style={c.topicRow}>
+                      <Text style={c.topicRowTitle}>{t.title}</Text>
+                      <Text style={c.topicRowMeta}>{getStandardLabel(t.classLevel)} · {t.subject}</Text>
+                    </View>
+                  ))}
+                </View>
+              )}
+            </ScrollView>
+          ) : null}
+        </View>
       </View>
+      {/* Student Preview */}
+      <StudentContentViewer
+        visible={previewOpen && previewContents.length > 0}
+        contents={previewContents}
+        startIdx={0}
+        topic={previewTopic}
+        onClose={() => setPreviewOpen(false)}
+      />
     </Modal>
   );
 }
@@ -242,6 +281,8 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
   onSuccess: () => void;
   onUploadMedia: (sectionDraftId: string, onProgress?: (pct: number) => void) => Promise<{ url: string; contentType: SectionDraft['contentType'] }>;
 }) {
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 768;
   const isOpen   = editingItem !== null;
   const isEdit   = editingItem !== null && editingItem !== 'new';
   const editId   = isEdit ? (editingItem as LearningContentItem).id : null;
@@ -359,7 +400,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
     const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
     authorizedItems.forEach((title) => {
       if (!byTitle.has(title)) {
-        const meta = subjectCatalog.find((i) => i.title.trim() === title && (!classLevel || i.classLevel === classLevel));
+        const meta = subjectCatalog.find((i) => i.title.trim() === title && (!classLevel || i.classLevel === classLevel || i.classLevel === 'ANY'));
         byTitle.set(title, { coverImage: meta?.coverImage, iconUrl: meta?.iconImage, iconBgColor: meta?.iconBgColor });
       }
     });
@@ -564,8 +605,9 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
 
   return (
     <Modal visible={isOpen} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
-      <View style={c.modalScreen}>
-        {/* Header */}
+      <View style={[c.modalScreen, isDesktop && c.modalScreenDesktop]}>
+        <View style={[c.modalInner, isDesktop && c.modalInnerDesktop]}>
+          {/* Header */}
         <View style={[c.modalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
           <Pressable onPress={onClose} style={c.modalBackBtn}><ChevronLeft size={24} color="#1a1a2e" /></Pressable>
           <Text style={c.modalTitle} numberOfLines={1}>{isEdit ? 'Edit Content' : 'New Content'}</Text>
@@ -914,6 +956,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
         topic={previewTopic}
         onClose={() => setStudentPreviewOpen(false)}
       />
+      </View>
     </Modal>
   );
 }
@@ -1003,10 +1046,14 @@ export default function ContentTab({
   apiFetch, onFiltersChange, onApplyFilters, onDeleteContent, onRefresh,
   onUploadMedia, message,
 }: Props) {
+  const { width } = useWindowDimensions();
+  const numCols = width >= 768 ? 2 : 1;
+
   const [classFilterOpen, setClassFilterOpen]       = useState(false);
   const [subjectFilterOpen, setSubjectFilterOpen]   = useState(false);
   const [editingItem, setEditingItem]               = useState<LearningContentItem | null | 'new'>(null);
   const [detailsItem, setDetailsItem]               = useState<LearningContentItem | null>(null);
+  const [confirmDeleteItem, setConfirmDeleteItem]   = useState<LearningContentItem | null>(null);
   const [searchQuery, setSearchQuery]               = useState('');
 
   const classOptions = useMemo(() =>
@@ -1019,7 +1066,7 @@ export default function ContentTab({
     const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
     authorizedItems.forEach((title) => {
       if (!byTitle.has(title)) {
-        const meta = subjectCatalog.find((i) => i.title.trim() === title && (!filters.classLevel || i.classLevel === filters.classLevel));
+        const meta = subjectCatalog.find((i) => i.title.trim() === title && (!filters.classLevel || i.classLevel === filters.classLevel || i.classLevel === 'ANY'));
         byTitle.set(title, { coverImage: meta?.coverImage, iconUrl: meta?.iconImage, iconBgColor: meta?.iconBgColor });
       }
     });
@@ -1130,20 +1177,24 @@ export default function ContentTab({
       {/* List */}
       <View style={{ flex: 1 }}>
         <FlashList
+          key={numCols}
           data={pager.data}
           keyExtractor={(item) => item.id}
+          numColumns={numCols}
           contentContainerStyle={c.list}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
-            <ContentCard
-              item={item}
-              idx={(pager.currentPage - 1) * pager.pageSize + index}
-              onAction={(action) => {
-                if (action === 'details') setDetailsItem(item);
-                else if (action === 'edit') setEditingItem(item);
-                else if (action === 'delete') onDeleteContent(item.id);
-              }}
-            />
+            <View style={numCols === 2 ? { flex: 1, marginHorizontal: 6 } : undefined}>
+              <ContentCard
+                item={item}
+                idx={(pager.currentPage - 1) * pager.pageSize + index}
+                onAction={(action) => {
+                  if (action === 'details') setDetailsItem(item);
+                  else if (action === 'edit') setEditingItem(item);
+                  else if (action === 'delete') setConfirmDeleteItem(item);
+                }}
+              />
+            </View>
           )}
           ListEmptyComponent={
             loadingContent ? (
@@ -1206,6 +1257,20 @@ export default function ContentTab({
         onClose={() => setEditingItem(null)}
         onSuccess={onRefresh}
         onUploadMedia={onUploadMedia}
+      />
+
+      <ConfirmModal
+        visible={confirmDeleteItem !== null}
+        title="Delete Content"
+        itemName={confirmDeleteItem?.title}
+        loading={deletingContentId === confirmDeleteItem?.id}
+        onConfirm={async () => {
+          if (confirmDeleteItem) {
+            await onDeleteContent(confirmDeleteItem.id);
+            setConfirmDeleteItem(null);
+          }
+        }}
+        onClose={() => setConfirmDeleteItem(null)}
       />
     </View>
   );
@@ -1276,6 +1341,11 @@ const c = StyleSheet.create({
 
   // Full-screen modal shared styles
   modalScreen:       { flex: 1, backgroundColor: '#F5F7FF' },
+  modalScreenDesktop:{ backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'center', alignItems: 'center' },
+  modalInner:        { flex: 1, width: '100%', backgroundColor: '#F5F7FF', overflow: 'hidden' },
+  modalInnerDesktop: { flex: undefined as any, width: '100%', maxWidth: 900, maxHeight: '92%', borderRadius: 20, overflow: 'hidden' },
+  previewBtn:        { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: '#EDF9F2', borderRadius: 10, paddingHorizontal: 12, paddingVertical: 7, borderWidth: 1, borderColor: '#BFE6D2' },
+  previewBtnText:    { color: '#4CAF82', fontWeight: '800', fontSize: 12 },
   modalHeader:       { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 12, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
   modalBackBtn:      { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
   modalBackArrow:    { fontSize: 28, color: '#1a1a2e', fontWeight: '300', lineHeight: 34 },

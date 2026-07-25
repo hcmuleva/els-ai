@@ -160,11 +160,11 @@ questionsRouter.get('/', requireAuth, async (req, res) => {
     }
     if (class_level) {
         params.push(class_level);
-        whereClauses.push(`COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level, '') = $${params.length}`);
+        whereClauses.push(`(COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level, '') = $${params.length} OR COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level, '') = 'ANY' OR COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level, '') = 'General')`);
     }
     if (subject) {
         params.push(subject);
-        whereClauses.push(`COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), qsubj.title, '') = $${params.length}`);
+        whereClauses.push(`LOWER(COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), qsubj.title, '')) = LOWER($${params.length})`);
     }
     if (quiz_type) {
         params.push(quiz_type);
@@ -542,11 +542,11 @@ questionBankRouter.get('/', requireAuth, async (req, res) => {
     }
     if (class_level) {
         params.push(class_level);
-        whereClauses.push(`COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level, '') = $${params.length}`);
+        whereClauses.push(`(COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level, '') = $${params.length} OR COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level, '') = 'ANY' OR COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level, '') = 'General')`);
     }
     if (subject) {
         params.push(subject);
-        whereClauses.push(`COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), qsubj.title, '') = $${params.length}`);
+        whereClauses.push(`LOWER(COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), qsubj.title, '')) = LOWER($${params.length})`);
     }
     if (question_type) {
         params.push(question_type);

@@ -118,12 +118,8 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="quiz"
         options={{
-          href: tabRoutes.has('quiz') ? undefined : null,
+          href: null,
           title: 'Quiz',
-          tabBarIcon: ({ color, size }) => {
-            const Icon = getTabIcon('quiz');
-            return <Icon size={size} />;
-          },
         }}
       />
       <Tabs.Screen

@@ -204,6 +204,55 @@ async function extendLearningContentSchema() {
   }
 }
 
+async function extendContentAndQuestionSchema() {
+  await db.query(`
+    CREATE TABLE IF NOT EXISTS video_sections (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      content_id UUID REFERENCES learning_contents(id) ON DELETE CASCADE,
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+      title VARCHAR(255) NOT NULL,
+      description TEXT,
+      start_time INTEGER NOT NULL,
+      end_time INTEGER NOT NULL,
+      learning_objective TEXT,
+      age_group VARCHAR(50),
+      category VARCHAR(120),
+      difficulty VARCHAR(50),
+      quiz_id UUID REFERENCES quizzes(id) ON DELETE SET NULL,
+      status VARCHAR(50) DEFAULT 'published',
+      content_section_order INTEGER DEFAULT 1,
+      section_order INTEGER DEFAULT 0,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
+  await db.query(`
+    CREATE TABLE IF NOT EXISTS student_video_progress (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      student_id UUID REFERENCES users(id) ON DELETE CASCADE,
+      content_id UUID REFERENCES learning_contents(id) ON DELETE CASCADE,
+      section_id UUID REFERENCES video_sections(id) ON DELETE CASCADE,
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+      video_watch_status VARCHAR(50) DEFAULT 'in_progress',
+      watched_seconds INTEGER DEFAULT 0,
+      quiz_status VARCHAR(50),
+      quiz_score INTEGER,
+      completed_at TIMESTAMP,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW(),
+      UNIQUE(student_id, section_id)
+    );
+  `);
+
+  if (await tableExists('quiz_questions')) {
+    await db.query(`
+      ALTER TABLE quiz_questions
+        ADD COLUMN IF NOT EXISTS explanation TEXT;
+    `);
+  }
+}
+
 async function backfillTenantTables(defaultOrgId: string) {
   for (const table of TENANT_TABLES) {
     if (!(await tableExists(table))) continue;
@@ -222,6 +271,7 @@ async function backfillTenantTables(defaultOrgId: string) {
 export async function runOrgMigrations(): Promise<{ defaultOrgId: string }> {
   await extendOrganizationsSchema();
   await extendLearningContentSchema();
+  await extendContentAndQuestionSchema();
   await ensureUserOrgMapping();
   await ensureUsersPrimaryOrg();
   const { defaultOrgId } = await consolidateDefaultOrg();

@@ -7,6 +7,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import {
   ActivityIndicator, Image, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
+  useWindowDimensions,
 } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import {
@@ -26,6 +27,7 @@ import { usePaginatedResource } from '../../hooks/usePaginatedResource';
 import { createOffsetPageFetcher } from '../../utils/paginationFetcher';
 import { API_BASE_URL } from '../../context/AuthContext';
 import StudentContentViewer, { type StudentContentItem, type StudentTopicMeta } from '../subject/StudentContentViewer';
+import ConfirmModal from '../common/ConfirmModal';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -132,13 +134,16 @@ function TopicDetailsModal({ topic, apiFetch, onClose, onEdit }: {
   onClose: () => void;
   onEdit: (topic: ContentTopic) => void;
 }) {
-  const [loading, setLoading]       = useState(false);
-  const [contents, setContents]     = useState<TopicDetailContent[]>([]);
-  const [quizzes, setQuizzes]       = useState<TopicDetailQuiz[]>([]);
+  const [loading, setLoading]         = useState(false);
+  const [contents, setContents]       = useState<TopicDetailContent[]>([]);
+  const [quizzes, setQuizzes]         = useState<TopicDetailQuiz[]>([]);
+  const [previewOpen, setPreviewOpen] = useState(false);
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 768;
 
   useEffect(() => {
-    if (!topic) return;
+    if (!topic) { setPreviewOpen(false); return; }
     setLoading(true);
     Promise.all([
       apiFetch(`/topics/${topic.id}/details`),
@@ -157,23 +162,44 @@ function TopicDetailsModal({ topic, apiFetch, onClose, onEdit }: {
   const cover = resolveUrl(topic?.coverImage);
   const CARD_COLORS = ['#D6EAFF', '#FFE8D6', '#D6F5D6', '#EDE4FF', '#FFF5CC'];
 
+  // Build preview items from topic contents
+  const previewItems: StudentContentItem[] = contents.map((item, i) => ({
+    id: item.id,
+    title: item.title,
+    contentType: item.contentType,
+    sortOrder: i,
+  }));
+  const previewTopicMeta: StudentTopicMeta = {
+    id: topic?.id ?? '',
+    classLevel: topic?.classLevel ?? '',
+    subject: topic?.subject ?? '',
+    title: topic?.title ?? '',
+  };
+
   return (
     <Modal visible={!!topic} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
-      <View style={d.screen}>
-        {/* Header */}
-        <View style={[d.header, { paddingTop: Math.max(insets.top, 12) }]}>
-          <Pressable onPress={onClose} style={d.backBtn}>
-            <ChevronLeft size={24} color="#1a1a2e" />
-          </Pressable>
-          <Text style={d.headerTitle} numberOfLines={1}>Topic Details</Text>
-          {topic && (
-            <Pressable style={d.editBtn} onPress={() => { onClose(); onEdit(topic); }}>
-              <Text style={d.editBtnText}>Edit</Text>
+      <View style={[d.screen, isDesktop && d.screenDesktop]}>
+        <View style={[d.inner, isDesktop && d.innerDesktop]}>
+          {/* Header */}
+          <View style={[d.header, { paddingTop: Math.max(insets.top, 12) }]}>
+            <Pressable onPress={onClose} style={d.backBtn}>
+              <ChevronLeft size={24} color="#1a1a2e" />
             </Pressable>
-          )}
-        </View>
+            <Text style={d.headerTitle} numberOfLines={1}>Topic Details</Text>
+            {topic && previewItems.length > 0 && (
+              <Pressable style={d.previewBtn} onPress={() => setPreviewOpen(true)}>
+                <Eye size={14} color="#7DC67A" />
+                <Text style={d.previewBtnText}>Preview</Text>
+              </Pressable>
+            )}
+            {topic && (
+              <Pressable style={d.editBtn} onPress={() => { onClose(); onEdit(topic); }}>
+                <Text style={d.editBtnText}>Edit</Text>
+              </Pressable>
+            )}
+          </View>
 
-        <ScrollView contentContainerStyle={d.scroll} showsVerticalScrollIndicator={false}>
+          <ScrollView contentContainerStyle={d.scroll} showsVerticalScrollIndicator={false}>
           {topic && (
             <>
               {/* Hero */}
@@ -290,15 +316,29 @@ function TopicDetailsModal({ topic, apiFetch, onClose, onEdit }: {
               )}
             </>
           )}
-        </ScrollView>
+          </ScrollView>
+        </View>
       </View>
+      {/* Student Preview */}
+      <StudentContentViewer
+        visible={previewOpen && previewItems.length > 0}
+        contents={previewItems}
+        startIdx={0}
+        topic={previewTopicMeta}
+        onClose={() => setPreviewOpen(false)}
+      />
     </Modal>
   );
 }
 
 // ── Details styles ────────────────────────────────────────────────────────────
 const d = StyleSheet.create({
-  screen:   { flex: 1, backgroundColor: '#F5F7FF' },
+  screen:         { flex: 1, backgroundColor: '#F5F7FF' },
+  screenDesktop:  { backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'center', alignItems: 'center' },
+  inner:          { flex: 1, width: '100%', backgroundColor: '#F5F7FF', overflow: 'hidden' },
+  innerDesktop:   { flex: undefined as any, width: '100%', maxWidth: 900, maxHeight: '92%', borderRadius: 20, overflow: 'hidden' },
+  previewBtn:     { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: '#EDF9F2', borderRadius: 10, paddingHorizontal: 12, paddingVertical: 7, borderWidth: 1, borderColor: '#BFE6D2' },
+  previewBtnText: { color: '#4CAF82', fontWeight: '800', fontSize: 12 },
   header:   { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 12, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
   backBtn:  { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
   backArrow:{ fontSize: 28, color: '#1a1a2e', fontWeight: '300', lineHeight: 34 },
@@ -413,6 +453,10 @@ export default function TopicsTab({
   enabled, reloadToken, filters, subjectCatalog, contentItems, apiFetch, user,
   onFiltersChange, onApplyFilters, onTopicAction, onRefresh, onUploadCover, message,
 }: Props) {
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 768;
+  const numCols = isDesktop ? 2 : 1;
+
   // List filter selectors
   const [classFilterOpen, setClassFilterOpen]     = useState(false);
   const [subjectFilterOpen, setSubjectFilterOpen] = useState(false);
@@ -421,6 +465,7 @@ export default function TopicsTab({
 
   // Details modal
   const [detailsTopic, setDetailsTopic] = useState<ContentTopic | null>(null);
+  const [confirmDeleteTopic, setConfirmDeleteTopic] = useState<ContentTopic | null>(null);
 
   // Modal state
   const [isOpen, setIsOpen]               = useState(false);
@@ -468,7 +513,7 @@ export default function TopicsTab({
     const titles = getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, filters.classLevel || undefined);
     const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
     titles.forEach((title) => {
-      const meta = subjectCatalog.find((i) => i.title.trim() === title && (!filters.classLevel || i.classLevel === filters.classLevel));
+      const meta = subjectCatalog.find((i) => i.title.trim() === title && (!filters.classLevel || i.classLevel === filters.classLevel || i.classLevel === 'ANY'));
       byTitle.set(title, { coverImage: meta?.coverImage, iconUrl: meta?.iconImage, iconBgColor: meta?.iconBgColor });
     });
     if (filters.subject && !byTitle.has(filters.subject)) byTitle.set(filters.subject, {});
@@ -479,7 +524,7 @@ export default function TopicsTab({
     const titles = getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, classLevel || undefined);
     const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
     titles.forEach((title) => {
-      const meta = subjectCatalog.find((i) => i.title.trim() === title && (!classLevel || i.classLevel === classLevel));
+      const meta = subjectCatalog.find((i) => i.title.trim() === title && (!classLevel || i.classLevel === classLevel || i.classLevel === 'ANY'));
       byTitle.set(title, { coverImage: meta?.coverImage, iconUrl: meta?.iconImage, iconBgColor: meta?.iconBgColor });
     });
     if (subject && !byTitle.has(subject)) byTitle.set(subject, {});
@@ -490,7 +535,7 @@ export default function TopicsTab({
     const titles = getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, contentPickerClass || undefined);
     const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
     titles.forEach((title) => {
-      const meta = subjectCatalog.find((i) => i.title.trim() === title && (!contentPickerClass || i.classLevel === contentPickerClass));
+      const meta = subjectCatalog.find((i) => i.title.trim() === title && (!contentPickerClass || i.classLevel === contentPickerClass || i.classLevel === 'ANY'));
       byTitle.set(title, { coverImage: meta?.coverImage, iconUrl: meta?.iconImage, iconBgColor: meta?.iconBgColor });
     });
     if (contentPickerSubject && !byTitle.has(contentPickerSubject)) byTitle.set(contentPickerSubject, {});
@@ -501,7 +546,7 @@ export default function TopicsTab({
     const titles = getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, classLevel || undefined);
     const byTitle = new Map<string, { coverImage?: string; iconUrl?: string; iconBgColor?: string }>();
     titles.forEach((title) => {
-      const meta = subjectCatalog.find((i) => i.title.trim() === title && (!classLevel || i.classLevel === classLevel));
+      const meta = subjectCatalog.find((i) => i.title.trim() === title && (!classLevel || i.classLevel === classLevel || i.classLevel === 'ANY'));
       byTitle.set(title, { coverImage: meta?.coverImage, iconUrl: meta?.iconImage, iconBgColor: meta?.iconBgColor });
     });
     if (quizSubjectFilter && !byTitle.has(quizSubjectFilter)) byTitle.set(quizSubjectFilter, {});
@@ -849,20 +894,24 @@ export default function TopicsTab({
       {/* ── Topic list ── */}
       <View style={{ flex: 1 }}>
         <FlashList
+          key={numCols}
           data={pager.data}
           keyExtractor={(item) => item.id}
+          numColumns={numCols}
           contentContainerStyle={s.list}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
-            <TopicCard
-              topic={item}
-              idx={(pager.currentPage - 1) * pager.pageSize + index}
-              onAction={(action) => {
-                if (action === 'edit') openEdit(item);
-                else if (action === 'details') setDetailsTopic(item);
-                else if (action === 'delete') onTopicAction(item, 'delete');
-              }}
-            />
+            <View style={numCols === 2 ? { flex: 1, marginHorizontal: 6 } : undefined}>
+              <TopicCard
+                topic={item}
+                idx={(pager.currentPage - 1) * pager.pageSize + index}
+                onAction={(action) => {
+                  if (action === 'edit') openEdit(item);
+                  else if (action === 'details') setDetailsTopic(item);
+                  else if (action === 'delete') setConfirmDeleteTopic(item);
+                }}
+              />
+            </View>
           )}
           ListEmptyComponent={
             loading ? (
@@ -925,7 +974,8 @@ export default function TopicsTab({
         presentationStyle="fullScreen"
         onRequestClose={() => { setTopicPreviewOpen(false); setIsOpen(false); }}
       >
-        <View style={s.modalScreen}>
+        <View style={[s.modalScreen, isDesktop && s.modalScreenDesktop]}>
+          <View style={[s.modalInner, isDesktop && s.modalInnerDesktop]}>
 
           {/* Header */}
           <View style={[s.modalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
@@ -1254,7 +1304,21 @@ export default function TopicsTab({
         {/* Draft selectors */}
         <SelectorModal visible={draftClassOpen} title="Select Class" options={classOptions} selected={classLevel} onSelect={(v) => { setClassLevel(v); setSubject(''); setDraftClassOpen(false); }} onClose={() => setDraftClassOpen(false)} />
         <SelectorModal visible={draftSubjectOpen} title="Select Subject" options={draftSubjectOptions} selected={subject} isSubject onSelect={(v) => { setSubject(v); setDraftSubjectOpen(false); }} onClose={() => setDraftSubjectOpen(false)} />
+      </View>
       </Modal>
+
+      <ConfirmModal
+        visible={confirmDeleteTopic !== null}
+        title="Delete Topic"
+        itemName={confirmDeleteTopic?.title}
+        onConfirm={async () => {
+          if (confirmDeleteTopic) {
+            await onTopicAction(confirmDeleteTopic, 'delete');
+            setConfirmDeleteTopic(null);
+          }
+        }}
+        onClose={() => setConfirmDeleteTopic(null)}
+      />
     </View>
   );
 }
@@ -1316,6 +1380,9 @@ const s = StyleSheet.create({
 
   // ── Full-screen modal ──
   modalScreen:      { flex: 1, backgroundColor: '#F5F7FF' },
+  modalScreenDesktop:{ backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'center', alignItems: 'center' },
+  modalInner:        { flex: 1, width: '100%', backgroundColor: '#F5F7FF', overflow: 'hidden' },
+  modalInnerDesktop: { flex: undefined as any, width: '100%', maxWidth: 900, maxHeight: '92%', borderRadius: 20, overflow: 'hidden' },
   modalHeader:      { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 12, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
   modalBackBtn:     { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
   modalBackArrow:   { fontSize: 28, color: '#1a1a2e', fontWeight: '300', lineHeight: 34 },

@@ -1,21 +1,43 @@
 import bcrypt from 'bcryptjs';
 import { db } from '../db.js';
 import { seedDemoTrends } from './seed-demo-trends.js';
+const EXTRA_ACTIVITY_SUBJECTS = [
+    { title: 'Activity / Play-based Learning', description: 'Hands-on playful activities for social, motor, and cognitive growth.', iconImage: 'symbol:activity', iconBgColor: '#E0F2FE', aliases: ['Activity', 'Play-based Learning'] },
+    { title: 'Brain Training', description: 'Cognitive exercises and mental sharpness.', iconImage: 'symbol:sparkles', iconBgColor: '#EDE4FF' },
+    { title: 'Creativity', description: 'Creative activities and artistic thinking.', iconImage: 'symbol:palette', iconBgColor: '#FFF5CC', aliases: ['creativity'] },
+    { title: 'Dharm', description: 'Moral values, culture, and ethics.', iconImage: 'symbol:sparkles', iconBgColor: '#EDE4FF', aliases: ['dharm'] },
+    { title: 'DIY & Crafts', description: 'Do it yourself practical activities and crafts.', iconImage: 'symbol:activity', iconBgColor: '#E0F2FE', aliases: ['diy', 'DIY'] },
+    { title: 'Do You Know?', description: 'Fun facts, trivia, and general curiosity.', iconImage: 'symbol:globe', iconBgColor: '#FFF5CC', aliases: ['do_you_know', 'Do You Know'] },
+    { title: 'Drawing & Coloring', description: 'Creative expression through drawing, coloring, and visual exploration.', iconImage: 'symbol:palette', iconBgColor: '#FFF5CC' },
+    { title: 'Experimental Learning', description: 'Practical and hands-on experimental activities.', iconImage: 'symbol:flask', iconBgColor: '#D6F5D6' },
+    { title: 'Extracurricular Activities', description: 'Co-curricular and extra activity programs.', iconImage: 'symbol:sparkles', iconBgColor: '#EDE4FF' },
+    { title: 'General Awareness', description: 'General awareness and current knowledge.', iconImage: 'symbol:globe', iconBgColor: '#FFF5CC' },
+    { title: 'General Knowledge', description: 'General awareness about people, places, and the world.', iconImage: 'symbol:globe', iconBgColor: '#FFF5CC', aliases: ['GK'] },
+    { title: 'How Things Work', description: 'Understanding everyday science and mechanics.', iconImage: 'symbol:flask', iconBgColor: '#D6F5D6', aliases: ['how_things_works', 'How Things Works'] },
+    { title: 'How to Think', description: 'Logical reasoning and critical thinking skills.', iconImage: 'symbol:sparkles', iconBgColor: '#EDE4FF', aliases: ['how_to_think'] },
+    { title: 'IQ Test', description: 'IQ assessments and reasoning puzzles.', iconImage: 'symbol:hash', iconBgColor: '#FFE8D6' },
+    { title: 'Jr. Scientist', description: 'Early scientific exploration and experimentation.', iconImage: 'symbol:flask', iconBgColor: '#D6F5D6', aliases: ['jr_scientist'] },
+    { title: 'Logical Reasoning', description: 'Logic puzzles and analytical thinking.', iconImage: 'symbol:hash', iconBgColor: '#FFE8D6' },
+    { title: 'Memory Development', description: 'Memory games and brain retention exercises.', iconImage: 'symbol:sparkles', iconBgColor: '#EDE4FF', aliases: ['memory_development'] },
+    { title: 'Puzzles & Logic', description: 'Puzzles, riddles, and problem solving.', iconImage: 'symbol:hash', iconBgColor: '#FFE8D6', aliases: ['puzzle', 'Puzzles'] },
+    { title: 'Rhymes & Stories', description: 'Songs, rhymes, and storytelling to build language rhythm and imagination.', iconImage: 'symbol:sparkles', iconBgColor: '#EDE4FF', aliases: ['Hindi Stories'] },
+    { title: 'Stories & Tales', description: 'Interactive stories, fables, and moral tales.', iconImage: 'symbol:book-open', iconBgColor: '#D6EAFF', aliases: ['story', 'Stories'] },
+    { title: 'Tips and Tricks', description: 'Tips, tricks, shortcuts, and learning hacks.', iconImage: 'symbol:sparkles', iconBgColor: '#EDE4FF', aliases: ['tips_tricks', 'Tips & Tricks'] },
+];
 const LKG_UKG_SUBJECTS = [
     { title: 'English', description: 'Foundational language skills for listening, speaking, and early literacy.', iconImage: 'symbol:book-open', iconBgColor: '#D6EAFF' },
     { title: 'Mathematics', description: 'Number sense, counting, and early problem-solving activities.', iconImage: 'symbol:hash', iconBgColor: '#FFE8D6', aliases: ['Maths'] },
     { title: 'Environmental Studies', description: 'Awareness of surroundings, nature, and everyday life concepts.', iconImage: 'symbol:leaf', iconBgColor: '#D6F5D6', aliases: ['EVS', 'Environmental Studies (EVS)'] },
-    { title: 'Rhymes & Stories', description: 'Songs, rhymes, and storytelling to build language rhythm and imagination.', iconImage: 'symbol:sparkles', iconBgColor: '#EDE4FF', aliases: ['Hindi Stories'] },
-    { title: 'Drawing & Coloring', description: 'Creative expression through drawing, coloring, and visual exploration.', iconImage: 'symbol:palette', iconBgColor: '#FFF5CC' },
-    { title: 'Activity / Play-based Learning', description: 'Hands-on playful activities for social, motor, and cognitive growth.', iconImage: 'symbol:activity', iconBgColor: '#E0F2FE', aliases: ['Activity', 'Play-based Learning'] },
+    { title: 'Hindi', description: 'Hindi language development in reading, writing, and speaking.', iconImage: 'symbol:languages', iconBgColor: '#EDE4FF' },
+    { title: 'Moral Values', description: 'Value education, ethics, and social skills.', iconImage: 'symbol:sparkles', iconBgColor: '#EDE4FF' },
 ];
 const PRIMARY_SUBJECTS = [
     { title: 'English', description: 'Reading, writing, vocabulary, and communication practice.', iconImage: 'symbol:book-open', iconBgColor: '#D6EAFF' },
     { title: 'Mathematics', description: 'Arithmetic, number operations, and logical reasoning.', iconImage: 'symbol:hash', iconBgColor: '#FFE8D6', aliases: ['Maths'] },
     { title: 'Environmental Studies (EVS)', description: 'Integrated learning of natural and social surroundings.', iconImage: 'symbol:leaf', iconBgColor: '#D6F5D6', aliases: ['EVS', 'Environmental Studies'] },
     { title: 'Hindi', description: 'Hindi language development in reading, writing, and speaking.', iconImage: 'symbol:languages', iconBgColor: '#EDE4FF' },
-    { title: 'General Knowledge', description: 'General awareness about people, places, and the world.', iconImage: 'symbol:globe', iconBgColor: '#FFF5CC', aliases: ['GK'] },
     { title: 'Computer Science', description: 'Basic computer awareness, digital tools, and safe technology use.', iconImage: 'symbol:monitor', iconBgColor: '#E0F2FE', aliases: ['Computer'] },
+    { title: 'Moral Values', description: 'Value education, ethics, and social skills.', iconImage: 'symbol:sparkles', iconBgColor: '#EDE4FF' },
 ];
 const MIDDLE_SUBJECTS = [
     { title: 'English', description: 'Comprehension, grammar, writing skills, and communication.', iconImage: 'symbol:book-open', iconBgColor: '#D6EAFF' },
@@ -50,6 +72,7 @@ const SENIOR_SECONDARY_SUBJECTS = [
     { title: 'English', description: 'Advanced language, literature, and communication competence.', iconImage: 'symbol:book-open', iconBgColor: '#D6EAFF' },
 ];
 const SUBJECTS_BY_CLASS = {
+    ANY: EXTRA_ACTIVITY_SUBJECTS,
     LKG: LKG_UKG_SUBJECTS,
     UKG: LKG_UKG_SUBJECTS,
     '1': PRIMARY_SUBJECTS,
@@ -196,6 +219,8 @@ export async function initSchemaAndSeed() {
         await db.query(`
       DROP TABLE IF EXISTS question_attempts CASCADE;
       DROP TABLE IF EXISTS student_attempts CASCADE;
+      DROP TABLE IF EXISTS student_video_progress CASCADE;
+      DROP TABLE IF EXISTS video_sections CASCADE;
       DROP TABLE IF EXISTS topic_content_sections CASCADE;
       DROP TABLE IF EXISTS content_topics CASCADE;
       DROP TABLE IF EXISTS topic_content_assignments CASCADE;
@@ -556,6 +581,44 @@ export async function initSchemaAndSeed() {
       updated_at TIMESTAMP DEFAULT NOW()
     );
   `);
+    await db.query(`
+    CREATE TABLE video_sections (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      content_id UUID REFERENCES learning_contents(id) ON DELETE CASCADE,
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+      title VARCHAR(255) NOT NULL,
+      description TEXT,
+      start_time INTEGER NOT NULL,
+      end_time INTEGER NOT NULL,
+      learning_objective TEXT,
+      age_group VARCHAR(50),
+      category VARCHAR(120),
+      difficulty VARCHAR(50),
+      quiz_id UUID, -- Will be set as foreign key later
+      status VARCHAR(50) DEFAULT 'published',
+      content_section_order INTEGER DEFAULT 1,
+      section_order INTEGER DEFAULT 0,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+    await db.query(`
+    CREATE TABLE student_video_progress (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      student_id UUID REFERENCES users(id) ON DELETE CASCADE,
+      content_id UUID REFERENCES learning_contents(id) ON DELETE CASCADE,
+      section_id UUID REFERENCES video_sections(id) ON DELETE CASCADE,
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+      video_watch_status VARCHAR(50) DEFAULT 'in_progress',
+      watched_seconds INTEGER DEFAULT 0,
+      quiz_status VARCHAR(50),
+      quiz_score INTEGER,
+      completed_at TIMESTAMP,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW(),
+      UNIQUE(student_id, section_id)
+    );
+  `);
     // 5.7 Topic to content assignments
     await db.query(`
     CREATE TABLE topic_content_assignments (
@@ -598,6 +661,7 @@ export async function initSchemaAndSeed() {
       question_type VARCHAR(100) NOT NULL,
       question_title TEXT,
       question_instruction TEXT,
+      explanation TEXT,
       question_audio TEXT,
       time_limit_seconds INTEGER DEFAULT 30,
       points INTEGER DEFAULT 10,
@@ -605,6 +669,9 @@ export async function initSchemaAndSeed() {
       question_data JSONB NOT NULL,
       created_at TIMESTAMP DEFAULT NOW()
     );
+  `);
+    await db.query(`
+      ALTER TABLE video_sections ADD CONSTRAINT fk_video_sections_quiz_id FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE SET NULL;
   `);
     // 8. Student Attempts
     await db.query(`

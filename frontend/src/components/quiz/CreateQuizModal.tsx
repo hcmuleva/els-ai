@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,
 } from 'react-native';
 import { ChevronLeft, HelpCircle, Trophy } from 'lucide-react-native';
 
@@ -47,6 +48,8 @@ export default function CreateQuizModal({
   const [refreshKey, setRefreshKey] = useState(0);
   const [toast, setToast] = useState<string | null>(null);
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 768;
 
   useEffect(() => {
     if (!visible) {
@@ -74,8 +77,9 @@ export default function CreateQuizModal({
 
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
-      <View style={s.screen}>
-        <View style={[s.header, { paddingTop: Math.max(insets.top, 12) }]}>
+      <View style={[s.screen, isDesktop && s.screenDesktop]}>
+        <View style={[s.inner, isDesktop && s.innerDesktop]}>
+          <View style={[s.header, { paddingTop: Math.max(insets.top, 12) }]}>
           <Pressable onPress={onClose} style={s.backBtn}>
             <ChevronLeft size={24} color="#1a1a2e" />
           </Pressable>
@@ -135,12 +139,16 @@ export default function CreateQuizModal({
           )}
         </View>
       </View>
+      </View>
     </Modal>
   );
 }
 
 const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: '#F5F7FF' },
+  screenDesktop: { backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'center', alignItems: 'center' },
+  inner: { flex: 1, width: '100%', backgroundColor: '#F5F7FF', overflow: 'hidden' },
+  innerDesktop: { flex: undefined as any, width: '100%', maxWidth: 900, maxHeight: '92%', borderRadius: 20, overflow: 'hidden' },
   header: {
     flexDirection: 'row', alignItems: 'center', gap: 8,
     paddingHorizontal: 12, paddingBottom: 12, backgroundColor: '#fff',
