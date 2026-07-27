@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: achievement-service
-          image: harishdell/els-ai-achievement-service:7e67ff398705beeb5cbd1efed7760a02a7d8f47b
+          image: harishdell/els-ai-achievement-service:a4f348f311ca3c0c3d06c97eebc01333a78f84d3
           imagePullPolicy: Always
           ports:
             - containerPort: 4007
