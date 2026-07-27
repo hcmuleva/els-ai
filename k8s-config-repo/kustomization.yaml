@@ -22,3 +22,20 @@ resources:
   - story-service.yaml
   - frontend.yaml
   - ingress.yaml
+  
+images:
+  - name: harishdell/els-ai-achievement-service
+  - name: harishdell/els-ai-ai-service
+  - name: harishdell/els-ai-assignment-service
+  - name: harishdell/els-ai-auth-service
+  - name: harishdell/els-ai-classroom-service
+  - name: harishdell/els-ai-content-service
+  - name: harishdell/els-ai-frontend
+  - name: harishdell/els-ai-gateway
+  - name: harishdell/els-ai-media-service
+  - name: harishdell/els-ai-notification-service
+  - name: harishdell/els-ai-org-service
+  - name: harishdell/els-ai-question-bank-service
+  - name: harishdell/els-ai-quiz-service
+  - name: harishdell/els-ai-story-service
+  - name: harishdell/els-ai-topic-service
