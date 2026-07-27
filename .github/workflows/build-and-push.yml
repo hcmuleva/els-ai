@@ -152,13 +152,13 @@ jobs:
 
       - name: Update Image Tags in Config Repository
         run: |
-          cd config-repo
+          cd config-repo/k8s-config-repo
           
           # Get current Git Commit SHA
           COMMIT_TAG="${{ github.sha }}"
           
           # Replace all harishdell image tags dynamically with the Git SHA tag
-          find base/ -type f -name "*.yaml" -exec sed -i "s|image: harishdell/els-ai-\([^:]*\):.*|image: harishdell/els-ai-\1:${COMMIT_TAG}|g" {} +
+          find k8s-config-repo/ -type f -name "*.yaml" -exec sed -i "s|image: harishdell/els-ai-\([^:]*\):.*|image: harishdell/els-ai-\1:${COMMIT_TAG}|g" {} +
           
           # Configure Git credentials
           git config user.name "github-actions[bot]"
@@ -166,7 +166,7 @@ jobs:
           
           # Commit and push changes if updates occurred
           if ! git diff --quiet; then
-            git add base/
+            git add .
             git commit -m "chore(deploy): update image tags to commit ${{ github.sha }}"
             git push
           else
