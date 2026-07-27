@@ -4,7 +4,6 @@ namespace: els-ai
 resources:
   - namespace.yaml
   - config.yaml
-  - secrets.yaml
   - media-assets-pv.yaml
   - media-assets-pvc.yaml
   - auth-service.yaml
