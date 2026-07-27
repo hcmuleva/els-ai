@@ -70,7 +70,7 @@ bookmarksRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => 
   }
   if (class_level) {
     params.push(class_level);
-    whereClauses.push(`b.class_level = $${params.length}`);
+    whereClauses.push(`(b.class_level = $${params.length} OR b.class_level = 'ANY')`);
   }
   if (type) {
     params.push(type);
