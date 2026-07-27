@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: content-service
-          image: harishdell/els-ai-content-service:9ae307564f3eaae785387b31d371d252e840b32a
+          image: harishdell/els-ai-content-service:7e67ff398705beeb5cbd1efed7760a02a7d8f47b
           imagePullPolicy: Always
           ports:
             - containerPort: 4009
