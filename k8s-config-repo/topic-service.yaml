@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: topic-service
-          image: harishdell/els-ai-topic-service:2.1
+          image: harishdell/els-ai-topic-service:4debbbbf3d3bd5bc067b04a672904c25a8f6b05d
           imagePullPolicy: Always
           ports:
             - containerPort: 4010

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: ai-service
-          image: harishdell/els-ai-ai-service:2.1
+          image: harishdell/els-ai-ai-service:4debbbbf3d3bd5bc067b04a672904c25a8f6b05d
           imagePullPolicy: Always
           ports:
             - containerPort: 4003
