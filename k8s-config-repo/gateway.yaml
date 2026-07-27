@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: harishdell/els-ai-gateway:a5345ab75dfb0637f65f653312df9d8f05c2c1d4
+          image: harishdell/els-ai-gateway:86e4e650d08e844ab2c97f3cd7147017450ebeca
           imagePullPolicy: Always
           ports:
             - containerPort: 4000
