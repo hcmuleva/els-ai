@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: quiz-service
-          image: harishdell/els-ai-quiz-service:sha-5d24c21
+          image: harishdell/els-ai-quiz-service:sha-548960d
           imagePullPolicy: Always
           ports:
             - containerPort: 4002
