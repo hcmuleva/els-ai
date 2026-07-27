@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: story-service
-          image: harishdell/els-ai-story-service:9f9ed58dda4da95aea70a92f615c20292b587b61
+          image: harishdell/els-ai-story-service:sha-5d24c21
           imagePullPolicy: Always
           ports:
             - containerPort: 4014
