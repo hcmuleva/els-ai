@@ -39,7 +39,7 @@ export const StoryStore = {
         }
         if (filters.classLevel) {
             params.push(filters.classLevel);
-            where.push(`class_level = $${params.length}`);
+            where.push(`(class_level = $${params.length} OR class_level = 'ANY' OR class_level IS NULL)`);
         }
         const limit = filters.limit ?? 50;
         const offset = filters.offset ?? 0;

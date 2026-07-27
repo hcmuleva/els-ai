@@ -64,7 +64,7 @@ export const StoryStore = {
     const where = ['organization_id = $1::uuid'];
     const params: any[] = [orgId];
     if (filters.status) { params.push(filters.status); where.push(`status = $${params.length}`); }
-    if (filters.classLevel) { params.push(filters.classLevel); where.push(`class_level = $${params.length}`); }
+    if (filters.classLevel) { params.push(filters.classLevel); where.push(`(class_level = $${params.length} OR class_level = 'ANY' OR class_level IS NULL)`); }
     const limit = filters.limit ?? 50;
     const offset = filters.offset ?? 0;
     params.push(limit); params.push(offset);

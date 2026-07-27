@@ -98,7 +98,7 @@ topicsRouter.get('/', requireAuth, async (req, res) => {
     const whereClauses = ['(ct.organization_id = $1::uuid OR ct.is_global = true)'];
     if (class_level) {
         params.push(class_level);
-        whereClauses.push(`ct.class_level = $${params.length}`);
+        whereClauses.push(`(ct.class_level = $${params.length} OR ct.class_level = 'ANY')`);
     }
     if (subject) {
         params.push(subject);

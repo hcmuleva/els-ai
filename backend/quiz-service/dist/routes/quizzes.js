@@ -246,7 +246,7 @@ quizzesRouter.get('/', requireAuth, async (req, res) => {
         const params = [orgId];
         if (class_level) {
             params.push(class_level);
-            queryStr += ` AND q.class_level = $${params.length}`;
+            queryStr += ` AND (q.class_level = $${params.length} OR q.class_level = 'ANY')`;
         }
         if (subject) {
             params.push(subject);
@@ -280,7 +280,7 @@ quizzesRouter.get('/teacher/library', requireAuth, async (req, res) => {
     }
     if (class_level) {
         params.push(class_level);
-        whereClauses.push(`q.class_level = $${params.length}`);
+        whereClauses.push(`(q.class_level = $${params.length} OR q.class_level = 'ANY')`);
     }
     if (subject) {
         params.push(subject);
