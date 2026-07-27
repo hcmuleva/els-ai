@@ -9,7 +9,7 @@ on:
       force_build_all:
         description: 'Force build all microservices (One-time baseline override)'
         type: boolean
-        default: false
+        default: true
 
 jobs:
   # -------------------------------------------------------------
@@ -143,31 +143,58 @@ jobs:
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Config Repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           repository: 'hcmuleva/els-ai'
           token: ${{ secrets.CONFIG_REPO_PAT }}
           path: 'config-repo'
 
-      - name: Update Image Tags in Config Repository
+      - name: Update Image Tags for Built Services Only
         run: |
           cd config-repo/k8s-config-repo
-          
-          # Get current Git Commit SHA
           COMMIT_TAG="${{ github.sha }}"
           
-          # Replace all harishdell image tags dynamically with the Git SHA tag
-          find . -type f -name "*.yaml" -exec sed -i "s|image: harishdell/els-ai-\([^:]*\):.*|image: harishdell/els-ai-\1:${COMMIT_TAG}|g" {} +
+          # Parse changed backend services list
+          CHANGED_BACKEND='${{ needs.detect-changes.outputs.backend-services }}'
+          FORCE_ALL='${{ inputs.force_build_all }}'
           
+          # Helper function to update a specific YAML file
+          update_service_tag() {
+            SERVICE_NAME=$1
+            YAML_FILE="${SERVICE_NAME}.yaml"
+            if [ -f "$YAML_FILE" ]; then
+              echo "Updating tag for $SERVICE_NAME to $COMMIT_TAG"
+              sed -i "s|image: harishdell/els-ai-${SERVICE_NAME}:.*|image: harishdell/els-ai-${SERVICE_NAME}:${COMMIT_TAG}|g" "$YAML_FILE"
+            fi
+          }
+
+          # Update backend services that were built
+          if [ "$FORCE_ALL" = "true" ]; then
+            for f in *.yaml; do
+              sed -i "s|image: harishdell/els-ai-\([^:]*\):.*|image: harishdell/els-ai-\1:${COMMIT_TAG}|g" "$f"
+            done
+          elif [ "$CHANGED_BACKEND" != "[]" ] && [ -n "$CHANGED_BACKEND" ]; then
+            # Loop over services in JSON array
+            for service in $(echo "$CHANGED_BACKEND" | jq -r '.[]'); do
+              update_service_tag "$service"
+            done
+          fi
+
+          # Update frontend if it changed
+          FRONTEND_CHANGED='${{ needs.detect-changes.outputs.frontend-changed }}'
+          if [ "$FRONTEND_CHANGED" = "true" ] || [ "$FORCE_ALL" = "true" ]; then
+            update_service_tag "frontend"
+          fi
+
           # Configure Git credentials
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          
+
           # Commit and push changes if updates occurred
           if ! git diff --quiet; then
             git add .
-            git commit -m "chore(deploy): update image tags to commit ${{ github.sha }}"
+            git commit -m "chore(deploy): update image tags for built services to commit ${{ github.sha }}"
             git push
           else
             echo "No image tags needed updating."
