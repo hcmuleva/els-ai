@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: notification-service
-          image: harishdell/els-ai-notification-service:09674d942534b55259a55db4151c689bdff743c1
+          image: harishdell/els-ai-notification-service:a9c3d2a28c8132873374c48d52417f1880637431
           imagePullPolicy: Always
           ports:
             - containerPort: 4013

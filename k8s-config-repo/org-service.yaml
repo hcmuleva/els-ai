@@ -15,7 +15,7 @@ spec:
     spec:
       initContainers:
         - name: run-migrations
-          image: harishdell/els-ai-org-service:09674d942534b55259a55db4151c689bdff743c1
+          image: harishdell/els-ai-org-service:a9c3d2a28c8132873374c48d52417f1880637431
           imagePullPolicy: Always
           command: ["sh", "-c", "npm run migrate"]
           envFrom:
@@ -25,7 +25,7 @@ spec:
                 name: els-ai-secrets
       containers:
         - name: org-service
-          image: harishdell/els-ai-org-service:09674d942534b55259a55db4151c689bdff743c1
+          image: harishdell/els-ai-org-service:a9c3d2a28c8132873374c48d52417f1880637431
           imagePullPolicy: Always
           ports:
             - containerPort: 4012
