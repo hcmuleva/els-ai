@@ -9,7 +9,7 @@ on:
       force_build_all:
         description: 'Force build all microservices (One-time baseline override)'
         type: boolean
-        default: true
+        default: false
 
 jobs:
   # -------------------------------------------------------------
@@ -146,7 +146,7 @@ jobs:
       - name: Checkout Config Repository
         uses: actions/checkout@v4
         with:
-          repository: 'hcmuleva/k8s-config-repo'
+          repository: 'hcmuleva/els-ai'
           token: ${{ secrets.CONFIG_REPO_PAT }}
           path: 'config-repo'
 
