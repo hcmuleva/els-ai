@@ -19,3 +19,5 @@ content_generator/
 dump/
 Before_AI_AUOMATIN_dump.zip
 *.dump
+k8s-config-repo/secrets.yaml
+ai-qna-poc/*

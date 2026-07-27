@@ -29,6 +29,8 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 COPY package.json package-lock.json ./
+COPY migrations ./migrations
+COPY scripts ./scripts
 COPY --from=build /app/backend ./backend
 
 RUN --mount=type=cache,target=/root/.npm \
