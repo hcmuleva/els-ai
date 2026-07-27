@@ -5,27 +5,56 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      force_build_all:
+        description: 'Force build all microservices (One-time baseline override)'
+        type: boolean
+        default: true
 
 jobs:
+  # -------------------------------------------------------------
+  # 1. CHANGE DETECTION: Determine which microservices changed
+  # -------------------------------------------------------------
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend-services: ${{ steps.filter.outputs.changes }}
+      frontend-changed: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Detect changed file paths
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            auth-service: 'backend/auth-service/**'
+            quiz-service: 'backend/quiz-service/**'
+            media-service: 'backend/media-service/**'
+            ai-service: 'backend/ai-service/**'
+            gateway: 'backend/gateway/**'
+            classroom-service: 'backend/classroom-service/**'
+            achievement-service: 'backend/achievement-service/**'
+            question-bank-service: 'backend/question-bank-service/**'
+            content-service: 'backend/content-service/**'
+            topic-service: 'backend/topic-service/**'
+            assignment-service: 'backend/assignment-service/**'
+            org-service: 'backend/org-service/**'
+            notification-service: 'backend/notification-service/**'
+            story-service: 'backend/story-service/**'
+            frontend: 'frontend/**'
+
+  # -------------------------------------------------------------
+  # 2. BUILD & PUSH BACKEND (Runs changed services OR all services if forced)
+  # -------------------------------------------------------------
   build-and-push-backend:
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.backend-services != '[]' || inputs.force_build_all == true }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service:
-          - auth-service
-          - quiz-service
-          - media-service
-          - ai-service
-          - gateway
-          - classroom-service
-          - achievement-service
-          - question-bank-service
-          - content-service
-          - topic-service
-          - assignment-service
-          - org-service
-          - notification-service
-          - story-service
+        service: ${{ inputs.force_build_all == true && fromJson('["auth-service","quiz-service","media-service","ai-service","gateway","classroom-service","achievement-service","question-bank-service","content-service","topic-service","assignment-service","org-service","notification-service","story-service"]') || fromJson(needs.detect-changes.outputs.backend-services) }}
       fail-fast: false
 
     steps:
@@ -49,7 +78,6 @@ jobs:
           tags: |
             type=sha,format=long
             type=raw,value=latest
-            type=raw,value=2.1
 
       - name: Build and push backend service
         uses: docker/build-push-action@v5
@@ -64,7 +92,12 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+  # -------------------------------------------------------------
+  # 3. BUILD & PUSH FRONTEND (Runs if frontend changed OR forced)
+  # -------------------------------------------------------------
   build-and-push-frontend:
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.frontend-changed == 'true' || inputs.force_build_all == true }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -87,7 +120,6 @@ jobs:
           tags: |
             type=sha,format=long
             type=raw,value=latest
-            type=raw,value=2.1
 
       - name: Build and push frontend
         uses: docker/build-push-action@v5
@@ -104,35 +136,35 @@ jobs:
           cache-to: type=gha,mode=max
 
   # -------------------------------------------------------------
-  # NEW GITOPS STEP: Runs only after all images build successfully
+  # 4. GITOPS UPDATE STEP: Updates manifests in config repository
   # -------------------------------------------------------------
   update-gitops-manifests:
-    needs: [build-and-push-backend, build-and-push-frontend]
+    needs: [detect-changes, build-and-push-backend, build-and-push-frontend]
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Config Repository
         uses: actions/checkout@v4
         with:
-          repository: 'hcmuleva/k8s-config-repo' # Replace with your config repo
-          token: ${{ secrets.CONFIG_REPO_PAT }} # GitHub PAT with write access to config repo
+          repository: 'hcmuleva/k8s-config-repo'
+          token: ${{ secrets.CONFIG_REPO_PAT }}
           path: 'config-repo'
 
       - name: Update Image Tags in Config Repository
         run: |
           cd config-repo
           
-          # Compute the commit SHA tag used during build
+          # Get current Git Commit SHA
           COMMIT_TAG="${{ github.sha }}"
           
-          # Find all deployment YAMLs and update harishdell images to the new SHA tag
-          # Works across all your 14 microservice manifests and frontend deployment
+          # Replace all harishdell image tags dynamically with the Git SHA tag
           find base/ -type f -name "*.yaml" -exec sed -i "s|image: harishdell/els-ai-\([^:]*\):.*|image: harishdell/els-ai-\1:${COMMIT_TAG}|g" {} +
           
-          # Commit and push changes back to GitOps repo
+          # Configure Git credentials
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Only commit if changes exist
+          # Commit and push changes if updates occurred
           if ! git diff --quiet; then
             git add base/
             git commit -m "chore(deploy): update image tags to commit ${{ github.sha }}"
