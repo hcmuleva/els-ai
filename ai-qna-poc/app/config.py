@@ -9,7 +9,9 @@ load_dotenv()
 
 
 def _get(name: str, default: str) -> str:
-    value = os.environ.get(name)
+    value = os.environ.get(name)@app.post("/generate", response_model=GenerateResponse)
+def generate(req: GenerateRequest) -> GenerateResponse:
+    return run(req)
     return value if value not in (None, "") else default
 
 

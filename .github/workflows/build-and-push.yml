@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build-and-push-backend:
@@ -48,6 +49,7 @@ jobs:
           tags: |
             type=sha,format=long
             type=raw,value=latest
+            type=raw,value=2.1
 
       - name: Build and push backend service
         uses: docker/build-push-action@v5
@@ -85,6 +87,7 @@ jobs:
           tags: |
             type=sha,format=long
             type=raw,value=latest
+            type=raw,value=2.1
 
       - name: Build and push frontend
         uses: docker/build-push-action@v5
@@ -99,3 +102,41 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  # -------------------------------------------------------------
+  # NEW GITOPS STEP: Runs only after all images build successfully
+  # -------------------------------------------------------------
+  update-gitops-manifests:
+    needs: [build-and-push-backend, build-and-push-frontend]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Config Repository
+        uses: actions/checkout@v4
+        with:
+          repository: 'hcmuleva/k8s-config-repo' # Replace with your config repo
+          token: ${{ secrets.CONFIG_REPO_PAT }} # GitHub PAT with write access to config repo
+          path: 'config-repo'
+
+      - name: Update Image Tags in Config Repository
+        run: |
+          cd config-repo
+          
+          # Compute the commit SHA tag used during build
+          COMMIT_TAG="${{ github.sha }}"
+          
+          # Find all deployment YAMLs and update harishdell images to the new SHA tag
+          # Works across all your 14 microservice manifests and frontend deployment
+          find base/ -type f -name "*.yaml" -exec sed -i "s|image: harishdell/els-ai-\([^:]*\):.*|image: harishdell/els-ai-\1:${COMMIT_TAG}|g" {} +
+          
+          # Commit and push changes back to GitOps repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Only commit if changes exist
+          if ! git diff --quiet; then
+            git add base/
+            git commit -m "chore(deploy): update image tags to commit ${{ github.sha }}"
+            git push
+          else
+            echo "No image tags needed updating."
+          fi

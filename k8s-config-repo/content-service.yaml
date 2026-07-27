@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: content-service
+  namespace: els-ai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: content-service
+  template:
+    metadata:
+      labels:
+        app: content-service
+    spec:
+      containers:
+        - name: content-service
+          image: harishdell/els-ai-content-service:2.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4009
+          env:
+            - name: PORT
+              value: "4009"
+          envFrom:
+            - configMapRef:
+                name: els-ai-config
+            - secretRef:
+                name: els-ai-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 4009
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 4009
+            initialDelaySeconds: 20
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: content-service
+  namespace: els-ai
+spec:
+  selector:
+    app: content-service
+  ports:
+    - name: http
+      port: 4009
+      targetPort: 4009

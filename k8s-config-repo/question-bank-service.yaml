@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: question-bank-service
+  namespace: els-ai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: question-bank-service
+  template:
+    metadata:
+      labels:
+        app: question-bank-service
+    spec:
+      containers:
+        - name: question-bank-service
+          image: harishdell/els-ai-question-bank-service:2.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4008
+          env:
+            - name: PORT
+              value: "4008"
+          envFrom:
+            - configMapRef:
+                name: els-ai-config
+            - secretRef:
+                name: els-ai-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 4008
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 4008
+            initialDelaySeconds: 20
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: question-bank-service
+  namespace: els-ai
+spec:
+  selector:
+    app: question-bank-service
+  ports:
+    - name: http
+      port: 4008
+      targetPort: 4008

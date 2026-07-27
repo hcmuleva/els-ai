@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: els-ai
+resources:
+  - namespace.yaml
+  - config.yaml
+  - secrets.yaml
+  - media-assets-pv.yaml
+  - media-assets-pvc.yaml
+  - auth-service.yaml
+  - quiz-service.yaml
+  - media-service.yaml
+  - ai-service.yaml
+  - gateway.yaml
+  - classroom-service.yaml
+  - achievement-service.yaml
+  - question-bank-service.yaml
+  - content-service.yaml
+  - topic-service.yaml
+  - assignment-service.yaml
+  - org-service.yaml
+  - notification-service.yaml
+  - story-service.yaml
+  - frontend.yaml
+  - ingress.yaml
