@@ -9,7 +9,7 @@ on:
       force_build_all:
         description: 'Force build all microservices (One-time baseline override)'
         type: boolean
-        default: true
+        default: false
 
 jobs:
   # -------------------------------------------------------------
@@ -76,7 +76,7 @@ jobs:
         with:
           images: harishdell/els-ai-${{ matrix.service }}
           tags: |
-            type=sha,format=long
+            type=sha,format=short
             type=raw,value=latest
 
       - name: Build and push backend service
@@ -84,6 +84,7 @@ jobs:
         with:
           context: .
           file: Dockerfile.service
+          platforms: linux/amd64
           build-args: |
             SERVICE_WORKSPACE=backend/${{ matrix.service }}
           push: true
@@ -118,7 +119,7 @@ jobs:
         with:
           images: harishdell/els-ai-frontend
           tags: |
-            type=sha,format=long
+            type=sha,format=short
             type=raw,value=latest
 
       - name: Build and push frontend
@@ -126,6 +127,7 @@ jobs:
         with:
           context: .
           file: frontend/Dockerfile
+          platforms: linux/amd64
           build-args: |
             EXPO_PUBLIC_API_BASE_URL=https://emeelan.in/els-ai/api
             EXPO_PUBLIC_TTS_URL=https://emeelan.in/els-ai/tts
@@ -153,13 +155,16 @@ jobs:
       - name: Update Image Tags for Built Services Only
         run: |
           cd config-repo/k8s-config-repo
-          COMMIT_TAG="${{ github.sha }}"
           
-          # Parse changed backend services list
+          # Extract first 7 chars of commit SHA and add 'sha-' prefix (e.g. sha-9f9ed58)
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+          COMMIT_TAG="sha-${SHORT_SHA}"
+          
+          # Parse inputs and changed outputs
           CHANGED_BACKEND='${{ needs.detect-changes.outputs.backend-services }}'
           FORCE_ALL='${{ inputs.force_build_all }}'
           
-          # Helper function to update a specific YAML file
+          # Helper function to update a specific service YAML file
           update_service_tag() {
             SERVICE_NAME=$1
             YAML_FILE="${SERVICE_NAME}.yaml"
@@ -175,7 +180,6 @@ jobs:
               sed -i "s|image: harishdell/els-ai-\([^:]*\):.*|image: harishdell/els-ai-\1:${COMMIT_TAG}|g" "$f"
             done
           elif [ "$CHANGED_BACKEND" != "[]" ] && [ -n "$CHANGED_BACKEND" ]; then
-            # Loop over services in JSON array
             for service in $(echo "$CHANGED_BACKEND" | jq -r '.[]'); do
               update_service_tag "$service"
             done
@@ -194,7 +198,7 @@ jobs:
           # Commit and push changes if updates occurred
           if ! git diff --quiet; then
             git add .
-            git commit -m "chore(deploy): update image tags for built services to commit ${{ github.sha }}"
+            git commit -m "chore(deploy): update image tags to ${COMMIT_TAG}"
             git push
           else
             echo "No image tags needed updating."
