@@ -30,9 +30,22 @@ import ConfirmModal from '../common/ConfirmModal';
 import StudentContentViewer, { type StudentContentItem, type StudentTopicMeta } from '../subject/StudentContentViewer';
 import MediaUploader from '../media/MediaUploader';
 import VideoSectionBuilder from '../content/VideoSectionBuilder';
+import StudentVideoLearningView from '../student/StudentVideoLearningView';
 import QuizAttachPanel from '../content/QuizAttachPanel';
 import { createVideoSectionsApi } from '../../api/videoSections';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import YoutubePlayer from 'react-native-youtube-iframe';
+import { Video, ResizeMode } from 'expo-av';
+import AudioPlayer from '../media/AudioPlayer';
+
+const getYouTubeVideoId = (url: string): string | null => {
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+  return match ? match[1] : null;
+};
+const isYouTubeUrl = (url: string): boolean => /(?:youtube\.com|youtu\.be)/i.test(url);
+const isImageUrl = (url: string): boolean => /\.(png|jpe?g|gif|webp|bmp|svg)(?:$|[?#])/i.test(url);
+const isAudioUrl = (url: string): boolean => /\.(mp3|wav|ogg|aac|m4a|flac)(?:$|[?#])/i.test(url);
+const isVideoUrl = (url: string): boolean => /\.(mp4|mov|m4v|webm|avi|mkv)(?:$|[?#])/i.test(url);
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 export type LearningContentItem = {
@@ -518,30 +531,32 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
 
   const previewContents: StudentContentItem[] = useMemo(
     () =>
-      sections.map((section, index) => ({
-        id: section.draftId,
-        title: section.title.trim() || `Section ${index + 1}`,
-        contentType: section.contentType,
-        mediaUrl: section.mediaUrl.trim() || undefined,
-        externalUrl: section.externalUrl.trim() || undefined,
-        textContent: section.textContent.trim() || undefined,
-        quizId: section.quizId || undefined,
-        sortOrder: index + 1,
-      })),
-    [sections],
+      sections.map((section, index) => {
+        const itemContentId = effectiveContentId || editId || section.draftId;
+        return {
+          id: `${itemContentId}:${index + 1}`,
+          title: section.title.trim() || `Section ${index + 1}`,
+          contentType: section.contentType,
+          mediaUrl: section.mediaUrl.trim() || undefined,
+          externalUrl: section.externalUrl.trim() || undefined,
+          textContent: section.textContent.trim() || undefined,
+          quizId: section.quizId || undefined,
+          sortOrder: index + 1,
+        };
+      }),
+    [sections, effectiveContentId, editId],
   );
 
-  const handleUpload = async (draftId: string) => {
+  const handleUploadMedia = async (draftId: string) => {
     setUploadingId(draftId);
-    setUploadProgress(0);
     try {
       const { url, contentType } = await onUploadMedia(draftId, setUploadProgress);
       updateSection(draftId, { mediaUrl: url, contentType, externalUrl: '', textContent: '' });
     } catch (e: any) {
-      if (e?.message !== 'UPLOAD_CANCELLED') setToast('Upload failed.'); 
+      if (e?.message !== 'UPLOAD_CANCELLED') setToast('Upload failed.');
     }
-    finally { 
-      setUploadingId(null); 
+    finally {
+      setUploadingId(null);
       setUploadProgress(null);
     }
   };
@@ -552,18 +567,21 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
     if (!title.trim() || !classLevel || !subject) {
       setToast('Title, class and subject are required.'); return null;
     }
-    const normalized = sections.map((s) => ({
-      title: s.title.trim() || undefined,
-      contentType: s.contentType,
-      mediaUrl: s.mediaUrl.trim() || undefined,
-      externalUrl: s.externalUrl.trim() || undefined,
-      textContent: s.textContent.trim() || undefined,
-      quizId: s.quizId || undefined,
-    }));
+    const normalized = sections.map((s) => {
+      const url = s.externalUrl.trim() || s.mediaUrl.trim() || undefined;
+      const isExternalType = s.contentType === 'youtube_url' || s.contentType === 'reel_url';
+      return {
+        title: s.title.trim() || undefined,
+        contentType: s.contentType,
+        mediaUrl: isExternalType ? (s.mediaUrl.trim() || undefined) : url,
+        externalUrl: isExternalType ? url : (s.externalUrl.trim() || undefined),
+        textContent: s.textContent.trim() || undefined,
+        quizId: s.quizId || undefined,
+      };
+    });
     const invalid = normalized.findIndex((s) => {
       if (s.contentType === 'text') return !s.textContent;
-      if (s.contentType === 'youtube_url' || s.contentType === 'reel_url') return !s.externalUrl;
-      return !s.mediaUrl;
+      return !s.mediaUrl && !s.externalUrl;
     });
     if (invalid > -1) { setToast(`Section ${invalid + 1} is incomplete.`); return null; }
 
@@ -603,275 +621,536 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
     setVideoSectionModalFor({ order, url });
   };
 
+  const renderSetupCard = () => (
+    <View style={c.formCardWrap}>
+      <Text style={c.cardTitleHeader}>1. Basic Info & Settings</Text>
+      <ScrollView style={c.innerScrollList} contentContainerStyle={{ gap: 12 }}>
+        <View style={c.fieldGroup}>
+          <Text style={c.groupLabel}>BASIC INFO</Text>
+          <View style={c.fieldCard}>
+            <Text style={c.fieldLabel}>Content Title *</Text>
+            <TextInput value={title} onChangeText={setTitle} placeholder="e.g. Story of the Lion" style={c.fieldInput} placeholderTextColor="#B0B8D0" />
+          </View>
+        </View>
+        <View style={c.fieldGroup}>
+          <Text style={c.groupLabel}>CLASS SETTINGS</Text>
+          <View style={c.fieldCard}>
+            <Text style={c.fieldLabel}>Standard / Class *</Text>
+            <Pressable style={c.selectorRow} onPress={() => setClassOpen(true)}>
+              <Text style={classLevel ? c.selectorVal : c.selectorPlaceholder}>{classLevel ? getStandardLabel(classLevel) : 'Select Standard'}</Text>
+              <Text style={{ color: '#B0B8D0', fontSize: 16 }}>›</Text>
+            </Pressable>
+            <View style={c.fieldDivider} />
+            <Text style={c.fieldLabel}>Subject *</Text>
+            <Pressable style={c.selectorRow} onPress={() => setSubjectOpen(true)}>
+              <Text style={subject ? c.selectorVal : c.selectorPlaceholder}>{subject || 'Select Subject'}</Text>
+              <Text style={{ color: '#B0B8D0', fontSize: 16 }}>›</Text>
+            </Pressable>
+          </View>
+        </View>
+      </ScrollView>
+    </View>
+  );
+
+  const [previewSectionIdx, setPreviewSectionIdx] = useState(0);
+
+  const renderPreviewCard = () => {
+    const curContent = previewContents[previewSectionIdx] || previewContents[0];
+    const hasPrev = previewSectionIdx > 0;
+    const hasNext = previewSectionIdx < previewContents.length - 1;
+    const cfg = curContent ? ts(curContent.contentType) : ts('');
+    const mediaUrl = curContent ? resolveUrl(curContent.externalUrl ?? curContent.mediaUrl) : '';
+    const ytId = mediaUrl ? getYouTubeVideoId(mediaUrl) : null;
+    const isYt = curContent?.contentType === 'youtube_url' || (!!mediaUrl && isYouTubeUrl(mediaUrl));
+    const isImg = curContent?.contentType === 'image' || (!!mediaUrl && isImageUrl(mediaUrl));
+    const isAud = curContent?.contentType === 'audio' || (!!mediaUrl && isAudioUrl(mediaUrl));
+    const isVid = curContent?.contentType === 'reel_url' || curContent?.contentType === 'reel' || curContent?.contentType === 'video' || (!!mediaUrl && isVideoUrl(mediaUrl));
+    const isTxt = curContent?.contentType === 'text' || !!curContent?.textContent;
+
+    return (
+      <View style={c.formCardWrap}>
+        {/* Header */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <Eye size={18} color="#2563EB" />
+            <Text style={[c.cardTitleHeader, { fontSize: 15 }]}>Student View Preview</Text>
+          </View>
+          <Pressable
+            style={{ backgroundColor: '#2563EB', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, flexDirection: 'row', alignItems: 'center', gap: 6 }}
+            onPress={() => setStudentPreviewOpen(true)}
+            disabled={previewContents.length === 0}
+          >
+            <Eye size={14} color="#ffffff" />
+            <Text style={{ color: '#ffffff', fontWeight: '800', fontSize: 12 }}>Full Screen Preview</Text>
+          </Pressable>
+        </View>
+
+        {/* Clear Section Selector Buttons Bar */}
+        {previewContents.length > 1 && (
+          <View style={{ marginBottom: 10 }}>
+            <Text style={{ fontSize: 10, fontWeight: '800', color: '#9A9AB0', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 6 }}>
+              SELECT SECTION TO PREVIEW
+            </Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+              {previewContents.map((sec, idx) => {
+                const isActive = previewSectionIdx === idx;
+                return (
+                  <Pressable
+                    key={sec.id || idx}
+                    style={{
+                      paddingHorizontal: 14,
+                      paddingVertical: 7,
+                      borderRadius: 10,
+                      backgroundColor: isActive ? '#2563EB' : '#EFF6FF',
+                      borderWidth: 1.5,
+                      borderColor: isActive ? '#2563EB' : '#BFDBFE',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 6,
+                    }}
+                    onPress={() => setPreviewSectionIdx(idx)}
+                  >
+                    <Text style={{ fontSize: 12, fontWeight: '900', color: isActive ? '#ffffff' : '#1E40AF' }}>
+                      Section {idx + 1}
+                    </Text>
+                    {sec.title ? (
+                      <Text style={{ fontSize: 11, fontWeight: '600', color: isActive ? 'rgba(255,255,255,0.85)' : '#3B82F6' }} numberOfLines={1}>
+                        ({sec.title})
+                      </Text>
+                    ) : null}
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
+          </View>
+        )}
+
+        <ScrollView style={c.innerScrollList} contentContainerStyle={{ gap: 12 }}>
+          {/* Hero Student Banner */}
+          <View style={[c.previewCard, { borderRadius: 14, overflow: 'hidden' }]}>
+            <View style={[c.previewHeader, { backgroundColor: cfg.bg || '#4A7FE0', padding: 14 }]}>
+              <Text style={[c.previewTitle, { fontSize: 17, color: cfg.color || '#fff' }]}>{title || 'Untitled Content'}</Text>
+              <Text style={[c.previewSub, { color: cfg.color ? `${cfg.color}CC` : 'rgba(255,255,255,0.8)' }]}>
+                {classLevel ? getStandardLabel(classLevel) : 'Class'} · {subject || 'Subject'} · Section {previewSectionIdx + 1} of {previewContents.length || 1}
+              </Text>
+            </View>
+          </View>
+
+          {/* Active Section Student Renderer */}
+          {!curContent || previewContents.length === 0 ? (
+            <View style={c.emptyCard}>
+              <Text style={c.emptyText}>No sections added yet. Add sections on the left to view the student preview.</Text>
+            </View>
+          ) : (
+            <View style={{ gap: 12 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#F8F9FF', padding: 10, borderRadius: 10, borderWidth: 1, borderColor: '#ECEEF4' }}>
+                <Text style={{ fontSize: 13, fontWeight: '800', color: '#1a1a2e' }}>
+                  {curContent.title || `Section ${previewSectionIdx + 1}`}
+                </Text>
+                <View style={[c.typeChip, { backgroundColor: cfg.bg }]}>
+                  <Text style={[c.typeChipText, { color: cfg.color }]}>{cfg.label}</Text>
+                </View>
+              </View>
+
+              {/* Video Player / Timed Video Learning Chapters */}
+              {effectiveContentId && (videoSectionCounts[previewSectionIdx + 1] || 0) > 0 && mediaUrl ? (
+                <StudentVideoLearningView
+                  contentId={effectiveContentId}
+                  contentSectionOrder={previewSectionIdx + 1}
+                  videoUrl={mediaUrl}
+                  apiFetch={apiFetch}
+                />
+              ) : (
+                <>
+                  {/* YouTube Player */}
+                  {isYt && ytId && (
+                    <View style={{ height: 220, borderRadius: 14, overflow: 'hidden', backgroundColor: '#000' }}>
+                      {Platform.OS === 'web' ? (
+                        <iframe
+                          src={`https://www.youtube.com/embed/${ytId}?rel=0&controls=1`}
+                          style={{ width: '100%', height: '100%', border: 'none' }}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      ) : (
+                        <YoutubePlayer height={220} videoId={ytId} />
+                      )}
+                    </View>
+                  )}
+
+                  {/* Video / Reel View */}
+                  {isVid && mediaUrl && !isYt && (
+                    <View style={{ height: 220, borderRadius: 14, overflow: 'hidden', backgroundColor: '#000' }}>
+                      {Platform.OS === 'web' ? (
+                        <video src={mediaUrl} controls style={{ width: '100%', height: '100%', borderRadius: 14 }} />
+                      ) : (
+                        <Video source={{ uri: mediaUrl }} useNativeControls resizeMode={ResizeMode.CONTAIN} style={{ width: '100%', height: '100%' }} />
+                      )}
+                    </View>
+                  )}
+                </>
+              )}
+
+              {/* Image View */}
+              {isImg && mediaUrl && (
+                <View style={{ height: 220, borderRadius: 14, overflow: 'hidden', backgroundColor: '#F0F0F8' }}>
+                  <Image source={{ uri: mediaUrl }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
+                </View>
+              )}
+
+              {/* Audio View */}
+              {isAud && mediaUrl && (
+                <AudioPlayer uri={mediaUrl} title={curContent.title} subtitle={subject} accentColor="#4A90E2" bgColor="#D6EAFF" />
+              )}
+
+              {/* Text View */}
+              {isTxt && curContent.textContent && (
+                <View style={{ backgroundColor: '#fff', borderRadius: 12, padding: 14, borderWidth: 1, borderColor: '#ECEEF4' }}>
+                  <Text style={{ fontSize: 13, color: '#2C3E50', lineHeight: 20 }}>{curContent.textContent}</Text>
+                </View>
+              )}
+
+              {/* Quiz CTA Preview */}
+              {curContent.quizId && (
+                <View style={c.quizAttachedCard}>
+                  <View style={c.quizAttachedIcon}><Trophy size={16} color="#7C3AED" /></View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={c.quizAttachedTitle}>Quick Challenge Quiz</Text>
+                    <Text style={c.quizAttachedMeta}>Interactive quiz for students after this section</Text>
+                  </View>
+                </View>
+              )}
+
+              {/* Video Sections Interactive Chapter Badge in Preview */}
+              {(videoSectionCounts[previewSectionIdx + 1] || 0) > 0 && (
+                <View style={{ backgroundColor: '#F0FDF4', borderRadius: 12, padding: 12, borderWidth: 1, borderColor: '#BBF7D0', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                  <View style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: '#DCFCE7', alignItems: 'center', justifyContent: 'center' }}>
+                    <Film size={18} color="#16A34A" />
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={{ fontSize: 13, fontWeight: '800', color: '#14532D' }}>
+                      🎬 {videoSectionCounts[previewSectionIdx + 1]} Timed Video Chapters
+                    </Text>
+                    <Text style={{ fontSize: 11, color: '#166534', marginTop: 2 }}>
+                      Interactive video checkpoints & quizzes attached to this section
+                    </Text>
+                  </View>
+                </View>
+              )}
+
+              {/* Explicit Prev / Next Navigation Bar */}
+              {previewContents.length > 1 && (
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12, marginTop: 8 }}>
+                  <Pressable
+                    style={{
+                      paddingHorizontal: 16,
+                      paddingVertical: 9,
+                      borderRadius: 10,
+                      backgroundColor: hasPrev ? '#EFF6FF' : '#F3F4F6',
+                      borderWidth: 1,
+                      borderColor: hasPrev ? '#BFDBFE' : '#E5E7EB',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexDirection: 'row',
+                      gap: 6,
+                      opacity: hasPrev ? 1 : 0.4,
+                    }}
+                    disabled={!hasPrev}
+                    onPress={() => setPreviewSectionIdx((i) => Math.max(0, i - 1))}
+                  >
+                    <ChevronLeft size={16} color={hasPrev ? '#1D4ED8' : '#9CA3AF'} />
+                    <Text style={{ fontSize: 13, fontWeight: '800', color: hasPrev ? '#1D4ED8' : '#9CA3AF', textAlign: 'center' }}>
+                      Previous
+                    </Text>
+                  </Pressable>
+
+                  <Text style={{ fontSize: 13, fontWeight: '800', color: '#4B5B78', minWidth: 40, textAlign: 'center' }}>
+                    {previewSectionIdx + 1} / {previewContents.length}
+                  </Text>
+
+                  <Pressable
+                    style={{
+                      paddingHorizontal: 16,
+                      paddingVertical: 9,
+                      borderRadius: 10,
+                      backgroundColor: hasNext ? '#2563EB' : '#F3F4F6',
+                      borderWidth: 1,
+                      borderColor: hasNext ? '#2563EB' : '#E5E7EB',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexDirection: 'row',
+                      gap: 6,
+                      opacity: hasNext ? 1 : 0.4,
+                    }}
+                    disabled={!hasNext}
+                    onPress={() => setPreviewSectionIdx((i) => Math.min(previewContents.length - 1, i + 1))}
+                  >
+                    <Text style={{ fontSize: 13, fontWeight: '800', color: hasNext ? '#ffffff' : '#9CA3AF', textAlign: 'center' }}>
+                      Next
+                    </Text>
+                    <ChevronLeft size={16} color={hasNext ? '#ffffff' : '#9CA3AF'} style={{ transform: [{ rotate: '180deg' }] }} />
+                  </Pressable>
+                </View>
+              )}
+            </View>
+          )}
+        </ScrollView>
+      </View>
+    );
+  };
+
+  const renderSectionsCard = () => (
+    <View style={c.formCardWrap}>
+      <View style={c.secGroupHeader}>
+        <Text style={c.cardTitleHeader}>📄 Content Sections ({sections.length})</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <Pressable onPress={() => setShowSectionInfo((v) => !v)} hitSlop={8} style={c.secInfoBtn}>
+            <Info size={18} color="#4A90E2" />
+          </Pressable>
+          <Pressable style={c.addSecBtn} onPress={() => setSections((p) => [...p, makeSection()])}>
+            <Text style={c.addSecBtnText}>+ Add Section</Text>
+          </Pressable>
+        </View>
+      </View>
+
+      {showSectionInfo && (
+        <View style={c.secInfoNote}>
+          <Info size={14} color="#4A90E2" />
+          <Text style={c.secInfoNoteText}>
+            A section can have either a Quick Challenge quiz or Video Sections, not both.
+          </Text>
+        </View>
+      )}
+
+      <ScrollView style={c.innerScrollList} contentContainerStyle={{ gap: 12, paddingTop: 10 }}>
+        {sections.map((sec, idx) => {
+          const isUrl  = sec.contentType === 'youtube_url' || sec.contentType === 'reel_url';
+          const isText = sec.contentType === 'text';
+          const isMedia = !isUrl && !isText;
+          const hasVideoSections = (videoSectionCounts[idx + 1] || 0) > 0;
+
+          return (
+            <View key={sec.draftId} style={c.sectionBlock}>
+              {/* Section header with order controls */}
+              <View style={c.sectionBlockHeader}>
+                <View style={c.dragHandle}><GripVertical size={16} color="#B0B8D0" /><Text style={c.sectionItemOrder}>{idx + 1}</Text></View>
+                <TextInput
+                  value={sec.title}
+                  onChangeText={(v) => updateSection(sec.draftId, { title: v })}
+                  placeholder={`Section ${idx + 1} title (optional)`}
+                  style={c.sectionTitleInput}
+                  placeholderTextColor="#B0B8D0"
+                />
+                <View style={c.sectionHeaderActions}>
+                  <TouchableOpacity onPress={() => setSections((p) => moveUp(p, idx))} disabled={idx === 0} style={[c.orderBtn, idx === 0 && { opacity: 0.2 }]}>
+                    <ChevronUp size={14} color="#4A90E2" />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setSections((p) => moveDown(p, idx))} disabled={idx === sections.length - 1} style={[c.orderBtn, idx === sections.length - 1 && { opacity: 0.2 }]}>
+                    <ChevronDown size={14} color="#4A90E2" />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setSections((p) => p.length > 1 ? p.filter((_, i) => i !== idx) : p)} style={c.removeBtn}>
+                    <Text style={c.removeBtnText}>✕</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              {/* Type chips */}
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6, paddingHorizontal: 14, paddingBottom: 10 }}>
+                {SECTION_TYPE_CHOICES.map((choice) => {
+                  const active = sec.contentType === choice.value;
+                  const cs = ts(choice.value);
+                  return (
+                    <Pressable
+                      key={choice.value}
+                      style={[c.typeChipBtn, active && { backgroundColor: cs.bg, borderColor: cs.color }]}
+                      onPress={() => updateSection(sec.draftId, { contentType: choice.value, mediaUrl: '', externalUrl: '', textContent: '' })}
+                    >
+                      <choice.Icon size={14} color={active ? cs.color : '#9A9AB0'} />
+                      <Text style={[c.typeChipBtnText, active && { color: cs.color, fontWeight: '800' }]}>{choice.label}</Text>
+                    </Pressable>
+                  );
+                })}
+              </ScrollView>
+
+              {/* Content input */}
+              <View style={{ paddingHorizontal: 14, paddingBottom: 14 }}>
+                {isText ? (
+                  <TextInput
+                    value={sec.textContent}
+                    onChangeText={(v) => updateSection(sec.draftId, { textContent: v })}
+                    placeholder="Enter text content…"
+                    multiline style={[c.fieldInput, { minHeight: 80, backgroundColor: '#F8F9FF', borderRadius: 10, padding: 12, borderWidth: 1, borderColor: '#ECEEF4' }]}
+                    placeholderTextColor="#B0B8D0"
+                  />
+                ) : isUrl ? (
+                  <TextInput
+                    value={sec.externalUrl}
+                    onChangeText={(v) => updateSection(sec.draftId, { externalUrl: v })}
+                    placeholder={sec.contentType === 'youtube_url' ? 'https://youtube.com/watch?v=...' : 'https://...'}
+                    autoCapitalize="none"
+                    style={[c.fieldInput, { backgroundColor: '#F8F9FF', borderRadius: 10, padding: 12, borderWidth: 1, borderColor: '#ECEEF4' }]}
+                    placeholderTextColor="#B0B8D0"
+                  />
+                ) : (
+                  <View style={{ gap: 8 }}>
+                    {!sec.mediaUrl && (
+                      <TextInput
+                        value={sec.mediaUrl}
+                        onChangeText={(v) => updateSection(sec.draftId, { mediaUrl: v })}
+                        placeholder="Or paste media URL…"
+                        autoCapitalize="none"
+                        style={[c.fieldInput, { backgroundColor: '#F8F9FF', borderRadius: 10, padding: 12, borderWidth: 1, borderColor: '#ECEEF4' }]}
+                        placeholderTextColor="#B0B8D0"
+                      />
+                    )}
+                    <MediaUploader
+                      accept={sec.contentType === 'audio' ? 'audio/*' : 'image/*,video/*'}
+                      mediaType={sec.contentType === 'audio' ? 'audio' : 'image'}
+                      value={sec.mediaUrl}
+                      fileName={sec.mediaUrl ? sec.mediaUrl.split('/').pop() : ''}
+                      onUploadSuccess={(url) => updateSection(sec.draftId, { mediaUrl: url })}
+                      onClear={() => updateSection(sec.draftId, { mediaUrl: '' })}
+                      buttonLabel={`Upload ${sec.contentType === 'audio' ? 'Audio' : 'Image / Video'}`}
+                    />
+                  </View>
+                )}
+              </View>
+
+              {/* Quiz attach */}
+              <View style={{ paddingHorizontal: 14, paddingBottom: 14, gap: 6 }}>
+                <Text style={c.quizAttachLabel}>QUICK CHALLENGE QUIZ</Text>
+                {sec.quizId ? (() => {
+                  const q = quizLibrary.find((x) => x.id === sec.quizId);
+                  return (
+                    <View style={c.quizAttachedCard}>
+                      <View style={c.quizAttachedIcon}><Trophy size={15} color="#7C3AED" /></View>
+                      <View style={{ flex: 1 }}>
+                        <Text style={c.quizAttachedTitle} numberOfLines={1}>{q?.title || `Quiz #${sec.quizId.slice(0, 8)}`}</Text>
+                        <Text style={c.quizAttachedMeta}>{q?.questionCount ?? 0} questions</Text>
+                      </View>
+                      <TouchableOpacity onPress={() => updateSection(sec.draftId, { quizId: null })} style={c.removeBtn}>
+                        <Text style={c.removeBtnText}>✕</Text>
+                      </TouchableOpacity>
+                    </View>
+                  );
+                })() : hasVideoSections ? (
+                  <View style={c.quizBlockedNote}>
+                    <Info size={13} color="#9A9AB0" />
+                    <Text style={c.quizBlockedNoteText}>Not available — this section has video sections.</Text>
+                  </View>
+                ) : (
+                  <View style={{ flexDirection: 'row', gap: 8 }}>
+                    <Pressable
+                      style={[c.quizAttachBtn, { flex: 1 }]}
+                      onPress={() => setQuizPickerFor(sec.draftId)}
+                    >
+                      <ListChecks size={16} color="#7C3AED" />
+                      <Text style={c.quizAttachBtnText}>Attach a quiz</Text>
+                    </Pressable>
+                    <Pressable
+                      style={[c.quizAttachBtn, { flex: 1, borderColor: '#86BFFF', backgroundColor: '#EBF4FF' }]}
+                      onPress={() => setQuizCreatorFor(sec.draftId)}
+                    >
+                      <Plus size={16} color="#4A90E2" />
+                      <Text style={[c.quizAttachBtnText, { color: '#4A90E2' }]}>Create new quiz</Text>
+                    </Pressable>
+                  </View>
+                )}
+              </View>
+
+              {/* Per-section video learning sections */}
+              {sectionVideoUrl(sec) && !sec.quizId ? (
+                <View style={{ paddingHorizontal: 14, paddingBottom: 14 }}>
+                  <Pressable style={c.videoSecBtn} onPress={() => openVideoSectionsFor(idx + 1, sectionVideoUrl(sec))}>
+                    <Film size={16} color="#2FA36B" />
+                    <Text style={c.videoSecBtnText}>Video Sections ({videoSectionCounts[idx + 1] || 0})</Text>
+                  </Pressable>
+                </View>
+              ) : null}
+            </View>
+          );
+        })}
+      </ScrollView>
+    </View>
+  );
+
   return (
     <Modal visible={isOpen} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
       <View style={[c.modalScreen, isDesktop && c.modalScreenDesktop]}>
         <View style={[c.modalInner, isDesktop && c.modalInnerDesktop]}>
           {/* Header */}
-        <View style={[c.modalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
-          <Pressable onPress={onClose} style={c.modalBackBtn}><ChevronLeft size={24} color="#1a1a2e" /></Pressable>
-          <Text style={c.modalTitle} numberOfLines={1}>{isEdit ? 'Edit Content' : 'New Content'}</Text>
-          <Pressable style={c.modalSaveBtn} onPress={handleSave} disabled={saving}>
-            {saving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={c.modalSaveBtnText}>Save</Text>}
-          </Pressable>
-        </View>
-
-        {/* Tab bar */}
-        <View style={c.modalTabBar}>
-          {([
-            ['setup', '⚙ Setup'],
-            ['sections', '📄 Sections'],
-            ['preview', '👁 Preview'],
-          ] as [ModalTab, string][]).map(([t, l]) => (
-            <Pressable
-              key={t}
-              style={[c.modalTab, tab === t && c.modalTabActive]}
-              onPress={() => {
-                setTab(t as ModalTab);
-                if (t === 'preview') setStudentPreviewOpen(true);
-              }}
-            >
-              <Text style={[c.modalTabText, tab === t && c.modalTabTextActive]}>{l}</Text>
+          <View style={[c.modalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
+            <Pressable onPress={onClose} style={c.modalBackBtn}><ChevronLeft size={24} color="#1a1a2e" /></Pressable>
+            <Text style={c.modalTitle} numberOfLines={1}>{isEdit ? 'Edit Content' : 'New Content'}</Text>
+            <Pressable style={c.modalSaveBtn} onPress={handleSave} disabled={saving}>
+              {saving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={c.modalSaveBtnText}>Save</Text>}
             </Pressable>
-          ))}
+          </View>
+
+          {/* Tab bar */}
+          <View style={c.modalTabBar}>
+            {([
+              ['setup', '⚙ Setup & Basic Info'],
+              ['sections', '📄 Content Sections & Preview'],
+            ] as [ModalTab, string][]).map(([t, l]) => (
+              <Pressable
+                key={t}
+                style={[c.modalTab, tab === t && c.modalTabActive]}
+                onPress={() => {
+                  setTab(t as ModalTab);
+                }}
+              >
+                <Text style={[c.modalTabText, tab === t && c.modalTabTextActive]}>{l}</Text>
+              </Pressable>
+            ))}
+          </View>
+
+          {toast && (
+            <View style={c.inlineToast}><Text style={c.inlineToastText}>{toast}</Text></View>
+          )}
+
+          {loadingEdit ? (
+            <View style={c.centerWrap}><ActivityIndicator size="large" color="#4A90E2" /></View>
+          ) : isDesktop ? (
+            /* Desktop Symmetrical 2-Column Layout */
+            <View style={c.desktopLayout}>
+              {tab === 'setup' ? (
+                <>
+                  <View style={c.desktopLeftCol}>
+                    {renderSetupCard()}
+                  </View>
+                  <View style={c.desktopRightCol}>
+                    {renderPreviewCard()}
+                  </View>
+                </>
+              ) : (
+                <>
+                  <View style={c.desktopLeftCol}>
+                    {renderSectionsCard()}
+                  </View>
+                  <View style={c.desktopRightCol}>
+                    {renderPreviewCard()}
+                  </View>
+                </>
+              )}
+            </View>
+          ) : (
+            /* Mobile View */
+            <View style={{ flex: 1, padding: 12 }}>
+              {tab === 'setup' && (
+                <ScrollView contentContainerStyle={{ gap: 12, paddingBottom: 40 }}>
+                  {renderSetupCard()}
+                  {renderPreviewCard()}
+                </ScrollView>
+              )}
+              {tab === 'sections' && (
+                <ScrollView contentContainerStyle={{ gap: 12, paddingBottom: 40 }}>
+                  {renderSectionsCard()}
+                </ScrollView>
+              )}
+            </View>
+          )}
         </View>
-
-        {toast && (
-          <View style={c.inlineToast}><Text style={c.inlineToastText}>{toast}</Text></View>
-        )}
-
-        {loadingEdit ? (
-          <View style={c.centerWrap}><ActivityIndicator size="large" color="#4A90E2" /></View>
-        ) : (
-          <>
-            {/* ── SETUP ── */}
-            {tab === 'setup' && (
-              <ScrollView contentContainerStyle={c.tabContent}>
-                <View style={c.fieldGroup}>
-                  <Text style={c.groupLabel}>BASIC INFO</Text>
-                  <View style={c.fieldCard}>
-                    <Text style={c.fieldLabel}>Content Title *</Text>
-                    <TextInput value={title} onChangeText={setTitle} placeholder="e.g. Story of the Lion" style={c.fieldInput} placeholderTextColor="#B0B8D0" />
-                  </View>
-                </View>
-                <View style={c.fieldGroup}>
-                  <Text style={c.groupLabel}>CLASS SETTINGS</Text>
-                  <View style={c.fieldCard}>
-                    <Text style={c.fieldLabel}>Standard / Class *</Text>
-                    <Pressable style={c.selectorRow} onPress={() => setClassOpen(true)}>
-                      <Text style={classLevel ? c.selectorVal : c.selectorPlaceholder}>{classLevel ? getStandardLabel(classLevel) : 'Select Standard'}</Text>
-                      <Text style={{ color: '#B0B8D0', fontSize: 16 }}>›</Text>
-                    </Pressable>
-                    <View style={c.fieldDivider} />
-                    <Text style={c.fieldLabel}>Subject *</Text>
-                    <Pressable style={c.selectorRow} onPress={() => setSubjectOpen(true)}>
-                      <Text style={subject ? c.selectorVal : c.selectorPlaceholder}>{subject || 'Select Subject'}</Text>
-                      <Text style={{ color: '#B0B8D0', fontSize: 16 }}>›</Text>
-                    </Pressable>
-                  </View>
-                </View>
-              </ScrollView>
-            )}
-
-            {/* ── SECTIONS ── */}
-            {tab === 'sections' && (
-              <ScrollView contentContainerStyle={c.tabContent}>
-                <View style={c.secGroup}>
-                  <View style={c.secGroupHeader}>
-                    <Text style={c.secGroupTitle}>📄 Content Sections</Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                      <Pressable onPress={() => setShowSectionInfo((v) => !v)} hitSlop={8} style={c.secInfoBtn}>
-                        <Info size={18} color="#4A90E2" />
-                      </Pressable>
-                      <Pressable style={c.addSecBtn} onPress={() => setSections((p) => [...p, makeSection()])}>
-                        <Text style={c.addSecBtnText}>+ Add</Text>
-                      </Pressable>
-                    </View>
-                  </View>
-
-                  {showSectionInfo && (
-                    <View style={c.secInfoNote}>
-                      <Info size={14} color="#4A90E2" />
-                      <Text style={c.secInfoNoteText}>
-                        A section can have either a Quick Challenge quiz or Video Sections, not both. Attaching or creating a quiz removes that section's video sections, and adding video sections hides the quiz options.
-                      </Text>
-                    </View>
-                  )}
-
-                  {sections.map((sec, idx) => {
-                    const isUrl  = sec.contentType === 'youtube_url' || sec.contentType === 'reel_url';
-                    const isText = sec.contentType === 'text';
-                    const isMedia = !isUrl && !isText;
-                    const hasVideoSections = (videoSectionCounts[idx + 1] || 0) > 0;
-
-                    return (
-                      <View key={sec.draftId} style={c.sectionBlock}>
-                        {/* Section header with order controls */}
-                        <View style={c.sectionBlockHeader}>
-                          <View style={c.dragHandle}><GripVertical size={16} color="#B0B8D0" /><Text style={c.sectionItemOrder}>{idx + 1}</Text></View>
-                          <TextInput
-                            value={sec.title}
-                            onChangeText={(v) => updateSection(sec.draftId, { title: v })}
-                            placeholder={`Section ${idx + 1} title (optional)`}
-                            style={c.sectionTitleInput}
-                            placeholderTextColor="#B0B8D0"
-                          />
-                          <View style={c.sectionHeaderActions}>
-                            <TouchableOpacity onPress={() => setSections((p) => moveUp(p, idx))} disabled={idx === 0} style={[c.orderBtn, idx === 0 && { opacity: 0.2 }]}>
-                              <ChevronUp size={14} color="#4A90E2" />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setSections((p) => moveDown(p, idx))} disabled={idx === sections.length - 1} style={[c.orderBtn, idx === sections.length - 1 && { opacity: 0.2 }]}>
-                              <ChevronDown size={14} color="#4A90E2" />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setSections((p) => p.length > 1 ? p.filter((_, i) => i !== idx) : p)} style={c.removeBtn}>
-                              <Text style={c.removeBtnText}>✕</Text>
-                            </TouchableOpacity>
-                          </View>
-                        </View>
-
-                        {/* Type chips */}
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6, paddingHorizontal: 14, paddingBottom: 10 }}>
-                          {SECTION_TYPE_CHOICES.map((choice) => {
-                            const active = sec.contentType === choice.value;
-                            const cs = ts(choice.value);
-                            return (
-                              <Pressable
-                                key={choice.value}
-                                style={[c.typeChipBtn, active && { backgroundColor: cs.bg, borderColor: cs.color }]}
-                                onPress={() => updateSection(sec.draftId, { contentType: choice.value, mediaUrl: '', externalUrl: '', textContent: '' })}
-                              >
-                                <choice.Icon size={14} color={active ? cs.color : '#9A9AB0'} />
-                                <Text style={[c.typeChipBtnText, active && { color: cs.color, fontWeight: '800' }]}>{choice.label}</Text>
-                              </Pressable>
-                            );
-                          })}
-                        </ScrollView>
-
-                        {/* Content input */}
-                        <View style={{ paddingHorizontal: 14, paddingBottom: 14 }}>
-                          {isText ? (
-                            <TextInput
-                              value={sec.textContent}
-                              onChangeText={(v) => updateSection(sec.draftId, { textContent: v })}
-                              placeholder="Enter text content…"
-                              multiline style={[c.fieldInput, { minHeight: 80, backgroundColor: '#F8F9FF', borderRadius: 10, padding: 12, borderWidth: 1, borderColor: '#ECEEF4' }]}
-                              placeholderTextColor="#B0B8D0"
-                            />
-                          ) : isUrl ? (
-                            <TextInput
-                              value={sec.externalUrl}
-                              onChangeText={(v) => updateSection(sec.draftId, { externalUrl: v })}
-                              placeholder={sec.contentType === 'youtube_url' ? 'https://youtube.com/watch?v=...' : 'https://...'}
-                              autoCapitalize="none"
-                              style={[c.fieldInput, { backgroundColor: '#F8F9FF', borderRadius: 10, padding: 12, borderWidth: 1, borderColor: '#ECEEF4' }]}
-                              placeholderTextColor="#B0B8D0"
-                            />
-                          ) : (
-                            <View style={{ gap: 8 }}>
-                              {!sec.mediaUrl && (
-                                <TextInput
-                                  value={sec.mediaUrl}
-                                  onChangeText={(v) => updateSection(sec.draftId, { mediaUrl: v })}
-                                  placeholder="Or paste media URL…"
-                                  autoCapitalize="none"
-                                  style={[c.fieldInput, { backgroundColor: '#F8F9FF', borderRadius: 10, padding: 12, borderWidth: 1, borderColor: '#ECEEF4' }]}
-                                  placeholderTextColor="#B0B8D0"
-                                />
-                              )}
-                              <MediaUploader
-                                accept={sec.contentType === 'audio' ? 'audio/*' : 'image/*,video/*'}
-                                mediaType={sec.contentType === 'audio' ? 'audio' : 'image'}
-                                value={sec.mediaUrl}
-                                fileName={sec.mediaUrl ? sec.mediaUrl.split('/').pop() : ''}
-                                onUploadSuccess={(url) => updateSection(sec.draftId, { mediaUrl: url })}
-                                onClear={() => updateSection(sec.draftId, { mediaUrl: '' })}
-                                buttonLabel={`Upload ${sec.contentType === 'audio' ? 'Audio' : 'Image / Video'}`}
-                              />
-                            </View>
-                          )}
-                        </View>
-
-                        {/* Quiz attach (Quick Challenge, story-style) */}
-                        <View style={{ paddingHorizontal: 14, paddingBottom: 14, gap: 6 }}>
-                          <Text style={c.quizAttachLabel}>QUICK CHALLENGE QUIZ</Text>
-                          {sec.quizId ? (() => {
-                            const q = quizLibrary.find((x) => x.id === sec.quizId);
-                            return (
-                              <View style={c.quizAttachedCard}>
-                                <View style={c.quizAttachedIcon}><Trophy size={15} color="#7C3AED" /></View>
-                                <View style={{ flex: 1 }}>
-                                  <Text style={c.quizAttachedTitle} numberOfLines={1}>{q?.title || `Quiz #${sec.quizId.slice(0, 8)}`}</Text>
-                                  <Text style={c.quizAttachedMeta}>{q?.questionCount ?? 0} questions</Text>
-                                </View>
-                                <TouchableOpacity onPress={() => updateSection(sec.draftId, { quizId: null })} style={c.removeBtn}>
-                                  <Text style={c.removeBtnText}>✕</Text>
-                                </TouchableOpacity>
-                              </View>
-                            );
-                          })() : hasVideoSections ? (
-                            <View style={c.quizBlockedNote}>
-                              <Info size={13} color="#9A9AB0" />
-                              <Text style={c.quizBlockedNoteText}>Not available — this section has video sections.</Text>
-                            </View>
-                          ) : (
-                            <View style={{ flexDirection: 'row', gap: 8 }}>
-                              <Pressable
-                                style={[c.quizAttachBtn, { flex: 1 }]}
-                                onPress={() => setQuizPickerFor(sec.draftId)}
-                              >
-                                <ListChecks size={16} color="#7C3AED" />
-                                <Text style={c.quizAttachBtnText}>Attach a quiz</Text>
-                              </Pressable>
-                              <Pressable
-                                style={[c.quizAttachBtn, { flex: 1, borderColor: '#86BFFF', backgroundColor: '#EBF4FF' }]}
-                                onPress={() => setQuizCreatorFor(sec.draftId)}
-                              >
-                                <Plus size={16} color="#4A90E2" />
-                                <Text style={[c.quizAttachBtnText, { color: '#4A90E2' }]}>Create new quiz</Text>
-                              </Pressable>
-                            </View>
-                          )}
-                        </View>
-
-                        {/* Per-section video learning sections (hidden when a quiz is attached) */}
-                        {sectionVideoUrl(sec) && !sec.quizId ? (
-                          <View style={{ paddingHorizontal: 14, paddingBottom: 14 }}>
-                            <Pressable style={c.videoSecBtn} onPress={() => openVideoSectionsFor(idx + 1, sectionVideoUrl(sec))}>
-                              <Film size={16} color="#2FA36B" />
-                              <Text style={c.videoSecBtnText}>Video Sections ({videoSectionCounts[idx + 1] || 0})</Text>
-                            </Pressable>
-                          </View>
-                        ) : null}
-                      </View>
-                    );
-                  })}
-                </View>
-
-              </ScrollView>
-            )}
-
-            {/* ── PREVIEW ── */}
-            {tab === 'preview' && (
-              <View style={{ flex: 1, padding: 16, justifyContent: 'center' }}>
-                <View style={c.previewCard}>
-                  <View style={[c.previewHeader, { backgroundColor: '#4A7FE0' }]}>
-                    <Text style={c.previewTitle}>Student View Preview</Text>
-                    <Text style={c.previewSub}>Uses the same student renderer with media players and quiz player.</Text>
-                  </View>
-                  <View style={[c.previewBody, { gap: 12 }]}>
-                    <Text style={c.previewItemMeta}>
-                      {previewContents.length} section{previewContents.length !== 1 ? 's' : ''} · {classLevel ? getStandardLabel(classLevel) : 'No class'} · {subject || 'No subject'}
-                    </Text>
-                    <Pressable style={c.uploadBtn} onPress={() => setStudentPreviewOpen(true)} disabled={previewContents.length === 0}>
-                      <Text style={c.uploadBtnText}>Open Full Student Preview</Text>
-                    </Pressable>
-                  </View>
-                </View>
-              </View>
-            )}
-          </>
-        )}
-      </View>
 
       <SelectorModal visible={classOpen}   title="Select Class"   options={classOptions}   selected={classLevel} onSelect={(v) => { setClass(v); setSubject(''); }}   onClose={() => setClassOpen(false)} />
       <SelectorModal visible={subjectOpen} title="Select Subject" options={subjectOptions} selected={subject}     isSubject onSelect={setSubject} onClose={() => setSubjectOpen(false)} />
@@ -883,7 +1162,8 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
         presentationStyle="fullScreen"
         onRequestClose={() => { setVideoSectionModalFor(null); loadVideoSectionCounts(); }}
       >
-        <View style={c.modalScreen}>
+        <View style={[c.modalScreen, isDesktop && c.modalScreenDesktop]}>
+          <View style={[c.modalInner, isDesktop && c.modalInnerDesktop]}>
           <View style={[c.modalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
             <Pressable onPress={() => { setVideoSectionModalFor(null); loadVideoSectionCounts(); }} style={c.modalBackBtn}>
               <ChevronLeft size={24} color="#1a1a2e" />
@@ -914,7 +1194,8 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
             ) : null}
           </ScrollView>
         </View>
-      </Modal>
+      </View>
+    </Modal>
 
       <CreateQuizModal
         visible={quizCreatorFor !== null}
@@ -950,9 +1231,9 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
         onClose={() => setQuizPickerFor(null)}
       />
       <StudentContentViewer
-        visible={studentPreviewOpen && tab === 'preview' && previewContents.length > 0}
+        visible={studentPreviewOpen && previewContents.length > 0}
         contents={previewContents}
-        startIdx={0}
+        startIdx={previewSectionIdx}
         topic={previewTopic}
         onClose={() => setStudentPreviewOpen(false)}
       />
@@ -1341,9 +1622,16 @@ const c = StyleSheet.create({
 
   // Full-screen modal shared styles
   modalScreen:       { flex: 1, backgroundColor: '#F5F7FF' },
-  modalScreenDesktop:{ backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'center', alignItems: 'center' },
+  modalScreenDesktop:{ flex: 1, backgroundColor: '#F5F7FF' },
   modalInner:        { flex: 1, width: '100%', backgroundColor: '#F5F7FF', overflow: 'hidden' },
-  modalInnerDesktop: { flex: undefined as any, width: '100%', maxWidth: 900, maxHeight: '92%', borderRadius: 20, overflow: 'hidden' },
+  modalInnerDesktop: { flex: 1, width: '100%', height: '100%', borderRadius: 0, overflow: 'hidden' },
+
+  desktopLayout: { flex: 1, flexDirection: 'row', gap: 16, padding: 16, overflow: 'hidden' },
+  desktopLeftCol: { flex: 1, minWidth: 340, height: '100%' },
+  desktopRightCol: { flex: 1.2, minWidth: 380, height: '100%' },
+  formCardWrap: { flex: 1, backgroundColor: '#fff', borderRadius: 16, padding: 16, gap: 10, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 6, elevation: 2, overflow: 'hidden' },
+  cardTitleHeader: { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  innerScrollList: { flex: 1, width: '100%' },
   previewBtn:        { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: '#EDF9F2', borderRadius: 10, paddingHorizontal: 12, paddingVertical: 7, borderWidth: 1, borderColor: '#BFE6D2' },
   previewBtnText:    { color: '#4CAF82', fontWeight: '800', fontSize: 12 },
   modalHeader:       { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 12, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },

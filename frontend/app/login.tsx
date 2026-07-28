@@ -158,7 +158,7 @@ export default function LoginScreen() {
   const [lastName, setLastName] = useState("");
   const [registerRole, setRegisterRole] = useState<
     "teacher" | "student" | "parent"
-  >("teacher");
+  >("student");
   const [classLevel, setClassLevel] = useState(
     STANDARD_OPTIONS[0]?.value || "1",
   );
@@ -401,22 +401,6 @@ export default function LoginScreen() {
               <View style={s.fieldWrap}>
                 <Text style={s.fieldLabel}>Register As</Text>
                 <View style={s.roleRow}>
-                  <Pressable
-                    style={[
-                      s.roleBtn,
-                      registerRole === "teacher" && s.roleBtnActive,
-                    ]}
-                    onPress={() => setRegisterRole("teacher")}
-                  >
-                    <Text
-                      style={[
-                        s.roleBtnText,
-                        registerRole === "teacher" && s.roleBtnTextActive,
-                      ]}
-                    >
-                      Teacher
-                    </Text>
-                  </Pressable>
                   <Pressable
                     style={[
                       s.roleBtn,

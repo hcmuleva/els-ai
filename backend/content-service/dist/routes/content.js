@@ -20,9 +20,7 @@ const contentSectionSchema = z
     .refine((value) => {
     if (value.contentType === 'text')
         return !!value.textContent?.trim();
-    if (value.contentType === 'youtube_url' || value.contentType === 'reel_url')
-        return !!value.externalUrl?.trim();
-    return !!value.mediaUrl?.trim();
+    return !!(value.mediaUrl?.trim() || value.externalUrl?.trim());
 }, { message: 'Missing required field for selected content type' });
 const createLearningContentSchema = z.object({
     classLevel: z.string().trim().min(1).max(50),

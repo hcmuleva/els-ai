@@ -144,7 +144,6 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
       (!!u && (isYouTubeUrl(u) || isVideoUrl(u)));
     if (!videoish) return undefined;
     const baseId = baseContentId(c.id);
-    if (!isUuid(baseId)) return undefined;
     const order = sectionOrderFromId(c.id);
     let cancelled = false;
     api

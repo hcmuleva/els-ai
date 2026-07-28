@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Modal,
@@ -48,6 +48,8 @@ import { Colors, Radius, Shadow } from '../../theme';
 import SelectorModal from '../SelectorModal';
 import QuizEditorModal from '../quiz/QuizEditorModal';
 import ConfirmModal from '../common/ConfirmModal';
+import SafeImage from '../quiz/SafeImage';
+import { resolveMediaUrl } from '../../utils/media';
 
 type QuizType =
   | 'drag_drop'
@@ -66,7 +68,7 @@ type QuizType =
   | 'jigsaw';
 type Difficulty = 'Easy' | 'Medium' | 'Hard';
 type BankTab = 'question' | 'selected';
-type SelectorField = 'quizClassLevel' | 'quizSubject' | 'bankClassLevel' | 'bankSubject';
+type SelectorField = 'quizClassLevel' | 'quizSubject' | 'bankClassLevel' | 'bankSubject' | 'bankType';
 type PageView = 'creator' | 'quiz_bank';
 
 type QuizBankItem = {
@@ -181,19 +183,46 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
   const [deletingQuizId, setDeletingQuizId]               = useState<string | null>(null);
   const [confirmDeleteQuiz, setConfirmDeleteQuiz]         = useState<QuizBankItem | null>(null);
   const [quizBankPage, setQuizBankPage]                   = useState(0);
+  const [previewQuestion, setPreviewQuestion]             = useState<QuestionBankItem | null>(null);
+  const [loadingPreview, setLoadingPreview]               = useState(false);
 
   const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
 
-  // Sync external filters if passed
+  const handleOpenPreview = useCallback(async (q: QuestionBankItem) => {
+    setPreviewQuestion(q);
+    if (!q.question_data) {
+      setLoadingPreview(true);
+      try {
+        const res = await apiFetch(`/questions/${q.id}`);
+        if (res.ok) {
+          const payload = await res.json();
+          const fetched = payload.question || payload;
+          setPreviewQuestion((prev) =>
+            prev?.id === q.id
+              ? { ...prev, ...fetched, question_data: fetched.question_data ?? fetched.questionData }
+              : prev
+          );
+        }
+      } catch (err) {
+        console.warn('Failed to fetch full question details:', err);
+      } finally {
+        setLoadingPreview(false);
+      }
+    }
+  }, [apiFetch]);
+
+  // Sync initial external filters if passed on mount
+  const isInitialFilterMount = useRef(true);
   useEffect(() => {
-    if (externalFilters) {
+    if (externalFilters && isInitialFilterMount.current) {
+      isInitialFilterMount.current = false;
       setQuizDraft((prev) => ({
         ...prev,
         classLevel: externalFilters.classLevel || prev.classLevel,
         subject: externalFilters.subject || prev.subject,
       }));
-      setBankClassFilter(externalFilters.classLevel || '');
-      setBankSubjectFilter(externalFilters.subject || '');
+      if (externalFilters.classLevel) setBankClassFilter(externalFilters.classLevel);
+      if (externalFilters.subject) setBankSubjectFilter(externalFilters.subject);
     }
   }, [externalFilters]);
 
@@ -202,12 +231,6 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
 
   const setCurrentDraft = (patch: Partial<AssessmentDraft>) => {
     setQuizDraft((c) => ({ ...c, ...patch }));
-    if (onFiltersChange && (patch.classLevel !== undefined || patch.subject !== undefined)) {
-      onFiltersChange({
-        ...(patch.classLevel !== undefined ? { classLevel: patch.classLevel } : {}),
-        ...(patch.subject !== undefined ? { subject: patch.subject } : {}),
-      });
-    }
   };
 
   const loadSubjectCatalog = useCallback(async () => {
@@ -271,6 +294,7 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
       const query = new URLSearchParams();
       if (bankClassFilter.trim()) query.set('class_level', bankClassFilter.trim());
       if (bankSubjectFilter.trim()) query.set('subject', bankSubjectFilter.trim());
+      if (bankTypeFilter.trim()) query.set('question_type', bankTypeFilter.trim());
       const rows = await fetchPagedRows('/question-bank', 'questions', query, 200);
       setQuestionBank(rows as QuestionBankItem[]);
     } catch (error) {
@@ -278,7 +302,7 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
     } finally {
       setLoadingQuestionBank(false);
     }
-  }, [bankClassFilter, bankSubjectFilter, fetchPagedRows, isTeacherView]);
+  }, [bankClassFilter, bankSubjectFilter, bankTypeFilter, fetchPagedRows, isTeacherView]);
 
   const loadQuizBank = useCallback(async () => {
     if (!isTeacherView) return;
@@ -327,8 +351,13 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
 
   useEffect(() => {
     loadSubjectCatalog();
-    loadQuizBank();
-  }, [loadSubjectCatalog, loadQuizBank]);
+  }, [loadSubjectCatalog]);
+
+  useEffect(() => {
+    if (pageView === 'quiz_bank') {
+      loadQuizBank();
+    }
+  }, [pageView, loadQuizBank]);
 
   useEffect(() => {
     loadQuestionBank();
@@ -386,6 +415,13 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
         iconBgColor: meta.iconBgColor,
       }));
   }, [currentDraft.classLevel, subjectCatalogItems, user]);
+
+  const bankTypeOptions = useMemo(() => {
+    return Object.entries(QUIZ_TYPE_LABEL).map(([value, label]) => ({
+      label,
+      value,
+    }));
+  }, []);
 
   const filteredQuestions = useMemo(() => {
     const keyword = questionBankSearch.trim().toLowerCase();
@@ -470,7 +506,7 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
   };
 
   const hasQuizFilters = !!(currentDraft.classLevel || currentDraft.subject);
-  const hasBankFilters = !!(bankClassFilter || bankSubjectFilter);
+  const hasBankFilters = !!(bankClassFilter || bankSubjectFilter || bankTypeFilter);
 
   return (
     <View style={s.root}>
@@ -739,13 +775,6 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
                 </View>
               </View>
 
-              {/* Selected Questions Count Badge */}
-              <View style={s.summaryCard}>
-                <Text style={s.summaryTitle}>Selected Questions</Text>
-                <Text style={s.summaryCount}>{currentSelectedIds.length}</Text>
-                <Text style={s.summarySub}>questions added to this quiz</Text>
-              </View>
-
               <View>
                 <Pressable style={s.createSubmitBtn} onPress={handleCreate} disabled={creating}>
                   {creating ? (
@@ -801,8 +830,15 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
                       <ChevronDown size={13} color="#9A9AB0" />
                     </Pressable>
 
+                    <Pressable style={s.selectInputCompact} onPress={() => setSelectorField('bankType')}>
+                      <Text style={bankTypeFilter ? s.selectTextCompact : s.selectPlaceholderCompact} numberOfLines={1}>
+                        {bankTypeFilter ? (QUIZ_TYPE_LABEL[bankTypeFilter] || bankTypeFilter) : 'Question Type'}
+                      </Text>
+                      <ChevronDown size={13} color="#9A9AB0" />
+                    </Pressable>
+
                     {hasBankFilters && (
-                      <Pressable style={s.clearBtnCompact} onPress={() => { setBankClassFilter(''); setBankSubjectFilter(''); }}>
+                      <Pressable style={s.clearBtnCompact} onPress={() => { setBankClassFilter(''); setBankSubjectFilter(''); setBankTypeFilter(''); }}>
                         <X size={13} color="#DC2626" />
                       </Pressable>
                     )}
@@ -835,7 +871,7 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
 
               {/* Question list */}
               {loadingQuestionBank ? (
-                <View style={s.emptyBox}>
+                <View style={s.bankLoadingBox}>
                   <ActivityIndicator size="large" color="#4A90E2" />
                   <Text style={s.emptyText}>Loading question bank...</Text>
                 </View>
@@ -852,11 +888,17 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
                         <View style={s.qItemMain}>
                           <Text style={s.qItemTitle}>{q.question_title || 'Untitled Question'}</Text>
                           <View style={s.qItemMetaRow}>
+                            {q.class_level && (
+                              <Text style={[s.qItemMetaTag, s.qItemClassTag]}>{getStandardLabel(q.class_level)}</Text>
+                            )}
                             <Text style={s.qItemMetaTag}>{QUIZ_TYPE_LABEL[q.question_type] || q.question_type}</Text>
                             {q.subject && <Text style={s.qItemMetaTag}>{q.subject}</Text>}
                             <Text style={s.qItemMetaTag}>{q.points || 10} pts</Text>
                           </View>
                         </View>
+                        <Pressable style={s.qPreviewBtn} onPress={() => handleOpenPreview(q)}>
+                          <Eye size={14} color="#4A90E2" />
+                        </Pressable>
                         <Pressable style={s.qRemoveBtn} onPress={() => toggleSelectQuestion(q.id)}>
                           <Minus size={14} color="#DC2626" />
                         </Pressable>
@@ -885,11 +927,17 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
                           <View style={s.qItemMain}>
                             <Text style={s.qItemTitle}>{q.question_title || 'Untitled Question'}</Text>
                             <View style={s.qItemMetaRow}>
+                              {q.class_level && (
+                                <Text style={[s.qItemMetaTag, s.qItemClassTag]}>{getStandardLabel(q.class_level)}</Text>
+                              )}
                               <Text style={s.qItemMetaTag}>{QUIZ_TYPE_LABEL[q.question_type] || q.question_type}</Text>
                               {q.subject && <Text style={s.qItemMetaTag}>{q.subject}</Text>}
                               <Text style={s.qItemMetaTag}>{q.points || 10} pts</Text>
                             </View>
                           </View>
+                          <Pressable style={s.qPreviewBtn} onPress={() => handleOpenPreview(q)}>
+                            <Eye size={14} color="#4A90E2" />
+                          </Pressable>
                         </View>
                       );
                     })}
@@ -931,14 +979,18 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
         title={
           selectorField === 'quizClassLevel' || selectorField === 'bankClassLevel'
             ? 'Select Class Level'
-            : 'Select Subject'
+            : selectorField === 'quizSubject' || selectorField === 'bankSubject'
+            ? 'Select Subject'
+            : 'Select Question Type'
         }
         options={
           selectorField === 'quizClassLevel'
             ? [{ label: 'Select Class', value: '' }, ...classOptions]
             : selectorField === 'bankClassLevel'
             ? classOptions
-            : subjectOptions
+            : selectorField === 'quizSubject' || selectorField === 'bankSubject'
+            ? subjectOptions
+            : bankTypeOptions
         }
         selectedValue={
           selectorField === 'quizClassLevel'
@@ -947,7 +999,16 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
             ? currentDraft.subject
             : selectorField === 'bankClassLevel'
             ? bankClassFilter
-            : bankSubjectFilter
+            : selectorField === 'bankSubject'
+            ? bankSubjectFilter
+            : bankTypeFilter
+        }
+        anyLabel={
+          selectorField === 'quizClassLevel' || selectorField === 'bankClassLevel'
+            ? 'Any Class'
+            : selectorField === 'quizSubject' || selectorField === 'bankSubject'
+            ? 'Any Subject'
+            : 'All Types'
         }
         onClose={() => setSelectorField(null)}
         onSelect={(val) => {
@@ -959,6 +1020,8 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
             setBankClassFilter(val);
           } else if (selectorField === 'bankSubject') {
             setBankSubjectFilter(val);
+          } else if (selectorField === 'bankType') {
+            setBankTypeFilter(val);
           }
           setSelectorField(null);
         }}
@@ -969,9 +1032,13 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
         <QuizEditorModal
           visible={!!editingQuizId}
           quizId={editingQuizId}
-          onClose={() => setEditingQuizId(null)}
-          onSaved={() => {
+          apiFetch={apiFetch}
+          user={user}
+          onClose={() => {
             setEditingQuizId(null);
+            loadQuizBank();
+          }}
+          onUpdated={() => {
             loadQuizBank();
           }}
         />
@@ -991,6 +1058,201 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
         }}
         onClose={() => setConfirmDeleteQuiz(null)}
       />
+
+      {/* Question Preview Modal */}
+      <Modal
+        visible={previewQuestion !== null}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setPreviewQuestion(null)}
+      >
+        <View style={s.modalOverlay}>
+          <View style={[s.pvModalCard, isMobile && { width: '95%', maxHeight: '85%' }]}>
+            <View style={s.pvModalHeader}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}>
+                <View style={s.pvHeaderIconWrap}>
+                  <Eye size={18} color="#4A90E2" />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={s.pvModalTitle}>Question Preview</Text>
+                  {previewQuestion?.quiz_title ? (
+                    <Text style={s.pvModalSubtitle} numberOfLines={1}>
+                      Source Quiz: {previewQuestion.quiz_title}
+                    </Text>
+                  ) : null}
+                </View>
+              </View>
+              <Pressable onPress={() => setPreviewQuestion(null)} style={s.pvModalCloseBtn}>
+                <X size={18} color="#64748B" />
+              </Pressable>
+            </View>
+
+            <ScrollView style={s.pvModalScroll} contentContainerStyle={s.pvModalContent}>
+              {loadingPreview && (
+                <View style={s.pvLoadingRow}>
+                  <ActivityIndicator size="small" color="#4A90E2" />
+                  <Text style={s.pvLoadingText}>Loading complete details...</Text>
+                </View>
+              )}
+
+              <Text style={s.pvQuestionTitle}>{previewQuestion?.question_title || 'Untitled Question'}</Text>
+
+              <View style={s.pvBadgeRow}>
+                {previewQuestion?.class_level ? (
+                  <View style={s.quizChip}>
+                    <Text style={s.quizChipText}>{getStandardLabel(previewQuestion.class_level)}</Text>
+                  </View>
+                ) : null}
+                {previewQuestion?.subject ? (
+                  <View style={s.quizChipSubject}>
+                    <Text style={s.quizChipSubjectText}>{previewQuestion.subject}</Text>
+                  </View>
+                ) : null}
+                <View style={s.pvTypeChip}>
+                  <Text style={s.pvTypeChipText}>
+                    {QUIZ_TYPE_LABEL[previewQuestion?.question_type || ''] || previewQuestion?.question_type}
+                  </Text>
+                </View>
+              </View>
+
+              <View style={s.pvStatBar}>
+                <View style={s.pvStatItem}>
+                  <Zap size={13} color="#E6A817" fill="#E6A817" />
+                  <Text style={s.pvStatText}>{previewQuestion?.points ?? 10} points</Text>
+                </View>
+                <View style={s.pvStatItem}>
+                  <Clock size={13} color="#64748B" />
+                  <Text style={s.pvStatText}>{previewQuestion?.time_limit_seconds ?? 30}s time limit</Text>
+                </View>
+              </View>
+
+              {previewQuestion?.question_instruction ? (
+                <View style={s.pvInstructionBox}>
+                  <Text style={s.pvInstructionLabel}>Instruction</Text>
+                  <Text style={s.pvInstructionText}>{previewQuestion.question_instruction}</Text>
+                </View>
+              ) : null}
+
+              {/* Media & Question Data Details */}
+              {(() => {
+                const qData = (previewQuestion?.question_data as Record<string, unknown> | null | undefined) ?? {};
+                const promptImg = resolveMediaUrl((qData.prompt_image as string) || (qData.image as string));
+                const options = Array.isArray(qData.options) ? qData.options : [];
+                const pairs = Array.isArray(qData.pairs)
+                  ? qData.pairs
+                  : Array.isArray(qData.match_pairs)
+                  ? qData.match_pairs
+                  : [];
+                const explanation = (qData.explanation as string) || '';
+
+                return (
+                  <>
+                    {promptImg ? (
+                      <View style={s.pvSection}>
+                        <Text style={s.pvSectionLabel}>Prompt Image</Text>
+                        <SafeImage uri={promptImg} style={s.pvPromptImage} resizeMode="contain" />
+                      </View>
+                    ) : null}
+
+                    {options.length > 0 && (
+                      <View style={s.pvSection}>
+                        <Text style={s.pvSectionLabel}>Options ({options.length})</Text>
+                        <View style={s.pvOptionsList}>
+                          {options.map((opt: any, idx: number) => {
+                            const isCorrect = !!(opt.is_correct || opt.correct || opt.isCorrect);
+                            const optText = opt.text || opt.label || opt.option_text || (typeof opt === 'string' ? opt : `Option ${idx + 1}`);
+                            const optImg = resolveMediaUrl(typeof opt === 'object' ? opt?.image : undefined);
+                            return (
+                              <View key={idx} style={[s.pvOptionCard, isCorrect && s.pvOptionCardCorrect]}>
+                                <View style={[s.pvOptionDot, isCorrect && s.pvOptionDotCorrect]}>
+                                  <Text style={[s.pvOptionDotText, isCorrect && s.pvOptionDotTextCorrect]}>
+                                    {String.fromCharCode(65 + idx)}
+                                  </Text>
+                                </View>
+                                <View style={{ flex: 1, gap: 4 }}>
+                                  {optText ? <Text style={s.pvOptionText}>{optText}</Text> : null}
+                                  {optImg ? (
+                                    <SafeImage uri={optImg} style={s.pvOptionImg} resizeMode="contain" />
+                                  ) : null}
+                                </View>
+                                {isCorrect && (
+                                  <View style={s.pvCorrectBadge}>
+                                    <Check size={12} color="#16a34a" />
+                                    <Text style={s.pvCorrectBadgeText}>Correct</Text>
+                                  </View>
+                                )}
+                              </View>
+                            );
+                          })}
+                        </View>
+                      </View>
+                    )}
+
+                    {pairs.length > 0 && (
+                      <View style={s.pvSection}>
+                        <Text style={s.pvSectionLabel}>Matching Pairs</Text>
+                        <View style={s.pvPairsList}>
+                          {pairs.map((pair: any, idx: number) => {
+                            const leftVal = pair.left || pair.item || pair.leftText || `Item ${idx + 1}`;
+                            const rightVal = pair.right || pair.pair || pair.rightText || `Match ${idx + 1}`;
+                            return (
+                              <View key={idx} style={s.pvPairRow}>
+                                <View style={s.pvPairBox}>
+                                  <Text style={s.pvPairText}>{leftVal}</Text>
+                                </View>
+                                <Text style={s.pvPairArrow}>➔</Text>
+                                <View style={s.pvPairBox}>
+                                  <Text style={s.pvPairText}>{rightVal}</Text>
+                                </View>
+                              </View>
+                            );
+                          })}
+                        </View>
+                      </View>
+                    )}
+
+                    {explanation ? (
+                      <View style={s.pvSection}>
+                        <Text style={s.pvSectionLabel}>Explanation</Text>
+                        <View style={s.pvExplanationBox}>
+                          <Text style={s.pvExplanationText}>{explanation}</Text>
+                        </View>
+                      </View>
+                    ) : null}
+                  </>
+                );
+              })()}
+            </ScrollView>
+
+            <View style={s.pvModalFooter}>
+              {previewQuestion && pageView === 'creator' && (
+                <Pressable
+                  style={[
+                    s.pvToggleSelectBtn,
+                    quizSelectedQuestionIds.includes(previewQuestion.id) ? s.pvToggleRemoveBtn : s.pvToggleAddBtn,
+                  ]}
+                  onPress={() => toggleSelectQuestion(previewQuestion.id)}
+                >
+                  {quizSelectedQuestionIds.includes(previewQuestion.id) ? (
+                    <>
+                      <Minus size={14} color="#DC2626" />
+                      <Text style={s.pvToggleRemoveText}>Remove from Quiz</Text>
+                    </>
+                  ) : (
+                    <>
+                      <Plus size={14} color="#16a34a" />
+                      <Text style={s.pvToggleAddText}>Add to Quiz</Text>
+                    </>
+                  )}
+                </Pressable>
+              )}
+              <Pressable style={s.pvCloseActionBtn} onPress={() => setPreviewQuestion(null)}>
+                <Text style={s.pvCloseActionText}>Close</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -1135,10 +1397,11 @@ const s = StyleSheet.create({
   quizMetaItem: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   quizMetaText: { fontSize: 12, fontWeight: '600', color: '#9A9AB0' },
 
-  creatorLayout: { flexDirection: 'row', gap: 16, flexWrap: 'wrap', width: '100%' },
+  creatorLayout: { flexDirection: 'row', gap: 16, flexWrap: 'wrap', width: '100%', alignItems: 'flex-start' },
   formCard: {
     flex: 1,
     minWidth: 300,
+    minHeight: 520,
     backgroundColor: '#fff',
     borderRadius: 20,
     padding: 24,
@@ -1148,6 +1411,7 @@ const s = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 6,
     elevation: 2,
+    alignSelf: 'flex-start',
   },
   formCardTitle: { fontSize: 16, fontWeight: '900', color: '#1a1a2e' },
   inputGroup: { gap: 6 },
@@ -1233,7 +1497,8 @@ const s = StyleSheet.create({
 
   bankCard: {
     flex: 1.4,
-    minWidth: 280,
+    minWidth: 300,
+    minHeight: 520,
     backgroundColor: '#fff',
     borderRadius: 20,
     padding: 20,
@@ -1245,6 +1510,13 @@ const s = StyleSheet.create({
     elevation: 2,
     alignSelf: 'flex-start',
   },
+  bankLoadingBox: {
+    minHeight: 300,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+    padding: 20,
+  },
   bankHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 },
   bankTabRow: { flexDirection: 'row', gap: 4, backgroundColor: '#F1F5F9', borderRadius: 10, padding: 3, flexWrap: 'wrap' },
   bankTab: { paddingHorizontal: 10, paddingVertical: 6, borderRadius: 8 },
@@ -1253,10 +1525,10 @@ const s = StyleSheet.create({
   bankTabTextActive: { fontWeight: '800', color: '#4A90E2' },
 
   bankFiltersCol: { gap: 10 },
-  bankFiltersRow: { flexDirection: 'row', gap: 8, alignItems: 'center', flexWrap: 'wrap' },
+  bankFiltersRow: { flexDirection: 'row', gap: 6, alignItems: 'center', flexWrap: 'wrap' },
   selectInputCompact: {
     flex: 1,
-    minWidth: 110,
+    minWidth: 90,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -1264,11 +1536,12 @@ const s = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#E2E8F0',
-    paddingHorizontal: 10,
+    paddingHorizontal: 8,
     paddingVertical: 7,
+    gap: 4,
   },
-  selectTextCompact: { fontSize: 12, fontWeight: '600', color: '#1a1a2e' },
-  selectPlaceholderCompact: { fontSize: 12, color: '#9A9AB0' },
+  selectTextCompact: { fontSize: 11, fontWeight: '600', color: '#1a1a2e' },
+  selectPlaceholderCompact: { fontSize: 11, color: '#9A9AB0' },
   clearBtnCompact: { backgroundColor: '#FEE2E2', borderRadius: 8, padding: 7, alignItems: 'center', justifyContent: 'center' },
 
   bankSearchRow: { flexDirection: 'row', gap: 8, alignItems: 'center', flexWrap: 'wrap' },
@@ -1285,10 +1558,17 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E2E8F0',
   },
+  bankSearchInput: {
+    flex: 1,
+    fontSize: 12,
+    color: '#1a1a2e',
+    paddingVertical: 2,
+    paddingHorizontal: 4,
+  },
   selectAllBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 7, backgroundColor: '#F0F7FF', borderRadius: 10 },
   selectAllText: { fontSize: 12, fontWeight: '700', color: '#4A90E2' },
 
-  questionList: { maxHeight: 420 },
+  questionList: { maxHeight: 420, minHeight: 250 },
   qItemRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1303,13 +1583,15 @@ const s = StyleSheet.create({
   qItemCheck: { padding: 2 },
   checkbox: { width: 18, height: 18, borderRadius: 4, borderWidth: 1.5, borderColor: '#CBD5E1', alignItems: 'center', justifyContent: 'center' },
   checkboxSelected: { backgroundColor: '#4A90E2', borderColor: '#4A90E2' },
-  qItemMain: { flex: 1, gap: 4 },
-  qItemTitle: { fontSize: 13, fontWeight: '600', color: '#1a1a2e', lineHeight: 18 },
-  qItemMetaRow: { flexDirection: 'row', gap: 6, flexWrap: 'wrap' },
+  qItemMain: { flex: 1, gap: 4, minWidth: 0 },
+  qItemTitle: { fontSize: 13, fontWeight: '600', color: '#1a1a2e', lineHeight: 18, flexShrink: 1 },
+  qItemMetaRow: { flexDirection: 'row', gap: 6, flexWrap: 'wrap', alignItems: 'center' },
   qItemMetaTag: { fontSize: 11, color: '#64748B', backgroundColor: '#F1F5F9', borderRadius: 4, paddingHorizontal: 6, paddingVertical: 1 },
+  qItemClassTag: { color: '#1D4ED8', backgroundColor: '#EFF6FF', fontWeight: '600' },
   qRemoveBtn: { width: 28, height: 28, borderRadius: 14, backgroundColor: '#FFE8E8', alignItems: 'center', justifyContent: 'center' },
+  qPreviewBtn: { width: 28, height: 28, borderRadius: 14, backgroundColor: '#F0F7FF', alignItems: 'center', justifyContent: 'center' },
 
-  emptyBox: { padding: 40, alignItems: 'center', justifyContent: 'center', gap: 8 },
+  emptyBox: { minHeight: 250, padding: 40, alignItems: 'center', justifyContent: 'center', gap: 8 },
   emptyTitle: { fontSize: 16, fontWeight: '800', color: '#1a1a2e' },
   emptyText: { fontSize: 13, color: '#9A9AB0', textAlign: 'center' },
 
@@ -1319,4 +1601,89 @@ const s = StyleSheet.create({
   pageBtnText: { fontSize: 12, fontWeight: '700', color: '#4A90E2' },
   pageBtnTextDisabled: { color: '#CBD5E1' },
   pageInfo: { fontSize: 12, color: '#9A9AB0', fontWeight: '600' },
+
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(15, 23, 42, 0.6)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 16,
+  },
+  pvModalCard: {
+    width: '100%',
+    maxWidth: 580,
+    maxHeight: '85%',
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  pvModalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F1F5F9',
+    backgroundColor: '#FAFCFF',
+  },
+  pvHeaderIconWrap: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: '#EFF6FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pvModalTitle: { fontSize: 16, fontWeight: '800', color: '#1E293B' },
+  pvModalSubtitle: { fontSize: 12, color: '#64748B', fontWeight: '500' },
+  pvModalCloseBtn: { padding: 6, borderRadius: 8, backgroundColor: '#F1F5F9' },
+  pvModalScroll: { maxHeight: 500 },
+  pvModalContent: { padding: 20, gap: 14 },
+  pvLoadingRow: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 4 },
+  pvLoadingText: { fontSize: 12, color: '#4A90E2', fontWeight: '600' },
+  pvQuestionTitle: { fontSize: 16, fontWeight: '700', color: '#0F172A', lineHeight: 22 },
+  pvBadgeRow: { flexDirection: 'row', gap: 8, flexWrap: 'wrap', alignItems: 'center' },
+  pvTypeChip: { backgroundColor: '#F0F7FF', borderRadius: 6, paddingHorizontal: 8, paddingVertical: 3 },
+  pvTypeChipText: { fontSize: 11, fontWeight: '700', color: '#4A90E2' },
+  pvStatBar: { flexDirection: 'row', gap: 16, alignItems: 'center', backgroundColor: '#F8FAFC', padding: 10, borderRadius: 10 },
+  pvStatItem: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  pvStatText: { fontSize: 12, fontWeight: '600', color: '#475569' },
+  pvInstructionBox: { backgroundColor: '#FFFBEB', borderColor: '#FCD34D', borderWidth: 1, padding: 12, borderRadius: 10, gap: 4 },
+  pvInstructionLabel: { fontSize: 11, fontWeight: '800', color: '#B45309', textTransform: 'uppercase' },
+  pvInstructionText: { fontSize: 13, color: '#78350F', lineHeight: 18 },
+  pvSection: { gap: 8 },
+  pvSectionLabel: { fontSize: 12, fontWeight: '800', color: '#475569', textTransform: 'uppercase', letterSpacing: 0.5 },
+  pvPromptImage: { width: '100%', height: 180, borderRadius: 12, backgroundColor: '#F8FAFC' },
+  pvOptionsList: { gap: 8 },
+  pvOptionCard: { flexDirection: 'row', alignItems: 'center', gap: 10, padding: 10, borderRadius: 10, borderWidth: 1, borderColor: '#E2E8F0', backgroundColor: '#F8FAFC' },
+  pvOptionCardCorrect: { borderColor: '#86EFAC', backgroundColor: '#F0FDF4' },
+  pvOptionDot: { width: 24, height: 24, borderRadius: 12, backgroundColor: '#E2E8F0', alignItems: 'center', justifyContent: 'center' },
+  pvOptionDotCorrect: { backgroundColor: '#22C55E' },
+  pvOptionDotText: { fontSize: 11, fontWeight: '700', color: '#475569' },
+  pvOptionDotTextCorrect: { color: '#ffffff' },
+  pvOptionText: { fontSize: 13, color: '#1E293B', fontWeight: '500' },
+  pvOptionImg: { width: '100%', height: 90, borderRadius: 6 },
+  pvCorrectBadge: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: '#DCFCE7', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6 },
+  pvCorrectBadgeText: { fontSize: 11, fontWeight: '700', color: '#15803D' },
+  pvPairsList: { gap: 6 },
+  pvPairRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  pvPairBox: { flex: 1, backgroundColor: '#F1F5F9', padding: 10, borderRadius: 8, borderWidth: 1, borderColor: '#E2E8F0' },
+  pvPairText: { fontSize: 12, fontWeight: '600', color: '#334155', textAlign: 'center' },
+  pvPairArrow: { fontSize: 14, color: '#4A90E2', fontWeight: '800' },
+  pvExplanationBox: { backgroundColor: '#F0F7FF', borderColor: '#BAE6FD', borderWidth: 1, padding: 12, borderRadius: 10 },
+  pvExplanationText: { fontSize: 13, color: '#0369A1', lineHeight: 18 },
+  pvModalFooter: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 10, padding: 16, borderTopWidth: 1, borderTopColor: '#F1F5F9', backgroundColor: '#FAFCFF' },
+  pvCloseActionBtn: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 8, backgroundColor: '#E2E8F0' },
+  pvCloseActionText: { fontSize: 13, fontWeight: '700', color: '#475569' },
+  pvToggleSelectBtn: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 8 },
+  pvToggleAddBtn: { backgroundColor: '#DCFCE7' },
+  pvToggleAddText: { fontSize: 13, fontWeight: '700', color: '#15803D' },
+  pvToggleRemoveBtn: { backgroundColor: '#FEE2E2' },
+  pvToggleRemoveText: { fontSize: 13, fontWeight: '700', color: '#B91C1C' },
 });
