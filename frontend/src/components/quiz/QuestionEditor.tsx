@@ -33,6 +33,7 @@ import {
   ScrollView,
   Text,
   TextInput,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -568,6 +569,9 @@ export default function QuestionEditor({
   );
   const canSave = !saving && !hasLogicoMappingBlocker;
   const dialogTitle = mode === 'edit' ? 'Edit Question' : 'New Question';
+
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 768;
 
   return (
     <View style={qFormS.screen}>

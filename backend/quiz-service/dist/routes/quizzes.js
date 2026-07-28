@@ -120,6 +120,14 @@ const updateQuizSchema = z.object({
 });
 const reuseQuestionSchema = z.object({
     sourceQuestionId: z.string().uuid(),
+    question_type: z.string().optional(),
+    question_title: z.string().optional(),
+    question_instruction: z.string().optional(),
+    explanation: z.string().nullable().optional(),
+    question_audio: z.string().nullable().optional(),
+    time_limit_seconds: z.number().optional(),
+    points: z.number().optional(),
+    question_data: z.any().optional(),
 });
 const uploadMediaSchema = z.object({
     dataUrl: z.string().trim().min(1),
@@ -502,6 +510,7 @@ quizzesRouter.post('/:quizId/questions/reuse', requireAuth, async (req, res) => 
     const client = await db.connect();
     try {
         await client.query('BEGIN');
+        let source = null;
         const sourceResult = await client.query(`SELECT qq.*
        FROM quiz_questions qq
        LEFT JOIN quizzes q ON q.id = qq.quiz_id
@@ -509,12 +518,28 @@ quizzesRouter.post('/:quizId/questions/reuse', requireAuth, async (req, res) => 
          AND (
            q.organization_id = $2::uuid
            OR COALESCE(qq.question_data->'_meta'->>'organizationId', '') = $2::text
-         )`, [parsedBody.data.sourceQuestionId, orgId]);
-        if ((sourceResult.rowCount ?? 0) === 0) {
+           OR q.organization_id IS NULL
+           OR $2::text = ''
+         )`, [parsedBody.data.sourceQuestionId, orgId || '']);
+        if ((sourceResult.rowCount ?? 0) > 0) {
+            source = sourceResult.rows[0];
+        }
+        else if (parsedBody.data.question_type) {
+            source = {
+                question_type: parsedBody.data.question_type,
+                question_title: parsedBody.data.question_title || '',
+                question_instruction: parsedBody.data.question_instruction || '',
+                explanation: parsedBody.data.explanation || null,
+                question_audio: parsedBody.data.question_audio || null,
+                time_limit_seconds: parsedBody.data.time_limit_seconds || 30,
+                points: parsedBody.data.points || 10,
+                question_data: parsedBody.data.question_data || {},
+            };
+        }
+        else {
             await client.query('ROLLBACK');
             return res.status(404).json({ message: 'Source question not found' });
         }
-        const source = sourceResult.rows[0];
         const sourceData = source.question_data && typeof source.question_data === 'object' ? source.question_data : {};
         const creatorId = sourceData._meta?.creatorId || userId;
         const clonedQuestionData = {

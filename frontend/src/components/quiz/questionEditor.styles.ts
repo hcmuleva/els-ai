@@ -2,6 +2,12 @@ import { StyleSheet } from 'react-native';
 
 export const qFormS = StyleSheet.create({
   screen: { flex: 1, backgroundColor: '#F5F7FF' },
+  desktopLayout: { flex: 1, flexDirection: 'row', gap: 16, padding: 16, overflow: 'hidden' },
+  desktopLeftCol: { flex: 1, minWidth: 340, height: '100%' },
+  desktopRightCol: { flex: 1.2, minWidth: 380, height: '100%' },
+  formCardWrap: { flex: 1, backgroundColor: '#fff', borderRadius: 16, padding: 16, gap: 10, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 6, elevation: 2, overflow: 'hidden' },
+  cardTitleHeader: { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  innerScrollList: { flex: 1, width: '100%' },
   header: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 12, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
   backBtn: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
   backArrow: { fontSize: 28, color: '#1a1a2e', fontWeight: '300', lineHeight: 34 },

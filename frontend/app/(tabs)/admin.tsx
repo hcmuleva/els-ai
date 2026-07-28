@@ -1982,11 +1982,22 @@ export default function AdminScreen() {
               secureTextEntry
               style={styles.input}
             />
-            <Text style={styles.fieldLabel}>Role</Text>
+            <Text style={styles.fieldLabel}>Role *</Text>
             <View style={styles.roleRow}>
-              <View style={[styles.roleChip, styles.roleChipActive]}>
-                <Text style={[styles.roleChipText, styles.roleChipTextActive]}>{userForm.role}</Text>
-              </View>
+              {(['student', 'teacher', 'parent', 'admin'] as const).map((r) => {
+                const isActive = userForm.role === r;
+                return (
+                  <Pressable
+                    key={r}
+                    style={[styles.roleChip, isActive && styles.roleChipActive]}
+                    onPress={() => setUserForm((current) => ({ ...current, role: r }))}
+                  >
+                    <Text style={[styles.roleChipText, isActive && styles.roleChipTextActive]}>
+                      {r === 'student' ? 'Student' : r === 'teacher' ? 'Teacher' : r === 'parent' ? 'Parent' : 'Admin'}
+                    </Text>
+                  </Pressable>
+                );
+              })}
             </View>
           </ScrollView>
           <View style={styles.sheetFooter}>

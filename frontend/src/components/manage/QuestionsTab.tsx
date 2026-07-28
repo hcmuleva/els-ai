@@ -1038,9 +1038,9 @@ const q = StyleSheet.create({
 
   // Full-screen details modal
   modalScreen:        { flex: 1, backgroundColor: '#F5F7FF' },
-  modalScreenDesktop: { backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'center', alignItems: 'center' },
+  modalScreenDesktop: { flex: 1, backgroundColor: '#F5F7FF' },
   modalInner:         { flex: 1, width: '100%', backgroundColor: '#F5F7FF', overflow: 'hidden' },
-  modalInnerDesktop:  { flex: undefined as any, width: '100%', maxWidth: 900, maxHeight: '92%', borderRadius: 20, overflow: 'hidden' },
+  modalInnerDesktop:  { flex: 1, width: '100%', height: '100%', borderRadius: 0, overflow: 'hidden' },
   modalHeader:    { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 12, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
   modalBack:      { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
 

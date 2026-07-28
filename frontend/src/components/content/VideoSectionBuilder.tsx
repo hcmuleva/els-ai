@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Platform, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Platform, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+
 import type { VideoSection } from '../../types/videoContent';
 import { createVideoSectionsApi, type CreateSectionInput } from '../../api/videoSections';
 import { detectVideoType } from '../../utils/youtubeUtils';
@@ -137,52 +138,114 @@ export default function VideoSectionBuilder({ contentId, videoUrl, videoDuration
     setPlayToken((t) => t + 1);
   }, []);
 
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 768;
   const videoType = detectVideoType(videoUrl);
 
   return (
     <View style={styles.container}>
-      {previewSection ? (
-        <View style={styles.previewWrap}>
-          <DynamicVideoPlayer
-            videoUrl={videoUrl}
-            videoType={videoType}
-            activeSection={previewSection}
-            playToken={playToken}
-            onSectionEnd={() => setEndPromptVisible(true)}
-          />
-          <Text style={styles.previewLabel}>Previewing: {previewSection.title}</Text>
+      {isDesktop ? (
+        <View style={{ flexDirection: 'row', gap: 20, alignItems: 'flex-start' }}>
+          <View style={{ flex: 1, gap: 14 }}>
+            {previewSection ? (
+              <View style={styles.previewWrap}>
+                <DynamicVideoPlayer
+                  videoUrl={videoUrl}
+                  videoType={videoType}
+                  activeSection={previewSection}
+                  playToken={playToken}
+                  onSectionEnd={() => setEndPromptVisible(true)}
+                />
+                <Text style={styles.previewLabel}>Previewing: {previewSection.title}</Text>
+              </View>
+            ) : (
+              <View style={{ height: 260, backgroundColor: '#1E1E2E', borderRadius: 16, alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+                <Text style={{ color: '#A0A0C0', fontSize: 14, textAlign: 'center' }}>
+                  🎬 Select a chapter from the list or click "Add Section" to preview video chapters.
+                </Text>
+              </View>
+            )}
+
+            <VideoSectionTimeline
+              sections={sections}
+              activeSectionId={previewSection?.id}
+              onSelect={handlePreview}
+            />
+          </View>
+
+          <View style={{ flex: 1, gap: 14 }}>
+            <CreateVideoSectionButton
+              onPress={() => {
+                setEditingSection(null);
+                setModalOpen(true);
+              }}
+              disabled={!videoUrl}
+            />
+
+            {error ? <Text style={styles.error}>{error}</Text> : null}
+
+            {loading ? (
+              <ActivityIndicator style={{ marginTop: 16 }} color="#4A90E2" />
+            ) : (
+              <VideoSectionList
+                sections={sections}
+                onEdit={(section) => {
+                  setEditingSection(section);
+                  setModalOpen(true);
+                }}
+                onDelete={handleDelete}
+                onPreview={handlePreview}
+                onAttachQuiz={(section) => setQuizPanelSection(section)}
+              />
+            )}
+          </View>
         </View>
-      ) : null}
-
-      <VideoSectionTimeline
-        sections={sections}
-        activeSectionId={previewSection?.id}
-        onSelect={handlePreview}
-      />
-
-      <CreateVideoSectionButton
-        onPress={() => {
-          setEditingSection(null);
-          setModalOpen(true);
-        }}
-        disabled={!videoUrl}
-      />
-
-      {error ? <Text style={styles.error}>{error}</Text> : null}
-
-      {loading ? (
-        <ActivityIndicator style={{ marginTop: 16 }} color="#4A90E2" />
       ) : (
-        <VideoSectionList
-          sections={sections}
-          onEdit={(section) => {
-            setEditingSection(section);
-            setModalOpen(true);
-          }}
-          onDelete={handleDelete}
-          onPreview={handlePreview}
-          onAttachQuiz={(section) => setQuizPanelSection(section)}
-        />
+        <>
+          {previewSection ? (
+            <View style={styles.previewWrap}>
+              <DynamicVideoPlayer
+                videoUrl={videoUrl}
+                videoType={videoType}
+                activeSection={previewSection}
+                playToken={playToken}
+                onSectionEnd={() => setEndPromptVisible(true)}
+              />
+              <Text style={styles.previewLabel}>Previewing: {previewSection.title}</Text>
+            </View>
+          ) : null}
+
+          <VideoSectionTimeline
+            sections={sections}
+            activeSectionId={previewSection?.id}
+            onSelect={handlePreview}
+          />
+
+          <CreateVideoSectionButton
+            onPress={() => {
+              setEditingSection(null);
+              setModalOpen(true);
+            }}
+            disabled={!videoUrl}
+          />
+
+          {error ? <Text style={styles.error}>{error}</Text> : null}
+
+          {loading ? (
+            <ActivityIndicator style={{ marginTop: 16 }} color="#4A90E2" />
+          ) : (
+            <VideoSectionList
+              sections={sections}
+              onEdit={(section) => {
+                setEditingSection(section);
+                setModalOpen(true);
+              }}
+              onDelete={handleDelete}
+              onPreview={handlePreview}
+              onAttachQuiz={(section) => setQuizPanelSection(section)}
+            />
+          )}
+        </>
       )}
 
       <VideoSectionModal

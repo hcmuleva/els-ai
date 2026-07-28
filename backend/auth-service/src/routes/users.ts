@@ -879,9 +879,24 @@ usersRouter.patch('/:id', requireAuth, async (req: AuthenticatedRequest, res) =>
     }
   }
   if (activeRole) {
-    const hasRole = await userHasRoleInOrg(userId, organizationId, activeRole);
-    if (!hasRole) {
-      return res.status(400).json({ message: `User does not have ${activeRole} role in this organization` });
+    const roleResult = await db.query('SELECT id FROM roles WHERE role_name = $1', [activeRole]);
+    if (roleResult.rowCount && roleResult.rowCount > 0) {
+      const roleId = roleResult.rows[0].id as string;
+      await db.query(
+        `DELETE FROM user_roles ur
+         USING roles r
+         WHERE ur.role_id = r.id
+           AND ur.user_id = $1
+           AND ur.organization_id = $2
+           AND r.role_name = ANY($3::text[])`,
+        [userId, organizationId, managedRoleSchema.options],
+      );
+      await db.query(
+        `INSERT INTO user_roles (user_id, role_id, organization_id)
+         VALUES ($1, $2, $3)
+         ON CONFLICT (user_id, role_id, organization_id) DO NOTHING`,
+        [userId, roleId, organizationId],
+      );
     }
   }
 
