@@ -18,7 +18,7 @@ jobs:
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
-      backend-services: ${{ steps.filter.outputs.changes }}
+      backend-services: ${{ steps.backend_matrix.outputs.backend-services }}
       frontend-changed: ${{ steps.filter.outputs.frontend }}
     steps:
       - name: Checkout repository
@@ -29,6 +29,13 @@ jobs:
         uses: dorny/paths-filter@v3
         with:
           filters: |
+            backend:
+              - 'backend/shared/**'
+              - 'Dockerfile.service'
+              - 'package.json'
+              - 'package-lock.json'
+            frontend:
+              - 'frontend/**'
             auth-service: 'backend/auth-service/**'
             quiz-service: 'backend/quiz-service/**'
             media-service: 'backend/media-service/**'
@@ -43,14 +50,31 @@ jobs:
             org-service: 'backend/org-service/**'
             notification-service: 'backend/notification-service/**'
             story-service: 'backend/story-service/**'
-            frontend: 'frontend/**'
+
+      - name: Compute Backend Services Matrix
+        id: backend_matrix
+        run: |
+          CHANGES='${{ steps.filter.outputs.changes }}'
+          echo "Raw changes: $CHANGES"
+          
+          # Filter out non-backend-service keys ('frontend', 'backend')
+          CLEANED=$(echo "$CHANGES" | jq -c '[.[] | select(. != "frontend" and . != "backend")]')
+          
+          # If shared backend code or build configs changed, build all backend services
+          BACKEND_SHARED='${{ steps.filter.outputs.backend }}'
+          if [ "$BACKEND_SHARED" = "true" ] && [ "$CLEANED" = "[]" ]; then
+            CLEANED='["auth-service","quiz-service","media-service","ai-service","gateway","classroom-service","achievement-service","question-bank-service","content-service","topic-service","assignment-service","org-service","notification-service","story-service"]'
+          fi
+          
+          echo "Computed backend services: $CLEANED"
+          echo "backend-services=$CLEANED" >> $GITHUB_OUTPUT
 
   # -------------------------------------------------------------
   # 2. BUILD & PUSH BACKEND (Runs changed services OR all services if forced)
   # -------------------------------------------------------------
   build-and-push-backend:
     needs: detect-changes
-    if: ${{ needs.detect-changes.outputs.backend-services != '[]' || inputs.force_build_all == true }}
+    if: ${{ (needs.detect-changes.outputs.backend-services != '[]' && needs.detect-changes.outputs.backend-services != '') || inputs.force_build_all == true }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
