@@ -70,7 +70,7 @@ import {
 
 export interface QuestionDumpTabProps {
   apiFetch: (path: string, options?: RequestInit) => Promise<Response>;
-  subjectCatalog?: Array<{ title: string; classLevel: string }>;
+  subjectCatalog?: Array<{ title: string; classLevel?: string; class_level?: string; class_id?: string }>;
 }
 
 type Stage = 'input' | 'preview' | 'importing' | 'summary';
@@ -85,7 +85,7 @@ interface ImportResultLog {
   createdQuestionId?: string;
 }
 
-export function QuestionDumpTab({ apiFetch }: QuestionDumpTabProps) {
+export function QuestionDumpTab({ apiFetch, subjectCatalog }: QuestionDumpTabProps) {
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : Dimensions.get('window').width,
   );
@@ -144,7 +144,7 @@ export function QuestionDumpTab({ apiFetch }: QuestionDumpTabProps) {
         const data = await res.json().catch(() => ({}));
         fetchedSubjects = data.subjects || [];
       } else if (subjectCatalog && subjectCatalog.length > 0) {
-        fetchedSubjects = subjectCatalog.map((s) => ({ title: s.title, class_id: s.class_id, class_level: s.class_level }));
+        fetchedSubjects = subjectCatalog.map((s) => ({ title: s.title, class_id: s.class_id, class_level: s.class_level || s.classLevel }));
       }
 
       const classSet = new Set<string>();

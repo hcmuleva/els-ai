@@ -625,8 +625,8 @@ function QuestionCard({ question, idx, onAction }: {
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 type Props = {
-  enabled: boolean;
-  reloadToken: number;
+  enabled?: boolean;
+  reloadToken?: number;
   deletingQuestionId: string | null;
   filters: Filters;
   subjectCatalog: SubjectCatalogItem[];

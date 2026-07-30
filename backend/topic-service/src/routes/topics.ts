@@ -944,24 +944,30 @@ catalogRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
 
   try {
     const result = await db.query(
-      `SELECT id, class_level, title, cover_image, icon_image, icon_bg_color
-       FROM subjects
+      `SELECT s.id, s.class_level, s.class_id, cl.id AS resolved_class_id, s.title, s.cover_image, s.icon_image, s.icon_bg_color
+       FROM subjects s
+       LEFT JOIN class_levels cl ON (cl.id = s.class_id OR cl.code = s.class_level)
        WHERE ${whereClause}
-       ORDER BY class_level ASC, title ASC`,
+       ORDER BY s.class_level ASC, s.title ASC`,
       params,
     );
     const items = await Promise.all(
-      result.rows.map(async (row: any) => ({
-        id: row.id as string,
-        classLevel: row.class_level as string,
-        // back-compat: existing planner/quiz callers read `class_level` and `subject`
-        class_level: row.class_level as string,
-        title: row.title as string,
-        subject: row.title as string,
-        coverImage: row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image as string) : undefined,
-        iconImage: row.icon_image ? await getSignedMediaUrlIfNeeded(row.icon_image as string) : undefined,
-        iconBgColor: (row.icon_bg_color as string | null) || undefined,
-      })),
+      result.rows.map(async (row: any) => {
+        const classUuid = (row.class_id as string | null) || (row.resolved_class_id as string | null);
+        return {
+          id: row.id as string,
+          classId: classUuid || null,
+          class_id: classUuid || (row.class_level as string),
+          classLevel: row.class_level as string,
+          // back-compat: existing planner/quiz callers read `class_level` and `subject`
+          class_level: row.class_level as string,
+          title: row.title as string,
+          subject: row.title as string,
+          coverImage: row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image as string) : undefined,
+          iconImage: row.icon_image ? await getSignedMediaUrlIfNeeded(row.icon_image as string) : undefined,
+          iconBgColor: (row.icon_bg_color as string | null) || undefined,
+        };
+      }),
     );
     const classLevels = [...new Set(items.map((r) => r.classLevel))];
     const subjects = [...new Set(items.map((r) => r.title))];
