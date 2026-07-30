@@ -1,30 +1,6 @@
 import '@testing-library/jest-native/extend-expect';
 
-jest.mock('test-renderer', () => {
-  const tr = jest.requireActual('react-test-renderer');
-  return {
-    ...tr,
-    createRoot: (options) => {
-      let instance = null;
-      return {
-        render: (element) => {
-          if (!instance) {
-            instance = tr.create(element, options);
-          } else {
-            instance.update(element);
-          }
-        },
-        unmount: () => {
-          if (instance) {
-            try { instance.unmount(); } catch {}
-            instance = null;
-          }
-        },
-        get container() { return instance; }
-      };
-    }
-  };
-});
+
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
