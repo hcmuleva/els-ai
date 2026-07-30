@@ -193,9 +193,11 @@ questionsRouter.get('/', requireAuth, async (req, res) => {
         const result = await db.query(`SELECT
          qq.id,
          qq.quiz_id,
+         qq.class_id,
+         qq.subject_id,
          COALESCE(q.title, 'Question Bank') AS quiz_title,
-         COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level) AS class_level,
-         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), qsubj.title) AS subject,
+         COALESCE(qq.class_level, NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level) AS class_level,
+         COALESCE(qqsubj.title, qsubj.title, NULLIF(qq.question_data->'_meta'->>'subject', '')) AS subject,
          COALESCE(q.quiz_type, qq.question_type) AS quiz_type,
          qq.question_type,
          qq.question_title,
@@ -209,6 +211,7 @@ questionsRouter.get('/', requireAuth, async (req, res) => {
        FROM quiz_questions qq
        LEFT JOIN quizzes q ON q.id = qq.quiz_id
        LEFT JOIN subjects qsubj ON qsubj.id = q.subject_id
+       LEFT JOIN subjects qqsubj ON qqsubj.id = qq.subject_id
        WHERE ${whereClauses.join(' AND ')}
        ORDER BY qq.created_at DESC
        LIMIT $${params.length - 1}
@@ -234,9 +237,11 @@ questionsRouter.get('/:questionId', requireAuth, async (req, res) => {
         const result = await db.query(`SELECT
          qq.id,
          qq.quiz_id,
+         qq.class_id,
+         qq.subject_id,
          COALESCE(q.title, 'Question Bank') AS quiz_title,
-         COALESCE(NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level) AS class_level,
-         COALESCE(NULLIF(qq.question_data->'_meta'->>'subject', ''), qsubj.title) AS subject,
+         COALESCE(qq.class_level, NULLIF(qq.question_data->'_meta'->>'classLevel', ''), q.class_level) AS class_level,
+         COALESCE(qqsubj.title, qsubj.title, NULLIF(qq.question_data->'_meta'->>'subject', '')) AS subject,
          COALESCE(q.quiz_type, qq.question_type) AS quiz_type,
          qq.question_type,
          qq.question_title,
@@ -251,6 +256,7 @@ questionsRouter.get('/:questionId', requireAuth, async (req, res) => {
        FROM quiz_questions qq
        LEFT JOIN quizzes q ON q.id = qq.quiz_id
        LEFT JOIN subjects qsubj ON qsubj.id = q.subject_id
+       LEFT JOIN subjects qqsubj ON qqsubj.id = qq.subject_id
        WHERE qq.id = $1
          AND (q.organization_id = $2::uuid OR COALESCE(qq.question_data->'_meta'->>'organizationId', '') = $2::text)`, [questionId, orgId]);
         if ((result.rowCount ?? 0) === 0)
@@ -280,7 +286,7 @@ questionsRouter.post('/', requireAuth, async (req, res) => {
     let resolvedClassLevel = null;
     const rawClassInput = (class_id || class_level || '').trim();
     if (rawClassInput) {
-        const classLookup = await db.query(`SELECT id, code FROM class_levels WHERE id::text = $1 OR code = $1 LIMIT 1`, [rawClassInput]);
+        const classLookup = await db.query(`SELECT id, code FROM class_levels WHERE id::text = $1 OR code = $1 OR LOWER(label) = LOWER($1) LIMIT 1`, [rawClassInput]);
         if (classLookup.rows.length > 0) {
             resolvedClassId = classLookup.rows[0].id;
             resolvedClassLevel = classLookup.rows[0].code;
@@ -291,7 +297,7 @@ questionsRouter.post('/', requireAuth, async (req, res) => {
     }
     // Resolve subject_id: use explicit subject_id if provided, otherwise look up by name+class
     let resolvedSubjectId = subject_id || null;
-    if (!resolvedSubjectId && subject && resolvedClassLevel) {
+    if (!resolvedSubjectId && subject && (resolvedClassLevel || resolvedClassId)) {
         const lookup = await db.query(`SELECT id FROM subjects WHERE organization_id = $1::uuid AND LOWER(title) = LOWER($2) AND (class_level = $3 OR class_id = $4::uuid) LIMIT 1`, [orgId, subject, resolvedClassLevel, resolvedClassId]);
         resolvedSubjectId = lookup.rows[0]?.id || null;
     }
@@ -406,6 +412,31 @@ questionsRouter.patch('/:questionId', requireAuth, async (req, res) => {
             return res.status(403).json({ message: 'Only original creator or quiz creator can edit this question' });
         }
         const { class_id, class_level, subject_id, subject, questionType, questionTitle, questionInstruction, explanation, questionAudio, timeLimitSeconds, points, sortOrder, questionData, } = parsedBody.data;
+        let resolvedClassId = undefined;
+        let resolvedClassLevel = undefined;
+        const rawClassInput = (class_id || class_level || '').trim();
+        if (rawClassInput) {
+            const classLookup = await db.query(`SELECT id, code FROM class_levels WHERE id::text = $1 OR code = $1 OR LOWER(label) = LOWER($1) LIMIT 1`, [rawClassInput]);
+            if (classLookup.rows.length > 0) {
+                resolvedClassId = classLookup.rows[0].id;
+                resolvedClassLevel = classLookup.rows[0].code;
+            }
+            else {
+                resolvedClassLevel = rawClassInput;
+            }
+        }
+        else if (class_id === '' || class_level === '') {
+            resolvedClassId = null;
+            resolvedClassLevel = null;
+        }
+        let resolvedSubjectId = subject_id;
+        if (resolvedSubjectId === undefined && subject && (resolvedClassLevel || resolvedClassId)) {
+            const lookup = await db.query(`SELECT id FROM subjects WHERE organization_id = $1::uuid AND LOWER(title) = LOWER($2) AND (class_level = $3 OR class_id = $4::uuid) LIMIT 1`, [orgId, subject, resolvedClassLevel, resolvedClassId]);
+            resolvedSubjectId = lookup.rows[0]?.id || null;
+        }
+        else if (subject === '') {
+            resolvedSubjectId = null;
+        }
         let preparedQuestionData = questionData;
         if (class_level !== undefined || subject !== undefined) {
             const existingQuestion = await db.query(`SELECT question_data FROM quiz_questions WHERE id = $1`, [questionId]);
@@ -430,6 +461,18 @@ questionsRouter.patch('/:questionId', requireAuth, async (req, res) => {
         }
         const updates = [];
         const params = [];
+        if (resolvedClassId !== undefined) {
+            params.push(resolvedClassId);
+            updates.push(`class_id = $${params.length}`);
+        }
+        if (resolvedClassLevel !== undefined) {
+            params.push(resolvedClassLevel);
+            updates.push(`class_level = $${params.length}`);
+        }
+        if (resolvedSubjectId !== undefined) {
+            params.push(resolvedSubjectId);
+            updates.push(`subject_id = $${params.length}`);
+        }
         if (questionType !== undefined) {
             params.push(questionType);
             updates.push(`question_type = $${params.length}`);

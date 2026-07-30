@@ -124,19 +124,25 @@ contentRouter.get('/subjects', requireAuth, async (req, res) => {
         whereClauses.push(`(class_id::text = $${params.length} OR class_level = $${params.length} OR class_level = 'ANY')`);
     }
     try {
-        const result = await db.query(`SELECT id, title, class_level, class_id, cover_image, icon_image, icon_bg_color
-       FROM subjects
+        const result = await db.query(`SELECT s.id, s.title, s.class_level, s.class_id, cl.id AS resolved_class_id, s.cover_image, s.icon_image, s.icon_bg_color
+       FROM subjects s
+       LEFT JOIN class_levels cl ON (cl.id = s.class_id OR cl.code = s.class_level)
        WHERE ${whereClauses.join(' AND ')}
-       ORDER BY class_level ASC, title ASC`, params);
-        const rows = await Promise.all(result.rows.map(async (row) => ({
-            id: row.id,
-            title: row.title,
-            class_id: row.class_id || row.class_level,
-            classLevel: row.class_level,
-            coverImage: row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image) : undefined,
-            iconImage: row.icon_image ? await getSignedMediaUrlIfNeeded(row.icon_image) : undefined,
-            iconBgColor: row.icon_bg_color || undefined,
-        })));
+       ORDER BY s.class_level ASC, s.title ASC`, params);
+        const rows = await Promise.all(result.rows.map(async (row) => {
+            const classUuid = row.class_id || row.resolved_class_id;
+            return {
+                id: row.id,
+                title: row.title,
+                class_id: classUuid || row.class_level,
+                classId: classUuid || null,
+                classLevel: row.class_level,
+                class_level: row.class_level,
+                coverImage: row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image) : undefined,
+                iconImage: row.icon_image ? await getSignedMediaUrlIfNeeded(row.icon_image) : undefined,
+                iconBgColor: row.icon_bg_color || undefined,
+            };
+        }));
         return res.json({ subjects: rows });
     }
     catch (error) {
