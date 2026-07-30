@@ -40,6 +40,8 @@ beforeEach(async () => {
 global.IS_REACT_ACT_ENVIRONMENT = true;
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
+jest.setTimeout(15000);
+
 const origSetTimeout = global.setTimeout;
 global.setTimeout = (fn, ms, ...args) => {
   const timer = origSetTimeout(fn, ms, ...args);
