@@ -133,9 +133,10 @@ contentRouter.get('/subjects', requireAuth, async (req, res) => {
             const classUuid = row.class_id || row.resolved_class_id;
             return {
                 id: row.id,
+                subject_id: row.id,
                 title: row.title,
-                class_id: classUuid || row.class_level,
-                classId: classUuid || null,
+                class_id: classUuid,
+                classId: classUuid,
                 classLevel: row.class_level,
                 class_level: row.class_level,
                 coverImage: row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image) : undefined,
