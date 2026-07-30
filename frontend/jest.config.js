@@ -5,7 +5,8 @@ module.exports = {
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   moduleNameMapper: {
-    '^test-renderer$': require.resolve('react-test-renderer')
+    '^test-renderer$': require.resolve('react-test-renderer'),
+    '^expo/src/async-require/messageSocket$': '<rootDir>/jest.setup.js'
   },
   clearMocks: true,
   forceExit: true,
