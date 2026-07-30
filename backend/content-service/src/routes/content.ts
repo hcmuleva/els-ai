@@ -151,22 +151,28 @@ contentRouter.get('/subjects', requireAuth, async (req: any, res) => {
 
   try {
     const result = await db.query(
-      `SELECT id, title, class_level, class_id, cover_image, icon_image, icon_bg_color
-       FROM subjects
+      `SELECT s.id, s.title, s.class_level, s.class_id, cl.id AS resolved_class_id, s.cover_image, s.icon_image, s.icon_bg_color
+       FROM subjects s
+       LEFT JOIN class_levels cl ON (cl.id = s.class_id OR cl.code = s.class_level)
        WHERE ${whereClauses.join(' AND ')}
-       ORDER BY class_level ASC, title ASC`,
+       ORDER BY s.class_level ASC, s.title ASC`,
       params,
     );
     const rows = await Promise.all(
-      result.rows.map(async (row) => ({
-        id: row.id as string,
-        title: row.title as string,
-        class_id: (row.class_id as string | null) || (row.class_level as string),
-        classLevel: row.class_level as string,
-        coverImage: row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image as string) : undefined,
-        iconImage: row.icon_image ? await getSignedMediaUrlIfNeeded(row.icon_image as string) : undefined,
-        iconBgColor: (row.icon_bg_color as string | null) || undefined,
-      })),
+      result.rows.map(async (row) => {
+        const classUuid = (row.class_id as string | null) || (row.resolved_class_id as string | null);
+        return {
+          id: row.id as string,
+          title: row.title as string,
+          class_id: classUuid || (row.class_level as string),
+          classId: classUuid || null,
+          classLevel: row.class_level as string,
+          class_level: row.class_level as string,
+          coverImage: row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image as string) : undefined,
+          iconImage: row.icon_image ? await getSignedMediaUrlIfNeeded(row.icon_image as string) : undefined,
+          iconBgColor: (row.icon_bg_color as string | null) || undefined,
+        };
+      }),
     );
     return res.json({ subjects: rows });
   } catch (error) {

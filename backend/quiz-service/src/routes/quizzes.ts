@@ -804,7 +804,7 @@ quizzesRouter.post('/', requireAuth, async (req: any, res) => {
       `INSERT INTO quizzes (organization_id, title, description, class_level, class_id, subject_id, quiz_type, difficulty_level, background_music_url, theme, is_published, is_ai_generated, created_by, is_global)
        VALUES (
          $1::uuid, $2, $3, $4::varchar,
-         (SELECT id FROM class_levels WHERE id::text = $4 OR code = $4 LIMIT 1),
+         (SELECT id FROM class_levels WHERE id::text = $4 OR code = $4 OR LOWER(label) = LOWER($4) LIMIT 1),
          COALESCE($5::uuid, (SELECT s.id FROM subjects s
             WHERE (s.class_level = $4::varchar OR s.class_id::text = $4) AND LOWER(s.title) = LOWER($6::varchar)
               AND (s.organization_id = $1::uuid OR $14::boolean = true)
@@ -898,7 +898,11 @@ quizzesRouter.patch('/:id', requireAuth, async (req: any, res) => {
 
     if (data.title !== undefined) push('title', data.title);
     if (data.description !== undefined) push('description', data.description);
-    if (data.classLevel !== undefined) push('class_level', data.classLevel);
+    if (data.classLevel !== undefined) {
+      push('class_level', data.classLevel);
+      params.push(data.classLevel);
+      fields.push(`class_id = (SELECT id FROM class_levels WHERE id::text = $${params.length} OR code = $${params.length} OR LOWER(label) = LOWER($${params.length}) LIMIT 1)`);
+    }
     if (data.quizType !== undefined) {
       const normalizedQuizType = data.quizType === 'jigsaw_puzzle' ? 'jigsaw' : data.quizType;
       push('quiz_type', normalizedQuizType);
