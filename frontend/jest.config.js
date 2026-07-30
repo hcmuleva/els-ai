@@ -1,3 +1,11 @@
+const path = require('path');
+let expoPath;
+try {
+  expoPath = path.dirname(require.resolve('expo/package.json'));
+} catch {
+  expoPath = '<rootDir>/node_modules/expo';
+}
+
 module.exports = {
   preset: 'jest-expo',
   transformIgnorePatterns: [
@@ -6,7 +14,8 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   moduleNameMapper: {
     '^test-renderer$': require.resolve('react-test-renderer'),
-    '^expo/src/(.*)$': '<rootDir>/node_modules/expo/src/$1'
+    '^expo/src/(.*)$': `${expoPath}/src/$1`,
+    '^expo/virtual/(.*)$': `${expoPath}/virtual/$1`
   },
   clearMocks: true,
   forceExit: true,
