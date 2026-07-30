@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: auth-service
-          image: harishdell/els-ai-auth-service:sha-ad4a33a
+          image: harishdell/els-ai-auth-service:sha-8fd4413
           imagePullPolicy: Always
           ports:
             - containerPort: 4101
