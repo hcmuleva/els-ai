@@ -70,10 +70,38 @@ jobs:
           echo "backend-services=$CLEANED" >> $GITHUB_OUTPUT
 
   # -------------------------------------------------------------
-  # 2. BUILD & PUSH BACKEND (Runs changed services OR all services if forced)
+  # 2. RUN UNIT TESTS (Must pass BEFORE building any images)
+  # -------------------------------------------------------------
+  test-frontend:
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.frontend-changed == 'true' || inputs.force_build_all == true }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: 'frontend/package-lock.json'
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci --legacy-peer-deps
+
+      - name: Run unit tests
+        run: |
+          cd frontend
+          npm test
+
+  # -------------------------------------------------------------
+  # 3. BUILD & PUSH BACKEND (Runs after tests pass)
   # -------------------------------------------------------------
   build-and-push-backend:
-    needs: detect-changes
+    needs: [detect-changes, test-frontend]
     if: ${{ (needs.detect-changes.outputs.backend-services != '[]' && needs.detect-changes.outputs.backend-services != '') || inputs.force_build_all == true }}
     runs-on: ubuntu-latest
     strategy:
@@ -118,35 +146,7 @@ jobs:
           cache-to: type=gha,mode=max
 
   # -------------------------------------------------------------
-  # 3. RUN FRONTEND UNIT TESTS (Runs if frontend changed OR forced)
-  # -------------------------------------------------------------
-  test-frontend:
-    needs: detect-changes
-    if: ${{ needs.detect-changes.outputs.frontend-changed == 'true' || inputs.force_build_all == true }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'npm'
-          cache-dependency-path: 'frontend/package-lock.json'
-
-      - name: Install dependencies
-        run: |
-          cd frontend
-          npm ci
-
-      - name: Run unit tests
-        run: |
-          cd frontend
-          npm test
-
-  # -------------------------------------------------------------
-  # 4. BUILD & PUSH FRONTEND (Runs if tests pass)
+  # 4. BUILD & PUSH FRONTEND (Runs after tests pass)
   # -------------------------------------------------------------
   build-and-push-frontend:
     needs: [detect-changes, test-frontend]
