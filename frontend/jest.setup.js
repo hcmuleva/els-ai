@@ -1,7 +1,36 @@
 import '@testing-library/jest-native/extend-expect';
 
-
-
+// RNTL v14 calls createRoot() on 'test-renderer'.
+// react-test-renderer@18.x doesn't export createRoot.
+// In CI (npm workspace), npm may hoist root's react-test-renderer@18 instead of
+// frontend's ^19.1.0, so we provide the adapter unconditionally.
+jest.mock('test-renderer', () => {
+  const tr = jest.requireActual('react-test-renderer');
+  if (typeof tr.createRoot === 'function') {
+    return tr; // v19+ already has it natively
+  }
+  return {
+    ...tr,
+    createRoot: (options) => {
+      let instance = null;
+      return {
+        render: (element) => {
+          if (!instance) {
+            instance = tr.create(element, options);
+          } else {
+            instance.update(element);
+          }
+        },
+        unmount: () => {
+          if (instance) {
+            try { instance.unmount(); } catch {}
+          }
+        },
+        get container() { return instance; }
+      };
+    }
+  };
+});
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
