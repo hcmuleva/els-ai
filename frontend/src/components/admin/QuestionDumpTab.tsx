@@ -139,33 +139,35 @@ export function QuestionDumpTab({ apiFetch }: QuestionDumpTabProps) {
     setLoadingCatalog(true);
     try {
       const res = await apiFetch('/users/subjects?limit=500');
-      let fetchedSubjects: Array<{ id?: string; title?: string; classLevel?: string; class_level?: string }> = [];
+      let fetchedSubjects: Array<{ id?: string; title?: string; class_id?: string; classLevel?: string; class_level?: string }> = [];
       if (res.ok) {
         const data = await res.json().catch(() => ({}));
         fetchedSubjects = data.subjects || [];
       } else if (subjectCatalog && subjectCatalog.length > 0) {
-        fetchedSubjects = subjectCatalog.map((s) => ({ title: s.title, classLevel: s.classLevel }));
+        fetchedSubjects = subjectCatalog.map((s) => ({ title: s.title, class_id: s.class_id, class_level: s.class_level }));
       }
 
       const classSet = new Set<string>();
       STANDARD_OPTIONS.forEach((opt) => classSet.add(opt.value));
       fetchedSubjects.forEach((s) => {
-        const c = (s.classLevel || s.class_level || '').trim();
+        const c = (s.class_level || s.classLevel || '').trim();
         if (c) classSet.add(c);
       });
 
-      const subjectsByClass: Record<string, string[]> = {};
-      const allSubjectsList: Array<{ title: string; classLevel: string }> = [];
+      const subjectsByClass: Record<string, Array<{ subject_id?: string; title: string }>> = {};
+      const allSubjectsList: Array<{ subject_id?: string; title: string; class_id: string; class_level: string }> = [];
 
       fetchedSubjects.forEach((s) => {
-        const cLevel = (s.classLevel || s.class_level || '').trim() || 'General';
+        const cLevel = (s.class_level || s.classLevel || '').trim() || 'General';
+        const classId = (s.class_id || cLevel).trim();
         const subjTitle = (s.title || '').trim();
+        const subjId = s.id || undefined;
         if (subjTitle) {
           if (!subjectsByClass[cLevel]) subjectsByClass[cLevel] = [];
-          if (!subjectsByClass[cLevel].includes(subjTitle)) {
-            subjectsByClass[cLevel].push(subjTitle);
+          if (!subjectsByClass[cLevel].some((existing) => existing.title === subjTitle)) {
+            subjectsByClass[cLevel].push({ subject_id: subjId, title: subjTitle });
           }
-          allSubjectsList.push({ title: subjTitle, classLevel: cLevel });
+          allSubjectsList.push({ subject_id: subjId, title: subjTitle, class_id: classId, class_level: cLevel });
         }
       });
 

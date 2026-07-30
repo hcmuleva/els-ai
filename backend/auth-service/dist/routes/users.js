@@ -254,6 +254,7 @@ function mapSubjectRow(row) {
         iconBgColor: row.icon_bg_color || undefined,
         title: row.title,
         description: row.description || undefined,
+        class_id: row.class_id || row.class_level,
         classLevel: row.class_level,
         isExternalAuthor: row.is_external_author,
         author: authorDisplayName,

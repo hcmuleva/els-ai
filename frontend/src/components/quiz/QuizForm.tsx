@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import LatexText from '../common/LatexText';
 import {
   ActivityIndicator,
   Modal,
@@ -869,9 +870,14 @@ export default function QuizForm({
                         <Text style={[s.questionBadgeText, { color: '#4A90E2' }]}>{typeLabel}</Text>
                       </View>
                     </View>
-                    <Text style={s.questionTitle} numberOfLines={2}>
-                      {question.question_title || 'Untitled Question'}
-                    </Text>
+                    <LatexText
+                      content={question.question_title || 'Untitled Question'}
+                      style={s.questionTitle}
+                      compact
+                      compactHeight={40}
+                      numberOfLines={2}
+                      background="transparent"
+                    />
                     <View style={s.questionFooter}>
                       <View style={s.questionStats}>
                         <View style={s.statChip}>
@@ -976,7 +982,11 @@ export default function QuizForm({
               </Pressable>
             </View>
             <ScrollView style={s.modalList}>
-              <Text style={s.previewTitle}>{viewQuestion?.question_title || 'Untitled'}</Text>
+              <LatexText
+                content={viewQuestion?.question_title || 'Untitled'}
+                style={s.previewTitle}
+                background="transparent"
+              />
               <View style={s.previewMetaRow}>
                 <View style={s.questionBadge}><Text style={s.questionBadgeText}>{viewQuestion?.class_level || '-'}</Text></View>
                 {viewQuestion?.subject ? <View style={[s.questionBadge, { backgroundColor: '#EDE4FF' }]}><Text style={[s.questionBadgeText, { color: '#7B5EA7' }]}>{viewQuestion.subject}</Text></View> : null}

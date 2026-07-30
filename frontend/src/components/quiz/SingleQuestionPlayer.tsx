@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import LatexText from '../common/LatexText';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { API_BASE_URL } from '../../context/AuthContext';
@@ -150,8 +151,8 @@ export default function SingleQuestionPlayer({
         </Pressable>
       </View>
 
-      {questionTitle ? <Text style={s.title}>{questionTitle}</Text> : null}
-      {questionInstruction ? <Text style={s.instruction}>{questionInstruction}</Text> : null}
+      {questionTitle ? <LatexText content={questionTitle} style={s.title} background="transparent" /> : null}
+      {questionInstruction ? <LatexText content={questionInstruction} style={s.instruction} background="transparent" /> : null}
 
       <View
         style={[

@@ -29,7 +29,9 @@ const questionBankQuerySchema = z.object({
 
 const updateQuestionSchema = z
   .object({
-    classLevel: z.string().trim().optional(),
+    class_id: z.string().trim().optional(),
+    class_level: z.string().trim().optional(),
+    subject_id: z.string().uuid().optional(),
     subject: z.string().trim().optional(),
     questionType: z.string().trim().optional(),
     questionTitle: z.string().trim().optional(),
@@ -47,8 +49,10 @@ const updateQuestionSchema = z
 
 const createManagedQuestionSchema = z.object({
   quizId: z.string().uuid().optional(),
-  classLevel: z.string().trim().optional(),
-  subject: z.string().trim().optional(),
+  class_id: z.string().trim().optional(),    // Class ID UUID or code (e.g. "97e208e0-..." or "1")
+  class_level: z.string().trim().optional(),
+  subject_id: z.string().uuid().optional(),  // Subject UUID from subjects table
+  subject: z.string().trim().optional(),     // Subject title fallback
   questionType: z.string().trim().min(1),
   questionTitle: z.string().trim().min(1),
   questionInstruction: z.string().trim().optional(),
@@ -333,7 +337,9 @@ questionsRouter.post('/', requireAuth, async (req: any, res) => {
 
   const {
     quizId,
-    classLevel,
+    class_id,
+    class_level,
+    subject_id,
     subject,
     questionType,
     questionTitle,
@@ -345,6 +351,33 @@ questionsRouter.post('/', requireAuth, async (req: any, res) => {
     sortOrder,
     questionData,
   } = parsedBody.data;
+
+  // Resolve class_id (UUID) and class_level (code) from class_levels table
+  let resolvedClassId: string | null = null;
+  let resolvedClassLevel: string | null = null;
+  const rawClassInput = (class_id || class_level || '').trim();
+  if (rawClassInput) {
+    const classLookup = await db.query(
+      `SELECT id, code FROM class_levels WHERE id::text = $1 OR code = $1 LIMIT 1`,
+      [rawClassInput],
+    );
+    if (classLookup.rows.length > 0) {
+      resolvedClassId = classLookup.rows[0].id;
+      resolvedClassLevel = classLookup.rows[0].code;
+    } else {
+      resolvedClassLevel = rawClassInput;
+    }
+  }
+
+  // Resolve subject_id: use explicit subject_id if provided, otherwise look up by name+class
+  let resolvedSubjectId: string | null = subject_id || null;
+  if (!resolvedSubjectId && subject && resolvedClassLevel) {
+    const lookup = await db.query(
+      `SELECT id FROM subjects WHERE organization_id = $1::uuid AND LOWER(title) = LOWER($2) AND (class_level = $3 OR class_id = $4::uuid) LIMIT 1`,
+      [orgId, subject, resolvedClassLevel, resolvedClassId],
+    );
+    resolvedSubjectId = lookup.rows[0]?.id || null;
+  }
 
   const client = await db.connect();
   try {
@@ -379,15 +412,18 @@ questionsRouter.post('/', requireAuth, async (req: any, res) => {
               ...((questionData as Record<string, any>)._meta || {}),
               creatorId: userId,
               organizationId: orgId,
-              classLevel: classLevel || null,
+              class_level: class_level || null,
               subject: subject || null,
             },
           }
-        : { payload: questionData, _meta: { creatorId: userId, organizationId: orgId, classLevel: classLevel || null, subject: subject || null } };
+        : { payload: questionData, _meta: { creatorId: userId, organizationId: orgId, class_level: class_level || null, subject: subject || null } };
 
     const insertResult = await client.query(
-      `INSERT INTO quiz_questions (quiz_id, question_type, question_title, question_instruction, explanation, question_audio, time_limit_seconds, points, sort_order, question_data)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      `INSERT INTO quiz_questions
+         (quiz_id, question_type, question_title, question_instruction, explanation,
+          question_audio, time_limit_seconds, points, sort_order,
+          class_level, class_id, subject_id, question_data)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
        RETURNING id`,
       [
         quizId || null,
@@ -399,6 +435,9 @@ questionsRouter.post('/', requireAuth, async (req: any, res) => {
         timeLimitSeconds,
         points,
         sortOrder ?? null,
+        resolvedClassLevel,
+        resolvedClassId,
+        resolvedSubjectId,
         preparedQuestionData,
       ],
     );
@@ -477,7 +516,9 @@ questionsRouter.patch('/:questionId', requireAuth, async (req: any, res) => {
     }
 
     const {
-      classLevel,
+      class_id,
+      class_level,
+      subject_id,
       subject,
       questionType,
       questionTitle,
@@ -491,7 +532,7 @@ questionsRouter.patch('/:questionId', requireAuth, async (req: any, res) => {
     } = parsedBody.data;
 
     let preparedQuestionData = questionData;
-    if (classLevel !== undefined || subject !== undefined) {
+    if (class_level !== undefined || subject !== undefined) {
       const existingQuestion = await db.query(
         `SELECT question_data FROM quiz_questions WHERE id = $1`,
         [questionId],
@@ -512,7 +553,7 @@ questionsRouter.patch('/:questionId', requireAuth, async (req: any, res) => {
         ...baseQuestionData,
         _meta: {
           ...existingMeta,
-          ...(classLevel !== undefined ? { classLevel: classLevel || null } : {}),
+          ...(class_level !== undefined ? { class_level: class_level || null } : {}),
           ...(subject !== undefined ? { subject: subject || null } : {}),
         },
       };

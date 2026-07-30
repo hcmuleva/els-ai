@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import LatexText from '../common/LatexText';
 import { Dimensions, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { ChevronLeft, BookOpen, Play, Film, Headphones, Image as ImageIcon, FileText, Layers } from 'lucide-react-native';
@@ -179,7 +180,7 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
                 <cfg.Icon size={11} color={cfg.accent} />
                 <Text style={[s.typeBadgeText, { color: cfg.accent }]}>{cfg.label}</Text>
               </View>
-              <Text style={s.headerTitle} numberOfLines={1}>{content.title}</Text>
+              <LatexText content={content.title} style={s.headerTitle} compact compactHeight={22} numberOfLines={1} background="transparent" />
             </View>
             <View style={[s.counter, { backgroundColor: `${cfg.accent}15` }]}>
               <Text style={[s.counterTxt, { color: cfg.accent }]}>{curIdx + 1}/{contents.length}</Text>
@@ -195,7 +196,7 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
             <View style={[s.heroCard, { backgroundColor: cfg.bg }]}>
               <View style={s.heroRow}>
                 <View style={s.heroLeft}>
-                  <Text style={s.heroTitle}>{content.title}</Text>
+                  <LatexText content={content.title} style={s.heroTitle} background="transparent" />
                   <Text style={s.heroSub}>{topic.subject} · Class {topic.classLevel}</Text>
                 </View>
                 {ytThumb ? (
@@ -285,7 +286,7 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
 
               {content.textContent && (
                 <View style={s.textBlock}>
-                  <Text style={s.textBody}>{content.textContent}</Text>
+                  <LatexText content={content.textContent || ''} style={s.textBody} background="#ffffff" />
                 </View>
               )}
 
@@ -319,7 +320,7 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
                             : <itemCfg.Icon size={22} color={active ? itemCfg.accent : '#9A9AB0'} />
                           }
                         </View>
-                        <Text style={s.moreCardTitle} numberOfLines={2}>{item.title}</Text>
+                        <LatexText content={item.title} style={s.moreCardTitle} compact compactHeight={36} numberOfLines={2} background="transparent" />
                         <Text style={[s.moreCardMeta, { color: active ? itemCfg.accent : '#9A9AB0' }]}>
                           {itemCfg.label} · {index + 1}
                         </Text>

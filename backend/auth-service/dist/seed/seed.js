@@ -517,6 +517,7 @@ export async function initSchemaAndSeed() {
       author_user_id UUID REFERENCES users(id) ON DELETE SET NULL,
       is_external_author BOOLEAN DEFAULT false,
       class_level VARCHAR(50) NOT NULL,
+      class_id UUID REFERENCES class_levels(id) ON DELETE SET NULL,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW(),
       UNIQUE(organization_id, class_level, title)
@@ -528,6 +529,7 @@ export async function initSchemaAndSeed() {
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
       class_level VARCHAR(50) NOT NULL,
+      class_id UUID REFERENCES class_levels(id) ON DELETE SET NULL,
       subject_id UUID REFERENCES subjects(id) ON DELETE RESTRICT,
       title VARCHAR(255) NOT NULL,
       cover_image TEXT,
@@ -557,6 +559,7 @@ export async function initSchemaAndSeed() {
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
       class_level VARCHAR(50) NOT NULL,
+      class_id UUID REFERENCES class_levels(id) ON DELETE SET NULL,
       subject_id UUID REFERENCES subjects(id) ON DELETE RESTRICT,
       title VARCHAR(255) NOT NULL,
       content_type VARCHAR(50) NOT NULL,
@@ -641,6 +644,7 @@ export async function initSchemaAndSeed() {
       thumbnail_image TEXT,
       created_by UUID, -- Can refer to a user ID or be null if system/AI
       class_level VARCHAR(50),
+      class_id UUID REFERENCES class_levels(id) ON DELETE SET NULL,
       subject_id UUID REFERENCES subjects(id) ON DELETE RESTRICT,
       quiz_type VARCHAR(100) NOT NULL, -- drag_drop, image_select, sound_match, memory_game
       difficulty_level VARCHAR(50),
@@ -667,8 +671,15 @@ export async function initSchemaAndSeed() {
       points INTEGER DEFAULT 10,
       sort_order INTEGER,
       question_data JSONB NOT NULL,
+      -- First-class subject / class columns (also mirrored in question_data->_meta for legacy compat)
+      class_level VARCHAR(50),
+      class_id UUID REFERENCES class_levels(id) ON DELETE SET NULL,
+      subject_id UUID REFERENCES subjects(id) ON DELETE SET NULL,
       created_at TIMESTAMP DEFAULT NOW()
     );
+    CREATE INDEX IF NOT EXISTS idx_quiz_questions_class_level ON quiz_questions(class_level);
+    CREATE INDEX IF NOT EXISTS idx_quiz_questions_class_id ON quiz_questions(class_id);
+    CREATE INDEX IF NOT EXISTS idx_quiz_questions_subject_id ON quiz_questions(subject_id);
   `);
     await db.query(`
       ALTER TABLE video_sections ADD CONSTRAINT fk_video_sections_quiz_id FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE SET NULL;

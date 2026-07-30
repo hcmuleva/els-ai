@@ -5,6 +5,7 @@
  * - Full-screen QuestionDetailsModal
  */
 import { useMemo, useState, useRef, useEffect } from 'react';
+import LatexText from '../common/LatexText';
 import {
   ActivityIndicator, Dimensions, Image, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
@@ -258,7 +259,7 @@ function QuestionDetailsModal({ question, onClose, onEdit }: {
                   </View>
                 ) : null}
               </View>
-              <Text style={q.heroTitle}>{question.question_title || 'Untitled Question'}</Text>
+              <LatexText content={question.question_title || 'Untitled Question'} style={q.heroTitle} background="transparent" />
             </View>
           </View>
 
@@ -589,7 +590,7 @@ function QuestionCard({ question, idx, onAction }: {
           <cfg.Icon size={24} color={cfg.color} />
         </View>
         <View style={q.cardInfo}>
-          <Text style={q.cardTitle} numberOfLines={2}>{question.question_title || 'Untitled Question'}</Text>
+          <LatexText content={question.question_title || 'Untitled Question'} style={q.cardTitle} compact compactHeight={46} numberOfLines={2} background="transparent" />
           <Text style={q.cardMeta}>
             {question.class_level ? getStandardLabel(question.class_level) : '–'} · {question.subject || '–'}
           </Text>
