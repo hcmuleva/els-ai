@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import LatexText from '../common/LatexText';
 import {
   ActivityIndicator,
   Modal,
@@ -313,6 +314,10 @@ export default function QuizEditorModal({
 
   const handleSave = async () => {
     if (!quizId) return;
+    if (!title.trim()) {
+      setError('Title is required');
+      return;
+    }
     setSaving(true);
     setError(null);
     try {
@@ -490,7 +495,14 @@ export default function QuizEditorModal({
             return (
               <View key={q.id} style={s.qRow}>
                 <View style={{ flex: 1, minWidth: 0 }}>
-                  <Text style={s.qTitle} numberOfLines={2}>{q.question_title || 'Untitled'}</Text>
+                  <LatexText
+                    content={q.question_title || 'Untitled'}
+                    style={s.qTitle}
+                    compact
+                    compactHeight={40}
+                    numberOfLines={2}
+                    background="transparent"
+                  />
                   <View style={s.qBadgeRow}>
                     {q.class_level && (
                       <View style={s.qBadge}><Text style={s.qBadgeText}>{getStandardLabel(q.class_level)}</Text></View>
@@ -583,7 +595,14 @@ export default function QuizEditorModal({
               return (
                 <View key={q.id} style={s.qRow}>
                   <View style={{ flex: 1, minWidth: 0 }}>
-                    <Text style={s.qTitle} numberOfLines={2}>{q.question_title || 'Untitled'}</Text>
+                    <LatexText
+                      content={q.question_title || 'Untitled'}
+                      style={s.qTitle}
+                      compact
+                      compactHeight={40}
+                      numberOfLines={2}
+                      background="transparent"
+                    />
                     <View style={s.qBadgeRow}>
                       {q.class_level && (
                         <View style={[s.qBadge, s.qClassBadge]}>
@@ -656,7 +675,14 @@ export default function QuizEditorModal({
           attached.map((q, i) => (
             <View key={q.id} style={s.previewItem}>
               <Text style={s.previewItemNum}>{i + 1}.</Text>
-              <Text style={s.previewItemTitle}>{q.question_title || 'Untitled'}</Text>
+              <LatexText
+                content={q.question_title || 'Untitled'}
+                style={s.previewItemTitle}
+                compact
+                compactHeight={36}
+                numberOfLines={1}
+                background="transparent"
+              />
             </View>
           ))
         )}
@@ -817,7 +843,11 @@ export default function QuizEditorModal({
                 </View>
               )}
 
-              <Text style={s.pvQuestionTitle}>{previewQuestion?.question_title || 'Untitled Question'}</Text>
+              <LatexText
+                content={previewQuestion?.question_title || 'Untitled Question'}
+                style={s.pvQuestionTitle}
+                background="transparent"
+              />
 
               <View style={s.pvBadgeRow}>
                 {previewQuestion?.class_level ? (

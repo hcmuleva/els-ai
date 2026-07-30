@@ -302,6 +302,7 @@ type SubjectRow = {
   is_external_author: boolean;
   created_at: string;
   updated_at: string;
+  class_id?: string | null;
   author_first_name: string | null;
   author_last_name: string | null;
   author_mobile_number: string | null;
@@ -320,6 +321,7 @@ function mapSubjectRow(row: SubjectRow) {
     iconBgColor: row.icon_bg_color || undefined,
     title: row.title,
     description: row.description || undefined,
+    class_id: row.class_id || row.class_level,
     classLevel: row.class_level,
     isExternalAuthor: row.is_external_author,
     author: authorDisplayName,

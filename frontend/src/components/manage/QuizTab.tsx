@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import LatexText from '../common/LatexText';
 import {
   ActivityIndicator,
   Modal,
@@ -886,7 +887,7 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
                     {selectedQuestions.map((q) => (
                       <View key={q.id} style={s.qItemRow}>
                         <View style={s.qItemMain}>
-                          <Text style={s.qItemTitle}>{q.question_title || 'Untitled Question'}</Text>
+                          <LatexText content={q.question_title || 'Untitled Question'} style={s.qItemTitle} compact compactHeight={38} numberOfLines={2} background="transparent" />
                           <View style={s.qItemMetaRow}>
                             {q.class_level && (
                               <Text style={[s.qItemMetaTag, s.qItemClassTag]}>{getStandardLabel(q.class_level)}</Text>
@@ -925,7 +926,7 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
                             </View>
                           </Pressable>
                           <View style={s.qItemMain}>
-                            <Text style={s.qItemTitle}>{q.question_title || 'Untitled Question'}</Text>
+                            <LatexText content={q.question_title || 'Untitled Question'} style={s.qItemTitle} compact compactHeight={38} numberOfLines={2} background="transparent" />
                             <View style={s.qItemMetaRow}>
                               {q.class_level && (
                                 <Text style={[s.qItemMetaTag, s.qItemClassTag]}>{getStandardLabel(q.class_level)}</Text>
@@ -1095,7 +1096,7 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
                 </View>
               )}
 
-              <Text style={s.pvQuestionTitle}>{previewQuestion?.question_title || 'Untitled Question'}</Text>
+              <LatexText content={previewQuestion?.question_title || 'Untitled Question'} style={s.pvQuestionTitle} background="transparent" />
 
               <View style={s.pvBadgeRow}>
                 {previewQuestion?.class_level ? (
@@ -1129,7 +1130,7 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
               {previewQuestion?.question_instruction ? (
                 <View style={s.pvInstructionBox}>
                   <Text style={s.pvInstructionLabel}>Instruction</Text>
-                  <Text style={s.pvInstructionText}>{previewQuestion.question_instruction}</Text>
+                  <LatexText content={previewQuestion.question_instruction} style={s.pvInstructionText} background="transparent" />
                 </View>
               ) : null}
 

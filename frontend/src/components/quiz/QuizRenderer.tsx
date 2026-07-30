@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import LatexText from '../common/LatexText';
 import {
   Modal,
   Pressable,
@@ -645,11 +646,17 @@ export default function QuizRenderer({ quizId, visible, onClose, onCompleted }: 
                         {currentTheme.emoji}  {currentTheme.label}
                       </Text>
                     </View>
-                    <Text style={styles.questionTitle}>{currentQuestion?.question_title}</Text>
+                    <LatexText
+                      content={currentQuestion?.question_title || ''}
+                      style={styles.questionTitle}
+                      background="transparent"
+                    />
                     {currentQuestion?.question_instruction ? (
-                      <Text style={styles.questionInstruction}>
-                        {currentQuestion.question_instruction}
-                      </Text>
+                      <LatexText
+                        content={currentQuestion.question_instruction}
+                        style={styles.questionInstruction}
+                        background="transparent"
+                      />
                     ) : null}
                   </View>
                 </Animated.View>

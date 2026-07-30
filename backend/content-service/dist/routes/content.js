@@ -6,7 +6,9 @@ import { getSignedMediaUrlIfNeeded, toPersistentMediaUrl } from '../services/s3.
 export const contentRouter = Router();
 const contentTypeSchema = z.enum(['reel', 'image', 'text', 'audio', 'youtube_url', 'reel_url']);
 const listSubjectCatalogQuerySchema = z.object({
+    class_id: z.string().trim().optional(),
     class_level: z.string().trim().optional(),
+    subject_id: z.string().trim().optional(),
 });
 const contentSectionSchema = z
     .object({
@@ -114,21 +116,22 @@ contentRouter.get('/subjects', requireAuth, async (req, res) => {
     if (!orgId) {
         return res.status(400).json({ message: 'Organization not found in auth context' });
     }
-    const { class_level } = parsedQuery.data;
+    const targetClass = (parsedQuery.data.class_id || parsedQuery.data.class_level || '').trim();
     const params = [orgId];
     const whereClauses = ['organization_id = $1::uuid'];
-    if (class_level) {
-        params.push(class_level);
-        whereClauses.push(`(class_level = $${params.length} OR class_level = 'ANY')`);
+    if (targetClass) {
+        params.push(targetClass);
+        whereClauses.push(`(class_id::text = $${params.length} OR class_level = $${params.length} OR class_level = 'ANY')`);
     }
     try {
-        const result = await db.query(`SELECT id, title, class_level, cover_image, icon_image, icon_bg_color
+        const result = await db.query(`SELECT id, title, class_level, class_id, cover_image, icon_image, icon_bg_color
        FROM subjects
        WHERE ${whereClauses.join(' AND ')}
        ORDER BY class_level ASC, title ASC`, params);
         const rows = await Promise.all(result.rows.map(async (row) => ({
             id: row.id,
             title: row.title,
+            class_id: row.class_id || row.class_level,
             classLevel: row.class_level,
             coverImage: row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image) : undefined,
             iconImage: row.icon_image ? await getSignedMediaUrlIfNeeded(row.icon_image) : undefined,

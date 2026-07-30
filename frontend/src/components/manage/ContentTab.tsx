@@ -1366,8 +1366,14 @@ export default function ContentTab({
   // Debounce the search box into an applied (server-side) search term.
   const [appliedSearch, setAppliedSearch] = useState('');
   useEffect(() => {
-    const t = setTimeout(() => setAppliedSearch(searchQuery.trim()), 350);
-    return () => clearTimeout(t);
+    let active = true;
+    const t = setTimeout(() => {
+      if (active) setAppliedSearch(searchQuery.trim());
+    }, 350);
+    return () => {
+      active = false;
+      clearTimeout(t);
+    };
   }, [searchQuery]);
 
   const pageSize = 10;

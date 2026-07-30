@@ -9,7 +9,9 @@ export const contentRouter = Router();
 const contentTypeSchema = z.enum(['reel', 'image', 'text', 'audio', 'youtube_url', 'reel_url']);
 
 const listSubjectCatalogQuerySchema = z.object({
+  class_id: z.string().trim().optional(),
   class_level: z.string().trim().optional(),
+  subject_id: z.string().trim().optional(),
 });
 
 const contentSectionSchema = z
@@ -139,17 +141,17 @@ contentRouter.get('/subjects', requireAuth, async (req: any, res) => {
     return res.status(400).json({ message: 'Organization not found in auth context' });
   }
 
-  const { class_level } = parsedQuery.data;
+  const targetClass = (parsedQuery.data.class_id || parsedQuery.data.class_level || '').trim();
   const params: unknown[] = [orgId];
   const whereClauses: string[] = ['organization_id = $1::uuid'];
-  if (class_level) {
-    params.push(class_level);
-    whereClauses.push(`(class_level = $${params.length} OR class_level = 'ANY')`);
+  if (targetClass) {
+    params.push(targetClass);
+    whereClauses.push(`(class_id::text = $${params.length} OR class_level = $${params.length} OR class_level = 'ANY')`);
   }
 
   try {
     const result = await db.query(
-      `SELECT id, title, class_level, cover_image, icon_image, icon_bg_color
+      `SELECT id, title, class_level, class_id, cover_image, icon_image, icon_bg_color
        FROM subjects
        WHERE ${whereClauses.join(' AND ')}
        ORDER BY class_level ASC, title ASC`,
@@ -159,6 +161,7 @@ contentRouter.get('/subjects', requireAuth, async (req: any, res) => {
       result.rows.map(async (row) => ({
         id: row.id as string,
         title: row.title as string,
+        class_id: (row.class_id as string | null) || (row.class_level as string),
         classLevel: row.class_level as string,
         coverImage: row.cover_image ? await getSignedMediaUrlIfNeeded(row.cover_image as string) : undefined,
         iconImage: row.icon_image ? await getSignedMediaUrlIfNeeded(row.icon_image as string) : undefined,

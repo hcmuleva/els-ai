@@ -8,7 +8,10 @@ export const quizzesRouter = Router();
 const createQuizSchema = z.object({
     title: z.string().min(1),
     description: z.string().optional(),
+    class_id: z.string().optional(),
+    class_level: z.string().optional(),
     classLevel: z.string().optional(),
+    subject_id: z.string().optional(),
     subject: z.string().optional(),
     quizType: z.enum([
         'drag_drop',
@@ -58,6 +61,12 @@ const recordAttemptSchema = z.object({
         responseData: z.any().optional(),
         timeSpentSeconds: z.number().optional(),
     })),
+});
+const listQuizQuerySchema = z.object({
+    class_id: z.string().trim().optional(),
+    class_level: z.string().trim().optional(),
+    subject_id: z.string().trim().optional(),
+    subject: z.string().trim().optional(),
 });
 const teacherLibraryQuerySchema = z.object({
     search: z.string().trim().optional(),
@@ -239,7 +248,7 @@ quizzesRouter.post('/uploads/media', requireAuth, async (req, res) => {
     }
 });
 quizzesRouter.get('/', requireAuth, async (req, res) => {
-    const { class_level, subject } = req.query;
+    const { class_id, class_level, subject } = req.query;
     const orgId = getOrganizationId(req);
     if (!orgId) {
         return res.status(400).json({ message: 'Organization not found in auth context' });
@@ -252,9 +261,10 @@ quizzesRouter.get('/', requireAuth, async (req, res) => {
       WHERE (q.organization_id = $1::uuid OR q.is_global = true) AND q.is_published = true
     `;
         const params = [orgId];
-        if (class_level) {
-            params.push(class_level);
-            queryStr += ` AND (q.class_level = $${params.length} OR q.class_level = 'ANY')`;
+        const targetClass = String(class_id || class_level || '').trim();
+        if (targetClass) {
+            params.push(targetClass);
+            queryStr += ` AND (q.class_id::text = $${params.length} OR q.class_level = $${params.length} OR q.class_level = 'ANY')`;
         }
         if (subject) {
             params.push(subject);
@@ -641,8 +651,9 @@ quizzesRouter.post('/', requireAuth, async (req, res) => {
     if (!parsed.success) {
         return res.status(400).json({ message: 'Invalid payload', errors: parsed.error.issues });
     }
-    const { title, description, classLevel, subject, quizType, difficultyLevel, backgroundMusicUrl, theme, isPublished, isAiGenerated, isGlobal } = parsed.data;
+    const { title, description, class_id, class_level, classLevel, subject_id, subject, quizType, difficultyLevel, backgroundMusicUrl, theme, isPublished, isAiGenerated, isGlobal } = parsed.data;
     const normalizedQuizType = quizType === 'jigsaw_puzzle' ? 'jigsaw' : quizType;
+    const targetClass = (class_id || class_level || classLevel || '').trim();
     const orgId = getOrganizationId(req);
     const userId = req.user.userId;
     if (!orgId) {
@@ -652,16 +663,17 @@ quizzesRouter.post('/', requireAuth, async (req, res) => {
         return res.status(403).json({ message: 'Forbidden: global publish permission required' });
     }
     try {
-        const result = await db.query(`INSERT INTO quizzes (organization_id, title, description, class_level, subject_id, quiz_type, difficulty_level, background_music_url, theme, is_published, is_ai_generated, created_by, is_global)
+        const result = await db.query(`INSERT INTO quizzes (organization_id, title, description, class_level, class_id, subject_id, quiz_type, difficulty_level, background_music_url, theme, is_published, is_ai_generated, created_by, is_global)
        VALUES (
          $1::uuid, $2, $3, $4::varchar,
-         (SELECT s.id FROM subjects s
-            WHERE s.class_level = $4::varchar AND LOWER(s.title) = LOWER($5::varchar)
-              AND (s.organization_id = $1::uuid OR $13::boolean = true)
+         (SELECT id FROM class_levels WHERE id::text = $4 OR code = $4 LIMIT 1),
+         COALESCE($5::uuid, (SELECT s.id FROM subjects s
+            WHERE (s.class_level = $4::varchar OR s.class_id::text = $4) AND LOWER(s.title) = LOWER($6::varchar)
+              AND (s.organization_id = $1::uuid OR $14::boolean = true)
             ORDER BY (s.organization_id = $1::uuid) DESC, s.updated_at DESC NULLS LAST
-            LIMIT 1),
-         $6, $7, $8, $9, $10, $11, $12, $13)
-       RETURNING *, (SELECT title FROM subjects WHERE id = quizzes.subject_id) AS subject`, [orgId, title, description || null, classLevel || null, subject || null, normalizedQuizType, difficultyLevel || null, backgroundMusicUrl || null, theme, isPublished, isAiGenerated, userId, isGlobal]);
+            LIMIT 1)),
+         $7, $8, $9, $10, $11, $12, $13, $14)
+       RETURNING *, (SELECT title FROM subjects WHERE id = quizzes.subject_id) AS subject`, [orgId, title, description || null, targetClass || null, subject_id || null, subject || null, normalizedQuizType, difficultyLevel || null, backgroundMusicUrl || null, theme, isPublished, isAiGenerated, userId, isGlobal]);
         return res.status(201).json(result.rows[0]);
     }
     catch (error) {
