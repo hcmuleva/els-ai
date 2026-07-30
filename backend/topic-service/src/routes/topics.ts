@@ -956,8 +956,9 @@ catalogRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
         const classUuid = (row.class_id as string | null) || (row.resolved_class_id as string | null);
         return {
           id: row.id as string,
-          classId: classUuid || null,
-          class_id: classUuid || (row.class_level as string),
+          subject_id: row.id as string,
+          classId: classUuid,
+          class_id: classUuid,
           classLevel: row.class_level as string,
           // back-compat: existing planner/quiz callers read `class_level` and `subject`
           class_level: row.class_level as string,

@@ -247,14 +247,18 @@ function mapSubjectRow(row) {
     const hasInternalAuthor = !row.is_external_author && !!row.author_user_id;
     const internalAuthorName = [row.author_first_name || '', row.author_last_name || ''].join(' ').trim();
     const authorDisplayName = hasInternalAuthor ? internalAuthorName || undefined : row.author || undefined;
+    const classUuid = row.class_id || row.resolved_class_id || null;
     return {
         id: row.id,
+        subject_id: row.id,
         coverImage: row.cover_image || undefined,
         iconImage: row.icon_image || undefined,
         iconBgColor: row.icon_bg_color || undefined,
         title: row.title,
         description: row.description || undefined,
-        class_id: row.class_id || row.class_level,
+        class_id: classUuid,
+        classId: classUuid || undefined,
+        class_level: row.class_level,
         classLevel: row.class_level,
         isExternalAuthor: row.is_external_author,
         author: authorDisplayName,
@@ -1174,6 +1178,8 @@ usersRouter.get('/subjects', requireAuth, async (req, res) => {
          s.description,
          s.author,
          s.class_level,
+         s.class_id,
+         cl.id AS resolved_class_id,
          s.author_user_id,
          s.is_external_author,
          s.created_at,
@@ -1183,6 +1189,7 @@ usersRouter.get('/subjects', requireAuth, async (req, res) => {
          au.mobile_number AS author_mobile_number,
          au.profile_image AS author_profile_image
        FROM subjects s
+       LEFT JOIN class_levels cl ON (cl.id = s.class_id OR cl.code = s.class_level)
        LEFT JOIN users au ON au.id = s.author_user_id
        WHERE ${whereClauses.join(' AND ')}
        ORDER BY s.class_level ASC, s.title ASC

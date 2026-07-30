@@ -154,20 +154,21 @@ export function QuestionDumpTab({ apiFetch, subjectCatalog }: QuestionDumpTabPro
         if (c) classSet.add(c);
       });
 
-      const subjectsByClass: Record<string, Array<{ subject_id?: string; title: string }>> = {};
+      const subjectsByClass: Record<string, Array<{ subject_id?: string; title: string; class_id?: string; class_level?: string }>> = {};
       const allSubjectsList: Array<{ subject_id?: string; title: string; class_id: string; class_level: string }> = [];
 
-      fetchedSubjects.forEach((s) => {
+      fetchedSubjects.forEach((s: any) => {
         const cLevel = (s.class_level || s.classLevel || '').trim() || 'General';
-        const classId = (s.class_id || cLevel).trim();
+        const classUuid = (s.classId || s.class_id || '').trim();
+        const classId = classUuid && classUuid !== cLevel ? classUuid : undefined;
         const subjTitle = (s.title || '').trim();
-        const subjId = s.id || undefined;
+        const subjId = s.id || s.subject_id || undefined;
         if (subjTitle) {
           if (!subjectsByClass[cLevel]) subjectsByClass[cLevel] = [];
           if (!subjectsByClass[cLevel].some((existing) => existing.title === subjTitle)) {
-            subjectsByClass[cLevel].push({ subject_id: subjId, title: subjTitle });
+            subjectsByClass[cLevel].push({ subject_id: subjId, title: subjTitle, class_id: classId, class_level: cLevel });
           }
-          allSubjectsList.push({ subject_id: subjId, title: subjTitle, class_id: classId, class_level: cLevel });
+          allSubjectsList.push({ subject_id: subjId, title: subjTitle, class_id: classId || '', class_level: cLevel });
         }
       });
 
