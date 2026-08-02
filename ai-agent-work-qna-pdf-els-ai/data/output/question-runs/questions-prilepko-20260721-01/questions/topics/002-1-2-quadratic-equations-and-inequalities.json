@@ -1,0 +1,511 @@
+{
+  "key": "1.2",
+  "topic": "1.2 Quadratic Equations and Inequalities",
+  "questions": [
+    {
+      "question": {
+        "id": "28f68da0-5e06-5e4e-a008-29541146eac9",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For what values of \\(a\\) does the quadratic equation \\(x^2-2(a+1)x+a^2+3=0\\) have both roots greater than \\(1\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Putting \\(x=y+1\\) gives \\(y^2-2ay+(a-1)^2+1=0\\). Its discriminant is \\(8(a-1)\\), while the sum and product of the roots are positive for \\(a\\ge1\\). Hence both roots \\(y\\), and therefore both roots \\(x\\), are positive relative to \\(1\\) exactly when \\(a\\ge1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 6,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.2 Quadratic Equations and Inequalities",
+            "concept_ids": [
+              "concept_78fabb746d",
+              "concept_f591c9246c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              13,
+              14,
+              15,
+              16,
+              17,
+              143,
+              144,
+              145,
+              148
+            ],
+            "source_chunk_ids": [
+              "chunk_032bae92e1",
+              "chunk_ac4851ba58"
+            ]
+          },
+          "options": [
+            {
+              "id": "a_ge_1_1",
+              "label": "\\(a\\ge 1\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "After \\(x=y+1\\), the roots \\(y\\) are real and positive exactly when \\(a\\ge1\\)."
+            },
+            {
+              "id": "a_1_2",
+              "label": "\\(a>1\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The repeated-root case \\(a=1\\) is also valid."
+            },
+            {
+              "id": "a_le1_3",
+              "label": "\\(a\\le1\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "For \\(a<1\\), the transformed quadratic has no real roots."
+            },
+            {
+              "id": "a_ge2_4",
+              "label": "\\(a\\ge2\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Values in \\(1\\le a<2\\) also satisfy the condition."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "ef43f914-a6e6-59cb-bbe6-ab30f6e4a68d",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve the inequality \\(\\frac{x^2-5x+6}{x^2-1}\\le0\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Factor the expression as \\(\\frac{(x-2)(x-3)}{(x-1)(x+1)}\\). The sign chart at \\(-1,1,2,3\\) shows nonpositive values on \\((-1,1)\\) and \\([2,3]\\). The points \\(-1\\) and \\(1\\) are excluded because the denominator vanishes.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 7,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.2 Quadratic Equations and Inequalities",
+            "concept_ids": [
+              "concept_78fabb746d",
+              "concept_f591c9246c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              13,
+              14,
+              15,
+              16,
+              17,
+              143,
+              144,
+              145,
+              148
+            ],
+            "source_chunk_ids": [
+              "chunk_032bae92e1",
+              "chunk_ac4851ba58"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_1_cup_2_3_1",
+              "label": "\\((-1,1)\\cup[2,3]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "A sign analysis using the critical points \\(-1,1,2,3\\) gives this set."
+            },
+            {
+              "id": "1_1_cup_2_3_2",
+              "label": "\\([-1,1]\\cup[2,3]\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The denominator is zero at \\(x=-1\\) and \\(x=1\\)."
+            },
+            {
+              "id": "1_1_cup_2_3_3",
+              "label": "\\((-1,1)\\cup(2,3)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The zeros \\(x=2\\) and \\(x=3\\) are included."
+            },
+            {
+              "id": "infty_1_cup_1_2_cup_3_in_4",
+              "label": "\\((-\\infty,-1)\\cup[1,2]\\cup(3,\\infty)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These are the intervals where the rational expression is positive."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "682842e7-c1c3-5615-902d-0fc0b69cb7ba",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For how many real values of \\(\\lambda\\) does the equation \\(\\left|x^2-4x+3\\right|=\\lambda\\) have exactly three distinct real solutions?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(t=x-2\\). Then \\(\\left|t^2-1\\right|=\\lambda\\). For \\(\\lambda=1\\), the equations \\(t^2-1=1\\) and \\(t^2-1=-1\\) give two and one distinct solutions, respectively. For \\(0<\\lambda<1\\) there are four solutions, while for \\(\\lambda>1\\) there are two. Thus exactly one real value of \\(\\lambda\\) works.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 8,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.2 Quadratic Equations and Inequalities",
+            "concept_ids": [
+              "concept_78fabb746d",
+              "concept_f591c9246c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              13,
+              14,
+              15,
+              16,
+              17,
+              143,
+              144,
+              145,
+              148
+            ],
+            "source_chunk_ids": [
+              "chunk_032bae92e1",
+              "chunk_ac4851ba58"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_1",
+              "label": "\\(1\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Only \\(\\lambda=1\\) produces one solution from one branch and two from the other."
+            },
+            {
+              "id": "0_2",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "At \\(\\lambda=0\\), there are two distinct solutions."
+            },
+            {
+              "id": "Infinitely_many_3",
+              "label": "Infinitely many",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "For \\(0<\\lambda<1\\), there are four solutions, not three."
+            },
+            {
+              "id": "2_4",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "No two distinct nonnegative values of \\(\\lambda\\) yield three solutions."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "f154ce0f-a35c-5e3d-a557-e2f29c53af22",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For which values of \\(a\\) does the quadratic equation \\(x^2-2(a+1)x+a^2+3a=0\\) have two real and positive roots?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The discriminant condition gives \\(4(1-a)\\geq 0\\), so \\(a\\leq 1\\). For positive roots, the sum requires \\(2(a+1)>0\\), and the product requires \\(a(a+3)>0\\). Combining these gives \\(0<a\\leq 1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 9,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.2 Quadratic Equations and Inequalities",
+            "concept_ids": [
+              "concept_78fabb746d",
+              "concept_f591c9246c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              13,
+              14,
+              15,
+              16,
+              17,
+              143,
+              144,
+              145,
+              148
+            ],
+            "source_chunk_ids": [
+              "chunk_032bae92e1",
+              "chunk_ac4851ba58"
+            ]
+          },
+          "options": [
+            {
+              "id": "a_leq_3_1",
+              "label": "\\(a\\leq -3\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This violates the positive-sum condition."
+            },
+            {
+              "id": "1_a_leq_0_2",
+              "label": "\\(-1<a\\leq 0\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The product of roots is nonpositive."
+            },
+            {
+              "id": "0_a_leq_1_3",
+              "label": "\\(0<a\\leq 1\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Discriminant, sum, and product conditions are all satisfied."
+            },
+            {
+              "id": "a_1_4",
+              "label": "\\(a>1\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The discriminant becomes negative."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "e22deb90-4d37-56ab-9e09-7fb9c33b1c77",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(a\\in\\mathbb R\\). The set of real solutions of \\(x^2-2(a+1)x+a^2-1\\le 0\\) is entirely contained in \\([0,4]\\). Then \\(a\\) belongs to",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The roots are \\(x=a+1\\pm\\sqrt{2}\\). Since the leading coefficient is positive, the solution set is the interval \\([a+1-\\sqrt{2},a+1+\\sqrt{2}]\\). For this interval to lie in \\([0,4]\\), \\(a+1-\\sqrt{2}\\ge0\\) and \\(a+1+\\sqrt{2}\\le4\\), giving \\(\\sqrt{2}-1\\le a\\le3-\\sqrt{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 10,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.2 Quadratic Equations and Inequalities",
+            "concept_ids": [
+              "concept_78fabb746d",
+              "concept_f591c9246c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              13,
+              14,
+              15,
+              16,
+              17,
+              143,
+              144,
+              145,
+              148
+            ],
+            "source_chunk_ids": [
+              "chunk_032bae92e1",
+              "chunk_ac4851ba58"
+            ]
+          },
+          "options": [
+            {
+              "id": "sqrt_2_1_3_sqrt_2_1",
+              "label": "\\([\\sqrt{2}-1,\\,3-\\sqrt{2}]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The roots are \\(a+1\\pm\\sqrt{2}\\), so containment requires \\(a+1-\\sqrt{2}\\ge 0\\) and \\(a+1+\\sqrt{2}\\le 4\\)."
+            },
+            {
+              "id": "1_sqrt_2_3_sqrt_2_2",
+              "label": "\\([1-\\sqrt{2},\\,3+\\sqrt{2}]\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These bounds do not ensure both roots lie in \\([0,4]\\)."
+            },
+            {
+              "id": "sqrt_2_1_3_sqrt_2_3",
+              "label": "\\([\\sqrt{2}-1,\\,3+\\sqrt{2}]\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The upper bound is too large because the greater root may exceed \\(4\\)."
+            },
+            {
+              "id": "1_sqrt_2_3_sqrt_2_4",
+              "label": "\\([1+\\sqrt{2},\\,3-\\sqrt{2}]\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The lower bound is unnecessarily restrictive."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_032bae92e1",
+    "chunk_ac4851ba58"
+  ],
+  "source_pages": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    143,
+    144,
+    145,
+    148
+  ],
+  "rejected": [
+    {
+      "attempt": 1,
+      "stem": "Let the roots of \\(x^2-2ax+a+2=0\\) be real and both lie in the interval \\((1,4)\\). The range of \\(a\\) is",
+      "issues": [
+        "unbalanced ')'"
+      ]
+    },
+    {
+      "attempt": 1,
+      "stem": "For which real values of \\(a\\) does the inequality \\(x^2-2ax+a+2\\le0\\) have at least one solution in the interval \\([1,3]\\)?",
+      "issues": [
+        "unbalanced ')'"
+      ]
+    },
+    {
+      "attempt": 2,
+      "stem": "Solve the inequality \\(\\frac{x^2-5x+6}{x^2-1}\\geq 0\\).",
+      "issues": [
+        "unbalanced ']'"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,462 @@
+{
+  "passed": true,
+  "integrity_score": 88.93,
+  "books": [
+    {
+      "book_id": "book_f2847eeae3",
+      "filename": "prilepko-problem-book-in-high-school-mathematics-pdf-free.pdf",
+      "integrity_score": 88.93,
+      "passed": true,
+      "issues": [
+        {
+          "type": "ocr_corruption",
+          "severity": "critical",
+          "count": 10,
+          "items": [
+            11,
+            139,
+            145,
+            148,
+            149,
+            171,
+            190,
+            199,
+            215,
+            218
+          ]
+        },
+        {
+          "type": "formula_corruption",
+          "severity": "warning",
+          "count": 543,
+          "items": [
+            ")-e",
+            ")-4",
+            "y= =（m²—4)x+1m 1，x E（—oo;oo)has an inverse.",
+            "y=-(lx+101+|x-101）;(b)y=",
+            "y= =V-x²；（b）y=x-V1-x²；（c)y=Vx²-4x+3；",
+            "y=x²；(b)y=（x-2)²；",
+            "y=-0.5（x+1)²；(d)y=2-0.5（x+1）².",
+            "y =ax²+｜al;（j) y=(a-1)x²-ax.",
+            "y=2x-x²，x。=1.5;（e)y=3x+4x²，x=",
+            "y=x²+4x+8,M（-2；4).",
+            "y=x²—6x+k;（b)cuts",
+            "y=x|2-x｜;(b)y=（x-5)|x-1|;",
+            "y=-（x-2)1x-2｜.",
+            "y=x²-3x+1；（b)y=-x²-",
+            "y=（x-2) 1x+1 ｜.",
+            "x=-d/c（x；2)",
+            "y=（x-3)/（x+1）on theinterval[0;2];",
+            ")-y",
+            "4+(",
+            ")²7",
+            ")+6",
+            ")-4",
+            "x²(",
+            ")+3",
+            ")/Q",
+            "y=(3-x)（x-x²);（g）y=（x²+x+2)（x²+2x+3);",
+            "y=（x—x3.5x²-2)8.",
+            "y=(x²—3x+3)(x²+",
+            "y=（x²-1)(x²-4)(x²9)，xo=-2;",
+            "x=0；（i）y=x（x-1)（x-2).",
+            "y=x²（x-2)²atwhich the",
+            "y=x+8x²-64x+1;(b）y=3x+16x²+6x²-",
+            "y=（x+3)²（x-4)²；",
+            "y=x²-3x²+4.52.y=-x（x²-4)-3.",
+            "y=（x-1)²（x+1)².56.y=x+1/x.",
+            "x+(",
+            "x+(",
+            ")²x",
+            "x+(",
+            "y²(",
+            ")+x",
+            "y²(",
+            ")+x",
+            "y/(",
+            "z/(",
+            "y=V1-x²;（g）y=(1-2x1/2）;",
+            "functiony= =（x+1)Vxat the point where the slope is equal to 2；",
+            "y=（x-1)Vx;(f)y=（x+2)Vx-1.",
+            "y=V5-2x;(b）y=V2x-x²;",
+            "y= =xV2-x²；(b）y=Vx²-xandconstruct its",
+            ")-0",
+            ")-0",
+            ")-0",
+            ")/x",
+            "4/(",
+            ")-1",
+            ")+l",
+            ")+2",
+            ")+l",
+            ")-1",
+            ")+l",
+            ")-2",
+            "g²(",
+            ")+l",
+            ")-l",
+            ")+l",
+            "x+(",
+            "g²(",
+            ")+l",
+            ")+1",
+            "x²(",
+            ")+4",
+            ")-4",
+            ")+l",
+            ")-l",
+            ")-2",
+            ")/2",
+            "x/(",
+            ")+l",
+            ")+l",
+            ")+l",
+            ")-l",
+            ")+l",
+            ")+l",
+            "1-(",
+            ")-3",
+            ")+l",
+            "y=（e*—e-x)/2.",
+            "y=2e*-e-;（f)y=3+4²;（g)y=x·10x;",
+            "y=xe*；(i)y=x/e*；(i）y=V2x;",
+            "y=e（x²+5x+7）；（d)y=xex-x²；",
+            "2/(",
+            "n²(",
+            "s²(",
+            ")+c",
+            "s²(",
+            ")-c",
+            ")+t",
+            ")+t",
+            "y = cos (1-"
+          ]
+        },
+        {
+          "type": "missing_figure_captions",
+          "severity": "warning",
+          "count": 68,
+          "items": [
+            "Figure",
+            "figure ",
+            "figure",
+            "figure",
+            "figure ",
+            "figure ",
+            "figure ",
+            "figure\n",
+            "figure ",
+            "figure\n",
+            "figure ",
+            "figure ",
+            "figure ",
+            "figure\n",
+            "figure ",
+            "figure ",
+            "figure ",
+            "Fig.23",
+            "figure ",
+            "figure ",
+            "Figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure ",
+            "figure",
+            "figure",
+            "figure ",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "fig-\n",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure",
+            "figure ",
+            "figure. ",
+            "figure",
+            "figure ",
+            "figure ",
+            "figure",
+            "figure ",
+            "figure",
+            "figure."
+          ]
+        },
+        {
+          "type": "broken_numbering",
+          "severity": "warning",
+          "count": 57,
+          "items": [
+            {
+              "after": 9,
+              "before": 11
+            },
+            {
+              "after": 11,
+              "before": 13
+            },
+            {
+              "after": 15,
+              "before": 33
+            },
+            {
+              "after": 34,
+              "before": 55
+            },
+            {
+              "after": 41,
+              "before": 60
+            },
+            {
+              "after": 60,
+              "before": 62
+            },
+            {
+              "after": 2,
+              "before": 4
+            },
+            {
+              "after": 6,
+              "before": 14
+            },
+            {
+              "after": 15,
+              "before": 17
+            },
+            {
+              "after": 17,
+              "before": 29
+            },
+            {
+              "after": 30,
+              "before": 59
+            },
+            {
+              "after": 6,
+              "before": 12
+            },
+            {
+              "after": 9,
+              "before": 14
+            },
+            {
+              "after": 14,
+              "before": 18
+            },
+            {
+              "after": 18,
+              "before": 25
+            },
+            {
+              "after": 2,
+              "before": 18
+            },
+            {
+              "after": 18,
+              "before": 21
+            },
+            {
+              "after": 21,
+              "before": 25
+            },
+            {
+              "after": 25,
+              "before": 27
+            },
+            {
+              "after": 28,
+              "before": 34
+            },
+            {
+              "after": 38,
+              "before": 47
+            },
+            {
+              "after": 47,
+              "before": 54
+            },
+            {
+              "after": 54,
+              "before": 56
+            },
+            {
+              "after": 56,
+              "before": 65
+            },
+            {
+              "after": 65,
+              "before": 67
+            },
+            {
+              "after": 67,
+              "before": 81
+            },
+            {
+              "after": 81,
+              "before": 83
+            },
+            {
+              "after": 3,
+              "before": 10
+            },
+            {
+              "after": 10,
+              "before": 12
+            },
+            {
+              "after": 12,
+              "before": 14
+            },
+            {
+              "after": 2,
+              "before": 5
+            },
+            {
+              "after": 5,
+              "before": 7
+            },
+            {
+              "after": 7,
+              "before": 14
+            },
+            {
+              "after": 14,
+              "before": 22
+            },
+            {
+              "after": 22,
+              "before": 24
+            },
+            {
+              "after": 1,
+              "before": 3
+            },
+            {
+              "after": 3,
+              "before": 21
+            },
+            {
+              "after": 22,
+              "before": 27
+            },
+            {
+              "after": 27,
+              "before": 60
+            },
+            {
+              "after": 2,
+              "before": 12
+            },
+            {
+              "after": 13,
+              "before": 29
+            },
+            {
+              "after": 29,
+              "before": 34
+            },
+            {
+              "after": 11,
+              "before": 17
+            },
+            {
+              "after": 3,
+              "before": 13
+            },
+            {
+              "after": 13,
+              "before": 32
+            },
+            {
+              "after": 1,
+              "before": 18
+            },
+            {
+              "after": 18,
+              "before": 21
+            },
+            {
+              "after": 2,
+              "before": 33
+            },
+            {
+              "after": 33,
+              "before": 39
+            },
+            {
+              "after": 1,
+              "before": 48
+            },
+            {
+              "after": 12,
+              "before": 23
+            },
+            {
+              "after": 1,
+              "before": 14
+            },
+            {
+              "after": 14,
+              "before": 67
+            },
+            {
+              "after": 14,
+              "before": 22
+            },
+            {
+              "after": 24,
+              "before": 37
+            },
+            {
+              "after": 7,
+              "before": 16
+            },
+            {
+              "after": 1,
+              "before": 14
+            }
+          ]
+        }
+      ],
+      "metrics": {
+        "pages": 280,
+        "empty_pages": 0,
+        "corrupt_pages": 10,
+        "duplicate_pages": 0,
+        "formulae_detected": 6231,
+        "figures_referenced": 68,
+        "numbering_gaps": 57
+      },
+      "limitations": [
+        "OCR text does not preserve equation typography perfectly.",
+        "Figure pixels are not embedded; references are retained for traceability.",
+        "Table cells are retained as reading-order text when layout recovery is unavailable."
+      ]
+    }
+  ]
+}

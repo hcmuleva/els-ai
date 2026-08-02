@@ -1,0 +1,49 @@
+{
+  "passed": false,
+  "target_connectivity": 0.95,
+  "metrics": {
+    "nodes": 7,
+    "edges": 20,
+    "density": 0.476,
+    "connectivity": 0.714,
+    "coverage": 0.714,
+    "components": 3
+  },
+  "orphan_nodes": [
+    "concept_8f8d494e5c",
+    "concept_f7640a769f"
+  ],
+  "duplicate_concepts": [],
+  "circular_prerequisites": [],
+  "weak_relationships": [
+    {
+      "source": "concept_85510205dd",
+      "target": "concept_459bb3a928",
+      "relation": "related"
+    },
+    {
+      "source": "concept_215230e660",
+      "target": "concept_459bb3a928",
+      "relation": "related"
+    },
+    {
+      "source": "concept_6149279d7d",
+      "target": "concept_459bb3a928",
+      "relation": "related"
+    },
+    {
+      "source": "concept_d35f79154c",
+      "target": "concept_459bb3a928",
+      "relation": "related"
+    }
+  ],
+  "missing_parents": [],
+  "disconnected_clusters": [
+    [
+      "concept_8f8d494e5c"
+    ],
+    [
+      "concept_f7640a769f"
+    ]
+  ]
+}

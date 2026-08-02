@@ -1,0 +1,1000 @@
+{
+  "key": "7.3",
+  "topic": "7.3 Problems on Calculation",
+  "questions": [
+    {
+      "question": {
+        "id": "24ec967c-89ae-5874-a512-ad808740d275",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "In a triangle \\(ABC\\), \\(AB=13\\text{ cm}\\), \\(BC=14\\text{ cm}\\), and \\(AC=15\\text{ cm}\\). What is the cosine of its largest interior angle?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The largest angle is \\(\\angle B\\), opposite \\(AC=15\\text{ cm}\\). Thus, \\(\\cos B=\\frac{13^2+14^2-15^2}{2\\cdot13\\cdot14}=\\frac{5}{13}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 126,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.3 Problems on Calculation",
+            "concept_ids": [
+              "concept_52319e8fbb",
+              "concept_d29f22e744"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              109,
+              110,
+              111,
+              112,
+              113,
+              246,
+              247,
+              248,
+              249,
+              250
+            ],
+            "source_chunk_ids": [
+              "chunk_b291c81f10",
+              "chunk_a2c34ed22c"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_5_13_1",
+              "label": "\\(\\frac{5}{13}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The largest angle is opposite \\(AC=15\\text{ cm}\\), so the cosine rule gives \\(\\frac{13^2+14^2-15^2}{2\\cdot13\\cdot14}=\\frac{5}{13}\\)."
+            },
+            {
+              "id": "frac_7_13_2",
+              "label": "\\(\\frac{7}{13}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not result from applying the cosine rule to the largest angle."
+            },
+            {
+              "id": "frac_5_14_3",
+              "label": "\\(\\frac{5}{14}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The denominator in the cosine rule is \\(2\\cdot13\\cdot14\\), not \\(14\\)."
+            },
+            {
+              "id": "frac_13_15_4",
+              "label": "\\(\\frac{13}{15}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not the cosine-rule value for the angle opposite the side of length \\(15\\text{ cm}\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "triangle",
+            "width": 360,
+            "height": 300,
+            "xmin": -1.5,
+            "xmax": 14.5,
+            "ymin": -1.5,
+            "ymax": 14.423076923076923,
+            "title": null,
+            "elements": [
+              {
+                "type": "polygon",
+                "points": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    13.0,
+                    0.0
+                  ],
+                  [
+                    7.615384615384615,
+                    12.923076923076923
+                  ]
+                ],
+                "label": null,
+                "fill": "none",
+                "fill_opacity": 0.25,
+                "stroke": "#333333",
+                "closed": true
+              },
+              {
+                "type": "label",
+                "at": [
+                  0.0,
+                  0.0
+                ],
+                "text": "A",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  13.0,
+                  0.0
+                ],
+                "text": "B",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  7.615384615384615,
+                  12.923076923076923
+                ],
+                "text": "C",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "segment",
+                "a": [
+                  0.0,
+                  0.0
+                ],
+                "b": [
+                  13.0,
+                  0.0
+                ],
+                "label": "13",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  13.0,
+                  0.0
+                ],
+                "b": [
+                  7.615384615384615,
+                  12.923076923076923
+                ],
+                "label": "14",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  7.615384615384615,
+                  12.923076923076923
+                ],
+                "b": [
+                  0.0,
+                  0.0
+                ],
+                "label": "15",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "angle",
+                "vertex": [
+                  13.0,
+                  0.0
+                ],
+                "p1": [
+                  0.0,
+                  0.0
+                ],
+                "p2": [
+                  7.615384615384615,
+                  12.923076923076923
+                ],
+                "label": null,
+                "radius_px": 22.0,
+                "color": "#9467bd"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><polygon points=\"61.38,244.14 298.62,244.14 200.36,55.86\" fill=\"none\" fill-opacity=\"0.25\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"59.38\" y=\"230.14\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">A</text><text x=\"304.62\" y=\"238.14\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">B</text><text x=\"206.36\" y=\"49.86\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">C</text><line x1=\"61.38\" y1=\"244.14\" x2=\"298.62\" y2=\"244.14\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"180\" y=\"264.14\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#333333\">13</text><line x1=\"298.62\" y1=\"244.14\" x2=\"200.36\" y2=\"55.86\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"263.67\" y=\"146.6\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#333333\">14</text><line x1=\"200.36\" y1=\"55.86\" x2=\"61.38\" y2=\"244.14\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"117.99\" y=\"144.5\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#333333\">15</text><path d=\"M 276.62 244.14 A 22 22 0 0 1 288.45 224.64\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "9c0540d4-0127-5682-b98e-bfe240252e45",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Using Heron's formula, find the area of a triangle whose side lengths are \\(13\\text{ cm}\\), \\(14\\text{ cm}\\), and \\(15\\text{ cm}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The semiperimeter is \\(s=\\frac{13+14+15}{2}=21\\text{ cm}\\). Hence, \\(S=\\sqrt{s(s-13)(s-14)(s-15)}=\\sqrt{21\\cdot8\\cdot7\\cdot6}=84\\text{ cm}^2\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 127,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.3 Problems on Calculation",
+            "concept_ids": [
+              "concept_52319e8fbb",
+              "concept_d29f22e744"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              109,
+              110,
+              111,
+              112,
+              113,
+              246,
+              247,
+              248,
+              249,
+              250
+            ],
+            "source_chunk_ids": [
+              "chunk_b291c81f10",
+              "chunk_a2c34ed22c"
+            ]
+          },
+          "options": [
+            {
+              "id": "84_text_cm_2_1",
+              "label": "\\(84\\text{ cm}^2\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The semiperimeter is \\(21\\text{ cm}\\), so the area is \\(\\sqrt{21\\cdot8\\cdot7\\cdot6}=84\\text{ cm}^2\\)."
+            },
+            {
+              "id": "96_text_cm_2_2",
+              "label": "\\(96\\text{ cm}^2\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This results from an incorrect substitution in Heron's formula."
+            },
+            {
+              "id": "72_text_cm_2_3",
+              "label": "\\(72\\text{ cm}^2\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The product under the square root is \\(7056\\), whose square root is \\(84\\)."
+            },
+            {
+              "id": "90_text_cm_2_4",
+              "label": "\\(90\\text{ cm}^2\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The semiperimeter factors do not produce this area."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "7e90845c-37c8-5c75-a299-feaec9c67504",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For the triangle with \\(AB=13\\text{ cm}\\), \\(BC=14\\text{ cm}\\), and \\(AC=15\\text{ cm}\\), \\(BD\\) is perpendicular to \\(AC\\). Find \\(BD\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "From Heron's formula, \\(S=84\\text{ cm}^2\\). Since \\(BD\\perp AC\\), \\(S=\\frac{1}{2}\\cdot AC\\cdot BD=\\frac{1}{2}\\cdot15\\cdot BD\\). Therefore, \\(BD=\\frac{56}{5}\\text{ cm}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 128,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.3 Problems on Calculation",
+            "concept_ids": [
+              "concept_52319e8fbb",
+              "concept_d29f22e744"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              109,
+              110,
+              111,
+              112,
+              113,
+              246,
+              247,
+              248,
+              249,
+              250
+            ],
+            "source_chunk_ids": [
+              "chunk_b291c81f10",
+              "chunk_a2c34ed22c"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_56_5_text_cm_1",
+              "label": "\\(\\frac{56}{5}\\text{ cm}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Since \\(84=\\frac{1}{2}\\cdot15\\cdot BD\\), \\(BD=\\frac{168}{15}=\\frac{56}{5}\\text{ cm}\\)."
+            },
+            {
+              "id": "frac_84_5_text_cm_2",
+              "label": "\\(\\frac{84}{5}\\text{ cm}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factor \\(2\\) from the area formula has been omitted."
+            },
+            {
+              "id": "12_text_cm_3",
+              "label": "\\(12\\text{ cm}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not satisfy \\(S=\\frac{1}{2}\\cdot AC\\cdot BD\\)."
+            },
+            {
+              "id": "frac_15_2_text_cm_4",
+              "label": "\\(\\frac{15}{2}\\text{ cm}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This incorrectly treats the altitude as half the base."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "triangle-altitude",
+            "width": 420,
+            "height": 320,
+            "xmin": -1.2,
+            "xmax": 16.2,
+            "ymin": -1.2,
+            "ymax": 12.399999999999999,
+            "title": null,
+            "elements": [
+              {
+                "type": "polygon",
+                "points": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    6.6,
+                    11.2
+                  ],
+                  [
+                    15.0,
+                    0.0
+                  ]
+                ],
+                "label": null,
+                "fill": "none",
+                "fill_opacity": 0.25,
+                "stroke": "#333333",
+                "closed": true
+              },
+              {
+                "type": "segment",
+                "a": [
+                  0.0,
+                  0.0
+                ],
+                "b": [
+                  6.6,
+                  11.2
+                ],
+                "label": "AB=13",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  6.6,
+                  11.2
+                ],
+                "b": [
+                  15.0,
+                  0.0
+                ],
+                "label": "BC=14",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  0.0,
+                  0.0
+                ],
+                "b": [
+                  15.0,
+                  0.0
+                ],
+                "label": "AC=15",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  6.6,
+                  11.2
+                ],
+                "b": [
+                  6.6,
+                  0.0
+                ],
+                "label": "BD ⟂ AC",
+                "dashed": false,
+                "color": "#7c3aed"
+              },
+              {
+                "type": "point",
+                "at": [
+                  0.0,
+                  0.0
+                ],
+                "label": "A",
+                "color": "#d62728"
+              },
+              {
+                "type": "point",
+                "at": [
+                  6.6,
+                  11.2
+                ],
+                "label": "B",
+                "color": "#d62728"
+              },
+              {
+                "type": "point",
+                "at": [
+                  15.0,
+                  0.0
+                ],
+                "label": "C",
+                "color": "#d62728"
+              },
+              {
+                "type": "point",
+                "at": [
+                  6.6,
+                  0.0
+                ],
+                "label": "D",
+                "color": "#d62728"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"420\" height=\"320\" viewBox=\"0 0 420 320\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"420\" height=\"320\" fill=\"#ffffff\"/><polygon points=\"58.28,263.76 191.79,56.24 361.72,263.76\" fill=\"none\" fill-opacity=\"0.25\" stroke=\"#333333\" stroke-width=\"1.8\"/><line x1=\"58.28\" y1=\"263.76\" x2=\"191.79\" y2=\"56.24\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"147.32\" y=\"178.34\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#333333\">AB=13</text><line x1=\"191.79\" y1=\"56.24\" x2=\"361.72\" y2=\"263.76\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"256.26\" y=\"180.79\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#333333\">BC=14</text><line x1=\"58.28\" y1=\"263.76\" x2=\"361.72\" y2=\"263.76\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"210\" y=\"294.26\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#333333\">AC=15</text><line x1=\"191.79\" y1=\"56.24\" x2=\"191.79\" y2=\"263.76\" stroke=\"#7c3aed\" stroke-width=\"1.8\"/><text x=\"158.29\" y=\"197.2\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#7c3aed\">BD ⟂ AC</text><circle cx=\"58.28\" cy=\"263.76\" r=\"3\" fill=\"#d62728\"/><text x=\"50.28\" y=\"255.76\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">A</text><circle cx=\"191.79\" cy=\"56.24\" r=\"3\" fill=\"#d62728\"/><text x=\"199.79\" y=\"48.24\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">B</text><circle cx=\"361.72\" cy=\"263.76\" r=\"3\" fill=\"#d62728\"/><text x=\"369.72\" y=\"255.76\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">C</text><circle cx=\"191.79\" cy=\"263.76\" r=\"3\" fill=\"#d62728\"/><text x=\"199.79\" y=\"255.76\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">D</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "57bd8666-0cc7-5b70-80ad-1039e5052103",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The circumradius \\(R\\) of a triangle with side lengths \\(13\\text{ cm}\\), \\(14\\text{ cm}\\), and \\(15\\text{ cm}\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "With \\(a=14\\), \\(b=15\\), \\(c=13\\), and \\(S=84\\text{ cm}^2\\), \\(R=\\frac{abc}{4S}=\\frac{14\\cdot15\\cdot13}{4\\cdot84}=\\frac{65}{8}\\text{ cm}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 129,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.3 Problems on Calculation",
+            "concept_ids": [
+              "concept_52319e8fbb",
+              "concept_d29f22e744"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              109,
+              110,
+              111,
+              112,
+              113,
+              246,
+              247,
+              248,
+              249,
+              250
+            ],
+            "source_chunk_ids": [
+              "chunk_b291c81f10",
+              "chunk_a2c34ed22c"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_65_8_text_cm_1",
+              "label": "\\(\\frac{65}{8}\\text{ cm}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Using \\(S=\\frac{abc}{4R}\\), \\(R=\\frac{13\\cdot14\\cdot15}{4\\cdot84}=\\frac{65}{8}\\text{ cm}\\)."
+            },
+            {
+              "id": "frac_15_2_text_cm_2",
+              "label": "\\(\\frac{15}{2}\\text{ cm}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not obtained from the circumradius formula."
+            },
+            {
+              "id": "8_text_cm_3",
+              "label": "\\(8\\text{ cm}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The exact value is \\(\\frac{65}{8}\\text{ cm}\\), slightly greater than \\(8\\text{ cm}\\)."
+            },
+            {
+              "id": "frac_21_2_text_cm_4",
+              "label": "\\(\\frac{21}{2}\\text{ cm}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The semiperimeter is \\(21\\text{ cm}\\), not the circumradius."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "triangle-circumcircle",
+            "width": 420,
+            "height": 320,
+            "xmin": -2.125,
+            "xmax": 15.125,
+            "ymin": -3.75,
+            "ymax": 13.5,
+            "title": null,
+            "elements": [
+              {
+                "type": "circle",
+                "center": [
+                  6.5,
+                  4.875
+                ],
+                "radius": 8.125,
+                "label": "O",
+                "fill": "none",
+                "stroke": "#2563eb"
+              },
+              {
+                "type": "polygon",
+                "points": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    13.0,
+                    0.0
+                  ],
+                  [
+                    7.615384615384615,
+                    12.923076923076923
+                  ]
+                ],
+                "label": null,
+                "fill": "none",
+                "fill_opacity": 0.25,
+                "stroke": "#333333",
+                "closed": true
+              },
+              {
+                "type": "segment",
+                "a": [
+                  0.0,
+                  0.0
+                ],
+                "b": [
+                  13.0,
+                  0.0
+                ],
+                "label": "13",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  13.0,
+                  0.0
+                ],
+                "b": [
+                  7.615384615384615,
+                  12.923076923076923
+                ],
+                "label": "14",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  7.615384615384615,
+                  12.923076923076923
+                ],
+                "b": [
+                  0.0,
+                  0.0
+                ],
+                "label": "15",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  6.5,
+                  4.875
+                ],
+                "b": [
+                  0.0,
+                  0.0
+                ],
+                "label": "R",
+                "dashed": false,
+                "color": "#7c3aed"
+              },
+              {
+                "type": "point",
+                "at": [
+                  0.0,
+                  0.0
+                ],
+                "label": "A",
+                "color": "#d62728"
+              },
+              {
+                "type": "point",
+                "at": [
+                  13.0,
+                  0.0
+                ],
+                "label": "B",
+                "color": "#d62728"
+              },
+              {
+                "type": "point",
+                "at": [
+                  7.615384615384615,
+                  12.923076923076923
+                ],
+                "label": "C",
+                "color": "#d62728"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"420\" height=\"320\" viewBox=\"0 0 420 320\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"420\" height=\"320\" fill=\"#ffffff\"/><ellipse cx=\"210\" cy=\"160\" rx=\"165.8\" ry=\"118.7\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"1.8\"/><circle cx=\"210\" cy=\"160\" r=\"2\" fill=\"#2563eb\"/><text x=\"218\" y=\"152\" data-layout=\"auto\" font-size=\"12\" fill=\"#333333\">O</text><polygon points=\"77.36,231.22 342.64,231.22 232.76,42.43\" fill=\"none\" fill-opacity=\"0.25\" stroke=\"#333333\" stroke-width=\"1.8\"/><line x1=\"77.36\" y1=\"231.22\" x2=\"342.64\" y2=\"231.22\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"210\" y=\"251.22\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#333333\">13</text><line x1=\"342.64\" y1=\"231.22\" x2=\"232.76\" y2=\"42.43\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"301.53\" y=\"132.77\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#333333\">14</text><line x1=\"232.76\" y1=\"42.43\" x2=\"77.36\" y2=\"231.22\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"142.71\" y=\"130.65\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#333333\">15</text><line x1=\"210\" y1=\"160\" x2=\"77.36\" y2=\"231.22\" stroke=\"#7c3aed\" stroke-width=\"1.8\"/><text x=\"136.11\" y=\"185.51\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#7c3aed\">R</text><circle cx=\"77.36\" cy=\"231.22\" r=\"3\" fill=\"#d62728\"/><text x=\"69.36\" y=\"249.22\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">A</text><circle cx=\"342.64\" cy=\"231.22\" r=\"3\" fill=\"#d62728\"/><text x=\"350.64\" y=\"249.22\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">B</text><circle cx=\"232.76\" cy=\"42.43\" r=\"3\" fill=\"#d62728\"/><text x=\"240.76\" y=\"34.43\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">C</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "c5204b66-baf1-59a7-9e49-72ff026666cb",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The inradius \\(r\\) of the triangle with side lengths \\(13\\text{ cm}\\), \\(14\\text{ cm}\\), and \\(15\\text{ cm}\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The semiperimeter is \\(s=21\\text{ cm}\\), and the area is \\(S=84\\text{ cm}^2\\). Since \\(S=rs\\), \\(r=\\frac{S}{s}=\\frac{84}{21}=4\\text{ cm}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 130,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.3 Problems on Calculation",
+            "concept_ids": [
+              "concept_52319e8fbb",
+              "concept_d29f22e744"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              109,
+              110,
+              111,
+              112,
+              113,
+              246,
+              247,
+              248,
+              249,
+              250
+            ],
+            "source_chunk_ids": [
+              "chunk_b291c81f10",
+              "chunk_a2c34ed22c"
+            ]
+          },
+          "options": [
+            {
+              "id": "4_text_cm_1",
+              "label": "\\(4\\text{ cm}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inradius satisfies \\(S=rs\\), so \\(r=\\frac{84}{21}=4\\text{ cm}\\)."
+            },
+            {
+              "id": "3_text_cm_2",
+              "label": "\\(3\\text{ cm}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not satisfy \\(S=rs\\) for \\(S=84\\text{ cm}^2\\) and \\(s=21\\text{ cm}\\)."
+            },
+            {
+              "id": "5_text_cm_3",
+              "label": "\\(5\\text{ cm}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The product \\(rs\\) would then be \\(105\\text{ cm}^2\\), not \\(84\\text{ cm}^2\\)."
+            },
+            {
+              "id": "frac_21_4_text_cm_4",
+              "label": "\\(\\frac{21}{4}\\text{ cm}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This reverses the required relationship between area, semiperimeter, and inradius."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "triangle-incircle",
+            "width": 420,
+            "height": 320,
+            "xmin": -1.2,
+            "xmax": 16.2,
+            "ymin": -1.2,
+            "ymax": 12.399999999999999,
+            "title": null,
+            "elements": [
+              {
+                "type": "polygon",
+                "points": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    6.6,
+                    11.2
+                  ],
+                  [
+                    15.0,
+                    0.0
+                  ]
+                ],
+                "label": null,
+                "fill": "none",
+                "fill_opacity": 0.25,
+                "stroke": "#333333",
+                "closed": true
+              },
+              {
+                "type": "circle",
+                "center": [
+                  7.0,
+                  4.0
+                ],
+                "radius": 4.0,
+                "label": "I",
+                "fill": "none",
+                "stroke": "#2563eb"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  0.0,
+                  0.0
+                ],
+                "b": [
+                  6.6,
+                  11.2
+                ],
+                "label": "13",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  6.6,
+                  11.2
+                ],
+                "b": [
+                  15.0,
+                  0.0
+                ],
+                "label": "14",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  15.0,
+                  0.0
+                ],
+                "b": [
+                  0.0,
+                  0.0
+                ],
+                "label": "15",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  7.0,
+                  4.0
+                ],
+                "b": [
+                  7.0,
+                  0.0
+                ],
+                "label": "r",
+                "dashed": false,
+                "color": "#7c3aed"
+              },
+              {
+                "type": "point",
+                "at": [
+                  0.0,
+                  0.0
+                ],
+                "label": "A",
+                "color": "#d62728"
+              },
+              {
+                "type": "point",
+                "at": [
+                  6.6,
+                  11.2
+                ],
+                "label": "B",
+                "color": "#d62728"
+              },
+              {
+                "type": "point",
+                "at": [
+                  15.0,
+                  0.0
+                ],
+                "label": "C",
+                "color": "#d62728"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"420\" height=\"320\" viewBox=\"0 0 420 320\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"420\" height=\"320\" fill=\"#ffffff\"/><polygon points=\"58.28,263.76 191.79,56.24 361.72,263.76\" fill=\"none\" fill-opacity=\"0.25\" stroke=\"#333333\" stroke-width=\"1.8\"/><ellipse cx=\"199.89\" cy=\"189.65\" rx=\"80.92\" ry=\"74.12\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"1.8\"/><circle cx=\"199.89\" cy=\"189.65\" r=\"2\" fill=\"#2563eb\"/><text x=\"207.89\" y=\"181.65\" data-layout=\"auto\" font-size=\"12\" fill=\"#333333\">I</text><line x1=\"58.28\" y1=\"263.76\" x2=\"191.79\" y2=\"56.24\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"138.49\" y=\"172.66\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#333333\">13</text><line x1=\"191.79\" y1=\"56.24\" x2=\"361.72\" y2=\"263.76\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"289.14\" y=\"153.86\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#333333\">14</text><line x1=\"361.72\" y1=\"263.76\" x2=\"58.28\" y2=\"263.76\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"210\" y=\"283.76\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#333333\">15</text><line x1=\"199.89\" y1=\"189.65\" x2=\"199.89\" y2=\"263.76\" stroke=\"#7c3aed\" stroke-width=\"1.8\"/><text x=\"183.89\" y=\"230.71\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#7c3aed\">r</text><circle cx=\"58.28\" cy=\"263.76\" r=\"3\" fill=\"#d62728\"/><text x=\"50.28\" y=\"255.76\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">A</text><circle cx=\"191.79\" cy=\"56.24\" r=\"3\" fill=\"#d62728\"/><text x=\"199.79\" y=\"48.24\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">B</text><circle cx=\"361.72\" cy=\"263.76\" r=\"3\" fill=\"#d62728\"/><text x=\"369.72\" y=\"255.76\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">C</text></svg>"
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_b291c81f10",
+    "chunk_a2c34ed22c"
+  ],
+  "source_pages": [
+    109,
+    110,
+    111,
+    112,
+    113,
+    246,
+    247,
+    248,
+    249,
+    250
+  ],
+  "rejected": []
+}

@@ -1,0 +1,171 @@
+[
+  {
+    "concept_id": "concept_864bdb0ca9",
+    "concept_name": "Displacement",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_fb83b3460d",
+    "concept_name": "Velocity",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_1694170983",
+    "concept_name": "Speed",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_a49b791f66",
+    "concept_name": "Acceleration",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_c3ff7bca71",
+    "concept_name": "Principle of inertia",
+    "candidate_scores": {
+      "MCQ": 0.75,
+      "Scenario": 0.9,
+      "Problem Solving": 0.65,
+      "Case Study": 0.4,
+      "Short Answer": 0.75,
+      "Essay": 0.85,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "Scenario",
+      "Essay",
+      "MCQ",
+      "Short Answer",
+      "Problem Solving"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_314ec88491",
+    "concept_name": "Force",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_bda73b7033",
+    "concept_name": "Work",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_e7d35b0eab",
+    "concept_name": "Energy",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_24b9f371d7",
+    "concept_name": "Kinetic energy",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  }
+]

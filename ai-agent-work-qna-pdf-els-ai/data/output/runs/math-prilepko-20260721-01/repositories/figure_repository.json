@@ -1,0 +1,614 @@
+[
+  {
+    "figure_id": "figure_00a5ca1d13",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 6,
+    "source_book": "book_f2847eeae3",
+    "reference": "Figure"
+  },
+  {
+    "figure_id": "figure_20d6802a55",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 8,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_44b18be471",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 8,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_d308b2682c",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 8,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_eef9860351",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 89,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_aa43dfaf04",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 89,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_ad3124de08",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 89,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_437118e2ce",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 89,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure\n"
+  },
+  {
+    "figure_id": "figure_a958d407f8",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 89,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_3ccfc1e6bc",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 89,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure\n"
+  },
+  {
+    "figure_id": "figure_0663ea2422",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 90,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_7ee7cef005",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 90,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_f6ae8b24ed",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 90,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_eaba97f159",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 91,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure\n"
+  },
+  {
+    "figure_id": "figure_a3381d3874",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 126,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_f9e1b0a5e2",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 127,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_b12d011e9e",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 127,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_cfbd6a7a37",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 129,
+    "source_book": "book_f2847eeae3",
+    "reference": "Fig.23"
+  },
+  {
+    "figure_id": "figure_ae854c2d45",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 134,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_96af83f5de",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 134,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_d141c0cf1f",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 226,
+    "source_book": "book_f2847eeae3",
+    "reference": "Figure"
+  },
+  {
+    "figure_id": "figure_12d834f431",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 227,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_a16231a3ac",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 227,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_4bf1ebd485",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 227,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_ebb3a90759",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 227,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_31a621e090",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 228,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_a09012111d",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 228,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_bddead0a5f",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 229,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_4aeb90e98c",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 229,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_67fc38a075",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 236,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_5ceb008f24",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 238,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_3bab62e189",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 238,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_b1d4ba027a",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 240,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_597e48c53a",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 240,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_f8d1a1646e",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 240,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_5d259deee0",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 241,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_436450b711",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 242,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_e76c240555",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 242,
+    "source_book": "book_f2847eeae3",
+    "reference": "fig-\n"
+  },
+  {
+    "figure_id": "figure_5b564fb255",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 242,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_e760dc3443",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 243,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_97c145ac5b",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 243,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_d56e9a9a8f",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 243,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_dce251e3a5",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 244,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_763a1d094d",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 244,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_dceab7520e",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 245,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_db143108da",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 245,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_a48c0de70b",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 246,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_5d27dfb0c1",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 246,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_970f42db5a",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 247,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_9ba46cc40b",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 248,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_8970c8160d",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 248,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_f163d6306b",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 248,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_c8262e338f",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 249,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_5efc83fa21",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 249,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_94330fdb0e",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 250,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_0f2ad0799c",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 252,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_f1b79be73a",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 252,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_90b9ef6f80",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 253,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_09c5d618f7",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 257,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_840e6d5071",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 259,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_618458f442",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 260,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure. "
+  },
+  {
+    "figure_id": "figure_6e564ff570",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 267,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_65c56081a2",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 274,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_764cb2b318",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 274,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_e4272ca2f2",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 275,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_8504feb9b1",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 277,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure "
+  },
+  {
+    "figure_id": "figure_fa3e05414a",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 277,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure"
+  },
+  {
+    "figure_id": "figure_5fdfc8b1ce",
+    "caption": "",
+    "description": "",
+    "concepts": [],
+    "page": 278,
+    "source_book": "book_f2847eeae3",
+    "reference": "figure."
+  }
+]

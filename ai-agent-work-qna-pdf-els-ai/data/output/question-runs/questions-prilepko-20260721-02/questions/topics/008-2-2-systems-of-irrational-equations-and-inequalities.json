@@ -1,0 +1,447 @@
+{
+  "key": "2.2",
+  "topic": "2.2 Systems of Irrational Equations and Inequalities",
+  "questions": [
+    {
+      "question": {
+        "id": "beec5394-6d05-5d4a-9356-d2e32eaa8002",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve the system \\(\\\\sqrt{x-1}+\\\\sqrt{y-4}=5\\) and \\(\\\\sqrt{x-1}-\\\\sqrt{y-4}=1\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(a=\\\\sqrt{x-1}\\) and \\(b=\\\\sqrt{y-4}\\). Then \\(a+b=5\\) and \\(a-b=1\\), so \\(a=3\\), \\(b=2\\). Hence \\(x=10\\) and \\(y=8\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 36,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.2 Systems of Irrational Equations and Inequalities",
+            "concept_ids": [
+              "concept_e4db108e9c",
+              "concept_e81eedd27f"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              37,
+              179
+            ],
+            "source_chunk_ids": [
+              "chunk_46af92306f",
+              "chunk_8f88c441f7"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_10_8_right_1",
+              "label": "\\(\\\\left(10,8\\\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Adding and subtracting gives the two radicals as \\(3\\) and \\(2\\)."
+            },
+            {
+              "id": "left_8_10_right_2",
+              "label": "\\(\\\\left(8,10\\\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The values of \\(x\\) and \\(y\\) are interchanged."
+            },
+            {
+              "id": "left_9_7_right_3",
+              "label": "\\(\\\\left(9,7\\\\right)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These values do not produce the required radical sums."
+            },
+            {
+              "id": "left_6_5_right_4",
+              "label": "\\(\\\\left(6,5\\\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The corresponding radicals do not satisfy both equations."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "6598b2a6-5dbf-57bc-8545-fc2813aea5c5",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The real solution of the system \\(\\\\sqrt{x+y}+\\\\sqrt{x-y}=4\\) and \\(\\\\sqrt{x+y}-\\\\sqrt{x-y}=2\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Put \\(a=\\\\sqrt{x+y}\\) and \\(b=\\\\sqrt{x-y}\\). Solving \\(a+b=4\\), \\(a-b=2\\) gives \\(a=3\\), \\(b=1\\). Therefore \\(x+y=9\\), \\(x-y=1\\), and hence \\(x=5\\), \\(y=4\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 37,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.2 Systems of Irrational Equations and Inequalities",
+            "concept_ids": [
+              "concept_e4db108e9c",
+              "concept_e81eedd27f"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              37,
+              179
+            ],
+            "source_chunk_ids": [
+              "chunk_46af92306f",
+              "chunk_8f88c441f7"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_5_4_right_1",
+              "label": "\\(\\\\left(5,4\\\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The radicals are \\(3\\) and \\(1\\), giving \\(x+y=9\\) and \\(x-y=1\\)."
+            },
+            {
+              "id": "left_4_5_right_2",
+              "label": "\\(\\\\left(4,5\\\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This reverses the values of \\(x\\) and \\(y\\)."
+            },
+            {
+              "id": "left_frac_9_2_frac_1_2_r_3",
+              "label": "\\(\\\\left(\\\\frac{9}{2},\\\\frac{1}{2}\\\\right)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These values do not give the required radical equations."
+            },
+            {
+              "id": "left_3_2_right_4",
+              "label": "\\(\\\\left(3,2\\\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The resulting radical sum is not \\(4\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "b2c8fffc-11b1-5775-9048-05e0a797acbf",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the solution set of the inequality \\(\\\\sqrt{x+3}+\\\\sqrt{x-1}\\\\le 4\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The domain is \\(x\\\\ge1\\). Since the left side is increasing, solve the equality: \\(\\\\sqrt{x+3}+\\\\sqrt{x-1}=4\\). Squaring twice gives \\(16x=52\\), so \\(x=\\\\frac{13}{4}\\). Thus the solution set is \\(\\\\left[1,\\\\frac{13}{4}\\\\right]\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 38,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.2 Systems of Irrational Equations and Inequalities",
+            "concept_ids": [
+              "concept_e4db108e9c",
+              "concept_e81eedd27f"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              37,
+              179
+            ],
+            "source_chunk_ids": [
+              "chunk_46af92306f",
+              "chunk_8f88c441f7"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_1_frac_13_4_right_1",
+              "label": "\\(\\\\left[1,\\\\frac{13}{4}\\\\right]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The domain is \\(x\\\\ge1\\), and the increasing left side reaches \\(4\\) at \\(x=\\\\frac{13}{4}\\)."
+            },
+            {
+              "id": "left_infty_frac_13_4_rig_2",
+              "label": "\\(\\\\left(-\\\\infty,\\\\frac{13}{4}\\\\right]\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Values below \\(1\\) are outside the radical domain."
+            },
+            {
+              "id": "left_1_frac_7_2_right_3",
+              "label": "\\(\\\\left[1,\\\\frac{7}{2}\\\\right]\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The endpoint does not satisfy the equality condition."
+            },
+            {
+              "id": "left_frac_13_4_infty_rig_4",
+              "label": "\\(\\\\left[\\\\frac{13}{4},\\\\infty\\\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inequality holds to the left of the equality point."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "e7d9c431-329e-5d34-8e94-e03c2f24f8b6",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The solution set of the system \\(\\\\sqrt{x+1}+\\\\sqrt{y+1}=5\\) and \\(\\\\sqrt{(x+1)(y+1)}=6\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(a=\\\\sqrt{x+1}\\) and \\(b=\\\\sqrt{y+1}\\). Then \\(a+b=5\\) and \\(ab=6\\), so \\(a,b\\) are \\(2,3\\) in either order. Hence the solutions are \\(\\\\left(3,8\\\\right)\\) and \\(\\\\left(8,3\\\\right)\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 39,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.2 Systems of Irrational Equations and Inequalities",
+            "concept_ids": [
+              "concept_e4db108e9c",
+              "concept_e81eedd27f"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              37,
+              179
+            ],
+            "source_chunk_ids": [
+              "chunk_46af92306f",
+              "chunk_8f88c441f7"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_left_3_8_right_left_1",
+              "label": "\\(\\\\left\\\\{\\\\left(3,8\\\\right),\\\\left(8,3\\\\right)\\\\right\\\\}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The nonnegative radicals are \\(2\\) and \\(3\\), in either order."
+            },
+            {
+              "id": "left_left_2_9_right_left_2",
+              "label": "\\(\\\\left\\\\{\\\\left(2,9\\\\right),\\\\left(9,2\\\\right)\\\\right\\\\}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The corresponding radicals do not have product \\(6\\)."
+            },
+            {
+              "id": "left_left_1_4_right_left_3",
+              "label": "\\(\\\\left\\\\{\\\\left(1,4\\\\right),\\\\left(4,1\\\\right)\\\\right\\\\}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Their radical sum is not \\(5\\)."
+            },
+            {
+              "id": "left_left_3_3_right_left_4",
+              "label": "\\(\\\\left\\\\{\\\\left(3,3\\\\right),\\\\left(8,8\\\\right)\\\\right\\\\}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Both variables cannot independently take the same radical value."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "53ab58e8-570f-507f-8999-14943ecde7bf",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve the system \\(\\\\sqrt{x}+\\\\sqrt{y}=5\\) and \\(\\\\sqrt{x-y}=1\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(a=\\\\sqrt{x}\\) and \\(b=\\\\sqrt{y}\\). Then \\(a+b=5\\) and \\(a^2-b^2=x-y=1\\). Thus \\((a-b)(a+b)=1\\), giving \\(a-b=\\\\frac{1}{5}\\). Therefore \\(a=\\\\frac{13}{5}\\), \\(b=\\\\frac{12}{5}\\), so \\(x=\\\\frac{169}{25}\\), \\(y=\\\\frac{144}{25}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 40,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.2 Systems of Irrational Equations and Inequalities",
+            "concept_ids": [
+              "concept_e4db108e9c",
+              "concept_e81eedd27f"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              37,
+              179
+            ],
+            "source_chunk_ids": [
+              "chunk_46af92306f",
+              "chunk_8f88c441f7"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_frac_169_25_frac_14_1",
+              "label": "\\(\\\\left(\\\\frac{169}{25},\\\\frac{144}{25}\\\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two nonnegative radicals are \\(\\\\frac{13}{5}\\) and \\(\\\\frac{12}{5}\\)."
+            },
+            {
+              "id": "left_frac_144_25_frac_16_2",
+              "label": "\\(\\\\left(\\\\frac{144}{25},\\\\frac{169}{25}\\\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This makes \\(x-y\\) negative."
+            },
+            {
+              "id": "left_frac_25_4_frac_25_4_3",
+              "label": "\\(\\\\left(\\\\frac{25}{4},\\\\frac{25}{4}\\\\right)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives \\(\\\\sqrt{x-y}=0\\), not \\(1\\)."
+            },
+            {
+              "id": "left_frac_121_25_frac_14_4",
+              "label": "\\(\\\\left(\\\\frac{121}{25},\\\\frac{144}{25}\\\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The square-root sum is not \\(5\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_46af92306f",
+    "chunk_8f88c441f7"
+  ],
+  "source_pages": [
+    37,
+    179
+  ],
+  "rejected": []
+}

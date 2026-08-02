@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Knowledge Pipeline</title>
+  <script>
+    try {
+      localStorage.removeItem("MathJax-Menu-Settings");
+    } catch {}
+    window.MathJax = {
+      tex: {
+        inlineMath: [["\\(", "\\)"], ["$", "$"]],
+        displayMath: [["\\[", "\\]"], ["$$", "$$"]]
+      },
+      options: {
+        enableMenu: false,
+        menuOptions: { settings: { renderer: "SVG" } },
+        skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+      },
+      startup: {
+        output: "svg",
+        typeset: false,
+        ready: () => {
+          MathJax.startup.defaultReady();
+          window.dispatchEvent(new Event("mathjax-ready"));
+        }
+      }
+    };
+  </script>
+  <script async src="/vendor/mathjax/tex-svg.js?v=3"></script>
+  <style>
+    :root { color-scheme: light; font-family: Inter, system-ui, sans-serif; background: #f5f7fb; color: #172033; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { width: min(1080px, calc(100% - 32px)); margin: 32px auto; }
+    header { margin-bottom: 24px; }
+    h1 { margin: 0 0 8px; font-size: clamp(1.8rem, 4vw, 2.6rem); }
+    h2 { margin-top: 0; }
+    .muted { color: #64748b; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+    .card { background: white; border: 1px solid #dbe3ef; border-radius: 14px; padding: 22px; box-shadow: 0 8px 28px rgb(28 46 74 / 7%); }
+    label { display: grid; gap: 7px; margin: 14px 0; font-weight: 650; }
+    input, select, button, textarea { width: 100%; font: inherit; border-radius: 8px; }
+    input, select, textarea { border: 1px solid #c7d2e2; padding: 10px 12px; background: white; }
+    textarea { min-height: 84px; resize: vertical; }
+    button { border: 0; padding: 11px 14px; background: #2457d6; color: white; font-weight: 700; cursor: pointer; }
+    button:disabled { opacity: .55; cursor: wait; }
+    pre { margin: 16px 0 0; max-height: 480px; overflow: auto; padding: 14px; border-radius: 8px; background: #111827; color: #dbeafe; white-space: pre-wrap; word-break: break-word; }
+    .status { min-height: 24px; color: #334155; }
+    .error { color: #b42318; }
+    .success { color: #067647; }
+    .warning { color: #9a6700; }
+    .job-progress { margin-top: 16px; padding: 14px; border: 1px solid #dbe3ef; border-radius: 10px; background: #f8fafc; }
+    .progress-heading { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 9px; }
+    .progress-track { height: 12px; overflow: hidden; border-radius: 999px; background: #dbe3ef; }
+    .progress-fill { display: block; width: 0; height: 100%; border-radius: inherit; background: #2457d6; transition: width .3s ease; }
+    .last-message { min-height: 20px; margin: 10px 0 0; font-size: .9rem; }
+    details { margin-top: 14px; }
+    summary { cursor: pointer; font-weight: 700; color: #334155; }
+    .live-log { min-height: 180px; max-height: 420px; margin-top: 10px; }
+    .catalog-summary { min-height: 20px; margin: 8px 0 0; font-size: .9rem; }
+    .option-setting { margin: 14px 0; padding: 12px 14px; border: 1px solid #dbe3ef; border-radius: 10px; background: #f8fafc; }
+    .option-setting label { display: flex; align-items: center; gap: 9px; margin: 0; }
+    .option-setting input { width: auto; margin: 0; }
+    .option-setting p { margin: 7px 0 0 27px; font-size: .86rem; line-height: 1.45; }
+    .option-setting details { margin: 8px 0 0 27px; font-size: .86rem; }
+    .option-setting details p { margin: 7px 0 0; }
+    .result-header { display: flex; align-items: start; justify-content: space-between; gap: 18px; }
+    .result-header h2 { margin-bottom: 6px; }
+    .quiz-summary { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 20px; }
+    .summary-chip { padding: 6px 10px; border-radius: 999px; background: #eef4ff; color: #234eaa; font-size: .82rem; font-weight: 700; }
+    .question-list { display: grid; gap: 18px; }
+    .preview-empty { margin: 0; padding: 30px; border: 1px dashed #c7d2e2; border-radius: 12px; color: #64748b; text-align: center; }
+    .question-preview-card { overflow: hidden; border: 1px solid #dbe3ef; border-radius: 14px; background: #fbfdff; }
+    .preview-card-header { display: flex; justify-content: space-between; gap: 12px; padding: 14px 18px; border-bottom: 1px solid #e4eaf3; background: #f3f7fc; }
+    .question-number { color: #2457d6; font-weight: 800; }
+    .question-topic { color: #64748b; font-size: .84rem; text-align: right; }
+    .preview-card-body { padding: 20px; }
+    .question-stem { margin: 0 0 18px; font-size: 1.08rem; font-weight: 700; line-height: 1.65; }
+    .question-diagram, .option-diagram { display: grid; place-items: center; overflow: auto; }
+    .question-diagram { margin: 0 0 20px; padding: 14px; border: 1px solid #dbe3ef; border-radius: 12px; background: white; }
+    .question-diagram svg { width: min(100%, 560px); height: auto; max-height: 420px; }
+    .option-diagram { grid-column: 2 / -1; margin-top: 8px; }
+    .option-diagram svg { max-width: 100%; height: auto; max-height: 200px; }
+    .preview-options { display: grid; gap: 10px; margin: 0; padding: 0; border: 0; }
+    .preview-option { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 11px; margin: 0; padding: 12px 14px; border: 1px solid #cbd6e5; border-radius: 10px; background: white; cursor: pointer; font-weight: 500; }
+    .preview-option:hover { border-color: #7f9bd7; background: #f8faff; }
+    .preview-option input { width: auto; margin: 0; }
+    .option-key { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; background: #e8eef9; color: #29436f; font-weight: 800; }
+    .preview-option.correct { border-color: #2f9e66; background: #ecfdf3; }
+    .preview-option.incorrect { border-color: #d64545; background: #fff1f1; }
+    .preview-option.correct .option-key { background: #16834f; color: white; }
+    .preview-option.incorrect .option-key { background: #c93636; color: white; }
+    .option-result { color: #64748b; font-size: .78rem; font-weight: 800; }
+    .option-rationale { display: none; grid-column: 2 / -1; color: #526173; font-size: .86rem; line-height: 1.45; }
+    .question-preview-card.answered .option-rationale { display: block; }
+    .check-answer { width: auto; margin-top: 14px; padding-inline: 20px; }
+    .answer-feedback { margin-top: 16px; padding: 15px 17px; border-radius: 10px; line-height: 1.55; }
+    .answer-feedback[hidden] { display: none; }
+    .answer-feedback.correct-feedback { border: 1px solid #9bd2b3; background: #ecfdf3; }
+    .answer-feedback.incorrect-feedback { border: 1px solid #efb0b0; background: #fff1f1; }
+    .feedback-title { margin: 0 0 7px; font-weight: 800; }
+    .answer-feedback p { margin: 6px 0; }
+    .source-meta { color: #64748b; font-size: .8rem; }
+    .raw-json { margin-top: 22px; padding-top: 16px; border-top: 1px solid #dbe3ef; }
+    @media (max-width: 640px) {
+      .result-header, .preview-card-header { display: block; }
+      .question-topic { margin-top: 4px; text-align: left; }
+      .preview-card-body { padding: 16px; }
+    }
+    nav a { color: #2457d6; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Knowledge Pipeline</h1>
+      <p class="muted">Upload source material, wait for validation and indexing, then generate grounded question JSON.</p>
+      <nav><a href="/docs">OpenAPI documentation</a> · <a href="/diagrams">Diagram gallery</a></nav>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>1. Upload and process</h2>
+        <form id="upload-form">
+          <label>PDF, TXT, or Markdown file
+            <input id="source-file" name="file" type="file" accept=".pdf,.txt,.md,.markdown" required>
+          </label>
+          <button type="submit">Start ingestion</button>
+        </form>
+        <p id="upload-status" class="status"></p>
+        <div id="job-progress" class="job-progress" hidden>
+          <div class="progress-heading">
+            <strong id="job-stage">Waiting to start</strong>
+            <span id="job-percent">0%</span>
+          </div>
+          <div
+            id="job-progress-track"
+            class="progress-track"
+            role="progressbar"
+            aria-label="Ingestion progress"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+          ><span id="job-progress-fill" class="progress-fill"></span></div>
+          <p id="job-last-message" class="muted last-message"></p>
+          <details open>
+            <summary>Detailed live log</summary>
+            <pre id="job-log" class="live-log">Waiting for pipeline output...</pre>
+          </details>
+          <details>
+            <summary>Job metadata</summary>
+            <pre id="job-output"></pre>
+          </details>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>2. Generate questions</h2>
+        <form id="question-form">
+          <label>Class / Grade level
+            <select id="class-picker" name="class_level">
+              <option value="">All classes / grades</option>
+            </select>
+          </label>
+          <label>Search subjects
+            <input id="subject-search" type="search" placeholder="Search embedded subjects">
+          </label>
+          <label>Subject
+            <select id="subject-picker" name="subject">
+              <option value="">Loading embedded subjects...</option>
+            </select>
+          </label>
+          <label>Search topics
+            <input id="topic-search" type="search" placeholder="Search embedded topics">
+          </label>
+          <label>Topic
+            <select id="topic-picker" name="topic" disabled>
+              <option value="">Select a subject first</option>
+            </select>
+          </label>
+          <p id="catalog-summary" class="muted catalog-summary">Loading persisted RAG content...</p>
+          <label>Retrieval query
+            <textarea name="query" placeholder="Optional focus within the selected topic"></textarea>
+          </label>
+          <label>Validated source run scope
+            <input id="source-run-id" name="source_run_id" readonly placeholder="All persisted runs for this subject">
+          </label>
+          <label>Difficulty Level
+            <select name="level_band">
+              <option value="very_easy">Level 1: Very Easy (Recall / Remember)</option>
+              <option value="easy">Level 2: Easy (Understand / Comprehend)</option>
+              <option value="moderate" selected>Level 3: Moderate (Apply / Intermediate)</option>
+              <option value="difficult">Level 4: Difficult (Analyze / Evaluate)</option>
+              <option value="very_difficult">Level 5: Very Difficult (Create / Expert)</option>
+            </select>
+          </label>
+          <label>Question Target / Exam Style
+            <select name="question_style">
+              <option value="standard" selected>Standard (Balanced MCQ)</option>
+              <option value="olympiad">Olympiad / Competitive (IMO, CMO, SOF Style)</option>
+              <option value="jee">JEE Main / Advanced (High Rigor & Reasoning)</option>
+              <option value="school_exam">School / Board Exam (NCERT Standard)</option>
+              <option value="conceptual">Conceptual / Diagnostic (Misconception Focused)</option>
+            </select>
+          </label>
+          <label>Question count
+            <input name="count" type="number" min="1" max="50" value="5">
+          </label>
+          <div class="option-setting">
+            <label>
+              <input name="diagram_only" type="checkbox">
+              <span>Diagram-only output</span>
+            </label>
+            <p class="muted">Returns only questions where a valid diagram materially improves the reasoning. It excludes non-diagram candidates instead of adding decorative figures, so fewer questions may be returned.</p>
+          </div>
+          <div class="option-setting">
+            <label>
+              <input name="persist" type="checkbox">
+              <span>Persist accepted questions</span>
+            </label>
+            <p class="muted">Save only the questions that pass all validation checks to PostgreSQL.</p>
+            <details>
+              <summary>What does persistence do?</summary>
+              <p class="muted">When checked, validated questions, answer options, explanations, diagrams, topics, and source references are stored in PostgreSQL and become available in the Question Player. When unchecked, results are preview-only and disappear from the player after this page is closed or refreshed. Rejected questions are never stored.</p>
+            </details>
+          </div>
+          <button type="submit">Generate validated JSON</button>
+        </form>
+        <p id="question-status" class="status"></p>
+      </section>
+    </div>
+
+    <section class="card" id="question-result" style="margin-top:20px">
+      <div class="result-header">
+        <div>
+          <h2>Question preview</h2>
+          <div class="muted">Answer the generated questions and inspect diagrams and explanations.</div>
+        </div>
+      </div>
+      <div id="quiz-summary" class="quiz-summary" hidden></div>
+      <div id="question-preview" class="question-list">
+        <p class="preview-empty">No question set generated.</p>
+      </div>
+      <details class="raw-json">
+        <summary>Raw generated JSON</summary>
+        <pre id="question-output">No question set generated.</pre>
+      </details>
+    </section>
+  </main>
+
+  <script>
+    const uploadForm = document.querySelector("#upload-form");
+    const uploadStatus = document.querySelector("#upload-status");
+    const jobProgress = document.querySelector("#job-progress");
+    const jobStage = document.querySelector("#job-stage");
+    const jobPercent = document.querySelector("#job-percent");
+    const jobProgressTrack = document.querySelector("#job-progress-track");
+    const jobProgressFill = document.querySelector("#job-progress-fill");
+    const jobLastMessage = document.querySelector("#job-last-message");
+    const jobLog = document.querySelector("#job-log");
+    const jobOutput = document.querySelector("#job-output");
+    const questionForm = document.querySelector("#question-form");
+    const questionStatus = document.querySelector("#question-status");
+    const questionOutput = document.querySelector("#question-output");
+    const questionPreview = document.querySelector("#question-preview");
+    const quizSummary = document.querySelector("#quiz-summary");
+    const classPicker = document.querySelector("#class-picker");
+    const subjectSearch = document.querySelector("#subject-search");
+    const subjectPicker = document.querySelector("#subject-picker");
+    const topicSearch = document.querySelector("#topic-search");
+    const topicPicker = document.querySelector("#topic-picker");
+    const sourceRunId = document.querySelector("#source-run-id");
+    const catalogSummary = document.querySelector("#catalog-summary");
+    let embeddedClasses = [];
+    let embeddedSubjects = [];
+    let embeddedTopics = [];
+
+    async function responseJson(response) {
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.detail || `Request failed: ${response.status}`);
+      return body;
+    }
+
+    function safeSvg(value) {
+      if (!value) return "";
+      const parsed = new DOMParser().parseFromString(value, "image/svg+xml");
+      const root = parsed.documentElement;
+      if (!root || root.tagName.toLowerCase() !== "svg") return "";
+      root.querySelectorAll("script, foreignObject, iframe, object, embed").forEach(node => node.remove());
+      [root, ...root.querySelectorAll("*")].forEach(node => {
+        [...node.attributes].forEach(attribute => {
+          const name = attribute.name.toLowerCase();
+          const unsafeUrl = /(?:javascript:|data:text\/html)/i.test(attribute.value);
+          if (name.startsWith("on") || unsafeUrl) node.removeAttribute(attribute.name);
+        });
+      });
+      return new XMLSerializer().serializeToString(root);
+    }
+
+    function addTextElement(parent, tag, className, text) {
+      const element = document.createElement(tag);
+      if (className) element.className = className;
+      element.textContent = text || "";
+      parent.append(element);
+      return element;
+    }
+
+    function addSvg(parent, className, value) {
+      const svg = safeSvg(value);
+      if (!svg) return;
+      const container = document.createElement("div");
+      container.className = className;
+      container.innerHTML = svg;
+      parent.append(container);
+    }
+
+    function normalizedQuestion(entry) {
+      const question = entry?.question || entry || {};
+      const data = question.question_data || {};
+      return {
+        ...question,
+        meta: data._meta || {},
+        options: data.options || [],
+        variant: data.variant || question.question_type || "single_choice"
+      };
+    }
+
+    function renderQuizSummary(result) {
+      quizSummary.replaceChildren();
+      const values = [
+        result.subject,
+        result.scope === "subject" ? "All topics" : result.topic,
+        result.diagram_mode === "diagram_only" ? "Diagram-only" : null,
+        `${result.count} question${result.count === 1 ? "" : "s"}`,
+        result.level_band,
+        result.source_run_ids?.length
+          ? `${result.source_run_ids.length} source run${result.source_run_ids.length === 1 ? "" : "s"}`
+          : result.source_run_id
+      ].filter(Boolean);
+      for (const value of values) addTextElement(quizSummary, "span", "summary-chip", value);
+      quizSummary.hidden = values.length === 0;
+    }
+
+    function checkPreviewAnswer(card, question) {
+      const inputs = [...card.querySelectorAll("input[data-option-index]")];
+      const selected = inputs.filter(input => input.checked).map(input => Number(input.dataset.optionIndex));
+      const feedback = card.querySelector(".answer-feedback");
+      if (!selected.length) {
+        feedback.className = "answer-feedback incorrect-feedback";
+        feedback.hidden = false;
+        feedback.replaceChildren();
+        addTextElement(feedback, "div", "feedback-title", "Select an answer first.");
+        return;
+      }
+      const correct = question.options
+        .map((option, index) => option.is_correct ? index : -1)
+        .filter(index => index >= 0);
+      const passed =
+        selected.length === correct.length &&
+        selected.every(index => correct.includes(index));
+      card.classList.add("answered");
+      inputs.forEach(input => {
+        const index = Number(input.dataset.optionIndex);
+        const option = input.closest(".preview-option");
+        input.disabled = true;
+        if (correct.includes(index)) option.classList.add("correct");
+        else if (input.checked) option.classList.add("incorrect");
+        const result = option.querySelector(".option-result");
+        if (correct.includes(index)) result.textContent = "Correct";
+        else if (input.checked) result.textContent = "Your answer";
+      });
+      card.querySelector(".check-answer").hidden = true;
+      feedback.className = `answer-feedback ${passed ? "correct-feedback" : "incorrect-feedback"}`;
+      feedback.hidden = false;
+      feedback.replaceChildren();
+      addTextElement(feedback, "div", "feedback-title", passed ? "Correct answer" : "Review the answer");
+      addTextElement(feedback, "p", "", question.explanation || "No explanation is available.");
+      const pages = (question.meta.source_pages || []).map(page => Number(page) + 1);
+      const sources = [];
+      if (pages.length) sources.push(`Source pages ${pages.join(", ")}`);
+      if (question.meta.source_run_id) sources.push(`Run ${question.meta.source_run_id}`);
+      if (sources.length) addTextElement(feedback, "div", "source-meta", sources.join(" · "));
+      typesetPreview();
+    }
+
+    function renderQuestionCard(entry, index) {
+      const question = normalizedQuestion(entry);
+      const card = document.createElement("article");
+      card.className = "question-preview-card";
+      const header = document.createElement("div");
+      header.className = "preview-card-header";
+      addTextElement(header, "span", "question-number", `Question ${index + 1}`);
+      addTextElement(
+        header,
+        "span",
+        "question-topic",
+        question.meta.topic || question.subject || "Generated question"
+      );
+      card.append(header);
+
+      const body = document.createElement("div");
+      body.className = "preview-card-body";
+      addTextElement(body, "p", "question-stem", question.question_title);
+      addSvg(body, "question-diagram", question.question_svg);
+
+      const options = document.createElement("fieldset");
+      options.className = "preview-options";
+      const inputType = question.variant === "multi_choice" ? "checkbox" : "radio";
+      question.options.forEach((option, optionIndex) => {
+        const label = document.createElement("label");
+        label.className = "preview-option";
+        const input = document.createElement("input");
+        input.type = inputType;
+        input.name = `preview-${question.id || index}`;
+        input.dataset.optionIndex = String(optionIndex);
+        input.setAttribute("aria-label", `Option ${optionIndex + 1}`);
+        label.append(input);
+        addTextElement(label, "span", "option-key", String.fromCharCode(65 + optionIndex));
+        addTextElement(label, "span", "option-copy", option.label);
+        addTextElement(label, "span", "option-result", "");
+        addSvg(label, "option-diagram", option.svg);
+        if (option.rationale) addTextElement(label, "span", "option-rationale", option.rationale);
+        options.append(label);
+      });
+      body.append(options);
+
+      const checkButton = addTextElement(body, "button", "check-answer", "Check answer");
+      checkButton.type = "button";
+      const feedback = document.createElement("section");
+      feedback.className = "answer-feedback";
+      feedback.hidden = true;
+      feedback.setAttribute("aria-live", "polite");
+      body.append(feedback);
+      checkButton.addEventListener("click", () => checkPreviewAnswer(card, question));
+      card.append(body);
+      return card;
+    }
+
+    function typesetPreview() {
+      if (!window.MathJax?.typesetPromise) return;
+      if (window.MathJax.typesetClear) window.MathJax.typesetClear([questionPreview]);
+      window.MathJax.typesetPromise([questionPreview]).catch(() => {});
+    }
+
+    function renderQuestionPreview(result) {
+      questionPreview.replaceChildren();
+      renderQuizSummary(result);
+      const questions = Array.isArray(result.questions) ? result.questions : [];
+      if (!questions.length) {
+        addTextElement(questionPreview, "p", "preview-empty", "No previewable questions were returned.");
+        return;
+      }
+      questions.forEach((entry, index) => {
+        questionPreview.append(renderQuestionCard(entry, index));
+      });
+      document.querySelector("#question-result").scrollIntoView({behavior: "smooth", block: "start"});
+      typesetPreview();
+    }
+
+    window.addEventListener("mathjax-ready", typesetPreview);
+
+    uploadForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const button = uploadForm.querySelector("button");
+      button.disabled = true;
+      uploadStatus.className = "status";
+      uploadStatus.textContent = "Uploading...";
+      jobProgress.hidden = true;
+      try {
+        const data = await responseJson(await fetch("/api/documents", {
+          method: "POST",
+          body: new FormData(uploadForm)
+        }));
+        uploadStatus.textContent = `Job ${data.job_id} queued.`;
+        renderJob(data);
+        await pollJob(data.job_id);
+      } catch (error) {
+        uploadStatus.className = "status error";
+        uploadStatus.textContent = error.message;
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    function renderJob(job) {
+      const progress = Math.max(0, Math.min(100, Number(job.progress_percent || 0)));
+      const wasNearBottom =
+        jobLog.scrollHeight - jobLog.scrollTop - jobLog.clientHeight < 48;
+      jobProgress.hidden = false;
+      jobStage.textContent = job.stage_label || job.stage || job.status;
+      jobPercent.textContent = `${progress}%`;
+      jobProgressFill.style.width = `${progress}%`;
+      jobProgressTrack.setAttribute("aria-valuenow", String(progress));
+      jobLastMessage.textContent = job.last_message || "";
+      jobLog.textContent = job.log_tail || "Waiting for pipeline output...";
+      const {log_tail: _logTail, ...metadata} = job;
+      jobOutput.textContent = JSON.stringify(metadata, null, 2);
+      if (wasNearBottom) jobLog.scrollTop = jobLog.scrollHeight;
+    }
+
+    async function pollJob(jobId) {
+      for (;;) {
+        const job = await responseJson(await fetch(`/api/jobs/${encodeURIComponent(jobId)}`));
+        const progress = Number(job.progress_percent || 0);
+        uploadStatus.textContent = `Status: ${job.status} · ${progress}%`;
+        renderJob(job);
+        if (job.status === "completed") {
+          uploadStatus.className = "status success";
+          sourceRunId.value = job.run_id;
+          await loadSubjects(job.run_id);
+          return;
+        }
+        if (["failed", "interrupted"].includes(job.status)) {
+          uploadStatus.className = "status error";
+          return;
+        }
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
+    }
+
+    function renderSubjects(preferredSubject = "") {
+      const filter = subjectSearch.value.trim().toLowerCase();
+      const subjects = embeddedSubjects.filter(item =>
+        item.subject.toLowerCase().includes(filter)
+      );
+      const current = preferredSubject || subjectPicker.value;
+      subjectPicker.replaceChildren(new Option(
+        subjects.length ? "Select an embedded subject" : "No embedded subjects found",
+        ""
+      ));
+      for (const item of subjects) {
+        const label = `${item.subject} (${item.topic_count} topics, ${item.concept_count} concepts)`;
+        subjectPicker.add(new Option(label, item.subject));
+      }
+      if (subjects.some(item => item.subject === current)) subjectPicker.value = current;
+    }
+
+    function renderTopics(preferredTopic = "") {
+      const filter = topicSearch.value.trim().toLowerCase();
+      const topics = embeddedTopics.filter(item =>
+        item.topic.toLowerCase().includes(filter)
+      );
+      const currentTopic = preferredTopic || topicPicker.value;
+      const currentRun = sourceRunId.value;
+      const runIds = [...new Set(embeddedTopics.map(item => item.source_run_id))];
+      const allOption = new Option(
+        embeddedTopics.length
+          ? `All topics (${embeddedTopics.length})`
+          : "No embedded topics found",
+        ""
+      );
+      allOption.dataset.runId = runIds.length === 1 ? runIds[0] : "";
+      topicPicker.replaceChildren(allOption);
+      for (const item of topics) {
+        const runLabel = item.source_run_id.slice(0, 18);
+        const label = `${item.topic} (${item.concept_count} concepts, ${item.chunk_count} chunks · ${runLabel})`;
+        const option = new Option(label, item.topic);
+        option.dataset.runId = item.source_run_id;
+        option.dataset.subject = item.subject;
+        topicPicker.add(option);
+      }
+      const match = [...topicPicker.options].find(option =>
+        currentTopic && option.value === currentTopic &&
+        (!currentRun || option.dataset.runId === currentRun)
+      );
+      if (match) match.selected = true;
+      else allOption.selected = true;
+      topicPicker.disabled = embeddedTopics.length === 0;
+      syncTopicRun();
+      catalogSummary.textContent = embeddedTopics.length
+        ? `All ${embeddedTopics.length} persisted topics are selected by default for RAG generation.`
+        : "No persisted validated topics match this selection.";
+    }
+
+    function syncTopicRun() {
+      const option = topicPicker.selectedOptions[0];
+      sourceRunId.value = option?.dataset.runId || "";
+    }
+
+    function renderClasses() {
+      const current = classPicker.value;
+      classPicker.replaceChildren(new Option(
+        embeddedClasses.length ? "All classes / grades" : "No embedded classes found",
+        ""
+      ));
+      for (const item of embeddedClasses) {
+        const label = `${item.class_level} (${item.subject_count} subjects, ${item.topic_count} topics)`;
+        classPicker.add(new Option(label, item.class_level));
+      }
+      if (embeddedClasses.some(item => item.class_level === current)) classPicker.value = current;
+    }
+
+    async function loadTopics(classLevel, subject, preferredRun = null) {
+      catalogSummary.className = "muted catalog-summary";
+      if (!subject) {
+        embeddedTopics = [];
+        renderTopics();
+        return;
+      }
+      catalogSummary.textContent = "Loading persisted topics...";
+      const params = new URLSearchParams({subject});
+      if (classLevel) params.set("class_level", classLevel);
+      if (preferredRun) params.set("source_run_id", preferredRun);
+      try {
+        const data = await responseJson(await fetch(`/api/catalog/topics?${params}`));
+        embeddedTopics = data.items;
+        topicSearch.value = "";
+        renderTopics();
+      } catch (error) {
+        embeddedTopics = [];
+        renderTopics();
+        catalogSummary.textContent = error.message;
+        catalogSummary.className = "error catalog-summary";
+      }
+    }
+
+    async function loadSubjects(classLevel = null, preferredRun = null) {
+      catalogSummary.className = "muted catalog-summary";
+      catalogSummary.textContent = "Loading persisted RAG content...";
+      const params = new URLSearchParams();
+      if (classLevel) params.set("class_level", classLevel);
+      try {
+        const data = await responseJson(await fetch(`/api/catalog/subjects?${params}`));
+        embeddedSubjects = data.items;
+        subjectSearch.value = "";
+        const preferred = preferredRun
+          ? embeddedSubjects.find(item => item.run_ids.includes(preferredRun))
+          : embeddedSubjects[0];
+        renderSubjects(preferred?.subject || "");
+        if (preferred) {
+          subjectPicker.value = preferred.subject;
+          sourceRunId.value = preferredRun || "";
+          await loadTopics(classPicker.value, preferred.subject, preferredRun);
+        } else {
+          embeddedTopics = [];
+          renderTopics();
+        }
+      } catch (error) {
+        embeddedSubjects = [];
+        renderSubjects();
+        catalogSummary.textContent = error.message;
+        catalogSummary.className = "error catalog-summary";
+      }
+    }
+
+    async function loadClasses() {
+      try {
+        const data = await responseJson(await fetch("/api/catalog/classes"));
+        embeddedClasses = data.items;
+        renderClasses();
+      } catch (error) {
+        embeddedClasses = [];
+        renderClasses();
+      }
+      await loadSubjects();
+    }
+
+    classPicker.addEventListener("change", () => {
+      sourceRunId.value = "";
+      loadSubjects(classPicker.value);
+    });
+    subjectSearch.addEventListener("input", () => renderSubjects());
+    topicSearch.addEventListener("input", () => renderTopics());
+    subjectPicker.addEventListener("change", () => {
+      sourceRunId.value = "";
+      loadTopics(classPicker.value, subjectPicker.value);
+    });
+    topicPicker.addEventListener("change", syncTopicRun);
+
+    questionForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const button = questionForm.querySelector("button");
+      const form = new FormData(questionForm);
+      const payload = Object.fromEntries(form.entries());
+      payload.count = Number(payload.count);
+      payload.persist = form.has("persist");
+      payload.diagram_mode = form.has("diagram_only") ? "diagram_only" : "auto";
+      delete payload.diagram_only;
+      if (!payload.class_level) delete payload.class_level;
+      if (!payload.subject) delete payload.subject;
+      if (!payload.topic) delete payload.topic;
+      if (!payload.source_run_id) delete payload.source_run_id;
+      button.disabled = true;
+      questionStatus.className = "status";
+      questionStatus.textContent = "Retrieving context and generating...";
+      try {
+        const result = await responseJson(await fetch("/api/questions", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(payload)
+        }));
+        questionStatus.className = result.validation?.partial
+          ? "status warning"
+          : "status success";
+        questionStatus.textContent = result.validation?.message
+          || `${result.count} validated questions generated.`;
+        questionOutput.textContent = JSON.stringify(result, null, 2);
+        renderQuestionPreview(result);
+      } catch (error) {
+        questionStatus.className = "status error";
+        questionStatus.textContent = error.message;
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    loadClasses();
+  </script>
+</body>
+</html>

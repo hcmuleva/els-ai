@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-07-20T13:06:25.147638+00:00",
+  "extractor_provider": "heuristic",
+  "counts": {
+    "books": 19,
+    "pages_total": 484,
+    "pages_kept": 467,
+    "distilled_units": 381,
+    "concepts_passed": 381,
+    "learning_objectives": 2286,
+    "misconceptions": 762,
+    "competencies": 381,
+    "graph_nodes": 381,
+    "graph_edges": 3434,
+    "assessment_profiles": 381,
+    "chunks": 973,
+    "embedding_units": 381,
+    "vector_records": 973,
+    "composites": 0,
+    "questions": 0
+  },
+  "level_bands": {
+    "unrated": 381
+  },
+  "question_bands": {},
+  "question_sources": {},
+  "files": [
+    "assessment_repository.json",
+    "chunk_repository.json",
+    "clean_corpus.json",
+    "competency_repository.json",
+    "composite_repository.json",
+    "concept_repository.json",
+    "embedding_ready.json",
+    "knowledge_graph.json",
+    "knowledge_inventory.json",
+    "knowledge_repository.json",
+    "learning_objective_repository.json",
+    "level_repository.json",
+    "misconception_repository.json",
+    "page_quality.json",
+    "quality_validation.json",
+    "question_repository.json",
+    "vectordb_dataset.json",
+    "manifest.json"
+  ]
+}

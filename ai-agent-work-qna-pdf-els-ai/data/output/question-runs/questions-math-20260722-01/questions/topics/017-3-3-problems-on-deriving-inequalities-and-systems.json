@@ -1,0 +1,19 @@
+{
+  "key": "3.3",
+  "topic": "3.3 Problems on Deriving Inequalities and Systems",
+  "questions": [],
+  "requested": 5,
+  "generated": 0,
+  "context_chunks": [
+    "chunk_c649aa440b",
+    "chunk_c9580fbc42"
+  ],
+  "source_pages": [],
+  "rejected": [
+    {
+      "issues": [
+        "LaTeX backslashes inside JSON strings must be escaped"
+      ]
+    }
+  ]
+}

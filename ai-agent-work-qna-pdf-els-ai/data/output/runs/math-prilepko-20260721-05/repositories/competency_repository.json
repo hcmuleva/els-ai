@@ -1,0 +1,594 @@
+[
+  {
+    "competency_id": "comp_1cbb8753b6",
+    "concept_id": "concept_966b1f96a5",
+    "concept_name": "1.1 Linear Equations andInequalities in One Variable practice pages 11-13",
+    "skill": "Define and distinguish 1.1 Linear Equations andInequalities in One Variable practice pages 11-13",
+    "outcome": "Learner can accurately define 1.1 Linear Equations andInequalities in One Variable practice pages 11-13 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_bb68f4ae07",
+    "concept_id": "concept_f591c9246c",
+    "concept_name": "1.2 QuadraticEquations andInequalities practice pages 14-18",
+    "skill": "Define and distinguish 1.2 QuadraticEquations andInequalities practice pages 14-18",
+    "outcome": "Learner can accurately define 1.2 QuadraticEquations andInequalities practice pages 14-18 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_98e31d8974",
+    "concept_id": "concept_5e078c2130",
+    "concept_name": "1.3 InverseProportionality practice pages 19-21",
+    "skill": "Define and distinguish 1.3 InverseProportionality practice pages 19-21",
+    "outcome": "Learner can accurately define 1.3 InverseProportionality practice pages 19-21 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_503f38bb9c",
+    "concept_id": "concept_5b1da3f2f2",
+    "concept_name": "1.4 Equations and Inequalities of Higher Degrees practice pages 22-26",
+    "skill": "Define and distinguish 1.4 Equations and Inequalities of Higher Degrees practice pages 22-26",
+    "outcome": "Learner can accurately define 1.4 Equations and Inequalities of Higher Degrees practice pages 22-26 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_6b3fed9023",
+    "concept_id": "concept_aa5d393aaf",
+    "concept_name": "1.5 Linear Systems of Equations and Inequalities practice pages 27-29",
+    "skill": "Define and distinguish 1.5 Linear Systems of Equations and Inequalities practice pages 27-29",
+    "outcome": "Learner can accurately define 1.5 Linear Systems of Equations and Inequalities practice pages 27-29 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_1ee6597478",
+    "concept_id": "concept_416b34274b",
+    "concept_name": "1.6 Systems ofEquationsandInequalities practice pages 30-32",
+    "skill": "Define and distinguish 1.6 Systems ofEquationsandInequalities practice pages 30-32",
+    "outcome": "Learner can accurately define 1.6 Systems ofEquationsandInequalities practice pages 30-32 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_b52ccdc61b",
+    "concept_id": "concept_d37918f89a",
+    "concept_name": "2.1 Irrational Equations andInequalities practice pages 33-37",
+    "skill": "Define and distinguish 2.1 Irrational Equations andInequalities practice pages 33-37",
+    "outcome": "Learner can accurately define 2.1 Irrational Equations andInequalities practice pages 33-37 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_957c87db86",
+    "concept_id": "concept_e81eedd27f",
+    "concept_name": "2.2 Systems ofIrrational Equations andInequalities practice pages 38-38",
+    "skill": "Define and distinguish 2.2 Systems ofIrrational Equations andInequalities practice pages 38-38",
+    "outcome": "Learner can accurately define 2.2 Systems ofIrrational Equations andInequalities practice pages 38-38 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_36fb4b2f5c",
+    "concept_id": "concept_246ce853ae",
+    "concept_name": "2.3 An Exponential and a Logarithmic Function, practice pages 39-44",
+    "skill": "Define and distinguish 2.3 An Exponential and a Logarithmic Function, practice pages 39-44",
+    "outcome": "Learner can accurately define 2.3 An Exponential and a Logarithmic Function, practice pages 39-44 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_3367bb8f63",
+    "concept_id": "concept_19a4d53938",
+    "concept_name": "2.3 An Exponential and a Logarithmic Function, practice pages 45-50",
+    "skill": "Define and distinguish 2.3 An Exponential and a Logarithmic Function, practice pages 45-50",
+    "outcome": "Learner can accurately define 2.3 An Exponential and a Logarithmic Function, practice pages 45-50 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_05856ba229",
+    "concept_id": "concept_1a1cc801ab",
+    "concept_name": "2.4 Transformation of Trigonometric Expressions practice pages 51-53",
+    "skill": "Define and distinguish 2.4 Transformation of Trigonometric Expressions practice pages 51-53",
+    "outcome": "Learner can accurately define 2.4 Transformation of Trigonometric Expressions practice pages 51-53 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_7947583fe2",
+    "concept_id": "concept_a8bc606a3c",
+    "concept_name": "2.5 Trigonometric Functions practice pages 54-56",
+    "skill": "Define and distinguish 2.5 Trigonometric Functions practice pages 54-56",
+    "outcome": "Learner can accurately define 2.5 Trigonometric Functions practice pages 54-56 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_fc0408ccc2",
+    "concept_id": "concept_c659b18a62",
+    "concept_name": "2.6 Inverse Trigonometric Functions practice pages 57-60",
+    "skill": "Define and distinguish 2.6 Inverse Trigonometric Functions practice pages 57-60",
+    "outcome": "Learner can accurately define 2.6 Inverse Trigonometric Functions practice pages 57-60 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_2db2c784cc",
+    "concept_id": "concept_73b430198b",
+    "concept_name": "2.7 Trigonometric Equations and Systems of Equations practice pages 61-66",
+    "skill": "Define and distinguish 2.7 Trigonometric Equations and Systems of Equations practice pages 61-66",
+    "outcome": "Learner can accurately define 2.7 Trigonometric Equations and Systems of Equations practice pages 61-66 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_dda8427e22",
+    "concept_id": "concept_2a6f7d6b1b",
+    "concept_name": "2.7 Trigonometric Equations and Systems of Equations practice pages 67-69",
+    "skill": "Define and distinguish 2.7 Trigonometric Equations and Systems of Equations practice pages 67-69",
+    "outcome": "Learner can accurately define 2.7 Trigonometric Equations and Systems of Equations practice pages 67-69 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_5173015fa5",
+    "concept_id": "concept_0b8bb1d4ab",
+    "concept_name": "2.8 TrigonometricInequalities practice pages 70-71",
+    "skill": "Define and distinguish 2.8 TrigonometricInequalities practice pages 70-71",
+    "outcome": "Learner can accurately define 2.8 TrigonometricInequalities practice pages 70-71 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_0dbb45892f",
+    "concept_id": "concept_80f2b383f9",
+    "concept_name": "3.1 Problems onMotion practice pages 72-77",
+    "skill": "Define and distinguish 3.1 Problems onMotion practice pages 72-77",
+    "outcome": "Learner can accurately define 3.1 Problems onMotion practice pages 72-77 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_2db67b4933",
+    "concept_id": "concept_ce37252ec0",
+    "concept_name": "3.2 Problems on Percentage,Mixtures, practice pages 78-82",
+    "skill": "Define and distinguish 3.2 Problems on Percentage,Mixtures, practice pages 78-82",
+    "outcome": "Learner can accurately define 3.2 Problems on Percentage,Mixtures, practice pages 78-82 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_b38dd245b2",
+    "concept_id": "concept_a7d0197ca3",
+    "concept_name": "3.3 Problems onDerivingInequalities and Systems practice pages 83-85",
+    "skill": "Define and distinguish 3.3 Problems onDerivingInequalities and Systems practice pages 83-85",
+    "outcome": "Learner can accurately define 3.3 Problems onDerivingInequalities and Systems practice pages 83-85 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_192a551957",
+    "concept_id": "concept_5d8da8cc3d",
+    "concept_name": "4.1 TheAntiderivative.TheNewton-LeibnizFormula practice pages 86-88",
+    "skill": "Define and distinguish 4.1 TheAntiderivative.TheNewton-LeibnizFormula practice pages 86-88",
+    "outcome": "Learner can accurately define 4.1 TheAntiderivative.TheNewton-LeibnizFormula practice pages 86-88 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_47e86364d1",
+    "concept_id": "concept_9a49ed3c17",
+    "concept_name": "4.2 CalculatingtheAreas ofPlaneFigures practice pages 89-91",
+    "skill": "Define and distinguish 4.2 CalculatingtheAreas ofPlaneFigures practice pages 89-91",
+    "outcome": "Learner can accurately define 4.2 CalculatingtheAreas ofPlaneFigures practice pages 89-91 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_f80eb80040",
+    "concept_id": "concept_bd349d0c63",
+    "concept_name": "5.1 Progressions practice pages 92-97",
+    "skill": "Define and distinguish 5.1 Progressions practice pages 92-97",
+    "outcome": "Learner can accurately define 5.1 Progressions practice pages 92-97 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_e1f2c1da4e",
+    "concept_id": "concept_2bfece366b",
+    "concept_name": "5.2 Number Sequences practice pages 98-100",
+    "skill": "Define and distinguish 5.2 Number Sequences practice pages 98-100",
+    "outcome": "Learner can accurately define 5.2 Number Sequences practice pages 98-100 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_5fe617c0aa",
+    "concept_id": "concept_0dc5c6a4a3",
+    "concept_name": "6.1 Linear Operations onVectors practice pages 101-102",
+    "skill": "Define and distinguish 6.1 Linear Operations onVectors practice pages 101-102",
+    "outcome": "Learner can accurately define 6.1 Linear Operations onVectors practice pages 101-102 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_579e6fb1d8",
+    "concept_id": "concept_d6b3245864",
+    "concept_name": "6.2 TheScalarProductofVectors practice pages 103-106",
+    "skill": "Define and distinguish 6.2 TheScalarProductofVectors practice pages 103-106",
+    "outcome": "Learner can accurately define 6.2 TheScalarProductofVectors practice pages 103-106 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_2982c2378f",
+    "concept_id": "concept_e007a08ac3",
+    "concept_name": "7.1 Problems on Proving Propositions practice pages 107-108",
+    "skill": "Define and distinguish 7.1 Problems on Proving Propositions practice pages 107-108",
+    "outcome": "Learner can accurately define 7.1 Problems on Proving Propositions practice pages 107-108 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_4965c6b643",
+    "concept_id": "concept_958d98624e",
+    "concept_name": "7.2 ConstructionProblems practice pages 109-109",
+    "skill": "Define and distinguish 7.2 ConstructionProblems practice pages 109-109",
+    "outcome": "Learner can accurately define 7.2 ConstructionProblems practice pages 109-109 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_99668105dc",
+    "concept_id": "concept_52319e8fbb",
+    "concept_name": "7.3 Problems on Calculation practice pages 110-114",
+    "skill": "Define and distinguish 7.3 Problems on Calculation practice pages 110-114",
+    "outcome": "Learner can accurately define 7.3 Problems on Calculation practice pages 110-114 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_840ae25947",
+    "concept_id": "concept_322bf2bf32",
+    "concept_name": "8.1 A Straight Line,a Plane,Polyhedra practice pages 115-119",
+    "skill": "Define and distinguish 8.1 A Straight Line,a Plane,Polyhedra practice pages 115-119",
+    "outcome": "Learner can accurately define 8.1 A Straight Line,a Plane,Polyhedra practice pages 115-119 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_a3cf9f0f6f",
+    "concept_id": "concept_715e66b12a",
+    "concept_name": "8.2 Problems on Combinations of Polyhedra practice pages 120-125",
+    "skill": "Define and distinguish 8.2 Problems on Combinations of Polyhedra practice pages 120-125",
+    "outcome": "Learner can accurately define 8.2 Problems on Combinations of Polyhedra practice pages 120-125 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_5168ba8739",
+    "concept_id": "concept_dc76038a15",
+    "concept_name": "8.2 Problems on Combinations of Polyhedra practice pages 126-126",
+    "skill": "Define and distinguish 8.2 Problems on Combinations of Polyhedra practice pages 126-126",
+    "outcome": "Learner can accurately define 8.2 Problems on Combinations of Polyhedra practice pages 126-126 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_913e16c41e",
+    "concept_id": "concept_5baf3b211f",
+    "concept_name": "8.3 VolumesofSolidsofRevolution practice pages 127-127",
+    "skill": "Define and distinguish 8.3 VolumesofSolidsofRevolution practice pages 127-127",
+    "outcome": "Learner can accurately define 8.3 VolumesofSolidsofRevolution practice pages 127-127 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_23214638cb",
+    "concept_id": "concept_9f574ad684",
+    "concept_name": "9.1 ProblemsinAlgebra practice pages 128-130",
+    "skill": "Define and distinguish 9.1 ProblemsinAlgebra practice pages 128-130",
+    "outcome": "Learner can accurately define 9.1 ProblemsinAlgebra practice pages 128-130 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_becd02d27b",
+    "concept_id": "concept_df3b2956cd",
+    "concept_name": "9.2 Limit of aFunction.Continuity practice pages 131-131",
+    "skill": "Define and distinguish 9.2 Limit of aFunction.Continuity practice pages 131-131",
+    "outcome": "Learner can accurately define 9.2 Limit of aFunction.Continuity practice pages 131-131 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_f31f495673",
+    "concept_id": "concept_c11559b955",
+    "concept_name": "9.3 TheDerivative of aFunction practice pages 132-133",
+    "skill": "Define and distinguish 9.3 TheDerivative of aFunction practice pages 132-133",
+    "outcome": "Learner can accurately define 9.3 TheDerivative of aFunction practice pages 132-133 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_5565af4a70",
+    "concept_id": "concept_e929a4228c",
+    "concept_name": "9.4 IntegralCalculus.MiscellaneousProblems practice pages 134-138",
+    "skill": "Define and distinguish 9.4 IntegralCalculus.MiscellaneousProblems practice pages 134-138",
+    "outcome": "Learner can accurately define 9.4 IntegralCalculus.MiscellaneousProblems practice pages 134-138 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_f2ad061bbe",
+    "concept_id": "concept_afd5a9c26a",
+    "concept_name": "1.1 LinearEquations andInequalities in OneVariable practice pages 139-140",
+    "skill": "Perform the procedure 1.1 LinearEquations andInequalities in OneVariable practice pages 139-140",
+    "outcome": "Learner can perform 1.1 LinearEquations andInequalities in OneVariable practice pages 139-140 accurately and safely.",
+    "assessment": "Practical"
+  },
+  {
+    "competency_id": "comp_ff0fb11424",
+    "concept_id": "concept_78fabb746d",
+    "concept_name": "1.2 Quadratic Equations andInequalities practice pages 144-149",
+    "skill": "Define and distinguish 1.2 Quadratic Equations andInequalities practice pages 144-149",
+    "outcome": "Learner can accurately define 1.2 Quadratic Equations andInequalities practice pages 144-149 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_c9095f972a",
+    "concept_id": "concept_2c57fddca7",
+    "concept_name": "1.3 InverseProportionality practice pages 150-152",
+    "skill": "Define and distinguish 1.3 InverseProportionality practice pages 150-152",
+    "outcome": "Learner can accurately define 1.3 InverseProportionality practice pages 150-152 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_92531c8dc6",
+    "concept_id": "concept_6a9f8ae9e4",
+    "concept_name": "1.4 Equations and Inequalities of Higher Degrees practice pages 158-163",
+    "skill": "Define and distinguish 1.4 Equations and Inequalities of Higher Degrees practice pages 158-163",
+    "outcome": "Learner can accurately define 1.4 Equations and Inequalities of Higher Degrees practice pages 158-163 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_476300719a",
+    "concept_id": "concept_d3d5fa9c90",
+    "concept_name": "1.4 Equations and Inequalities of Higher Degrees practice pages 164-167",
+    "skill": "Define and distinguish 1.4 Equations and Inequalities of Higher Degrees practice pages 164-167",
+    "outcome": "Learner can accurately define 1.4 Equations and Inequalities of Higher Degrees practice pages 164-167 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_9e9d6d08b7",
+    "concept_id": "concept_78a9088b3c",
+    "concept_name": "1.5 Linear Systems ofEquations andInequalities practice pages 168-170",
+    "skill": "Define and distinguish 1.5 Linear Systems ofEquations andInequalities practice pages 168-170",
+    "outcome": "Learner can accurately define 1.5 Linear Systems ofEquations andInequalities practice pages 168-170 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_449e47621e",
+    "concept_id": "concept_48e09ef5fc",
+    "concept_name": "1.6 Systems ofEquations andInequalities practice pages 171-173",
+    "skill": "Define and distinguish 1.6 Systems ofEquations andInequalities practice pages 171-173",
+    "outcome": "Learner can accurately define 1.6 Systems ofEquations andInequalities practice pages 171-173 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_bcda6efef2",
+    "concept_id": "concept_ddaf06dfd0",
+    "concept_name": "2.1 Irrational Equations and Inequalities practice pages 175-179",
+    "skill": "Perform the procedure 2.1 Irrational Equations and Inequalities practice pages 175-179",
+    "outcome": "Learner can perform 2.1 Irrational Equations and Inequalities practice pages 175-179 accurately and safely.",
+    "assessment": "Practical"
+  },
+  {
+    "competency_id": "comp_9f904e1584",
+    "concept_id": "concept_e4db108e9c",
+    "concept_name": "2.2 Systems ofIrrationalEquations practice pages 180-180",
+    "skill": "Define and distinguish 2.2 Systems ofIrrationalEquations practice pages 180-180",
+    "outcome": "Learner can accurately define 2.2 Systems ofIrrationalEquations practice pages 180-180 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_29a93e3005",
+    "concept_id": "concept_86b20d7384",
+    "concept_name": "2.3 An Exponential and aLogarithmic Functions, practice pages 181-186",
+    "skill": "Define and distinguish 2.3 An Exponential and aLogarithmic Functions, practice pages 181-186",
+    "outcome": "Learner can accurately define 2.3 An Exponential and aLogarithmic Functions, practice pages 181-186 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_cd5826cc87",
+    "concept_id": "concept_7df0ec68cd",
+    "concept_name": "2.3 An Exponential and aLogarithmic Functions, practice pages 187-190",
+    "skill": "Define and distinguish 2.3 An Exponential and aLogarithmic Functions, practice pages 187-190",
+    "outcome": "Learner can accurately define 2.3 An Exponential and aLogarithmic Functions, practice pages 187-190 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_b52037e480",
+    "concept_id": "concept_9b3dbd356a",
+    "concept_name": "2.4 Transformation of TrigonometricExpressions practice pages 191-192",
+    "skill": "Define and distinguish 2.4 Transformation of TrigonometricExpressions practice pages 191-192",
+    "outcome": "Learner can accurately define 2.4 Transformation of TrigonometricExpressions practice pages 191-192 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_597333bf91",
+    "concept_id": "concept_7d3b7f64b8",
+    "concept_name": "2.5 TrigonometricFunctions practice pages 193-199",
+    "skill": "Define and distinguish 2.5 TrigonometricFunctions practice pages 193-199",
+    "outcome": "Learner can accurately define 2.5 TrigonometricFunctions practice pages 193-199 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_d07abcfab1",
+    "concept_id": "concept_28a33373e8",
+    "concept_name": "2.6 InverseTrigonometricFunctions practice pages 200-204",
+    "skill": "Define and distinguish 2.6 InverseTrigonometricFunctions practice pages 200-204",
+    "outcome": "Learner can accurately define 2.6 InverseTrigonometricFunctions practice pages 200-204 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_6435ce82dc",
+    "concept_id": "concept_979d1266a0",
+    "concept_name": "2.7 TrigonometricEquations and Systems ofEquations practice pages 205-210",
+    "skill": "Define and distinguish 2.7 TrigonometricEquations and Systems ofEquations practice pages 205-210",
+    "outcome": "Learner can accurately define 2.7 TrigonometricEquations and Systems ofEquations practice pages 205-210 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_023402969a",
+    "concept_id": "concept_45733a2de0",
+    "concept_name": "2.7 TrigonometricEquations and Systems ofEquations practice pages 211-216",
+    "skill": "Define and distinguish 2.7 TrigonometricEquations and Systems ofEquations practice pages 211-216",
+    "outcome": "Learner can accurately define 2.7 TrigonometricEquations and Systems ofEquations practice pages 211-216 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_14066e0035",
+    "concept_id": "concept_4bf489703b",
+    "concept_name": "2.7 TrigonometricEquations and Systems ofEquations practice pages 217-218",
+    "skill": "Define and distinguish 2.7 TrigonometricEquations and Systems ofEquations practice pages 217-218",
+    "outcome": "Learner can accurately define 2.7 TrigonometricEquations and Systems ofEquations practice pages 217-218 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_32d85a3b90",
+    "concept_id": "concept_9dcfcbddae",
+    "concept_name": "2.8 TrigonometricInequalities practice pages 219-220",
+    "skill": "Define and distinguish 2.8 TrigonometricInequalities practice pages 219-220",
+    "outcome": "Learner can accurately define 2.8 TrigonometricInequalities practice pages 219-220 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_66b971fc1c",
+    "concept_id": "concept_55243fb7b8",
+    "concept_name": "3.1 ProblemsonMotion practice pages 221-221",
+    "skill": "Define and distinguish 3.1 ProblemsonMotion practice pages 221-221",
+    "outcome": "Learner can accurately define 3.1 ProblemsonMotion practice pages 221-221 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_8cf230c102",
+    "concept_id": "concept_e585373915",
+    "concept_name": "3.2 Problems on Percentages,Mixtures, practice pages 222-222",
+    "skill": "Define and distinguish 3.2 Problems on Percentages,Mixtures, practice pages 222-222",
+    "outcome": "Learner can accurately define 3.2 Problems on Percentages,Mixtures, practice pages 222-222 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_2824fe5e72",
+    "concept_id": "concept_6a958536a0",
+    "concept_name": "3.3 Problems onDerivingInequalitiesand Systems practice pages 223-224",
+    "skill": "Define and distinguish 3.3 Problems onDerivingInequalitiesand Systems practice pages 223-224",
+    "outcome": "Learner can accurately define 3.3 Problems onDerivingInequalitiesand Systems practice pages 223-224 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_ed40779f6f",
+    "concept_id": "concept_d5335cf614",
+    "concept_name": "4.1 The Antiderivative.The Newton-LeibnizFormula practice pages 225-226",
+    "skill": "Define and distinguish 4.1 The Antiderivative.The Newton-LeibnizFormula practice pages 225-226",
+    "outcome": "Learner can accurately define 4.1 The Antiderivative.The Newton-LeibnizFormula practice pages 225-226 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_f0bc31ca78",
+    "concept_id": "concept_5510e8ae01",
+    "concept_name": "4.2 CalculatingtheAreasofPlane Figures practice pages 227-229",
+    "skill": "Define and distinguish 4.2 CalculatingtheAreasofPlane Figures practice pages 227-229",
+    "outcome": "Learner can accurately define 4.2 CalculatingtheAreasofPlane Figures practice pages 227-229 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_4799156d0a",
+    "concept_id": "concept_cd9ec05584",
+    "concept_name": "5.1 Progressions practice pages 230-232",
+    "skill": "Define and distinguish 5.1 Progressions practice pages 230-232",
+    "outcome": "Learner can accurately define 5.1 Progressions practice pages 230-232 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_fa22e159a2",
+    "concept_id": "concept_631a52d707",
+    "concept_name": "5.2 NumberSequences practice pages 233-235",
+    "skill": "Define and distinguish 5.2 NumberSequences practice pages 233-235",
+    "outcome": "Learner can accurately define 5.2 NumberSequences practice pages 233-235 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_0bafc5ee25",
+    "concept_id": "concept_310360799c",
+    "concept_name": "6.1 Linear Operations onVectors practice pages 236-236",
+    "skill": "Define and distinguish 6.1 Linear Operations onVectors practice pages 236-236",
+    "outcome": "Learner can accurately define 6.1 Linear Operations onVectors practice pages 236-236 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_cf029a2349",
+    "concept_id": "concept_6bcc14f8fd",
+    "concept_name": "6.2 The ScalarProduct of Vectors practice pages 237-240",
+    "skill": "Define and distinguish 6.2 The ScalarProduct of Vectors practice pages 237-240",
+    "outcome": "Learner can accurately define 6.2 The ScalarProduct of Vectors practice pages 237-240 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_8fdd51bb15",
+    "concept_id": "concept_01dfdd2964",
+    "concept_name": "7.1 Problems onProvingProportions practice pages 241-244",
+    "skill": "Define and distinguish 7.1 Problems onProvingProportions practice pages 241-244",
+    "outcome": "Learner can accurately define 7.1 Problems onProvingProportions practice pages 241-244 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_1b84299e86",
+    "concept_id": "concept_157b94d8d6",
+    "concept_name": "7.2 Construction Problems practice pages 245-246",
+    "skill": "Define and distinguish 7.2 Construction Problems practice pages 245-246",
+    "outcome": "Learner can accurately define 7.2 Construction Problems practice pages 245-246 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_2bc4f8eff7",
+    "concept_id": "concept_d29f22e744",
+    "concept_name": "7.3 Problems on Calculation practice pages 247-251",
+    "skill": "Define and distinguish 7.3 Problems on Calculation practice pages 247-251",
+    "outcome": "Learner can accurately define 7.3 Problems on Calculation practice pages 247-251 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_6707bb2bdd",
+    "concept_id": "concept_165743b2c0",
+    "concept_name": "8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution practice pages 252-256",
+    "skill": "Define and distinguish 8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution practice pages 252-256",
+    "outcome": "Learner can accurately define 8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution practice pages 252-256 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_bc605aa54b",
+    "concept_id": "concept_01295855fc",
+    "concept_name": "8.2 Problemson CombinationsofPolyhedra practice pages 257-262",
+    "skill": "Define and distinguish 8.2 Problemson CombinationsofPolyhedra practice pages 257-262",
+    "outcome": "Learner can accurately define 8.2 Problemson CombinationsofPolyhedra practice pages 257-262 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_eafc9fb82a",
+    "concept_id": "concept_40907e2e0b",
+    "concept_name": "8.2 Problemson CombinationsofPolyhedra practice pages 263-263",
+    "skill": "Define and distinguish 8.2 Problemson CombinationsofPolyhedra practice pages 263-263",
+    "outcome": "Learner can accurately define 8.2 Problemson CombinationsofPolyhedra practice pages 263-263 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_ed83d70c6d",
+    "concept_id": "concept_7851214b7a",
+    "concept_name": "8.3 VolumesofSolidsofRevolution practice pages 264-264",
+    "skill": "Define and distinguish 8.3 VolumesofSolidsofRevolution practice pages 264-264",
+    "outcome": "Learner can accurately define 8.3 VolumesofSolidsofRevolution practice pages 264-264 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_597db6677e",
+    "concept_id": "concept_0a20a893b0",
+    "concept_name": "9.1 ProblemsinAlgebra practice pages 265-269",
+    "skill": "Define and distinguish 9.1 ProblemsinAlgebra practice pages 265-269",
+    "outcome": "Learner can accurately define 9.1 ProblemsinAlgebra practice pages 265-269 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_5a785d956e",
+    "concept_id": "concept_7c05741f2e",
+    "concept_name": "9.2 Limit of a Function.Continuity practice pages 270-272",
+    "skill": "Define and distinguish 9.2 Limit of a Function.Continuity practice pages 270-272",
+    "outcome": "Learner can accurately define 9.2 Limit of a Function.Continuity practice pages 270-272 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_81e2bb3bb2",
+    "concept_id": "concept_41e12f8bde",
+    "concept_name": "9.3 TheDerivative ofaFunction practice pages 273-274",
+    "skill": "Define and distinguish 9.3 TheDerivative ofaFunction practice pages 273-274",
+    "outcome": "Learner can accurately define 9.3 TheDerivative ofaFunction practice pages 273-274 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_18045f812f",
+    "concept_id": "concept_7efa7a3bb2",
+    "concept_name": "9.4 Integral Calculus.MiscellaneousProblems practice pages 275-280",
+    "skill": "Define and distinguish 9.4 Integral Calculus.MiscellaneousProblems practice pages 275-280",
+    "outcome": "Learner can accurately define 9.4 Integral Calculus.MiscellaneousProblems practice pages 275-280 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  }
+]

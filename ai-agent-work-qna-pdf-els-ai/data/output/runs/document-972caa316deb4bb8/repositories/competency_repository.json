@@ -1,0 +1,26 @@
+[
+  {
+    "competency_id": "comp_9cb95e2f42",
+    "concept_id": "concept_657d98b019",
+    "concept_name": "ELECTROMAGNETIC INDUCTION practice pages 1-6",
+    "skill": "Apply the principle of ELECTROMAGNETIC INDUCTION practice pages 1-6",
+    "outcome": "Learner can apply ELECTROMAGNETIC INDUCTION practice pages 1-6 to predict or explain outcomes.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_83b377738d",
+    "concept_id": "concept_b98adbe8f0",
+    "concept_name": "ELECTROMAGNETIC INDUCTION practice pages 7-12",
+    "skill": "Define and distinguish ELECTROMAGNETIC INDUCTION practice pages 7-12",
+    "outcome": "Learner can accurately define ELECTROMAGNETIC INDUCTION practice pages 7-12 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_ad884ca7cd",
+    "concept_id": "concept_8130b3391d",
+    "concept_name": "ELECTROMAGNETIC INDUCTION practice pages 13-17",
+    "skill": "Define and distinguish ELECTROMAGNETIC INDUCTION practice pages 13-17",
+    "outcome": "Learner can accurately define ELECTROMAGNETIC INDUCTION practice pages 13-17 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  }
+]

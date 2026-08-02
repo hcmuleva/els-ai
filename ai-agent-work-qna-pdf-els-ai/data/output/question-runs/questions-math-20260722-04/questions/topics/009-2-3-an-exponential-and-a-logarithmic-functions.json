@@ -1,0 +1,691 @@
+{
+  "key": "2.3",
+  "topic": "2.3 An Exponential and a Logarithmic Functions",
+  "questions": [
+    {
+      "question": {
+        "id": "c30bb2ba-7e2a-5e9e-b61e-47206c2bb429",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(x>0\\) and \\(x\\ne 1\\), if \\(\\log _2 x+\\log _x 2=\\frac{5}{2}\\), find the sum of all possible values of \\(x\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(t=\\log _2x\\). Since \\(\\log _x2=\\frac1t\\), \\(t+\\frac1t=\\frac52\\), so \\(2t^2-5t+2=0\\). Thus \\(t=2,\\frac12\\), giving \\(x=4,\\sqrt2\\). Therefore, the required sum is \\(4+\\sqrt2\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 41,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.3 An Exponential and a Logarithmic Functions",
+            "concept_ids": [
+              "concept_19a4d53938",
+              "concept_246ce853ae",
+              "concept_7df0ec68cd",
+              "concept_86b20d7384"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              180,
+              181,
+              182,
+              183,
+              184,
+              185,
+              186,
+              188,
+              189
+            ],
+            "source_chunk_ids": [
+              "chunk_080b86cb18",
+              "chunk_140af25ccf",
+              "chunk_e7605e8e5d",
+              "chunk_634d922282"
+            ]
+          },
+          "options": [
+            {
+              "id": "4_sqrt_2_1",
+              "label": "\\(4+\\sqrt{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Putting \\(t=\\log _2x\\) gives \\(t=2\\) or \\(t=\\frac12\\), hence \\(x=4\\) or \\(x=\\sqrt2\\)."
+            },
+            {
+              "id": "4_sqrt_2_2",
+              "label": "\\(4-\\sqrt{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two valid values of \\(x\\) must be added, not subtracted."
+            },
+            {
+              "id": "2_sqrt_2_3",
+              "label": "\\(2+\\sqrt{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The value \\(x=2\\) does not satisfy the equation."
+            },
+            {
+              "id": "5_4",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equation does not imply that the sum equals its right-hand side."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "06562899-6934-54b1-b890-a7eb909951f3",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(x\\) and \\(y\\) are positive real numbers satisfying \\(xy=8\\) and \\(\\log _x y+\\log _y x=\\frac52\\), find \\(x+y\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Put \\(t=\\log _x y\\). Then \\(\\log _y x=\\frac1t\\), so \\(t+\\frac1t=\\frac52\\), yielding \\(t=2\\) or \\(t=\\frac12\\). Hence \\(y=x^2\\) or \\(x=y^2\\). Together with \\(xy=8\\), this gives \\((x,y)=(2,4)\\) or \\((4,2)\\). Therefore, \\(x+y=6\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 42,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.3 An Exponential and a Logarithmic Functions",
+            "concept_ids": [
+              "concept_19a4d53938",
+              "concept_246ce853ae",
+              "concept_7df0ec68cd",
+              "concept_86b20d7384"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              180,
+              181,
+              182,
+              183,
+              184,
+              185,
+              186,
+              188,
+              189
+            ],
+            "source_chunk_ids": [
+              "chunk_080b86cb18",
+              "chunk_140af25ccf",
+              "chunk_e7605e8e5d",
+              "chunk_634d922282"
+            ]
+          },
+          "options": [
+            {
+              "id": "6_1",
+              "label": "\\(6\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The logarithmic condition gives \\(y=x^2\\) or \\(x=y^2\\), and \\(xy=8\\) gives the pair \\((2,4)\\) in either order."
+            },
+            {
+              "id": "8_2",
+              "label": "\\(8\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(8\\) is the product \\(xy\\), not the sum."
+            },
+            {
+              "id": "4_sqrt2_3",
+              "label": "\\(4\\sqrt2\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not follow from the two possible ordered pairs."
+            },
+            {
+              "id": "10_4",
+              "label": "\\(10\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The valid values are \\(2\\) and \\(4\\), whose sum is \\(6\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "2b6c37cd-1bae-5610-a6fd-3bf63471a617",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve the inequality \\(\\log _5(2x-1)>\\log _5(5-x)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Both logarithms require \\(2x-1>0\\) and \\(5-x>0\\), so \\(\\frac12<x<5\\). Because the base \\(5\\) is greater than \\(1\\), \\(\\log _5(2x-1)>\\log _5(5-x)\\) is equivalent to \\(2x-1>5-x\\). Thus \\(x>2\\), and the solution is \\(\\left(2,5\\right)\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 43,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.3 An Exponential and a Logarithmic Functions",
+            "concept_ids": [
+              "concept_19a4d53938",
+              "concept_246ce853ae",
+              "concept_7df0ec68cd",
+              "concept_86b20d7384"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              180,
+              181,
+              182,
+              183,
+              184,
+              185,
+              186,
+              188,
+              189
+            ],
+            "source_chunk_ids": [
+              "chunk_080b86cb18",
+              "chunk_140af25ccf",
+              "chunk_e7605e8e5d",
+              "chunk_634d922282"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_2_5_right_1",
+              "label": "\\(\\left(2,5\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The domain is \\(\\frac12<x<5\\), and since the base \\(5>1\\), the inequality reduces to \\(2x-1>5-x\\), giving \\(x>2\\)."
+            },
+            {
+              "id": "left_frac12_5_right_2",
+              "label": "\\(\\left(\\frac12,5\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is only the common domain and does not impose the comparison of arguments."
+            },
+            {
+              "id": "left_infty_2_right_3",
+              "label": "\\(\\left(-\\infty,2\\right)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Values below \\(\\frac12\\) are outside the logarithmic domain."
+            },
+            {
+              "id": "left_5_infty_right_4",
+              "label": "\\(\\left(5,\\infty\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "For \\(x>5\\), the argument \\(5-x\\) is negative."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "function-plot",
+            "width": 360,
+            "height": 300,
+            "xmin": 0.5,
+            "xmax": 5.0,
+            "ymin": -5.0,
+            "ymax": 5.0,
+            "equal_scale": false,
+            "title": null,
+            "elements": [
+              {
+                "type": "grid",
+                "step_x": 1.0,
+                "step_y": 1.0
+              },
+              {
+                "type": "axes",
+                "role": null,
+                "x_label": "x",
+                "y_label": "y",
+                "ticks": true,
+                "tick_step": 1.0
+              },
+              {
+                "type": "function",
+                "role": null,
+                "expr": "log(2*x-1)/log(5) - log(5-x)/log(5)",
+                "domain": [
+                  0.5,
+                  5.0
+                ],
+                "samples": 120,
+                "label": null,
+                "color": "#1f77b4"
+              },
+              {
+                "type": "point",
+                "role": null,
+                "at": [
+                  2.0,
+                  0.0
+                ],
+                "label": "boundary",
+                "color": "#d62728"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\" data-diagram-kind=\"function-plot\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g data-spec-index=\"0\" data-element-type=\"grid\"><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"66.44\" y1=\"34\" x2=\"66.44\" y2=\"266\"/><line x1=\"131.33\" y1=\"34\" x2=\"131.33\" y2=\"266\"/><line x1=\"196.22\" y1=\"34\" x2=\"196.22\" y2=\"266\"/><line x1=\"261.11\" y1=\"34\" x2=\"261.11\" y2=\"266\"/><line x1=\"326\" y1=\"34\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"242.8\" x2=\"326\" y2=\"242.8\"/><line x1=\"34\" y1=\"219.6\" x2=\"326\" y2=\"219.6\"/><line x1=\"34\" y1=\"196.4\" x2=\"326\" y2=\"196.4\"/><line x1=\"34\" y1=\"173.2\" x2=\"326\" y2=\"173.2\"/><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"126.8\" x2=\"326\" y2=\"126.8\"/><line x1=\"34\" y1=\"103.6\" x2=\"326\" y2=\"103.6\"/><line x1=\"34\" y1=\"80.4\" x2=\"326\" y2=\"80.4\"/><line x1=\"34\" y1=\"57.2\" x2=\"326\" y2=\"57.2\"/><line x1=\"34\" y1=\"34\" x2=\"326\" y2=\"34\"/></g></g><g data-spec-index=\"1\" data-element-type=\"axes\"><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"266\" x2=\"34\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"66.44\" y1=\"147\" x2=\"66.44\" y2=\"153\"/><text x=\"66.44\" y=\"164\" text-anchor=\"middle\">1</text><line x1=\"131.33\" y1=\"147\" x2=\"131.33\" y2=\"153\"/><text x=\"131.33\" y=\"164\" text-anchor=\"middle\">2</text><line x1=\"196.22\" y1=\"147\" x2=\"196.22\" y2=\"153\"/><text x=\"196.22\" y=\"164\" text-anchor=\"middle\">3</text><line x1=\"261.11\" y1=\"147\" x2=\"261.11\" y2=\"153\"/><text x=\"261.11\" y=\"164\" text-anchor=\"middle\">4</text><line x1=\"326\" y1=\"147\" x2=\"326\" y2=\"153\"/><text x=\"326\" y=\"164\" text-anchor=\"middle\">5</text><line x1=\"31\" y1=\"266\" x2=\"37\" y2=\"266\"/><text x=\"28\" y=\"269\" text-anchor=\"end\">-5</text><line x1=\"31\" y1=\"242.8\" x2=\"37\" y2=\"242.8\"/><text x=\"28\" y=\"245.8\" text-anchor=\"end\">-4</text><line x1=\"31\" y1=\"219.6\" x2=\"37\" y2=\"219.6\"/><text x=\"28\" y=\"222.6\" text-anchor=\"end\">-3</text><line x1=\"31\" y1=\"196.4\" x2=\"37\" y2=\"196.4\"/><text x=\"28\" y=\"199.4\" text-anchor=\"end\">-2</text><line x1=\"31\" y1=\"173.2\" x2=\"37\" y2=\"173.2\"/><text x=\"28\" y=\"176.2\" text-anchor=\"end\">-1</text><line x1=\"31\" y1=\"126.8\" x2=\"37\" y2=\"126.8\"/><text x=\"28\" y=\"129.8\" text-anchor=\"end\">1</text><line x1=\"31\" y1=\"103.6\" x2=\"37\" y2=\"103.6\"/><text x=\"28\" y=\"106.6\" text-anchor=\"end\">2</text><line x1=\"31\" y1=\"80.4\" x2=\"37\" y2=\"80.4\"/><text x=\"28\" y=\"83.4\" text-anchor=\"end\">3</text><line x1=\"31\" y1=\"57.2\" x2=\"37\" y2=\"57.2\"/><text x=\"28\" y=\"60.2\" text-anchor=\"end\">4</text><line x1=\"31\" y1=\"34\" x2=\"37\" y2=\"34\"/><text x=\"28\" y=\"37\" text-anchor=\"end\">5</text></g><text x=\"320\" y=\"142\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"38\" y=\"30\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">y</text></g><g data-spec-index=\"2\" data-element-type=\"function\"><polyline points=\"36.43,208.9 38.87,198.79 41.3,192.82 43.73,188.55 46.17,185.21 48.6,182.45 51.03,180.1 53.47,178.05 55.9,176.22 58.33,174.57 60.77,173.07 63.2,171.68 65.63,170.39 68.07,169.19 70.5,168.06 72.93,166.99 75.37,165.98 77.8,165.01 80.23,164.09 82.67,163.21 85.1,162.36 87.53,161.54 89.97,160.75 92.4,159.99 94.83,159.25 97.27,158.53 99.7,157.84 102.13,157.16 104.57,156.49 107,155.84 109.43,155.21 111.87,154.59 114.3,153.98 116.73,153.39 119.17,152.8 121.6,152.22 124.03,151.65 126.47,151.1 128.9,150.54 131.33,150 133.77,149.46 136.2,148.93 138.63,148.41 141.07,147.89 143.5,147.37 145.93,146.86 148.37,146.36 150.8,145.85 153.23,145.35 155.67,144.86 158.1,144.37 160.53,143.88 162.97,143.39 165.4,142.9 167.83,142.42 170.27,141.93 172.7,141.45 175.13,140.97 177.57,140.49 180,140.01 182.43,139.53 184.87,139.05 187.3,138.57 189.73,138.08 192.17,137.6 194.6,137.12 197.03,136.63 199.47,136.14 201.9,135.65 204.33,135.16 206.77,134.66 209.2,134.16 211.63,133.66 214.07,133.16 216.5,132.64 218.93,132.13 221.37,131.61 223.8,131.08 226.23,130.55 228.67,130.02 231.1,129.47 233.53,128.92 235.97,128.36 238.4,127.79 240.83,127.22 243.27,126.63 245.7,126.03 248.13,125.43 250.57,124.81 253,124.17 255.43,123.52 257.87,122.86 260.3,122.18 262.73,121.48 265.17,120.76 267.6,120.02 270.03,119.26 272.47,118.47 274.9,117.66 277.33,116.81 279.77,115.93 282.2,115 284.63,114.04 287.07,113.03 289.5,111.96 291.93,110.83 294.37,109.62 296.8,108.34 299.23,106.95 301.67,105.44 304.1,103.79 306.53,101.97 308.97,99.91 311.4,97.56 313.83,94.81 316.27,91.47 318.7,87.2 321.13,81.23 323.57,71.12\" fill=\"none\" stroke=\"#1f77b4\" stroke-width=\"2\"/></g><g data-spec-index=\"3\" data-element-type=\"point\"><circle cx=\"131.33\" cy=\"150\" r=\"3\" fill=\"#d62728\"/><text x=\"123.33\" y=\"142\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">boundary</text></g></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "92ba9c88-1605-59ae-9901-ba55b69d678f",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the area of the region satisfying \\(y-2<\\sqrt{1-x^2}\\) and \\(y>2\\lvert x\\rvert\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The region lies between \\(y=2\\lvert x\\rvert\\) and \\(y=2+\\sqrt{1-x^2}\\), with \\(-1<x<1\\). Hence its area is \\(\\int_{-1}^{1}\\left(2+\\sqrt{1-x^2}-2\\lvert x\\rvert\\right)dx\\). Using \\(\\int_{-1}^{1}\\sqrt{1-x^2}\\,dx=\\frac\\pi2\\) and \\(\\int_{-1}^{1}2\\lvert x\\rvert\\,dx=2\\), the area is \\(2+\\frac\\pi2\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 44,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.3 An Exponential and a Logarithmic Functions",
+            "concept_ids": [
+              "concept_19a4d53938",
+              "concept_246ce853ae",
+              "concept_7df0ec68cd",
+              "concept_86b20d7384"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              180,
+              181,
+              182,
+              183,
+              184,
+              185,
+              186,
+              188,
+              189
+            ],
+            "source_chunk_ids": [
+              "chunk_080b86cb18",
+              "chunk_140af25ccf",
+              "chunk_e7605e8e5d",
+              "chunk_634d922282"
+            ]
+          },
+          "options": [
+            {
+              "id": "2_frac_pi_2_1",
+              "label": "\\(2+\\frac{\\pi}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The area is \\(\\int_{-1}^{1}\\left(2+\\sqrt{1-x^2}-2\\lvert x\\rvert\\right)dx=2+\\frac\\pi2\\)."
+            },
+            {
+              "id": "4_frac_pi_2_2",
+              "label": "\\(4+\\frac{\\pi}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits the subtraction of the lower boundary contribution."
+            },
+            {
+              "id": "2_pi_3",
+              "label": "\\(2+\\pi\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The semicircular contribution is \\(\\frac\\pi2\\), not \\(\\pi\\)."
+            },
+            {
+              "id": "frac_pi_2_4",
+              "label": "\\(\\frac{\\pi}{2}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This accounts only for the semicircle and omits the remaining area."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "function-region",
+            "width": 360,
+            "height": 300,
+            "xmin": -1.0,
+            "xmax": 1.0,
+            "ymin": 0.0,
+            "ymax": 4.0,
+            "equal_scale": false,
+            "title": null,
+            "elements": [
+              {
+                "type": "grid",
+                "step_x": 1.0,
+                "step_y": 1.0
+              },
+              {
+                "type": "axes",
+                "role": null,
+                "x_label": "x",
+                "y_label": "y",
+                "ticks": true,
+                "tick_step": 1.0
+              },
+              {
+                "type": "function-region",
+                "upper_expr": "2 + sqrt(1 - x**2)",
+                "lower_expr": "2*abs(x)",
+                "domain": [
+                  -1.0,
+                  1.0
+                ],
+                "samples": 120,
+                "fill": "#93c5fd",
+                "fill_opacity": 0.35
+              },
+              {
+                "type": "function",
+                "role": null,
+                "expr": "2 + sqrt(1 - x**2)",
+                "domain": [
+                  -1.0,
+                  1.0
+                ],
+                "samples": 120,
+                "label": null,
+                "color": "#2563eb"
+              },
+              {
+                "type": "function",
+                "role": null,
+                "expr": "2*abs(x)",
+                "domain": [
+                  -1.0,
+                  1.0
+                ],
+                "samples": 120,
+                "label": null,
+                "color": "#dc2626"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\" data-diagram-kind=\"function-region\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g data-spec-index=\"0\" data-element-type=\"grid\"><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"34\" y1=\"34\" x2=\"34\" y2=\"266\"/><line x1=\"180\" y1=\"34\" x2=\"180\" y2=\"266\"/><line x1=\"326\" y1=\"34\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"208\" x2=\"326\" y2=\"208\"/><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"92\" x2=\"326\" y2=\"92\"/><line x1=\"34\" y1=\"34\" x2=\"326\" y2=\"34\"/></g></g><g data-spec-index=\"1\" data-element-type=\"axes\"><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"180\" y1=\"266\" x2=\"180\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"34\" y1=\"263\" x2=\"34\" y2=\"269\"/><text x=\"34\" y=\"280\" text-anchor=\"middle\">-1</text><line x1=\"326\" y1=\"263\" x2=\"326\" y2=\"269\"/><text x=\"326\" y=\"280\" text-anchor=\"middle\">1</text><line x1=\"177\" y1=\"208\" x2=\"183\" y2=\"208\"/><text x=\"174\" y=\"211\" text-anchor=\"end\">1</text><line x1=\"177\" y1=\"150\" x2=\"183\" y2=\"150\"/><text x=\"174\" y=\"153\" text-anchor=\"end\">2</text><line x1=\"177\" y1=\"92\" x2=\"183\" y2=\"92\"/><text x=\"174\" y=\"95\" text-anchor=\"end\">3</text><line x1=\"177\" y1=\"34\" x2=\"183\" y2=\"34\"/><text x=\"174\" y=\"37\" text-anchor=\"end\">4</text></g><text x=\"320\" y=\"258\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"184\" y=\"30\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">y</text></g><g data-spec-index=\"2\" data-element-type=\"function-region\"><polygon points=\"34,150 36.43,139.45 38.87,135.15 41.3,131.89 43.73,129.18 46.17,126.82 48.6,124.72 51.03,122.81 53.47,121.06 55.9,119.45 58.33,117.94 60.77,116.53 63.2,115.2 65.63,113.95 68.07,112.76 70.5,111.64 72.93,110.57 75.37,109.55 77.8,108.58 80.23,107.65 82.67,106.77 85.1,105.92 87.53,105.12 89.97,104.34 92.4,103.6 94.83,102.89 97.27,102.21 99.7,101.56 102.13,100.94 104.57,100.34 107,99.77 109.43,99.22 111.87,98.7 114.3,98.2 116.73,97.73 119.17,97.27 121.6,96.84 124.03,96.43 126.47,96.04 128.9,95.67 131.33,95.32 133.77,94.98 136.2,94.67 138.63,94.38 141.07,94.1 143.5,93.84 145.93,93.6 148.37,93.38 150.8,93.17 153.23,92.98 155.67,92.81 158.1,92.66 160.53,92.52 162.97,92.4 165.4,92.29 167.83,92.2 170.27,92.13 172.7,92.07 175.13,92.03 177.57,92.01 180,92 182.43,92.01 184.87,92.03 187.3,92.07 189.73,92.13 192.17,92.2 194.6,92.29 197.03,92.4 199.47,92.52 201.9,92.66 204.33,92.81 206.77,92.98 209.2,93.17 211.63,93.38 214.07,93.6 216.5,93.84 218.93,94.1 221.37,94.38 223.8,94.67 226.23,94.98 228.67,95.32 231.1,95.67 233.53,96.04 235.97,96.43 238.4,96.84 240.83,97.27 243.27,97.73 245.7,98.2 248.13,98.7 250.57,99.22 253,99.77 255.43,100.34 257.87,100.94 260.3,101.56 262.73,102.21 265.17,102.89 267.6,103.6 270.03,104.34 272.47,105.12 274.9,105.92 277.33,106.77 279.77,107.65 282.2,108.58 284.63,109.55 287.07,110.57 289.5,111.64 291.93,112.76 294.37,113.95 296.8,115.2 299.23,116.53 301.67,117.94 304.1,119.45 306.53,121.06 308.97,122.81 311.4,124.72 313.83,126.82 316.27,129.18 318.7,131.89 321.13,135.15 323.57,139.45 326,150 326,150 323.57,151.93 321.13,153.87 318.7,155.8 316.27,157.73 313.83,159.67 311.4,161.6 308.97,163.53 306.53,165.47 304.1,167.4 301.67,169.33 299.23,171.27 296.8,173.2 294.37,175.13 291.93,177.07 289.5,179 287.07,180.93 284.63,182.87 282.2,184.8 279.77,186.73 277.33,188.67 274.9,190.6 272.47,192.53 270.03,194.47 267.6,196.4 265.17,198.33 262.73,200.27 260.3,202.2 257.87,204.13 255.43,206.07 253,208 250.57,209.93 248.13,211.87 245.7,213.8 243.27,215.73 240.83,217.67 238.4,219.6 235.97,221.53 233.53,223.47 231.1,225.4 228.67,227.33 226.23,229.27 223.8,231.2 221.37,233.13 218.93,235.07 216.5,237 214.07,238.93 211.63,240.87 209.2,242.8 206.77,244.73 204.33,246.67 201.9,248.6 199.47,250.53 197.03,252.47 194.6,254.4 192.17,256.33 189.73,258.27 187.3,260.2 184.87,262.13 182.43,264.07 180,266 177.57,264.07 175.13,262.13 172.7,260.2 170.27,258.27 167.83,256.33 165.4,254.4 162.97,252.47 160.53,250.53 158.1,248.6 155.67,246.67 153.23,244.73 150.8,242.8 148.37,240.87 145.93,238.93 143.5,237 141.07,235.07 138.63,233.13 136.2,231.2 133.77,229.27 131.33,227.33 128.9,225.4 126.47,223.47 124.03,221.53 121.6,219.6 119.17,217.67 116.73,215.73 114.3,213.8 111.87,211.87 109.43,209.93 107,208 104.57,206.07 102.13,204.13 99.7,202.2 97.27,200.27 94.83,198.33 92.4,196.4 89.97,194.47 87.53,192.53 85.1,190.6 82.67,188.67 80.23,186.73 77.8,184.8 75.37,182.87 72.93,180.93 70.5,179 68.07,177.07 65.63,175.13 63.2,173.2 60.77,171.27 58.33,169.33 55.9,167.4 53.47,165.47 51.03,163.53 48.6,161.6 46.17,159.67 43.73,157.73 41.3,155.8 38.87,153.87 36.43,151.93 34,150\" fill=\"#93c5fd\" fill-opacity=\"0.35\" stroke=\"none\"/></g><g data-spec-index=\"3\" data-element-type=\"function\"><polyline points=\"34,150 36.43,139.45 38.87,135.15 41.3,131.89 43.73,129.18 46.17,126.82 48.6,124.72 51.03,122.81 53.47,121.06 55.9,119.45 58.33,117.94 60.77,116.53 63.2,115.2 65.63,113.95 68.07,112.76 70.5,111.64 72.93,110.57 75.37,109.55 77.8,108.58 80.23,107.65 82.67,106.77 85.1,105.92 87.53,105.12 89.97,104.34 92.4,103.6 94.83,102.89 97.27,102.21 99.7,101.56 102.13,100.94 104.57,100.34 107,99.77 109.43,99.22 111.87,98.7 114.3,98.2 116.73,97.73 119.17,97.27 121.6,96.84 124.03,96.43 126.47,96.04 128.9,95.67 131.33,95.32 133.77,94.98 136.2,94.67 138.63,94.38 141.07,94.1 143.5,93.84 145.93,93.6 148.37,93.38 150.8,93.17 153.23,92.98 155.67,92.81 158.1,92.66 160.53,92.52 162.97,92.4 165.4,92.29 167.83,92.2 170.27,92.13 172.7,92.07 175.13,92.03 177.57,92.01 180,92 182.43,92.01 184.87,92.03 187.3,92.07 189.73,92.13 192.17,92.2 194.6,92.29 197.03,92.4 199.47,92.52 201.9,92.66 204.33,92.81 206.77,92.98 209.2,93.17 211.63,93.38 214.07,93.6 216.5,93.84 218.93,94.1 221.37,94.38 223.8,94.67 226.23,94.98 228.67,95.32 231.1,95.67 233.53,96.04 235.97,96.43 238.4,96.84 240.83,97.27 243.27,97.73 245.7,98.2 248.13,98.7 250.57,99.22 253,99.77 255.43,100.34 257.87,100.94 260.3,101.56 262.73,102.21 265.17,102.89 267.6,103.6 270.03,104.34 272.47,105.12 274.9,105.92 277.33,106.77 279.77,107.65 282.2,108.58 284.63,109.55 287.07,110.57 289.5,111.64 291.93,112.76 294.37,113.95 296.8,115.2 299.23,116.53 301.67,117.94 304.1,119.45 306.53,121.06 308.97,122.81 311.4,124.72 313.83,126.82 316.27,129.18 318.7,131.89 321.13,135.15 323.57,139.45 326,150\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2\"/></g><g data-spec-index=\"4\" data-element-type=\"function\"><polyline points=\"34,150 36.43,151.93 38.87,153.87 41.3,155.8 43.73,157.73 46.17,159.67 48.6,161.6 51.03,163.53 53.47,165.47 55.9,167.4 58.33,169.33 60.77,171.27 63.2,173.2 65.63,175.13 68.07,177.07 70.5,179 72.93,180.93 75.37,182.87 77.8,184.8 80.23,186.73 82.67,188.67 85.1,190.6 87.53,192.53 89.97,194.47 92.4,196.4 94.83,198.33 97.27,200.27 99.7,202.2 102.13,204.13 104.57,206.07 107,208 109.43,209.93 111.87,211.87 114.3,213.8 116.73,215.73 119.17,217.67 121.6,219.6 124.03,221.53 126.47,223.47 128.9,225.4 131.33,227.33 133.77,229.27 136.2,231.2 138.63,233.13 141.07,235.07 143.5,237 145.93,238.93 148.37,240.87 150.8,242.8 153.23,244.73 155.67,246.67 158.1,248.6 160.53,250.53 162.97,252.47 165.4,254.4 167.83,256.33 170.27,258.27 172.7,260.2 175.13,262.13 177.57,264.07 180,266 182.43,264.07 184.87,262.13 187.3,260.2 189.73,258.27 192.17,256.33 194.6,254.4 197.03,252.47 199.47,250.53 201.9,248.6 204.33,246.67 206.77,244.73 209.2,242.8 211.63,240.87 214.07,238.93 216.5,237 218.93,235.07 221.37,233.13 223.8,231.2 226.23,229.27 228.67,227.33 231.1,225.4 233.53,223.47 235.97,221.53 238.4,219.6 240.83,217.67 243.27,215.73 245.7,213.8 248.13,211.87 250.57,209.93 253,208 255.43,206.07 257.87,204.13 260.3,202.2 262.73,200.27 265.17,198.33 267.6,196.4 270.03,194.47 272.47,192.53 274.9,190.6 277.33,188.67 279.77,186.73 282.2,184.8 284.63,182.87 287.07,180.93 289.5,179 291.93,177.07 294.37,175.13 296.8,173.2 299.23,171.27 301.67,169.33 304.1,167.4 306.53,165.47 308.97,163.53 311.4,161.6 313.83,159.67 316.27,157.73 318.7,155.8 321.13,153.87 323.57,151.93 326,150\" fill=\"none\" stroke=\"#dc2626\" stroke-width=\"2\"/></g></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "be70496c-4b1e-59fe-8d62-f14b0a7bede2",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(3^{2x}-10\\cdot 3^x+9=0\\), find the sum of all real values of \\(x\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(u=3^x\\), where \\(u>0\\). Then \\(u^2-10u+9=0\\), so \\((u-1)(u-9)=0\\). Thus \\(3^x=1\\) or \\(3^x=9\\), giving \\(x=0\\) or \\(x=2\\). Their sum is \\(2\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 45,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.3 An Exponential and a Logarithmic Functions",
+            "concept_ids": [
+              "concept_19a4d53938",
+              "concept_246ce853ae",
+              "concept_7df0ec68cd",
+              "concept_86b20d7384"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              180,
+              181,
+              182,
+              183,
+              184,
+              185,
+              186,
+              188,
+              189
+            ],
+            "source_chunk_ids": [
+              "chunk_080b86cb18",
+              "chunk_140af25ccf",
+              "chunk_e7605e8e5d",
+              "chunk_634d922282"
+            ]
+          },
+          "options": [
+            {
+              "id": "2_1",
+              "label": "\\(2\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "With \\(u=3^x>0\\), the equation becomes \\(u^2-10u+9=0\\), so \\(u=1,9\\) and \\(x=0,2\\)."
+            },
+            {
+              "id": "1_2",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the product of the roots \\(x=0\\) and \\(x=2\\), not their sum."
+            },
+            {
+              "id": "9_3",
+              "label": "\\(9\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The value \\(9\\) is one possible value of \\(3^x\\), not the required sum of \\(x\\)."
+            },
+            {
+              "id": "3_4",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two real values of \\(x\\) add to \\(2\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_080b86cb18",
+    "chunk_140af25ccf",
+    "chunk_e7605e8e5d",
+    "chunk_634d922282"
+  ],
+  "source_pages": [
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    180,
+    181,
+    182,
+    183,
+    184,
+    185,
+    186,
+    188,
+    189
+  ],
+  "rejected": []
+}

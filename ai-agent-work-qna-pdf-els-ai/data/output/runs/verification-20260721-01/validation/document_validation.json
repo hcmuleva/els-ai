@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "integrity_score": 100.0,
+  "books": [
+    {
+      "book_id": "book_97d5fcbb5a",
+      "filename": "sample_classical_mechanics.pdf",
+      "integrity_score": 100.0,
+      "passed": true,
+      "issues": [
+        {
+          "type": "missing_figure_captions",
+          "severity": "warning",
+          "count": 1,
+          "items": [
+            "diagram. "
+          ]
+        }
+      ],
+      "metrics": {
+        "pages": 5,
+        "empty_pages": 0,
+        "corrupt_pages": 0,
+        "duplicate_pages": 0,
+        "formulae_detected": 8,
+        "figures_referenced": 1,
+        "numbering_gaps": 0
+      },
+      "limitations": [
+        "OCR text does not preserve equation typography perfectly.",
+        "Figure pixels are not embedded; references are retained for traceability.",
+        "Table cells are retained as reading-order text when layout recovery is unavailable."
+      ]
+    }
+  ]
+}

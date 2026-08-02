@@ -1,0 +1,19 @@
+{
+  "key": "9.3",
+  "topic": "9.3 The Derivative of a Function",
+  "questions": [],
+  "requested": 5,
+  "generated": 0,
+  "context_chunks": [
+    "chunk_cfc8ab6e30",
+    "chunk_bd74a7657a"
+  ],
+  "source_pages": [],
+  "rejected": [
+    {
+      "issues": [
+        "LaTeX backslashes inside JSON strings must be escaped"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1933 @@
+{
+  "entities": [
+    {
+      "entity_id": "concept_14ce3522e9",
+      "entity_type": "Definition",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 5-10",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "entity_id": "concept_f38fb54164",
+      "entity_type": "Definition",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 11-16",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "entity_id": "concept_41429fe13d",
+      "entity_type": "Definition",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 17-22",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ]
+    },
+    {
+      "entity_id": "concept_d94490d8e0",
+      "entity_type": "Definition",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 23-28",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ]
+    },
+    {
+      "entity_id": "concept_d09045c7f9",
+      "entity_type": "Definition",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 29-32",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        28,
+        29,
+        30,
+        31
+      ]
+    },
+    {
+      "entity_id": "concept_2b48a890ed",
+      "entity_type": "Definition",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 33-38",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        32,
+        33,
+        34,
+        35,
+        36,
+        37
+      ]
+    },
+    {
+      "entity_id": "concept_ebe7d84f17",
+      "entity_type": "Definition",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 39-44",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        38,
+        39,
+        40,
+        41,
+        42,
+        43
+      ]
+    },
+    {
+      "entity_id": "concept_7e304b67c2",
+      "entity_type": "Definition",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 45-50",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        44,
+        45,
+        46,
+        47,
+        48,
+        49
+      ]
+    },
+    {
+      "entity_id": "concept_4cfe9f624f",
+      "entity_type": "Definition",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 51-56",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        50,
+        51,
+        52,
+        53,
+        54,
+        55
+      ]
+    },
+    {
+      "entity_id": "concept_a888b095e9",
+      "entity_type": "Definition",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 57-62",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        56,
+        57,
+        58,
+        59,
+        60,
+        61
+      ]
+    },
+    {
+      "entity_id": "concept_173a82ddde",
+      "entity_type": "Definition",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 63-68",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        62,
+        63,
+        64,
+        65,
+        66,
+        67
+      ]
+    },
+    {
+      "entity_id": "concept_ce7bb1f21d",
+      "entity_type": "Definition",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 69-71",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        68,
+        69,
+        70
+      ]
+    },
+    {
+      "entity_id": "concept_da6e8a16cc",
+      "entity_type": "Definition",
+      "name": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 72-77",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        71,
+        72,
+        73,
+        74,
+        75,
+        76
+      ]
+    },
+    {
+      "entity_id": "concept_3402c49f8e",
+      "entity_type": "Definition",
+      "name": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 78-83",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        77,
+        78,
+        79,
+        80,
+        81,
+        82
+      ]
+    },
+    {
+      "entity_id": "concept_4e43e8aa24",
+      "entity_type": "Definition",
+      "name": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 84-85",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        83,
+        84
+      ]
+    },
+    {
+      "entity_id": "concept_c724d5806b",
+      "entity_type": "Definition",
+      "name": "Chapter 4: The Antiderivative and the Integral practice pages 86-91",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        85,
+        86,
+        87,
+        88,
+        89,
+        90
+      ]
+    },
+    {
+      "entity_id": "concept_a3a45bdb74",
+      "entity_type": "Definition",
+      "name": "Chapter 5: Progressions and Number Sequences practice pages 92-97",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        91,
+        92,
+        93,
+        94,
+        95,
+        96
+      ]
+    },
+    {
+      "entity_id": "concept_f30a6e81cf",
+      "entity_type": "Definition",
+      "name": "Chapter 5: Progressions and Number Sequences practice pages 98-100",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        97,
+        98,
+        99
+      ]
+    },
+    {
+      "entity_id": "concept_8bed958fed",
+      "entity_type": "Definition",
+      "name": "Chapter 6: Elements of Vector Algebra practice pages 101-106",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        100,
+        101,
+        102,
+        103,
+        104,
+        105
+      ]
+    },
+    {
+      "entity_id": "concept_d586f493c7",
+      "entity_type": "Definition",
+      "name": "Chapter 7: Plane Geometry practice pages 107-112",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        106,
+        107,
+        108,
+        109,
+        110,
+        111
+      ]
+    },
+    {
+      "entity_id": "concept_11f300c59d",
+      "entity_type": "Definition",
+      "name": "Chapter 7: Plane Geometry practice pages 113-114",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        112,
+        113
+      ]
+    },
+    {
+      "entity_id": "concept_99959c5389",
+      "entity_type": "Definition",
+      "name": "Chapter 8: Solid Geometry practice pages 115-120",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        114,
+        115,
+        116,
+        117,
+        118,
+        119
+      ]
+    },
+    {
+      "entity_id": "concept_c3c67e00fe",
+      "entity_type": "Definition",
+      "name": "Chapter 8: Solid Geometry practice pages 121-126",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        120,
+        121,
+        122,
+        123,
+        124,
+        125
+      ]
+    },
+    {
+      "entity_id": "concept_46c3785e68",
+      "entity_type": "Definition",
+      "name": "Chapter 8: Solid Geometry practice pages 127-127",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        126
+      ]
+    },
+    {
+      "entity_id": "concept_189e16c5b9",
+      "entity_type": "Definition",
+      "name": "Chapter 9: Miscellaneous Problems practice pages 128-133",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        127,
+        128,
+        129,
+        130,
+        131,
+        132
+      ]
+    },
+    {
+      "entity_id": "concept_a138bffd8e",
+      "entity_type": "Definition",
+      "name": "Chapter 9: Miscellaneous Problems practice pages 134-138",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        133,
+        134,
+        135,
+        136,
+        137
+      ]
+    },
+    {
+      "entity_id": "concept_88a95a4673",
+      "entity_type": "Procedure",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 139-149",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        138,
+        139,
+        143,
+        144,
+        145,
+        148
+      ]
+    },
+    {
+      "entity_id": "concept_aa5ae097a8",
+      "entity_type": "Definition",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 150-160",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        149,
+        150,
+        151,
+        157,
+        158,
+        159
+      ]
+    },
+    {
+      "entity_id": "concept_19b3e13685",
+      "entity_type": "Definition",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 161-166",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        160,
+        161,
+        162,
+        163,
+        164,
+        165
+      ]
+    },
+    {
+      "entity_id": "concept_3800d1ea39",
+      "entity_type": "Definition",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 167-173",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        166,
+        167,
+        169,
+        170,
+        171,
+        172
+      ]
+    },
+    {
+      "entity_id": "concept_02864a27c9",
+      "entity_type": "Procedure",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 175-180",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        174,
+        175,
+        176,
+        177,
+        178,
+        179
+      ]
+    },
+    {
+      "entity_id": "concept_89bd26487a",
+      "entity_type": "Definition",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 181-186",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        180,
+        181,
+        182,
+        183,
+        184,
+        185
+      ]
+    },
+    {
+      "entity_id": "example_e2794b32a2",
+      "entity_type": "Example",
+      "name": "The rootsofthequadratictrinomialx²-z-a²are x= =(1-√1+4a²/2andxg=（1+√1+4a²/2,and the solutions of the second inequality of the system arezE（-oo；z1）（x；oo) But<0and，therefore，the solution of the system isieinterval (z;oo)（x>1 fora>1）.We can，by analogy，consider the case when0<a<1.Wehaveasystem {=>1, x²--a<0.",
+      "concept_id": "concept_89bd26487a",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        180,
+        181,
+        182,
+        183,
+        184,
+        185
+      ]
+    },
+    {
+      "entity_id": "concept_7061890d3c",
+      "entity_type": "Definition",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 187-193",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        186,
+        188,
+        189,
+        190,
+        191,
+        192
+      ]
+    },
+    {
+      "entity_id": "concept_7a216f9fa5",
+      "entity_type": "Definition",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 194-201",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        193,
+        194,
+        196,
+        198,
+        199,
+        200
+      ]
+    },
+    {
+      "entity_id": "concept_9a236730b6",
+      "entity_type": "Definition",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 202-207",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206
+      ]
+    },
+    {
+      "entity_id": "concept_28876cea1f",
+      "entity_type": "Definition",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 208-213",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        207,
+        208,
+        209,
+        210,
+        211,
+        212
+      ]
+    },
+    {
+      "entity_id": "concept_05a52bbcdb",
+      "entity_type": "Definition",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 214-219",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        213,
+        214,
+        215,
+        216,
+        217,
+        218
+      ]
+    },
+    {
+      "entity_id": "concept_7103357a4a",
+      "entity_type": "Definition",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 220-220",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        219
+      ]
+    },
+    {
+      "entity_id": "concept_06e4f47e46",
+      "entity_type": "Definition",
+      "name": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 221-224",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        220,
+        221,
+        222,
+        223
+      ]
+    },
+    {
+      "entity_id": "concept_b77b305883",
+      "entity_type": "Definition",
+      "name": "Chapter 4: The Antiderivative and the Integral practice pages 225-229",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        224,
+        225,
+        226,
+        227,
+        228
+      ]
+    },
+    {
+      "entity_id": "concept_3293b46ec5",
+      "entity_type": "Definition",
+      "name": "Chapter 5: Progressions and Number Sequences practice pages 230-235",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        229,
+        230,
+        231,
+        232,
+        233,
+        234
+      ]
+    },
+    {
+      "entity_id": "example_78f773413c",
+      "entity_type": "Example",
+      "name": "44.931.45.4,20,100;4/9,52/9,676/9.46.4,12,36;4/9,-20/9, 100/9.47.2±V3.48.4,20,100and5,20,35;100,20,4and101， 20,-61.49.5,5,5;10/3,5,15/2.50.2.51.3,6,9,12.52.1,4,16, 257983 225625 5.2.NumberSequences 1.(a)Letus choose arbitrarily a positive number eand show that we canfindfor it anaturalNsuchthat the inequality 11/n-0|<8 (1) holds for all numbers n>N.After transformations,we get an in- equality n>1/e.If the number nislarger than1/e,then inequality (1) holds true,i.e.we can takeNequal to[1/8]where[1/e]is the inte- gralpartof thenumber1/e.Thus,wehave shown the existence of the number Nsuchthat inequality (1)holdsforanyn>N=[1/e]and have completed the proof.Remark.We can take as Nany natural number exceeding 1/e;(b)OShow that N can be taken equal to 233 [(2-e)/e],where g>O；(c)Make use of the proof of the assertion limq”=0,0<q<1.2.1stmethod.The sequence（xn）is said tobebounded if there aretwonumbers mand Msuch that the in- n→00 equality m≤n≤Mholds trueforanynEN.We shallprove the existenceof thenumbersmandMfor thegivensequence.All the terms of the sequence with thegeneral term(1十（—1))/n²arenonnegative (xzh-1 =0 for n = 2k-1;xek = 2 （2k）2 therefore， we can take as m any negative number or zero (say，m = 2).Unity，for instance，can serve as M.Indeed，xh-1=0<1 1 n E N and this means that the given sequence is bounded.",
+      "concept_id": "concept_3293b46ec5",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        229,
+        230,
+        231,
+        232,
+        233,
+        234
+      ]
+    },
+    {
+      "entity_id": "concept_1f9f4e9f3a",
+      "entity_type": "Definition",
+      "name": "Chapter 6: Elements of Vector Algebra practice pages 236-240",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        235,
+        236,
+        237,
+        238,
+        239
+      ]
+    },
+    {
+      "entity_id": "concept_2ec2f55cc0",
+      "entity_type": "Definition",
+      "name": "Chapter 7: Plane Geometry practice pages 241-246",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        240,
+        241,
+        242,
+        243,
+        244,
+        245
+      ]
+    },
+    {
+      "entity_id": "concept_2c8f4c585f",
+      "entity_type": "Definition",
+      "name": "Chapter 7: Plane Geometry practice pages 247-251",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        246,
+        247,
+        248,
+        249,
+        250
+      ]
+    },
+    {
+      "entity_id": "concept_5cb0c2e678",
+      "entity_type": "Definition",
+      "name": "Chapter 8: Solid Geometry practice pages 252-257",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        251,
+        252,
+        253,
+        254,
+        255,
+        256
+      ]
+    },
+    {
+      "entity_id": "concept_ee2fb571f5",
+      "entity_type": "Definition",
+      "name": "Chapter 8: Solid Geometry practice pages 258-263",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        257,
+        258,
+        259,
+        260,
+        261,
+        262
+      ]
+    },
+    {
+      "entity_id": "concept_b42dcae4f2",
+      "entity_type": "Definition",
+      "name": "Chapter 8: Solid Geometry practice pages 264-264",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        263
+      ]
+    },
+    {
+      "entity_id": "concept_3a05acc5f4",
+      "entity_type": "Definition",
+      "name": "Chapter 9: Miscellaneous Problems practice pages 265-270",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        264,
+        265,
+        266,
+        267,
+        268,
+        269
+      ]
+    },
+    {
+      "entity_id": "example_76f7c2c5a6",
+      "entity_type": "Example",
+      "name": "23.(a) y 23.(c) 23.(b) y 23.(d) 23.(e) y y 24.No,we cannot.The function f (x)=z，for instance，increases on the interval（-1;O）and the functionΦ（x)=x²decreases on that interval.25.Since for anyx,zE（a;b）and such thatz>， f（z1)>f（z2)and fa（z)）>f2（z）it followsthatf（z)+f2（x）> >f（x)）+f（z）or@（z1）>（x)，and this means thatthe function （)decreases on thatinterval.26.Carry out the proof byinduction.",
+      "concept_id": "concept_3a05acc5f4",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        264,
+        265,
+        266,
+        267,
+        268,
+        269
+      ]
+    },
+    {
+      "entity_id": "concept_97cb6175af",
+      "entity_type": "Definition",
+      "name": "Chapter 9: Miscellaneous Problems practice pages 271-276",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        270,
+        271,
+        272,
+        273,
+        274,
+        275
+      ]
+    },
+    {
+      "entity_id": "example_86792ded4b",
+      "entity_type": "Example",
+      "name": "9.3.TheDerivative ofaFunction 1.(a)We can;(b)we cannot.2.(a)We cannot； the function f （x)=x， for instance，is differentiable at the point x。=O，and the function f（x)=|x|is not，nevertheless,（）=z|z|is differentiable at the point x。=O；（b）we cannot.Consider the functions f（x)= f（x)=|x1.3.Suppose f（x) is a differentiable even function.",
+      "concept_id": "concept_97cb6175af",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        270,
+        271,
+        272,
+        273,
+        274,
+        275
+      ]
+    },
+    {
+      "entity_id": "concept_98d1f8bca3",
+      "entity_type": "Definition",
+      "name": "Chapter 9: Miscellaneous Problems practice pages 277-280",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        276,
+        277,
+        278,
+        279
+      ]
+    },
+    {
+      "entity_id": "comp_2ec2daf516",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 5-10",
+      "concept_id": "concept_14ce3522e9"
+    },
+    {
+      "entity_id": "comp_7672ab2068",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 11-16",
+      "concept_id": "concept_f38fb54164"
+    },
+    {
+      "entity_id": "comp_479bcb48ca",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 17-22",
+      "concept_id": "concept_41429fe13d"
+    },
+    {
+      "entity_id": "comp_6d8fb8cb06",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 23-28",
+      "concept_id": "concept_d94490d8e0"
+    },
+    {
+      "entity_id": "comp_1aa02b924b",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 29-32",
+      "concept_id": "concept_d09045c7f9"
+    },
+    {
+      "entity_id": "comp_f8041f8111",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 33-38",
+      "concept_id": "concept_2b48a890ed"
+    },
+    {
+      "entity_id": "comp_5fddc3d285",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 39-44",
+      "concept_id": "concept_ebe7d84f17"
+    },
+    {
+      "entity_id": "comp_3cf8e81dc2",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 45-50",
+      "concept_id": "concept_7e304b67c2"
+    },
+    {
+      "entity_id": "comp_8ff65d1673",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 51-56",
+      "concept_id": "concept_4cfe9f624f"
+    },
+    {
+      "entity_id": "comp_c9622fe840",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 57-62",
+      "concept_id": "concept_a888b095e9"
+    },
+    {
+      "entity_id": "comp_5c9b9c0d19",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 63-68",
+      "concept_id": "concept_173a82ddde"
+    },
+    {
+      "entity_id": "comp_c5d994395c",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 69-71",
+      "concept_id": "concept_ce7bb1f21d"
+    },
+    {
+      "entity_id": "comp_1cef181631",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 3: Problems on Deriving Equations and Inequalities practice pages 72-77",
+      "concept_id": "concept_da6e8a16cc"
+    },
+    {
+      "entity_id": "comp_e555497551",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 3: Problems on Deriving Equations and Inequalities practice pages 78-83",
+      "concept_id": "concept_3402c49f8e"
+    },
+    {
+      "entity_id": "comp_591ea56bf6",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 3: Problems on Deriving Equations and Inequalities practice pages 84-85",
+      "concept_id": "concept_4e43e8aa24"
+    },
+    {
+      "entity_id": "comp_1778c9fb9a",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 4: The Antiderivative and the Integral practice pages 86-91",
+      "concept_id": "concept_c724d5806b"
+    },
+    {
+      "entity_id": "comp_a570fc4d40",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 5: Progressions and Number Sequences practice pages 92-97",
+      "concept_id": "concept_a3a45bdb74"
+    },
+    {
+      "entity_id": "comp_1f4ca1b86a",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 5: Progressions and Number Sequences practice pages 98-100",
+      "concept_id": "concept_f30a6e81cf"
+    },
+    {
+      "entity_id": "comp_231b69bf04",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 6: Elements of Vector Algebra practice pages 101-106",
+      "concept_id": "concept_8bed958fed"
+    },
+    {
+      "entity_id": "comp_fd896b6f62",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 7: Plane Geometry practice pages 107-112",
+      "concept_id": "concept_d586f493c7"
+    },
+    {
+      "entity_id": "comp_08ebf631a0",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 7: Plane Geometry practice pages 113-114",
+      "concept_id": "concept_11f300c59d"
+    },
+    {
+      "entity_id": "comp_9438a87425",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 8: Solid Geometry practice pages 115-120",
+      "concept_id": "concept_99959c5389"
+    },
+    {
+      "entity_id": "comp_aae62ad2c4",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 8: Solid Geometry practice pages 121-126",
+      "concept_id": "concept_c3c67e00fe"
+    },
+    {
+      "entity_id": "comp_c6aa6651dc",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 8: Solid Geometry practice pages 127-127",
+      "concept_id": "concept_46c3785e68"
+    },
+    {
+      "entity_id": "comp_cce21dc930",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 9: Miscellaneous Problems practice pages 128-133",
+      "concept_id": "concept_189e16c5b9"
+    },
+    {
+      "entity_id": "comp_4a9b180330",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 9: Miscellaneous Problems practice pages 134-138",
+      "concept_id": "concept_a138bffd8e"
+    },
+    {
+      "entity_id": "comp_7e03259c63",
+      "entity_type": "Competency",
+      "name": "Perform the procedure Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 139-149",
+      "concept_id": "concept_88a95a4673"
+    },
+    {
+      "entity_id": "comp_24633db764",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 150-160",
+      "concept_id": "concept_aa5ae097a8"
+    },
+    {
+      "entity_id": "comp_fd7d2d6211",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 161-166",
+      "concept_id": "concept_19b3e13685"
+    },
+    {
+      "entity_id": "comp_fe4bfdfe8c",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 167-173",
+      "concept_id": "concept_3800d1ea39"
+    },
+    {
+      "entity_id": "comp_563c73092a",
+      "entity_type": "Competency",
+      "name": "Perform the procedure Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 175-180",
+      "concept_id": "concept_02864a27c9"
+    },
+    {
+      "entity_id": "comp_7df45aaa14",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 181-186",
+      "concept_id": "concept_89bd26487a"
+    },
+    {
+      "entity_id": "comp_3eee5e7b83",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 187-193",
+      "concept_id": "concept_7061890d3c"
+    },
+    {
+      "entity_id": "comp_bd2775ac91",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 194-201",
+      "concept_id": "concept_7a216f9fa5"
+    },
+    {
+      "entity_id": "comp_9e51e9b7c2",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 202-207",
+      "concept_id": "concept_9a236730b6"
+    },
+    {
+      "entity_id": "comp_1993948c5c",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 208-213",
+      "concept_id": "concept_28876cea1f"
+    },
+    {
+      "entity_id": "comp_49e865ecd4",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 214-219",
+      "concept_id": "concept_05a52bbcdb"
+    },
+    {
+      "entity_id": "comp_2b5773de65",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 220-220",
+      "concept_id": "concept_7103357a4a"
+    },
+    {
+      "entity_id": "comp_17730ecf7d",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 3: Problems on Deriving Equations and Inequalities practice pages 221-224",
+      "concept_id": "concept_06e4f47e46"
+    },
+    {
+      "entity_id": "comp_64152aa51b",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 4: The Antiderivative and the Integral practice pages 225-229",
+      "concept_id": "concept_b77b305883"
+    },
+    {
+      "entity_id": "comp_c31301e538",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 5: Progressions and Number Sequences practice pages 230-235",
+      "concept_id": "concept_3293b46ec5"
+    },
+    {
+      "entity_id": "comp_c489d41567",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 6: Elements of Vector Algebra practice pages 236-240",
+      "concept_id": "concept_1f9f4e9f3a"
+    },
+    {
+      "entity_id": "comp_9a911dae23",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 7: Plane Geometry practice pages 241-246",
+      "concept_id": "concept_2ec2f55cc0"
+    },
+    {
+      "entity_id": "comp_e2de275ef0",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 7: Plane Geometry practice pages 247-251",
+      "concept_id": "concept_2c8f4c585f"
+    },
+    {
+      "entity_id": "comp_a812bf699a",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 8: Solid Geometry practice pages 252-257",
+      "concept_id": "concept_5cb0c2e678"
+    },
+    {
+      "entity_id": "comp_404f0304ed",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 8: Solid Geometry practice pages 258-263",
+      "concept_id": "concept_ee2fb571f5"
+    },
+    {
+      "entity_id": "comp_7c73f82bd6",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 8: Solid Geometry practice pages 264-264",
+      "concept_id": "concept_b42dcae4f2"
+    },
+    {
+      "entity_id": "comp_f02d583224",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 9: Miscellaneous Problems practice pages 265-270",
+      "concept_id": "concept_3a05acc5f4"
+    },
+    {
+      "entity_id": "comp_cf50f12b74",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 9: Miscellaneous Problems practice pages 271-276",
+      "concept_id": "concept_97cb6175af"
+    },
+    {
+      "entity_id": "comp_7380354554",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 9: Miscellaneous Problems practice pages 277-280",
+      "concept_id": "concept_98d1f8bca3"
+    },
+    {
+      "entity_id": "assessment_2ec2daf516",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_14ce3522e9"
+    },
+    {
+      "entity_id": "assessment_7672ab2068",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_f38fb54164"
+    },
+    {
+      "entity_id": "assessment_479bcb48ca",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_41429fe13d"
+    },
+    {
+      "entity_id": "assessment_6d8fb8cb06",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_d94490d8e0"
+    },
+    {
+      "entity_id": "assessment_1aa02b924b",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_d09045c7f9"
+    },
+    {
+      "entity_id": "assessment_f8041f8111",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_2b48a890ed"
+    },
+    {
+      "entity_id": "assessment_5fddc3d285",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_ebe7d84f17"
+    },
+    {
+      "entity_id": "assessment_3cf8e81dc2",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_7e304b67c2"
+    },
+    {
+      "entity_id": "assessment_8ff65d1673",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_4cfe9f624f"
+    },
+    {
+      "entity_id": "assessment_c9622fe840",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_a888b095e9"
+    },
+    {
+      "entity_id": "assessment_5c9b9c0d19",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_173a82ddde"
+    },
+    {
+      "entity_id": "assessment_c5d994395c",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_ce7bb1f21d"
+    },
+    {
+      "entity_id": "assessment_1cef181631",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_da6e8a16cc"
+    },
+    {
+      "entity_id": "assessment_e555497551",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_3402c49f8e"
+    },
+    {
+      "entity_id": "assessment_591ea56bf6",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_4e43e8aa24"
+    },
+    {
+      "entity_id": "assessment_1778c9fb9a",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_c724d5806b"
+    },
+    {
+      "entity_id": "assessment_a570fc4d40",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_a3a45bdb74"
+    },
+    {
+      "entity_id": "assessment_1f4ca1b86a",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_f30a6e81cf"
+    },
+    {
+      "entity_id": "assessment_231b69bf04",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_8bed958fed"
+    },
+    {
+      "entity_id": "assessment_fd896b6f62",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_d586f493c7"
+    },
+    {
+      "entity_id": "assessment_08ebf631a0",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_11f300c59d"
+    },
+    {
+      "entity_id": "assessment_9438a87425",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_99959c5389"
+    },
+    {
+      "entity_id": "assessment_aae62ad2c4",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_c3c67e00fe"
+    },
+    {
+      "entity_id": "assessment_c6aa6651dc",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_46c3785e68"
+    },
+    {
+      "entity_id": "assessment_cce21dc930",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_189e16c5b9"
+    },
+    {
+      "entity_id": "assessment_4a9b180330",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_a138bffd8e"
+    },
+    {
+      "entity_id": "assessment_7e03259c63",
+      "entity_type": "Assessment",
+      "name": "Practical, Problem Solving",
+      "concept_id": "concept_88a95a4673"
+    },
+    {
+      "entity_id": "assessment_24633db764",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_aa5ae097a8"
+    },
+    {
+      "entity_id": "assessment_fd7d2d6211",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_19b3e13685"
+    },
+    {
+      "entity_id": "assessment_fe4bfdfe8c",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_3800d1ea39"
+    },
+    {
+      "entity_id": "assessment_563c73092a",
+      "entity_type": "Assessment",
+      "name": "Practical, Problem Solving",
+      "concept_id": "concept_02864a27c9"
+    },
+    {
+      "entity_id": "assessment_7df45aaa14",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_89bd26487a"
+    },
+    {
+      "entity_id": "assessment_3eee5e7b83",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_7061890d3c"
+    },
+    {
+      "entity_id": "assessment_bd2775ac91",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_7a216f9fa5"
+    },
+    {
+      "entity_id": "assessment_9e51e9b7c2",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_9a236730b6"
+    },
+    {
+      "entity_id": "assessment_1993948c5c",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_28876cea1f"
+    },
+    {
+      "entity_id": "assessment_49e865ecd4",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_05a52bbcdb"
+    },
+    {
+      "entity_id": "assessment_2b5773de65",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_7103357a4a"
+    },
+    {
+      "entity_id": "assessment_17730ecf7d",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_06e4f47e46"
+    },
+    {
+      "entity_id": "assessment_64152aa51b",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_b77b305883"
+    },
+    {
+      "entity_id": "assessment_c31301e538",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_3293b46ec5"
+    },
+    {
+      "entity_id": "assessment_c489d41567",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_1f9f4e9f3a"
+    },
+    {
+      "entity_id": "assessment_9a911dae23",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_2ec2f55cc0"
+    },
+    {
+      "entity_id": "assessment_e2de275ef0",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_2c8f4c585f"
+    },
+    {
+      "entity_id": "assessment_a812bf699a",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_5cb0c2e678"
+    },
+    {
+      "entity_id": "assessment_404f0304ed",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_ee2fb571f5"
+    },
+    {
+      "entity_id": "assessment_7c73f82bd6",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_b42dcae4f2"
+    },
+    {
+      "entity_id": "assessment_f02d583224",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_3a05acc5f4"
+    },
+    {
+      "entity_id": "assessment_cf50f12b74",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_97cb6175af"
+    },
+    {
+      "entity_id": "assessment_7380354554",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_98d1f8bca3"
+    },
+    {
+      "entity_id": "misc_8fa883ccff",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 5-10 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_14ce3522e9"
+    },
+    {
+      "entity_id": "misc_7d2e2115cf",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 5-10 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_14ce3522e9"
+    },
+    {
+      "entity_id": "misc_4e3c7e28d0",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 11-16 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_f38fb54164"
+    },
+    {
+      "entity_id": "misc_a4dfcc8710",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 11-16 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_f38fb54164"
+    },
+    {
+      "entity_id": "misc_8525c1cbd2",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 17-22 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_41429fe13d"
+    },
+    {
+      "entity_id": "misc_b03426631f",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 17-22 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_41429fe13d"
+    },
+    {
+      "entity_id": "misc_fd6725e0bc",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 23-28 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_d94490d8e0"
+    },
+    {
+      "entity_id": "misc_e6c8c34aec",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 23-28 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_d94490d8e0"
+    },
+    {
+      "entity_id": "misc_0709f99b6f",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 29-32 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_d09045c7f9"
+    },
+    {
+      "entity_id": "misc_61d46b709a",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 29-32 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_d09045c7f9"
+    },
+    {
+      "entity_id": "misc_cef41e1401",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 33-38 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_2b48a890ed"
+    },
+    {
+      "entity_id": "misc_c7631168b3",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 33-38 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_2b48a890ed"
+    },
+    {
+      "entity_id": "misc_9f3baeb97e",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 39-44 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_ebe7d84f17"
+    },
+    {
+      "entity_id": "misc_3f6d13a197",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 39-44 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_ebe7d84f17"
+    },
+    {
+      "entity_id": "misc_31bd4e84da",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 45-50 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_7e304b67c2"
+    },
+    {
+      "entity_id": "misc_d41a3a0c66",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 45-50 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_7e304b67c2"
+    },
+    {
+      "entity_id": "misc_07958a7e42",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 51-56 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_4cfe9f624f"
+    },
+    {
+      "entity_id": "misc_ae1dfe3331",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 51-56 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_4cfe9f624f"
+    },
+    {
+      "entity_id": "misc_6142057e3b",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 57-62 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_a888b095e9"
+    },
+    {
+      "entity_id": "misc_88826fb3cb",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 57-62 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_a888b095e9"
+    },
+    {
+      "entity_id": "misc_00d0fe3881",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 63-68 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_173a82ddde"
+    },
+    {
+      "entity_id": "misc_3fe20f1455",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 63-68 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_173a82ddde"
+    },
+    {
+      "entity_id": "misc_46924d35c7",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 69-71 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_ce7bb1f21d"
+    },
+    {
+      "entity_id": "misc_d9952a0dce",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 69-71 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_ce7bb1f21d"
+    },
+    {
+      "entity_id": "misc_9df1a8cfe3",
+      "entity_type": "Misconception",
+      "name": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 72-77 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_da6e8a16cc"
+    },
+    {
+      "entity_id": "misc_3dea9edd84",
+      "entity_type": "Misconception",
+      "name": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 72-77 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_da6e8a16cc"
+    },
+    {
+      "entity_id": "misc_8d882db4d6",
+      "entity_type": "Misconception",
+      "name": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 78-83 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_3402c49f8e"
+    },
+    {
+      "entity_id": "misc_de657d3bb0",
+      "entity_type": "Misconception",
+      "name": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 78-83 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_3402c49f8e"
+    },
+    {
+      "entity_id": "misc_cbfc36c83b",
+      "entity_type": "Misconception",
+      "name": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 84-85 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_4e43e8aa24"
+    },
+    {
+      "entity_id": "misc_9ad9a1cf9b",
+      "entity_type": "Misconception",
+      "name": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 84-85 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_4e43e8aa24"
+    },
+    {
+      "entity_id": "misc_45fc7e9ad2",
+      "entity_type": "Misconception",
+      "name": "Chapter 4: The Antiderivative and the Integral practice pages 86-91 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_c724d5806b"
+    },
+    {
+      "entity_id": "misc_58947ce26f",
+      "entity_type": "Misconception",
+      "name": "Chapter 4: The Antiderivative and the Integral practice pages 86-91 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_c724d5806b"
+    },
+    {
+      "entity_id": "misc_2dc41f92bd",
+      "entity_type": "Misconception",
+      "name": "Chapter 5: Progressions and Number Sequences practice pages 92-97 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_a3a45bdb74"
+    },
+    {
+      "entity_id": "misc_2610a4039c",
+      "entity_type": "Misconception",
+      "name": "Chapter 5: Progressions and Number Sequences practice pages 92-97 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_a3a45bdb74"
+    },
+    {
+      "entity_id": "misc_ad904de388",
+      "entity_type": "Misconception",
+      "name": "Chapter 5: Progressions and Number Sequences practice pages 98-100 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_f30a6e81cf"
+    },
+    {
+      "entity_id": "misc_4a50617050",
+      "entity_type": "Misconception",
+      "name": "Chapter 5: Progressions and Number Sequences practice pages 98-100 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_f30a6e81cf"
+    },
+    {
+      "entity_id": "misc_bbaa691f8a",
+      "entity_type": "Misconception",
+      "name": "Chapter 6: Elements of Vector Algebra practice pages 101-106 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_8bed958fed"
+    },
+    {
+      "entity_id": "misc_864e0cc76e",
+      "entity_type": "Misconception",
+      "name": "Chapter 6: Elements of Vector Algebra practice pages 101-106 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_8bed958fed"
+    },
+    {
+      "entity_id": "misc_37bdca99df",
+      "entity_type": "Misconception",
+      "name": "Chapter 7: Plane Geometry practice pages 107-112 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_d586f493c7"
+    },
+    {
+      "entity_id": "misc_99a05dba16",
+      "entity_type": "Misconception",
+      "name": "Chapter 7: Plane Geometry practice pages 107-112 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_d586f493c7"
+    },
+    {
+      "entity_id": "misc_63a5d8f97f",
+      "entity_type": "Misconception",
+      "name": "Chapter 7: Plane Geometry practice pages 113-114 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_11f300c59d"
+    },
+    {
+      "entity_id": "misc_7586f08503",
+      "entity_type": "Misconception",
+      "name": "Chapter 7: Plane Geometry practice pages 113-114 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_11f300c59d"
+    },
+    {
+      "entity_id": "misc_42de1c9c44",
+      "entity_type": "Misconception",
+      "name": "Chapter 8: Solid Geometry practice pages 115-120 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_99959c5389"
+    },
+    {
+      "entity_id": "misc_e4d36708f6",
+      "entity_type": "Misconception",
+      "name": "Chapter 8: Solid Geometry practice pages 115-120 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_99959c5389"
+    },
+    {
+      "entity_id": "misc_5ce5681624",
+      "entity_type": "Misconception",
+      "name": "Chapter 8: Solid Geometry practice pages 121-126 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_c3c67e00fe"
+    },
+    {
+      "entity_id": "misc_e364bb33e3",
+      "entity_type": "Misconception",
+      "name": "Chapter 8: Solid Geometry practice pages 121-126 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_c3c67e00fe"
+    },
+    {
+      "entity_id": "misc_a9f15886e8",
+      "entity_type": "Misconception",
+      "name": "Chapter 8: Solid Geometry practice pages 127-127 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_46c3785e68"
+    },
+    {
+      "entity_id": "misc_1acf46047a",
+      "entity_type": "Misconception",
+      "name": "Chapter 8: Solid Geometry practice pages 127-127 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_46c3785e68"
+    },
+    {
+      "entity_id": "misc_7dafb13c7c",
+      "entity_type": "Misconception",
+      "name": "Chapter 9: Miscellaneous Problems practice pages 128-133 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_189e16c5b9"
+    },
+    {
+      "entity_id": "misc_2a6081c307",
+      "entity_type": "Misconception",
+      "name": "Chapter 9: Miscellaneous Problems practice pages 128-133 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_189e16c5b9"
+    },
+    {
+      "entity_id": "misc_2b61e81db3",
+      "entity_type": "Misconception",
+      "name": "Chapter 9: Miscellaneous Problems practice pages 134-138 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_a138bffd8e"
+    },
+    {
+      "entity_id": "misc_d10335cdab",
+      "entity_type": "Misconception",
+      "name": "Chapter 9: Miscellaneous Problems practice pages 134-138 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_a138bffd8e"
+    },
+    {
+      "entity_id": "misc_1dd37ffcce",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 139-149 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_88a95a4673"
+    },
+    {
+      "entity_id": "misc_8d6388587e",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 139-149 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_88a95a4673"
+    },
+    {
+      "entity_id": "misc_22eea7ce0c",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 150-160 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_aa5ae097a8"
+    },
+    {
+      "entity_id": "misc_174e0fb873",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 150-160 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_aa5ae097a8"
+    },
+    {
+      "entity_id": "misc_b9065f60bb",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 161-166 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_19b3e13685"
+    },
+    {
+      "entity_id": "misc_6d20740f92",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 161-166 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_19b3e13685"
+    },
+    {
+      "entity_id": "misc_6a26c76b9d",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 167-173 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_3800d1ea39"
+    },
+    {
+      "entity_id": "misc_ae94e162a0",
+      "entity_type": "Misconception",
+      "name": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 167-173 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_3800d1ea39"
+    },
+    {
+      "entity_id": "misc_c26cf4e29e",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 175-180 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_02864a27c9"
+    },
+    {
+      "entity_id": "misc_4fe615c8c2",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 175-180 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_02864a27c9"
+    },
+    {
+      "entity_id": "misc_e2794b32a2",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 181-186 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_89bd26487a"
+    },
+    {
+      "entity_id": "misc_78520a564d",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 181-186 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_89bd26487a"
+    },
+    {
+      "entity_id": "misc_ddf5be53dd",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 187-193 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_7061890d3c"
+    },
+    {
+      "entity_id": "misc_7816035b65",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 187-193 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_7061890d3c"
+    },
+    {
+      "entity_id": "misc_a58b7e2985",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 194-201 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_7a216f9fa5"
+    },
+    {
+      "entity_id": "misc_28b92a60f5",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 194-201 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_7a216f9fa5"
+    },
+    {
+      "entity_id": "misc_c647669bfc",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 202-207 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_9a236730b6"
+    },
+    {
+      "entity_id": "misc_995ecb0998",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 202-207 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_9a236730b6"
+    },
+    {
+      "entity_id": "misc_ae1cedb5be",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 208-213 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_28876cea1f"
+    },
+    {
+      "entity_id": "misc_0e8f575d6f",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 208-213 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_28876cea1f"
+    },
+    {
+      "entity_id": "misc_8290ccf1a0",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 214-219 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_05a52bbcdb"
+    },
+    {
+      "entity_id": "misc_020e81c648",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 214-219 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_05a52bbcdb"
+    },
+    {
+      "entity_id": "misc_46f55bcb12",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 220-220 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_7103357a4a"
+    },
+    {
+      "entity_id": "misc_f998c3987e",
+      "entity_type": "Misconception",
+      "name": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 220-220 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_7103357a4a"
+    },
+    {
+      "entity_id": "misc_9951597b13",
+      "entity_type": "Misconception",
+      "name": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 221-224 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_06e4f47e46"
+    },
+    {
+      "entity_id": "misc_8f869ee077",
+      "entity_type": "Misconception",
+      "name": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 221-224 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_06e4f47e46"
+    },
+    {
+      "entity_id": "misc_6f27899188",
+      "entity_type": "Misconception",
+      "name": "Chapter 4: The Antiderivative and the Integral practice pages 225-229 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_b77b305883"
+    },
+    {
+      "entity_id": "misc_acb43cfc4a",
+      "entity_type": "Misconception",
+      "name": "Chapter 4: The Antiderivative and the Integral practice pages 225-229 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_b77b305883"
+    },
+    {
+      "entity_id": "misc_78f773413c",
+      "entity_type": "Misconception",
+      "name": "Chapter 5: Progressions and Number Sequences practice pages 230-235 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_3293b46ec5"
+    },
+    {
+      "entity_id": "misc_ff58416b95",
+      "entity_type": "Misconception",
+      "name": "Chapter 5: Progressions and Number Sequences practice pages 230-235 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_3293b46ec5"
+    },
+    {
+      "entity_id": "misc_343ea9c068",
+      "entity_type": "Misconception",
+      "name": "Chapter 6: Elements of Vector Algebra practice pages 236-240 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_1f9f4e9f3a"
+    },
+    {
+      "entity_id": "misc_f20e9fe5d4",
+      "entity_type": "Misconception",
+      "name": "Chapter 6: Elements of Vector Algebra practice pages 236-240 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_1f9f4e9f3a"
+    },
+    {
+      "entity_id": "misc_47d576733e",
+      "entity_type": "Misconception",
+      "name": "Chapter 7: Plane Geometry practice pages 241-246 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_2ec2f55cc0"
+    },
+    {
+      "entity_id": "misc_6c8f7f8e24",
+      "entity_type": "Misconception",
+      "name": "Chapter 7: Plane Geometry practice pages 241-246 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_2ec2f55cc0"
+    },
+    {
+      "entity_id": "misc_71b32c055f",
+      "entity_type": "Misconception",
+      "name": "Chapter 7: Plane Geometry practice pages 247-251 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_2c8f4c585f"
+    },
+    {
+      "entity_id": "misc_6dbd7fd2cd",
+      "entity_type": "Misconception",
+      "name": "Chapter 7: Plane Geometry practice pages 247-251 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_2c8f4c585f"
+    },
+    {
+      "entity_id": "misc_1b86ea45af",
+      "entity_type": "Misconception",
+      "name": "Chapter 8: Solid Geometry practice pages 252-257 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_5cb0c2e678"
+    },
+    {
+      "entity_id": "misc_96954cc70d",
+      "entity_type": "Misconception",
+      "name": "Chapter 8: Solid Geometry practice pages 252-257 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_5cb0c2e678"
+    },
+    {
+      "entity_id": "misc_0c5b26c61e",
+      "entity_type": "Misconception",
+      "name": "Chapter 8: Solid Geometry practice pages 258-263 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_ee2fb571f5"
+    },
+    {
+      "entity_id": "misc_9960e741e6",
+      "entity_type": "Misconception",
+      "name": "Chapter 8: Solid Geometry practice pages 258-263 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_ee2fb571f5"
+    },
+    {
+      "entity_id": "misc_2970e78ee8",
+      "entity_type": "Misconception",
+      "name": "Chapter 8: Solid Geometry practice pages 264-264 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_b42dcae4f2"
+    },
+    {
+      "entity_id": "misc_6296e6503b",
+      "entity_type": "Misconception",
+      "name": "Chapter 8: Solid Geometry practice pages 264-264 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_b42dcae4f2"
+    },
+    {
+      "entity_id": "misc_76f7c2c5a6",
+      "entity_type": "Misconception",
+      "name": "Chapter 9: Miscellaneous Problems practice pages 265-270 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_3a05acc5f4"
+    },
+    {
+      "entity_id": "misc_63ce29777f",
+      "entity_type": "Misconception",
+      "name": "Chapter 9: Miscellaneous Problems practice pages 265-270 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_3a05acc5f4"
+    },
+    {
+      "entity_id": "misc_86792ded4b",
+      "entity_type": "Misconception",
+      "name": "Chapter 9: Miscellaneous Problems practice pages 271-276 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_97cb6175af"
+    },
+    {
+      "entity_id": "misc_46f33783bc",
+      "entity_type": "Misconception",
+      "name": "Chapter 9: Miscellaneous Problems practice pages 271-276 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_97cb6175af"
+    },
+    {
+      "entity_id": "misc_5c77b789e3",
+      "entity_type": "Misconception",
+      "name": "Chapter 9: Miscellaneous Problems practice pages 277-280 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_98d1f8bca3"
+    },
+    {
+      "entity_id": "misc_39c313944e",
+      "entity_type": "Misconception",
+      "name": "Chapter 9: Miscellaneous Problems practice pages 277-280 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_98d1f8bca3"
+    }
+  ],
+  "entity_type_counts": {
+    "Assessment": 50,
+    "Competency": 50,
+    "Definition": 48,
+    "Example": 4,
+    "Misconception": 100,
+    "Procedure": 2
+  }
+}

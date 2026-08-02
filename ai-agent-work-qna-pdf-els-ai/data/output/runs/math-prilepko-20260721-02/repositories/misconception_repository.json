@@ -1,0 +1,996 @@
+[
+  {
+    "misconception_id": "misc_d255b5db66",
+    "concept_id": "concept_77d4c390fb",
+    "misconception": "Chapter 1 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: The present problem book is meant for high-school students whointendto entertechnicalcolleges.It containsmore than twothousandproblems andexamples coveringalldivisions of high-scho"
+  },
+  {
+    "misconception_id": "misc_188fdefb2f",
+    "concept_id": "concept_77d4c390fb",
+    "misconception": "Chapter 1 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 is valid."
+  },
+  {
+    "misconception_id": "misc_188db2f561",
+    "concept_id": "concept_a1427cc398",
+    "misconception": "Set D,or C is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Solid Geometry 115 252 8.1.A Straight Line,a Plane.Polyhedra SolidsofRevolution 115 252 8.2.Problems on Combinationsof Poly- hedra and Solids ofRevolution 120 257 8.3.Volumesof Sol"
+  },
+  {
+    "misconception_id": "misc_617d8f58d9",
+    "concept_id": "concept_a1427cc398",
+    "misconception": "Set D,or C always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Set D,or C is valid."
+  },
+  {
+    "misconception_id": "misc_d9697671a6",
+    "concept_id": "concept_3cd8a1d999",
+    "misconception": "Chapter 1 practice pages 11-16 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Chapter1 RATIONALEQUATIONS,INEQUALITIES ANDFUNCTIONSINONEVARIABLE 1.1.Linear Equations andInequalities in One Variable. A Linear Function Solvethefollowingequations: 1.(3x+7)-(2x+5"
+  },
+  {
+    "misconception_id": "misc_9858e8da05",
+    "concept_id": "concept_3cd8a1d999",
+    "misconception": "Chapter 1 practice pages 11-16 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 practice pages 11-16 is valid."
+  },
+  {
+    "misconception_id": "misc_2b3fc3734c",
+    "concept_id": "concept_393a7be286",
+    "misconception": "Y=4x-x²at the point M(1;3)(a is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 2-01521 17 50.Determine thevaluesofk atwhichthetangentto the parabola y=4x-x²at the point M(1;3)(a)is a tangent to theparabola y=x²—6x+k;（b)cuts the parabolay=x²-6x+k attwo points."
+  },
+  {
+    "misconception_id": "misc_efffcfcc0d",
+    "concept_id": "concept_393a7be286",
+    "misconception": "Y=4x-x²at the point M(1;3)(a always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Y=4x-x²at the point M(1;3)(a is valid."
+  },
+  {
+    "misconception_id": "misc_4506830bd3",
+    "concept_id": "concept_44acfa1cb4",
+    "misconception": "Chapter 1 practice pages 23-28 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 8.Theequationx+ar²+bx²+cc+d=0，where a,b,c,d are integers，has a rational root x.Prove thatzis an integer and that d can be divided by 1 withoutaremainder. 9.Find the rationalroots o"
+  },
+  {
+    "misconception_id": "misc_5926b96fdb",
+    "concept_id": "concept_44acfa1cb4",
+    "misconception": "Chapter 1 practice pages 23-28 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 practice pages 23-28 is valid."
+  },
+  {
+    "misconception_id": "misc_d9a70ca90a",
+    "concept_id": "concept_45127fdcf0",
+    "misconception": "Chapter 1 practice pages 29-34 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 8.Findalla andbforwhich thefollowingsystems of equations are equivalent: ax+2y=b+1, 2x-+y=a²+2， x+y=3 and +3y=3. 9.At what values of k does the system of equations x+ky=3， kx+4y=6,"
+  },
+  {
+    "misconception_id": "misc_3b1ec47873",
+    "concept_id": "concept_45127fdcf0",
+    "misconception": "Chapter 1 practice pages 29-34 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 practice pages 29-34 is valid."
+  },
+  {
+    "misconception_id": "misc_0d6f1519d8",
+    "concept_id": "concept_15b5941407",
+    "misconception": "Chapter 1 practice pages 35-40 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Solve the foilowing equations: 10./x-2+/4-x=2. 11.Vx²+ax-2a=x+1. 12.V2x-1-x+a=0. 13.Va²-xVx²+a²=a-x. 14. Vx-Vx-a=a. 15.Vx+Va²+2a-3 +Vx+a+V2-2a+2a²-a²=aV1-x. Solve thefollowing ineq"
+  },
+  {
+    "misconception_id": "misc_d0b98b73c2",
+    "concept_id": "concept_15b5941407",
+    "misconception": "Chapter 1 practice pages 35-40 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 practice pages 35-40 is valid."
+  },
+  {
+    "misconception_id": "misc_03f9d8708e",
+    "concept_id": "concept_a7f0d15a59",
+    "misconception": "Chapter 1 practice pages 41-46 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: (c)22x²+2x²+2x+2=25+4x， (d)(V5V2-7)*+6(V5V2+7)=7. 13.(a) 32x²2.3x+x+6+32(x+6)0; (b) x2.2V2x+1-1+2*=2V2x+1+1+22.2x-3. 15.loga (x²+4x +12)=2. 16.(a) logax+log9x+log27 x=5.5; (b) log2"
+  },
+  {
+    "misconception_id": "misc_5ec2744895",
+    "concept_id": "concept_a7f0d15a59",
+    "misconception": "Chapter 1 practice pages 41-46 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 practice pages 41-46 is valid."
+  },
+  {
+    "misconception_id": "misc_e3a08d643d",
+    "concept_id": "concept_c656b7384f",
+    "misconception": "Chapter 1 practice pages 47-52 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 51.(a)log²x+3logx-4≥0;(b) 1-1ogx 1+log2x (d) (log2 z)-(1og)²- 20 log2x+ 148<0; (e)(2log²x-3logs-8)(2log²x-3logα-6)≥3; (f)(log²x+3log2x+1)(log²x+3log2x--3)<5; (g) (1.25)1-(o8:x)<(0."
+  },
+  {
+    "misconception_id": "misc_456a10e4fe",
+    "concept_id": "concept_c656b7384f",
+    "misconception": "Chapter 1 practice pages 47-52 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 practice pages 47-52 is valid."
+  },
+  {
+    "misconception_id": "misc_2bc01db3be",
+    "concept_id": "concept_f92fd22ba1",
+    "misconception": "Chapter 1 practice pages 53-58 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 4n 6π (f) cos0+cos+ 2nπ 6n 十coS 7 8.Prove the identity (a) 2 sin2a+sin4 2(cosα+cos3a) =tan 2a cos α; (b) cosα-sinα+sin 2α=√2cos(2α-）; (+α)=； (e）log/s[cos²(α+β)+cos²(α—β)-cos 2acos "
+  },
+  {
+    "misconception_id": "misc_847aff9758",
+    "concept_id": "concept_f92fd22ba1",
+    "misconception": "Chapter 1 practice pages 53-58 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 practice pages 53-58 is valid."
+  },
+  {
+    "misconception_id": "misc_2b97a0af8a",
+    "concept_id": "concept_eefc34380a",
+    "misconception": "Chapter 1 practice pages 59-64 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: (c)arcsin x-arcsin y=arcsin (x√T-y²-yVTx²); (d)arccos x-arccos y=arcsin (yV1-x²-x√1-y²); (e)arctan x+arctan y=arccot- 1=，x>0，y>0; x+y x-y x>0，y>0; (g)arccot x—arccot y=arctan y-x 1"
+  },
+  {
+    "misconception_id": "misc_3128c088e9",
+    "concept_id": "concept_eefc34380a",
+    "misconception": "Chapter 1 practice pages 59-64 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 practice pages 59-64 is valid."
+  },
+  {
+    "misconception_id": "misc_3be9da1566",
+    "concept_id": "concept_8c899b7eaf",
+    "misconception": "Chapter 1 practice pages 65-70 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 24.Are the equations 1+cos 2x+ sin 2a=0 and 1+- 1—tan²x 2 tan z 1+tan²x 1+tan²x = 0 equivalent? Solve the following equations: 25.(a)cos 3x=-2 cos x; (b)cos 9x-2 cos 6x =2; (c)cos "
+  },
+  {
+    "misconception_id": "misc_d9fb746ca6",
+    "concept_id": "concept_8c899b7eaf",
+    "misconception": "Chapter 1 practice pages 65-70 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 practice pages 65-70 is valid."
+  },
+  {
+    "misconception_id": "misc_8d636f2fa5",
+    "concept_id": "concept_ccaf311484",
+    "misconception": "Chapter 1 practice pages 71-76 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 4.(a) cotx<0;(b) cot (x-)≥1; (c)cot(2x+)<-2. 5.(a)|sinx|>1/2;(b)|cos|<1/2;(c)|tanx|≤1; (d)|cotx|<V3. (c）-2<tan<3;(d）-4<cotx≤1.5 7.2sin²x+V3sinx-3>0. 8.cos2x+5cosx+3≥0. 9.tan²x+(2-V"
+  },
+  {
+    "misconception_id": "misc_f34df2d330",
+    "concept_id": "concept_ccaf311484",
+    "misconception": "Chapter 1 practice pages 71-76 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 practice pages 71-76 is valid."
+  },
+  {
+    "misconception_id": "misc_e846738be6",
+    "concept_id": "concept_8e3d64b025",
+    "misconception": "Chapter 1 practice pages 77-82 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: thefirst pedestrian.Determine thetime thecyclist spenttravellingfromthepointofdeparturetothe point of the meetingwith thefirstpedestrian,the speeds of the cyclist and thepedestrian"
+  },
+  {
+    "misconception_id": "misc_06131302cc",
+    "concept_id": "concept_8e3d64b025",
+    "misconception": "Chapter 1 practice pages 77-82 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 practice pages 77-82 is valid."
+  },
+  {
+    "misconception_id": "misc_420e03ef2b",
+    "concept_id": "concept_993cf899cd",
+    "misconception": "Chapter 1 practice pages 83-88 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 25.There are three pieces of a copper-tin alloy.The masses of the pieces are in the ratio of 3:4:5.The percentage of copper in the second piece is a times as large,and in thefirstp"
+  },
+  {
+    "misconception_id": "misc_fae1f89015",
+    "concept_id": "concept_993cf899cd",
+    "misconception": "Chapter 1 practice pages 83-88 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 practice pages 83-88 is valid."
+  },
+  {
+    "misconception_id": "misc_3843d4b2ac",
+    "concept_id": "concept_f2d508bbcb",
+    "misconception": "Chapter 1 practice pages 89-94 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: (d) (arcsin(x+1)+arccos(z+1)dx; -2 3 (e) arctan 19.Find the setof positive values of asatisfyingthe a equation (3x²+4x-5)dx=a3-2. 20.Find all the values ofa for which theinequality"
+  },
+  {
+    "misconception_id": "misc_e6ef5b01f1",
+    "concept_id": "concept_f2d508bbcb",
+    "misconception": "Chapter 1 practice pages 89-94 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 practice pages 89-94 is valid."
+  },
+  {
+    "misconception_id": "misc_7e753d17b9",
+    "concept_id": "concept_36d02f7a65",
+    "misconception": "Chapter 1 practice pages 95-100 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: the thirdterm is 12.Find the difference between the thirdand the second term of the progression. 26.The sum of thefirst and the thirdterm of the geometric progression is 20 and the"
+  },
+  {
+    "misconception_id": "misc_5dad90a47c",
+    "concept_id": "concept_36d02f7a65",
+    "misconception": "Chapter 1 practice pages 95-100 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 practice pages 95-100 is valid."
+  },
+  {
+    "misconception_id": "misc_4117ce6b7c",
+    "concept_id": "concept_16ab33fe85",
+    "misconception": "Of a triangle， AB=a,AC=b,[AD] is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 101 12.The points A,B and C are the vertices of a triangle， AB=a,AC=b,[AD]is the bisector of the triangle."
+  },
+  {
+    "misconception_id": "misc_b4a037545d",
+    "concept_id": "concept_16ab33fe85",
+    "misconception": "Of a triangle， AB=a,AC=b,[AD] always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Of a triangle， AB=a,AC=b,[AD] is valid."
+  },
+  {
+    "misconception_id": "misc_d67aecfb28",
+    "concept_id": "concept_4c1ad5c066",
+    "misconception": "Chapter 7 practice pages 107-112 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Chapter7 PLANEGEOMETRY 7.1.Problems on Proving Propositions 1.Mis the midpoint of the interval[AB].Prove that 1 |CM|= 2 2.Five straight lines meeting at a point O are drawn in thep"
+  },
+  {
+    "misconception_id": "misc_b1462c294a",
+    "concept_id": "concept_4c1ad5c066",
+    "misconception": "Chapter 7 practice pages 107-112 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 7 practice pages 107-112 is valid."
+  },
+  {
+    "misconception_id": "misc_7d8c1668a0",
+    "concept_id": "concept_ccdc182e42",
+    "misconception": "Chapter 7 practice pages 113-114 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 32.Findthelengthofthealtitudeofthetrapezoidif its bases are a=28cm andb=16 cm,and the non-paral- lel sides are c =25 cm and d =17 cm. 33.Find the area of the trapezoid whose bases "
+  },
+  {
+    "misconception_id": "misc_03a22655a8",
+    "concept_id": "concept_ccdc182e42",
+    "misconception": "Chapter 7 practice pages 113-114 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 7 practice pages 113-114 is valid."
+  },
+  {
+    "misconception_id": "misc_a34e79c166",
+    "concept_id": "concept_b7fa009cbd",
+    "misconception": "Chapter 8 practice pages 115-120 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Chapter8 SOLIDGEOMETRY 8.1.A Straight Line,a Plane,Polyhedra. SolidsofRevolution 1.Two right triangles lie in the mutuallyperpendicular planes andhaveahypotenuse incommon.Find the "
+  },
+  {
+    "misconception_id": "misc_c235aafb19",
+    "concept_id": "concept_b7fa009cbd",
+    "misconception": "Chapter 8 practice pages 115-120 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 8 practice pages 115-120 is valid."
+  },
+  {
+    "misconception_id": "misc_07a5a781b0",
+    "concept_id": "concept_5ce269ee1e",
+    "misconception": "Base of the pyramid is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: base of the pyramid is a rhombus with a side a and theacute angle α.Each base dihedralangle is equal toΦ.Findthevolumeof theballinscribed into the 22.The side of the base of a regu"
+  },
+  {
+    "misconception_id": "misc_7ef0269c6d",
+    "concept_id": "concept_5ce269ee1e",
+    "misconception": "Base of the pyramid always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Base of the pyramid is valid."
+  },
+  {
+    "misconception_id": "misc_3b07792290",
+    "concept_id": "concept_b3c85fa64e",
+    "misconception": "Chapter 8 practice pages 127-132 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 52.Aregular hexagonalprism isinscribedinto a cone with thealtitudeHandthe radius of thebase R，so thatoneofitsbasesliesintheplaneofthebaseofthe coneandtheverticesoftheotherbasebelon"
+  },
+  {
+    "misconception_id": "misc_1f30eb587f",
+    "concept_id": "concept_b3c85fa64e",
+    "misconception": "Chapter 8 practice pages 127-132 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 8 practice pages 127-132 is valid."
+  },
+  {
+    "misconception_id": "misc_240a9bbf47",
+    "concept_id": "concept_62fc111fe1",
+    "misconception": "Chapter 8 practice pages 133-138 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: the function f(x)possesses a derivative at the point toand the function f2(x)does not possess a derivative at the point xo;(b)neither of thefunctions fi(x)and f2（x)possesses a deri"
+  },
+  {
+    "misconception_id": "misc_b62243d25b",
+    "concept_id": "concept_62fc111fe1",
+    "misconception": "Chapter 8 practice pages 133-138 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 8 practice pages 133-138 is valid."
+  },
+  {
+    "misconception_id": "misc_69d224e7be",
+    "concept_id": "concept_9947576121",
+    "misconception": "Chapter 1 practice pages 139-149 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: ANSWERS,HINTS,SOLUTIONS Chapter1 RATIONALEQUATIONS,INEQUALITIES ANDFUNCTIONSINONEVARIABLE 1.1.LinearEquations andInequalities in OneVariable. A Linear Function 1.{1}.2.{-7}.3.(a){c"
+  },
+  {
+    "misconception_id": "misc_21d22de118",
+    "concept_id": "concept_9947576121",
+    "misconception": "Chapter 1 practice pages 139-149 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 1 practice pages 139-149 is valid."
+  },
+  {
+    "misconception_id": "misc_8c6bbb184d",
+    "concept_id": "concept_46cf8a440d",
+    "misconception": "Consequently，x=1 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Consequently，x=1 is a point of maximum;y’(1/2)=0 and y’> 0 for z E /1. and, therefore，x=1/2isapointofminimum.60.（a)x=-1.5and x=1.5arepointsofminimum；x=0isa.pointofmaximum； (b）x=0is"
+  },
+  {
+    "misconception_id": "misc_8959d49d89",
+    "concept_id": "concept_46cf8a440d",
+    "misconception": "Consequently，x=1 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Consequently，x=1 is valid."
+  },
+  {
+    "misconception_id": "misc_8b971ca148",
+    "concept_id": "concept_5f309285d8",
+    "misconception": "Origin has theformy=kx.Suppose M（zoyo is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Use thecondition of perpendicularity of the straightlineskk=1, where k,and kare angular coeffcients.20.Show that y（0)= y’（4）.21.yx=0，x+25y=0.Theequation of thestraight linepassingt"
+  },
+  {
+    "misconception_id": "misc_4733148e92",
+    "concept_id": "concept_5f309285d8",
+    "misconception": "Origin has theformy=kx.Suppose M（zoyo always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Origin has theformy=kx.Suppose M（zoyo is valid."
+  },
+  {
+    "misconception_id": "misc_2ff9a98cf5",
+    "concept_id": "concept_ce23a55e4b",
+    "misconception": "Z= 2.Such roots are called miltiple roots.The rootz=2 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Remark.Thegiven equation has two equalroots:z= 2.Such roots are called miltiple roots.The rootz=2 is a root ofmultiplicity 2; 158 (c）{3）;（d）{1）；（e）{-1，-1/2，1/3}.○Setx=-1/y，(1）{1/2}"
+  },
+  {
+    "misconception_id": "misc_f06e52498b",
+    "concept_id": "concept_ce23a55e4b",
+    "misconception": "Z= 2.Such roots are called miltiple roots.The rootz=2 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Z= 2.Such roots are called miltiple roots.The rootz=2 is valid."
+  },
+  {
+    "misconception_id": "misc_c956471ff3",
+    "concept_id": "concept_33cd575db2",
+    "misconception": "One positive term （x+.2).This is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: satisfied by the second pair of values of c and d;for these values we get a=-5andb=1fortheothercoefficients.Solvingnowtheequations x²-5x+2=0andx²-x-7=0，wefindtherootsofthe original"
+  },
+  {
+    "misconception_id": "misc_3fcefaf3a0",
+    "concept_id": "concept_33cd575db2",
+    "misconception": "One positive term （x+.2).This always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when One positive term （x+.2).This is valid."
+  },
+  {
+    "misconception_id": "misc_2ffb675ee6",
+    "concept_id": "concept_2ad1c84fc0",
+    "misconception": "—1；1) it increases; x=-1 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: On the intervals （oo;-1）and(1;oo）the function decreases,on the interval (—1；1) it increases; x=-1 is a point of mini- mum,=1is a point of maximum."
+  },
+  {
+    "misconception_id": "misc_ae5970da1e",
+    "concept_id": "concept_2ad1c84fc0",
+    "misconception": "—1；1) it increases; x=-1 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when —1；1) it increases; x=-1 is valid."
+  },
+  {
+    "misconception_id": "misc_4e76a8218d",
+    "concept_id": "concept_acddf91d9c",
+    "misconception": "Intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Onthe intervals （o;-3）and（3;oo）the function decreases，on the intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3 is a point ofminimum,x=3 is apointofmaximum； y（3)=9，y(3)=-9."
+  },
+  {
+    "misconception_id": "misc_20a3faff17",
+    "concept_id": "concept_acddf91d9c",
+    "misconception": "Intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3 is valid."
+  },
+  {
+    "misconception_id": "misc_d2fd15b4cb",
+    "concept_id": "concept_69cb78182a",
+    "misconception": "Solving this system by is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 2ndmethod.Letus multiply both parts of the equation by the expression conjugate to theleft-hand sideof the equation↓2x+3+ 十Vx+1 (in the domain of definition of the equation（x>—1) t"
+  },
+  {
+    "misconception_id": "misc_13c45346e1",
+    "concept_id": "concept_69cb78182a",
+    "misconception": "Solving this system by always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Solving this system by is valid."
+  },
+  {
+    "misconception_id": "misc_ff2507f26e",
+    "concept_id": "concept_a0f16824e5",
+    "misconception": "Consequently，f（z)>0on thatintervaland this is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Consequently，f（z)>0on thatintervaland this means that 2> >1/z-3.Remark.Theproof canbe carriedout byelementary techniques，representing f（x)as f（z)=（V1）²(2Vx+1）/."
+  },
+  {
+    "misconception_id": "misc_7db465e8b9",
+    "concept_id": "concept_a0f16824e5",
+    "misconception": "Consequently，f（z)>0on thatintervaland this always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Consequently，f（z)>0on thatintervaland this is valid."
+  },
+  {
+    "misconception_id": "misc_28d1b4f654",
+    "concept_id": "concept_180d305ba3",
+    "misconception": "Weestablish by is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Weestablish by means of selection thatx=2 is a rootof the equation.Let us prove thatthe originalequationhas no other roots.Wereduce the equation to the form（5/13)x+（12/13）x= 1andas"
+  },
+  {
+    "misconception_id": "misc_be528cd2bd",
+    "concept_id": "concept_180d305ba3",
+    "misconception": "Weestablish by always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Weestablish by is valid."
+  },
+  {
+    "misconception_id": "misc_b1dbc1604f",
+    "concept_id": "concept_f26ab3e78f",
+    "misconception": "Sets of solutions is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: The solution of the first inequality is xE[-o;1-V3)U U (1 + V3;oo),and of the second,x E[-1;3].The intersection of these sets of solutions is the set of values z E[-1;1-V3) U U(1+V"
+  },
+  {
+    "misconception_id": "misc_0b1609c424",
+    "concept_id": "concept_f26ab3e78f",
+    "misconception": "Sets of solutions always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Sets of solutions is valid."
+  },
+  {
+    "misconception_id": "misc_2c2df301b6",
+    "concept_id": "concept_493ea34ade",
+    "misconception": "Chapter 2 practice pages 187-193 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: U[1;2)U(2;7/2).63.(3;5-V3)U (7;∞0).64.(a)(1;2); (b)(0;3)U(4;6)U (6;12)U (14;∞0).65.(a)(0;4);(b)[2,4)； (c)(1/2,4);(d) (1; 2).66.(a)(0; 2).Reduce the inequality to the form(2x-1)(25-"
+  },
+  {
+    "misconception_id": "misc_593afa78cb",
+    "concept_id": "concept_493ea34ade",
+    "misconception": "Chapter 2 practice pages 187-193 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 2 practice pages 187-193 is valid."
+  },
+  {
+    "misconception_id": "misc_5fb1a129c8",
+    "concept_id": "concept_759a0d7e40",
+    "misconception": "Chapter 2 practice pages 194-201 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: thegivenfunction as follows:c+acosx+bsin²z=√a²+b²x a cosz+ b × sinz）+c=Va²+b²sin（x+Φ）+c. Va²+b2 Va+b2 It isevident that the functionyassumestheleast valueif sin (Φ+）= m一1,and the g"
+  },
+  {
+    "misconception_id": "misc_fbbcd45fdb",
+    "concept_id": "concept_759a0d7e40",
+    "misconception": "Chapter 2 practice pages 194-201 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Chapter 2 practice pages 194-201 is valid."
+  },
+  {
+    "misconception_id": "misc_db8847ae7e",
+    "concept_id": "concept_a5bc52665f",
+    "misconception": "Arctan（1/2）, kEZ.Verifying them by is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 206 The equation tan=1/2 has solutions x=πk+ arctan（1/2）, kEZ.Verifying them by means of the substitution into the inequal- ities sin>0andcosz>0,we find that the inequalities hold "
+  },
+  {
+    "misconception_id": "misc_653ad3933d",
+    "concept_id": "concept_a5bc52665f",
+    "misconception": "Arctan（1/2）, kEZ.Verifying them by always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Arctan（1/2）, kEZ.Verifying them by is valid."
+  },
+  {
+    "misconception_id": "misc_bb16f6ddca",
+    "concept_id": "concept_f57269bb13",
+    "misconception": "Satisfied，we find that z=n,nEZ， is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: It turns out thatthisequation has no solutions since if cos=0， then cos3x=0 as well.Consequently，equation （1) can be divided by1+tan 3x tan 2x=≠0;wehave tan3z-tan2x =tan2x,or2tan 2"
+  },
+  {
+    "misconception_id": "misc_6e34f1f667",
+    "concept_id": "concept_f57269bb13",
+    "misconception": "Satisfied，we find that z=n,nEZ， always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Satisfied，we find that z=n,nEZ， is valid."
+  },
+  {
+    "misconception_id": "misc_caea9ee6b2",
+    "concept_id": "concept_e0c8354fce",
+    "misconception": "second equation is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: AOnlythose values ofx canbe solutions of thegiven equation for whichcos2x>—1/4.Squaringthe equationandperforming trans- formations,wegetanequation 8cos²2x10cos2x-7=0, whichyields:c"
+  },
+  {
+    "misconception_id": "misc_9396502e8c",
+    "concept_id": "concept_e0c8354fce",
+    "misconception": "second equation always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when second equation is valid."
+  },
+  {
+    "misconception_id": "misc_eab292b4fa",
+    "concept_id": "concept_5d3428cb57",
+    "misconception": "Supposexroubles is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Supposexroubles is the initialpayment ofeach student,y is the numberofstudents inthegroup,then170<xy<195，xy=（x+1) X(y-2).This equation yields x=(y-2)/2.Substituting this value of x"
+  },
+  {
+    "misconception_id": "misc_f196e59fc8",
+    "concept_id": "concept_5d3428cb57",
+    "misconception": "Supposexroubles always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Supposexroubles is valid."
+  },
+  {
+    "misconception_id": "misc_98b01e8d10",
+    "concept_id": "concept_aeb1d97acf",
+    "misconception": "Suppose z is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Suppose z is the number of twos,y is the number of threes,is the number of fours and tis the number of fives.We have a system +y+z+t=30，2x+3y+7z+3t=93，y>t=2m， y<=10k, m ∈ Z，k ∈Z Su"
+  },
+  {
+    "misconception_id": "misc_67751ceef5",
+    "concept_id": "concept_aeb1d97acf",
+    "misconception": "Suppose z always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Suppose z is valid."
+  },
+  {
+    "misconception_id": "misc_5a22dbb604",
+    "concept_id": "concept_a42005065a",
+    "misconception": "25 ma/h.Suppose S is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 25 ma/h.Suppose S is the volume 224 of thereservoir (S>O)，then 0.3S 0.7S S（1 7 We find the derivative of the function t(o): t'（）=- 1 49 25 0（(20-v）（90+70)² 25 E(1，10); at the point"
+  },
+  {
+    "misconception_id": "misc_014a659403",
+    "concept_id": "concept_a42005065a",
+    "misconception": "25 ma/h.Suppose S always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 25 ma/h.Suppose S is valid."
+  },
+  {
+    "misconception_id": "misc_100936a401",
+    "concept_id": "concept_c334a77355",
+    "misconception": "Old system by is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 64 32 1 of coordinates,obtained from the old system by means of the transla- tion r (0;—4); (d) 1/6; (e) 37/48."
+  },
+  {
+    "misconception_id": "misc_30d8f56ce4",
+    "concept_id": "concept_c334a77355",
+    "misconception": "Old system by always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Old system by is valid."
+  },
+  {
+    "misconception_id": "misc_4858dd5864",
+    "concept_id": "concept_28f65425cb",
+    "misconception": "Side of equation (1 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: sider the cases c<4 and c > 4.14. (a) 2 5 16. (a) 1/3 十 + ln 2; (b) 13/3 -4 ln 2; (c) 16.5 8 ln 2; (d) 48 ln 2 — 11.25; The curves y = 1/x and y = 1/(2z - 1) meet at the point O (1"
+  },
+  {
+    "misconception_id": "misc_e26bca63f5",
+    "concept_id": "concept_28f65425cb",
+    "misconception": "Side of equation (1 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Side of equation (1 is valid."
+  },
+  {
+    "misconception_id": "misc_d94cf8d9c0",
+    "concept_id": "concept_5f1c83982f",
+    "misconception": "Can be found by is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 5;9;13；..: .11.a=4;d=5.12.1/9,1/6,1/3.Supposez,y，2 are the required numbers;we have a system of equations 11 1 =18 工 2 y (1/x;1/y;1/zhere are the consecutive terms of the_progressi"
+  },
+  {
+    "misconception_id": "misc_04aa038d33",
+    "concept_id": "concept_5f1c83982f",
+    "misconception": "Can be found by always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Can be found by is valid."
+  },
+  {
+    "misconception_id": "misc_5ea35ba909",
+    "concept_id": "concept_c7dde8cfc3",
+    "misconception": "1→00 lim n-7 c is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 2ndmethod.Since every convergent sequence is bounded (the necessary condition for the convergence of a sequence)，we can infer,having established that lim 1+(-1)n =0，thatthe n→00n2 "
+  },
+  {
+    "misconception_id": "misc_a2b3130e28",
+    "concept_id": "concept_c7dde8cfc3",
+    "misconception": "1→00 lim n-7 c always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 1→00 lim n-7 c is valid."
+  },
+  {
+    "misconception_id": "misc_bc4a0d76aa",
+    "concept_id": "concept_2984782637",
+    "misconception": "Sum of these vectors is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: AO=AB+（1/3)(BC+BD）.24.Yes,they are.25.d=2a- 3b+c.Represent thevectordin theform d=Aa十μb+ve and from the system ofequations 3-μ+2v=11， -2+μ+v=-6, -2u-3v=5 4 12 +AB+AA1=4i+3j+12k; co"
+  },
+  {
+    "misconception_id": "misc_73c457abb9",
+    "concept_id": "concept_2984782637",
+    "misconception": "Sum of these vectors always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Sum of these vectors is valid."
+  },
+  {
+    "misconception_id": "misc_e06588b93c",
+    "concept_id": "concept_973f8e00df",
+    "misconception": "N =(0; 1; 0 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: n calculate the required angle BAn from theequality cos@= ，where BA=(1; 2;—2) and [BA||n| n =(0; 1; 0) is a vector normal to the plane xOz (Φ) is the angle between the vectors BA a"
+  },
+  {
+    "misconception_id": "misc_a38d725389",
+    "concept_id": "concept_973f8e00df",
+    "misconception": "N =(0; 1; 0 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when N =(0; 1; 0 is valid."
+  },
+  {
+    "misconception_id": "misc_eb31c9d36b",
+    "concept_id": "concept_05d448fa54",
+    "misconception": "segment[EF]; [MF] is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: D 6.Letus draw themidline[MN]of the trapezoid ABCD(see the figure).It cuts the diagonals ACand BD of the trapezoid atpoints E and F，which are the midpoints of the respective diagon"
+  },
+  {
+    "misconception_id": "misc_12519ceb7d",
+    "concept_id": "concept_05d448fa54",
+    "misconception": "segment[EF]; [MF] always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when segment[EF]; [MF] is valid."
+  },
+  {
+    "misconception_id": "misc_23a0934411",
+    "concept_id": "concept_83657abf05",
+    "misconception": "M C trianglesthat丨KE|=|MC|andso KECM is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: m the congruence of those B M C trianglesthat丨KE|=|MC|andso KECM is a parallelogram.Consequently, IKM丨={EC丨=1BC1-IBE|= =|BC∣-|AB丨."
+  },
+  {
+    "misconception_id": "misc_5fb653adb9",
+    "concept_id": "concept_83657abf05",
+    "misconception": "M C trianglesthat丨KE|=|MC|andso KECM always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when M C trianglesthat丨KE|=|MC|andso KECM is valid."
+  },
+  {
+    "misconception_id": "misc_4718422c3b",
+    "concept_id": "concept_a90232301b",
+    "misconception": "Thehypothe- sis)，it follows that[BP| is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 244 Provethat MPN=MFH，PNQ=PMQ.18.Rotationofthe triangle DBF about the point B through the angle of 90°(see the F A P C figure)carries the pointD into the point D,and the point Fint"
+  },
+  {
+    "misconception_id": "misc_be10493210",
+    "concept_id": "concept_a90232301b",
+    "misconception": "Thehypothe- sis)，it follows that[BP| always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Thehypothe- sis)，it follows that[BP| is valid."
+  },
+  {
+    "misconception_id": "misc_851db5d9fe",
+    "concept_id": "concept_24079685a3",
+    "misconception": "By analogy，we find a point O，which is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: By analogy，we find a point O，which is the intersection point of the bisectors in the triangle ABC.The straight line(OO)is the re- quired line sinceit contains thebisector ofthe ang"
+  },
+  {
+    "misconception_id": "misc_e19539f736",
+    "concept_id": "concept_24079685a3",
+    "misconception": "By analogy，we find a point O，which always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when By analogy，we find a point O，which is valid."
+  },
+  {
+    "misconception_id": "misc_7a56f74526",
+    "concept_id": "concept_172b1feee0",
+    "misconception": "ABC,it follows that [PQ] is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 5R2(2 V3+5π)/6.44.1/3.45.(Rr/(R +2r)²)[3R -2r ± ±√8(R²-2Rr)1.46.√2-√3//3.ASince BD is thebisector of the angle ABC,it follows that [PQ]is the diameter of the inscribed 250 circlean"
+  },
+  {
+    "misconception_id": "misc_6200707191",
+    "concept_id": "concept_172b1feee0",
+    "misconception": "ABC,it follows that [PQ] always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when ABC,it follows that [PQ] is valid."
+  },
+  {
+    "misconception_id": "misc_01a570e3ff",
+    "concept_id": "concept_69cce13951",
+    "misconception": "Equal to(4-(1+ xE[0;6] V2)x)/2,wherex is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Now we have 1AC1=V(xA-xc)²+(yA-yc)² =V /513)2 =V 7 16 2 9 the length of the other is 6x.The area of the convex quadrangle， whose diagonals are mutually perpendicular,is half the pr"
+  },
+  {
+    "misconception_id": "misc_ac15735ce5",
+    "concept_id": "concept_69cce13951",
+    "misconception": "Equal to(4-(1+ xE[0;6] V2)x)/2,wherex always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Equal to(4-(1+ xE[0;6] V2)x)/2,wherex is valid."
+  },
+  {
+    "misconception_id": "misc_8081b143ed",
+    "concept_id": "concept_537674f1cf",
+    "misconception": "Regular tetra- hedron,in particular,a is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 3V2+V3.Allangular dimen- C1 B sions are known ina regular tetra- hedron,in particular,a is the mag- nitudeofthe dihedralangleformed by a lateral face and theplane of the base；sinα="
+  },
+  {
+    "misconception_id": "misc_5f61bbb113",
+    "concept_id": "concept_537674f1cf",
+    "misconception": "Regular tetra- hedron,in particular,a always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Regular tetra- hedron,in particular,a is valid."
+  },
+  {
+    "misconception_id": "misc_521731e7fd",
+    "concept_id": "concept_b154bcc0dd",
+    "misconception": "SS)）， where S is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 3h c(a²+b2) 4cosα+2 αE（0； Since the pyramid SABC (see thefigure) is regular,the centre of the sphere circumscribed aboutit is on the straight line(SO)（| SO|= =h)，lying in the plane"
+  },
+  {
+    "misconception_id": "misc_a3cebf929a",
+    "concept_id": "concept_b154bcc0dd",
+    "misconception": "SS)）， where S always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when SS)）， where S is valid."
+  },
+  {
+    "misconception_id": "misc_3c1563fdc9",
+    "concept_id": "concept_444445d454",
+    "misconception": "Planeof the base(ABCD is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 309 3 }.▲ Since the lateral edges of the pyramid SABCDmake equalangles S with the plane of the base (see the figure)，the orthogonal projection O ofthevertexSofthepyramid onto the p"
+  },
+  {
+    "misconception_id": "misc_937c48bc97",
+    "concept_id": "concept_444445d454",
+    "misconception": "Planeof the base(ABCD always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Planeof the base(ABCD is valid."
+  },
+  {
+    "misconception_id": "misc_4767613034",
+    "concept_id": "concept_aa5519117c",
+    "misconception": "S The point O∈（ALS）and (OL） is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: S The point O∈（ALS）and (OL）is the bisector of the angle ALS.The projectionofthepointOontothe plane of the base,which will be de- signatedasO1,belongstothe bisector (AL)of the angle"
+  },
+  {
+    "misconception_id": "misc_4605535a58",
+    "concept_id": "concept_aa5519117c",
+    "misconception": "S The point O∈（ALS）and (OL） always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when S The point O∈（ALS）and (OL） is valid."
+  },
+  {
+    "misconception_id": "misc_018101e344",
+    "concept_id": "concept_359ead36a1",
+    "misconception": "Suppose x is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Suppose x is the length of the side of the base of the prism and H is the length of the lateral edge."
+  },
+  {
+    "misconception_id": "misc_f88348a17e",
+    "concept_id": "concept_359ead36a1",
+    "misconception": "Suppose x always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Suppose x is valid."
+  },
+  {
+    "misconception_id": "misc_93720b0c3d",
+    "concept_id": "concept_474e628c3c",
+    "misconception": "Generatrix of the cone，@ is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Next we find: 4 1—1/2 64 H：2V3 R²H.53.nπ/4.54.k sin 2α for α∈ 9 1.=） 1 When theconeiscut by the plane passing through its vertex,an isosceles triangle results in the section whose "
+  },
+  {
+    "misconception_id": "misc_8d8747f208",
+    "concept_id": "concept_474e628c3c",
+    "misconception": "Generatrix of the cone，@ always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Generatrix of the cone，@ is valid."
+  },
+  {
+    "misconception_id": "misc_adc01b72ce",
+    "concept_id": "concept_8aee7319a1",
+    "misconception": "Since 6 6 （k+1）(k+2)(2k+3) and this is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Since 6 6 （k+1）(k+2)(2k+3) and this means that the formula is valid 6 for any nEN.(b)Carry out the proof by mathematical induction."
+  },
+  {
+    "misconception_id": "misc_3a531dc203",
+    "concept_id": "concept_8aee7319a1",
+    "misconception": "Since 6 6 （k+1）(k+2)(2k+3) and this always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Since 6 6 （k+1）(k+2)(2k+3) and this is valid."
+  },
+  {
+    "misconception_id": "misc_ecf170adba",
+    "concept_id": "concept_e10a3efa37",
+    "misconception": "180 (b)▲ Suppose ABCD is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: And since|sinka|≤k|sinα|by the supposition of induction， wehave|sin（k+1）α|≤|sinka1+| sinα|≤k|sinα|+ +|sinα|=（k+1）1sinα|.19.（a)Sincetanα>α for αE(0;s/2)and 1+a→ 1一a 1-b tan(—314°)=t"
+  },
+  {
+    "misconception_id": "misc_ca54f985f3",
+    "concept_id": "concept_e10a3efa37",
+    "misconception": "180 (b)▲ Suppose ABCD always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 180 (b)▲ Suppose ABCD is valid."
+  },
+  {
+    "misconception_id": "misc_fa360cac71",
+    "concept_id": "concept_5f658eb084",
+    "misconception": "Then f（x)=f（—z)=0as well,and this is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Suppose f(x)isan even function defined on an interval （-a,a)and xE（-a，a).Then，by the definition， xE（-a;a)as well.Let us assume that z>0.Then -z<x， and，by virtue of the strictmonoto"
+  },
+  {
+    "misconception_id": "misc_9b43f7ba0d",
+    "concept_id": "concept_5f658eb084",
+    "misconception": "Then f（x)=f（—z)=0as well,and this always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Then f（x)=f（—z)=0as well,and this is valid."
+  },
+  {
+    "misconception_id": "misc_c6cafa2ba6",
+    "concept_id": "concept_4eeefbdab6",
+    "misconception": "That of problem3.5.Suppose f（x is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Then，f（x）=-f（-x)，i.e.if f（x)=@（z)，then（x）=-（x） and that iswhatwehad toprove.4.The solution of thisproblem is similar to that of problem3.5.Suppose f（x) is a differentiable periodic"
+  },
+  {
+    "misconception_id": "misc_ea7dfcf364",
+    "concept_id": "concept_4eeefbdab6",
+    "misconception": "That of problem3.5.Suppose f（x always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when That of problem3.5.Suppose f（x is valid."
+  },
+  {
+    "misconception_id": "misc_e504f2f3f6",
+    "concept_id": "concept_788ad47c8d",
+    "misconception": "12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 1 It is evident that if a=1，then f（）=0 for anyxER,i.e.every point rER is critical.Let us consider the equation f（x)=Oor 12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this means thatf"
+  },
+  {
+    "misconception_id": "misc_75a1a1348c",
+    "concept_id": "concept_788ad47c8d",
+    "misconception": "12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this is valid."
+  },
+  {
+    "misconception_id": "misc_c54ee1ecad",
+    "concept_id": "concept_ee77818df3",
+    "misconception": "No,we cannot.For instance,f (x)=1 + cos x is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: No,we cannot.For instance,f (x)=1 + cos x is a periodic function and F (x)=(1 + cos z) dz = z+ sin x + c is a nonperiodic func- tion.2.（a)By the definition,F'（x)=f（x).But f（x)is an"
+  },
+  {
+    "misconception_id": "misc_7fa8ecbad5",
+    "concept_id": "concept_ee77818df3",
+    "misconception": "No,we cannot.For instance,f (x)=1 + cos x always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when No,we cannot.For instance,f (x)=1 + cos x is valid."
+  },
+  {
+    "misconception_id": "misc_ad0553afb9",
+    "concept_id": "concept_2102a0a8d5",
+    "misconception": "Suppose SABc is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Suppose SABc is the area of the figure bounded by the lines y=1+cos x，y=1cos (xα)， = O, and SAB2C2is the areaof the figure bounded by the lines 275 y=1,y=1+cos（x-α)and =π.Then we h"
+  },
+  {
+    "misconception_id": "misc_2a1b9f431b",
+    "concept_id": "concept_2102a0a8d5",
+    "misconception": "Suppose SABc always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Suppose SABc is valid."
+  },
+  {
+    "misconception_id": "misc_166d045d43",
+    "concept_id": "concept_6ae9e02564",
+    "misconception": "=(2n+1）-arctan 2the given quadraticfunction is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Then we have sin²a+ +sin α cos α-2 cos²α=0 or（since the last equation is homogene- ous)tan²α+tanα-2=0.Nowwehave tan α=1，tan α=2; For the inequalities sin α > 0 and cosα+sinα >0 toh"
+  },
+  {
+    "misconception_id": "misc_88d39799ba",
+    "concept_id": "concept_6ae9e02564",
+    "misconception": "=(2n+1）-arctan 2the given quadraticfunction always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when =(2n+1）-arctan 2the given quadraticfunction is valid."
+  },
+  {
+    "misconception_id": "misc_8aabfab4b9",
+    "concept_id": "concept_ceb3b0f44e",
+    "misconception": "Logs (3x+2) <1 277 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: logs(x²3x+7) logs (3x+2) <1 277 is the union of the intervals xE（—2/3;-1/3)U(1;5）.For cvery solutionoftheinequalitytobea solutionoftheinequalityx² 十（5-2a)x≤10a,the zeros xandxgofth"
+  },
+  {
+    "misconception_id": "misc_278ed4a671",
+    "concept_id": "concept_ceb3b0f44e",
+    "misconception": "Logs (3x+2) <1 277 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Logs (3x+2) <1 277 is valid."
+  },
+  {
+    "misconception_id": "misc_c3d711080f",
+    "concept_id": "concept_ecd6f0e62e",
+    "misconception": "given system is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: The greatest value of c,for which this line has points in common with the domain of solutions of the given system, is the valuefor which thisline passes through thepointAwith the c"
+  },
+  {
+    "misconception_id": "misc_a6024051f4",
+    "concept_id": "concept_ecd6f0e62e",
+    "misconception": "given system always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when given system is valid."
+  }
+]

@@ -1,0 +1,465 @@
+{
+  "key": "3.3",
+  "topic": "3.3 Problems on Deriving Inequalities and Systems",
+  "questions": [
+    {
+      "question": {
+        "id": "8a6861d8-5d2a-5cbb-b1e8-4df32afcc8f7",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Three pieces of a copper-tin alloy have masses in the ratio \\(3:4:5\\). The copper percentage in the third piece is \\(p\\%\\), while those in the first and second pieces are \\(\\frac{p}{2}\\%\\) and \\(2p\\%\\), respectively. If the overall copper percentage is \\(24\\%\\), find \\(p\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The copper percentage of the mixture is \\(\\frac{3(p/2)+4(2p)+5p}{3+4+5}=\\frac{29p}{24}\\). Hence \\(\\frac{29p}{24}=24\\), so \\(p=\\frac{576}{29}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 71,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "3.3 Problems on Deriving Inequalities and Systems",
+            "concept_ids": [
+              "concept_6a958536a0",
+              "concept_a7d0197ca3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              82,
+              83,
+              84,
+              222,
+              223
+            ],
+            "source_chunk_ids": [
+              "chunk_c649aa440b",
+              "chunk_c9580fbc42"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_576_29_1",
+              "label": "\\(\\frac{576}{29}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Weighted average gives \\(\\frac{3(p/2)+4(2p)+5p}{12}=24\\)."
+            },
+            {
+              "id": "frac_288_29_2",
+              "label": "\\(\\frac{288}{29}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The total mass ratio is incorrectly treated as \\(6\\)."
+            },
+            {
+              "id": "frac_348_29_3",
+              "label": "\\(\\frac{348}{29}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The contribution of the second piece is miscalculated."
+            },
+            {
+              "id": "frac_720_29_4",
+              "label": "\\(\\frac{720}{29}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The weighted copper percentage is set up incorrectly."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "1b483e54-20e5-551b-8946-99891d3a086d",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Two valves together fill a tank in \\(4\\,\\mathrm{h}\\). The first valve alone takes \\(6\\,\\mathrm{h}\\) less than the second valve. Find the time taken by the first valve alone.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let the first valve take \\(x\\,\\mathrm{h}\\), so the second takes \\((x+6)\\,\\mathrm{h}\\). Then \\(\\frac{1}{x}+\\frac{1}{x+6}=\\frac{1}{4}\\), which gives \\(x^2-2x-24=0\\). Since \\(x>0\\), \\(x=6\\,\\mathrm{h}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 72,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "3.3 Problems on Deriving Inequalities and Systems",
+            "concept_ids": [
+              "concept_6a958536a0",
+              "concept_a7d0197ca3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              82,
+              83,
+              84,
+              222,
+              223
+            ],
+            "source_chunk_ids": [
+              "chunk_c649aa440b",
+              "chunk_c9580fbc42"
+            ]
+          },
+          "options": [
+            {
+              "id": "6_mathrm_h_1",
+              "label": "\\(6\\,\\mathrm{h}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "If the first valve takes \\(x\\) hours, \\(\\frac{1}{x}+\\frac{1}{x+6}=\\frac{1}{4}\\) gives \\(x=6\\)."
+            },
+            {
+              "id": "4_mathrm_h_2",
+              "label": "\\(4\\,\\mathrm{h}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the combined filling time, not the first valve's time."
+            },
+            {
+              "id": "8_mathrm_h_3",
+              "label": "\\(8\\,\\mathrm{h}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It does not satisfy the combined rate equation."
+            },
+            {
+              "id": "12_mathrm_h_4",
+              "label": "\\(12\\,\\mathrm{h}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The positive root is not \\(12\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "35ba7021-f8f1-5cce-a026-5dfa6eb694dc",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A laboratory prepares a mixture using \\(x\\) units of substance \\(A\\) and \\(y\\) units of substance \\(B\\). The requirements are \\(2x+y\\ge 8\\), \\(x+2y\\ge 10\\), and \\(x,y\\ge 0\\). If the cost is \\(3x+4y\\), what is the minimum cost?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The boundary lines intersect at \\(2x+y=8\\) and \\(x+2y=10\\), yielding \\((x,y)=(2,4)\\). The relevant feasible vertices are \\((0,8)\\), \\((2,4)\\), and \\((10,0)\\). Their costs are \\(32\\), \\(22\\), and \\(30\\), respectively. Therefore, the minimum cost is \\(22\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 73,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "3.3 Problems on Deriving Inequalities and Systems",
+            "concept_ids": [
+              "concept_6a958536a0",
+              "concept_a7d0197ca3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              82,
+              83,
+              84,
+              222,
+              223
+            ],
+            "source_chunk_ids": [
+              "chunk_c649aa440b",
+              "chunk_c9580fbc42"
+            ]
+          },
+          "options": [
+            {
+              "id": "22_1",
+              "label": "\\(22\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The constraints intersect at \\((x,y)=(2,4)\\), giving cost \\(22\\)."
+            },
+            {
+              "id": "20_2",
+              "label": "\\(20\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The point producing this cost is infeasible."
+            },
+            {
+              "id": "24_3",
+              "label": "\\(24\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not the least cost among the feasible vertices."
+            },
+            {
+              "id": "30_4",
+              "label": "\\(30\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the cost at the feasible vertex \\((10,0)\\), not the minimum."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "b67f15f0-7f66-5d26-bf7e-cab614a18456",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A rectangular plot has perimeter \\(40\\,\\mathrm{m}\\). If one side is \\(x\\,\\mathrm{m}\\), the other side is \\((20-x)\\,\\mathrm{m}\\). If its area is at least \\(96\\,\\mathrm{m^2}\\), which interval contains all possible values of \\(x\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The area condition is \\(x(20-x)\\ge 96\\), or \\(x^2-20x+96\\le 0\\). Since \\(x^2-20x+96=(x-8)(x-12)\\), the solution is \\(8\\le x\\le 12\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 74,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "3.3 Problems on Deriving Inequalities and Systems",
+            "concept_ids": [
+              "concept_6a958536a0",
+              "concept_a7d0197ca3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              82,
+              83,
+              84,
+              222,
+              223
+            ],
+            "source_chunk_ids": [
+              "chunk_c649aa440b",
+              "chunk_c9580fbc42"
+            ]
+          },
+          "options": [
+            {
+              "id": "8_12_1",
+              "label": "\\([8,12]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inequality \\(x(20-x)\\ge 96\\) reduces to \\((x-8)(x-12)\\le 0\\)."
+            },
+            {
+              "id": "8_12_2",
+              "label": "\\((8,12)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The boundary values give area exactly \\(96\\,\\mathrm{m^2}\\) and must be included."
+            },
+            {
+              "id": "6_14_3",
+              "label": "\\([6,14]\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These are not the roots of the area inequality."
+            },
+            {
+              "id": "0_20_4",
+              "label": "\\([0,20]\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This interval only ensures nonnegative side lengths, not the area condition."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "00edb9b4-f67a-54e2-b348-a9748bca948b",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "How many ordered pairs \\((x,y)\\) of positive integers satisfy the system \\(x+2y\\le 10\\) and \\(2x+y\\le 10\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Because \\(x,y\\) are positive integers, \\(y\\) can be \\(1,2,3,4\\). The maximum values of \\(x\\) are \\(4,3,2,1\\), respectively, giving \\(4+3+2+1=10\\) ordered pairs.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 75,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "3.3 Problems on Deriving Inequalities and Systems",
+            "concept_ids": [
+              "concept_6a958536a0",
+              "concept_a7d0197ca3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              82,
+              83,
+              84,
+              222,
+              223
+            ],
+            "source_chunk_ids": [
+              "chunk_c649aa440b",
+              "chunk_c9580fbc42"
+            ]
+          },
+          "options": [
+            {
+              "id": "10_1",
+              "label": "\\(10\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "For \\(y=1,2,3,4\\), the possible values of \\(x\\) are respectively \\(4,3,2,1\\)."
+            },
+            {
+              "id": "8_2",
+              "label": "\\(8\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Some feasible positive integer pairs are omitted."
+            },
+            {
+              "id": "12_3",
+              "label": "\\(12\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The bounds on \\(x\\) are overcounted."
+            },
+            {
+              "id": "15_4",
+              "label": "\\(15\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This includes pairs violating at least one inequality."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_c649aa440b",
+    "chunk_c9580fbc42"
+  ],
+  "source_pages": [
+    82,
+    83,
+    84,
+    222,
+    223
+  ],
+  "rejected": []
+}

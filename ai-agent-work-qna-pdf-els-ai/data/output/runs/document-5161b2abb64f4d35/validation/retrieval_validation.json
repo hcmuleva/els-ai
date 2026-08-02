@@ -1,0 +1,732 @@
+{
+  "metrics": {
+    "recall_at_k": 0.7378,
+    "precision_at_k": 0.6875,
+    "mrr": 1.0,
+    "ndcg": 0.8769,
+    "coverage": 1.0
+  },
+  "queries": [
+    {
+      "query": "Find educational material about Magnetic flux through a surface: Magnetic flux is the total magnetic field passing through a surface.",
+      "concept_id": "concept_7693272a7d",
+      "expected_chunks": [
+        "chunk_64a3548a21",
+        "chunk_3e263eeff4",
+        "chunk_3dd6a60411"
+      ],
+      "retrieved_chunks": [
+        "chunk_64a3548a21",
+        "chunk_3e263eeff4",
+        "chunk_3dd6a60411",
+        "chunk_61c5b90283",
+        "chunk_b6a1a7a0fa"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.6,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about Gauss’ law for magnetism: The net magnetic flux through any closed surface is zero because isolated magnetic monopoles do not exist.",
+      "concept_id": "concept_f8eaf41ca7",
+      "expected_chunks": [
+        "chunk_61c5b90283",
+        "chunk_04eb145961",
+        "chunk_316f8ed4cc"
+      ],
+      "retrieved_chunks": [
+        "chunk_61c5b90283",
+        "chunk_316f8ed4cc",
+        "chunk_04eb145961",
+        "chunk_64a3548a21",
+        "chunk_3e263eeff4"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.6,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about Induced electromotive force: An electromotive force is induced in a circuit whenever the magnetic flux linked with it changes or a conductor moves through and cuts magnetic flux.",
+      "concept_id": "concept_2a665274e3",
+      "expected_chunks": [
+        "chunk_f31fc6a8c7",
+        "chunk_4e2e394203",
+        "chunk_3c3e22618d",
+        "chunk_862021ed99",
+        "chunk_13b6be54c3",
+        "chunk_fa37e52ab3",
+        "chunk_e5b32a5a73"
+      ],
+      "retrieved_chunks": [
+        "chunk_f31fc6a8c7",
+        "chunk_862021ed99",
+        "chunk_13b6be54c3",
+        "chunk_fa37e52ab3",
+        "chunk_e5b32a5a73"
+      ],
+      "recall_at_k": 0.7143,
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about Direction of induced emf: The induced emf or induced current acts in a direction that opposes the change in magnetic flux that produces it.",
+      "concept_id": "concept_549729587d",
+      "expected_chunks": [
+        "chunk_426ab94562",
+        "chunk_f26856e222",
+        "chunk_582e144b57"
+      ],
+      "retrieved_chunks": [
+        "chunk_426ab94562",
+        "chunk_f57b46dc06",
+        "chunk_582e144b57",
+        "chunk_36e6dedcb3",
+        "chunk_f31fc6a8c7"
+      ],
+      "recall_at_k": 0.6667,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.7039
+    },
+    {
+      "query": "Find educational material about Charge transferred by induction: The total charge that flows through a circuit due to a change in magnetic flux depends on the total flux change and the circuit resistance, but not on the time pattern of the change.",
+      "concept_id": "concept_5975bf7946",
+      "expected_chunks": [
+        "chunk_b6a1a7a0fa",
+        "chunk_b228ce0962",
+        "chunk_4e5cf06a77",
+        "chunk_003e64b55d",
+        "chunk_b96fa9a662"
+      ],
+      "retrieved_chunks": [
+        "chunk_b6a1a7a0fa",
+        "chunk_b228ce0962",
+        "chunk_4e5cf06a77",
+        "chunk_003e64b55d",
+        "chunk_b96fa9a662"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about Emf produced by a moving conductor: Motional emf is the emf generated when a conductor moves through a magnetic field and cuts magnetic flux.",
+      "concept_id": "concept_9254b1d6a8",
+      "expected_chunks": [
+        "chunk_b46cb77494",
+        "chunk_c20b2067f0",
+        "chunk_3fb8519dc9",
+        "chunk_96117bca0d",
+        "chunk_c1988142f0",
+        "chunk_b6676f4344"
+      ],
+      "retrieved_chunks": [
+        "chunk_b46cb77494",
+        "chunk_96117bca0d",
+        "chunk_3fb8519dc9",
+        "chunk_c20b2067f0",
+        "chunk_b6676f4344"
+      ],
+      "recall_at_k": 0.8333,
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about Emf from changing coil orientation: A rotating coil produces induced emf because its orientation relative to the magnetic field changes continuously, causing its magnetic flux to vary.",
+      "concept_id": "concept_05210818a8",
+      "expected_chunks": [
+        "chunk_f57b46dc06",
+        "chunk_7c6b811419",
+        "chunk_5586651a1d",
+        "chunk_aca80dfeab",
+        "chunk_36e6dedcb3",
+        "chunk_f1dacb00da"
+      ],
+      "retrieved_chunks": [
+        "chunk_f57b46dc06",
+        "chunk_36e6dedcb3",
+        "chunk_7c6b811419",
+        "chunk_5586651a1d",
+        "chunk_aca80dfeab"
+      ],
+      "recall_at_k": 0.8333,
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about Self-inductance of a coil: Self-inductance is the proportionality constant relating the magnetic flux linkage of a coil to the current flowing through it.",
+      "concept_id": "concept_1e6c744d80",
+      "expected_chunks": [
+        "chunk_ccafba579f",
+        "chunk_93e629625b",
+        "chunk_846e75d227",
+        "chunk_4fc04df2a2",
+        "chunk_8d8dd9003a",
+        "chunk_9f8b6c3be7"
+      ],
+      "retrieved_chunks": [
+        "chunk_ccafba579f",
+        "chunk_9f8b6c3be7",
+        "chunk_73e6f3ed7c",
+        "chunk_8d8dd9003a",
+        "chunk_846e75d227"
+      ],
+      "recall_at_k": 0.6667,
+      "precision_at_k": 0.8,
+      "mrr": 1.0,
+      "ndcg": 0.8304
+    },
+    {
+      "query": "Find educational material about Self-inductance of a circular coil: For a coil of radius R with N turns, the self-inductance depends on the square of the number of turns, the coil radius, and the permeability of free space.",
+      "concept_id": "concept_9536cc79c4",
+      "expected_chunks": [
+        "chunk_73e6f3ed7c",
+        "chunk_4aa2aae560"
+      ],
+      "retrieved_chunks": [
+        "chunk_73e6f3ed7c",
+        "chunk_4aa2aae560",
+        "chunk_ccafba579f",
+        "chunk_8d8dd9003a",
+        "chunk_9f8b6c3be7"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about Energy stored in an inductor: An inductor stores energy in the magnetic field produced by the current flowing through it.",
+      "concept_id": "concept_6cd4d53f38",
+      "expected_chunks": [
+        "chunk_8a82539d7a",
+        "chunk_bdeffa29b4",
+        "chunk_d99e47a283",
+        "chunk_200354405b",
+        "chunk_fbf90f213c",
+        "chunk_0b44ff6b5d"
+      ],
+      "retrieved_chunks": [
+        "chunk_8a82539d7a",
+        "chunk_d99e47a283",
+        "chunk_200354405b",
+        "chunk_bdeffa29b4",
+        "chunk_fbf90f213c"
+      ],
+      "recall_at_k": 0.8333,
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about Growth of current after switching on: In a series L-R circuit connected to a constant emf, current increases exponentially from zero toward its final value because the inductor opposes changes in current.",
+      "concept_id": "concept_08736307d6",
+      "expected_chunks": [
+        "chunk_daae2b6825",
+        "chunk_0e00237e26",
+        "chunk_276eb38ad8",
+        "chunk_fddcbd17d0",
+        "chunk_20e8b123d6",
+        "chunk_6aedb2bda2",
+        "chunk_180bba37d0"
+      ],
+      "retrieved_chunks": [
+        "chunk_daae2b6825",
+        "chunk_0e00237e26",
+        "chunk_6aedb2bda2",
+        "chunk_7d9b1c49ce",
+        "chunk_180bba37d0"
+      ],
+      "recall_at_k": 0.5714,
+      "precision_at_k": 0.8,
+      "mrr": 1.0,
+      "ndcg": 0.8539
+    },
+    {
+      "query": "Find educational material about Decay of current after switching off: When the source is removed from an L-R circuit, the current decreases exponentially as the energy stored in the inductor is dissipated through the resistance.",
+      "concept_id": "concept_79d3dd9c51",
+      "expected_chunks": [
+        "chunk_7d9b1c49ce",
+        "chunk_0303de7ad6",
+        "chunk_f5fcfaa67a",
+        "chunk_0811811308",
+        "chunk_f5c951ad8d",
+        "chunk_600b2970c8",
+        "chunk_a43a200f8c",
+        "chunk_db45cc2a28"
+      ],
+      "retrieved_chunks": [
+        "chunk_7d9b1c49ce",
+        "chunk_f5c951ad8d",
+        "chunk_db45cc2a28",
+        "chunk_0811811308",
+        "chunk_a43a200f8c"
+      ],
+      "recall_at_k": 0.625,
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about Mutual induction: Mutual induction is the production of an induced emf in one circuit due to a change in the magnetic field produced by a nearby circuit.",
+      "concept_id": "concept_19fc9d8e17",
+      "expected_chunks": [
+        "chunk_fef2ef9e9d",
+        "chunk_761d9c5bbb",
+        "chunk_5d54a0348a",
+        "chunk_e87123f7da"
+      ],
+      "retrieved_chunks": [
+        "chunk_fef2ef9e9d",
+        "chunk_5d54a0348a",
+        "chunk_761d9c5bbb",
+        "chunk_426ab94562",
+        "chunk_4e68bc651e"
+      ],
+      "recall_at_k": 0.75,
+      "precision_at_k": 0.6,
+      "mrr": 1.0,
+      "ndcg": 0.8319
+    },
+    {
+      "query": "Find educational material about Mutual inductance of coupled coils: The mutual inductance of two coupled coils depends on their self-inductances and the coefficient of coupling.",
+      "concept_id": "concept_12146cc5b6",
+      "expected_chunks": [
+        "chunk_6d3a7eebbf",
+        "chunk_104c7dc9e4"
+      ],
+      "retrieved_chunks": [
+        "chunk_6d3a7eebbf",
+        "chunk_104c7dc9e4",
+        "chunk_6037cdf35c",
+        "chunk_73e6f3ed7c",
+        "chunk_d60ba209fa"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about Inductors in series without mutual coupling: For two uncoupled coils connected in series, the same current flows through both coils and their inductances add.",
+      "concept_id": "concept_cd149ebd0e",
+      "expected_chunks": [
+        "chunk_6037cdf35c",
+        "chunk_336f62393d",
+        "chunk_d6a7d63fd9",
+        "chunk_4e68bc651e",
+        "chunk_36d1505f8a",
+        "chunk_8bac1ea0c9"
+      ],
+      "retrieved_chunks": [
+        "chunk_6037cdf35c",
+        "chunk_d60ba209fa",
+        "chunk_d6a7d63fd9",
+        "chunk_336f62393d",
+        "chunk_36d1505f8a"
+      ],
+      "recall_at_k": 0.6667,
+      "precision_at_k": 0.8,
+      "mrr": 1.0,
+      "ndcg": 0.786
+    },
+    {
+      "query": "Find educational material about Inductors in parallel without mutual coupling: For two uncoupled coils connected in parallel, the voltage across each coil is the same and the total current divides between them.",
+      "concept_id": "concept_43fc18b0f9",
+      "expected_chunks": [
+        "chunk_d60ba209fa",
+        "chunk_425bcb0606",
+        "chunk_58d8b3fae0",
+        "chunk_9ca1f4f348",
+        "chunk_f6d50db4d3",
+        "chunk_540504eb3e"
+      ],
+      "retrieved_chunks": [
+        "chunk_d60ba209fa",
+        "chunk_425bcb0606",
+        "chunk_6037cdf35c",
+        "chunk_d6a7d63fd9",
+        "chunk_336f62393d"
+      ],
+      "recall_at_k": 0.3333,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.5531
+    },
+    {
+      "query": "Find educational material about Sinusoidal alternating current and emf: An alternating current or emf varies periodically with time and reverses direction during each cycle.",
+      "concept_id": "concept_6bb4417781",
+      "expected_chunks": [
+        "chunk_72375d3c6a",
+        "chunk_79d8217ae8",
+        "chunk_d53628ddf3",
+        "chunk_1f272e3776",
+        "chunk_7f21ad286a",
+        "chunk_5ac7c5b099",
+        "chunk_01f7a5c7dc"
+      ],
+      "retrieved_chunks": [
+        "chunk_72375d3c6a",
+        "chunk_5ac7c5b099",
+        "chunk_d53628ddf3",
+        "chunk_7f21ad286a",
+        "chunk_79d8217ae8"
+      ],
+      "recall_at_k": 0.7143,
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about RMS value of alternating current and voltage: The root-mean-square value of an alternating quantity is the square root of the mean of the squares of its instantaneous values over a cycle.",
+      "concept_id": "concept_b680bd6489",
+      "expected_chunks": [
+        "chunk_bbde48f080",
+        "chunk_6dbecaf472",
+        "chunk_a5158fb77a",
+        "chunk_a0cb64f2d2",
+        "chunk_7ffa64bd75",
+        "chunk_b3ce23b34a",
+        "chunk_bab3164e78"
+      ],
+      "retrieved_chunks": [
+        "chunk_bbde48f080",
+        "chunk_a0cb64f2d2",
+        "chunk_7ffa64bd75",
+        "chunk_bab3164e78",
+        "chunk_b3ce23b34a"
+      ],
+      "recall_at_k": 0.7143,
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about Average value of alternating current: The average value of a sinusoidal alternating current is the arithmetic mean of its instantaneous values, usually evaluated over a half-cycle because the full-cycle average is zero.",
+      "concept_id": "concept_739b563448",
+      "expected_chunks": [
+        "chunk_3372d48cc5",
+        "chunk_b15803ee71"
+      ],
+      "retrieved_chunks": [
+        "chunk_3372d48cc5",
+        "chunk_b15803ee71",
+        "chunk_bbde48f080",
+        "chunk_72375d3c6a",
+        "chunk_a5158fb77a"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about AC circuit containing resistance only: In a purely resistive AC circuit, the current and voltage vary sinusoidally in phase.",
+      "concept_id": "concept_5e46c6f8a7",
+      "expected_chunks": [
+        "chunk_08b07053db",
+        "chunk_361317a0e6",
+        "chunk_add3868c49",
+        "chunk_84f71a6ced",
+        "chunk_a10b72458a",
+        "chunk_f619034ff2",
+        "chunk_cde8974f2b",
+        "chunk_bab42c669b"
+      ],
+      "retrieved_chunks": [
+        "chunk_08b07053db",
+        "chunk_add3868c49",
+        "chunk_f619034ff2",
+        "chunk_cde8974f2b",
+        "chunk_cccc19513f"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.8,
+      "mrr": 1.0,
+      "ndcg": 0.8688
+    },
+    {
+      "query": "Find educational material about AC circuit containing an inductor only: In a purely inductive AC circuit, the current lags the voltage by 90 degrees.",
+      "concept_id": "concept_fffb4e0618",
+      "expected_chunks": [
+        "chunk_cccc19513f",
+        "chunk_f8bc5d6cc4",
+        "chunk_e7277ce67a",
+        "chunk_2737a233ae",
+        "chunk_bceeb74517",
+        "chunk_f74d8fe387",
+        "chunk_9c293a9909",
+        "chunk_57400397fc"
+      ],
+      "retrieved_chunks": [
+        "chunk_cccc19513f",
+        "chunk_bceeb74517",
+        "chunk_57400397fc",
+        "chunk_f74d8fe387",
+        "chunk_2737a233ae"
+      ],
+      "recall_at_k": 0.625,
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about AC circuit containing a capacitor only: In a purely capacitive AC circuit, the current leads the voltage by 90 degrees.",
+      "concept_id": "concept_f29fcaaad0",
+      "expected_chunks": [
+        "chunk_ec9f0e7db6",
+        "chunk_2df27ee557",
+        "chunk_9c12f54a16",
+        "chunk_63134bb297",
+        "chunk_f5470ae81f",
+        "chunk_8ad2117eeb",
+        "chunk_222eef313d"
+      ],
+      "retrieved_chunks": [
+        "chunk_ec9f0e7db6",
+        "chunk_8ad2117eeb",
+        "chunk_222eef313d",
+        "chunk_9c12f54a16",
+        "chunk_cccc19513f"
+      ],
+      "recall_at_k": 0.5714,
+      "precision_at_k": 0.8,
+      "mrr": 1.0,
+      "ndcg": 0.8688
+    },
+    {
+      "query": "Find educational material about Impedance of a resistor and inductor in series: The impedance of a series R-L AC circuit is the opposition offered by the combined resistance and inductive reactance to alternating current.",
+      "concept_id": "concept_19626bf476",
+      "expected_chunks": [
+        "chunk_54c67349ef",
+        "chunk_596c1c4caf",
+        "chunk_f26678b9de",
+        "chunk_d80b252e42",
+        "chunk_64d717b9a4",
+        "chunk_ff218c4dbc",
+        "chunk_bc5f32c6de"
+      ],
+      "retrieved_chunks": [
+        "chunk_54c67349ef",
+        "chunk_20496cdf99",
+        "chunk_08b4f57773",
+        "chunk_596c1c4caf",
+        "chunk_64d717b9a4"
+      ],
+      "recall_at_k": 0.4286,
+      "precision_at_k": 0.6,
+      "mrr": 1.0,
+      "ndcg": 0.6164
+    },
+    {
+      "query": "Find educational material about Average power: The average power consumed by an R-L series circuit carrying alternating current equals the product of rms voltage, rms current, and power factor.",
+      "concept_id": "concept_4679caf6b0",
+      "expected_chunks": [
+        "chunk_ebcb56f16c",
+        "chunk_64d3ebcf9b"
+      ],
+      "retrieved_chunks": [
+        "chunk_ebcb56f16c",
+        "chunk_64d3ebcf9b",
+        "chunk_bbde48f080",
+        "chunk_7ffa64bd75",
+        "chunk_3372d48cc5"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about Impedance of an R-C circuit: In a series R-C AC circuit, resistance and capacitive reactance combine vectorially to determine the circuit impedance.",
+      "concept_id": "concept_eab7c7445e",
+      "expected_chunks": [
+        "chunk_08b4f57773",
+        "chunk_4707cd270c",
+        "chunk_724333091d",
+        "chunk_b4ba7c0d47",
+        "chunk_0e1a34112c",
+        "chunk_706d56c961"
+      ],
+      "retrieved_chunks": [
+        "chunk_08b4f57773",
+        "chunk_20496cdf99",
+        "chunk_54c67349ef",
+        "chunk_706d56c961",
+        "chunk_0e1a34112c"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.6,
+      "mrr": 1.0,
+      "ndcg": 0.6164
+    },
+    {
+      "query": "Find educational material about Impedance: The impedance of a series RLC circuit is determined by the resistance and the net reactance, which is the difference between inductive and capacitive reactance.",
+      "concept_id": "concept_8d88f13615",
+      "expected_chunks": [
+        "chunk_20496cdf99",
+        "chunk_f212d1e720",
+        "chunk_2eed9c44bb"
+      ],
+      "retrieved_chunks": [
+        "chunk_20496cdf99",
+        "chunk_08b4f57773",
+        "chunk_54c67349ef",
+        "chunk_f26678b9de",
+        "chunk_64d717b9a4"
+      ],
+      "recall_at_k": 0.3333,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.4693
+    },
+    {
+      "query": "Find educational material about Phase relationship: The phase relationship between current and applied voltage depends on whether inductive or capacitive reactance is greater.",
+      "concept_id": "concept_41ccbd759e",
+      "expected_chunks": [
+        "chunk_96b8077cc0",
+        "chunk_a844f5a93e"
+      ],
+      "retrieved_chunks": [
+        "chunk_96b8077cc0",
+        "chunk_a844f5a93e",
+        "chunk_20496cdf99",
+        "chunk_97ca7a6c0e",
+        "chunk_08b4f57773"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about Resonance frequency: Series resonance occurs when inductive reactance equals capacitive reactance, making the net reactance zero.",
+      "concept_id": "concept_02c2da5105",
+      "expected_chunks": [
+        "chunk_97ca7a6c0e",
+        "chunk_9339fad088",
+        "chunk_c0b10a6d00",
+        "chunk_459d7f78cd",
+        "chunk_b670645181",
+        "chunk_b79499741e",
+        "chunk_8aed99b3a4"
+      ],
+      "retrieved_chunks": [
+        "chunk_97ca7a6c0e",
+        "chunk_20496cdf99",
+        "chunk_c0b10a6d00",
+        "chunk_08b4f57773",
+        "chunk_9339fad088"
+      ],
+      "recall_at_k": 0.4286,
+      "precision_at_k": 0.6,
+      "mrr": 1.0,
+      "ndcg": 0.6399
+    },
+    {
+      "query": "Find educational material about Quality factor: The Q-factor measures voltage magnification in a series resonant circuit and equals the ratio of the voltage across the inductor or capacitor to the applied voltage at resonance.",
+      "concept_id": "concept_d09c525f74",
+      "expected_chunks": [
+        "chunk_7b8effd230",
+        "chunk_0cc4b8e752"
+      ],
+      "retrieved_chunks": [
+        "chunk_7b8effd230",
+        "chunk_0cc4b8e752",
+        "chunk_97ca7a6c0e",
+        "chunk_ff218c4dbc",
+        "chunk_f74d8fe387"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about Transformer operation: A transformer transfers electrical energy between primary and secondary coils through changing magnetic flux produced by alternating current.",
+      "concept_id": "concept_04da8ecccc",
+      "expected_chunks": [
+        "chunk_f1f17654a4",
+        "chunk_1b9a86766b",
+        "chunk_d07dc8d75d",
+        "chunk_4fefefc23c",
+        "chunk_0f4d41aa4d",
+        "chunk_00412f6107"
+      ],
+      "retrieved_chunks": [
+        "chunk_f1f17654a4",
+        "chunk_d07dc8d75d",
+        "chunk_905d3ce9e3",
+        "chunk_1b9a86766b",
+        "chunk_761d9c5bbb"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.6,
+      "mrr": 1.0,
+      "ndcg": 0.6992
+    },
+    {
+      "query": "Find educational material about Voltage transformation: For an ideal transformer, the ratio of secondary to primary voltage equals the ratio of secondary to primary turns.",
+      "concept_id": "concept_52faab1a94",
+      "expected_chunks": [
+        "chunk_cdeab4b117",
+        "chunk_5c7e42d4f1",
+        "chunk_f7b50ba804"
+      ],
+      "retrieved_chunks": [
+        "chunk_cdeab4b117",
+        "chunk_905d3ce9e3",
+        "chunk_f1f17654a4",
+        "chunk_f7b50ba804",
+        "chunk_5c7e42d4f1"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.6,
+      "mrr": 1.0,
+      "ndcg": 0.8529
+    },
+    {
+      "query": "Find educational material about Transformer efficiency: Transformer efficiency is the ratio of output power delivered by the secondary to input power supplied to the primary.",
+      "concept_id": "concept_258c353dd8",
+      "expected_chunks": [
+        "chunk_905d3ce9e3",
+        "chunk_e5f131e4aa",
+        "chunk_adf861a544",
+        "chunk_32810d6653",
+        "chunk_65d528a1dc"
+      ],
+      "retrieved_chunks": [
+        "chunk_905d3ce9e3",
+        "chunk_e5f131e4aa",
+        "chunk_32810d6653",
+        "chunk_65d528a1dc",
+        "chunk_cdeab4b117"
+      ],
+      "recall_at_k": 0.8,
+      "precision_at_k": 0.8,
+      "mrr": 1.0,
+      "ndcg": 0.8688
+    }
+  ],
+  "failed_concepts": [],
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "embedding_backend": "fastembed",
+  "run_id": "document-5161b2abb64f4d35",
+  "top_k": 5,
+  "thresholds": {
+    "recall_at_k": 0.8,
+    "precision_at_k": 0.2,
+    "mrr": 0.8,
+    "ndcg": 0.75,
+    "coverage": 0.95
+  },
+  "passed": false,
+  "approved_chunks": 162,
+  "rejected_chunks": 0
+}

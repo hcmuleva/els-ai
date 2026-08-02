@@ -1,0 +1,495 @@
+{
+  "key": "2.1",
+  "topic": "2.1 Irrational Equations and Inequalities",
+  "questions": [
+    {
+      "question": {
+        "id": "c98e252b-3a3e-5612-a6bc-dd4d7d59e6b4",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the real solution of \\(\\sqrt{2x+3}+\\sqrt{x-1}=5\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The domain is \\(x\\ge 1\\). Squaring twice gives \\(x^2-142x+541=0\\), so \\(x=71\\pm30\\sqrt{5}\\). The condition before the final squaring eliminates \\(71+30\\sqrt{5}\\). Hence \\(x=71-30\\sqrt{5}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 31,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.1 Irrational Equations and Inequalities",
+            "concept_ids": [
+              "concept_d37918f89a",
+              "concept_ddaf06dfd0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              32,
+              33,
+              34,
+              35,
+              36,
+              174,
+              175,
+              176,
+              177,
+              178
+            ],
+            "source_chunk_ids": [
+              "chunk_9f0ecabe30",
+              "chunk_bf08b64145"
+            ]
+          },
+          "options": [
+            {
+              "id": "71_30_sqrt_5_1",
+              "label": "\\(71-30\\sqrt{5}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It satisfies the original equation and domain."
+            },
+            {
+              "id": "71_30_sqrt_5_2",
+              "label": "\\(71+30\\sqrt{5}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It violates the restriction obtained before squaring."
+            },
+            {
+              "id": "30_sqrt_5_71_3",
+              "label": "\\(30\\sqrt{5}-71\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It is outside the domain \\(x\\ge 1\\)."
+            },
+            {
+              "id": "5_4",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Direct substitution does not satisfy the equation."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "c2728719-4927-530b-8920-df9cc9d21502",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve the irrational inequality \\(\\sqrt{x+4}-\\sqrt{x-1}\\ge 1\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The domain is \\(x\\ge1\\). Rationalising gives \\(\\sqrt{x+4}-\\sqrt{x-1}=\\frac{5}{\\sqrt{x+4}+\\sqrt{x-1}}\\). Thus the inequality is equivalent to \\(\\sqrt{x+4}+\\sqrt{x-1}\\le5\\), whose equality occurs at \\(x=5\\). Therefore, the solution set is \\([1,5]\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 32,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.1 Irrational Equations and Inequalities",
+            "concept_ids": [
+              "concept_d37918f89a",
+              "concept_ddaf06dfd0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              32,
+              33,
+              34,
+              35,
+              36,
+              174,
+              175,
+              176,
+              177,
+              178
+            ],
+            "source_chunk_ids": [
+              "chunk_9f0ecabe30",
+              "chunk_bf08b64145"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_5_1",
+              "label": "\\([1,5]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The expression decreases from \\(\\sqrt{5}\\) to \\(1\\) on this interval."
+            },
+            {
+              "id": "1_infty_2",
+              "label": "\\([1,\\infty)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "For sufficiently large \\(x\\), the difference is less than \\(1\\)."
+            },
+            {
+              "id": "5_infty_3",
+              "label": "\\([5,\\infty)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inequality holds at \\(x=1\\), which is omitted."
+            },
+            {
+              "id": "2_5_4",
+              "label": "\\([2,5]\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The valid domain also includes values from \\(1\\) to \\(2\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "db2e37da-2517-569e-aa90-a95c585f6868",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the real solution of \\(\\sqrt{x+\\sqrt{2x-1}}=\\sqrt{3}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(t=\\sqrt{2x-1}\\), where \\(t\\ge0\\). Then \\(x=\\frac{t^2+1}{2}\\), and the equation becomes \\(\\frac{t^2+1}{2}+t=3\\). Hence \\((t+1)^2=6\\), so \\(t=\\sqrt{6}-1\\). Therefore, \\(x=4-\\sqrt{6}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 33,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.1 Irrational Equations and Inequalities",
+            "concept_ids": [
+              "concept_d37918f89a",
+              "concept_ddaf06dfd0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              32,
+              33,
+              34,
+              35,
+              36,
+              174,
+              175,
+              176,
+              177,
+              178
+            ],
+            "source_chunk_ids": [
+              "chunk_9f0ecabe30",
+              "chunk_bf08b64145"
+            ]
+          },
+          "options": [
+            {
+              "id": "4_sqrt_6_1",
+              "label": "\\(4-\\sqrt{6}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It satisfies the domain and the original equation."
+            },
+            {
+              "id": "4_sqrt_6_2",
+              "label": "\\(4+\\sqrt{6}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It does not satisfy the equation after substitution."
+            },
+            {
+              "id": "5_2_sqrt_2_3",
+              "label": "\\(5-2\\sqrt{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This corresponds to a different right-hand side."
+            },
+            {
+              "id": "3_4",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Substitution gives a value greater than \\(\\sqrt{3}\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "a01328db-6150-5311-a65a-d17bf34b50dd",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve \\(\\sqrt{x^2-5x+6}\\le x-2\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since the left side is nonnegative, \\(x-2\\ge0\\). The radicand condition gives \\(x\\le2\\) or \\(x\\ge3\\). Thus the possible values are \\(x=2\\) or \\(x\\ge3\\). Squaring for \\(x\\ge3\\) yields \\((x-2)(x-3)\\le(x-2)^2\\), which is always true. Hence the solution is \\(\\{2\\}\\cup[3,\\infty)\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 34,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.1 Irrational Equations and Inequalities",
+            "concept_ids": [
+              "concept_d37918f89a",
+              "concept_ddaf06dfd0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              32,
+              33,
+              34,
+              35,
+              36,
+              174,
+              175,
+              176,
+              177,
+              178
+            ],
+            "source_chunk_ids": [
+              "chunk_9f0ecabe30",
+              "chunk_bf08b64145"
+            ]
+          },
+          "options": [
+            {
+              "id": "2_cup_3_infty_1",
+              "label": "\\(\\{2\\}\\cup[3,\\infty)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Both the isolated endpoint and the ray satisfy the original inequality."
+            },
+            {
+              "id": "2_infty_2",
+              "label": "\\([2,\\infty)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Values in \\((2,3)\\) make the radicand negative."
+            },
+            {
+              "id": "3_infty_3",
+              "label": "\\([3,\\infty)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The endpoint \\(x=2\\) also satisfies the inequality."
+            },
+            {
+              "id": "2_cup_3_infty_4",
+              "label": "\\(\\{2\\}\\cup(3,\\infty)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The endpoint \\(x=3\\) satisfies the inequality."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "fa28be5f-3cfd-5b04-9fb7-00d95513d7fa",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the solution set of \\(\\sqrt{x+1}+\\sqrt{9-x}=4\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The domain is \\(-1\\le x\\le9\\). Squaring gives \\(10+2\\sqrt{(x+1)(9-x)}=16\\), so \\((x+1)(9-x)=9\\). Hence \\(x(8-x)=0\\), giving \\(x=0\\) or \\(x=8\\). Both satisfy the original equation.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 35,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.1 Irrational Equations and Inequalities",
+            "concept_ids": [
+              "concept_d37918f89a",
+              "concept_ddaf06dfd0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              32,
+              33,
+              34,
+              35,
+              36,
+              174,
+              175,
+              176,
+              177,
+              178
+            ],
+            "source_chunk_ids": [
+              "chunk_9f0ecabe30",
+              "chunk_bf08b64145"
+            ]
+          },
+          "options": [
+            {
+              "id": "0_8_1",
+              "label": "\\(\\{0,8\\}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Both values satisfy the domain and the original equation."
+            },
+            {
+              "id": "4_2",
+              "label": "\\(\\{4\\}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "At \\(x=4\\), the left side is \\(2\\sqrt{5}\\), not \\(4\\)."
+            },
+            {
+              "id": "1_9_3",
+              "label": "\\(\\{-1,9\\}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The endpoint values do not satisfy the equation."
+            },
+            {
+              "id": "0_4_8_4",
+              "label": "\\(\\{0,4,8\\}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The value \\(x=4\\) is extraneous."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_9f0ecabe30",
+    "chunk_bf08b64145"
+  ],
+  "source_pages": [
+    32,
+    33,
+    34,
+    35,
+    36,
+    174,
+    175,
+    176,
+    177,
+    178
+  ],
+  "rejected": []
+}

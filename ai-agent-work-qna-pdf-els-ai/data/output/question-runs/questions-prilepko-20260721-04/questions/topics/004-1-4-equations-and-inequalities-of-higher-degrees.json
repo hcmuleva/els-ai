@@ -1,0 +1,588 @@
+{
+  "key": "1.4",
+  "topic": "1.4 Equations and Inequalities of Higher Degrees",
+  "questions": [
+    {
+      "question": {
+        "id": "a2568852-dd52-5971-be28-40c0d6d5a70d",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The sum of the distinct real solutions of \\(x^4-5x^3+8x^2-5x+1=0\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since \\(x\\ne0\\), divide by \\(x^2\\): \\(\\left(x+\\frac{1}{x}\\right)^2-5\\left(x+\\frac{1}{x}\\right)+6=0\\). Thus \\(t=2\\) or \\(3\\). The distinct real solutions are \\(1,\\frac{3+\\sqrt{5}}{2},\\frac{3-\\sqrt{5}}{2}\\), whose sum is \\(4\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 16,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.4 Equations and Inequalities of Higher Degrees",
+            "concept_ids": [
+              "concept_5b1da3f2f2",
+              "concept_6a9f8ae9e4",
+              "concept_d3d5fa9c90"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              21,
+              22,
+              23,
+              24,
+              25,
+              157,
+              158,
+              159,
+              160,
+              161,
+              162,
+              163,
+              164,
+              165,
+              166
+            ],
+            "source_chunk_ids": [
+              "chunk_e8bd7a69e4",
+              "chunk_c34e69357a",
+              "chunk_493f8b58f0"
+            ]
+          },
+          "options": [
+            {
+              "id": "3_1",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The repeated root is not handled correctly."
+            },
+            {
+              "id": "4_2",
+              "label": "\\(4\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Using \\(t=x+\\frac{1}{x}\\), the distinct roots are \\(1,\\frac{3+\\sqrt{5}}{2},\\frac{3-\\sqrt{5}}{2}\\)."
+            },
+            {
+              "id": "5_3",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the sum counted with multiplicity, not the distinct-root sum."
+            },
+            {
+              "id": "6_4",
+              "label": "\\(6\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The reciprocal substitution does not give this value."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "f2dd49a6-57be-562c-9ac1-6de4619daaf6",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(y=\\frac{x-3}{x+1}\\) on \\([0,2]\\), the ordered pair consisting of its least and greatest values is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(y'=\\frac{4}{(x+1)^2}>0\\) on \\([0,2]\\), so the function is strictly increasing. Hence \\(y(0)=-3\\) is the least value and \\(y(2)=-\\frac{1}{3}\\) is the greatest value.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 17,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.4 Equations and Inequalities of Higher Degrees",
+            "concept_ids": [
+              "concept_5b1da3f2f2",
+              "concept_6a9f8ae9e4",
+              "concept_d3d5fa9c90"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              21,
+              22,
+              23,
+              24,
+              25,
+              157,
+              158,
+              159,
+              160,
+              161,
+              162,
+              163,
+              164,
+              165,
+              166
+            ],
+            "source_chunk_ids": [
+              "chunk_e8bd7a69e4",
+              "chunk_c34e69357a",
+              "chunk_493f8b58f0"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_3_frac_1_3_right_1",
+              "label": "\\(\\left(-3,-\\frac{1}{3}\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The function is increasing, with endpoint values \\(-3\\) and \\(-\\frac{1}{3}\\)."
+            },
+            {
+              "id": "left_frac_1_3_3_right_2",
+              "label": "\\(\\left(-\\frac{1}{3},-3\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The endpoint values are listed in reverse order."
+            },
+            {
+              "id": "3_3_3",
+              "label": "\\((-3,3)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The value at \\(x=2\\) is \\(-\\frac{1}{3}\\), not \\(3\\)."
+            },
+            {
+              "id": "left_frac_3_2_frac_1_2_r_4",
+              "label": "\\(\\left(-\\frac{3}{2},-\\frac{1}{2}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These are not the values at the interval endpoints."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "function-plot",
+            "width": 360,
+            "height": 300,
+            "xmin": 0.0,
+            "xmax": 2.0,
+            "ymin": -5.0,
+            "ymax": 5.0,
+            "title": null,
+            "elements": [
+              {
+                "type": "grid",
+                "step_x": 1.0,
+                "step_y": 1.0
+              },
+              {
+                "type": "axes",
+                "x_label": "x",
+                "y_label": "y",
+                "ticks": true,
+                "tick_step": 1.0
+              },
+              {
+                "type": "function",
+                "expr": "(x-3)/(x+1)",
+                "domain": [
+                  0.0,
+                  2.0
+                ],
+                "samples": 120,
+                "label": null,
+                "color": "#1f77b4"
+              },
+              {
+                "type": "point",
+                "at": [
+                  0.0,
+                  -3.0
+                ],
+                "label": "A",
+                "color": "#d62728"
+              },
+              {
+                "type": "point",
+                "at": [
+                  2.0,
+                  -0.3333
+                ],
+                "label": "B",
+                "color": "#d62728"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"34\" y1=\"34\" x2=\"34\" y2=\"266\"/><line x1=\"180\" y1=\"34\" x2=\"180\" y2=\"266\"/><line x1=\"326\" y1=\"34\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"242.8\" x2=\"326\" y2=\"242.8\"/><line x1=\"34\" y1=\"219.6\" x2=\"326\" y2=\"219.6\"/><line x1=\"34\" y1=\"196.4\" x2=\"326\" y2=\"196.4\"/><line x1=\"34\" y1=\"173.2\" x2=\"326\" y2=\"173.2\"/><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"126.8\" x2=\"326\" y2=\"126.8\"/><line x1=\"34\" y1=\"103.6\" x2=\"326\" y2=\"103.6\"/><line x1=\"34\" y1=\"80.4\" x2=\"326\" y2=\"80.4\"/><line x1=\"34\" y1=\"57.2\" x2=\"326\" y2=\"57.2\"/><line x1=\"34\" y1=\"34\" x2=\"326\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"266\" x2=\"34\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"180\" y1=\"147\" x2=\"180\" y2=\"153\"/><text x=\"180\" y=\"164\" text-anchor=\"middle\">1</text><line x1=\"326\" y1=\"147\" x2=\"326\" y2=\"153\"/><text x=\"326\" y=\"164\" text-anchor=\"middle\">2</text><line x1=\"31\" y1=\"266\" x2=\"37\" y2=\"266\"/><text x=\"28\" y=\"269\" text-anchor=\"end\">-5</text><line x1=\"31\" y1=\"242.8\" x2=\"37\" y2=\"242.8\"/><text x=\"28\" y=\"245.8\" text-anchor=\"end\">-4</text><line x1=\"31\" y1=\"219.6\" x2=\"37\" y2=\"219.6\"/><text x=\"28\" y=\"222.6\" text-anchor=\"end\">-3</text><line x1=\"31\" y1=\"196.4\" x2=\"37\" y2=\"196.4\"/><text x=\"28\" y=\"199.4\" text-anchor=\"end\">-2</text><line x1=\"31\" y1=\"173.2\" x2=\"37\" y2=\"173.2\"/><text x=\"28\" y=\"176.2\" text-anchor=\"end\">-1</text><line x1=\"31\" y1=\"126.8\" x2=\"37\" y2=\"126.8\"/><text x=\"28\" y=\"129.8\" text-anchor=\"end\">1</text><line x1=\"31\" y1=\"103.6\" x2=\"37\" y2=\"103.6\"/><text x=\"28\" y=\"106.6\" text-anchor=\"end\">2</text><line x1=\"31\" y1=\"80.4\" x2=\"37\" y2=\"80.4\"/><text x=\"28\" y=\"83.4\" text-anchor=\"end\">3</text><line x1=\"31\" y1=\"57.2\" x2=\"37\" y2=\"57.2\"/><text x=\"28\" y=\"60.2\" text-anchor=\"end\">4</text><line x1=\"31\" y1=\"34\" x2=\"37\" y2=\"34\"/><text x=\"28\" y=\"37\" text-anchor=\"end\">5</text></g><text x=\"320\" y=\"142\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"38\" y=\"30\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">y</text><polyline points=\"34,219.6 36.43,218.08 38.87,216.61 41.3,215.18 43.73,213.8 46.17,212.46 48.6,211.16 51.03,209.9 53.47,208.68 55.9,207.5 58.33,206.34 60.77,205.22 63.2,204.13 65.63,203.07 68.07,202.04 70.5,201.04 72.93,200.06 75.37,199.11 77.8,198.18 80.23,197.28 82.67,196.4 85.1,195.54 87.53,194.7 89.97,193.88 92.4,193.09 94.83,192.31 97.27,191.54 99.7,190.8 102.13,190.07 104.57,189.36 107,188.67 109.43,187.99 111.87,187.32 114.3,186.67 116.73,186.03 119.17,185.41 121.6,184.8 124.03,184.2 126.47,183.62 128.9,183.04 131.33,182.48 133.77,181.93 136.2,181.39 138.63,180.86 141.07,180.34 143.5,179.83 145.93,179.33 148.37,178.84 150.8,178.36 153.23,177.88 155.67,177.42 158.1,176.96 160.53,176.51 162.97,176.07 165.4,175.64 167.83,175.22 170.27,174.8 172.7,174.39 175.13,173.99 177.57,173.59 180,173.2 182.43,172.82 184.87,172.44 187.3,172.07 189.73,171.7 192.17,171.34 194.6,170.99 197.03,170.64 199.47,170.3 201.9,169.96 204.33,169.63 206.77,169.3 209.2,168.98 211.63,168.66 214.07,168.35 216.5,168.04 218.93,167.74 221.37,167.44 223.8,167.15 226.23,166.86 228.67,166.57 231.1,166.29 233.53,166.01 235.97,165.74 238.4,165.47 240.83,165.2 243.27,164.94 245.7,164.68 248.13,164.42 250.57,164.17 253,163.92 255.43,163.67 257.87,163.43 260.3,163.19 262.73,162.96 265.17,162.72 267.6,162.49 270.03,162.26 272.47,162.04 274.9,161.82 277.33,161.6 279.77,161.38 282.2,161.17 284.63,160.96 287.07,160.75 289.5,160.55 291.93,160.34 294.37,160.14 296.8,159.94 299.23,159.75 301.67,159.55 304.1,159.36 306.53,159.17 308.97,158.98 311.4,158.8 313.83,158.62 316.27,158.44 318.7,158.26 321.13,158.08 323.57,157.91 326,157.73\" fill=\"none\" stroke=\"#1f77b4\" stroke-width=\"2\"/><circle cx=\"34\" cy=\"219.6\" r=\"3\" fill=\"#d62728\"/><text x=\"42\" y=\"237.6\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">A</text><circle cx=\"326\" cy=\"157.73\" r=\"3\" fill=\"#d62728\"/><text x=\"334\" y=\"149.73\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">B</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "2d567397-82a0-50f8-896e-ec00707a4d64",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If the real solutions of \\((x^2-3x+2)(x^2-3x+4)=3\\) are \\(\\alpha\\) and \\(\\beta\\), then \\(\\alpha+\\beta\\) equals",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(t=x^2-3x+3\\). Then the equation becomes \\((t-1)(t+1)=3\\), so \\(t^2=4\\). Since \\(t=\\left(x-\\frac{3}{2}\\right)^2+\\frac{3}{4}>0\\), we take \\(t=2\\). Thus \\(x^2-3x+1=0\\), and \\(\\alpha+\\beta=3\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 18,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.4 Equations and Inequalities of Higher Degrees",
+            "concept_ids": [
+              "concept_5b1da3f2f2",
+              "concept_6a9f8ae9e4",
+              "concept_d3d5fa9c90"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              21,
+              22,
+              23,
+              24,
+              25,
+              157,
+              158,
+              159,
+              160,
+              161,
+              162,
+              163,
+              164,
+              165,
+              166
+            ],
+            "source_chunk_ids": [
+              "chunk_e8bd7a69e4",
+              "chunk_c34e69357a",
+              "chunk_493f8b58f0"
+            ]
+          },
+          "options": [
+            {
+              "id": "3_1",
+              "label": "\\(-3\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The quadratic obtained has a positive coefficient of \\(x\\)."
+            },
+            {
+              "id": "0_2",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sum of the roots is not zero."
+            },
+            {
+              "id": "3_3",
+              "label": "\\(3\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The real solutions satisfy \\(x^2-3x+1=0\\), whose root sum is \\(3\\)."
+            },
+            {
+              "id": "6_4",
+              "label": "\\(6\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This doubles the correct root sum."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "0b59dd0f-2f72-5eac-ac0c-d9bb6cb6c18a",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the number of distinct real solutions of \\((x^2-4x+1)^2=9\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "We have \\(x^2-4x+1=3\\) or \\(x^2-4x+1=-3\\). The first gives \\(x^2-4x-2=0\\), with two distinct real roots. The second gives \\(x^2-4x+4=0\\), or \\((x-2)^2=0\\), with one distinct real root. Hence the total number of distinct real solutions is \\(3\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 19,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.4 Equations and Inequalities of Higher Degrees",
+            "concept_ids": [
+              "concept_5b1da3f2f2",
+              "concept_6a9f8ae9e4",
+              "concept_d3d5fa9c90"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              21,
+              22,
+              23,
+              24,
+              25,
+              157,
+              158,
+              159,
+              160,
+              161,
+              162,
+              163,
+              164,
+              165,
+              166
+            ],
+            "source_chunk_ids": [
+              "chunk_e8bd7a69e4",
+              "chunk_c34e69357a",
+              "chunk_493f8b58f0"
+            ]
+          },
+          "options": [
+            {
+              "id": "2_1",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This counts solutions from only one resulting quadratic."
+            },
+            {
+              "id": "3_2",
+              "label": "\\(3\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two equations give two roots and one repeated root."
+            },
+            {
+              "id": "4_3",
+              "label": "\\(4\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equation \\(x^2-4x+4=0\\) has a repeated root, not two distinct roots."
+            },
+            {
+              "id": "5_4",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "A quartic can have at most four distinct real roots."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "5abf94f5-ff3d-5705-ac8b-c68a1ce9727b",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The number of integers satisfying \\( (x^2-4x+1)(x^2-4x-5)\\le 0 \\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(t=x^2-4x\\). Then \\((t+1)(t-5)\\le0\\), so \\(-1\\le t\\le5\\). Since \\(t=(x-2)^2-4\\), we get \\(3\\le(x-2)^2\\le9\\). Hence \\(x\\in[-1,2-\\sqrt3]\\cup[2+\\sqrt3,5]\\), whose integer elements are \\(-1,0,4,5\\). Therefore, the number of integers is \\(4\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 20,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.4 Equations and Inequalities of Higher Degrees",
+            "concept_ids": [
+              "concept_5b1da3f2f2",
+              "concept_6a9f8ae9e4",
+              "concept_d3d5fa9c90"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              21,
+              22,
+              23,
+              24,
+              25,
+              157,
+              158,
+              159,
+              160,
+              161,
+              162,
+              163,
+              164,
+              165,
+              166
+            ],
+            "source_chunk_ids": [
+              "chunk_e8bd7a69e4",
+              "chunk_c34e69357a",
+              "chunk_493f8b58f0"
+            ]
+          },
+          "options": [
+            {
+              "id": "3_1",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "One integer is omitted from the valid intervals."
+            },
+            {
+              "id": "4_2",
+              "label": "\\(4\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The integer solutions are \\( -1,0,4,5 \\)."
+            },
+            {
+              "id": "5_3",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The endpoints do not produce five integers."
+            },
+            {
+              "id": "6_4",
+              "label": "\\(6\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The valid intervals contain only four integers."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_e8bd7a69e4",
+    "chunk_c34e69357a",
+    "chunk_493f8b58f0"
+  ],
+  "source_pages": [
+    21,
+    22,
+    23,
+    24,
+    25,
+    157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
+    164,
+    165,
+    166
+  ],
+  "rejected": []
+}

@@ -1,0 +1,908 @@
+{
+  "title": "Assessment Set - Class 12 Mathematics (jee_main)",
+  "generated_at": "2026-07-20T14:49:14Z",
+  "grade": "Class 12",
+  "difficulty": "jee_main",
+  "count": 12,
+  "passed": 12,
+  "assessments": [
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Integrals",
+        "subTopic": "Definite integrals",
+        "difficulty": "jee_main",
+        "bloomLevel": "Applying",
+        "estimatedTime": "2 minutes",
+        "questionType": "FUNCTIONS"
+      },
+      "question": {
+        "questionText": "Let \\(f\\) be continuous on \\([0,1]\\) and satisfy \\(f(x)+f(1-x)=x(1-x)+\\sin(\\pi x)\\) for every \\(x\\in[0,1]\\). Evaluate \\(I=\\int_0^1 f(x)\\,dx\\).",
+        "equationLatex": "\\[f(x)+f(1-x)=x(1-x)+\\sin(\\pi x),\\qquad I=\\int_0^1 f(x)\\,dx\\]",
+        "diagramRequired": false,
+        "diagramType": "",
+        "diagramSvg": "",
+        "accessibilityAltText": ""
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(\\frac{1}{12}+\\frac{1}{2\\pi}\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(\\frac{1}{12}+\\frac{1}{\\pi}\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(\\frac{1}{6}+\\frac{1}{\\pi}\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(\\frac{1}{12}+\\frac{2}{\\pi}\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "B",
+        "value": "\\(\\frac{1}{12}+\\frac{1}{\\pi}\\)",
+        "verify": {
+          "kind": "equal",
+          "expr": null,
+          "var": "x",
+          "lhs": "1/12 + 1/pi",
+          "rhs": "(pi + 12)/(12*pi)",
+          "expected": null
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "Using the substitution \\(x=1-t\\), \\(I=\\int_0^1 f(1-x)\\,dx\\). Adding this to \\(I=\\int_0^1 f(x)\\,dx\\), we get \\(2I=\\int_0^1\\left[f(x)+f(1-x)\\right]dx\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "Therefore, \\(2I=\\int_0^1\\left[x(1-x)+\\sin(\\pi x)\\right]dx=\\frac{1}{6}+\\frac{2}{\\pi}\\). Hence, \\(I=\\frac{1}{12}+\\frac{1}{\\pi}\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Application of Derivatives",
+        "subTopic": "Maxima and minima",
+        "difficulty": "jee_main",
+        "bloomLevel": "Apply",
+        "estimatedTime": "2 minutes",
+        "questionType": "GRAPHS"
+      },
+      "question": {
+        "questionText": "The graph of \\(f(x)=x^3-3x\\) is shown below. Which statement correctly identifies its local extrema?",
+        "equationLatex": "\\(f(x)=x^3-3x\\)",
+        "diagramRequired": true,
+        "diagramType": "function",
+        "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"34\" y1=\"34\" x2=\"34\" y2=\"266\"/><line x1=\"107\" y1=\"34\" x2=\"107\" y2=\"266\"/><line x1=\"180\" y1=\"34\" x2=\"180\" y2=\"266\"/><line x1=\"253\" y1=\"34\" x2=\"253\" y2=\"266\"/><line x1=\"326\" y1=\"34\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"242.8\" x2=\"326\" y2=\"242.8\"/><line x1=\"34\" y1=\"219.6\" x2=\"326\" y2=\"219.6\"/><line x1=\"34\" y1=\"196.4\" x2=\"326\" y2=\"196.4\"/><line x1=\"34\" y1=\"173.2\" x2=\"326\" y2=\"173.2\"/><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"126.8\" x2=\"326\" y2=\"126.8\"/><line x1=\"34\" y1=\"103.6\" x2=\"326\" y2=\"103.6\"/><line x1=\"34\" y1=\"80.4\" x2=\"326\" y2=\"80.4\"/><line x1=\"34\" y1=\"57.2\" x2=\"326\" y2=\"57.2\"/><line x1=\"34\" y1=\"34\" x2=\"326\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"180\" y1=\"266\" x2=\"180\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"34\" y1=\"147\" x2=\"34\" y2=\"153\"/><text x=\"34\" y=\"164\" text-anchor=\"middle\">-2</text><line x1=\"107\" y1=\"147\" x2=\"107\" y2=\"153\"/><text x=\"107\" y=\"164\" text-anchor=\"middle\">-1</text><line x1=\"253\" y1=\"147\" x2=\"253\" y2=\"153\"/><text x=\"253\" y=\"164\" text-anchor=\"middle\">1</text><line x1=\"326\" y1=\"147\" x2=\"326\" y2=\"153\"/><text x=\"326\" y=\"164\" text-anchor=\"middle\">2</text><line x1=\"177\" y1=\"266\" x2=\"183\" y2=\"266\"/><text x=\"174\" y=\"269\" text-anchor=\"end\">-5</text><line x1=\"177\" y1=\"242.8\" x2=\"183\" y2=\"242.8\"/><text x=\"174\" y=\"245.8\" text-anchor=\"end\">-4</text><line x1=\"177\" y1=\"219.6\" x2=\"183\" y2=\"219.6\"/><text x=\"174\" y=\"222.6\" text-anchor=\"end\">-3</text><line x1=\"177\" y1=\"196.4\" x2=\"183\" y2=\"196.4\"/><text x=\"174\" y=\"199.4\" text-anchor=\"end\">-2</text><line x1=\"177\" y1=\"173.2\" x2=\"183\" y2=\"173.2\"/><text x=\"174\" y=\"176.2\" text-anchor=\"end\">-1</text><line x1=\"177\" y1=\"126.8\" x2=\"183\" y2=\"126.8\"/><text x=\"174\" y=\"129.8\" text-anchor=\"end\">1</text><line x1=\"177\" y1=\"103.6\" x2=\"183\" y2=\"103.6\"/><text x=\"174\" y=\"106.6\" text-anchor=\"end\">2</text><line x1=\"177\" y1=\"80.4\" x2=\"183\" y2=\"80.4\"/><text x=\"174\" y=\"83.4\" text-anchor=\"end\">3</text><line x1=\"177\" y1=\"57.2\" x2=\"183\" y2=\"57.2\"/><text x=\"174\" y=\"60.2\" text-anchor=\"end\">4</text><line x1=\"177\" y1=\"34\" x2=\"183\" y2=\"34\"/><text x=\"174\" y=\"37\" text-anchor=\"end\">5</text></g><text x=\"328\" y=\"154\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"184\" y=\"30\" font-size=\"12\" fill=\"#555555\">y</text><polyline points=\"34,196.4 36.43,189.59 38.87,183.09 41.3,176.89 43.73,170.98 46.17,165.36 48.6,160.02 51.03,154.96 53.47,150.18 55.9,145.66 58.33,141.41 60.77,137.41 63.2,133.67 65.63,130.17 68.07,126.92 70.5,123.9 72.93,121.12 75.37,118.56 77.8,116.22 80.23,114.1 82.67,112.19 85.1,110.49 87.53,108.99 89.97,107.68 92.4,106.57 94.83,105.64 97.27,104.89 99.7,104.32 102.13,103.92 104.57,103.68 107,103.6 109.43,103.68 111.87,103.9 114.3,104.27 116.73,104.78 119.17,105.43 121.6,106.2 124.03,107.09 126.47,108.11 128.9,109.24 131.33,110.47 133.77,111.81 136.2,113.25 138.63,114.78 141.07,116.4 143.5,118.1 145.93,119.88 148.37,121.73 150.8,123.64 153.23,125.62 155.67,127.66 158.1,129.75 160.53,131.88 162.97,134.05 165.4,136.27 167.83,138.51 170.27,140.77 172.7,143.06 175.13,145.37 177.57,147.68 180,150 182.43,152.32 184.87,154.63 187.3,156.94 189.73,159.23 192.17,161.49 194.6,163.73 197.03,165.95 199.47,168.12 201.9,170.25 204.33,172.34 206.77,174.38 209.2,176.36 211.63,178.27 214.07,180.12 216.5,181.9 218.93,183.6 221.37,185.22 223.8,186.75 226.23,188.19 228.67,189.53 231.1,190.76 233.53,191.89 235.97,192.91 238.4,193.8 240.83,194.57 243.27,195.22 245.7,195.73 248.13,196.1 250.57,196.32 253,196.4 255.43,196.32 257.87,196.08 260.3,195.68 262.73,195.11 265.17,194.36 267.6,193.43 270.03,192.32 272.47,191.01 274.9,189.51 277.33,187.81 279.77,185.9 282.2,183.78 284.63,181.44 287.07,178.88 289.5,176.1 291.93,173.08 294.37,169.83 296.8,166.33 299.23,162.59 301.67,158.59 304.1,154.34 306.53,149.82 308.97,145.04 311.4,139.98 313.83,134.64 316.27,129.02 318.7,123.11 321.13,116.91 323.57,110.41 326,103.6\" fill=\"none\" stroke=\"#1f77b4\" stroke-width=\"2\"/><circle cx=\"107\" cy=\"103.6\" r=\"3\" fill=\"#d62728\"/><text x=\"113\" y=\"97.6\" fill=\"#111111\">A</text><circle cx=\"253\" cy=\"196.4\" r=\"3\" fill=\"#d62728\"/><text x=\"259\" y=\"190.4\" fill=\"#111111\">B</text></svg>",
+        "accessibilityAltText": "Graph of \\(f(x)=x^3-3x\\), increasing to a local maximum at \\((-1,2)\\), decreasing to a local minimum at \\((1,-2)\\), then increasing again."
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(x=-1\\) is a local maximum point and \\(x=1\\) is a local minimum point."
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(x=-1\\) is a local minimum point and \\(x=1\\) is a local maximum point."
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "Both \\(x=-1\\) and \\(x=1\\) are local maximum points."
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "Neither \\(x=-1\\) nor \\(x=1\\) is a local extremum."
+        }
+      ],
+      "answer": {
+        "correctOptionId": "A",
+        "value": "\\(x=-1\\) is a local maximum point and \\(x=1\\) is a local minimum point.",
+        "verify": null
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "For \\(f(x)=x^3-3x\\), \\(f'(x)=3x^2-3=3(x-1)(x+1)\\). Hence the critical points are \\(x=-1\\) and \\(x=1\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "The derivative changes from positive to negative at \\(x=-1\\), so \\(x=-1\\) is a local maximum point. It changes from negative to positive at \\(x=1\\), so \\(x=1\\) is a local minimum point.",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Determinants",
+        "subTopic": "Determinant of a 3x3 matrix",
+        "difficulty": "jee_main",
+        "bloomLevel": "Applying",
+        "estimatedTime": "2 minutes",
+        "questionType": "ALGEBRA"
+      },
+      "question": {
+        "questionText": "Let \\(A=\\begin{bmatrix}1&2&3\\\\2&1&4\\\\3&0&1\\end{bmatrix}\\) and \\(B=2A^{-1}\\). The value of \\(\\det(B)\\) is:",
+        "equationLatex": "\\[A=\\begin{bmatrix}1&2&3\\\\2&1&4\\\\3&0&1\\end{bmatrix},\\qquad B=2A^{-1}\\]",
+        "diagramRequired": false,
+        "diagramType": "",
+        "diagramSvg": "",
+        "accessibilityAltText": ""
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(\\frac{2}{3}\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(\\frac{1}{3}\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(\\frac{3}{2}\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(\\frac{8}{3}\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "A",
+        "value": "\\(\\frac{2}{3}\\)",
+        "verify": {
+          "kind": "equal",
+          "expr": null,
+          "var": "x",
+          "lhs": "2**3/12",
+          "rhs": "2/3",
+          "expected": null
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "Expanding along the first row, \\(\\det(A)=1(1-0)-2(2-12)+3(0-3)=12\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "Since \\(B=2A^{-1}\\) is a \\(3\\times3\\) matrix, \\(\\det(B)=\\det(2I)\\det(A^{-1})=2^3\\cdot\\frac{1}{\\det(A)}=\\frac{8}{12}=\\frac{2}{3}\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Vector Algebra",
+        "subTopic": "Dot and cross product",
+        "difficulty": "jee_main",
+        "bloomLevel": "Apply",
+        "estimatedTime": "3 minutes",
+        "questionType": "COORDINATE GEOMETRY"
+      },
+      "question": {
+        "questionText": "Let \\(A(1,2,3)\\), \\(B(3,-1,2)\\), and \\(C(2,1,5)\\). Find the ordered pair \\(\\left(\\overrightarrow{AB}\\cdot\\overrightarrow{AC},\\left\\|\\overrightarrow{AB}\\times\\overrightarrow{AC}\\right\\|\\right)\\).",
+        "equationLatex": "\\overrightarrow{AB}=(2,-3,-1),\\quad \\overrightarrow{AC}=(1,-1,2)",
+        "diagramRequired": false,
+        "diagramType": "",
+        "diagramSvg": "",
+        "accessibilityAltText": ""
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(\\left(3,5\\sqrt{3}\\right)\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(\\left(3,\\sqrt{3}\\right)\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(\\left(-3,5\\sqrt{3}\\right)\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(\\left(5,5\\sqrt{3}\\right)\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "A",
+        "value": "\\(\\left(3,5\\sqrt{3}\\right)\\)",
+        "verify": {
+          "kind": "equal",
+          "expr": null,
+          "var": "x",
+          "lhs": "(-7)**2 + (-5)**2 + 1**2",
+          "rhs": "75",
+          "expected": null
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "Using the coordinates, \\\\(\\overrightarrow{AB}=B-A=(2,-3,-1)\\\\) and \\\\(\\overrightarrow{AC}=C-A=(1,-1,2)\\\\). Hence, \\\\(\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=2(1)+(-3)(-1)+(-1)(2)=3\\\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "The cross product is \\\\(\\overrightarrow{AB}\\times\\overrightarrow{AC}=(-7,-5,1)\\\\). Therefore, \\\\(\\left\\|\\overrightarrow{AB}\\times\\overrightarrow{AC}\\right\\|=\\sqrt{(-7)^2+(-5)^2+1^2}=\\sqrt{75}=5\\sqrt{3}\\\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Probability",
+        "subTopic": "Conditional probability",
+        "difficulty": "jee_main",
+        "bloomLevel": "Apply",
+        "estimatedTime": "2 minutes",
+        "questionType": "DATA INTERPRETATION"
+      },
+      "question": {
+        "questionText": "Three coins are available: \\(C_1\\) is a two-headed coin, \\(C_2\\) is a biased coin with \\(P(H\\mid C_2)=75\\%\\), and \\(C_3\\) is an unbiased coin. A coin is selected according to the following data and tossed once.\\n\\n| Coin | \\(P(C_i)\\) | \\(P(H\\mid C_i)\\) |\\n|---|---:|---:|\\n| \\(C_1\\) | \\(\\frac{1}{5}\\) | \\(1\\) |\\n| \\(C_2\\) | \\(\\frac{1}{2}\\) | \\(\\frac{3}{4}\\) |\\n| \\(C_3\\) | \\(\\frac{3}{10}\\) | \\(\\frac{1}{2}\\) |\\n\\nIf the outcome is observed to be a head, \\(H\\), then the probability that the selected coin was \\(C_2\\) is",
+        "equationLatex": "\\(P(C_2\\mid H)=\\frac{P(C_2)P(H\\mid C_2)}{P(C_1)P(H\\mid C_1)+P(C_2)P(H\\mid C_2)+P(C_3)P(H\\mid C_3)}\\)",
+        "diagramRequired": false,
+        "diagramType": "",
+        "diagramSvg": "",
+        "accessibilityAltText": ""
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(\\frac{15}{29}\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(\\frac{3}{8}\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(\\frac{15}{23}\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(\\frac{5}{12}\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "A",
+        "value": "\\(\\frac{15}{29}\\)",
+        "verify": {
+          "kind": "equal",
+          "expr": null,
+          "var": "x",
+          "lhs": "((1/2)*(3/4))/((1/5)*1 + (1/2)*(3/4) + (3/10)*(1/2))",
+          "rhs": "15/29",
+          "expected": null
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "Using the law of total probability, \\(P(H)=\\frac{1}{5}(1)+\\frac{1}{2}\\left(\\frac{3}{4}\\right)+\\frac{3}{10}\\left(\\frac{1}{2}\\right)=\\frac{29}{40}\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "By Bayes' theorem, \\(P(C_2\\mid H)=\\frac{P(C_2)P(H\\mid C_2)}{P(H)}=\\frac{\\frac{1}{2}\\cdot\\frac{3}{4}}{\\frac{29}{40}}=\\frac{15}{29}\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Triangles",
+        "subTopic": "Angle sum and similarity",
+        "difficulty": "jee_main",
+        "bloomLevel": "Apply",
+        "estimatedTime": "2 minutes",
+        "questionType": "TRIANGLES"
+      },
+      "question": {
+        "questionText": "Triangles \\(\\triangle ABC\\) and \\(\\triangle PQR\\) are similar with correspondence \\(A\\leftrightarrow P\\), \\(B\\leftrightarrow Q\\), and \\(C\\leftrightarrow R\\). If \\(\\angle A=2\\angle B\\) and \\(\\angle R=\\angle A+20^\\circ\\), then \\(\\angle Q\\) is equal to:",
+        "equationLatex": "\\[2x+x+(2x+20^\\circ)=180^\\circ\\]",
+        "diagramRequired": false,
+        "diagramType": "",
+        "diagramSvg": "",
+        "accessibilityAltText": ""
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(28^\\circ\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(32^\\circ\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(36^\\circ\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(40^\\circ\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "B",
+        "value": "\\(32^\\circ\\)",
+        "verify": {
+          "kind": "solve",
+          "expr": "5*x - 160",
+          "var": "x",
+          "lhs": null,
+          "rhs": null,
+          "expected": "32"
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "Since \\(\\triangle ABC\\sim\\triangle PQR\\), corresponding angles are equal. Hence, \\(\\angle Q=\\angle B\\) and \\(\\angle R=\\angle C\\). Let \\(\\angle B=x\\). Then \\(\\angle A=2x\\) and \\(\\angle C=\\angle R=2x+20^\\circ\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "Using the angle-sum property of a triangle, \\(2x+x+(2x+20^\\circ)=180^\\circ\\). Therefore, \\(5x=160^\\circ\\), so \\(x=32^\\circ\\). Thus, \\(\\angle Q=\\angle B=32^\\circ\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Circles",
+        "subTopic": "Chord and tangent",
+        "difficulty": "jee_main",
+        "bloomLevel": "Apply",
+        "estimatedTime": "2 minutes",
+        "questionType": "CIRCLE GEOMETRY"
+      },
+      "question": {
+        "questionText": "From an external point \\(P\\), a tangent \\(PT\\) is drawn to a circle, and a secant \\(PAB\\) intersects the circle at \\(A\\) and \\(B\\), with \\(A\\) between \\(P\\) and \\(B\\). If \\(PT=12\\text{ cm}\\) and \\(PA=8\\text{ cm}\\), then the length of the chord \\(AB\\) is",
+        "equationLatex": "\\(PT^2=PA\\cdot PB\\)",
+        "diagramRequired": false,
+        "diagramType": "",
+        "diagramSvg": "",
+        "accessibilityAltText": ""
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(10\\text{ cm}\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(12\\text{ cm}\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(14\\text{ cm}\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(18\\text{ cm}\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "A",
+        "value": "\\(10\\text{ cm}\\)",
+        "verify": {
+          "kind": "evaluate",
+          "expr": "144/8-8",
+          "var": "x",
+          "lhs": null,
+          "rhs": null,
+          "expected": "10"
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "By the tangent-secant theorem, \\(PT^2=PA\\cdot PB\\). Hence \\(12^2=8\\cdot PB\\), so \\(PB=18\\text{ cm}\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "Since \\(A\\) lies between \\(P\\) and \\(B\\), \\(AB=PB-PA=18-8=10\\text{ cm}\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Angles",
+        "subTopic": "Complementary and supplementary angles",
+        "difficulty": "jee_main",
+        "bloomLevel": "Applying",
+        "estimatedTime": "2 minutes",
+        "questionType": "ANGLE PROBLEMS"
+      },
+      "question": {
+        "questionText": "Two intersecting lines form an acute angle \\(\\theta\\) and an obtuse angle \\(\\phi\\). If \\(\\phi\\) is \\(3\\) times the complement of \\(\\theta\\) increased by \\(10^\\circ\\), then \\(\\theta\\) is equal to:",
+        "equationLatex": "\\[\\phi=180^\\circ-\\theta,\\qquad \\phi=3(90^\\circ-\\theta)+10^\\circ\\]",
+        "diagramRequired": false,
+        "diagramType": "",
+        "diagramSvg": "",
+        "accessibilityAltText": ""
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(50^\\circ\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(40^\\circ\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(60^\\circ\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(70^\\circ\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "A",
+        "value": "\\(50^\\circ\\)",
+        "verify": {
+          "kind": "solve",
+          "expr": "2*x - 100",
+          "var": "x",
+          "lhs": null,
+          "rhs": null,
+          "expected": "50"
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "Since \\(\\theta\\) and \\(\\phi\\) are supplementary, \\(\\phi=180^\\circ-\\theta\\). The complement of \\(\\theta\\) is \\(90^\\circ-\\theta\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "Using the given condition, \\(180^\\circ-\\theta=3(90^\\circ-\\theta)+10^\\circ\\). Hence, \\(180^\\circ-\\theta=280^\\circ-3\\theta\\), so \\(2\\theta=100^\\circ\\) and \\(\\theta=50^\\circ\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Mensuration",
+        "subTopic": "Area and perimeter",
+        "difficulty": "jee_main",
+        "bloomLevel": "Apply",
+        "estimatedTime": "3 minutes",
+        "questionType": "MENSURATION"
+      },
+      "question": {
+        "questionText": "A rectangular enclosure of width \\(x\\) metres and height \\(y\\) metres has a semicircular enclosure attached externally along its width. The outer boundary of the combined enclosure is \\(44\\) metres long. Taking \\(\\pi=\\frac{22}{7}\\), what is the maximum possible combined area?",
+        "equationLatex": "\\(A=xy+\\frac{\\pi x^2}{8},\\quad 2y+x+\\frac{\\pi x}{2}=44\\)",
+        "diagramRequired": false,
+        "diagramType": "",
+        "diagramSvg": "",
+        "accessibilityAltText": ""
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(\\frac{3388}{25}\\\\ \\text{m}^2\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(\\frac{1694}{25}\\\\ \\text{m}^2\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(\\frac{308}{25}\\\\ \\text{m}^2\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(\\frac{6776}{25}\\\\ \\text{m}^2\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "A",
+        "value": "\\(\\frac{3388}{25}\\\\ \\text{m}^2\\)",
+        "verify": {
+          "kind": "equal",
+          "expr": null,
+          "var": "x",
+          "lhs": "968/(4+22/7)",
+          "rhs": "3388/25",
+          "expected": null
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "The outer perimeter is \\(2y+x+\\frac{\\pi x}{2}=44\\), so \\(y=22-\\frac{x}{2}-\\frac{\\pi x}{4}\\). Hence the combined area is \\(A=xy+\\frac{\\pi x^2}{8}=22x-\\frac{4+\\pi}{8}x^2\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "This downward-opening quadratic is maximum at \\(x=\\frac{88}{4+\\pi}=\\frac{308}{25}\\). Therefore \\(A_{\\max}=\\frac{968}{4+\\pi}=\\frac{968}{4+\\frac{22}{7}}=\\frac{3388}{25}\\\\ \\text{m}^2\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Coordinate Geometry",
+        "subTopic": "Distance and section formula",
+        "difficulty": "jee_main",
+        "bloomLevel": "Apply",
+        "estimatedTime": "3 minutes",
+        "questionType": "COORDINATE GEOMETRY"
+      },
+      "question": {
+        "questionText": "The endpoints of a line segment \\(AB\\) are \\(A(1,3)\\) and \\(B(7,21)\\). Since \\(AB\\) lies on the line \\(y=3x\\), an interior point \\(P\\) on \\(AB\\) is at a distance \\(3\\sqrt{10}\\) from the origin \\(O\\). Find the ratio \\(AP:PB\\).",
+        "equationLatex": "\\(y=3x,\\quad x^2+y^2=90\\)",
+        "diagramRequired": true,
+        "diagramType": "coordinate",
+        "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"48.6\" y1=\"34\" x2=\"48.6\" y2=\"266\"/><line x1=\"77.8\" y1=\"34\" x2=\"77.8\" y2=\"266\"/><line x1=\"107\" y1=\"34\" x2=\"107\" y2=\"266\"/><line x1=\"136.2\" y1=\"34\" x2=\"136.2\" y2=\"266\"/><line x1=\"165.4\" y1=\"34\" x2=\"165.4\" y2=\"266\"/><line x1=\"194.6\" y1=\"34\" x2=\"194.6\" y2=\"266\"/><line x1=\"223.8\" y1=\"34\" x2=\"223.8\" y2=\"266\"/><line x1=\"253\" y1=\"34\" x2=\"253\" y2=\"266\"/><line x1=\"282.2\" y1=\"34\" x2=\"282.2\" y2=\"266\"/><line x1=\"311.4\" y1=\"34\" x2=\"311.4\" y2=\"266\"/><line x1=\"34\" y1=\"261.17\" x2=\"326\" y2=\"261.17\"/><line x1=\"34\" y1=\"251.5\" x2=\"326\" y2=\"251.5\"/><line x1=\"34\" y1=\"241.83\" x2=\"326\" y2=\"241.83\"/><line x1=\"34\" y1=\"232.17\" x2=\"326\" y2=\"232.17\"/><line x1=\"34\" y1=\"222.5\" x2=\"326\" y2=\"222.5\"/><line x1=\"34\" y1=\"212.83\" x2=\"326\" y2=\"212.83\"/><line x1=\"34\" y1=\"203.17\" x2=\"326\" y2=\"203.17\"/><line x1=\"34\" y1=\"193.5\" x2=\"326\" y2=\"193.5\"/><line x1=\"34\" y1=\"183.83\" x2=\"326\" y2=\"183.83\"/><line x1=\"34\" y1=\"174.17\" x2=\"326\" y2=\"174.17\"/><line x1=\"34\" y1=\"164.5\" x2=\"326\" y2=\"164.5\"/><line x1=\"34\" y1=\"154.83\" x2=\"326\" y2=\"154.83\"/><line x1=\"34\" y1=\"145.17\" x2=\"326\" y2=\"145.17\"/><line x1=\"34\" y1=\"135.5\" x2=\"326\" y2=\"135.5\"/><line x1=\"34\" y1=\"125.83\" x2=\"326\" y2=\"125.83\"/><line x1=\"34\" y1=\"116.17\" x2=\"326\" y2=\"116.17\"/><line x1=\"34\" y1=\"106.5\" x2=\"326\" y2=\"106.5\"/><line x1=\"34\" y1=\"96.83\" x2=\"326\" y2=\"96.83\"/><line x1=\"34\" y1=\"87.17\" x2=\"326\" y2=\"87.17\"/><line x1=\"34\" y1=\"77.5\" x2=\"326\" y2=\"77.5\"/><line x1=\"34\" y1=\"67.83\" x2=\"326\" y2=\"67.83\"/><line x1=\"34\" y1=\"58.17\" x2=\"326\" y2=\"58.17\"/><line x1=\"34\" y1=\"48.5\" x2=\"326\" y2=\"48.5\"/><line x1=\"34\" y1=\"38.83\" x2=\"326\" y2=\"38.83\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"251.5\" x2=\"326\" y2=\"251.5\"/><line x1=\"77.8\" y1=\"266\" x2=\"77.8\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"48.6\" y1=\"248.5\" x2=\"48.6\" y2=\"254.5\"/><text x=\"48.6\" y=\"265.5\" text-anchor=\"middle\">-1</text><line x1=\"107\" y1=\"248.5\" x2=\"107\" y2=\"254.5\"/><text x=\"107\" y=\"265.5\" text-anchor=\"middle\">1</text><line x1=\"136.2\" y1=\"248.5\" x2=\"136.2\" y2=\"254.5\"/><text x=\"136.2\" y=\"265.5\" text-anchor=\"middle\">2</text><line x1=\"165.4\" y1=\"248.5\" x2=\"165.4\" y2=\"254.5\"/><text x=\"165.4\" y=\"265.5\" text-anchor=\"middle\">3</text><line x1=\"194.6\" y1=\"248.5\" x2=\"194.6\" y2=\"254.5\"/><text x=\"194.6\" y=\"265.5\" text-anchor=\"middle\">4</text><line x1=\"223.8\" y1=\"248.5\" x2=\"223.8\" y2=\"254.5\"/><text x=\"223.8\" y=\"265.5\" text-anchor=\"middle\">5</text><line x1=\"253\" y1=\"248.5\" x2=\"253\" y2=\"254.5\"/><text x=\"253\" y=\"265.5\" text-anchor=\"middle\">6</text><line x1=\"282.2\" y1=\"248.5\" x2=\"282.2\" y2=\"254.5\"/><text x=\"282.2\" y=\"265.5\" text-anchor=\"middle\">7</text><line x1=\"311.4\" y1=\"248.5\" x2=\"311.4\" y2=\"254.5\"/><text x=\"311.4\" y=\"265.5\" text-anchor=\"middle\">8</text><line x1=\"74.8\" y1=\"261.17\" x2=\"80.8\" y2=\"261.17\"/><text x=\"71.8\" y=\"264.17\" text-anchor=\"end\">-1</text><line x1=\"74.8\" y1=\"241.83\" x2=\"80.8\" y2=\"241.83\"/><text x=\"71.8\" y=\"244.83\" text-anchor=\"end\">1</text><line x1=\"74.8\" y1=\"232.17\" x2=\"80.8\" y2=\"232.17\"/><text x=\"71.8\" y=\"235.17\" text-anchor=\"end\">2</text><line x1=\"74.8\" y1=\"222.5\" x2=\"80.8\" y2=\"222.5\"/><text x=\"71.8\" y=\"225.5\" text-anchor=\"end\">3</text><line x1=\"74.8\" y1=\"212.83\" x2=\"80.8\" y2=\"212.83\"/><text x=\"71.8\" y=\"215.83\" text-anchor=\"end\">4</text><line x1=\"74.8\" y1=\"203.17\" x2=\"80.8\" y2=\"203.17\"/><text x=\"71.8\" y=\"206.17\" text-anchor=\"end\">5</text><line x1=\"74.8\" y1=\"193.5\" x2=\"80.8\" y2=\"193.5\"/><text x=\"71.8\" y=\"196.5\" text-anchor=\"end\">6</text><line x1=\"74.8\" y1=\"183.83\" x2=\"80.8\" y2=\"183.83\"/><text x=\"71.8\" y=\"186.83\" text-anchor=\"end\">7</text><line x1=\"74.8\" y1=\"174.17\" x2=\"80.8\" y2=\"174.17\"/><text x=\"71.8\" y=\"177.17\" text-anchor=\"end\">8</text><line x1=\"74.8\" y1=\"164.5\" x2=\"80.8\" y2=\"164.5\"/><text x=\"71.8\" y=\"167.5\" text-anchor=\"end\">9</text><line x1=\"74.8\" y1=\"154.83\" x2=\"80.8\" y2=\"154.83\"/><text x=\"71.8\" y=\"157.83\" text-anchor=\"end\">10</text><line x1=\"74.8\" y1=\"145.17\" x2=\"80.8\" y2=\"145.17\"/><text x=\"71.8\" y=\"148.17\" text-anchor=\"end\">11</text><line x1=\"74.8\" y1=\"135.5\" x2=\"80.8\" y2=\"135.5\"/><text x=\"71.8\" y=\"138.5\" text-anchor=\"end\">12</text><line x1=\"74.8\" y1=\"125.83\" x2=\"80.8\" y2=\"125.83\"/><text x=\"71.8\" y=\"128.83\" text-anchor=\"end\">13</text><line x1=\"74.8\" y1=\"116.17\" x2=\"80.8\" y2=\"116.17\"/><text x=\"71.8\" y=\"119.17\" text-anchor=\"end\">14</text><line x1=\"74.8\" y1=\"106.5\" x2=\"80.8\" y2=\"106.5\"/><text x=\"71.8\" y=\"109.5\" text-anchor=\"end\">15</text><line x1=\"74.8\" y1=\"96.83\" x2=\"80.8\" y2=\"96.83\"/><text x=\"71.8\" y=\"99.83\" text-anchor=\"end\">16</text><line x1=\"74.8\" y1=\"87.17\" x2=\"80.8\" y2=\"87.17\"/><text x=\"71.8\" y=\"90.17\" text-anchor=\"end\">17</text><line x1=\"74.8\" y1=\"77.5\" x2=\"80.8\" y2=\"77.5\"/><text x=\"71.8\" y=\"80.5\" text-anchor=\"end\">18</text><line x1=\"74.8\" y1=\"67.83\" x2=\"80.8\" y2=\"67.83\"/><text x=\"71.8\" y=\"70.83\" text-anchor=\"end\">19</text><line x1=\"74.8\" y1=\"58.17\" x2=\"80.8\" y2=\"58.17\"/><text x=\"71.8\" y=\"61.17\" text-anchor=\"end\">20</text><line x1=\"74.8\" y1=\"48.5\" x2=\"80.8\" y2=\"48.5\"/><text x=\"71.8\" y=\"51.5\" text-anchor=\"end\">21</text><line x1=\"74.8\" y1=\"38.83\" x2=\"80.8\" y2=\"38.83\"/><text x=\"71.8\" y=\"41.83\" text-anchor=\"end\">22</text></g><text x=\"328\" y=\"255.5\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"81.8\" y=\"30\" font-size=\"12\" fill=\"#555555\">y</text><line x1=\"107\" y1=\"222.5\" x2=\"282.2\" y2=\"48.5\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"198.6\" y=\"131.5\" fill=\"#333333\">AB</text><line x1=\"77.8\" y1=\"251.5\" x2=\"165.4\" y2=\"164.5\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"125.6\" y=\"204\" fill=\"#333333\">OP</text><circle cx=\"77.8\" cy=\"251.5\" r=\"3\" fill=\"#d62728\"/><text x=\"83.8\" y=\"245.5\" fill=\"#111111\">O</text><circle cx=\"107\" cy=\"222.5\" r=\"3\" fill=\"#d62728\"/><text x=\"113\" y=\"216.5\" fill=\"#111111\">A</text><circle cx=\"165.4\" cy=\"164.5\" r=\"3\" fill=\"#d62728\"/><text x=\"171.4\" y=\"158.5\" fill=\"#111111\">P</text><circle cx=\"282.2\" cy=\"48.5\" r=\"3\" fill=\"#d62728\"/><text x=\"288.2\" y=\"42.5\" fill=\"#111111\">B</text></svg>",
+        "accessibilityAltText": "Coordinate diagram showing A, P, and B on the line y equals 3x, with OP drawn from the origin to P."
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(1:2\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(2:1\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(1:3\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(3:2\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "A",
+        "value": "\\(1:2\\)",
+        "verify": {
+          "kind": "equal",
+          "expr": null,
+          "var": "x",
+          "lhs": "1/2",
+          "rhs": "0.5",
+          "expected": null
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "Let \\(P=(x,y)\\). Since \\(P\\) lies on \\(y=3x\\), we have \\(y=3x\\). Using \\(OP=3\\sqrt{10}\\), \\(x^2+y^2=90\\), so \\(x^2+9x^2=90\\), giving \\(x=\\pm 3\\). Because \\(P\\) lies between \\(A\\) and \\(B\\), \\(1\\le x\\le 7\\), hence \\(P=(3,9)\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "Using the section formula along the \\(x\\)-coordinate, \\(AP:PB=(3-1):(7-3)=2:4=1:2\\). Therefore, the correct option is \\(\\boxed{1:2}\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Polygons",
+        "subTopic": "Interior angles of polygons",
+        "difficulty": "jee_main",
+        "bloomLevel": "Apply",
+        "estimatedTime": "2 minutes",
+        "questionType": "POLYGONS"
+      },
+      "question": {
+        "questionText": "A convex polygon has interior angles in arithmetic progression. Its smallest interior angle is \\(120^\\circ\\), and the common difference is \\(5^\\circ\\). Determine the number of sides of the polygon.",
+        "equationLatex": "\\[\\frac{n}{2}\\left[240^\\circ+5^\\circ(n-1)\\right]=(n-2)180^\\circ\\]",
+        "diagramRequired": false,
+        "diagramType": "",
+        "diagramSvg": "",
+        "accessibilityAltText": ""
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(7\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(8\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(9\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(10\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "C",
+        "value": "\\(9\\)",
+        "verify": {
+          "kind": "solve",
+          "expr": "x**2 - 25*x + 144",
+          "var": "x",
+          "lhs": null,
+          "rhs": null,
+          "expected": "9,16"
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "For an \\(n\\)-sided polygon, the sum of interior angles is \\((n-2)180^\\circ\\). The given angles form an arithmetic progression, so their sum is \\(\\frac{n}{2}\\left[2(120^\\circ)+(n-1)5^\\circ\\right]\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "Equating the two sums gives \\(\\frac{n}{2}[240+5(n-1)]=180(n-2)\\), which simplifies to \\(n^2-25n+144=0\\). Hence, \\(n=9\\) or \\(n=16\\).",
+          "svg": null
+        },
+        {
+          "step": 3,
+          "reasoning": "For \\(n=16\\), the largest angle would be \\(120^\\circ+15(5^\\circ)=195^\\circ\\), impossible in a convex polygon. Therefore, \\(n=9\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Trigonometry",
+        "subTopic": "Ratios and identities",
+        "difficulty": "jee_main",
+        "bloomLevel": "Applying",
+        "estimatedTime": "2 minutes",
+        "questionType": "TRIGONOMETRY"
+      },
+      "question": {
+        "questionText": "If \\(\\theta\\in\\left(0,\\frac{\\pi}{4}\\right)\\) satisfies \\(\\frac{1+\\tan\\theta}{1-\\tan\\theta}=2+\\sqrt{3}\\), then the value of \\(\\sin 2\\theta\\) is",
+        "equationLatex": "\\[\\frac{1+\\tan\\theta}{1-\\tan\\theta}=2+\\sqrt{3}\\]",
+        "diagramRequired": false,
+        "diagramType": "",
+        "diagramSvg": "",
+        "accessibilityAltText": ""
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(\\frac{\\sqrt{3}}{2}\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(\\frac{1}{2}\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(\\frac{2\\sqrt{3}}{3}\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(\\frac{3}{4}\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "A",
+        "value": "\\(\\frac{\\sqrt{3}}{2}\\)",
+        "verify": {
+          "kind": "equal",
+          "expr": null,
+          "var": "x",
+          "lhs": "2*(1/(3**0.5))/(1+(1/(3**0.5))**2)",
+          "rhs": "3**0.5/2",
+          "expected": null
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "Using \\(\\tan\\left(\\frac{\\pi}{4}+\\theta\\right)=\\frac{1+\\tan\\theta}{1-\\tan\\theta}\\), we get \\(\\tan\\left(\\frac{\\pi}{4}+\\theta\\right)=2+\\sqrt{3}=\\tan\\frac{5\\pi}{12}\\). Since \\(\\theta\\in\\left(0,\\frac{\\pi}{4}\\right)\\), \\(\\frac{\\pi}{4}+\\theta\\in\\left(\\frac{\\pi}{4},\\frac{\\pi}{2}\\right)\\), so \\(\\theta=\\frac{\\pi}{6}\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "Therefore, \\(\\sin 2\\theta=\\sin\\frac{\\pi}{3}=\\frac{\\sqrt{3}}{2}\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    }
+  ]
+}

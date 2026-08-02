@@ -1,0 +1,283 @@
+{
+  "key": "7.1",
+  "topic": "7.1 Problems on Proving Propositions",
+  "questions": [
+    {
+      "question": {
+        "id": "743c84f4-0dac-518f-98fb-df7a7448bc97",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Five distinct straight lines pass through \\(O\\). Let \\(\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4,\\alpha_5\\) be any selection containing exactly one angle from each pair of vertically opposite angles. What is \\(\\alpha_1+\\alpha_2+\\alpha_3+\\alpha_4+\\alpha_5\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Arrange the five smaller angles between successive lines on one side of \\(O\\) as \\(\\theta_1,\\theta_2,\\theta_3,\\theta_4,\\theta_5\\). They form a straight angle, so \\(\\theta_1+\\theta_2+\\theta_3+\\theta_4+\\theta_5=180^\\circ\\). Vertically opposite angles are equal, so any one angle from each opposite pair has the same sum.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 76,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Understand",
+            "topic": "7.1 Problems on Proving Propositions",
+            "concept_ids": [
+              "concept_01dfdd2964",
+              "concept_e007a08ac3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              106,
+              107,
+              240,
+              241,
+              242,
+              243
+            ],
+            "source_chunk_ids": [
+              "chunk_6c5355049c",
+              "chunk_9bd1e71e24"
+            ]
+          },
+          "options": [
+            {
+              "id": "180_circ_1",
+              "label": "\\(180^\\circ\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The selected angles correspond to the angles in one semicircle."
+            },
+            {
+              "id": "90_circ_2",
+              "label": "\\(90^\\circ\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "A semicircle around a point measures \\(180^\\circ\\)."
+            },
+            {
+              "id": "360_circ_3",
+              "label": "\\(360^\\circ\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the sum of all angles around \\(O\\), not one from each opposite pair."
+            },
+            {
+              "id": "720_circ_4",
+              "label": "\\(720^\\circ\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This exceeds the full angular measure around a point."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "geometry",
+            "width": 360,
+            "height": 300,
+            "xmin": -5.2,
+            "xmax": 5.2,
+            "ymin": -5.2,
+            "ymax": 5.2,
+            "equal_scale": true,
+            "title": null,
+            "elements": [
+              {
+                "type": "segment",
+                "role": null,
+                "a": [
+                  -4.0,
+                  0.0
+                ],
+                "b": [
+                  4.0,
+                  0.0
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "role": null,
+                "a": [
+                  -3.0,
+                  -3.0
+                ],
+                "b": [
+                  3.0,
+                  3.0
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "role": null,
+                "a": [
+                  -3.0,
+                  3.0
+                ],
+                "b": [
+                  3.0,
+                  -3.0
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "role": null,
+                "a": [
+                  -1.0,
+                  -4.0
+                ],
+                "b": [
+                  1.0,
+                  4.0
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "role": null,
+                "a": [
+                  -1.0,
+                  4.0
+                ],
+                "b": [
+                  1.0,
+                  -4.0
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\" data-diagram-kind=\"geometry\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g data-spec-index=\"0\" data-element-type=\"segment\"><line x1=\"90.77\" y1=\"150\" x2=\"269.23\" y2=\"150\" stroke=\"#333333\" stroke-width=\"1.8\"/></g><g data-spec-index=\"1\" data-element-type=\"segment\"><line x1=\"113.08\" y1=\"216.92\" x2=\"246.92\" y2=\"83.08\" stroke=\"#333333\" stroke-width=\"1.8\"/></g><g data-spec-index=\"2\" data-element-type=\"segment\"><line x1=\"113.08\" y1=\"83.08\" x2=\"246.92\" y2=\"216.92\" stroke=\"#333333\" stroke-width=\"1.8\"/></g><g data-spec-index=\"3\" data-element-type=\"segment\"><line x1=\"157.69\" y1=\"239.23\" x2=\"202.31\" y2=\"60.77\" stroke=\"#333333\" stroke-width=\"1.8\"/></g><g data-spec-index=\"4\" data-element-type=\"segment\"><line x1=\"157.69\" y1=\"60.77\" x2=\"202.31\" y2=\"239.23\" stroke=\"#333333\" stroke-width=\"1.8\"/></g></svg>"
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 1,
+  "context_chunks": [
+    "chunk_6c5355049c",
+    "chunk_9bd1e71e24"
+  ],
+  "source_pages": [
+    106,
+    107,
+    240,
+    241,
+    242,
+    243
+  ],
+  "rejected": [
+    {
+      "attempt": 1,
+      "stem": "In \\(\\triangle ABC\\), \\(M\\) is the midpoint of \\(AB\\). Which identity holds for every position of \\(C\\)?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 1,
+      "stem": "In \\(\\triangle ABC\\), \\(M\\) and \\(N\\) are the midpoints of \\(AB\\) and \\(AC\\), respectively. Which vector statement proves both the parallelism and length conclusions of the midpoint theorem?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 1,
+      "stem": "In \\(\\triangle ABC\\), point \\(D\\) lies inside segment \\(BC\\) and satisfies \\(\\frac{BD}{DC}=\\frac{AB}{AC}\\). Which proposition necessarily follows?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 1,
+      "stem": "In \\(\\triangle ABC\\), \\(AB=AC\\), and \\(D\\) is the midpoint of \\(BC\\). Which proof chain is valid?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 2,
+      "stem": "In triangle \\(ABC\\), points \\(D\\) and \\(E\\) are the midpoints of \\(BC\\) and \\(AC\\), respectively. Which proposition necessarily follows?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 2,
+      "stem": "Two distinct lines \\(AC\\) and \\(BD\\) intersect at \\(O\\). Ray \\(OP\\) bisects \\(\\angle AOB\\), while ray \\(OQ\\) bisects the vertically opposite angle \\(\\angle COD\\). Which proposition must be true?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 2,
+      "stem": "Let \\(ABC\\) be a triangle with \\(AB=AC\\), and let \\(D\\) be the midpoint of \\(BC\\). Which pair of conclusions is forced?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 2,
+      "stem": "Let \\(ABCD\\) be a convex quadrilateral whose diagonals \\(AC\\) and \\(BD\\) intersect at \\(O\\). If \\(AO=OC\\) and \\(BO=OD\\), which proposition can be proved?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 3,
+      "stem": "In triangle \\(ABC\\), points \\(D\\) and \\(E\\) are the midpoints of \\(AB\\) and \\(AC\\), respectively. Which argument correctly proves that \\(DE\\parallel BC\\)?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 3,
+      "stem": "Four distinct rays \\(OA,OB,OC,OD\\) occur in this order around point \\(O\\). Let \\(\\angle AOB=\\alpha\\), \\(\\angle BOC=\\beta\\), \\(\\angle COD=\\gamma\\), and \\(\\angle DOA=\\delta\\). Which statement is the correct foundation for proving the angle-sum proposition at a point?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 3,
+      "stem": "In parallelogram \\(ABCD\\), diagonals \\(AC\\) and \\(BD\\) intersect at \\(O\\). Which proof correctly establishes that the diagonals bisect each other?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 3,
+      "stem": "Points \\(P\\) and \\(Q\\) lie on the same side of segment \\(AB\\), with \\(PA=PB\\) and \\(QA=QB\\). If \\(P\\neq Q\\), which proposition follows and how can it be proved?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    }
+  ]
+}

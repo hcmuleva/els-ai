@@ -1,0 +1,631 @@
+{
+  "key": "1.6",
+  "topic": "1.6 Systems of Equations and Inequalities",
+  "questions": [
+    {
+      "question": {
+        "id": "60932c79-aa52-5c46-aace-ec3185c808f9",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For which value of \\(k\\) does the system \\(2x+3y=7,\\ 4x+ky=14\\) have infinitely many solutions?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For infinitely many solutions, \\(4x+ky=14\\) must be twice \\(2x+3y=7\\). Hence \\(k=6\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 25,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.6 Systems of Equations and Inequalities",
+            "concept_ids": [
+              "concept_416b34274b",
+              "concept_48e09ef5fc"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              29,
+              30,
+              31,
+              170,
+              171,
+              172
+            ],
+            "source_chunk_ids": [
+              "chunk_21c06e7834",
+              "chunk_3999907eff"
+            ]
+          },
+          "options": [
+            {
+              "id": "k_3_1",
+              "label": "\\(k=3\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equations are not proportional."
+            },
+            {
+              "id": "k_6_2",
+              "label": "\\(k=6\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The second equation becomes twice the first."
+            },
+            {
+              "id": "k_9_3",
+              "label": "\\(k=9\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The coefficient ratios are unequal."
+            },
+            {
+              "id": "k_12_4",
+              "label": "\\(k=12\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equations are independent."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "b656626e-04d2-51c6-855f-c4aa6f467af9",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For which values of \\(a\\) does the point \\((a,a^2)\\) lie in the interior of the triangle formed by \\(y=x+1,\\ y=3-x,\\ y=-2x\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The interior region satisfies \\(y>x+1,\\ y<3-x,\\ y>-2x\\). Substituting \\(y=a^2\\) gives \\(a^2>a+1,\\ a^2<3-a,\\ a^2>-2a\\). Their intersection is \\(\\left(\\frac{-1-\\sqrt{13}}{2},-2\\right)\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 26,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.6 Systems of Equations and Inequalities",
+            "concept_ids": [
+              "concept_416b34274b",
+              "concept_48e09ef5fc"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              29,
+              30,
+              31,
+              170,
+              171,
+              172
+            ],
+            "source_chunk_ids": [
+              "chunk_21c06e7834",
+              "chunk_3999907eff"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_frac_1_sqrt_13_2_2_1",
+              "label": "\\(\\left(\\frac{-1-\\sqrt{13}}{2},-2\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the intersection of all three strict half-plane conditions."
+            },
+            {
+              "id": "left_2_frac_1_sqrt_13_2_2",
+              "label": "\\(\\left(-2,\\frac{-1+\\sqrt{13}}{2}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The endpoints and interval do not satisfy all conditions."
+            },
+            {
+              "id": "left_frac_1_sqrt_5_2_0_r_3",
+              "label": "\\(\\left(\\frac{1-\\sqrt{5}}{2},0\\right)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not satisfy the required inequality from \\(y=-2x\\)."
+            },
+            {
+              "id": "left_0_frac_1_sqrt_13_2_4",
+              "label": "\\(\\left(0,\\frac{1+\\sqrt{13}}{2}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The point fails the strict inequality \\(a^2>a+1\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "triangle",
+            "width": 360,
+            "height": 300,
+            "xmin": -4.5,
+            "xmax": 2.5,
+            "ymin": -0.833,
+            "ymax": 7.5,
+            "title": null,
+            "elements": [
+              {
+                "type": "polygon",
+                "points": [
+                  [
+                    1.0,
+                    2.0
+                  ],
+                  [
+                    -0.333,
+                    0.667
+                  ],
+                  [
+                    -3.0,
+                    6.0
+                  ]
+                ],
+                "label": null,
+                "fill": "none",
+                "fill_opacity": 0.25,
+                "stroke": "#333333",
+                "closed": true
+              },
+              {
+                "type": "label",
+                "at": [
+                  1.0,
+                  2.0
+                ],
+                "text": "A",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  -0.333,
+                  0.667
+                ],
+                "text": "B",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  -3.0,
+                  6.0
+                ],
+                "text": "C",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "angle",
+                "vertex": [
+                  1.0,
+                  2.0
+                ],
+                "p1": [
+                  -0.333,
+                  0.667
+                ],
+                "p2": [
+                  -3.0,
+                  6.0
+                ],
+                "label": "\\\\theta",
+                "radius_px": 22.0,
+                "color": "#9467bd"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><polygon points=\"263.43,187.13 207.82,224.24 96.57,75.76\" fill=\"none\" fill-opacity=\"0.25\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"269.43\" y=\"181.13\" fill=\"#111111\">A</text><text x=\"213.82\" y=\"218.24\" fill=\"#111111\">B</text><text x=\"102.57\" y=\"69.76\" fill=\"#111111\">C</text><path d=\"M 245.13 199.34 A 22 22 0 0 1 245.13 174.91\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"229.43\" y=\"187.13\" text-anchor=\"middle\" fill=\"#9467bd\">\\\\theta</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "224d523a-be37-5cda-a9a2-d655a713bb41",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(x,y,z\\) be positive integers satisfying \\(x+y+z=15\\) and \\(2x+3y+5z=55\\). How many ordered triples \\((x,y,z)\\) satisfy the system?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using \\(x=15-y-z\\), the second equation gives \\(y+3z=25\\), and \\(x=2z-10\\). Positivity requires \\(6\\le z\\le 8\\), so \\(z=6,7,8\\), yielding \\(3\\) ordered triples.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 27,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.6 Systems of Equations and Inequalities",
+            "concept_ids": [
+              "concept_416b34274b",
+              "concept_48e09ef5fc"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              29,
+              30,
+              31,
+              170,
+              171,
+              172
+            ],
+            "source_chunk_ids": [
+              "chunk_21c06e7834",
+              "chunk_3999907eff"
+            ]
+          },
+          "options": [
+            {
+              "id": "2_1",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "One admissible value of \\(z\\) is omitted."
+            },
+            {
+              "id": "3_2",
+              "label": "\\(3\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The possible values are \\(z=6,7,8\\)."
+            },
+            {
+              "id": "4_3",
+              "label": "\\(4\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The positivity conditions restrict \\(z\\) to three values."
+            },
+            {
+              "id": "5_4",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The positivity conditions restrict \\(z\\) to three values."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "321eb6d4-7296-50f6-938c-ae0b38d3e161",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(x\\ge 0,\\ y\\ge 0\\), maximize \\(P=3x+2y\\) subject to \\(x+y\\le 6\\) and \\(x+2y\\le 8\\). What is the maximum value of \\(P\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The feasible vertices are \\((0,0),(6,0),(4,2),(0,4)\\). The corresponding values of \\(P\\) are \\(0,18,16,8\\). Therefore, the maximum is \\(18\\) at \\((6,0)\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 28,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.6 Systems of Equations and Inequalities",
+            "concept_ids": [
+              "concept_416b34274b",
+              "concept_48e09ef5fc"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              29,
+              30,
+              31,
+              170,
+              171,
+              172
+            ],
+            "source_chunk_ids": [
+              "chunk_21c06e7834",
+              "chunk_3999907eff"
+            ]
+          },
+          "options": [
+            {
+              "id": "12_1",
+              "label": "\\(12\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not the largest vertex value."
+            },
+            {
+              "id": "16_2",
+              "label": "\\(16\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This occurs at \\((4,2)\\), not at the optimum."
+            },
+            {
+              "id": "18_3",
+              "label": "\\(18\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "At \\((6,0)\\), \\(P=18\\), the greatest vertex value."
+            },
+            {
+              "id": "20_4",
+              "label": "\\(20\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "No feasible vertex gives this value."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "lpp",
+            "width": 360,
+            "height": 300,
+            "xmin": 0.0,
+            "xmax": 10.0,
+            "ymin": 0.0,
+            "ymax": 10.0,
+            "title": null,
+            "elements": [
+              {
+                "type": "grid",
+                "step_x": 1.0,
+                "step_y": 1.0
+              },
+              {
+                "type": "axes",
+                "x_label": "x",
+                "y_label": "y",
+                "ticks": true,
+                "tick_step": 1.0
+              },
+              {
+                "type": "polygon",
+                "points": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    6.0,
+                    0.0
+                  ],
+                  [
+                    4.0,
+                    2.0
+                  ],
+                  [
+                    0.0,
+                    4.0
+                  ]
+                ],
+                "label": "Feasible",
+                "fill": "#2ca02c",
+                "fill_opacity": 0.25,
+                "stroke": "#333333",
+                "closed": true
+              },
+              {
+                "type": "line",
+                "a": 1.0,
+                "b": 1.0,
+                "c": 6.0,
+                "label": "1x+1y <= 6",
+                "dashed": false,
+                "color": "#2ca02c"
+              },
+              {
+                "type": "line",
+                "a": 1.0,
+                "b": 2.0,
+                "c": 8.0,
+                "label": "1x+2y <= 8",
+                "dashed": false,
+                "color": "#2ca02c"
+              },
+              {
+                "type": "point",
+                "at": [
+                  6.0,
+                  0.0
+                ],
+                "label": "max",
+                "color": "#d62728"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"34\" y1=\"34\" x2=\"34\" y2=\"266\"/><line x1=\"63.2\" y1=\"34\" x2=\"63.2\" y2=\"266\"/><line x1=\"92.4\" y1=\"34\" x2=\"92.4\" y2=\"266\"/><line x1=\"121.6\" y1=\"34\" x2=\"121.6\" y2=\"266\"/><line x1=\"150.8\" y1=\"34\" x2=\"150.8\" y2=\"266\"/><line x1=\"180\" y1=\"34\" x2=\"180\" y2=\"266\"/><line x1=\"209.2\" y1=\"34\" x2=\"209.2\" y2=\"266\"/><line x1=\"238.4\" y1=\"34\" x2=\"238.4\" y2=\"266\"/><line x1=\"267.6\" y1=\"34\" x2=\"267.6\" y2=\"266\"/><line x1=\"296.8\" y1=\"34\" x2=\"296.8\" y2=\"266\"/><line x1=\"326\" y1=\"34\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"242.8\" x2=\"326\" y2=\"242.8\"/><line x1=\"34\" y1=\"219.6\" x2=\"326\" y2=\"219.6\"/><line x1=\"34\" y1=\"196.4\" x2=\"326\" y2=\"196.4\"/><line x1=\"34\" y1=\"173.2\" x2=\"326\" y2=\"173.2\"/><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"126.8\" x2=\"326\" y2=\"126.8\"/><line x1=\"34\" y1=\"103.6\" x2=\"326\" y2=\"103.6\"/><line x1=\"34\" y1=\"80.4\" x2=\"326\" y2=\"80.4\"/><line x1=\"34\" y1=\"57.2\" x2=\"326\" y2=\"57.2\"/><line x1=\"34\" y1=\"34\" x2=\"326\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"34\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"63.2\" y1=\"263\" x2=\"63.2\" y2=\"269\"/><text x=\"63.2\" y=\"280\" text-anchor=\"middle\">1</text><line x1=\"92.4\" y1=\"263\" x2=\"92.4\" y2=\"269\"/><text x=\"92.4\" y=\"280\" text-anchor=\"middle\">2</text><line x1=\"121.6\" y1=\"263\" x2=\"121.6\" y2=\"269\"/><text x=\"121.6\" y=\"280\" text-anchor=\"middle\">3</text><line x1=\"150.8\" y1=\"263\" x2=\"150.8\" y2=\"269\"/><text x=\"150.8\" y=\"280\" text-anchor=\"middle\">4</text><line x1=\"180\" y1=\"263\" x2=\"180\" y2=\"269\"/><text x=\"180\" y=\"280\" text-anchor=\"middle\">5</text><line x1=\"209.2\" y1=\"263\" x2=\"209.2\" y2=\"269\"/><text x=\"209.2\" y=\"280\" text-anchor=\"middle\">6</text><line x1=\"238.4\" y1=\"263\" x2=\"238.4\" y2=\"269\"/><text x=\"238.4\" y=\"280\" text-anchor=\"middle\">7</text><line x1=\"267.6\" y1=\"263\" x2=\"267.6\" y2=\"269\"/><text x=\"267.6\" y=\"280\" text-anchor=\"middle\">8</text><line x1=\"296.8\" y1=\"263\" x2=\"296.8\" y2=\"269\"/><text x=\"296.8\" y=\"280\" text-anchor=\"middle\">9</text><line x1=\"326\" y1=\"263\" x2=\"326\" y2=\"269\"/><text x=\"326\" y=\"280\" text-anchor=\"middle\">10</text><line x1=\"31\" y1=\"242.8\" x2=\"37\" y2=\"242.8\"/><text x=\"28\" y=\"245.8\" text-anchor=\"end\">1</text><line x1=\"31\" y1=\"219.6\" x2=\"37\" y2=\"219.6\"/><text x=\"28\" y=\"222.6\" text-anchor=\"end\">2</text><line x1=\"31\" y1=\"196.4\" x2=\"37\" y2=\"196.4\"/><text x=\"28\" y=\"199.4\" text-anchor=\"end\">3</text><line x1=\"31\" y1=\"173.2\" x2=\"37\" y2=\"173.2\"/><text x=\"28\" y=\"176.2\" text-anchor=\"end\">4</text><line x1=\"31\" y1=\"150\" x2=\"37\" y2=\"150\"/><text x=\"28\" y=\"153\" text-anchor=\"end\">5</text><line x1=\"31\" y1=\"126.8\" x2=\"37\" y2=\"126.8\"/><text x=\"28\" y=\"129.8\" text-anchor=\"end\">6</text><line x1=\"31\" y1=\"103.6\" x2=\"37\" y2=\"103.6\"/><text x=\"28\" y=\"106.6\" text-anchor=\"end\">7</text><line x1=\"31\" y1=\"80.4\" x2=\"37\" y2=\"80.4\"/><text x=\"28\" y=\"83.4\" text-anchor=\"end\">8</text><line x1=\"31\" y1=\"57.2\" x2=\"37\" y2=\"57.2\"/><text x=\"28\" y=\"60.2\" text-anchor=\"end\">9</text><line x1=\"31\" y1=\"34\" x2=\"37\" y2=\"34\"/><text x=\"28\" y=\"37\" text-anchor=\"end\">10</text></g><text x=\"328\" y=\"270\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"38\" y=\"30\" font-size=\"12\" fill=\"#555555\">y</text><polygon points=\"34,266 209.2,266 150.8,219.6 34,173.2\" fill=\"#2ca02c\" fill-opacity=\"0.25\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"107\" y=\"231.2\" text-anchor=\"middle\" fill=\"#333333\">Feasible</text><line x1=\"34\" y1=\"126.8\" x2=\"209.2\" y2=\"266\" stroke=\"#2ca02c\" stroke-width=\"1.8\"/><text x=\"125.6\" y=\"192.4\" fill=\"#2ca02c\">1x+1y &lt;= 6</text><line x1=\"34\" y1=\"173.2\" x2=\"267.6\" y2=\"266\" stroke=\"#2ca02c\" stroke-width=\"1.8\"/><text x=\"154.8\" y=\"215.6\" fill=\"#2ca02c\">1x+2y &lt;= 8</text><circle cx=\"209.2\" cy=\"266\" r=\"3\" fill=\"#d62728\"/><text x=\"215.2\" y=\"260\" fill=\"#111111\">max</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "8105e6af-b985-53fd-97ae-a43f78ff147b",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the general solution of the system \\(x+y+z=6,\\ 2x+3y+4z=16,\\ 3x+4y+5z=22\\), where \\(x,y,z\\in\\mathbb{R}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Subtracting twice the first equation from the second gives \\(y+2z=4\\). Thus \\(y=4-2z\\), and the first equation gives \\(x=2+z\\). Setting \\(z=t\\) yields \\((x,y,z)=(2+t,4-2t,t)\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 29,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.6 Systems of Equations and Inequalities",
+            "concept_ids": [
+              "concept_416b34274b",
+              "concept_48e09ef5fc"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              29,
+              30,
+              31,
+              170,
+              171,
+              172
+            ],
+            "source_chunk_ids": [
+              "chunk_21c06e7834",
+              "chunk_3999907eff"
+            ]
+          },
+          "options": [
+            {
+              "id": "x_y_z_2_t_4_2t_t_t_in_ma_1",
+              "label": "\\((x,y,z)=(2+t,4-2t,t),\\ t\\in\\mathbb{R}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The third equation is dependent and these values satisfy the first two."
+            },
+            {
+              "id": "x_y_z_2_t_4_2t_t_t_in_ma_2",
+              "label": "\\((x,y,z)=(2-t,4-2t,t),\\ t\\in\\mathbb{R}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These values do not satisfy the first equation for general \\(t\\)."
+            },
+            {
+              "id": "x_y_z_2_t_4_t_t_t_in_mat_3",
+              "label": "\\((x,y,z)=(2+t,4-t,t),\\ t\\in\\mathbb{R}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The relation \\(y+2z=4\\) is not satisfied."
+            },
+            {
+              "id": "x_y_z_2_2t_4_2t_t_t_in_m_4",
+              "label": "\\((x,y,z)=(2+2t,4-2t,t),\\ t\\in\\mathbb{R}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The relation \\(x-z=2\\) is not satisfied."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_21c06e7834",
+    "chunk_3999907eff"
+  ],
+  "source_pages": [
+    29,
+    30,
+    31,
+    170,
+    171,
+    172
+  ],
+  "rejected": []
+}

@@ -1,0 +1,484 @@
+{
+  "key": "7.1",
+  "topic": "7.1 Problems on Proving Propositions",
+  "questions": [
+    {
+      "question": {
+        "id": "e2b97d1f-6005-5cd3-8b94-79e6acc6be35",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Five distinct straight lines pass through \\(O\\). Let \\(\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4,\\alpha_5\\) be any selection containing exactly one angle from each pair of vertically opposite angles. What is \\(\\alpha_1+\\alpha_2+\\alpha_3+\\alpha_4+\\alpha_5\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Arrange the five smaller angles between successive lines on one side of \\(O\\) as \\(\\theta_1,\\theta_2,\\theta_3,\\theta_4,\\theta_5\\). They form a straight angle, so \\(\\theta_1+\\theta_2+\\theta_3+\\theta_4+\\theta_5=180^\\circ\\). Vertically opposite angles are equal, so any one angle from each opposite pair has the same sum.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 106,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Understand",
+            "topic": "7.1 Problems on Proving Propositions",
+            "concept_ids": [
+              "concept_01dfdd2964",
+              "concept_e007a08ac3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              106,
+              107,
+              240,
+              241,
+              242,
+              243
+            ],
+            "source_chunk_ids": [
+              "chunk_6c5355049c",
+              "chunk_9bd1e71e24"
+            ]
+          },
+          "options": [
+            {
+              "id": "180_circ_1",
+              "label": "\\(180^\\circ\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The selected angles correspond to the angles in one semicircle."
+            },
+            {
+              "id": "90_circ_2",
+              "label": "\\(90^\\circ\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "A semicircle around a point measures \\(180^\\circ\\)."
+            },
+            {
+              "id": "360_circ_3",
+              "label": "\\(360^\\circ\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the sum of all angles around \\(O\\), not one from each opposite pair."
+            },
+            {
+              "id": "720_circ_4",
+              "label": "\\(720^\\circ\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This exceeds the full angular measure around a point."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "geometry",
+            "width": 360,
+            "height": 300,
+            "xmin": -5.2,
+            "xmax": 5.2,
+            "ymin": -5.2,
+            "ymax": 5.2,
+            "equal_scale": true,
+            "title": null,
+            "elements": [
+              {
+                "type": "segment",
+                "role": null,
+                "a": [
+                  -4.0,
+                  0.0
+                ],
+                "b": [
+                  4.0,
+                  0.0
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "role": null,
+                "a": [
+                  -3.0,
+                  -3.0
+                ],
+                "b": [
+                  3.0,
+                  3.0
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "role": null,
+                "a": [
+                  -3.0,
+                  3.0
+                ],
+                "b": [
+                  3.0,
+                  -3.0
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "role": null,
+                "a": [
+                  -1.0,
+                  -4.0
+                ],
+                "b": [
+                  1.0,
+                  4.0
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "role": null,
+                "a": [
+                  -1.0,
+                  4.0
+                ],
+                "b": [
+                  1.0,
+                  -4.0
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\" data-diagram-kind=\"geometry\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g data-spec-index=\"0\" data-element-type=\"segment\"><line x1=\"90.77\" y1=\"150\" x2=\"269.23\" y2=\"150\" stroke=\"#333333\" stroke-width=\"1.8\"/></g><g data-spec-index=\"1\" data-element-type=\"segment\"><line x1=\"113.08\" y1=\"216.92\" x2=\"246.92\" y2=\"83.08\" stroke=\"#333333\" stroke-width=\"1.8\"/></g><g data-spec-index=\"2\" data-element-type=\"segment\"><line x1=\"113.08\" y1=\"83.08\" x2=\"246.92\" y2=\"216.92\" stroke=\"#333333\" stroke-width=\"1.8\"/></g><g data-spec-index=\"3\" data-element-type=\"segment\"><line x1=\"157.69\" y1=\"239.23\" x2=\"202.31\" y2=\"60.77\" stroke=\"#333333\" stroke-width=\"1.8\"/></g><g data-spec-index=\"4\" data-element-type=\"segment\"><line x1=\"157.69\" y1=\"60.77\" x2=\"202.31\" y2=\"239.23\" stroke=\"#333333\" stroke-width=\"1.8\"/></g></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "b5d96607-006a-54ac-a426-ee9ce9737087",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Two parallel lines \\(l\\) and \\(m\\) are cut by a transversal \\(t\\) at \\(P\\) and \\(Q\\). Let \\(\\alpha\\) and \\(\\beta\\) be the interior angles on the same side of \\(t\\). Which proof correctly establishes the proposition \\(\\alpha+\\beta=180^\\circ\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "An alternate interior angle \\(\\gamma\\) equals \\(\\beta\\) because \\(l\\parallel m\\). The angles \\(\\alpha\\) and \\(\\gamma\\) form a linear pair, so their sum is \\(180^\\circ\\). Therefore, \\(\\alpha+\\beta=180^\\circ\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 107,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "7.1 Problems on Proving Propositions",
+            "concept_ids": [
+              "concept_01dfdd2964",
+              "concept_e007a08ac3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              106,
+              107,
+              240,
+              241,
+              242,
+              243
+            ],
+            "source_chunk_ids": [
+              "chunk_6c5355049c",
+              "chunk_9bd1e71e24"
+            ]
+          },
+          "options": [
+            {
+              "id": "Let_gamma_be_the_alterna_1",
+              "label": "Let \\(\\gamma\\) be the alternate interior angle to \\(\\beta\\) at \\(P\\). Since \\(l\\parallel m\\), \\(\\gamma=\\beta\\), and since \\(\\alpha\\) and \\(\\gamma\\) form a linear pair, \\(\\alpha+\\gamma=180^\\circ\\). Hence \\(\\alpha+\\beta=180^\\circ\\).",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It combines alternate interior angle equality with the linear-pair property."
+            },
+            {
+              "id": "Since_l_parallel_m_corre_2",
+              "label": "Since \\(l\\parallel m\\), corresponding angles are supplementary, so \\(\\alpha+\\beta=180^\\circ\\).",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Corresponding angles are equal, not supplementary."
+            },
+            {
+              "id": "The_angles_alpha_and_bet_3",
+              "label": "The angles \\(\\alpha\\) and \\(\\beta\\) are vertically opposite angles, so \\(\\alpha=\\beta\\).",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "They are at different intersection points and are not vertically opposite."
+            },
+            {
+              "id": "Alternate_interior_angle_4",
+              "label": "Alternate interior angles always form a linear pair, so \\(\\alpha+\\beta=180^\\circ\\).",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Alternate interior angles are equal, not necessarily a linear pair."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "0c094bd5-bbb8-55a0-9ebc-2a2d19f007c8",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Two chords \\(AB\\) and \\(CD\\) of a circle intersect at \\(P\\) inside the circle. If \\(PA=4\\,\\mathrm{cm}\\), \\(PB=9\\,\\mathrm{cm}\\), and \\(PC=6\\,\\mathrm{cm}\\), which proposition gives the length of \\(PD\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For intersecting chords, \\(PA\\cdot PB=PC\\cdot PD\\). Therefore, \\(4\\times9=6\\times PD\\), so \\(PD=6\\,\\mathrm{cm}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 108,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.1 Problems on Proving Propositions",
+            "concept_ids": [
+              "concept_01dfdd2964",
+              "concept_e007a08ac3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              106,
+              107,
+              240,
+              241,
+              242,
+              243
+            ],
+            "source_chunk_ids": [
+              "chunk_6c5355049c",
+              "chunk_9bd1e71e24"
+            ]
+          },
+          "options": [
+            {
+              "id": "PD_6_mathrm_cm_1",
+              "label": "\\(PD=6\\,\\mathrm{cm}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Intersecting chords give \\(PA\\cdot PB=PC\\cdot PD\\)."
+            },
+            {
+              "id": "PD_frac_3_2_mathrm_cm_2",
+              "label": "\\(PD=\\frac{3}{2}\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This reverses the product relation for the intersecting chords."
+            },
+            {
+              "id": "PD_13_mathrm_cm_3",
+              "label": "\\(PD=13\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "A sum relation is not applicable to intersecting chords."
+            },
+            {
+              "id": "PD_frac_27_2_mathrm_cm_4",
+              "label": "\\(PD=\\frac{27}{2}\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This results from multiplying instead of dividing by \\(PC\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 3,
+  "context_chunks": [
+    "chunk_6c5355049c",
+    "chunk_9bd1e71e24"
+  ],
+  "source_pages": [
+    106,
+    107,
+    240,
+    241,
+    242,
+    243
+  ],
+  "rejected": [
+    {
+      "attempt": 1,
+      "stem": "In triangle \\(ABC\\), points \\(D\\) and \\(E\\) lie on \\(AB\\) and \\(AC\\), respectively, and \\(DE\\parallel BC\\). Which argument correctly proves \\(\\frac{AD}{DB}=\\frac{AE}{EC}\\)?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 1,
+      "stem": "Let \\(M\\) be the midpoint of \\(AB\\), and let \\(P\\ne M\\) satisfy \\(PA=PB\\). Which argument correctly proves that \\(P\\) lies on the perpendicular bisector of \\(AB\\)?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 1,
+      "stem": "In a circle with centre \\(O\\), chord \\(AB\\) has a perpendicular \\(OM\\) from the centre to the chord at \\(M\\). Which proof correctly establishes that \\(M\\) is the midpoint of \\(AB\\)?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 1,
+      "stem": "In triangle \\(ABC\\), medians \\(AD\\) and \\(BE\\) meet at \\(G\\), where \\(D\\) and \\(E\\) are the midpoints of \\(BC\\) and \\(AC\\), respectively. Which vector argument correctly proves \\(AG:GD=2:1\\)?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 2,
+      "stem": "In \\(\\triangle ABC\\), \\(D\\) and \\(E\\) are the midpoints of \\(BC\\) and \\(AC\\), respectively. Using position vectors with origin \\(O\\), which option gives a valid proof of the midpoint proposition?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 2,
+      "stem": "Four rays \\(OA\\), \\(OB\\), \\(OC\\), and \\(OD\\) occur in this order around \\(O\\). If \\(\\angle AOB=70^\\circ\\), \\(\\angle BOC=80^\\circ\\), and \\(\\angle COD=110^\\circ\\), determine the remaining adjacent angle \\(\\angle DOA\\).",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 2,
+      "stem": "In a circle with centre \\(O\\), chords \\(AB\\) and \\(CD\\) satisfy \\(|AB|=|CD|\\). Which proof correctly establishes \\(\\angle AOB=\\angle COD\\)?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 3,
+      "stem": "In \\(\\triangle ABC\\), points \\(D\\in BC\\) and \\(E\\in AC\\) satisfy \\(\\frac{BD}{DC}=\\frac{AE}{EC}\\). Which conclusion follows from the converse of the Basic Proportionality Theorem?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 3,
+      "stem": "In an isosceles triangle \\(ABC\\), \\(AB=AC\\). The perpendicular from \\(A\\) to \\(BC\\) meets \\(BC\\) at \\(D\\). Which conclusion follows by proving \\(\\triangle ABD\\cong\\triangle ACD\\)?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 3,
+      "stem": "In quadrilateral \\(ABCD\\), points \\(B\\) and \\(C\\) lie on the same side of \\(AD\\). If \\(\\angle ABD=\\angle ACD\\), which conclusion is justified?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 4,
+      "stem": "In \\(\\triangle ABC\\), points \\(D\\) and \\(E\\) are the midpoints of \\(AB\\) and \\(AC\\), respectively. Which conclusion follows by applying the converse of the basic proportionality theorem and then similarity?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 4,
+      "stem": "In quadrilateral \\(ABCD\\), \\(AB\\parallel CD\\) and \\(AB=CD\\). A diagonal \\(AC\\) is drawn. Which proof chain correctly establishes that \\(ABCD\\) is a parallelogram?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 4,
+      "stem": "In \\(\\triangle ABC\\), \\(AB=AC\\). Let \\(M\\) be the midpoint of \\(BC\\), so \\(BM=MC\\). Which conclusion follows by comparing \\(\\triangle ABM\\) and \\(\\triangle ACM\\)?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 5,
+      "stem": "In \\(\\triangle ABC\\), points \\(D\\) and \\(E\\) lie on \\(AB\\) and \\(AC\\), respectively, such that \\(AD:DB=2:3\\) and \\(AE:EC=2:3\\). If \\(BC=25\\,\\mathrm{cm}\\), which proposition is necessarily true?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 5,
+      "stem": "In \\(\\triangle ABC\\), \\(AD\\) is the internal angle bisector of \\(\\angle A\\), meeting \\(BC\\) at \\(D\\). If \\(AB=9\\,\\mathrm{cm}\\), \\(AC=6\\,\\mathrm{cm}\\), and \\(BC=10\\,\\mathrm{cm}\\), determine \\(DC\\).",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    }
+  ]
+}

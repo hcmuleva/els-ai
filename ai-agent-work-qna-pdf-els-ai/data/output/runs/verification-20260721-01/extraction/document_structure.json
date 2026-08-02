@@ -1,0 +1,161 @@
+{
+  "books": [
+    {
+      "book_id": "book_97d5fcbb5a",
+      "filename": "sample_classical_mechanics.pdf",
+      "title": "Classical Mechanics: Foundations of Motion",
+      "source_path": "C:\\personal\\work\\ai-agent-work-qna-pdf\\data\\input\\sample_classical_mechanics.pdf",
+      "source_sha256": "46c3f2d3e20f1f45326cf1709fe5d65e5d0d6084e801b6fa874179ca17933738",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "Kinematics",
+          "page_start": 1,
+          "page_end": 1
+        },
+        {
+          "index": 2,
+          "title": "Newton's Laws of Motion",
+          "page_start": 2,
+          "page_end": 2
+        },
+        {
+          "index": 3,
+          "title": "Work and Energy",
+          "page_start": 3,
+          "page_end": 4
+        }
+      ],
+      "pages": [
+        {
+          "page": 0,
+          "extraction_method": "embedded_text",
+          "extraction_confidence": 1.0,
+          "chapter": "",
+          "section": "",
+          "subsection": "",
+          "content": [
+            "Classical Mechanics: Foundations of Motion",
+            "Copyright 2024 Sample Educational Press. All rights reserved. ISBN 978-0-00-000000-0.",
+            "Published by Sample Educational Press. Printed in the United States. First edition."
+          ],
+          "tables": [],
+          "figures": [],
+          "formulae": [
+            "8-0",
+            "0-0",
+            "0-0"
+          ],
+          "exercises": []
+        },
+        {
+          "page": 1,
+          "extraction_method": "embedded_text",
+          "extraction_confidence": 1.0,
+          "chapter": "Kinematics",
+          "section": "",
+          "subsection": "",
+          "content": [
+            "Chapter 1: Kinematics",
+            "Displacement is defined as the change in position of an object in a given direction.",
+            "Velocity is the rate of change of displacement with respect to time, and is a vector",
+            "quantity. Speed refers to the magnitude of velocity without direction.",
+            "The formula for average velocity is v = d / t, where d is displacement and t is time.",
+            "Acceleration is defined as the rate of change of velocity with respect to time, given by a =",
+            "(v2 - v1) / t.",
+            "For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres",
+            "per second."
+          ],
+          "tables": [],
+          "figures": [],
+          "formulae": [
+            "v = d / t, where d is displacement and t is time.",
+            "a = (v2 - v1) / t."
+          ],
+          "exercises": []
+        },
+        {
+          "page": 2,
+          "extraction_method": "embedded_text",
+          "extraction_confidence": 1.0,
+          "chapter": "Newton's Laws of Motion",
+          "section": "",
+          "subsection": "",
+          "content": [
+            "Chapter 2: Newton's Laws of Motion",
+            "Newton's first law states that an object remains at rest or in uniform motion unless acted",
+            "upon by a net external force. The principle of inertia describes this tendency to resist",
+            "changes in motion.",
+            "Force is defined as the product of mass and acceleration, expressed by the formula F = m a.",
+            "This principle leads to a change in the momentum of the object.",
+            "The process of solving a dynamics problem follows clear steps. First, draw a free body",
+            "diagram. Second, resolve the forces. Third, apply Newton's second law. Finally, solve for",
+            "the unknown quantity.",
+            "For example, a force of 10 newtons applied to a 2 kilogram mass produces an acceleration of",
+            "5 metres per second squared. In practice, engineers apply this framework to design safe",
+            "braking systems for vehicles."
+          ],
+          "tables": [],
+          "figures": [
+            {
+              "reference": "diagram. ",
+              "caption": "",
+              "description": ""
+            }
+          ],
+          "formulae": [
+            "F = m a."
+          ],
+          "exercises": []
+        },
+        {
+          "page": 3,
+          "extraction_method": "embedded_text",
+          "extraction_confidence": 1.0,
+          "chapter": "Work and Energy",
+          "section": "",
+          "subsection": "",
+          "content": [
+            "Chapter 3: Work and Energy",
+            "Work is defined as the product of force and the displacement in the direction of the force,",
+            "given by W = F d. Energy refers to the capacity of a system to do work.",
+            "Kinetic energy is the energy possessed by an object due to its motion, expressed by the",
+            "formula KE = 0.5 m v^2. The principle of conservation of energy states that energy cannot be",
+            "created or destroyed, only transformed.",
+            "For example, a falling object converts potential energy into kinetic energy as it descends."
+          ],
+          "tables": [],
+          "figures": [],
+          "formulae": [
+            "W = F d. Energy refers to the capacity of a system to do work.",
+            "KE = 0.5 m v^2. The principle of conservation of energy states that energy cannot be"
+          ],
+          "exercises": []
+        },
+        {
+          "page": 4,
+          "extraction_method": "embedded_text",
+          "extraction_confidence": 1.0,
+          "chapter": "Work and Energy",
+          "section": "",
+          "subsection": "",
+          "content": [
+            "References",
+            "1. Halliday, D. Fundamentals of Physics. 2. Serway, R. Physics for Scientists.",
+            "Bibliography and further reading available at the publisher website. Acknowledgements: the",
+            "author would like to thank the review committee."
+          ],
+          "tables": [],
+          "figures": [],
+          "formulae": [],
+          "exercises": [
+            {
+              "number": "1",
+              "text": "1. Halliday, D. Fundamentals of Physics. 2. Serway, R. Physics for Scientists."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

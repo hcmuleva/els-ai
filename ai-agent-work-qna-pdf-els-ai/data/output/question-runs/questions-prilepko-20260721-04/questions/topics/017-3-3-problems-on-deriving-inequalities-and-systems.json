@@ -1,0 +1,550 @@
+{
+  "key": "3.3",
+  "topic": "3.3 Problems on Deriving Inequalities and Systems",
+  "questions": [
+    {
+      "question": {
+        "id": "8ab739e4-f106-51ec-8584-a6d83bffcc74",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Three pieces of a copper-tin alloy have masses in the ratio \\(3:4:5\\). The copper percentage in the second piece is \\(a\\) times that in the third piece, while that in the first piece is \\(\\frac{1}{a}\\) times that in the third piece. If the overall copper percentage is \\(30\\%\\) and \\(a>1\\), find \\(a\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let the copper percentage in the third piece be \\(p\\). Then \\(\\frac{3(p/a)+4(ap)+5p}{12}=30\\), so \\(4a+\\frac{3}{a}+5=18\\). Hence \\(4a^2-13a+3=0\\), giving \\(a=3\\) or \\(\\frac{1}{4}\\). Since \\(a>1\\), \\(a=3\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 81,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "3.3 Problems on Deriving Inequalities and Systems",
+            "concept_ids": [
+              "concept_6a958536a0",
+              "concept_a7d0197ca3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              82,
+              83,
+              84,
+              222,
+              223
+            ],
+            "source_chunk_ids": [
+              "chunk_c649aa440b",
+              "chunk_c9580fbc42"
+            ]
+          },
+          "options": [
+            {
+              "id": "3_1",
+              "label": "\\(3\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The weighted percentage equation gives \\(4a^2-13a+3=0\\), and \\(a>1\\) gives \\(a=3\\)."
+            },
+            {
+              "id": "frac_1_3_2",
+              "label": "\\(\\frac{1}{3}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the reciprocal root and violates \\(a>1\\)."
+            },
+            {
+              "id": "2_3",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It does not satisfy the weighted copper percentage equation."
+            },
+            {
+              "id": "4_4",
+              "label": "\\(4\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It does not satisfy the weighted copper percentage equation."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "d5453c94-3b80-5192-8df7-f8e1a71a0f3d",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A workshop has \\(45\\) m of black fabric, \\(36\\) m of green fabric, and \\(30\\) m of blue fabric. Each unit of product \\(P\\) requires \\(3\\) m, \\(2\\) m, and \\(1\\) m of these fabrics respectively, while each unit of product \\(Q\\) requires \\(2\\) m, \\(3\\) m, and \\(2\\) m. If the revenue per unit is \\(₹40\\) for \\(P\\) and \\(₹50\\) for \\(Q\\), what is the maximum revenue?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The constraints are \\(3x+2y\\le45\\), \\(2x+3y\\le36\\), \\(x+2y\\le30\\), with \\(x,y\\ge0\\). The first two boundaries intersect at \\(\\left(\\frac{63}{5},\\frac{18}{5}\\right)\\), which also satisfies the blue-fabric constraint. The revenue \\(R=40x+50y\\) is \\(R=40\\cdot\\frac{63}{5}+50\\cdot\\frac{18}{5}=₹684\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 82,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "3.3 Problems on Deriving Inequalities and Systems",
+            "concept_ids": [
+              "concept_6a958536a0",
+              "concept_a7d0197ca3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              82,
+              83,
+              84,
+              222,
+              223
+            ],
+            "source_chunk_ids": [
+              "chunk_c649aa440b",
+              "chunk_c9580fbc42"
+            ]
+          },
+          "options": [
+            {
+              "id": "600_1",
+              "label": "\\(₹600\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This occurs at an axis vertex, not at the optimal intersection."
+            },
+            {
+              "id": "660_2",
+              "label": "\\(₹660\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The corresponding point is not the maximum-revenue vertex."
+            },
+            {
+              "id": "684_3",
+              "label": "\\(₹684\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The optimum occurs at \\(\\left(\\frac{63}{5},\\frac{18}{5}\\right)\\)."
+            },
+            {
+              "id": "720_4",
+              "label": "\\(₹720\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This exceeds the feasible maximum under the fabric constraints."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "lpp",
+            "width": 360,
+            "height": 300,
+            "xmin": 0.0,
+            "xmax": 16.0,
+            "ymin": 0.0,
+            "ymax": 13.0,
+            "title": null,
+            "elements": [
+              {
+                "type": "grid",
+                "step_x": 1.0,
+                "step_y": 1.0
+              },
+              {
+                "type": "axes",
+                "x_label": "x",
+                "y_label": "y",
+                "ticks": true,
+                "tick_step": 1.0
+              },
+              {
+                "type": "polygon",
+                "points": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    15.0,
+                    0.0
+                  ],
+                  [
+                    12.6,
+                    3.6
+                  ],
+                  [
+                    0.0,
+                    12.0
+                  ]
+                ],
+                "label": "Feasible",
+                "fill": "#2ca02c",
+                "fill_opacity": 0.25,
+                "stroke": "#333333",
+                "closed": true
+              },
+              {
+                "type": "line",
+                "a": 3.0,
+                "b": 2.0,
+                "c": 45.0,
+                "label": "3x+2y <= 45",
+                "dashed": false,
+                "color": "#2ca02c"
+              },
+              {
+                "type": "line",
+                "a": 2.0,
+                "b": 3.0,
+                "c": 36.0,
+                "label": "2x+3y <= 36",
+                "dashed": false,
+                "color": "#2ca02c"
+              },
+              {
+                "type": "line",
+                "a": 1.0,
+                "b": 2.0,
+                "c": 30.0,
+                "label": "1x+2y <= 30",
+                "dashed": false,
+                "color": "#2ca02c"
+              },
+              {
+                "type": "point",
+                "at": [
+                  12.6,
+                  3.6
+                ],
+                "label": "maximum revenue",
+                "color": "#d62728"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"34\" y1=\"34\" x2=\"34\" y2=\"266\"/><line x1=\"52.25\" y1=\"34\" x2=\"52.25\" y2=\"266\"/><line x1=\"70.5\" y1=\"34\" x2=\"70.5\" y2=\"266\"/><line x1=\"88.75\" y1=\"34\" x2=\"88.75\" y2=\"266\"/><line x1=\"107\" y1=\"34\" x2=\"107\" y2=\"266\"/><line x1=\"125.25\" y1=\"34\" x2=\"125.25\" y2=\"266\"/><line x1=\"143.5\" y1=\"34\" x2=\"143.5\" y2=\"266\"/><line x1=\"161.75\" y1=\"34\" x2=\"161.75\" y2=\"266\"/><line x1=\"180\" y1=\"34\" x2=\"180\" y2=\"266\"/><line x1=\"198.25\" y1=\"34\" x2=\"198.25\" y2=\"266\"/><line x1=\"216.5\" y1=\"34\" x2=\"216.5\" y2=\"266\"/><line x1=\"234.75\" y1=\"34\" x2=\"234.75\" y2=\"266\"/><line x1=\"253\" y1=\"34\" x2=\"253\" y2=\"266\"/><line x1=\"271.25\" y1=\"34\" x2=\"271.25\" y2=\"266\"/><line x1=\"289.5\" y1=\"34\" x2=\"289.5\" y2=\"266\"/><line x1=\"307.75\" y1=\"34\" x2=\"307.75\" y2=\"266\"/><line x1=\"326\" y1=\"34\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"248.15\" x2=\"326\" y2=\"248.15\"/><line x1=\"34\" y1=\"230.31\" x2=\"326\" y2=\"230.31\"/><line x1=\"34\" y1=\"212.46\" x2=\"326\" y2=\"212.46\"/><line x1=\"34\" y1=\"194.62\" x2=\"326\" y2=\"194.62\"/><line x1=\"34\" y1=\"176.77\" x2=\"326\" y2=\"176.77\"/><line x1=\"34\" y1=\"158.92\" x2=\"326\" y2=\"158.92\"/><line x1=\"34\" y1=\"141.08\" x2=\"326\" y2=\"141.08\"/><line x1=\"34\" y1=\"123.23\" x2=\"326\" y2=\"123.23\"/><line x1=\"34\" y1=\"105.38\" x2=\"326\" y2=\"105.38\"/><line x1=\"34\" y1=\"87.54\" x2=\"326\" y2=\"87.54\"/><line x1=\"34\" y1=\"69.69\" x2=\"326\" y2=\"69.69\"/><line x1=\"34\" y1=\"51.85\" x2=\"326\" y2=\"51.85\"/><line x1=\"34\" y1=\"34\" x2=\"326\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"34\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"52.25\" y1=\"263\" x2=\"52.25\" y2=\"269\"/><text x=\"52.25\" y=\"280\" text-anchor=\"middle\">1</text><line x1=\"70.5\" y1=\"263\" x2=\"70.5\" y2=\"269\"/><text x=\"70.5\" y=\"280\" text-anchor=\"middle\">2</text><line x1=\"88.75\" y1=\"263\" x2=\"88.75\" y2=\"269\"/><text x=\"88.75\" y=\"280\" text-anchor=\"middle\">3</text><line x1=\"107\" y1=\"263\" x2=\"107\" y2=\"269\"/><text x=\"107\" y=\"280\" text-anchor=\"middle\">4</text><line x1=\"125.25\" y1=\"263\" x2=\"125.25\" y2=\"269\"/><text x=\"125.25\" y=\"280\" text-anchor=\"middle\">5</text><line x1=\"143.5\" y1=\"263\" x2=\"143.5\" y2=\"269\"/><text x=\"143.5\" y=\"280\" text-anchor=\"middle\">6</text><line x1=\"161.75\" y1=\"263\" x2=\"161.75\" y2=\"269\"/><text x=\"161.75\" y=\"280\" text-anchor=\"middle\">7</text><line x1=\"180\" y1=\"263\" x2=\"180\" y2=\"269\"/><text x=\"180\" y=\"280\" text-anchor=\"middle\">8</text><line x1=\"198.25\" y1=\"263\" x2=\"198.25\" y2=\"269\"/><text x=\"198.25\" y=\"280\" text-anchor=\"middle\">9</text><line x1=\"216.5\" y1=\"263\" x2=\"216.5\" y2=\"269\"/><text x=\"216.5\" y=\"280\" text-anchor=\"middle\">10</text><line x1=\"234.75\" y1=\"263\" x2=\"234.75\" y2=\"269\"/><text x=\"234.75\" y=\"280\" text-anchor=\"middle\">11</text><line x1=\"253\" y1=\"263\" x2=\"253\" y2=\"269\"/><text x=\"253\" y=\"280\" text-anchor=\"middle\">12</text><line x1=\"271.25\" y1=\"263\" x2=\"271.25\" y2=\"269\"/><text x=\"271.25\" y=\"280\" text-anchor=\"middle\">13</text><line x1=\"289.5\" y1=\"263\" x2=\"289.5\" y2=\"269\"/><text x=\"289.5\" y=\"280\" text-anchor=\"middle\">14</text><line x1=\"307.75\" y1=\"263\" x2=\"307.75\" y2=\"269\"/><text x=\"307.75\" y=\"280\" text-anchor=\"middle\">15</text><line x1=\"326\" y1=\"263\" x2=\"326\" y2=\"269\"/><text x=\"326\" y=\"280\" text-anchor=\"middle\">16</text><line x1=\"31\" y1=\"248.15\" x2=\"37\" y2=\"248.15\"/><text x=\"28\" y=\"251.15\" text-anchor=\"end\">1</text><line x1=\"31\" y1=\"230.31\" x2=\"37\" y2=\"230.31\"/><text x=\"28\" y=\"233.31\" text-anchor=\"end\">2</text><line x1=\"31\" y1=\"212.46\" x2=\"37\" y2=\"212.46\"/><text x=\"28\" y=\"215.46\" text-anchor=\"end\">3</text><line x1=\"31\" y1=\"194.62\" x2=\"37\" y2=\"194.62\"/><text x=\"28\" y=\"197.62\" text-anchor=\"end\">4</text><line x1=\"31\" y1=\"176.77\" x2=\"37\" y2=\"176.77\"/><text x=\"28\" y=\"179.77\" text-anchor=\"end\">5</text><line x1=\"31\" y1=\"158.92\" x2=\"37\" y2=\"158.92\"/><text x=\"28\" y=\"161.92\" text-anchor=\"end\">6</text><line x1=\"31\" y1=\"141.08\" x2=\"37\" y2=\"141.08\"/><text x=\"28\" y=\"144.08\" text-anchor=\"end\">7</text><line x1=\"31\" y1=\"123.23\" x2=\"37\" y2=\"123.23\"/><text x=\"28\" y=\"126.23\" text-anchor=\"end\">8</text><line x1=\"31\" y1=\"105.38\" x2=\"37\" y2=\"105.38\"/><text x=\"28\" y=\"108.38\" text-anchor=\"end\">9</text><line x1=\"31\" y1=\"87.54\" x2=\"37\" y2=\"87.54\"/><text x=\"28\" y=\"90.54\" text-anchor=\"end\">10</text><line x1=\"31\" y1=\"69.69\" x2=\"37\" y2=\"69.69\"/><text x=\"28\" y=\"72.69\" text-anchor=\"end\">11</text><line x1=\"31\" y1=\"51.85\" x2=\"37\" y2=\"51.85\"/><text x=\"28\" y=\"54.85\" text-anchor=\"end\">12</text><line x1=\"31\" y1=\"34\" x2=\"37\" y2=\"34\"/><text x=\"28\" y=\"37\" text-anchor=\"end\">13</text></g><text x=\"320\" y=\"258\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"38\" y=\"30\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">y</text><polygon points=\"34,266 307.75,266 263.95,201.75 34,51.85\" fill=\"#2ca02c\" fill-opacity=\"0.25\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"159.93\" y=\"196.4\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#333333\">Feasible</text><line x1=\"307.75\" y1=\"266\" x2=\"149.58\" y2=\"34\" stroke=\"#2ca02c\" stroke-width=\"1.8\"/><text x=\"293.22\" y=\"164.36\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#2ca02c\">3x+2y &lt;= 45</text><line x1=\"34\" y1=\"51.85\" x2=\"326\" y2=\"242.21\" stroke=\"#2ca02c\" stroke-width=\"1.8\"/><text x=\"107.34\" y=\"160.36\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#2ca02c\">2x+3y &lt;= 36</text><line x1=\"326\" y1=\"141.08\" x2=\"107\" y2=\"34\" stroke=\"#2ca02c\" stroke-width=\"1.8\"/><text x=\"237.36\" y=\"48.87\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#2ca02c\">1x+2y &lt;= 30</text><circle cx=\"263.95\" cy=\"201.75\" r=\"3\" fill=\"#d62728\"/><text x=\"255.95\" y=\"219.75\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">maximum revenue</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "4222f6db-72ad-5510-b94e-797db8e77ac7",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A tank is filled by pipe \\(P\\), which fills \\(\\frac{1}{12}\\) of the tank per hour. A drain empties \\(\\frac{1}{36}\\) of the tank per hour, and pipe \\(Q\\) fills \\(\\frac{1}{18}\\) of the tank per hour. Pipe \\(P\\) and the drain remain open for \\(10\\) hours, while pipe \\(Q\\) is open for \\(x\\) hours. If the tank becomes full, find \\(x\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The net rate due to pipe \\(P\\) and the drain is \\(\\frac{1}{12}-\\frac{1}{36}=\\frac{1}{18}\\). Therefore, \\(\\frac{10}{18}+\\frac{x}{18}=1\\), so \\(x=8\\) hours.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 83,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "3.3 Problems on Deriving Inequalities and Systems",
+            "concept_ids": [
+              "concept_6a958536a0",
+              "concept_a7d0197ca3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              82,
+              83,
+              84,
+              222,
+              223
+            ],
+            "source_chunk_ids": [
+              "chunk_c649aa440b",
+              "chunk_c9580fbc42"
+            ]
+          },
+          "options": [
+            {
+              "id": "6_hours_1",
+              "label": "\\(6\\) hours",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives a total filled fraction less than \\(1\\)."
+            },
+            {
+              "id": "8_hours_2",
+              "label": "\\(8\\) hours",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The filling equation is \\(10\\left(\\frac{1}{12}-\\frac{1}{36}\\right)+\\frac{x}{18}=1\\)."
+            },
+            {
+              "id": "9_hours_3",
+              "label": "\\(9\\) hours",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives a total filled fraction greater than \\(1\\)."
+            },
+            {
+              "id": "12_hours_4",
+              "label": "\\(12\\) hours",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This exceeds the stated 10-hour interval."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "1eea7f65-e484-516b-941c-ee8ea67aa61e",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "How many ordered pairs of non-negative integers \\((x,y)\\) satisfy \\(x+y\\le7\\) and \\(x-y\\ge1\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The inequalities give \\(x\\ge y+1\\) and \\(x\\le7-y\\). Hence \\(y\\) can be \\(0,1,2,3\\). The numbers of possible \\(x\\)-values are \\(7,5,3,1\\), so the total number of ordered pairs is \\(7+5+3+1=16\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 84,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "3.3 Problems on Deriving Inequalities and Systems",
+            "concept_ids": [
+              "concept_6a958536a0",
+              "concept_a7d0197ca3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              82,
+              83,
+              84,
+              222,
+              223
+            ],
+            "source_chunk_ids": [
+              "chunk_c649aa440b",
+              "chunk_c9580fbc42"
+            ]
+          },
+          "options": [
+            {
+              "id": "12_1",
+              "label": "\\(12\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This undercounts the admissible values of \\(x\\)."
+            },
+            {
+              "id": "16_2",
+              "label": "\\(16\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "For \\(y=0,1,2,3\\), the counts are \\(7,5,3,1\\), respectively."
+            },
+            {
+              "id": "18_3",
+              "label": "\\(18\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This includes pairs violating one of the inequalities."
+            },
+            {
+              "id": "20_4",
+              "label": "\\(20\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This includes pairs outside the feasible region."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "491e29ff-b659-5507-b1a5-7a8de79738af",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Three pieces of a copper–tin alloy have masses in the ratio \\(3:4:5\\). The third piece contains \\(40\\% \\) copper. The copper percentage in the second piece is \\(a\\) times that in the third piece, while that in the first piece is \\(1/a\\) times that in the third piece, where \\(a>1\\). If the overall alloy contains at least \\(50\\% \\) copper and no piece contains more than \\(100\\% \\) copper, then \\(a\\) lies in which interval?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The overall copper percentage is \\n\\(\\frac{3(40/a)+4(40a)+5(40)}{12}\\ge50\\). Thus \\(4a+\\frac{3}{a}+5\\ge15\\), so \\(4a^2-10a+3\\ge0\\). Its roots are \\(\\frac{5\\pm\\sqrt{13}}{4}\\). Since \\(a>1\\), we obtain \\(a\\ge\\frac{5+\\sqrt{13}}{4}\\). The second piece has copper percentage \\(40a\\le100\\), giving \\(a\\le\\frac{5}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 85,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "3.3 Problems on Deriving Inequalities and Systems",
+            "concept_ids": [
+              "concept_6a958536a0",
+              "concept_a7d0197ca3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              82,
+              83,
+              84,
+              222,
+              223
+            ],
+            "source_chunk_ids": [
+              "chunk_c649aa440b",
+              "chunk_c9580fbc42"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_a_le_frac_5_sqrt_13_4_1",
+              "label": "\\(1<a\\le\\frac{5-\\sqrt{13}}{4}\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This interval is incompatible with \\(a>1\\), since its upper bound is less than \\(1\\)."
+            },
+            {
+              "id": "frac_5_sqrt_13_4_le_a_le_2",
+              "label": "\\(\\frac{5+\\sqrt{13}}{4}\\le a\\le\\frac{5}{2}\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The weighted percentage inequality gives the lower bound, and the second-piece limit gives \\(a\\le\\frac{5}{2}\\)."
+            },
+            {
+              "id": "frac_5_sqrt_13_4_le_a_le_3",
+              "label": "\\(\\frac{5-\\sqrt{13}}{4}\\le a\\le\\frac{5+\\sqrt{13}}{4}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inequality requires the exterior intervals, and \\(a>1\\) selects the upper exterior interval."
+            },
+            {
+              "id": "a_ge_frac_5_sqrt_13_4_4",
+              "label": "\\(a\\ge\\frac{5+\\sqrt{13}}{4}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits the physical restriction that the second piece cannot exceed \\(100\\% \\) copper."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_c649aa440b",
+    "chunk_c9580fbc42"
+  ],
+  "source_pages": [
+    82,
+    83,
+    84,
+    222,
+    223
+  ],
+  "rejected": []
+}

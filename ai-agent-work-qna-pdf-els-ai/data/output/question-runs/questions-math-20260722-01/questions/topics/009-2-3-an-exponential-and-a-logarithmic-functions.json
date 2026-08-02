@@ -1,0 +1,21 @@
+{
+  "key": "2.3",
+  "topic": "2.3 An Exponential and a Logarithmic Functions",
+  "questions": [],
+  "requested": 5,
+  "generated": 0,
+  "context_chunks": [
+    "chunk_080b86cb18",
+    "chunk_140af25ccf",
+    "chunk_e7605e8e5d",
+    "chunk_634d922282"
+  ],
+  "source_pages": [],
+  "rejected": [
+    {
+      "issues": [
+        "LaTeX backslashes inside JSON strings must be escaped"
+      ]
+    }
+  ]
+}

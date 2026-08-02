@@ -1,0 +1,460 @@
+{
+  "entities": [
+    {
+      "entity_id": "concept_864bdb0ca9",
+      "entity_type": "Formula",
+      "name": "Displacement",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "entity_id": "formula_d849b106df",
+      "entity_type": "Formula",
+      "name": "The formula for average velocity is v = d / t, where d is displacement and t is time.",
+      "concept_id": "concept_864bdb0ca9",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "entity_id": "example_d849b106df",
+      "entity_type": "Example",
+      "name": "For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second.",
+      "concept_id": "concept_864bdb0ca9",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "entity_id": "concept_fb83b3460d",
+      "entity_type": "Formula",
+      "name": "Velocity",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "entity_id": "formula_ba2728a510",
+      "entity_type": "Formula",
+      "name": "The formula for average velocity is v = d / t, where d is displacement and t is time.",
+      "concept_id": "concept_fb83b3460d",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "entity_id": "formula_b7961a6cd1",
+      "entity_type": "Formula",
+      "name": "Acceleration is defined as the rate of change of velocity with respect to time, given by a = (v2 - v1) / t.",
+      "concept_id": "concept_fb83b3460d",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "entity_id": "example_ba2728a510",
+      "entity_type": "Example",
+      "name": "For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second.",
+      "concept_id": "concept_fb83b3460d",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "entity_id": "concept_1694170983",
+      "entity_type": "Definition",
+      "name": "Speed",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "entity_id": "example_83e02742a2",
+      "entity_type": "Example",
+      "name": "For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second.",
+      "concept_id": "concept_1694170983",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "entity_id": "concept_a49b791f66",
+      "entity_type": "Definition",
+      "name": "Acceleration",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "entity_id": "example_fd73c34668",
+      "entity_type": "Example",
+      "name": "For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second.",
+      "concept_id": "concept_a49b791f66",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "entity_id": "concept_c3ff7bca71",
+      "entity_type": "Principle",
+      "name": "Principle of inertia",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        2
+      ]
+    },
+    {
+      "entity_id": "example_b04e77d310",
+      "entity_type": "Example",
+      "name": "For example, a force of 10 newtons applied to a 2 kilogram mass produces an acceleration of 5 metres per second squared.",
+      "concept_id": "concept_c3ff7bca71",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        2
+      ]
+    },
+    {
+      "entity_id": "concept_314ec88491",
+      "entity_type": "Definition",
+      "name": "Force",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        2
+      ]
+    },
+    {
+      "entity_id": "example_a920b0e01a",
+      "entity_type": "Example",
+      "name": "For example, a force of 10 newtons applied to a 2 kilogram mass produces an acceleration of 5 metres per second squared.",
+      "concept_id": "concept_314ec88491",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        2
+      ]
+    },
+    {
+      "entity_id": "concept_bda73b7033",
+      "entity_type": "Formula",
+      "name": "Work",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ]
+    },
+    {
+      "entity_id": "formula_6fff6ad539",
+      "entity_type": "Formula",
+      "name": "Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.",
+      "concept_id": "concept_bda73b7033",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ]
+    },
+    {
+      "entity_id": "example_6fff6ad539",
+      "entity_type": "Example",
+      "name": "For example, a falling object converts potential energy into kinetic energy as it descends.",
+      "concept_id": "concept_bda73b7033",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ]
+    },
+    {
+      "entity_id": "concept_e7d35b0eab",
+      "entity_type": "Formula",
+      "name": "Energy",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ]
+    },
+    {
+      "entity_id": "formula_caf15fb5cf",
+      "entity_type": "Formula",
+      "name": "Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.",
+      "concept_id": "concept_e7d35b0eab",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ]
+    },
+    {
+      "entity_id": "formula_cedb955019",
+      "entity_type": "Formula",
+      "name": "Kinetic energy is the energy possessed by an object due to its motion, expressed by the formula KE = 0.5 m v^2.",
+      "concept_id": "concept_e7d35b0eab",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ]
+    },
+    {
+      "entity_id": "example_caf15fb5cf",
+      "entity_type": "Example",
+      "name": "For example, a falling object converts potential energy into kinetic energy as it descends.",
+      "concept_id": "concept_e7d35b0eab",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ]
+    },
+    {
+      "entity_id": "concept_24b9f371d7",
+      "entity_type": "Definition",
+      "name": "Kinetic energy",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ]
+    },
+    {
+      "entity_id": "example_193f8eed91",
+      "entity_type": "Example",
+      "name": "For example, a falling object converts potential energy into kinetic energy as it descends.",
+      "concept_id": "concept_24b9f371d7",
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ]
+    },
+    {
+      "entity_id": "comp_13b20017fb",
+      "entity_type": "Competency",
+      "name": "Compute using Displacement",
+      "concept_id": "concept_864bdb0ca9"
+    },
+    {
+      "entity_id": "comp_b4b0824c3b",
+      "entity_type": "Competency",
+      "name": "Compute using Velocity",
+      "concept_id": "concept_fb83b3460d"
+    },
+    {
+      "entity_id": "comp_9586a158e4",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Speed",
+      "concept_id": "concept_1694170983"
+    },
+    {
+      "entity_id": "comp_7356879f78",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Acceleration",
+      "concept_id": "concept_a49b791f66"
+    },
+    {
+      "entity_id": "comp_d1a5f33ad0",
+      "entity_type": "Competency",
+      "name": "Apply the principle of Principle of inertia",
+      "concept_id": "concept_c3ff7bca71"
+    },
+    {
+      "entity_id": "comp_2d88ee4312",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Force",
+      "concept_id": "concept_314ec88491"
+    },
+    {
+      "entity_id": "comp_f52321400c",
+      "entity_type": "Competency",
+      "name": "Compute using Work",
+      "concept_id": "concept_bda73b7033"
+    },
+    {
+      "entity_id": "comp_3df74c312b",
+      "entity_type": "Competency",
+      "name": "Compute using Energy",
+      "concept_id": "concept_e7d35b0eab"
+    },
+    {
+      "entity_id": "comp_9f2f8ff00a",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Kinetic energy",
+      "concept_id": "concept_24b9f371d7"
+    },
+    {
+      "entity_id": "assessment_13b20017fb",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_864bdb0ca9"
+    },
+    {
+      "entity_id": "assessment_b4b0824c3b",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_fb83b3460d"
+    },
+    {
+      "entity_id": "assessment_9586a158e4",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_1694170983"
+    },
+    {
+      "entity_id": "assessment_7356879f78",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_a49b791f66"
+    },
+    {
+      "entity_id": "assessment_d1a5f33ad0",
+      "entity_type": "Assessment",
+      "name": "Scenario, Essay, MCQ, Short Answer, Problem Solving",
+      "concept_id": "concept_c3ff7bca71"
+    },
+    {
+      "entity_id": "assessment_2d88ee4312",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_314ec88491"
+    },
+    {
+      "entity_id": "assessment_f52321400c",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_bda73b7033"
+    },
+    {
+      "entity_id": "assessment_3df74c312b",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_e7d35b0eab"
+    },
+    {
+      "entity_id": "assessment_9f2f8ff00a",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_24b9f371d7"
+    },
+    {
+      "entity_id": "misc_d849b106df",
+      "entity_type": "Misconception",
+      "name": "Displacement is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_864bdb0ca9"
+    },
+    {
+      "entity_id": "misc_f816d95409",
+      "entity_type": "Misconception",
+      "name": "Displacement always applies, regardless of context or assumptions.",
+      "concept_id": "concept_864bdb0ca9"
+    },
+    {
+      "entity_id": "misc_ba2728a510",
+      "entity_type": "Misconception",
+      "name": "Velocity is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_fb83b3460d"
+    },
+    {
+      "entity_id": "misc_b7961a6cd1",
+      "entity_type": "Misconception",
+      "name": "Velocity always applies, regardless of context or assumptions.",
+      "concept_id": "concept_fb83b3460d"
+    },
+    {
+      "entity_id": "misc_83e02742a2",
+      "entity_type": "Misconception",
+      "name": "Speed is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_1694170983"
+    },
+    {
+      "entity_id": "misc_127af50a6f",
+      "entity_type": "Misconception",
+      "name": "Speed always applies, regardless of context or assumptions.",
+      "concept_id": "concept_1694170983"
+    },
+    {
+      "entity_id": "misc_fd73c34668",
+      "entity_type": "Misconception",
+      "name": "Acceleration is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_a49b791f66"
+    },
+    {
+      "entity_id": "misc_24ddf5d0ad",
+      "entity_type": "Misconception",
+      "name": "Acceleration always applies, regardless of context or assumptions.",
+      "concept_id": "concept_a49b791f66"
+    },
+    {
+      "entity_id": "misc_b04e77d310",
+      "entity_type": "Misconception",
+      "name": "Principle of inertia is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_c3ff7bca71"
+    },
+    {
+      "entity_id": "misc_626fc7742d",
+      "entity_type": "Misconception",
+      "name": "Principle of inertia always applies, regardless of context or assumptions.",
+      "concept_id": "concept_c3ff7bca71"
+    },
+    {
+      "entity_id": "misc_a920b0e01a",
+      "entity_type": "Misconception",
+      "name": "Force is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_314ec88491"
+    },
+    {
+      "entity_id": "misc_87ba669c4f",
+      "entity_type": "Misconception",
+      "name": "Force always applies, regardless of context or assumptions.",
+      "concept_id": "concept_314ec88491"
+    },
+    {
+      "entity_id": "misc_6fff6ad539",
+      "entity_type": "Misconception",
+      "name": "Work is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_bda73b7033"
+    },
+    {
+      "entity_id": "misc_e73e417352",
+      "entity_type": "Misconception",
+      "name": "Work always applies, regardless of context or assumptions.",
+      "concept_id": "concept_bda73b7033"
+    },
+    {
+      "entity_id": "misc_caf15fb5cf",
+      "entity_type": "Misconception",
+      "name": "Energy is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_e7d35b0eab"
+    },
+    {
+      "entity_id": "misc_cedb955019",
+      "entity_type": "Misconception",
+      "name": "Energy always applies, regardless of context or assumptions.",
+      "concept_id": "concept_e7d35b0eab"
+    },
+    {
+      "entity_id": "misc_193f8eed91",
+      "entity_type": "Misconception",
+      "name": "Kinetic energy is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_24b9f371d7"
+    },
+    {
+      "entity_id": "misc_77880394ad",
+      "entity_type": "Misconception",
+      "name": "Kinetic energy always applies, regardless of context or assumptions.",
+      "concept_id": "concept_24b9f371d7"
+    }
+  ],
+  "entity_type_counts": {
+    "Assessment": 9,
+    "Competency": 9,
+    "Definition": 4,
+    "Example": 9,
+    "Formula": 10,
+    "Misconception": 18,
+    "Principle": 1
+  }
+}

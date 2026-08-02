@@ -1,0 +1,489 @@
+{
+  "key": "2.6",
+  "topic": "2.6 Inverse Trigonometric Functions",
+  "questions": [
+    {
+      "question": {
+        "id": "46c221e6-7203-578b-a595-e445101996fe",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the domain of the function \\(y=\\arcsin\\left(x^2+2x\\right)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For \\(\\arcsin\\) to be defined, \\(-1\\leq x^2+2x\\leq 1\\). Writing \\(x^2+2x=(x+1)^2-1\\), we obtain \\(0\\leq (x+1)^2\\leq 2\\), hence \\(-1-\\sqrt{2}\\leq x\\leq -1+\\sqrt{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 46,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.6 Inverse Trigonometric Functions",
+            "concept_ids": [
+              "concept_28a33373e8",
+              "concept_c659b18a62"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              56,
+              57,
+              58,
+              59,
+              199,
+              200,
+              201,
+              202,
+              203
+            ],
+            "source_chunk_ids": [
+              "chunk_531ece25a2",
+              "chunk_320c672f99"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_1_sqrt_2_1_sqrt_2_r_1",
+              "label": "\\(\\left[-1-\\sqrt{2},-1+\\sqrt{2}\\right]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The argument of \\(\\arcsin\\) must lie in \\([-1,1]\\)."
+            },
+            {
+              "id": "left_1_sqrt_2_infty_righ_2",
+              "label": "\\(\\left[-1+\\sqrt{2},\\infty\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not satisfy the complete inequality."
+            },
+            {
+              "id": "left_infty_1_sqrt_2_righ_3",
+              "label": "\\(\\left(-\\infty,-1-\\sqrt{2}\\right]\\cup\\left[-1+\\sqrt{2},\\infty\\right)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This reverses the valid interval for the quadratic."
+            },
+            {
+              "id": "1_1_4",
+              "label": "\\([-1,1]\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This incorrectly restricts the variable instead of the inverse-function argument."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "ad4d698d-45d5-58c2-ba3b-febc56241213",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate \\(\\arccos\\left(\\cos\\frac{7\\pi}{6}\\right)\\), where the principal range of \\(\\arccos\\) is \\([0,\\pi]\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since \\(\\cos\\frac{7\\pi}{6}=\\cos\\left(\\pi+\\frac{\\pi}{6}\\right)=-\\frac{\\sqrt{3}}{2}\\), the angle in \\([0,\\pi]\\) having this cosine is \\(\\frac{5\\pi}{6}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 47,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Understand",
+            "topic": "2.6 Inverse Trigonometric Functions",
+            "concept_ids": [
+              "concept_28a33373e8",
+              "concept_c659b18a62"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              56,
+              57,
+              58,
+              59,
+              199,
+              200,
+              201,
+              202,
+              203
+            ],
+            "source_chunk_ids": [
+              "chunk_531ece25a2",
+              "chunk_320c672f99"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_5_pi_6_1",
+              "label": "\\(\\frac{5\\pi}{6}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(\\cos\\frac{7\\pi}{6}=-\\frac{\\sqrt{3}}{2}\\), whose principal inverse cosine is \\(\\frac{5\\pi}{6}\\)."
+            },
+            {
+              "id": "frac_7_pi_6_2",
+              "label": "\\(\\frac{7\\pi}{6}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This angle is outside the principal range of \\(\\arccos\\)."
+            },
+            {
+              "id": "frac_5_pi_6_3",
+              "label": "\\(-\\frac{5\\pi}{6}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The principal range of \\(\\arccos\\) contains no negative angles."
+            },
+            {
+              "id": "frac_pi_6_4",
+              "label": "\\(\\frac{\\pi}{6}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This angle has positive cosine, not \\(-\\frac{\\sqrt{3}}{2}\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "64e82bfc-5d77-50ad-9fa5-668d01faabe3",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(x<0\\), find the value of \\(\\arctan x+\\arctan\\frac{1}{x}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using the principal range of \\(\\arctan\\), for \\(x<0\\), \\(\\arctan x+\\arctan\\frac{1}{x}=-\\frac{\\pi}{2}\\). The sign-dependent branch is essential.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 48,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.6 Inverse Trigonometric Functions",
+            "concept_ids": [
+              "concept_28a33373e8",
+              "concept_c659b18a62"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              56,
+              57,
+              58,
+              59,
+              199,
+              200,
+              201,
+              202,
+              203
+            ],
+            "source_chunk_ids": [
+              "chunk_531ece25a2",
+              "chunk_320c672f99"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_pi_2_1",
+              "label": "\\(-\\frac{\\pi}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "For negative \\(x\\), the principal-value branch gives a sum of \\(-\\frac{\\pi}{2}\\)."
+            },
+            {
+              "id": "frac_pi_2_2",
+              "label": "\\(\\frac{\\pi}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the value for positive \\(x\\), not negative \\(x\\)."
+            },
+            {
+              "id": "0_3",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two inverse tangent values do not cancel."
+            },
+            {
+              "id": "pi_4",
+              "label": "\\(-\\pi\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The principal values of inverse tangent lie between \\(-\\frac{\\pi}{2}\\) and \\(\\frac{\\pi}{2}\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "42dab913-0059-55d7-815f-15a4c3d6a608",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve \\(\\arcsin x=\\arccos x\\) for \\(x\\in[-1,1]\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For \\(x\\in[-1,1]\\), \\(\\arcsin x+\\arccos x=\\frac{\\pi}{2}\\). If the two values are equal, each is \\(\\frac{\\pi}{4}\\), so \\(x=\\sin\\frac{\\pi}{4}=\\frac{1}{\\sqrt{2}}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 49,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.6 Inverse Trigonometric Functions",
+            "concept_ids": [
+              "concept_28a33373e8",
+              "concept_c659b18a62"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              56,
+              57,
+              58,
+              59,
+              199,
+              200,
+              201,
+              202,
+              203
+            ],
+            "source_chunk_ids": [
+              "chunk_531ece25a2",
+              "chunk_320c672f99"
+            ]
+          },
+          "options": [
+            {
+              "id": "x_frac_1_sqrt_2_1",
+              "label": "\\(x=\\frac{1}{\\sqrt{2}}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equal principal angles must each be \\(\\frac{\\pi}{4}\\)."
+            },
+            {
+              "id": "x_frac_1_sqrt_2_2",
+              "label": "\\(x=-\\frac{1}{\\sqrt{2}}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives a negative value for \\(\\arcsin x\\) and a positive value for \\(\\arccos x\\)."
+            },
+            {
+              "id": "x_0_3",
+              "label": "\\(x=0\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two sides become \\(0\\) and \\(\\frac{\\pi}{2}\\), respectively."
+            },
+            {
+              "id": "x_1_4",
+              "label": "\\(x=1\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two sides become \\(\\frac{\\pi}{2}\\) and \\(0\\), respectively."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "0ecd2be9-498c-52a9-9dd7-080a88620d31",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(0\\leq x\\leq\\frac{1}{\\sqrt{2}}\\), simplify \\(\\arcsin\\left(2x\\sqrt{1-x^2}\\right)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(\\theta=\\arcsin x\\). Then \\(x=\\sin\\theta\\) and \\(\\sqrt{1-x^2}=\\cos\\theta\\). Thus \\(2x\\sqrt{1-x^2}=\\sin 2\\theta\\). Since \\(0\\leq x\\leq\\frac{1}{\\sqrt{2}}\\), \\(2\\theta\\in\\left[0,\\frac{\\pi}{2}\\right]\\), so the principal inverse gives \\(2\\arcsin x\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 50,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.6 Inverse Trigonometric Functions",
+            "concept_ids": [
+              "concept_28a33373e8",
+              "concept_c659b18a62"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              56,
+              57,
+              58,
+              59,
+              199,
+              200,
+              201,
+              202,
+              203
+            ],
+            "source_chunk_ids": [
+              "chunk_531ece25a2",
+              "chunk_320c672f99"
+            ]
+          },
+          "options": [
+            {
+              "id": "2_arcsin_x_1",
+              "label": "\\(2\\arcsin x\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Let \\(\\theta=\\arcsin x\\); then the argument is \\(\\sin 2\\theta\\), with \\(2\\theta\\) in the principal range."
+            },
+            {
+              "id": "arcsin_x_2",
+              "label": "\\(\\arcsin x\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The argument corresponds to the sine of twice the angle."
+            },
+            {
+              "id": "pi_2_arcsin_x_3",
+              "label": "\\(\\pi-2\\arcsin x\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This branch is not required because \\(2\\arcsin x\\in\\left[0,\\frac{\\pi}{2}\\right]\\)."
+            },
+            {
+              "id": "2_arccos_x_4",
+              "label": "\\(2\\arccos x\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The expression is based on the double-angle identity for sine, not cosine."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_531ece25a2",
+    "chunk_320c672f99"
+  ],
+  "source_pages": [
+    56,
+    57,
+    58,
+    59,
+    199,
+    200,
+    201,
+    202,
+    203
+  ],
+  "rejected": []
+}

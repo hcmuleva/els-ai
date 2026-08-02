@@ -1,0 +1,467 @@
+{
+  "key": "9.3",
+  "topic": "9.3 The Derivative of a Function",
+  "questions": [
+    {
+      "question": {
+        "id": "59f1d348-b2a1-52bb-84e9-d5a2d296e246",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(f(x)=\\sqrt{x^2+1}\\). Using the definition of derivative, evaluate \\(f'(1)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(f'(1)=\\lim_{h\\to0}\\frac{\\sqrt{(1+h)^2+1}-\\sqrt{2}}{h}=\\lim_{h\\to0}\\frac{2+h}{\\sqrt{(1+h)^2+1}+\\sqrt{2}}=\\frac{1}{\\sqrt{2}}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 139,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.3 The Derivative of a Function",
+            "concept_ids": [
+              "concept_41e12f8bde",
+              "concept_c11559b955"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              131,
+              132,
+              272,
+              273
+            ],
+            "source_chunk_ids": [
+              "chunk_cfc8ab6e30",
+              "chunk_bd74a7657a"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_1_sqrt_2_1",
+              "label": "\\(\\frac{1}{\\sqrt{2}}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Rationalising the first-principles limit gives \\(\\frac{2}{2\\sqrt{2}}\\)."
+            },
+            {
+              "id": "sqrt_2_2",
+              "label": "\\(\\sqrt{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the reciprocal of the correct value."
+            },
+            {
+              "id": "frac_1_2_3",
+              "label": "\\(\\frac{1}{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The denominator is \\(\\sqrt{2}\\), not \\(2\\)."
+            },
+            {
+              "id": "2_sqrt_2_4",
+              "label": "\\(2\\sqrt{2}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not obtained after rationalisation."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "bd8da5fb-8eb2-5a26-8999-1870da59175d",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate \\(\\lim_{h\\to0}\\frac{\\sin\\left(\\frac{\\pi}{6}+h\\right)-\\sin\\frac{\\pi}{6}}{h}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "By the definition of derivative, the limit equals \\(\\frac{d}{dx}(\\sin x)\\big\\vert_{x=\\frac{\\pi}{6}}=\\cos\\frac{\\pi}{6}=\\frac{\\sqrt{3}}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 140,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.3 The Derivative of a Function",
+            "concept_ids": [
+              "concept_41e12f8bde",
+              "concept_c11559b955"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              131,
+              132,
+              272,
+              273
+            ],
+            "source_chunk_ids": [
+              "chunk_cfc8ab6e30",
+              "chunk_bd74a7657a"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_sqrt_3_2_1",
+              "label": "\\(\\frac{\\sqrt{3}}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the derivative of \\(\\sin x\\) at \\(x=\\frac{\\pi}{6}\\)."
+            },
+            {
+              "id": "frac_1_2_2",
+              "label": "\\(\\frac{1}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This equals \\(\\sin\\frac{\\pi}{6}\\), not the derivative."
+            },
+            {
+              "id": "frac_sqrt_3_2_3",
+              "label": "\\(-\\frac{\\sqrt{3}}{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sign is positive for the derivative of sine."
+            },
+            {
+              "id": "1_4",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative is evaluated at a specific angle."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "ddd41b07-89f5-59b7-acfa-7342b9f65cd6",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(f(x)=|x|\\), determine whether \\(f'(0)\\) exists.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(\\lim_{h\\to0^+}\\frac{|h|-0}{h}=1\\), whereas \\(\\lim_{h\\to0^-}\\frac{|h|-0}{h}=-1\\). Since the one-sided derivatives differ, \\(f'(0)\\) does not exist.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 141,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "9.3 The Derivative of a Function",
+            "concept_ids": [
+              "concept_41e12f8bde",
+              "concept_c11559b955"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              131,
+              132,
+              272,
+              273
+            ],
+            "source_chunk_ids": [
+              "chunk_cfc8ab6e30",
+              "chunk_bd74a7657a"
+            ]
+          },
+          "options": [
+            {
+              "id": "f_0_0_1",
+              "label": "\\(f'(0)=0\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two one-sided derivatives are not equal."
+            },
+            {
+              "id": "f_0_1_2",
+              "label": "\\(f'(0)=1\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is only the right-hand derivative."
+            },
+            {
+              "id": "f_0_1_3",
+              "label": "\\(f'(0)=-1\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is only the left-hand derivative."
+            },
+            {
+              "id": "f_0_does_not_exist_4",
+              "label": "\\(f'(0)\\) does not exist",
+              "is_correct": true,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The left-hand and right-hand derivatives are \\(-1\\) and \\(1\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "a9a98471-e4e0-51f2-9849-4fc6f06126fd",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Define \\(f(x)=\\begin{cases}\\frac{1-\\cos5x}{x},&x\\ne0,\\\\0,&x=0.\\end{cases}\\) Evaluate \\(f'(0)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(f'(0)=\\lim_{h\\to0}\\frac{f(h)-f(0)}{h}=\\lim_{h\\to0}\\frac{1-\\cos5h}{h^2}=25\\lim_{h\\to0}\\frac{1-\\cos5h}{(5h)^2}=\\frac{25}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 142,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.3 The Derivative of a Function",
+            "concept_ids": [
+              "concept_41e12f8bde",
+              "concept_c11559b955"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              131,
+              132,
+              272,
+              273
+            ],
+            "source_chunk_ids": [
+              "chunk_cfc8ab6e30",
+              "chunk_bd74a7657a"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_25_2_1",
+              "label": "\\(\\frac{25}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative reduces to \\(\\lim_{h\\to0}\\frac{1-\\cos5h}{h^2}=\\frac{25}{2}\\)."
+            },
+            {
+              "id": "frac_5_2_2",
+              "label": "\\(\\frac{5}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The square of the coefficient \\(5\\) is required."
+            },
+            {
+              "id": "25_3",
+              "label": "\\(25\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The standard cosine limit contributes an additional factor \\(\\frac{1}{2}\\)."
+            },
+            {
+              "id": "0_4",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The resulting second-order limit is nonzero."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "52ef5294-7f3d-5c20-8a46-7c9ffcf03218",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(f(x)=(x^2+1)\\sin x\\), then the value of \\(f'\\left(\\frac{\\pi}{2}\\right)\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "By the product rule, \\(f'(x)=2x\\sin x+(x^2+1)\\cos x\\). Therefore, \\(f'\\left(\\frac{\\pi}{2}\\right)=2\\cdot\\frac{\\pi}{2}\\cdot1+\\left(1+\\frac{\\pi^2}{4}\\right)\\cdot0=\\pi\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 143,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.3 The Derivative of a Function",
+            "concept_ids": [
+              "concept_41e12f8bde",
+              "concept_c11559b955"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              131,
+              132,
+              272,
+              273
+            ],
+            "source_chunk_ids": [
+              "chunk_cfc8ab6e30",
+              "chunk_bd74a7657a"
+            ]
+          },
+          "options": [
+            {
+              "id": "pi_1",
+              "label": "\\(\\pi\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Using the product rule, \\(f'(x)=2x\\sin x+(x^2+1)\\cos x\\), giving \\(\\pi\\)."
+            },
+            {
+              "id": "1_pi_2_2",
+              "label": "\\(1+\\pi^2\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This incorrectly treats the derivative as the function value."
+            },
+            {
+              "id": "2_pi_3",
+              "label": "\\(2\\pi\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factor \\(2x\\) is evaluated incorrectly at \\(x=\\frac{\\pi}{2}\\)."
+            },
+            {
+              "id": "0_4",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Although \\(\\cos\\frac{\\pi}{2}=0\\), the first product-rule term is nonzero."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_cfc8ab6e30",
+    "chunk_bd74a7657a"
+  ],
+  "source_pages": [
+    131,
+    132,
+    272,
+    273
+  ],
+  "rejected": [
+    {
+      "attempt": 1,
+      "stem": "Let \\(f(x)=\\begin{cases}\\frac{\\sin 3x}{x},&x\\ne0,\\k,&x=0.\\end{cases}\\) If \\(f\\) is differentiable at \\(x=0\\), find \\(k\\).",
+      "issues": [
+        "unknown LaTeX command(s): \\k"
+      ]
+    }
+  ]
+}

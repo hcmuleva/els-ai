@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "target_connectivity": 0.95,
+  "metrics": {
+    "nodes": 105,
+    "edges": 925,
+    "density": 0.085,
+    "connectivity": 1.0,
+    "coverage": 1.0,
+    "components": 2
+  },
+  "orphan_nodes": [],
+  "duplicate_concepts": [],
+  "circular_prerequisites": [],
+  "weak_relationships": [],
+  "missing_parents": [],
+  "disconnected_clusters": [
+    [
+      "concept_0926231053",
+      "concept_172b1feee0",
+      "concept_1e34d84b73",
+      "concept_2102a0a8d5",
+      "concept_24079685a3",
+      "concept_2984782637",
+      "concept_3014c32bb1",
+      "concept_359ead36a1",
+      "concept_444445d454",
+      "concept_474e628c3c",
+      "concept_4b74badbaf",
+      "concept_4eeefbdab6",
+      "concept_537674f1cf",
+      "concept_5f658eb084",
+      "concept_69cce13951",
+      "concept_6ae9e02564",
+      "concept_788ad47c8d",
+      "concept_83657abf05",
+      "concept_861ff86626",
+      "concept_8aee7319a1",
+      "concept_973f8e00df",
+      "concept_a67d057008",
+      "concept_a90232301b",
+      "concept_aa5519117c",
+      "concept_b154bcc0dd",
+      "concept_ceb3b0f44e",
+      "concept_d7ac944dd3",
+      "concept_e10a3efa37",
+      "concept_ee77818df3"
+    ]
+  ]
+}

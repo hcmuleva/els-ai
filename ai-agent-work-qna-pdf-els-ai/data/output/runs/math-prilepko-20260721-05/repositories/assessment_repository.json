@@ -1,0 +1,1334 @@
+[
+  {
+    "concept_id": "concept_966b1f96a5",
+    "concept_name": "1.1 Linear Equations andInequalities in One Variable practice pages 11-13",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_f591c9246c",
+    "concept_name": "1.2 QuadraticEquations andInequalities practice pages 14-18",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_5e078c2130",
+    "concept_name": "1.3 InverseProportionality practice pages 19-21",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_5b1da3f2f2",
+    "concept_name": "1.4 Equations and Inequalities of Higher Degrees practice pages 22-26",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_aa5d393aaf",
+    "concept_name": "1.5 Linear Systems of Equations and Inequalities practice pages 27-29",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_416b34274b",
+    "concept_name": "1.6 Systems ofEquationsandInequalities practice pages 30-32",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_d37918f89a",
+    "concept_name": "2.1 Irrational Equations andInequalities practice pages 33-37",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_e81eedd27f",
+    "concept_name": "2.2 Systems ofIrrational Equations andInequalities practice pages 38-38",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_246ce853ae",
+    "concept_name": "2.3 An Exponential and a Logarithmic Function, practice pages 39-44",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_19a4d53938",
+    "concept_name": "2.3 An Exponential and a Logarithmic Function, practice pages 45-50",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_1a1cc801ab",
+    "concept_name": "2.4 Transformation of Trigonometric Expressions practice pages 51-53",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_a8bc606a3c",
+    "concept_name": "2.5 Trigonometric Functions practice pages 54-56",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_c659b18a62",
+    "concept_name": "2.6 Inverse Trigonometric Functions practice pages 57-60",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_73b430198b",
+    "concept_name": "2.7 Trigonometric Equations and Systems of Equations practice pages 61-66",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_2a6f7d6b1b",
+    "concept_name": "2.7 Trigonometric Equations and Systems of Equations practice pages 67-69",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_0b8bb1d4ab",
+    "concept_name": "2.8 TrigonometricInequalities practice pages 70-71",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_80f2b383f9",
+    "concept_name": "3.1 Problems onMotion practice pages 72-77",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_ce37252ec0",
+    "concept_name": "3.2 Problems on Percentage,Mixtures, practice pages 78-82",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_a7d0197ca3",
+    "concept_name": "3.3 Problems onDerivingInequalities and Systems practice pages 83-85",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_5d8da8cc3d",
+    "concept_name": "4.1 TheAntiderivative.TheNewton-LeibnizFormula practice pages 86-88",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_9a49ed3c17",
+    "concept_name": "4.2 CalculatingtheAreas ofPlaneFigures practice pages 89-91",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_bd349d0c63",
+    "concept_name": "5.1 Progressions practice pages 92-97",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_2bfece366b",
+    "concept_name": "5.2 Number Sequences practice pages 98-100",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_0dc5c6a4a3",
+    "concept_name": "6.1 Linear Operations onVectors practice pages 101-102",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_d6b3245864",
+    "concept_name": "6.2 TheScalarProductofVectors practice pages 103-106",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_e007a08ac3",
+    "concept_name": "7.1 Problems on Proving Propositions practice pages 107-108",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_958d98624e",
+    "concept_name": "7.2 ConstructionProblems practice pages 109-109",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_52319e8fbb",
+    "concept_name": "7.3 Problems on Calculation practice pages 110-114",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_322bf2bf32",
+    "concept_name": "8.1 A Straight Line,a Plane,Polyhedra practice pages 115-119",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_715e66b12a",
+    "concept_name": "8.2 Problems on Combinations of Polyhedra practice pages 120-125",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_dc76038a15",
+    "concept_name": "8.2 Problems on Combinations of Polyhedra practice pages 126-126",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_5baf3b211f",
+    "concept_name": "8.3 VolumesofSolidsofRevolution practice pages 127-127",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_9f574ad684",
+    "concept_name": "9.1 ProblemsinAlgebra practice pages 128-130",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_df3b2956cd",
+    "concept_name": "9.2 Limit of aFunction.Continuity practice pages 131-131",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_c11559b955",
+    "concept_name": "9.3 TheDerivative of aFunction practice pages 132-133",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_e929a4228c",
+    "concept_name": "9.4 IntegralCalculus.MiscellaneousProblems practice pages 134-138",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_afd5a9c26a",
+    "concept_name": "1.1 LinearEquations andInequalities in OneVariable practice pages 139-140",
+    "candidate_scores": {
+      "MCQ": 0.35,
+      "Scenario": 0.35,
+      "Problem Solving": 0.8,
+      "Case Study": 0.35,
+      "Short Answer": 0.35,
+      "Essay": 0.35,
+      "Practical": 0.95
+    },
+    "recommended_types": [
+      "Practical",
+      "Problem Solving"
+    ],
+    "overall_suitability": 0.7
+  },
+  {
+    "concept_id": "concept_78fabb746d",
+    "concept_name": "1.2 Quadratic Equations andInequalities practice pages 144-149",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_2c57fddca7",
+    "concept_name": "1.3 InverseProportionality practice pages 150-152",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_6a9f8ae9e4",
+    "concept_name": "1.4 Equations and Inequalities of Higher Degrees practice pages 158-163",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_d3d5fa9c90",
+    "concept_name": "1.4 Equations and Inequalities of Higher Degrees practice pages 164-167",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_78a9088b3c",
+    "concept_name": "1.5 Linear Systems ofEquations andInequalities practice pages 168-170",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_48e09ef5fc",
+    "concept_name": "1.6 Systems ofEquations andInequalities practice pages 171-173",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_ddaf06dfd0",
+    "concept_name": "2.1 Irrational Equations and Inequalities practice pages 175-179",
+    "candidate_scores": {
+      "MCQ": 0.35,
+      "Scenario": 0.35,
+      "Problem Solving": 0.8,
+      "Case Study": 0.35,
+      "Short Answer": 0.35,
+      "Essay": 0.35,
+      "Practical": 0.95
+    },
+    "recommended_types": [
+      "Practical",
+      "Problem Solving"
+    ],
+    "overall_suitability": 0.7
+  },
+  {
+    "concept_id": "concept_e4db108e9c",
+    "concept_name": "2.2 Systems ofIrrationalEquations practice pages 180-180",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_86b20d7384",
+    "concept_name": "2.3 An Exponential and aLogarithmic Functions, practice pages 181-186",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_7df0ec68cd",
+    "concept_name": "2.3 An Exponential and aLogarithmic Functions, practice pages 187-190",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_9b3dbd356a",
+    "concept_name": "2.4 Transformation of TrigonometricExpressions practice pages 191-192",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_7d3b7f64b8",
+    "concept_name": "2.5 TrigonometricFunctions practice pages 193-199",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_28a33373e8",
+    "concept_name": "2.6 InverseTrigonometricFunctions practice pages 200-204",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_979d1266a0",
+    "concept_name": "2.7 TrigonometricEquations and Systems ofEquations practice pages 205-210",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_45733a2de0",
+    "concept_name": "2.7 TrigonometricEquations and Systems ofEquations practice pages 211-216",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_4bf489703b",
+    "concept_name": "2.7 TrigonometricEquations and Systems ofEquations practice pages 217-218",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_9dcfcbddae",
+    "concept_name": "2.8 TrigonometricInequalities practice pages 219-220",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_55243fb7b8",
+    "concept_name": "3.1 ProblemsonMotion practice pages 221-221",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_e585373915",
+    "concept_name": "3.2 Problems on Percentages,Mixtures, practice pages 222-222",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_6a958536a0",
+    "concept_name": "3.3 Problems onDerivingInequalitiesand Systems practice pages 223-224",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_d5335cf614",
+    "concept_name": "4.1 The Antiderivative.The Newton-LeibnizFormula practice pages 225-226",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_5510e8ae01",
+    "concept_name": "4.2 CalculatingtheAreasofPlane Figures practice pages 227-229",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_cd9ec05584",
+    "concept_name": "5.1 Progressions practice pages 230-232",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_631a52d707",
+    "concept_name": "5.2 NumberSequences practice pages 233-235",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_310360799c",
+    "concept_name": "6.1 Linear Operations onVectors practice pages 236-236",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_6bcc14f8fd",
+    "concept_name": "6.2 The ScalarProduct of Vectors practice pages 237-240",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_01dfdd2964",
+    "concept_name": "7.1 Problems onProvingProportions practice pages 241-244",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_157b94d8d6",
+    "concept_name": "7.2 Construction Problems practice pages 245-246",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_d29f22e744",
+    "concept_name": "7.3 Problems on Calculation practice pages 247-251",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_165743b2c0",
+    "concept_name": "8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution practice pages 252-256",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_01295855fc",
+    "concept_name": "8.2 Problemson CombinationsofPolyhedra practice pages 257-262",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_40907e2e0b",
+    "concept_name": "8.2 Problemson CombinationsofPolyhedra practice pages 263-263",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_7851214b7a",
+    "concept_name": "8.3 VolumesofSolidsofRevolution practice pages 264-264",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_0a20a893b0",
+    "concept_name": "9.1 ProblemsinAlgebra practice pages 265-269",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_7c05741f2e",
+    "concept_name": "9.2 Limit of a Function.Continuity practice pages 270-272",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_41e12f8bde",
+    "concept_name": "9.3 TheDerivative ofaFunction practice pages 273-274",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_7efa7a3bb2",
+    "concept_name": "9.4 Integral Calculus.MiscellaneousProblems practice pages 275-280",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  }
+]

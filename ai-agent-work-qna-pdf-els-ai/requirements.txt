@@ -1,0 +1,30 @@
+# Core runtime dependencies
+pydantic>=2.6,<3.0
+pypdf>=4.2
+PyMuPDF>=1.24,<2
+pytesseract>=0.3.13,<1
+rapidocr-onnxruntime>=1.3,<2
+networkx>=3.2
+PyYAML>=6.0
+
+# Diagrams / math
+sympy>=1.13
+latex2mathml>=3.78,<4
+
+# Stores: local embeddings (fastembed), vector DB (Qdrant), relational (Postgres)
+fastembed>=0.3
+qdrant-client>=1.9
+psycopg[binary]>=3.1
+
+# Serving plane: LangGraph workflow engine + MCP (stores exposed via MCP)
+langgraph>=0.2
+langchain-core>=0.3
+langchain-mcp-adapters>=0.1
+mcp>=1.2
+fastapi>=0.115,<1
+uvicorn>=0.30,<1
+python-multipart>=0.0.9,<1
+
+# Optional hosted LLM fallbacks (default LLM is Droid via `droid exec`, no SDK needed)
+# openai>=1.30
+# anthropic>=0.30

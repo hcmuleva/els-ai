@@ -1,0 +1,465 @@
+{
+  "key": "1.1",
+  "topic": "1.1 Linear Equations and Inequalities in One Variable",
+  "questions": [
+    {
+      "question": {
+        "id": "e6f362df-ee1b-5efa-9058-429e15a7e8bf",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve the equation \\((3x+7)-(2x+5)=3\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\((3x+7)-(2x+5)=3\\) gives \\(x+2=3\\), hence \\(x=1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 1,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.1 Linear Equations and Inequalities in One Variable",
+            "concept_ids": [
+              "concept_966b1f96a5",
+              "concept_afd5a9c26a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              10,
+              11,
+              12,
+              138,
+              139
+            ],
+            "source_chunk_ids": [
+              "chunk_3378c1ebb0",
+              "chunk_ed94845000"
+            ]
+          },
+          "options": [
+            {
+              "id": "x_1_1",
+              "label": "\\(x=1\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Simplification gives \\(x+2=3\\)."
+            },
+            {
+              "id": "x_1_2",
+              "label": "\\(x=-1\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Substitution does not satisfy the equation."
+            },
+            {
+              "id": "x_2_3",
+              "label": "\\(x=2\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This results from an arithmetic error."
+            },
+            {
+              "id": "x_3_4",
+              "label": "\\(x=3\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This ignores the constant term after simplification."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "b1004089-2786-5659-bba5-3535ee54903b",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the solution set of the inequality \\(\\frac{2x-3}{5}-\\frac{x+1}{2}\\leq\\frac{1}{10}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Multiplying by \\(10\\), \\(4x-6-5x-5\\leq 1\\), so \\(-x\\leq 12\\). Dividing by \\(-1\\) reverses the sign, yielding \\(x\\geq -12\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 2,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.1 Linear Equations and Inequalities in One Variable",
+            "concept_ids": [
+              "concept_966b1f96a5",
+              "concept_afd5a9c26a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              10,
+              11,
+              12,
+              138,
+              139
+            ],
+            "source_chunk_ids": [
+              "chunk_3378c1ebb0",
+              "chunk_ed94845000"
+            ]
+          },
+          "options": [
+            {
+              "id": "x_geq_12_1",
+              "label": "\\(x\\geq -12\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Multiplication by \\(10\\) gives \\(-x-11\\leq 1\\)."
+            },
+            {
+              "id": "x_leq_12_2",
+              "label": "\\(x\\leq -12\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inequality reverses incorrectly when dividing by \\(-1\\)."
+            },
+            {
+              "id": "x_geq_12_3",
+              "label": "\\(x\\geq 12\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The constant term has been sign-reversed."
+            },
+            {
+              "id": "x_leq_12_4",
+              "label": "\\(x\\leq 12\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Both the sign and constant are incorrect."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "2f5d7321-9db0-5d42-add8-5bbb28ead150",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For which value of \\(a\\) does the equation \\((a-1)x=a^2-1\\) have infinitely many real solutions?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Infinitely many solutions require \\(a-1=0\\) and \\(a^2-1=0\\) simultaneously. The common value is \\(a=1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 3,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.1 Linear Equations and Inequalities in One Variable",
+            "concept_ids": [
+              "concept_966b1f96a5",
+              "concept_afd5a9c26a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              10,
+              11,
+              12,
+              138,
+              139
+            ],
+            "source_chunk_ids": [
+              "chunk_3378c1ebb0",
+              "chunk_ed94845000"
+            ]
+          },
+          "options": [
+            {
+              "id": "a_1_1",
+              "label": "\\(a=1\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Both coefficients become zero, giving \\(0x=0\\)."
+            },
+            {
+              "id": "a_1_2",
+              "label": "\\(a=-1\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equation becomes \\(-2x=0\\), with one solution."
+            },
+            {
+              "id": "a_0_3",
+              "label": "\\(a=0\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equation becomes \\(-x=-1\\), with one solution."
+            },
+            {
+              "id": "All_real_values_of_a_4",
+              "label": "All real values of \\(a\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Only one parameter value makes both sides identically zero."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "3ae9f2d2-a8c6-5d13-adab-1b70bd7b7ab4",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A cab company charges a fixed fee of \\(₹120\\) plus \\(₹15\\) per kilometre. Another company charges a fixed fee of \\(₹60\\) plus \\(₹20\\) per kilometre. At what distance are the two fares equal?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let the distance be \\(x\\,\\mathrm{km}\\). Equality of fares gives \\(120+15x=60+20x\\), hence \\(60=5x\\) and \\(x=12\\,\\mathrm{km}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 4,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.1 Linear Equations and Inequalities in One Variable",
+            "concept_ids": [
+              "concept_966b1f96a5",
+              "concept_afd5a9c26a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              10,
+              11,
+              12,
+              138,
+              139
+            ],
+            "source_chunk_ids": [
+              "chunk_3378c1ebb0",
+              "chunk_ed94845000"
+            ]
+          },
+          "options": [
+            {
+              "id": "12_mathrm_km_1",
+              "label": "\\(12\\,\\mathrm{km}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Solving \\(120+15x=60+20x\\) gives \\(x=12\\)."
+            },
+            {
+              "id": "10_mathrm_km_2",
+              "label": "\\(10\\,\\mathrm{km}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The fixed-fee difference is not balanced correctly."
+            },
+            {
+              "id": "15_mathrm_km_3",
+              "label": "\\(15\\,\\mathrm{km}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This confuses the per-kilometre rates."
+            },
+            {
+              "id": "18_mathrm_km_4",
+              "label": "\\(18\\,\\mathrm{km}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Substitution gives unequal fares."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "963bd812-a552-5455-bb7a-15b488450297",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve the compound inequality \\(-3\\leq\\frac{2x-1}{3}<5\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Multiplying by \\(3\\) gives \\(-9\\leq 2x-1<15\\). Adding \\(1\\) and dividing by \\(2\\) yields \\(-4\\leq x<8\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 5,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.1 Linear Equations and Inequalities in One Variable",
+            "concept_ids": [
+              "concept_966b1f96a5",
+              "concept_afd5a9c26a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              10,
+              11,
+              12,
+              138,
+              139
+            ],
+            "source_chunk_ids": [
+              "chunk_3378c1ebb0",
+              "chunk_ed94845000"
+            ]
+          },
+          "options": [
+            {
+              "id": "4_leq_x_8_1",
+              "label": "\\(-4\\leq x<8\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Multiplying by \\(3\\) and solving both inequalities gives the interval."
+            },
+            {
+              "id": "5_leq_x_7_2",
+              "label": "\\(-5\\leq x<7\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The constant term is handled incorrectly."
+            },
+            {
+              "id": "4_x_leq_8_3",
+              "label": "\\(-4<x\\leq 8\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Both boundary signs are reversed."
+            },
+            {
+              "id": "8_leq_x_4_4",
+              "label": "\\(-8\\leq x<4\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The coefficient of \\(x\\) is mishandled."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_3378c1ebb0",
+    "chunk_ed94845000"
+  ],
+  "source_pages": [
+    10,
+    11,
+    12,
+    138,
+    139
+  ],
+  "rejected": []
+}

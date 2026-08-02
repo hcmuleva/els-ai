@@ -1,0 +1,2039 @@
+{
+  "metrics": {
+    "recall_at_k": 0.7896,
+    "precision_at_k": 0.3333,
+    "mrr": 0.9278,
+    "ndcg": 0.7889,
+    "coverage": 0.981
+  },
+  "queries": [
+    {
+      "query": "Explain Equations in Chapter 1 and show how it is applied.",
+      "concept_id": "concept_6977739fc5",
+      "expected_chunks": [
+        "chunk_547d566c7e",
+        "chunk_5a915aee89"
+      ],
+      "retrieved_chunks": [
+        "chunk_ef547bd318",
+        "chunk_547d566c7e",
+        "chunk_3d18d1e866",
+        "chunk_da73204270",
+        "chunk_ef3072c17d"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 0.5,
+      "ndcg": 0.3869
+    },
+    {
+      "query": "Explain Set D,or C in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_a1427cc398",
+      "expected_chunks": [
+        "chunk_e8d10e8b81",
+        "chunk_3a6255bd27"
+      ],
+      "retrieved_chunks": [
+        "chunk_843756015b",
+        "chunk_e8d10e8b81",
+        "chunk_3ff6ea27ec",
+        "chunk_7cc4a7049b",
+        "chunk_8b06b19860"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 0.5,
+      "ndcg": 0.3869
+    },
+    {
+      "query": "Explain 26.At what value of a in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_5ea023785c",
+      "expected_chunks": [
+        "chunk_e4d898e4d5",
+        "chunk_eeb30acfe4"
+      ],
+      "retrieved_chunks": [
+        "chunk_e4d898e4d5",
+        "chunk_8b06b19860",
+        "chunk_73d8adc689",
+        "chunk_2dedd45355",
+        "chunk_de8daf8819"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain 27.At what value of a in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_995ff0ef38",
+      "expected_chunks": [
+        "chunk_2dedd45355",
+        "chunk_f18bbc940e"
+      ],
+      "retrieved_chunks": [
+        "chunk_e4d898e4d5",
+        "chunk_2dedd45355",
+        "chunk_8b06b19860",
+        "chunk_73d8adc689",
+        "chunk_de8daf8819"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 0.5,
+      "ndcg": 0.3869
+    },
+    {
+      "query": "Explain 16.At whatvalues of m in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_48f8037ece",
+      "expected_chunks": [
+        "chunk_3c29b90367",
+        "chunk_02802ce797"
+      ],
+      "retrieved_chunks": [
+        "chunk_3c29b90367",
+        "chunk_e4d898e4d5",
+        "chunk_8b06b19860",
+        "chunk_2dedd45355",
+        "chunk_73d8adc689"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain 46.Atwhatvalue of a in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_6a571504b9",
+      "expected_chunks": [
+        "chunk_d2fe6e2574",
+        "chunk_8cf7248b05"
+      ],
+      "retrieved_chunks": [
+        "chunk_d2fe6e2574",
+        "chunk_e4d898e4d5",
+        "chunk_8b06b19860",
+        "chunk_2dedd45355",
+        "chunk_cf5dda43e8"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain Points.At whatpoint of theparabola in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_107349d71e",
+      "expected_chunks": [
+        "chunk_82b1affc3d",
+        "chunk_010830052f"
+      ],
+      "retrieved_chunks": [
+        "chunk_82b1affc3d",
+        "chunk_39b6120ef7",
+        "chunk_13d56cc623",
+        "chunk_843756015b",
+        "chunk_440a373ced"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain Y=4x-x²at the point M(1;3)(a in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_393a7be286",
+      "expected_chunks": [
+        "chunk_13d56cc623",
+        "chunk_717fe0288e"
+      ],
+      "retrieved_chunks": [
+        "chunk_13d56cc623",
+        "chunk_843756015b",
+        "chunk_717fe0288e",
+        "chunk_3c29b90367",
+        "chunk_7cc4a7049b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.9197
+    },
+    {
+      "query": "Explain [z;x],andf（z）=f（x）=A，x≠x Prove that there in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_9e62605e77",
+      "expected_chunks": [
+        "chunk_eaa57117da",
+        "chunk_27aa5470e8"
+      ],
+      "retrieved_chunks": [
+        "chunk_eaa57117da",
+        "chunk_27aa5470e8",
+        "chunk_843756015b",
+        "chunk_1c1c06ec93",
+        "chunk_bba489ec32"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Interval [；x].Prove that there in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_911a8ff103",
+      "expected_chunks": [
+        "chunk_843756015b",
+        "chunk_9b1a68929c"
+      ],
+      "retrieved_chunks": [
+        "chunk_843756015b",
+        "chunk_7cc4a7049b",
+        "chunk_9b1a68929c",
+        "chunk_c0e011ee5f",
+        "chunk_7fc157be79"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.9197
+    },
+    {
+      "query": "Explain 38.Atwhich point in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_e504683848",
+      "expected_chunks": [
+        "chunk_9619c0ab78",
+        "chunk_6a5aa17547"
+      ],
+      "retrieved_chunks": [
+        "chunk_9619c0ab78",
+        "chunk_843756015b",
+        "chunk_8b06b19860",
+        "chunk_13d56cc623",
+        "chunk_7cc4a7049b"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain 28.At what values,of pEZ in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_f30483e1aa",
+      "expected_chunks": [
+        "chunk_de8daf8819",
+        "chunk_4e989e1619"
+      ],
+      "retrieved_chunks": [
+        "chunk_de8daf8819",
+        "chunk_e4d898e4d5",
+        "chunk_8b06b19860",
+        "chunk_4e989e1619",
+        "chunk_2dedd45355"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.8772
+    },
+    {
+      "query": "Explain 6.At what values of a in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_4661dde141",
+      "expected_chunks": [
+        "chunk_73d8adc689",
+        "chunk_d99df5196e"
+      ],
+      "retrieved_chunks": [
+        "chunk_73d8adc689",
+        "chunk_e4d898e4d5",
+        "chunk_8b06b19860",
+        "chunk_2dedd45355",
+        "chunk_3c29b90367"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain 30.It is known that x=9 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_a71b12be54",
+      "expected_chunks": [
+        "chunk_d797983451",
+        "chunk_f896a741ee"
+      ],
+      "retrieved_chunks": [
+        "chunk_d797983451",
+        "chunk_843756015b",
+        "chunk_3c29b90367",
+        "chunk_e4d898e4d5",
+        "chunk_453301cc7e"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain 20.Prove that the function f(x)=cos²x+cos²(+x）-cosxcos(+x in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_34905394b5",
+      "expected_chunks": [
+        "chunk_745dc0bbb1",
+        "chunk_87db776d88"
+      ],
+      "retrieved_chunks": [
+        "chunk_745dc0bbb1",
+        "chunk_87db776d88",
+        "chunk_eaa57117da",
+        "chunk_843756015b",
+        "chunk_be5f66c79a"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Aslarge again.What，in per cent， in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_9513739ad0",
+      "expected_chunks": [
+        "chunk_e736175e03",
+        "chunk_1c67361887"
+      ],
+      "retrieved_chunks": [
+        "chunk_e736175e03",
+        "chunk_1c67361887",
+        "chunk_8b06b19860",
+        "chunk_7cc4a7049b",
+        "chunk_8095edd586"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain 5.The percentage of copper in the second piece in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_f248b70e77",
+      "expected_chunks": [
+        "chunk_fdd7a7d7cb",
+        "chunk_a4adf10623"
+      ],
+      "retrieved_chunks": [
+        "chunk_fdd7a7d7cb",
+        "chunk_a4adf10623",
+        "chunk_e736175e03",
+        "chunk_1d11570bdd",
+        "chunk_7c93fdb8c6"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain 18.Atwhat values of a in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_127a52533f",
+      "expected_chunks": [
+        "chunk_cf5dda43e8",
+        "chunk_2a16fe6b3f"
+      ],
+      "retrieved_chunks": [
+        "chunk_e4d898e4d5",
+        "chunk_cf5dda43e8",
+        "chunk_2dedd45355",
+        "chunk_8b06b19860",
+        "chunk_73d8adc689"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 0.5,
+      "ndcg": 0.3869
+    },
+    {
+      "query": "Explain 33.Suppose Sn in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_d8bb65aeb1",
+      "expected_chunks": [
+        "chunk_63b301295c",
+        "chunk_6e8d912190"
+      ],
+      "retrieved_chunks": [
+        "chunk_63b301295c",
+        "chunk_7c93fdb8c6",
+        "chunk_c697333019",
+        "chunk_3ff6ea27ec",
+        "chunk_453301cc7e"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain a triangle， AB=a,AC=b,[AD] in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_92b9b0d457",
+      "expected_chunks": [
+        "chunk_957d009ed5",
+        "chunk_29a4ef8824",
+        "chunk_e31cb923f4"
+      ],
+      "retrieved_chunks": [
+        "chunk_957d009ed5",
+        "chunk_e31cb923f4",
+        "chunk_db17716804",
+        "chunk_29a4ef8824",
+        "chunk_cc4e243b54"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.6,
+      "mrr": 1.0,
+      "ndcg": 0.9675
+    },
+    {
+      "query": "Explain 8.In the parallelogram ABCD，thepoint M in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_6ed4c88702",
+      "expected_chunks": [
+        "chunk_440a373ced",
+        "chunk_73da8f789d"
+      ],
+      "retrieved_chunks": [
+        "chunk_440a373ced",
+        "chunk_8095edd586",
+        "chunk_73da8f789d",
+        "chunk_82b1affc3d",
+        "chunk_9e13fc0b50"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.9197
+    },
+    {
+      "query": "Explain 12.Supposepis half the perimeter,S in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_87f52172af",
+      "expected_chunks": [
+        "chunk_8d02b5d5e8",
+        "chunk_580f50b730"
+      ],
+      "retrieved_chunks": [
+        "chunk_8d02b5d5e8",
+        "chunk_580f50b730",
+        "chunk_8095edd586",
+        "chunk_bba489ec32",
+        "chunk_352dbbc410"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain 2.Determine the area of the triangle if itsbase in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_5313896ceb",
+      "expected_chunks": [
+        "chunk_cc4e243b54",
+        "chunk_70ab16c9f9"
+      ],
+      "retrieved_chunks": [
+        "chunk_cc4e243b54",
+        "chunk_db17716804",
+        "chunk_70ab16c9f9",
+        "chunk_0c329e0f6d",
+        "chunk_957d009ed5"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.9197
+    },
+    {
+      "query": "Explain 18.In the triangle ABC,|AB|=2cm,[BD] in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_52a156303e",
+      "expected_chunks": [
+        "chunk_db17716804",
+        "chunk_f6db325de6"
+      ],
+      "retrieved_chunks": [
+        "chunk_db17716804",
+        "chunk_957d009ed5",
+        "chunk_f6db325de6",
+        "chunk_cc4e243b54",
+        "chunk_e31cb923f4"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.9197
+    },
+    {
+      "query": "Explain 112 32.Findthelengthofthealtitudeofthetrapezoidif its bases in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_7ed50f7e95",
+      "expected_chunks": [
+        "chunk_0f68ce59f8",
+        "chunk_fb48f0676e"
+      ],
+      "retrieved_chunks": [
+        "chunk_0f68ce59f8",
+        "chunk_fb48f0676e",
+        "chunk_0c329e0f6d",
+        "chunk_453301cc7e",
+        "chunk_cc4e243b54"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain 33.Find the area of the trapezoid whose bases in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_6fb9b3e4f9",
+      "expected_chunks": [
+        "chunk_0c329e0f6d",
+        "chunk_dc7387f955"
+      ],
+      "retrieved_chunks": [
+        "chunk_0c329e0f6d",
+        "chunk_dc7387f955",
+        "chunk_cc4e243b54",
+        "chunk_8095edd586",
+        "chunk_db17716804"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Third side.Under what conditions in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_8f477f0513",
+      "expected_chunks": [
+        "chunk_8095edd586",
+        "chunk_ae12ccda45"
+      ],
+      "retrieved_chunks": [
+        "chunk_8095edd586",
+        "chunk_3ff6ea27ec",
+        "chunk_453301cc7e",
+        "chunk_7fc157be79",
+        "chunk_7c93fdb8c6"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain tetrahedron SABC in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_69d4625ea3",
+      "expected_chunks": [
+        "chunk_00423d7014",
+        "chunk_c507a8fdd3"
+      ],
+      "retrieved_chunks": [
+        "chunk_00423d7014",
+        "chunk_e55bacf990",
+        "chunk_b8c3cebebc",
+        "chunk_c507a8fdd3",
+        "chunk_8a409c6711"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.8772
+    },
+    {
+      "query": "Explain 39.Thebase of the pyramid in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_6dd38d30e6",
+      "expected_chunks": [
+        "chunk_b03980578f",
+        "chunk_f4e955b592"
+      ],
+      "retrieved_chunks": [
+        "chunk_b03980578f",
+        "chunk_8a409c6711",
+        "chunk_735ee7c4d9",
+        "chunk_e68bf6d04c",
+        "chunk_f4e955b592"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.8503
+    },
+    {
+      "query": "Explain 40.The base of the pyramid SABCD in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_3168e0e1c6",
+      "expected_chunks": [
+        "chunk_8a409c6711",
+        "chunk_b4ea9f7adc"
+      ],
+      "retrieved_chunks": [
+        "chunk_8a409c6711",
+        "chunk_b03980578f",
+        "chunk_b4ea9f7adc",
+        "chunk_e68bf6d04c",
+        "chunk_735ee7c4d9"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.9197
+    },
+    {
+      "query": "Explain Surface of the cone in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_c2b045315a",
+      "expected_chunks": [
+        "chunk_9316a6f4d5",
+        "chunk_8e46cc6487"
+      ],
+      "retrieved_chunks": [
+        "chunk_9316a6f4d5",
+        "chunk_810df2ad1a",
+        "chunk_bba489ec32",
+        "chunk_8e46cc6487",
+        "chunk_352dbbc410"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.8772
+    },
+    {
+      "query": "Explain Isknown that|BM|= =|MB|and AN in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_0bd1d5847a",
+      "expected_chunks": [
+        "chunk_ad5a7ea77f",
+        "chunk_62ec8b75e2"
+      ],
+      "retrieved_chunks": [
+        "chunk_ad5a7ea77f",
+        "chunk_3c29b90367",
+        "chunk_453301cc7e",
+        "chunk_db17716804",
+        "chunk_bba489ec32"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain 9.A right prism whose base in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_131bcbeb96",
+      "expected_chunks": [
+        "chunk_53678c172b",
+        "chunk_868abda1e6"
+      ],
+      "retrieved_chunks": [
+        "chunk_53678c172b",
+        "chunk_691b9304dd",
+        "chunk_868abda1e6",
+        "chunk_352dbbc410",
+        "chunk_bba489ec32"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.9197
+    },
+    {
+      "query": "Explain Base of the pyramid in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_5ce269ee1e",
+      "expected_chunks": [
+        "chunk_735ee7c4d9",
+        "chunk_6e6684b74a"
+      ],
+      "retrieved_chunks": [
+        "chunk_b03980578f",
+        "chunk_8a409c6711",
+        "chunk_735ee7c4d9",
+        "chunk_e68bf6d04c",
+        "chunk_1b0084e479"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 0.3333,
+      "ndcg": 0.3066
+    },
+    {
+      "query": "Explain 37.The base of a right prism in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_1efa89a043",
+      "expected_chunks": [
+        "chunk_691b9304dd",
+        "chunk_03178b7eda"
+      ],
+      "retrieved_chunks": [
+        "chunk_691b9304dd",
+        "chunk_53678c172b",
+        "chunk_03178b7eda",
+        "chunk_352dbbc410",
+        "chunk_bba489ec32"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.9197
+    },
+    {
+      "query": "Explain PyramidSABCD isa squareABCDwhose side in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_d3460d97dc",
+      "expected_chunks": [
+        "chunk_e68bf6d04c",
+        "chunk_b3a58de936"
+      ],
+      "retrieved_chunks": [
+        "chunk_e68bf6d04c",
+        "chunk_b3a58de936",
+        "chunk_8a409c6711",
+        "chunk_db17716804",
+        "chunk_440a373ced"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain All the edges.How long in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_1b6458441a",
+      "expected_chunks": [
+        "chunk_352dbbc410",
+        "chunk_5c95d045f3"
+      ],
+      "retrieved_chunks": [
+        "chunk_352dbbc410",
+        "chunk_bba489ec32",
+        "chunk_8095edd586",
+        "chunk_7cc4a7049b",
+        "chunk_843756015b"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain Successive natural num- bers in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_13fcf89d37",
+      "expected_chunks": [
+        "chunk_cbd77a89a1",
+        "chunk_12776ab555"
+      ],
+      "retrieved_chunks": [
+        "chunk_cbd77a89a1",
+        "chunk_3c29b90367",
+        "chunk_843756015b",
+        "chunk_7c93fdb8c6",
+        "chunk_3ff6ea27ec"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain 22.What curve in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_d836d6a58b",
+      "expected_chunks": [
+        "chunk_f5ef12edae",
+        "chunk_ea57335c88"
+      ],
+      "retrieved_chunks": [
+        "chunk_f5ef12edae",
+        "chunk_843756015b",
+        "chunk_e4d898e4d5",
+        "chunk_3ff6ea27ec",
+        "chunk_8b06b19860"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain 32.At what value of A in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_8f74da1664",
+      "expected_chunks": [
+        "chunk_8b06b19860",
+        "chunk_0ca07b9d29"
+      ],
+      "retrieved_chunks": [
+        "chunk_8b06b19860",
+        "chunk_e4d898e4d5",
+        "chunk_2dedd45355",
+        "chunk_73d8adc689",
+        "chunk_de8daf8819"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain M and the y-axis in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_2a028c087a",
+      "expected_chunks": [
+        "chunk_23985a480e",
+        "chunk_1091bcaec9"
+      ],
+      "retrieved_chunks": [
+        "chunk_23985a480e",
+        "chunk_3c29b90367",
+        "chunk_7c93fdb8c6",
+        "chunk_13d56cc623",
+        "chunk_1091bcaec9"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.8503
+    },
+    {
+      "query": "Explain Canweassertthattheantiderivative of thatfunction in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_93ecf75125",
+      "expected_chunks": [
+        "chunk_2ebfdac5f7",
+        "chunk_eea5595876"
+      ],
+      "retrieved_chunks": [
+        "chunk_2ebfdac5f7",
+        "chunk_eea5595876",
+        "chunk_3ff6ea27ec",
+        "chunk_843756015b",
+        "chunk_1c1c06ec93"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Cos² Φ = 0 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_0be3cc4b5a",
+      "expected_chunks": [
+        "chunk_2bfe278b04",
+        "chunk_85d8c6303a"
+      ],
+      "retrieved_chunks": [
+        "chunk_2bfe278b04",
+        "chunk_843756015b",
+        "chunk_85d8c6303a",
+        "chunk_016859ece7",
+        "chunk_3ff6ea27ec"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.9197
+    },
+    {
+      "query": "Explain 十(cos α+ sin α)/2 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_5bc78f30d4",
+      "expected_chunks": [
+        "chunk_016859ece7",
+        "chunk_118b83331e"
+      ],
+      "retrieved_chunks": [
+        "chunk_016859ece7",
+        "chunk_118b83331e",
+        "chunk_2bfe278b04",
+        "chunk_e4d898e4d5",
+        "chunk_74a7e9d41c"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain 26.Use graphical in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_a33128e4ef",
+      "expected_chunks": [
+        "chunk_32b054a745",
+        "chunk_dbcf00a03c"
+      ],
+      "retrieved_chunks": [
+        "chunk_32b054a745",
+        "chunk_dbcf00a03c",
+        "chunk_f5ef12edae",
+        "chunk_e55bacf990",
+        "chunk_e4d898e4d5"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain 58.(a)x=1/2 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_418209a021",
+      "expected_chunks": [
+        "chunk_da3343650c",
+        "chunk_2c121212a0"
+      ],
+      "retrieved_chunks": [
+        "chunk_8b06b19860",
+        "chunk_e4d898e4d5",
+        "chunk_d797983451",
+        "chunk_7cc4a7049b",
+        "chunk_843756015b"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Ofminimum;（d）x=-2isa point of maximum;（e)x=-1 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_3b6c6d54f4",
+      "expected_chunks": [
+        "chunk_f23bf51aea",
+        "chunk_0b229b550c"
+      ],
+      "retrieved_chunks": [
+        "chunk_f23bf51aea",
+        "chunk_da3343650c",
+        "chunk_9b6588339d",
+        "chunk_39b6120ef7",
+        "chunk_ddc72999e4"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain Points of extremum; (b)z=-1.5 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_2aec255871",
+      "expected_chunks": [
+        "chunk_39b6120ef7",
+        "chunk_309eb3cba5",
+        "chunk_ddc72999e4"
+      ],
+      "retrieved_chunks": [
+        "chunk_39b6120ef7",
+        "chunk_1cea859816",
+        "chunk_ddc72999e4",
+        "chunk_c0e011ee5f",
+        "chunk_da3343650c"
+      ],
+      "recall_at_k": 0.6667,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.7039
+    },
+    {
+      "query": "Explain Consequently，x=1 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_46cf8a440d",
+      "expected_chunks": [
+        "chunk_9cdc8f52ef",
+        "chunk_3f67ad8a32"
+      ],
+      "retrieved_chunks": [
+        "chunk_9cdc8f52ef",
+        "chunk_3ff6ea27ec",
+        "chunk_7cc4a7049b",
+        "chunk_843756015b",
+        "chunk_9b6588339d"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain 62.(a)The function has no points of extremum;(b)x=0 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_ed8cd288ba",
+      "expected_chunks": [
+        "chunk_1cea859816",
+        "chunk_72d2791da2"
+      ],
+      "retrieved_chunks": [
+        "chunk_1cea859816",
+        "chunk_39b6120ef7",
+        "chunk_ddc72999e4",
+        "chunk_da3343650c",
+        "chunk_eaa57117da"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain Origin has theformy=kx.Suppose M（zoyo in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_5f309285d8",
+      "expected_chunks": [
+        "chunk_399197365f",
+        "chunk_ddfe769b32"
+      ],
+      "retrieved_chunks": [
+        "chunk_399197365f",
+        "chunk_ddfe769b32",
+        "chunk_bba489ec32",
+        "chunk_843756015b",
+        "chunk_7cc4a7049b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Z= 2.Such roots are called miltiple roots.The rootz=2 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_ce23a55e4b",
+      "expected_chunks": [
+        "chunk_b85ea21363",
+        "chunk_7e796e59d2"
+      ],
+      "retrieved_chunks": [
+        "chunk_b85ea21363",
+        "chunk_7e796e59d2",
+        "chunk_7c93fdb8c6",
+        "chunk_d797983451",
+        "chunk_8b06b19860"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain One positive term （x+.2).This in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_33cd575db2",
+      "expected_chunks": [
+        "chunk_2a6ce4407b",
+        "chunk_a048b1b8c4"
+      ],
+      "retrieved_chunks": [
+        "chunk_2a6ce4407b",
+        "chunk_7cc4a7049b",
+        "chunk_843756015b",
+        "chunk_453301cc7e",
+        "chunk_e4d898e4d5"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain 48. (a)x =—5 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_c63b29b50c",
+      "expected_chunks": [
+        "chunk_bd12a8278a",
+        "chunk_0b8957eea5"
+      ],
+      "retrieved_chunks": [
+        "chunk_bd12a8278a",
+        "chunk_0b8957eea5",
+        "chunk_843756015b",
+        "chunk_7c93fdb8c6",
+        "chunk_bba489ec32"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Interval creases;x=-1isapoint of maximum，x=-1/5 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_ab55f83199",
+      "expected_chunks": [
+        "chunk_c0e011ee5f",
+        "chunk_5a4e211969",
+        "chunk_0b01ab2989"
+      ],
+      "retrieved_chunks": [
+        "chunk_c0e011ee5f",
+        "chunk_0b01ab2989",
+        "chunk_7cc4a7049b",
+        "chunk_9b6588339d",
+        "chunk_5a4e211969"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.6,
+      "mrr": 1.0,
+      "ndcg": 0.9469
+    },
+    {
+      "query": "Explain Itdecreases;x=-1isa point of maximum,=1 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_3b3e043b41",
+      "expected_chunks": [
+        "chunk_9b6588339d",
+        "chunk_cc6fb1c272"
+      ],
+      "retrieved_chunks": [
+        "chunk_9b6588339d",
+        "chunk_7cc4a7049b",
+        "chunk_c0e011ee5f",
+        "chunk_f23bf51aea",
+        "chunk_0b01ab2989"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain —1；1) it increases; x=-1 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_2ad1c84fc0",
+      "expected_chunks": [
+        "chunk_7cc4a7049b",
+        "chunk_11ceeadd92"
+      ],
+      "retrieved_chunks": [
+        "chunk_7cc4a7049b",
+        "chunk_7fc157be79",
+        "chunk_c0e011ee5f",
+        "chunk_9b6588339d",
+        "chunk_bba489ec32"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain Intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_acddf91d9c",
+      "expected_chunks": [
+        "chunk_7fc157be79",
+        "chunk_b0c3e6622e"
+      ],
+      "retrieved_chunks": [
+        "chunk_7fc157be79",
+        "chunk_7cc4a7049b",
+        "chunk_b0c3e6622e",
+        "chunk_c0e011ee5f",
+        "chunk_843756015b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.9197
+    },
+    {
+      "query": "Explain Assume that by some in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_ee863603f6",
+      "expected_chunks": [
+        "chunk_453301cc7e",
+        "chunk_9e7bafd6f2"
+      ],
+      "retrieved_chunks": [
+        "chunk_453301cc7e",
+        "chunk_3ff6ea27ec",
+        "chunk_7cc4a7049b",
+        "chunk_e4d898e4d5",
+        "chunk_7c93fdb8c6"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain Solving this system by in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_69cb78182a",
+      "expected_chunks": [
+        "chunk_514ad062b9",
+        "chunk_3a41b2a38d"
+      ],
+      "retrieved_chunks": [
+        "chunk_7c93fdb8c6",
+        "chunk_514ad062b9",
+        "chunk_453301cc7e",
+        "chunk_cf176c6f35",
+        "chunk_843756015b"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 0.5,
+      "ndcg": 0.3869
+    },
+    {
+      "query": "Explain Consequently，f（z)>0on thatintervaland this in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_a0f16824e5",
+      "expected_chunks": [
+        "chunk_3ff6ea27ec",
+        "chunk_5972935b50"
+      ],
+      "retrieved_chunks": [
+        "chunk_3ff6ea27ec",
+        "chunk_eaa57117da",
+        "chunk_5972935b50",
+        "chunk_9b6588339d",
+        "chunk_7cc4a7049b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.9197
+    },
+    {
+      "query": "Explain 27 (b)the point x=8/27 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_1ce5377c6b",
+      "expected_chunks": [
+        "chunk_d6b784be70",
+        "chunk_848fd5a5e0"
+      ],
+      "retrieved_chunks": [
+        "chunk_843756015b",
+        "chunk_d6b784be70",
+        "chunk_82b1affc3d",
+        "chunk_848fd5a5e0",
+        "chunk_7cc4a7049b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 0.5,
+      "ndcg": 0.6509
+    },
+    {
+      "query": "Explain Weestablish by in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_180d305ba3",
+      "expected_chunks": [
+        "chunk_f9ca96ed6c",
+        "chunk_5538bdb95f"
+      ],
+      "retrieved_chunks": [
+        "chunk_f9ca96ed6c",
+        "chunk_3ff6ea27ec",
+        "chunk_843756015b",
+        "chunk_5538bdb95f",
+        "chunk_7cc4a7049b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.8772
+    },
+    {
+      "query": "Explain Sets of solutions in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_f26ab3e78f",
+      "expected_chunks": [
+        "chunk_32d038a0b9",
+        "chunk_46682ab59a",
+        "chunk_1e7d1a532c"
+      ],
+      "retrieved_chunks": [
+        "chunk_32d038a0b9",
+        "chunk_453301cc7e",
+        "chunk_843756015b",
+        "chunk_3c29b90367",
+        "chunk_7c93fdb8c6"
+      ],
+      "recall_at_k": 0.3333,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.4693
+    },
+    {
+      "query": "Explain Arctan（1/2）, kEZ.Verifying them by in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_a5bc52665f",
+      "expected_chunks": [
+        "chunk_c697333019",
+        "chunk_08d3d0640b"
+      ],
+      "retrieved_chunks": [
+        "chunk_c697333019",
+        "chunk_08d3d0640b",
+        "chunk_1dbe47c983",
+        "chunk_1bcf0f2315",
+        "chunk_bba489ec32"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Satisfied，we find that z=n,nEZ， in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_f57269bb13",
+      "expected_chunks": [
+        "chunk_5cb4832316",
+        "chunk_4eb2684497"
+      ],
+      "retrieved_chunks": [
+        "chunk_5cb4832316",
+        "chunk_7c93fdb8c6",
+        "chunk_453301cc7e",
+        "chunk_de8daf8819",
+        "chunk_c697333019"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain second equation in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_e0c8354fce",
+      "expected_chunks": [
+        "chunk_9a0fbcc9dc",
+        "chunk_eed79b722d",
+        "chunk_ef547bd318",
+        "chunk_da73204270",
+        "chunk_3d18d1e866",
+        "chunk_ef3072c17d",
+        "chunk_6c6396b6a4"
+      ],
+      "retrieved_chunks": [
+        "chunk_ef547bd318",
+        "chunk_6c6396b6a4",
+        "chunk_9a0fbcc9dc",
+        "chunk_da73204270",
+        "chunk_453301cc7e"
+      ],
+      "recall_at_k": 0.5714,
+      "precision_at_k": 0.8,
+      "mrr": 1.0,
+      "ndcg": 0.8688
+    },
+    {
+      "query": "Explain Supposexroubles in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_5d3428cb57",
+      "expected_chunks": [
+        "chunk_331fce623c",
+        "chunk_347ca6356c"
+      ],
+      "retrieved_chunks": [
+        "chunk_331fce623c",
+        "chunk_843756015b",
+        "chunk_3ff6ea27ec",
+        "chunk_7c93fdb8c6",
+        "chunk_39b6120ef7"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain Suppose z in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_aeb1d97acf",
+      "expected_chunks": [
+        "chunk_7c93fdb8c6",
+        "chunk_f359d63ac7"
+      ],
+      "retrieved_chunks": [
+        "chunk_7c93fdb8c6",
+        "chunk_e4d898e4d5",
+        "chunk_3ff6ea27ec",
+        "chunk_453301cc7e",
+        "chunk_de8daf8819"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain 25 ma/h.Suppose S in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_a42005065a",
+      "expected_chunks": [
+        "chunk_1d11570bdd",
+        "chunk_6a82087b3e"
+      ],
+      "retrieved_chunks": [
+        "chunk_1d11570bdd",
+        "chunk_6a82087b3e",
+        "chunk_e4d898e4d5",
+        "chunk_3c29b90367",
+        "chunk_cbd77a89a1"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Old system by in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_c334a77355",
+      "expected_chunks": [
+        "chunk_74a7e9d41c",
+        "chunk_8c9eb61e3b"
+      ],
+      "retrieved_chunks": [
+        "chunk_74a7e9d41c",
+        "chunk_7c93fdb8c6",
+        "chunk_cf176c6f35",
+        "chunk_843756015b",
+        "chunk_7cc4a7049b"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain Side of equation (1 in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_28f65425cb",
+      "expected_chunks": [
+        "chunk_8e879776e5",
+        "chunk_083d1efee2",
+        "chunk_00486c7589"
+      ],
+      "retrieved_chunks": [
+        "chunk_453301cc7e",
+        "chunk_7cc4a7049b",
+        "chunk_8e879776e5",
+        "chunk_00486c7589",
+        "chunk_8095edd586"
+      ],
+      "recall_at_k": 0.6667,
+      "precision_at_k": 0.4,
+      "mrr": 0.3333,
+      "ndcg": 0.4367
+    },
+    {
+      "query": "Explain Fgure boundedbythecurves y=V4-x²，x=0，z=2,y=0, which in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_42e944d14d",
+      "expected_chunks": [
+        "chunk_e1249af3a8",
+        "chunk_9823f5e223"
+      ],
+      "retrieved_chunks": [
+        "chunk_e1249af3a8",
+        "chunk_9823f5e223",
+        "chunk_3ff6ea27ec",
+        "chunk_cf5dda43e8",
+        "chunk_843756015b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Can be found by in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_5f1c83982f",
+      "expected_chunks": [
+        "chunk_cf176c6f35",
+        "chunk_8de67b77b9",
+        "chunk_cb4e4eb4c5"
+      ],
+      "retrieved_chunks": [
+        "chunk_453301cc7e",
+        "chunk_3ff6ea27ec",
+        "chunk_e4d898e4d5",
+        "chunk_843756015b",
+        "chunk_7cc4a7049b"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain True,i.e.we can takeNequal to[1/8]where[1/e] in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_4235b23a5f",
+      "expected_chunks": [
+        "chunk_e472d0343b",
+        "chunk_0f53af505f"
+      ],
+      "retrieved_chunks": [
+        "chunk_3ff6ea27ec",
+        "chunk_843756015b",
+        "chunk_7cc4a7049b",
+        "chunk_e472d0343b",
+        "chunk_3c29b90367"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 0.25,
+      "ndcg": 0.2641
+    },
+    {
+      "query": "Explain 1→00 lim n-7 c in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_c7dde8cfc3",
+      "expected_chunks": [
+        "chunk_3db9909f17",
+        "chunk_6f9ac8316d"
+      ],
+      "retrieved_chunks": [
+        "chunk_3db9909f17",
+        "chunk_7cc4a7049b",
+        "chunk_9b6588339d",
+        "chunk_c0e011ee5f",
+        "chunk_6f9ac8316d"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.8503
+    },
+    {
+      "query": "Explain Sum of these vectors in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_2984782637",
+      "expected_chunks": [
+        "chunk_037cd9cc25",
+        "chunk_c3d08d3019"
+      ],
+      "retrieved_chunks": [
+        "chunk_037cd9cc25",
+        "chunk_c3d08d3019",
+        "chunk_36f19092c0",
+        "chunk_6379feb73c",
+        "chunk_191cba1592"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain N =(0; 1; 0 in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_973f8e00df",
+      "expected_chunks": [
+        "chunk_9b8d4f2d5d",
+        "chunk_4586d81e5d",
+        "chunk_97acee2c8e"
+      ],
+      "retrieved_chunks": [
+        "chunk_4586d81e5d",
+        "chunk_36f19092c0",
+        "chunk_7c93fdb8c6",
+        "chunk_3431d00caa",
+        "chunk_f810697278"
+      ],
+      "recall_at_k": 0.3333,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.4693
+    },
+    {
+      "query": "Explain Larly prove that[KN]I[LM],and this in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_d7ac944dd3",
+      "expected_chunks": [
+        "chunk_2725a2c2b9",
+        "chunk_d9c85c7ffe"
+      ],
+      "retrieved_chunks": [
+        "chunk_d9c85c7ffe",
+        "chunk_2725a2c2b9",
+        "chunk_36f19092c0",
+        "chunk_bba489ec32",
+        "chunk_843756015b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Of the segment[EF]; [MF] in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_1e34d84b73",
+      "expected_chunks": [
+        "chunk_eadc8d7459",
+        "chunk_4c29a50db1"
+      ],
+      "retrieved_chunks": [
+        "chunk_4c29a50db1",
+        "chunk_eadc8d7459",
+        "chunk_12805931ff",
+        "chunk_013530519c",
+        "chunk_d6b784be70"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain 7.Suppose[CF in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_a67d057008",
+      "expected_chunks": [
+        "chunk_6164c8bdb7",
+        "chunk_e42b6a7e0c"
+      ],
+      "retrieved_chunks": [
+        "chunk_e42b6a7e0c",
+        "chunk_6164c8bdb7",
+        "chunk_36f19092c0",
+        "chunk_7c93fdb8c6",
+        "chunk_bba489ec32"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain M C trianglesthat丨KE|=|MC|andso KECM in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_83657abf05",
+      "expected_chunks": [
+        "chunk_9e13fc0b50",
+        "chunk_594ae1ad95"
+      ],
+      "retrieved_chunks": [
+        "chunk_9e13fc0b50",
+        "chunk_594ae1ad95",
+        "chunk_2725a2c2b9",
+        "chunk_ad5a7ea77f",
+        "chunk_a24a246a0c"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Thehypothe- sis)，it follows that[BP| in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_a90232301b",
+      "expected_chunks": [
+        "chunk_dfc95dade0",
+        "chunk_0fc41ff3b4"
+      ],
+      "retrieved_chunks": [
+        "chunk_0fc41ff3b4",
+        "chunk_dfc95dade0",
+        "chunk_f7dbd0a418",
+        "chunk_8464f42454",
+        "chunk_36f19092c0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain By analogy，we find a point O，which in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_24079685a3",
+      "expected_chunks": [
+        "chunk_ac7adad5af",
+        "chunk_16e9b26f5c"
+      ],
+      "retrieved_chunks": [
+        "chunk_16e9b26f5c",
+        "chunk_ac7adad5af",
+        "chunk_579774930b",
+        "chunk_848fd5a5e0",
+        "chunk_82b1affc3d"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain |²=|AC|·|AB|,where 246 A K] in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_861ff86626",
+      "expected_chunks": [
+        "chunk_a24a246a0c",
+        "chunk_4c32062abb"
+      ],
+      "retrieved_chunks": [
+        "chunk_4c32062abb",
+        "chunk_957d009ed5",
+        "chunk_e31cb923f4",
+        "chunk_a24a246a0c",
+        "chunk_db17716804"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.8772
+    },
+    {
+      "query": "Explain Figure).The segment [cF] in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_3014c32bb1",
+      "expected_chunks": [
+        "chunk_013530519c",
+        "chunk_12805931ff"
+      ],
+      "retrieved_chunks": [
+        "chunk_12805931ff",
+        "chunk_013530519c",
+        "chunk_eadc8d7459",
+        "chunk_4c29a50db1",
+        "chunk_6164c8bdb7"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain ABC,it follows that [PQ] in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_172b1feee0",
+      "expected_chunks": [
+        "chunk_496ea36b9a",
+        "chunk_95d7351f04"
+      ],
+      "retrieved_chunks": [
+        "chunk_95d7351f04",
+        "chunk_496ea36b9a",
+        "chunk_f810697278",
+        "chunk_f7dbd0a418",
+        "chunk_36f19092c0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Equal to(4-(1+ xE[0;6] V2)x)/2,wherex in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_69cce13951",
+      "expected_chunks": [
+        "chunk_6b58ad16f9",
+        "chunk_881bdcd654"
+      ],
+      "retrieved_chunks": [
+        "chunk_881bdcd654",
+        "chunk_73d8adc689",
+        "chunk_f810697278",
+        "chunk_7c93fdb8c6",
+        "chunk_36f19092c0"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 0.6131
+    },
+    {
+      "query": "Explain Regular tetra- hedron,in particular,a in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_537674f1cf",
+      "expected_chunks": [
+        "chunk_b8c3cebebc",
+        "chunk_475fe3e86b"
+      ],
+      "retrieved_chunks": [
+        "chunk_b8c3cebebc",
+        "chunk_475fe3e86b",
+        "chunk_037cd9cc25",
+        "chunk_36f19092c0",
+        "chunk_ad5a7ea77f"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain SS)）， where S in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_b154bcc0dd",
+      "expected_chunks": [
+        "chunk_8464f42454",
+        "chunk_5ef3206460"
+      ],
+      "retrieved_chunks": [
+        "chunk_5ef3206460",
+        "chunk_8464f42454",
+        "chunk_f7dbd0a418",
+        "chunk_d99df5196e",
+        "chunk_36f19092c0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Planeof the base(ABCD in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_444445d454",
+      "expected_chunks": [
+        "chunk_1b0084e479",
+        "chunk_c9bf84c578"
+      ],
+      "retrieved_chunks": [
+        "chunk_c9bf84c578",
+        "chunk_1b0084e479",
+        "chunk_e68bf6d04c",
+        "chunk_8a409c6711",
+        "chunk_440a373ced"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain S The point O∈（ALS）and (OL） in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_aa5519117c",
+      "expected_chunks": [
+        "chunk_579774930b",
+        "chunk_fd79f3e7fe"
+      ],
+      "retrieved_chunks": [
+        "chunk_579774930b",
+        "chunk_fd79f3e7fe",
+        "chunk_7cc4a7049b",
+        "chunk_843756015b",
+        "chunk_9b6588339d"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Suppose x in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_359ead36a1",
+      "expected_chunks": [
+        "chunk_bba489ec32",
+        "chunk_b44cbd2be0",
+        "chunk_f810697278"
+      ],
+      "retrieved_chunks": [
+        "chunk_bba489ec32",
+        "chunk_f810697278",
+        "chunk_36f19092c0",
+        "chunk_331fce623c",
+        "chunk_7c93fdb8c6"
+      ],
+      "recall_at_k": 0.6667,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.7654
+    },
+    {
+      "query": "Explain Generatrix of the cone，@ in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_474e628c3c",
+      "expected_chunks": [
+        "chunk_810df2ad1a",
+        "chunk_8f5b05838d"
+      ],
+      "retrieved_chunks": [
+        "chunk_8f5b05838d",
+        "chunk_810df2ad1a",
+        "chunk_9316a6f4d5",
+        "chunk_8e46cc6487",
+        "chunk_bba489ec32"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Since 6 6 （k+1）(k+2)(2k+3) and this in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_8aee7319a1",
+      "expected_chunks": [
+        "chunk_36f19092c0",
+        "chunk_f7dbd0a418"
+      ],
+      "retrieved_chunks": [
+        "chunk_36f19092c0",
+        "chunk_f7dbd0a418",
+        "chunk_7c93fdb8c6",
+        "chunk_da73204270",
+        "chunk_c697333019"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain 180 (b)▲ Suppose ABCD in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_e10a3efa37",
+      "expected_chunks": [
+        "chunk_fc7cc32c3e",
+        "chunk_151b27a66c"
+      ],
+      "retrieved_chunks": [
+        "chunk_fc7cc32c3e",
+        "chunk_151b27a66c",
+        "chunk_db17716804",
+        "chunk_496ea36b9a",
+        "chunk_440a373ced"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Then f（x)=f（—z)=0as well,and this in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_5f658eb084",
+      "expected_chunks": [
+        "chunk_e5a5d24a2e",
+        "chunk_3b729e5fa2"
+      ],
+      "retrieved_chunks": [
+        "chunk_e5a5d24a2e",
+        "chunk_3b729e5fa2",
+        "chunk_eaa57117da",
+        "chunk_1c1c06ec93",
+        "chunk_36f19092c0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Functions f（x)= f（x)=|x1.3.Suppose f（x in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_4b74badbaf",
+      "expected_chunks": [
+        "chunk_1c1c06ec93",
+        "chunk_0880b6d594"
+      ],
+      "retrieved_chunks": [
+        "chunk_1c1c06ec93",
+        "chunk_0880b6d594",
+        "chunk_e5a5d24a2e",
+        "chunk_eaa57117da",
+        "chunk_be5f66c79a"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain That of problem3.5.Suppose f（x in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_4eeefbdab6",
+      "expected_chunks": [
+        "chunk_98cff7834b",
+        "chunk_fca9337d32"
+      ],
+      "retrieved_chunks": [
+        "chunk_1c1c06ec93",
+        "chunk_98cff7834b",
+        "chunk_e5a5d24a2e",
+        "chunk_36f19092c0",
+        "chunk_eaa57117da"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 0.5,
+      "ndcg": 0.3869
+    },
+    {
+      "query": "Explain 12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_788ad47c8d",
+      "expected_chunks": [
+        "chunk_3431d00caa",
+        "chunk_7b96fed4a9"
+      ],
+      "retrieved_chunks": [
+        "chunk_3431d00caa",
+        "chunk_7b96fed4a9",
+        "chunk_f810697278",
+        "chunk_7c93fdb8c6",
+        "chunk_2a6ce4407b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain No,we cannot.For instance,f (x)=1 + cos x in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_ee77818df3",
+      "expected_chunks": [
+        "chunk_be5f66c79a",
+        "chunk_4388019089"
+      ],
+      "retrieved_chunks": [
+        "chunk_be5f66c79a",
+        "chunk_4388019089",
+        "chunk_745dc0bbb1",
+        "chunk_87db776d88",
+        "chunk_1c1c06ec93"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Suppose SABc in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_2102a0a8d5",
+      "expected_chunks": [
+        "chunk_e55bacf990",
+        "chunk_4d034bfaa3"
+      ],
+      "retrieved_chunks": [
+        "chunk_4d034bfaa3",
+        "chunk_e55bacf990",
+        "chunk_00423d7014",
+        "chunk_c507a8fdd3",
+        "chunk_8464f42454"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain =(2n+1）-arctan 2the given quadraticfunction in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_6ae9e02564",
+      "expected_chunks": [
+        "chunk_1dbe47c983",
+        "chunk_1bcf0f2315"
+      ],
+      "retrieved_chunks": [
+        "chunk_1dbe47c983",
+        "chunk_1bcf0f2315",
+        "chunk_c697333019",
+        "chunk_36f19092c0",
+        "chunk_ef547bd318"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Logs (3x+2) <1 277 in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_ceb3b0f44e",
+      "expected_chunks": [
+        "chunk_626f658bd7",
+        "chunk_100be5a60e",
+        "chunk_43e055b810"
+      ],
+      "retrieved_chunks": [
+        "chunk_626f658bd7",
+        "chunk_43e055b810",
+        "chunk_100be5a60e",
+        "chunk_bd12a8278a",
+        "chunk_cf176c6f35"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.6,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Of the given system in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_0926231053",
+      "expected_chunks": [
+        "chunk_6379feb73c",
+        "chunk_3357ad59dc",
+        "chunk_191cba1592"
+      ],
+      "retrieved_chunks": [
+        "chunk_3357ad59dc",
+        "chunk_d99df5196e",
+        "chunk_36f19092c0",
+        "chunk_6379feb73c",
+        "chunk_da73204270"
+      ],
+      "recall_at_k": 0.6667,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.6714
+    }
+  ],
+  "failed_concepts": [
+    "concept_418209a021",
+    "concept_5f1c83982f"
+  ],
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "embedding_backend": "fastembed",
+  "run_id": "math-prilepko-20260721-01",
+  "top_k": 5,
+  "thresholds": {
+    "recall_at_k": 0.8,
+    "precision_at_k": 0.2,
+    "mrr": 0.8,
+    "ndcg": 0.75,
+    "coverage": 0.95
+  },
+  "passed": false,
+  "approved_chunks": 220,
+  "rejected_chunks": 5
+}

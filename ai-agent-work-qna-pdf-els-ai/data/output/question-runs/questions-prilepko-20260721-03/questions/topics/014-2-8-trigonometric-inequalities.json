@@ -1,0 +1,459 @@
+{
+  "key": "2.8",
+  "topic": "2.8 Trigonometric Inequalities",
+  "questions": [
+    {
+      "question": {
+        "id": "8666224d-6454-5646-ae5d-e1f014032bfd",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(x\\in[0,2\\pi]\\), solve the inequality \\(\\sin x\\ge\\frac{1}{2}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "On \\([0,2\\pi]\\), \\(\\sin x=\\frac12\\) at \\(x=\\frac{\\pi}{6},\\frac{5\\pi}{6}\\), and sine is at least \\(\\frac12\\) between these angles.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 66,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.8 Trigonometric Inequalities",
+            "concept_ids": [
+              "concept_0b8bb1d4ab",
+              "concept_9dcfcbddae"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.8",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              69,
+              70,
+              218,
+              219
+            ],
+            "source_chunk_ids": [
+              "chunk_0b1aa29c21",
+              "chunk_f6b81751ac"
+            ]
+          },
+          "options": [
+            {
+              "id": "x_in_left_frac_pi_6_frac_1",
+              "label": "\\(x\\in\\left[\\frac{\\pi}{6},\\frac{5\\pi}{6}\\right]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Sine is at least \\(\\frac12\\) in the first and second quadrants."
+            },
+            {
+              "id": "x_in_left_0_frac_pi_6_ri_2",
+              "label": "\\(x\\in\\left[0,\\frac{\\pi}{6}\\right]\\cup\\left[\\frac{5\\pi}{6},2\\pi\\right]\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These intervals correspond mainly to \\(\\sin x\\le\\frac12\\)."
+            },
+            {
+              "id": "x_in_left_frac_pi_3_frac_3",
+              "label": "\\(x\\in\\left[\\frac{\\pi}{3},\\frac{2\\pi}{3}\\right]\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The boundary angles for \\(\\sin x=\\frac12\\) are incorrect."
+            },
+            {
+              "id": "x_in_left_frac_pi_6_frac_4",
+              "label": "\\(x\\in\\left[\\frac{\\pi}{6},\\frac{11\\pi}{6}\\right]\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inequality does not hold throughout this interval."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "95b7c539-709a-5393-a414-b6a4738b2249",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the solution set of \\(\\cos 2x\\ge0\\) for \\(x\\in[0,2\\pi]\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For \\(\\cos\\theta\\ge0\\), \\(\\theta\\in\\left[-\\frac{\\pi}{2}+2k\\pi,\\frac{\\pi}{2}+2k\\pi\\right]\\). Substituting \\(\\theta=2x\\) and restricting to \\([0,2\\pi]\\) gives the stated union.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 67,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.8 Trigonometric Inequalities",
+            "concept_ids": [
+              "concept_0b8bb1d4ab",
+              "concept_9dcfcbddae"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.8",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              69,
+              70,
+              218,
+              219
+            ],
+            "source_chunk_ids": [
+              "chunk_0b1aa29c21",
+              "chunk_f6b81751ac"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_0_frac_pi_4_right_c_1",
+              "label": "\\(\\left[0,\\frac{\\pi}{4}\\right]\\cup\\left[\\frac{3\\pi}{4},\\frac{5\\pi}{4}\\right]\\cup\\left[\\frac{7\\pi}{4},2\\pi\\right]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Cosine is non-negative when \\(2x\\) lies in the first or fourth quadrants modulo \\(2\\pi\\)."
+            },
+            {
+              "id": "left_frac_pi_4_frac_3_pi_2",
+              "label": "\\(\\left[\\frac{\\pi}{4},\\frac{3\\pi}{4}\\right]\\cup\\left[\\frac{5\\pi}{4},\\frac{7\\pi}{4}\\right]\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These intervals give \\(\\cos 2x\\le0\\)."
+            },
+            {
+              "id": "left_0_frac_pi_2_right_c_3",
+              "label": "\\(\\left[0,\\frac{\\pi}{2}\\right]\\cup\\left[\\pi,\\frac{3\\pi}{2}\\right]\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The interval endpoints do not follow from the period of \\(\\cos 2x\\)."
+            },
+            {
+              "id": "left_0_frac_pi_4_right_c_4",
+              "label": "\\(\\left[0,\\frac{\\pi}{4}\\right]\\cup\\left[\\frac{3\\pi}{4},\\frac{7\\pi}{4}\\right]\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This includes intervals where \\(\\cos 2x<0\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "31154bb3-eb8c-53b3-a364-4c1af3c59ce8",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(x\\in[0,2\\pi]\\), solve \\(\\sin x+\\cos x\\ge1\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since \\(\\sin x+\\cos x=\\sqrt2\\sin\\left(x+\\frac{\\pi}{4}\\right)\\), equality occurs at \\(x=0,\\frac{\\pi}{2}\\). The expression is at least \\(1\\) on the interval between them.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 68,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.8 Trigonometric Inequalities",
+            "concept_ids": [
+              "concept_0b8bb1d4ab",
+              "concept_9dcfcbddae"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.8",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              69,
+              70,
+              218,
+              219
+            ],
+            "source_chunk_ids": [
+              "chunk_0b1aa29c21",
+              "chunk_f6b81751ac"
+            ]
+          },
+          "options": [
+            {
+              "id": "x_in_left_0_frac_pi_2_ri_1",
+              "label": "\\(x\\in\\left[0,\\frac{\\pi}{2}\\right]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The expression is at least \\(1\\) between its equality points \\(0\\) and \\(\\frac{\\pi}{2}\\)."
+            },
+            {
+              "id": "x_in_left_frac_pi_4_frac_2",
+              "label": "\\(x\\in\\left[\\frac{\\pi}{4},\\frac{3\\pi}{4}\\right]\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "At \\(x=\\frac{3\\pi}{4}\\), the sum is \\(0\\), so the interval is too wide."
+            },
+            {
+              "id": "x_in_left_0_pi_right_3",
+              "label": "\\(x\\in\\left[0,\\pi\\right]\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inequality fails for values just greater than \\(\\frac{\\pi}{2}\\)."
+            },
+            {
+              "id": "x_in_left_frac_3_pi_2_2_4",
+              "label": "\\(x\\in\\left[\\frac{3\\pi}{2},2\\pi\\right]\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sum is less than \\(1\\) throughout the interior of this interval."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "03aacaf5-e41b-5e7e-9bfb-7c5c683b9d26",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the general solution of \\(\\sin x\\cos x\\ge\\frac{1}{4}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The inequality becomes \\(\\sin2x\\ge\\frac12\\). Thus \\(2x\\in\\left[\\frac{\\pi}{6}+2k\\pi,\\frac{5\\pi}{6}+2k\\pi\\right]\\), so \\(x\\in\\left[\\frac{\\pi}{12}+k\\pi,\\frac{5\\pi}{12}+k\\pi\\right]\\), where \\(k\\in\\mathbb Z\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 69,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.8 Trigonometric Inequalities",
+            "concept_ids": [
+              "concept_0b8bb1d4ab",
+              "concept_9dcfcbddae"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.8",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              69,
+              70,
+              218,
+              219
+            ],
+            "source_chunk_ids": [
+              "chunk_0b1aa29c21",
+              "chunk_f6b81751ac"
+            ]
+          },
+          "options": [
+            {
+              "id": "x_in_bigcup_k_in_mathbb_1",
+              "label": "\\(x\\in\\bigcup_{k\\in\\mathbb Z}\\left[\\frac{\\pi}{12}+k\\pi,\\frac{5\\pi}{12}+k\\pi\\right]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Using \\(\\sin x\\cos x=\\frac12\\sin2x\\), solve \\(\\sin2x\\ge\\frac12\\)."
+            },
+            {
+              "id": "x_in_bigcup_k_in_mathbb_2",
+              "label": "\\(x\\in\\bigcup_{k\\in\\mathbb Z}\\left[\\frac{\\pi}{6}+k\\pi,\\frac{5\\pi}{6}+k\\pi\\right]\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These are the bounds for \\(2x\\), not for \\(x\\)."
+            },
+            {
+              "id": "x_in_bigcup_k_in_mathbb_3",
+              "label": "\\(x\\in\\bigcup_{k\\in\\mathbb Z}\\left[\\frac{\\pi}{12}+2k\\pi,\\frac{5\\pi}{12}+2k\\pi\\right]\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The period in \\(x\\) is \\(\\pi\\), not \\(2\\pi\\)."
+            },
+            {
+              "id": "x_in_bigcup_k_in_mathbb_4",
+              "label": "\\(x\\in\\bigcup_{k\\in\\mathbb Z}\\left[-\\frac{5\\pi}{12}+k\\pi,-\\frac{\\pi}{12}+k\\pi\\right]\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This describes intervals where \\(\\sin2x\\le-\\frac12\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "ce8909c6-2ee0-57df-8127-293ab6b52c78",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(x\\in[0,2\\pi]\\), the solution set of \\((2\\sin x-1)(2\\cos x-1)\\ge 0\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The critical points are \\(\\sin x=\\frac12\\), giving \\(x=\\frac{\\pi}{6},\\frac{5\\pi}{6}\\), and \\(\\cos x=\\frac12\\), giving \\(x=\\frac{\\pi}{3},\\frac{5\\pi}{3}\\). A sign analysis on the resulting intervals gives \\(\\left[\\frac{\\pi}{6},\\frac{\\pi}{3}\\right]\\cup\\left[\\frac{5\\pi}{6},\\frac{5\\pi}{3}\\right]\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 70,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.8 Trigonometric Inequalities",
+            "concept_ids": [
+              "concept_0b8bb1d4ab",
+              "concept_9dcfcbddae"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.8",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              69,
+              70,
+              218,
+              219
+            ],
+            "source_chunk_ids": [
+              "chunk_0b1aa29c21",
+              "chunk_f6b81751ac"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_frac_pi_6_frac_pi_3_1",
+              "label": "\\(\\left[\\frac{\\pi}{6},\\frac{\\pi}{3}\\right]\\cup\\left[\\frac{5\\pi}{6},\\frac{5\\pi}{3}\\right]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Both factors have the same sign on these intervals."
+            },
+            {
+              "id": "left_0_frac_pi_6_right_c_2",
+              "label": "\\(\\left[0,\\frac{\\pi}{6}\\right]\\cup\\left[\\frac{\\pi}{3},\\frac{5\\pi}{6}\\right]\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factors have opposite signs on most of these intervals."
+            },
+            {
+              "id": "left_frac_pi_6_frac_5_pi_3",
+              "label": "\\(\\left[\\frac{\\pi}{6},\\frac{5\\pi}{6}\\right]\\cup\\left[\\frac{5\\pi}{3},2\\pi\\right]\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This incorrectly ignores the sign of \\(\\cos x\\) in the second quadrant."
+            },
+            {
+              "id": "left_frac_pi_3_frac_5_pi_4",
+              "label": "\\(\\left[\\frac{\\pi}{3},\\frac{5\\pi}{6}\\right]\\cup\\left[\\frac{5\\pi}{3},2\\pi\\right]\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These intervals include regions where the factors have opposite signs."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_0b1aa29c21",
+    "chunk_f6b81751ac"
+  ],
+  "source_pages": [
+    69,
+    70,
+    218,
+    219
+  ],
+  "rejected": []
+}

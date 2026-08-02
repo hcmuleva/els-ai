@@ -1,0 +1,59 @@
+[
+  {
+    "concept_id": "concept_657d98b019",
+    "concept_name": "ELECTROMAGNETIC INDUCTION practice pages 1-6",
+    "candidate_scores": {
+      "MCQ": 0.75,
+      "Scenario": 0.9,
+      "Problem Solving": 0.65,
+      "Case Study": 0.4,
+      "Short Answer": 0.75,
+      "Essay": 0.85,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "Scenario",
+      "Essay",
+      "MCQ",
+      "Short Answer",
+      "Problem Solving"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_b98adbe8f0",
+    "concept_name": "ELECTROMAGNETIC INDUCTION practice pages 7-12",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_8130b3391d",
+    "concept_name": "ELECTROMAGNETIC INDUCTION practice pages 13-17",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  }
+]

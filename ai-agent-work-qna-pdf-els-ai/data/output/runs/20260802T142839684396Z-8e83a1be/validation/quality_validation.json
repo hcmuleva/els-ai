@@ -1,0 +1,100 @@
+[
+  {
+    "concept_id": "concept_8f8d494e5c",
+    "relevance": 0.75,
+    "educational_value": 0.6,
+    "assessment_value": 0.683,
+    "embedding_value": 0.9,
+    "completeness": 0.5,
+    "accuracy": 0.85,
+    "confidence": 0.7,
+    "passed": true,
+    "rejection_reasons": []
+  },
+  {
+    "concept_id": "concept_f7640a769f",
+    "relevance": 0.75,
+    "educational_value": 0.6,
+    "assessment_value": 0.683,
+    "embedding_value": 0.799,
+    "completeness": 0.5,
+    "accuracy": 0.85,
+    "confidence": 0.7,
+    "passed": true,
+    "rejection_reasons": []
+  },
+  {
+    "concept_id": "concept_85510205dd",
+    "relevance": 0.75,
+    "educational_value": 0.6,
+    "assessment_value": 0.683,
+    "embedding_value": 0.49,
+    "completeness": 0.5,
+    "accuracy": 0.95,
+    "confidence": 0.9,
+    "passed": true,
+    "rejection_reasons": []
+  },
+  {
+    "concept_id": "concept_459bb3a928",
+    "relevance": 0.8,
+    "educational_value": 0.5,
+    "assessment_value": 0.683,
+    "embedding_value": 0.614,
+    "completeness": 0.6,
+    "accuracy": 0.85,
+    "confidence": 0.7,
+    "passed": true,
+    "rejection_reasons": []
+  },
+  {
+    "concept_id": "concept_657c7e43da",
+    "relevance": 0.75,
+    "educational_value": 0.4,
+    "assessment_value": 0.683,
+    "embedding_value": 0.475,
+    "completeness": 0.5,
+    "accuracy": 0.95,
+    "confidence": 0.9,
+    "passed": false,
+    "rejection_reasons": [
+      "educational_value<0.45"
+    ]
+  },
+  {
+    "concept_id": "concept_215230e660",
+    "relevance": 0.75,
+    "educational_value": 0.6,
+    "assessment_value": 0.683,
+    "embedding_value": 0.746,
+    "completeness": 0.5,
+    "accuracy": 0.95,
+    "confidence": 0.9,
+    "passed": true,
+    "rejection_reasons": []
+  },
+  {
+    "concept_id": "concept_6149279d7d",
+    "relevance": 0.75,
+    "educational_value": 0.6,
+    "assessment_value": 0.683,
+    "embedding_value": 0.596,
+    "completeness": 0.5,
+    "accuracy": 0.95,
+    "confidence": 0.9,
+    "passed": true,
+    "rejection_reasons": []
+  },
+  {
+    "concept_id": "concept_d35f79154c",
+    "relevance": 0.75,
+    "educational_value": 0.6,
+    "assessment_value": 0.683,
+    "embedding_value": 0.554,
+    "completeness": 0.5,
+    "accuracy": 0.95,
+    "confidence": 0.9,
+    "passed": true,
+    "rejection_reasons": []
+  }
+]

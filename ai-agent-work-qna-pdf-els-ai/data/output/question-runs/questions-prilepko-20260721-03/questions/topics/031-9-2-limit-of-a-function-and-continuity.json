@@ -1,0 +1,459 @@
+{
+  "key": "9.2",
+  "topic": "9.2 Limit of a Function and Continuity",
+  "questions": [
+    {
+      "question": {
+        "id": "2ce71ed7-0684-578c-b2f3-9ab9712d849d",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate \\(\\displaystyle \\lim_{x\\to 1}\\frac{2x^2-x-1}{x^2-x}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(\\displaystyle \\frac{2x^2-x-1}{x^2-x}=\\frac{(2x+1)(x-1)}{x(x-1)}=\\frac{2x+1}{x}\\) for \\(x\\ne 1\\). Hence the limit is \\(\\frac{3}{1}=3\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 151,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.2 Limit of a Function and Continuity",
+            "concept_ids": [
+              "concept_7c05741f2e",
+              "concept_df3b2956cd"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              130,
+              269,
+              270,
+              271
+            ],
+            "source_chunk_ids": [
+              "chunk_3a3571da19",
+              "chunk_df499f21e7"
+            ]
+          },
+          "options": [
+            {
+              "id": "3_1",
+              "label": "\\(3\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Factorising gives \\(\\frac{(2x+1)(x-1)}{x(x-1)}\\), whose limit is \\(3\\)."
+            },
+            {
+              "id": "1_2",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This results from cancelling incorrectly."
+            },
+            {
+              "id": "2_3",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The remaining factor approaches \\(3\\), not \\(2\\)."
+            },
+            {
+              "id": "Does_not_exist_4",
+              "label": "Does not exist",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The removable factor \\(x-1\\) cancels."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "7815c49e-9f70-5766-bb29-e9aac9eaea64",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(f(x)=\\begin{cases}\\dfrac{x^2-4}{x-2},&x\\ne 2,\\kx+1,&x=2.\\end{cases}\\) If \\(f\\) is continuous at \\(x=2\\), find \\(k\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For \\(x\\ne 2\\), \\(\\frac{x^2-4}{x-2}=x+2\\), so \\(\\lim_{x\\to 2}f(x)=4\\). Continuity requires \\(f(2)=2k+1=4\\), giving \\(k=\\frac{3}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 152,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "9.2 Limit of a Function and Continuity",
+            "concept_ids": [
+              "concept_7c05741f2e",
+              "concept_df3b2956cd"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              130,
+              269,
+              270,
+              271
+            ],
+            "source_chunk_ids": [
+              "chunk_3a3571da19",
+              "chunk_df499f21e7"
+            ]
+          },
+          "options": [
+            {
+              "id": "dfrac_3_2_1",
+              "label": "\\(\\dfrac{3}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The limit is \\(4\\), so \\(2k+1=4\\)."
+            },
+            {
+              "id": "2_2",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives \\(f(2)=5\\), not the limiting value."
+            },
+            {
+              "id": "dfrac_1_2_3",
+              "label": "\\(\\dfrac{1}{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives \\(f(2)=2\\)."
+            },
+            {
+              "id": "3_4",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives \\(f(2)=7\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "3e135bc3-9ae4-52b1-9c9e-af87d26c5279",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate \\(\\displaystyle \\lim_{x\\to 0}\\frac{\\sin 5x}{\\tan 2x}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(\\displaystyle \\frac{\\sin 5x}{\\tan 2x}=\\frac{\\sin 5x}{5x}\\cdot\\frac{2x}{\\tan 2x}\\cdot\\frac{5}{2}\\). Therefore, the limit is \\(1\\cdot 1\\cdot\\frac{5}{2}=\\frac{5}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 153,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.2 Limit of a Function and Continuity",
+            "concept_ids": [
+              "concept_7c05741f2e",
+              "concept_df3b2956cd"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              130,
+              269,
+              270,
+              271
+            ],
+            "source_chunk_ids": [
+              "chunk_3a3571da19",
+              "chunk_df499f21e7"
+            ]
+          },
+          "options": [
+            {
+              "id": "dfrac_5_2_1",
+              "label": "\\(\\dfrac{5}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Using standard limits, the value is \\(\\frac{5}{2}\\)."
+            },
+            {
+              "id": "dfrac_2_5_2",
+              "label": "\\(\\dfrac{2}{5}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The numerator and denominator coefficients are inverted."
+            },
+            {
+              "id": "1_3",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The coefficients of \\(x\\) do not cancel equally."
+            },
+            {
+              "id": "0_4",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Both numerator and denominator approach \\(0\\), but their ratio has a finite nonzero limit."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "b9871652-2be2-5045-86a1-baf731a38544",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(f(x)=\\begin{cases}x+1,&x<1,\\ax+b,&x\\ge 1.\\end{cases}\\) If \\(f\\) is continuous at \\(x=1\\) and \\(f(2)=5\\), find \\(a-b\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The left-hand limit at \\(x=1\\) is \\(2\\). Continuity gives \\(a+b=2\\). Also, \\(f(2)=2a+b=5\\). Subtracting, \\(a=3\\) and \\(b=-1\\), hence \\(a-b=4\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 154,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "9.2 Limit of a Function and Continuity",
+            "concept_ids": [
+              "concept_7c05741f2e",
+              "concept_df3b2956cd"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              130,
+              269,
+              270,
+              271
+            ],
+            "source_chunk_ids": [
+              "chunk_3a3571da19",
+              "chunk_df499f21e7"
+            ]
+          },
+          "options": [
+            {
+              "id": "4_1",
+              "label": "\\(4\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Continuity gives \\(a+b=2\\), while \\(2a+b=5\\), so \\(a-b=4\\)."
+            },
+            {
+              "id": "2_2",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the value of \\(a+b\\), not \\(a-b\\)."
+            },
+            {
+              "id": "3_3",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the value of \\(a\\), not the requested expression."
+            },
+            {
+              "id": "4_4",
+              "label": "\\(-4\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The signs are reversed."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "feea355d-4bb9-5b56-9744-9777b9e9f406",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate \\(\\displaystyle \\lim_{x\\to 0}\\frac{\\sqrt{1+x}-\\sqrt{1-x}}{\\sin x}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Rationalising the numerator gives \\(\\displaystyle \\frac{2x}{(\\sqrt{1+x}+\\sqrt{1-x})\\sin x}=\\frac{2}{\\sqrt{1+x}+\\sqrt{1-x}}\\cdot\\frac{x}{\\sin x}\\). Thus the limit is \\(\\frac{2}{2}\\cdot 1=1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 155,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "9.2 Limit of a Function and Continuity",
+            "concept_ids": [
+              "concept_7c05741f2e",
+              "concept_df3b2956cd"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              130,
+              269,
+              270,
+              271
+            ],
+            "source_chunk_ids": [
+              "chunk_3a3571da19",
+              "chunk_df499f21e7"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_1",
+              "label": "\\(1\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Rationalisation reduces the expression to \\(\\frac{2x}{(\\sqrt{1+x}+\\sqrt{1-x})\\sin x}\\)."
+            },
+            {
+              "id": "dfrac_1_2_2",
+              "label": "\\(\\dfrac{1}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factor \\(2\\) from rationalisation is omitted."
+            },
+            {
+              "id": "2_3",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The denominator factor approaching \\(2\\) is omitted."
+            },
+            {
+              "id": "0_4",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The expression approaches a finite nonzero value."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_3a3571da19",
+    "chunk_df499f21e7"
+  ],
+  "source_pages": [
+    130,
+    269,
+    270,
+    271
+  ],
+  "rejected": []
+}

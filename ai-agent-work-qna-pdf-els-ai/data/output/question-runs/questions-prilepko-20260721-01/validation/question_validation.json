@@ -1,0 +1,1115 @@
+{
+  "passed": false,
+  "expected_topics": 33,
+  "completed_topics": 29,
+  "expected_questions": 165,
+  "generated_questions": 157,
+  "failed_topics": [
+    "1.4 Equations and Inequalities of Higher Degrees",
+    "2.2 Systems of Irrational Equations and Inequalities",
+    "2.6 Inverse Trigonometric Functions",
+    "2.7 Trigonometric Equations and Systems of Equations"
+  ],
+  "failed_questions": [],
+  "questions": [
+    {
+      "question_id": "2a76ce45-fb6e-5d1e-bb89-9402bd6dfdbc",
+      "topic": "1.1 Linear Equations and Inequalities in One Variable",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "6978d8d9-2ba0-5ea2-999b-da9244eb5e0e",
+      "topic": "1.1 Linear Equations and Inequalities in One Variable",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "db4d080a-2f8b-5248-a88d-adaa3c5b34d6",
+      "topic": "1.1 Linear Equations and Inequalities in One Variable",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "57ad091a-6a80-55ea-a4e9-fdbf2b2a6329",
+      "topic": "1.1 Linear Equations and Inequalities in One Variable",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "ef16bbd2-1cd5-5b96-94ca-6602b4ec59ee",
+      "topic": "1.1 Linear Equations and Inequalities in One Variable",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "28f68da0-5e06-5e4e-a008-29541146eac9",
+      "topic": "1.2 Quadratic Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "ef43f914-a6e6-59cb-bbe6-ab30f6e4a68d",
+      "topic": "1.2 Quadratic Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "682842e7-c1c3-5615-902d-0fc0b69cb7ba",
+      "topic": "1.2 Quadratic Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "f154ce0f-a35c-5e3d-a557-e2f29c53af22",
+      "topic": "1.2 Quadratic Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "e22deb90-4d37-56ab-9e09-7fb9c33b1c77",
+      "topic": "1.2 Quadratic Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "fcb631bf-d6e3-5f17-993e-0d5efcbc90f7",
+      "topic": "1.3 Inverse Proportionality",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "587c6f15-c19b-5a7a-8efb-e687ae736920",
+      "topic": "1.3 Inverse Proportionality",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "5636fbe2-2713-51f6-9e42-6e3d83e479fd",
+      "topic": "1.3 Inverse Proportionality",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "758fb563-5852-50f2-a882-227f33f41baf",
+      "topic": "1.3 Inverse Proportionality",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "bd82db14-672c-506a-951b-3f49298ee1d3",
+      "topic": "1.3 Inverse Proportionality",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "12f91b04-348c-5a1d-922b-9fda3e430eed",
+      "topic": "1.4 Equations and Inequalities of Higher Degrees",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "2f7f6006-6f04-5b5a-a59a-13359a8dfa3d",
+      "topic": "1.4 Equations and Inequalities of Higher Degrees",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "85d900b4-368d-546b-910d-053b7cf058bf",
+      "topic": "1.4 Equations and Inequalities of Higher Degrees",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "dce9e0d0-771c-57ef-b556-57e569e2e784",
+      "topic": "1.4 Equations and Inequalities of Higher Degrees",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "46ce6407-ba69-5739-ab71-bd99acdf5f80",
+      "topic": "1.5 Linear Systems of Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "e87e0710-9674-5f83-9bd9-2e4506021aa2",
+      "topic": "1.5 Linear Systems of Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "5dab899a-2aaa-5315-a142-d634e7b18d1f",
+      "topic": "1.5 Linear Systems of Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "ac2a06c8-026d-5fc8-abe3-87692f68f653",
+      "topic": "1.5 Linear Systems of Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "09ebfb02-f4d4-54c3-b1fb-e75131a51899",
+      "topic": "1.5 Linear Systems of Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "60932c79-aa52-5c46-aace-ec3185c808f9",
+      "topic": "1.6 Systems of Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "b656626e-04d2-51c6-855f-c4aa6f467af9",
+      "topic": "1.6 Systems of Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "224d523a-be37-5cda-a9a2-d655a713bb41",
+      "topic": "1.6 Systems of Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "321eb6d4-7296-50f6-938c-ae0b38d3e161",
+      "topic": "1.6 Systems of Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "8105e6af-b985-53fd-97ae-a43f78ff147b",
+      "topic": "1.6 Systems of Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "ebc315eb-18a5-5ffa-9b3a-ae4f98049b07",
+      "topic": "2.1 Irrational Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "29636b5b-b24a-53fc-a551-d17f65549c8b",
+      "topic": "2.1 Irrational Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "a0714202-f9fa-55a3-a1cd-701397ae91da",
+      "topic": "2.1 Irrational Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "6d6deb9f-add8-5399-af4f-556e1b7cd98d",
+      "topic": "2.1 Irrational Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "6f183372-caac-5ead-8a9b-85685c945f63",
+      "topic": "2.1 Irrational Equations and Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "b27f14ff-2f15-5966-8155-ada93c97e13f",
+      "topic": "2.3 An Exponential and a Logarithmic Functions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "4ed5708d-f0fa-51d5-a4ee-70c0ebedde88",
+      "topic": "2.3 An Exponential and a Logarithmic Functions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "1e50f7d0-da33-584a-9e2b-be5ee89dc112",
+      "topic": "2.3 An Exponential and a Logarithmic Functions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "345024ea-6d24-54f1-8b62-ba22c970ea6c",
+      "topic": "2.3 An Exponential and a Logarithmic Functions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "327dcac6-91be-5e1b-b86e-33c79c2c73c6",
+      "topic": "2.3 An Exponential and a Logarithmic Functions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "0b03662c-42f7-5671-ac8d-c9c39e3d6aaa",
+      "topic": "2.4 Transformation of Trigonometric Expressions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "3de29a58-cf23-5459-89c9-e9b2e9733fe4",
+      "topic": "2.4 Transformation of Trigonometric Expressions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "eefb622a-2866-5da8-8360-90a507a3a94d",
+      "topic": "2.4 Transformation of Trigonometric Expressions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "cc6332d7-45f2-5579-947b-24e569aebe5e",
+      "topic": "2.4 Transformation of Trigonometric Expressions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "e5db97bf-e512-5526-8e80-e0bbf67cf3c5",
+      "topic": "2.4 Transformation of Trigonometric Expressions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "0d50f26d-2615-5b63-a88d-f43308d8cae2",
+      "topic": "2.5 Trigonometric Functions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "37f513eb-dd1b-5cc8-9728-4cf37d076f63",
+      "topic": "2.5 Trigonometric Functions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "1f67720e-90fb-5000-9989-462928f7705b",
+      "topic": "2.5 Trigonometric Functions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "7fd5d2d9-df5e-5a7e-9451-ce33e8c00958",
+      "topic": "2.5 Trigonometric Functions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "c337176b-20e8-5161-9500-e90d632a76db",
+      "topic": "2.5 Trigonometric Functions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "d3e7c0bd-7892-552e-a45e-a50005b640fd",
+      "topic": "2.6 Inverse Trigonometric Functions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "3c0d9903-c5ca-5d8a-89b9-e3a198fdfe56",
+      "topic": "2.6 Inverse Trigonometric Functions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "45df7a2b-bcd8-5b2b-8d70-f0672ddcc06a",
+      "topic": "2.6 Inverse Trigonometric Functions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "0a0240e7-3289-525b-80dc-61fedf1a2d4c",
+      "topic": "2.6 Inverse Trigonometric Functions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "ab556402-7970-5e6b-ae03-835ac922d7fe",
+      "topic": "2.7 Trigonometric Equations and Systems of Equations",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "eab96023-744d-592c-a39c-76e87d9360ae",
+      "topic": "2.7 Trigonometric Equations and Systems of Equations",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "a2c6dafa-5dd5-5a26-90eb-648be2183b97",
+      "topic": "2.7 Trigonometric Equations and Systems of Equations",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "d8b2748b-e4d7-5332-bede-8c35195665bf",
+      "topic": "2.7 Trigonometric Equations and Systems of Equations",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "70253ba3-d8ce-5ae1-b557-add87fffcba5",
+      "topic": "2.8 Trigonometric Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "d4276c7d-145e-5281-81b2-3323c9e3bffa",
+      "topic": "2.8 Trigonometric Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "0cbceb3d-9502-560e-a2dc-26d6a8a70412",
+      "topic": "2.8 Trigonometric Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "8d85083a-5905-52be-905a-8242efa12c6f",
+      "topic": "2.8 Trigonometric Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "6d6157bd-b66e-5ad7-ae1d-b40374027cd6",
+      "topic": "2.8 Trigonometric Inequalities",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "b8cf765f-03be-5272-a9f5-9d0e7908029b",
+      "topic": "3.1 Problems on Motion",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "2e8dd9b3-16d7-5f4e-8a08-b2ea3a92462b",
+      "topic": "3.1 Problems on Motion",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "2a11b1f5-97eb-52db-b05f-90ddfb1c88cd",
+      "topic": "3.1 Problems on Motion",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "68fa07e7-0f99-5119-8740-4075b8e6e568",
+      "topic": "3.1 Problems on Motion",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "0f122445-be10-56e1-8ea8-01329aaae399",
+      "topic": "3.1 Problems on Motion",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "9e20f5a0-f0bb-5f19-a8ce-b4af10c84f19",
+      "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "9c21d3ec-d758-5e63-af61-545e1112c57c",
+      "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "70fa21f0-f3aa-516a-a319-42b69f004d7e",
+      "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "0ee69021-ec88-57bc-ad2b-da09803279af",
+      "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "e3c74084-8cb8-50be-85c7-7e85abbb5724",
+      "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "901a0e7d-ff43-5032-9934-b2e40443e941",
+      "topic": "3.3 Problems on Deriving Inequalities and Systems",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "eec253e8-7438-54f4-b848-8661d6744a29",
+      "topic": "3.3 Problems on Deriving Inequalities and Systems",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "aac71f87-ce21-52f7-8832-8763c9d5b32a",
+      "topic": "3.3 Problems on Deriving Inequalities and Systems",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "eb462b48-129e-57b1-80e4-7880ea6f5ded",
+      "topic": "3.3 Problems on Deriving Inequalities and Systems",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "ec26b341-c3a1-5366-8c50-c874e91580f8",
+      "topic": "3.3 Problems on Deriving Inequalities and Systems",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "f3ec601a-4e9b-55e9-b9ce-6d4c8c4c2a4f",
+      "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "a82c5dc3-9faf-5986-9635-e9f14271de60",
+      "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "6393e533-eaf5-5115-b175-a3df1e4f48ec",
+      "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "a062d682-128f-5709-a4a9-9f9fcd8ac548",
+      "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "97ea2fdb-90a6-520a-ae75-ec8b9c6e6aa5",
+      "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "20b74087-5ffa-594d-a1c6-309cf27a68e8",
+      "topic": "4.2 Calculating Areas of Plane Figures",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "daf2223f-ee91-5e1d-8d77-a7ae51dee4b1",
+      "topic": "4.2 Calculating Areas of Plane Figures",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "9fd40b5f-c349-536b-8cd3-8ca58629e47e",
+      "topic": "4.2 Calculating Areas of Plane Figures",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "9cbdab3a-9c81-5441-b320-09883dad9a89",
+      "topic": "4.2 Calculating Areas of Plane Figures",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "c81794e6-bd91-5047-a942-07ccdd5f9394",
+      "topic": "4.2 Calculating Areas of Plane Figures",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "9b79b478-a278-5301-b757-a06af0efa6bc",
+      "topic": "5.1 Progressions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "1dc6e1db-ba08-5b75-b88b-246267b24f80",
+      "topic": "5.1 Progressions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "10304244-ca88-52d5-bdbb-18131c225851",
+      "topic": "5.1 Progressions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "b055f474-a3d6-56c0-8514-5ea2950de66d",
+      "topic": "5.1 Progressions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "2a6539a3-95fa-5713-a718-baed903e3df0",
+      "topic": "5.1 Progressions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "aa32b8d7-69e2-5e4f-b708-f24bc05a383b",
+      "topic": "5.2 Number Sequences",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "064fcf9a-70a8-5ff7-9cc6-b640d6e4ad1f",
+      "topic": "5.2 Number Sequences",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "422eb8af-52e2-591c-97e9-1e16094ec518",
+      "topic": "5.2 Number Sequences",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "1c2ffc46-5687-548b-8b72-9e6f960bbadf",
+      "topic": "5.2 Number Sequences",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "3e10665e-4e58-569d-a8ab-b6415c132da5",
+      "topic": "5.2 Number Sequences",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "df23ff22-a163-5bdb-be60-27f750548069",
+      "topic": "6.1 Linear Operations on Vectors",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "199df1bf-799e-51d9-a8bd-db327faf51c3",
+      "topic": "6.1 Linear Operations on Vectors",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "05e7da75-ff98-5530-bdfc-8dfd9028c170",
+      "topic": "6.1 Linear Operations on Vectors",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "0dff3558-d464-5d4f-8454-1e008a3c9cc0",
+      "topic": "6.1 Linear Operations on Vectors",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "27275957-1a02-5c0b-97f1-05b708ecea89",
+      "topic": "6.1 Linear Operations on Vectors",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "63ebb416-0d4d-5da5-8891-9f36e1903823",
+      "topic": "6.2 The Scalar Product of Vectors",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "5cf7048b-a6ae-53ee-93d1-4d7350757855",
+      "topic": "6.2 The Scalar Product of Vectors",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "cd49bd57-61e2-5aa0-8022-dc4ae0fb7b28",
+      "topic": "6.2 The Scalar Product of Vectors",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "3e14fb30-d9b7-5755-b856-2a7a38da715e",
+      "topic": "6.2 The Scalar Product of Vectors",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "c5909a15-71bf-599d-9159-74e274a0e801",
+      "topic": "6.2 The Scalar Product of Vectors",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "bdff0088-6e01-5ccc-8bcc-8a8cbce5e88d",
+      "topic": "7.1 Problems on Proving Propositions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "adb78972-bff3-5668-aebc-31903ce90408",
+      "topic": "7.1 Problems on Proving Propositions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "284d5ea2-2aaf-559d-b655-e0213d669ade",
+      "topic": "7.1 Problems on Proving Propositions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "8d981cc8-fefd-5049-89d0-d98813d8f03f",
+      "topic": "7.1 Problems on Proving Propositions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "48b60694-21e9-54d5-a3ea-1bce866c7e14",
+      "topic": "7.1 Problems on Proving Propositions",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "35e6749b-129d-5a4c-b2c7-c72aedc47397",
+      "topic": "7.2 Construction Problems",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "21f3eb79-7ab0-5f06-a524-72e4c59ca6dd",
+      "topic": "7.2 Construction Problems",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "7164234f-2604-50f9-a4a0-bf9763fcb8dd",
+      "topic": "7.2 Construction Problems",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "cdb01165-47d5-5575-840f-4b7a496762f9",
+      "topic": "7.2 Construction Problems",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "a26edc93-57c5-5506-bf50-2fcab3526264",
+      "topic": "7.2 Construction Problems",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "80d21043-505a-57f2-8655-69fb3849f852",
+      "topic": "7.3 Problems on Calculation",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "960e177d-ed4a-5c2d-9a37-5c17a799ef14",
+      "topic": "7.3 Problems on Calculation",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "6d422c9f-3414-5bdb-b682-3c45103b5d1b",
+      "topic": "7.3 Problems on Calculation",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "06df38e1-f747-5269-99d1-6f655ee3f326",
+      "topic": "7.3 Problems on Calculation",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "61fe0017-9abe-507f-a250-48e96c505084",
+      "topic": "7.3 Problems on Calculation",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "f99469f8-a9a9-5619-8def-b77c9b8ba5cd",
+      "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "74fa114d-857a-51c0-b690-32fe0c16d144",
+      "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "9c94aca5-99b1-5e2b-b9a3-b55710f9e4c0",
+      "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "242bdac8-cefe-571b-b2ab-c72351ff6226",
+      "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "fe343135-f91b-5db6-8910-32f8ad9caaa6",
+      "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "65778c3c-fce8-55f7-a8bf-3369192e31e0",
+      "topic": "8.2 Problems on Combinations of Polyhedra",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "4106dfe0-9477-53c3-abb6-b00a9a56ed5e",
+      "topic": "8.2 Problems on Combinations of Polyhedra",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "7a896c07-e2e0-5720-a1d6-ae3cc136609f",
+      "topic": "8.2 Problems on Combinations of Polyhedra",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "0a1dd602-1ba3-576b-8136-e7ba938dd272",
+      "topic": "8.2 Problems on Combinations of Polyhedra",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "9db5b7f0-905b-5d0d-8dc4-a9aca87590ac",
+      "topic": "8.2 Problems on Combinations of Polyhedra",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "6f9c7ccb-34c3-5596-be24-9b011f631eeb",
+      "topic": "8.3 Volumes of Solids of Revolution",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "df0e8949-f038-5309-bc29-df763776de65",
+      "topic": "8.3 Volumes of Solids of Revolution",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "89c29093-1901-53f8-a8a3-0d39f06760e5",
+      "topic": "8.3 Volumes of Solids of Revolution",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "b4315758-de46-51fc-ad0e-0f7d7ee6e7a1",
+      "topic": "8.3 Volumes of Solids of Revolution",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "d4686feb-83a7-5726-a34a-92960780d8b2",
+      "topic": "8.3 Volumes of Solids of Revolution",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "8c744ba6-fcf1-58dd-962f-44c4d73293c2",
+      "topic": "9.1 Problems in Algebra",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "c3ab6e5e-e604-5e92-9e48-a0df0380558d",
+      "topic": "9.1 Problems in Algebra",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "77fd2fa4-0bdc-5ced-8006-b831af17242e",
+      "topic": "9.1 Problems in Algebra",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "9d0ec2bb-b7e8-505c-8314-8a490ef7c185",
+      "topic": "9.1 Problems in Algebra",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "9bede7a5-078f-5052-b6c2-cbbd1688eed9",
+      "topic": "9.1 Problems in Algebra",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "b124369b-5e9d-56b1-ba67-fdf89c9ca38d",
+      "topic": "9.2 Limit of a Function and Continuity",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "be2e6d38-0cbb-56da-b21c-c9ededf10918",
+      "topic": "9.2 Limit of a Function and Continuity",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "a7b39403-be30-5b27-bbb4-eb457580d8b6",
+      "topic": "9.2 Limit of a Function and Continuity",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "4318a986-15e2-5399-9285-d3c6bbccf837",
+      "topic": "9.2 Limit of a Function and Continuity",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "0d97f375-d299-58db-bf80-c2f8d2989e2e",
+      "topic": "9.2 Limit of a Function and Continuity",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "1ad03c64-0746-5003-92a3-f0b8436e99fb",
+      "topic": "9.3 The Derivative of a Function",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "a759b6fa-5c00-5e66-a3a2-bb45e8c23f54",
+      "topic": "9.3 The Derivative of a Function",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "9f63b39f-a2aa-5988-85c6-cf96a573a93a",
+      "topic": "9.3 The Derivative of a Function",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "5341b51c-1cd9-56a8-8c8e-94b5e855a382",
+      "topic": "9.3 The Derivative of a Function",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "48158d11-27f4-5c57-b628-906722ff2825",
+      "topic": "9.3 The Derivative of a Function",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "7856b524-94ba-5d76-a116-572b1434c435",
+      "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "aac3ec15-e75f-582b-864d-1c3122202a17",
+      "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "1a883c88-eaf5-5a76-b658-aa9bb4adc576",
+      "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "4eaf7815-0dcc-50bb-afa2-393ebbcf7363",
+      "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    },
+    {
+      "question_id": "a94a7895-e34a-5e96-ae59-fe4847df973d",
+      "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+      "status": "PASSED",
+      "quality_score": 100,
+      "issues": []
+    }
+  ]
+}

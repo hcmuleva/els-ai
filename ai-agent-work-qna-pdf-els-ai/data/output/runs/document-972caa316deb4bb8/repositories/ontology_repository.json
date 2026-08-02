@@ -1,0 +1,158 @@
+{
+  "entities": [
+    {
+      "entity_id": "concept_657d98b019",
+      "entity_type": "Principle",
+      "name": "ELECTROMAGNETIC INDUCTION practice pages 1-6",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "example_54ddf7439c",
+      "entity_type": "Example",
+      "name": "JEE | NEET | Class 8 - 10 Download eSaral App www.esaral.com JEE Main Physics Revision Notes 3 LENZ’S LAW The effect of the induced emf is such as to oppose the change in flux that produces it. dt dE Negative sign indicates towards the Lenz’s law.",
+      "concept_id": "concept_657d98b019",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "concept_b98adbe8f0",
+      "entity_type": "Definition",
+      "name": "ELECTROMAGNETIC INDUCTION practice pages 7-12",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "concept_8130b3391d",
+      "entity_type": "Definition",
+      "name": "ELECTROMAGNETIC INDUCTION practice pages 13-17",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "comp_9cb95e2f42",
+      "entity_type": "Competency",
+      "name": "Apply the principle of ELECTROMAGNETIC INDUCTION practice pages 1-6",
+      "concept_id": "concept_657d98b019"
+    },
+    {
+      "entity_id": "comp_83b377738d",
+      "entity_type": "Competency",
+      "name": "Define and distinguish ELECTROMAGNETIC INDUCTION practice pages 7-12",
+      "concept_id": "concept_b98adbe8f0"
+    },
+    {
+      "entity_id": "comp_ad884ca7cd",
+      "entity_type": "Competency",
+      "name": "Define and distinguish ELECTROMAGNETIC INDUCTION practice pages 13-17",
+      "concept_id": "concept_8130b3391d"
+    },
+    {
+      "entity_id": "assessment_9cb95e2f42",
+      "entity_type": "Assessment",
+      "name": "Scenario, Essay, MCQ, Short Answer, Problem Solving",
+      "concept_id": "concept_657d98b019"
+    },
+    {
+      "entity_id": "assessment_83b377738d",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_b98adbe8f0"
+    },
+    {
+      "entity_id": "assessment_ad884ca7cd",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_8130b3391d"
+    },
+    {
+      "entity_id": "misc_54ddf7439c",
+      "entity_type": "Misconception",
+      "name": "Magnetic flux is simply the magnetic field strength multiplied by the area, regardless of orientation.",
+      "concept_id": "concept_657d98b019"
+    },
+    {
+      "entity_id": "misc_6a101008f4",
+      "entity_type": "Misconception",
+      "name": "A magnetic field always produces an induced emf in a circuit.",
+      "concept_id": "concept_657d98b019"
+    },
+    {
+      "entity_id": "misc_6f6764b39e",
+      "entity_type": "Misconception",
+      "name": "A changing magnetic flux always produces an induced current.",
+      "concept_id": "concept_657d98b019"
+    },
+    {
+      "entity_id": "misc_f36dd7d622",
+      "entity_type": "Misconception",
+      "name": "Mutual induction occurs only when the current in the secondary coil changes.",
+      "concept_id": "concept_b98adbe8f0"
+    },
+    {
+      "entity_id": "misc_7810bab9a1",
+      "entity_type": "Misconception",
+      "name": "The mutual inductance of two coils is always equal to âˆš(L1L2).",
+      "concept_id": "concept_b98adbe8f0"
+    },
+    {
+      "entity_id": "misc_ca48293a27",
+      "entity_type": "Misconception",
+      "name": "A larger mutual inductance means that the induced emf is always larger.",
+      "concept_id": "concept_b98adbe8f0"
+    },
+    {
+      "entity_id": "misc_96187897d1",
+      "entity_type": "Misconception",
+      "name": "Average power in an AC RLC circuit is always V_r.m.s. I_r.m.s.",
+      "concept_id": "concept_8130b3391d"
+    },
+    {
+      "entity_id": "misc_396d4c1cb5",
+      "entity_type": "Misconception",
+      "name": "If Ï‰L > 1/(Ï‰C), the current leads the voltage.",
+      "concept_id": "concept_8130b3391d"
+    },
+    {
+      "entity_id": "misc_d0479e90f6",
+      "entity_type": "Misconception",
+      "name": "At resonance, the resistance, inductive reactance, and capacitive reactance all become zero.",
+      "concept_id": "concept_8130b3391d"
+    }
+  ],
+  "entity_type_counts": {
+    "Assessment": 3,
+    "Competency": 3,
+    "Definition": 2,
+    "Example": 1,
+    "Misconception": 9,
+    "Principle": 1
+  }
+}

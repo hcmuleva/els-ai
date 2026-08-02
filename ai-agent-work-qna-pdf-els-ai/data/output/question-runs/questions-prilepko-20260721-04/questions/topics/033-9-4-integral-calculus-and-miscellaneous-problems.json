@@ -1,0 +1,576 @@
+{
+  "key": "9.4",
+  "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+  "questions": [
+    {
+      "question": {
+        "id": "7325092b-5eec-5783-8b0f-b5444ecb2c30",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(f(x)=x^3-3x^2-9x+5\\), on which interval is \\(f\\) strictly decreasing?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(f'(x)=3x^2-6x-9=3(x+1)(x-3)\\). Hence \\(f'(x)<0\\) for \\(-1<x<3\\), so \\(f\\) is strictly decreasing on \\((-1,3)\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 161,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+            "concept_ids": [
+              "concept_7efa7a3bb2",
+              "concept_e929a4228c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              133,
+              134,
+              135,
+              136,
+              137,
+              274,
+              275,
+              276,
+              277,
+              278,
+              279
+            ],
+            "source_chunk_ids": [
+              "chunk_47c2c2b257",
+              "chunk_e31016cd76"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_3_1",
+              "label": "\\((-1,3)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(f'(x)=3(x+1)(x-3)\\) is negative on \\((-1,3)\\)."
+            },
+            {
+              "id": "infty_1_2",
+              "label": "\\((-\\infty,-1)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative is positive there."
+            },
+            {
+              "id": "3_infty_3",
+              "label": "\\((3,\\infty)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative is positive there."
+            },
+            {
+              "id": "1_infty_4",
+              "label": "\\((-1,\\infty)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative changes sign at \\(x=3\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "f7b2503c-5011-5630-b608-ca9b1ffc29b6",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate \\(I=\\int_{0}^{\\frac{\\pi}{2}}\\frac{dx}{1+\\tan x}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Replacing \\(x\\) by \\(\\frac{\\pi}{2}-x\\), the integrand becomes \\(\\frac{\\tan x}{1+\\tan x}\\). Their sum is \\(1\\). Therefore \\(2I=\\int_{0}^{\\frac{\\pi}{2}}1\\,dx=\\frac{\\pi}{2}\\), giving \\(I=\\frac{\\pi}{4}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 162,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+            "concept_ids": [
+              "concept_7efa7a3bb2",
+              "concept_e929a4228c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              133,
+              134,
+              135,
+              136,
+              137,
+              274,
+              275,
+              276,
+              277,
+              278,
+              279
+            ],
+            "source_chunk_ids": [
+              "chunk_47c2c2b257",
+              "chunk_e31016cd76"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_pi_4_1",
+              "label": "\\(\\frac{\\pi}{4}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The integrand and its reflected form add to \\(1\\)."
+            },
+            {
+              "id": "frac_pi_2_2",
+              "label": "\\(\\frac{\\pi}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is twice the correct value."
+            },
+            {
+              "id": "1_3",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The interval symmetry does not give this value."
+            },
+            {
+              "id": "frac_2_pi_4",
+              "label": "\\(\\frac{2}{\\pi}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not the value of the integral."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "cc751447-6afe-5187-8bc7-b8715a885d87",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the area enclosed between the curves \\(y=x\\) and \\(y=x^2\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The curves intersect at \\(x=0\\) and \\(x=1\\). On this interval, \\(x\\) lies above \\(x^2\\). Hence the area is \\(\\int_{0}^{1}(x-x^2)\\,dx=\\left[\\frac{x^2}{2}-\\frac{x^3}{3}\\right]_{0}^{1}=\\frac{1}{6}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 163,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+            "concept_ids": [
+              "concept_7efa7a3bb2",
+              "concept_e929a4228c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              133,
+              134,
+              135,
+              136,
+              137,
+              274,
+              275,
+              276,
+              277,
+              278,
+              279
+            ],
+            "source_chunk_ids": [
+              "chunk_47c2c2b257",
+              "chunk_e31016cd76"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_1_6_square_units_1",
+              "label": "\\(\\frac{1}{6}\\) square units",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The area is \\(\\int_{0}^{1}(x-x^2)\\,dx=\\frac{1}{6}\\)."
+            },
+            {
+              "id": "frac_1_3_square_units_2",
+              "label": "\\(\\frac{1}{3}\\) square units",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits the factor from integrating \\(x^2\\)."
+            },
+            {
+              "id": "frac_1_2_square_units_3",
+              "label": "\\(\\frac{1}{2}\\) square units",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is only the integral of \\(x\\) from \\(0\\) to \\(1\\)."
+            },
+            {
+              "id": "1_square_unit_4",
+              "label": "\\(1\\) square unit",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The bounded region has smaller area."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "function-region",
+            "width": 420,
+            "height": 320,
+            "xmin": -0.2,
+            "xmax": 1.2,
+            "ymin": -0.2,
+            "ymax": 1.2,
+            "title": null,
+            "elements": [
+              {
+                "type": "grid",
+                "step_x": 1.0,
+                "step_y": 1.0
+              },
+              {
+                "type": "axes",
+                "x_label": "x",
+                "y_label": "y",
+                "ticks": true,
+                "tick_step": 1.0
+              },
+              {
+                "type": "function-region",
+                "upper_expr": "x",
+                "lower_expr": "x**2",
+                "domain": [
+                  0.0,
+                  1.0
+                ],
+                "samples": 120,
+                "fill": "#93c5fd",
+                "fill_opacity": 0.35
+              },
+              {
+                "type": "function",
+                "expr": "x",
+                "domain": [
+                  0.0,
+                  1.0
+                ],
+                "samples": 120,
+                "label": "y=x",
+                "color": "#2563eb"
+              },
+              {
+                "type": "function",
+                "expr": "x**2",
+                "domain": [
+                  0.0,
+                  1.0
+                ],
+                "samples": 120,
+                "label": "y=x²",
+                "color": "#dc2626"
+              },
+              {
+                "type": "point",
+                "at": [
+                  0.0,
+                  0.0
+                ],
+                "label": "(0,0)",
+                "color": "#d62728"
+              },
+              {
+                "type": "point",
+                "at": [
+                  1.0,
+                  1.0
+                ],
+                "label": "(1,1)",
+                "color": "#d62728"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"420\" height=\"320\" viewBox=\"0 0 420 320\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"420\" height=\"320\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"84.29\" y1=\"34\" x2=\"84.29\" y2=\"286\"/><line x1=\"335.71\" y1=\"34\" x2=\"335.71\" y2=\"286\"/><line x1=\"34\" y1=\"250\" x2=\"386\" y2=\"250\"/><line x1=\"34\" y1=\"70\" x2=\"386\" y2=\"70\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"250\" x2=\"386\" y2=\"250\"/><line x1=\"84.29\" y1=\"286\" x2=\"84.29\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"335.71\" y1=\"247\" x2=\"335.71\" y2=\"253\"/><text x=\"335.71\" y=\"264\" text-anchor=\"middle\">1</text><line x1=\"81.29\" y1=\"70\" x2=\"87.29\" y2=\"70\"/><text x=\"78.29\" y=\"73\" text-anchor=\"end\">1</text></g><text x=\"380\" y=\"242\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"88.29\" y=\"30\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">y</text><polygon points=\"84.29,250 86.38,248.5 88.48,247 90.57,245.5 92.67,244 94.76,242.5 96.86,241 98.95,239.5 101.05,238 103.14,236.5 105.24,235 107.33,233.5 109.43,232 111.52,230.5 113.62,229 115.71,227.5 117.81,226 119.9,224.5 122,223 124.1,221.5 126.19,220 128.29,218.5 130.38,217 132.48,215.5 134.57,214 136.67,212.5 138.76,211 140.86,209.5 142.95,208 145.05,206.5 147.14,205 149.24,203.5 151.33,202 153.43,200.5 155.52,199 157.62,197.5 159.71,196 161.81,194.5 163.9,193 166,191.5 168.1,190 170.19,188.5 172.29,187 174.38,185.5 176.48,184 178.57,182.5 180.67,181 182.76,179.5 184.86,178 186.95,176.5 189.05,175 191.14,173.5 193.24,172 195.33,170.5 197.43,169 199.52,167.5 201.62,166 203.71,164.5 205.81,163 207.9,161.5 210,160 212.1,158.5 214.19,157 216.29,155.5 218.38,154 220.48,152.5 222.57,151 224.67,149.5 226.76,148 228.86,146.5 230.95,145 233.05,143.5 235.14,142 237.24,140.5 239.33,139 241.43,137.5 243.52,136 245.62,134.5 247.71,133 249.81,131.5 251.9,130 254,128.5 256.1,127 258.19,125.5 260.29,124 262.38,122.5 264.48,121 266.57,119.5 268.67,118 270.76,116.5 272.86,115 274.95,113.5 277.05,112 279.14,110.5 281.24,109 283.33,107.5 285.43,106 287.52,104.5 289.62,103 291.71,101.5 293.81,100 295.9,98.5 298,97 300.1,95.5 302.19,94 304.29,92.5 306.38,91 308.48,89.5 310.57,88 312.67,86.5 314.76,85 316.86,83.5 318.95,82 321.05,80.5 323.14,79 325.24,77.5 327.33,76 329.43,74.5 331.52,73 333.62,71.5 335.71,70 335.71,70 333.62,72.99 331.52,75.95 329.43,78.89 327.33,81.8 325.24,84.69 323.14,87.55 321.05,90.39 318.95,93.2 316.86,95.99 314.76,98.75 312.67,101.49 310.57,104.2 308.48,106.89 306.38,109.55 304.29,112.19 302.19,114.8 300.1,117.39 298,119.95 295.9,122.49 293.81,125 291.71,127.49 289.62,129.95 287.52,132.39 285.43,134.8 283.33,137.19 281.24,139.55 279.14,141.89 277.05,144.2 274.95,146.49 272.86,148.75 270.76,150.99 268.67,153.2 266.57,155.39 264.48,157.55 262.38,159.69 260.29,161.8 258.19,163.89 256.1,165.95 254,167.99 251.9,170 249.81,171.99 247.71,173.95 245.62,175.89 243.52,177.8 241.43,179.69 239.33,181.55 237.24,183.39 235.14,185.2 233.05,186.99 230.95,188.75 228.86,190.49 226.76,192.2 224.67,193.89 222.57,195.55 220.48,197.19 218.38,198.8 216.29,200.39 214.19,201.95 212.1,203.49 210,205 207.9,206.49 205.81,207.95 203.71,209.39 201.62,210.8 199.52,212.19 197.43,213.55 195.33,214.89 193.24,216.2 191.14,217.49 189.05,218.75 186.95,219.99 184.86,221.2 182.76,222.39 180.67,223.55 178.57,224.69 176.48,225.8 174.38,226.89 172.29,227.95 170.19,228.99 168.1,230 166,230.99 163.9,231.95 161.81,232.89 159.71,233.8 157.62,234.69 155.52,235.55 153.43,236.39 151.33,237.2 149.24,237.99 147.14,238.75 145.05,239.49 142.95,240.2 140.86,240.89 138.76,241.55 136.67,242.19 134.57,242.8 132.48,243.39 130.38,243.95 128.29,244.49 126.19,245 124.1,245.49 122,245.95 119.9,246.39 117.81,246.8 115.71,247.19 113.62,247.55 111.52,247.89 109.43,248.2 107.33,248.49 105.24,248.75 103.14,248.99 101.05,249.2 98.95,249.39 96.86,249.55 94.76,249.69 92.67,249.8 90.57,249.89 88.48,249.95 86.38,249.99 84.29,250\" fill=\"#93c5fd\" fill-opacity=\"0.35\" stroke=\"none\"/><polyline points=\"84.29,250 86.38,248.5 88.48,247 90.57,245.5 92.67,244 94.76,242.5 96.86,241 98.95,239.5 101.05,238 103.14,236.5 105.24,235 107.33,233.5 109.43,232 111.52,230.5 113.62,229 115.71,227.5 117.81,226 119.9,224.5 122,223 124.1,221.5 126.19,220 128.29,218.5 130.38,217 132.48,215.5 134.57,214 136.67,212.5 138.76,211 140.86,209.5 142.95,208 145.05,206.5 147.14,205 149.24,203.5 151.33,202 153.43,200.5 155.52,199 157.62,197.5 159.71,196 161.81,194.5 163.9,193 166,191.5 168.1,190 170.19,188.5 172.29,187 174.38,185.5 176.48,184 178.57,182.5 180.67,181 182.76,179.5 184.86,178 186.95,176.5 189.05,175 191.14,173.5 193.24,172 195.33,170.5 197.43,169 199.52,167.5 201.62,166 203.71,164.5 205.81,163 207.9,161.5 210,160 212.1,158.5 214.19,157 216.29,155.5 218.38,154 220.48,152.5 222.57,151 224.67,149.5 226.76,148 228.86,146.5 230.95,145 233.05,143.5 235.14,142 237.24,140.5 239.33,139 241.43,137.5 243.52,136 245.62,134.5 247.71,133 249.81,131.5 251.9,130 254,128.5 256.1,127 258.19,125.5 260.29,124 262.38,122.5 264.48,121 266.57,119.5 268.67,118 270.76,116.5 272.86,115 274.95,113.5 277.05,112 279.14,110.5 281.24,109 283.33,107.5 285.43,106 287.52,104.5 289.62,103 291.71,101.5 293.81,100 295.9,98.5 298,97 300.1,95.5 302.19,94 304.29,92.5 306.38,91 308.48,89.5 310.57,88 312.67,86.5 314.76,85 316.86,83.5 318.95,82 321.05,80.5 323.14,79 325.24,77.5 327.33,76 329.43,74.5 331.52,73 333.62,71.5 335.71,70\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2\"/><text x=\"329.71\" y=\"62\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#2563eb\">y=x</text><polyline points=\"84.29,250 86.38,249.99 88.48,249.95 90.57,249.89 92.67,249.8 94.76,249.69 96.86,249.55 98.95,249.39 101.05,249.2 103.14,248.99 105.24,248.75 107.33,248.49 109.43,248.2 111.52,247.89 113.62,247.55 115.71,247.19 117.81,246.8 119.9,246.39 122,245.95 124.1,245.49 126.19,245 128.29,244.49 130.38,243.95 132.48,243.39 134.57,242.8 136.67,242.19 138.76,241.55 140.86,240.89 142.95,240.2 145.05,239.49 147.14,238.75 149.24,237.99 151.33,237.2 153.43,236.39 155.52,235.55 157.62,234.69 159.71,233.8 161.81,232.89 163.9,231.95 166,230.99 168.1,230 170.19,228.99 172.29,227.95 174.38,226.89 176.48,225.8 178.57,224.69 180.67,223.55 182.76,222.39 184.86,221.2 186.95,219.99 189.05,218.75 191.14,217.49 193.24,216.2 195.33,214.89 197.43,213.55 199.52,212.19 201.62,210.8 203.71,209.39 205.81,207.95 207.9,206.49 210,205 212.1,203.49 214.19,201.95 216.29,200.39 218.38,198.8 220.48,197.19 222.57,195.55 224.67,193.89 226.76,192.2 228.86,190.49 230.95,188.75 233.05,186.99 235.14,185.2 237.24,183.39 239.33,181.55 241.43,179.69 243.52,177.8 245.62,175.89 247.71,173.95 249.81,171.99 251.9,170 254,167.99 256.1,165.95 258.19,163.89 260.29,161.8 262.38,159.69 264.48,157.55 266.57,155.39 268.67,153.2 270.76,150.99 272.86,148.75 274.95,146.49 277.05,144.2 279.14,141.89 281.24,139.55 283.33,137.19 285.43,134.8 287.52,132.39 289.62,129.95 291.71,127.49 293.81,125 295.9,122.49 298,119.95 300.1,117.39 302.19,114.8 304.29,112.19 306.38,109.55 308.48,106.89 310.57,104.2 312.67,101.49 314.76,98.75 316.86,95.99 318.95,93.2 321.05,90.39 323.14,87.55 325.24,84.69 327.33,81.8 329.43,78.89 331.52,75.95 333.62,72.99 335.71,70\" fill=\"none\" stroke=\"#dc2626\" stroke-width=\"2\"/><text x=\"343.71\" y=\"62\" data-layout=\"auto\" font-size=\"12\" fill=\"#dc2626\">y=x²</text><circle cx=\"84.29\" cy=\"250\" r=\"3\" fill=\"#d62728\"/><text x=\"76.29\" y=\"242\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">(0,0)</text><circle cx=\"335.71\" cy=\"70\" r=\"3\" fill=\"#d62728\"/><text x=\"343.71\" y=\"88\" data-layout=\"auto\" font-size=\"12\" fill=\"#111111\">(1,1)</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "48d74833-c2dd-512c-be57-77fb5a3e3c4b",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate \\(\\int_{0}^{1}\\frac{x^2}{1+x^2}\\,dx\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using \\(\\frac{x^2}{1+x^2}=1-\\frac{1}{1+x^2}\\), the integral equals \\(\\left[x-\\tan^{-1}x\\right]_{0}^{1}=1-\\frac{\\pi}{4}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 164,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+            "concept_ids": [
+              "concept_7efa7a3bb2",
+              "concept_e929a4228c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              133,
+              134,
+              135,
+              136,
+              137,
+              274,
+              275,
+              276,
+              277,
+              278,
+              279
+            ],
+            "source_chunk_ids": [
+              "chunk_47c2c2b257",
+              "chunk_e31016cd76"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_frac_pi_4_1",
+              "label": "\\(1-\\frac{\\pi}{4}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(\\frac{x^2}{1+x^2}=1-\\frac{1}{1+x^2}\\)."
+            },
+            {
+              "id": "1_frac_pi_4_2",
+              "label": "\\(1+\\frac{\\pi}{4}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inverse tangent term has the wrong sign."
+            },
+            {
+              "id": "frac_pi_4_3",
+              "label": "\\(\\frac{\\pi}{4}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the integral of \\(\\frac{1}{1+x^2}\\)."
+            },
+            {
+              "id": "frac_1_2_frac_pi_4_4",
+              "label": "\\(\\frac{1}{2}-\\frac{\\pi}{4}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The integral of \\(1\\) contributes \\(1\\), not \\(\\frac{1}{2}\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "c459aa41-0c2d-5472-bf05-36c70059d10a",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(F(x)=\\int_{0}^{\\sin x}\\sqrt{1+t^2}\\,dt\\). Find \\(F'\\left(\\frac{\\pi}{6}\\right)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "By the Fundamental Theorem of Calculus and the chain rule, \\(F'(x)=\\cos x\\sqrt{1+\\sin^2x}\\). Thus \\(F'\\left(\\frac{\\pi}{6}\\right)=\\frac{\\sqrt{3}}{2}\\sqrt{1+\\frac{1}{4}}=\\frac{\\sqrt{15}}{4}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 165,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+            "concept_ids": [
+              "concept_7efa7a3bb2",
+              "concept_e929a4228c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              133,
+              134,
+              135,
+              136,
+              137,
+              274,
+              275,
+              276,
+              277,
+              278,
+              279
+            ],
+            "source_chunk_ids": [
+              "chunk_47c2c2b257",
+              "chunk_e31016cd76"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_sqrt_15_4_1",
+              "label": "\\(\\frac{\\sqrt{15}}{4}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "By the chain rule, \\(F'(x)=\\cos x\\sqrt{1+\\sin^2x}\\)."
+            },
+            {
+              "id": "frac_sqrt_5_2_2",
+              "label": "\\(\\frac{\\sqrt{5}}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits the factor \\(\\cos\\frac{\\pi}{6}\\)."
+            },
+            {
+              "id": "frac_sqrt_3_2_3",
+              "label": "\\(\\frac{\\sqrt{3}}{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits the square-root factor."
+            },
+            {
+              "id": "frac_5_4_4",
+              "label": "\\(\\frac{5}{4}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The square-root factor is evaluated incorrectly."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_47c2c2b257",
+    "chunk_e31016cd76"
+  ],
+  "source_pages": [
+    133,
+    134,
+    135,
+    136,
+    137,
+    274,
+    275,
+    276,
+    277,
+    278,
+    279
+  ],
+  "rejected": []
+}

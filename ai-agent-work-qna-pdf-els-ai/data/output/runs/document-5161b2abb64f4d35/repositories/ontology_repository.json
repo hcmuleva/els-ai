@@ -1,0 +1,2677 @@
+{
+  "entities": [
+    {
+      "entity_id": "concept_7693272a7d",
+      "entity_type": "Formula",
+      "name": "Magnetic flux through a surface",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_cf86eafbab",
+      "entity_type": "Formula",
+      "name": "Φ_B = ∫_S B · dS",
+      "concept_id": "concept_7693272a7d",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_b0cfa2e604",
+      "entity_type": "Formula",
+      "name": "dΦ_B = B dS cos θ",
+      "concept_id": "concept_7693272a7d",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "concept_f8eaf41ca7",
+      "entity_type": "Formula",
+      "name": "Gauss’ law for magnetism",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_3b587e175c",
+      "entity_type": "Formula",
+      "name": "∮_S B · dS = 0",
+      "concept_id": "concept_f8eaf41ca7",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "concept_2a665274e3",
+      "entity_type": "Formula",
+      "name": "Induced electromotive force",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_be08203ed3",
+      "entity_type": "Formula",
+      "name": "|E| = dΦ/dt",
+      "concept_id": "concept_2a665274e3",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "example_be08203ed3",
+      "entity_type": "Example",
+      "name": "A moving conductor cutting magnetic field lines",
+      "concept_id": "concept_2a665274e3",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "example_ad705e3af2",
+      "entity_type": "Example",
+      "name": "A changing magnetic field through a stationary coil",
+      "concept_id": "concept_2a665274e3",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "concept_549729587d",
+      "entity_type": "Formula",
+      "name": "Direction of induced emf",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_2bc376fc27",
+      "entity_type": "Formula",
+      "name": "E = −dΦ/dt",
+      "concept_id": "concept_549729587d",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "concept_5975bf7946",
+      "entity_type": "Formula",
+      "name": "Charge transferred by induction",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_591272398b",
+      "entity_type": "Formula",
+      "name": "Q = ∫i dt = −ΔΦ/R",
+      "concept_id": "concept_5975bf7946",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "concept_9254b1d6a8",
+      "entity_type": "Formula",
+      "name": "Emf produced by a moving conductor",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_911ecc88a5",
+      "entity_type": "Formula",
+      "name": "E = B l v sin θ",
+      "concept_id": "concept_9254b1d6a8",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_53fbe499f1",
+      "entity_type": "Formula",
+      "name": "E = ∫_L (v × B) · dl",
+      "concept_id": "concept_9254b1d6a8",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "example_911ecc88a5",
+      "entity_type": "Example",
+      "name": "A rod moving through a uniform magnetic field",
+      "concept_id": "concept_9254b1d6a8",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "concept_05210818a8",
+      "entity_type": "Formula",
+      "name": "Emf from changing coil orientation",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_608d9704a8",
+      "entity_type": "Formula",
+      "name": "Φ = N B S cos(ωt)",
+      "concept_id": "concept_05210818a8",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "example_608d9704a8",
+      "entity_type": "Example",
+      "name": "An alternating-current generator",
+      "concept_id": "concept_05210818a8",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "concept_1e6c744d80",
+      "entity_type": "Formula",
+      "name": "Self-inductance of a coil",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_31b7599afc",
+      "entity_type": "Formula",
+      "name": "Φ = L I",
+      "concept_id": "concept_1e6c744d80",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_e6b7ba3125",
+      "entity_type": "Formula",
+      "name": "E = −L dI/dt",
+      "concept_id": "concept_1e6c744d80",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "concept_9536cc79c4",
+      "entity_type": "Formula",
+      "name": "Self-inductance of a circular coil",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_7b8a4d2215",
+      "entity_type": "Formula",
+      "name": "L = μ₀ N² πR/2",
+      "concept_id": "concept_9536cc79c4",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "example_7b8a4d2215",
+      "entity_type": "Example",
+      "name": "A multi-turn circular coil",
+      "concept_id": "concept_9536cc79c4",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "concept_6cd4d53f38",
+      "entity_type": "Formula",
+      "name": "Energy stored in an inductor",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_23ff26f227",
+      "entity_type": "Formula",
+      "name": "U = 1/2 L I²",
+      "concept_id": "concept_6cd4d53f38",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_2efc8d1dd0",
+      "entity_type": "Formula",
+      "name": "u = B²/(2μ₀)",
+      "concept_id": "concept_6cd4d53f38",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "example_23ff26f227",
+      "entity_type": "Example",
+      "name": "Energy stored in a coil carrying current",
+      "concept_id": "concept_6cd4d53f38",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "concept_08736307d6",
+      "entity_type": "Formula",
+      "name": "Growth of current after switching on",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_9c0a7856c3",
+      "entity_type": "Formula",
+      "name": "I = I₀(1 − e^(−t/τ))",
+      "concept_id": "concept_08736307d6",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_e5eaf3aa40",
+      "entity_type": "Formula",
+      "name": "I₀ = E/R",
+      "concept_id": "concept_08736307d6",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_79d2aa4af5",
+      "entity_type": "Formula",
+      "name": "τ = L/R",
+      "concept_id": "concept_08736307d6",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "example_9c0a7856c3",
+      "entity_type": "Example",
+      "name": "Switching on a battery in a series resistor-inductor circuit",
+      "concept_id": "concept_08736307d6",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "concept_79d3dd9c51",
+      "entity_type": "Formula",
+      "name": "Decay of current after switching off",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_e9cbc91456",
+      "entity_type": "Formula",
+      "name": "I = I₀ e^(−t/τ)",
+      "concept_id": "concept_79d3dd9c51",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_d823a52c48",
+      "entity_type": "Formula",
+      "name": "I = I₀ e^(−Rt/L)",
+      "concept_id": "concept_79d3dd9c51",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "formula_9db4dad2e3",
+      "entity_type": "Formula",
+      "name": "τ = L/R",
+      "concept_id": "concept_79d3dd9c51",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "example_e9cbc91456",
+      "entity_type": "Example",
+      "name": "Switching off a battery in a series resistor-inductor circuit",
+      "concept_id": "concept_79d3dd9c51",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "concept_19fc9d8e17",
+      "entity_type": "Formula",
+      "name": "Mutual induction",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_f0e5a7ca3f",
+      "entity_type": "Formula",
+      "name": "Φ₂ = MI₁",
+      "concept_id": "concept_19fc9d8e17",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_956c0b35f5",
+      "entity_type": "Formula",
+      "name": "E₂ = dΦ₂/dt = M(dI₁/dt)",
+      "concept_id": "concept_19fc9d8e17",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "concept_12146cc5b6",
+      "entity_type": "Formula",
+      "name": "Mutual inductance of coupled coils",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_b7c34b74e6",
+      "entity_type": "Formula",
+      "name": "M = k√(L₁L₂)",
+      "concept_id": "concept_12146cc5b6",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "concept_cd149ebd0e",
+      "entity_type": "Formula",
+      "name": "Inductors in series without mutual coupling",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_ad66ae4a67",
+      "entity_type": "Formula",
+      "name": "e = e₁ + e₂",
+      "concept_id": "concept_cd149ebd0e",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_2b2e729a56",
+      "entity_type": "Formula",
+      "name": "Lₛ = L₁ + L₂",
+      "concept_id": "concept_cd149ebd0e",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "concept_43fc18b0f9",
+      "entity_type": "Formula",
+      "name": "Inductors in parallel without mutual coupling",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_baed5a2bec",
+      "entity_type": "Formula",
+      "name": "I = I₁ + I₂",
+      "concept_id": "concept_43fc18b0f9",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_b891586a0f",
+      "entity_type": "Formula",
+      "name": "1/Lₚ = 1/L₁ + 1/L₂",
+      "concept_id": "concept_43fc18b0f9",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_8a0efb6398",
+      "entity_type": "Formula",
+      "name": "Lₚ = L₁L₂/(L₁ + L₂)",
+      "concept_id": "concept_43fc18b0f9",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "concept_6bb4417781",
+      "entity_type": "Formula",
+      "name": "Sinusoidal alternating current and emf",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_7230a2dbab",
+      "entity_type": "Formula",
+      "name": "i = Iₘₐₓ sin(ωt)",
+      "concept_id": "concept_6bb4417781",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_03a6893f89",
+      "entity_type": "Formula",
+      "name": "e = Eₘₐₓ sin(ωt)",
+      "concept_id": "concept_6bb4417781",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_3267f85bef",
+      "entity_type": "Formula",
+      "name": "ω = 2πf",
+      "concept_id": "concept_6bb4417781",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_587a7eb959",
+      "entity_type": "Formula",
+      "name": "e = Eₘₐₓ sin(2πft)",
+      "concept_id": "concept_6bb4417781",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_749e945724",
+      "entity_type": "Formula",
+      "name": "e = Eₘₐₓ sin(2πt/T)",
+      "concept_id": "concept_6bb4417781",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_f47826b9c5",
+      "entity_type": "Formula",
+      "name": "f = 1/T",
+      "concept_id": "concept_6bb4417781",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "concept_b680bd6489",
+      "entity_type": "Formula",
+      "name": "RMS value of alternating current and voltage",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_0cfdfb7f02",
+      "entity_type": "Formula",
+      "name": "Iᵣₘₛ = √[(I₁² + I₂² + ... + Iₙ²)/n]",
+      "concept_id": "concept_b680bd6489",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_d8cda716e6",
+      "entity_type": "Formula",
+      "name": "Iᵣₘₛ = Iₘₐₓ/√2 = 0.707Iₘₐₓ",
+      "concept_id": "concept_b680bd6489",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_c993fb28d5",
+      "entity_type": "Formula",
+      "name": "Vᵣₘₛ = Vₘₐₓ/√2 = 0.707Vₘₐₓ",
+      "concept_id": "concept_b680bd6489",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "concept_739b563448",
+      "entity_type": "Formula",
+      "name": "Average value of alternating current",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_412e94eb47",
+      "entity_type": "Formula",
+      "name": "Iₐᵥ = 2Iₘₐₓ/π = 0.637Iₘₐₓ",
+      "concept_id": "concept_739b563448",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "concept_5e46c6f8a7",
+      "entity_type": "Formula",
+      "name": "AC circuit containing resistance only",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_318931bb30",
+      "entity_type": "Formula",
+      "name": "v = Vₘₐₓ sin(ωt)",
+      "concept_id": "concept_5e46c6f8a7",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_291aa46d4b",
+      "entity_type": "Formula",
+      "name": "i = Iₘₐₓ sin(ωt)",
+      "concept_id": "concept_5e46c6f8a7",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_80f25a28cc",
+      "entity_type": "Formula",
+      "name": "Iₘₐₓ = Vₘₐₓ/R",
+      "concept_id": "concept_5e46c6f8a7",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_82f39ac76b",
+      "entity_type": "Formula",
+      "name": "p = VₘₐₓIₘₐₓ sin²(ωt)",
+      "concept_id": "concept_5e46c6f8a7",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_2aafcc9dcc",
+      "entity_type": "Formula",
+      "name": "p = (VₘₐₓIₘₐₓ/2)[1 - cos(2ωt)]",
+      "concept_id": "concept_5e46c6f8a7",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "concept_fffb4e0618",
+      "entity_type": "Formula",
+      "name": "AC circuit containing an inductor only",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_956b3de2f1",
+      "entity_type": "Formula",
+      "name": "i = Iₘₐₓ sin(ωt - π/2)",
+      "concept_id": "concept_fffb4e0618",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_7c8885148a",
+      "entity_type": "Formula",
+      "name": "Iₘₐₓ = Vₘₐₓ/(ωL)",
+      "concept_id": "concept_fffb4e0618",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_4f702f88a0",
+      "entity_type": "Formula",
+      "name": "Xₗ = ωL = 2πfL",
+      "concept_id": "concept_fffb4e0618",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_d85fdb7073",
+      "entity_type": "Formula",
+      "name": "p = (VₘₐₓIₘₐₓ/2)sin(2ωt)",
+      "concept_id": "concept_fffb4e0618",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "concept_f29fcaaad0",
+      "entity_type": "Formula",
+      "name": "AC circuit containing a capacitor only",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_4a40783d1f",
+      "entity_type": "Formula",
+      "name": "i = Iₘₐₓ sin(ωt + π/2) = Iₘₐₓ cos(ωt)",
+      "concept_id": "concept_f29fcaaad0",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_59ec04e836",
+      "entity_type": "Formula",
+      "name": "Iₘₐₓ = Vₘₐₓ/(1/(ωC)) = ωCVₘₐₓ",
+      "concept_id": "concept_f29fcaaad0",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_c537656117",
+      "entity_type": "Formula",
+      "name": "X꜀ = 1/(ωC)",
+      "concept_id": "concept_f29fcaaad0",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_8cbe3d5642",
+      "entity_type": "Formula",
+      "name": "p = (VₘₐₓIₘₐₓ/2)sin(2ωt)",
+      "concept_id": "concept_f29fcaaad0",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "concept_19626bf476",
+      "entity_type": "Formula",
+      "name": "Impedance of a resistor and inductor in series",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_780817ec6f",
+      "entity_type": "Formula",
+      "name": "V = √(Vᵣ² + Vₗ²)",
+      "concept_id": "concept_19626bf476",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_d73b64e0bc",
+      "entity_type": "Formula",
+      "name": "Z = √(R² + Xₗ²)",
+      "concept_id": "concept_19626bf476",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_03c3997f3a",
+      "entity_type": "Formula",
+      "name": "I = V/Z",
+      "concept_id": "concept_19626bf476",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "formula_30156ad0d2",
+      "entity_type": "Formula",
+      "name": "Xₗ = ωL",
+      "concept_id": "concept_19626bf476",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "entity_id": "concept_4679caf6b0",
+      "entity_type": "Formula",
+      "name": "Average power",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_3285b80bb1",
+      "entity_type": "Formula",
+      "name": "P = V_rms I_rms cos φ",
+      "concept_id": "concept_4679caf6b0",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "concept_eab7c7445e",
+      "entity_type": "Formula",
+      "name": "Impedance of an R-C circuit",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_af970e4331",
+      "entity_type": "Formula",
+      "name": "V = √(V_R² + V_C²)",
+      "concept_id": "concept_eab7c7445e",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_26ac862d81",
+      "entity_type": "Formula",
+      "name": "Z = √(R² + X_C²)",
+      "concept_id": "concept_eab7c7445e",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_4494e689cf",
+      "entity_type": "Formula",
+      "name": "X_C = 1/(ωC)",
+      "concept_id": "concept_eab7c7445e",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "concept_8d88f13615",
+      "entity_type": "Formula",
+      "name": "Impedance",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_106ff37124",
+      "entity_type": "Formula",
+      "name": "Z = √[R² + (ωL - 1/(ωC))²]",
+      "concept_id": "concept_8d88f13615",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_1bb7771d45",
+      "entity_type": "Formula",
+      "name": "V = √[V_R² + (V_L - V_C)²]",
+      "concept_id": "concept_8d88f13615",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "concept_41ccbd759e",
+      "entity_type": "Formula",
+      "name": "Phase relationship",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_b124ed6838",
+      "entity_type": "Formula",
+      "name": "Net reactance = ωL - 1/(ωC)",
+      "concept_id": "concept_41ccbd759e",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "example_b124ed6838",
+      "entity_type": "Example",
+      "name": "If ωL > 1/(ωC), current lags voltage.",
+      "concept_id": "concept_41ccbd759e",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "example_9c0b5ba2cf",
+      "entity_type": "Example",
+      "name": "If ωL = 1/(ωC), current and voltage are in phase.",
+      "concept_id": "concept_41ccbd759e",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "example_21ff2641d1",
+      "entity_type": "Example",
+      "name": "If ωL < 1/(ωC), current leads voltage.",
+      "concept_id": "concept_41ccbd759e",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "concept_02c2da5105",
+      "entity_type": "Formula",
+      "name": "Resonance frequency",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_a900a7085c",
+      "entity_type": "Formula",
+      "name": "X_L = X_C",
+      "concept_id": "concept_02c2da5105",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_cd3d6a680f",
+      "entity_type": "Formula",
+      "name": "ω_r L = 1/(ω_r C)",
+      "concept_id": "concept_02c2da5105",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_7b68736081",
+      "entity_type": "Formula",
+      "name": "ω_r = 1/√(LC)",
+      "concept_id": "concept_02c2da5105",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_55b7ef4846",
+      "entity_type": "Formula",
+      "name": "f_r = 1/(2π√(LC))",
+      "concept_id": "concept_02c2da5105",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "concept_d09c525f74",
+      "entity_type": "Formula",
+      "name": "Quality factor",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_ef83917125",
+      "entity_type": "Formula",
+      "name": "Q = V_L/V = V_C/V = (1/R)√(L/C)",
+      "concept_id": "concept_d09c525f74",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "concept_04da8ecccc",
+      "entity_type": "Formula",
+      "name": "Transformer operation",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_040eac6058",
+      "entity_type": "Formula",
+      "name": "ε_1 = -N_1 dΦ_B/dt",
+      "concept_id": "concept_04da8ecccc",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_dd7a7bb4b6",
+      "entity_type": "Formula",
+      "name": "ε_2 = -N_2 dΦ_B/dt",
+      "concept_id": "concept_04da8ecccc",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "concept_52faab1a94",
+      "entity_type": "Formula",
+      "name": "Voltage transformation",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_1ed509d71c",
+      "entity_type": "Formula",
+      "name": "ε_2/ε_1 = N_2/N_1",
+      "concept_id": "concept_52faab1a94",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_794d4da6ff",
+      "entity_type": "Formula",
+      "name": "V_2/V_1 = N_2/N_1",
+      "concept_id": "concept_52faab1a94",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "example_1ed509d71c",
+      "entity_type": "Example",
+      "name": "Choosing N_2/N_1 greater than one produces a higher secondary voltage.",
+      "concept_id": "concept_52faab1a94",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "example_794d4da6ff",
+      "entity_type": "Example",
+      "name": "Choosing N_2/N_1 less than one produces a lower secondary voltage.",
+      "concept_id": "concept_52faab1a94",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "concept_258c353dd8",
+      "entity_type": "Formula",
+      "name": "Transformer efficiency",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_ffbf6085fc",
+      "entity_type": "Formula",
+      "name": "η = P_output/P_input",
+      "concept_id": "concept_258c353dd8",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "formula_2cecc7be50",
+      "entity_type": "Formula",
+      "name": "η_percent = (P_output/P_input) × 100",
+      "concept_id": "concept_258c353dd8",
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "entity_id": "comp_b40cf6cd7e",
+      "entity_type": "Competency",
+      "name": "Compute using Magnetic flux through a surface",
+      "concept_id": "concept_7693272a7d"
+    },
+    {
+      "entity_id": "comp_a4411afe17",
+      "entity_type": "Competency",
+      "name": "Compute using Gauss’ law for magnetism",
+      "concept_id": "concept_f8eaf41ca7"
+    },
+    {
+      "entity_id": "comp_97d0354767",
+      "entity_type": "Competency",
+      "name": "Compute using Induced electromotive force",
+      "concept_id": "concept_2a665274e3"
+    },
+    {
+      "entity_id": "comp_533a7a63e6",
+      "entity_type": "Competency",
+      "name": "Compute using Direction of induced emf",
+      "concept_id": "concept_549729587d"
+    },
+    {
+      "entity_id": "comp_939862a6c0",
+      "entity_type": "Competency",
+      "name": "Compute using Charge transferred by induction",
+      "concept_id": "concept_5975bf7946"
+    },
+    {
+      "entity_id": "comp_1af52984e5",
+      "entity_type": "Competency",
+      "name": "Compute using Emf produced by a moving conductor",
+      "concept_id": "concept_9254b1d6a8"
+    },
+    {
+      "entity_id": "comp_a08247b36e",
+      "entity_type": "Competency",
+      "name": "Compute using Emf from changing coil orientation",
+      "concept_id": "concept_05210818a8"
+    },
+    {
+      "entity_id": "comp_92d61fd059",
+      "entity_type": "Competency",
+      "name": "Compute using Self-inductance of a coil",
+      "concept_id": "concept_1e6c744d80"
+    },
+    {
+      "entity_id": "comp_aa11979e53",
+      "entity_type": "Competency",
+      "name": "Compute using Self-inductance of a circular coil",
+      "concept_id": "concept_9536cc79c4"
+    },
+    {
+      "entity_id": "comp_9ab2f6d6ff",
+      "entity_type": "Competency",
+      "name": "Compute using Energy stored in an inductor",
+      "concept_id": "concept_6cd4d53f38"
+    },
+    {
+      "entity_id": "comp_d6a4114ead",
+      "entity_type": "Competency",
+      "name": "Compute using Growth of current after switching on",
+      "concept_id": "concept_08736307d6"
+    },
+    {
+      "entity_id": "comp_426bf733f8",
+      "entity_type": "Competency",
+      "name": "Compute using Decay of current after switching off",
+      "concept_id": "concept_79d3dd9c51"
+    },
+    {
+      "entity_id": "comp_bbb6f0f85f",
+      "entity_type": "Competency",
+      "name": "Compute using Mutual induction",
+      "concept_id": "concept_19fc9d8e17"
+    },
+    {
+      "entity_id": "comp_3bc6a73c8e",
+      "entity_type": "Competency",
+      "name": "Compute using Mutual inductance of coupled coils",
+      "concept_id": "concept_12146cc5b6"
+    },
+    {
+      "entity_id": "comp_c84a342999",
+      "entity_type": "Competency",
+      "name": "Compute using Inductors in series without mutual coupling",
+      "concept_id": "concept_cd149ebd0e"
+    },
+    {
+      "entity_id": "comp_7c32112ac8",
+      "entity_type": "Competency",
+      "name": "Compute using Inductors in parallel without mutual coupling",
+      "concept_id": "concept_43fc18b0f9"
+    },
+    {
+      "entity_id": "comp_685222ecd3",
+      "entity_type": "Competency",
+      "name": "Compute using Sinusoidal alternating current and emf",
+      "concept_id": "concept_6bb4417781"
+    },
+    {
+      "entity_id": "comp_5c3172a77a",
+      "entity_type": "Competency",
+      "name": "Compute using RMS value of alternating current and voltage",
+      "concept_id": "concept_b680bd6489"
+    },
+    {
+      "entity_id": "comp_b8e962ec50",
+      "entity_type": "Competency",
+      "name": "Compute using Average value of alternating current",
+      "concept_id": "concept_739b563448"
+    },
+    {
+      "entity_id": "comp_65f8e59f3f",
+      "entity_type": "Competency",
+      "name": "Compute using AC circuit containing resistance only",
+      "concept_id": "concept_5e46c6f8a7"
+    },
+    {
+      "entity_id": "comp_f08dce434c",
+      "entity_type": "Competency",
+      "name": "Compute using AC circuit containing an inductor only",
+      "concept_id": "concept_fffb4e0618"
+    },
+    {
+      "entity_id": "comp_b71b599d76",
+      "entity_type": "Competency",
+      "name": "Compute using AC circuit containing a capacitor only",
+      "concept_id": "concept_f29fcaaad0"
+    },
+    {
+      "entity_id": "comp_753fee877b",
+      "entity_type": "Competency",
+      "name": "Compute using Impedance of a resistor and inductor in series",
+      "concept_id": "concept_19626bf476"
+    },
+    {
+      "entity_id": "comp_30f814d320",
+      "entity_type": "Competency",
+      "name": "Compute using Average power",
+      "concept_id": "concept_4679caf6b0"
+    },
+    {
+      "entity_id": "comp_a8fe8b90d4",
+      "entity_type": "Competency",
+      "name": "Compute using Impedance of an R-C circuit",
+      "concept_id": "concept_eab7c7445e"
+    },
+    {
+      "entity_id": "comp_f3ef91eb7a",
+      "entity_type": "Competency",
+      "name": "Compute using Impedance",
+      "concept_id": "concept_8d88f13615"
+    },
+    {
+      "entity_id": "comp_bbd38e2bd5",
+      "entity_type": "Competency",
+      "name": "Compute using Phase relationship",
+      "concept_id": "concept_41ccbd759e"
+    },
+    {
+      "entity_id": "comp_93422fcb06",
+      "entity_type": "Competency",
+      "name": "Compute using Resonance frequency",
+      "concept_id": "concept_02c2da5105"
+    },
+    {
+      "entity_id": "comp_a8deee3b94",
+      "entity_type": "Competency",
+      "name": "Compute using Quality factor",
+      "concept_id": "concept_d09c525f74"
+    },
+    {
+      "entity_id": "comp_d52d3bc889",
+      "entity_type": "Competency",
+      "name": "Compute using Transformer operation",
+      "concept_id": "concept_04da8ecccc"
+    },
+    {
+      "entity_id": "comp_e5c6b3bfae",
+      "entity_type": "Competency",
+      "name": "Compute using Voltage transformation",
+      "concept_id": "concept_52faab1a94"
+    },
+    {
+      "entity_id": "comp_16bf5fbccb",
+      "entity_type": "Competency",
+      "name": "Compute using Transformer efficiency",
+      "concept_id": "concept_258c353dd8"
+    },
+    {
+      "entity_id": "assessment_b40cf6cd7e",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_7693272a7d"
+    },
+    {
+      "entity_id": "assessment_a4411afe17",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_f8eaf41ca7"
+    },
+    {
+      "entity_id": "assessment_97d0354767",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_2a665274e3"
+    },
+    {
+      "entity_id": "assessment_533a7a63e6",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_549729587d"
+    },
+    {
+      "entity_id": "assessment_939862a6c0",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_5975bf7946"
+    },
+    {
+      "entity_id": "assessment_1af52984e5",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_9254b1d6a8"
+    },
+    {
+      "entity_id": "assessment_a08247b36e",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_05210818a8"
+    },
+    {
+      "entity_id": "assessment_92d61fd059",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_1e6c744d80"
+    },
+    {
+      "entity_id": "assessment_aa11979e53",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_9536cc79c4"
+    },
+    {
+      "entity_id": "assessment_9ab2f6d6ff",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_6cd4d53f38"
+    },
+    {
+      "entity_id": "assessment_d6a4114ead",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_08736307d6"
+    },
+    {
+      "entity_id": "assessment_426bf733f8",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_79d3dd9c51"
+    },
+    {
+      "entity_id": "assessment_bbb6f0f85f",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_19fc9d8e17"
+    },
+    {
+      "entity_id": "assessment_3bc6a73c8e",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_12146cc5b6"
+    },
+    {
+      "entity_id": "assessment_c84a342999",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_cd149ebd0e"
+    },
+    {
+      "entity_id": "assessment_7c32112ac8",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_43fc18b0f9"
+    },
+    {
+      "entity_id": "assessment_685222ecd3",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_6bb4417781"
+    },
+    {
+      "entity_id": "assessment_5c3172a77a",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_b680bd6489"
+    },
+    {
+      "entity_id": "assessment_b8e962ec50",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_739b563448"
+    },
+    {
+      "entity_id": "assessment_65f8e59f3f",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_5e46c6f8a7"
+    },
+    {
+      "entity_id": "assessment_f08dce434c",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_fffb4e0618"
+    },
+    {
+      "entity_id": "assessment_b71b599d76",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_f29fcaaad0"
+    },
+    {
+      "entity_id": "assessment_753fee877b",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_19626bf476"
+    },
+    {
+      "entity_id": "assessment_30f814d320",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_4679caf6b0"
+    },
+    {
+      "entity_id": "assessment_a8fe8b90d4",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_eab7c7445e"
+    },
+    {
+      "entity_id": "assessment_f3ef91eb7a",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_8d88f13615"
+    },
+    {
+      "entity_id": "assessment_bbd38e2bd5",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_41ccbd759e"
+    },
+    {
+      "entity_id": "assessment_93422fcb06",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_02c2da5105"
+    },
+    {
+      "entity_id": "assessment_a8deee3b94",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_d09c525f74"
+    },
+    {
+      "entity_id": "assessment_d52d3bc889",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_04da8ecccc"
+    },
+    {
+      "entity_id": "assessment_e5c6b3bfae",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_52faab1a94"
+    },
+    {
+      "entity_id": "assessment_16bf5fbccb",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_258c353dd8"
+    },
+    {
+      "entity_id": "misc_cf86eafbab",
+      "entity_type": "Misconception",
+      "name": "Magnetic flux is the same as the magnetic field strength.",
+      "concept_id": "concept_7693272a7d"
+    },
+    {
+      "entity_id": "misc_b0cfa2e604",
+      "entity_type": "Misconception",
+      "name": "A magnetic field parallel to a surface produces maximum magnetic flux through it.",
+      "concept_id": "concept_7693272a7d"
+    },
+    {
+      "entity_id": "misc_ff53056649",
+      "entity_type": "Misconception",
+      "name": "Magnetic flux is a vector because the magnetic field is a vector.",
+      "concept_id": "concept_7693272a7d"
+    },
+    {
+      "entity_id": "misc_3b587e175c",
+      "entity_type": "Misconception",
+      "name": "Gauss’ law for magnetism says the magnetic field is zero everywhere.",
+      "concept_id": "concept_f8eaf41ca7"
+    },
+    {
+      "entity_id": "misc_d4080a92ec",
+      "entity_type": "Misconception",
+      "name": "A magnetic field has no flux through a closed surface because magnetic fields do not cross surfaces.",
+      "concept_id": "concept_f8eaf41ca7"
+    },
+    {
+      "entity_id": "misc_e8402cef60",
+      "entity_type": "Misconception",
+      "name": "A single north or south magnetic pole can exist independently.",
+      "concept_id": "concept_f8eaf41ca7"
+    },
+    {
+      "entity_id": "misc_be08203ed3",
+      "entity_type": "Misconception",
+      "name": "An induced electromotive force occurs only when the circuit is closed and current flows.",
+      "concept_id": "concept_2a665274e3"
+    },
+    {
+      "entity_id": "misc_ad705e3af2",
+      "entity_type": "Misconception",
+      "name": "A magnetic field must change in strength for an electromotive force to be induced.",
+      "concept_id": "concept_2a665274e3"
+    },
+    {
+      "entity_id": "misc_d13b056794",
+      "entity_type": "Misconception",
+      "name": "Any motion of a conductor through a magnetic field produces an induced electromotive force.",
+      "concept_id": "concept_2a665274e3"
+    },
+    {
+      "entity_id": "misc_2bc376fc27",
+      "entity_type": "Misconception",
+      "name": "The induced current always opposes the external magnetic field.",
+      "concept_id": "concept_549729587d"
+    },
+    {
+      "entity_id": "misc_2555c81f31",
+      "entity_type": "Misconception",
+      "name": "The induced emf always produces a current in the opposite direction to the changing current.",
+      "concept_id": "concept_549729587d"
+    },
+    {
+      "entity_id": "misc_5e5038dcc9",
+      "entity_type": "Misconception",
+      "name": "If the magnetic flux is large, the induced emf must be large.",
+      "concept_id": "concept_549729587d"
+    },
+    {
+      "entity_id": "misc_591272398b",
+      "entity_type": "Misconception",
+      "name": "A faster change in magnetic flux always transfers more total charge.",
+      "concept_id": "concept_5975bf7946"
+    },
+    {
+      "entity_id": "misc_3f6c6cc5fd",
+      "entity_type": "Misconception",
+      "name": "No charge is transferred if the magnetic flux changes back to its original value.",
+      "concept_id": "concept_5975bf7946"
+    },
+    {
+      "entity_id": "misc_da2155d383",
+      "entity_type": "Misconception",
+      "name": "The total transferred charge is determined only by the magnetic flux change and is independent of circuit resistance.",
+      "concept_id": "concept_5975bf7946"
+    },
+    {
+      "entity_id": "misc_911ecc88a5",
+      "entity_type": "Misconception",
+      "name": "Motional emf is produced only when the magnetic field changes with time.",
+      "concept_id": "concept_9254b1d6a8"
+    },
+    {
+      "entity_id": "misc_53fbe499f1",
+      "entity_type": "Misconception",
+      "name": "Any motion of a conductor through a magnetic field produces motional emf.",
+      "concept_id": "concept_9254b1d6a8"
+    },
+    {
+      "entity_id": "misc_6726d645fc",
+      "entity_type": "Misconception",
+      "name": "The entire conductor must form a closed circuit for motional emf to exist.",
+      "concept_id": "concept_9254b1d6a8"
+    },
+    {
+      "entity_id": "misc_608d9704a8",
+      "entity_type": "Misconception",
+      "name": "A rotating coil produces emf simply because it is moving.",
+      "concept_id": "concept_05210818a8"
+    },
+    {
+      "entity_id": "misc_5a3a0dfe9a",
+      "entity_type": "Misconception",
+      "name": "The induced emf is greatest when the magnetic flux is greatest.",
+      "concept_id": "concept_05210818a8"
+    },
+    {
+      "entity_id": "misc_50c9dff87c",
+      "entity_type": "Misconception",
+      "name": "The magnetic field must change for emf to be induced.",
+      "concept_id": "concept_05210818a8"
+    },
+    {
+      "entity_id": "misc_31b7599afc",
+      "entity_type": "Misconception",
+      "name": "Self-inductance is the magnetic flux produced by the coil.",
+      "concept_id": "concept_1e6c744d80"
+    },
+    {
+      "entity_id": "misc_e6b7ba3125",
+      "entity_type": "Misconception",
+      "name": "A coil has self-induced emf whenever a current flows through it.",
+      "concept_id": "concept_1e6c744d80"
+    },
+    {
+      "entity_id": "misc_37f673305b",
+      "entity_type": "Misconception",
+      "name": "Self-inductance depends only on the current in the coil.",
+      "concept_id": "concept_1e6c744d80"
+    },
+    {
+      "entity_id": "misc_7b8a4d2215",
+      "entity_type": "Misconception",
+      "name": "Self-inductance increases only linearly with the number of turns.",
+      "concept_id": "concept_9536cc79c4"
+    },
+    {
+      "entity_id": "misc_558b15ef5e",
+      "entity_type": "Misconception",
+      "name": "A larger coil always has a smaller self-inductance because the turns are farther apart.",
+      "concept_id": "concept_9536cc79c4"
+    },
+    {
+      "entity_id": "misc_79210ffa1f",
+      "entity_type": "Misconception",
+      "name": "Self-inductance is determined by the coil's resistance or by the current flowing through it.",
+      "concept_id": "concept_9536cc79c4"
+    },
+    {
+      "entity_id": "misc_23ff26f227",
+      "entity_type": "Misconception",
+      "name": "An inductor stores electrical charge like a capacitor.",
+      "concept_id": "concept_6cd4d53f38"
+    },
+    {
+      "entity_id": "misc_2efc8d1dd0",
+      "entity_type": "Misconception",
+      "name": "An inductor stores energy only when the current is increasing.",
+      "concept_id": "concept_6cd4d53f38"
+    },
+    {
+      "entity_id": "misc_c01ebf7cd5",
+      "entity_type": "Misconception",
+      "name": "An inductor immediately releases all its stored energy when the circuit is opened.",
+      "concept_id": "concept_6cd4d53f38"
+    },
+    {
+      "entity_id": "misc_9c0a7856c3",
+      "entity_type": "Misconception",
+      "name": "The current reaches its final value immediately when the switch is closed.",
+      "concept_id": "concept_08736307d6"
+    },
+    {
+      "entity_id": "misc_e5eaf3aa40",
+      "entity_type": "Misconception",
+      "name": "The inductor prevents current from flowing permanently.",
+      "concept_id": "concept_08736307d6"
+    },
+    {
+      "entity_id": "misc_79d2aa4af5",
+      "entity_type": "Misconception",
+      "name": "The current increases at a constant rate.",
+      "concept_id": "concept_08736307d6"
+    },
+    {
+      "entity_id": "misc_e9cbc91456",
+      "entity_type": "Misconception",
+      "name": "The current becomes zero immediately when the source is switched off.",
+      "concept_id": "concept_79d3dd9c51"
+    },
+    {
+      "entity_id": "misc_d823a52c48",
+      "entity_type": "Misconception",
+      "name": "The current decreases linearly with time.",
+      "concept_id": "concept_79d3dd9c51"
+    },
+    {
+      "entity_id": "misc_9db4dad2e3",
+      "entity_type": "Misconception",
+      "name": "The inductor continues to supply constant current after switching off.",
+      "concept_id": "concept_79d3dd9c51"
+    },
+    {
+      "entity_id": "misc_f0e5a7ca3f",
+      "entity_type": "Misconception",
+      "name": "Mutual induction occurs only when the two circuits are physically connected.",
+      "concept_id": "concept_19fc9d8e17"
+    },
+    {
+      "entity_id": "misc_956c0b35f5",
+      "entity_type": "Misconception",
+      "name": "A steady current in the first circuit continuously induces an emf in the second circuit.",
+      "concept_id": "concept_19fc9d8e17"
+    },
+    {
+      "entity_id": "misc_5d3a2bce2e",
+      "entity_type": "Misconception",
+      "name": "The induced current in the second circuit flows in the same direction as the current change in the first circuit.",
+      "concept_id": "concept_19fc9d8e17"
+    },
+    {
+      "entity_id": "misc_b7c34b74e6",
+      "entity_type": "Misconception",
+      "name": "Mutual inductance is simply the sum of the two coils’ self-inductances.",
+      "concept_id": "concept_12146cc5b6"
+    },
+    {
+      "entity_id": "misc_070518f7f4",
+      "entity_type": "Misconception",
+      "name": "The coefficient of coupling is always 1 for coupled coils.",
+      "concept_id": "concept_12146cc5b6"
+    },
+    {
+      "entity_id": "misc_5dfe4403de",
+      "entity_type": "Misconception",
+      "name": "Mutual inductance depends only on the physical separation of the coils.",
+      "concept_id": "concept_12146cc5b6"
+    },
+    {
+      "entity_id": "misc_ad66ae4a67",
+      "entity_type": "Misconception",
+      "name": "The inductances cancel because the coils are separate and do not share magnetic flux.",
+      "concept_id": "concept_cd149ebd0e"
+    },
+    {
+      "entity_id": "misc_2b2e729a56",
+      "entity_type": "Misconception",
+      "name": "Different currents flow through the two inductors because they have different inductance values.",
+      "concept_id": "concept_cd149ebd0e"
+    },
+    {
+      "entity_id": "misc_2382248a61",
+      "entity_type": "Misconception",
+      "name": "The equivalent inductance depends on whether the coils are wound in the same or opposite direction.",
+      "concept_id": "concept_cd149ebd0e"
+    },
+    {
+      "entity_id": "misc_baed5a2bec",
+      "entity_type": "Misconception",
+      "name": "The equivalent inductance of parallel uncoupled inductors is the sum of their inductances.",
+      "concept_id": "concept_43fc18b0f9"
+    },
+    {
+      "entity_id": "misc_b891586a0f",
+      "entity_type": "Misconception",
+      "name": "The current through each parallel inductor is always equal.",
+      "concept_id": "concept_43fc18b0f9"
+    },
+    {
+      "entity_id": "misc_8a0efb6398",
+      "entity_type": "Misconception",
+      "name": "Parallel inductors must have mutual coupling between them.",
+      "concept_id": "concept_43fc18b0f9"
+    },
+    {
+      "entity_id": "misc_7230a2dbab",
+      "entity_type": "Misconception",
+      "name": "Alternating current always has a constant magnitude and only changes direction.",
+      "concept_id": "concept_6bb4417781"
+    },
+    {
+      "entity_id": "misc_03a6893f89",
+      "entity_type": "Misconception",
+      "name": "The current reverses direction every cycle, so one complete cycle contains only one reversal.",
+      "concept_id": "concept_6bb4417781"
+    },
+    {
+      "entity_id": "misc_3267f85bef",
+      "entity_type": "Misconception",
+      "name": "The average value of a sinusoidal alternating current over a complete cycle is its peak value.",
+      "concept_id": "concept_6bb4417781"
+    },
+    {
+      "entity_id": "misc_0cfdfb7f02",
+      "entity_type": "Misconception",
+      "name": "The RMS value is the arithmetic average of the instantaneous current or voltage values.",
+      "concept_id": "concept_b680bd6489"
+    },
+    {
+      "entity_id": "misc_d8cda716e6",
+      "entity_type": "Misconception",
+      "name": "The RMS value is equal to the peak value.",
+      "concept_id": "concept_b680bd6489"
+    },
+    {
+      "entity_id": "misc_c993fb28d5",
+      "entity_type": "Misconception",
+      "name": "An AC supply with zero average voltage has no heating or power effect.",
+      "concept_id": "concept_b680bd6489"
+    },
+    {
+      "entity_id": "misc_412e94eb47",
+      "entity_type": "Misconception",
+      "name": "The average value of an alternating current over a complete cycle is equal to its peak value divided by two.",
+      "concept_id": "concept_739b563448"
+    },
+    {
+      "entity_id": "misc_a1fd7f01ec",
+      "entity_type": "Misconception",
+      "name": "The average value is the same as the RMS value.",
+      "concept_id": "concept_739b563448"
+    },
+    {
+      "entity_id": "misc_7862b2faef",
+      "entity_type": "Misconception",
+      "name": "The average value is found by averaging only the positive peak and negative peak values.",
+      "concept_id": "concept_739b563448"
+    },
+    {
+      "entity_id": "misc_318931bb30",
+      "entity_type": "Misconception",
+      "name": "The current and voltage are always constant in a purely resistive AC circuit.",
+      "concept_id": "concept_5e46c6f8a7"
+    },
+    {
+      "entity_id": "misc_291aa46d4b",
+      "entity_type": "Misconception",
+      "name": "Current leads or lags voltage in a purely resistive AC circuit.",
+      "concept_id": "concept_5e46c6f8a7"
+    },
+    {
+      "entity_id": "misc_80f25a28cc",
+      "entity_type": "Misconception",
+      "name": "Resistance changes the phase relationship between AC voltage and current.",
+      "concept_id": "concept_5e46c6f8a7"
+    },
+    {
+      "entity_id": "misc_956b3de2f1",
+      "entity_type": "Misconception",
+      "name": "The current leads the voltage by 90 degrees in a purely inductive circuit.",
+      "concept_id": "concept_fffb4e0618"
+    },
+    {
+      "entity_id": "misc_7c8885148a",
+      "entity_type": "Misconception",
+      "name": "The current and voltage are in phase because the circuit is supplied by AC voltage.",
+      "concept_id": "concept_fffb4e0618"
+    },
+    {
+      "entity_id": "misc_4f702f88a0",
+      "entity_type": "Misconception",
+      "name": "The inductor consumes average real power like a resistor.",
+      "concept_id": "concept_fffb4e0618"
+    },
+    {
+      "entity_id": "misc_4a40783d1f",
+      "entity_type": "Misconception",
+      "name": "The current lags the voltage by 90 degrees in a purely capacitive circuit.",
+      "concept_id": "concept_f29fcaaad0"
+    },
+    {
+      "entity_id": "misc_59ec04e836",
+      "entity_type": "Misconception",
+      "name": "The current and voltage are in phase because the circuit is connected to an AC source.",
+      "concept_id": "concept_f29fcaaad0"
+    },
+    {
+      "entity_id": "misc_c537656117",
+      "entity_type": "Misconception",
+      "name": "A capacitor continuously consumes real power like a resistor.",
+      "concept_id": "concept_f29fcaaad0"
+    },
+    {
+      "entity_id": "misc_780817ec6f",
+      "entity_type": "Misconception",
+      "name": "The impedance is found by simply adding resistance and inductive reactance as ordinary numbers.",
+      "concept_id": "concept_19626bf476"
+    },
+    {
+      "entity_id": "misc_d73b64e0bc",
+      "entity_type": "Misconception",
+      "name": "An ideal inductor has the same opposition to current at every frequency.",
+      "concept_id": "concept_19626bf476"
+    },
+    {
+      "entity_id": "misc_03c3997f3a",
+      "entity_type": "Misconception",
+      "name": "The current and source voltage are in phase because the resistor and inductor are connected in series.",
+      "concept_id": "concept_19626bf476"
+    },
+    {
+      "entity_id": "misc_3285b80bb1",
+      "entity_type": "Misconception",
+      "name": "Average power is always equal to the product of rms voltage and rms current.",
+      "concept_id": "concept_4679caf6b0"
+    },
+    {
+      "entity_id": "misc_59ca9b69ea",
+      "entity_type": "Misconception",
+      "name": "The inductor consumes real power continuously like the resistor.",
+      "concept_id": "concept_4679caf6b0"
+    },
+    {
+      "entity_id": "misc_6dc9fbef71",
+      "entity_type": "Misconception",
+      "name": "Power factor is the ratio of rms current to rms voltage.",
+      "concept_id": "concept_4679caf6b0"
+    },
+    {
+      "entity_id": "misc_af970e4331",
+      "entity_type": "Misconception",
+      "name": "Resistance and capacitive reactance are added directly to find impedance.",
+      "concept_id": "concept_eab7c7445e"
+    },
+    {
+      "entity_id": "misc_26ac862d81",
+      "entity_type": "Misconception",
+      "name": "The impedance of a series R-C circuit is always greater than R + Xc.",
+      "concept_id": "concept_eab7c7445e"
+    },
+    {
+      "entity_id": "misc_4494e689cf",
+      "entity_type": "Misconception",
+      "name": "Capacitive reactance increases as AC frequency increases.",
+      "concept_id": "concept_eab7c7445e"
+    },
+    {
+      "entity_id": "misc_106ff37124",
+      "entity_type": "Misconception",
+      "name": "Impedance is simply the sum of resistance, inductive reactance, and capacitive reactance.",
+      "concept_id": "concept_8d88f13615"
+    },
+    {
+      "entity_id": "misc_1bb7771d45",
+      "entity_type": "Misconception",
+      "name": "Inductive and capacitive reactance always increase the circuit's impedance.",
+      "concept_id": "concept_8d88f13615"
+    },
+    {
+      "entity_id": "misc_0e3d6b1c42",
+      "entity_type": "Misconception",
+      "name": "Impedance is measured only in ohms of resistance and has no phase-related component.",
+      "concept_id": "concept_8d88f13615"
+    },
+    {
+      "entity_id": "misc_b124ed6838",
+      "entity_type": "Misconception",
+      "name": "Current is always in phase with the applied voltage in an AC circuit.",
+      "concept_id": "concept_41ccbd759e"
+    },
+    {
+      "entity_id": "misc_9c0b5ba2cf",
+      "entity_type": "Misconception",
+      "name": "A circuit is inductive whenever it contains an inductor, regardless of its capacitors.",
+      "concept_id": "concept_41ccbd759e"
+    },
+    {
+      "entity_id": "misc_21ff2641d1",
+      "entity_type": "Misconception",
+      "name": "Greater capacitive reactance makes current lead voltage more strongly.",
+      "concept_id": "concept_41ccbd759e"
+    },
+    {
+      "entity_id": "misc_a900a7085c",
+      "entity_type": "Misconception",
+      "name": "At series resonance, the circuit impedance is zero.",
+      "concept_id": "concept_02c2da5105"
+    },
+    {
+      "entity_id": "misc_cd3d6a680f",
+      "entity_type": "Misconception",
+      "name": "Resonance occurs when the inductance equals the capacitance.",
+      "concept_id": "concept_02c2da5105"
+    },
+    {
+      "entity_id": "misc_7b68736081",
+      "entity_type": "Misconception",
+      "name": "The voltage across each reactive component must be zero at resonance.",
+      "concept_id": "concept_02c2da5105"
+    },
+    {
+      "entity_id": "misc_ef83917125",
+      "entity_type": "Misconception",
+      "name": "The Q-factor is the voltage across the inductor or capacitor at all frequencies.",
+      "concept_id": "concept_d09c525f74"
+    },
+    {
+      "entity_id": "misc_bc59bc5804",
+      "entity_type": "Misconception",
+      "name": "A higher Q-factor means a larger applied voltage.",
+      "concept_id": "concept_d09c525f74"
+    },
+    {
+      "entity_id": "misc_83925d87eb",
+      "entity_type": "Misconception",
+      "name": "The Q-factor is always equal to the voltage across both the inductor and capacitor added together.",
+      "concept_id": "concept_d09c525f74"
+    },
+    {
+      "entity_id": "misc_040eac6058",
+      "entity_type": "Misconception",
+      "name": "A transformer can operate normally with direct current.",
+      "concept_id": "concept_04da8ecccc"
+    },
+    {
+      "entity_id": "misc_dd7a7bb4b6",
+      "entity_type": "Misconception",
+      "name": "A transformer creates additional electrical energy.",
+      "concept_id": "concept_04da8ecccc"
+    },
+    {
+      "entity_id": "misc_9a6430e420",
+      "entity_type": "Misconception",
+      "name": "The primary and secondary coils are electrically connected.",
+      "concept_id": "concept_04da8ecccc"
+    },
+    {
+      "entity_id": "misc_1ed509d71c",
+      "entity_type": "Misconception",
+      "name": "A transformer always increases voltage.",
+      "concept_id": "concept_52faab1a94"
+    },
+    {
+      "entity_id": "misc_794d4da6ff",
+      "entity_type": "Misconception",
+      "name": "The voltage ratio equals the inverse turns ratio.",
+      "concept_id": "concept_52faab1a94"
+    },
+    {
+      "entity_id": "misc_eabc8fd5a1",
+      "entity_type": "Misconception",
+      "name": "An ideal transformer produces more electrical power when it increases voltage.",
+      "concept_id": "concept_52faab1a94"
+    },
+    {
+      "entity_id": "misc_ffbf6085fc",
+      "entity_type": "Misconception",
+      "name": "An ideal transformer can have an efficiency greater than 100%.",
+      "concept_id": "concept_258c353dd8"
+    },
+    {
+      "entity_id": "misc_2cecc7be50",
+      "entity_type": "Misconception",
+      "name": "A transformer produces power from nothing because it changes voltage and current.",
+      "concept_id": "concept_258c353dd8"
+    },
+    {
+      "entity_id": "misc_e56810484d",
+      "entity_type": "Misconception",
+      "name": "Transformer efficiency is the ratio of secondary voltage to primary voltage.",
+      "concept_id": "concept_258c353dd8"
+    }
+  ],
+  "entity_type_counts": {
+    "Assessment": 32,
+    "Competency": 32,
+    "Example": 13,
+    "Formula": 105,
+    "Misconception": 96
+  }
+}

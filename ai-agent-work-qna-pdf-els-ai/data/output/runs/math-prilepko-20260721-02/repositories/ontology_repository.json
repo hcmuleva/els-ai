@@ -1,0 +1,2896 @@
+{
+  "entities": [
+    {
+      "entity_id": "concept_77d4c390fb",
+      "entity_type": "Definition",
+      "name": "Chapter 1",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        4,
+        5
+      ]
+    },
+    {
+      "entity_id": "concept_a1427cc398",
+      "entity_type": "Definition",
+      "name": "Set D,or C",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "entity_id": "concept_3cd8a1d999",
+      "entity_type": "Definition",
+      "name": "Chapter 1 practice pages 11-16",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "entity_id": "concept_393a7be286",
+      "entity_type": "Definition",
+      "name": "Y=4x-x²at the point M(1;3)(a",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ]
+    },
+    {
+      "entity_id": "concept_44acfa1cb4",
+      "entity_type": "Definition",
+      "name": "Chapter 1 practice pages 23-28",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ]
+    },
+    {
+      "entity_id": "concept_45127fdcf0",
+      "entity_type": "Definition",
+      "name": "Chapter 1 practice pages 29-34",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33
+      ]
+    },
+    {
+      "entity_id": "concept_15b5941407",
+      "entity_type": "Definition",
+      "name": "Chapter 1 practice pages 35-40",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ]
+    },
+    {
+      "entity_id": "concept_a7f0d15a59",
+      "entity_type": "Definition",
+      "name": "Chapter 1 practice pages 41-46",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        40,
+        41,
+        42,
+        43,
+        44,
+        45
+      ]
+    },
+    {
+      "entity_id": "concept_c656b7384f",
+      "entity_type": "Definition",
+      "name": "Chapter 1 practice pages 47-52",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        46,
+        47,
+        48,
+        49,
+        50,
+        51
+      ]
+    },
+    {
+      "entity_id": "concept_f92fd22ba1",
+      "entity_type": "Definition",
+      "name": "Chapter 1 practice pages 53-58",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        52,
+        53,
+        54,
+        55,
+        56,
+        57
+      ]
+    },
+    {
+      "entity_id": "concept_eefc34380a",
+      "entity_type": "Definition",
+      "name": "Chapter 1 practice pages 59-64",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+      ]
+    },
+    {
+      "entity_id": "concept_8c899b7eaf",
+      "entity_type": "Definition",
+      "name": "Chapter 1 practice pages 65-70",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        64,
+        65,
+        66,
+        67,
+        68,
+        69
+      ]
+    },
+    {
+      "entity_id": "concept_ccaf311484",
+      "entity_type": "Definition",
+      "name": "Chapter 1 practice pages 71-76",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        70,
+        71,
+        72,
+        73,
+        74,
+        75
+      ]
+    },
+    {
+      "entity_id": "concept_8e3d64b025",
+      "entity_type": "Definition",
+      "name": "Chapter 1 practice pages 77-82",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        76,
+        77,
+        78,
+        79,
+        80,
+        81
+      ]
+    },
+    {
+      "entity_id": "concept_993cf899cd",
+      "entity_type": "Definition",
+      "name": "Chapter 1 practice pages 83-88",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        82,
+        83,
+        84,
+        85,
+        86,
+        87
+      ]
+    },
+    {
+      "entity_id": "concept_f2d508bbcb",
+      "entity_type": "Definition",
+      "name": "Chapter 1 practice pages 89-94",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        88,
+        89,
+        90,
+        91,
+        92,
+        93
+      ]
+    },
+    {
+      "entity_id": "concept_36d02f7a65",
+      "entity_type": "Definition",
+      "name": "Chapter 1 practice pages 95-100",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ]
+    },
+    {
+      "entity_id": "concept_16ab33fe85",
+      "entity_type": "Definition",
+      "name": "Of a triangle， AB=a,AC=b,[AD]",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        100,
+        101,
+        102,
+        103,
+        104,
+        105
+      ]
+    },
+    {
+      "entity_id": "concept_4c1ad5c066",
+      "entity_type": "Definition",
+      "name": "Chapter 7 practice pages 107-112",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        106,
+        107,
+        108,
+        109,
+        110,
+        111
+      ]
+    },
+    {
+      "entity_id": "concept_ccdc182e42",
+      "entity_type": "Definition",
+      "name": "Chapter 7 practice pages 113-114",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        112,
+        113
+      ]
+    },
+    {
+      "entity_id": "concept_b7fa009cbd",
+      "entity_type": "Definition",
+      "name": "Chapter 8 practice pages 115-120",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        114,
+        115,
+        116,
+        117,
+        118,
+        119
+      ]
+    },
+    {
+      "entity_id": "concept_5ce269ee1e",
+      "entity_type": "Definition",
+      "name": "Base of the pyramid",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        120,
+        121,
+        122,
+        123,
+        124,
+        125
+      ]
+    },
+    {
+      "entity_id": "concept_b3c85fa64e",
+      "entity_type": "Definition",
+      "name": "Chapter 8 practice pages 127-132",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        126,
+        127,
+        128,
+        129,
+        130,
+        131
+      ]
+    },
+    {
+      "entity_id": "concept_62fc111fe1",
+      "entity_type": "Definition",
+      "name": "Chapter 8 practice pages 133-138",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        132,
+        133,
+        134,
+        135,
+        136,
+        137
+      ]
+    },
+    {
+      "entity_id": "concept_9947576121",
+      "entity_type": "Procedure",
+      "name": "Chapter 1 practice pages 139-149",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        138,
+        139,
+        143,
+        144,
+        145,
+        148
+      ]
+    },
+    {
+      "entity_id": "concept_46cf8a440d",
+      "entity_type": "Definition",
+      "name": "Consequently，x=1",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        149,
+        150,
+        151,
+        157,
+        158,
+        159
+      ]
+    },
+    {
+      "entity_id": "concept_5f309285d8",
+      "entity_type": "Definition",
+      "name": "Origin has theformy=kx.Suppose M（zoyo",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        149,
+        150,
+        151,
+        157,
+        158,
+        159
+      ]
+    },
+    {
+      "entity_id": "concept_ce23a55e4b",
+      "entity_type": "Definition",
+      "name": "Z= 2.Such roots are called miltiple roots.The rootz=2",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        149,
+        150,
+        151,
+        157,
+        158,
+        159
+      ]
+    },
+    {
+      "entity_id": "concept_33cd575db2",
+      "entity_type": "Definition",
+      "name": "One positive term （x+.2).This",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        160,
+        161,
+        162,
+        163,
+        164,
+        165
+      ]
+    },
+    {
+      "entity_id": "concept_2ad1c84fc0",
+      "entity_type": "Definition",
+      "name": "—1；1) it increases; x=-1",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        160,
+        161,
+        162,
+        163,
+        164,
+        165
+      ]
+    },
+    {
+      "entity_id": "concept_acddf91d9c",
+      "entity_type": "Definition",
+      "name": "Intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        166,
+        167,
+        169,
+        170,
+        171,
+        172
+      ]
+    },
+    {
+      "entity_id": "concept_69cb78182a",
+      "entity_type": "Procedure",
+      "name": "Solving this system by",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        174,
+        175,
+        176,
+        177,
+        178,
+        179
+      ]
+    },
+    {
+      "entity_id": "concept_a0f16824e5",
+      "entity_type": "Definition",
+      "name": "Consequently，f（z)>0on thatintervaland this",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        174,
+        175,
+        176,
+        177,
+        178,
+        179
+      ]
+    },
+    {
+      "entity_id": "concept_180d305ba3",
+      "entity_type": "Definition",
+      "name": "Weestablish by",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        180,
+        181,
+        182,
+        183,
+        184,
+        185
+      ]
+    },
+    {
+      "entity_id": "example_28d1b4f654",
+      "entity_type": "Example",
+      "name": "The rootsofthequadratictrinomialx²-z-a²are x= =(1-√1+4a²/2andxg=（1+√1+4a²/2,and the solutions of the second inequality of the system arezE（-oo；z1）（x；oo) But<0and，therefore，the solution of the system isieinterval (z;oo)（x>1 fora>1）.We can，by analogy，consider the case when0<a<1.Wehaveasystem {=>1, x²--a<0.",
+      "concept_id": "concept_180d305ba3",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        180,
+        181,
+        182,
+        183,
+        184,
+        185
+      ]
+    },
+    {
+      "entity_id": "concept_f26ab3e78f",
+      "entity_type": "Definition",
+      "name": "Sets of solutions",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        180,
+        181,
+        182,
+        183,
+        184,
+        185
+      ]
+    },
+    {
+      "entity_id": "example_b1dbc1604f",
+      "entity_type": "Example",
+      "name": "The rootsofthequadratictrinomialx²-z-a²are x= =(1-√1+4a²/2andxg=（1+√1+4a²/2,and the solutions of the second inequality of the system arezE（-oo；z1）（x；oo) But<0and，therefore，the solution of the system isieinterval (z;oo)（x>1 fora>1）.We can，by analogy，consider the case when0<a<1.Wehaveasystem {=>1, x²--a<0.",
+      "concept_id": "concept_f26ab3e78f",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        180,
+        181,
+        182,
+        183,
+        184,
+        185
+      ]
+    },
+    {
+      "entity_id": "concept_493ea34ade",
+      "entity_type": "Definition",
+      "name": "Chapter 2 practice pages 187-193",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        186,
+        188,
+        189,
+        190,
+        191,
+        192
+      ]
+    },
+    {
+      "entity_id": "concept_759a0d7e40",
+      "entity_type": "Definition",
+      "name": "Chapter 2 practice pages 194-201",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        193,
+        194,
+        196,
+        198,
+        199,
+        200
+      ]
+    },
+    {
+      "entity_id": "concept_a5bc52665f",
+      "entity_type": "Definition",
+      "name": "Arctan（1/2）, kEZ.Verifying them by",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206
+      ]
+    },
+    {
+      "entity_id": "concept_f57269bb13",
+      "entity_type": "Definition",
+      "name": "Satisfied，we find that z=n,nEZ，",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        207,
+        208,
+        209,
+        210,
+        211,
+        212
+      ]
+    },
+    {
+      "entity_id": "concept_e0c8354fce",
+      "entity_type": "Formula",
+      "name": "second equation",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        213,
+        214,
+        215,
+        216,
+        217,
+        218
+      ]
+    },
+    {
+      "entity_id": "formula_caea9ee6b2",
+      "entity_type": "Formula",
+      "name": "2 (1) The equation obtained has solutions if sin x=1/2;then tan x = =—1/v3andwearriveatasystemofequations sin x=1/2. tan z= 1 V3· From the firstequationof the systemwehave x=2nn+π/6and =2n+5π/6,nEZ.The second equation is satisfied only by the valuesofx(b）{2πn;2πn+π/2|n∈Z；（c）{2nn-π/4in∈Z}.",
+      "concept_id": "concept_e0c8354fce",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        213,
+        214,
+        215,
+        216,
+        217,
+        218
+      ]
+    },
+    {
+      "entity_id": "concept_5d3428cb57",
+      "entity_type": "Definition",
+      "name": "Supposexroubles",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        219,
+        220,
+        221,
+        222,
+        223,
+        224
+      ]
+    },
+    {
+      "entity_id": "concept_aeb1d97acf",
+      "entity_type": "Definition",
+      "name": "Suppose z",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        219,
+        220,
+        221,
+        222,
+        223,
+        224
+      ]
+    },
+    {
+      "entity_id": "concept_a42005065a",
+      "entity_type": "Definition",
+      "name": "25 ma/h.Suppose S",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        219,
+        220,
+        221,
+        222,
+        223,
+        224
+      ]
+    },
+    {
+      "entity_id": "concept_c334a77355",
+      "entity_type": "Definition",
+      "name": "Old system by",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        225,
+        226,
+        227,
+        228,
+        229,
+        230
+      ]
+    },
+    {
+      "entity_id": "concept_28f65425cb",
+      "entity_type": "Formula",
+      "name": "Side of equation (1",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        225,
+        226,
+        227,
+        228,
+        229,
+        230
+      ]
+    },
+    {
+      "entity_id": "formula_4858dd5864",
+      "entity_type": "Formula",
+      "name": "4 1n (3/2) 1.5.13.{1/4; 49/4}.Consider the cases c<4 and c > 4.14. (a) 2 5 16. (a) 1/3 十 + ln 2; (b) 13/3 -4 ln 2; (c) 16.5 8 ln 2; (d) 48 ln 2 — 11.25; The curves y = 1/x and y = 1/(2z - 1) meet at the point O (1; 1) 15* 227 (this follows from the solution of the equation 1/x=1/(2x1）.Let usconsider thepossiblecasesof location of the curvez=a:1/2< <a<1,1<a<2anda>2.（1）If1/2<a<1,then the areaof the figure(see the figure)is equalto the sum of the areas of the fi- guresEOFandAOB: yA ln v= \\2x-1 Integrating the right-hand part,we get ln- 4 2x—11 v=1n 2x-1 1 1 4 or a² V=212a-1· (1) The right-hand side of equation (1) is the area of the curvilinear triangleEOF(1n 2V3 5a²-24a+12=0; (2) =（12-2√21）/5,a=（12+2y21)/5.We findthat the condi- tion1/2<a<1isfulilledonlybytheroota (2)Under theconditions1<a<2,the straight linez==a does notexist（itisestablished thatin the case1/2<a<1,the area of the given figureislarger than the area of the curvilinear triangleAoB). (3)In the case a>2,the area of the given figure is equal to the areaof thefigureABCD: (3) 228 Afterintegrating the right-hand side of theresultingequation and transformingit，weobtain15a²-128a+64=0;ag=8，a =8/15.Thevalue of adoesnot satisfy the inequality a>2 and is, therefore，extraneous.Thus，the condition of the problem is satisfied by thevaluesa∈{（12-2√21)/5;8}.19.（a) ）logse;(b)log4e; (c）（30-8 1n2)/ln2;（d）8（1-1/(81 ln3）).",
+      "concept_id": "concept_28f65425cb",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        225,
+        226,
+        227,
+        228,
+        229,
+        230
+      ]
+    },
+    {
+      "entity_id": "concept_5f1c83982f",
+      "entity_type": "Definition",
+      "name": "Can be found by",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        225,
+        226,
+        227,
+        228,
+        229,
+        230
+      ]
+    },
+    {
+      "entity_id": "concept_c7dde8cfc3",
+      "entity_type": "Definition",
+      "name": "1→00 lim n-7 c",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        231,
+        232,
+        233,
+        234
+      ]
+    },
+    {
+      "entity_id": "example_5ea35ba909",
+      "entity_type": "Example",
+      "name": "44.931.45.4,20,100;4/9,52/9,676/9.46.4,12,36;4/9,-20/9, 100/9.47.2±V3.48.4,20,100and5,20,35;100,20,4and101， 20,-61.49.5,5,5;10/3,5,15/2.50.2.51.3,6,9,12.52.1,4,16, 257983 225625 5.2.NumberSequences 1.(a)Letus choose arbitrarily a positive number eand show that we canfindfor it anaturalNsuchthat the inequality 11/n-0|<8 (1) holds for all numbers n>N.After transformations,we get an in- equality n>1/e.If the number nislarger than1/e,then inequality (1) holds true,i.e.we can takeNequal to[1/8]where[1/e]is the inte- gralpartof thenumber1/e.Thus,wehave shown the existence of the number Nsuchthat inequality (1)holdsforanyn>N=[1/e]and have completed the proof.Remark.We can take as Nany natural number exceeding 1/e;(b)OShow that N can be taken equal to 233 [(2-e)/e],where g>O；(c)Make use of the proof of the assertion limq”=0,0<q<1.2.1stmethod.The sequence（xn）is said tobebounded if there aretwonumbers mand Msuch that the in- n→00 equality m≤n≤Mholds trueforanynEN.We shallprove the existenceof thenumbersmandMfor thegivensequence.All the terms of the sequence with thegeneral term(1十（—1))/n²arenonnegative (xzh-1 =0 for n = 2k-1;xek = 2 （2k）2 therefore， we can take as m any negative number or zero (say，m = 2).Unity，for instance，can serve as M.Indeed，xh-1=0<1 1 n E N and this means that the given sequence is bounded.",
+      "concept_id": "concept_c7dde8cfc3",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        231,
+        232,
+        233,
+        234
+      ]
+    },
+    {
+      "entity_id": "concept_2984782637",
+      "entity_type": "Definition",
+      "name": "Sum of these vectors",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        235,
+        236,
+        237,
+        238,
+        239
+      ]
+    },
+    {
+      "entity_id": "concept_973f8e00df",
+      "entity_type": "Formula",
+      "name": "N =(0; 1; 0",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        235,
+        236,
+        237,
+        238,
+        239
+      ]
+    },
+    {
+      "entity_id": "formula_e06588b93c",
+      "entity_type": "Formula",
+      "name": "We can calculate the required angle BAn from theequality cos@= ，where BA=(1; 2;—2) and [BA||n| n =(0; 1; 0) is a vector normal to the plane xOz (Φ) is the angle between the vectors BA and n).",
+      "concept_id": "concept_973f8e00df",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        235,
+        236,
+        237,
+        238,
+        239
+      ]
+    },
+    {
+      "entity_id": "concept_05d448fa54",
+      "entity_type": "Definition",
+      "name": "segment[EF]; [MF]",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        240,
+        241,
+        242,
+        243,
+        244,
+        245
+      ]
+    },
+    {
+      "entity_id": "concept_83657abf05",
+      "entity_type": "Definition",
+      "name": "M C trianglesthat丨KE|=|MC|andso KECM",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        240,
+        241,
+        242,
+        243,
+        244,
+        245
+      ]
+    },
+    {
+      "entity_id": "concept_a90232301b",
+      "entity_type": "Definition",
+      "name": "Thehypothe- sis)，it follows that[BP|",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        240,
+        241,
+        242,
+        243,
+        244,
+        245
+      ]
+    },
+    {
+      "entity_id": "concept_24079685a3",
+      "entity_type": "Definition",
+      "name": "By analogy，we find a point O，which",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        240,
+        241,
+        242,
+        243,
+        244,
+        245
+      ]
+    },
+    {
+      "entity_id": "concept_172b1feee0",
+      "entity_type": "Definition",
+      "name": "ABC,it follows that [PQ]",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        246,
+        247,
+        248,
+        249,
+        250,
+        251
+      ]
+    },
+    {
+      "entity_id": "concept_69cce13951",
+      "entity_type": "Definition",
+      "name": "Equal to(4-(1+ xE[0;6] V2)x)/2,wherex",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        246,
+        247,
+        248,
+        249,
+        250,
+        251
+      ]
+    },
+    {
+      "entity_id": "concept_537674f1cf",
+      "entity_type": "Definition",
+      "name": "Regular tetra- hedron,in particular,a",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        252,
+        253,
+        254,
+        255,
+        256,
+        257
+      ]
+    },
+    {
+      "entity_id": "concept_b154bcc0dd",
+      "entity_type": "Definition",
+      "name": "SS)）， where S",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        252,
+        253,
+        254,
+        255,
+        256,
+        257
+      ]
+    },
+    {
+      "entity_id": "concept_444445d454",
+      "entity_type": "Definition",
+      "name": "Planeof the base(ABCD",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        252,
+        253,
+        254,
+        255,
+        256,
+        257
+      ]
+    },
+    {
+      "entity_id": "concept_aa5519117c",
+      "entity_type": "Definition",
+      "name": "S The point O∈（ALS）and (OL）",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        258,
+        259,
+        260,
+        261,
+        262,
+        263
+      ]
+    },
+    {
+      "entity_id": "concept_359ead36a1",
+      "entity_type": "Definition",
+      "name": "Suppose x",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        258,
+        259,
+        260,
+        261,
+        262,
+        263
+      ]
+    },
+    {
+      "entity_id": "concept_474e628c3c",
+      "entity_type": "Definition",
+      "name": "Generatrix of the cone，@",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        258,
+        259,
+        260,
+        261,
+        262,
+        263
+      ]
+    },
+    {
+      "entity_id": "concept_8aee7319a1",
+      "entity_type": "Definition",
+      "name": "Since 6 6 （k+1）(k+2)(2k+3) and this",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        264,
+        265,
+        266,
+        267,
+        268,
+        269
+      ]
+    },
+    {
+      "entity_id": "example_adc01b72ce",
+      "entity_type": "Example",
+      "name": "23.(a) y 23.(c) 23.(b) y 23.(d) 23.(e) y y 24.No,we cannot.The function f (x)=z，for instance，increases on the interval（-1;O）and the functionΦ（x)=x²decreases on that interval.25.Since for anyx,zE（a;b）and such thatz>， f（z1)>f（z2)and fa（z)）>f2（z）it followsthatf（z)+f2（x）> >f（x)）+f（z）or@（z1）>（x)，and this means thatthe function （)decreases on thatinterval.26.Carry out the proof byinduction.",
+      "concept_id": "concept_8aee7319a1",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        264,
+        265,
+        266,
+        267,
+        268,
+        269
+      ]
+    },
+    {
+      "entity_id": "concept_e10a3efa37",
+      "entity_type": "Definition",
+      "name": "180 (b)▲ Suppose ABCD",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        264,
+        265,
+        266,
+        267,
+        268,
+        269
+      ]
+    },
+    {
+      "entity_id": "example_ecf170adba",
+      "entity_type": "Example",
+      "name": "23.(a) y 23.(c) 23.(b) y 23.(d) 23.(e) y y 24.No,we cannot.The function f (x)=z，for instance，increases on the interval（-1;O）and the functionΦ（x)=x²decreases on that interval.25.Since for anyx,zE（a;b）and such thatz>， f（z1)>f（z2)and fa（z)）>f2（z）it followsthatf（z)+f2（x）> >f（x)）+f（z）or@（z1）>（x)，and this means thatthe function （)decreases on thatinterval.26.Carry out the proof byinduction.",
+      "concept_id": "concept_e10a3efa37",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        264,
+        265,
+        266,
+        267,
+        268,
+        269
+      ]
+    },
+    {
+      "entity_id": "concept_5f658eb084",
+      "entity_type": "Definition",
+      "name": "Then f（x)=f（—z)=0as well,and this",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        264,
+        265,
+        266,
+        267,
+        268,
+        269
+      ]
+    },
+    {
+      "entity_id": "example_fa360cac71",
+      "entity_type": "Example",
+      "name": "23.(a) y 23.(c) 23.(b) y 23.(d) 23.(e) y y 24.No,we cannot.The function f (x)=z，for instance，increases on the interval（-1;O）and the functionΦ（x)=x²decreases on that interval.25.Since for anyx,zE（a;b）and such thatz>， f（z1)>f（z2)and fa（z)）>f2（z）it followsthatf（z)+f2（x）> >f（x)）+f（z）or@（z1）>（x)，and this means thatthe function （)decreases on thatinterval.26.Carry out the proof byinduction.",
+      "concept_id": "concept_5f658eb084",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        264,
+        265,
+        266,
+        267,
+        268,
+        269
+      ]
+    },
+    {
+      "entity_id": "concept_4eeefbdab6",
+      "entity_type": "Definition",
+      "name": "That of problem3.5.Suppose f（x",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        270,
+        271,
+        272,
+        273,
+        274,
+        275
+      ]
+    },
+    {
+      "entity_id": "example_c6cafa2ba6",
+      "entity_type": "Example",
+      "name": "9.3.TheDerivative ofaFunction 1.(a)We can;(b)we cannot.2.(a)We cannot； the function f （x)=x， for instance，is differentiable at the point x。=O，and the function f（x)=|x|is not，nevertheless,（）=z|z|is differentiable at the point x。=O；（b）we cannot.Consider the functions f（x)= f（x)=|x1.3.Suppose f（x) is a differentiable even function.",
+      "concept_id": "concept_4eeefbdab6",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        270,
+        271,
+        272,
+        273,
+        274,
+        275
+      ]
+    },
+    {
+      "entity_id": "concept_788ad47c8d",
+      "entity_type": "Definition",
+      "name": "12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        270,
+        271,
+        272,
+        273,
+        274,
+        275
+      ]
+    },
+    {
+      "entity_id": "example_e504f2f3f6",
+      "entity_type": "Example",
+      "name": "9.3.TheDerivative ofaFunction 1.(a)We can;(b)we cannot.2.(a)We cannot； the function f （x)=x， for instance，is differentiable at the point x。=O，and the function f（x)=|x|is not，nevertheless,（）=z|z|is differentiable at the point x。=O；（b）we cannot.Consider the functions f（x)= f（x)=|x1.3.Suppose f（x) is a differentiable even function.",
+      "concept_id": "concept_788ad47c8d",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        270,
+        271,
+        272,
+        273,
+        274,
+        275
+      ]
+    },
+    {
+      "entity_id": "concept_ee77818df3",
+      "entity_type": "Definition",
+      "name": "No,we cannot.For instance,f (x)=1 + cos x",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        270,
+        271,
+        272,
+        273,
+        274,
+        275
+      ]
+    },
+    {
+      "entity_id": "example_c54ee1ecad",
+      "entity_type": "Example",
+      "name": "9.3.TheDerivative ofaFunction 1.(a)We can;(b)we cannot.2.(a)We cannot； the function f （x)=x， for instance，is differentiable at the point x。=O，and the function f（x)=|x|is not，nevertheless,（）=z|z|is differentiable at the point x。=O；（b）we cannot.Consider the functions f（x)= f（x)=|x1.3.Suppose f（x) is a differentiable even function.",
+      "concept_id": "concept_ee77818df3",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        270,
+        271,
+        272,
+        273,
+        274,
+        275
+      ]
+    },
+    {
+      "entity_id": "concept_2102a0a8d5",
+      "entity_type": "Definition",
+      "name": "Suppose SABc",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        270,
+        271,
+        272,
+        273,
+        274,
+        275
+      ]
+    },
+    {
+      "entity_id": "example_ad0553afb9",
+      "entity_type": "Example",
+      "name": "9.3.TheDerivative ofaFunction 1.(a)We can;(b)we cannot.2.(a)We cannot； the function f （x)=x， for instance，is differentiable at the point x。=O，and the function f（x)=|x|is not，nevertheless,（）=z|z|is differentiable at the point x。=O；（b）we cannot.Consider the functions f（x)= f（x)=|x1.3.Suppose f（x) is a differentiable even function.",
+      "concept_id": "concept_2102a0a8d5",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        270,
+        271,
+        272,
+        273,
+        274,
+        275
+      ]
+    },
+    {
+      "entity_id": "concept_6ae9e02564",
+      "entity_type": "Definition",
+      "name": "=(2n+1）-arctan 2the given quadraticfunction",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        276,
+        277,
+        278,
+        279
+      ]
+    },
+    {
+      "entity_id": "concept_ceb3b0f44e",
+      "entity_type": "Formula",
+      "name": "Logs (3x+2) <1 277",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        276,
+        277,
+        278,
+        279
+      ]
+    },
+    {
+      "entity_id": "formula_8aabfab4b9",
+      "entity_type": "Formula",
+      "name": "The solution of the inequality logs(x²3x+7) logs (3x+2) <1 277 is the union of the intervals xE（—2/3;-1/3)U(1;5）.For cvery solutionoftheinequalitytobea solutionoftheinequalityx² 十（5-2a)x≤10a,the zeros xandxgofthefunction（x)= x²+（5-2a)x-10amust satisfy the inequalitiesx≤2/3 andx≥5,i.e.the inequalities f (—2/3)≤0 and f(5)≤0must hold simultaneously.We shall get the answer solving the system ofin- equalities { (—2/3)²+(5--2a)(—2/3)-10a≤0， 52+(5-2a)5-10a≤0.",
+      "concept_id": "concept_ceb3b0f44e",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        276,
+        277,
+        278,
+        279
+      ]
+    },
+    {
+      "entity_id": "concept_ecd6f0e62e",
+      "entity_type": "Definition",
+      "name": "given system",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        276,
+        277,
+        278,
+        279
+      ]
+    },
+    {
+      "entity_id": "comp_c389303cd2",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1",
+      "concept_id": "concept_77d4c390fb"
+    },
+    {
+      "entity_id": "comp_b7e608f6c6",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Set D,or C",
+      "concept_id": "concept_a1427cc398"
+    },
+    {
+      "entity_id": "comp_544de910fc",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1 practice pages 11-16",
+      "concept_id": "concept_3cd8a1d999"
+    },
+    {
+      "entity_id": "comp_0148817e66",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Y=4x-x²at the point M(1;3)(a",
+      "concept_id": "concept_393a7be286"
+    },
+    {
+      "entity_id": "comp_876c5ad07a",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1 practice pages 23-28",
+      "concept_id": "concept_44acfa1cb4"
+    },
+    {
+      "entity_id": "comp_a2be4d917a",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1 practice pages 29-34",
+      "concept_id": "concept_45127fdcf0"
+    },
+    {
+      "entity_id": "comp_c77ecc8bb4",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1 practice pages 35-40",
+      "concept_id": "concept_15b5941407"
+    },
+    {
+      "entity_id": "comp_52ae1eeaba",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1 practice pages 41-46",
+      "concept_id": "concept_a7f0d15a59"
+    },
+    {
+      "entity_id": "comp_311c6ecdfb",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1 practice pages 47-52",
+      "concept_id": "concept_c656b7384f"
+    },
+    {
+      "entity_id": "comp_75cb3c979a",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1 practice pages 53-58",
+      "concept_id": "concept_f92fd22ba1"
+    },
+    {
+      "entity_id": "comp_e76e0f24b8",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1 practice pages 59-64",
+      "concept_id": "concept_eefc34380a"
+    },
+    {
+      "entity_id": "comp_1ddd3243f4",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1 practice pages 65-70",
+      "concept_id": "concept_8c899b7eaf"
+    },
+    {
+      "entity_id": "comp_768b8bc686",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1 practice pages 71-76",
+      "concept_id": "concept_ccaf311484"
+    },
+    {
+      "entity_id": "comp_e1fae2734e",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1 practice pages 77-82",
+      "concept_id": "concept_8e3d64b025"
+    },
+    {
+      "entity_id": "comp_e4871a9200",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1 practice pages 83-88",
+      "concept_id": "concept_993cf899cd"
+    },
+    {
+      "entity_id": "comp_f6eb594ee1",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1 practice pages 89-94",
+      "concept_id": "concept_f2d508bbcb"
+    },
+    {
+      "entity_id": "comp_68ddbde703",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 1 practice pages 95-100",
+      "concept_id": "concept_36d02f7a65"
+    },
+    {
+      "entity_id": "comp_27848596db",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Of a triangle， AB=a,AC=b,[AD]",
+      "concept_id": "concept_16ab33fe85"
+    },
+    {
+      "entity_id": "comp_2e808c6a87",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 7 practice pages 107-112",
+      "concept_id": "concept_4c1ad5c066"
+    },
+    {
+      "entity_id": "comp_124f6a10d6",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 7 practice pages 113-114",
+      "concept_id": "concept_ccdc182e42"
+    },
+    {
+      "entity_id": "comp_bceb4d617f",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 8 practice pages 115-120",
+      "concept_id": "concept_b7fa009cbd"
+    },
+    {
+      "entity_id": "comp_90074af0f5",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Base of the pyramid",
+      "concept_id": "concept_5ce269ee1e"
+    },
+    {
+      "entity_id": "comp_c21eb997d3",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 8 practice pages 127-132",
+      "concept_id": "concept_b3c85fa64e"
+    },
+    {
+      "entity_id": "comp_be1b923811",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 8 practice pages 133-138",
+      "concept_id": "concept_62fc111fe1"
+    },
+    {
+      "entity_id": "comp_cf712a2cfb",
+      "entity_type": "Competency",
+      "name": "Perform the procedure Chapter 1 practice pages 139-149",
+      "concept_id": "concept_9947576121"
+    },
+    {
+      "entity_id": "comp_3013762fee",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Consequently，x=1",
+      "concept_id": "concept_46cf8a440d"
+    },
+    {
+      "entity_id": "comp_c380e33026",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Origin has theformy=kx.Suppose M（zoyo",
+      "concept_id": "concept_5f309285d8"
+    },
+    {
+      "entity_id": "comp_723cdc6e6a",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Z= 2.Such roots are called miltiple roots.The rootz=2",
+      "concept_id": "concept_ce23a55e4b"
+    },
+    {
+      "entity_id": "comp_daacaa06f9",
+      "entity_type": "Competency",
+      "name": "Define and distinguish One positive term （x+.2).This",
+      "concept_id": "concept_33cd575db2"
+    },
+    {
+      "entity_id": "comp_9922878d6e",
+      "entity_type": "Competency",
+      "name": "Define and distinguish —1；1) it increases; x=-1",
+      "concept_id": "concept_2ad1c84fc0"
+    },
+    {
+      "entity_id": "comp_793c2bfc5e",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3",
+      "concept_id": "concept_acddf91d9c"
+    },
+    {
+      "entity_id": "comp_17deeeb0ca",
+      "entity_type": "Competency",
+      "name": "Perform the procedure Solving this system by",
+      "concept_id": "concept_69cb78182a"
+    },
+    {
+      "entity_id": "comp_be49acd8b5",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Consequently，f（z)>0on thatintervaland this",
+      "concept_id": "concept_a0f16824e5"
+    },
+    {
+      "entity_id": "comp_a03e5080d1",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Weestablish by",
+      "concept_id": "concept_180d305ba3"
+    },
+    {
+      "entity_id": "comp_63a0c607c9",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Sets of solutions",
+      "concept_id": "concept_f26ab3e78f"
+    },
+    {
+      "entity_id": "comp_3ea491f0b7",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2 practice pages 187-193",
+      "concept_id": "concept_493ea34ade"
+    },
+    {
+      "entity_id": "comp_d7f77b9093",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Chapter 2 practice pages 194-201",
+      "concept_id": "concept_759a0d7e40"
+    },
+    {
+      "entity_id": "comp_c29fe583fe",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Arctan（1/2）, kEZ.Verifying them by",
+      "concept_id": "concept_a5bc52665f"
+    },
+    {
+      "entity_id": "comp_29604ec890",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Satisfied，we find that z=n,nEZ，",
+      "concept_id": "concept_f57269bb13"
+    },
+    {
+      "entity_id": "comp_51aecbf9f1",
+      "entity_type": "Competency",
+      "name": "Compute using second equation",
+      "concept_id": "concept_e0c8354fce"
+    },
+    {
+      "entity_id": "comp_7cc8177703",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Supposexroubles",
+      "concept_id": "concept_5d3428cb57"
+    },
+    {
+      "entity_id": "comp_24b0fce584",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Suppose z",
+      "concept_id": "concept_aeb1d97acf"
+    },
+    {
+      "entity_id": "comp_0a10810a07",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 25 ma/h.Suppose S",
+      "concept_id": "concept_a42005065a"
+    },
+    {
+      "entity_id": "comp_e2c9afdea6",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Old system by",
+      "concept_id": "concept_c334a77355"
+    },
+    {
+      "entity_id": "comp_b9dea994d5",
+      "entity_type": "Competency",
+      "name": "Compute using Side of equation (1",
+      "concept_id": "concept_28f65425cb"
+    },
+    {
+      "entity_id": "comp_9481df93c6",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Can be found by",
+      "concept_id": "concept_5f1c83982f"
+    },
+    {
+      "entity_id": "comp_aadf4a885c",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 1→00 lim n-7 c",
+      "concept_id": "concept_c7dde8cfc3"
+    },
+    {
+      "entity_id": "comp_34085944af",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Sum of these vectors",
+      "concept_id": "concept_2984782637"
+    },
+    {
+      "entity_id": "comp_6323fbe54f",
+      "entity_type": "Competency",
+      "name": "Compute using N =(0; 1; 0",
+      "concept_id": "concept_973f8e00df"
+    },
+    {
+      "entity_id": "comp_fa851e79e8",
+      "entity_type": "Competency",
+      "name": "Define and distinguish segment[EF]; [MF]",
+      "concept_id": "concept_05d448fa54"
+    },
+    {
+      "entity_id": "comp_2125e9f73d",
+      "entity_type": "Competency",
+      "name": "Define and distinguish M C trianglesthat丨KE|=|MC|andso KECM",
+      "concept_id": "concept_83657abf05"
+    },
+    {
+      "entity_id": "comp_97e22feaf7",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Thehypothe- sis)，it follows that[BP|",
+      "concept_id": "concept_a90232301b"
+    },
+    {
+      "entity_id": "comp_d7f705ce34",
+      "entity_type": "Competency",
+      "name": "Define and distinguish By analogy，we find a point O，which",
+      "concept_id": "concept_24079685a3"
+    },
+    {
+      "entity_id": "comp_ae2223f5a8",
+      "entity_type": "Competency",
+      "name": "Define and distinguish ABC,it follows that [PQ]",
+      "concept_id": "concept_172b1feee0"
+    },
+    {
+      "entity_id": "comp_34b5771d83",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Equal to(4-(1+ xE[0;6] V2)x)/2,wherex",
+      "concept_id": "concept_69cce13951"
+    },
+    {
+      "entity_id": "comp_55785a09fe",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Regular tetra- hedron,in particular,a",
+      "concept_id": "concept_537674f1cf"
+    },
+    {
+      "entity_id": "comp_cba5a3952f",
+      "entity_type": "Competency",
+      "name": "Define and distinguish SS)）， where S",
+      "concept_id": "concept_b154bcc0dd"
+    },
+    {
+      "entity_id": "comp_3ae0d8897d",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Planeof the base(ABCD",
+      "concept_id": "concept_444445d454"
+    },
+    {
+      "entity_id": "comp_f422869db9",
+      "entity_type": "Competency",
+      "name": "Define and distinguish S The point O∈（ALS）and (OL）",
+      "concept_id": "concept_aa5519117c"
+    },
+    {
+      "entity_id": "comp_da72ee3148",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Suppose x",
+      "concept_id": "concept_359ead36a1"
+    },
+    {
+      "entity_id": "comp_ba7d0000e4",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Generatrix of the cone，@",
+      "concept_id": "concept_474e628c3c"
+    },
+    {
+      "entity_id": "comp_0790e4107a",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Since 6 6 （k+1）(k+2)(2k+3) and this",
+      "concept_id": "concept_8aee7319a1"
+    },
+    {
+      "entity_id": "comp_9d29f89e0c",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 180 (b)▲ Suppose ABCD",
+      "concept_id": "concept_e10a3efa37"
+    },
+    {
+      "entity_id": "comp_2736567aef",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Then f（x)=f（—z)=0as well,and this",
+      "concept_id": "concept_5f658eb084"
+    },
+    {
+      "entity_id": "comp_207ca27ab1",
+      "entity_type": "Competency",
+      "name": "Define and distinguish That of problem3.5.Suppose f（x",
+      "concept_id": "concept_4eeefbdab6"
+    },
+    {
+      "entity_id": "comp_45787a120e",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this",
+      "concept_id": "concept_788ad47c8d"
+    },
+    {
+      "entity_id": "comp_069620f39c",
+      "entity_type": "Competency",
+      "name": "Define and distinguish No,we cannot.For instance,f (x)=1 + cos x",
+      "concept_id": "concept_ee77818df3"
+    },
+    {
+      "entity_id": "comp_c3e9ce2536",
+      "entity_type": "Competency",
+      "name": "Define and distinguish Suppose SABc",
+      "concept_id": "concept_2102a0a8d5"
+    },
+    {
+      "entity_id": "comp_65257ec01f",
+      "entity_type": "Competency",
+      "name": "Define and distinguish =(2n+1）-arctan 2the given quadraticfunction",
+      "concept_id": "concept_6ae9e02564"
+    },
+    {
+      "entity_id": "comp_6d1d946d9d",
+      "entity_type": "Competency",
+      "name": "Compute using Logs (3x+2) <1 277",
+      "concept_id": "concept_ceb3b0f44e"
+    },
+    {
+      "entity_id": "comp_7012c443e2",
+      "entity_type": "Competency",
+      "name": "Define and distinguish given system",
+      "concept_id": "concept_ecd6f0e62e"
+    },
+    {
+      "entity_id": "assessment_c389303cd2",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_77d4c390fb"
+    },
+    {
+      "entity_id": "assessment_b7e608f6c6",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_a1427cc398"
+    },
+    {
+      "entity_id": "assessment_544de910fc",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_3cd8a1d999"
+    },
+    {
+      "entity_id": "assessment_0148817e66",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_393a7be286"
+    },
+    {
+      "entity_id": "assessment_876c5ad07a",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_44acfa1cb4"
+    },
+    {
+      "entity_id": "assessment_a2be4d917a",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_45127fdcf0"
+    },
+    {
+      "entity_id": "assessment_c77ecc8bb4",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_15b5941407"
+    },
+    {
+      "entity_id": "assessment_52ae1eeaba",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_a7f0d15a59"
+    },
+    {
+      "entity_id": "assessment_311c6ecdfb",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_c656b7384f"
+    },
+    {
+      "entity_id": "assessment_75cb3c979a",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_f92fd22ba1"
+    },
+    {
+      "entity_id": "assessment_e76e0f24b8",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_eefc34380a"
+    },
+    {
+      "entity_id": "assessment_1ddd3243f4",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_8c899b7eaf"
+    },
+    {
+      "entity_id": "assessment_768b8bc686",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_ccaf311484"
+    },
+    {
+      "entity_id": "assessment_e1fae2734e",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_8e3d64b025"
+    },
+    {
+      "entity_id": "assessment_e4871a9200",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_993cf899cd"
+    },
+    {
+      "entity_id": "assessment_f6eb594ee1",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_f2d508bbcb"
+    },
+    {
+      "entity_id": "assessment_68ddbde703",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_36d02f7a65"
+    },
+    {
+      "entity_id": "assessment_27848596db",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_16ab33fe85"
+    },
+    {
+      "entity_id": "assessment_2e808c6a87",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_4c1ad5c066"
+    },
+    {
+      "entity_id": "assessment_124f6a10d6",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_ccdc182e42"
+    },
+    {
+      "entity_id": "assessment_bceb4d617f",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_b7fa009cbd"
+    },
+    {
+      "entity_id": "assessment_90074af0f5",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_5ce269ee1e"
+    },
+    {
+      "entity_id": "assessment_c21eb997d3",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_b3c85fa64e"
+    },
+    {
+      "entity_id": "assessment_be1b923811",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_62fc111fe1"
+    },
+    {
+      "entity_id": "assessment_cf712a2cfb",
+      "entity_type": "Assessment",
+      "name": "Practical, Problem Solving",
+      "concept_id": "concept_9947576121"
+    },
+    {
+      "entity_id": "assessment_3013762fee",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_46cf8a440d"
+    },
+    {
+      "entity_id": "assessment_c380e33026",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_5f309285d8"
+    },
+    {
+      "entity_id": "assessment_723cdc6e6a",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_ce23a55e4b"
+    },
+    {
+      "entity_id": "assessment_daacaa06f9",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_33cd575db2"
+    },
+    {
+      "entity_id": "assessment_9922878d6e",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_2ad1c84fc0"
+    },
+    {
+      "entity_id": "assessment_793c2bfc5e",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_acddf91d9c"
+    },
+    {
+      "entity_id": "assessment_17deeeb0ca",
+      "entity_type": "Assessment",
+      "name": "Practical, Problem Solving",
+      "concept_id": "concept_69cb78182a"
+    },
+    {
+      "entity_id": "assessment_be49acd8b5",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_a0f16824e5"
+    },
+    {
+      "entity_id": "assessment_a03e5080d1",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_180d305ba3"
+    },
+    {
+      "entity_id": "assessment_63a0c607c9",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_f26ab3e78f"
+    },
+    {
+      "entity_id": "assessment_3ea491f0b7",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_493ea34ade"
+    },
+    {
+      "entity_id": "assessment_d7f77b9093",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_759a0d7e40"
+    },
+    {
+      "entity_id": "assessment_c29fe583fe",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_a5bc52665f"
+    },
+    {
+      "entity_id": "assessment_29604ec890",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_f57269bb13"
+    },
+    {
+      "entity_id": "assessment_51aecbf9f1",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_e0c8354fce"
+    },
+    {
+      "entity_id": "assessment_7cc8177703",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_5d3428cb57"
+    },
+    {
+      "entity_id": "assessment_24b0fce584",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_aeb1d97acf"
+    },
+    {
+      "entity_id": "assessment_0a10810a07",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_a42005065a"
+    },
+    {
+      "entity_id": "assessment_e2c9afdea6",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_c334a77355"
+    },
+    {
+      "entity_id": "assessment_b9dea994d5",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_28f65425cb"
+    },
+    {
+      "entity_id": "assessment_9481df93c6",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_5f1c83982f"
+    },
+    {
+      "entity_id": "assessment_aadf4a885c",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_c7dde8cfc3"
+    },
+    {
+      "entity_id": "assessment_34085944af",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_2984782637"
+    },
+    {
+      "entity_id": "assessment_6323fbe54f",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_973f8e00df"
+    },
+    {
+      "entity_id": "assessment_fa851e79e8",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_05d448fa54"
+    },
+    {
+      "entity_id": "assessment_2125e9f73d",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_83657abf05"
+    },
+    {
+      "entity_id": "assessment_97e22feaf7",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_a90232301b"
+    },
+    {
+      "entity_id": "assessment_d7f705ce34",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_24079685a3"
+    },
+    {
+      "entity_id": "assessment_ae2223f5a8",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_172b1feee0"
+    },
+    {
+      "entity_id": "assessment_34b5771d83",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_69cce13951"
+    },
+    {
+      "entity_id": "assessment_55785a09fe",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_537674f1cf"
+    },
+    {
+      "entity_id": "assessment_cba5a3952f",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_b154bcc0dd"
+    },
+    {
+      "entity_id": "assessment_3ae0d8897d",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_444445d454"
+    },
+    {
+      "entity_id": "assessment_f422869db9",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_aa5519117c"
+    },
+    {
+      "entity_id": "assessment_da72ee3148",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_359ead36a1"
+    },
+    {
+      "entity_id": "assessment_ba7d0000e4",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_474e628c3c"
+    },
+    {
+      "entity_id": "assessment_0790e4107a",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_8aee7319a1"
+    },
+    {
+      "entity_id": "assessment_9d29f89e0c",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_e10a3efa37"
+    },
+    {
+      "entity_id": "assessment_2736567aef",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_5f658eb084"
+    },
+    {
+      "entity_id": "assessment_207ca27ab1",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_4eeefbdab6"
+    },
+    {
+      "entity_id": "assessment_45787a120e",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_788ad47c8d"
+    },
+    {
+      "entity_id": "assessment_069620f39c",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_ee77818df3"
+    },
+    {
+      "entity_id": "assessment_c3e9ce2536",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_2102a0a8d5"
+    },
+    {
+      "entity_id": "assessment_65257ec01f",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_6ae9e02564"
+    },
+    {
+      "entity_id": "assessment_6d1d946d9d",
+      "entity_type": "Assessment",
+      "name": "Problem Solving, Practical, MCQ",
+      "concept_id": "concept_ceb3b0f44e"
+    },
+    {
+      "entity_id": "assessment_7012c443e2",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_ecd6f0e62e"
+    },
+    {
+      "entity_id": "misc_d255b5db66",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_77d4c390fb"
+    },
+    {
+      "entity_id": "misc_188fdefb2f",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_77d4c390fb"
+    },
+    {
+      "entity_id": "misc_188db2f561",
+      "entity_type": "Misconception",
+      "name": "Set D,or C is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_a1427cc398"
+    },
+    {
+      "entity_id": "misc_617d8f58d9",
+      "entity_type": "Misconception",
+      "name": "Set D,or C always applies, regardless of context or assumptions.",
+      "concept_id": "concept_a1427cc398"
+    },
+    {
+      "entity_id": "misc_d9697671a6",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 11-16 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_3cd8a1d999"
+    },
+    {
+      "entity_id": "misc_9858e8da05",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 11-16 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_3cd8a1d999"
+    },
+    {
+      "entity_id": "misc_2b3fc3734c",
+      "entity_type": "Misconception",
+      "name": "Y=4x-x²at the point M(1;3)(a is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_393a7be286"
+    },
+    {
+      "entity_id": "misc_efffcfcc0d",
+      "entity_type": "Misconception",
+      "name": "Y=4x-x²at the point M(1;3)(a always applies, regardless of context or assumptions.",
+      "concept_id": "concept_393a7be286"
+    },
+    {
+      "entity_id": "misc_4506830bd3",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 23-28 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_44acfa1cb4"
+    },
+    {
+      "entity_id": "misc_5926b96fdb",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 23-28 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_44acfa1cb4"
+    },
+    {
+      "entity_id": "misc_d9a70ca90a",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 29-34 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_45127fdcf0"
+    },
+    {
+      "entity_id": "misc_3b1ec47873",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 29-34 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_45127fdcf0"
+    },
+    {
+      "entity_id": "misc_0d6f1519d8",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 35-40 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_15b5941407"
+    },
+    {
+      "entity_id": "misc_d0b98b73c2",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 35-40 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_15b5941407"
+    },
+    {
+      "entity_id": "misc_03f9d8708e",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 41-46 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_a7f0d15a59"
+    },
+    {
+      "entity_id": "misc_5ec2744895",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 41-46 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_a7f0d15a59"
+    },
+    {
+      "entity_id": "misc_e3a08d643d",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 47-52 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_c656b7384f"
+    },
+    {
+      "entity_id": "misc_456a10e4fe",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 47-52 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_c656b7384f"
+    },
+    {
+      "entity_id": "misc_2bc01db3be",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 53-58 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_f92fd22ba1"
+    },
+    {
+      "entity_id": "misc_847aff9758",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 53-58 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_f92fd22ba1"
+    },
+    {
+      "entity_id": "misc_2b97a0af8a",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 59-64 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_eefc34380a"
+    },
+    {
+      "entity_id": "misc_3128c088e9",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 59-64 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_eefc34380a"
+    },
+    {
+      "entity_id": "misc_3be9da1566",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 65-70 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_8c899b7eaf"
+    },
+    {
+      "entity_id": "misc_d9fb746ca6",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 65-70 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_8c899b7eaf"
+    },
+    {
+      "entity_id": "misc_8d636f2fa5",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 71-76 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_ccaf311484"
+    },
+    {
+      "entity_id": "misc_f34df2d330",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 71-76 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_ccaf311484"
+    },
+    {
+      "entity_id": "misc_e846738be6",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 77-82 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_8e3d64b025"
+    },
+    {
+      "entity_id": "misc_06131302cc",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 77-82 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_8e3d64b025"
+    },
+    {
+      "entity_id": "misc_420e03ef2b",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 83-88 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_993cf899cd"
+    },
+    {
+      "entity_id": "misc_fae1f89015",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 83-88 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_993cf899cd"
+    },
+    {
+      "entity_id": "misc_3843d4b2ac",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 89-94 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_f2d508bbcb"
+    },
+    {
+      "entity_id": "misc_e6ef5b01f1",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 89-94 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_f2d508bbcb"
+    },
+    {
+      "entity_id": "misc_7e753d17b9",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 95-100 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_36d02f7a65"
+    },
+    {
+      "entity_id": "misc_5dad90a47c",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 95-100 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_36d02f7a65"
+    },
+    {
+      "entity_id": "misc_4117ce6b7c",
+      "entity_type": "Misconception",
+      "name": "Of a triangle， AB=a,AC=b,[AD] is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_16ab33fe85"
+    },
+    {
+      "entity_id": "misc_b4a037545d",
+      "entity_type": "Misconception",
+      "name": "Of a triangle， AB=a,AC=b,[AD] always applies, regardless of context or assumptions.",
+      "concept_id": "concept_16ab33fe85"
+    },
+    {
+      "entity_id": "misc_d67aecfb28",
+      "entity_type": "Misconception",
+      "name": "Chapter 7 practice pages 107-112 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_4c1ad5c066"
+    },
+    {
+      "entity_id": "misc_b1462c294a",
+      "entity_type": "Misconception",
+      "name": "Chapter 7 practice pages 107-112 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_4c1ad5c066"
+    },
+    {
+      "entity_id": "misc_7d8c1668a0",
+      "entity_type": "Misconception",
+      "name": "Chapter 7 practice pages 113-114 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_ccdc182e42"
+    },
+    {
+      "entity_id": "misc_03a22655a8",
+      "entity_type": "Misconception",
+      "name": "Chapter 7 practice pages 113-114 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_ccdc182e42"
+    },
+    {
+      "entity_id": "misc_a34e79c166",
+      "entity_type": "Misconception",
+      "name": "Chapter 8 practice pages 115-120 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_b7fa009cbd"
+    },
+    {
+      "entity_id": "misc_c235aafb19",
+      "entity_type": "Misconception",
+      "name": "Chapter 8 practice pages 115-120 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_b7fa009cbd"
+    },
+    {
+      "entity_id": "misc_07a5a781b0",
+      "entity_type": "Misconception",
+      "name": "Base of the pyramid is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_5ce269ee1e"
+    },
+    {
+      "entity_id": "misc_7ef0269c6d",
+      "entity_type": "Misconception",
+      "name": "Base of the pyramid always applies, regardless of context or assumptions.",
+      "concept_id": "concept_5ce269ee1e"
+    },
+    {
+      "entity_id": "misc_3b07792290",
+      "entity_type": "Misconception",
+      "name": "Chapter 8 practice pages 127-132 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_b3c85fa64e"
+    },
+    {
+      "entity_id": "misc_1f30eb587f",
+      "entity_type": "Misconception",
+      "name": "Chapter 8 practice pages 127-132 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_b3c85fa64e"
+    },
+    {
+      "entity_id": "misc_240a9bbf47",
+      "entity_type": "Misconception",
+      "name": "Chapter 8 practice pages 133-138 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_62fc111fe1"
+    },
+    {
+      "entity_id": "misc_b62243d25b",
+      "entity_type": "Misconception",
+      "name": "Chapter 8 practice pages 133-138 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_62fc111fe1"
+    },
+    {
+      "entity_id": "misc_69d224e7be",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 139-149 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_9947576121"
+    },
+    {
+      "entity_id": "misc_21d22de118",
+      "entity_type": "Misconception",
+      "name": "Chapter 1 practice pages 139-149 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_9947576121"
+    },
+    {
+      "entity_id": "misc_8c6bbb184d",
+      "entity_type": "Misconception",
+      "name": "Consequently，x=1 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_46cf8a440d"
+    },
+    {
+      "entity_id": "misc_8959d49d89",
+      "entity_type": "Misconception",
+      "name": "Consequently，x=1 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_46cf8a440d"
+    },
+    {
+      "entity_id": "misc_8b971ca148",
+      "entity_type": "Misconception",
+      "name": "Origin has theformy=kx.Suppose M（zoyo is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_5f309285d8"
+    },
+    {
+      "entity_id": "misc_4733148e92",
+      "entity_type": "Misconception",
+      "name": "Origin has theformy=kx.Suppose M（zoyo always applies, regardless of context or assumptions.",
+      "concept_id": "concept_5f309285d8"
+    },
+    {
+      "entity_id": "misc_2ff9a98cf5",
+      "entity_type": "Misconception",
+      "name": "Z= 2.Such roots are called miltiple roots.The rootz=2 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_ce23a55e4b"
+    },
+    {
+      "entity_id": "misc_f06e52498b",
+      "entity_type": "Misconception",
+      "name": "Z= 2.Such roots are called miltiple roots.The rootz=2 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_ce23a55e4b"
+    },
+    {
+      "entity_id": "misc_c956471ff3",
+      "entity_type": "Misconception",
+      "name": "One positive term （x+.2).This is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_33cd575db2"
+    },
+    {
+      "entity_id": "misc_3fcefaf3a0",
+      "entity_type": "Misconception",
+      "name": "One positive term （x+.2).This always applies, regardless of context or assumptions.",
+      "concept_id": "concept_33cd575db2"
+    },
+    {
+      "entity_id": "misc_2ffb675ee6",
+      "entity_type": "Misconception",
+      "name": "—1；1) it increases; x=-1 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_2ad1c84fc0"
+    },
+    {
+      "entity_id": "misc_ae5970da1e",
+      "entity_type": "Misconception",
+      "name": "—1；1) it increases; x=-1 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_2ad1c84fc0"
+    },
+    {
+      "entity_id": "misc_4e76a8218d",
+      "entity_type": "Misconception",
+      "name": "Intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_acddf91d9c"
+    },
+    {
+      "entity_id": "misc_20a3faff17",
+      "entity_type": "Misconception",
+      "name": "Intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_acddf91d9c"
+    },
+    {
+      "entity_id": "misc_d2fd15b4cb",
+      "entity_type": "Misconception",
+      "name": "Solving this system by is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_69cb78182a"
+    },
+    {
+      "entity_id": "misc_13c45346e1",
+      "entity_type": "Misconception",
+      "name": "Solving this system by always applies, regardless of context or assumptions.",
+      "concept_id": "concept_69cb78182a"
+    },
+    {
+      "entity_id": "misc_ff2507f26e",
+      "entity_type": "Misconception",
+      "name": "Consequently，f（z)>0on thatintervaland this is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_a0f16824e5"
+    },
+    {
+      "entity_id": "misc_7db465e8b9",
+      "entity_type": "Misconception",
+      "name": "Consequently，f（z)>0on thatintervaland this always applies, regardless of context or assumptions.",
+      "concept_id": "concept_a0f16824e5"
+    },
+    {
+      "entity_id": "misc_28d1b4f654",
+      "entity_type": "Misconception",
+      "name": "Weestablish by is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_180d305ba3"
+    },
+    {
+      "entity_id": "misc_be528cd2bd",
+      "entity_type": "Misconception",
+      "name": "Weestablish by always applies, regardless of context or assumptions.",
+      "concept_id": "concept_180d305ba3"
+    },
+    {
+      "entity_id": "misc_b1dbc1604f",
+      "entity_type": "Misconception",
+      "name": "Sets of solutions is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_f26ab3e78f"
+    },
+    {
+      "entity_id": "misc_0b1609c424",
+      "entity_type": "Misconception",
+      "name": "Sets of solutions always applies, regardless of context or assumptions.",
+      "concept_id": "concept_f26ab3e78f"
+    },
+    {
+      "entity_id": "misc_2c2df301b6",
+      "entity_type": "Misconception",
+      "name": "Chapter 2 practice pages 187-193 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_493ea34ade"
+    },
+    {
+      "entity_id": "misc_593afa78cb",
+      "entity_type": "Misconception",
+      "name": "Chapter 2 practice pages 187-193 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_493ea34ade"
+    },
+    {
+      "entity_id": "misc_5fb1a129c8",
+      "entity_type": "Misconception",
+      "name": "Chapter 2 practice pages 194-201 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_759a0d7e40"
+    },
+    {
+      "entity_id": "misc_fbbcd45fdb",
+      "entity_type": "Misconception",
+      "name": "Chapter 2 practice pages 194-201 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_759a0d7e40"
+    },
+    {
+      "entity_id": "misc_db8847ae7e",
+      "entity_type": "Misconception",
+      "name": "Arctan（1/2）, kEZ.Verifying them by is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_a5bc52665f"
+    },
+    {
+      "entity_id": "misc_653ad3933d",
+      "entity_type": "Misconception",
+      "name": "Arctan（1/2）, kEZ.Verifying them by always applies, regardless of context or assumptions.",
+      "concept_id": "concept_a5bc52665f"
+    },
+    {
+      "entity_id": "misc_bb16f6ddca",
+      "entity_type": "Misconception",
+      "name": "Satisfied，we find that z=n,nEZ， is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_f57269bb13"
+    },
+    {
+      "entity_id": "misc_6e34f1f667",
+      "entity_type": "Misconception",
+      "name": "Satisfied，we find that z=n,nEZ， always applies, regardless of context or assumptions.",
+      "concept_id": "concept_f57269bb13"
+    },
+    {
+      "entity_id": "misc_caea9ee6b2",
+      "entity_type": "Misconception",
+      "name": "second equation is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_e0c8354fce"
+    },
+    {
+      "entity_id": "misc_9396502e8c",
+      "entity_type": "Misconception",
+      "name": "second equation always applies, regardless of context or assumptions.",
+      "concept_id": "concept_e0c8354fce"
+    },
+    {
+      "entity_id": "misc_eab292b4fa",
+      "entity_type": "Misconception",
+      "name": "Supposexroubles is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_5d3428cb57"
+    },
+    {
+      "entity_id": "misc_f196e59fc8",
+      "entity_type": "Misconception",
+      "name": "Supposexroubles always applies, regardless of context or assumptions.",
+      "concept_id": "concept_5d3428cb57"
+    },
+    {
+      "entity_id": "misc_98b01e8d10",
+      "entity_type": "Misconception",
+      "name": "Suppose z is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_aeb1d97acf"
+    },
+    {
+      "entity_id": "misc_67751ceef5",
+      "entity_type": "Misconception",
+      "name": "Suppose z always applies, regardless of context or assumptions.",
+      "concept_id": "concept_aeb1d97acf"
+    },
+    {
+      "entity_id": "misc_5a22dbb604",
+      "entity_type": "Misconception",
+      "name": "25 ma/h.Suppose S is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_a42005065a"
+    },
+    {
+      "entity_id": "misc_014a659403",
+      "entity_type": "Misconception",
+      "name": "25 ma/h.Suppose S always applies, regardless of context or assumptions.",
+      "concept_id": "concept_a42005065a"
+    },
+    {
+      "entity_id": "misc_100936a401",
+      "entity_type": "Misconception",
+      "name": "Old system by is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_c334a77355"
+    },
+    {
+      "entity_id": "misc_30d8f56ce4",
+      "entity_type": "Misconception",
+      "name": "Old system by always applies, regardless of context or assumptions.",
+      "concept_id": "concept_c334a77355"
+    },
+    {
+      "entity_id": "misc_4858dd5864",
+      "entity_type": "Misconception",
+      "name": "Side of equation (1 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_28f65425cb"
+    },
+    {
+      "entity_id": "misc_e26bca63f5",
+      "entity_type": "Misconception",
+      "name": "Side of equation (1 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_28f65425cb"
+    },
+    {
+      "entity_id": "misc_d94cf8d9c0",
+      "entity_type": "Misconception",
+      "name": "Can be found by is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_5f1c83982f"
+    },
+    {
+      "entity_id": "misc_04aa038d33",
+      "entity_type": "Misconception",
+      "name": "Can be found by always applies, regardless of context or assumptions.",
+      "concept_id": "concept_5f1c83982f"
+    },
+    {
+      "entity_id": "misc_5ea35ba909",
+      "entity_type": "Misconception",
+      "name": "1→00 lim n-7 c is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_c7dde8cfc3"
+    },
+    {
+      "entity_id": "misc_a2b3130e28",
+      "entity_type": "Misconception",
+      "name": "1→00 lim n-7 c always applies, regardless of context or assumptions.",
+      "concept_id": "concept_c7dde8cfc3"
+    },
+    {
+      "entity_id": "misc_bc4a0d76aa",
+      "entity_type": "Misconception",
+      "name": "Sum of these vectors is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_2984782637"
+    },
+    {
+      "entity_id": "misc_73c457abb9",
+      "entity_type": "Misconception",
+      "name": "Sum of these vectors always applies, regardless of context or assumptions.",
+      "concept_id": "concept_2984782637"
+    },
+    {
+      "entity_id": "misc_e06588b93c",
+      "entity_type": "Misconception",
+      "name": "N =(0; 1; 0 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_973f8e00df"
+    },
+    {
+      "entity_id": "misc_a38d725389",
+      "entity_type": "Misconception",
+      "name": "N =(0; 1; 0 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_973f8e00df"
+    },
+    {
+      "entity_id": "misc_eb31c9d36b",
+      "entity_type": "Misconception",
+      "name": "segment[EF]; [MF] is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_05d448fa54"
+    },
+    {
+      "entity_id": "misc_12519ceb7d",
+      "entity_type": "Misconception",
+      "name": "segment[EF]; [MF] always applies, regardless of context or assumptions.",
+      "concept_id": "concept_05d448fa54"
+    },
+    {
+      "entity_id": "misc_23a0934411",
+      "entity_type": "Misconception",
+      "name": "M C trianglesthat丨KE|=|MC|andso KECM is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_83657abf05"
+    },
+    {
+      "entity_id": "misc_5fb653adb9",
+      "entity_type": "Misconception",
+      "name": "M C trianglesthat丨KE|=|MC|andso KECM always applies, regardless of context or assumptions.",
+      "concept_id": "concept_83657abf05"
+    },
+    {
+      "entity_id": "misc_4718422c3b",
+      "entity_type": "Misconception",
+      "name": "Thehypothe- sis)，it follows that[BP| is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_a90232301b"
+    },
+    {
+      "entity_id": "misc_be10493210",
+      "entity_type": "Misconception",
+      "name": "Thehypothe- sis)，it follows that[BP| always applies, regardless of context or assumptions.",
+      "concept_id": "concept_a90232301b"
+    },
+    {
+      "entity_id": "misc_851db5d9fe",
+      "entity_type": "Misconception",
+      "name": "By analogy，we find a point O，which is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_24079685a3"
+    },
+    {
+      "entity_id": "misc_e19539f736",
+      "entity_type": "Misconception",
+      "name": "By analogy，we find a point O，which always applies, regardless of context or assumptions.",
+      "concept_id": "concept_24079685a3"
+    },
+    {
+      "entity_id": "misc_7a56f74526",
+      "entity_type": "Misconception",
+      "name": "ABC,it follows that [PQ] is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_172b1feee0"
+    },
+    {
+      "entity_id": "misc_6200707191",
+      "entity_type": "Misconception",
+      "name": "ABC,it follows that [PQ] always applies, regardless of context or assumptions.",
+      "concept_id": "concept_172b1feee0"
+    },
+    {
+      "entity_id": "misc_01a570e3ff",
+      "entity_type": "Misconception",
+      "name": "Equal to(4-(1+ xE[0;6] V2)x)/2,wherex is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_69cce13951"
+    },
+    {
+      "entity_id": "misc_ac15735ce5",
+      "entity_type": "Misconception",
+      "name": "Equal to(4-(1+ xE[0;6] V2)x)/2,wherex always applies, regardless of context or assumptions.",
+      "concept_id": "concept_69cce13951"
+    },
+    {
+      "entity_id": "misc_8081b143ed",
+      "entity_type": "Misconception",
+      "name": "Regular tetra- hedron,in particular,a is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_537674f1cf"
+    },
+    {
+      "entity_id": "misc_5f61bbb113",
+      "entity_type": "Misconception",
+      "name": "Regular tetra- hedron,in particular,a always applies, regardless of context or assumptions.",
+      "concept_id": "concept_537674f1cf"
+    },
+    {
+      "entity_id": "misc_521731e7fd",
+      "entity_type": "Misconception",
+      "name": "SS)）， where S is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_b154bcc0dd"
+    },
+    {
+      "entity_id": "misc_a3cebf929a",
+      "entity_type": "Misconception",
+      "name": "SS)）， where S always applies, regardless of context or assumptions.",
+      "concept_id": "concept_b154bcc0dd"
+    },
+    {
+      "entity_id": "misc_3c1563fdc9",
+      "entity_type": "Misconception",
+      "name": "Planeof the base(ABCD is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_444445d454"
+    },
+    {
+      "entity_id": "misc_937c48bc97",
+      "entity_type": "Misconception",
+      "name": "Planeof the base(ABCD always applies, regardless of context or assumptions.",
+      "concept_id": "concept_444445d454"
+    },
+    {
+      "entity_id": "misc_4767613034",
+      "entity_type": "Misconception",
+      "name": "S The point O∈（ALS）and (OL） is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_aa5519117c"
+    },
+    {
+      "entity_id": "misc_4605535a58",
+      "entity_type": "Misconception",
+      "name": "S The point O∈（ALS）and (OL） always applies, regardless of context or assumptions.",
+      "concept_id": "concept_aa5519117c"
+    },
+    {
+      "entity_id": "misc_018101e344",
+      "entity_type": "Misconception",
+      "name": "Suppose x is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_359ead36a1"
+    },
+    {
+      "entity_id": "misc_f88348a17e",
+      "entity_type": "Misconception",
+      "name": "Suppose x always applies, regardless of context or assumptions.",
+      "concept_id": "concept_359ead36a1"
+    },
+    {
+      "entity_id": "misc_93720b0c3d",
+      "entity_type": "Misconception",
+      "name": "Generatrix of the cone，@ is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_474e628c3c"
+    },
+    {
+      "entity_id": "misc_8d8747f208",
+      "entity_type": "Misconception",
+      "name": "Generatrix of the cone，@ always applies, regardless of context or assumptions.",
+      "concept_id": "concept_474e628c3c"
+    },
+    {
+      "entity_id": "misc_adc01b72ce",
+      "entity_type": "Misconception",
+      "name": "Since 6 6 （k+1）(k+2)(2k+3) and this is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_8aee7319a1"
+    },
+    {
+      "entity_id": "misc_3a531dc203",
+      "entity_type": "Misconception",
+      "name": "Since 6 6 （k+1）(k+2)(2k+3) and this always applies, regardless of context or assumptions.",
+      "concept_id": "concept_8aee7319a1"
+    },
+    {
+      "entity_id": "misc_ecf170adba",
+      "entity_type": "Misconception",
+      "name": "180 (b)▲ Suppose ABCD is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_e10a3efa37"
+    },
+    {
+      "entity_id": "misc_ca54f985f3",
+      "entity_type": "Misconception",
+      "name": "180 (b)▲ Suppose ABCD always applies, regardless of context or assumptions.",
+      "concept_id": "concept_e10a3efa37"
+    },
+    {
+      "entity_id": "misc_fa360cac71",
+      "entity_type": "Misconception",
+      "name": "Then f（x)=f（—z)=0as well,and this is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_5f658eb084"
+    },
+    {
+      "entity_id": "misc_9b43f7ba0d",
+      "entity_type": "Misconception",
+      "name": "Then f（x)=f（—z)=0as well,and this always applies, regardless of context or assumptions.",
+      "concept_id": "concept_5f658eb084"
+    },
+    {
+      "entity_id": "misc_c6cafa2ba6",
+      "entity_type": "Misconception",
+      "name": "That of problem3.5.Suppose f（x is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_4eeefbdab6"
+    },
+    {
+      "entity_id": "misc_ea7dfcf364",
+      "entity_type": "Misconception",
+      "name": "That of problem3.5.Suppose f（x always applies, regardless of context or assumptions.",
+      "concept_id": "concept_4eeefbdab6"
+    },
+    {
+      "entity_id": "misc_e504f2f3f6",
+      "entity_type": "Misconception",
+      "name": "12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_788ad47c8d"
+    },
+    {
+      "entity_id": "misc_75a1a1348c",
+      "entity_type": "Misconception",
+      "name": "12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this always applies, regardless of context or assumptions.",
+      "concept_id": "concept_788ad47c8d"
+    },
+    {
+      "entity_id": "misc_c54ee1ecad",
+      "entity_type": "Misconception",
+      "name": "No,we cannot.For instance,f (x)=1 + cos x is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_ee77818df3"
+    },
+    {
+      "entity_id": "misc_7fa8ecbad5",
+      "entity_type": "Misconception",
+      "name": "No,we cannot.For instance,f (x)=1 + cos x always applies, regardless of context or assumptions.",
+      "concept_id": "concept_ee77818df3"
+    },
+    {
+      "entity_id": "misc_ad0553afb9",
+      "entity_type": "Misconception",
+      "name": "Suppose SABc is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_2102a0a8d5"
+    },
+    {
+      "entity_id": "misc_2a1b9f431b",
+      "entity_type": "Misconception",
+      "name": "Suppose SABc always applies, regardless of context or assumptions.",
+      "concept_id": "concept_2102a0a8d5"
+    },
+    {
+      "entity_id": "misc_166d045d43",
+      "entity_type": "Misconception",
+      "name": "=(2n+1）-arctan 2the given quadraticfunction is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_6ae9e02564"
+    },
+    {
+      "entity_id": "misc_88d39799ba",
+      "entity_type": "Misconception",
+      "name": "=(2n+1）-arctan 2the given quadraticfunction always applies, regardless of context or assumptions.",
+      "concept_id": "concept_6ae9e02564"
+    },
+    {
+      "entity_id": "misc_8aabfab4b9",
+      "entity_type": "Misconception",
+      "name": "Logs (3x+2) <1 277 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_ceb3b0f44e"
+    },
+    {
+      "entity_id": "misc_278ed4a671",
+      "entity_type": "Misconception",
+      "name": "Logs (3x+2) <1 277 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_ceb3b0f44e"
+    },
+    {
+      "entity_id": "misc_c3d711080f",
+      "entity_type": "Misconception",
+      "name": "given system is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_ecd6f0e62e"
+    },
+    {
+      "entity_id": "misc_a6024051f4",
+      "entity_type": "Misconception",
+      "name": "given system always applies, regardless of context or assumptions.",
+      "concept_id": "concept_ecd6f0e62e"
+    }
+  ],
+  "entity_type_counts": {
+    "Assessment": 71,
+    "Competency": 71,
+    "Definition": 65,
+    "Example": 10,
+    "Formula": 8,
+    "Misconception": 142,
+    "Procedure": 2
+  }
+}

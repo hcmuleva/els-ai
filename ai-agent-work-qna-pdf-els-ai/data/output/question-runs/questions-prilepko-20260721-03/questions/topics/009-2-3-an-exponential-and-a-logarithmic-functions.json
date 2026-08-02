@@ -1,0 +1,629 @@
+{
+  "key": "2.3",
+  "topic": "2.3 An Exponential and a Logarithmic Functions",
+  "questions": [
+    {
+      "question": {
+        "id": "c840d44a-e2d2-5047-af55-0f9ece9faedf",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For real \\(x\\), solve \\(\\log_{2}(x-1)+\\log_{2}(x-3)=3\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The domain is \\(x>3\\). Thus, \\(\\log_{2}((x-1)(x-3))=3\\), so \\((x-1)(x-3)=8\\). Hence \\(x^{2}-4x-5=0\\), giving \\(x=5\\) or \\(x=-1\\). Only \\(x=5\\) lies in the domain.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 41,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.3 An Exponential and a Logarithmic Functions",
+            "concept_ids": [
+              "concept_19a4d53938",
+              "concept_246ce853ae",
+              "concept_7df0ec68cd",
+              "concept_86b20d7384"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              180,
+              181,
+              182,
+              183,
+              184,
+              185,
+              186,
+              188,
+              189
+            ],
+            "source_chunk_ids": [
+              "chunk_080b86cb18",
+              "chunk_140af25ccf",
+              "chunk_e7605e8e5d",
+              "chunk_634d922282"
+            ]
+          },
+          "options": [
+            {
+              "id": "x_5_1",
+              "label": "\\(x=5\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The domain requires \\(x>3\\), and the equation gives \\((x-1)(x-3)=8\\), so \\(x=5\\)."
+            },
+            {
+              "id": "x_1_2",
+              "label": "\\(x=-1\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It satisfies the resulting quadratic but violates the logarithmic domain."
+            },
+            {
+              "id": "x_3_3",
+              "label": "\\(x=3\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The logarithm \\(\\log_{2}(x-3)\\) is undefined at \\(x=3\\)."
+            },
+            {
+              "id": "x_4_4",
+              "label": "\\(x=4\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Substitution does not satisfy the original equation."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "9a91c2b4-168a-53f5-b515-1a3ce3789756",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(x>0\\), \\(x\\ne 1\\), and \\(\\log_{x}8+\\log_{8}x=\\frac{10}{3}\\), then the sum of all possible values of \\(x\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Put \\(t=\\log_{8}x\\). Since \\(\\log_{x}8=\\frac{1}{t}\\), we obtain \\(t+\\frac{1}{t}=\\frac{10}{3}\\), or \\(3t^{2}-10t+3=0\\). Therefore \\(t=3\\) or \\(t=\\frac{1}{3}\\), giving \\(x=512\\) or \\(x=2\\). Their sum is \\(514\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 42,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.3 An Exponential and a Logarithmic Functions",
+            "concept_ids": [
+              "concept_19a4d53938",
+              "concept_246ce853ae",
+              "concept_7df0ec68cd",
+              "concept_86b20d7384"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              180,
+              181,
+              182,
+              183,
+              184,
+              185,
+              186,
+              188,
+              189
+            ],
+            "source_chunk_ids": [
+              "chunk_080b86cb18",
+              "chunk_140af25ccf",
+              "chunk_e7605e8e5d",
+              "chunk_634d922282"
+            ]
+          },
+          "options": [
+            {
+              "id": "514_1",
+              "label": "\\(514\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Let \\(t=\\log_{8}x\\); then \\(t+\\frac{1}{t}=\\frac{10}{3}\\), giving \\(x=2,512\\)."
+            },
+            {
+              "id": "510_2",
+              "label": "\\(510\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not the sum of the two valid values."
+            },
+            {
+              "id": "256_3",
+              "label": "\\(256\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This value does not arise from the resulting quadratic."
+            },
+            {
+              "id": "514_sqrt_2_4",
+              "label": "\\(514\\sqrt{2}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The solutions are powers of \\(8\\), not this value."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "fad7ee71-6af8-5f34-9e74-288394557d41",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(\\log_{2}(x-y)=1\\) and \\(\\log_{2}(x+y)=2\\), then \\(x^{2}+y^{2}\\) equals",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "From the logarithmic equations, \\(x-y=2\\) and \\(x+y=4\\). Solving gives \\(x=3\\) and \\(y=1\\). Therefore, \\(x^{2}+y^{2}=9+1=10\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 43,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.3 An Exponential and a Logarithmic Functions",
+            "concept_ids": [
+              "concept_19a4d53938",
+              "concept_246ce853ae",
+              "concept_7df0ec68cd",
+              "concept_86b20d7384"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              180,
+              181,
+              182,
+              183,
+              184,
+              185,
+              186,
+              188,
+              189
+            ],
+            "source_chunk_ids": [
+              "chunk_080b86cb18",
+              "chunk_140af25ccf",
+              "chunk_e7605e8e5d",
+              "chunk_634d922282"
+            ]
+          },
+          "options": [
+            {
+              "id": "10_1",
+              "label": "\\(10\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equations give \\(x-y=2\\) and \\(x+y=4\\), hence \\(x=3\\), \\(y=1\\)."
+            },
+            {
+              "id": "8_2",
+              "label": "\\(8\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not equal \\(3^{2}+1^{2}\\)."
+            },
+            {
+              "id": "12_3",
+              "label": "\\(12\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The obtained values of \\(x\\) and \\(y\\) do not produce this result."
+            },
+            {
+              "id": "16_4",
+              "label": "\\(16\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not the sum of the squares of the solution coordinates."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "coordinate",
+            "width": 360,
+            "height": 300,
+            "xmin": -1.5,
+            "xmax": 4.5,
+            "ymin": -1.5,
+            "ymax": 2.5,
+            "title": null,
+            "elements": [
+              {
+                "type": "grid",
+                "step_x": 1.0,
+                "step_y": 1.0
+              },
+              {
+                "type": "axes",
+                "x_label": "x",
+                "y_label": "y",
+                "ticks": true,
+                "tick_step": 1.0
+              },
+              {
+                "type": "segment",
+                "a": [
+                  0.0,
+                  0.0
+                ],
+                "b": [
+                  3.0,
+                  1.0
+                ],
+                "label": "OP",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "point",
+                "at": [
+                  3.0,
+                  1.0
+                ],
+                "label": "P",
+                "color": "#d62728"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"58.33\" y1=\"34\" x2=\"58.33\" y2=\"266\"/><line x1=\"107\" y1=\"34\" x2=\"107\" y2=\"266\"/><line x1=\"155.67\" y1=\"34\" x2=\"155.67\" y2=\"266\"/><line x1=\"204.33\" y1=\"34\" x2=\"204.33\" y2=\"266\"/><line x1=\"253\" y1=\"34\" x2=\"253\" y2=\"266\"/><line x1=\"301.67\" y1=\"34\" x2=\"301.67\" y2=\"266\"/><line x1=\"34\" y1=\"237\" x2=\"326\" y2=\"237\"/><line x1=\"34\" y1=\"179\" x2=\"326\" y2=\"179\"/><line x1=\"34\" y1=\"121\" x2=\"326\" y2=\"121\"/><line x1=\"34\" y1=\"63\" x2=\"326\" y2=\"63\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"179\" x2=\"326\" y2=\"179\"/><line x1=\"107\" y1=\"266\" x2=\"107\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"58.33\" y1=\"176\" x2=\"58.33\" y2=\"182\"/><text x=\"58.33\" y=\"193\" text-anchor=\"middle\">-1</text><line x1=\"155.67\" y1=\"176\" x2=\"155.67\" y2=\"182\"/><text x=\"155.67\" y=\"193\" text-anchor=\"middle\">1</text><line x1=\"204.33\" y1=\"176\" x2=\"204.33\" y2=\"182\"/><text x=\"204.33\" y=\"193\" text-anchor=\"middle\">2</text><line x1=\"253\" y1=\"176\" x2=\"253\" y2=\"182\"/><text x=\"253\" y=\"193\" text-anchor=\"middle\">3</text><line x1=\"301.67\" y1=\"176\" x2=\"301.67\" y2=\"182\"/><text x=\"301.67\" y=\"193\" text-anchor=\"middle\">4</text><line x1=\"104\" y1=\"237\" x2=\"110\" y2=\"237\"/><text x=\"101\" y=\"240\" text-anchor=\"end\">-1</text><line x1=\"104\" y1=\"121\" x2=\"110\" y2=\"121\"/><text x=\"101\" y=\"124\" text-anchor=\"end\">1</text><line x1=\"104\" y1=\"63\" x2=\"110\" y2=\"63\"/><text x=\"101\" y=\"66\" text-anchor=\"end\">2</text></g><text x=\"328\" y=\"183\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"111\" y=\"30\" font-size=\"12\" fill=\"#555555\">y</text><line x1=\"107\" y1=\"179\" x2=\"253\" y2=\"121\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"184\" y=\"146\" fill=\"#333333\">OP</text><circle cx=\"253\" cy=\"121\" r=\"3\" fill=\"#d62728\"/><text x=\"259\" y=\"115\" fill=\"#111111\">P</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "c264048c-ab30-5483-8e50-526d28501840",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(x,y>0\\), \\(x\\ne 1\\), \\(y\\ne 1\\), and \\(xy=8\\) satisfy \\(\\log_y x+\\log_x y=\\frac{5}{2}\\), then \\(x+y\\) equals",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Put \\(t=\\log_y x\\). Since \\(\\log_x y=\\frac{1}{t}\\), \\(t+\\frac{1}{t}=\\frac{5}{2}\\), so \\(t=2\\) or \\(\\frac{1}{2}\\). Combining with \\(xy=8\\) gives \\((x,y)=(4,2)\\) and \\((2,4)\\). Therefore, \\(x+y=6\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 44,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.3 An Exponential and a Logarithmic Functions",
+            "concept_ids": [
+              "concept_19a4d53938",
+              "concept_246ce853ae",
+              "concept_7df0ec68cd",
+              "concept_86b20d7384"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              180,
+              181,
+              182,
+              183,
+              184,
+              185,
+              186,
+              188,
+              189
+            ],
+            "source_chunk_ids": [
+              "chunk_080b86cb18",
+              "chunk_140af25ccf",
+              "chunk_e7605e8e5d",
+              "chunk_634d922282"
+            ]
+          },
+          "options": [
+            {
+              "id": "6_1",
+              "label": "\\(6\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Let \\(t=\\log_y x\\). Then \\(t+\\frac{1}{t}=\\frac{5}{2}\\), giving \\(t=2\\) or \\(\\frac{1}{2}\\), hence \\((x,y)=(4,2)\\) or \\((2,4)\\)."
+            },
+            {
+              "id": "8_2",
+              "label": "\\(8\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the value of \\(xy\\), not \\(x+y\\)."
+            },
+            {
+              "id": "10_3",
+              "label": "\\(10\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The corresponding ordered pairs do not produce this sum."
+            },
+            {
+              "id": "4_4",
+              "label": "\\(4\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is one possible value of \\(x\\) or \\(y\\), not their sum."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "6543f447-d109-578c-aa53-e198e7a2789e",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(x,y>1\\), \\(x>y\\), and \\(2\\left(\\log_y x+\\log_x y\\right)=5\\). Then which relation is necessarily true?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(a=\\log_y x\\). Since \\(\\log_x y=\\frac{1}{a}\\), the given equation becomes \\(2\\left(a+\\frac{1}{a}\\right)=5\\), or \\(2a^2-5a+2=0\\). Thus \\(a=2\\) or \\(a=\\frac{1}{2}\\). Because \\(x>y>1\\), we have \\(a=\\log_y x>1\\), so \\(a=2\\). Therefore, \\(x=y^2\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 45,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.3 An Exponential and a Logarithmic Functions",
+            "concept_ids": [
+              "concept_19a4d53938",
+              "concept_246ce853ae",
+              "concept_7df0ec68cd",
+              "concept_86b20d7384"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              180,
+              181,
+              182,
+              183,
+              184,
+              185,
+              186,
+              188,
+              189
+            ],
+            "source_chunk_ids": [
+              "chunk_080b86cb18",
+              "chunk_140af25ccf",
+              "chunk_e7605e8e5d",
+              "chunk_634d922282"
+            ]
+          },
+          "options": [
+            {
+              "id": "x_y_2_1",
+              "label": "\\(x=y^2\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Let \\(a=\\log_y x\\); then \\(a+\\frac{1}{a}=\\frac{5}{2}\\), and \\(x>y>1\\) gives \\(a>1\\), so \\(a=2\\)."
+            },
+            {
+              "id": "y_x_2_2",
+              "label": "\\(y=x^2\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This would imply \\(x<y\\) for \\(x,y>1\\), contradicting the given condition."
+            },
+            {
+              "id": "x_y_1_2_3",
+              "label": "\\(x=y^{1/2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This corresponds to \\(a=\\frac{1}{2}\\), which contradicts \\(x>y>1\\)."
+            },
+            {
+              "id": "x_y_5_4",
+              "label": "\\(x+y=5\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equation determines a power relation, not a fixed sum."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_080b86cb18",
+    "chunk_140af25ccf",
+    "chunk_e7605e8e5d",
+    "chunk_634d922282"
+  ],
+  "source_pages": [
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    180,
+    181,
+    182,
+    183,
+    184,
+    185,
+    186,
+    188,
+    189
+  ],
+  "rejected": []
+}

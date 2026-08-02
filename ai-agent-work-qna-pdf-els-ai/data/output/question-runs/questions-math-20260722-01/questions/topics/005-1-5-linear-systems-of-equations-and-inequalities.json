@@ -1,0 +1,465 @@
+{
+  "key": "1.5",
+  "topic": "1.5 Linear Systems of Equations and Inequalities",
+  "questions": [
+    {
+      "question": {
+        "id": "3fe83fc8-88d8-54f8-bdb3-e52217740b68",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve the linear system \\(2x+3y=7\\) and \\(4x-y=5\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "From \\(4x-y=5\\), \\(y=4x-5\\). Substitution into \\(2x+3y=7\\) gives \\(14x=22\\), so \\(x=\\frac{11}{7}\\) and \\(y=\\frac{9}{7}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 11,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.5 Linear Systems of Equations and Inequalities",
+            "concept_ids": [
+              "concept_78a9088b3c",
+              "concept_aa5d393aaf"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.5",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              26,
+              27,
+              28,
+              167,
+              169
+            ],
+            "source_chunk_ids": [
+              "chunk_af4e274fba",
+              "chunk_8ebbe70506"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_frac_11_7_frac_9_7_1",
+              "label": "\\(\\left(\\frac{11}{7},\\frac{9}{7}\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Substitution gives \\(14x=22\\), hence \\(x=\\frac{11}{7}\\) and \\(y=\\frac{9}{7}\\)."
+            },
+            {
+              "id": "left_frac_9_7_frac_11_7_2",
+              "label": "\\(\\left(\\frac{9}{7},\\frac{11}{7}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The coordinates are interchanged."
+            },
+            {
+              "id": "left_frac_7_11_frac_9_11_3",
+              "label": "\\(\\left(\\frac{7}{11},\\frac{9}{11}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The elimination arithmetic is incorrect."
+            },
+            {
+              "id": "left_frac_11_7_frac_9_7_4",
+              "label": "\\(\\left(\\frac{11}{7},-\\frac{9}{7}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sign of \\(y\\) does not satisfy the second equation."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "ae484cbf-9f5b-571b-b752-12926f4e4959",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(x,y\\ge 0\\), \\(x+y\\le 5\\), and \\(x-y\\ge 1\\), determine the maximum value of \\(2x+y\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The feasible vertices are \\((1,0)\\), \\((3,2)\\), and \\((5,0)\\). The objective values are \\(2\\), \\(8\\), and \\(10\\), respectively. Therefore, the maximum is \\(10\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 12,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.5 Linear Systems of Equations and Inequalities",
+            "concept_ids": [
+              "concept_78a9088b3c",
+              "concept_aa5d393aaf"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.5",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              26,
+              27,
+              28,
+              167,
+              169
+            ],
+            "source_chunk_ids": [
+              "chunk_af4e274fba",
+              "chunk_8ebbe70506"
+            ]
+          },
+          "options": [
+            {
+              "id": "8_1",
+              "label": "\\(8\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the objective value at \\((3,2)\\), not the maximum."
+            },
+            {
+              "id": "9_2",
+              "label": "\\(9\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "No feasible vertex gives this value."
+            },
+            {
+              "id": "10_3",
+              "label": "\\(10\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "At the feasible vertex \\((5,0)\\), \\(2x+y=10\\)."
+            },
+            {
+              "id": "12_4",
+              "label": "\\(12\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This value violates the constraint \\(x+y\\le 5\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "d49ea640-5f57-55c2-a4bd-2b3d4f481750",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For the real parameter \\(k\\), when does the system \\(x+2y=3\\), \\(2x+4y=k\\) have infinitely many solutions?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The left side of the second equation is twice the left side of the first. For consistency, its right side must also be twice as large, so \\(k=2\\times 3=6\\). The system then represents one line and has infinitely many solutions.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 13,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.5 Linear Systems of Equations and Inequalities",
+            "concept_ids": [
+              "concept_78a9088b3c",
+              "concept_aa5d393aaf"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.5",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              26,
+              27,
+              28,
+              167,
+              169
+            ],
+            "source_chunk_ids": [
+              "chunk_af4e274fba",
+              "chunk_8ebbe70506"
+            ]
+          },
+          "options": [
+            {
+              "id": "k_3_1",
+              "label": "\\(k=3\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The second equation would not be a scalar multiple of the first."
+            },
+            {
+              "id": "k_4_2",
+              "label": "\\(k=4\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The constants are inconsistent with the coefficient ratios."
+            },
+            {
+              "id": "k_6_3",
+              "label": "\\(k=6\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The second equation becomes twice the first equation."
+            },
+            {
+              "id": "For_every_real_k_4",
+              "label": "For every real \\(k\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Only one parameter value makes the equations dependent and consistent."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "a89ded19-a193-5d3e-8522-79566f59221c",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the complete solution set of the system \\(x+y+z=6\\), \\(x+2y+3z=14\\), and \\(2x+3y+4z=20\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Subtracting the first equation from the second gives \\(y+2z=8\\). Let \\(z=t\\), giving \\(y=8-2t\\). Then \\(x=6-y-z=t-2\\). The third equation is dependent because it equals the sum of the first two.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 14,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.5 Linear Systems of Equations and Inequalities",
+            "concept_ids": [
+              "concept_78a9088b3c",
+              "concept_aa5d393aaf"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.5",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              26,
+              27,
+              28,
+              167,
+              169
+            ],
+            "source_chunk_ids": [
+              "chunk_af4e274fba",
+              "chunk_8ebbe70506"
+            ]
+          },
+          "options": [
+            {
+              "id": "t_2_8_2t_t_t_in_mathbb_R_1",
+              "label": "\\(\\{(t-2,8-2t,t):t\\in\\mathbb{R}\\}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The third equation is the sum of the first two, and the first two yield this parametrization."
+            },
+            {
+              "id": "2_t_8_2t_t_t_in_mathbb_R_2",
+              "label": "\\(\\{(2-t,8-2t,t):t\\in\\mathbb{R}\\}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The first coordinate does not satisfy the first equation."
+            },
+            {
+              "id": "t_2_2t_8_t_t_in_mathbb_R_3",
+              "label": "\\(\\{(t-2,2t-8,t):t\\in\\mathbb{R}\\}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The second coordinate has the wrong sign and coefficient."
+            },
+            {
+              "id": "2_8_0_4",
+              "label": "\\(\\{(-2,8,0)\\}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The system has infinitely many solutions, not a unique solution."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "b3843c83-1f4b-525d-aa54-9029a142f39a",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "How many ordered pairs \\((x,y)\\in\\mathbb{Z}_{>0}^{2}\\) satisfy \\(x+y\\le 4\\) and \\(2x+y\\ge 5\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For \\(x=1\\), only \\(y=3\\) works. For \\(x=2\\), \\(y=1,2\\) work. For \\(x=3\\), only \\(y=1\\) works. Thus, the total number of ordered pairs is \\(1+2+1=4\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 15,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.5 Linear Systems of Equations and Inequalities",
+            "concept_ids": [
+              "concept_78a9088b3c",
+              "concept_aa5d393aaf"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.5",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              26,
+              27,
+              28,
+              167,
+              169
+            ],
+            "source_chunk_ids": [
+              "chunk_af4e274fba",
+              "chunk_8ebbe70506"
+            ]
+          },
+          "options": [
+            {
+              "id": "3_1",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The pair \\((2,2)\\) is omitted from this count."
+            },
+            {
+              "id": "4_2",
+              "label": "\\(4\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The solutions are \\((1,3)\\), \\((2,1)\\), \\((2,2)\\), and \\((3,1)\\)."
+            },
+            {
+              "id": "5_3",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "There are only four positive integer pairs satisfying both inequalities."
+            },
+            {
+              "id": "6_4",
+              "label": "\\(6\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This overcounts pairs that violate at least one inequality."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_af4e274fba",
+    "chunk_8ebbe70506"
+  ],
+  "source_pages": [
+    26,
+    27,
+    28,
+    167,
+    169
+  ],
+  "rejected": []
+}

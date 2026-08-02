@@ -1,0 +1,1591 @@
+{
+  "nodes": [
+    {
+      "id": "concept_77d4c390fb",
+      "label": "Chapter 1",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_a1427cc398",
+      "label": "Set D,or C",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_3cd8a1d999",
+      "label": "Chapter 1 practice pages 11-16",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_393a7be286",
+      "label": "Y=4x-x²at the point M(1;3)(a",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_44acfa1cb4",
+      "label": "Chapter 1 practice pages 23-28",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_45127fdcf0",
+      "label": "Chapter 1 practice pages 29-34",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_15b5941407",
+      "label": "Chapter 1 practice pages 35-40",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_a7f0d15a59",
+      "label": "Chapter 1 practice pages 41-46",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_c656b7384f",
+      "label": "Chapter 1 practice pages 47-52",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_f92fd22ba1",
+      "label": "Chapter 1 practice pages 53-58",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_eefc34380a",
+      "label": "Chapter 1 practice pages 59-64",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_8c899b7eaf",
+      "label": "Chapter 1 practice pages 65-70",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ccaf311484",
+      "label": "Chapter 1 practice pages 71-76",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_8e3d64b025",
+      "label": "Chapter 1 practice pages 77-82",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_993cf899cd",
+      "label": "Chapter 1 practice pages 83-88",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_f2d508bbcb",
+      "label": "Chapter 1 practice pages 89-94",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_36d02f7a65",
+      "label": "Chapter 1 practice pages 95-100",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_16ab33fe85",
+      "label": "Of a triangle， AB=a,AC=b,[AD]",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_4c1ad5c066",
+      "label": "Chapter 7 practice pages 107-112",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ccdc182e42",
+      "label": "Chapter 7 practice pages 113-114",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_b7fa009cbd",
+      "label": "Chapter 8 practice pages 115-120",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_5ce269ee1e",
+      "label": "Base of the pyramid",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_b3c85fa64e",
+      "label": "Chapter 8 practice pages 127-132",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_62fc111fe1",
+      "label": "Chapter 8 practice pages 133-138",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_9947576121",
+      "label": "Chapter 1 practice pages 139-149",
+      "concept_type": "Procedure",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_46cf8a440d",
+      "label": "Consequently，x=1",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_5f309285d8",
+      "label": "Origin has theformy=kx.Suppose M（zoyo",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ce23a55e4b",
+      "label": "Z= 2.Such roots are called miltiple roots.The rootz=2",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_33cd575db2",
+      "label": "One positive term （x+.2).This",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_2ad1c84fc0",
+      "label": "—1；1) it increases; x=-1",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_acddf91d9c",
+      "label": "Intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_69cb78182a",
+      "label": "Solving this system by",
+      "concept_type": "Procedure",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_a0f16824e5",
+      "label": "Consequently，f（z)>0on thatintervaland this",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_180d305ba3",
+      "label": "Weestablish by",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_f26ab3e78f",
+      "label": "Sets of solutions",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_493ea34ade",
+      "label": "Chapter 2 practice pages 187-193",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_759a0d7e40",
+      "label": "Chapter 2 practice pages 194-201",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_a5bc52665f",
+      "label": "Arctan（1/2）, kEZ.Verifying them by",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_f57269bb13",
+      "label": "Satisfied，we find that z=n,nEZ，",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_e0c8354fce",
+      "label": "second equation",
+      "concept_type": "Formula",
+      "weight": 0.6,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_5d3428cb57",
+      "label": "Supposexroubles",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_aeb1d97acf",
+      "label": "Suppose z",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_a42005065a",
+      "label": "25 ma/h.Suppose S",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_c334a77355",
+      "label": "Old system by",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_28f65425cb",
+      "label": "Side of equation (1",
+      "concept_type": "Formula",
+      "weight": 0.6,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_5f1c83982f",
+      "label": "Can be found by",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_c7dde8cfc3",
+      "label": "1→00 lim n-7 c",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_2984782637",
+      "label": "Sum of these vectors",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_973f8e00df",
+      "label": "N =(0; 1; 0",
+      "concept_type": "Formula",
+      "weight": 0.6,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_05d448fa54",
+      "label": "segment[EF]; [MF]",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_83657abf05",
+      "label": "M C trianglesthat丨KE|=|MC|andso KECM",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_a90232301b",
+      "label": "Thehypothe- sis)，it follows that[BP|",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_24079685a3",
+      "label": "By analogy，we find a point O，which",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_172b1feee0",
+      "label": "ABC,it follows that [PQ]",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_69cce13951",
+      "label": "Equal to(4-(1+ xE[0;6] V2)x)/2,wherex",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_537674f1cf",
+      "label": "Regular tetra- hedron,in particular,a",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_b154bcc0dd",
+      "label": "SS)）， where S",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_444445d454",
+      "label": "Planeof the base(ABCD",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_aa5519117c",
+      "label": "S The point O∈（ALS）and (OL）",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_359ead36a1",
+      "label": "Suppose x",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_474e628c3c",
+      "label": "Generatrix of the cone，@",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_8aee7319a1",
+      "label": "Since 6 6 （k+1）(k+2)(2k+3) and this",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_e10a3efa37",
+      "label": "180 (b)▲ Suppose ABCD",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_5f658eb084",
+      "label": "Then f（x)=f（—z)=0as well,and this",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_4eeefbdab6",
+      "label": "That of problem3.5.Suppose f（x",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_788ad47c8d",
+      "label": "12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ee77818df3",
+      "label": "No,we cannot.For instance,f (x)=1 + cos x",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_2102a0a8d5",
+      "label": "Suppose SABc",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_6ae9e02564",
+      "label": "=(2n+1）-arctan 2the given quadraticfunction",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ceb3b0f44e",
+      "label": "Logs (3x+2) <1 277",
+      "concept_type": "Formula",
+      "weight": 0.6,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_ecd6f0e62e",
+      "label": "given system",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "concept_16ab33fe85",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_16ab33fe85",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_46cf8a440d",
+      "target": "concept_5f309285d8",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_46cf8a440d",
+      "target": "concept_ce23a55e4b",
+      "relation": "related",
+      "weight": 0.425
+    },
+    {
+      "source": "concept_5f309285d8",
+      "target": "concept_46cf8a440d",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_5f309285d8",
+      "target": "concept_ce23a55e4b",
+      "relation": "related",
+      "weight": 0.425
+    },
+    {
+      "source": "concept_ce23a55e4b",
+      "target": "concept_46cf8a440d",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_ce23a55e4b",
+      "target": "concept_5f309285d8",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_33cd575db2",
+      "target": "concept_2ad1c84fc0",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_2ad1c84fc0",
+      "target": "concept_33cd575db2",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_69cb78182a",
+      "target": "concept_a0f16824e5",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_a0f16824e5",
+      "target": "concept_69cb78182a",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_180d305ba3",
+      "target": "concept_f26ab3e78f",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_180d305ba3",
+      "target": "concept_e0c8354fce",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_f26ab3e78f",
+      "target": "concept_180d305ba3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f57269bb13",
+      "target": "concept_f26ab3e78f",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f57269bb13",
+      "target": "concept_e0c8354fce",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_5d3428cb57",
+      "target": "concept_aeb1d97acf",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_5d3428cb57",
+      "target": "concept_a42005065a",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_aeb1d97acf",
+      "target": "concept_5d3428cb57",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_aeb1d97acf",
+      "target": "concept_a42005065a",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_a42005065a",
+      "target": "concept_5d3428cb57",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_a42005065a",
+      "target": "concept_aeb1d97acf",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_c334a77355",
+      "target": "concept_28f65425cb",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_c334a77355",
+      "target": "concept_5f1c83982f",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_28f65425cb",
+      "target": "concept_c334a77355",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_28f65425cb",
+      "target": "concept_5f1c83982f",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_5f1c83982f",
+      "target": "concept_c334a77355",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_5f1c83982f",
+      "target": "concept_28f65425cb",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_5f1c83982f",
+      "target": "concept_e0c8354fce",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_2984782637",
+      "target": "concept_16ab33fe85",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_2984782637",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_973f8e00df",
+      "target": "concept_16ab33fe85",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_973f8e00df",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_05d448fa54",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_05d448fa54",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_05d448fa54",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_05d448fa54",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_a90232301b",
+      "target": "concept_05d448fa54",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_a90232301b",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a90232301b",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_24079685a3",
+      "target": "concept_05d448fa54",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_24079685a3",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_24079685a3",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_172b1feee0",
+      "target": "concept_69cce13951",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_69cce13951",
+      "target": "concept_172b1feee0",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_537674f1cf",
+      "target": "concept_b154bcc0dd",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_537674f1cf",
+      "target": "concept_444445d454",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_b154bcc0dd",
+      "target": "concept_537674f1cf",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_b154bcc0dd",
+      "target": "concept_444445d454",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_444445d454",
+      "target": "concept_537674f1cf",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_444445d454",
+      "target": "concept_b154bcc0dd",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_aa5519117c",
+      "target": "concept_359ead36a1",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aa5519117c",
+      "target": "concept_474e628c3c",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_359ead36a1",
+      "target": "concept_aa5519117c",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_359ead36a1",
+      "target": "concept_474e628c3c",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_474e628c3c",
+      "target": "concept_aa5519117c",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_474e628c3c",
+      "target": "concept_359ead36a1",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8aee7319a1",
+      "target": "concept_e10a3efa37",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8aee7319a1",
+      "target": "concept_5f658eb084",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e10a3efa37",
+      "target": "concept_8aee7319a1",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e10a3efa37",
+      "target": "concept_5f658eb084",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f658eb084",
+      "target": "concept_8aee7319a1",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f658eb084",
+      "target": "concept_e10a3efa37",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4eeefbdab6",
+      "target": "concept_788ad47c8d",
+      "relation": "related",
+      "weight": 0.45
+    },
+    {
+      "source": "concept_4eeefbdab6",
+      "target": "concept_ee77818df3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4eeefbdab6",
+      "target": "concept_2102a0a8d5",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_788ad47c8d",
+      "target": "concept_4eeefbdab6",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_788ad47c8d",
+      "target": "concept_ee77818df3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_788ad47c8d",
+      "target": "concept_2102a0a8d5",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee77818df3",
+      "target": "concept_4eeefbdab6",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee77818df3",
+      "target": "concept_788ad47c8d",
+      "relation": "related",
+      "weight": 0.45
+    },
+    {
+      "source": "concept_ee77818df3",
+      "target": "concept_2102a0a8d5",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2102a0a8d5",
+      "target": "concept_4eeefbdab6",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2102a0a8d5",
+      "target": "concept_788ad47c8d",
+      "relation": "related",
+      "weight": 0.45
+    },
+    {
+      "source": "concept_2102a0a8d5",
+      "target": "concept_ee77818df3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ae9e02564",
+      "target": "concept_ceb3b0f44e",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_6ae9e02564",
+      "target": "concept_ecd6f0e62e",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_ceb3b0f44e",
+      "target": "concept_6ae9e02564",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_ceb3b0f44e",
+      "target": "concept_ecd6f0e62e",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_ecd6f0e62e",
+      "target": "concept_6ae9e02564",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_ecd6f0e62e",
+      "target": "concept_ceb3b0f44e",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_16ab33fe85",
+      "target": "concept_2984782637",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_16ab33fe85",
+      "target": "concept_973f8e00df",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_46cf8a440d",
+      "target": "concept_5f309285d8",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_46cf8a440d",
+      "target": "concept_ce23a55e4b",
+      "relation": "parent_child",
+      "weight": 0.765
+    },
+    {
+      "source": "concept_2ad1c84fc0",
+      "target": "concept_33cd575db2",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_a0f16824e5",
+      "target": "concept_69cb78182a",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_180d305ba3",
+      "target": "concept_f26ab3e78f",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_5d3428cb57",
+      "target": "concept_aeb1d97acf",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_5d3428cb57",
+      "target": "concept_a42005065a",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_c334a77355",
+      "target": "concept_28f65425cb",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_c334a77355",
+      "target": "concept_5f1c83982f",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_05d448fa54",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_a90232301b",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_24079685a3",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_172b1feee0",
+      "target": "concept_69cce13951",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_537674f1cf",
+      "target": "concept_b154bcc0dd",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_537674f1cf",
+      "target": "concept_444445d454",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_359ead36a1",
+      "target": "concept_aa5519117c",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_359ead36a1",
+      "target": "concept_474e628c3c",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_8aee7319a1",
+      "target": "concept_e10a3efa37",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_8aee7319a1",
+      "target": "concept_5f658eb084",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_4eeefbdab6",
+      "target": "concept_788ad47c8d",
+      "relation": "parent_child",
+      "weight": 0.81
+    },
+    {
+      "source": "concept_4eeefbdab6",
+      "target": "concept_ee77818df3",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_4eeefbdab6",
+      "target": "concept_2102a0a8d5",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_6ae9e02564",
+      "target": "concept_ceb3b0f44e",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_6ae9e02564",
+      "target": "concept_ecd6f0e62e",
+      "relation": "parent_child",
+      "weight": 0.855
+    }
+  ],
+  "centrality": [
+    {
+      "concept_id": "concept_77d4c390fb",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_a1427cc398",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_3cd8a1d999",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_393a7be286",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_44acfa1cb4",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_45127fdcf0",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_15b5941407",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_a7f0d15a59",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_c656b7384f",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_f92fd22ba1",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_eefc34380a",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_8c899b7eaf",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_ccaf311484",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_8e3d64b025",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_993cf899cd",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_f2d508bbcb",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_36d02f7a65",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_16ab33fe85",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_4c1ad5c066",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_ccdc182e42",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_b7fa009cbd",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_5ce269ee1e",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_b3c85fa64e",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_62fc111fe1",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_9947576121",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_46cf8a440d",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_5f309285d8",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_ce23a55e4b",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_33cd575db2",
+      "degree": 0.029,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_2ad1c84fc0",
+      "degree": 0.029,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_acddf91d9c",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_69cb78182a",
+      "degree": 0.029,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_a0f16824e5",
+      "degree": 0.029,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_180d305ba3",
+      "degree": 0.043,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_f26ab3e78f",
+      "degree": 0.043,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_493ea34ade",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_759a0d7e40",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_a5bc52665f",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_f57269bb13",
+      "degree": 0.029,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_e0c8354fce",
+      "degree": 0.043,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_5d3428cb57",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_aeb1d97acf",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_a42005065a",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_c334a77355",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_28f65425cb",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_5f1c83982f",
+      "degree": 0.071,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_c7dde8cfc3",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_2984782637",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_973f8e00df",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_05d448fa54",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_83657abf05",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_a90232301b",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_24079685a3",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_172b1feee0",
+      "degree": 0.029,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_69cce13951",
+      "degree": 0.029,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_537674f1cf",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_b154bcc0dd",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_444445d454",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_aa5519117c",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_359ead36a1",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_474e628c3c",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_8aee7319a1",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_e10a3efa37",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_5f658eb084",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_4eeefbdab6",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_788ad47c8d",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_ee77818df3",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_2102a0a8d5",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_6ae9e02564",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_ceb3b0f44e",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    },
+    {
+      "concept_id": "concept_ecd6f0e62e",
+      "degree": 0.057,
+      "betweenness": 0.0,
+      "pagerank": 0.014
+    }
+  ]
+}

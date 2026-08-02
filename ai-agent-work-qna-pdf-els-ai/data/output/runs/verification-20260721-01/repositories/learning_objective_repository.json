@@ -1,0 +1,434 @@
+[
+  {
+    "objective_id": "obj_8a3bdbf663",
+    "concept_id": "concept_864bdb0ca9",
+    "objective": "Recall and state the concept of Displacement.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_2a8f01d104",
+    "concept_id": "concept_864bdb0ca9",
+    "objective": "Explain in your own words the concept of Displacement.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_c735bc63c9",
+    "concept_id": "concept_864bdb0ca9",
+    "objective": "Apply to a new situation the concept of Displacement.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_34b0eb871a",
+    "concept_id": "concept_864bdb0ca9",
+    "objective": "Break down and compare the concept of Displacement.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_d2f31b4dc2",
+    "concept_id": "concept_864bdb0ca9",
+    "objective": "Critique and justify decisions about the concept of Displacement.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_10d2cc4924",
+    "concept_id": "concept_864bdb0ca9",
+    "objective": "Design or produce something using the concept of Displacement.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_fe9d077fb3",
+    "concept_id": "concept_fb83b3460d",
+    "objective": "Recall and state the concept of Velocity.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_230071e3a9",
+    "concept_id": "concept_fb83b3460d",
+    "objective": "Explain in your own words the concept of Velocity.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_728056f1e3",
+    "concept_id": "concept_fb83b3460d",
+    "objective": "Apply to a new situation the concept of Velocity.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_7900b86b6c",
+    "concept_id": "concept_fb83b3460d",
+    "objective": "Break down and compare the concept of Velocity.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_29782d675d",
+    "concept_id": "concept_fb83b3460d",
+    "objective": "Critique and justify decisions about the concept of Velocity.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_a40cc09d5b",
+    "concept_id": "concept_fb83b3460d",
+    "objective": "Design or produce something using the concept of Velocity.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_954463a488",
+    "concept_id": "concept_1694170983",
+    "objective": "Recall and state the concept of Speed.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_145c258d2d",
+    "concept_id": "concept_1694170983",
+    "objective": "Explain in your own words the concept of Speed.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_6d387ce29c",
+    "concept_id": "concept_1694170983",
+    "objective": "Apply to a new situation the concept of Speed.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_7b81f9ed81",
+    "concept_id": "concept_1694170983",
+    "objective": "Break down and compare the concept of Speed.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_c72c806699",
+    "concept_id": "concept_1694170983",
+    "objective": "Critique and justify decisions about the concept of Speed.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_79999ac662",
+    "concept_id": "concept_1694170983",
+    "objective": "Design or produce something using the concept of Speed.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_1faac2ead2",
+    "concept_id": "concept_a49b791f66",
+    "objective": "Recall and state the concept of Acceleration.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_621a2b5cc9",
+    "concept_id": "concept_a49b791f66",
+    "objective": "Explain in your own words the concept of Acceleration.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_1e090adb26",
+    "concept_id": "concept_a49b791f66",
+    "objective": "Apply to a new situation the concept of Acceleration.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_ba00acdf55",
+    "concept_id": "concept_a49b791f66",
+    "objective": "Break down and compare the concept of Acceleration.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_e8a04e4640",
+    "concept_id": "concept_a49b791f66",
+    "objective": "Critique and justify decisions about the concept of Acceleration.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_473cb3afea",
+    "concept_id": "concept_a49b791f66",
+    "objective": "Design or produce something using the concept of Acceleration.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_87682c67ce",
+    "concept_id": "concept_c3ff7bca71",
+    "objective": "Recall and state the concept of Principle of inertia.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_8f5ca339c1",
+    "concept_id": "concept_c3ff7bca71",
+    "objective": "Explain in your own words the concept of Principle of inertia.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_1c23c7ab86",
+    "concept_id": "concept_c3ff7bca71",
+    "objective": "Apply to a new situation the concept of Principle of inertia.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_21ed41ba3b",
+    "concept_id": "concept_c3ff7bca71",
+    "objective": "Break down and compare the concept of Principle of inertia.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_5db69eb68d",
+    "concept_id": "concept_c3ff7bca71",
+    "objective": "Critique and justify decisions about the concept of Principle of inertia.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_f1426f91b6",
+    "concept_id": "concept_c3ff7bca71",
+    "objective": "Design or produce something using the concept of Principle of inertia.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_447a1fee56",
+    "concept_id": "concept_314ec88491",
+    "objective": "Recall and state the concept of Force.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_da5a3f35d9",
+    "concept_id": "concept_314ec88491",
+    "objective": "Explain in your own words the concept of Force.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_0bcaf30f17",
+    "concept_id": "concept_314ec88491",
+    "objective": "Apply to a new situation the concept of Force.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_beb8eae15d",
+    "concept_id": "concept_314ec88491",
+    "objective": "Break down and compare the concept of Force.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_35ea639c00",
+    "concept_id": "concept_314ec88491",
+    "objective": "Critique and justify decisions about the concept of Force.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_a0d0768358",
+    "concept_id": "concept_314ec88491",
+    "objective": "Design or produce something using the concept of Force.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_1aecccc10f",
+    "concept_id": "concept_bda73b7033",
+    "objective": "Recall and state the concept of Work.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_7534e56145",
+    "concept_id": "concept_bda73b7033",
+    "objective": "Explain in your own words the concept of Work.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_ddad01147b",
+    "concept_id": "concept_bda73b7033",
+    "objective": "Apply to a new situation the concept of Work.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_21ef13933e",
+    "concept_id": "concept_bda73b7033",
+    "objective": "Break down and compare the concept of Work.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_2118aa9c19",
+    "concept_id": "concept_bda73b7033",
+    "objective": "Critique and justify decisions about the concept of Work.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_3112880ccc",
+    "concept_id": "concept_bda73b7033",
+    "objective": "Design or produce something using the concept of Work.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_5491ed4815",
+    "concept_id": "concept_e7d35b0eab",
+    "objective": "Recall and state the concept of Energy.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_9e757b34ff",
+    "concept_id": "concept_e7d35b0eab",
+    "objective": "Explain in your own words the concept of Energy.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_8fed06ae9a",
+    "concept_id": "concept_e7d35b0eab",
+    "objective": "Apply to a new situation the concept of Energy.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_6022a4f501",
+    "concept_id": "concept_e7d35b0eab",
+    "objective": "Break down and compare the concept of Energy.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_7839c976a7",
+    "concept_id": "concept_e7d35b0eab",
+    "objective": "Critique and justify decisions about the concept of Energy.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_d34f190cfd",
+    "concept_id": "concept_e7d35b0eab",
+    "objective": "Design or produce something using the concept of Energy.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_d75585527e",
+    "concept_id": "concept_24b9f371d7",
+    "objective": "Recall and state the concept of Kinetic energy.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_3d88a52d79",
+    "concept_id": "concept_24b9f371d7",
+    "objective": "Explain in your own words the concept of Kinetic energy.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_451a5f0c24",
+    "concept_id": "concept_24b9f371d7",
+    "objective": "Apply to a new situation the concept of Kinetic energy.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_c706ad2597",
+    "concept_id": "concept_24b9f371d7",
+    "objective": "Break down and compare the concept of Kinetic energy.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_16102da5a1",
+    "concept_id": "concept_24b9f371d7",
+    "objective": "Critique and justify decisions about the concept of Kinetic energy.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_9c29550e40",
+    "concept_id": "concept_24b9f371d7",
+    "objective": "Design or produce something using the concept of Kinetic energy.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  }
+]

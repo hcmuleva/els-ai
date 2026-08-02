@@ -1,0 +1,37 @@
+{
+  "total_chunks": 3,
+  "approved_chunks": 3,
+  "rejected_chunks": 0,
+  "approval_rate": 1.0,
+  "rejection_reasons": {},
+  "records": [
+    {
+      "chunk_id": "chunk_af6d4abaf9",
+      "passed": true,
+      "reasons": [],
+      "characters": 4164,
+      "words": 735,
+      "alphanumeric_ratio": 0.939
+    },
+    {
+      "chunk_id": "chunk_25f57af2b5",
+      "passed": true,
+      "reasons": [],
+      "characters": 4104,
+      "words": 729,
+      "alphanumeric_ratio": 0.933
+    },
+    {
+      "chunk_id": "chunk_80848d778e",
+      "passed": true,
+      "reasons": [],
+      "characters": 3051,
+      "words": 539,
+      "alphanumeric_ratio": 0.913
+    }
+  ],
+  "run_id": "document-972caa316deb4bb8",
+  "upstream_gates": {
+    "document_integrity": true
+  }
+}

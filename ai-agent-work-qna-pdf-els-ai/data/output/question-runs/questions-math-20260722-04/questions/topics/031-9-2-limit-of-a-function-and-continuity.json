@@ -1,0 +1,459 @@
+{
+  "key": "9.2",
+  "topic": "9.2 Limit of a Function and Continuity",
+  "questions": [
+    {
+      "question": {
+        "id": "4e5b590c-150d-59ed-b6bf-ed266cb7ad1d",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate \\(\\lim_{x\\to 1}\\frac{x^3-1}{x^2-1}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since \\(x^3-1=(x-1)(x^2+x+1)\\) and \\(x^2-1=(x-1)(x+1)\\), the limit is \\(\\lim_{x\\to1}\\frac{x^2+x+1}{x+1}=\\frac{3}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 151,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.2 Limit of a Function and Continuity",
+            "concept_ids": [
+              "concept_7c05741f2e",
+              "concept_df3b2956cd"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              130,
+              269,
+              270,
+              271
+            ],
+            "source_chunk_ids": [
+              "chunk_3a3571da19",
+              "chunk_df499f21e7"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_3_2_1",
+              "label": "\\(\\frac{3}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Factoring and cancelling \\(x-1\\) gives \\(\\frac{x^2+x+1}{x+1}\\)."
+            },
+            {
+              "id": "1_2",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not follow after factor cancellation."
+            },
+            {
+              "id": "2_3",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The simplified expression has value \\(\\frac{3}{2}\\)."
+            },
+            {
+              "id": "3_4",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The numerator factor evaluates to \\(3\\), but the denominator evaluates to \\(2\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "b2562331-0689-54f2-963b-c13a036a4fe8",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(f(x)=\\frac{x^2-1}{x-1}\\) for \\(x\\ne1\\), and \\(f(1)=k\\). For \\(f\\) to be continuous at \\(x=1\\), the value of \\(k\\) must be:",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For continuity, \\(k=\\lim_{x\\to1}f(x)\\). Since \\(\\frac{x^2-1}{x-1}=x+1\\) for \\(x\\ne1\\), we obtain \\(k=2\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 152,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.2 Limit of a Function and Continuity",
+            "concept_ids": [
+              "concept_7c05741f2e",
+              "concept_df3b2956cd"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              130,
+              269,
+              270,
+              271
+            ],
+            "source_chunk_ids": [
+              "chunk_3a3571da19",
+              "chunk_df499f21e7"
+            ]
+          },
+          "options": [
+            {
+              "id": "0_1",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The limiting value at \\(x=1\\) is not zero."
+            },
+            {
+              "id": "1_2",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The limiting value is obtained after cancellation."
+            },
+            {
+              "id": "2_3",
+              "label": "\\(2\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(\\lim_{x\\to1}\\frac{x^2-1}{x-1}=\\lim_{x\\to1}(x+1)=2\\)."
+            },
+            {
+              "id": "3_4",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not equal to the required limiting value."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "754a6a31-be0e-5163-8b55-93910e6decfa",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate \\(\\lim_{x\\to0}\\frac{\\sqrt{1+x}-\\sqrt{1-x}}{x}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Rationalising gives \\(\\frac{(1+x)-(1-x)}{x(\\sqrt{1+x}+\\sqrt{1-x})}=\\frac{2}{\\sqrt{1+x}+\\sqrt{1-x}}\\). Hence the limit is \\(1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 153,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.2 Limit of a Function and Continuity",
+            "concept_ids": [
+              "concept_7c05741f2e",
+              "concept_df3b2956cd"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              130,
+              269,
+              270,
+              271
+            ],
+            "source_chunk_ids": [
+              "chunk_3a3571da19",
+              "chunk_df499f21e7"
+            ]
+          },
+          "options": [
+            {
+              "id": "0_1",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The numerator and denominator both approach zero, so direct substitution is inconclusive."
+            },
+            {
+              "id": "1_2",
+              "label": "\\(1\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Rationalisation reduces the expression to a form with limit \\(1\\)."
+            },
+            {
+              "id": "2_3",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factor \\(2\\) is divided by a denominator tending to \\(2\\)."
+            },
+            {
+              "id": "Does_not_exist_4",
+              "label": "Does not exist",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The rationalised expression has a finite two-sided limit."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "dd3f9aa7-31e1-57ba-a02f-0fa886cc67a1",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(f(x)=ax+1\\) for \\(x<2\\), and \\(f(x)=x^2-a\\) for \\(x\\ge2\\). For \\(f\\) to be continuous at \\(x=2\\), the value of \\(a\\) is:",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "At \\(x=2\\), continuity requires \\(\\lim_{x\\to2^-}f(x)=f(2)\\). Thus \\(2a+1=4-a\\), so \\(3a=3\\) and \\(a=1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 154,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "9.2 Limit of a Function and Continuity",
+            "concept_ids": [
+              "concept_7c05741f2e",
+              "concept_df3b2956cd"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              130,
+              269,
+              270,
+              271
+            ],
+            "source_chunk_ids": [
+              "chunk_3a3571da19",
+              "chunk_df499f21e7"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_1",
+              "label": "\\(-1\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It does not make the left-hand and right-hand values equal."
+            },
+            {
+              "id": "0_2",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two expressions give different values at \\(x=2\\)."
+            },
+            {
+              "id": "1_3",
+              "label": "\\(1\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Continuity requires \\(2a+1=4-a\\), which gives \\(a=1\\)."
+            },
+            {
+              "id": "2_4",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Substitution does not satisfy the continuity condition."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "c075fb1c-2a88-5b41-90b8-5bf1c1fdb773",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Define \\(h(x)=\\frac{|x|}{x}\\) for \\(x\\ne0\\), and \\(h(0)=0\\). Which statement is correct about \\(h\\) at \\(x=0\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For \\(x<0\\), \\(\\frac{|x|}{x}=-1\\), while for \\(x>0\\), \\(\\frac{|x|}{x}=1\\). Therefore the one-sided limits differ, the two-sided limit does not exist, and \\(h\\) is not continuous at \\(0\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 155,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "9.2 Limit of a Function and Continuity",
+            "concept_ids": [
+              "concept_7c05741f2e",
+              "concept_df3b2956cd"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              130,
+              269,
+              270,
+              271
+            ],
+            "source_chunk_ids": [
+              "chunk_3a3571da19",
+              "chunk_df499f21e7"
+            ]
+          },
+          "options": [
+            {
+              "id": "The_left_hand_and_right_1",
+              "label": "The left-hand and right-hand limits are both \\(0\\).",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The quotient equals \\(-1\\) on the left and \\(1\\) on the right."
+            },
+            {
+              "id": "The_function_is_continuo_2",
+              "label": "The function is continuous because \\(h(0)=0\\).",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Continuity also requires the two-sided limit to exist."
+            },
+            {
+              "id": "The_left_hand_limit_is_1_3",
+              "label": "The left-hand limit is \\(-1\\) and the right-hand limit is \\(1\\), so the function is not continuous.",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The unequal one-sided limits show that the two-sided limit does not exist."
+            },
+            {
+              "id": "Both_one_sided_limits_ar_4",
+              "label": "Both one-sided limits are \\(1\\), so the function is continuous.",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The left-hand limit is \\(-1\\), not \\(1\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_3a3571da19",
+    "chunk_df499f21e7"
+  ],
+  "source_pages": [
+    130,
+    269,
+    270,
+    271
+  ],
+  "rejected": []
+}

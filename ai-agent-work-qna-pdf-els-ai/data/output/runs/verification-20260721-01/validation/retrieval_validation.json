@@ -1,0 +1,203 @@
+{
+  "metrics": {
+    "recall_at_k": 0.8889,
+    "precision_at_k": 0.4667,
+    "mrr": 0.9111,
+    "ndcg": 0.8273,
+    "coverage": 1.0
+  },
+  "queries": [
+    {
+      "query": "Explain Displacement in Kinematics and show how it is applied.",
+      "concept_id": "concept_864bdb0ca9",
+      "expected_chunks": [
+        "chunk_42d3f0eef1",
+        "chunk_ee4cd58143",
+        "chunk_ca7b8ce75d"
+      ],
+      "retrieved_chunks": [
+        "chunk_42d3f0eef1",
+        "chunk_ee4cd58143",
+        "chunk_41bf591189",
+        "chunk_ca7b8ce75d",
+        "chunk_13231bce1e"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.6,
+      "mrr": 1.0,
+      "ndcg": 0.9675
+    },
+    {
+      "query": "Explain Velocity in Kinematics and show how it is applied.",
+      "concept_id": "concept_fb83b3460d",
+      "expected_chunks": [
+        "chunk_41bf591189",
+        "chunk_086f6b5f43",
+        "chunk_7c2f99b5a5",
+        "chunk_81c22e3da6"
+      ],
+      "retrieved_chunks": [
+        "chunk_41bf591189",
+        "chunk_7c2f99b5a5",
+        "chunk_42d3f0eef1",
+        "chunk_ca7b8ce75d",
+        "chunk_086f6b5f43"
+      ],
+      "recall_at_k": 0.75,
+      "precision_at_k": 0.6,
+      "mrr": 1.0,
+      "ndcg": 0.7877
+    },
+    {
+      "query": "Explain Speed in Kinematics and show how it is applied.",
+      "concept_id": "concept_1694170983",
+      "expected_chunks": [
+        "chunk_13231bce1e",
+        "chunk_278938ede4"
+      ],
+      "retrieved_chunks": [
+        "chunk_13231bce1e",
+        "chunk_41bf591189",
+        "chunk_42d3f0eef1",
+        "chunk_278938ede4",
+        "chunk_ca7b8ce75d"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.8772
+    },
+    {
+      "query": "Explain Acceleration in Kinematics and show how it is applied.",
+      "concept_id": "concept_a49b791f66",
+      "expected_chunks": [
+        "chunk_419a0bd05c",
+        "chunk_550b49731f"
+      ],
+      "retrieved_chunks": [
+        "chunk_419a0bd05c",
+        "chunk_81c22e3da6",
+        "chunk_550b49731f",
+        "chunk_42d3f0eef1",
+        "chunk_41bf591189"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 0.9197
+    },
+    {
+      "query": "Explain Principle of inertia in Newton's Laws of Motion and show how it is applied.",
+      "concept_id": "concept_c3ff7bca71",
+      "expected_chunks": [
+        "chunk_59cfc76784",
+        "chunk_bb9515fa4e"
+      ],
+      "retrieved_chunks": [
+        "chunk_59cfc76784",
+        "chunk_bb9515fa4e",
+        "chunk_cd9aea89a6",
+        "chunk_6998779680",
+        "chunk_419a0bd05c"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Force in Newton's Laws of Motion and show how it is applied.",
+      "concept_id": "concept_314ec88491",
+      "expected_chunks": [
+        "chunk_cd9aea89a6",
+        "chunk_6998779680"
+      ],
+      "retrieved_chunks": [
+        "chunk_cd9aea89a6",
+        "chunk_6998779680",
+        "chunk_59cfc76784",
+        "chunk_03543a2322",
+        "chunk_419a0bd05c"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Work in Work and Energy and show how it is applied.",
+      "concept_id": "concept_bda73b7033",
+      "expected_chunks": [
+        "chunk_814a78b62b",
+        "chunk_5e5f66f039",
+        "chunk_03543a2322"
+      ],
+      "retrieved_chunks": [
+        "chunk_814a78b62b",
+        "chunk_03543a2322",
+        "chunk_77b0ea1a9a",
+        "chunk_d352f3e616",
+        "chunk_5e5f66f039"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.6,
+      "mrr": 1.0,
+      "ndcg": 0.9469
+    },
+    {
+      "query": "Explain Energy in Work and Energy and show how it is applied.",
+      "concept_id": "concept_e7d35b0eab",
+      "expected_chunks": [
+        "chunk_d352f3e616",
+        "chunk_52e2a75106",
+        "chunk_77b0ea1a9a",
+        "chunk_f2f774fa59"
+      ],
+      "retrieved_chunks": [
+        "chunk_77b0ea1a9a",
+        "chunk_814a78b62b",
+        "chunk_03543a2322",
+        "chunk_d352f3e616",
+        "chunk_52e2a75106"
+      ],
+      "recall_at_k": 0.75,
+      "precision_at_k": 0.6,
+      "mrr": 1.0,
+      "ndcg": 0.7095
+    },
+    {
+      "query": "Explain Kinetic energy in Work and Energy and show how it is applied.",
+      "concept_id": "concept_24b9f371d7",
+      "expected_chunks": [
+        "chunk_988c240401",
+        "chunk_f054657c56"
+      ],
+      "retrieved_chunks": [
+        "chunk_814a78b62b",
+        "chunk_77b0ea1a9a",
+        "chunk_03543a2322",
+        "chunk_d352f3e616",
+        "chunk_988c240401"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 0.2,
+      "ndcg": 0.2372
+    }
+  ],
+  "failed_concepts": [],
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "embedding_backend": "fastembed",
+  "run_id": "verification-20260721-01",
+  "top_k": 5,
+  "thresholds": {
+    "recall_at_k": 0.8,
+    "precision_at_k": 0.2,
+    "mrr": 0.8,
+    "ndcg": 0.75,
+    "coverage": 0.95
+  },
+  "passed": true,
+  "approved_chunks": 24,
+  "rejected_chunks": 0
+}

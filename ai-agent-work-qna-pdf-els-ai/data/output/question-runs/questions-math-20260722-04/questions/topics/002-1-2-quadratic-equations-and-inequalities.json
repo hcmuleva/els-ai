@@ -1,0 +1,508 @@
+{
+  "key": "1.2",
+  "topic": "1.2 Quadratic Equations and Inequalities",
+  "questions": [
+    {
+      "question": {
+        "id": "597fd4cc-2c1c-5764-b496-25aaf87bc204",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For real \\(a\\), the minimum value of \\(y=\\left|x-2\\right|+\\left|x-a\\right|\\) is \\(5\\). Find \\(a\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "By the triangle inequality, \\(\\left|x-2\\right|+\\left|x-a\\right|\\ge\\left|a-2\\right|\\). Hence \\(\\left|a-2\\right|=5\\), giving \\(a=-3\\) or \\(a=7\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 6,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.2 Quadratic Equations and Inequalities",
+            "concept_ids": [
+              "concept_78fabb746d",
+              "concept_f591c9246c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              13,
+              14,
+              15,
+              16,
+              17,
+              143,
+              144,
+              145,
+              148
+            ],
+            "source_chunk_ids": [
+              "chunk_032bae92e1",
+              "chunk_ac4851ba58"
+            ]
+          },
+          "options": [
+            {
+              "id": "a_3_or_a_7_1",
+              "label": "\\(a=-3\\) or \\(a=7\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The minimum equals \\(\\left|a-2\\right|=5\\)."
+            },
+            {
+              "id": "a_5_or_a_5_2",
+              "label": "\\(a=-5\\) or \\(a=5\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These give distances \\(7\\) and \\(3\\)."
+            },
+            {
+              "id": "a_3_or_a_1_3",
+              "label": "\\(a=3\\) or \\(a=-1\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These give minimum value \\(1\\) and \\(3\\)."
+            },
+            {
+              "id": "a_2_4",
+              "label": "\\(a=2\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The minimum would be \\(0\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "37ca8868-a195-5276-a913-92dbe04c0d6e",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Determine the set of real values of \\(a\\) for which both roots of \\(x^2-2(a+1)x+a^2-3a+2=0\\) are positive.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For real roots, \\(D=4(5a-1)\\ge0\\), so \\(a\\ge\\frac{1}{5}\\). Also, the sum of roots is \\(2(a+1)>0\\), and the product is \\((a-1)(a-2)>0\\). Combining these gives \\(\\left[\\frac{1}{5},1\\right)\\cup\\left(2,\\infty\\right)\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 7,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.2 Quadratic Equations and Inequalities",
+            "concept_ids": [
+              "concept_78fabb746d",
+              "concept_f591c9246c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              13,
+              14,
+              15,
+              16,
+              17,
+              143,
+              144,
+              145,
+              148
+            ],
+            "source_chunk_ids": [
+              "chunk_032bae92e1",
+              "chunk_ac4851ba58"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_frac_1_5_1_right_cu_1",
+              "label": "\\(\\left[\\frac{1}{5},1\\right)\\cup\\left(2,\\infty\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The discriminant, sum, and product conditions are simultaneously satisfied."
+            },
+            {
+              "id": "left_frac_1_5_1_right_cu_2",
+              "label": "\\(\\left(\\frac{1}{5},1\\right)\\cup\\left(2,\\infty\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The double-root case \\(a=\\frac{1}{5}\\) is valid."
+            },
+            {
+              "id": "left_frac_1_5_2_right_3",
+              "label": "\\(\\left[\\frac{1}{5},2\\right]\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "For \\(1\\le a\\le2\\), the product condition fails for positive roots."
+            },
+            {
+              "id": "left_1_1_right_cup_left_4",
+              "label": "\\(\\left(-1,1\\right)\\cup\\left(2,\\infty\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits the discriminant restriction \\(a\\ge\\frac{1}{5}\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "cc0094c4-25c4-5515-a09d-fe3d7274e39a",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The equation \\(x^2-(m+3)x+m^2-1=0\\) has \\(x=1\\) as one root and both roots are positive. Find the sum of all possible real values of \\(m\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Substituting \\(x=1\\) gives \\(m^2-m-3=0\\). Its two roots are \\(\\frac{1+\\sqrt{13}}{2}\\) and \\(\\frac{1-\\sqrt{13}}{2}\\). The other root of the original equation is \\(m^2-1=m+2\\), which is positive for both values. Therefore, the required sum is \\(1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 8,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.2 Quadratic Equations and Inequalities",
+            "concept_ids": [
+              "concept_78fabb746d",
+              "concept_f591c9246c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              13,
+              14,
+              15,
+              16,
+              17,
+              143,
+              144,
+              145,
+              148
+            ],
+            "source_chunk_ids": [
+              "chunk_032bae92e1",
+              "chunk_ac4851ba58"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_1",
+              "label": "\\(1\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The possible values satisfy \\(m^2-m-3=0\\), whose sum is \\(1\\)."
+            },
+            {
+              "id": "0_2",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The roots of the condition do not have sum zero."
+            },
+            {
+              "id": "2_3",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not the sum of the roots of the condition."
+            },
+            {
+              "id": "1_4",
+              "label": "\\(-1\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sum from Vieta's relation is positive."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "7c5c4cdd-e2ad-5756-a1e2-d398204bcbf3",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For what values of \\(a\\) does \\(x^2-2(a+1)x+a^2+1=0\\) have two distinct positive roots?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The discriminant is \\(D=8a\\), so distinct real roots require \\(a>0\\). For \\(a>0\\), the sum is \\(2(a+1)>0\\) and the product is \\(a^2+1>0\\), hence both roots are positive.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 9,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.2 Quadratic Equations and Inequalities",
+            "concept_ids": [
+              "concept_78fabb746d",
+              "concept_f591c9246c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              13,
+              14,
+              15,
+              16,
+              17,
+              143,
+              144,
+              145,
+              148
+            ],
+            "source_chunk_ids": [
+              "chunk_032bae92e1",
+              "chunk_ac4851ba58"
+            ]
+          },
+          "options": [
+            {
+              "id": "a_0_1",
+              "label": "\\(a>0\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Here \\(D=8a>0\\), while the sum and product ensure positivity."
+            },
+            {
+              "id": "a_ge0_2",
+              "label": "\\(a\\ge0\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "At \\(a=0\\), the roots are equal."
+            },
+            {
+              "id": "a_1_3",
+              "label": "\\(a<-1\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sum of the roots is negative."
+            },
+            {
+              "id": "1_a_0_4",
+              "label": "\\(-1<a<0\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The discriminant is negative."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "3a530a7e-071d-5485-9893-7d656c4a8872",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "How many integers \\(x\\) satisfy \\(\\left|x-2\\right|^2-\\left|x-2\\right|-1\\le0\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(t=\\left|x-2\\right|\\ge0\\). Then \\(t^2-t-1\\le0\\), so \\(0\\le t\\le\\frac{1+\\sqrt{5}}{2}\\). Thus \\(\\left|x-2\\right|\\le1.618\\ldots\\), giving \\(x=1,2,3\\). Therefore, the number of integers is \\(3\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 10,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.2 Quadratic Equations and Inequalities",
+            "concept_ids": [
+              "concept_78fabb746d",
+              "concept_f591c9246c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              13,
+              14,
+              15,
+              16,
+              17,
+              143,
+              144,
+              145,
+              148
+            ],
+            "source_chunk_ids": [
+              "chunk_032bae92e1",
+              "chunk_ac4851ba58"
+            ]
+          },
+          "options": [
+            {
+              "id": "3_1",
+              "label": "\\(3\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The integers are \\(x=1,2,3\\)."
+            },
+            {
+              "id": "2_2",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The central integer \\(x=2\\) is also a solution."
+            },
+            {
+              "id": "4_3",
+              "label": "\\(4\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The boundary interval contains only three integers."
+            },
+            {
+              "id": "5_4",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The allowed interval is narrower."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_032bae92e1",
+    "chunk_ac4851ba58"
+  ],
+  "source_pages": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    143,
+    144,
+    145,
+    148
+  ],
+  "rejected": [
+    {
+      "attempt": 1,
+      "issues": [
+        "LaTeX backslashes inside JSON strings must be escaped"
+      ]
+    },
+    {
+      "attempt": 2,
+      "issues": [
+        "LaTeX backslashes inside JSON strings must be escaped"
+      ]
+    },
+    {
+      "attempt": 3,
+      "issues": [
+        "LaTeX backslashes inside JSON strings must be escaped"
+      ]
+    }
+  ]
+}

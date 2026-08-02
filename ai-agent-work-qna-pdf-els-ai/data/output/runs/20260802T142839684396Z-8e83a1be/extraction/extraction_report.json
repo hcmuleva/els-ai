@@ -1,0 +1,26 @@
+{
+  "books": [
+    {
+      "book_id": "book_bb4fd7fba1",
+      "filename": "CMO-Sample-Paper-for-Class-6.pdf",
+      "source_path": "/home/harish/dhruv-work/ai-agent-work-qna-pdf/scraper/downloads/CMO-Sample-Paper-for-Class-6.pdf",
+      "source_sha256": "d77a928bd55084360048327271d696cf503d6ee0fda6f9ef0bc77b3fc304e111",
+      "pages": 11,
+      "methods": {
+        "embedded_text": 11
+      },
+      "ocr_mean_confidence": null
+    },
+    {
+      "book_id": "book_9c719ec1b5",
+      "filename": "IMO - Class 6 - 2019-20.pdf",
+      "source_path": "/home/harish/dhruv-work/ai-agent-work-qna-pdf/scraper/downloads/IMO - Class 6 - 2019-20.pdf",
+      "source_sha256": "24f390d956cb0e223105ee36f24e189bc8696695b2ef8ed83cff9666cc884d5c",
+      "pages": 8,
+      "methods": {
+        "ocr": 8
+      },
+      "ocr_mean_confidence": 0.968
+    }
+  ]
+}

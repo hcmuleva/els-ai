@@ -1,0 +1,74 @@
+{
+  "books": [
+    {
+      "book_id": "book_ff463445c6",
+      "filename": "source.pdf",
+      "title": "ELECTROMAGNETIC INDUCTION",
+      "num_pages": 17,
+      "subject": "Physics",
+      "curriculum": "K-12",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "ELECTROMAGNETIC INDUCTION",
+          "page_start": 0,
+          "page_end": 16,
+          "topics": [
+            {
+              "title": "AND ALTERNATING CURRENTS",
+              "subtopics": [
+                "Esaral",
+                "Physics"
+              ]
+            },
+            {
+              "title": "MAGNETIC FLUX",
+              "subtopics": [
+                "Current",
+                "Revision"
+              ]
+            },
+            {
+              "title": "For an elemental area",
+              "subtopics": [
+                "Circuit"
+              ]
+            },
+            {
+              "title": "JEE Main Physics Revision Notes",
+              "subtopics": [
+                "Induced"
+              ]
+            },
+            {
+              "title": "INDUCED EMF",
+              "subtopics": [
+                "Class"
+              ]
+            },
+            {
+              "title": "INDUCTION",
+              "subtopics": [
+                "Download"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "overlaps": [],
+  "subject_index": {
+    "Physics": [
+      "book_ff463445c6"
+    ]
+  },
+  "domain_index": {
+    "STEM": [
+      "book_ff463445c6"
+    ]
+  },
+  "total_chapters": 1,
+  "total_topics": 6
+}

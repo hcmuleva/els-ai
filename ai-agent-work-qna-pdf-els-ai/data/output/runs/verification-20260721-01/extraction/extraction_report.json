@@ -1,0 +1,15 @@
+{
+  "books": [
+    {
+      "book_id": "book_97d5fcbb5a",
+      "filename": "sample_classical_mechanics.pdf",
+      "source_path": "C:\\personal\\work\\ai-agent-work-qna-pdf\\data\\input\\sample_classical_mechanics.pdf",
+      "source_sha256": "46c3f2d3e20f1f45326cf1709fe5d65e5d0d6084e801b6fa874179ca17933738",
+      "pages": 5,
+      "methods": {
+        "embedded_text": 5
+      },
+      "ocr_mean_confidence": null
+    }
+  ]
+}

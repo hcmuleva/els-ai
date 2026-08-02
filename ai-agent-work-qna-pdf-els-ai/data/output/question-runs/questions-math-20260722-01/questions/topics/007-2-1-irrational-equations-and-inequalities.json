@@ -1,0 +1,19 @@
+{
+  "key": "2.1",
+  "topic": "2.1 Irrational Equations and Inequalities",
+  "questions": [],
+  "requested": 5,
+  "generated": 0,
+  "context_chunks": [
+    "chunk_9f0ecabe30",
+    "chunk_bf08b64145"
+  ],
+  "source_pages": [],
+  "rejected": [
+    {
+      "issues": [
+        "LaTeX backslashes inside JSON strings must be escaped"
+      ]
+    }
+  ]
+}

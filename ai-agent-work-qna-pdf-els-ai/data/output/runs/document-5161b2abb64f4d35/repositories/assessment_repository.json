@@ -1,0 +1,610 @@
+[
+  {
+    "concept_id": "concept_7693272a7d",
+    "concept_name": "Magnetic flux through a surface",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_f8eaf41ca7",
+    "concept_name": "Gauss’ law for magnetism",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_2a665274e3",
+    "concept_name": "Induced electromotive force",
+    "candidate_scores": {
+      "MCQ": 0.75,
+      "Scenario": 0.5,
+      "Problem Solving": 1.0,
+      "Case Study": 0.5,
+      "Short Answer": 0.5,
+      "Essay": 0.5,
+      "Practical": 0.85
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.867
+  },
+  {
+    "concept_id": "concept_549729587d",
+    "concept_name": "Direction of induced emf",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_5975bf7946",
+    "concept_name": "Charge transferred by induction",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_9254b1d6a8",
+    "concept_name": "Emf produced by a moving conductor",
+    "candidate_scores": {
+      "MCQ": 0.75,
+      "Scenario": 0.5,
+      "Problem Solving": 1.0,
+      "Case Study": 0.5,
+      "Short Answer": 0.5,
+      "Essay": 0.5,
+      "Practical": 0.85
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.867
+  },
+  {
+    "concept_id": "concept_05210818a8",
+    "concept_name": "Emf from changing coil orientation",
+    "candidate_scores": {
+      "MCQ": 0.75,
+      "Scenario": 0.5,
+      "Problem Solving": 1.0,
+      "Case Study": 0.5,
+      "Short Answer": 0.5,
+      "Essay": 0.5,
+      "Practical": 0.85
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.867
+  },
+  {
+    "concept_id": "concept_1e6c744d80",
+    "concept_name": "Self-inductance of a coil",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_9536cc79c4",
+    "concept_name": "Self-inductance of a circular coil",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_6cd4d53f38",
+    "concept_name": "Energy stored in an inductor",
+    "candidate_scores": {
+      "MCQ": 0.75,
+      "Scenario": 0.5,
+      "Problem Solving": 1.0,
+      "Case Study": 0.5,
+      "Short Answer": 0.5,
+      "Essay": 0.5,
+      "Practical": 0.85
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.867
+  },
+  {
+    "concept_id": "concept_08736307d6",
+    "concept_name": "Growth of current after switching on",
+    "candidate_scores": {
+      "MCQ": 0.75,
+      "Scenario": 0.5,
+      "Problem Solving": 1.0,
+      "Case Study": 0.5,
+      "Short Answer": 0.5,
+      "Essay": 0.5,
+      "Practical": 0.85
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.867
+  },
+  {
+    "concept_id": "concept_79d3dd9c51",
+    "concept_name": "Decay of current after switching off",
+    "candidate_scores": {
+      "MCQ": 0.75,
+      "Scenario": 0.5,
+      "Problem Solving": 1.0,
+      "Case Study": 0.5,
+      "Short Answer": 0.5,
+      "Essay": 0.5,
+      "Practical": 0.85
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.867
+  },
+  {
+    "concept_id": "concept_19fc9d8e17",
+    "concept_name": "Mutual induction",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_12146cc5b6",
+    "concept_name": "Mutual inductance of coupled coils",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_cd149ebd0e",
+    "concept_name": "Inductors in series without mutual coupling",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_43fc18b0f9",
+    "concept_name": "Inductors in parallel without mutual coupling",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_6bb4417781",
+    "concept_name": "Sinusoidal alternating current and emf",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_b680bd6489",
+    "concept_name": "RMS value of alternating current and voltage",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_739b563448",
+    "concept_name": "Average value of alternating current",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_5e46c6f8a7",
+    "concept_name": "AC circuit containing resistance only",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_fffb4e0618",
+    "concept_name": "AC circuit containing an inductor only",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_f29fcaaad0",
+    "concept_name": "AC circuit containing a capacitor only",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_19626bf476",
+    "concept_name": "Impedance of a resistor and inductor in series",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_4679caf6b0",
+    "concept_name": "Average power",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_eab7c7445e",
+    "concept_name": "Impedance of an R-C circuit",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_8d88f13615",
+    "concept_name": "Impedance",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_41ccbd759e",
+    "concept_name": "Phase relationship",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_02c2da5105",
+    "concept_name": "Resonance frequency",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_d09c525f74",
+    "concept_name": "Quality factor",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_04da8ecccc",
+    "concept_name": "Transformer operation",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_52faab1a94",
+    "concept_name": "Voltage transformation",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_258c353dd8",
+    "concept_name": "Transformer efficiency",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  }
+]

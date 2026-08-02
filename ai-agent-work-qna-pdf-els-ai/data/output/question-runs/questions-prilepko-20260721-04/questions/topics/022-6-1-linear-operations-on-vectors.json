@@ -1,0 +1,510 @@
+{
+  "key": "6.1",
+  "topic": "6.1 Linear Operations on Vectors",
+  "questions": [
+    {
+      "question": {
+        "id": "f8206d62-a51b-59ef-b1d7-f991faf38e86",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(\\vec a\\) and \\(\\vec b\\) are non-zero vectors such that \\(\\lvert\\vec a+\\vec b\\rvert=\\lvert\\vec a-\\vec b\\rvert\\), then the angle between them is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using \\(\\lvert\\vec a+\\vec b\\rvert^2-\\lvert\\vec a-\\vec b\\rvert^2=4\\vec a\\cdot\\vec b\\), the equality implies \\(\\vec a\\cdot\\vec b=0\\). Hence the vectors are mutually perpendicular.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 106,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Understand",
+            "topic": "6.1 Linear Operations on Vectors",
+            "concept_ids": [
+              "concept_0dc5c6a4a3",
+              "concept_310360799c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:6.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              100,
+              101,
+              235
+            ],
+            "source_chunk_ids": [
+              "chunk_481602a881",
+              "chunk_2fbf0d2eb0"
+            ]
+          },
+          "options": [
+            {
+              "id": "0_circ_1",
+              "label": "\\(0^\\circ\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Parallel vectors give unequal magnitudes unless one vector is zero."
+            },
+            {
+              "id": "60_circ_2",
+              "label": "\\(60^\\circ\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equality does not hold for an angle of \\(60^\\circ\\)."
+            },
+            {
+              "id": "90_circ_3",
+              "label": "\\(90^\\circ\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Squaring gives \\(4\\vec a\\cdot\\vec b=0\\), so the vectors are perpendicular."
+            },
+            {
+              "id": "180_circ_4",
+              "label": "\\(180^\\circ\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Opposite vectors do not satisfy the stated equality."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "db3c93db-d4d7-5e85-9e10-875d625860e4",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For non-zero vectors \\(\\vec a\\) and \\(\\vec b\\), if \\(\\lvert\\vec a+\\vec b\\rvert>\\lvert\\vec a-\\vec b\\rvert\\), then the angle between \\(\\vec a\\) and \\(\\vec b\\) must be",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Squaring the inequality gives \\(\\lvert\\vec a+\\vec b\\rvert^2>\\lvert\\vec a-\\vec b\\rvert^2\\), hence \\(4\\vec a\\cdot\\vec b>0\\). Therefore \\(\\cos\\theta>0\\), so \\(\\theta\\) is acute.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 107,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "6.1 Linear Operations on Vectors",
+            "concept_ids": [
+              "concept_0dc5c6a4a3",
+              "concept_310360799c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:6.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              100,
+              101,
+              235
+            ],
+            "source_chunk_ids": [
+              "chunk_481602a881",
+              "chunk_2fbf0d2eb0"
+            ]
+          },
+          "options": [
+            {
+              "id": "Acute_1",
+              "label": "Acute",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inequality implies \\(\\vec a\\cdot\\vec b>0\\), so \\(\\cos\\theta>0\\)."
+            },
+            {
+              "id": "Right_2",
+              "label": "Right",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "A right angle gives equality of the two magnitudes."
+            },
+            {
+              "id": "Obtuse_3",
+              "label": "Obtuse",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "An obtuse angle gives \\(\\vec a\\cdot\\vec b<0\\)."
+            },
+            {
+              "id": "Straight_4",
+              "label": "Straight",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "A straight angle makes the dot product negative."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "c041f8a7-b697-562f-ab71-744e3a77effc",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(\\vec a=2\\hat i-\\hat j+2\\hat k\\) and \\(\\vec b=\\hat i+2\\hat j-2\\hat k\\). Find \\(\\lvert2\\vec a-\\vec b\\rvert\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(2\\vec a-\\vec b=2(2\\hat i-\\hat j+2\\hat k)-(\\hat i+2\\hat j-2\\hat k)=3\\hat i-4\\hat j+6\\hat k\\). Thus \\(\\lvert2\\vec a-\\vec b\\rvert=\\sqrt{3^2+(-4)^2+6^2}=\\sqrt{61}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 108,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "6.1 Linear Operations on Vectors",
+            "concept_ids": [
+              "concept_0dc5c6a4a3",
+              "concept_310360799c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:6.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              100,
+              101,
+              235
+            ],
+            "source_chunk_ids": [
+              "chunk_481602a881",
+              "chunk_2fbf0d2eb0"
+            ]
+          },
+          "options": [
+            {
+              "id": "sqrt_41_1",
+              "label": "\\(\\sqrt{41}\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not match the components of \\(2\\vec a-\\vec b\\)."
+            },
+            {
+              "id": "sqrt_61_2",
+              "label": "\\(\\sqrt{61}\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(2\\vec a-\\vec b=3\\hat i-4\\hat j+6\\hat k\\), whose magnitude is \\(\\sqrt{61}\\)."
+            },
+            {
+              "id": "7_3",
+              "label": "\\(7\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The squared magnitude is \\(61\\), not \\(49\\)."
+            },
+            {
+              "id": "9_4",
+              "label": "\\(9\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The magnitude is not the sum of the component magnitudes."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "8a94226e-04c0-5e9f-af29-4666fb88b43e",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(\\lvert\\vec a\\rvert=3\\), \\(\\lvert\\vec b\\rvert=4\\), and the angle between \\(\\vec a\\) and \\(\\vec b\\) is \\(60^\\circ\\), then \\(\\lvert2\\vec a-\\vec b\\rvert\\) equals",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(\\lvert2\\vec a-\\vec b\\rvert^2=4\\lvert\\vec a\\rvert^2+\\lvert\\vec b\\rvert^2-4\\vec a\\cdot\\vec b\\). Since \\(\\vec a\\cdot\\vec b=3\\cdot4\\cos60^\\circ=6\\), the squared magnitude is \\(36+16-24=28\\). Therefore the answer is \\(\\sqrt{28}=2\\sqrt7\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 109,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "6.1 Linear Operations on Vectors",
+            "concept_ids": [
+              "concept_0dc5c6a4a3",
+              "concept_310360799c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:6.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              100,
+              101,
+              235
+            ],
+            "source_chunk_ids": [
+              "chunk_481602a881",
+              "chunk_2fbf0d2eb0"
+            ]
+          },
+          "options": [
+            {
+              "id": "2_sqrt7_1",
+              "label": "\\(2\\sqrt7\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The squared magnitude is \\(4(9)+16-4(3)(4)\\cos60^\\circ=28\\)."
+            },
+            {
+              "id": "sqrt_52_2",
+              "label": "\\(\\sqrt{52}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This results from using the wrong sign in the cross term."
+            },
+            {
+              "id": "sqrt_76_3",
+              "label": "\\(\\sqrt{76}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This incorrectly treats the vectors as perpendicular."
+            },
+            {
+              "id": "10_4",
+              "label": "\\(10\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The triangle inequality gives an upper bound of \\(10\\), not the exact value."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "vector-angle",
+            "width": 420,
+            "height": 320,
+            "xmin": -1.2,
+            "xmax": 4.2,
+            "ymin": -1.2,
+            "ymax": 4.664101615,
+            "title": null,
+            "elements": [
+              {
+                "type": "arrow",
+                "start": [
+                  0.0,
+                  0.0
+                ],
+                "end": [
+                  3.0,
+                  0.0
+                ],
+                "label": "a, |a|=3",
+                "dashed": false,
+                "color": "#2563eb"
+              },
+              {
+                "type": "arrow",
+                "start": [
+                  0.0,
+                  0.0
+                ],
+                "end": [
+                  2.0,
+                  3.464101615
+                ],
+                "label": "b, |b|=4",
+                "dashed": false,
+                "color": "#dc2626"
+              },
+              {
+                "type": "angle",
+                "vertex": [
+                  0.0,
+                  0.0
+                ],
+                "p1": [
+                  3.0,
+                  0.0
+                ],
+                "p2": [
+                  2.0,
+                  3.464101615
+                ],
+                "label": "60°",
+                "radius_px": 22.0,
+                "color": "#9467bd"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"420\" height=\"320\" viewBox=\"0 0 420 320\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"420\" height=\"320\" fill=\"#ffffff\"/><line x1=\"112.22\" y1=\"234.43\" x2=\"297.78\" y2=\"234.43\" stroke=\"#2563eb\" stroke-width=\"2.2\"/><polygon points=\"307.78,234.43 297.78,238.93 297.78,229.93\" fill=\"#2563eb\" stroke=\"#2563eb\"/><text x=\"210\" y=\"275.43\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#2563eb\">a, |a|=3</text><line x1=\"112.22\" y1=\"234.43\" x2=\"236\" y2=\"93.09\" stroke=\"#dc2626\" stroke-width=\"2.2\"/><polygon points=\"242.59,85.57 239.39,96.06 232.62,90.13\" fill=\"#dc2626\" stroke=\"#dc2626\"/><text x=\"205.24\" y=\"188.38\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#dc2626\">b, |b|=4</text><path d=\"M 134.22 234.43 A 22 22 0 0 0 126.72 217.88\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"143.19\" y=\"220.39\" text-anchor=\"middle\" data-layout=\"auto\" font-size=\"12\" fill=\"#9467bd\">60°</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "995e15cd-b185-501a-a046-11ae1ed21da6",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(\\vec a=\\hat i+2\\hat j\\), \\(\\vec b=2\\hat i-\\hat j\\), and \\(\\vec c=7\\hat i+3\\hat j\\). If \\(\\vec c=x\\vec a+y\\vec b\\), then \\(x+y\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "From \\(x\\vec a+y\\vec b=\\vec c\\), we get \\(x+2y=7\\) and \\(2x-y=3\\). Solving gives \\(x=\\frac{13}{5}\\) and \\(y=\\frac{11}{5}\\). Hence \\(x+y=\\frac{24}{5}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 110,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "6.1 Linear Operations on Vectors",
+            "concept_ids": [
+              "concept_0dc5c6a4a3",
+              "concept_310360799c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:6.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              100,
+              101,
+              235
+            ],
+            "source_chunk_ids": [
+              "chunk_481602a881",
+              "chunk_2fbf0d2eb0"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_24_5_1",
+              "label": "\\(\\frac{24}{5}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Equating components gives \\(x=\\frac{13}{5}\\), \\(y=\\frac{11}{5}\\)."
+            },
+            {
+              "id": "frac_18_5_2",
+              "label": "\\(\\frac{18}{5}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not satisfy both component equations."
+            },
+            {
+              "id": "5_3",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The coefficients do not add to \\(5\\)."
+            },
+            {
+              "id": "frac_7_5_4",
+              "label": "\\(\\frac{7}{5}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not the sum of the required scalar coefficients."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_481602a881",
+    "chunk_2fbf0d2eb0"
+  ],
+  "source_pages": [
+    100,
+    101,
+    235
+  ],
+  "rejected": []
+}

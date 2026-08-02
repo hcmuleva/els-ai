@@ -1,0 +1,459 @@
+{
+  "key": "2.8",
+  "topic": "2.8 Trigonometric Inequalities",
+  "questions": [
+    {
+      "question": {
+        "id": "a01ae340-95f6-52eb-b0ee-a21e36836c1f",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "On \\( [0,2\\pi] \\), the inequality \\( \\sin x\\geq\\cos 2x \\) is satisfied for which set of values of \\(x\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using \\(\\cos 2x=1-2\\sin^2x\\), the inequality becomes \\(2\\sin^2x+\\sin x-1\\geq0\\), or \\((2\\sin x-1)(\\sin x+1)\\geq0\\). Hence \\(\\sin x\\geq\\frac12\\) or \\(\\sin x=-1\\), giving the stated set.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 41,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.8 Trigonometric Inequalities",
+            "concept_ids": [
+              "concept_0b8bb1d4ab",
+              "concept_9dcfcbddae"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.8",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              69,
+              70,
+              218,
+              219
+            ],
+            "source_chunk_ids": [
+              "chunk_0b1aa29c21",
+              "chunk_f6b81751ac"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_frac_pi_6_frac_5_pi_1",
+              "label": "\\( \\left[\\frac{\\pi}{6},\\frac{5\\pi}{6}\\right]\\cup\\left\\{\\frac{3\\pi}{2}\\right\\} \\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(2\\sin^2x+\\sin x-1=(2\\sin x-1)(\\sin x+1)\\geq0\\)."
+            },
+            {
+              "id": "left_frac_pi_6_frac_5_pi_2",
+              "label": "\\( \\left[\\frac{\\pi}{6},\\frac{5\\pi}{6}\\right] \\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It omits the equality case \\(\\sin x=-1\\)."
+            },
+            {
+              "id": "left_0_frac_pi_6_right_c_3",
+              "label": "\\( \\left[0,\\frac{\\pi}{6}\\right]\\cup\\left[\\frac{5\\pi}{6},2\\pi\\right] \\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These intervals do not generally satisfy the factored inequality."
+            },
+            {
+              "id": "left_frac_pi_6_frac_5_pi_4",
+              "label": "\\( \\left[\\frac{\\pi}{6},\\frac{5\\pi}{6}\\right]\\cup\\{\\pi\\} \\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "At \\(x=\\pi\\), the inequality is false."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "ad392b5b-9307-5ce8-9a0c-0ffe34a9f708",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the solution set of \\( \\sin x+\\cos x>1 \\) for \\(x\\in[0,4\\pi]\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Rewrite the left side as \\(\\sqrt2\\sin\\left(x+\\frac\\pi4\\right)\\). Thus \\(\\sin\\left(x+\\frac\\pi4\\right)>\\frac1{\\sqrt2}\\), which gives \\(x\\in\\left(2k\\pi,2k\\pi+\\frac\\pi2\\right)\\). Intersecting with \\([0,4\\pi]\\) yields the stated intervals.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 42,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.8 Trigonometric Inequalities",
+            "concept_ids": [
+              "concept_0b8bb1d4ab",
+              "concept_9dcfcbddae"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.8",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              69,
+              70,
+              218,
+              219
+            ],
+            "source_chunk_ids": [
+              "chunk_0b1aa29c21",
+              "chunk_f6b81751ac"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_0_frac_pi_2_right_c_1",
+              "label": "\\( \\left(0,\\frac{\\pi}{2}\\right)\\cup\\left(2\\pi,\\frac{5\\pi}{2}\\right) \\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(\\sin x+\\cos x=\\sqrt2\\sin\\left(x+\\frac\\pi4\\right)\\), giving two strict intervals."
+            },
+            {
+              "id": "left_0_frac_pi_2_right_c_2",
+              "label": "\\( \\left[0,\\frac{\\pi}{2}\\right]\\cup\\left[2\\pi,\\frac{5\\pi}{2}\\right] \\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The endpoints give equality, not a strict inequality."
+            },
+            {
+              "id": "left_frac_pi_4_frac_3_pi_3",
+              "label": "\\( \\left(\\frac{\\pi}{4},\\frac{3\\pi}{4}\\right)\\cup\\left(\\frac{9\\pi}{4},\\frac{11\\pi}{4}\\right) \\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The phase shift has not been handled correctly."
+            },
+            {
+              "id": "0_pi_cup_2_pi_3_pi_4",
+              "label": "\\( (0,\\pi)\\cup(2\\pi,3\\pi) \\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The intervals are wider than the actual regions satisfying the inequality."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "96572bc9-00ea-5fe1-b22b-63adea39de43",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(S_a=\\left\\{x\\in[0,2\\pi]:\\cos x\\geq a\\right\\}\\), where \\(a\\in[-1,1]\\). If the total length of \\(S_a\\) is \\(\\frac\\pi2\\), find \\(a\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For \\(a\\in[-1,1]\\), the solution set has total length \\(2\\arccos a\\). Therefore \\(2\\arccos a=\\frac\\pi2\\), so \\(\\arccos a=\\frac\\pi4\\) and \\(a=\\frac{\\sqrt2}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 43,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.8 Trigonometric Inequalities",
+            "concept_ids": [
+              "concept_0b8bb1d4ab",
+              "concept_9dcfcbddae"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.8",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              69,
+              70,
+              218,
+              219
+            ],
+            "source_chunk_ids": [
+              "chunk_0b1aa29c21",
+              "chunk_f6b81751ac"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_sqrt2_2_1",
+              "label": "\\( \\frac{\\sqrt2}{2} \\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The length is \\(2\\arccos a\\), so \\(\\arccos a=\\frac\\pi4\\)."
+            },
+            {
+              "id": "frac12_2",
+              "label": "\\( \\frac12 \\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives length \\(2\\arccos\\left(\\frac12\\right)=\\frac{2\\pi}{3}\\)."
+            },
+            {
+              "id": "0_3",
+              "label": "\\( 0 \\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives length \\(\\pi\\)."
+            },
+            {
+              "id": "frac_sqrt2_2_4",
+              "label": "\\( -\\frac{\\sqrt2}{2} \\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives a length greater than \\(\\pi\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "e98e892b-025d-52d0-b54d-eb12a8289eae",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "How many integers \\(n\\in\\{0,1,2,\\ldots,20\\}\\) satisfy \\(\\sin\\left(\\frac{n\\pi}{6}\\right)\\geq\\frac12\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The sequence is periodic with period \\(12\\). In one period, \\(\\sin\\left(\\frac{n\\pi}{6}\\right)\\geq\\frac12\\) for \\(n=1,2,3,4,5\\). In the given range, the valid values are \\(1,2,3,4,5,13,14,15,16,17\\), so there are \\(10\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 44,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.8 Trigonometric Inequalities",
+            "concept_ids": [
+              "concept_0b8bb1d4ab",
+              "concept_9dcfcbddae"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.8",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              69,
+              70,
+              218,
+              219
+            ],
+            "source_chunk_ids": [
+              "chunk_0b1aa29c21",
+              "chunk_f6b81751ac"
+            ]
+          },
+          "options": [
+            {
+              "id": "8_1",
+              "label": "\\( 8 \\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The valid residues modulo \\(12\\) have been undercounted."
+            },
+            {
+              "id": "9_2",
+              "label": "\\( 9 \\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "There are five valid values in each applicable block."
+            },
+            {
+              "id": "10_3",
+              "label": "\\( 10 \\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The valid integers are \\(1,2,3,4,5,13,14,15,16,17\\)."
+            },
+            {
+              "id": "11_4",
+              "label": "\\( 11 \\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The endpoint values with sine less than \\(\\frac12\\) have been included."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "35a07b01-4356-58ca-8b94-5454be366459",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "On \\( [0,2\\pi] \\), the solution set of \\( |\\tan x|\\leq1 \\) has total length",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Considering the monotonic branches of tangent, the solution set is \\(\\left[0,\\frac\\pi4\\right]\\cup\\left[\\frac{3\\pi}{4},\\frac{5\\pi}{4}\\right]\\cup\\left[\\frac{7\\pi}{4},2\\pi\\right]\\). Its total length is \\(\\frac\\pi4+\\frac\\pi2+\\frac\\pi4=\\pi\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 45,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.8 Trigonometric Inequalities",
+            "concept_ids": [
+              "concept_0b8bb1d4ab",
+              "concept_9dcfcbddae"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.8",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              69,
+              70,
+              218,
+              219
+            ],
+            "source_chunk_ids": [
+              "chunk_0b1aa29c21",
+              "chunk_f6b81751ac"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_pi2_1",
+              "label": "\\( \\frac\\pi2 \\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is smaller than the sum of the four valid portions."
+            },
+            {
+              "id": "frac_3_pi_4_2",
+              "label": "\\( \\frac{3\\pi}{4} \\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The central valid interval has length \\(\\frac\\pi2\\), with two additional portions."
+            },
+            {
+              "id": "pi_3",
+              "label": "\\( \\pi \\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The solution set has total length \\(\\frac\\pi4+\\frac\\pi2+\\frac\\pi4=\\pi\\)."
+            },
+            {
+              "id": "frac_3_pi_2_4",
+              "label": "\\( \\frac{3\\pi}{2} \\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This includes regions where \\(|\\tan x|>1\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_0b1aa29c21",
+    "chunk_f6b81751ac"
+  ],
+  "source_pages": [
+    69,
+    70,
+    218,
+    219
+  ],
+  "rejected": []
+}

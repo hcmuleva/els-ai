@@ -1,0 +1,74 @@
+[
+  {
+    "competency_id": "comp_13b20017fb",
+    "concept_id": "concept_864bdb0ca9",
+    "concept_name": "Displacement",
+    "skill": "Compute using Displacement",
+    "outcome": "Learner can select and apply Displacement to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_b4b0824c3b",
+    "concept_id": "concept_fb83b3460d",
+    "concept_name": "Velocity",
+    "skill": "Compute using Velocity",
+    "outcome": "Learner can select and apply Velocity to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_9586a158e4",
+    "concept_id": "concept_1694170983",
+    "concept_name": "Speed",
+    "skill": "Define and distinguish Speed",
+    "outcome": "Learner can accurately define Speed and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_7356879f78",
+    "concept_id": "concept_a49b791f66",
+    "concept_name": "Acceleration",
+    "skill": "Define and distinguish Acceleration",
+    "outcome": "Learner can accurately define Acceleration and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_d1a5f33ad0",
+    "concept_id": "concept_c3ff7bca71",
+    "concept_name": "Principle of inertia",
+    "skill": "Apply the principle of Principle of inertia",
+    "outcome": "Learner can apply Principle of inertia to predict or explain outcomes.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_2d88ee4312",
+    "concept_id": "concept_314ec88491",
+    "concept_name": "Force",
+    "skill": "Define and distinguish Force",
+    "outcome": "Learner can accurately define Force and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_f52321400c",
+    "concept_id": "concept_bda73b7033",
+    "concept_name": "Work",
+    "skill": "Compute using Work",
+    "outcome": "Learner can select and apply Work to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_3df74c312b",
+    "concept_id": "concept_e7d35b0eab",
+    "concept_name": "Energy",
+    "skill": "Compute using Energy",
+    "outcome": "Learner can select and apply Energy to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_9f2f8ff00a",
+    "concept_id": "concept_24b9f371d7",
+    "concept_name": "Kinetic energy",
+    "skill": "Define and distinguish Kinetic energy",
+    "outcome": "Learner can accurately define Kinetic energy and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  }
+]

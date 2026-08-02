@@ -1,0 +1,142 @@
+{
+  "books": [
+    {
+      "book_id": "book_bb4fd7fba1",
+      "filename": "CMO-Sample-Paper-for-Class-6.pdf",
+      "title": "CREST Mathematics Olympiad (CMO)",
+      "num_pages": 11,
+      "subject": "Mathematics",
+      "curriculum": "K-12",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "Chapter 1: Knowing Our Numbers, Whole Numbers, Playing with Numbers, Basic Geometrical Ideas,",
+          "page_start": 0,
+          "page_end": 10,
+          "topics": [
+            {
+              "title": "Sample Paper",
+              "subtopics": [
+                "Numbers",
+                "Olympiads"
+              ]
+            },
+            {
+              "title": "Questions",
+              "subtopics": [
+                "Cents",
+                "Value"
+              ]
+            },
+            {
+              "title": "Marks per",
+              "subtopics": [
+                "Years"
+              ]
+            },
+            {
+              "title": "Question",
+              "subtopics": [
+                "Crest"
+              ]
+            },
+            {
+              "title": "Total",
+              "subtopics": [
+                "Crestolympiads"
+              ]
+            },
+            {
+              "title": "Marks",
+              "subtopics": [
+                "Copyright"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_9c719ec1b5",
+      "filename": "IMO - Class 6 - 2019-20.pdf",
+      "title": "QUESTION",
+      "num_pages": 8,
+      "subject": "Mathematics",
+      "curriculum": "K-12",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "QUESTION",
+          "page_start": 0,
+          "page_end": 7,
+          "topics": [
+            {
+              "title": "CLASS",
+              "subtopics": [
+                "Number",
+                "Olympiad"
+              ]
+            },
+            {
+              "title": "PAPERSET",
+              "subtopics": [
+                "Given",
+                "Level"
+              ]
+            },
+            {
+              "title": "SOFINTERNATIONAL",
+              "subtopics": [
+                "Questions"
+              ]
+            },
+            {
+              "title": "MATHEMATICS OLYMPIAD",
+              "subtopics": [
+                "Following"
+              ]
+            },
+            {
+              "title": "DONOTOPENTHISBOOKLETUNTILASKEDTODOSO",
+              "subtopics": [
+                "Statement-"
+              ]
+            },
+            {
+              "title": "GuidelinesfortheCandidate",
+              "subtopics": [
+                "Students"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "overlaps": [
+    {
+      "book_a": "book_bb4fd7fba1",
+      "book_b": "book_9c719ec1b5",
+      "shared_topics": [
+        "questions"
+      ],
+      "jaccard": 0.037
+    }
+  ],
+  "subject_index": {
+    "Mathematics": [
+      "book_bb4fd7fba1",
+      "book_9c719ec1b5"
+    ]
+  },
+  "domain_index": {
+    "STEM": [
+      "book_bb4fd7fba1",
+      "book_9c719ec1b5"
+    ]
+  },
+  "total_chapters": 2,
+  "total_topics": 12
+}

@@ -1,0 +1,1038 @@
+[
+  {
+    "misconception_id": "misc_5a6c90498d",
+    "concept_id": "concept_966b1f96a5",
+    "misconception": "1.1 Linear Equations andInequalities in One Variable practice pages 11-13 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Chapter1 RATIONALEQUATIONS,INEQUALITIES ANDFUNCTIONSINONEVARIABLE 1.1.Linear Equations andInequalities in One Variable. A Linear Function Solvethefollowingequations: 1.(3x+7)-(2x+5"
+  },
+  {
+    "misconception_id": "misc_3f44656a2f",
+    "concept_id": "concept_966b1f96a5",
+    "misconception": "1.1 Linear Equations andInequalities in One Variable practice pages 11-13 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 1.1 Linear Equations andInequalities in One Variable practice pages 11-13 is valid."
+  },
+  {
+    "misconception_id": "misc_2fc9c83279",
+    "concept_id": "concept_f591c9246c",
+    "misconception": "1.2 QuadraticEquations andInequalities practice pages 14-18 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 60.y=2|x-11-3|x+2|+x. 61.y =|x-2|+|x-a |. 62.Find the values of a for which thefunction y possesses a maximum at thepoint x=2,if [x+1forx<2, a for x=2， 5-x forx>2. 63.Findtheleasta"
+  },
+  {
+    "misconception_id": "misc_c513ea7249",
+    "concept_id": "concept_f591c9246c",
+    "misconception": "1.2 QuadraticEquations andInequalities practice pages 14-18 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 1.2 QuadraticEquations andInequalities practice pages 14-18 is valid."
+  },
+  {
+    "misconception_id": "misc_a81985e8c7",
+    "concept_id": "concept_5e078c2130",
+    "misconception": "1.3 InverseProportionality practice pages 19-21 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Find the least and the greatestvalue of the functionsin the indicated intervals: 63.(a)y=3x²-x+5on the interval[1;2]; (b)y=-4x²+ 5x -8 on the interval [2;3]; (c)y=x²-2x+5on the int"
+  },
+  {
+    "misconception_id": "misc_a8762c6843",
+    "concept_id": "concept_5e078c2130",
+    "misconception": "1.3 InverseProportionality practice pages 19-21 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 1.3 InverseProportionality practice pages 19-21 is valid."
+  },
+  {
+    "misconception_id": "misc_fe90d69199",
+    "concept_id": "concept_5b1da3f2f2",
+    "misconception": "1.4 Equations and Inequalities of Higher Degrees practice pages 22-26 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 22.Prove that the function y= ax+b is strictly mono- cx+d tonic on any interval(x1;x2)，provided that ad≠bc， c≠0，x=-d/c（x；2) 23.Findthegreatestandtheleastvalueofthefunction （a)y=（x-"
+  },
+  {
+    "misconception_id": "misc_051c27df2b",
+    "concept_id": "concept_5b1da3f2f2",
+    "misconception": "1.4 Equations and Inequalities of Higher Degrees practice pages 22-26 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 1.4 Equations and Inequalities of Higher Degrees practice pages 22-26 is valid."
+  },
+  {
+    "misconception_id": "misc_2ec60480c3",
+    "concept_id": "concept_aa5d393aaf",
+    "misconception": "1.5 Linear Systems of Equations and Inequalities practice pages 27-29 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 48.Determine thepointsof extremum of thefunction (a)y=x²+3x²-45x+1；(b)y=号- 23 -2x²+ +4x-3;(c)y=|3x-1|-x²；(d)y= =（x-1)²（x+2)；(e)y=（x+3)²（x-4)²； (f)y=2x²+； 2x—1 49.Find the absolute "
+  },
+  {
+    "misconception_id": "misc_5e82a86bf2",
+    "concept_id": "concept_aa5d393aaf",
+    "misconception": "1.5 Linear Systems of Equations and Inequalities practice pages 27-29 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 1.5 Linear Systems of Equations and Inequalities practice pages 27-29 is valid."
+  },
+  {
+    "misconception_id": "misc_d5728fdbf1",
+    "concept_id": "concept_416b34274b",
+    "misconception": "1.6 Systems ofEquationsandInequalities practice pages 30-32 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 16.At what a ER does the point(a;a²) lie in the interior of thetriangleformedattheintersection of thelines y=x+1，y=3-x，y=-2x? Solve thefollowingsystems ofequations: 17. x+y-z=0, 18"
+  },
+  {
+    "misconception_id": "misc_6b3a7af21e",
+    "concept_id": "concept_416b34274b",
+    "misconception": "1.6 Systems ofEquationsandInequalities practice pages 30-32 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 1.6 Systems ofEquationsandInequalities practice pages 30-32 is valid."
+  },
+  {
+    "misconception_id": "misc_6762b87471",
+    "concept_id": "concept_d37918f89a",
+    "misconception": "2.1 Irrational Equations andInequalities practice pages 33-37 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 21.Find all triples of the integers (x;y;z)for which the relation 5x²+y²+32²-2yz=30is satisfied. 22. Hatch the setof points of the coordinateplane defined bythesystemofinequalities"
+  },
+  {
+    "misconception_id": "misc_dd3c11bc9c",
+    "concept_id": "concept_d37918f89a",
+    "misconception": "2.1 Irrational Equations andInequalities practice pages 33-37 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.1 Irrational Equations andInequalities practice pages 33-37 is valid."
+  },
+  {
+    "misconception_id": "misc_18c93563a1",
+    "concept_id": "concept_e81eedd27f",
+    "misconception": "2.2 Systems ofIrrational Equations andInequalities practice pages 38-38 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 2.2.Systems ofIrrational Equations andInequalities Solve thefollowing systems ofequations: 1. (a) 7 4 5 Vx-7 Vy+6 3， 5 3 13 Vx-7 Vy+6 6 (b) 4 1 Vx+y-Vx-y Vx-y-x+y 2 4 9 Vx+y-Vx-y V"
+  },
+  {
+    "misconception_id": "misc_5b4efa576d",
+    "concept_id": "concept_e81eedd27f",
+    "misconception": "2.2 Systems ofIrrational Equations andInequalities practice pages 38-38 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.2 Systems ofIrrational Equations andInequalities practice pages 38-38 is valid."
+  },
+  {
+    "misconception_id": "misc_001c1f19ad",
+    "concept_id": "concept_246ce853ae",
+    "misconception": "2.3 An Exponential and a Logarithmic Function, practice pages 39-44 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Find the graphicalsolutions ot the followinginequalities and systems ofinequalities: 8.Vx-y>Vx+y.9.1+Vx≥y. 10.{y-2<V1-x², y>2|x|. 2.3.An Exponential and a Logarithmic Function, Exp"
+  },
+  {
+    "misconception_id": "misc_e2ff7ce5f5",
+    "concept_id": "concept_246ce853ae",
+    "misconception": "2.3 An Exponential and a Logarithmic Function, practice pages 39-44 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.3 An Exponential and a Logarithmic Function, practice pages 39-44 is valid."
+  },
+  {
+    "misconception_id": "misc_39dbfd6532",
+    "concept_id": "concept_19a4d53938",
+    "misconception": "2.3 An Exponential and a Logarithmic Function, practice pages 45-50 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 2(logyx+logxy)=5, 38. (a) xy=8; logxy+logyx=2.5, (b) x+y=a²+a. x²/y+y²/x=28, 39. logsx-log± y=1.5. 9 log2y=logs(xy-2)， 40. loggx²+ logs(x—y)=1. 2x²+v4（v²+x)/2 41 Vxy = 2. 4x/v-3y/x"
+  },
+  {
+    "misconception_id": "misc_51e4a826f0",
+    "concept_id": "concept_19a4d53938",
+    "misconception": "2.3 An Exponential and a Logarithmic Function, practice pages 45-50 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.3 An Exponential and a Logarithmic Function, practice pages 45-50 is valid."
+  },
+  {
+    "misconception_id": "misc_656b0cee21",
+    "concept_id": "concept_1a1cc801ab",
+    "misconception": "2.4 Transformation of Trigonometric Expressions practice pages 51-53 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 92.Find theintervals of the increase and decreaseof the ln3. (c)y=(2x-1) (2*-2). 93.Find the point of extremum of the function (a)y= 3 x2 +x-1. 94.Find the values of a andbfor whic"
+  },
+  {
+    "misconception_id": "misc_b75b4af1a1",
+    "concept_id": "concept_1a1cc801ab",
+    "misconception": "2.4 Transformation of Trigonometric Expressions practice pages 51-53 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.4 Transformation of Trigonometric Expressions practice pages 51-53 is valid."
+  },
+  {
+    "misconception_id": "misc_e5016c127d",
+    "concept_id": "concept_a8bc606a3c",
+    "misconception": "2.5 Trigonometric Functions practice pages 54-56 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: (f)sin 6°—sin 42°—sin 66°+ sin 78°; (g) cos²33°-cos257° (i)tan20°—33tan420°+27tan²20°3; (j)cot²36°cot272°. 12.Excluding α from the relations,find the relationship between x and y: "
+  },
+  {
+    "misconception_id": "misc_b8450d4434",
+    "concept_id": "concept_a8bc606a3c",
+    "misconception": "2.5 Trigonometric Functions practice pages 54-56 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.5 Trigonometric Functions practice pages 54-56 is valid."
+  },
+  {
+    "misconception_id": "misc_fcab5a7513",
+    "concept_id": "concept_c659b18a62",
+    "misconception": "2.6 Inverse Trigonometric Functions practice pages 57-60 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 2.6.Inverse Trigonometric Functions Find the domainsofdefinition of thefollowingfunctions: 1. (a) y=arcsin (1-z);(b) y=arccos(2-); (c)y=arcsin(2x+x²);(d)y=arccos 2x 1+x (e) y=arcsi"
+  },
+  {
+    "misconception_id": "misc_e222167e76",
+    "concept_id": "concept_c659b18a62",
+    "misconception": "2.6 Inverse Trigonometric Functions practice pages 57-60 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.6 Inverse Trigonometric Functions practice pages 57-60 is valid."
+  },
+  {
+    "misconception_id": "misc_f312a2333d",
+    "concept_id": "concept_73b430198b",
+    "misconception": "2.7 Trigonometric Equations and Systems of Equations practice pages 61-66 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 2.7. Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin (2x+)=1; 1 (c)2 sinx cos x-3 sin 2x=0; COS COS 2 3 (e) sin Vx=-1. 2.(a) c"
+  },
+  {
+    "misconception_id": "misc_a492217c81",
+    "concept_id": "concept_73b430198b",
+    "misconception": "2.7 Trigonometric Equations and Systems of Equations practice pages 61-66 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.7 Trigonometric Equations and Systems of Equations practice pages 61-66 is valid."
+  },
+  {
+    "misconception_id": "misc_e536c66718",
+    "concept_id": "concept_2a6f7d6b1b",
+    "misconception": "2.7 Trigonometric Equations and Systems of Equations practice pages 67-69 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 0.(a) sin²x + sin² 2x = sin² 3x; (b)cos²x+cos² 2x+cos²3x-+cos²4r=2； (c) sin 7x+sin 9x=2|cos²(-x）-cos2(+ 2x)」; 9 (b)cos x + cos 2x + cos 3x = -0.5. 42.(a) sin²x cos 3x +cos3x sin 3x"
+  },
+  {
+    "misconception_id": "misc_d935cd3afa",
+    "concept_id": "concept_2a6f7d6b1b",
+    "misconception": "2.7 Trigonometric Equations and Systems of Equations practice pages 67-69 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.7 Trigonometric Equations and Systems of Equations practice pages 67-69 is valid."
+  },
+  {
+    "misconception_id": "misc_b0d21bf6eb",
+    "concept_id": "concept_0b8bb1d4ab",
+    "misconception": "2.8 TrigonometricInequalities practice pages 70-71 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: (c) tanx+tan y：=2, cosxcos y=0.5; (d) sin x cosy=1/4, 3 tan x = tan y. 62. (a) tanx-2siny=-2, 5 tan+2 sin y=-4; (b) 4siny-6V2cosx=5+4cos²y, cos 2x=0； (c) 1 cosy= a+3 sin a 3 sin zc"
+  },
+  {
+    "misconception_id": "misc_7bd496a1c3",
+    "concept_id": "concept_0b8bb1d4ab",
+    "misconception": "2.8 TrigonometricInequalities practice pages 70-71 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.8 TrigonometricInequalities practice pages 70-71 is valid."
+  },
+  {
+    "misconception_id": "misc_6c8f9ab2a6",
+    "concept_id": "concept_80f2b383f9",
+    "misconception": "3.1 Problems onMotion practice pages 72-77 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 30.Prove that the function y=sin²x increases monoto- nically on the interval zE(—π; -). 31.Prove that the functiony=cos3xdecreases monoto- 32.Prove that if 0<<2<，then tanx> 2 tanz1"
+  },
+  {
+    "misconception_id": "misc_af55213a22",
+    "concept_id": "concept_80f2b383f9",
+    "misconception": "3.1 Problems onMotion practice pages 72-77 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 3.1 Problems onMotion practice pages 72-77 is valid."
+  },
+  {
+    "misconception_id": "misc_c489bc712d",
+    "concept_id": "concept_ce37252ec0",
+    "misconception": "3.2 Problems on Percentage,Mixtures, practice pages 78-82 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 31.A pedestrian anda cyclist leftpointA for pointBat the same time.Having reached point B，the cyclist turnedbackandmetthepedestriananhourafterthe start.After their meeting，the pede"
+  },
+  {
+    "misconception_id": "misc_df4dd1ffa5",
+    "concept_id": "concept_ce37252ec0",
+    "misconception": "3.2 Problems on Percentage,Mixtures, practice pages 78-82 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 3.2 Problems on Percentage,Mixtures, practice pages 78-82 is valid."
+  },
+  {
+    "misconception_id": "misc_9c34be019a",
+    "concept_id": "concept_a7d0197ca3",
+    "misconception": "3.3 Problems onDerivingInequalities and Systems practice pages 83-85 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 25.There are three pieces of a copper-tin alloy.The masses of the pieces are in the ratio of 3:4:5.The percentage of copper in the second piece is a times as large,and in thefirstp"
+  },
+  {
+    "misconception_id": "misc_c97074b3e4",
+    "concept_id": "concept_a7d0197ca3",
+    "misconception": "3.3 Problems onDerivingInequalities and Systems practice pages 83-85 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 3.3 Problems onDerivingInequalities and Systems practice pages 83-85 is valid."
+  },
+  {
+    "misconception_id": "misc_0cd1203c87",
+    "concept_id": "concept_5d8da8cc3d",
+    "misconception": "4.1 TheAntiderivative.TheNewton-LeibnizFormula practice pages 86-88 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: of6kmfrom Aa cyclist followed him,startingfrom A andcyclingata speed9km/hhigher than thatofthe pedestrian.Whenthe cyclist overtook thepedestrian， they turned back and returned toA "
+  },
+  {
+    "misconception_id": "misc_2ae5e610da",
+    "concept_id": "concept_5d8da8cc3d",
+    "misconception": "4.1 TheAntiderivative.TheNewton-LeibnizFormula practice pages 86-88 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 4.1 TheAntiderivative.TheNewton-LeibnizFormula practice pages 86-88 is valid."
+  },
+  {
+    "misconception_id": "misc_4d7d422584",
+    "concept_id": "concept_9a49ed3c17",
+    "misconception": "4.2 CalculatingtheAreas ofPlaneFigures practice pages 89-91 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: (d) (arcsin(x+1)+arccos(z+1)dx; -2 3 (e) arctan 19.Find the setof positive values of asatisfyingthe a equation (3x²+4x-5)dx=a3-2. 20.Find all the values ofa for which theinequality"
+  },
+  {
+    "misconception_id": "misc_79939ef424",
+    "concept_id": "concept_9a49ed3c17",
+    "misconception": "4.2 CalculatingtheAreas ofPlaneFigures practice pages 89-91 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 4.2 CalculatingtheAreas ofPlaneFigures practice pages 89-91 is valid."
+  },
+  {
+    "misconception_id": "misc_d94a688e36",
+    "concept_id": "concept_bd349d0c63",
+    "misconception": "5.1 Progressions practice pages 92-97 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Findthe areasof thefiguresboundedby thefollowingcurves: 24.（a)y= sinx，y=0，x=0，=2; (b)y=sin3x，x=π/12，x=π/6，y=0; （c)y=2cosx，x=-π/4，x=π/4，y=0； (d)y=cos 2x，x=-π/6，=π/8，y=0. 25.(a)y=V3/"
+  },
+  {
+    "misconception_id": "misc_56e792ae99",
+    "concept_id": "concept_bd349d0c63",
+    "misconception": "5.1 Progressions practice pages 92-97 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 5.1 Progressions practice pages 92-97 is valid."
+  },
+  {
+    "misconception_id": "misc_dc684f6dc1",
+    "concept_id": "concept_2bfece366b",
+    "misconception": "5.2 Number Sequences practice pages 98-100 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 53.The sum of thefirst ten terms of the arithmetic progres- sionis 155andthesumofthefirsttwotermsofthe geometricprogression is 9.Determine the progressions if thefirsttermofthearit"
+  },
+  {
+    "misconception_id": "misc_0a8233dc8d",
+    "concept_id": "concept_2bfece366b",
+    "misconception": "5.2 Number Sequences practice pages 98-100 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 5.2 Number Sequences practice pages 98-100 is valid."
+  },
+  {
+    "misconception_id": "misc_d4dd367a97",
+    "concept_id": "concept_0dc5c6a4a3",
+    "misconception": "6.1 Linear Operations onVectors practice pages 101-102 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Chapter6 ELEMENTSOFVECTORALGEBRA 6.1.Linear Operations onVectors 1.What condition should be satisfied by the vectors a and bfor thefollowingrelations tohold true:(a)|a+b|= =| a - b"
+  },
+  {
+    "misconception_id": "misc_753ac9c9c1",
+    "concept_id": "concept_0dc5c6a4a3",
+    "misconception": "6.1 Linear Operations onVectors practice pages 101-102 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 6.1 Linear Operations onVectors practice pages 101-102 is valid."
+  },
+  {
+    "misconception_id": "misc_a92e49d6ce",
+    "concept_id": "concept_d6b3245864",
+    "misconception": "6.2 TheScalarProductofVectors practice pages 103-106 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 23.A triangular pyramid is defined by the coordinates of its vertices A(3;0；1)，B(-1；4;1),C(5;2;3) andD(0;—5;4).Calculate thelengthof the vector AOif Ois the_point of intersection o"
+  },
+  {
+    "misconception_id": "misc_4f11423ee2",
+    "concept_id": "concept_d6b3245864",
+    "misconception": "6.2 TheScalarProductofVectors practice pages 103-106 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 6.2 TheScalarProductofVectors practice pages 103-106 is valid."
+  },
+  {
+    "misconception_id": "misc_62591d1729",
+    "concept_id": "concept_e007a08ac3",
+    "misconception": "7.1 Problems on Proving Propositions practice pages 107-108 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Chapter7 PLANEGEOMETRY 7.1.Problems on Proving Propositions 1.Mis the midpoint of the interval[AB].Prove that 1 |CM|= 2 2.Five straight lines meeting at a point O are drawn in thep"
+  },
+  {
+    "misconception_id": "misc_8c5dc12012",
+    "concept_id": "concept_e007a08ac3",
+    "misconception": "7.1 Problems on Proving Propositions practice pages 107-108 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 7.1 Problems on Proving Propositions practice pages 107-108 is valid."
+  },
+  {
+    "misconception_id": "misc_f9b26c552d",
+    "concept_id": "concept_958d98624e",
+    "misconception": "7.2 ConstructionProblems practice pages 109-109 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 7.2.ConstructionProblems 1.Through a point A lying in the interior of the angle, drawa straightline sothatthepointAwould be the midpointof thesegmentinterceptedon thestraight line "
+  },
+  {
+    "misconception_id": "misc_1e19dfc024",
+    "concept_id": "concept_958d98624e",
+    "misconception": "7.2 ConstructionProblems practice pages 109-109 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 7.2 ConstructionProblems practice pages 109-109 is valid."
+  },
+  {
+    "misconception_id": "misc_b0a667d965",
+    "concept_id": "concept_52319e8fbb",
+    "misconception": "7.3 Problems on Calculation practice pages 110-114 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 7.3.Problems on Calculation 1.In the triangle ABC，the side |AB|=c=13cm， |BC|=α=14cm，|AC|=b=15cm.Deter- mine:(a)the degreemeasure of thelargest interior angle of that triangle;(b)th"
+  },
+  {
+    "misconception_id": "misc_4b531e2d37",
+    "concept_id": "concept_52319e8fbb",
+    "misconception": "7.3 Problems on Calculation practice pages 110-114 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 7.3 Problems on Calculation practice pages 110-114 is valid."
+  },
+  {
+    "misconception_id": "misc_27cc534e9e",
+    "concept_id": "concept_322bf2bf32",
+    "misconception": "8.1 A Straight Line,a Plane,Polyhedra practice pages 115-119 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Chapter8 SOLIDGEOMETRY 8.1.A Straight Line,a Plane,Polyhedra. SolidsofRevolution 1.Two right triangles lie in the mutuallyperpendicular planes andhaveahypotenuse incommon.Find the "
+  },
+  {
+    "misconception_id": "misc_f5805480bd",
+    "concept_id": "concept_322bf2bf32",
+    "misconception": "8.1 A Straight Line,a Plane,Polyhedra practice pages 115-119 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 8.1 A Straight Line,a Plane,Polyhedra practice pages 115-119 is valid."
+  },
+  {
+    "misconception_id": "misc_536abe6340",
+    "concept_id": "concept_715e66b12a",
+    "misconception": "8.2 Problems on Combinations of Polyhedra practice pages 120-125 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 45.The plane passing through the centre of the lower base of the cylinder atanangleα°to theplane of thebase cuts the upperbase along the chord,binlength,subtend- ing the arc ofβ°.F"
+  },
+  {
+    "misconception_id": "misc_97a653ae97",
+    "concept_id": "concept_715e66b12a",
+    "misconception": "8.2 Problems on Combinations of Polyhedra practice pages 120-125 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 8.2 Problems on Combinations of Polyhedra practice pages 120-125 is valid."
+  },
+  {
+    "misconception_id": "misc_1e81859ae4",
+    "concept_id": "concept_dc76038a15",
+    "misconception": "8.2 Problems on Combinations of Polyhedra practice pages 126-126 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 43.A lateral face of a regular quadrangular pyramid is at an angle α to the base.The radius of the sphereinscribed intothepyramid isequal to r.Findthearea of the sectionofthepyrami"
+  },
+  {
+    "misconception_id": "misc_4e6738d44b",
+    "concept_id": "concept_dc76038a15",
+    "misconception": "8.2 Problems on Combinations of Polyhedra practice pages 126-126 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 8.2 Problems on Combinations of Polyhedra practice pages 126-126 is valid."
+  },
+  {
+    "misconception_id": "misc_794401c2ef",
+    "concept_id": "concept_5baf3b211f",
+    "misconception": "8.3 VolumesofSolidsofRevolution practice pages 127-127 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 52.Aregular hexagonalprism isinscribedinto a cone with thealtitudeHandthe radius of thebase R，so thatoneofitsbasesliesintheplaneofthebaseofthe coneandtheverticesoftheotherbasebelon"
+  },
+  {
+    "misconception_id": "misc_e853516079",
+    "concept_id": "concept_5baf3b211f",
+    "misconception": "8.3 VolumesofSolidsofRevolution practice pages 127-127 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 8.3 VolumesofSolidsofRevolution practice pages 127-127 is valid."
+  },
+  {
+    "misconception_id": "misc_e1ad3f24c2",
+    "concept_id": "concept_9f574ad684",
+    "misconception": "9.1 ProblemsinAlgebra practice pages 128-130 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 5.Find thevolume of the figure resulting from rotation abouttheaxisofordinatesofacurvilinear trapezoid whose boundary is defined by the equations y²=x, y=0，y=1andx=0. 6.Find the vo"
+  },
+  {
+    "misconception_id": "misc_db905b689f",
+    "concept_id": "concept_9f574ad684",
+    "misconception": "9.1 ProblemsinAlgebra practice pages 128-130 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 9.1 ProblemsinAlgebra practice pages 128-130 is valid."
+  },
+  {
+    "misconception_id": "misc_5e01e0b93a",
+    "concept_id": "concept_df3b2956cd",
+    "misconception": "9.2 Limit of aFunction.Continuity practice pages 131-131 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 33.Prove that the even function f(x)does not have an inverse. 34.Prove that the periodic function f(z) does not have an inverse. 9.2.Limit of aFunction.Continuity Findthefollowingl"
+  },
+  {
+    "misconception_id": "misc_61b778b10e",
+    "concept_id": "concept_df3b2956cd",
+    "misconception": "9.2 Limit of aFunction.Continuity practice pages 131-131 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 9.2 Limit of aFunction.Continuity practice pages 131-131 is valid."
+  },
+  {
+    "misconception_id": "misc_bea5bb5965",
+    "concept_id": "concept_c11559b955",
+    "misconception": "9.3 TheDerivative of aFunction practice pages 132-133 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 18.lim 1-4 sin²r x→n/3 cos(x+π/6) x→π/6 cos3x 20.lim x→0 5x （x²+3x-1） tanz x→0 22.lim .23.lim x+x²-2 x→0 x²+2x x→1 sin(z-1) 24.lim coszsinx-tanz 25. lim 1-cos5x x→0 x² sin x x→0 3x"
+  },
+  {
+    "misconception_id": "misc_92adfc8b72",
+    "concept_id": "concept_c11559b955",
+    "misconception": "9.3 TheDerivative of aFunction practice pages 132-133 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 9.3 TheDerivative of aFunction practice pages 132-133 is valid."
+  },
+  {
+    "misconception_id": "misc_5ca9aff4f8",
+    "concept_id": "concept_e929a4228c",
+    "misconception": "9.4 IntegralCalculus.MiscellaneousProblems practice pages 134-138 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 11.Find the critical points of the function f (x)=4x²—6x²cos 2a+3x sin 2a sin 6a +VIn (2a-a²). Does f(z)decrease or increase at the point x = 1/2? 12.Does f(x)decrease or increase "
+  },
+  {
+    "misconception_id": "misc_e5ff6d3cbe",
+    "concept_id": "concept_e929a4228c",
+    "misconception": "9.4 IntegralCalculus.MiscellaneousProblems practice pages 134-138 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 9.4 IntegralCalculus.MiscellaneousProblems practice pages 134-138 is valid."
+  },
+  {
+    "misconception_id": "misc_43b6bd0c99",
+    "concept_id": "concept_afd5a9c26a",
+    "misconception": "1.1 LinearEquations andInequalities in OneVariable practice pages 139-140 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: ANSWERS,HINTS,SOLUTIONS Chapter1 RATIONALEQUATIONS,INEQUALITIES ANDFUNCTIONSINONEVARIABLE 1.1.LinearEquations andInequalities in OneVariable. A Linear Function 1.{1}.2.{-7}.3.(a){c"
+  },
+  {
+    "misconception_id": "misc_ee758b297f",
+    "concept_id": "concept_afd5a9c26a",
+    "misconception": "1.1 LinearEquations andInequalities in OneVariable practice pages 139-140 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 1.1 LinearEquations andInequalities in OneVariable practice pages 139-140 is valid."
+  },
+  {
+    "misconception_id": "misc_f77f66cdec",
+    "concept_id": "concept_78fabb746d",
+    "misconception": "1.2 Quadratic Equations andInequalities practice pages 144-149 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 53.Since the given function is defined in the neighbourhood of the point x=0 and y (0)=1 at that point itself,it follows that for this function to be continuous at that point,it is"
+  },
+  {
+    "misconception_id": "misc_428aba7269",
+    "concept_id": "concept_78fabb746d",
+    "misconception": "1.2 Quadratic Equations andInequalities practice pages 144-149 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 1.2 Quadratic Equations andInequalities practice pages 144-149 is valid."
+  },
+  {
+    "misconception_id": "misc_942d1e5ea6",
+    "concept_id": "concept_2c57fddca7",
+    "misconception": "1.3 InverseProportionality practice pages 150-152 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: E（—1；1/2).At the pointx=-1 the derivative of the function does not exist (the pointx=—1 is critical)，but inits neighbourhood thederivative of the function exists and changes sign f"
+  },
+  {
+    "misconception_id": "misc_06ff627bf7",
+    "concept_id": "concept_2c57fddca7",
+    "misconception": "1.3 InverseProportionality practice pages 150-152 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 1.3 InverseProportionality practice pages 150-152 is valid."
+  },
+  {
+    "misconception_id": "misc_686aa45bb8",
+    "concept_id": "concept_6a9f8ae9e4",
+    "misconception": "1.4 Equations and Inequalities of Higher Degrees practice pages 158-163 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: (a) (b) 2 1 d (e) 2 2 5 11 (x+2)2 (1) (2x—1）² (g) （x+1）2； (h) (1-3x)2 16.（a)-3;(b)1/4;(c)--1;(d)-1.17.（a)n/4;(b)arctan 5 9 (c)n-arctan 1 ；(d)π-arctan 4;(e)π—arctan 5 ；(f)π- -arctan"
+  },
+  {
+    "misconception_id": "misc_67846cea6e",
+    "concept_id": "concept_6a9f8ae9e4",
+    "misconception": "1.4 Equations and Inequalities of Higher Degrees practice pages 158-163 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 1.4 Equations and Inequalities of Higher Degrees practice pages 158-163 is valid."
+  },
+  {
+    "misconception_id": "misc_3350db56a6",
+    "concept_id": "concept_d3d5fa9c90",
+    "misconception": "1.4 Equations and Inequalities of Higher Degrees practice pages 164-167 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 52.0n theintervals （—; -2/v3) and (2/v3;o）thefunction （V3-1） decreases,on the interval 2 (-2/v3;2/v3)itin- creases;x=-2/v3 isa pointof minimum;x=2/√3 point_of maxi- mum;y(-2/√/3)=-"
+  },
+  {
+    "misconception_id": "misc_46f40e953f",
+    "concept_id": "concept_d3d5fa9c90",
+    "misconception": "1.4 Equations and Inequalities of Higher Degrees practice pages 164-167 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 1.4 Equations and Inequalities of Higher Degrees practice pages 164-167 is valid."
+  },
+  {
+    "misconception_id": "misc_315695e720",
+    "concept_id": "concept_78a9088b3c",
+    "misconception": "1.5 Linear Systems ofEquations andInequalities practice pages 168-170 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 1.5.Linear Systems ofEquations andInequalities 1.（a）{（0;0）}；(b）1{（c,，c/2）1c∈R}；（c)（c，c2）Ic∈R，c∈R}； (d)（c;0)1c∈R};(e).2.(a){（1；-1）}；(b){(3/4+2c,c)1c∈R}； (c)0;（d){（c;4c-1/2)1c∈R}fora"
+  },
+  {
+    "misconception_id": "misc_47c1908d9b",
+    "concept_id": "concept_78a9088b3c",
+    "misconception": "1.5 Linear Systems ofEquations andInequalities practice pages 168-170 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 1.5 Linear Systems ofEquations andInequalities practice pages 168-170 is valid."
+  },
+  {
+    "misconception_id": "misc_1f93497df0",
+    "concept_id": "concept_48e09ef5fc",
+    "misconception": "1.6 Systems ofEquations andInequalities practice pages 171-173 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: NowwefindS=2y/5+z/2=25-z/2+z/2=25； (b){(27；10;42)}.Since,by the hypothesis,x,y andz are natural numbers,it follows thatx=3k,y=5land z=6m,where kE N IE N, m E N. The system of equat"
+  },
+  {
+    "misconception_id": "misc_53f2e956ab",
+    "concept_id": "concept_48e09ef5fc",
+    "misconception": "1.6 Systems ofEquations andInequalities practice pages 171-173 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 1.6 Systems ofEquations andInequalities practice pages 171-173 is valid."
+  },
+  {
+    "misconception_id": "misc_cbeb6137fb",
+    "concept_id": "concept_ddaf06dfd0",
+    "misconception": "2.1 Irrational Equations and Inequalities practice pages 175-179 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Chapter2 TRANSCENDENTALFUNCTIONS,EQUATIONS ANDINEQUALITIES 2.1.Irrational Equations and Inequalities 1.{a²-1}fora ∈[0;oo），fora∈（—oo;0).2.（a—3)/2} for a∈[—3;oo)， fora∈（-oo;-3）.3.{3}"
+  },
+  {
+    "misconception_id": "misc_a4d4dc53fb",
+    "concept_id": "concept_ddaf06dfd0",
+    "misconception": "2.1 Irrational Equations and Inequalities practice pages 175-179 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.1 Irrational Equations and Inequalities practice pages 175-179 is valid."
+  },
+  {
+    "misconception_id": "misc_77003d0c9c",
+    "concept_id": "concept_e4db108e9c",
+    "misconception": "2.2 Systems ofIrrationalEquations practice pages 180-180 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 2.2.Systems ofIrrationalEquations andInequalities 1.(a){（16;30)}.●Set 1/Vx-7=u，1/Vy+6=v;（b）{(41;40)}. 2.(a)(（c;c—1)1c∈R,except for c=1/2);(b){-1/2;-2/5);(5; 4)}.3.{(V(3V109+9)/2;V("
+  },
+  {
+    "misconception_id": "misc_e40973f812",
+    "concept_id": "concept_e4db108e9c",
+    "misconception": "2.2 Systems ofIrrationalEquations practice pages 180-180 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.2 Systems ofIrrationalEquations practice pages 180-180 is valid."
+  },
+  {
+    "misconception_id": "misc_a4067d3f5c",
+    "concept_id": "concept_86b20d7384",
+    "misconception": "2.3 An Exponential and aLogarithmic Functions, practice pages 181-186 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 2.3.An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsandInequalities 1. The numbers given in (b), (c), (e),(i), (i),(k), (l) exceed"
+  },
+  {
+    "misconception_id": "misc_9a0908c5d7",
+    "concept_id": "concept_86b20d7384",
+    "misconception": "2.3 An Exponential and aLogarithmic Functions, practice pages 181-186 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.3 An Exponential and aLogarithmic Functions, practice pages 181-186 is valid."
+  },
+  {
+    "misconception_id": "misc_ae416184be",
+    "concept_id": "concept_7df0ec68cd",
+    "misconception": "2.3 An Exponential and aLogarithmic Functions, practice pages 187-190 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: U[1;2)U(2;7/2).63.(3;5-V3)U (7;∞0).64.(a)(1;2); (b)(0;3)U(4;6)U (6;12)U (14;∞0).65.(a)(0;4);(b)[2,4)； (c)(1/2,4);(d) (1; 2).66.(a)(0; 2).Reduce the inequality to the form(2x-1)(25-"
+  },
+  {
+    "misconception_id": "misc_2c4919ed59",
+    "concept_id": "concept_7df0ec68cd",
+    "misconception": "2.3 An Exponential and aLogarithmic Functions, practice pages 187-190 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.3 An Exponential and aLogarithmic Functions, practice pages 187-190 is valid."
+  },
+  {
+    "misconception_id": "misc_3e3e2e8d3d",
+    "concept_id": "concept_9b3dbd356a",
+    "misconception": "2.4 Transformation of TrigonometricExpressions practice pages 191-192 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 99. 100. 2.4.Transformation of TrigonometricExpressions 2.（a）V2-a²;（b）1-（a-1）/2.sinα+cosa=（sinα+ +cosα)-2（sinαacosα）=1-2（a-1)/2)².3.（a）p2； (b）p-3p.4.(a)（4V3+3)/10;(b）（V3(1-b)-b）/2."
+  },
+  {
+    "misconception_id": "misc_88861e5110",
+    "concept_id": "concept_9b3dbd356a",
+    "misconception": "2.4 Transformation of TrigonometricExpressions practice pages 191-192 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.4 Transformation of TrigonometricExpressions practice pages 191-192 is valid."
+  },
+  {
+    "misconception_id": "misc_b9da578706",
+    "concept_id": "concept_7d3b7f64b8",
+    "misconception": "2.5 TrigonometricFunctions practice pages 193-199 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: itis clear from th 2 <，i.e.α+β+=π). 11.(a)(V2-√2)/2.●cos 292°30'=sin 22°30'=V(1-cos 45°)/2i 2sin100 (b)4.cosec 10°—V3sec 10°= sin 10°cos10° 4 sin(30°—10°) =4；（c)V3. 2c0s40°-c0s20° "
+  },
+  {
+    "misconception_id": "misc_74864dd166",
+    "concept_id": "concept_7d3b7f64b8",
+    "misconception": "2.5 TrigonometricFunctions practice pages 193-199 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.5 TrigonometricFunctions practice pages 193-199 is valid."
+  },
+  {
+    "misconception_id": "misc_fe875bfbd9",
+    "concept_id": "concept_28a33373e8",
+    "misconception": "2.6 InverseTrigonometricFunctions practice pages 200-204 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 15.(a) 2 2π 3π 15.(b) 16.（a）cos z+sinz；（b)-（4 cos 2z/sin² 2z);（c)sin 2x;（d）-sin 2x； (e）tan²x（tan²x+1）;（f）-cot²z（cot²x+1）;（g）3cos3x； (h)(—1/v2) sin (x/v2);(i) 2 sin (4x —2);(i） [3 c"
+  },
+  {
+    "misconception_id": "misc_88dca20c91",
+    "concept_id": "concept_28a33373e8",
+    "misconception": "2.6 InverseTrigonometricFunctions practice pages 200-204 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.6 InverseTrigonometricFunctions practice pages 200-204 is valid."
+  },
+  {
+    "misconception_id": "misc_e18e34b5fc",
+    "concept_id": "concept_979d1266a0",
+    "misconception": "2.7 TrigonometricEquations and Systems ofEquations practice pages 205-210 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 25.(a) Suppose f (z)= sin s.Then,by the formula for the derivative (g (z) arcsin z), we find (arcsinx)= 1 1 1 f(aresin x)cos（arcsina)1 (b) the proof is similar to that carried out "
+  },
+  {
+    "misconception_id": "misc_407ee7ed1c",
+    "concept_id": "concept_979d1266a0",
+    "misconception": "2.7 TrigonometricEquations and Systems ofEquations practice pages 205-210 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.7 TrigonometricEquations and Systems ofEquations practice pages 205-210 is valid."
+  },
+  {
+    "misconception_id": "misc_b3d55404e7",
+    "concept_id": "concept_45733a2de0",
+    "misconception": "2.7 TrigonometricEquations and Systems ofEquations practice pages 211-216 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: +arctan- n∈Zforc²≤a²+b², for c²>a²+b².Since a²+b²≠0，wedividetheequation byVa²+b²andget an equation a b COS3十 sinx= c Va²+b2 Va²+b2 Va²+b， (1) equivalent to the originalequation.The"
+  },
+  {
+    "misconception_id": "misc_7e5ce5b05f",
+    "concept_id": "concept_45733a2de0",
+    "misconception": "2.7 TrigonometricEquations and Systems ofEquations practice pages 211-216 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.7 TrigonometricEquations and Systems ofEquations practice pages 211-216 is valid."
+  },
+  {
+    "misconception_id": "misc_f020bce708",
+    "concept_id": "concept_4bf489703b",
+    "misconception": "2.7 TrigonometricEquations and Systems ofEquations practice pages 217-218 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Since sin(5x/4)≤1,cosx≤1,for equation（1)toholditisneces- sary that the equations cos x=1and sin (5x/4)=1hold simulta- neously. Thus we have a system of equations x=2πk, {5x/4=π/2+2"
+  },
+  {
+    "misconception_id": "misc_5b8b4cdf32",
+    "concept_id": "concept_4bf489703b",
+    "misconception": "2.7 TrigonometricEquations and Systems ofEquations practice pages 217-218 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.7 TrigonometricEquations and Systems ofEquations practice pages 217-218 is valid."
+  },
+  {
+    "misconception_id": "misc_8f58dd8253",
+    "concept_id": "concept_9dcfcbddae",
+    "misconception": "2.8 TrigonometricInequalities practice pages 219-220 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 2πk+）；(2nn-；2nk+号）; (2nn+；2nk+ (b）{(2πn±3π/4;πm+(-1）mn/6)1n，mEZ};（c） {(2nn+； 2nk±arccos（))｜n,，k∈7}for a∈(-3;3]，(2nn+π/2; 2nk);(2πn-π/2;π(2k+1）1n，k∈Z}for a=-3， for a∈（-oo； 一3)U(3;∞)"
+  },
+  {
+    "misconception_id": "misc_a0b35002af",
+    "concept_id": "concept_9dcfcbddae",
+    "misconception": "2.8 TrigonometricInequalities practice pages 219-220 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 2.8 TrigonometricInequalities practice pages 219-220 is valid."
+  },
+  {
+    "misconception_id": "misc_20868bf8d9",
+    "concept_id": "concept_55243fb7b8",
+    "misconception": "3.1 ProblemsonMotion practice pages 221-221 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: (—+2sina)1ne2} interval x(0; π/2). 33. 1 for aE(0; π/6]U [5π/6;4)，{πn|n∈Z} for a∈(π/6, 5π/6).34。 πn,πn±a 1 2-cosa arccos nEZ}for αE[-1;], 2 {πn|nEZ}fora∈(;3].35.{πn±aretan Vcosec a"
+  },
+  {
+    "misconception_id": "misc_f9accbf422",
+    "concept_id": "concept_55243fb7b8",
+    "misconception": "3.1 ProblemsonMotion practice pages 221-221 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 3.1 ProblemsonMotion practice pages 221-221 is valid."
+  },
+  {
+    "misconception_id": "misc_da79e7e616",
+    "concept_id": "concept_e585373915",
+    "misconception": "3.2 Problems on Percentages,Mixtures, practice pages 222-222 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Setting u/v=z,u=zv and dividing the first equation by the sec- ond,we get an equation - 2Sx 4Sx13 26.a(V2+1)h.27. 10 and 5 h. 28.3 and 6 h, or (V145-1)/6h 6 2p 2n P+n cars travelle"
+  },
+  {
+    "misconception_id": "misc_e6f165a9ea",
+    "concept_id": "concept_e585373915",
+    "misconception": "3.2 Problems on Percentages,Mixtures, practice pages 222-222 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 3.2 Problems on Percentages,Mixtures, practice pages 222-222 is valid."
+  },
+  {
+    "misconception_id": "misc_a512797e41",
+    "concept_id": "concept_6a958536a0",
+    "misconception": "3.3 Problems onDerivingInequalitiesand Systems practice pages 223-224 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 11.40 m,25m.12.45 metres of black fabric,36metres of green fabric and 30metres ofblue fabric.13.50m2/min.14.4.8h;4.8h or 4h; 6h.15.15h.Supposexis the time period forwhich the secon"
+  },
+  {
+    "misconception_id": "misc_2b236381f7",
+    "concept_id": "concept_6a958536a0",
+    "misconception": "3.3 Problems onDerivingInequalitiesand Systems practice pages 223-224 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 3.3 Problems onDerivingInequalitiesand Systems practice pages 223-224 is valid."
+  },
+  {
+    "misconception_id": "misc_558b1906cf",
+    "concept_id": "concept_d5335cf614",
+    "misconception": "4.1 The Antiderivative.The Newton-LeibnizFormula practice pages 225-226 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: of thereservoir (S>O)，then 0.3S 0.7S S（1 7 We find the derivative of the function t(o): t'（）=- 1 49 25 0（(20-v）（90+70)² 25 E(1，10); at the pointu=25/7 the derivative changes sign（a"
+  },
+  {
+    "misconception_id": "misc_3bd97e2ea0",
+    "concept_id": "concept_d5335cf614",
+    "misconception": "4.1 The Antiderivative.The Newton-LeibnizFormula practice pages 225-226 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 4.1 The Antiderivative.The Newton-LeibnizFormula practice pages 225-226 is valid."
+  },
+  {
+    "misconception_id": "misc_00b730284e",
+    "concept_id": "concept_5510e8ae01",
+    "misconception": "4.2 CalculatingtheAreasofPlane Figures practice pages 227-229 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: -cos 12x+C. 14.(a)tan4z+C; (b) 一4cot+C; (c)tanz- 1 3 -a+C.○Use the identity 1+tan²x=1/cos²x;(d)C-cot x-z. 15.（a)x3-2x.▲F（x)=(3x²-2)dz=x²-2x+C.Wehave F(2)=23-2.2+C=4,whencewe get C="
+  },
+  {
+    "misconception_id": "misc_be4cabd748",
+    "concept_id": "concept_5510e8ae01",
+    "misconception": "4.2 CalculatingtheAreasofPlane Figures practice pages 227-229 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 4.2 CalculatingtheAreasofPlane Figures practice pages 227-229 is valid."
+  },
+  {
+    "misconception_id": "misc_a0b80ae151",
+    "concept_id": "concept_cd9ec05584",
+    "misconception": "5.1 Progressions practice pages 230-232 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Theareaof thecurvilinear trapezoidABDOcanbe foundbyintegrat- ing thefunction =evin thelimits from 0 toln2（the ordinates of the points Oand A respectively): yA 1n2 SABDO= eW dy =eln"
+  },
+  {
+    "misconception_id": "misc_32c90d36ad",
+    "concept_id": "concept_cd9ec05584",
+    "misconception": "5.1 Progressions practice pages 230-232 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 5.1 Progressions practice pages 230-232 is valid."
+  },
+  {
+    "misconception_id": "misc_f3d61f3e33",
+    "concept_id": "concept_631a52d707",
+    "misconception": "5.2 NumberSequences practice pages 233-235 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: wehaveasystemofequations {vgt=vt+400, vt=vg（t+2/3）， wheretis the time during which the second skater ran a circlemore than the first.Excluding tfrom these equations，we get（u—v)vs/ "
+  },
+  {
+    "misconception_id": "misc_7a0fdec785",
+    "concept_id": "concept_631a52d707",
+    "misconception": "5.2 NumberSequences practice pages 233-235 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 5.2 NumberSequences practice pages 233-235 is valid."
+  },
+  {
+    "misconception_id": "misc_4e0b2b1d46",
+    "concept_id": "concept_310360799c",
+    "misconception": "6.1 Linear Operations onVectors practice pages 236-236 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Chapter 6 ELEMENTSOFVECTORALGEBRA 6.1.Linear Operations onVectors 1.(a) The vectors a and b must be mutually perpendicular;(b) the anglebetween thevectors a and b mustbe acute;(c)t"
+  },
+  {
+    "misconception_id": "misc_b53d3e0115",
+    "concept_id": "concept_310360799c",
+    "misconception": "6.1 Linear Operations onVectors practice pages 236-236 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 6.1 Linear Operations onVectors practice pages 236-236 is valid."
+  },
+  {
+    "misconception_id": "misc_294282aaac",
+    "concept_id": "concept_6bcc14f8fd",
+    "misconception": "6.2 The ScalarProduct of Vectors practice pages 237-240 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: (AB)II (CD).18.(1.5;1;-2).19.Show that CD=-—2AB.20. V18.21.(a)(4V2;-2;8)，(-4√2;2;-8);(b)(-24;32;30);(c) -6;8; 24).22.M (—1;0; 0).○Use the equality| MA|=|MB 1, where MA = (1 -z; 2; "
+  },
+  {
+    "misconception_id": "misc_e0c7533b89",
+    "concept_id": "concept_6bcc14f8fd",
+    "misconception": "6.2 The ScalarProduct of Vectors practice pages 237-240 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 6.2 The ScalarProduct of Vectors practice pages 237-240 is valid."
+  },
+  {
+    "misconception_id": "misc_e8fa3c1136",
+    "concept_id": "concept_01dfdd2964",
+    "misconception": "7.1 Problems onProvingProportions practice pages 241-244 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Chapter7 PLANEGEOMETRY 7.1.Problems onProvingProportions 1. ▲(1) C E [AB]. Supposing that C E [AM],we have |AC|+丨CM丨=|AM|and丨BC|=|CM丨+1MB|= = I CM 1 + I AM I. Excluding|AM|from the"
+  },
+  {
+    "misconception_id": "misc_b223b6f9c0",
+    "concept_id": "concept_01dfdd2964",
+    "misconception": "7.1 Problems onProvingProportions practice pages 241-244 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 7.1 Problems onProvingProportions practice pages 241-244 is valid."
+  },
+  {
+    "misconception_id": "misc_085853a8f9",
+    "concept_id": "concept_157b94d8d6",
+    "misconception": "7.2 Construction Problems practice pages 245-246 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Provethat MPN=MFH，PNQ=PMQ.18.Rotationofthe triangle DBF about the point B through the angle of 90°(see the F A P C figure)carries the pointD into the point D,and the point Finto th"
+  },
+  {
+    "misconception_id": "misc_c9452db60e",
+    "concept_id": "concept_157b94d8d6",
+    "misconception": "7.2 Construction Problems practice pages 245-246 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 7.2 Construction Problems practice pages 245-246 is valid."
+  },
+  {
+    "misconception_id": "misc_e02953949d",
+    "concept_id": "concept_d29f22e744",
+    "misconception": "7.3 Problems on Calculation practice pages 247-251 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: A K]is a segment of the tangent drawn from the pointA to thegiven circle (K being the point of tangency)(see problem 15 in 7.1).11. Find theradii R，R，Rgof thecircles from the syste"
+  },
+  {
+    "misconception_id": "misc_555f92dc81",
+    "concept_id": "concept_d29f22e744",
+    "misconception": "7.3 Problems on Calculation practice pages 247-251 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 7.3 Problems on Calculation practice pages 247-251 is valid."
+  },
+  {
+    "misconception_id": "misc_ea79aeb258",
+    "concept_id": "concept_165743b2c0",
+    "misconception": "8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution practice pages 252-256 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: （x=5/4,y=7/4)defines the coordinates of the point A.Suppose c and yc are the coordinates of the point C.ThenxB=（xA+c)/2, yB=(yA+yc)/2.Wehavea systemof equations x+y=2, c+5/4 2 2 =1"
+  },
+  {
+    "misconception_id": "misc_e4a13c2196",
+    "concept_id": "concept_165743b2c0",
+    "misconception": "8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution practice pages 252-256 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution practice pages 252-256 is valid."
+  },
+  {
+    "misconception_id": "misc_4de162ef00",
+    "concept_id": "concept_01295855fc",
+    "misconception": "8.2 Problemson CombinationsofPolyhedra practice pages 257-262 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: 47. πV6 a3.48. 2n-3V3 27 10π+3√3· (1+sin） a 49. 7 cos cos²β 8.2.Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- tions: V V sin (α"
+  },
+  {
+    "misconception_id": "misc_54e58f9e9e",
+    "concept_id": "concept_01295855fc",
+    "misconception": "8.2 Problemson CombinationsofPolyhedra practice pages 257-262 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 8.2 Problemson CombinationsofPolyhedra practice pages 257-262 is valid."
+  },
+  {
+    "misconception_id": "misc_4c91e8d463",
+    "concept_id": "concept_40907e2e0b",
+    "misconception": "8.2 Problemson CombinationsofPolyhedra practice pages 263-263 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: have: r=Rcot 2， 2 V(Φ）= πR3 3 2， PE(o,=). We introduce a new variable t= tan(p/2)and differentiate the function obtained.Then wehave V (t)= 2R3 1 3(1-t)a，t∈(0,1)， 2πR32(2t²-1) V'(t"
+  },
+  {
+    "misconception_id": "misc_5a750e2a5c",
+    "concept_id": "concept_40907e2e0b",
+    "misconception": "8.2 Problemson CombinationsofPolyhedra practice pages 263-263 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 8.2 Problemson CombinationsofPolyhedra practice pages 263-263 is valid."
+  },
+  {
+    "misconception_id": "misc_9aef9b94ce",
+    "concept_id": "concept_7851214b7a",
+    "misconception": "8.3 VolumesofSolidsofRevolution practice pages 264-264 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Let us find now the length of the generatrix of the cone (of the lateral edgeof thepyramid):l=h/sinβ.We can now find the expression fortheareaofthesection: Ssec=（sinβ） 1 h sin @= 1"
+  },
+  {
+    "misconception_id": "misc_f7ee4c8d32",
+    "concept_id": "concept_7851214b7a",
+    "misconception": "8.3 VolumesofSolidsofRevolution practice pages 264-264 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 8.3 VolumesofSolidsofRevolution practice pages 264-264 is valid."
+  },
+  {
+    "misconception_id": "misc_97be741dd7",
+    "concept_id": "concept_0a20a893b0",
+    "misconception": "9.1 ProblemsinAlgebra practice pages 265-269 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: (c)18π/5;(d)2.1n;(e)8n.7.The diagonal of a square is perpen- dicular to theaxisofrevolution.Denoting thelength of theside of the square by a,and the magnitude of the angle formed b"
+  },
+  {
+    "misconception_id": "misc_0ec34e00e6",
+    "concept_id": "concept_0a20a893b0",
+    "misconception": "9.1 ProblemsinAlgebra practice pages 265-269 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 9.1 ProblemsinAlgebra practice pages 265-269 is valid."
+  },
+  {
+    "misconception_id": "misc_ba4338c46f",
+    "concept_id": "concept_7c05741f2e",
+    "misconception": "9.2 Limit of a Function.Continuity practice pages 270-272 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: strictly decreasing）.On the other hand，the function f（x)belng even， wehave f（-x)=f（x)，which fact leads to a contradiction.31.f（x)= =0.By the definition of an even function，we have "
+  },
+  {
+    "misconception_id": "misc_824c1cd9c9",
+    "concept_id": "concept_7c05741f2e",
+    "misconception": "9.2 Limit of a Function.Continuity practice pages 270-272 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 9.2 Limit of a Function.Continuity practice pages 270-272 is valid."
+  },
+  {
+    "misconception_id": "misc_3b80d576c7",
+    "concept_id": "concept_41e12f8bde",
+    "misconception": "9.3 TheDerivative ofaFunction practice pages 273-274 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Now we can calculate the limits: /1+x²-1 lim f1（x)=lim x→0 x→0 2+x² 1+x²-1 lim x→0x（x+1）（(1+x)²+1+x²+1） lim (x+1)(/（1+x)²+1+x²+1) =0， x→0 1-√1-2x limf2(z)=lim x→0 x→0 （1+x) 1—(1-2x"
+  },
+  {
+    "misconception_id": "misc_3659d056a4",
+    "concept_id": "concept_41e12f8bde",
+    "misconception": "9.3 TheDerivative ofaFunction practice pages 273-274 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 9.3 TheDerivative ofaFunction practice pages 273-274 is valid."
+  },
+  {
+    "misconception_id": "misc_d9bdfcd4eb",
+    "concept_id": "concept_7efa7a3bb2",
+    "misconception": "9.4 Integral Calculus.MiscellaneousProblems practice pages 275-280 is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: is positive and cos 2<0.12.It decreases.13.[—4;(3-V21)/2] U U (1; 0).14. [—7;1) U [2;3].15. 1 function has a period 2nt and find its largest and least values on the interval [0;2n]"
+  },
+  {
+    "misconception_id": "misc_91cc98510f",
+    "concept_id": "concept_7efa7a3bb2",
+    "misconception": "9.4 Integral Calculus.MiscellaneousProblems practice pages 275-280 always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when 9.4 Integral Calculus.MiscellaneousProblems practice pages 275-280 is valid."
+  }
+]

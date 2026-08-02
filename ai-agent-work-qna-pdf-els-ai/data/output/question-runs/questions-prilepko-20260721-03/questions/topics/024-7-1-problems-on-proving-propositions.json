@@ -1,0 +1,845 @@
+{
+  "key": "7.1",
+  "topic": "7.1 Problems on Proving Propositions",
+  "questions": [
+    {
+      "question": {
+        "id": "302accd9-3c7c-50a5-bd56-c61beb0cf4a7",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "In \\(\\triangle ABC\\), \\(M\\) is the midpoint of \\(AB\\). If \\(|AC|=13\\), \\(|BC|=15\\), and \\(|AB|=14\\), then find \\(|CM|\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "By Apollonius' theorem, \\(2(AC^2+BC^2)=AB^2+2CM^2\\). Hence \\(2(13^2+15^2)=14^2+2CM^2\\), so \\(CM^2=148\\) and \\(CM=2\\sqrt{37}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 116,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.1 Problems on Proving Propositions",
+            "concept_ids": [
+              "concept_01dfdd2964",
+              "concept_e007a08ac3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              106,
+              107,
+              240,
+              241,
+              242,
+              243
+            ],
+            "source_chunk_ids": [
+              "chunk_6c5355049c",
+              "chunk_9bd1e71e24"
+            ]
+          },
+          "options": [
+            {
+              "id": "2_sqrt_37_1",
+              "label": "\\(2\\sqrt{37}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Apollonius' theorem gives \\(CM^2=148\\)."
+            },
+            {
+              "id": "sqrt_37_2",
+              "label": "\\(\\sqrt{37}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factor \\(2\\) is missed after taking the square root."
+            },
+            {
+              "id": "4_sqrt_37_3",
+              "label": "\\(4\\sqrt{37}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The square root of \\(148\\) is not \\(4\\sqrt{37}\\)."
+            },
+            {
+              "id": "sqrt_148_4",
+              "label": "\\(\\sqrt{148}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is an unsimplified value, not the stated simplified answer."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "triangle",
+            "width": 360,
+            "height": 300,
+            "xmin": -1.5,
+            "xmax": 6.5,
+            "ymin": -1.5,
+            "ymax": 5.5,
+            "title": null,
+            "elements": [
+              {
+                "type": "polygon",
+                "points": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    5.0,
+                    0.0
+                  ],
+                  [
+                    2.0,
+                    4.0
+                  ]
+                ],
+                "label": null,
+                "fill": "none",
+                "fill_opacity": 0.25,
+                "stroke": "#333333",
+                "closed": true
+              },
+              {
+                "type": "label",
+                "at": [
+                  0.0,
+                  0.0
+                ],
+                "text": "A",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  5.0,
+                  0.0
+                ],
+                "text": "B",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  2.0,
+                  4.0
+                ],
+                "text": "C",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><polygon points=\"88.75,216.29 271.25,216.29 161.75,83.71\" fill=\"none\" fill-opacity=\"0.25\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"94.75\" y=\"210.29\" fill=\"#111111\">A</text><text x=\"277.25\" y=\"210.29\" fill=\"#111111\">B</text><text x=\"167.75\" y=\"77.71\" fill=\"#111111\">C</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "61890bac-d550-5f77-a37f-8e767a94a82e",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "In \\(\\triangle ABC\\), \\(AD\\) bisects \\(\\angle A\\) and meets \\(BC\\) at \\(D\\). If \\(|AB|=9\\), \\(|AC|=6\\), and \\(|BC|=10\\), find \\(|BD|\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "By the angle-bisector theorem, \\(\\frac{BD}{DC}=\\frac{AB}{AC}=\\frac{9}{6}=\\frac{3}{2}\\). Let \\(BD=3k\\) and \\(DC=2k\\). Since \\(BC=10\\), \\(5k=10\\), giving \\(BD=6\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 117,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.1 Problems on Proving Propositions",
+            "concept_ids": [
+              "concept_01dfdd2964",
+              "concept_e007a08ac3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              106,
+              107,
+              240,
+              241,
+              242,
+              243
+            ],
+            "source_chunk_ids": [
+              "chunk_6c5355049c",
+              "chunk_9bd1e71e24"
+            ]
+          },
+          "options": [
+            {
+              "id": "6_1",
+              "label": "\\(6\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The angle-bisector theorem gives \\(BD:DC=3:2\\)."
+            },
+            {
+              "id": "4_2",
+              "label": "\\(4\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the value of \\(DC\\), not \\(BD\\)."
+            },
+            {
+              "id": "5_3",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This incorrectly assumes that \\(D\\) is the midpoint of \\(BC\\)."
+            },
+            {
+              "id": "frac_15_2_4",
+              "label": "\\(\\frac{15}{2}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The side ratio has been applied incorrectly."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "triangle",
+            "width": 360,
+            "height": 300,
+            "xmin": -1.5,
+            "xmax": 7.5,
+            "ymin": -1.5,
+            "ymax": 5.5,
+            "title": null,
+            "elements": [
+              {
+                "type": "polygon",
+                "points": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    6.0,
+                    0.0
+                  ],
+                  [
+                    2.0,
+                    4.0
+                  ]
+                ],
+                "label": null,
+                "fill": "none",
+                "fill_opacity": 0.25,
+                "stroke": "#333333",
+                "closed": true
+              },
+              {
+                "type": "label",
+                "at": [
+                  0.0,
+                  0.0
+                ],
+                "text": "B",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  6.0,
+                  0.0
+                ],
+                "text": "C",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  2.0,
+                  4.0
+                ],
+                "text": "A",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "angle",
+                "vertex": [
+                  2.0,
+                  4.0
+                ],
+                "p1": [
+                  0.0,
+                  0.0
+                ],
+                "p2": [
+                  6.0,
+                  0.0
+                ],
+                "label": "\\angle A",
+                "radius_px": 22.0,
+                "color": "#9467bd"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><polygon points=\"82.67,216.29 277.33,216.29 147.56,83.71\" fill=\"none\" fill-opacity=\"0.25\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"88.67\" y=\"210.29\" fill=\"#111111\">B</text><text x=\"283.33\" y=\"210.29\" fill=\"#111111\">C</text><text x=\"153.56\" y=\"77.71\" fill=\"#111111\">A</text><path d=\"M 137.88 103.47 A 22 22 0 1 1 162.95 99.44\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"142.15\" y=\"50.15\" text-anchor=\"middle\" fill=\"#9467bd\">\\angle A</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "ec1cf2ce-abf3-53e8-a0f5-285317e3842c",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Five distinct straight lines pass through a point \\(O\\). In one fixed half-plane, the five consecutive angles between the rays are \\(\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4,\\alpha_5\\), where \\(\\alpha_1=24^\\circ\\), \\(\\alpha_2=37^\\circ\\), \\(\\alpha_3=41^\\circ\\), and \\(\\alpha_4=28^\\circ\\). Find \\(\\alpha_5\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The five consecutive angles in a half-plane form a straight angle, so their sum is \\(180^\\circ\\). Therefore, \\(\\alpha_5=180^\\circ-(24^\\circ+37^\\circ+41^\\circ+28^\\circ)=50^\\circ\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 118,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "7.1 Problems on Proving Propositions",
+            "concept_ids": [
+              "concept_01dfdd2964",
+              "concept_e007a08ac3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              106,
+              107,
+              240,
+              241,
+              242,
+              243
+            ],
+            "source_chunk_ids": [
+              "chunk_6c5355049c",
+              "chunk_9bd1e71e24"
+            ]
+          },
+          "options": [
+            {
+              "id": "50_circ_1",
+              "label": "\\(50^\\circ\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The five consecutive angles form a straight angle."
+            },
+            {
+              "id": "40_circ_2",
+              "label": "\\(40^\\circ\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The given angles do not sum to \\(140^\\circ\\)."
+            },
+            {
+              "id": "70_circ_3",
+              "label": "\\(70^\\circ\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The required remainder is not \\(70^\\circ\\)."
+            },
+            {
+              "id": "130_circ_4",
+              "label": "\\(130^\\circ\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the sum of the first four angles."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "angle",
+            "width": 360,
+            "height": 300,
+            "xmin": -4.0,
+            "xmax": 4.0,
+            "ymin": -1.0,
+            "ymax": 1.0000000000000004,
+            "title": null,
+            "elements": [
+              {
+                "type": "segment",
+                "a": [
+                  0.0,
+                  0.0
+                ],
+                "b": [
+                  3.0,
+                  0.0
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  0.0,
+                  0.0
+                ],
+                "b": [
+                  -3.0,
+                  3.6739403974420594e-16
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "angle",
+                "vertex": [
+                  0.0,
+                  0.0
+                ],
+                "p1": [
+                  3.0,
+                  0.0
+                ],
+                "p2": [
+                  -3.0,
+                  3.6739403974420594e-16
+                ],
+                "label": "\\(180^\\circ\\)",
+                "radius_px": 22.0,
+                "color": "#9467bd"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><line x1=\"180\" y1=\"150\" x2=\"289.5\" y2=\"150\" stroke=\"#333333\" stroke-width=\"1.8\"/><line x1=\"180\" y1=\"150\" x2=\"70.5\" y2=\"150\" stroke=\"#333333\" stroke-width=\"1.8\"/><path d=\"M 202 150 A 22 22 0 1 1 158 150\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"180\" y=\"184\" text-anchor=\"middle\" fill=\"#9467bd\">\\(180^\\circ\\)</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "7e311c9c-3b01-571d-8e6e-0d0f25afccc8",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "In \\(\\triangle ABC\\), points \\(D\\) and \\(E\\) are the midpoints of \\(AB\\) and \\(AC\\), respectively. If \\(|BC|=18\\text{ cm}\\), find \\(|DE|\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "By the midpoint theorem, the segment joining the midpoints of two sides of a triangle is parallel to the third side and has half its length. Thus \\(|DE|=\\frac{1}{2}|BC|=\\frac{1}{2}\\times18=9\\text{ cm}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 119,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.1 Problems on Proving Propositions",
+            "concept_ids": [
+              "concept_01dfdd2964",
+              "concept_e007a08ac3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              106,
+              107,
+              240,
+              241,
+              242,
+              243
+            ],
+            "source_chunk_ids": [
+              "chunk_6c5355049c",
+              "chunk_9bd1e71e24"
+            ]
+          },
+          "options": [
+            {
+              "id": "9_text_cm_1",
+              "label": "\\(9\\text{ cm}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The midpoint theorem gives \\(DE=\\frac{1}{2}BC\\)."
+            },
+            {
+              "id": "18_text_cm_2",
+              "label": "\\(18\\text{ cm}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This equals \\(BC\\), not half of \\(BC\\)."
+            },
+            {
+              "id": "36_text_cm_3",
+              "label": "\\(36\\text{ cm}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The theorem does not double the third side."
+            },
+            {
+              "id": "6_text_cm_4",
+              "label": "\\(6\\text{ cm}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The third side has been divided by \\(3\\) instead of \\(2\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "triangle",
+            "width": 360,
+            "height": 300,
+            "xmin": -1.5,
+            "xmax": 7.5,
+            "ymin": -1.5,
+            "ymax": 5.5,
+            "title": null,
+            "elements": [
+              {
+                "type": "polygon",
+                "points": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    6.0,
+                    0.0
+                  ],
+                  [
+                    2.0,
+                    4.0
+                  ]
+                ],
+                "label": null,
+                "fill": "none",
+                "fill_opacity": 0.25,
+                "stroke": "#333333",
+                "closed": true
+              },
+              {
+                "type": "label",
+                "at": [
+                  0.0,
+                  0.0
+                ],
+                "text": "A",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  6.0,
+                  0.0
+                ],
+                "text": "B",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  2.0,
+                  4.0
+                ],
+                "text": "C",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><polygon points=\"82.67,216.29 277.33,216.29 147.56,83.71\" fill=\"none\" fill-opacity=\"0.25\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"88.67\" y=\"210.29\" fill=\"#111111\">A</text><text x=\"283.33\" y=\"210.29\" fill=\"#111111\">B</text><text x=\"153.56\" y=\"77.71\" fill=\"#111111\">C</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "53c68b38-39e1-5e8e-9889-aa3f54e563ea",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The vertices of \\(\\triangle ABC\\) are \\(A(1,2)\\), \\(B(7,2)\\), and \\(C(4,8)\\). If the medians intersect at \\(G\\), which statement is correct?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The centroid is \\(G=\\left(\\frac{1+7+4}{3},\\frac{2+2+8}{3}\\right)=(4,4)\\). The proposition on medians states that the centroid divides every median internally in the ratio \\(2:1\\), measured from the vertex.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 120,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "7.1 Problems on Proving Propositions",
+            "concept_ids": [
+              "concept_01dfdd2964",
+              "concept_e007a08ac3"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              106,
+              107,
+              240,
+              241,
+              242,
+              243
+            ],
+            "source_chunk_ids": [
+              "chunk_6c5355049c",
+              "chunk_9bd1e71e24"
+            ]
+          },
+          "options": [
+            {
+              "id": "G_4_4_and_AG_GD_2_1_wher_1",
+              "label": "\\(G=(4,4)\\) and \\(AG:GD=2:1\\), where \\(D\\) is the midpoint of \\(BC\\).",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The centroid is the average of the vertex coordinates and divides each median in the ratio \\(2:1\\)."
+            },
+            {
+              "id": "G_4_4_and_AG_GD_1_2_2",
+              "label": "\\(G=(4,4)\\) and \\(AG:GD=1:2\\).",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The centroid is closer to the midpoint than to the vertex."
+            },
+            {
+              "id": "G_3_4_and_AG_GD_2_1_3",
+              "label": "\\(G=(3,4)\\) and \\(AG:GD=2:1\\).",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The x-coordinate average is incorrectly calculated."
+            },
+            {
+              "id": "G_4_6_and_AG_GD_1_1_4",
+              "label": "\\(G=(4,6)\\) and \\(AG:GD=1:1\\).",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The centroid is not the midpoint of a median."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "coordinate",
+            "width": 360,
+            "height": 300,
+            "xmin": -0.5,
+            "xmax": 8.5,
+            "ymin": 0.5,
+            "ymax": 9.5,
+            "title": null,
+            "elements": [
+              {
+                "type": "grid",
+                "step_x": 1.0,
+                "step_y": 1.0
+              },
+              {
+                "type": "axes",
+                "x_label": "x",
+                "y_label": "y",
+                "ticks": true,
+                "tick_step": 1.0
+              },
+              {
+                "type": "segment",
+                "a": [
+                  1.0,
+                  2.0
+                ],
+                "b": [
+                  7.0,
+                  2.0
+                ],
+                "label": "AB",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  7.0,
+                  2.0
+                ],
+                "b": [
+                  4.0,
+                  8.0
+                ],
+                "label": "BC",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  4.0,
+                  8.0
+                ],
+                "b": [
+                  1.0,
+                  2.0
+                ],
+                "label": "CA",
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "point",
+                "at": [
+                  1.0,
+                  2.0
+                ],
+                "label": "A",
+                "color": "#d62728"
+              },
+              {
+                "type": "point",
+                "at": [
+                  7.0,
+                  2.0
+                ],
+                "label": "B",
+                "color": "#d62728"
+              },
+              {
+                "type": "point",
+                "at": [
+                  4.0,
+                  8.0
+                ],
+                "label": "C",
+                "color": "#d62728"
+              },
+              {
+                "type": "point",
+                "at": [
+                  4.0,
+                  4.0
+                ],
+                "label": "G",
+                "color": "#d62728"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"50.22\" y1=\"34\" x2=\"50.22\" y2=\"266\"/><line x1=\"82.67\" y1=\"34\" x2=\"82.67\" y2=\"266\"/><line x1=\"115.11\" y1=\"34\" x2=\"115.11\" y2=\"266\"/><line x1=\"147.56\" y1=\"34\" x2=\"147.56\" y2=\"266\"/><line x1=\"180\" y1=\"34\" x2=\"180\" y2=\"266\"/><line x1=\"212.44\" y1=\"34\" x2=\"212.44\" y2=\"266\"/><line x1=\"244.89\" y1=\"34\" x2=\"244.89\" y2=\"266\"/><line x1=\"277.33\" y1=\"34\" x2=\"277.33\" y2=\"266\"/><line x1=\"309.78\" y1=\"34\" x2=\"309.78\" y2=\"266\"/><line x1=\"34\" y1=\"253.11\" x2=\"326\" y2=\"253.11\"/><line x1=\"34\" y1=\"227.33\" x2=\"326\" y2=\"227.33\"/><line x1=\"34\" y1=\"201.56\" x2=\"326\" y2=\"201.56\"/><line x1=\"34\" y1=\"175.78\" x2=\"326\" y2=\"175.78\"/><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"124.22\" x2=\"326\" y2=\"124.22\"/><line x1=\"34\" y1=\"98.44\" x2=\"326\" y2=\"98.44\"/><line x1=\"34\" y1=\"72.67\" x2=\"326\" y2=\"72.67\"/><line x1=\"34\" y1=\"46.89\" x2=\"326\" y2=\"46.89\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"50.22\" y1=\"266\" x2=\"50.22\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"82.67\" y1=\"263\" x2=\"82.67\" y2=\"269\"/><text x=\"82.67\" y=\"280\" text-anchor=\"middle\">1</text><line x1=\"115.11\" y1=\"263\" x2=\"115.11\" y2=\"269\"/><text x=\"115.11\" y=\"280\" text-anchor=\"middle\">2</text><line x1=\"147.56\" y1=\"263\" x2=\"147.56\" y2=\"269\"/><text x=\"147.56\" y=\"280\" text-anchor=\"middle\">3</text><line x1=\"180\" y1=\"263\" x2=\"180\" y2=\"269\"/><text x=\"180\" y=\"280\" text-anchor=\"middle\">4</text><line x1=\"212.44\" y1=\"263\" x2=\"212.44\" y2=\"269\"/><text x=\"212.44\" y=\"280\" text-anchor=\"middle\">5</text><line x1=\"244.89\" y1=\"263\" x2=\"244.89\" y2=\"269\"/><text x=\"244.89\" y=\"280\" text-anchor=\"middle\">6</text><line x1=\"277.33\" y1=\"263\" x2=\"277.33\" y2=\"269\"/><text x=\"277.33\" y=\"280\" text-anchor=\"middle\">7</text><line x1=\"309.78\" y1=\"263\" x2=\"309.78\" y2=\"269\"/><text x=\"309.78\" y=\"280\" text-anchor=\"middle\">8</text><line x1=\"47.22\" y1=\"253.11\" x2=\"53.22\" y2=\"253.11\"/><text x=\"44.22\" y=\"256.11\" text-anchor=\"end\">1</text><line x1=\"47.22\" y1=\"227.33\" x2=\"53.22\" y2=\"227.33\"/><text x=\"44.22\" y=\"230.33\" text-anchor=\"end\">2</text><line x1=\"47.22\" y1=\"201.56\" x2=\"53.22\" y2=\"201.56\"/><text x=\"44.22\" y=\"204.56\" text-anchor=\"end\">3</text><line x1=\"47.22\" y1=\"175.78\" x2=\"53.22\" y2=\"175.78\"/><text x=\"44.22\" y=\"178.78\" text-anchor=\"end\">4</text><line x1=\"47.22\" y1=\"150\" x2=\"53.22\" y2=\"150\"/><text x=\"44.22\" y=\"153\" text-anchor=\"end\">5</text><line x1=\"47.22\" y1=\"124.22\" x2=\"53.22\" y2=\"124.22\"/><text x=\"44.22\" y=\"127.22\" text-anchor=\"end\">6</text><line x1=\"47.22\" y1=\"98.44\" x2=\"53.22\" y2=\"98.44\"/><text x=\"44.22\" y=\"101.44\" text-anchor=\"end\">7</text><line x1=\"47.22\" y1=\"72.67\" x2=\"53.22\" y2=\"72.67\"/><text x=\"44.22\" y=\"75.67\" text-anchor=\"end\">8</text><line x1=\"47.22\" y1=\"46.89\" x2=\"53.22\" y2=\"46.89\"/><text x=\"44.22\" y=\"49.89\" text-anchor=\"end\">9</text></g><text x=\"328\" y=\"270\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"54.22\" y=\"30\" font-size=\"12\" fill=\"#555555\">y</text><line x1=\"82.67\" y1=\"227.33\" x2=\"277.33\" y2=\"227.33\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"184\" y=\"223.33\" fill=\"#333333\">AB</text><line x1=\"277.33\" y1=\"227.33\" x2=\"180\" y2=\"72.67\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"232.67\" y=\"146\" fill=\"#333333\">BC</text><line x1=\"180\" y1=\"72.67\" x2=\"82.67\" y2=\"227.33\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"135.33\" y=\"146\" fill=\"#333333\">CA</text><circle cx=\"82.67\" cy=\"227.33\" r=\"3\" fill=\"#d62728\"/><text x=\"88.67\" y=\"221.33\" fill=\"#111111\">A</text><circle cx=\"277.33\" cy=\"227.33\" r=\"3\" fill=\"#d62728\"/><text x=\"283.33\" y=\"221.33\" fill=\"#111111\">B</text><circle cx=\"180\" cy=\"72.67\" r=\"3\" fill=\"#d62728\"/><text x=\"186\" y=\"66.67\" fill=\"#111111\">C</text><circle cx=\"180\" cy=\"175.78\" r=\"3\" fill=\"#d62728\"/><text x=\"186\" y=\"169.78\" fill=\"#111111\">G</text></svg>"
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_6c5355049c",
+    "chunk_9bd1e71e24"
+  ],
+  "source_pages": [
+    106,
+    107,
+    240,
+    241,
+    242,
+    243
+  ],
+  "rejected": []
+}

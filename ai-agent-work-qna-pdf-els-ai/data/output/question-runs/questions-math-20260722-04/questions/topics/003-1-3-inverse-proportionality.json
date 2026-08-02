@@ -1,0 +1,471 @@
+{
+  "key": "1.3",
+  "topic": "1.3 Inverse Proportionality",
+  "questions": [
+    {
+      "question": {
+        "id": "664a1d24-e232-56b4-8047-8b7341786601",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A positive quantity \\(y\\) varies inversely as a positive quantity \\(x\\). If \\(x\\) changes from \\(5\\) to \\(8\\), the percentage decrease in \\(y\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For inverse proportionality, \\(xy\\) is constant. Thus \\(\\frac{y_2}{y_1}=\\frac{x_1}{x_2}=\\frac{5}{8}\\). The decrease is \\(1-\\frac{5}{8}=\\frac{3}{8}=37.5\\%\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 11,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.3 Inverse Proportionality",
+            "concept_ids": [
+              "concept_2c57fddca7",
+              "concept_5e078c2130"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              18,
+              19,
+              20,
+              149,
+              150,
+              151
+            ],
+            "source_chunk_ids": [
+              "chunk_9118d80f41",
+              "chunk_574daf3a3a"
+            ]
+          },
+          "options": [
+            {
+              "id": "37_5_1",
+              "label": "\\(37.5\\%\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Since \\(y\\propto\\frac{1}{x}\\), the ratio is \\(\\frac{5}{8}\\), giving a decrease of \\(\\frac{3}{8}\\)."
+            },
+            {
+              "id": "30_2",
+              "label": "\\(30\\%\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not use the inverse ratio correctly."
+            },
+            {
+              "id": "60_3",
+              "label": "\\(60\\%\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This incorrectly uses the ratio \\(\\frac{8}{5}\\)."
+            },
+            {
+              "id": "62_5_4",
+              "label": "\\(62.5\\%\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the final ratio expressed as a percentage, not the decrease."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "ab6dc9a7-98f8-54fc-af4d-2aca1e0e2322",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The quantity \\(P\\) varies inversely as \\(\\sqrt{q}\\). If \\(P=10\\) when \\(q=4\\), find \\(P\\) when \\(q=25\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since \\(P\\propto\\frac{1}{\\sqrt{q}}\\), \\(P\\sqrt{q}=k\\). Hence \\(k=10\\sqrt{4}=20\\), and \\(P=\\frac{20}{\\sqrt{25}}=4\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 12,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.3 Inverse Proportionality",
+            "concept_ids": [
+              "concept_2c57fddca7",
+              "concept_5e078c2130"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              18,
+              19,
+              20,
+              149,
+              150,
+              151
+            ],
+            "source_chunk_ids": [
+              "chunk_9118d80f41",
+              "chunk_574daf3a3a"
+            ]
+          },
+          "options": [
+            {
+              "id": "4_1",
+              "label": "\\(4\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(P\\sqrt{q}\\) is constant, so \\(P=20/\\sqrt{25}=4\\)."
+            },
+            {
+              "id": "5_2",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This treats the variation as inverse proportionality to \\(q\\), not \\(\\sqrt{q}\\)."
+            },
+            {
+              "id": "8_3",
+              "label": "\\(8\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not preserve the constant product \\(P\\sqrt{q}\\)."
+            },
+            {
+              "id": "20_4",
+              "label": "\\(20\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This corresponds to using the initial constant without dividing by \\(\\sqrt{25}\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "042ca88f-5ced-51d0-a0a7-94398aaf8ff1",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the least and greatest values, respectively, of \\(f(x)=3x^2-x+5\\) on the interval \\(1\\le x\\le 2\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(f'(x)=6x-1>0\\) for \\(1\\le x\\le 2\\), so \\(f\\) is increasing. Therefore, \\(f(1)=7\\) is the least value and \\(f(2)=15\\) is the greatest value.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 13,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.3 Inverse Proportionality",
+            "concept_ids": [
+              "concept_2c57fddca7",
+              "concept_5e078c2130"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              18,
+              19,
+              20,
+              149,
+              150,
+              151
+            ],
+            "source_chunk_ids": [
+              "chunk_9118d80f41",
+              "chunk_574daf3a3a"
+            ]
+          },
+          "options": [
+            {
+              "id": "7_and_15_1",
+              "label": "\\(7\\) and \\(15\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The function increases on the interval, so the endpoint values are \\(f(1)=7\\) and \\(f(2)=15\\)."
+            },
+            {
+              "id": "5_and_15_2",
+              "label": "\\(5\\) and \\(15\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The constant term is not the least value on the given interval."
+            },
+            {
+              "id": "7_and_12_3",
+              "label": "\\(7\\) and \\(12\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The value \\(f(2)\\) is incorrectly calculated."
+            },
+            {
+              "id": "frac_59_12_and_15_4",
+              "label": "\\(\\frac{59}{12}\\) and \\(15\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The vertex lies outside the interval and cannot provide the least value here."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "694a8c2e-c948-5684-ae1f-2181be01b7dc",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A rectangle has fixed area \\(48\\,\\mathrm{cm^2}\\) and length \\(x\\,\\mathrm{cm}\\), where \\(x>0\\). What is the minimum possible perimeter?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The breadth is \\(b=\\frac{48}{x}\\). Thus \\(P=2\\left(x+\\frac{48}{x}\\right)\\). By AM-GM, \\(x+\\frac{48}{x}\\ge 2\\sqrt{48}=8\\sqrt{3}\\), so \\(P_{\\min}=16\\sqrt{3}\\,\\mathrm{cm}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 14,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.3 Inverse Proportionality",
+            "concept_ids": [
+              "concept_2c57fddca7",
+              "concept_5e078c2130"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              18,
+              19,
+              20,
+              149,
+              150,
+              151
+            ],
+            "source_chunk_ids": [
+              "chunk_9118d80f41",
+              "chunk_574daf3a3a"
+            ]
+          },
+          "options": [
+            {
+              "id": "16_sqrt_3_mathrm_cm_1",
+              "label": "\\(16\\sqrt{3}\\,\\mathrm{cm}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The breadth is \\(48/x\\), and minimizing \\(2\\left(x+48/x\\right)\\) gives \\(x=4\\sqrt{3}\\)."
+            },
+            {
+              "id": "12_sqrt_3_mathrm_cm_2",
+              "label": "\\(12\\sqrt{3}\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits the factor of \\(2\\) in the perimeter."
+            },
+            {
+              "id": "24_mathrm_cm_3",
+              "label": "\\(24\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is less than the perimeter of the square with area \\(48\\,\\mathrm{cm^2}\\)."
+            },
+            {
+              "id": "48_mathrm_cm_4",
+              "label": "\\(48\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This confuses the fixed area with the perimeter."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "32fe70ec-de2c-536b-9352-e44b5df50624",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(-\\frac{3}{2}\\le x\\le-\\frac{1}{2}\\), consider \\(f(x)=-\\lvert x+1\\rvert+\\frac{1}{10(x+2)}\\). At \\(x=-1\\), the derivative does not exist. Which statement is correct?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For \\(x<-1\\), \\(f'(x)=1-\\frac{1}{10(x+2)^2}>0\\) on the given interval. For \\(x>-1\\), \\(f'(x)=-1-\\frac{1}{10(x+2)^2}<0\\). Hence the derivative changes from positive to negative at \\(x=-1\\), giving the greatest value \\(f(-1)=\\frac{1}{10}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 15,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.3 Inverse Proportionality",
+            "concept_ids": [
+              "concept_2c57fddca7",
+              "concept_5e078c2130"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              18,
+              19,
+              20,
+              149,
+              150,
+              151
+            ],
+            "source_chunk_ids": [
+              "chunk_9118d80f41",
+              "chunk_574daf3a3a"
+            ]
+          },
+          "options": [
+            {
+              "id": "x_1_gives_the_greatest_v_1",
+              "label": "\\(x=-1\\) gives the greatest value, namely \\(\\frac{1}{10}\\).",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative is positive to the left and negative to the right of \\(x=-1\\), so this critical point is a maximum."
+            },
+            {
+              "id": "x_1_gives_the_least_valu_2",
+              "label": "\\(x=-1\\) gives the least value, namely \\(\\frac{1}{10}\\).",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sign change is from positive to negative, which indicates a maximum."
+            },
+            {
+              "id": "The_greatest_value_occur_3",
+              "label": "The greatest value occurs at \\(x=-\\frac{3}{2}\\).",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The function increases as \\(x\\) approaches \\(-1\\) from the left."
+            },
+            {
+              "id": "The_function_has_no_extr_4",
+              "label": "The function has no extremum on the interval.",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "A derivative need not exist at a point for that point to be an extremum."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_9118d80f41",
+    "chunk_574daf3a3a"
+  ],
+  "source_pages": [
+    18,
+    19,
+    20,
+    149,
+    150,
+    151
+  ],
+  "rejected": []
+}

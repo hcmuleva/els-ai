@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "knowledge-pipeline"
+version = "1.0.0"
+description = "Transform educational PDFs into assessment-ready, embedding-ready knowledge assets."
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.6,<3.0",
+    "pypdf>=4.2",
+    "PyMuPDF>=1.24,<2",
+    "pytesseract>=0.3.13,<1",
+    "rapidocr-onnxruntime>=1.3,<2",
+    "networkx>=3.2",
+    "PyYAML>=6.0",
+    "latex2mathml>=3.78,<4",
+    "fastapi>=0.115,<1",
+    "uvicorn>=0.30,<1",
+    "python-multipart>=0.0.9,<1",
+]
+
+[project.optional-dependencies]
+openai = ["openai>=1.30"]
+anthropic = ["anthropic>=0.30"]
+dev = ["pytest>=8.0", "reportlab>=4.1"]
+
+[project.scripts]
+knowledge-pipeline = "knowledge_pipeline.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"knowledge_pipeline.stores" = ["postgres_schema.sql"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

@@ -1,0 +1,206 @@
+{
+  "passed": false,
+  "target_connectivity": 0.95,
+  "metrics": {
+    "nodes": 71,
+    "edges": 84,
+    "density": 0.017,
+    "connectivity": 0.592,
+    "coverage": 0.592,
+    "components": 42
+  },
+  "orphan_nodes": [
+    "concept_15b5941407",
+    "concept_36d02f7a65",
+    "concept_393a7be286",
+    "concept_3cd8a1d999",
+    "concept_44acfa1cb4",
+    "concept_45127fdcf0",
+    "concept_493ea34ade",
+    "concept_4c1ad5c066",
+    "concept_5ce269ee1e",
+    "concept_62fc111fe1",
+    "concept_759a0d7e40",
+    "concept_77d4c390fb",
+    "concept_8c899b7eaf",
+    "concept_8e3d64b025",
+    "concept_993cf899cd",
+    "concept_9947576121",
+    "concept_a1427cc398",
+    "concept_a5bc52665f",
+    "concept_a7f0d15a59",
+    "concept_acddf91d9c",
+    "concept_b3c85fa64e",
+    "concept_b7fa009cbd",
+    "concept_c656b7384f",
+    "concept_c7dde8cfc3",
+    "concept_ccaf311484",
+    "concept_ccdc182e42",
+    "concept_eefc34380a",
+    "concept_f2d508bbcb",
+    "concept_f92fd22ba1"
+  ],
+  "duplicate_concepts": [],
+  "circular_prerequisites": [],
+  "weak_relationships": [
+    {
+      "source": "concept_46cf8a440d",
+      "target": "concept_ce23a55e4b",
+      "relation": "related"
+    },
+    {
+      "source": "concept_5f309285d8",
+      "target": "concept_ce23a55e4b",
+      "relation": "related"
+    }
+  ],
+  "missing_parents": [],
+  "disconnected_clusters": [
+    [
+      "concept_05d448fa54",
+      "concept_24079685a3",
+      "concept_83657abf05",
+      "concept_a90232301b"
+    ],
+    [
+      "concept_2102a0a8d5",
+      "concept_4eeefbdab6",
+      "concept_788ad47c8d",
+      "concept_ee77818df3"
+    ],
+    [
+      "concept_16ab33fe85",
+      "concept_2984782637",
+      "concept_973f8e00df"
+    ],
+    [
+      "concept_46cf8a440d",
+      "concept_5f309285d8",
+      "concept_ce23a55e4b"
+    ],
+    [
+      "concept_5d3428cb57",
+      "concept_a42005065a",
+      "concept_aeb1d97acf"
+    ],
+    [
+      "concept_444445d454",
+      "concept_537674f1cf",
+      "concept_b154bcc0dd"
+    ],
+    [
+      "concept_359ead36a1",
+      "concept_474e628c3c",
+      "concept_aa5519117c"
+    ],
+    [
+      "concept_5f658eb084",
+      "concept_8aee7319a1",
+      "concept_e10a3efa37"
+    ],
+    [
+      "concept_6ae9e02564",
+      "concept_ceb3b0f44e",
+      "concept_ecd6f0e62e"
+    ],
+    [
+      "concept_2ad1c84fc0",
+      "concept_33cd575db2"
+    ],
+    [
+      "concept_69cb78182a",
+      "concept_a0f16824e5"
+    ],
+    [
+      "concept_172b1feee0",
+      "concept_69cce13951"
+    ],
+    [
+      "concept_77d4c390fb"
+    ],
+    [
+      "concept_a1427cc398"
+    ],
+    [
+      "concept_3cd8a1d999"
+    ],
+    [
+      "concept_393a7be286"
+    ],
+    [
+      "concept_44acfa1cb4"
+    ],
+    [
+      "concept_45127fdcf0"
+    ],
+    [
+      "concept_15b5941407"
+    ],
+    [
+      "concept_a7f0d15a59"
+    ],
+    [
+      "concept_c656b7384f"
+    ],
+    [
+      "concept_f92fd22ba1"
+    ],
+    [
+      "concept_eefc34380a"
+    ],
+    [
+      "concept_8c899b7eaf"
+    ],
+    [
+      "concept_ccaf311484"
+    ],
+    [
+      "concept_8e3d64b025"
+    ],
+    [
+      "concept_993cf899cd"
+    ],
+    [
+      "concept_f2d508bbcb"
+    ],
+    [
+      "concept_36d02f7a65"
+    ],
+    [
+      "concept_4c1ad5c066"
+    ],
+    [
+      "concept_ccdc182e42"
+    ],
+    [
+      "concept_b7fa009cbd"
+    ],
+    [
+      "concept_5ce269ee1e"
+    ],
+    [
+      "concept_b3c85fa64e"
+    ],
+    [
+      "concept_62fc111fe1"
+    ],
+    [
+      "concept_9947576121"
+    ],
+    [
+      "concept_acddf91d9c"
+    ],
+    [
+      "concept_493ea34ade"
+    ],
+    [
+      "concept_759a0d7e40"
+    ],
+    [
+      "concept_a5bc52665f"
+    ],
+    [
+      "concept_c7dde8cfc3"
+    ]
+  ]
+}

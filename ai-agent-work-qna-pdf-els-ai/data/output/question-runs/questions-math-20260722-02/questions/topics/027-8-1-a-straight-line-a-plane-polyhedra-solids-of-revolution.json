@@ -1,0 +1,19 @@
+{
+  "key": "8.1",
+  "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+  "questions": [],
+  "requested": 5,
+  "generated": 0,
+  "context_chunks": [
+    "chunk_961ef424a5",
+    "chunk_e4f765bc02"
+  ],
+  "source_pages": [],
+  "rejected": [
+    {
+      "issues": [
+        "LaTeX backslashes inside JSON strings must be escaped"
+      ]
+    }
+  ]
+}

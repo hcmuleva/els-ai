@@ -1,0 +1,556 @@
+{
+  "key": "8.1",
+  "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+  "questions": [
+    {
+      "question": {
+        "id": "6d55fb7a-0a6c-5514-967b-985d4782fb38",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Two congruent right triangles \\(ABC\\) and \\(ABD\\) lie in mutually perpendicular planes, have common hypotenuse \\(AB\\), and satisfy \\(AB=10\\,\\mathrm{cm}\\), \\(AC=AD=6\\,\\mathrm{cm}\\), and \\(BC=BD=8\\,\\mathrm{cm}\\). If \\(C\\) and \\(D\\) are the right-angle vertices, find \\(CD\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The altitude from either right-angle vertex to \\(AB\\) is \\(h=\\frac{AC\\cdot BC}{AB}=\\frac{24}{5}\\,\\mathrm{cm}\\). Since the planes are perpendicular, the two offsets are perpendicular, so \\(CD=\\sqrt{h^2+h^2}=\\frac{24\\sqrt{2}}{5}\\,\\mathrm{cm}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 131,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+            "concept_ids": [
+              "concept_165743b2c0",
+              "concept_322bf2bf32"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              114,
+              115,
+              116,
+              117,
+              118,
+              251,
+              252,
+              253,
+              254,
+              255
+            ],
+            "source_chunk_ids": [
+              "chunk_961ef424a5",
+              "chunk_e4f765bc02"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_24_sqrt_2_5_mathrm_1",
+              "label": "\\(\\frac{24\\sqrt{2}}{5}\\,\\mathrm{cm}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The altitude to \\(AB\\) is \\(\\frac{6\\cdot8}{10}=\\frac{24}{5}\\,\\mathrm{cm}\\); perpendicular offsets give \\(CD=\\frac{24\\sqrt{2}}{5}\\,\\mathrm{cm}\\)."
+            },
+            {
+              "id": "frac_24_5_mathrm_cm_2",
+              "label": "\\(\\frac{24}{5}\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the altitude to the common hypotenuse, not \\(CD\\)."
+            },
+            {
+              "id": "frac_48_5_mathrm_cm_3",
+              "label": "\\(\\frac{48}{5}\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The perpendicular offsets must be combined using the Pythagorean theorem."
+            },
+            {
+              "id": "12_mathrm_cm_4",
+              "label": "\\(12\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This value does not account for the perpendicular-plane geometry."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "2f0ece18-5fb2-50dd-b28e-7a798bcd31d4",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "In a regular tetrahedron \\(ABCD\\) of edge length \\(a\\), \\(M\\) and \\(N\\) are the midpoints of opposite edges \\(AB\\) and \\(CD\\). Find \\(MN\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Take vertices proportional to \\((1,1,1)\\), \\((1,-1,-1)\\), \\((-1,1,-1)\\), and \\((-1,-1,1)\\). The edge length is \\(2\\sqrt{2}\\), while the opposite-edge midpoints are \\((1,0,0)\\) and \\((-1,0,0)\\), separated by \\(2\\). Hence \\(MN=\\frac{2}{2\\sqrt{2}}a=\\frac{a}{\\sqrt{2}}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 132,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+            "concept_ids": [
+              "concept_165743b2c0",
+              "concept_322bf2bf32"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              114,
+              115,
+              116,
+              117,
+              118,
+              251,
+              252,
+              253,
+              254,
+              255
+            ],
+            "source_chunk_ids": [
+              "chunk_961ef424a5",
+              "chunk_e4f765bc02"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_a_sqrt_2_1",
+              "label": "\\(\\frac{a}{\\sqrt{2}}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The midpoint segment joining opposite edges of a regular tetrahedron has length \\(\\frac{a}{\\sqrt{2}}\\)."
+            },
+            {
+              "id": "frac_a_2_2",
+              "label": "\\(\\frac{a}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not the distance between the midpoints of opposite edges."
+            },
+            {
+              "id": "a_3",
+              "label": "\\(a\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The midpoint segment is shorter than an edge."
+            },
+            {
+              "id": "a_sqrt_2_4",
+              "label": "\\(a\\sqrt{2}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This exceeds the edge length and is inconsistent with the tetrahedron geometry."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "65f9c411-de97-5824-97c4-e6c2cbcf0e56",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The plane \\(2x-y+2z=9\\) meets the coordinate axes at \\(A\\), \\(B\\), and \\(C\\), respectively. If \\(O\\) is the origin, find the volume of tetrahedron \\(OABC\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The intercepts are \\(A=(\\frac{9}{2},0,0)\\), \\(B=(0,-9,0)\\), and \\(C=(0,0,\\frac{9}{2})\\). Therefore, \\(V=\\frac{1}{6}\\left|\\frac{9}{2}(-9)\\frac{9}{2}\\right|=\\frac{243}{8}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 133,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+            "concept_ids": [
+              "concept_165743b2c0",
+              "concept_322bf2bf32"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              114,
+              115,
+              116,
+              117,
+              118,
+              251,
+              252,
+              253,
+              254,
+              255
+            ],
+            "source_chunk_ids": [
+              "chunk_961ef424a5",
+              "chunk_e4f765bc02"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_243_8_1",
+              "label": "\\(\\frac{243}{8}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The intercepts are \\(\\frac{9}{2}\\), \\(-9\\), and \\(\\frac{9}{2}\\); their absolute product divided by \\(6\\) is \\(\\frac{243}{8}\\)."
+            },
+            {
+              "id": "frac_729_8_2",
+              "label": "\\(\\frac{729}{8}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits the tetrahedron factor \\(\\frac{1}{6}\\)."
+            },
+            {
+              "id": "frac_81_8_3",
+              "label": "\\(\\frac{81}{8}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The intercept magnitudes have not been multiplied correctly."
+            },
+            {
+              "id": "frac_243_4_4",
+              "label": "\\(\\frac{243}{4}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The intercept product has been divided by \\(3\\) rather than \\(6\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "0cec3a0a-72fe-50cd-aaf7-2586a8567438",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The region in the first quadrant bounded by \\(y=x^2\\), \\(y=0\\), and \\(x=2\\) is revolved about the \\(x\\)-axis. Find the volume of the resulting solid.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "At position \\(x\\), the disk radius is \\(x^2\\). Thus \\(V=\\pi\\int_0^2x^4\\,dx=\\pi\\left[\\frac{x^5}{5}\\right]_0^2=\\frac{32\\pi}{5}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 134,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+            "concept_ids": [
+              "concept_165743b2c0",
+              "concept_322bf2bf32"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              114,
+              115,
+              116,
+              117,
+              118,
+              251,
+              252,
+              253,
+              254,
+              255
+            ],
+            "source_chunk_ids": [
+              "chunk_961ef424a5",
+              "chunk_e4f765bc02"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_32_pi_5_1",
+              "label": "\\(\\frac{32\\pi}{5}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Using washers, \\(V=\\pi\\int_0^2(x^2)^2\\,dx=\\frac{32\\pi}{5}\\)."
+            },
+            {
+              "id": "frac_16_pi_5_2",
+              "label": "\\(\\frac{16\\pi}{5}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The radius must be squared, giving \\(x^4\\), not \\(x^2\\)."
+            },
+            {
+              "id": "8_pi_3",
+              "label": "\\(8\\pi\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The radius varies with \\(x\\), so a constant-radius formula is invalid."
+            },
+            {
+              "id": "frac_64_pi_5_4",
+              "label": "\\(\\frac{64\\pi}{5}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is twice the correct washer integral."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "function-region",
+            "width": 360,
+            "height": 300,
+            "xmin": 0.0,
+            "xmax": 2.0,
+            "ymin": 0.0,
+            "ymax": 4.0,
+            "equal_scale": false,
+            "title": null,
+            "elements": [
+              {
+                "type": "grid",
+                "step_x": 1.0,
+                "step_y": 1.0
+              },
+              {
+                "type": "axes",
+                "role": null,
+                "x_label": "x",
+                "y_label": "y",
+                "ticks": true,
+                "tick_step": 1.0
+              },
+              {
+                "type": "function-region",
+                "upper_expr": "x**2",
+                "lower_expr": "0",
+                "domain": [
+                  0.0,
+                  2.0
+                ],
+                "samples": 120,
+                "fill": "#93c5fd",
+                "fill_opacity": 0.35
+              },
+              {
+                "type": "function",
+                "role": null,
+                "expr": "x**2",
+                "domain": [
+                  0.0,
+                  2.0
+                ],
+                "samples": 120,
+                "label": null,
+                "color": "#2563eb"
+              },
+              {
+                "type": "function",
+                "role": null,
+                "expr": "0",
+                "domain": [
+                  0.0,
+                  2.0
+                ],
+                "samples": 120,
+                "label": null,
+                "color": "#dc2626"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\" data-diagram-kind=\"function-region\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g data-spec-index=\"0\" data-element-type=\"grid\"><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"34\" y1=\"34\" x2=\"34\" y2=\"266\"/><line x1=\"180\" y1=\"34\" x2=\"180\" y2=\"266\"/><line x1=\"326\" y1=\"34\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"208\" x2=\"326\" y2=\"208\"/><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"92\" x2=\"326\" y2=\"92\"/><line x1=\"34\" y1=\"34\" x2=\"326\" y2=\"34\"/></g></g><g data-spec-index=\"1\" data-element-type=\"axes\"><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"34\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"180\" y1=\"263\" x2=\"180\" y2=\"269\"/><text x=\"180\" y=\"280\" text-anchor=\"middle\">1</text><line x1=\"326\" y1=\"263\" x2=\"326\" y2=\"269\"/><text x=\"326\" y=\"280\" text-anchor=\"middle\">2</text><line x1=\"31\" y1=\"208\" x2=\"37\" y2=\"208\"/><text x=\"28\" y=\"211\" text-anchor=\"end\">1</text><line x1=\"31\" y1=\"150\" x2=\"37\" y2=\"150\"/><text x=\"28\" y=\"153\" text-anchor=\"end\">2</text><line x1=\"31\" y1=\"92\" x2=\"37\" y2=\"92\"/><text x=\"28\" y=\"95\" text-anchor=\"end\">3</text><line x1=\"31\" y1=\"34\" x2=\"37\" y2=\"34\"/><text x=\"28\" y=\"37\" text-anchor=\"end\">4</text></g><text x=\"320\" y=\"258\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"38\" y=\"30\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">y</text></g><g data-spec-index=\"2\" data-element-type=\"function-region\"><polygon points=\"34,266 36.43,265.98 38.87,265.94 41.3,265.86 43.73,265.74 46.17,265.6 48.6,265.42 51.03,265.21 53.47,264.97 55.9,264.69 58.33,264.39 60.77,264.05 63.2,263.68 65.63,263.28 68.07,262.84 70.5,262.38 72.93,261.88 75.37,261.34 77.8,260.78 80.23,260.18 82.67,259.56 85.1,258.89 87.53,258.2 89.97,257.48 92.4,256.72 94.83,255.93 97.27,255.11 99.7,254.25 102.13,253.37 104.57,252.45 107,251.5 109.43,250.52 111.87,249.5 114.3,248.45 116.73,247.38 119.17,246.26 121.6,245.12 124.03,243.94 126.47,242.74 128.9,241.5 131.33,240.22 133.77,238.92 136.2,237.58 138.63,236.21 141.07,234.81 143.5,233.38 145.93,231.91 148.37,230.41 150.8,228.88 153.23,227.32 155.67,225.72 158.1,224.09 160.53,222.44 162.97,220.74 165.4,219.02 167.83,217.26 170.27,215.48 172.7,213.66 175.13,211.8 177.57,209.92 180,208 182.43,206.05 184.87,204.07 187.3,202.06 189.73,200.01 192.17,197.93 194.6,195.82 197.03,193.68 199.47,191.5 201.9,189.3 204.33,187.06 206.77,184.78 209.2,182.48 211.63,180.14 214.07,177.78 216.5,175.38 218.93,172.94 221.37,170.48 223.8,167.98 226.23,165.45 228.67,162.89 231.1,160.29 233.53,157.67 235.97,155.01 238.4,152.32 240.83,149.6 243.27,146.84 245.7,144.06 248.13,141.24 250.57,138.38 253,135.5 255.43,132.58 257.87,129.64 260.3,126.65 262.73,123.64 265.17,120.6 267.6,117.52 270.03,114.41 272.47,111.27 274.9,108.1 277.33,104.89 279.77,101.65 282.2,98.38 284.63,95.08 287.07,91.74 289.5,88.38 291.93,84.98 294.37,81.54 296.8,78.08 299.23,74.58 301.67,71.06 304.1,67.49 306.53,63.9 308.97,60.28 311.4,56.62 313.83,52.93 316.27,49.21 318.7,45.46 321.13,41.67 323.57,37.85 326,34 326,266 323.57,266 321.13,266 318.7,266 316.27,266 313.83,266 311.4,266 308.97,266 306.53,266 304.1,266 301.67,266 299.23,266 296.8,266 294.37,266 291.93,266 289.5,266 287.07,266 284.63,266 282.2,266 279.77,266 277.33,266 274.9,266 272.47,266 270.03,266 267.6,266 265.17,266 262.73,266 260.3,266 257.87,266 255.43,266 253,266 250.57,266 248.13,266 245.7,266 243.27,266 240.83,266 238.4,266 235.97,266 233.53,266 231.1,266 228.67,266 226.23,266 223.8,266 221.37,266 218.93,266 216.5,266 214.07,266 211.63,266 209.2,266 206.77,266 204.33,266 201.9,266 199.47,266 197.03,266 194.6,266 192.17,266 189.73,266 187.3,266 184.87,266 182.43,266 180,266 177.57,266 175.13,266 172.7,266 170.27,266 167.83,266 165.4,266 162.97,266 160.53,266 158.1,266 155.67,266 153.23,266 150.8,266 148.37,266 145.93,266 143.5,266 141.07,266 138.63,266 136.2,266 133.77,266 131.33,266 128.9,266 126.47,266 124.03,266 121.6,266 119.17,266 116.73,266 114.3,266 111.87,266 109.43,266 107,266 104.57,266 102.13,266 99.7,266 97.27,266 94.83,266 92.4,266 89.97,266 87.53,266 85.1,266 82.67,266 80.23,266 77.8,266 75.37,266 72.93,266 70.5,266 68.07,266 65.63,266 63.2,266 60.77,266 58.33,266 55.9,266 53.47,266 51.03,266 48.6,266 46.17,266 43.73,266 41.3,266 38.87,266 36.43,266 34,266\" fill=\"#93c5fd\" fill-opacity=\"0.35\" stroke=\"none\"/></g><g data-spec-index=\"3\" data-element-type=\"function\"><polyline points=\"34,266 36.43,265.98 38.87,265.94 41.3,265.86 43.73,265.74 46.17,265.6 48.6,265.42 51.03,265.21 53.47,264.97 55.9,264.69 58.33,264.39 60.77,264.05 63.2,263.68 65.63,263.28 68.07,262.84 70.5,262.38 72.93,261.88 75.37,261.34 77.8,260.78 80.23,260.18 82.67,259.56 85.1,258.89 87.53,258.2 89.97,257.48 92.4,256.72 94.83,255.93 97.27,255.11 99.7,254.25 102.13,253.37 104.57,252.45 107,251.5 109.43,250.52 111.87,249.5 114.3,248.45 116.73,247.38 119.17,246.26 121.6,245.12 124.03,243.94 126.47,242.74 128.9,241.5 131.33,240.22 133.77,238.92 136.2,237.58 138.63,236.21 141.07,234.81 143.5,233.38 145.93,231.91 148.37,230.41 150.8,228.88 153.23,227.32 155.67,225.72 158.1,224.09 160.53,222.44 162.97,220.74 165.4,219.02 167.83,217.26 170.27,215.48 172.7,213.66 175.13,211.8 177.57,209.92 180,208 182.43,206.05 184.87,204.07 187.3,202.06 189.73,200.01 192.17,197.93 194.6,195.82 197.03,193.68 199.47,191.5 201.9,189.3 204.33,187.06 206.77,184.78 209.2,182.48 211.63,180.14 214.07,177.78 216.5,175.38 218.93,172.94 221.37,170.48 223.8,167.98 226.23,165.45 228.67,162.89 231.1,160.29 233.53,157.67 235.97,155.01 238.4,152.32 240.83,149.6 243.27,146.84 245.7,144.06 248.13,141.24 250.57,138.38 253,135.5 255.43,132.58 257.87,129.64 260.3,126.65 262.73,123.64 265.17,120.6 267.6,117.52 270.03,114.41 272.47,111.27 274.9,108.1 277.33,104.89 279.77,101.65 282.2,98.38 284.63,95.08 287.07,91.74 289.5,88.38 291.93,84.98 294.37,81.54 296.8,78.08 299.23,74.58 301.67,71.06 304.1,67.49 306.53,63.9 308.97,60.28 311.4,56.62 313.83,52.93 316.27,49.21 318.7,45.46 321.13,41.67 323.57,37.85 326,34\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2\"/></g><g data-spec-index=\"4\" data-element-type=\"function\"><polyline points=\"34,266 36.43,266 38.87,266 41.3,266 43.73,266 46.17,266 48.6,266 51.03,266 53.47,266 55.9,266 58.33,266 60.77,266 63.2,266 65.63,266 68.07,266 70.5,266 72.93,266 75.37,266 77.8,266 80.23,266 82.67,266 85.1,266 87.53,266 89.97,266 92.4,266 94.83,266 97.27,266 99.7,266 102.13,266 104.57,266 107,266 109.43,266 111.87,266 114.3,266 116.73,266 119.17,266 121.6,266 124.03,266 126.47,266 128.9,266 131.33,266 133.77,266 136.2,266 138.63,266 141.07,266 143.5,266 145.93,266 148.37,266 150.8,266 153.23,266 155.67,266 158.1,266 160.53,266 162.97,266 165.4,266 167.83,266 170.27,266 172.7,266 175.13,266 177.57,266 180,266 182.43,266 184.87,266 187.3,266 189.73,266 192.17,266 194.6,266 197.03,266 199.47,266 201.9,266 204.33,266 206.77,266 209.2,266 211.63,266 214.07,266 216.5,266 218.93,266 221.37,266 223.8,266 226.23,266 228.67,266 231.1,266 233.53,266 235.97,266 238.4,266 240.83,266 243.27,266 245.7,266 248.13,266 250.57,266 253,266 255.43,266 257.87,266 260.3,266 262.73,266 265.17,266 267.6,266 270.03,266 272.47,266 274.9,266 277.33,266 279.77,266 282.2,266 284.63,266 287.07,266 289.5,266 291.93,266 294.37,266 296.8,266 299.23,266 301.67,266 304.1,266 306.53,266 308.97,266 311.4,266 313.83,266 316.27,266 318.7,266 321.13,266 323.57,266 326,266\" fill=\"none\" stroke=\"#dc2626\" stroke-width=\"2\"/></g></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "fe3c4242-bd6a-59f0-bb68-6b8dfc71eeb8",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The line \\(\\vec r=(1,2,3)+\\lambda(2,-1,1)\\) intersects the plane \\(x+y+z=9\\) at \\(P\\). Find the distance from \\(A=(1,2,3)\\) to \\(P\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "A point on the line is \\((1+2\\lambda,2-\\lambda,3+\\lambda)\\). Applying the plane equation gives \\(6+2\\lambda=9\\), hence \\(\\lambda=\\frac{3}{2}\\). Therefore, \\(AP=|\\lambda|\\sqrt{2^2+(-1)^2+1^2}=\\frac{3\\sqrt{6}}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 135,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+            "concept_ids": [
+              "concept_165743b2c0",
+              "concept_322bf2bf32"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              114,
+              115,
+              116,
+              117,
+              118,
+              251,
+              252,
+              253,
+              254,
+              255
+            ],
+            "source_chunk_ids": [
+              "chunk_961ef424a5",
+              "chunk_e4f765bc02"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_3_sqrt_6_2_1",
+              "label": "\\(\\frac{3\\sqrt{6}}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Substitution gives \\(6+2\\lambda=9\\), so \\(\\lambda=\\frac{3}{2}\\) and the distance is \\(\\frac{3\\sqrt{6}}{2}\\)."
+            },
+            {
+              "id": "3_sqrt_6_2",
+              "label": "\\(3\\sqrt{6}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This uses \\(\\lambda=3\\) instead of \\(\\lambda=\\frac{3}{2}\\)."
+            },
+            {
+              "id": "frac_3_sqrt_2_2_3",
+              "label": "\\(\\frac{3\\sqrt{2}}{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The direction-vector norm is \\(\\sqrt{6}\\), not \\(\\sqrt{2}\\)."
+            },
+            {
+              "id": "frac_sqrt_6_2_4",
+              "label": "\\(\\frac{\\sqrt{6}}{2}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits the factor \\(3\\) from the parameter value."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_961ef424a5",
+    "chunk_e4f765bc02"
+  ],
+  "source_pages": [
+    114,
+    115,
+    116,
+    117,
+    118,
+    251,
+    252,
+    253,
+    254,
+    255
+  ],
+  "rejected": []
+}

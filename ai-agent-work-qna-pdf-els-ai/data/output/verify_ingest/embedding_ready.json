@@ -1,0 +1,387 @@
+[
+  {
+    "concept_id": "concept_864bdb0ca9",
+    "concept": "Displacement",
+    "description": "Displacement is defined as the change in position of an object in a given direction. Chapter 1: Kinematics Displacement is defined as the change in position of an object in a given direction. Velocity is the rate of change of displacement with respect to time, and is a vector quantity.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Displacement.",
+      "[Understand] Explain in your own words the concept of Displacement.",
+      "[Apply] Apply to a new situation the concept of Displacement.",
+      "[Analyze] Break down and compare the concept of Displacement.",
+      "[Evaluate] Critique and justify decisions about the concept of Displacement.",
+      "[Create] Design or produce something using the concept of Displacement."
+    ],
+    "misconceptions": [
+      "Displacement is the same as a closely related term and can be used interchangeably.",
+      "Displacement always applies, regardless of context or assumptions."
+    ],
+    "examples": [
+      "For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second."
+    ],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "topic": "Kinematics",
+      "subtopic": "Displacement",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_fb83b3460d",
+        "concept_1694170983",
+        "concept_a49b791f66"
+      ]
+    }
+  },
+  {
+    "concept_id": "concept_fb83b3460d",
+    "concept": "Velocity",
+    "description": "Velocity is the rate of change of displacement with respect to time, and is a vector quantity. Speed refers to the magnitude of velocity without direction.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Velocity.",
+      "[Understand] Explain in your own words the concept of Velocity.",
+      "[Apply] Apply to a new situation the concept of Velocity.",
+      "[Analyze] Break down and compare the concept of Velocity.",
+      "[Evaluate] Critique and justify decisions about the concept of Velocity.",
+      "[Create] Design or produce something using the concept of Velocity."
+    ],
+    "misconceptions": [
+      "Velocity is the same as a closely related term and can be used interchangeably.",
+      "Velocity always applies, regardless of context or assumptions."
+    ],
+    "examples": [
+      "For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second."
+    ],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "topic": "Kinematics",
+      "subtopic": "Velocity",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [
+        "concept_1694170983"
+      ],
+      "related_concepts": [
+        "concept_864bdb0ca9",
+        "concept_1694170983",
+        "concept_a49b791f66"
+      ]
+    }
+  },
+  {
+    "concept_id": "concept_1694170983",
+    "concept": "Speed",
+    "description": "Speed refers to the magnitude of velocity without direction.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Speed.",
+      "[Understand] Explain in your own words the concept of Speed.",
+      "[Apply] Apply to a new situation the concept of Speed.",
+      "[Analyze] Break down and compare the concept of Speed.",
+      "[Evaluate] Critique and justify decisions about the concept of Speed.",
+      "[Create] Design or produce something using the concept of Speed."
+    ],
+    "misconceptions": [
+      "Speed is the same as a closely related term and can be used interchangeably.",
+      "Speed always applies, regardless of context or assumptions."
+    ],
+    "examples": [
+      "For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second."
+    ],
+    "assessment_candidates": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "topic": "Kinematics",
+      "subtopic": "Speed",
+      "concept_type": "Definition",
+      "difficulty": "foundational",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "importance_score": 0.6,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_864bdb0ca9",
+        "concept_fb83b3460d",
+        "concept_a49b791f66"
+      ]
+    }
+  },
+  {
+    "concept_id": "concept_a49b791f66",
+    "concept": "Acceleration",
+    "description": "Acceleration is defined as the rate of change of velocity with respect to time, given by a = (v2 - v1) / t.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Acceleration.",
+      "[Understand] Explain in your own words the concept of Acceleration.",
+      "[Apply] Apply to a new situation the concept of Acceleration.",
+      "[Analyze] Break down and compare the concept of Acceleration.",
+      "[Evaluate] Critique and justify decisions about the concept of Acceleration.",
+      "[Create] Design or produce something using the concept of Acceleration."
+    ],
+    "misconceptions": [
+      "Acceleration is the same as a closely related term and can be used interchangeably.",
+      "Acceleration always applies, regardless of context or assumptions."
+    ],
+    "examples": [
+      "For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second."
+    ],
+    "assessment_candidates": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "topic": "Kinematics",
+      "subtopic": "Acceleration",
+      "concept_type": "Definition",
+      "difficulty": "foundational",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "importance_score": 0.6,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_864bdb0ca9",
+        "concept_fb83b3460d",
+        "concept_1694170983"
+      ]
+    }
+  },
+  {
+    "concept_id": "concept_c3ff7bca71",
+    "concept": "Principle of inertia",
+    "description": "principle of inertia describes this tendency to resist changes in motion. The principle of inertia describes this tendency to resist changes in motion.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Principle of inertia.",
+      "[Understand] Explain in your own words the concept of Principle of inertia.",
+      "[Apply] Apply to a new situation the concept of Principle of inertia.",
+      "[Analyze] Break down and compare the concept of Principle of inertia.",
+      "[Evaluate] Critique and justify decisions about the concept of Principle of inertia.",
+      "[Create] Design or produce something using the concept of Principle of inertia."
+    ],
+    "misconceptions": [
+      "Principle of inertia is the same as a closely related term and can be used interchangeably.",
+      "Principle of inertia always applies, regardless of context or assumptions."
+    ],
+    "examples": [
+      "For example, a force of 10 newtons applied to a 2 kilogram mass produces an acceleration of 5 metres per second squared."
+    ],
+    "assessment_candidates": [
+      "Scenario",
+      "Essay",
+      "MCQ",
+      "Short Answer",
+      "Problem Solving"
+    ],
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "topic": "Newton's Laws of Motion",
+      "subtopic": "Principle of inertia",
+      "concept_type": "Principle",
+      "difficulty": "foundational",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "importance_score": 0.7,
+      "confidence_score": 1.0,
+      "prerequisites": [
+        "concept_a49b791f66"
+      ],
+      "related_concepts": [
+        "concept_314ec88491",
+        "concept_a49b791f66"
+      ]
+    }
+  },
+  {
+    "concept_id": "concept_314ec88491",
+    "concept": "Force",
+    "description": "Force is defined as the product of mass and acceleration, expressed by the formula F = m a. Chapter 2: Newton's Laws of Motion Newton's first law states that an object remains at rest or in uniform motion unless acted upon by a net external force. Second, resolve the forces.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Force.",
+      "[Understand] Explain in your own words the concept of Force.",
+      "[Apply] Apply to a new situation the concept of Force.",
+      "[Analyze] Break down and compare the concept of Force.",
+      "[Evaluate] Critique and justify decisions about the concept of Force.",
+      "[Create] Design or produce something using the concept of Force."
+    ],
+    "misconceptions": [
+      "Force is the same as a closely related term and can be used interchangeably.",
+      "Force always applies, regardless of context or assumptions."
+    ],
+    "examples": [
+      "For example, a force of 10 newtons applied to a 2 kilogram mass produces an acceleration of 5 metres per second squared."
+    ],
+    "assessment_candidates": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "topic": "Newton's Laws of Motion",
+      "subtopic": "Force",
+      "concept_type": "Definition",
+      "difficulty": "foundational",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "importance_score": 0.7,
+      "confidence_score": 1.0,
+      "prerequisites": [
+        "concept_a49b791f66"
+      ],
+      "related_concepts": [
+        "concept_c3ff7bca71",
+        "concept_a49b791f66"
+      ]
+    }
+  },
+  {
+    "concept_id": "concept_bda73b7033",
+    "concept": "Work",
+    "description": "Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d. Energy refers to the capacity of a system to do work.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Work.",
+      "[Understand] Explain in your own words the concept of Work.",
+      "[Apply] Apply to a new situation the concept of Work.",
+      "[Analyze] Break down and compare the concept of Work.",
+      "[Evaluate] Critique and justify decisions about the concept of Work.",
+      "[Create] Design or produce something using the concept of Work."
+    ],
+    "misconceptions": [
+      "Work is the same as a closely related term and can be used interchangeably.",
+      "Work always applies, regardless of context or assumptions."
+    ],
+    "examples": [
+      "For example, a falling object converts potential energy into kinetic energy as it descends."
+    ],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "topic": "Work and Energy",
+      "subtopic": "Work",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [
+        "concept_864bdb0ca9",
+        "concept_314ec88491",
+        "concept_24b9f371d7"
+      ],
+      "related_concepts": [
+        "concept_e7d35b0eab",
+        "concept_24b9f371d7",
+        "concept_864bdb0ca9",
+        "concept_314ec88491"
+      ]
+    }
+  },
+  {
+    "concept_id": "concept_e7d35b0eab",
+    "concept": "Energy",
+    "description": "Energy refers to the capacity of a system to do work. The principle of conservation of energy states that energy cannot be created or destroyed, only transformed.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Energy.",
+      "[Understand] Explain in your own words the concept of Energy.",
+      "[Apply] Apply to a new situation the concept of Energy.",
+      "[Analyze] Break down and compare the concept of Energy.",
+      "[Evaluate] Critique and justify decisions about the concept of Energy.",
+      "[Create] Design or produce something using the concept of Energy."
+    ],
+    "misconceptions": [
+      "Energy is the same as a closely related term and can be used interchangeably.",
+      "Energy always applies, regardless of context or assumptions."
+    ],
+    "examples": [
+      "For example, a falling object converts potential energy into kinetic energy as it descends."
+    ],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "topic": "Work and Energy",
+      "subtopic": "Energy",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [
+        "concept_24b9f371d7"
+      ],
+      "related_concepts": [
+        "concept_bda73b7033",
+        "concept_24b9f371d7"
+      ]
+    }
+  },
+  {
+    "concept_id": "concept_24b9f371d7",
+    "concept": "Kinetic energy",
+    "description": "Kinetic energy is the energy possessed by an object due to its motion, expressed by the formula KE = 0.5 m v^2.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Kinetic energy.",
+      "[Understand] Explain in your own words the concept of Kinetic energy.",
+      "[Apply] Apply to a new situation the concept of Kinetic energy.",
+      "[Analyze] Break down and compare the concept of Kinetic energy.",
+      "[Evaluate] Critique and justify decisions about the concept of Kinetic energy.",
+      "[Create] Design or produce something using the concept of Kinetic energy."
+    ],
+    "misconceptions": [
+      "Kinetic energy is the same as a closely related term and can be used interchangeably.",
+      "Kinetic energy always applies, regardless of context or assumptions."
+    ],
+    "examples": [
+      "For example, a falling object converts potential energy into kinetic energy as it descends."
+    ],
+    "assessment_candidates": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "topic": "Work and Energy",
+      "subtopic": "Kinetic energy",
+      "concept_type": "Definition",
+      "difficulty": "foundational",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "importance_score": 0.6,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_bda73b7033",
+        "concept_e7d35b0eab"
+      ]
+    }
+  }
+]

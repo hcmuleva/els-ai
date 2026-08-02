@@ -1,0 +1,459 @@
+{
+  "key": "9.3",
+  "topic": "9.3 The Derivative of a Function",
+  "questions": [
+    {
+      "question": {
+        "id": "1ad03c64-0746-5003-92a3-f0b8436e99fb",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Using the definition of derivative, find \\(f'(0)\\) for \\(f(x)=\\\\sqrt{1+2x}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(f'(0)=\\\\lim_{h\\\\to 0}\\\\frac{\\\\sqrt{1+2h}-1}{h}=\\\\lim_{h\\\\to 0}\\\\frac{2}{\\\\sqrt{1+2h}+1}=1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 156,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.3 The Derivative of a Function",
+            "concept_ids": [
+              "concept_41e12f8bde",
+              "concept_c11559b955"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              131,
+              132,
+              272,
+              273
+            ],
+            "source_chunk_ids": [
+              "chunk_cfc8ab6e30",
+              "chunk_bd74a7657a"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_1",
+              "label": "\\(1\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Rationalising the difference quotient gives the limit \\(1\\)."
+            },
+            {
+              "id": "frac_1_2_2",
+              "label": "\\(\\\\frac{1}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the derivative of \\(\\\\sqrt{1+x}\\) at \\(x=0\\), not \\(\\\\sqrt{1+2x}\\)."
+            },
+            {
+              "id": "2_3",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factor \\(2\\) is divided by the limiting denominator \\(2\\)."
+            },
+            {
+              "id": "0_4",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The function has a nonzero slope at \\(x=0\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "a759b6fa-5c00-5e66-a3a2-bb45e8c23f54",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate the derivative of \\(f(x)=\\\\sin x\\) at \\(x=\\\\frac{\\\\pi}{6}\\) using the definition of derivative.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(f'\\\\left(\\\\frac{\\\\pi}{6}\\\\right)=\\\\lim_{h\\\\to0}\\\\frac{\\\\sin\\\\left(\\\\frac{\\\\pi}{6}+h\\\\right)-\\\\sin\\\\frac{\\\\pi}{6}}{h}=\\\\cos\\\\frac{\\\\pi}{6}=\\\\frac{\\\\sqrt{3}}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 157,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.3 The Derivative of a Function",
+            "concept_ids": [
+              "concept_41e12f8bde",
+              "concept_c11559b955"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              131,
+              132,
+              272,
+              273
+            ],
+            "source_chunk_ids": [
+              "chunk_cfc8ab6e30",
+              "chunk_bd74a7657a"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_sqrt_3_2_1",
+              "label": "\\(\\\\frac{\\\\sqrt{3}}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative of \\(\\sin x\\) is \\(\\cos x\\)."
+            },
+            {
+              "id": "frac_1_2_2",
+              "label": "\\(\\\\frac{1}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(\\\\frac{1}{2}\\) is the value of \\(\\sin\\\\frac{\\\\pi}{6}\\), not its derivative."
+            },
+            {
+              "id": "frac_sqrt_3_2_3",
+              "label": "\\(-\\\\frac{\\\\sqrt{3}}{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative of \\(\\sin x\\) is positive at \\(\\\\frac{\\\\pi}{6}\\)."
+            },
+            {
+              "id": "1_4",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative equals \\(1\\) only at angles where \\(\\cos x=1\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "9f63b39f-a2aa-5988-85c6-cf96a573a93a",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(f(x)=\\\\left|x-1\\\\right|\\). Which statement about \\(f'(1)\\) is correct?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For \\(h>0\\), \\(\\\\frac{f(1+h)-f(1)}{h}=1\\), while for \\(h<0\\), \\(\\\\frac{f(1+h)-f(1)}{h}=-1\\). Since the one-sided limits differ, \\(f'(1)\\) does not exist.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 158,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "9.3 The Derivative of a Function",
+            "concept_ids": [
+              "concept_41e12f8bde",
+              "concept_c11559b955"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              131,
+              132,
+              272,
+              273
+            ],
+            "source_chunk_ids": [
+              "chunk_cfc8ab6e30",
+              "chunk_bd74a7657a"
+            ]
+          },
+          "options": [
+            {
+              "id": "f_1_does_not_exist_1",
+              "label": "\\(f'(1)\\) does not exist.",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The left-hand and right-hand derivatives are \\(-1\\) and \\(1\\), respectively."
+            },
+            {
+              "id": "f_1_0_2",
+              "label": "\\(f'(1)=0\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The graph has a corner at \\(x=1\\), so the derivative is not zero."
+            },
+            {
+              "id": "f_1_1_3",
+              "label": "\\(f'(1)=1\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is only the right-hand derivative at \\(x=1\\)."
+            },
+            {
+              "id": "f_1_1_4",
+              "label": "\\(f'(1)=-1\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is only the left-hand derivative at \\(x=1\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "5341b51c-1cd9-56a8-8c8e-94b5e855a382",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find \\(a\\) so that \\(f(x)=\\\\begin{cases} ax+1, & x<1 \\\\\\\\ x^2+a, & x\\\\ge1 \\\\end{cases}\\) is differentiable at \\(x=1\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Continuity at \\(x=1\\) holds for every \\(a\\), since both one-sided values equal \\(a+1\\). Differentiability requires \\(f'_-(1)=a=f'_+(1)=2\\). Hence \\(a=2\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 159,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "9.3 The Derivative of a Function",
+            "concept_ids": [
+              "concept_41e12f8bde",
+              "concept_c11559b955"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              131,
+              132,
+              272,
+              273
+            ],
+            "source_chunk_ids": [
+              "chunk_cfc8ab6e30",
+              "chunk_bd74a7657a"
+            ]
+          },
+          "options": [
+            {
+              "id": "2_1",
+              "label": "\\(2\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The left derivative is \\(a\\) and the right derivative is \\(2\\), so \\(a=2\\)."
+            },
+            {
+              "id": "1_2",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not make the one-sided derivatives equal."
+            },
+            {
+              "id": "2_3",
+              "label": "\\(-2\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The left derivative would then be \\(-2\\), unlike the right derivative \\(2\\)."
+            },
+            {
+              "id": "0_4",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The left derivative would be \\(0\\), unlike the right derivative \\(2\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "48158d11-27f4-5c57-b628-906722ff2825",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(f(x)=(x^2+3x-1)\\\\tan x\\), find \\(f'(0)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "By the product rule, \\(f'(x)=(2x+3)\\\\tan x+(x^2+3x-1)\\\\sec^2x\\). Therefore, \\(f'(0)=3\\\\tan0-\\\\sec^2 0=-1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 160,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.3 The Derivative of a Function",
+            "concept_ids": [
+              "concept_41e12f8bde",
+              "concept_c11559b955"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              131,
+              132,
+              272,
+              273
+            ],
+            "source_chunk_ids": [
+              "chunk_cfc8ab6e30",
+              "chunk_bd74a7657a"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_1",
+              "label": "\\(-1\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Using the product rule, \\(f'(0)=3\\\\tan0+(-1)\\\\sec^2 0=-1\\)."
+            },
+            {
+              "id": "1_2",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This ignores the value \\((x^2+3x-1)\\\\big|_{x=0}=-1\\)."
+            },
+            {
+              "id": "3_3",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the coefficient of \\(x\\) in the polynomial, but \\(\\tan0=0\\)."
+            },
+            {
+              "id": "0_4",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Although \\(f(0)=0\\), the derivative need not be zero."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_cfc8ab6e30",
+    "chunk_bd74a7657a"
+  ],
+  "source_pages": [
+    131,
+    132,
+    272,
+    273
+  ],
+  "rejected": []
+}

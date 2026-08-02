@@ -1,0 +1,128 @@
+[
+  {
+    "misconception_id": "misc_d849b106df",
+    "concept_id": "concept_864bdb0ca9",
+    "misconception": "Displacement is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Displacement is defined as the change in position of an object in a given direction."
+  },
+  {
+    "misconception_id": "misc_f816d95409",
+    "concept_id": "concept_864bdb0ca9",
+    "misconception": "Displacement always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Displacement is valid."
+  },
+  {
+    "misconception_id": "misc_ba2728a510",
+    "concept_id": "concept_fb83b3460d",
+    "misconception": "Velocity is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Velocity is the rate of change of displacement with respect to time, and is a vector quantity."
+  },
+  {
+    "misconception_id": "misc_b7961a6cd1",
+    "concept_id": "concept_fb83b3460d",
+    "misconception": "Velocity always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Velocity is valid."
+  },
+  {
+    "misconception_id": "misc_83e02742a2",
+    "concept_id": "concept_1694170983",
+    "misconception": "Speed is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Speed refers to the magnitude of velocity without direction."
+  },
+  {
+    "misconception_id": "misc_127af50a6f",
+    "concept_id": "concept_1694170983",
+    "misconception": "Speed always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Speed is valid."
+  },
+  {
+    "misconception_id": "misc_fd73c34668",
+    "concept_id": "concept_a49b791f66",
+    "misconception": "Acceleration is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Acceleration is defined as the rate of change of velocity with respect to time, given by a = (v2 - v1) / t."
+  },
+  {
+    "misconception_id": "misc_24ddf5d0ad",
+    "concept_id": "concept_a49b791f66",
+    "misconception": "Acceleration always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Acceleration is valid."
+  },
+  {
+    "misconception_id": "misc_b04e77d310",
+    "concept_id": "concept_c3ff7bca71",
+    "misconception": "Principle of inertia is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: principle of inertia describes this tendency to resist changes in motion."
+  },
+  {
+    "misconception_id": "misc_626fc7742d",
+    "concept_id": "concept_c3ff7bca71",
+    "misconception": "Principle of inertia always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Principle of inertia is valid."
+  },
+  {
+    "misconception_id": "misc_a920b0e01a",
+    "concept_id": "concept_314ec88491",
+    "misconception": "Force is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Force is defined as the product of mass and acceleration, expressed by the formula F = m a."
+  },
+  {
+    "misconception_id": "misc_87ba669c4f",
+    "concept_id": "concept_314ec88491",
+    "misconception": "Force always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Force is valid."
+  },
+  {
+    "misconception_id": "misc_6fff6ad539",
+    "concept_id": "concept_bda73b7033",
+    "misconception": "Work is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d."
+  },
+  {
+    "misconception_id": "misc_e73e417352",
+    "concept_id": "concept_bda73b7033",
+    "misconception": "Work always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Work is valid."
+  },
+  {
+    "misconception_id": "misc_caf15fb5cf",
+    "concept_id": "concept_e7d35b0eab",
+    "misconception": "Energy is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Energy refers to the capacity of a system to do work."
+  },
+  {
+    "misconception_id": "misc_cedb955019",
+    "concept_id": "concept_e7d35b0eab",
+    "misconception": "Energy always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Energy is valid."
+  },
+  {
+    "misconception_id": "misc_193f8eed91",
+    "concept_id": "concept_24b9f371d7",
+    "misconception": "Kinetic energy is the same as a closely related term and can be used interchangeably.",
+    "explanation": "Surface similarity leads learners to conflate distinct ideas, losing the specific meaning.",
+    "correction": "Anchor on the precise definition: Kinetic energy is the energy possessed by an object due to its motion, expressed by the formula KE = 0.5 m v^2."
+  },
+  {
+    "misconception_id": "misc_77880394ad",
+    "concept_id": "concept_24b9f371d7",
+    "misconception": "Kinetic energy always applies, regardless of context or assumptions.",
+    "explanation": "Learners over-generalize a concept beyond the conditions under which it holds.",
+    "correction": "Identify the assumptions and boundary conditions that constrain when Kinetic energy is valid."
+  }
+]

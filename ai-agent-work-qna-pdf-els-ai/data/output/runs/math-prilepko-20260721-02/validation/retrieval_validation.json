@@ -1,0 +1,1332 @@
+{
+  "metrics": {
+    "recall_at_k": 0.662,
+    "precision_at_k": 0.1408,
+    "mrr": 0.5601,
+    "ndcg": 0.5857,
+    "coverage": 0.6761
+  },
+  "queries": [
+    {
+      "query": "Explain Chapter 1 in Chapter 1 and show how it is applied.",
+      "concept_id": "concept_77d4c390fb",
+      "expected_chunks": [
+        "chunk_40a0f8020b"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_40a0f8020b",
+        "chunk_697329daea",
+        "chunk_e725ca5ff3",
+        "chunk_5ecf7f8b2d"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 0.5,
+      "ndcg": 0.6309
+    },
+    {
+      "query": "Explain Set D,or C in The Antiderivative and the Integral and show how it is applied.",
+      "concept_id": "concept_a1427cc398",
+      "expected_chunks": [
+        "chunk_e8d10e8b81"
+      ],
+      "retrieved_chunks": [
+        "chunk_e8d10e8b81",
+        "chunk_32d038a0b9",
+        "chunk_fc7cc32c3e",
+        "chunk_f1dc1fd08e",
+        "chunk_d63d9bd5da"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Chapter 1 practice pages 11-16 in Chapter 1 practice pages 11-16 and show how it is applied.",
+      "concept_id": "concept_3cd8a1d999",
+      "expected_chunks": [
+        "chunk_b71e6def00"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_40a0f8020b",
+        "chunk_e725ca5ff3",
+        "chunk_5ecf7f8b2d"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Y=4x-x²at the point M(1;3)(a in Chapter 1 practice pages 17-22 and show how it is applied.",
+      "concept_id": "concept_393a7be286",
+      "expected_chunks": [
+        "chunk_13d56cc623"
+      ],
+      "retrieved_chunks": [
+        "chunk_13d56cc623",
+        "chunk_c54c2b3fb0",
+        "chunk_b71e6def00",
+        "chunk_e725ca5ff3",
+        "chunk_c56a464c45"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Chapter 1 practice pages 23-28 in Chapter 1 practice pages 23-28 and show how it is applied.",
+      "concept_id": "concept_44acfa1cb4",
+      "expected_chunks": [
+        "chunk_d63d9bd5da"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b",
+        "chunk_431d147c16"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Chapter 1 practice pages 29-34 in Chapter 1 practice pages 29-34 and show how it is applied.",
+      "concept_id": "concept_45127fdcf0",
+      "expected_chunks": [
+        "chunk_e89c80df4e"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_40a0f8020b",
+        "chunk_e725ca5ff3",
+        "chunk_431d147c16"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Chapter 1 practice pages 35-40 in Chapter 1 practice pages 35-40 and show how it is applied.",
+      "concept_id": "concept_15b5941407",
+      "expected_chunks": [
+        "chunk_6a10883506"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b",
+        "chunk_431d147c16"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Chapter 1 practice pages 41-46 in Chapter 1 practice pages 41-46 and show how it is applied.",
+      "concept_id": "concept_a7f0d15a59",
+      "expected_chunks": [
+        "chunk_c54c2b3fb0"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_40a0f8020b",
+        "chunk_e725ca5ff3",
+        "chunk_431d147c16"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Chapter 1 practice pages 47-52 in Chapter 1 practice pages 47-52 and show how it is applied.",
+      "concept_id": "concept_c656b7384f",
+      "expected_chunks": [
+        "chunk_697329daea"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b",
+        "chunk_5ecf7f8b2d"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Chapter 1 practice pages 53-58 in Chapter 1 practice pages 53-58 and show how it is applied.",
+      "concept_id": "concept_f92fd22ba1",
+      "expected_chunks": [
+        "chunk_c56a464c45"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_40a0f8020b",
+        "chunk_e725ca5ff3",
+        "chunk_bb6b6ff7df"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Chapter 1 practice pages 59-64 in Chapter 1 practice pages 59-64 and show how it is applied.",
+      "concept_id": "concept_eefc34380a",
+      "expected_chunks": [
+        "chunk_5ecf7f8b2d"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b",
+        "chunk_431d147c16"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Chapter 1 practice pages 65-70 in Chapter 1 practice pages 65-70 and show how it is applied.",
+      "concept_id": "concept_8c899b7eaf",
+      "expected_chunks": [
+        "chunk_77545bdac5"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_431d147c16",
+        "chunk_40a0f8020b"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Chapter 1 practice pages 71-76 in Chapter 1 practice pages 71-76 and show how it is applied.",
+      "concept_id": "concept_ccaf311484",
+      "expected_chunks": [
+        "chunk_431d147c16"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b",
+        "chunk_431d147c16"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 0.2,
+      "ndcg": 0.3869
+    },
+    {
+      "query": "Explain Chapter 1 practice pages 77-82 in Chapter 1 practice pages 77-82 and show how it is applied.",
+      "concept_id": "concept_8e3d64b025",
+      "expected_chunks": [
+        "chunk_bb6b6ff7df"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b",
+        "chunk_431d147c16"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Chapter 1 practice pages 83-88 in Chapter 1 practice pages 83-88 and show how it is applied.",
+      "concept_id": "concept_993cf899cd",
+      "expected_chunks": [
+        "chunk_58045d7226"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b",
+        "chunk_431d147c16"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Chapter 1 practice pages 89-94 in Chapter 1 practice pages 89-94 and show how it is applied.",
+      "concept_id": "concept_f2d508bbcb",
+      "expected_chunks": [
+        "chunk_986180ff23"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b",
+        "chunk_5ecf7f8b2d"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Chapter 1 practice pages 95-100 in Chapter 1 practice pages 95-100 and show how it is applied.",
+      "concept_id": "concept_36d02f7a65",
+      "expected_chunks": [
+        "chunk_81f47caf99"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_40a0f8020b",
+        "chunk_e725ca5ff3",
+        "chunk_bb6b6ff7df"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Of a triangle， AB=a,AC=b,[AD] in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_16ab33fe85",
+      "expected_chunks": [
+        "chunk_ca371b9ba5"
+      ],
+      "retrieved_chunks": [
+        "chunk_ca371b9ba5",
+        "chunk_ac7adad5af",
+        "chunk_64836d1377",
+        "chunk_037cd9cc25",
+        "chunk_c56a464c45"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Chapter 7 practice pages 107-112 in Chapter 7 practice pages 107-112 and show how it is applied.",
+      "concept_id": "concept_4c1ad5c066",
+      "expected_chunks": [
+        "chunk_64836d1377"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_431d147c16",
+        "chunk_40a0f8020b"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Chapter 7 practice pages 113-114 in Chapter 7 practice pages 113-114 and show how it is applied.",
+      "concept_id": "concept_ccdc182e42",
+      "expected_chunks": [
+        "chunk_b85160e090"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b",
+        "chunk_431d147c16"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Chapter 8 practice pages 115-120 in Chapter 8 practice pages 115-120 and show how it is applied.",
+      "concept_id": "concept_b7fa009cbd",
+      "expected_chunks": [
+        "chunk_5b34269506"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b",
+        "chunk_431d147c16"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Base of the pyramid in Chapter 8 practice pages 121-126 and show how it is applied.",
+      "concept_id": "concept_5ce269ee1e",
+      "expected_chunks": [
+        "chunk_735ee7c4d9"
+      ],
+      "retrieved_chunks": [
+        "chunk_735ee7c4d9",
+        "chunk_1b0084e479",
+        "chunk_8464f42454",
+        "chunk_6ede94b55e",
+        "chunk_697329daea"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Chapter 8 practice pages 127-132 in Chapter 8 practice pages 127-132 and show how it is applied.",
+      "concept_id": "concept_b3c85fa64e",
+      "expected_chunks": [
+        "chunk_6ede94b55e"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_431d147c16",
+        "chunk_40a0f8020b"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Chapter 8 practice pages 133-138 in Chapter 8 practice pages 133-138 and show how it is applied.",
+      "concept_id": "concept_62fc111fe1",
+      "expected_chunks": [
+        "chunk_f1dc1fd08e"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b",
+        "chunk_431d147c16"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Chapter 1 practice pages 139-149 in Chapter 1 practice pages 139-149 and show how it is applied.",
+      "concept_id": "concept_9947576121",
+      "expected_chunks": [
+        "chunk_1a88cb8862"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_431d147c16",
+        "chunk_40a0f8020b"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Consequently，x=1 in Chapter 1 practice pages 150-160 and show how it is applied.",
+      "concept_id": "concept_46cf8a440d",
+      "expected_chunks": [
+        "chunk_9cdc8f52ef"
+      ],
+      "retrieved_chunks": [
+        "chunk_9cdc8f52ef",
+        "chunk_c54c2b3fb0",
+        "chunk_3ff6ea27ec",
+        "chunk_697329daea",
+        "chunk_7cc4a7049b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Origin has theformy=kx.Suppose M（zoyo in Chapter 1 practice pages 150-160 and show how it is applied.",
+      "concept_id": "concept_5f309285d8",
+      "expected_chunks": [
+        "chunk_399197365f"
+      ],
+      "retrieved_chunks": [
+        "chunk_399197365f",
+        "chunk_c54c2b3fb0",
+        "chunk_c56a464c45",
+        "chunk_e725ca5ff3",
+        "chunk_c697333019"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Z= 2.Such roots are called miltiple roots.The rootz=2 in Chapter 1 practice pages 150-160 and show how it is applied.",
+      "concept_id": "concept_ce23a55e4b",
+      "expected_chunks": [
+        "chunk_b85ea21363"
+      ],
+      "retrieved_chunks": [
+        "chunk_b85ea21363",
+        "chunk_7c93fdb8c6",
+        "chunk_d63d9bd5da",
+        "chunk_399197365f",
+        "chunk_9cdc8f52ef"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain One positive term （x+.2).This in Chapter 1 practice pages 161-166 and show how it is applied.",
+      "concept_id": "concept_33cd575db2",
+      "expected_chunks": [
+        "chunk_2a6ce4407b"
+      ],
+      "retrieved_chunks": [
+        "chunk_2a6ce4407b",
+        "chunk_e725ca5ff3",
+        "chunk_7cc4a7049b",
+        "chunk_c54c2b3fb0",
+        "chunk_d63d9bd5da"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain —1；1) it increases; x=-1 in Chapter 1 practice pages 161-166 and show how it is applied.",
+      "concept_id": "concept_2ad1c84fc0",
+      "expected_chunks": [
+        "chunk_7cc4a7049b"
+      ],
+      "retrieved_chunks": [
+        "chunk_7cc4a7049b",
+        "chunk_7fc157be79",
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_40a0f8020b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3 in Chapter 1 practice pages 167-173 and show how it is applied.",
+      "concept_id": "concept_acddf91d9c",
+      "expected_chunks": [
+        "chunk_7fc157be79"
+      ],
+      "retrieved_chunks": [
+        "chunk_7fc157be79",
+        "chunk_7cc4a7049b",
+        "chunk_7c93fdb8c6",
+        "chunk_81f47caf99",
+        "chunk_697329daea"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Solving this system by in Chapter 2 practice pages 175-180 and show how it is applied.",
+      "concept_id": "concept_69cb78182a",
+      "expected_chunks": [
+        "chunk_514ad062b9"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_697329daea",
+        "chunk_40a0f8020b",
+        "chunk_514ad062b9"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 0.2,
+      "ndcg": 0.3869
+    },
+    {
+      "query": "Explain Consequently，f（z)>0on thatintervaland this in Chapter 2 practice pages 175-180 and show how it is applied.",
+      "concept_id": "concept_a0f16824e5",
+      "expected_chunks": [
+        "chunk_3ff6ea27ec"
+      ],
+      "retrieved_chunks": [
+        "chunk_3ff6ea27ec",
+        "chunk_3431d00caa",
+        "chunk_9cdc8f52ef",
+        "chunk_1a88cb8862",
+        "chunk_e5a5d24a2e"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Weestablish by in Chapter 2 practice pages 181-186 and show how it is applied.",
+      "concept_id": "concept_180d305ba3",
+      "expected_chunks": [
+        "chunk_f9ca96ed6c"
+      ],
+      "retrieved_chunks": [
+        "chunk_f9ca96ed6c",
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Sets of solutions in Chapter 2 practice pages 181-186 and show how it is applied.",
+      "concept_id": "concept_f26ab3e78f",
+      "expected_chunks": [
+        "chunk_32d038a0b9"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b",
+        "chunk_5ecf7f8b2d",
+        "chunk_697329daea"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Chapter 2 practice pages 187-193 in Chapter 2 practice pages 187-193 and show how it is applied.",
+      "concept_id": "concept_493ea34ade",
+      "expected_chunks": [
+        "chunk_e725ca5ff3"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_e725ca5ff3",
+        "chunk_431d147c16",
+        "chunk_40a0f8020b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 0.3333,
+      "ndcg": 0.5
+    },
+    {
+      "query": "Explain Chapter 2 practice pages 194-201 in Chapter 2 practice pages 194-201 and show how it is applied.",
+      "concept_id": "concept_759a0d7e40",
+      "expected_chunks": [
+        "chunk_e9fd4c52b7"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b",
+        "chunk_77545bdac5"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Arctan（1/2）, kEZ.Verifying them by in Chapter 2 practice pages 202-207 and show how it is applied.",
+      "concept_id": "concept_a5bc52665f",
+      "expected_chunks": [
+        "chunk_c697333019"
+      ],
+      "retrieved_chunks": [
+        "chunk_c697333019",
+        "chunk_5ecf7f8b2d",
+        "chunk_986180ff23",
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Satisfied，we find that z=n,nEZ， in Chapter 2 practice pages 208-213 and show how it is applied.",
+      "concept_id": "concept_f57269bb13",
+      "expected_chunks": [
+        "chunk_5cb4832316"
+      ],
+      "retrieved_chunks": [
+        "chunk_5cb4832316",
+        "chunk_e725ca5ff3",
+        "chunk_7c93fdb8c6",
+        "chunk_2a6ce4407b",
+        "chunk_c697333019"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain second equation in Chapter 2 practice pages 214-219 and show how it is applied.",
+      "concept_id": "concept_e0c8354fce",
+      "expected_chunks": [
+        "chunk_9a0fbcc9dc",
+        "chunk_ef547bd318"
+      ],
+      "retrieved_chunks": [
+        "chunk_e725ca5ff3",
+        "chunk_c54c2b3fb0",
+        "chunk_ef547bd318",
+        "chunk_40a0f8020b",
+        "chunk_697329daea"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 0.3333,
+      "ndcg": 0.3066
+    },
+    {
+      "query": "Explain Supposexroubles in Chapter 2 practice pages 220-225 and show how it is applied.",
+      "concept_id": "concept_5d3428cb57",
+      "expected_chunks": [
+        "chunk_331fce623c"
+      ],
+      "retrieved_chunks": [
+        "chunk_331fce623c",
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_40a0f8020b",
+        "chunk_e725ca5ff3"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Suppose z in Chapter 2 practice pages 220-225 and show how it is applied.",
+      "concept_id": "concept_aeb1d97acf",
+      "expected_chunks": [
+        "chunk_7c93fdb8c6"
+      ],
+      "retrieved_chunks": [
+        "chunk_e725ca5ff3",
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_7c93fdb8c6",
+        "chunk_40a0f8020b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 0.25,
+      "ndcg": 0.4307
+    },
+    {
+      "query": "Explain 25 ma/h.Suppose S in Chapter 2 practice pages 220-225 and show how it is applied.",
+      "concept_id": "concept_a42005065a",
+      "expected_chunks": [
+        "chunk_1d11570bdd"
+      ],
+      "retrieved_chunks": [
+        "chunk_1d11570bdd",
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_40a0f8020b",
+        "chunk_e725ca5ff3"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Old system by in Chapter 2 practice pages 226-231 and show how it is applied.",
+      "concept_id": "concept_c334a77355",
+      "expected_chunks": [
+        "chunk_74a7e9d41c"
+      ],
+      "retrieved_chunks": [
+        "chunk_74a7e9d41c",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_697329daea",
+        "chunk_cf176c6f35"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Side of equation (1 in Chapter 2 practice pages 226-231 and show how it is applied.",
+      "concept_id": "concept_28f65425cb",
+      "expected_chunks": [
+        "chunk_8e879776e5",
+        "chunk_00486c7589"
+      ],
+      "retrieved_chunks": [
+        "chunk_e725ca5ff3",
+        "chunk_c54c2b3fb0",
+        "chunk_00486c7589",
+        "chunk_8e879776e5",
+        "chunk_697329daea"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 0.3333,
+      "ndcg": 0.5706
+    },
+    {
+      "query": "Explain Can be found by in Chapter 2 practice pages 226-231 and show how it is applied.",
+      "concept_id": "concept_5f1c83982f",
+      "expected_chunks": [
+        "chunk_cf176c6f35"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b",
+        "chunk_5ecf7f8b2d"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain 1→00 lim n-7 c in Chapter 2 practice pages 232-235 and show how it is applied.",
+      "concept_id": "concept_c7dde8cfc3",
+      "expected_chunks": [
+        "chunk_3db9909f17"
+      ],
+      "retrieved_chunks": [
+        "chunk_3db9909f17",
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Sum of these vectors in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_2984782637",
+      "expected_chunks": [
+        "chunk_037cd9cc25"
+      ],
+      "retrieved_chunks": [
+        "chunk_037cd9cc25",
+        "chunk_00f019b947",
+        "chunk_81f47caf99",
+        "chunk_64836d1377",
+        "chunk_ca371b9ba5"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain N =(0; 1; 0 in Chapter 6 and show how it is applied.",
+      "concept_id": "concept_973f8e00df",
+      "expected_chunks": [
+        "chunk_9b8d4f2d5d",
+        "chunk_97acee2c8e"
+      ],
+      "retrieved_chunks": [
+        "chunk_36f19092c0",
+        "chunk_7c93fdb8c6",
+        "chunk_3431d00caa",
+        "chunk_e725ca5ff3",
+        "chunk_9b8d4f2d5d"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "mrr": 0.2,
+      "ndcg": 0.2372
+    },
+    {
+      "query": "Explain segment[EF]; [MF] in Chapter 7 practice pages 241-246 and show how it is applied.",
+      "concept_id": "concept_05d448fa54",
+      "expected_chunks": [
+        "chunk_1bd44e8f1d"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_1bd44e8f1d",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 0.5,
+      "ndcg": 0.6309
+    },
+    {
+      "query": "Explain M C trianglesthat丨KE|=|MC|andso KECM in Chapter 7 practice pages 241-246 and show how it is applied.",
+      "concept_id": "concept_83657abf05",
+      "expected_chunks": [
+        "chunk_9e13fc0b50"
+      ],
+      "retrieved_chunks": [
+        "chunk_9e13fc0b50",
+        "chunk_1bd44e8f1d",
+        "chunk_ac7adad5af",
+        "chunk_dfc95dade0",
+        "chunk_c54c2b3fb0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Thehypothe- sis)，it follows that[BP| in Chapter 7 practice pages 241-246 and show how it is applied.",
+      "concept_id": "concept_a90232301b",
+      "expected_chunks": [
+        "chunk_dfc95dade0"
+      ],
+      "retrieved_chunks": [
+        "chunk_dfc95dade0",
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_e725ca5ff3",
+        "chunk_8464f42454"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain By analogy，we find a point O，which in Chapter 7 practice pages 241-246 and show how it is applied.",
+      "concept_id": "concept_24079685a3",
+      "expected_chunks": [
+        "chunk_ac7adad5af"
+      ],
+      "retrieved_chunks": [
+        "chunk_ac7adad5af",
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_dfc95dade0",
+        "chunk_7cc4a7049b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain ABC,it follows that [PQ] in Chapter 7 practice pages 247-252 and show how it is applied.",
+      "concept_id": "concept_172b1feee0",
+      "expected_chunks": [
+        "chunk_496ea36b9a"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_496ea36b9a",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 0.3333,
+      "ndcg": 0.5
+    },
+    {
+      "query": "Explain Equal to(4-(1+ xE[0;6] V2)x)/2,wherex in Chapter 7 practice pages 247-252 and show how it is applied.",
+      "concept_id": "concept_69cce13951",
+      "expected_chunks": [
+        "chunk_6b58ad16f9"
+      ],
+      "retrieved_chunks": [
+        "chunk_d63d9bd5da",
+        "chunk_b71e6def00",
+        "chunk_e725ca5ff3",
+        "chunk_6a10883506",
+        "chunk_7c93fdb8c6"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Regular tetra- hedron,in particular,a in Chapter 7 practice pages 253-258 and show how it is applied.",
+      "concept_id": "concept_537674f1cf",
+      "expected_chunks": [
+        "chunk_b8c3cebebc"
+      ],
+      "retrieved_chunks": [
+        "chunk_b8c3cebebc",
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_1d11570bdd",
+        "chunk_e725ca5ff3"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain SS)）， where S in Chapter 7 practice pages 253-258 and show how it is applied.",
+      "concept_id": "concept_b154bcc0dd",
+      "expected_chunks": [
+        "chunk_8464f42454"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_e725ca5ff3",
+        "chunk_8464f42454",
+        "chunk_cf176c6f35"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 0.25,
+      "ndcg": 0.4307
+    },
+    {
+      "query": "Explain Planeof the base(ABCD in Chapter 7 practice pages 253-258 and show how it is applied.",
+      "concept_id": "concept_444445d454",
+      "expected_chunks": [
+        "chunk_1b0084e479"
+      ],
+      "retrieved_chunks": [
+        "chunk_1b0084e479",
+        "chunk_64836d1377",
+        "chunk_b85160e090",
+        "chunk_ac7adad5af",
+        "chunk_579774930b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain S The point O∈（ALS）and (OL） in Chapter 7 practice pages 259-264 and show how it is applied.",
+      "concept_id": "concept_aa5519117c",
+      "expected_chunks": [
+        "chunk_579774930b"
+      ],
+      "retrieved_chunks": [
+        "chunk_579774930b",
+        "chunk_7cc4a7049b",
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_e725ca5ff3"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Suppose x in Chapter 7 practice pages 259-264 and show how it is applied.",
+      "concept_id": "concept_359ead36a1",
+      "expected_chunks": [
+        "chunk_bba489ec32"
+      ],
+      "retrieved_chunks": [
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_e725ca5ff3",
+        "chunk_40a0f8020b",
+        "chunk_5ecf7f8b2d"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Explain Generatrix of the cone，@ in Chapter 7 practice pages 259-264 and show how it is applied.",
+      "concept_id": "concept_474e628c3c",
+      "expected_chunks": [
+        "chunk_810df2ad1a"
+      ],
+      "retrieved_chunks": [
+        "chunk_810df2ad1a",
+        "chunk_6ede94b55e",
+        "chunk_bba489ec32",
+        "chunk_c54c2b3fb0",
+        "chunk_5ecf7f8b2d"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Since 6 6 （k+1）(k+2)(2k+3) and this in Chapter 9 practice pages 265-270 and show how it is applied.",
+      "concept_id": "concept_8aee7319a1",
+      "expected_chunks": [
+        "chunk_36f19092c0"
+      ],
+      "retrieved_chunks": [
+        "chunk_36f19092c0",
+        "chunk_c54c2b3fb0",
+        "chunk_e725ca5ff3",
+        "chunk_7c93fdb8c6",
+        "chunk_697329daea"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain 180 (b)▲ Suppose ABCD in Chapter 9 practice pages 265-270 and show how it is applied.",
+      "concept_id": "concept_e10a3efa37",
+      "expected_chunks": [
+        "chunk_fc7cc32c3e"
+      ],
+      "retrieved_chunks": [
+        "chunk_fc7cc32c3e",
+        "chunk_c54c2b3fb0",
+        "chunk_697329daea",
+        "chunk_e725ca5ff3",
+        "chunk_5ecf7f8b2d"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Then f（x)=f（—z)=0as well,and this in Chapter 9 practice pages 265-270 and show how it is applied.",
+      "concept_id": "concept_5f658eb084",
+      "expected_chunks": [
+        "chunk_e5a5d24a2e"
+      ],
+      "retrieved_chunks": [
+        "chunk_e5a5d24a2e",
+        "chunk_3431d00caa",
+        "chunk_f1dc1fd08e",
+        "chunk_e725ca5ff3",
+        "chunk_d63d9bd5da"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain That of problem3.5.Suppose f（x in Chapter 9 practice pages 271-276 and show how it is applied.",
+      "concept_id": "concept_4eeefbdab6",
+      "expected_chunks": [
+        "chunk_98cff7834b"
+      ],
+      "retrieved_chunks": [
+        "chunk_98cff7834b",
+        "chunk_e725ca5ff3",
+        "chunk_e5a5d24a2e",
+        "chunk_f1dc1fd08e",
+        "chunk_c54c2b3fb0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain 12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this in Chapter 9 practice pages 271-276 and show how it is applied.",
+      "concept_id": "concept_788ad47c8d",
+      "expected_chunks": [
+        "chunk_3431d00caa"
+      ],
+      "retrieved_chunks": [
+        "chunk_3431d00caa",
+        "chunk_e725ca5ff3",
+        "chunk_d63d9bd5da",
+        "chunk_1a88cb8862",
+        "chunk_2a6ce4407b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain No,we cannot.For instance,f (x)=1 + cos x in Chapter 9 practice pages 271-276 and show how it is applied.",
+      "concept_id": "concept_ee77818df3",
+      "expected_chunks": [
+        "chunk_be5f66c79a"
+      ],
+      "retrieved_chunks": [
+        "chunk_be5f66c79a",
+        "chunk_77545bdac5",
+        "chunk_c56a464c45",
+        "chunk_e5a5d24a2e",
+        "chunk_5cb4832316"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Suppose SABc in Chapter 9 practice pages 271-276 and show how it is applied.",
+      "concept_id": "concept_2102a0a8d5",
+      "expected_chunks": [
+        "chunk_e55bacf990"
+      ],
+      "retrieved_chunks": [
+        "chunk_e55bacf990",
+        "chunk_c54c2b3fb0",
+        "chunk_40a0f8020b",
+        "chunk_697329daea",
+        "chunk_8464f42454"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain =(2n+1）-arctan 2the given quadraticfunction in Chapter 9 practice pages 277-280 and show how it is applied.",
+      "concept_id": "concept_6ae9e02564",
+      "expected_chunks": [
+        "chunk_1dbe47c983"
+      ],
+      "retrieved_chunks": [
+        "chunk_1dbe47c983",
+        "chunk_5ecf7f8b2d",
+        "chunk_c697333019",
+        "chunk_986180ff23",
+        "chunk_d63d9bd5da"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Explain Logs (3x+2) <1 277 in Chapter 9 practice pages 277-280 and show how it is applied.",
+      "concept_id": "concept_ceb3b0f44e",
+      "expected_chunks": [
+        "chunk_626f658bd7",
+        "chunk_43e055b810"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_626f658bd7",
+        "chunk_43e055b810",
+        "chunk_e725ca5ff3"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "mrr": 0.3333,
+      "ndcg": 0.5706
+    },
+    {
+      "query": "Explain given system in Chapter 9 practice pages 277-280 and show how it is applied.",
+      "concept_id": "concept_ecd6f0e62e",
+      "expected_chunks": [
+        "chunk_00f019b947"
+      ],
+      "retrieved_chunks": [
+        "chunk_697329daea",
+        "chunk_c54c2b3fb0",
+        "chunk_40a0f8020b",
+        "chunk_e725ca5ff3",
+        "chunk_e89c80df4e"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    }
+  ],
+  "failed_concepts": [
+    "concept_3cd8a1d999",
+    "concept_44acfa1cb4",
+    "concept_45127fdcf0",
+    "concept_15b5941407",
+    "concept_f92fd22ba1",
+    "concept_eefc34380a",
+    "concept_8c899b7eaf",
+    "concept_8e3d64b025",
+    "concept_993cf899cd",
+    "concept_f2d508bbcb",
+    "concept_36d02f7a65",
+    "concept_4c1ad5c066",
+    "concept_ccdc182e42",
+    "concept_b7fa009cbd",
+    "concept_b3c85fa64e",
+    "concept_62fc111fe1",
+    "concept_9947576121",
+    "concept_f26ab3e78f",
+    "concept_759a0d7e40",
+    "concept_5f1c83982f",
+    "concept_69cce13951",
+    "concept_359ead36a1",
+    "concept_ecd6f0e62e"
+  ],
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "embedding_backend": "fastembed",
+  "run_id": "math-prilepko-20260721-02",
+  "top_k": 5,
+  "thresholds": {
+    "recall_at_k": 0.8,
+    "precision_at_k": 0.2,
+    "mrr": 0.8,
+    "ndcg": 0.75,
+    "coverage": 0.95
+  },
+  "passed": false,
+  "approved_chunks": 52,
+  "rejected_chunks": 23
+}

@@ -1,0 +1,1225 @@
+[
+  {
+    "formula_id": "formula_cf86eafbab",
+    "expression": "Φ_B = ∫_S B · dS",
+    "variables": [],
+    "concepts": [
+      "concept_7693272a7d"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_b0cfa2e604",
+    "expression": "dΦ_B = B dS cos θ",
+    "variables": [],
+    "concepts": [
+      "concept_7693272a7d"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_3b587e175c",
+    "expression": "∮_S B · dS = 0",
+    "variables": [],
+    "concepts": [
+      "concept_f8eaf41ca7"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_be08203ed3",
+    "expression": "|E| = dΦ/dt",
+    "variables": [],
+    "concepts": [
+      "concept_2a665274e3"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_2bc376fc27",
+    "expression": "E = −dΦ/dt",
+    "variables": [],
+    "concepts": [
+      "concept_549729587d"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_591272398b",
+    "expression": "Q = ∫i dt = −ΔΦ/R",
+    "variables": [],
+    "concepts": [
+      "concept_5975bf7946"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_911ecc88a5",
+    "expression": "E = B l v sin θ",
+    "variables": [],
+    "concepts": [
+      "concept_9254b1d6a8"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_53fbe499f1",
+    "expression": "E = ∫_L (v × B) · dl",
+    "variables": [],
+    "concepts": [
+      "concept_9254b1d6a8"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_608d9704a8",
+    "expression": "Φ = N B S cos(ωt)",
+    "variables": [],
+    "concepts": [
+      "concept_05210818a8"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_31b7599afc",
+    "expression": "Φ = L I",
+    "variables": [],
+    "concepts": [
+      "concept_1e6c744d80"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_e6b7ba3125",
+    "expression": "E = −L dI/dt",
+    "variables": [],
+    "concepts": [
+      "concept_1e6c744d80"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_7b8a4d2215",
+    "expression": "L = μ₀ N² πR/2",
+    "variables": [],
+    "concepts": [
+      "concept_9536cc79c4"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_23ff26f227",
+    "expression": "U = 1/2 L I²",
+    "variables": [],
+    "concepts": [
+      "concept_6cd4d53f38"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_2efc8d1dd0",
+    "expression": "u = B²/(2μ₀)",
+    "variables": [],
+    "concepts": [
+      "concept_6cd4d53f38"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_9c0a7856c3",
+    "expression": "I = I₀(1 − e^(−t/τ))",
+    "variables": [],
+    "concepts": [
+      "concept_08736307d6"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_e5eaf3aa40",
+    "expression": "I₀ = E/R",
+    "variables": [],
+    "concepts": [
+      "concept_08736307d6"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_79d2aa4af5",
+    "expression": "τ = L/R",
+    "variables": [],
+    "concepts": [
+      "concept_08736307d6"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_e9cbc91456",
+    "expression": "I = I₀ e^(−t/τ)",
+    "variables": [],
+    "concepts": [
+      "concept_79d3dd9c51"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_d823a52c48",
+    "expression": "I = I₀ e^(−Rt/L)",
+    "variables": [],
+    "concepts": [
+      "concept_79d3dd9c51"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_9db4dad2e3",
+    "expression": "τ = L/R",
+    "variables": [],
+    "concepts": [
+      "concept_79d3dd9c51"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "formula_id": "formula_f0e5a7ca3f",
+    "expression": "Φ₂ = MI₁",
+    "variables": [],
+    "concepts": [
+      "concept_19fc9d8e17"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_956c0b35f5",
+    "expression": "E₂ = dΦ₂/dt = M(dI₁/dt)",
+    "variables": [],
+    "concepts": [
+      "concept_19fc9d8e17"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_b7c34b74e6",
+    "expression": "M = k√(L₁L₂)",
+    "variables": [],
+    "concepts": [
+      "concept_12146cc5b6"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_ad66ae4a67",
+    "expression": "e = e₁ + e₂",
+    "variables": [],
+    "concepts": [
+      "concept_cd149ebd0e"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_2b2e729a56",
+    "expression": "Lₛ = L₁ + L₂",
+    "variables": [],
+    "concepts": [
+      "concept_cd149ebd0e"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_baed5a2bec",
+    "expression": "I = I₁ + I₂",
+    "variables": [],
+    "concepts": [
+      "concept_43fc18b0f9"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_b891586a0f",
+    "expression": "1/Lₚ = 1/L₁ + 1/L₂",
+    "variables": [],
+    "concepts": [
+      "concept_43fc18b0f9"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_8a0efb6398",
+    "expression": "Lₚ = L₁L₂/(L₁ + L₂)",
+    "variables": [],
+    "concepts": [
+      "concept_43fc18b0f9"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_7230a2dbab",
+    "expression": "i = Iₘₐₓ sin(ωt)",
+    "variables": [],
+    "concepts": [
+      "concept_6bb4417781"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_03a6893f89",
+    "expression": "e = Eₘₐₓ sin(ωt)",
+    "variables": [],
+    "concepts": [
+      "concept_6bb4417781"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_3267f85bef",
+    "expression": "ω = 2πf",
+    "variables": [],
+    "concepts": [
+      "concept_6bb4417781"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_587a7eb959",
+    "expression": "e = Eₘₐₓ sin(2πft)",
+    "variables": [],
+    "concepts": [
+      "concept_6bb4417781"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_749e945724",
+    "expression": "e = Eₘₐₓ sin(2πt/T)",
+    "variables": [],
+    "concepts": [
+      "concept_6bb4417781"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_f47826b9c5",
+    "expression": "f = 1/T",
+    "variables": [],
+    "concepts": [
+      "concept_6bb4417781"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_0cfdfb7f02",
+    "expression": "Iᵣₘₛ = √[(I₁² + I₂² + ... + Iₙ²)/n]",
+    "variables": [],
+    "concepts": [
+      "concept_b680bd6489"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_d8cda716e6",
+    "expression": "Iᵣₘₛ = Iₘₐₓ/√2 = 0.707Iₘₐₓ",
+    "variables": [],
+    "concepts": [
+      "concept_b680bd6489"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_c993fb28d5",
+    "expression": "Vᵣₘₛ = Vₘₐₓ/√2 = 0.707Vₘₐₓ",
+    "variables": [],
+    "concepts": [
+      "concept_b680bd6489"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_412e94eb47",
+    "expression": "Iₐᵥ = 2Iₘₐₓ/π = 0.637Iₘₐₓ",
+    "variables": [],
+    "concepts": [
+      "concept_739b563448"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_318931bb30",
+    "expression": "v = Vₘₐₓ sin(ωt)",
+    "variables": [],
+    "concepts": [
+      "concept_5e46c6f8a7"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_291aa46d4b",
+    "expression": "i = Iₘₐₓ sin(ωt)",
+    "variables": [],
+    "concepts": [
+      "concept_5e46c6f8a7"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_80f25a28cc",
+    "expression": "Iₘₐₓ = Vₘₐₓ/R",
+    "variables": [],
+    "concepts": [
+      "concept_5e46c6f8a7"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_82f39ac76b",
+    "expression": "p = VₘₐₓIₘₐₓ sin²(ωt)",
+    "variables": [],
+    "concepts": [
+      "concept_5e46c6f8a7"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_2aafcc9dcc",
+    "expression": "p = (VₘₐₓIₘₐₓ/2)[1 - cos(2ωt)]",
+    "variables": [],
+    "concepts": [
+      "concept_5e46c6f8a7"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_956b3de2f1",
+    "expression": "i = Iₘₐₓ sin(ωt - π/2)",
+    "variables": [],
+    "concepts": [
+      "concept_fffb4e0618"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_7c8885148a",
+    "expression": "Iₘₐₓ = Vₘₐₓ/(ωL)",
+    "variables": [],
+    "concepts": [
+      "concept_fffb4e0618"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_4f702f88a0",
+    "expression": "Xₗ = ωL = 2πfL",
+    "variables": [],
+    "concepts": [
+      "concept_fffb4e0618"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_d85fdb7073",
+    "expression": "p = (VₘₐₓIₘₐₓ/2)sin(2ωt)",
+    "variables": [],
+    "concepts": [
+      "concept_fffb4e0618"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_4a40783d1f",
+    "expression": "i = Iₘₐₓ sin(ωt + π/2) = Iₘₐₓ cos(ωt)",
+    "variables": [],
+    "concepts": [
+      "concept_f29fcaaad0"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_59ec04e836",
+    "expression": "Iₘₐₓ = Vₘₐₓ/(1/(ωC)) = ωCVₘₐₓ",
+    "variables": [],
+    "concepts": [
+      "concept_f29fcaaad0"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_c537656117",
+    "expression": "X꜀ = 1/(ωC)",
+    "variables": [],
+    "concepts": [
+      "concept_f29fcaaad0"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_8cbe3d5642",
+    "expression": "p = (VₘₐₓIₘₐₓ/2)sin(2ωt)",
+    "variables": [],
+    "concepts": [
+      "concept_f29fcaaad0"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_780817ec6f",
+    "expression": "V = √(Vᵣ² + Vₗ²)",
+    "variables": [],
+    "concepts": [
+      "concept_19626bf476"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_d73b64e0bc",
+    "expression": "Z = √(R² + Xₗ²)",
+    "variables": [],
+    "concepts": [
+      "concept_19626bf476"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_03c3997f3a",
+    "expression": "I = V/Z",
+    "variables": [],
+    "concepts": [
+      "concept_19626bf476"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_30156ad0d2",
+    "expression": "Xₗ = ωL",
+    "variables": [],
+    "concepts": [
+      "concept_19626bf476"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "formula_id": "formula_3285b80bb1",
+    "expression": "P = V_rms I_rms cos φ",
+    "variables": [],
+    "concepts": [
+      "concept_4679caf6b0"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_af970e4331",
+    "expression": "V = √(V_R² + V_C²)",
+    "variables": [],
+    "concepts": [
+      "concept_eab7c7445e"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_26ac862d81",
+    "expression": "Z = √(R² + X_C²)",
+    "variables": [],
+    "concepts": [
+      "concept_eab7c7445e"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_4494e689cf",
+    "expression": "X_C = 1/(ωC)",
+    "variables": [],
+    "concepts": [
+      "concept_eab7c7445e"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_106ff37124",
+    "expression": "Z = √[R² + (ωL - 1/(ωC))²]",
+    "variables": [],
+    "concepts": [
+      "concept_8d88f13615"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_1bb7771d45",
+    "expression": "V = √[V_R² + (V_L - V_C)²]",
+    "variables": [],
+    "concepts": [
+      "concept_8d88f13615"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_b124ed6838",
+    "expression": "Net reactance = ωL - 1/(ωC)",
+    "variables": [],
+    "concepts": [
+      "concept_41ccbd759e"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_a900a7085c",
+    "expression": "X_L = X_C",
+    "variables": [],
+    "concepts": [
+      "concept_02c2da5105"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_cd3d6a680f",
+    "expression": "ω_r L = 1/(ω_r C)",
+    "variables": [],
+    "concepts": [
+      "concept_02c2da5105"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_7b68736081",
+    "expression": "ω_r = 1/√(LC)",
+    "variables": [],
+    "concepts": [
+      "concept_02c2da5105"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_55b7ef4846",
+    "expression": "f_r = 1/(2π√(LC))",
+    "variables": [],
+    "concepts": [
+      "concept_02c2da5105"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_ef83917125",
+    "expression": "Q = V_L/V = V_C/V = (1/R)√(L/C)",
+    "variables": [],
+    "concepts": [
+      "concept_d09c525f74"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_040eac6058",
+    "expression": "ε_1 = -N_1 dΦ_B/dt",
+    "variables": [],
+    "concepts": [
+      "concept_04da8ecccc"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_dd7a7bb4b6",
+    "expression": "ε_2 = -N_2 dΦ_B/dt",
+    "variables": [],
+    "concepts": [
+      "concept_04da8ecccc"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_1ed509d71c",
+    "expression": "ε_2/ε_1 = N_2/N_1",
+    "variables": [],
+    "concepts": [
+      "concept_52faab1a94"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_794d4da6ff",
+    "expression": "V_2/V_1 = N_2/N_1",
+    "variables": [],
+    "concepts": [
+      "concept_52faab1a94"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_ffbf6085fc",
+    "expression": "η = P_output/P_input",
+    "variables": [],
+    "concepts": [
+      "concept_258c353dd8"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  {
+    "formula_id": "formula_2cecc7be50",
+    "expression": "η_percent = (P_output/P_input) × 100",
+    "variables": [],
+    "concepts": [
+      "concept_258c353dd8"
+    ],
+    "source_book": "book_ff463445c6",
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  }
+]

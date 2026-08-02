@@ -1,0 +1,489 @@
+{
+  "key": "5.1",
+  "topic": "5.1 Progressions",
+  "questions": [
+    {
+      "question": {
+        "id": "9b79b478-a278-5301-b757-a06af0efa6bc",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "In an arithmetic progression, the \\(7^{\\\\text{th}}\\) term is \\(20\\) and the \\(13^{\\\\text{th}}\\) term is \\(38\\). Find the sum of its first \\(20\\) terms.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "From \\(a+6d=20\\) and \\(a+12d=38\\), we get \\(d=3\\) and \\(a=2\\). Hence \\(S_{20}=\\\\frac{20}{2}[2(2)+19(3)]=610\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 88,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "5.1 Progressions",
+            "concept_ids": [
+              "concept_bd349d0c63",
+              "concept_cd9ec05584"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              229,
+              230,
+              231
+            ],
+            "source_chunk_ids": [
+              "chunk_7de57b64c9",
+              "chunk_e8a6273da8"
+            ]
+          },
+          "options": [
+            {
+              "id": "610_1",
+              "label": "\\(610\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(d=3,\\ a=2,\\ S_{20}=610\\)"
+            },
+            {
+              "id": "600_2",
+              "label": "\\(600\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Incorrect first term or common difference"
+            },
+            {
+              "id": "620_3",
+              "label": "\\(620\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Incorrect substitution in the sum formula"
+            },
+            {
+              "id": "630_4",
+              "label": "\\(630\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Arithmetic error in evaluating \\(S_{20}\\)"
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "1dc6e1db-ba08-5b75-b88b-246267b24f80",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A geometric progression has positive terms, its \\(3^{\\\\text{rd}}\\) term is \\(12\\), and its \\(6^{\\\\text{th}}\\) term is \\(96\\). Find the sum of its first \\(8\\) terms.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since \\\\(\\\\frac{T_6}{T_3}=r^3=\\\\frac{96}{12}=8\\\\), we have \\(r=2\\). Thus \\(a=\\\\frac{12}{2^2}=3\\), and \\(S_8=\\\\frac{3(2^8-1)}{2-1}=765\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 89,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "5.1 Progressions",
+            "concept_ids": [
+              "concept_bd349d0c63",
+              "concept_cd9ec05584"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              229,
+              230,
+              231
+            ],
+            "source_chunk_ids": [
+              "chunk_7de57b64c9",
+              "chunk_e8a6273da8"
+            ]
+          },
+          "options": [
+            {
+              "id": "765_1",
+              "label": "\\(765\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(r=2,\\ a=3,\\ S_8=765\\)"
+            },
+            {
+              "id": "510_2",
+              "label": "\\(510\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Uses an incorrect value of \\(r\\)"
+            },
+            {
+              "id": "768_3",
+              "label": "\\(768\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Omits the subtraction of the first term"
+            },
+            {
+              "id": "384_4",
+              "label": "\\(384\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Confuses the eighth term with the sum"
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "10304244-ca88-52d5-bdbb-18131c225851",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The sum of the first \\(n\\) terms of an arithmetic progression is \\(S_n=3n^2+5n\\). Find its \\(15^{\\\\text{th}}\\) term.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(T_n=S_n-S_{n-1}=3n^2+5n-[3(n-1)^2+5(n-1)]=6n+2\\). Therefore, \\(T_{15}=6(15)+2=92\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 90,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "5.1 Progressions",
+            "concept_ids": [
+              "concept_bd349d0c63",
+              "concept_cd9ec05584"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              229,
+              230,
+              231
+            ],
+            "source_chunk_ids": [
+              "chunk_7de57b64c9",
+              "chunk_e8a6273da8"
+            ]
+          },
+          "options": [
+            {
+              "id": "92_1",
+              "label": "\\(92\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(T_n=S_n-S_{n-1}=6n+2\\)"
+            },
+            {
+              "id": "90_2",
+              "label": "\\(90\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Misses the constant term in \\(T_n\\)"
+            },
+            {
+              "id": "95_3",
+              "label": "\\(95\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Incorrect difference of consecutive sums"
+            },
+            {
+              "id": "102_4",
+              "label": "\\(102\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Uses \\(S_{15}\\) instead of \\(T_{15}\\)"
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "b055f474-a3d6-56c0-8514-5ea2950de66d",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "An infinite geometric progression has sum \\(10\\), and the sum of the squares of all its terms is \\(20\\). If its common ratio satisfies \\(\\lvert r\\\\rvert<1\\), find its first term.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using \\(\\\\frac{a}{1-r}=10\\) and \\(\\\\frac{a^2}{1-r^2}=20\\), substitution gives \\(\\\\frac{10(1-r)}{1+r}=2\\), so \\(r=\\\\frac{2}{3}\\). Hence \\(a=10(1-r)=\\\\frac{10}{3}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 91,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "5.1 Progressions",
+            "concept_ids": [
+              "concept_bd349d0c63",
+              "concept_cd9ec05584"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              229,
+              230,
+              231
+            ],
+            "source_chunk_ids": [
+              "chunk_7de57b64c9",
+              "chunk_e8a6273da8"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_10_3_1",
+              "label": "\\(\\\\frac{10}{3}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Solving gives \\(r=\\\\frac{2}{3}\\) and \\(a=\\\\frac{10}{3}\\)"
+            },
+            {
+              "id": "frac_20_3_2",
+              "label": "\\(\\\\frac{20}{3}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Incorrect use of the sum of squares"
+            },
+            {
+              "id": "5_3",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Assumes an incorrect common ratio"
+            },
+            {
+              "id": "frac_5_3_4",
+              "label": "\\(\\\\frac{5}{3}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Arithmetic error while solving for \\(a\\)"
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "2a6539a3-95fa-5713-a718-baed903e3df0",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(\\lvert x\\\\rvert<1\\), the series \\(1+2x+3x^2+4x^3+\\\\cdots\\) has sum \\(4\\). Find \\(x\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Differentiating the geometric series gives \\(1+2x+3x^2+\\\\cdots=\\\\frac{1}{(1-x)^2}\\). Thus \\(\\\\frac{1}{(1-x)^2}=4\\), and the valid solution under \\(\\lvert x\\\\rvert<1\\) is \\(x=\\\\frac{1}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 92,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "5.1 Progressions",
+            "concept_ids": [
+              "concept_bd349d0c63",
+              "concept_cd9ec05584"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              229,
+              230,
+              231
+            ],
+            "source_chunk_ids": [
+              "chunk_7de57b64c9",
+              "chunk_e8a6273da8"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_1_2_1",
+              "label": "\\(\\\\frac{1}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sum is \\(\\\\frac{1}{(1-x)^2}\\)"
+            },
+            {
+              "id": "frac_3_2_2",
+              "label": "\\(\\\\frac{3}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Does not satisfy \\(\\lvert x\\\\rvert<1\\)"
+            },
+            {
+              "id": "frac_1_4_3",
+              "label": "\\(\\\\frac{1}{4}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Incorrect generating-function formula"
+            },
+            {
+              "id": "frac_1_2_4",
+              "label": "\\(-\\\\frac{1}{2}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Gives a different value of the sum"
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_7de57b64c9",
+    "chunk_e8a6273da8"
+  ],
+  "source_pages": [
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    229,
+    230,
+    231
+  ],
+  "rejected": []
+}

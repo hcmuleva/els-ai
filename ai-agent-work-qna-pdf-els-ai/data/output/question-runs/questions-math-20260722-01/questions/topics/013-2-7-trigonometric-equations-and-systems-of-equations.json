@@ -1,0 +1,606 @@
+{
+  "key": "2.7",
+  "topic": "2.7 Trigonometric Equations and Systems of Equations",
+  "questions": [
+    {
+      "question": {
+        "id": "e5dbc94b-ff29-5051-9682-93157eb5f2af",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(x\\in[0,2\\pi]\\), solve \\(2\\sin x\\cos x-3\\sin 2x=0\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since \\(2\\sin x\\cos x=\\sin 2x\\), the equation becomes \\(-2\\sin 2x=0\\). Thus \\(2x=n\\pi\\), giving the stated values in \\([0,2\\pi]\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 36,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.7 Trigonometric Equations and Systems of Equations",
+            "concept_ids": [
+              "concept_2a6f7d6b1b",
+              "concept_45733a2de0",
+              "concept_4bf489703b",
+              "concept_73b430198b",
+              "concept_979d1266a0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.7",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              204,
+              205,
+              206,
+              207,
+              208,
+              209,
+              210,
+              211,
+              212,
+              213,
+              214,
+              215,
+              216,
+              217
+            ],
+            "source_chunk_ids": [
+              "chunk_49d9529f5f",
+              "chunk_9f817e6546",
+              "chunk_b2db611d41",
+              "chunk_76bdad18c2",
+              "chunk_35dca9308e"
+            ]
+          },
+          "options": [
+            {
+              "id": "0_frac_pi_2_pi_frac_3_pi_1",
+              "label": "\\(0,\\frac{\\pi}{2},\\pi,\\frac{3\\pi}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equation reduces to \\(\\sin 2x=0\\)."
+            },
+            {
+              "id": "0_pi_2_pi_2",
+              "label": "\\(0,\\pi,2\\pi\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits solutions where \\(\\cos x=0\\)."
+            },
+            {
+              "id": "frac_pi_4_frac_3_pi_4_fr_3",
+              "label": "\\(\\frac{\\pi}{4},\\frac{3\\pi}{4},\\frac{5\\pi}{4},\\frac{7\\pi}{4}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These make \\(\\sin 2x\\) nonzero."
+            },
+            {
+              "id": "frac_pi_6_frac_5_pi_6_fr_4",
+              "label": "\\(\\frac{\\pi}{6},\\frac{5\\pi}{6},\\frac{7\\pi}{6},\\frac{11\\pi}{6}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These are not the zeros of \\(\\sin 2x\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "00e729f7-d483-50f6-9ca8-35cad094160d",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The number of solutions of \\(\\sin x+\\sin 2x=0\\) in \\([0,2\\pi)\\) is:",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using \\(\\sin 2x=2\\sin x\\cos x\\), we get \\(\\sin x(1+2\\cos x)=0\\). Hence \\(x=0,\\pi\\), or \\(\\cos x=-\\frac12\\), giving \\(x=\\frac{2\\pi}{3},\\frac{4\\pi}{3}\\). Therefore, there are \\(4\\) solutions.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 37,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.7 Trigonometric Equations and Systems of Equations",
+            "concept_ids": [
+              "concept_2a6f7d6b1b",
+              "concept_45733a2de0",
+              "concept_4bf489703b",
+              "concept_73b430198b",
+              "concept_979d1266a0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.7",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              204,
+              205,
+              206,
+              207,
+              208,
+              209,
+              210,
+              211,
+              212,
+              213,
+              214,
+              215,
+              216,
+              217
+            ],
+            "source_chunk_ids": [
+              "chunk_49d9529f5f",
+              "chunk_9f817e6546",
+              "chunk_b2db611d41",
+              "chunk_76bdad18c2",
+              "chunk_35dca9308e"
+            ]
+          },
+          "options": [
+            {
+              "id": "2_1",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This counts only the solutions from \\(\\sin x=0\\)."
+            },
+            {
+              "id": "3_2",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equation has one additional pair of solutions."
+            },
+            {
+              "id": "4_3",
+              "label": "\\(4\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The solutions are \\(0,\\frac{2\\pi}{3},\\pi,\\frac{4\\pi}{3}\\)."
+            },
+            {
+              "id": "5_4",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The endpoint \\(2\\pi\\) is excluded and is not an extra solution."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "2c123df1-0848-5801-8949-daa3bf52f811",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "How many solutions does \\(\\sin^2x+\\sin^22x=\\sin^23x\\) have in \\([0,2\\pi]\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using \\(\\sin^23x-\\sin^2x=\\sin 2x\\sin 4x\\), the equation becomes \\(\\sin^22x=\\sin 2x\\sin 4x\\), or \\(\\sin 2x(\\sin 2x-\\sin 4x)=0\\). Thus \\(\\sin 2x=0\\) gives \\(x=0,\\frac{\\pi}{2},\\pi,\\frac{3\\pi}{2},2\\pi\\), while \\(\\sin 2x=\\sin 4x\\) gives four additional distinct solutions. Hence the total is \\(8\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 38,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.7 Trigonometric Equations and Systems of Equations",
+            "concept_ids": [
+              "concept_2a6f7d6b1b",
+              "concept_45733a2de0",
+              "concept_4bf489703b",
+              "concept_73b430198b",
+              "concept_979d1266a0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.7",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              204,
+              205,
+              206,
+              207,
+              208,
+              209,
+              210,
+              211,
+              212,
+              213,
+              214,
+              215,
+              216,
+              217
+            ],
+            "source_chunk_ids": [
+              "chunk_49d9529f5f",
+              "chunk_9f817e6546",
+              "chunk_b2db611d41",
+              "chunk_76bdad18c2",
+              "chunk_35dca9308e"
+            ]
+          },
+          "options": [
+            {
+              "id": "4_1",
+              "label": "\\(4\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This misses the solutions from the second factor."
+            },
+            {
+              "id": "6_2",
+              "label": "\\(6\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits the endpoint solution \\(2\\pi\\)."
+            },
+            {
+              "id": "8_3",
+              "label": "\\(8\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two solution sets contribute \\(6\\) and \\(4\\) distinct values."
+            },
+            {
+              "id": "10_4",
+              "label": "\\(10\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factorized equation does not yield ten distinct values."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "ba60341f-fd0a-5e14-9172-32e5e5c8198d",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The system \\(\\sin x+\\sin y=1\\) and \\(\\cos x+\\cos y=\\sqrt{3}\\), where \\(x,y\\in[0,2\\pi)\\), has how many ordered pairs \\((x,y)\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Squaring and adding gives \\(4\\cos^2\\frac{x-y}{2}=4\\), so \\(x=y\\) in the given interval. Therefore \\(2\\sin x=1\\) and \\(2\\cos x=\\sqrt{3}\\), yielding \\(x=y=\\frac{\\pi}{6}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 39,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.7 Trigonometric Equations and Systems of Equations",
+            "concept_ids": [
+              "concept_2a6f7d6b1b",
+              "concept_45733a2de0",
+              "concept_4bf489703b",
+              "concept_73b430198b",
+              "concept_979d1266a0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.7",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              204,
+              205,
+              206,
+              207,
+              208,
+              209,
+              210,
+              211,
+              212,
+              213,
+              214,
+              215,
+              216,
+              217
+            ],
+            "source_chunk_ids": [
+              "chunk_49d9529f5f",
+              "chunk_9f817e6546",
+              "chunk_b2db611d41",
+              "chunk_76bdad18c2",
+              "chunk_35dca9308e"
+            ]
+          },
+          "options": [
+            {
+              "id": "0_1",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The system is consistent."
+            },
+            {
+              "id": "1_2",
+              "label": "\\(1\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Both equations force \\(x=y=\\frac{\\pi}{6}\\)."
+            },
+            {
+              "id": "2_3",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Interchanging \\(x\\) and \\(y\\) gives the same pair."
+            },
+            {
+              "id": "Infinitely_many_4",
+              "label": "Infinitely many",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two equations determine a unique pair in the interval."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "d5cbf9ea-94c4-5dc9-8b2e-939e2edc2af0",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The number of solutions of \\(\\sin\\frac{5x}{4}+\\cos x=2\\) in \\([0,40\\pi]\\) is:",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since each term is at most \\(1\\), equality requires \\(\\sin\\frac{5x}{4}=1\\) and \\(\\cos x=1\\). Thus \\(x=2\\pi k\\) and \\(\\frac{5x}{4}=\\frac{\\pi}{2}+2\\pi l\\), giving \\(5k=1+4l\\), or \\(k\\equiv1\\pmod 4\\). For \\(0\\le k\\le20\\), the values are \\(1,5,9,13,17\\), so there are \\(5\\) solutions.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 40,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.7 Trigonometric Equations and Systems of Equations",
+            "concept_ids": [
+              "concept_2a6f7d6b1b",
+              "concept_45733a2de0",
+              "concept_4bf489703b",
+              "concept_73b430198b",
+              "concept_979d1266a0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.7",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              204,
+              205,
+              206,
+              207,
+              208,
+              209,
+              210,
+              211,
+              212,
+              213,
+              214,
+              215,
+              216,
+              217
+            ],
+            "source_chunk_ids": [
+              "chunk_49d9529f5f",
+              "chunk_9f817e6546",
+              "chunk_b2db611d41",
+              "chunk_76bdad18c2",
+              "chunk_35dca9308e"
+            ]
+          },
+          "options": [
+            {
+              "id": "4_1",
+              "label": "\\(4\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "One admissible value of the integer parameter is omitted."
+            },
+            {
+              "id": "5_2",
+              "label": "\\(5\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The admissible values correspond to \\(k=1,5,9,13,17\\)."
+            },
+            {
+              "id": "6_3",
+              "label": "\\(6\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The next candidate lies outside the interval."
+            },
+            {
+              "id": "10_4",
+              "label": "\\(10\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equality condition restricts both trigonometric terms simultaneously."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_49d9529f5f",
+    "chunk_9f817e6546",
+    "chunk_b2db611d41",
+    "chunk_76bdad18c2",
+    "chunk_35dca9308e"
+  ],
+  "source_pages": [
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    204,
+    205,
+    206,
+    207,
+    208,
+    209,
+    210,
+    211,
+    212,
+    213,
+    214,
+    215,
+    216,
+    217
+  ],
+  "rejected": []
+}

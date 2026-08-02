@@ -1,0 +1,489 @@
+{
+  "key": "5.1",
+  "topic": "5.1 Progressions",
+  "questions": [
+    {
+      "question": {
+        "id": "ff479700-32c1-5efd-a133-a72d7934abce",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "In an arithmetic progression, the seventh term is \\(20\\) and the thirteenth term is \\(38\\). Find the sum of its first \\(20\\) terms.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using \\(a+6d=20\\) and \\(a+12d=38\\), we get \\(d=3\\) and \\(a=2\\). Hence \\(S_{20}=\\frac{20}{2}[2(2)+19(3)]=610\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 86,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "5.1 Progressions",
+            "concept_ids": [
+              "concept_bd349d0c63",
+              "concept_cd9ec05584"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              229,
+              230,
+              231
+            ],
+            "source_chunk_ids": [
+              "chunk_7de57b64c9",
+              "chunk_e8a6273da8"
+            ]
+          },
+          "options": [
+            {
+              "id": "610_1",
+              "label": "\\(610\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(a=2\\), \\(d=3\\), so \\(S_{20}=610\\)."
+            },
+            {
+              "id": "600_2",
+              "label": "\\(600\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The first term or common difference is miscalculated."
+            },
+            {
+              "id": "620_3",
+              "label": "\\(620\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sum formula is applied incorrectly."
+            },
+            {
+              "id": "630_4",
+              "label": "\\(630\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The thirteenth term is incorrectly treated as the common difference."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "ee83fe3f-efca-5611-ba2d-76db550b9684",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Three positive numbers are in geometric progression. Their sum is \\(14\\) and their product is \\(64\\). What is the middle number?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let the terms be \\(\\frac{a}{r},a,ar\\). Their product is \\(a^3=64\\), so \\(a=4\\). The terms \\(2,4,8\\) also confirm the given sum.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 87,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "5.1 Progressions",
+            "concept_ids": [
+              "concept_bd349d0c63",
+              "concept_cd9ec05584"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              229,
+              230,
+              231
+            ],
+            "source_chunk_ids": [
+              "chunk_7de57b64c9",
+              "chunk_e8a6273da8"
+            ]
+          },
+          "options": [
+            {
+              "id": "4_1",
+              "label": "\\(4\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "For terms \\(\\frac{4}{r},4,4r\\), their product is \\(4^3=64\\)."
+            },
+            {
+              "id": "2_2",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is one possible extreme term, not the middle term."
+            },
+            {
+              "id": "8_3",
+              "label": "\\(8\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is one possible extreme term, not the middle term."
+            },
+            {
+              "id": "sqrt_64_4",
+              "label": "\\(\\sqrt{64}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The product does not equal the middle term."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "72b47c50-8a59-5ee9-8ae2-5dbf48bc3781",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The infinite geometric series \\(1+3x+9x^2+27x^3+\\cdots\\) has sum \\(4\\). Find \\(x\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Here the common ratio is \\(3x\\). Since \\(\\left|3x\\right|<1\\), \\(\\frac{1}{1-3x}=4\\), which gives \\(x=\\frac{1}{4}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 88,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "5.1 Progressions",
+            "concept_ids": [
+              "concept_bd349d0c63",
+              "concept_cd9ec05584"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              229,
+              230,
+              231
+            ],
+            "source_chunk_ids": [
+              "chunk_7de57b64c9",
+              "chunk_e8a6273da8"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_1_4_1",
+              "label": "\\(\\frac{1}{4}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(\\frac{1}{1-3x}=4\\) gives \\(x=\\frac{1}{4}\\)."
+            },
+            {
+              "id": "frac_1_3_2",
+              "label": "\\(\\frac{1}{3}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This makes the common ratio equal to \\(1\\), so the series diverges."
+            },
+            {
+              "id": "frac_3_4_3",
+              "label": "\\(\\frac{3}{4}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives a common ratio whose magnitude exceeds \\(1\\)."
+            },
+            {
+              "id": "4_4",
+              "label": "\\(4\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sum is confused with the variable."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "5e66a42e-55b7-5b8c-b74c-dea60aacb40f",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Three numbers are in arithmetic progression, their sum is \\(21\\), and their product is \\(315\\). Find the sum of their squares.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let the numbers be \\(7-d,7,7+d\\). From \\(7(49-d^2)=315\\), we obtain \\(d=2\\). Thus the numbers are \\(5,7,9\\), and the required sum is \\(25+49+81=155\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 89,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "5.1 Progressions",
+            "concept_ids": [
+              "concept_bd349d0c63",
+              "concept_cd9ec05584"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              229,
+              230,
+              231
+            ],
+            "source_chunk_ids": [
+              "chunk_7de57b64c9",
+              "chunk_e8a6273da8"
+            ]
+          },
+          "options": [
+            {
+              "id": "155_1",
+              "label": "\\(155\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The numbers are \\(5,7,9\\), whose squared sum is \\(155\\)."
+            },
+            {
+              "id": "147_2",
+              "label": "\\(147\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Only the square of the middle term is counted correctly."
+            },
+            {
+              "id": "161_3",
+              "label": "\\(161\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The common difference is incorrectly taken as \\(3\\)."
+            },
+            {
+              "id": "175_4",
+              "label": "\\(175\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The product condition is not satisfied by the implied terms."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "4ccfac20-b301-5b17-a2f0-75eab3ba5a78",
+        "quiz_id": "quiz-992a6c4f4b78",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A sequence has sum of its first \\(n\\) terms given by \\(S_n=3n^2+5n\\). What is its tenth term?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The nth term is \\(a_n=S_n-S_{n-1}\\). Therefore \\(a_n=(3n^2+5n)-[3(n-1)^2+5(n-1)]=6n+2\\), giving \\(a_{10}=62\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 90,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "5.1 Progressions",
+            "concept_ids": [
+              "concept_bd349d0c63",
+              "concept_cd9ec05584"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              229,
+              230,
+              231
+            ],
+            "source_chunk_ids": [
+              "chunk_7de57b64c9",
+              "chunk_e8a6273da8"
+            ]
+          },
+          "options": [
+            {
+              "id": "62_1",
+              "label": "\\(62\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(a_n=S_n-S_{n-1}=6n+2\\), so \\(a_{10}=62\\)."
+            },
+            {
+              "id": "60_2",
+              "label": "\\(60\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The constant term in the nth-term expression is omitted."
+            },
+            {
+              "id": "65_3",
+              "label": "\\(65\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sum formula is substituted directly instead of taking differences."
+            },
+            {
+              "id": "72_4",
+              "label": "\\(72\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The coefficient of \\(n^2\\) is incorrectly doubled without adjustment."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:56:21.428688Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_7de57b64c9",
+    "chunk_e8a6273da8"
+  ],
+  "source_pages": [
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    229,
+    230,
+    231
+  ],
+  "rejected": []
+}

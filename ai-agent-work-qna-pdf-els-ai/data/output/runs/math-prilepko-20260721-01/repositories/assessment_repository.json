@@ -1,0 +1,1903 @@
+[
+  {
+    "concept_id": "concept_6977739fc5",
+    "concept_name": "Equations",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_a1427cc398",
+    "concept_name": "Set D,or C",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5ea023785c",
+    "concept_name": "26.At what value of a",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_995ff0ef38",
+    "concept_name": "27.At what value of a",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_48f8037ece",
+    "concept_name": "16.At whatvalues of m",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_6a571504b9",
+    "concept_name": "46.Atwhatvalue of a",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_107349d71e",
+    "concept_name": "Points.At whatpoint of theparabola",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_393a7be286",
+    "concept_name": "Y=4x-x²at the point M(1;3)(a",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_9e62605e77",
+    "concept_name": "[z;x],andf（z）=f（x）=A，x≠x Prove that there",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_911a8ff103",
+    "concept_name": "Interval [；x].Prove that there",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_e504683848",
+    "concept_name": "38.Atwhich point",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f30483e1aa",
+    "concept_name": "28.At what values,of pEZ",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_4661dde141",
+    "concept_name": "6.At what values of a",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_a71b12be54",
+    "concept_name": "30.It is known that x=9",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_34905394b5",
+    "concept_name": "20.Prove that the function f(x)=cos²x+cos²(+x）-cosxcos(+x",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_9513739ad0",
+    "concept_name": "Aslarge again.What，in per cent，",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f248b70e77",
+    "concept_name": "5.The percentage of copper in the second piece",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_127a52533f",
+    "concept_name": "18.Atwhat values of a",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d8bb65aeb1",
+    "concept_name": "33.Suppose Sn",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_92b9b0d457",
+    "concept_name": "a triangle， AB=a,AC=b,[AD]",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_6ed4c88702",
+    "concept_name": "8.In the parallelogram ABCD，thepoint M",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_87f52172af",
+    "concept_name": "12.Supposepis half the perimeter,S",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5313896ceb",
+    "concept_name": "2.Determine the area of the triangle if itsbase",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_52a156303e",
+    "concept_name": "18.In the triangle ABC,|AB|=2cm,[BD]",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_7ed50f7e95",
+    "concept_name": "112 32.Findthelengthofthealtitudeofthetrapezoidif its bases",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_6fb9b3e4f9",
+    "concept_name": "33.Find the area of the trapezoid whose bases",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_8f477f0513",
+    "concept_name": "Third side.Under what conditions",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_69d4625ea3",
+    "concept_name": "tetrahedron SABC",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_6dd38d30e6",
+    "concept_name": "39.Thebase of the pyramid",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_3168e0e1c6",
+    "concept_name": "40.The base of the pyramid SABCD",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_c2b045315a",
+    "concept_name": "Surface of the cone",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_0bd1d5847a",
+    "concept_name": "Isknown that|BM|= =|MB|and AN",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_131bcbeb96",
+    "concept_name": "9.A right prism whose base",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5ce269ee1e",
+    "concept_name": "Base of the pyramid",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_1efa89a043",
+    "concept_name": "37.The base of a right prism",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d3460d97dc",
+    "concept_name": "PyramidSABCD isa squareABCDwhose side",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_1b6458441a",
+    "concept_name": "All the edges.How long",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_13fcf89d37",
+    "concept_name": "Successive natural num- bers",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d836d6a58b",
+    "concept_name": "22.What curve",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_8f74da1664",
+    "concept_name": "32.At what value of A",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_2a028c087a",
+    "concept_name": "M and the y-axis",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_93ecf75125",
+    "concept_name": "Canweassertthattheantiderivative of thatfunction",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_0be3cc4b5a",
+    "concept_name": "Cos² Φ = 0",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5bc78f30d4",
+    "concept_name": "十(cos α+ sin α)/2",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_a33128e4ef",
+    "concept_name": "26.Use graphical",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_418209a021",
+    "concept_name": "58.(a)x=1/2",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_3b6c6d54f4",
+    "concept_name": "Ofminimum;（d）x=-2isa point of maximum;（e)x=-1",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_2aec255871",
+    "concept_name": "Points of extremum; (b)z=-1.5",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_46cf8a440d",
+    "concept_name": "Consequently，x=1",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_ed8cd288ba",
+    "concept_name": "62.(a)The function has no points of extremum;(b)x=0",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5f309285d8",
+    "concept_name": "Origin has theformy=kx.Suppose M（zoyo",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_ce23a55e4b",
+    "concept_name": "Z= 2.Such roots are called miltiple roots.The rootz=2",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_33cd575db2",
+    "concept_name": "One positive term （x+.2).This",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_c63b29b50c",
+    "concept_name": "48. (a)x =—5",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_ab55f83199",
+    "concept_name": "Interval creases;x=-1isapoint of maximum，x=-1/5",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_3b3e043b41",
+    "concept_name": "Itdecreases;x=-1isa point of maximum,=1",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_2ad1c84fc0",
+    "concept_name": "—1；1) it increases; x=-1",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_acddf91d9c",
+    "concept_name": "Intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_ee863603f6",
+    "concept_name": "Assume that by some",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_69cb78182a",
+    "concept_name": "Solving this system by",
+    "candidate_scores": {
+      "MCQ": 0.4,
+      "Scenario": 0.4,
+      "Problem Solving": 0.85,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 1.0
+    },
+    "recommended_types": [
+      "Practical",
+      "Problem Solving"
+    ],
+    "overall_suitability": 0.75
+  },
+  {
+    "concept_id": "concept_a0f16824e5",
+    "concept_name": "Consequently，f（z)>0on thatintervaland this",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_1ce5377c6b",
+    "concept_name": "27 (b)the point x=8/27",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_180d305ba3",
+    "concept_name": "Weestablish by",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f26ab3e78f",
+    "concept_name": "Sets of solutions",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_a5bc52665f",
+    "concept_name": "Arctan（1/2）, kEZ.Verifying them by",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f57269bb13",
+    "concept_name": "Satisfied，we find that z=n,nEZ，",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_e0c8354fce",
+    "concept_name": "second equation",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_5d3428cb57",
+    "concept_name": "Supposexroubles",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_aeb1d97acf",
+    "concept_name": "Suppose z",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_a42005065a",
+    "concept_name": "25 ma/h.Suppose S",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_c334a77355",
+    "concept_name": "Old system by",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_28f65425cb",
+    "concept_name": "Side of equation (1",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_42e944d14d",
+    "concept_name": "Fgure boundedbythecurves y=V4-x²，x=0，z=2,y=0, which",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5f1c83982f",
+    "concept_name": "Can be found by",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_4235b23a5f",
+    "concept_name": "True,i.e.we can takeNequal to[1/8]where[1/e]",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_c7dde8cfc3",
+    "concept_name": "1→00 lim n-7 c",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_2984782637",
+    "concept_name": "Sum of these vectors",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_973f8e00df",
+    "concept_name": "N =(0; 1; 0",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_d7ac944dd3",
+    "concept_name": "Larly prove that[KN]I[LM],and this",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_1e34d84b73",
+    "concept_name": "Of the segment[EF]; [MF]",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_a67d057008",
+    "concept_name": "7.Suppose[CF",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_83657abf05",
+    "concept_name": "M C trianglesthat丨KE|=|MC|andso KECM",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_a90232301b",
+    "concept_name": "Thehypothe- sis)，it follows that[BP|",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_24079685a3",
+    "concept_name": "By analogy，we find a point O，which",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_861ff86626",
+    "concept_name": "|²=|AC|·|AB|,where 246 A K]",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_3014c32bb1",
+    "concept_name": "Figure).The segment [cF]",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_172b1feee0",
+    "concept_name": "ABC,it follows that [PQ]",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_69cce13951",
+    "concept_name": "Equal to(4-(1+ xE[0;6] V2)x)/2,wherex",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_537674f1cf",
+    "concept_name": "Regular tetra- hedron,in particular,a",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_b154bcc0dd",
+    "concept_name": "SS)）， where S",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_444445d454",
+    "concept_name": "Planeof the base(ABCD",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_aa5519117c",
+    "concept_name": "S The point O∈（ALS）and (OL）",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_359ead36a1",
+    "concept_name": "Suppose x",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_474e628c3c",
+    "concept_name": "Generatrix of the cone，@",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_8aee7319a1",
+    "concept_name": "Since 6 6 （k+1）(k+2)(2k+3) and this",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_e10a3efa37",
+    "concept_name": "180 (b)▲ Suppose ABCD",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5f658eb084",
+    "concept_name": "Then f（x)=f（—z)=0as well,and this",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_4b74badbaf",
+    "concept_name": "Functions f（x)= f（x)=|x1.3.Suppose f（x",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_4eeefbdab6",
+    "concept_name": "That of problem3.5.Suppose f（x",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_788ad47c8d",
+    "concept_name": "12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_ee77818df3",
+    "concept_name": "No,we cannot.For instance,f (x)=1 + cos x",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_2102a0a8d5",
+    "concept_name": "Suppose SABc",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_6ae9e02564",
+    "concept_name": "=(2n+1）-arctan 2the given quadraticfunction",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_ceb3b0f44e",
+    "concept_name": "Logs (3x+2) <1 277",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_0926231053",
+    "concept_name": "Of the given system",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  }
+]

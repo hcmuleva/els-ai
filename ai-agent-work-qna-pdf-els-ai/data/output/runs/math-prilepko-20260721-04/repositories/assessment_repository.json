@@ -1,0 +1,1334 @@
+[
+  {
+    "concept_id": "concept_699a4972bd",
+    "concept_name": "1.1 Linear Equations andInequalities in One Variable. A Linear Function Solvethefollowingequations: 1.(3x practice pages 11-13",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_5c601a3629",
+    "concept_name": "1.2 QuadraticEquations andInequalities. A QuadraticFunction Solve the following equations and inequalitie practice pages 14-18",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_02c945eac7",
+    "concept_name": "1.3 InverseProportionality Solve thefollowingequations: 1. (a)=5;(b) 2 4 -1 =a; (d) 1 2. (a) 3 2 2 2+1 x practice pages 19-21",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_7c23cfa9e4",
+    "concept_name": "1.4 Equations and Inequalities of Higher Degrees. ARational Function 1.Solve the equation (a)(x-1)(x²+4x+ practice pages 22-26",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_a7f703855e",
+    "concept_name": "1.5 Linear Systems of Equations and Inequalities Solve thefollowingsystemsof equations: 1. (a) 3x-y=0, [x practice pages 27-29",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_b50f90bc0f",
+    "concept_name": "1.6 Systems ofEquationsandInequalities inSeveralHigher-DegreeVariables Solvethefollowingsystemsofequation practice pages 30-32",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_f726c7ac6e",
+    "concept_name": "2.1 Irrational Equations andInequalities Solvethefollowingsystemsofequations: 1.Vx+1=a. 2.Vx+3=Va-x. 3.V4 practice pages 33-37",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_f00db189f9",
+    "concept_name": "2.2 Systems ofIrrational Equations andInequalities Solve thefollowing systems ofequations: 1. (a) 7 4 5 V practice pages 38-38",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_e7def5672e",
+    "concept_name": "2.3 An Exponential and a Logarithmic Function, Exponential andLogarithmicEquations, Systems of Equations, practice pages 39-44",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_29344c8c7b",
+    "concept_name": "2.3 An Exponential and a Logarithmic Function, Exponential andLogarithmicEquations, Systems of Equations, practice pages 45-50",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_bfa3a0d347",
+    "concept_name": "2.4 Transformation of Trigonometric Expressions 1.Prove the identity (a)sinα+cosα+3 sin²αX ×cos²α=1;(b) s practice pages 51-53",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_6618383d0b",
+    "concept_name": "2.5 Trigonometric Functions 1.Find the domain of definition of the functon (a)y= 1 tan 2x;(b)y=5 cot；(c)y practice pages 54-56",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_2321fa21ad",
+    "concept_name": "2.6 Inverse Trigonometric Functions Find the domainsofdefinition of thefollowingfunctions: 1. (a) y=arcsi practice pages 57-60",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_f0c43a78ec",
+    "concept_name": "2.7 Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin practice pages 61-66",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_a54a40de21",
+    "concept_name": "2.7 Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin practice pages 67-69",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_142e0e2c41",
+    "concept_name": "2.8 TrigonometricInequalities Solve thefollowinginequalities: 1. (a) sin 2z>0; (b） sin<0; (c) sin(x+) (d) practice pages 70-71",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_12c35e7d73",
+    "concept_name": "3.1 Problems onMotion 1.The train left station A for station B.Having travelled 450km，which constitutes 7 practice pages 72-77",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_2d5675ab3c",
+    "concept_name": "3.2 Problems on Percentage,Mixtures, NumbersandWork 1.Three navvies dug a ditch of 216 min four days work practice pages 78-82",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_dd1c04413e",
+    "concept_name": "3.3 Problems onDerivingInequalities and Systems ofInequalities.ProblemsontheExtremum 1.In a four-digit nu practice pages 83-85",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_b171d5f536",
+    "concept_name": "4.1 TheAntiderivative.TheNewton-LeibnizFormula Find the antiderivatives of thefollowing functions: 1.(a)y practice pages 86-88",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_47665d8cf5",
+    "concept_name": "4.2 CalculatingtheAreas ofPlaneFigures Find the areasof thefiguresbounded by thefollowingcurves: 1.(a)y=, practice pages 89-91",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_0418a2b2b1",
+    "concept_name": "5.1 Progressions 1.The first term of the arithmetic progression is unity andthecommondifferenceis4.Isthen practice pages 92-97",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_fe790a9f90",
+    "concept_name": "5.2 Number Sequences 1.Using the definition of thelimit of a number sequence, prove that (a) lim 1 =0;(b） practice pages 98-100",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_f5f123e65d",
+    "concept_name": "6.1 Linear Operations onVectors 1.What condition should be satisfied by the vectors a and bfor thefollowi practice pages 101-102",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_56ca435d7b",
+    "concept_name": "6.2 TheScalarProductofVectors 1.Determine theangle between the vectors 2a andb if a =(-4;2;4)and b=(V/2; practice pages 103-106",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_5f73948e82",
+    "concept_name": "7.1 Problems on Proving Propositions 1.Mis the midpoint of the interval[AB].Prove that 1 |CM|= 2 2.Five s practice pages 107-108",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_6188d5f072",
+    "concept_name": "7.2 ConstructionProblems 1.Through a point A lying in the interior of the angle, drawa straightline sotha practice pages 109-109",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_f4b241ae25",
+    "concept_name": "7.3 Problems on Calculation 1.In the triangle ABC，the side |AB|=c=13cm， |BC|=α=14cm，|AC|=b=15cm.Deter- mi practice pages 110-114",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_4134733a95",
+    "concept_name": "8.1 A Straight Line,a Plane,Polyhedra. SolidsofRevolution 1.Two right triangles lie in the mutuallyperpen practice pages 115-119",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_0aea1e7e89",
+    "concept_name": "8.2 Problems on Combinations of Polyhedra andSolidsofRevolution 1. The volume of a regular triangular pri practice pages 120-125",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_b2caa73cc0",
+    "concept_name": "8.2 Problems on Combinations of Polyhedra andSolidsofRevolution 1. The volume of a regular triangular pri practice pages 126-126",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_20d98ec665",
+    "concept_name": "8.3 VolumesofSolidsofRevolution 1.A trianglerotates about the sidewhichis ainlength. Determinethevolumeof practice pages 127-127",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_f1ee492b66",
+    "concept_name": "9.1 ProblemsinAlgebra 1.Given two sets:M,={1,2}and M={a,5}，a ER. Find thesetsA=MUMandB=M∩M 2.Prove that t practice pages 128-130",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_2209639bab",
+    "concept_name": "9.2 Limit of aFunction.Continuity Findthefollowinglimits: 1.lim x²1 2.lim x3—1 x→1 2x²-x-1 x→1 x²-x²+x-1 practice pages 131-131",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_cdca0a2020",
+    "concept_name": "9.3 TheDerivative of aFunction 1.Can we assert that the function_Φ（x)=f（x)+f（z) doesnothavea derivativeat practice pages 132-133",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_4bf3d561f3",
+    "concept_name": "9.4 IntegralCalculus.MiscellaneousProblems 1.Given the continuous periodic function f(x),x ER. Canweasser practice pages 134-138",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_65b9dbec1c",
+    "concept_name": "1.1 LinearEquations andInequalities in OneVariable. A Linear Function 1.{1}.2.{-7}.3.(a){c |c∈R};(b).4.{a practice pages 139-140",
+    "candidate_scores": {
+      "MCQ": 0.35,
+      "Scenario": 0.35,
+      "Problem Solving": 0.8,
+      "Case Study": 0.35,
+      "Short Answer": 0.35,
+      "Essay": 0.35,
+      "Practical": 0.95
+    },
+    "recommended_types": [
+      "Practical",
+      "Problem Solving"
+    ],
+    "overall_suitability": 0.7
+  },
+  {
+    "concept_id": "concept_71785a85ce",
+    "concept_name": "1.2 Quadratic Equations andInequalities. AQuadraticFunction 1.(a) {3,4）; (b){—1;5）;(c) {1/3; 1/2); (d){—1 practice pages 144-149",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_31e4f1f83c",
+    "concept_name": "1.3 InverseProportionality 1.（a){1/5);(b);（c){4/a-2}fora∈（-∞o；0)U(0;∞); for a=0;（d){1/a+2;-1/a+2}fora∈(0; practice pages 150-152",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_c7e014c8f3",
+    "concept_name": "1.4 Equations and Inequalities of Higher Degrees. ARationalFunction 1. (a){3;-1;1);(b){-3/2);(c){-3);(d){ practice pages 158-163",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_19af879253",
+    "concept_name": "1.4 Equations and Inequalities of Higher Degrees. ARationalFunction 1. (a){3;-1;1);(b){-3/2);(c){-3);(d){ practice pages 164-167",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_223333c96e",
+    "concept_name": "1.5 Linear Systems ofEquations andInequalities 1.（a）{（0;0）}；(b）1{（c,，c/2）1c∈R}；（c)（c，c2）Ic∈R，c∈R}； (d)（c; practice pages 168-170",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_7631cce45e",
+    "concept_name": "1.6 Systems ofEquations andInequalities inSeveralHigher-DegreeVariables 1.、(a）（-4/9；20/9）;(2；1））；，(b）{（-1 practice pages 171-173",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_404cebec81",
+    "concept_name": "2.1 Irrational Equations and Inequalities 1.{a²-1}fora ∈[0;oo），fora∈（—oo;0).2.（a—3)/2} for a∈[—3;oo)， for practice pages 175-179",
+    "candidate_scores": {
+      "MCQ": 0.35,
+      "Scenario": 0.35,
+      "Problem Solving": 0.8,
+      "Case Study": 0.35,
+      "Short Answer": 0.35,
+      "Essay": 0.35,
+      "Practical": 0.95
+    },
+    "recommended_types": [
+      "Practical",
+      "Problem Solving"
+    ],
+    "overall_suitability": 0.7
+  },
+  {
+    "concept_id": "concept_fc03c77790",
+    "concept_name": "2.2 Systems ofIrrationalEquations andInequalities 1.(a){（16;30)}.●Set 1/Vx-7=u，1/Vy+6=v;（b）{(41;40)}. 2.( practice pages 180-180",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_fd21ee57d7",
+    "concept_name": "2.3 An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsand practice pages 181-186",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_87a35f1250",
+    "concept_name": "2.3 An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsand practice pages 187-190",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_003194ccea",
+    "concept_name": "2.4 Transformation of TrigonometricExpressions 2.（a）V2-a²;（b）1-（a-1）/2.sinα+cosa=（sinα+ +cosα)-2（sinαacos practice pages 191-192",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_9f8fac7159",
+    "concept_name": "2.5 TrigonometricFunctions 1.（a）D（g）=U（-π/4+nn/2;π/4+n/2);(b）D（y）=U（3πn; nEZ nEZ 3π（n+1);（c)D（y)=U_（πn-n/ practice pages 193-199",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_34908a523c",
+    "concept_name": "2.6 InverseTrigonometricFunctions 1.(a)D(y)=[0,2];(b)D（y)=[2;6];（c)D（y)=[-1-V2; V2-11:(d）D（y）=（-∞；∞）;（e）D practice pages 200-204",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_8cabc696fc",
+    "concept_name": "2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 205-210",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_c179c62a83",
+    "concept_name": "2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 211-216",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_7ba4c8f419",
+    "concept_name": "2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 217-218",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_d7abf7ae73",
+    "concept_name": "2.8 TrigonometricInequalities 1.（a）（πn； πn+π/2)，nEZ； (b）（4πn + 2π;4πn+4nπ)，nEZ； 1 (d）(nπn-π/8+1/2;πn+5π/8 practice pages 219-220",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_1817489a88",
+    "concept_name": "3.1 ProblemsonMotion 7 km/h.7.36or64km/h.8.20km/h,12km/h.9.1km/h.10.30km,6km/h, 4km/h.Suppose S isthe req practice pages 221-221",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_2e114c05d1",
+    "concept_name": "3.2 Problems on Percentages,Mixtures, Numbers and Work 1.15 m.2. 60%.3.25 days,20 days, 30 days. 4.10 day practice pages 222-222",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_3e86eac151",
+    "concept_name": "3.3 Problems onDerivingInequalitiesand Systems ofInequalities.Problems on theExtremum 1.7842.2.[4;(8+√61) practice pages 223-224",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_242a12523b",
+    "concept_name": "4.1 The Antiderivative.The Newton-LeibnizFormula 1.（a)2x+C;(b)x-1.5x²+C;（c)(2x-1）²+C.2.（a)C- -x/3;_(b）/3 practice pages 225-226",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_a5c3fe89a1",
+    "concept_name": "4.2 CalculatingtheAreasofPlane Figures 1.（a)1/2;(b)4;（c)9/8.Carry out the integration with respect to the practice pages 227-229",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_53ccc8e8ee",
+    "concept_name": "5.1 Progressions 1.No,itis not.Show that the equation 1+4（n-1)=10091 has no integer solutions.2.13.3.9927 practice pages 230-232",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_7c3a9f91ef",
+    "concept_name": "5.2 NumberSequences 1.(a)Letus choose arbitrarily a positive number eand show that we canfindfor it anatu practice pages 233-235",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d4fd006138",
+    "concept_name": "6.1 Linear Operations onVectors 1.(a) The vectors a and b must be mutually perpendicular;(b) the anglebet practice pages 236-236",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_e03238af32",
+    "concept_name": "6.2 The ScalarProduct of Vectors 1.3st/4.2.4.3.3/ V2i.▲ We have (a+b)(a—b)=|a+b11a- —b| cos Φ; hence COS= practice pages 237-240",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_2da67d9b7f",
+    "concept_name": "7.1 Problems onProvingProportions 1. ▲(1) C E [AB]. Supposing that C E [AM],we have |AC|+丨CM丨=|AM|and丨BC| practice pages 241-244",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_4c285d869c",
+    "concept_name": "7.2 Construction Problems 1.Constructa parallelogram such that point A is the intersection of the diagona practice pages 245-246",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_9ea36fe768",
+    "concept_name": "7.3 Problems on Calculation 1.(a)B = arccos (5/13)= arcsin (12/13).Use the cosine theorem; (b)84sq cm.App practice pages 247-251",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_72af962d8e",
+    "concept_name": "8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution 1.12√2/5or337/5cm.2.arcsin (sin@ sinp）.Letus d practice pages 252-256",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_ac82b37693",
+    "concept_name": "8.2 Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- ti practice pages 257-262",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_9db5e62be4",
+    "concept_name": "8.2 Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- ti practice pages 263-263",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_07c2cfbb0b",
+    "concept_name": "8.3 VolumesofSolidsofRevolution πa sinα sin2β πb3 1. 3 sin²(α+β)· 2. 4.3π/10.5.π/5.6.（a）5π.V= sin β 3 （lx practice pages 264-264",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_14680bba41",
+    "concept_name": "9.1 ProblemsinAlgebra 1.A={1；2;a;5}，ifa≠1，a≠2,a≠5；A={1；2;5}，if a=1，ora=2，ora=5；B=0，ifa≠1ora≠2；B={1}， if a practice pages 265-269",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_89e09a3023",
+    "concept_name": "9.2 Limit of a Function.Continuity x²-1 =lim （x-1)（x+1） lim x+1 2x+1 x→1 x→1 2(x- x-1 2 .2.3/2.●Factor th practice pages 270-272",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_3ebd0c165a",
+    "concept_name": "9.3 TheDerivative ofaFunction 1.(a)We can;(b)we cannot.2.(a)We cannot； the function f （x)=x， for instance practice pages 273-274",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_8b233812ac",
+    "concept_name": "9.4 Integral Calculus.MiscellaneousProblems 1. No,we cannot.For instance,f (x)=1 + cos x is a periodic fu practice pages 275-280",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  }
+]

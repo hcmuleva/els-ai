@@ -1,0 +1,21 @@
+{
+  "key": "8.2",
+  "topic": "8.2 Problems on Combinations of Polyhedra",
+  "questions": [],
+  "requested": 5,
+  "generated": 0,
+  "context_chunks": [
+    "chunk_5d298bd0d2",
+    "chunk_57a2153674",
+    "chunk_d9e0cb09ed",
+    "chunk_b96acc8ab3"
+  ],
+  "source_pages": [],
+  "rejected": [
+    {
+      "issues": [
+        "LaTeX backslashes inside JSON strings must be escaped"
+      ]
+    }
+  ]
+}

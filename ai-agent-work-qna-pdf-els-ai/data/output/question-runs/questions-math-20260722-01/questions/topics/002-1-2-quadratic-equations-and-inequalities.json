@@ -1,0 +1,19 @@
+{
+  "key": "1.2",
+  "topic": "1.2 Quadratic Equations and Inequalities",
+  "questions": [],
+  "requested": 5,
+  "generated": 0,
+  "context_chunks": [
+    "chunk_032bae92e1",
+    "chunk_ac4851ba58"
+  ],
+  "source_pages": [],
+  "rejected": [
+    {
+      "issues": [
+        "LaTeX backslashes inside JSON strings must be escaped"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "nodes": [
+    {
+      "id": "concept_657d98b019",
+      "label": "ELECTROMAGNETIC INDUCTION practice pages 1-6",
+      "concept_type": "Principle",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_b98adbe8f0",
+      "label": "ELECTROMAGNETIC INDUCTION practice pages 7-12",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_8130b3391d",
+      "label": "ELECTROMAGNETIC INDUCTION practice pages 13-17",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    }
+  ],
+  "edges": [],
+  "centrality": [
+    {
+      "concept_id": "concept_657d98b019",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.333
+    },
+    {
+      "concept_id": "concept_b98adbe8f0",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.333
+    },
+    {
+      "concept_id": "concept_8130b3391d",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.333
+    }
+  ]
+}

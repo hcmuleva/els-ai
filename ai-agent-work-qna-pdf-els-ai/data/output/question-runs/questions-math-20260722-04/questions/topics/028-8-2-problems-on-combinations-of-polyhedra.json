@@ -1,0 +1,541 @@
+{
+  "key": "8.2",
+  "topic": "8.2 Problems on Combinations of Polyhedra",
+  "questions": [
+    {
+      "question": {
+        "id": "9874745f-5b87-5393-bcf0-bd8ac35b283d",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Two congruent regular tetrahedra, each of edge length \\(a\\), are joined along one common triangular face. Find the volume of the resulting solid.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The volume of one regular tetrahedron is \\(\\frac{1}{3}\\times\\frac{\\sqrt{3}}{4}a^2\\times\\sqrt{\\frac{2}{3}}a=\\frac{a^3}{6\\sqrt{2}}\\). Hence, the combined volume is \\(2\\times\\frac{a^3}{6\\sqrt{2}}=\\frac{a^3}{3\\sqrt{2}}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 136,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.2 Problems on Combinations of Polyhedra",
+            "concept_ids": [
+              "concept_01295855fc",
+              "concept_40907e2e0b",
+              "concept_715e66b12a",
+              "concept_dc76038a15"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              119,
+              120,
+              121,
+              122,
+              123,
+              124,
+              125,
+              256,
+              257,
+              258,
+              259,
+              260,
+              261,
+              262
+            ],
+            "source_chunk_ids": [
+              "chunk_5d298bd0d2",
+              "chunk_57a2153674",
+              "chunk_d9e0cb09ed",
+              "chunk_b96acc8ab3"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_a_3_3_sqrt_2_1",
+              "label": "\\(\\frac{a^3}{3\\sqrt{2}}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It is twice the volume of one regular tetrahedron."
+            },
+            {
+              "id": "frac_a_3_6_sqrt_2_2",
+              "label": "\\(\\frac{a^3}{6\\sqrt{2}}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the volume of only one tetrahedron."
+            },
+            {
+              "id": "frac_a_3_3_sqrt_3_3",
+              "label": "\\(\\frac{a^3}{3\\sqrt{3}}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The altitude of a regular tetrahedron is used incorrectly."
+            },
+            {
+              "id": "frac_a_3_sqrt_2_4",
+              "label": "\\(\\frac{a^3}{\\sqrt{2}}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This overestimates the combined volume."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "a8d0f6c2-1567-5d43-ac59-241d25c732f0",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A cube of edge length \\(a\\) has a square pyramid of height \\(h\\) attached to one of its square faces. The pyramid has the same base as that face and slant height \\(l\\). Find the total external surface area of the composite solid.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The attached cube face becomes internal, so the cube contributes \\(5a^2\\). The four triangular faces of the pyramid contribute \\(4\\times\\frac{1}{2}al=2al\\). Therefore, the total external area is \\(5a^2+2al\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 137,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.2 Problems on Combinations of Polyhedra",
+            "concept_ids": [
+              "concept_01295855fc",
+              "concept_40907e2e0b",
+              "concept_715e66b12a",
+              "concept_dc76038a15"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              119,
+              120,
+              121,
+              122,
+              123,
+              124,
+              125,
+              256,
+              257,
+              258,
+              259,
+              260,
+              261,
+              262
+            ],
+            "source_chunk_ids": [
+              "chunk_5d298bd0d2",
+              "chunk_57a2153674",
+              "chunk_d9e0cb09ed",
+              "chunk_b96acc8ab3"
+            ]
+          },
+          "options": [
+            {
+              "id": "5a_2_2al_1",
+              "label": "\\(5a^2+2al\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Five cube faces and four exposed triangular faces are counted."
+            },
+            {
+              "id": "6a_2_2al_2",
+              "label": "\\(6a^2+2al\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The common square face is counted although it is internal."
+            },
+            {
+              "id": "5a_2_al_3",
+              "label": "\\(5a^2+al\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Only two triangular faces are effectively included."
+            },
+            {
+              "id": "4a_2_2al_4",
+              "label": "\\(4a^2+2al\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "One external square face is omitted."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "4b026bfb-a587-52ab-8897-7eacd88ded36",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Two congruent square pyramids, each having base side \\(a\\) and height \\(h\\), are joined along their square bases. Find the volume of the resulting solid.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The volume of one square pyramid is \\(\\frac{1}{3}a^2h\\). Since two congruent pyramids are joined, the total volume is \\(2\\times\\frac{1}{3}a^2h=\\frac{2a^2h}{3}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 138,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.2 Problems on Combinations of Polyhedra",
+            "concept_ids": [
+              "concept_01295855fc",
+              "concept_40907e2e0b",
+              "concept_715e66b12a",
+              "concept_dc76038a15"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              119,
+              120,
+              121,
+              122,
+              123,
+              124,
+              125,
+              256,
+              257,
+              258,
+              259,
+              260,
+              261,
+              262
+            ],
+            "source_chunk_ids": [
+              "chunk_5d298bd0d2",
+              "chunk_57a2153674",
+              "chunk_d9e0cb09ed",
+              "chunk_b96acc8ab3"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_2a_2h_3_1",
+              "label": "\\(\\frac{2a^2h}{3}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The solid consists of two equal square pyramids."
+            },
+            {
+              "id": "frac_a_2h_3_2",
+              "label": "\\(\\frac{a^2h}{3}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the volume of only one pyramid."
+            },
+            {
+              "id": "frac_a_2h_2_3",
+              "label": "\\(\\frac{a^2h}{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The pyramid volume coefficient is incorrect."
+            },
+            {
+              "id": "a_2h_4",
+              "label": "\\(a^2h\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This treats the solid as a prism."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "643e648a-f256-5e91-9242-35aaf6b19c24",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A regular octahedron is formed by joining two congruent square pyramids along their square bases. If each triangular face has base \\(a\\) and altitude \\(l\\), find the total surface area of the octahedron.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Each triangular face has area \\(\\frac{1}{2}al\\). The octahedron has eight exposed triangular faces, so its surface area is \\(8\\times\\frac{1}{2}al=4al\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 139,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.2 Problems on Combinations of Polyhedra",
+            "concept_ids": [
+              "concept_01295855fc",
+              "concept_40907e2e0b",
+              "concept_715e66b12a",
+              "concept_dc76038a15"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              119,
+              120,
+              121,
+              122,
+              123,
+              124,
+              125,
+              256,
+              257,
+              258,
+              259,
+              260,
+              261,
+              262
+            ],
+            "source_chunk_ids": [
+              "chunk_5d298bd0d2",
+              "chunk_57a2153674",
+              "chunk_d9e0cb09ed",
+              "chunk_b96acc8ab3"
+            ]
+          },
+          "options": [
+            {
+              "id": "4al_1",
+              "label": "\\(4al\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "There are eight exposed triangular faces."
+            },
+            {
+              "id": "2al_2",
+              "label": "\\(2al\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This counts only four triangular faces."
+            },
+            {
+              "id": "8al_3",
+              "label": "\\(8al\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factor of \\(\\frac{1}{2}\\) for each triangle is omitted."
+            },
+            {
+              "id": "4a_2_4al_4",
+              "label": "\\(4a^2+4al\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The joined square bases are internal."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "b95bf67c-050f-5475-9305-beabda95622e",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A right triangular prism with an equilateral triangular base of side \\(a\\) and length \\(L\\) is joined to a regular tetrahedron of edge \\(a\\) along one triangular base. Find the volume of the composite solid.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The prism volume is \\(\\frac{\\sqrt{3}}{4}a^2L\\), since its base is equilateral. The tetrahedron volume is \\(\\frac{a^3}{6\\sqrt{2}}\\). Therefore, the composite volume is \\(\\frac{\\sqrt{3}}{4}a^2L+\\frac{a^3}{6\\sqrt{2}}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 140,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.2 Problems on Combinations of Polyhedra",
+            "concept_ids": [
+              "concept_01295855fc",
+              "concept_40907e2e0b",
+              "concept_715e66b12a",
+              "concept_dc76038a15"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              119,
+              120,
+              121,
+              122,
+              123,
+              124,
+              125,
+              256,
+              257,
+              258,
+              259,
+              260,
+              261,
+              262
+            ],
+            "source_chunk_ids": [
+              "chunk_5d298bd0d2",
+              "chunk_57a2153674",
+              "chunk_d9e0cb09ed",
+              "chunk_b96acc8ab3"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_sqrt_3_4_a_2L_frac_1",
+              "label": "\\(\\frac{\\sqrt{3}}{4}a^2L+\\frac{a^3}{6\\sqrt{2}}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The prism and tetrahedron volumes are added."
+            },
+            {
+              "id": "frac_sqrt_3_4_a_2L_frac_2",
+              "label": "\\(\\frac{\\sqrt{3}}{4}a^2L+\\frac{a^3}{3\\sqrt{2}}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The tetrahedron volume is doubled."
+            },
+            {
+              "id": "frac_sqrt_3_4_a_2L_3",
+              "label": "\\(\\frac{\\sqrt{3}}{4}a^2L\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The tetrahedron volume is omitted."
+            },
+            {
+              "id": "frac_sqrt_3_2_a_2L_frac_4",
+              "label": "\\(\\frac{\\sqrt{3}}{2}a^2L+\\frac{a^3}{6\\sqrt{2}}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The prism base area is doubled."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_5d298bd0d2",
+    "chunk_57a2153674",
+    "chunk_d9e0cb09ed",
+    "chunk_b96acc8ab3"
+  ],
+  "source_pages": [
+    119,
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    256,
+    257,
+    258,
+    259,
+    260,
+    261,
+    262
+  ],
+  "rejected": []
+}

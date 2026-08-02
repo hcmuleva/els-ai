@@ -1,0 +1,495 @@
+{
+  "key": "2.1",
+  "topic": "2.1 Irrational Equations and Inequalities",
+  "questions": [
+    {
+      "question": {
+        "id": "0511dc42-3535-5832-b084-14c916ff6d3f",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\( \\sqrt{x+3}+\\sqrt{7-x}=4 \\) has real solutions \\(x_1\\) and \\(x_2\\), find \\(x_1+x_2\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Squaring gives \\(10+2\\sqrt{(x+3)(7-x)}=16\\), so \\((x+3)(7-x)=9\\). Hence \\(x^2-4x-12=0\\), giving \\(x=-2,6\\). Therefore, \\(x_1+x_2=4\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 31,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.1 Irrational Equations and Inequalities",
+            "concept_ids": [
+              "concept_d37918f89a",
+              "concept_ddaf06dfd0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              32,
+              33,
+              34,
+              35,
+              36,
+              174,
+              175,
+              176,
+              177,
+              178
+            ],
+            "source_chunk_ids": [
+              "chunk_9f0ecabe30",
+              "chunk_bf08b64145"
+            ]
+          },
+          "options": [
+            {
+              "id": "4_1",
+              "label": "\\(4\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The solutions are \\(x=6\\) and \\(x=-2\\), whose sum is \\(4\\)."
+            },
+            {
+              "id": "2_2",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the absolute difference of the two solutions."
+            },
+            {
+              "id": "6_3",
+              "label": "\\(6\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is one of the solutions, not their sum."
+            },
+            {
+              "id": "8_4",
+              "label": "\\(8\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sum of the solutions is not \\(8\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "464ad648-f1f7-5ed5-8d1e-721374b40baf",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve the inequality \\( \\sqrt{x+1}\\ge x-1 \\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The domain is \\(x\\ge-1\\). For \\(-1\\le x\\le1\\), \\(x-1\\le0\\), so the inequality holds. For \\(x>1\\), squaring gives \\(x+1\\ge(x-1)^2\\), hence \\(x(x-3)\\le0\\). Thus the solution set is \\([-1,3]\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 32,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.1 Irrational Equations and Inequalities",
+            "concept_ids": [
+              "concept_d37918f89a",
+              "concept_ddaf06dfd0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              32,
+              33,
+              34,
+              35,
+              36,
+              174,
+              175,
+              176,
+              177,
+              178
+            ],
+            "source_chunk_ids": [
+              "chunk_9f0ecabe30",
+              "chunk_bf08b64145"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_3_1",
+              "label": "\\([-1,3]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "For \\(x\\le1\\) the inequality is automatic, and for \\(x>1\\) squaring gives \\(x\\le3\\)."
+            },
+            {
+              "id": "1_3_2",
+              "label": "\\([1,3]\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits the valid interval \\([-1,1]\\)."
+            },
+            {
+              "id": "1_1_3",
+              "label": "\\([-1,1]\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inequality also holds for \\(1<x\\le3\\)."
+            },
+            {
+              "id": "0_3_4",
+              "label": "\\([0,3]\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The domain includes values from \\(-1\\) to \\(0\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "279f334c-7cd9-5547-b73f-c94ca068197b",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the real solution of \\( \\sqrt{x+\\sqrt{2x-1}}=2 \\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Squaring first gives \\(\\sqrt{2x-1}=4-x\\), so \\(x\\le4\\). Squaring again yields \\(2x-1=(4-x)^2\\), or \\(x^2-10x+17=0\\). Thus \\(x=5\\pm2\\sqrt2\\), and only \\(x=5-2\\sqrt2\\) satisfies \\(x\\le4\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 33,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.1 Irrational Equations and Inequalities",
+            "concept_ids": [
+              "concept_d37918f89a",
+              "concept_ddaf06dfd0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              32,
+              33,
+              34,
+              35,
+              36,
+              174,
+              175,
+              176,
+              177,
+              178
+            ],
+            "source_chunk_ids": [
+              "chunk_9f0ecabe30",
+              "chunk_bf08b64145"
+            ]
+          },
+          "options": [
+            {
+              "id": "5_2_sqrt_2_1",
+              "label": "\\(5-2\\sqrt{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The other algebraic root violates the condition \\(x\\le4\\)."
+            },
+            {
+              "id": "5_2_sqrt_2_2",
+              "label": "\\(5+2\\sqrt{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It makes \\(4-x<0\\), so it is extraneous."
+            },
+            {
+              "id": "3_3",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Substitution does not satisfy the original equation."
+            },
+            {
+              "id": "2_4",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Substitution does not satisfy the nested radical equation."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "8b79ea68-c4f1-56f9-9362-c84cc867ed46",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve the inequality \\( \\sqrt{x+1}+\\sqrt{9-x}\\ge4 \\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The domain is \\([-1,9]\\), and both sides are non-negative. Squaring gives \\(10+2\\sqrt{(x+1)(9-x)}\\ge16\\), so \\((x+1)(9-x)\\ge9\\). This simplifies to \\(x(8-x)\\ge0\\), yielding \\(x\\in[0,8]\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 34,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.1 Irrational Equations and Inequalities",
+            "concept_ids": [
+              "concept_d37918f89a",
+              "concept_ddaf06dfd0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              32,
+              33,
+              34,
+              35,
+              36,
+              174,
+              175,
+              176,
+              177,
+              178
+            ],
+            "source_chunk_ids": [
+              "chunk_9f0ecabe30",
+              "chunk_bf08b64145"
+            ]
+          },
+          "options": [
+            {
+              "id": "0_8_1",
+              "label": "\\([0,8]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Squaring reduces the inequality to \\(x(8-x)\\ge0\\)."
+            },
+            {
+              "id": "1_9_2",
+              "label": "\\([-1,9]\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is only the domain, not the solution set."
+            },
+            {
+              "id": "1_9_3",
+              "label": "\\([1,9]\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Values between \\(0\\) and \\(1\\) also satisfy the inequality."
+            },
+            {
+              "id": "0_4_4",
+              "label": "\\([0,4]\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The valid interval is symmetric about \\(x=4\\) and extends to \\(8\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "98a29e45-1188-51e6-8ec8-6a2969fd4561",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The length of the solution set of the inequality \\(\\sqrt{x+1}+\\sqrt{5-x}\\ge 3\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The domain is \\(-1\\le x\\le 5\\). Since both sides are non-negative, squaring gives \\(6+2\\sqrt{(x+1)(5-x)}\\ge 9\\), so \\((x+1)(5-x)\\ge\\frac{9}{4}\\). Thus \\(x^2-4x-\\frac{11}{4}\\le 0\\), giving \\(2-\\frac{3\\sqrt{3}}{2}\\le x\\le 2+\\frac{3\\sqrt{3}}{2}\\). Hence the length is \\(3\\sqrt{3}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 35,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.1 Irrational Equations and Inequalities",
+            "concept_ids": [
+              "concept_d37918f89a",
+              "concept_ddaf06dfd0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              32,
+              33,
+              34,
+              35,
+              36,
+              174,
+              175,
+              176,
+              177,
+              178
+            ],
+            "source_chunk_ids": [
+              "chunk_9f0ecabe30",
+              "chunk_bf08b64145"
+            ]
+          },
+          "options": [
+            {
+              "id": "3_sqrt_3_1",
+              "label": "\\(3\\sqrt{3}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The solution interval has endpoints \\(2\\pm\\frac{3\\sqrt{3}}{2}\\)."
+            },
+            {
+              "id": "4_2",
+              "label": "\\(4\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This ignores the radical-product condition."
+            },
+            {
+              "id": "frac_3_sqrt_3_2_3",
+              "label": "\\(\\frac{3\\sqrt{3}}{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is half the interval length."
+            },
+            {
+              "id": "6_4",
+              "label": "\\(6\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The domain length is \\(6\\), not the solution-set length."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_9f0ecabe30",
+    "chunk_bf08b64145"
+  ],
+  "source_pages": [
+    32,
+    33,
+    34,
+    35,
+    36,
+    174,
+    175,
+    176,
+    177,
+    178
+  ],
+  "rejected": []
+}

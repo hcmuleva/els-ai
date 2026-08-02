@@ -1,0 +1,453 @@
+{
+  "key": "7.2",
+  "topic": "7.2 Construction Problems",
+  "questions": [
+    {
+      "question": {
+        "id": "c1aa3495-afbf-5d95-8d39-f980f16dfc2b",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "In an angle with vertex \\(O\\), a point \\(P\\) lies inside it. The sides are \\(OA\\) and \\(OB\\). Which construction produces a line through \\(P\\) such that \\(P\\) is the midpoint of its intercepted segment?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "With \\(PM\\parallel OB\\), \\(\\vec{OP}=\\vec{OM}+\\vec{MP}\\). The construction gives \\(\\vec{OX}=2\\vec{OM}\\) and \\(\\vec{OY}=2\\vec{MP}\\). Hence the midpoint of \\(XY\\) has position vector \\(\\frac{\\vec{OX}+\\vec{OY}}{2}=\\vec{OP}\\), so it is \\(P\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 121,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "7.2 Construction Problems",
+            "concept_ids": [
+              "concept_157b94d8d6",
+              "concept_958d98624e"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              108,
+              244,
+              245
+            ],
+            "source_chunk_ids": [
+              "chunk_4fc61d4aa7",
+              "chunk_57fbf587f1"
+            ]
+          },
+          "options": [
+            {
+              "id": "Through_P_draw_a_line_pa_1",
+              "label": "Through \\(P\\), draw a line parallel to \\(OB\\), meeting \\(OA\\) at \\(M\\). Construct \\(X\\) on \\(OA\\) with \\(OX=2OM\\), construct \\(Y\\) on \\(OB\\) with \\(OY=2PM\\), and draw \\(XY\\).",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The midpoint of \\(XY\\) has position vector \\(\\vec{OM}+\\vec{MP}=\\vec{OP}\\)."
+            },
+            {
+              "id": "Through_P_draw_a_line_pa_2",
+              "label": "Through \\(P\\), draw a line parallel to \\(OB\\), meeting \\(OA\\) at \\(M\\), and draw the line through \\(M\\) perpendicular to \\(OA\\).",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not ensure that the two intercepted parts have equal lengths."
+            },
+            {
+              "id": "Construct_X_on_OA_with_O_3",
+              "label": "Construct \\(X\\) on \\(OA\\) with \\(OX=OM\\), construct \\(Y\\) on \\(OB\\) with \\(OY=PM\\), and draw \\(XY\\).",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The required distances must be doubled."
+            },
+            {
+              "id": "Reflect_P_in_the_vertex_4",
+              "label": "Reflect \\(P\\) in the vertex \\(O\\), and join the reflected point to \\(P\\).",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The resulting line need not meet both sides of the angle symmetrically about \\(P\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "473810c5-d7a2-570b-a241-0066ac676a65",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Given a circle with centre \\(O\\) and an external point \\(P\\), which construction correctly draws the tangents from \\(P\\) to the circle?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "If \\(M\\) is the midpoint of \\(OP\\), every intersection \\(T_i\\) of the auxiliary circle and the given circle satisfies \\(\\angle OT_iP=90^\\circ\\). Therefore \\(PT_i\\perp OT_i\\), so \\(PT_i\\) is tangent at \\(T_i\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 122,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.2 Construction Problems",
+            "concept_ids": [
+              "concept_157b94d8d6",
+              "concept_958d98624e"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              108,
+              244,
+              245
+            ],
+            "source_chunk_ids": [
+              "chunk_4fc61d4aa7",
+              "chunk_57fbf587f1"
+            ]
+          },
+          "options": [
+            {
+              "id": "Bisect_OP_at_M_Draw_the_1",
+              "label": "Bisect \\(OP\\) at \\(M\\). Draw the circle with centre \\(M\\) and radius \\(MO\\). Its intersections \\(T_1,T_2\\) with the given circle determine tangents \\(PT_1\\) and \\(PT_2\\).",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Since \\(\\angle OT_iP=90^\\circ\\), each \\(PT_i\\) is tangent."
+            },
+            {
+              "id": "Draw_a_circle_with_centr_2",
+              "label": "Draw a circle with centre \\(P\\) and radius \\(PO\\); join its intersections with the given circle to \\(P\\).",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This auxiliary circle does not make the contact radii perpendicular to the lines."
+            },
+            {
+              "id": "Draw_the_perpendicular_b_3",
+              "label": "Draw the perpendicular bisector of \\(OP\\); its intersections with the given circle are the points of contact.",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The perpendicular bisector need not intersect the circle at tangent points."
+            },
+            {
+              "id": "Draw_a_circle_with_centr_4",
+              "label": "Draw a circle with centre \\(O\\) and radius \\(OP\\); join its intersections with the given circle to \\(P\\).",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not construct the circle with diameter \\(OP\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "4edcc9d2-1e47-5145-a778-5ef46fb38eb1",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A circle with centre \\(O\\) and a point \\(P\\) on it are given. Which construction produces the tangent at \\(P\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The radius \\(OP\\) is perpendicular to the tangent at \\(P\\). Hence, draw \\(OP\\) and construct its perpendicular at \\(P\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 123,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.2 Construction Problems",
+            "concept_ids": [
+              "concept_157b94d8d6",
+              "concept_958d98624e"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              108,
+              244,
+              245
+            ],
+            "source_chunk_ids": [
+              "chunk_4fc61d4aa7",
+              "chunk_57fbf587f1"
+            ]
+          },
+          "options": [
+            {
+              "id": "Join_OP_then_construct_a_1",
+              "label": "Join \\(OP\\), then construct a line through \\(P\\) perpendicular to \\(OP\\).",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The tangent at a point on a circle is perpendicular to the radius through that point."
+            },
+            {
+              "id": "Construct_the_perpendicu_2",
+              "label": "Construct the perpendicular bisector of \\(OP\\).",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Its line need not pass through \\(P\\) and is not generally tangent."
+            },
+            {
+              "id": "Draw_a_line_through_P_pa_3",
+              "label": "Draw a line through \\(P\\) parallel to \\(OP\\).",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This coincides with the radius line, not the tangent."
+            },
+            {
+              "id": "Bisect_the_angle_between_4",
+              "label": "Bisect the angle between \\(OP\\) and any chord through \\(P\\).",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not ensure perpendicularity to the radius."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "4792c0aa-22e8-5c61-a62e-09e5bf09b3b1",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "To construct \\(\\triangle \\mathrm{ABC}\\) when \\(\\mathrm{BC}\\), \\(\\angle \\mathrm{ABC}=\\beta\\), and \\(\\mathrm{AB}+\\mathrm{AC}=s\\) are given, with \\(s>\\mathrm{BC}\\), which sequence is correct?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Choose \\(\\mathrm{D}\\) on the angle ray so that \\(\\mathrm{BD}=s\\). If \\(\\mathrm{A}\\) lies on the perpendicular bisector of \\(\\mathrm{CD}\\), then \\(\\mathrm{AC}=\\mathrm{AD}\\). Since \\(\\mathrm{BD}=\\mathrm{BA}+\\mathrm{AD}\\), it follows that \\(\\mathrm{AB}+\\mathrm{AC}=s\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 124,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.2 Construction Problems",
+            "concept_ids": [
+              "concept_157b94d8d6",
+              "concept_958d98624e"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              108,
+              244,
+              245
+            ],
+            "source_chunk_ids": [
+              "chunk_4fc61d4aa7",
+              "chunk_57fbf587f1"
+            ]
+          },
+          "options": [
+            {
+              "id": "Draw_mathrm_BC_At_mathrm_1",
+              "label": "Draw \\(\\mathrm{BC}\\). At \\(\\mathrm{B}\\), draw ray \\(\\mathrm{BX}\\) such that \\(\\angle \\mathrm{CBX}=\\beta\\). Mark \\(\\mathrm{D}\\) on \\(\\mathrm{BX}\\) with \\(\\mathrm{BD}=s\\). Construct the perpendicular bisector of \\(\\mathrm{CD}\\); its intersection with \\(\\mathrm{BX}\\) is \\(\\mathrm{A}\\).",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Then \\(\\mathrm{AC}=\\mathrm{AD}\\) and \\(\\mathrm{BD}=\\mathrm{BA}+\\mathrm{AD}=\\mathrm{AB}+\\mathrm{AC}\\)."
+            },
+            {
+              "id": "Draw_mathrm_BC_construct_2",
+              "label": "Draw \\(\\mathrm{BC}\\), construct the ray at angle \\(\\beta\\), and mark \\(\\mathrm{D}\\) with \\(\\mathrm{BD}=s-\\mathrm{BC}\\). Bisect \\(\\mathrm{CD}\\) perpendicularly to locate \\(\\mathrm{A}\\).",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The marked length does not represent \\(\\mathrm{AB}+\\mathrm{AC}\\)."
+            },
+            {
+              "id": "Draw_mathrm_BC_construct_3",
+              "label": "Draw \\(\\mathrm{BC}\\), construct the ray at angle \\(\\beta\\), mark \\(\\mathrm{D}\\) with \\(\\mathrm{BD}=s\\), and construct the perpendicular bisector of \\(\\mathrm{BC}\\) to locate \\(\\mathrm{A}\\).",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Bisecting \\(\\mathrm{BC}\\) does not impose \\(\\mathrm{AC}=\\mathrm{AD}\\)."
+            },
+            {
+              "id": "Draw_mathrm_BC_construct_4",
+              "label": "Draw \\(\\mathrm{BC}\\), construct the ray at angle \\(\\beta\\), mark \\(\\mathrm{D}\\) with \\(\\mathrm{CD}=s\\), and construct the perpendicular bisector of \\(\\mathrm{BD}\\) to locate \\(\\mathrm{A}\\).",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Neither construction condition ensures the required sum of sides."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "a72821dd-56c2-5e99-9945-7efac2ce43c4",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "To construct \\(\\triangle \\mathrm{ABC}\\) when \\(\\mathrm{BC}\\), \\(\\angle \\mathrm{ABC}=\\beta\\), and \\(\\mathrm{AB}-\\mathrm{AC}=d\\) are given, with \\(\\mathrm{AB}>\\mathrm{AC}\\), which sequence is correct?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Mark \\(\\mathrm{D}\\) so that \\(\\mathrm{BD}=d\\). For the required vertex \\(\\mathrm{A}\\), \\(\\mathrm{AD}=\\mathrm{AB}-\\mathrm{BD}=\\mathrm{AB}-d=\\mathrm{AC}\\). Therefore \\(\\mathrm{A}\\) is the intersection of the angle ray beyond \\(\\mathrm{D}\\) and the perpendicular bisector of \\(\\mathrm{CD}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 125,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.2 Construction Problems",
+            "concept_ids": [
+              "concept_157b94d8d6",
+              "concept_958d98624e"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              108,
+              244,
+              245
+            ],
+            "source_chunk_ids": [
+              "chunk_4fc61d4aa7",
+              "chunk_57fbf587f1"
+            ]
+          },
+          "options": [
+            {
+              "id": "Draw_mathrm_BC_At_mathrm_1",
+              "label": "Draw \\(\\mathrm{BC}\\). At \\(\\mathrm{B}\\), draw ray \\(\\mathrm{BX}\\) such that \\(\\angle \\mathrm{CBX}=\\beta\\). Mark \\(\\mathrm{D}\\) on \\(\\mathrm{BX}\\) with \\(\\mathrm{BD}=d\\). Construct the perpendicular bisector of \\(\\mathrm{CD}\\); its intersection with \\(\\mathrm{BX}\\), beyond \\(\\mathrm{D}\\), is \\(\\mathrm{A}\\).",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Here \\(\\mathrm{AD}=\\mathrm{AB}-d=\\mathrm{AC}\\), so \\(\\mathrm{A}\\) lies on the perpendicular bisector of \\(\\mathrm{CD}\\)."
+            },
+            {
+              "id": "Draw_mathrm_BC_construct_2",
+              "label": "Draw \\(\\mathrm{BC}\\), construct the ray at angle \\(\\beta\\), mark \\(\\mathrm{D}\\) with \\(\\mathrm{BD}=d\\), and construct the perpendicular bisector of \\(\\mathrm{BC}\\) to locate \\(\\mathrm{A}\\).",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The perpendicular bisector of \\(\\mathrm{BC}\\) gives no relation between \\(\\mathrm{AD}\\) and \\(\\mathrm{AC}\\)."
+            },
+            {
+              "id": "Draw_mathrm_BC_construct_3",
+              "label": "Draw \\(\\mathrm{BC}\\), construct the ray at angle \\(\\beta\\), mark \\(\\mathrm{D}\\) with \\(\\mathrm{CD}=d\\), and construct the perpendicular bisector of \\(\\mathrm{BD}\\) to locate \\(\\mathrm{A}\\).",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The auxiliary segment and bisector do not encode the given side difference."
+            },
+            {
+              "id": "Draw_mathrm_BC_construct_4",
+              "label": "Draw \\(\\mathrm{BC}\\), construct the ray at angle \\(\\beta\\), mark \\(\\mathrm{D}\\) with \\(\\mathrm{BD}=\\mathrm{BC}+d\\), and construct the perpendicular bisector of \\(\\mathrm{CD}\\) to locate \\(\\mathrm{A}\\).",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The auxiliary distance must equal \\(d\\), not \\(\\mathrm{BC}+d\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_4fc61d4aa7",
+    "chunk_57fbf587f1"
+  ],
+  "source_pages": [
+    108,
+    244,
+    245
+  ],
+  "rejected": []
+}

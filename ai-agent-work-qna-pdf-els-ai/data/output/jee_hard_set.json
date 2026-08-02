@@ -1,0 +1,779 @@
+{
+  "title": "Hard JEE Set - Class 12 Mathematics (jee_advanced)",
+  "generated_at": "2026-07-20T15:08:35Z",
+  "grade": "Class 12",
+  "difficulty": "jee_advanced",
+  "count": 10,
+  "passed": 10,
+  "assessments": [
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Graphs of Functions",
+        "subTopic": "Roots and intersections of curves",
+        "difficulty": "jee_advanced",
+        "bloomLevel": "Analyze",
+        "estimatedTime": "2 minutes",
+        "questionType": "GRAPHS"
+      },
+      "question": {
+        "questionText": "The figure shows the graph of \\(y=f(x)=x^3-3x\\), including its two turning points. Let \\(N\\) be the number of distinct real solutions of \\(\\left(f(x)\\right)^2=4\\). Using the graph, find \\(N\\).",
+        "equationLatex": "\\(\\left(x^3-3x\\right)^2=4\\)",
+        "diagramRequired": true,
+        "diagramType": "function",
+        "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"34\" y1=\"34\" x2=\"34\" y2=\"266\"/><line x1=\"82.67\" y1=\"34\" x2=\"82.67\" y2=\"266\"/><line x1=\"131.33\" y1=\"34\" x2=\"131.33\" y2=\"266\"/><line x1=\"180\" y1=\"34\" x2=\"180\" y2=\"266\"/><line x1=\"228.67\" y1=\"34\" x2=\"228.67\" y2=\"266\"/><line x1=\"277.33\" y1=\"34\" x2=\"277.33\" y2=\"266\"/><line x1=\"326\" y1=\"34\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"242.8\" x2=\"326\" y2=\"242.8\"/><line x1=\"34\" y1=\"219.6\" x2=\"326\" y2=\"219.6\"/><line x1=\"34\" y1=\"196.4\" x2=\"326\" y2=\"196.4\"/><line x1=\"34\" y1=\"173.2\" x2=\"326\" y2=\"173.2\"/><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"126.8\" x2=\"326\" y2=\"126.8\"/><line x1=\"34\" y1=\"103.6\" x2=\"326\" y2=\"103.6\"/><line x1=\"34\" y1=\"80.4\" x2=\"326\" y2=\"80.4\"/><line x1=\"34\" y1=\"57.2\" x2=\"326\" y2=\"57.2\"/><line x1=\"34\" y1=\"34\" x2=\"326\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"180\" y1=\"266\" x2=\"180\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"34\" y1=\"147\" x2=\"34\" y2=\"153\"/><text x=\"34\" y=\"164\" text-anchor=\"middle\">-3</text><line x1=\"82.67\" y1=\"147\" x2=\"82.67\" y2=\"153\"/><text x=\"82.67\" y=\"164\" text-anchor=\"middle\">-2</text><line x1=\"131.33\" y1=\"147\" x2=\"131.33\" y2=\"153\"/><text x=\"131.33\" y=\"164\" text-anchor=\"middle\">-1</text><line x1=\"228.67\" y1=\"147\" x2=\"228.67\" y2=\"153\"/><text x=\"228.67\" y=\"164\" text-anchor=\"middle\">1</text><line x1=\"277.33\" y1=\"147\" x2=\"277.33\" y2=\"153\"/><text x=\"277.33\" y=\"164\" text-anchor=\"middle\">2</text><line x1=\"326\" y1=\"147\" x2=\"326\" y2=\"153\"/><text x=\"326\" y=\"164\" text-anchor=\"middle\">3</text><line x1=\"177\" y1=\"266\" x2=\"183\" y2=\"266\"/><text x=\"174\" y=\"269\" text-anchor=\"end\">-5</text><line x1=\"177\" y1=\"242.8\" x2=\"183\" y2=\"242.8\"/><text x=\"174\" y=\"245.8\" text-anchor=\"end\">-4</text><line x1=\"177\" y1=\"219.6\" x2=\"183\" y2=\"219.6\"/><text x=\"174\" y=\"222.6\" text-anchor=\"end\">-3</text><line x1=\"177\" y1=\"196.4\" x2=\"183\" y2=\"196.4\"/><text x=\"174\" y=\"199.4\" text-anchor=\"end\">-2</text><line x1=\"177\" y1=\"173.2\" x2=\"183\" y2=\"173.2\"/><text x=\"174\" y=\"176.2\" text-anchor=\"end\">-1</text><line x1=\"177\" y1=\"126.8\" x2=\"183\" y2=\"126.8\"/><text x=\"174\" y=\"129.8\" text-anchor=\"end\">1</text><line x1=\"177\" y1=\"103.6\" x2=\"183\" y2=\"103.6\"/><text x=\"174\" y=\"106.6\" text-anchor=\"end\">2</text><line x1=\"177\" y1=\"80.4\" x2=\"183\" y2=\"80.4\"/><text x=\"174\" y=\"83.4\" text-anchor=\"end\">3</text><line x1=\"177\" y1=\"57.2\" x2=\"183\" y2=\"57.2\"/><text x=\"174\" y=\"60.2\" text-anchor=\"end\">4</text><line x1=\"177\" y1=\"34\" x2=\"183\" y2=\"34\"/><text x=\"174\" y=\"37\" text-anchor=\"end\">5</text></g><text x=\"328\" y=\"154\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"184\" y=\"30\" font-size=\"12\" fill=\"#555555\">y</text><polyline points=\"70.5,257.66 72.93,243.91 75.37,230.93 77.8,218.7 80.23,207.19 82.67,196.4 85.1,186.31 87.53,176.89 89.97,168.13 92.4,160.02 94.83,152.54 97.27,145.66 99.7,139.38 102.13,133.67 104.57,128.51 107,123.9 109.43,119.81 111.87,116.22 114.3,113.12 116.73,110.49 119.17,108.31 121.6,106.57 124.03,105.24 126.47,104.32 128.9,103.78 131.33,103.6 133.77,103.77 136.2,104.27 138.63,105.09 141.07,106.2 143.5,107.59 145.93,109.24 148.37,111.13 150.8,113.25 153.23,115.58 155.67,118.1 158.1,120.79 160.53,123.64 162.97,126.63 165.4,129.75 167.83,132.96 170.27,136.27 172.7,139.64 175.13,143.06 177.57,146.52 180,150 182.43,153.48 184.87,156.94 187.3,160.36 189.73,163.73 192.17,167.04 194.6,170.25 197.03,173.37 199.47,176.36 201.9,179.21 204.33,181.9 206.77,184.42 209.2,186.75 211.63,188.87 214.07,190.76 216.5,192.41 218.93,193.8 221.37,194.91 223.8,195.73 226.23,196.23 228.67,196.4 231.1,196.22 233.53,195.68 235.97,194.76 238.4,193.43 240.83,191.69 243.27,189.51 245.7,186.88 248.13,183.78 250.57,180.19 253,176.1 255.43,171.49 257.87,166.33 260.3,160.62 262.73,154.34 265.17,147.46 267.6,139.98 270.03,131.87 272.47,123.11 274.9,113.69 277.33,103.6 279.77,92.81 282.2,81.3 284.63,69.07 287.07,56.09 289.5,42.34\" fill=\"none\" stroke=\"#1f77b4\" stroke-width=\"2\"/><circle cx=\"131.33\" cy=\"103.6\" r=\"3\" fill=\"#d62728\"/><text x=\"137.33\" y=\"97.6\" fill=\"#111111\">M</text><circle cx=\"228.67\" cy=\"196.4\" r=\"3\" fill=\"#d62728\"/><text x=\"234.67\" y=\"190.4\" fill=\"#111111\">m</text></svg>",
+        "accessibilityAltText": "Graph of the cubic function \\(y=x^3-3x\\), with a local maximum at \\((-1,2)\\) and a local minimum at \\((1,-2)\\)."
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(2\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(3\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(4\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(6\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "C",
+        "value": "\\(4\\)",
+        "verify": null
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "The equation \\(\\left(f(x)\\right)^2=4\\) is equivalent to \\(f(x)=2\\) or \\(f(x)=-2\\). Thus, we count the intersections of the graph with the lines \\(y=2\\) and \\(y=-2\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "From the graph, \\(y=2\\) intersects the curve at two distinct points, one being the local maximum, and \\(y=-2\\) also intersects it at two distinct points, one being the local minimum. Therefore, \\(N=2+2=4\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Circles",
+        "subTopic": "Chord, tangent and angle subtended",
+        "difficulty": "jee_advanced",
+        "bloomLevel": "Applying",
+        "estimatedTime": "3 minutes",
+        "questionType": "CIRCLE GEOMETRY"
+      },
+      "question": {
+        "questionText": "Two tangents to a circle at \\(A\\) and \\(B\\) meet at \\(P\\). Point \\(C\\) lies on the major arc \\(AB\\), with \\(A,C,B\\) encountered in that order along the major arc. If \\(\\angle APB=80^\\circ\\) and the acute angle between the tangent line at \\(A\\) and chord \\(AC\\) is \\(30^\\circ\\), determine the acute angle between the tangent line at \\(B\\) and chord \\(BC\\).",
+        "equationLatex": "\\(\\angle APB=80^\\circ,\\quad \\text{acute angle between the tangent at }A\\text{ and }AC=30^\\circ\\)",
+        "diagramRequired": true,
+        "diagramType": "circle",
+        "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><ellipse cx=\"180\" cy=\"150\" rx=\"109.5\" ry=\"87\" fill=\"none\" stroke=\"#333333\" stroke-width=\"1.8\"/><circle cx=\"180\" cy=\"150\" r=\"2\" fill=\"#333333\"/><text x=\"184\" y=\"146\" fill=\"#333333\">O</text><circle cx=\"263.88\" cy=\"94.08\" r=\"3\" fill=\"#d62728\"/><text x=\"269.88\" y=\"88.08\" fill=\"#111111\">B</text><circle cx=\"96.12\" cy=\"94.08\" r=\"3\" fill=\"#d62728\"/><text x=\"102.12\" y=\"88.08\" fill=\"#111111\">A</text><circle cx=\"77.1\" cy=\"179.76\" r=\"3\" fill=\"#d62728\"/><text x=\"83.1\" y=\"173.76\" fill=\"#111111\">C</text><line x1=\"96.12\" y1=\"94.08\" x2=\"263.88\" y2=\"94.08\" stroke=\"#333333\" stroke-width=\"1.8\"/><line x1=\"96.12\" y1=\"94.08\" x2=\"77.1\" y2=\"179.76\" stroke=\"#333333\" stroke-width=\"1.8\"/><line x1=\"77.1\" y1=\"179.76\" x2=\"263.88\" y2=\"94.08\" stroke=\"#333333\" stroke-width=\"1.8\"/></svg>",
+        "accessibilityAltText": "Circle with chord endpoints A and B, point C on the major arc from A to B, and chords AB, AC, and BC marked."
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(70^\\circ\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(80^\\circ\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(100^\\circ\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(110^\\circ\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "B",
+        "value": "\\(80^\\circ\\)",
+        "verify": {
+          "kind": "equal",
+          "expr": null,
+          "var": "x",
+          "lhs": "(180-80)/2+30",
+          "rhs": "80",
+          "expected": null
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "By the tangent angle theorem, the measure of the minor arc \\(AB\\) is \\(180^\\circ-\\angle APB=180^\\circ-80^\\circ=100^\\circ\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "The tangent-chord theorem gives the minor arc \\(AC=2\\times30^\\circ=60^\\circ\\). Since \\(A,C,B\\) occur in this order on the major arc, the arc \\(CB\\) not containing \\(A\\) measures \\(360^\\circ-100^\\circ-60^\\circ=200^\\circ\\).",
+          "svg": null
+        },
+        {
+          "step": 3,
+          "reasoning": "Thus \\(\\angle BAC=\\frac{1}{2}\\times200^\\circ=100^\\circ\\). The acute angle between the tangent at \\(B\\) and chord \\(BC\\) is its supplement, \\(180^\\circ-100^\\circ=80^\\circ\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Triangles",
+        "subTopic": "Similarity, area and coordinates",
+        "difficulty": "jee_advanced",
+        "bloomLevel": "Applying",
+        "estimatedTime": "3 minutes",
+        "questionType": "TRIANGLES"
+      },
+      "question": {
+        "questionText": "In the right triangle \\(ABC\\), the coordinates are \\(A(0,0)\\), \\(B(6,0)\\), and \\(C(0,8)\\). If \\(D\\) is the foot of the perpendicular from \\(A\\) to \\(BC\\), find the area of \\(\\triangle ABD\\), using similarity of the triangles formed by the altitude.",
+        "equationLatex": "\\(A(0,0),\\quad B(6,0),\\quad C(0,8),\\quad AD\\perp BC\\)",
+        "diagramRequired": true,
+        "diagramType": "triangle",
+        "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><polygon points=\"82.67,234.36 277.33,234.36 82.67,65.64\" fill=\"none\" fill-opacity=\"0.25\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"88.67\" y=\"228.36\" fill=\"#111111\">A</text><text x=\"283.33\" y=\"228.36\" fill=\"#111111\">B</text><text x=\"88.67\" y=\"59.64\" fill=\"#111111\">C</text><path d=\"M 104.67 234.36 A 22 22 0 1 1 82.67 212.36\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"58.63\" y=\"258.41\" text-anchor=\"middle\" fill=\"#9467bd\">90^\\\\circ</text></svg>",
+        "accessibilityAltText": "A right triangle ABC with the right angle marked at A; D is the foot of the altitude from A to hypotenuse BC."
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(\\frac{216}{25}\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(\\frac{192}{25}\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(\\frac{144}{25}\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(\\frac{432}{25}\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "A",
+        "value": "\\(\\frac{216}{25}\\)",
+        "verify": {
+          "kind": "equal",
+          "expr": null,
+          "var": "x",
+          "lhs": "1/2*(18/5)*(24/5)",
+          "rhs": "216/25",
+          "expected": null
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "From the coordinates, \\(AB=6\\), \\(AC=8\\), and \\(BC=\\sqrt{6^2+8^2}=10\\). By similarity of the altitude-generated triangles, \\(BD=\\frac{AB^2}{BC}=\\frac{6^2}{10}=\\frac{18}{5}\\) and \\(AD=\\frac{AB\\cdot AC}{BC}=\\frac{6\\cdot8}{10}=\\frac{24}{5}\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "Therefore, \\([ABD]=\\frac{1}{2}\\cdot BD\\cdot AD=\\frac{1}{2}\\cdot\\frac{18}{5}\\cdot\\frac{24}{5}=\\frac{216}{25}\\). Hence, the correct option is \\(\\boxed{\\text{A}}\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Coordinate Geometry",
+        "subTopic": "Locus, distance and section",
+        "difficulty": "jee_advanced",
+        "bloomLevel": "Analyze",
+        "estimatedTime": "3 minutes",
+        "questionType": "COORDINATE GEOMETRY"
+      },
+      "question": {
+        "questionText": "In the coordinate plane, fixed points are \\(A(-2,1)\\) and \\(B(4,5)\\). A variable point \\(P(x,y)\\) satisfies \\(PA=2PB\\). The diagram shows the internal-section position of \\(P\\) on \\(\\overline{AB}\\), where \\(P\\) lies between \\(A\\) and \\(B\\). Which option gives both the equation of the complete locus of \\(P\\) and the coordinates of this internal-section point?",
+        "equationLatex": "\\((x-6)^2+\\left(y-\\frac{19}{3}\\right)^2=\\frac{208}{9}\\)",
+        "diagramRequired": true,
+        "diagramType": "coordinate",
+        "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"50.22\" y1=\"34\" x2=\"50.22\" y2=\"266\"/><line x1=\"82.67\" y1=\"34\" x2=\"82.67\" y2=\"266\"/><line x1=\"115.11\" y1=\"34\" x2=\"115.11\" y2=\"266\"/><line x1=\"147.56\" y1=\"34\" x2=\"147.56\" y2=\"266\"/><line x1=\"180\" y1=\"34\" x2=\"180\" y2=\"266\"/><line x1=\"212.44\" y1=\"34\" x2=\"212.44\" y2=\"266\"/><line x1=\"244.89\" y1=\"34\" x2=\"244.89\" y2=\"266\"/><line x1=\"277.33\" y1=\"34\" x2=\"277.33\" y2=\"266\"/><line x1=\"309.78\" y1=\"34\" x2=\"309.78\" y2=\"266\"/><line x1=\"34\" y1=\"249.43\" x2=\"326\" y2=\"249.43\"/><line x1=\"34\" y1=\"216.29\" x2=\"326\" y2=\"216.29\"/><line x1=\"34\" y1=\"183.14\" x2=\"326\" y2=\"183.14\"/><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"116.86\" x2=\"326\" y2=\"116.86\"/><line x1=\"34\" y1=\"83.71\" x2=\"326\" y2=\"83.71\"/><line x1=\"34\" y1=\"50.57\" x2=\"326\" y2=\"50.57\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"249.43\" x2=\"326\" y2=\"249.43\"/><line x1=\"147.56\" y1=\"266\" x2=\"147.56\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"50.22\" y1=\"246.43\" x2=\"50.22\" y2=\"252.43\"/><text x=\"50.22\" y=\"263.43\" text-anchor=\"middle\">-3</text><line x1=\"82.67\" y1=\"246.43\" x2=\"82.67\" y2=\"252.43\"/><text x=\"82.67\" y=\"263.43\" text-anchor=\"middle\">-2</text><line x1=\"115.11\" y1=\"246.43\" x2=\"115.11\" y2=\"252.43\"/><text x=\"115.11\" y=\"263.43\" text-anchor=\"middle\">-1</text><line x1=\"180\" y1=\"246.43\" x2=\"180\" y2=\"252.43\"/><text x=\"180\" y=\"263.43\" text-anchor=\"middle\">1</text><line x1=\"212.44\" y1=\"246.43\" x2=\"212.44\" y2=\"252.43\"/><text x=\"212.44\" y=\"263.43\" text-anchor=\"middle\">2</text><line x1=\"244.89\" y1=\"246.43\" x2=\"244.89\" y2=\"252.43\"/><text x=\"244.89\" y=\"263.43\" text-anchor=\"middle\">3</text><line x1=\"277.33\" y1=\"246.43\" x2=\"277.33\" y2=\"252.43\"/><text x=\"277.33\" y=\"263.43\" text-anchor=\"middle\">4</text><line x1=\"309.78\" y1=\"246.43\" x2=\"309.78\" y2=\"252.43\"/><text x=\"309.78\" y=\"263.43\" text-anchor=\"middle\">5</text><line x1=\"144.56\" y1=\"216.29\" x2=\"150.56\" y2=\"216.29\"/><text x=\"141.56\" y=\"219.29\" text-anchor=\"end\">1</text><line x1=\"144.56\" y1=\"183.14\" x2=\"150.56\" y2=\"183.14\"/><text x=\"141.56\" y=\"186.14\" text-anchor=\"end\">2</text><line x1=\"144.56\" y1=\"150\" x2=\"150.56\" y2=\"150\"/><text x=\"141.56\" y=\"153\" text-anchor=\"end\">3</text><line x1=\"144.56\" y1=\"116.86\" x2=\"150.56\" y2=\"116.86\"/><text x=\"141.56\" y=\"119.86\" text-anchor=\"end\">4</text><line x1=\"144.56\" y1=\"83.71\" x2=\"150.56\" y2=\"83.71\"/><text x=\"141.56\" y=\"86.71\" text-anchor=\"end\">5</text><line x1=\"144.56\" y1=\"50.57\" x2=\"150.56\" y2=\"50.57\"/><text x=\"141.56\" y=\"53.57\" text-anchor=\"end\">6</text></g><text x=\"328\" y=\"253.43\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"151.56\" y=\"30\" font-size=\"12\" fill=\"#555555\">y</text><line x1=\"82.67\" y1=\"216.29\" x2=\"212.44\" y2=\"127.9\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"151.56\" y=\"168.1\" fill=\"#333333\">AP</text><line x1=\"212.44\" y1=\"127.9\" x2=\"277.33\" y2=\"83.71\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"248.89\" y=\"101.81\" fill=\"#333333\">PB</text><circle cx=\"82.67\" cy=\"216.29\" r=\"3\" fill=\"#d62728\"/><text x=\"88.67\" y=\"210.29\" fill=\"#111111\">A</text><circle cx=\"212.44\" cy=\"127.9\" r=\"3\" fill=\"#d62728\"/><text x=\"218.44\" y=\"121.9\" fill=\"#111111\">P</text><circle cx=\"277.33\" cy=\"83.71\" r=\"3\" fill=\"#d62728\"/><text x=\"283.33\" y=\"77.71\" fill=\"#111111\">B</text></svg>",
+        "accessibilityAltText": "Coordinate diagram showing A(-2,1), internal-section point P(2,11/3), and B(4,5), with segments AP and PB."
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\((x-6)^2+\\left(y-\\frac{19}{3}\\right)^2=\\frac{208}{9}\\), with \\(P=\\left(2,\\frac{11}{3}\\right)\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\((x-6)^2+\\left(y-\\frac{19}{3}\\right)^2=\\frac{208}{9}\\), with \\(P=(10,9)\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\((x-6)^2+\\left(y-\\frac{19}{3}\\right)^2=\\frac{52}{9}\\), with \\(P=\\left(2,\\frac{11}{3}\\right)\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\((x+6)^2+\\left(y+\\frac{19}{3}\\right)^2=\\frac{208}{9}\\), with \\(P=\\left(2,\\frac{11}{3}\\right)\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "A",
+        "value": "\\((x-6)^2+\\left(y-\\frac{19}{3}\\right)^2=\\frac{208}{9}\\), with \\(P=\\left(2,\\frac{11}{3}\\right)\\)",
+        "verify": {
+          "kind": "equal",
+          "expr": null,
+          "var": "x",
+          "lhs": "(x+2)**2+(y-1)**2-4*((x-4)**2+(y-5)**2)",
+          "rhs": "-3*((x-6)**2+(y-19/3)**2-208/9)",
+          "expected": null
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "Using the distance formula and \\(PA=2PB\\), we obtain \\((x+2)^2+(y-1)^2=4\\big((x-4)^2+(y-5)^2\\big)\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "On simplifying, \\(3x^2+3y^2-36x-38y+159=0\\), or \\(x^2+y^2-12x-\\frac{38}{3}y+53=0\\).",
+          "svg": null
+        },
+        {
+          "step": 3,
+          "reasoning": "Completing squares gives \\((x-6)^2+\\left(y-\\frac{19}{3}\\right)^2=\\frac{208}{9}\\), which is the complete locus.",
+          "svg": null
+        },
+        {
+          "step": 4,
+          "reasoning": "For the internal section, \\(AP:PB=2:1\\). By the section formula, \\(P=\\left(\\frac{1(-2)+2(4)}{3},\\frac{1(1)+2(5)}{3}\\right)=\\left(2,\\frac{11}{3}\\right)\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Application of Derivatives",
+        "subTopic": "Tangents, maxima and minima",
+        "difficulty": "jee_advanced",
+        "bloomLevel": "Analyze",
+        "estimatedTime": "3 minutes",
+        "questionType": "GRAPHS"
+      },
+      "question": {
+        "questionText": "The figure shows the graph of \\(y=f'(x)\\). Which statement correctly describes the nature of \\(f\\) at the critical points \\(x=1\\) and \\(x=3\\)?",
+        "equationLatex": "\\[f'(x)=(x-1)^2(x-3)\\]",
+        "diagramRequired": true,
+        "diagramType": "function",
+        "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"34\" y1=\"34\" x2=\"34\" y2=\"266\"/><line x1=\"82.67\" y1=\"34\" x2=\"82.67\" y2=\"266\"/><line x1=\"131.33\" y1=\"34\" x2=\"131.33\" y2=\"266\"/><line x1=\"180\" y1=\"34\" x2=\"180\" y2=\"266\"/><line x1=\"228.67\" y1=\"34\" x2=\"228.67\" y2=\"266\"/><line x1=\"277.33\" y1=\"34\" x2=\"277.33\" y2=\"266\"/><line x1=\"326\" y1=\"34\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"242.8\" x2=\"326\" y2=\"242.8\"/><line x1=\"34\" y1=\"219.6\" x2=\"326\" y2=\"219.6\"/><line x1=\"34\" y1=\"196.4\" x2=\"326\" y2=\"196.4\"/><line x1=\"34\" y1=\"173.2\" x2=\"326\" y2=\"173.2\"/><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"126.8\" x2=\"326\" y2=\"126.8\"/><line x1=\"34\" y1=\"103.6\" x2=\"326\" y2=\"103.6\"/><line x1=\"34\" y1=\"80.4\" x2=\"326\" y2=\"80.4\"/><line x1=\"34\" y1=\"57.2\" x2=\"326\" y2=\"57.2\"/><line x1=\"34\" y1=\"34\" x2=\"326\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"82.67\" y1=\"266\" x2=\"82.67\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"34\" y1=\"147\" x2=\"34\" y2=\"153\"/><text x=\"34\" y=\"164\" text-anchor=\"middle\">-1</text><line x1=\"131.33\" y1=\"147\" x2=\"131.33\" y2=\"153\"/><text x=\"131.33\" y=\"164\" text-anchor=\"middle\">1</text><line x1=\"180\" y1=\"147\" x2=\"180\" y2=\"153\"/><text x=\"180\" y=\"164\" text-anchor=\"middle\">2</text><line x1=\"228.67\" y1=\"147\" x2=\"228.67\" y2=\"153\"/><text x=\"228.67\" y=\"164\" text-anchor=\"middle\">3</text><line x1=\"277.33\" y1=\"147\" x2=\"277.33\" y2=\"153\"/><text x=\"277.33\" y=\"164\" text-anchor=\"middle\">4</text><line x1=\"326\" y1=\"147\" x2=\"326\" y2=\"153\"/><text x=\"326\" y=\"164\" text-anchor=\"middle\">5</text><line x1=\"79.67\" y1=\"266\" x2=\"85.67\" y2=\"266\"/><text x=\"76.67\" y=\"269\" text-anchor=\"end\">-5</text><line x1=\"79.67\" y1=\"242.8\" x2=\"85.67\" y2=\"242.8\"/><text x=\"76.67\" y=\"245.8\" text-anchor=\"end\">-4</text><line x1=\"79.67\" y1=\"219.6\" x2=\"85.67\" y2=\"219.6\"/><text x=\"76.67\" y=\"222.6\" text-anchor=\"end\">-3</text><line x1=\"79.67\" y1=\"196.4\" x2=\"85.67\" y2=\"196.4\"/><text x=\"76.67\" y=\"199.4\" text-anchor=\"end\">-2</text><line x1=\"79.67\" y1=\"173.2\" x2=\"85.67\" y2=\"173.2\"/><text x=\"76.67\" y=\"176.2\" text-anchor=\"end\">-1</text><line x1=\"79.67\" y1=\"126.8\" x2=\"85.67\" y2=\"126.8\"/><text x=\"76.67\" y=\"129.8\" text-anchor=\"end\">1</text><line x1=\"79.67\" y1=\"103.6\" x2=\"85.67\" y2=\"103.6\"/><text x=\"76.67\" y=\"106.6\" text-anchor=\"end\">2</text><line x1=\"79.67\" y1=\"80.4\" x2=\"85.67\" y2=\"80.4\"/><text x=\"76.67\" y=\"83.4\" text-anchor=\"end\">3</text><line x1=\"79.67\" y1=\"57.2\" x2=\"85.67\" y2=\"57.2\"/><text x=\"76.67\" y=\"60.2\" text-anchor=\"end\">4</text><line x1=\"79.67\" y1=\"34\" x2=\"85.67\" y2=\"34\"/><text x=\"76.67\" y=\"37\" text-anchor=\"end\">5</text></g><text x=\"328\" y=\"154\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"86.67\" y=\"30\" font-size=\"12\" fill=\"#555555\">y</text><polyline points=\"72.93,256.91 75.37,246.65 77.8,237.02 80.23,228.01 82.67,219.6 85.1,211.77 87.53,204.5 89.97,197.77 92.4,191.57 94.83,185.89 97.27,180.69 99.7,175.98 102.13,171.72 104.57,167.9 107,164.5 109.43,161.51 111.87,158.91 114.3,156.68 116.73,154.8 119.17,153.26 121.6,152.04 124.03,151.12 126.47,150.49 128.9,150.12 131.33,150 133.77,150.11 136.2,150.44 138.63,150.97 141.07,151.67 143.5,152.54 145.93,153.55 148.37,154.69 150.8,155.94 153.23,157.28 155.67,158.7 158.1,160.18 160.53,161.69 162.97,163.23 165.4,164.78 167.83,166.31 170.27,167.82 172.7,169.28 175.13,170.67 177.57,171.98 180,173.2 182.43,174.3 184.87,175.26 187.3,176.08 189.73,176.73 192.17,177.19 194.6,177.45 197.03,177.48 199.47,177.28 201.9,176.83 204.33,176.1 206.77,175.08 209.2,173.76 211.63,172.11 214.07,170.11 216.5,167.76 218.93,165.03 221.37,161.91 223.8,158.38 226.23,154.41 228.67,150 231.1,145.13 233.53,139.77 235.97,133.91 238.4,127.54 240.83,120.64 243.27,113.18 245.7,105.16 248.13,96.55 250.57,87.33 253,77.5 255.43,67.03 257.87,55.9 260.3,44.1\" fill=\"none\" stroke=\"#1f77b4\" stroke-width=\"2\"/><circle cx=\"131.33\" cy=\"150\" r=\"3\" fill=\"#d62728\"/><text x=\"137.33\" y=\"144\" fill=\"#111111\">A</text><circle cx=\"228.67\" cy=\"150\" r=\"3\" fill=\"#d62728\"/><text x=\"234.67\" y=\"144\" fill=\"#111111\">B</text></svg>",
+        "accessibilityAltText": "Graph of the derivative f prime crosses the horizontal axis at x equals 3 and touches it at x equals 1 without crossing."
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(f\\) has a local maximum at \\(x=1\\) and a local minimum at \\(x=3\\)."
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(f\\) has a stationary point of inflexion at \\(x=1\\) and a local minimum at \\(x=3\\)."
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(f\\) has a local minimum at \\(x=1\\) and a local maximum at \\(x=3\\)."
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(f\\) has no local extremum because \\(f'(1)=f'(3)=0\\)."
+        }
+      ],
+      "answer": {
+        "correctOptionId": "B",
+        "value": "\\(f\\) has a stationary point of inflexion at \\(x=1\\) and a local minimum at \\(x=3\\).",
+        "verify": null
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "From the graph, \\(f'(x)<0\\) on both sides of \\(x=1\\), so \\(f\\) is decreasing on both sides. Hence \\(x=1\\) is not a point of local maximum or local minimum. Since \\(f'(1)=0\\), it is a stationary point of inflexion.",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "At \\(x=3\\), \\(f'(x)\\) changes sign from negative to positive. Therefore, \\(f\\) changes from decreasing to increasing, so \\(x=3\\) is a point of local minimum.",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Definite Integrals",
+        "subTopic": "Area bounded by curves",
+        "difficulty": "jee_advanced",
+        "bloomLevel": "Analyze",
+        "estimatedTime": "3 minutes",
+        "questionType": "GRAPHS"
+      },
+      "question": {
+        "questionText": "The graph of \\(y=x^4-5x^2+4\\) is shown. What is the sum of the areas of all finite regions enclosed by this curve and the \\(x\\)-axis?",
+        "equationLatex": "\\(y=x^4-5x^2+4\\)",
+        "diagramRequired": true,
+        "diagramType": "function",
+        "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"63.2\" y1=\"34\" x2=\"63.2\" y2=\"266\"/><line x1=\"121.6\" y1=\"34\" x2=\"121.6\" y2=\"266\"/><line x1=\"180\" y1=\"34\" x2=\"180\" y2=\"266\"/><line x1=\"238.4\" y1=\"34\" x2=\"238.4\" y2=\"266\"/><line x1=\"296.8\" y1=\"34\" x2=\"296.8\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"242.8\" x2=\"326\" y2=\"242.8\"/><line x1=\"34\" y1=\"219.6\" x2=\"326\" y2=\"219.6\"/><line x1=\"34\" y1=\"196.4\" x2=\"326\" y2=\"196.4\"/><line x1=\"34\" y1=\"173.2\" x2=\"326\" y2=\"173.2\"/><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"126.8\" x2=\"326\" y2=\"126.8\"/><line x1=\"34\" y1=\"103.6\" x2=\"326\" y2=\"103.6\"/><line x1=\"34\" y1=\"80.4\" x2=\"326\" y2=\"80.4\"/><line x1=\"34\" y1=\"57.2\" x2=\"326\" y2=\"57.2\"/><line x1=\"34\" y1=\"34\" x2=\"326\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"180\" y1=\"266\" x2=\"180\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"63.2\" y1=\"147\" x2=\"63.2\" y2=\"153\"/><text x=\"63.2\" y=\"164\" text-anchor=\"middle\">-2</text><line x1=\"121.6\" y1=\"147\" x2=\"121.6\" y2=\"153\"/><text x=\"121.6\" y=\"164\" text-anchor=\"middle\">-1</text><line x1=\"238.4\" y1=\"147\" x2=\"238.4\" y2=\"153\"/><text x=\"238.4\" y=\"164\" text-anchor=\"middle\">1</text><line x1=\"296.8\" y1=\"147\" x2=\"296.8\" y2=\"153\"/><text x=\"296.8\" y=\"164\" text-anchor=\"middle\">2</text><line x1=\"177\" y1=\"266\" x2=\"183\" y2=\"266\"/><text x=\"174\" y=\"269\" text-anchor=\"end\">-5</text><line x1=\"177\" y1=\"242.8\" x2=\"183\" y2=\"242.8\"/><text x=\"174\" y=\"245.8\" text-anchor=\"end\">-4</text><line x1=\"177\" y1=\"219.6\" x2=\"183\" y2=\"219.6\"/><text x=\"174\" y=\"222.6\" text-anchor=\"end\">-3</text><line x1=\"177\" y1=\"196.4\" x2=\"183\" y2=\"196.4\"/><text x=\"174\" y=\"199.4\" text-anchor=\"end\">-2</text><line x1=\"177\" y1=\"173.2\" x2=\"183\" y2=\"173.2\"/><text x=\"174\" y=\"176.2\" text-anchor=\"end\">-1</text><line x1=\"177\" y1=\"126.8\" x2=\"183\" y2=\"126.8\"/><text x=\"174\" y=\"129.8\" text-anchor=\"end\">1</text><line x1=\"177\" y1=\"103.6\" x2=\"183\" y2=\"103.6\"/><text x=\"174\" y=\"106.6\" text-anchor=\"end\">2</text><line x1=\"177\" y1=\"80.4\" x2=\"183\" y2=\"80.4\"/><text x=\"174\" y=\"83.4\" text-anchor=\"end\">3</text><line x1=\"177\" y1=\"57.2\" x2=\"183\" y2=\"57.2\"/><text x=\"174\" y=\"60.2\" text-anchor=\"end\">4</text><line x1=\"177\" y1=\"34\" x2=\"183\" y2=\"34\"/><text x=\"174\" y=\"37\" text-anchor=\"end\">5</text></g><text x=\"328\" y=\"154\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"184\" y=\"30\" font-size=\"12\" fill=\"#555555\">y</text><polyline points=\"48.6,49.86 51.03,71.15 53.47,90.48 55.9,107.94 58.33,123.63 60.77,137.62 63.2,150 65.63,160.85 68.07,170.25 70.5,178.27 72.93,185 75.37,190.5 77.8,194.86 80.23,198.14 82.67,200.41 85.1,201.74 87.53,202.2 89.97,201.85 92.4,200.75 94.83,198.97 97.27,196.56 99.7,193.58 102.13,190.1 104.57,186.16 107,181.81 109.43,177.11 111.87,172.11 114.3,166.85 116.73,161.38 119.17,155.75 121.6,150 124.03,144.17 126.47,138.29 128.9,132.41 131.33,126.57 133.77,120.79 136.2,115.11 138.63,109.56 141.07,104.17 143.5,98.97 145.93,93.99 148.37,89.24 150.8,84.75 153.23,80.54 155.67,76.64 158.1,73.05 160.53,69.8 162.97,66.9 165.4,64.36 167.83,62.19 170.27,60.4 172.7,59.01 175.13,58 177.57,57.4 180,57.2 182.43,57.4 184.87,58 187.3,59.01 189.73,60.4 192.17,62.19 194.6,64.36 197.03,66.9 199.47,69.8 201.9,73.05 204.33,76.64 206.77,80.54 209.2,84.75 211.63,89.24 214.07,93.99 216.5,98.97 218.93,104.17 221.37,109.56 223.8,115.11 226.23,120.79 228.67,126.57 231.1,132.41 233.53,138.29 235.97,144.17 238.4,150 240.83,155.75 243.27,161.38 245.7,166.85 248.13,172.11 250.57,177.11 253,181.81 255.43,186.16 257.87,190.1 260.3,193.58 262.73,196.56 265.17,198.97 267.6,200.75 270.03,201.85 272.47,202.2 274.9,201.74 277.33,200.41 279.77,198.14 282.2,194.86 284.63,190.5 287.07,185 289.5,178.27 291.93,170.25 294.37,160.85 296.8,150 299.23,137.62 301.67,123.63 304.1,107.94 306.53,90.48 308.97,71.15 311.4,49.86\" fill=\"none\" stroke=\"#1f77b4\" stroke-width=\"2\"/><circle cx=\"63.2\" cy=\"150\" r=\"3\" fill=\"#d62728\"/><text x=\"69.2\" y=\"144\" fill=\"#111111\">A</text><circle cx=\"121.6\" cy=\"150\" r=\"3\" fill=\"#d62728\"/><text x=\"127.6\" y=\"144\" fill=\"#111111\">B</text><circle cx=\"238.4\" cy=\"150\" r=\"3\" fill=\"#d62728\"/><text x=\"244.4\" y=\"144\" fill=\"#111111\">C</text><circle cx=\"296.8\" cy=\"150\" r=\"3\" fill=\"#d62728\"/><text x=\"302.8\" y=\"144\" fill=\"#111111\">D</text></svg>",
+        "accessibilityAltText": "Graph of a quartic curve crossing the x-axis at x equals negative 2, negative 1, 1, and 2, forming three finite enclosed regions."
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(8\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(\\frac{16}{3}\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(\\frac{22}{15}\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(\\frac{76}{15}\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "A",
+        "value": "\\(8\\)",
+        "verify": {
+          "kind": "evaluate",
+          "expr": "2*(38/15 + 22/15)",
+          "var": "x",
+          "lhs": null,
+          "rhs": null,
+          "expected": "8"
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "From the graph, the curve meets the \\(x\\)-axis at \\(x=-2,-1,1,2\\). By symmetry, the total area is twice the area on \\([0,2]\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "On \\([0,1]\\), the curve is above the \\(x\\)-axis, while on \\([1,2]\\), it is below it. Hence, \\(A=2\\left[\\int_0^1(x^4-5x^2+4)\\,dx-\\int_1^2(x^4-5x^2+4)\\,dx\\right]\\).",
+          "svg": null
+        },
+        {
+          "step": 3,
+          "reasoning": "Using \\(\\int(x^4-5x^2+4)\\,dx=\\frac{x^5}{5}-\\frac{5x^3}{3}+4x\\), we get \\(\\int_0^1f(x)\\,dx=\\frac{38}{15}\\) and \\(\\int_1^2f(x)\\,dx=-\\frac{22}{15}\\). Therefore, \\(A=2\\left(\\frac{38}{15}+\frac{22}{15}\\right)=8\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Straight Lines",
+        "subTopic": "Angle between lines and intersection",
+        "difficulty": "jee_advanced",
+        "bloomLevel": "Analyze",
+        "estimatedTime": "3 minutes",
+        "questionType": "COORDINATE GEOMETRY"
+      },
+      "question": {
+        "questionText": "The lines \\(\\ell_1\\) and \\(\\ell_2\\) are given by \\(\\frac{x-2}{3}=\\frac{y+1}{4}\\) and \\(\\frac{x-8}{-1}=\\frac{y-2}{2}\\), respectively. If \\(P\\) is their point of intersection and \\(\\theta\\) is the acute angle between them, which of the following is correct?",
+        "equationLatex": "\\[\\ell_1:\\frac{x-2}{3}=\\frac{y+1}{4},\\qquad \\ell_2:\\frac{x-8}{-1}=\\frac{y-2}{2}\\]",
+        "diagramRequired": true,
+        "diagramType": "coordinate",
+        "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"47.9\" y1=\"34\" x2=\"47.9\" y2=\"266\"/><line x1=\"75.71\" y1=\"34\" x2=\"75.71\" y2=\"266\"/><line x1=\"103.52\" y1=\"34\" x2=\"103.52\" y2=\"266\"/><line x1=\"131.33\" y1=\"34\" x2=\"131.33\" y2=\"266\"/><line x1=\"159.14\" y1=\"34\" x2=\"159.14\" y2=\"266\"/><line x1=\"186.95\" y1=\"34\" x2=\"186.95\" y2=\"266\"/><line x1=\"214.76\" y1=\"34\" x2=\"214.76\" y2=\"266\"/><line x1=\"242.57\" y1=\"34\" x2=\"242.57\" y2=\"266\"/><line x1=\"270.38\" y1=\"34\" x2=\"270.38\" y2=\"266\"/><line x1=\"298.19\" y1=\"34\" x2=\"298.19\" y2=\"266\"/><line x1=\"326\" y1=\"34\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"257.08\" x2=\"326\" y2=\"257.08\"/><line x1=\"34\" y1=\"239.23\" x2=\"326\" y2=\"239.23\"/><line x1=\"34\" y1=\"221.38\" x2=\"326\" y2=\"221.38\"/><line x1=\"34\" y1=\"203.54\" x2=\"326\" y2=\"203.54\"/><line x1=\"34\" y1=\"185.69\" x2=\"326\" y2=\"185.69\"/><line x1=\"34\" y1=\"167.85\" x2=\"326\" y2=\"167.85\"/><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"132.15\" x2=\"326\" y2=\"132.15\"/><line x1=\"34\" y1=\"114.31\" x2=\"326\" y2=\"114.31\"/><line x1=\"34\" y1=\"96.46\" x2=\"326\" y2=\"96.46\"/><line x1=\"34\" y1=\"78.62\" x2=\"326\" y2=\"78.62\"/><line x1=\"34\" y1=\"60.77\" x2=\"326\" y2=\"60.77\"/><line x1=\"34\" y1=\"42.92\" x2=\"326\" y2=\"42.92\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"221.38\" x2=\"326\" y2=\"221.38\"/><line x1=\"34\" y1=\"266\" x2=\"34\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"47.9\" y1=\"218.38\" x2=\"47.9\" y2=\"224.38\"/><text x=\"47.9\" y=\"235.38\" text-anchor=\"middle\">1</text><line x1=\"75.71\" y1=\"218.38\" x2=\"75.71\" y2=\"224.38\"/><text x=\"75.71\" y=\"235.38\" text-anchor=\"middle\">2</text><line x1=\"103.52\" y1=\"218.38\" x2=\"103.52\" y2=\"224.38\"/><text x=\"103.52\" y=\"235.38\" text-anchor=\"middle\">3</text><line x1=\"131.33\" y1=\"218.38\" x2=\"131.33\" y2=\"224.38\"/><text x=\"131.33\" y=\"235.38\" text-anchor=\"middle\">4</text><line x1=\"159.14\" y1=\"218.38\" x2=\"159.14\" y2=\"224.38\"/><text x=\"159.14\" y=\"235.38\" text-anchor=\"middle\">5</text><line x1=\"186.95\" y1=\"218.38\" x2=\"186.95\" y2=\"224.38\"/><text x=\"186.95\" y=\"235.38\" text-anchor=\"middle\">6</text><line x1=\"214.76\" y1=\"218.38\" x2=\"214.76\" y2=\"224.38\"/><text x=\"214.76\" y=\"235.38\" text-anchor=\"middle\">7</text><line x1=\"242.57\" y1=\"218.38\" x2=\"242.57\" y2=\"224.38\"/><text x=\"242.57\" y=\"235.38\" text-anchor=\"middle\">8</text><line x1=\"270.38\" y1=\"218.38\" x2=\"270.38\" y2=\"224.38\"/><text x=\"270.38\" y=\"235.38\" text-anchor=\"middle\">9</text><line x1=\"298.19\" y1=\"218.38\" x2=\"298.19\" y2=\"224.38\"/><text x=\"298.19\" y=\"235.38\" text-anchor=\"middle\">10</text><line x1=\"326\" y1=\"218.38\" x2=\"326\" y2=\"224.38\"/><text x=\"326\" y=\"235.38\" text-anchor=\"middle\">11</text><line x1=\"31\" y1=\"257.08\" x2=\"37\" y2=\"257.08\"/><text x=\"28\" y=\"260.08\" text-anchor=\"end\">-2</text><line x1=\"31\" y1=\"239.23\" x2=\"37\" y2=\"239.23\"/><text x=\"28\" y=\"242.23\" text-anchor=\"end\">-1</text><line x1=\"31\" y1=\"203.54\" x2=\"37\" y2=\"203.54\"/><text x=\"28\" y=\"206.54\" text-anchor=\"end\">1</text><line x1=\"31\" y1=\"185.69\" x2=\"37\" y2=\"185.69\"/><text x=\"28\" y=\"188.69\" text-anchor=\"end\">2</text><line x1=\"31\" y1=\"167.85\" x2=\"37\" y2=\"167.85\"/><text x=\"28\" y=\"170.85\" text-anchor=\"end\">3</text><line x1=\"31\" y1=\"150\" x2=\"37\" y2=\"150\"/><text x=\"28\" y=\"153\" text-anchor=\"end\">4</text><line x1=\"31\" y1=\"132.15\" x2=\"37\" y2=\"132.15\"/><text x=\"28\" y=\"135.15\" text-anchor=\"end\">5</text><line x1=\"31\" y1=\"114.31\" x2=\"37\" y2=\"114.31\"/><text x=\"28\" y=\"117.31\" text-anchor=\"end\">6</text><line x1=\"31\" y1=\"96.46\" x2=\"37\" y2=\"96.46\"/><text x=\"28\" y=\"99.46\" text-anchor=\"end\">7</text><line x1=\"31\" y1=\"78.62\" x2=\"37\" y2=\"78.62\"/><text x=\"28\" y=\"81.62\" text-anchor=\"end\">8</text><line x1=\"31\" y1=\"60.77\" x2=\"37\" y2=\"60.77\"/><text x=\"28\" y=\"63.77\" text-anchor=\"end\">9</text><line x1=\"31\" y1=\"42.92\" x2=\"37\" y2=\"42.92\"/><text x=\"28\" y=\"45.92\" text-anchor=\"end\">10</text></g><text x=\"328\" y=\"225.38\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"38\" y=\"30\" font-size=\"12\" fill=\"#555555\">y</text><line x1=\"75.71\" y1=\"239.23\" x2=\"284.29\" y2=\"60.77\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"184\" y=\"146\" fill=\"#333333\">\\ell_1</text><line x1=\"242.57\" y1=\"185.69\" x2=\"159.14\" y2=\"78.62\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"204.86\" y=\"128.15\" fill=\"#333333\">\\ell_2</text><circle cx=\"75.71\" cy=\"239.23\" r=\"3\" fill=\"#d62728\"/><text x=\"81.71\" y=\"233.23\" fill=\"#111111\">A</text><circle cx=\"242.57\" cy=\"185.69\" r=\"3\" fill=\"#d62728\"/><text x=\"248.57\" y=\"179.69\" fill=\"#111111\">B</text><circle cx=\"200.86\" cy=\"132.15\" r=\"3\" fill=\"#d62728\"/><text x=\"206.86\" y=\"126.15\" fill=\"#111111\">P</text><circle cx=\"284.29\" cy=\"60.77\" r=\"3\" fill=\"#d62728\"/><text x=\"290.29\" y=\"54.77\" fill=\"#111111\">C</text><circle cx=\"159.14\" cy=\"78.62\" r=\"3\" fill=\"#d62728\"/><text x=\"165.14\" y=\"72.62\" fill=\"#111111\">D</text></svg>",
+        "accessibilityAltText": "Coordinate-plane diagram showing two intersecting lines at point P."
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(P\\left(\\frac{13}{2},5\\right),\\quad \\cos\\theta=\\frac{1}{\\sqrt{5}}\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(P\\left(\\frac{13}{2},5\\right),\\quad \\cos\\theta=-\\frac{1}{\\sqrt{5}}\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(P\\left(\\frac{13}{2},\\frac{9}{2}\\right),\\quad \\cos\\theta=\\frac{1}{\\sqrt{5}}\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(P\\left(\\frac{11}{2},5\\right),\\quad \\cos\\theta=\\frac{3}{\\sqrt{5}}\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "A",
+        "value": "\\(P\\left(\\frac{13}{2},5\\right),\\quad \\cos\\theta=\\frac{1}{\\sqrt{5}}\\)",
+        "verify": {
+          "kind": "equal",
+          "expr": null,
+          "var": "x",
+          "lhs": "1/sqrt(5)",
+          "rhs": "5/(5*sqrt(5))",
+          "expected": null
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "Parametrize the lines as \\(\\ell_1:(x,y)=(2,-1)+t(3,4)\\) and \\(\\ell_2:(x,y)=(8,2)+s(-1,2)\\). Equating coordinates gives \\(2+3t=8-s\\) and \\(-1+4t=2+2s\\), whose solution is \\(t=s=\\frac{3}{2}\\). Hence \\(P=\\left(2+3\\cdot\\frac{3}{2},-1+4\\cdot\\frac{3}{2}\\right)=\\left(\\frac{13}{2},5\\right)\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "Direction vectors are \\(\\vec d_1=(3,4)\\) and \\(\\vec d_2=(-1,2)\\). Therefore, \\(\\cos\\theta=\\frac{|\\vec d_1\\cdot\\vec d_2|}{|\\vec d_1||\\vec d_2|}=\\frac{|{-3+8}|}{5\\sqrt{5}}=\\frac{1}{\\sqrt{5}}\\), since \\(\\theta\\) is acute. Thus, option \\(A\\) is correct.",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Angles and Polygons",
+        "subTopic": "Interior angles / angle chasing",
+        "difficulty": "jee_advanced",
+        "bloomLevel": "Analyze",
+        "estimatedTime": "4 minutes",
+        "questionType": "ANGLE PROBLEMS"
+      },
+      "question": {
+        "questionText": "In convex pentagon \\(ABCDE\\), diagonals \\(AC\\) and \\(AD\\) are drawn. Let \\(x=\\angle DAE\\). Given \\(\\angle BAC=20^\\circ\\), \\(\\angle CAD=30^\\circ\\), \\(\\angle BCA=40^\\circ\\), \\(\\angle ACD=50^\\circ\\), and \\(\\angle ADE=(2x+10)^\\circ\\). If \\(\\angle ABC+\\angle CDE=270^\\circ\\), determine \\(\\angle AED\\).",
+        "equationLatex": "\\(120^\\circ+(110^\\circ+2x)=270^\\circ\\)",
+        "diagramRequired": true,
+        "diagramType": "geometry",
+        "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><line x1=\"276.63\" y1=\"216.44\" x2=\"123.97\" y2=\"216.44\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"204.3\" y=\"212.44\" fill=\"#333333\">AB</text><line x1=\"123.97\" y1=\"216.44\" x2=\"83.37\" y2=\"145.83\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"107.67\" y=\"177.14\" fill=\"#333333\">BC</text><line x1=\"83.37\" y1=\"145.83\" x2=\"173.75\" y2=\"93.22\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"132.56\" y=\"115.52\" fill=\"#333333\">CD</text><line x1=\"173.75\" y1=\"93.22\" x2=\"228.5\" y2=\"83.56\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"205.12\" y=\"84.39\" fill=\"#333333\">DE</text><line x1=\"228.5\" y1=\"83.56\" x2=\"276.63\" y2=\"216.44\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"256.57\" y=\"146\" fill=\"#333333\">EA</text><line x1=\"276.63\" y1=\"216.44\" x2=\"83.37\" y2=\"145.83\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"184\" y=\"177.14\" fill=\"#333333\">AC</text><line x1=\"276.63\" y1=\"216.44\" x2=\"173.75\" y2=\"93.22\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"229.19\" y=\"150.83\" fill=\"#333333\">AD</text><path d=\"M 254.63 216.44 A 22 22 0 0 1 255.97 208.89\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"243.15\" y=\"210.52\" text-anchor=\"middle\" fill=\"#9467bd\">20^\\\\circ</text><path d=\"M 255.97 208.89 A 22 22 0 0 1 262.53 199.56\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"248.82\" y=\"196.89\" text-anchor=\"middle\" fill=\"#9467bd\">30^\\\\circ</text><path d=\"M 262.53 199.56 A 22 22 0 0 1 269.14 195.76\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"259.69\" y=\"186.97\" text-anchor=\"middle\" fill=\"#9467bd\">x</text><path d=\"M 94.33 164.9 A 22 22 0 1 1 104.03 153.38\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"57.35\" y=\"123.94\" text-anchor=\"middle\" fill=\"#9467bd\">40^\\\\circ</text><path d=\"M 104.03 153.38 A 22 22 0 1 1 102.38 134.76\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"49.5\" y=\"148.83\" text-anchor=\"middle\" fill=\"#9467bd\">50^\\\\circ</text><path d=\"M 187.85 110.11 A 22 22 0 1 1 195.41 89.39\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"141.81\" y=\"81.55\" text-anchor=\"middle\" fill=\"#9467bd\">2x+10^\\\\circ</text><circle cx=\"276.63\" cy=\"216.44\" r=\"3\" fill=\"#d62728\"/><text x=\"282.63\" y=\"210.44\" fill=\"#111111\">A</text><circle cx=\"123.97\" cy=\"216.44\" r=\"3\" fill=\"#d62728\"/><text x=\"129.97\" y=\"210.44\" fill=\"#111111\">B</text><circle cx=\"83.37\" cy=\"145.83\" r=\"3\" fill=\"#d62728\"/><text x=\"89.37\" y=\"139.83\" fill=\"#111111\">C</text><circle cx=\"173.75\" cy=\"93.22\" r=\"3\" fill=\"#d62728\"/><text x=\"179.75\" y=\"87.22\" fill=\"#111111\">D</text><circle cx=\"228.5\" cy=\"83.56\" r=\"3\" fill=\"#d62728\"/><text x=\"234.5\" y=\"77.56\" fill=\"#111111\">E</text></svg>",
+        "accessibilityAltText": "Convex pentagon \\(ABCDE\\) with diagonals \\(AC\\) and \\(AD\\), showing the given angles and the variable \\(x\\) at \\(A\\)."
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(95^\\circ\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(100^\\circ\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(105^\\circ\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(110^\\circ\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "D",
+        "value": "\\(110^\\circ\\)",
+        "verify": null
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "From triangle \\(ABC\\), \\(\\angle ABC=180^\\circ-20^\\circ-40^\\circ=120^\\circ\\). Also, \\(\\angle CDA=180^\\circ-30^\\circ-50^\\circ=100^\\circ\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "Since diagonal \\(AD\\) splits the interior angle at \\(D\\), \\(\\angle CDE=\\angle CDA+\\angle ADE=100^\\circ+(2x+10)^\\circ=110^\\circ+2x\\).",
+          "svg": null
+        },
+        {
+          "step": 3,
+          "reasoning": "Using the given condition, \\(120^\\circ+(110^\\circ+2x)=270^\\circ\\), so \\(x=20^\\circ\\).",
+          "svg": null
+        },
+        {
+          "step": 4,
+          "reasoning": "In triangle \\(ADE\\), \\(\\angle AED=180^\\circ-x-(2x+10)^\\circ=180^\\circ-20^\\circ-50^\\circ=110^\\circ\\). Therefore, the correct option is \\(\\boxed{110^\\circ}\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Trigonometric Equations",
+        "subTopic": "Solutions in an interval",
+        "difficulty": "jee_advanced",
+        "bloomLevel": "Analyze",
+        "estimatedTime": "4 minutes",
+        "questionType": "TRIGONOMETRY"
+      },
+      "question": {
+        "questionText": "The number of distinct real solutions of \\(\\left(\\sin x+\\sin 3x+\\sin 5x\\right)^2=\\left(\\cos x+\\cos 3x+\\cos 5x\\right)^2\\) in the interval \\(0\\le x<2\\pi\\) is:",
+        "equationLatex": "\\[\\left(\\sin x+\\sin 3x+\\sin 5x\\right)^2=\\left(\\cos x+\\cos 3x+\\cos 5x\\right)^2\\]",
+        "diagramRequired": false,
+        "diagramType": "",
+        "diagramSvg": "",
+        "accessibilityAltText": ""
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(12\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(14\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(16\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(20\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "C",
+        "value": "\\(16\\)",
+        "verify": {
+          "kind": "evaluate",
+          "expr": "4+12",
+          "var": "x",
+          "lhs": null,
+          "rhs": null,
+          "expected": "16"
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "Using sum-to-product identities, \\(\\sin x+\\sin 5x=2\\sin 3x\\cos 2x\\) and \\(\\cos x+\\cos 5x=2\\cos 3x\\cos 2x\\). Hence the equation becomes \\(\\left(1+2\\cos 2x\\right)^2\\left(\\sin^2 3x-\\cos^2 3x\\right)=0\\), or \\(\\left(1+2\\cos 2x\\right)^2\\cos 6x=0\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "For \\(1+2\\cos 2x=0\\), there are \\(4\\) solutions in \\(0\\le x<2\\pi\\). For \\(\\cos 6x=0\\), we have \\(6x=\\frac{\\pi}{2}+k\\pi\\), giving \\(12\\) solutions in the interval.",
+          "svg": null
+        },
+        {
+          "step": 3,
+          "reasoning": "The first set gives \\(x=\\frac{\\pi}{3},\\frac{2\\pi}{3},\\frac{4\\pi}{3},\\frac{5\\pi}{3}\\), for which \\(\\cos 6x=1\\), so there is no overlap. Therefore, the total number of distinct solutions is \\(4+12=16\\).",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    },
+    {
+      "metadata": {
+        "grade": "Class 12",
+        "topic": "Vectors and 3D Geometry",
+        "subTopic": "Projections and coordinates",
+        "difficulty": "jee_advanced",
+        "bloomLevel": "Apply",
+        "estimatedTime": "4 minutes",
+        "questionType": "COORDINATE GEOMETRY"
+      },
+      "question": {
+        "questionText": "Let the line \\(l\\) be given by \\(\\vec r=(1\\hat i+2\\hat j-\\hat k)+\\lambda(2\\hat i-\\hat j+2\\hat k)\\), and let \\(P=(3,1,4)\\). If \\(H\\) is the foot of the perpendicular from \\(P\\) to \\(l\\), as represented in the coordinate sketch, which option gives the correct values of \\(\\lambda\\), \\(H\\), and \\(PH\\)?",
+        "equationLatex": "\\[\\overrightarrow{AP}\\cdot(2\\hat i-\\hat j+2\\hat k)=0,\\qquad A=(1,2,-1),\\quad P=(3,1,4).\\]",
+        "diagramRequired": true,
+        "diagramType": "coordinate",
+        "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"58.33\" y1=\"34\" x2=\"58.33\" y2=\"266\"/><line x1=\"107\" y1=\"34\" x2=\"107\" y2=\"266\"/><line x1=\"155.67\" y1=\"34\" x2=\"155.67\" y2=\"266\"/><line x1=\"204.33\" y1=\"34\" x2=\"204.33\" y2=\"266\"/><line x1=\"253\" y1=\"34\" x2=\"253\" y2=\"266\"/><line x1=\"301.67\" y1=\"34\" x2=\"301.67\" y2=\"266\"/><line x1=\"34\" y1=\"242.8\" x2=\"326\" y2=\"242.8\"/><line x1=\"34\" y1=\"196.4\" x2=\"326\" y2=\"196.4\"/><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"103.6\" x2=\"326\" y2=\"103.6\"/><line x1=\"34\" y1=\"57.2\" x2=\"326\" y2=\"57.2\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"196.4\" x2=\"326\" y2=\"196.4\"/><line x1=\"107\" y1=\"266\" x2=\"107\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"58.33\" y1=\"193.4\" x2=\"58.33\" y2=\"199.4\"/><text x=\"58.33\" y=\"210.4\" text-anchor=\"middle\">-1</text><line x1=\"155.67\" y1=\"193.4\" x2=\"155.67\" y2=\"199.4\"/><text x=\"155.67\" y=\"210.4\" text-anchor=\"middle\">1</text><line x1=\"204.33\" y1=\"193.4\" x2=\"204.33\" y2=\"199.4\"/><text x=\"204.33\" y=\"210.4\" text-anchor=\"middle\">2</text><line x1=\"253\" y1=\"193.4\" x2=\"253\" y2=\"199.4\"/><text x=\"253\" y=\"210.4\" text-anchor=\"middle\">3</text><line x1=\"301.67\" y1=\"193.4\" x2=\"301.67\" y2=\"199.4\"/><text x=\"301.67\" y=\"210.4\" text-anchor=\"middle\">4</text><line x1=\"104\" y1=\"242.8\" x2=\"110\" y2=\"242.8\"/><text x=\"101\" y=\"245.8\" text-anchor=\"end\">-1</text><line x1=\"104\" y1=\"150\" x2=\"110\" y2=\"150\"/><text x=\"101\" y=\"153\" text-anchor=\"end\">1</text><line x1=\"104\" y1=\"103.6\" x2=\"110\" y2=\"103.6\"/><text x=\"101\" y=\"106.6\" text-anchor=\"end\">2</text><line x1=\"104\" y1=\"57.2\" x2=\"110\" y2=\"57.2\"/><text x=\"101\" y=\"60.2\" text-anchor=\"end\">3</text></g><text x=\"328\" y=\"200.4\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"111\" y=\"30\" font-size=\"12\" fill=\"#555555\">y</text><line x1=\"107\" y1=\"196.4\" x2=\"253\" y2=\"196.4\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"184\" y=\"192.4\" fill=\"#333333\">AH</text><line x1=\"253\" y1=\"196.4\" x2=\"253\" y2=\"103.6\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"257\" y=\"146\" fill=\"#333333\">HP</text><line x1=\"107\" y1=\"196.4\" x2=\"253\" y2=\"103.6\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"184\" y=\"146\" fill=\"#333333\">AP</text><circle cx=\"107\" cy=\"196.4\" r=\"3\" fill=\"#d62728\"/><text x=\"113\" y=\"190.4\" fill=\"#111111\">A</text><circle cx=\"253\" cy=\"196.4\" r=\"3\" fill=\"#d62728\"/><text x=\"259\" y=\"190.4\" fill=\"#111111\">H</text><circle cx=\"253\" cy=\"103.6\" r=\"3\" fill=\"#d62728\"/><text x=\"259\" y=\"97.6\" fill=\"#111111\">P</text></svg>",
+        "accessibilityAltText": "Coordinate sketch showing point A, its projection H on the line component, and point P connected to A and H."
+      },
+      "options": [
+        {
+          "id": "A",
+          "type": "text",
+          "value": "\\(\\lambda=\\frac{5}{3},\\quad H=\\left(\\frac{13}{3},\\frac{1}{3},\\frac{7}{3}\\right),\\quad PH=\\sqrt{5}\\)"
+        },
+        {
+          "id": "B",
+          "type": "text",
+          "value": "\\(\\lambda=\\frac{5}{3},\\quad H=\\left(\\frac{13}{3},\\frac{1}{3},\\frac{7}{3}\\right),\\quad PH=5\\)"
+        },
+        {
+          "id": "C",
+          "type": "text",
+          "value": "\\(\\lambda=\\frac{4}{3},\\quad H=\\left(\\frac{11}{3},\\frac{2}{3},\\frac{5}{3}\\right),\\quad PH=\\sqrt{5}\\)"
+        },
+        {
+          "id": "D",
+          "type": "text",
+          "value": "\\(\\lambda=\\frac{5}{3},\\quad H=\\left(\\frac{13}{3},\\frac{1}{3},\\frac{7}{3}\\right),\\quad PH=\\frac{5}{3}\\)"
+        }
+      ],
+      "answer": {
+        "correctOptionId": "A",
+        "value": "\\(\\lambda=\\frac{5}{3},\\quad H=\\left(\\frac{13}{3},\\frac{1}{3},\\frac{7}{3}\\right),\\quad PH=\\sqrt{5}\\)",
+        "verify": {
+          "kind": "solve",
+          "expr": "9*x - 15",
+          "var": "x",
+          "lhs": null,
+          "rhs": null,
+          "expected": "5/3"
+        }
+      },
+      "explanation": [
+        {
+          "step": 1,
+          "reasoning": "Let \\(A=(1,2,-1)\\) and \\(\\vec d=(2,-1,2)\\). Since \\(H=A+\\lambda\\vec d\\) and \\(PH\\perp l\\), \\((P-H)\\cdot\\vec d=0\\). Hence \\((P-A-\\lambda\\vec d)\\cdot\\vec d=0\\), so \\(\\lambda=\\frac{(P-A)\\cdot\\vec d}{\\vec d\\cdot\\vec d}=\\frac{(2,-1,5)\\cdot(2,-1,2)}{9}=\\frac{15}{9}=\\frac{5}{3}\\).",
+          "svg": null
+        },
+        {
+          "step": 2,
+          "reasoning": "Therefore \\(H=A+\\frac{5}{3}(2,-1,2)=\\left(\\frac{13}{3},\\frac{1}{3},\\frac{7}{3}\\right)\\).",
+          "svg": null
+        },
+        {
+          "step": 3,
+          "reasoning": "Now \\(\\overrightarrow{PH}=H-P=\\left(\\frac{4}{3},-\\frac{2}{3},-\\frac{5}{3}\\right)\\), so \\(PH=\\sqrt{\\frac{16+4+25}{9}}=\\sqrt{5}\\). Thus option \\(\\text{A}\\) is correct.",
+          "svg": null
+        }
+      ],
+      "validation": {
+        "questionValid": true,
+        "equationValid": true,
+        "svgValid": true,
+        "answerVerified": true,
+        "diagramVerified": true,
+        "qualityScore": 100,
+        "status": "PASSED",
+        "issues": []
+      }
+    }
+  ]
+}

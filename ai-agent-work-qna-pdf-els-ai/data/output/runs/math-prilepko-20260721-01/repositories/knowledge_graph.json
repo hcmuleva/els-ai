@@ -1,0 +1,7019 @@
+{
+  "nodes": [
+    {
+      "id": "concept_6977739fc5",
+      "label": "Equations",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_a1427cc398",
+      "label": "Set D,or C",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_5ea023785c",
+      "label": "26.At what value of a",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_995ff0ef38",
+      "label": "27.At what value of a",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_48f8037ece",
+      "label": "16.At whatvalues of m",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_6a571504b9",
+      "label": "46.Atwhatvalue of a",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_107349d71e",
+      "label": "Points.At whatpoint of theparabola",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_393a7be286",
+      "label": "Y=4x-x²at the point M(1;3)(a",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_9e62605e77",
+      "label": "[z;x],andf（z）=f（x）=A，x≠x Prove that there",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_911a8ff103",
+      "label": "Interval [；x].Prove that there",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_e504683848",
+      "label": "38.Atwhich point",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_f30483e1aa",
+      "label": "28.At what values,of pEZ",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_4661dde141",
+      "label": "6.At what values of a",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_a71b12be54",
+      "label": "30.It is known that x=9",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_34905394b5",
+      "label": "20.Prove that the function f(x)=cos²x+cos²(+x）-cosxcos(+x",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_9513739ad0",
+      "label": "Aslarge again.What，in per cent，",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_f248b70e77",
+      "label": "5.The percentage of copper in the second piece",
+      "concept_type": "Definition",
+      "weight": 0.7,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_127a52533f",
+      "label": "18.Atwhat values of a",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_d8bb65aeb1",
+      "label": "33.Suppose Sn",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_92b9b0d457",
+      "label": "a triangle， AB=a,AC=b,[AD]",
+      "concept_type": "Formula",
+      "weight": 0.7,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_6ed4c88702",
+      "label": "8.In the parallelogram ABCD，thepoint M",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_87f52172af",
+      "label": "12.Supposepis half the perimeter,S",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_5313896ceb",
+      "label": "2.Determine the area of the triangle if itsbase",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_52a156303e",
+      "label": "18.In the triangle ABC,|AB|=2cm,[BD]",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_7ed50f7e95",
+      "label": "112 32.Findthelengthofthealtitudeofthetrapezoidif its bases",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_6fb9b3e4f9",
+      "label": "33.Find the area of the trapezoid whose bases",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_8f477f0513",
+      "label": "Third side.Under what conditions",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_69d4625ea3",
+      "label": "tetrahedron SABC",
+      "concept_type": "Definition",
+      "weight": 0.7,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_6dd38d30e6",
+      "label": "39.Thebase of the pyramid",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_3168e0e1c6",
+      "label": "40.The base of the pyramid SABCD",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_c2b045315a",
+      "label": "Surface of the cone",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_0bd1d5847a",
+      "label": "Isknown that|BM|= =|MB|and AN",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_131bcbeb96",
+      "label": "9.A right prism whose base",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_5ce269ee1e",
+      "label": "Base of the pyramid",
+      "concept_type": "Definition",
+      "weight": 0.7,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_1efa89a043",
+      "label": "37.The base of a right prism",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_d3460d97dc",
+      "label": "PyramidSABCD isa squareABCDwhose side",
+      "concept_type": "Definition",
+      "weight": 0.7,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_1b6458441a",
+      "label": "All the edges.How long",
+      "concept_type": "Definition",
+      "weight": 0.7,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_13fcf89d37",
+      "label": "Successive natural num- bers",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_d836d6a58b",
+      "label": "22.What curve",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_8f74da1664",
+      "label": "32.At what value of A",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_2a028c087a",
+      "label": "M and the y-axis",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_93ecf75125",
+      "label": "Canweassertthattheantiderivative of thatfunction",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_0be3cc4b5a",
+      "label": "Cos² Φ = 0",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_5bc78f30d4",
+      "label": "十(cos α+ sin α)/2",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_a33128e4ef",
+      "label": "26.Use graphical",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_418209a021",
+      "label": "58.(a)x=1/2",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_3b6c6d54f4",
+      "label": "Ofminimum;（d）x=-2isa point of maximum;（e)x=-1",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_2aec255871",
+      "label": "Points of extremum; (b)z=-1.5",
+      "concept_type": "Formula",
+      "weight": 0.7,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_46cf8a440d",
+      "label": "Consequently，x=1",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ed8cd288ba",
+      "label": "62.(a)The function has no points of extremum;(b)x=0",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_5f309285d8",
+      "label": "Origin has theformy=kx.Suppose M（zoyo",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ce23a55e4b",
+      "label": "Z= 2.Such roots are called miltiple roots.The rootz=2",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_33cd575db2",
+      "label": "One positive term （x+.2).This",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_c63b29b50c",
+      "label": "48. (a)x =—5",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ab55f83199",
+      "label": "Interval creases;x=-1isapoint of maximum，x=-1/5",
+      "concept_type": "Formula",
+      "weight": 0.7,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_3b3e043b41",
+      "label": "Itdecreases;x=-1isa point of maximum,=1",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_2ad1c84fc0",
+      "label": "—1；1) it increases; x=-1",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_acddf91d9c",
+      "label": "Intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ee863603f6",
+      "label": "Assume that by some",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_69cb78182a",
+      "label": "Solving this system by",
+      "concept_type": "Procedure",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_a0f16824e5",
+      "label": "Consequently，f（z)>0on thatintervaland this",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_1ce5377c6b",
+      "label": "27 (b)the point x=8/27",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_180d305ba3",
+      "label": "Weestablish by",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_f26ab3e78f",
+      "label": "Sets of solutions",
+      "concept_type": "Formula",
+      "weight": 0.7,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_a5bc52665f",
+      "label": "Arctan（1/2）, kEZ.Verifying them by",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_f57269bb13",
+      "label": "Satisfied，we find that z=n,nEZ，",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_e0c8354fce",
+      "label": "second equation",
+      "concept_type": "Formula",
+      "weight": 0.8,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_5d3428cb57",
+      "label": "Supposexroubles",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_aeb1d97acf",
+      "label": "Suppose z",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_a42005065a",
+      "label": "25 ma/h.Suppose S",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_c334a77355",
+      "label": "Old system by",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_28f65425cb",
+      "label": "Side of equation (1",
+      "concept_type": "Formula",
+      "weight": 0.7,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_42e944d14d",
+      "label": "Fgure boundedbythecurves y=V4-x²，x=0，z=2,y=0, which",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_5f1c83982f",
+      "label": "Can be found by",
+      "concept_type": "Formula",
+      "weight": 0.7,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_4235b23a5f",
+      "label": "True,i.e.we can takeNequal to[1/8]where[1/e]",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_c7dde8cfc3",
+      "label": "1→00 lim n-7 c",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_2984782637",
+      "label": "Sum of these vectors",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_973f8e00df",
+      "label": "N =(0; 1; 0",
+      "concept_type": "Formula",
+      "weight": 0.7,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_d7ac944dd3",
+      "label": "Larly prove that[KN]I[LM],and this",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_1e34d84b73",
+      "label": "Of the segment[EF]; [MF]",
+      "concept_type": "Definition",
+      "weight": 0.7,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_a67d057008",
+      "label": "7.Suppose[CF",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_83657abf05",
+      "label": "M C trianglesthat丨KE|=|MC|andso KECM",
+      "concept_type": "Definition",
+      "weight": 0.7,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_a90232301b",
+      "label": "Thehypothe- sis)，it follows that[BP|",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_24079685a3",
+      "label": "By analogy，we find a point O，which",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_861ff86626",
+      "label": "|²=|AC|·|AB|,where 246 A K]",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_3014c32bb1",
+      "label": "Figure).The segment [cF]",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_172b1feee0",
+      "label": "ABC,it follows that [PQ]",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_69cce13951",
+      "label": "Equal to(4-(1+ xE[0;6] V2)x)/2,wherex",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_537674f1cf",
+      "label": "Regular tetra- hedron,in particular,a",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_b154bcc0dd",
+      "label": "SS)）， where S",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_444445d454",
+      "label": "Planeof the base(ABCD",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_aa5519117c",
+      "label": "S The point O∈（ALS）and (OL）",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_359ead36a1",
+      "label": "Suppose x",
+      "concept_type": "Formula",
+      "weight": 0.8,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_474e628c3c",
+      "label": "Generatrix of the cone，@",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_8aee7319a1",
+      "label": "Since 6 6 （k+1）(k+2)(2k+3) and this",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_e10a3efa37",
+      "label": "180 (b)▲ Suppose ABCD",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_5f658eb084",
+      "label": "Then f（x)=f（—z)=0as well,and this",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_4b74badbaf",
+      "label": "Functions f（x)= f（x)=|x1.3.Suppose f（x",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_4eeefbdab6",
+      "label": "That of problem3.5.Suppose f（x",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_788ad47c8d",
+      "label": "12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ee77818df3",
+      "label": "No,we cannot.For instance,f (x)=1 + cos x",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_2102a0a8d5",
+      "label": "Suppose SABc",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_6ae9e02564",
+      "label": "=(2n+1）-arctan 2the given quadraticfunction",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ceb3b0f44e",
+      "label": "Logs (3x+2) <1 277",
+      "concept_type": "Formula",
+      "weight": 0.7,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_0926231053",
+      "label": "Of the given system",
+      "concept_type": "Formula",
+      "weight": 0.7,
+      "difficulty": "advanced"
+    }
+  ],
+  "edges": [
+    {
+      "source": "concept_6977739fc5",
+      "target": "concept_a1427cc398",
+      "relation": "prerequisite_dependent",
+      "weight": 1.0
+    },
+    {
+      "source": "concept_a1427cc398",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a1427cc398",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a1427cc398",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a1427cc398",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a1427cc398",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a1427cc398",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a1427cc398",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a1427cc398",
+      "target": "concept_911a8ff103",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ea023785c",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ea023785c",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ea023785c",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ea023785c",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ea023785c",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ea023785c",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ea023785c",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ea023785c",
+      "target": "concept_911a8ff103",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_995ff0ef38",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_995ff0ef38",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_995ff0ef38",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_995ff0ef38",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_995ff0ef38",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_995ff0ef38",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_995ff0ef38",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_995ff0ef38",
+      "target": "concept_911a8ff103",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_48f8037ece",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_48f8037ece",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_48f8037ece",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_48f8037ece",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_48f8037ece",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_48f8037ece",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_48f8037ece",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_48f8037ece",
+      "target": "concept_911a8ff103",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6a571504b9",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6a571504b9",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6a571504b9",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6a571504b9",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6a571504b9",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6a571504b9",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6a571504b9",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6a571504b9",
+      "target": "concept_911a8ff103",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_107349d71e",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_107349d71e",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_107349d71e",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_107349d71e",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_107349d71e",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_107349d71e",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_107349d71e",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_107349d71e",
+      "target": "concept_911a8ff103",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_393a7be286",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_393a7be286",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_393a7be286",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_393a7be286",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_393a7be286",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_393a7be286",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_393a7be286",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_393a7be286",
+      "target": "concept_911a8ff103",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9e62605e77",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9e62605e77",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9e62605e77",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9e62605e77",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9e62605e77",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9e62605e77",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9e62605e77",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9e62605e77",
+      "target": "concept_911a8ff103",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_911a8ff103",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_911a8ff103",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_911a8ff103",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_911a8ff103",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_911a8ff103",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_911a8ff103",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_911a8ff103",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_911a8ff103",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e504683848",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e504683848",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e504683848",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e504683848",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e504683848",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e504683848",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e504683848",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e504683848",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f30483e1aa",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f30483e1aa",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f30483e1aa",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f30483e1aa",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f30483e1aa",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f30483e1aa",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f30483e1aa",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f30483e1aa",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6977739fc5",
+      "target": "concept_4661dde141",
+      "relation": "prerequisite_dependent",
+      "weight": 1.0
+    },
+    {
+      "source": "concept_4661dde141",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4661dde141",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4661dde141",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4661dde141",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4661dde141",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4661dde141",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4661dde141",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4661dde141",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a71b12be54",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a71b12be54",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a71b12be54",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a71b12be54",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a71b12be54",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a71b12be54",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a71b12be54",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a71b12be54",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_34905394b5",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_34905394b5",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_34905394b5",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_34905394b5",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_34905394b5",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_34905394b5",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_34905394b5",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_34905394b5",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9513739ad0",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9513739ad0",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9513739ad0",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9513739ad0",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9513739ad0",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9513739ad0",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9513739ad0",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_9513739ad0",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f248b70e77",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f248b70e77",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f248b70e77",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f248b70e77",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f248b70e77",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f248b70e77",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f248b70e77",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f248b70e77",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_127a52533f",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_127a52533f",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_127a52533f",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_127a52533f",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_127a52533f",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_127a52533f",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_127a52533f",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_127a52533f",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d8bb65aeb1",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d8bb65aeb1",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d8bb65aeb1",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d8bb65aeb1",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d8bb65aeb1",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d8bb65aeb1",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d8bb65aeb1",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d8bb65aeb1",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_92b9b0d457",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_92b9b0d457",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_92b9b0d457",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_92b9b0d457",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_92b9b0d457",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_92b9b0d457",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_92b9b0d457",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_92b9b0d457",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ed4c88702",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ed4c88702",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ed4c88702",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ed4c88702",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ed4c88702",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ed4c88702",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ed4c88702",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ed4c88702",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_87f52172af",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_87f52172af",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_87f52172af",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_87f52172af",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_87f52172af",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_87f52172af",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_87f52172af",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_87f52172af",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5313896ceb",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5313896ceb",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5313896ceb",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5313896ceb",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5313896ceb",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5313896ceb",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5313896ceb",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5313896ceb",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_52a156303e",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_52a156303e",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_52a156303e",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_52a156303e",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_52a156303e",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_52a156303e",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_52a156303e",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_52a156303e",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_7ed50f7e95",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_7ed50f7e95",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_7ed50f7e95",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_7ed50f7e95",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_7ed50f7e95",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_7ed50f7e95",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_7ed50f7e95",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_7ed50f7e95",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6fb9b3e4f9",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6fb9b3e4f9",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6fb9b3e4f9",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6fb9b3e4f9",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6fb9b3e4f9",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6fb9b3e4f9",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6fb9b3e4f9",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6fb9b3e4f9",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f477f0513",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f477f0513",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f477f0513",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f477f0513",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f477f0513",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f477f0513",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f477f0513",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f477f0513",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6dd38d30e6",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6dd38d30e6",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6dd38d30e6",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6dd38d30e6",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6dd38d30e6",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6dd38d30e6",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6dd38d30e6",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6dd38d30e6",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3168e0e1c6",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3168e0e1c6",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3168e0e1c6",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3168e0e1c6",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3168e0e1c6",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3168e0e1c6",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3168e0e1c6",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3168e0e1c6",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c2b045315a",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c2b045315a",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c2b045315a",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c2b045315a",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c2b045315a",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c2b045315a",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c2b045315a",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c2b045315a",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0bd1d5847a",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0bd1d5847a",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0bd1d5847a",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0bd1d5847a",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0bd1d5847a",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0bd1d5847a",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0bd1d5847a",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0bd1d5847a",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_131bcbeb96",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_131bcbeb96",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_131bcbeb96",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_131bcbeb96",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_131bcbeb96",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_131bcbeb96",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_131bcbeb96",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_131bcbeb96",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ce269ee1e",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ce269ee1e",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ce269ee1e",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ce269ee1e",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ce269ee1e",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ce269ee1e",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ce269ee1e",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5ce269ee1e",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1efa89a043",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1efa89a043",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1efa89a043",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1efa89a043",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1efa89a043",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1efa89a043",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1efa89a043",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1efa89a043",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d3460d97dc",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d3460d97dc",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d3460d97dc",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d3460d97dc",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d3460d97dc",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d3460d97dc",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d3460d97dc",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d3460d97dc",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1b6458441a",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1b6458441a",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1b6458441a",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1b6458441a",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1b6458441a",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1b6458441a",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1b6458441a",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1b6458441a",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_13fcf89d37",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_13fcf89d37",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_13fcf89d37",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_13fcf89d37",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_13fcf89d37",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_13fcf89d37",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_13fcf89d37",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_13fcf89d37",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d836d6a58b",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d836d6a58b",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d836d6a58b",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d836d6a58b",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d836d6a58b",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d836d6a58b",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d836d6a58b",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d836d6a58b",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f74da1664",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f74da1664",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f74da1664",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f74da1664",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f74da1664",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f74da1664",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f74da1664",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8f74da1664",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2a028c087a",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2a028c087a",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2a028c087a",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2a028c087a",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2a028c087a",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2a028c087a",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2a028c087a",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2a028c087a",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_93ecf75125",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_93ecf75125",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_93ecf75125",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_93ecf75125",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_93ecf75125",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_93ecf75125",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_93ecf75125",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_93ecf75125",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0be3cc4b5a",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0be3cc4b5a",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0be3cc4b5a",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0be3cc4b5a",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0be3cc4b5a",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0be3cc4b5a",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0be3cc4b5a",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0be3cc4b5a",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5bc78f30d4",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5bc78f30d4",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5bc78f30d4",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5bc78f30d4",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5bc78f30d4",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5bc78f30d4",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5bc78f30d4",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5bc78f30d4",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a33128e4ef",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a33128e4ef",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a33128e4ef",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a33128e4ef",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a33128e4ef",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a33128e4ef",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a33128e4ef",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a33128e4ef",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_418209a021",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_418209a021",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_418209a021",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_418209a021",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_418209a021",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_418209a021",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_418209a021",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_418209a021",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b6c6d54f4",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b6c6d54f4",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b6c6d54f4",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b6c6d54f4",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b6c6d54f4",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b6c6d54f4",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b6c6d54f4",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b6c6d54f4",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2aec255871",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2aec255871",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2aec255871",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2aec255871",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2aec255871",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2aec255871",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2aec255871",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2aec255871",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_46cf8a440d",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_46cf8a440d",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_46cf8a440d",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_46cf8a440d",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_46cf8a440d",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_46cf8a440d",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_46cf8a440d",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_46cf8a440d",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ed8cd288ba",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ed8cd288ba",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ed8cd288ba",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ed8cd288ba",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ed8cd288ba",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ed8cd288ba",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ed8cd288ba",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ed8cd288ba",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f309285d8",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f309285d8",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f309285d8",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f309285d8",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f309285d8",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f309285d8",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f309285d8",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f309285d8",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ce23a55e4b",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ce23a55e4b",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ce23a55e4b",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ce23a55e4b",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ce23a55e4b",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ce23a55e4b",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ce23a55e4b",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ce23a55e4b",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_33cd575db2",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_33cd575db2",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_33cd575db2",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_33cd575db2",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_33cd575db2",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_33cd575db2",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_33cd575db2",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_33cd575db2",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c63b29b50c",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c63b29b50c",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c63b29b50c",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c63b29b50c",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c63b29b50c",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c63b29b50c",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c63b29b50c",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c63b29b50c",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ab55f83199",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ab55f83199",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ab55f83199",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ab55f83199",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ab55f83199",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ab55f83199",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ab55f83199",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ab55f83199",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b3e043b41",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b3e043b41",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b3e043b41",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b3e043b41",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b3e043b41",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b3e043b41",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b3e043b41",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3b3e043b41",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2ad1c84fc0",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2ad1c84fc0",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2ad1c84fc0",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2ad1c84fc0",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2ad1c84fc0",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2ad1c84fc0",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2ad1c84fc0",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2ad1c84fc0",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_acddf91d9c",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_acddf91d9c",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_acddf91d9c",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_acddf91d9c",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_acddf91d9c",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_acddf91d9c",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_acddf91d9c",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_acddf91d9c",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee863603f6",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee863603f6",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee863603f6",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee863603f6",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee863603f6",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee863603f6",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee863603f6",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee863603f6",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6977739fc5",
+      "target": "concept_69cb78182a",
+      "relation": "prerequisite_dependent",
+      "weight": 1.0
+    },
+    {
+      "source": "concept_69cb78182a",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69cb78182a",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69cb78182a",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69cb78182a",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69cb78182a",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69cb78182a",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69cb78182a",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69cb78182a",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a0f16824e5",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a0f16824e5",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a0f16824e5",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a0f16824e5",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a0f16824e5",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a0f16824e5",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a0f16824e5",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a0f16824e5",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1ce5377c6b",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1ce5377c6b",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1ce5377c6b",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1ce5377c6b",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1ce5377c6b",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1ce5377c6b",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1ce5377c6b",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1ce5377c6b",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_180d305ba3",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_180d305ba3",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_180d305ba3",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_180d305ba3",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_180d305ba3",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_180d305ba3",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_180d305ba3",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_180d305ba3",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f26ab3e78f",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f26ab3e78f",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f26ab3e78f",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f26ab3e78f",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f26ab3e78f",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f26ab3e78f",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f26ab3e78f",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f26ab3e78f",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a5bc52665f",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a5bc52665f",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a5bc52665f",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a5bc52665f",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a5bc52665f",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a5bc52665f",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a5bc52665f",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a5bc52665f",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6977739fc5",
+      "target": "concept_f57269bb13",
+      "relation": "prerequisite_dependent",
+      "weight": 1.0
+    },
+    {
+      "source": "concept_f57269bb13",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f57269bb13",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f57269bb13",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f57269bb13",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f57269bb13",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f57269bb13",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f57269bb13",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_f57269bb13",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e0c8354fce",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e0c8354fce",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e0c8354fce",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e0c8354fce",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e0c8354fce",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e0c8354fce",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e0c8354fce",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e0c8354fce",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6977739fc5",
+      "target": "concept_5d3428cb57",
+      "relation": "prerequisite_dependent",
+      "weight": 1.0
+    },
+    {
+      "source": "concept_5d3428cb57",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5d3428cb57",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5d3428cb57",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5d3428cb57",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5d3428cb57",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5d3428cb57",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5d3428cb57",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5d3428cb57",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aeb1d97acf",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aeb1d97acf",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aeb1d97acf",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aeb1d97acf",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aeb1d97acf",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aeb1d97acf",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aeb1d97acf",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aeb1d97acf",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a42005065a",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a42005065a",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a42005065a",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a42005065a",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a42005065a",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a42005065a",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a42005065a",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a42005065a",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c334a77355",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c334a77355",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c334a77355",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c334a77355",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c334a77355",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c334a77355",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c334a77355",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c334a77355",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_28f65425cb",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_28f65425cb",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_28f65425cb",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_28f65425cb",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_28f65425cb",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_28f65425cb",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_28f65425cb",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_28f65425cb",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6977739fc5",
+      "target": "concept_42e944d14d",
+      "relation": "prerequisite_dependent",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_42e944d14d",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_42e944d14d",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_42e944d14d",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_42e944d14d",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_42e944d14d",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_42e944d14d",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_42e944d14d",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_42e944d14d",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6977739fc5",
+      "target": "concept_5f1c83982f",
+      "relation": "prerequisite_dependent",
+      "weight": 1.0
+    },
+    {
+      "source": "concept_5f1c83982f",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f1c83982f",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f1c83982f",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f1c83982f",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f1c83982f",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f1c83982f",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f1c83982f",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f1c83982f",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4235b23a5f",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4235b23a5f",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4235b23a5f",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4235b23a5f",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4235b23a5f",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4235b23a5f",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4235b23a5f",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4235b23a5f",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c7dde8cfc3",
+      "target": "concept_a1427cc398",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c7dde8cfc3",
+      "target": "concept_5ea023785c",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c7dde8cfc3",
+      "target": "concept_995ff0ef38",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c7dde8cfc3",
+      "target": "concept_48f8037ece",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c7dde8cfc3",
+      "target": "concept_6a571504b9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c7dde8cfc3",
+      "target": "concept_107349d71e",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c7dde8cfc3",
+      "target": "concept_393a7be286",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_c7dde8cfc3",
+      "target": "concept_9e62605e77",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2984782637",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2984782637",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2984782637",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2984782637",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2984782637",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2984782637",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2984782637",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2984782637",
+      "target": "concept_861ff86626",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_973f8e00df",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_973f8e00df",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_973f8e00df",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_973f8e00df",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_973f8e00df",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_973f8e00df",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_973f8e00df",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_973f8e00df",
+      "target": "concept_861ff86626",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d7ac944dd3",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d7ac944dd3",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d7ac944dd3",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d7ac944dd3",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d7ac944dd3",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d7ac944dd3",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d7ac944dd3",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_d7ac944dd3",
+      "target": "concept_861ff86626",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1e34d84b73",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1e34d84b73",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1e34d84b73",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1e34d84b73",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1e34d84b73",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1e34d84b73",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1e34d84b73",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1e34d84b73",
+      "target": "concept_861ff86626",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a67d057008",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a67d057008",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a67d057008",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a67d057008",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a67d057008",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a67d057008",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a67d057008",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a67d057008",
+      "target": "concept_861ff86626",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_861ff86626",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a90232301b",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a90232301b",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a90232301b",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a90232301b",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a90232301b",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a90232301b",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a90232301b",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a90232301b",
+      "target": "concept_861ff86626",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_24079685a3",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_24079685a3",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_24079685a3",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_24079685a3",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_24079685a3",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_24079685a3",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_24079685a3",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_24079685a3",
+      "target": "concept_861ff86626",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_861ff86626",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_861ff86626",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_861ff86626",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_861ff86626",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_861ff86626",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_861ff86626",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_861ff86626",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_861ff86626",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3014c32bb1",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3014c32bb1",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3014c32bb1",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3014c32bb1",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3014c32bb1",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3014c32bb1",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3014c32bb1",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_3014c32bb1",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_172b1feee0",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_172b1feee0",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_172b1feee0",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_172b1feee0",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_172b1feee0",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_172b1feee0",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_172b1feee0",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_172b1feee0",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69cce13951",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69cce13951",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69cce13951",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69cce13951",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69cce13951",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69cce13951",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69cce13951",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69cce13951",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_537674f1cf",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_537674f1cf",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_537674f1cf",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_537674f1cf",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_537674f1cf",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_537674f1cf",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_537674f1cf",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_537674f1cf",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_b154bcc0dd",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_b154bcc0dd",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_b154bcc0dd",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_b154bcc0dd",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_b154bcc0dd",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_b154bcc0dd",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_b154bcc0dd",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_b154bcc0dd",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_444445d454",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_444445d454",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_444445d454",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_444445d454",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_444445d454",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_444445d454",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_444445d454",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_444445d454",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aa5519117c",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aa5519117c",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aa5519117c",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aa5519117c",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aa5519117c",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aa5519117c",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aa5519117c",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_aa5519117c",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_359ead36a1",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_359ead36a1",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_359ead36a1",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_359ead36a1",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_359ead36a1",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_359ead36a1",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_359ead36a1",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_359ead36a1",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_474e628c3c",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_474e628c3c",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_474e628c3c",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_474e628c3c",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_474e628c3c",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_474e628c3c",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_474e628c3c",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_474e628c3c",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8aee7319a1",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8aee7319a1",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8aee7319a1",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8aee7319a1",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8aee7319a1",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8aee7319a1",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8aee7319a1",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_8aee7319a1",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e10a3efa37",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e10a3efa37",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e10a3efa37",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e10a3efa37",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e10a3efa37",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e10a3efa37",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e10a3efa37",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_e10a3efa37",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f658eb084",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f658eb084",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f658eb084",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f658eb084",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f658eb084",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f658eb084",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f658eb084",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_5f658eb084",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4b74badbaf",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4b74badbaf",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4b74badbaf",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4b74badbaf",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4b74badbaf",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4b74badbaf",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4b74badbaf",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4b74badbaf",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4eeefbdab6",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4eeefbdab6",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4eeefbdab6",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4eeefbdab6",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4eeefbdab6",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4eeefbdab6",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4eeefbdab6",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_4eeefbdab6",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_788ad47c8d",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_788ad47c8d",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_788ad47c8d",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_788ad47c8d",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_788ad47c8d",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_788ad47c8d",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_788ad47c8d",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_788ad47c8d",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee77818df3",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee77818df3",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee77818df3",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee77818df3",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee77818df3",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee77818df3",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee77818df3",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ee77818df3",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2102a0a8d5",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2102a0a8d5",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2102a0a8d5",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2102a0a8d5",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2102a0a8d5",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2102a0a8d5",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2102a0a8d5",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_2102a0a8d5",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ae9e02564",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ae9e02564",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ae9e02564",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ae9e02564",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ae9e02564",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ae9e02564",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ae9e02564",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_6ae9e02564",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ceb3b0f44e",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ceb3b0f44e",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ceb3b0f44e",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ceb3b0f44e",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ceb3b0f44e",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ceb3b0f44e",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ceb3b0f44e",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_ceb3b0f44e",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0926231053",
+      "target": "concept_2984782637",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0926231053",
+      "target": "concept_973f8e00df",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0926231053",
+      "target": "concept_d7ac944dd3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0926231053",
+      "target": "concept_1e34d84b73",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0926231053",
+      "target": "concept_a67d057008",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0926231053",
+      "target": "concept_83657abf05",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0926231053",
+      "target": "concept_a90232301b",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_0926231053",
+      "target": "concept_24079685a3",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_a1427cc398",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_5ea023785c",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_995ff0ef38",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_48f8037ece",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_6a571504b9",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_107349d71e",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_393a7be286",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_9e62605e77",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_911a8ff103",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_e504683848",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_f30483e1aa",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_4661dde141",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_a71b12be54",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_34905394b5",
+      "relation": "parent_child",
+      "weight": 0.81
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_9513739ad0",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_f248b70e77",
+      "relation": "parent_child",
+      "weight": 0.81
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_127a52533f",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_d8bb65aeb1",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_92b9b0d457",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_6ed4c88702",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_87f52172af",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_5313896ceb",
+      "relation": "parent_child",
+      "weight": 0.81
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_52a156303e",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_7ed50f7e95",
+      "relation": "parent_child",
+      "weight": 0.81
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_6fb9b3e4f9",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_8f477f0513",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_6dd38d30e6",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_3168e0e1c6",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_c2b045315a",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_0bd1d5847a",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_131bcbeb96",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_5ce269ee1e",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_1efa89a043",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_d3460d97dc",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_1b6458441a",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_13fcf89d37",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_d836d6a58b",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_8f74da1664",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_2a028c087a",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_93ecf75125",
+      "relation": "parent_child",
+      "weight": 0.81
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_0be3cc4b5a",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_5bc78f30d4",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_a33128e4ef",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_418209a021",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_3b6c6d54f4",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_2aec255871",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_46cf8a440d",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_ed8cd288ba",
+      "relation": "parent_child",
+      "weight": 0.81
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_5f309285d8",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_ce23a55e4b",
+      "relation": "parent_child",
+      "weight": 0.81
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_33cd575db2",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_c63b29b50c",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_ab55f83199",
+      "relation": "parent_child",
+      "weight": 0.81
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_3b3e043b41",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_2ad1c84fc0",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_acddf91d9c",
+      "relation": "parent_child",
+      "weight": 0.81
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_ee863603f6",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_69cb78182a",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_a0f16824e5",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_1ce5377c6b",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_180d305ba3",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_f26ab3e78f",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_a5bc52665f",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_f57269bb13",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_e0c8354fce",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_5d3428cb57",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_aeb1d97acf",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_a42005065a",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_c334a77355",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_28f65425cb",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_42e944d14d",
+      "relation": "parent_child",
+      "weight": 0.81
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_5f1c83982f",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_4235b23a5f",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_69d4625ea3",
+      "target": "concept_c7dde8cfc3",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_2984782637",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_973f8e00df",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_d7ac944dd3",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_1e34d84b73",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_a67d057008",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_a90232301b",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_24079685a3",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_861ff86626",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_3014c32bb1",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_172b1feee0",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_69cce13951",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_537674f1cf",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_b154bcc0dd",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_444445d454",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_aa5519117c",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_359ead36a1",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_474e628c3c",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_8aee7319a1",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_e10a3efa37",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_5f658eb084",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_4b74badbaf",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_4eeefbdab6",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_788ad47c8d",
+      "relation": "parent_child",
+      "weight": 0.81
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_ee77818df3",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_2102a0a8d5",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_6ae9e02564",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_ceb3b0f44e",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_83657abf05",
+      "target": "concept_0926231053",
+      "relation": "parent_child",
+      "weight": 0.9
+    }
+  ],
+  "centrality": [
+    {
+      "concept_id": "concept_6977739fc5",
+      "degree": 0.067,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_a1427cc398",
+      "degree": 0.798,
+      "betweenness": 0.001,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_5ea023785c",
+      "degree": 0.788,
+      "betweenness": 0.001,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_995ff0ef38",
+      "degree": 0.788,
+      "betweenness": 0.001,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_48f8037ece",
+      "degree": 0.788,
+      "betweenness": 0.001,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_6a571504b9",
+      "degree": 0.788,
+      "betweenness": 0.001,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_107349d71e",
+      "degree": 0.788,
+      "betweenness": 0.001,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_393a7be286",
+      "degree": 0.788,
+      "betweenness": 0.001,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_9e62605e77",
+      "degree": 0.788,
+      "betweenness": 0.001,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_911a8ff103",
+      "degree": 0.164,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_e504683848",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_f30483e1aa",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_4661dde141",
+      "degree": 0.096,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_a71b12be54",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_34905394b5",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_9513739ad0",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_f248b70e77",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_127a52533f",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_d8bb65aeb1",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_92b9b0d457",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_6ed4c88702",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_87f52172af",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_5313896ceb",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_52a156303e",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_7ed50f7e95",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_6fb9b3e4f9",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_8f477f0513",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_69d4625ea3",
+      "degree": 0.712,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_6dd38d30e6",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_3168e0e1c6",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_c2b045315a",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_0bd1d5847a",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_131bcbeb96",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_5ce269ee1e",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_1efa89a043",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_d3460d97dc",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_1b6458441a",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_13fcf89d37",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_d836d6a58b",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_8f74da1664",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_2a028c087a",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_93ecf75125",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_0be3cc4b5a",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_5bc78f30d4",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_a33128e4ef",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_418209a021",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_3b6c6d54f4",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_2aec255871",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_46cf8a440d",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_ed8cd288ba",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_5f309285d8",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_ce23a55e4b",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_33cd575db2",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_c63b29b50c",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_ab55f83199",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_3b3e043b41",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_2ad1c84fc0",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_acddf91d9c",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_ee863603f6",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_69cb78182a",
+      "degree": 0.096,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_a0f16824e5",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_1ce5377c6b",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_180d305ba3",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_f26ab3e78f",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_a5bc52665f",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_f57269bb13",
+      "degree": 0.096,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_e0c8354fce",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_5d3428cb57",
+      "degree": 0.096,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_aeb1d97acf",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_a42005065a",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_c334a77355",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_28f65425cb",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_42e944d14d",
+      "degree": 0.096,
+      "betweenness": 0.001,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_5f1c83982f",
+      "degree": 0.096,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_4235b23a5f",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_c7dde8cfc3",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_2984782637",
+      "degree": 0.346,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_973f8e00df",
+      "degree": 0.346,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_d7ac944dd3",
+      "degree": 0.346,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_1e34d84b73",
+      "degree": 0.346,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_a67d057008",
+      "degree": 0.346,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_83657abf05",
+      "degree": 0.538,
+      "betweenness": 0.05,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_a90232301b",
+      "degree": 0.346,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_24079685a3",
+      "degree": 0.346,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_861ff86626",
+      "degree": 0.154,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_3014c32bb1",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_172b1feee0",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_69cce13951",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_537674f1cf",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_b154bcc0dd",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_444445d454",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_aa5519117c",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_359ead36a1",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_474e628c3c",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_8aee7319a1",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_e10a3efa37",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_5f658eb084",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_4b74badbaf",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_4eeefbdab6",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_788ad47c8d",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_ee77818df3",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_2102a0a8d5",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_6ae9e02564",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_ceb3b0f44e",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    },
+    {
+      "concept_id": "concept_0926231053",
+      "degree": 0.086,
+      "betweenness": 0.0,
+      "pagerank": 0.009
+    }
+  ]
+}

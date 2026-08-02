@@ -1,0 +1,483 @@
+{
+  "key": "2.5",
+  "topic": "2.5 Trigonometric Functions",
+  "questions": [
+    {
+      "question": {
+        "id": "a7a24a63-4d5a-53c8-ae4d-9a163fefc92b",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate \\(\\sin 6^\\circ-\\sin 42^\\circ-\\sin 66^\\circ+\\sin 78^\\circ\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(\\sin6^\\circ-\\sin66^\\circ=2\\cos36^\\circ\\sin(-30^\\circ)=-\\cos36^\\circ\\), and \\(\\sin78^\\circ-\\sin42^\\circ=2\\cos60^\\circ\\sin18^\\circ=\\sin18^\\circ\\). Hence the value is \\(\\sin18^\\circ-\\cos36^\\circ=-\\frac12\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 51,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.5 Trigonometric Functions",
+            "concept_ids": [
+              "concept_7d3b7f64b8",
+              "concept_a8bc606a3c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.5",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              53,
+              54,
+              55,
+              192,
+              193,
+              194,
+              196,
+              198
+            ],
+            "source_chunk_ids": [
+              "chunk_cd928ff441",
+              "chunk_f34b116d25"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_1_2_1",
+              "label": "\\( -\\frac{1}{2} \\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Applying sum-to-product identities gives \\(\\sin18^\\circ-\\cos36^\\circ=-\\frac12\\)."
+            },
+            {
+              "id": "frac_1_2_2",
+              "label": "\\( \\frac{1}{2} \\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The signs in the two difference pairs are mishandled."
+            },
+            {
+              "id": "frac_sqrt3_2_3",
+              "label": "\\( -\\frac{\\sqrt3}{2} \\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This value does not result from the sum-to-product reduction."
+            },
+            {
+              "id": "0_4",
+              "label": "\\( 0 \\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two paired differences do not cancel."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "ce99c65a-286a-5d95-b874-ffa5e6d791b8",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Simplify \\(\\cos^2 33^\\circ-\\cos^2 57^\\circ\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using \\(\\cos57^\\circ=\\sin33^\\circ\\), \\(\\cos^2 33^\\circ-\\cos^2 57^\\circ=\\cos^2 33^\\circ-\\sin^2 33^\\circ=\\cos66^\\circ\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 52,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Understand",
+            "topic": "2.5 Trigonometric Functions",
+            "concept_ids": [
+              "concept_7d3b7f64b8",
+              "concept_a8bc606a3c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.5",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              53,
+              54,
+              55,
+              192,
+              193,
+              194,
+              196,
+              198
+            ],
+            "source_chunk_ids": [
+              "chunk_cd928ff441",
+              "chunk_f34b116d25"
+            ]
+          },
+          "options": [
+            {
+              "id": "cos66_circ_1",
+              "label": "\\( \\cos66^\\circ \\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Since \\(\\cos57^\\circ=\\sin33^\\circ\\), the expression becomes \\(\\cos^2 33^\\circ-\\sin^2 33^\\circ\\)."
+            },
+            {
+              "id": "sin66_circ_2",
+              "label": "\\( \\sin66^\\circ \\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The identity gives a cosine, not a sine."
+            },
+            {
+              "id": "cos24_circ_3",
+              "label": "\\( \\cos24^\\circ \\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The relevant double angle is \\(2\\times33^\\circ=66^\\circ\\)."
+            },
+            {
+              "id": "frac_1_2_4",
+              "label": "\\( \\frac{1}{2} \\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The expression depends on \\(\\cos66^\\circ\\), not a constant."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "090c9f58-99ec-5fa5-90f5-5a7816ab3c76",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(x=3\\cos\\alpha\\) and \\(y=4\\sin\\alpha\\), where \\(\\alpha\\in\\mathbb{R}\\), eliminate \\(\\alpha\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "From \\(\\cos\\alpha=\\frac{x}{3}\\) and \\(\\sin\\alpha=\\frac{y}{4}\\), the identity \\(\\cos^2\\alpha+\\sin^2\\alpha=1\\) gives \\(\\frac{x^2}{9}+\\frac{y^2}{16}=1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 53,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.5 Trigonometric Functions",
+            "concept_ids": [
+              "concept_7d3b7f64b8",
+              "concept_a8bc606a3c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.5",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              53,
+              54,
+              55,
+              192,
+              193,
+              194,
+              196,
+              198
+            ],
+            "source_chunk_ids": [
+              "chunk_cd928ff441",
+              "chunk_f34b116d25"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_x_2_9_frac_y_2_16_1_1",
+              "label": "\\( \\frac{x^2}{9}+\\frac{y^2}{16}=1 \\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Squaring the relations and using \\(\\sin^2\\alpha+\\cos^2\\alpha=1\\) gives the result."
+            },
+            {
+              "id": "frac_x_2_9_frac_y_2_16_1_2",
+              "label": "\\( \\frac{x^2}{9}-\\frac{y^2}{16}=1 \\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The fundamental identity requires addition, not subtraction."
+            },
+            {
+              "id": "frac_x_2_16_frac_y_2_9_1_3",
+              "label": "\\( \\frac{x^2}{16}+\\frac{y^2}{9}=1 \\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The denominators correspond to the wrong coefficients."
+            },
+            {
+              "id": "x_2_y_2_12_4",
+              "label": "\\( x^2+y^2=12 \\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The coefficients of \\(\\cos\\alpha\\) and \\(\\sin\\alpha\\) are not equal."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "edf2d593-1bba-5741-b471-e829280387ee",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the value of \\(\\cot^2 36^\\circ\\,\\cot^2 72^\\circ\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using \\(\\tan36^\\circ\\tan72^\\circ=\\sqrt5\\), we get \\(\\cot36^\\circ\\cot72^\\circ=\\frac{1}{\\sqrt5}\\). Therefore, \\(\\cot^2 36^\\circ\\cot^2 72^\\circ=\\frac15\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 54,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.5 Trigonometric Functions",
+            "concept_ids": [
+              "concept_7d3b7f64b8",
+              "concept_a8bc606a3c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.5",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              53,
+              54,
+              55,
+              192,
+              193,
+              194,
+              196,
+              198
+            ],
+            "source_chunk_ids": [
+              "chunk_cd928ff441",
+              "chunk_f34b116d25"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_1_5_1",
+              "label": "\\( \\frac{1}{5} \\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The identity \\(\\tan36^\\circ\\tan72^\\circ=\\sqrt5\\) gives the reciprocal square."
+            },
+            {
+              "id": "5_2",
+              "label": "\\( 5 \\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the square of the tangent product, not the cotangent product."
+            },
+            {
+              "id": "frac_1_sqrt5_3",
+              "label": "\\( \\frac{1}{\\sqrt5} \\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the cotangent product before squaring."
+            },
+            {
+              "id": "frac_1_4_4",
+              "label": "\\( \\frac{1}{4} \\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The exact tangent product is not \\(2\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "eef898b7-8b0d-5441-a7be-010a5fdb0b9a",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate \\(\\cot^2 36^\\circ\\,\\cot^2 72^\\circ\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(t=\\tan36^\\circ\\). Then \\(\\tan72^\\circ=\\frac{2t}{1-t^2}\\). Using \\(\\cos36^\\circ=\\frac{1+\\sqrt{5}}{4}\\), we obtain \\(\\tan36^\\circ\\tan72^\\circ=\\sqrt{5}\\). Therefore, \\(\\cot36^\\circ\\cot72^\\circ=\\frac{1}{\\sqrt{5}}\\), and hence \\(\\cot^2 36^\\circ\\cot^2 72^\\circ=\\frac{1}{5}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 55,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.5 Trigonometric Functions",
+            "concept_ids": [
+              "concept_7d3b7f64b8",
+              "concept_a8bc606a3c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.5",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              53,
+              54,
+              55,
+              192,
+              193,
+              194,
+              196,
+              198
+            ],
+            "source_chunk_ids": [
+              "chunk_cd928ff441",
+              "chunk_f34b116d25"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_1_5_1",
+              "label": "\\(\\frac{1}{5}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Using \\(\\tan36^\\circ\\tan72^\\circ=\\sqrt{5}\\), the reciprocal square is \\(\\frac{1}{5}\\)."
+            },
+            {
+              "id": "frac_1_4_2",
+              "label": "\\(\\frac{1}{4}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not follow from the double-angle identity."
+            },
+            {
+              "id": "frac_1_sqrt_5_3",
+              "label": "\\(\\frac{1}{\\sqrt{5}}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is \\(\\cot36^\\circ\\cot72^\\circ\\), not its square."
+            },
+            {
+              "id": "5_4",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the square of \\(\\tan36^\\circ\\tan72^\\circ\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_cd928ff441",
+    "chunk_f34b116d25"
+  ],
+  "source_pages": [
+    53,
+    54,
+    55,
+    192,
+    193,
+    194,
+    196,
+    198
+  ],
+  "rejected": []
+}

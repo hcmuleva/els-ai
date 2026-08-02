@@ -1,0 +1,2054 @@
+{
+  "books": [
+    {
+      "book_id": "book_7d090f67aa",
+      "filename": "lemh101.pdf",
+      "title": "Recall that the notion of relations and functions, domain,",
+      "num_pages": 17,
+      "subject": "General Studies",
+      "curriculum": "Higher Education",
+      "domain": "General",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "Recall that the notion of relations and functions, domain,",
+          "page_start": 0,
+          "page_end": 16,
+          "topics": [
+            {
+              "title": "RELATIONS AND FUNCTIONS",
+              "subtopics": [
+                "Relation",
+                "Symmetric"
+              ]
+            },
+            {
+              "title": "Lejeune Dirichlet",
+              "subtopics": [
+                "Function",
+                "Related"
+              ]
+            },
+            {
+              "title": "Solution",
+              "subtopics": [
+                "One-One"
+              ]
+            },
+            {
+              "title": "Solution",
+              "subtopics": [
+                "Given"
+              ]
+            },
+            {
+              "title": "Miscellaneous Examples",
+              "subtopics": [
+                "Equivalence"
+              ]
+            },
+            {
+              "title": "Solution",
+              "subtopics": [
+                "Functions"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_5b89839dae",
+      "filename": "lemh102.pdf",
+      "title": "In Chapter 1, we have studied that the inverse of a function",
+      "num_pages": 16,
+      "subject": "Mathematics",
+      "curriculum": "K-12",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "In Chapter 1, we have studied that the inverse of a function",
+          "page_start": 0,
+          "page_end": 15,
+          "topics": [
+            {
+              "title": "INVERSE TRIGONOMETRIC",
+              "subtopics": [
+                "Function",
+                "Principal"
+              ]
+            },
+            {
+              "title": "FUNCTIONS",
+              "subtopics": [
+                "Range",
+                "Value"
+              ]
+            },
+            {
+              "title": "Aryabhata",
+              "subtopics": [
+                "Functions"
+              ]
+            },
+            {
+              "title": "Remarks",
+              "subtopics": [
+                "Inverse"
+              ]
+            },
+            {
+              "title": "We thus have",
+              "subtopics": [
+                "Trigonometric"
+              ]
+            },
+            {
+              "title": "The graphs of",
+              "subtopics": [
+                "Domain"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_c058165fbb",
+      "filename": "lemh103.pdf",
+      "title": "The knowledge of matrices is necessary in various branches of mathematics. Matrices",
+      "num_pages": 42,
+      "subject": "Mathematics",
+      "curriculum": "Higher Education",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "The knowledge of matrices is necessary in various branches of mathematics. Matrices",
+          "page_start": 0,
+          "page_end": 41,
+          "topics": [
+            {
+              "title": "MATRICES",
+              "subtopics": [
+                "Matrix",
+                "Square"
+              ]
+            },
+            {
+              "title": "Notebooks Pens",
+              "subtopics": [
+                "Matrices",
+                "Number"
+              ]
+            },
+            {
+              "title": "Radha Fauzia Simran",
+              "subtopics": [
+                "Symmetric"
+              ]
+            },
+            {
+              "title": "ANote In this chapter",
+              "subtopics": [
+                "Order"
+              ]
+            },
+            {
+              "title": "A B C D",
+              "subtopics": [
+                "Reprint"
+              ]
+            },
+            {
+              "title": "Men workers Women workers",
+              "subtopics": [
+                "Elements"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_6947c6be7d",
+      "filename": "lemh104.pdf",
+      "title": "In the previous chapter , we have studied about matrices",
+      "num_pages": 28,
+      "subject": "Mathematics",
+      "curriculum": "Higher Education",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "In the previous chapter , we have studied about matrices",
+          "page_start": 0,
+          "page_end": 27,
+          "topics": [
+            {
+              "title": "A a b",
+              "subtopics": [
+                "Matrix",
+                "Order"
+              ]
+            },
+            {
+              "title": "DETERMINANTS",
+              "subtopics": [
+                "Determinant",
+                "Reprint"
+              ]
+            },
+            {
+              "title": "Remarks",
+              "subtopics": [
+                "Determinants"
+              ]
+            },
+            {
+              "title": "Solution We have",
+              "subtopics": [
+                "Solution"
+              ]
+            },
+            {
+              "title": "Solution We have",
+              "subtopics": [
+                "System"
+              ]
+            },
+            {
+              "title": "Remarks",
+              "subtopics": [
+                "Equations"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_e0279a50a0",
+      "filename": "lemh105.pdf",
+      "title": "MATHEMATICS104",
+      "num_pages": 43,
+      "subject": "Mathematics",
+      "curriculum": "Higher Education",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "MATHEMATICS104",
+          "page_start": 0,
+          "page_end": 42,
+          "topics": [
+            {
+              "title": "This function is of course defined at every",
+              "subtopics": [
+                "Function",
+                "Solution"
+              ]
+            },
+            {
+              "title": "CONTINUITY AND",
+              "subtopics": [
+                "Continuous",
+                "Given"
+              ]
+            },
+            {
+              "title": "DIFFERENTIABILITY",
+              "subtopics": [
+                "Defined"
+              ]
+            },
+            {
+              "title": "Sir Issac Newton",
+              "subtopics": [
+                "Functions"
+              ]
+            },
+            {
+              "title": "Solution",
+              "subtopics": [
+                "Continuity"
+              ]
+            },
+            {
+              "title": "Solution By definition",
+              "subtopics": [
+                "Reprint"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_06a89ae1cc",
+      "filename": "lemh106.pdf",
+      "title": "In Chapter 5, we have learnt how to find derivative of composite functions, inverse",
+      "num_pages": 40,
+      "subject": "Mathematics",
+      "curriculum": "Higher Education",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "In Chapter 5, we have learnt how to find derivative of composite functions, inverse",
+          "page_start": 0,
+          "page_end": 39,
+          "topics": [
+            {
+              "title": "Recall that by the derivative",
+              "subtopics": [
+                "Function",
+                "Local"
+              ]
+            },
+            {
+              "title": "APPLICATION OF",
+              "subtopics": [
+                "Value",
+                "Minimum"
+              ]
+            },
+            {
+              "title": "DERIVATIVES",
+              "subtopics": [
+                "Point"
+              ]
+            },
+            {
+              "title": "Now Vd",
+              "subtopics": [
+                "Given"
+              ]
+            },
+            {
+              "title": "Now dS",
+              "subtopics": [
+                "Maximum"
+              ]
+            },
+            {
+              "title": "It is given that dr",
+              "subtopics": [
+                "Increasing"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_d757245a45",
+      "filename": "lemh1a1.pdf",
+      "title": "Mathematical works do consist of proofs just as",
+      "num_pages": 9,
+      "subject": "Mathematics",
+      "curriculum": "Higher Education",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "Mathematical works do consist of proofs just as",
+          "page_start": 0,
+          "page_end": 8,
+          "topics": [
+            {
+              "title": "PROOFS IN MATHEMATICS",
+              "subtopics": [
+                "Statement",
+                "Proposition"
+              ]
+            },
+            {
+              "title": "Solution We have",
+              "subtopics": [
+                "Proof",
+                "Proved"
+              ]
+            },
+            {
+              "title": "Just this one example",
+              "subtopics": [
+                "Prime",
+                "Hence"
+              ]
+            },
+            {
+              "title": "Proof We consider some functions given by",
+              "subtopics": [
+                "Given",
+                "Function"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_f54b60ae0b",
+      "filename": "lemh1a2.pdf",
+      "title": "A.2.1 Introduction",
+      "num_pages": 12,
+      "subject": "Mathematics",
+      "curriculum": "Higher Education",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "A.2.1 Introduction",
+          "page_start": 0,
+          "page_end": 11,
+          "topics": [
+            {
+              "title": "MATHEMATICAL MODELLING",
+              "subtopics": [
+                "Mathematical",
+                "Available"
+              ]
+            },
+            {
+              "title": "PQtan QB",
+              "subtopics": [
+                "Units",
+                "Situation"
+              ]
+            },
+            {
+              "title": "P P P",
+              "subtopics": [
+                "Modelling"
+              ]
+            },
+            {
+              "title": "R R R",
+              "subtopics": [
+                "Model"
+              ]
+            },
+            {
+              "title": "R R R",
+              "subtopics": [
+                "Given"
+              ]
+            },
+            {
+              "title": "Solution Note that",
+              "subtopics": [
+                "Material"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_5a3574051c",
+      "filename": "lemh1an.pdf",
+      "title": "MATHEMA TICS208",
+      "num_pages": 17,
+      "subject": "Biology",
+      "curriculum": "Higher Education",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "Chapter 5",
+          "page_start": 15,
+          "page_end": 16,
+          "topics": [
+            {
+              "title": "SUPPLEMENTARY MATERIAL",
+              "subtopics": [
+                "Theorem",
+                "Since",
+                "Reprint",
+                "Supplementary"
+              ]
+            },
+            {
+              "title": "NOTES",
+              "subtopics": [
+                "Derivative",
+                "Logex",
+                "Answers",
+                "Material"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_fc8ac6ea56",
+      "filename": "lemh1ps.pdf",
+      "title": "MATHEMATICS",
+      "num_pages": 12,
+      "subject": "Psychology",
+      "curriculum": "Higher Education",
+      "domain": "Social Sciences",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "MATHEMATICS",
+          "page_start": 0,
+          "page_end": 11,
+          "topics": [
+            {
+              "title": "Textbook for Class XII",
+              "subtopics": [
+                "Delhi",
+                "National"
+              ]
+            },
+            {
+              "title": "PART I",
+              "subtopics": [
+                "Textbook",
+                "School"
+              ]
+            },
+            {
+              "title": "First Edition",
+              "subtopics": [
+                "Ncert"
+              ]
+            },
+            {
+              "title": "Reprinted",
+              "subtopics": [
+                "Mathematics"
+              ]
+            },
+            {
+              "title": "Revised Edition",
+              "subtopics": [
+                "Professor"
+              ]
+            },
+            {
+              "title": "Reprinted",
+              "subtopics": [
+                "Reprint"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_f193940743",
+      "filename": "lemh201.pdf",
+      "title": "INTEGRALS 225",
+      "num_pages": 67,
+      "subject": "Mathematics",
+      "curriculum": "K-12",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "INTEGRALS 225",
+          "page_start": 0,
+          "page_end": 66,
+          "topics": [
+            {
+              "title": "INTEGRALS",
+              "subtopics": [
+                "Function",
+                "Functions"
+              ]
+            },
+            {
+              "title": "We know that",
+              "subtopics": [
+                "Integrals",
+                "Derivative"
+              ]
+            },
+            {
+              "title": "Then df",
+              "subtopics": [
+                "Integral"
+              ]
+            },
+            {
+              "title": "Integrate Find the integral",
+              "subtopics": [
+                "Therefore"
+              ]
+            },
+            {
+              "title": "Integration The process of finding the integral",
+              "subtopics": [
+                "Reprint"
+              ]
+            },
+            {
+              "title": "Solution",
+              "subtopics": [
+                "Integration"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_beb5a8bebf",
+      "filename": "lemh202.pdf",
+      "title": "In geometry, we have learnt formulae to calculate areas",
+      "num_pages": 8,
+      "subject": "Mathematics",
+      "curriculum": "K-12",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "In geometry, we have learnt formulae to calculate areas",
+          "page_start": 0,
+          "page_end": 7,
+          "topics": [
+            {
+              "title": "APPLICATION OF INTEGRALS",
+              "subtopics": [
+                "X-Axis",
+                "Given"
+              ]
+            },
+            {
+              "title": "The area A of the region bounded by",
+              "subtopics": [
+                "Region",
+                "Calculus"
+              ]
+            },
+            {
+              "title": "Now",
+              "subtopics": [
+                "Bounded"
+              ]
+            },
+            {
+              "title": "Miscellaneous Examples",
+              "subtopics": [
+                "Curve"
+              ]
+            },
+            {
+              "title": "Area of the region ADEA",
+              "subtopics": [
+                "Integral"
+              ]
+            },
+            {
+              "title": "Summary",
+              "subtopics": [
+                "Ordinates"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_2d41646298",
+      "filename": "lemh203.pdf",
+      "title": "MATHEMA TICS300",
+      "num_pages": 38,
+      "subject": "Mathematics",
+      "curriculum": "Higher Education",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "MATHEMA TICS300",
+          "page_start": 0,
+          "page_end": 37,
+          "topics": [
+            {
+              "title": "DIFFERENTIAL EQUATIONS",
+              "subtopics": [
+                "Equation",
+                "Reprint"
+              ]
+            },
+            {
+              "title": "Henri Poincare",
+              "subtopics": [
+                "Differential",
+                "Order"
+              ]
+            },
+            {
+              "title": "Solution",
+              "subtopics": [
+                "Solution"
+              ]
+            },
+            {
+              "title": "Now consider the differential equation",
+              "subtopics": [
+                "Given"
+              ]
+            },
+            {
+              "title": "Substituting the values of",
+              "subtopics": [
+                "Function"
+              ]
+            },
+            {
+              "title": "Solution The given function is",
+              "subtopics": [
+                "Equations"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_fd535c3d8f",
+      "filename": "lemh204.pdf",
+      "title": "MATHEMATICS338",
+      "num_pages": 39,
+      "subject": "Physics",
+      "curriculum": "Higher Education",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "MATHEMATICS338",
+          "page_start": 0,
+          "page_end": 38,
+          "topics": [
+            {
+              "title": "VECTOR",
+              "subtopics": [
+                "Vector",
+                "Reprint"
+              ]
+            },
+            {
+              "title": "ALGEBRA",
+              "subtopics": [
+                "Vectors",
+                "Scalar"
+              ]
+            },
+            {
+              "title": "Position Vector",
+              "subtopics": [
+                "Given"
+              ]
+            },
+            {
+              "title": "Direction Cosines",
+              "subtopics": [
+                "Direction"
+              ]
+            },
+            {
+              "title": "Collinear Vectors",
+              "subtopics": [
+                "Magnitude"
+              ]
+            },
+            {
+              "title": "Solution The vector",
+              "subtopics": [
+                "Point"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_54cc357213",
+      "filename": "lemh205.pdf",
+      "title": "THREE DIMENSIONAL GEOMETR Y 377",
+      "num_pages": 17,
+      "subject": "Mathematics",
+      "curriculum": "Higher Education",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "THREE DIMENSIONAL GEOMETR Y 377",
+          "page_start": 0,
+          "page_end": 16,
+          "topics": [
+            {
+              "title": "THREE DIMENSIONAL GEOMETRY",
+              "subtopics": [
+                "Arrowrightnosp",
+                "Vector"
+              ]
+            },
+            {
+              "title": "Leonhard Euler",
+              "subtopics": [
+                "Direction",
+                "Given"
+              ]
+            },
+            {
+              "title": "PQ PQ",
+              "subtopics": [
+                "Lines"
+              ]
+            },
+            {
+              "title": "Solution Direction cosines are",
+              "subtopics": [
+                "Between"
+              ]
+            },
+            {
+              "title": "PQ PQ PQ",
+              "subtopics": [
+                "Combarrowextender"
+              ]
+            },
+            {
+              "title": "Solution",
+              "subtopics": [
+                "Cosines"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_9996a144f0",
+      "filename": "lemh206.pdf",
+      "title": "In earlier classes, we have discussed systems of linear",
+      "num_pages": 12,
+      "subject": "Mathematics",
+      "curriculum": "Professional",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "In earlier classes, we have discussed systems of linear",
+          "page_start": 0,
+          "page_end": 11,
+          "topics": [
+            {
+              "title": "LINEAR PROGRAMMING",
+              "subtopics": [
+                "Linear",
+                "Point"
+              ]
+            },
+            {
+              "title": "Feasible solutions Points within and on the",
+              "subtopics": [
+                "Region",
+                "Maximum"
+              ]
+            },
+            {
+              "title": "Any point outside the feasible region is",
+              "subtopics": [
+                "Feasible"
+              ]
+            },
+            {
+              "title": "We have",
+              "subtopics": [
+                "Problem"
+              ]
+            },
+            {
+              "title": "Vertex of the Corresponding value",
+              "subtopics": [
+                "Programming"
+              ]
+            },
+            {
+              "title": "Corner Point Corresponding value",
+              "subtopics": [
+                "Value"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_ead45723e7",
+      "filename": "lemh207.pdf",
+      "title": "In earlier Classes, we have studied the probability as a",
+      "num_pages": 33,
+      "subject": "Mathematics",
+      "curriculum": "K-12",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "In earlier Classes, we have studied the probability as a",
+          "page_start": 0,
+          "page_end": 32,
+          "topics": [
+            {
+              "title": "We discussed the axiomatic approach formulated by",
+              "subtopics": [
+                "Probability",
+                "Space"
+              ]
+            },
+            {
+              "title": "PROBABILITY",
+              "subtopics": [
+                "Events",
+                "Independent"
+              ]
+            },
+            {
+              "title": "Pierre de Fermat",
+              "subtopics": [
+                "Event"
+              ]
+            },
+            {
+              "title": "Then",
+              "subtopics": [
+                "Drawn"
+              ]
+            },
+            {
+              "title": "Number of elementaryevents which arefavourable to F",
+              "subtopics": [
+                "Given"
+              ]
+            },
+            {
+              "title": "We know that",
+              "subtopics": [
+                "Sample"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_8c6c21dc2a",
+      "filename": "lemh2an.pdf",
+      "title": "ANSWERS 439",
+      "num_pages": 20,
+      "subject": "Biology",
+      "curriculum": "Higher Education",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "ANSWERS 439",
+          "page_start": 0,
+          "page_end": 19,
+          "topics": [
+            {
+              "title": "ANSWERS",
+              "subtopics": [
+                "Exercise",
+                "Answers",
+                "Degree",
+                "Vector"
+              ]
+            },
+            {
+              "title": "Notes",
+              "subtopics": [
+                "Reprint",
+                "Order",
+                "Mathema",
+                "Scalar"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "book_id": "book_903050ef33",
+      "filename": "lemh2ps.pdf",
+      "title": "MATHEMATICS",
+      "num_pages": 14,
+      "subject": "Psychology",
+      "curriculum": "Higher Education",
+      "domain": "Social Sciences",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "Relations and Functions 1 - 17",
+          "page_start": 11,
+          "page_end": 13,
+          "topics": [
+            {
+              "title": "Contents of",
+              "subtopics": [
+                "Introduction",
+                "Theorem"
+              ]
+            },
+            {
+              "title": "MATHEMATICS PART I",
+              "subtopics": [
+                "Integrals",
+                "Differential"
+              ]
+            },
+            {
+              "title": "For Class XII",
+              "subtopics": [
+                "Integration"
+              ]
+            },
+            {
+              "title": "Contents",
+              "subtopics": [
+                "Functions"
+              ]
+            },
+            {
+              "title": "PART II",
+              "subtopics": [
+                "Reprint"
+              ]
+            },
+            {
+              "title": "Foreword iii",
+              "subtopics": [
+                "Definite"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "overlaps": [
+    {
+      "book_a": "book_7d090f67aa",
+      "book_b": "book_5b89839dae",
+      "shared_topics": [
+        "function",
+        "functions"
+      ],
+      "jaccard": 0.087
+    },
+    {
+      "book_a": "book_7d090f67aa",
+      "book_b": "book_c058165fbb",
+      "shared_topics": [
+        "symmetric"
+      ],
+      "jaccard": 0.042
+    },
+    {
+      "book_a": "book_7d090f67aa",
+      "book_b": "book_6947c6be7d",
+      "shared_topics": [
+        "solution"
+      ],
+      "jaccard": 0.045
+    },
+    {
+      "book_a": "book_7d090f67aa",
+      "book_b": "book_e0279a50a0",
+      "shared_topics": [
+        "function",
+        "functions",
+        "given",
+        "solution"
+      ],
+      "jaccard": 0.19
+    },
+    {
+      "book_a": "book_7d090f67aa",
+      "book_b": "book_06a89ae1cc",
+      "shared_topics": [
+        "function",
+        "given"
+      ],
+      "jaccard": 0.083
+    },
+    {
+      "book_a": "book_7d090f67aa",
+      "book_b": "book_d757245a45",
+      "shared_topics": [
+        "function",
+        "given"
+      ],
+      "jaccard": 0.091
+    },
+    {
+      "book_a": "book_7d090f67aa",
+      "book_b": "book_f54b60ae0b",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.042
+    },
+    {
+      "book_a": "book_7d090f67aa",
+      "book_b": "book_f193940743",
+      "shared_topics": [
+        "function",
+        "functions",
+        "solution"
+      ],
+      "jaccard": 0.136
+    },
+    {
+      "book_a": "book_7d090f67aa",
+      "book_b": "book_beb5a8bebf",
+      "shared_topics": [
+        "given",
+        "miscellaneous examples"
+      ],
+      "jaccard": 0.083
+    },
+    {
+      "book_a": "book_7d090f67aa",
+      "book_b": "book_2d41646298",
+      "shared_topics": [
+        "function",
+        "given",
+        "solution"
+      ],
+      "jaccard": 0.136
+    },
+    {
+      "book_a": "book_7d090f67aa",
+      "book_b": "book_fd535c3d8f",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.042
+    },
+    {
+      "book_a": "book_7d090f67aa",
+      "book_b": "book_54cc357213",
+      "shared_topics": [
+        "given",
+        "solution"
+      ],
+      "jaccard": 0.083
+    },
+    {
+      "book_a": "book_7d090f67aa",
+      "book_b": "book_ead45723e7",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.042
+    },
+    {
+      "book_a": "book_7d090f67aa",
+      "book_b": "book_903050ef33",
+      "shared_topics": [
+        "functions"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_5b89839dae",
+      "book_b": "book_6947c6be7d",
+      "shared_topics": [
+        "remarks"
+      ],
+      "jaccard": 0.043
+    },
+    {
+      "book_a": "book_5b89839dae",
+      "book_b": "book_e0279a50a0",
+      "shared_topics": [
+        "function",
+        "functions"
+      ],
+      "jaccard": 0.083
+    },
+    {
+      "book_a": "book_5b89839dae",
+      "book_b": "book_06a89ae1cc",
+      "shared_topics": [
+        "function",
+        "value"
+      ],
+      "jaccard": 0.08
+    },
+    {
+      "book_a": "book_5b89839dae",
+      "book_b": "book_d757245a45",
+      "shared_topics": [
+        "function"
+      ],
+      "jaccard": 0.042
+    },
+    {
+      "book_a": "book_5b89839dae",
+      "book_b": "book_f193940743",
+      "shared_topics": [
+        "function",
+        "functions"
+      ],
+      "jaccard": 0.083
+    },
+    {
+      "book_a": "book_5b89839dae",
+      "book_b": "book_2d41646298",
+      "shared_topics": [
+        "function"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_5b89839dae",
+      "book_b": "book_9996a144f0",
+      "shared_topics": [
+        "value"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_5b89839dae",
+      "book_b": "book_903050ef33",
+      "shared_topics": [
+        "functions"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_c058165fbb",
+      "book_b": "book_6947c6be7d",
+      "shared_topics": [
+        "matrix",
+        "order",
+        "reprint"
+      ],
+      "jaccard": 0.143
+    },
+    {
+      "book_a": "book_c058165fbb",
+      "book_b": "book_e0279a50a0",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_c058165fbb",
+      "book_b": "book_5a3574051c",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.045
+    },
+    {
+      "book_a": "book_c058165fbb",
+      "book_b": "book_fc8ac6ea56",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_c058165fbb",
+      "book_b": "book_f193940743",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_c058165fbb",
+      "book_b": "book_2d41646298",
+      "shared_topics": [
+        "order",
+        "reprint"
+      ],
+      "jaccard": 0.083
+    },
+    {
+      "book_a": "book_c058165fbb",
+      "book_b": "book_fd535c3d8f",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_c058165fbb",
+      "book_b": "book_8c6c21dc2a",
+      "shared_topics": [
+        "order",
+        "reprint"
+      ],
+      "jaccard": 0.1
+    },
+    {
+      "book_a": "book_c058165fbb",
+      "book_b": "book_903050ef33",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_6947c6be7d",
+      "book_b": "book_e0279a50a0",
+      "shared_topics": [
+        "reprint",
+        "solution"
+      ],
+      "jaccard": 0.091
+    },
+    {
+      "book_a": "book_6947c6be7d",
+      "book_b": "book_d757245a45",
+      "shared_topics": [
+        "solution we have"
+      ],
+      "jaccard": 0.045
+    },
+    {
+      "book_a": "book_6947c6be7d",
+      "book_b": "book_5a3574051c",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.05
+    },
+    {
+      "book_a": "book_6947c6be7d",
+      "book_b": "book_fc8ac6ea56",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.043
+    },
+    {
+      "book_a": "book_6947c6be7d",
+      "book_b": "book_f193940743",
+      "shared_topics": [
+        "reprint",
+        "solution"
+      ],
+      "jaccard": 0.091
+    },
+    {
+      "book_a": "book_6947c6be7d",
+      "book_b": "book_2d41646298",
+      "shared_topics": [
+        "equations",
+        "order",
+        "reprint",
+        "solution"
+      ],
+      "jaccard": 0.2
+    },
+    {
+      "book_a": "book_6947c6be7d",
+      "book_b": "book_fd535c3d8f",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.043
+    },
+    {
+      "book_a": "book_6947c6be7d",
+      "book_b": "book_54cc357213",
+      "shared_topics": [
+        "solution"
+      ],
+      "jaccard": 0.042
+    },
+    {
+      "book_a": "book_6947c6be7d",
+      "book_b": "book_8c6c21dc2a",
+      "shared_topics": [
+        "order",
+        "reprint"
+      ],
+      "jaccard": 0.111
+    },
+    {
+      "book_a": "book_6947c6be7d",
+      "book_b": "book_903050ef33",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.042
+    },
+    {
+      "book_a": "book_e0279a50a0",
+      "book_b": "book_06a89ae1cc",
+      "shared_topics": [
+        "function",
+        "given"
+      ],
+      "jaccard": 0.08
+    },
+    {
+      "book_a": "book_e0279a50a0",
+      "book_b": "book_d757245a45",
+      "shared_topics": [
+        "function",
+        "given"
+      ],
+      "jaccard": 0.087
+    },
+    {
+      "book_a": "book_e0279a50a0",
+      "book_b": "book_f54b60ae0b",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_e0279a50a0",
+      "book_b": "book_5a3574051c",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.045
+    },
+    {
+      "book_a": "book_e0279a50a0",
+      "book_b": "book_fc8ac6ea56",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_e0279a50a0",
+      "book_b": "book_f193940743",
+      "shared_topics": [
+        "function",
+        "functions",
+        "reprint",
+        "solution"
+      ],
+      "jaccard": 0.182
+    },
+    {
+      "book_a": "book_e0279a50a0",
+      "book_b": "book_beb5a8bebf",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_e0279a50a0",
+      "book_b": "book_2d41646298",
+      "shared_topics": [
+        "function",
+        "given",
+        "reprint",
+        "solution"
+      ],
+      "jaccard": 0.182
+    },
+    {
+      "book_a": "book_e0279a50a0",
+      "book_b": "book_fd535c3d8f",
+      "shared_topics": [
+        "given",
+        "reprint"
+      ],
+      "jaccard": 0.083
+    },
+    {
+      "book_a": "book_e0279a50a0",
+      "book_b": "book_54cc357213",
+      "shared_topics": [
+        "given",
+        "solution"
+      ],
+      "jaccard": 0.08
+    },
+    {
+      "book_a": "book_e0279a50a0",
+      "book_b": "book_ead45723e7",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_e0279a50a0",
+      "book_b": "book_8c6c21dc2a",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.048
+    },
+    {
+      "book_a": "book_e0279a50a0",
+      "book_b": "book_903050ef33",
+      "shared_topics": [
+        "functions",
+        "reprint"
+      ],
+      "jaccard": 0.08
+    },
+    {
+      "book_a": "book_06a89ae1cc",
+      "book_b": "book_d757245a45",
+      "shared_topics": [
+        "function",
+        "given"
+      ],
+      "jaccard": 0.083
+    },
+    {
+      "book_a": "book_06a89ae1cc",
+      "book_b": "book_f54b60ae0b",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_06a89ae1cc",
+      "book_b": "book_f193940743",
+      "shared_topics": [
+        "function"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_06a89ae1cc",
+      "book_b": "book_beb5a8bebf",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.037
+    },
+    {
+      "book_a": "book_06a89ae1cc",
+      "book_b": "book_2d41646298",
+      "shared_topics": [
+        "function",
+        "given"
+      ],
+      "jaccard": 0.08
+    },
+    {
+      "book_a": "book_06a89ae1cc",
+      "book_b": "book_fd535c3d8f",
+      "shared_topics": [
+        "given",
+        "point"
+      ],
+      "jaccard": 0.08
+    },
+    {
+      "book_a": "book_06a89ae1cc",
+      "book_b": "book_54cc357213",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.037
+    },
+    {
+      "book_a": "book_06a89ae1cc",
+      "book_b": "book_9996a144f0",
+      "shared_topics": [
+        "maximum",
+        "point",
+        "value"
+      ],
+      "jaccard": 0.12
+    },
+    {
+      "book_a": "book_06a89ae1cc",
+      "book_b": "book_ead45723e7",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_d757245a45",
+      "book_b": "book_f54b60ae0b",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.042
+    },
+    {
+      "book_a": "book_d757245a45",
+      "book_b": "book_f193940743",
+      "shared_topics": [
+        "function"
+      ],
+      "jaccard": 0.042
+    },
+    {
+      "book_a": "book_d757245a45",
+      "book_b": "book_beb5a8bebf",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_d757245a45",
+      "book_b": "book_2d41646298",
+      "shared_topics": [
+        "function",
+        "given"
+      ],
+      "jaccard": 0.087
+    },
+    {
+      "book_a": "book_d757245a45",
+      "book_b": "book_fd535c3d8f",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.042
+    },
+    {
+      "book_a": "book_d757245a45",
+      "book_b": "book_54cc357213",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_d757245a45",
+      "book_b": "book_ead45723e7",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.042
+    },
+    {
+      "book_a": "book_f54b60ae0b",
+      "book_b": "book_5a3574051c",
+      "shared_topics": [
+        "material"
+      ],
+      "jaccard": 0.045
+    },
+    {
+      "book_a": "book_f54b60ae0b",
+      "book_b": "book_beb5a8bebf",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_f54b60ae0b",
+      "book_b": "book_2d41646298",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_f54b60ae0b",
+      "book_b": "book_fd535c3d8f",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_f54b60ae0b",
+      "book_b": "book_54cc357213",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_f54b60ae0b",
+      "book_b": "book_ead45723e7",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_5a3574051c",
+      "book_b": "book_fc8ac6ea56",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.045
+    },
+    {
+      "book_a": "book_5a3574051c",
+      "book_b": "book_f193940743",
+      "shared_topics": [
+        "derivative",
+        "reprint"
+      ],
+      "jaccard": 0.095
+    },
+    {
+      "book_a": "book_5a3574051c",
+      "book_b": "book_2d41646298",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.045
+    },
+    {
+      "book_a": "book_5a3574051c",
+      "book_b": "book_fd535c3d8f",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.045
+    },
+    {
+      "book_a": "book_5a3574051c",
+      "book_b": "book_8c6c21dc2a",
+      "shared_topics": [
+        "answers",
+        "notes",
+        "reprint"
+      ],
+      "jaccard": 0.188
+    },
+    {
+      "book_a": "book_5a3574051c",
+      "book_b": "book_903050ef33",
+      "shared_topics": [
+        "reprint",
+        "theorem"
+      ],
+      "jaccard": 0.091
+    },
+    {
+      "book_a": "book_fc8ac6ea56",
+      "book_b": "book_f193940743",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_fc8ac6ea56",
+      "book_b": "book_2d41646298",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_fc8ac6ea56",
+      "book_b": "book_fd535c3d8f",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_fc8ac6ea56",
+      "book_b": "book_8c6c21dc2a",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.048
+    },
+    {
+      "book_a": "book_fc8ac6ea56",
+      "book_b": "book_903050ef33",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_f193940743",
+      "book_b": "book_beb5a8bebf",
+      "shared_topics": [
+        "integral"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_f193940743",
+      "book_b": "book_2d41646298",
+      "shared_topics": [
+        "function",
+        "reprint",
+        "solution"
+      ],
+      "jaccard": 0.13
+    },
+    {
+      "book_a": "book_f193940743",
+      "book_b": "book_fd535c3d8f",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_f193940743",
+      "book_b": "book_54cc357213",
+      "shared_topics": [
+        "solution"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_f193940743",
+      "book_b": "book_ead45723e7",
+      "shared_topics": [
+        "we know that"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_f193940743",
+      "book_b": "book_8c6c21dc2a",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.048
+    },
+    {
+      "book_a": "book_f193940743",
+      "book_b": "book_903050ef33",
+      "shared_topics": [
+        "functions",
+        "integrals",
+        "integration",
+        "reprint"
+      ],
+      "jaccard": 0.174
+    },
+    {
+      "book_a": "book_beb5a8bebf",
+      "book_b": "book_2d41646298",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_beb5a8bebf",
+      "book_b": "book_fd535c3d8f",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_beb5a8bebf",
+      "book_b": "book_54cc357213",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.037
+    },
+    {
+      "book_a": "book_beb5a8bebf",
+      "book_b": "book_9996a144f0",
+      "shared_topics": [
+        "region"
+      ],
+      "jaccard": 0.037
+    },
+    {
+      "book_a": "book_beb5a8bebf",
+      "book_b": "book_ead45723e7",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_2d41646298",
+      "book_b": "book_fd535c3d8f",
+      "shared_topics": [
+        "given",
+        "reprint"
+      ],
+      "jaccard": 0.083
+    },
+    {
+      "book_a": "book_2d41646298",
+      "book_b": "book_54cc357213",
+      "shared_topics": [
+        "given",
+        "solution"
+      ],
+      "jaccard": 0.08
+    },
+    {
+      "book_a": "book_2d41646298",
+      "book_b": "book_ead45723e7",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_2d41646298",
+      "book_b": "book_8c6c21dc2a",
+      "shared_topics": [
+        "order",
+        "reprint"
+      ],
+      "jaccard": 0.1
+    },
+    {
+      "book_a": "book_2d41646298",
+      "book_b": "book_903050ef33",
+      "shared_topics": [
+        "differential",
+        "reprint"
+      ],
+      "jaccard": 0.08
+    },
+    {
+      "book_a": "book_fd535c3d8f",
+      "book_b": "book_54cc357213",
+      "shared_topics": [
+        "direction",
+        "given",
+        "vector"
+      ],
+      "jaccard": 0.125
+    },
+    {
+      "book_a": "book_fd535c3d8f",
+      "book_b": "book_9996a144f0",
+      "shared_topics": [
+        "point"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_fd535c3d8f",
+      "book_b": "book_ead45723e7",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.04
+    },
+    {
+      "book_a": "book_fd535c3d8f",
+      "book_b": "book_8c6c21dc2a",
+      "shared_topics": [
+        "reprint",
+        "scalar",
+        "vector"
+      ],
+      "jaccard": 0.158
+    },
+    {
+      "book_a": "book_fd535c3d8f",
+      "book_b": "book_903050ef33",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_54cc357213",
+      "book_b": "book_ead45723e7",
+      "shared_topics": [
+        "given"
+      ],
+      "jaccard": 0.038
+    },
+    {
+      "book_a": "book_54cc357213",
+      "book_b": "book_8c6c21dc2a",
+      "shared_topics": [
+        "vector"
+      ],
+      "jaccard": 0.045
+    },
+    {
+      "book_a": "book_8c6c21dc2a",
+      "book_b": "book_903050ef33",
+      "shared_topics": [
+        "reprint"
+      ],
+      "jaccard": 0.045
+    }
+  ],
+  "subject_index": {
+    "General Studies": [
+      "book_7d090f67aa"
+    ],
+    "Mathematics": [
+      "book_5b89839dae",
+      "book_c058165fbb",
+      "book_6947c6be7d",
+      "book_e0279a50a0",
+      "book_06a89ae1cc",
+      "book_d757245a45",
+      "book_f54b60ae0b",
+      "book_f193940743",
+      "book_beb5a8bebf",
+      "book_2d41646298",
+      "book_54cc357213",
+      "book_9996a144f0",
+      "book_ead45723e7"
+    ],
+    "Biology": [
+      "book_5a3574051c",
+      "book_8c6c21dc2a"
+    ],
+    "Psychology": [
+      "book_fc8ac6ea56",
+      "book_903050ef33"
+    ],
+    "Physics": [
+      "book_fd535c3d8f"
+    ]
+  },
+  "domain_index": {
+    "General": [
+      "book_7d090f67aa"
+    ],
+    "STEM": [
+      "book_5b89839dae",
+      "book_c058165fbb",
+      "book_6947c6be7d",
+      "book_e0279a50a0",
+      "book_06a89ae1cc",
+      "book_d757245a45",
+      "book_f54b60ae0b",
+      "book_5a3574051c",
+      "book_f193940743",
+      "book_beb5a8bebf",
+      "book_2d41646298",
+      "book_fd535c3d8f",
+      "book_54cc357213",
+      "book_9996a144f0",
+      "book_ead45723e7",
+      "book_8c6c21dc2a"
+    ],
+    "Social Sciences": [
+      "book_fc8ac6ea56",
+      "book_903050ef33"
+    ]
+  },
+  "total_chapters": 19,
+  "total_topics": 104
+}

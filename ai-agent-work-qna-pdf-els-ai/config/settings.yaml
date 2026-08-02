@@ -1,0 +1,70 @@
+# Knowledge Pipeline configuration.
+# Environment variables (KP_*) override these values at runtime.
+
+provider: local          # mock | local | droid | openai | anthropic | auto
+# 'auto' priority: local -> openai -> anthropic -> mock
+openai_model: gpt-4o-mini
+anthropic_model: claude-3-5-sonnet-latest
+
+# Local OpenAI-compatible server (Ollama, vLLM, LM Studio, llama.cpp server).
+local_llm:
+  base_url: http://127.0.0.1:11434/v1
+  model: qwen2.5-coder:7b
+  api_key: ollama
+  timeout_s: 240
+  temperature: 0.2
+  max_tokens: 4096
+
+# Headless Droid CLI provider settings (optional fallback/alternative).
+droid:
+  cli_path: droid
+  model:                 # blank -> droid's own default model
+  autonomy: low          # read-only autonomy is enough for generation
+  timeout_s: 240
+
+# Ownership / classification. Leave blank here; supply via env (KP_*) or CLI.
+identity:
+  creator_id:
+  organization_id:
+  subject: Mathematics
+  class_level: Class 12
+  language: en
+
+# Vector DB (Qdrant), relational store (Postgres), local embeddings (fastembed).
+stores:
+  embedding_model: BAAI/bge-small-en-v1.5   # fastembed, 384-dim, fully local
+  embedding_dim: 384
+  qdrant_url: http://localhost:6333
+  qdrant_collection: kp_chunks
+  postgres_dsn: postgresql://kp:kp@127.0.0.1:5544/kp
+
+# Phase 15 question generation.
+generation:
+  enabled: true
+  questions_per_item: 1
+  bands: [beginner, intermediate, advanced, jee_main, jee_advanced, expert]
+  composite_min_band: jee_main   # bands >= this are generated from multi-concept bundles
+  max_composite_members: 4
+
+paths:
+  input_dir: data/input
+  output_dir: data/output/runs
+
+# Phase 11 rejection thresholds. A concept must meet ALL minimums to pass.
+validation:
+  min_relevance: 0.45
+  min_educational_value: 0.45
+  min_assessment_value: 0.40
+  min_embedding_value: 0.45
+  min_completeness: 0.35
+  min_accuracy: 0.50
+  min_confidence: 0.45
+
+# Phase 2 page value scoring weights (relative contribution of each signal).
+quality:
+  high_value_weight: 1.0
+  medium_value_weight: 0.5
+  low_value_weight: 0.1
+
+chunking:
+  max_chars: 2200        # soft upper bound; chunks stay concept-complete

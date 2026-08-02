@@ -1,0 +1,1538 @@
+[
+  {
+    "objective_id": "obj_8e9ea91d04",
+    "concept_id": "concept_7693272a7d",
+    "objective": "Recall and state the concept of Magnetic flux through a surface.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_357caa644b",
+    "concept_id": "concept_7693272a7d",
+    "objective": "Explain in your own words the concept of Magnetic flux through a surface.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_5531eabe6e",
+    "concept_id": "concept_7693272a7d",
+    "objective": "Apply to a new situation the concept of Magnetic flux through a surface.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_b9c06d3220",
+    "concept_id": "concept_7693272a7d",
+    "objective": "Break down and compare the concept of Magnetic flux through a surface.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_1a05daf569",
+    "concept_id": "concept_7693272a7d",
+    "objective": "Critique and justify decisions about the concept of Magnetic flux through a surface.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_2e918bd731",
+    "concept_id": "concept_7693272a7d",
+    "objective": "Design or produce something using the concept of Magnetic flux through a surface.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_6b32e40316",
+    "concept_id": "concept_f8eaf41ca7",
+    "objective": "Recall and state the concept of Gauss’ law for magnetism.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_b299860a7e",
+    "concept_id": "concept_f8eaf41ca7",
+    "objective": "Explain in your own words the concept of Gauss’ law for magnetism.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_033abe9f91",
+    "concept_id": "concept_f8eaf41ca7",
+    "objective": "Apply to a new situation the concept of Gauss’ law for magnetism.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_c15049d0b8",
+    "concept_id": "concept_f8eaf41ca7",
+    "objective": "Break down and compare the concept of Gauss’ law for magnetism.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_0787e645fe",
+    "concept_id": "concept_f8eaf41ca7",
+    "objective": "Critique and justify decisions about the concept of Gauss’ law for magnetism.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_f1e9549173",
+    "concept_id": "concept_f8eaf41ca7",
+    "objective": "Design or produce something using the concept of Gauss’ law for magnetism.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_0456d0ba0c",
+    "concept_id": "concept_2a665274e3",
+    "objective": "Recall and state the concept of Induced electromotive force.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_7f08c64a2e",
+    "concept_id": "concept_2a665274e3",
+    "objective": "Explain in your own words the concept of Induced electromotive force.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_4509cd7764",
+    "concept_id": "concept_2a665274e3",
+    "objective": "Apply to a new situation the concept of Induced electromotive force.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_4ec5ebada2",
+    "concept_id": "concept_2a665274e3",
+    "objective": "Break down and compare the concept of Induced electromotive force.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_0fbdd21a0d",
+    "concept_id": "concept_2a665274e3",
+    "objective": "Critique and justify decisions about the concept of Induced electromotive force.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_e41bd62380",
+    "concept_id": "concept_2a665274e3",
+    "objective": "Design or produce something using the concept of Induced electromotive force.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_6635d5c1d0",
+    "concept_id": "concept_549729587d",
+    "objective": "Recall and state the concept of Direction of induced emf.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_6eb71c4fc8",
+    "concept_id": "concept_549729587d",
+    "objective": "Explain in your own words the concept of Direction of induced emf.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_867308ca85",
+    "concept_id": "concept_549729587d",
+    "objective": "Apply to a new situation the concept of Direction of induced emf.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_3625635729",
+    "concept_id": "concept_549729587d",
+    "objective": "Break down and compare the concept of Direction of induced emf.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_de2f3c9cbd",
+    "concept_id": "concept_549729587d",
+    "objective": "Critique and justify decisions about the concept of Direction of induced emf.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_735871f090",
+    "concept_id": "concept_549729587d",
+    "objective": "Design or produce something using the concept of Direction of induced emf.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_7e7b9d9d75",
+    "concept_id": "concept_5975bf7946",
+    "objective": "Recall and state the concept of Charge transferred by induction.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_60b484bb82",
+    "concept_id": "concept_5975bf7946",
+    "objective": "Explain in your own words the concept of Charge transferred by induction.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_899d609c92",
+    "concept_id": "concept_5975bf7946",
+    "objective": "Apply to a new situation the concept of Charge transferred by induction.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_1dff066b5f",
+    "concept_id": "concept_5975bf7946",
+    "objective": "Break down and compare the concept of Charge transferred by induction.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_7c5131c06a",
+    "concept_id": "concept_5975bf7946",
+    "objective": "Critique and justify decisions about the concept of Charge transferred by induction.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_19b136359a",
+    "concept_id": "concept_5975bf7946",
+    "objective": "Design or produce something using the concept of Charge transferred by induction.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_48f3a40272",
+    "concept_id": "concept_9254b1d6a8",
+    "objective": "Recall and state the concept of Emf produced by a moving conductor.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_1057c04d2d",
+    "concept_id": "concept_9254b1d6a8",
+    "objective": "Explain in your own words the concept of Emf produced by a moving conductor.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_5a1743bb63",
+    "concept_id": "concept_9254b1d6a8",
+    "objective": "Apply to a new situation the concept of Emf produced by a moving conductor.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_318dc6709a",
+    "concept_id": "concept_9254b1d6a8",
+    "objective": "Break down and compare the concept of Emf produced by a moving conductor.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_8bb9393cad",
+    "concept_id": "concept_9254b1d6a8",
+    "objective": "Critique and justify decisions about the concept of Emf produced by a moving conductor.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_7611493423",
+    "concept_id": "concept_9254b1d6a8",
+    "objective": "Design or produce something using the concept of Emf produced by a moving conductor.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_a1a127f70c",
+    "concept_id": "concept_05210818a8",
+    "objective": "Recall and state the concept of Emf from changing coil orientation.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_295ffc4157",
+    "concept_id": "concept_05210818a8",
+    "objective": "Explain in your own words the concept of Emf from changing coil orientation.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_f2174847f0",
+    "concept_id": "concept_05210818a8",
+    "objective": "Apply to a new situation the concept of Emf from changing coil orientation.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_864c33931e",
+    "concept_id": "concept_05210818a8",
+    "objective": "Break down and compare the concept of Emf from changing coil orientation.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_d5beae6da1",
+    "concept_id": "concept_05210818a8",
+    "objective": "Critique and justify decisions about the concept of Emf from changing coil orientation.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_3d8a88acea",
+    "concept_id": "concept_05210818a8",
+    "objective": "Design or produce something using the concept of Emf from changing coil orientation.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_894aa4e7c5",
+    "concept_id": "concept_1e6c744d80",
+    "objective": "Recall and state the concept of Self-inductance of a coil.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_d16cdcbd9b",
+    "concept_id": "concept_1e6c744d80",
+    "objective": "Explain in your own words the concept of Self-inductance of a coil.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_62364fbcf5",
+    "concept_id": "concept_1e6c744d80",
+    "objective": "Apply to a new situation the concept of Self-inductance of a coil.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_f22ce9e902",
+    "concept_id": "concept_1e6c744d80",
+    "objective": "Break down and compare the concept of Self-inductance of a coil.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_e26889a838",
+    "concept_id": "concept_1e6c744d80",
+    "objective": "Critique and justify decisions about the concept of Self-inductance of a coil.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_4b0e2c336b",
+    "concept_id": "concept_1e6c744d80",
+    "objective": "Design or produce something using the concept of Self-inductance of a coil.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_ef6f7cd847",
+    "concept_id": "concept_9536cc79c4",
+    "objective": "Recall and state the concept of Self-inductance of a circular coil.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_bd2776e9b6",
+    "concept_id": "concept_9536cc79c4",
+    "objective": "Explain in your own words the concept of Self-inductance of a circular coil.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_ebe5f13134",
+    "concept_id": "concept_9536cc79c4",
+    "objective": "Apply to a new situation the concept of Self-inductance of a circular coil.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_761f67252b",
+    "concept_id": "concept_9536cc79c4",
+    "objective": "Break down and compare the concept of Self-inductance of a circular coil.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_a35acc05a8",
+    "concept_id": "concept_9536cc79c4",
+    "objective": "Critique and justify decisions about the concept of Self-inductance of a circular coil.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_a9ac7537f2",
+    "concept_id": "concept_9536cc79c4",
+    "objective": "Design or produce something using the concept of Self-inductance of a circular coil.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_adbfff4f14",
+    "concept_id": "concept_6cd4d53f38",
+    "objective": "Recall and state the concept of Energy stored in an inductor.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_8e26ff8225",
+    "concept_id": "concept_6cd4d53f38",
+    "objective": "Explain in your own words the concept of Energy stored in an inductor.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_b7a603e85f",
+    "concept_id": "concept_6cd4d53f38",
+    "objective": "Apply to a new situation the concept of Energy stored in an inductor.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_e0ce127651",
+    "concept_id": "concept_6cd4d53f38",
+    "objective": "Break down and compare the concept of Energy stored in an inductor.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_eef8ef7e5f",
+    "concept_id": "concept_6cd4d53f38",
+    "objective": "Critique and justify decisions about the concept of Energy stored in an inductor.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_274c48e79b",
+    "concept_id": "concept_6cd4d53f38",
+    "objective": "Design or produce something using the concept of Energy stored in an inductor.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_739cfc1738",
+    "concept_id": "concept_08736307d6",
+    "objective": "Recall and state the concept of Growth of current after switching on.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_59dce1d842",
+    "concept_id": "concept_08736307d6",
+    "objective": "Explain in your own words the concept of Growth of current after switching on.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_1cfe438cd9",
+    "concept_id": "concept_08736307d6",
+    "objective": "Apply to a new situation the concept of Growth of current after switching on.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_97a161acfe",
+    "concept_id": "concept_08736307d6",
+    "objective": "Break down and compare the concept of Growth of current after switching on.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_e9d2c7d776",
+    "concept_id": "concept_08736307d6",
+    "objective": "Critique and justify decisions about the concept of Growth of current after switching on.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_0603efb245",
+    "concept_id": "concept_08736307d6",
+    "objective": "Design or produce something using the concept of Growth of current after switching on.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_d40c656da8",
+    "concept_id": "concept_79d3dd9c51",
+    "objective": "Recall and state the concept of Decay of current after switching off.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_9a40bfc6c8",
+    "concept_id": "concept_79d3dd9c51",
+    "objective": "Explain in your own words the concept of Decay of current after switching off.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_0e209d3408",
+    "concept_id": "concept_79d3dd9c51",
+    "objective": "Apply to a new situation the concept of Decay of current after switching off.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_ea68ae72c2",
+    "concept_id": "concept_79d3dd9c51",
+    "objective": "Break down and compare the concept of Decay of current after switching off.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_18bef23077",
+    "concept_id": "concept_79d3dd9c51",
+    "objective": "Critique and justify decisions about the concept of Decay of current after switching off.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_3bb34cd297",
+    "concept_id": "concept_79d3dd9c51",
+    "objective": "Design or produce something using the concept of Decay of current after switching off.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_ee7398f3ed",
+    "concept_id": "concept_19fc9d8e17",
+    "objective": "Recall and state the concept of Mutual induction.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_97c6effa4f",
+    "concept_id": "concept_19fc9d8e17",
+    "objective": "Explain in your own words the concept of Mutual induction.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_bf665ef154",
+    "concept_id": "concept_19fc9d8e17",
+    "objective": "Apply to a new situation the concept of Mutual induction.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_02486bb943",
+    "concept_id": "concept_19fc9d8e17",
+    "objective": "Break down and compare the concept of Mutual induction.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_cf9361d4af",
+    "concept_id": "concept_19fc9d8e17",
+    "objective": "Critique and justify decisions about the concept of Mutual induction.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_ea0598eb11",
+    "concept_id": "concept_19fc9d8e17",
+    "objective": "Design or produce something using the concept of Mutual induction.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_b53530f176",
+    "concept_id": "concept_12146cc5b6",
+    "objective": "Recall and state the concept of Mutual inductance of coupled coils.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_ee0330d6de",
+    "concept_id": "concept_12146cc5b6",
+    "objective": "Explain in your own words the concept of Mutual inductance of coupled coils.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_0c5242ccb1",
+    "concept_id": "concept_12146cc5b6",
+    "objective": "Apply to a new situation the concept of Mutual inductance of coupled coils.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_44d714a954",
+    "concept_id": "concept_12146cc5b6",
+    "objective": "Break down and compare the concept of Mutual inductance of coupled coils.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_f365714bc8",
+    "concept_id": "concept_12146cc5b6",
+    "objective": "Critique and justify decisions about the concept of Mutual inductance of coupled coils.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_17782bfebf",
+    "concept_id": "concept_12146cc5b6",
+    "objective": "Design or produce something using the concept of Mutual inductance of coupled coils.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_0c00667e34",
+    "concept_id": "concept_cd149ebd0e",
+    "objective": "Recall and state the concept of Inductors in series without mutual coupling.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_a12658ef66",
+    "concept_id": "concept_cd149ebd0e",
+    "objective": "Explain in your own words the concept of Inductors in series without mutual coupling.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_df04f0a812",
+    "concept_id": "concept_cd149ebd0e",
+    "objective": "Apply to a new situation the concept of Inductors in series without mutual coupling.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_d5a63fa763",
+    "concept_id": "concept_cd149ebd0e",
+    "objective": "Break down and compare the concept of Inductors in series without mutual coupling.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_1fcd532fc3",
+    "concept_id": "concept_cd149ebd0e",
+    "objective": "Critique and justify decisions about the concept of Inductors in series without mutual coupling.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_2a20cf2545",
+    "concept_id": "concept_cd149ebd0e",
+    "objective": "Design or produce something using the concept of Inductors in series without mutual coupling.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_e9c2959c38",
+    "concept_id": "concept_43fc18b0f9",
+    "objective": "Recall and state the concept of Inductors in parallel without mutual coupling.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_a6d0b9dde3",
+    "concept_id": "concept_43fc18b0f9",
+    "objective": "Explain in your own words the concept of Inductors in parallel without mutual coupling.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_014ef5c064",
+    "concept_id": "concept_43fc18b0f9",
+    "objective": "Apply to a new situation the concept of Inductors in parallel without mutual coupling.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_a9e623aacf",
+    "concept_id": "concept_43fc18b0f9",
+    "objective": "Break down and compare the concept of Inductors in parallel without mutual coupling.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_ad107f9f12",
+    "concept_id": "concept_43fc18b0f9",
+    "objective": "Critique and justify decisions about the concept of Inductors in parallel without mutual coupling.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_0fd9353295",
+    "concept_id": "concept_43fc18b0f9",
+    "objective": "Design or produce something using the concept of Inductors in parallel without mutual coupling.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_2c624f5102",
+    "concept_id": "concept_6bb4417781",
+    "objective": "Recall and state the concept of Sinusoidal alternating current and emf.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_deb12c737d",
+    "concept_id": "concept_6bb4417781",
+    "objective": "Explain in your own words the concept of Sinusoidal alternating current and emf.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_58847c8320",
+    "concept_id": "concept_6bb4417781",
+    "objective": "Apply to a new situation the concept of Sinusoidal alternating current and emf.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_ea8f29e205",
+    "concept_id": "concept_6bb4417781",
+    "objective": "Break down and compare the concept of Sinusoidal alternating current and emf.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_20bfca21ed",
+    "concept_id": "concept_6bb4417781",
+    "objective": "Critique and justify decisions about the concept of Sinusoidal alternating current and emf.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_b95752211c",
+    "concept_id": "concept_6bb4417781",
+    "objective": "Design or produce something using the concept of Sinusoidal alternating current and emf.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_060aa3c1a5",
+    "concept_id": "concept_b680bd6489",
+    "objective": "Recall and state the concept of RMS value of alternating current and voltage.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_6d14d5aac7",
+    "concept_id": "concept_b680bd6489",
+    "objective": "Explain in your own words the concept of RMS value of alternating current and voltage.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_fd16de5185",
+    "concept_id": "concept_b680bd6489",
+    "objective": "Apply to a new situation the concept of RMS value of alternating current and voltage.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_b9f79dcb6b",
+    "concept_id": "concept_b680bd6489",
+    "objective": "Break down and compare the concept of RMS value of alternating current and voltage.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_8c75ff4846",
+    "concept_id": "concept_b680bd6489",
+    "objective": "Critique and justify decisions about the concept of RMS value of alternating current and voltage.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_34cd5b8b97",
+    "concept_id": "concept_b680bd6489",
+    "objective": "Design or produce something using the concept of RMS value of alternating current and voltage.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_346b0f1db1",
+    "concept_id": "concept_739b563448",
+    "objective": "Recall and state the concept of Average value of alternating current.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_287e3fed42",
+    "concept_id": "concept_739b563448",
+    "objective": "Explain in your own words the concept of Average value of alternating current.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_850f31cfde",
+    "concept_id": "concept_739b563448",
+    "objective": "Apply to a new situation the concept of Average value of alternating current.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_c92ffe3342",
+    "concept_id": "concept_739b563448",
+    "objective": "Break down and compare the concept of Average value of alternating current.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_8ff72cd1c6",
+    "concept_id": "concept_739b563448",
+    "objective": "Critique and justify decisions about the concept of Average value of alternating current.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_c5267ee970",
+    "concept_id": "concept_739b563448",
+    "objective": "Design or produce something using the concept of Average value of alternating current.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_4ea04a30da",
+    "concept_id": "concept_5e46c6f8a7",
+    "objective": "Recall and state the concept of AC circuit containing resistance only.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_54943a530c",
+    "concept_id": "concept_5e46c6f8a7",
+    "objective": "Explain in your own words the concept of AC circuit containing resistance only.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_bd4bc3a92f",
+    "concept_id": "concept_5e46c6f8a7",
+    "objective": "Apply to a new situation the concept of AC circuit containing resistance only.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_c628d2054f",
+    "concept_id": "concept_5e46c6f8a7",
+    "objective": "Break down and compare the concept of AC circuit containing resistance only.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_b6ea3da14d",
+    "concept_id": "concept_5e46c6f8a7",
+    "objective": "Critique and justify decisions about the concept of AC circuit containing resistance only.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_73901d4b9c",
+    "concept_id": "concept_5e46c6f8a7",
+    "objective": "Design or produce something using the concept of AC circuit containing resistance only.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_e019aa10b4",
+    "concept_id": "concept_fffb4e0618",
+    "objective": "Recall and state the concept of AC circuit containing an inductor only.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_e6d5f69107",
+    "concept_id": "concept_fffb4e0618",
+    "objective": "Explain in your own words the concept of AC circuit containing an inductor only.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_caefa97797",
+    "concept_id": "concept_fffb4e0618",
+    "objective": "Apply to a new situation the concept of AC circuit containing an inductor only.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_197327227f",
+    "concept_id": "concept_fffb4e0618",
+    "objective": "Break down and compare the concept of AC circuit containing an inductor only.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_5775c17d5f",
+    "concept_id": "concept_fffb4e0618",
+    "objective": "Critique and justify decisions about the concept of AC circuit containing an inductor only.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_e9ae40734e",
+    "concept_id": "concept_fffb4e0618",
+    "objective": "Design or produce something using the concept of AC circuit containing an inductor only.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_a434d03ff8",
+    "concept_id": "concept_f29fcaaad0",
+    "objective": "Recall and state the concept of AC circuit containing a capacitor only.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_481f880a17",
+    "concept_id": "concept_f29fcaaad0",
+    "objective": "Explain in your own words the concept of AC circuit containing a capacitor only.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_6267046361",
+    "concept_id": "concept_f29fcaaad0",
+    "objective": "Apply to a new situation the concept of AC circuit containing a capacitor only.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_1a02ab866f",
+    "concept_id": "concept_f29fcaaad0",
+    "objective": "Break down and compare the concept of AC circuit containing a capacitor only.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_a082e356f2",
+    "concept_id": "concept_f29fcaaad0",
+    "objective": "Critique and justify decisions about the concept of AC circuit containing a capacitor only.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_d57c5b3b51",
+    "concept_id": "concept_f29fcaaad0",
+    "objective": "Design or produce something using the concept of AC circuit containing a capacitor only.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_64c0bbac20",
+    "concept_id": "concept_19626bf476",
+    "objective": "Recall and state the concept of Impedance of a resistor and inductor in series.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_1520000057",
+    "concept_id": "concept_19626bf476",
+    "objective": "Explain in your own words the concept of Impedance of a resistor and inductor in series.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_707ec17613",
+    "concept_id": "concept_19626bf476",
+    "objective": "Apply to a new situation the concept of Impedance of a resistor and inductor in series.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_25fe73b74f",
+    "concept_id": "concept_19626bf476",
+    "objective": "Break down and compare the concept of Impedance of a resistor and inductor in series.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_f72e3d3736",
+    "concept_id": "concept_19626bf476",
+    "objective": "Critique and justify decisions about the concept of Impedance of a resistor and inductor in series.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_1cdf9e5f8d",
+    "concept_id": "concept_19626bf476",
+    "objective": "Design or produce something using the concept of Impedance of a resistor and inductor in series.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_d30d5948ee",
+    "concept_id": "concept_4679caf6b0",
+    "objective": "Recall and state the concept of Average power.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_dbf4f633f7",
+    "concept_id": "concept_4679caf6b0",
+    "objective": "Explain in your own words the concept of Average power.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_89b35966ac",
+    "concept_id": "concept_4679caf6b0",
+    "objective": "Apply to a new situation the concept of Average power.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_1f983132a1",
+    "concept_id": "concept_4679caf6b0",
+    "objective": "Break down and compare the concept of Average power.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_f1de6c9943",
+    "concept_id": "concept_4679caf6b0",
+    "objective": "Critique and justify decisions about the concept of Average power.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_9506cd3197",
+    "concept_id": "concept_4679caf6b0",
+    "objective": "Design or produce something using the concept of Average power.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_ae302c7df8",
+    "concept_id": "concept_eab7c7445e",
+    "objective": "Recall and state the concept of Impedance of an R-C circuit.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_c73cedd451",
+    "concept_id": "concept_eab7c7445e",
+    "objective": "Explain in your own words the concept of Impedance of an R-C circuit.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_ed4947147e",
+    "concept_id": "concept_eab7c7445e",
+    "objective": "Apply to a new situation the concept of Impedance of an R-C circuit.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_0529cb79e2",
+    "concept_id": "concept_eab7c7445e",
+    "objective": "Break down and compare the concept of Impedance of an R-C circuit.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_99622faa01",
+    "concept_id": "concept_eab7c7445e",
+    "objective": "Critique and justify decisions about the concept of Impedance of an R-C circuit.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_6c1db63079",
+    "concept_id": "concept_eab7c7445e",
+    "objective": "Design or produce something using the concept of Impedance of an R-C circuit.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_bf290dd182",
+    "concept_id": "concept_8d88f13615",
+    "objective": "Recall and state the concept of Impedance.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_549455e6c3",
+    "concept_id": "concept_8d88f13615",
+    "objective": "Explain in your own words the concept of Impedance.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_af4104d75b",
+    "concept_id": "concept_8d88f13615",
+    "objective": "Apply to a new situation the concept of Impedance.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_10469d33ef",
+    "concept_id": "concept_8d88f13615",
+    "objective": "Break down and compare the concept of Impedance.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_53ba1caef5",
+    "concept_id": "concept_8d88f13615",
+    "objective": "Critique and justify decisions about the concept of Impedance.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_97e2c4d896",
+    "concept_id": "concept_8d88f13615",
+    "objective": "Design or produce something using the concept of Impedance.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_4c2676458e",
+    "concept_id": "concept_41ccbd759e",
+    "objective": "Recall and state the concept of Phase relationship.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_73bd0379c0",
+    "concept_id": "concept_41ccbd759e",
+    "objective": "Explain in your own words the concept of Phase relationship.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_d37e4e8c04",
+    "concept_id": "concept_41ccbd759e",
+    "objective": "Apply to a new situation the concept of Phase relationship.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_87f41293a6",
+    "concept_id": "concept_41ccbd759e",
+    "objective": "Break down and compare the concept of Phase relationship.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_b11d5deb24",
+    "concept_id": "concept_41ccbd759e",
+    "objective": "Critique and justify decisions about the concept of Phase relationship.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_1118a21642",
+    "concept_id": "concept_41ccbd759e",
+    "objective": "Design or produce something using the concept of Phase relationship.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_20c3a0fb56",
+    "concept_id": "concept_02c2da5105",
+    "objective": "Recall and state the concept of Resonance frequency.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_d9368315bf",
+    "concept_id": "concept_02c2da5105",
+    "objective": "Explain in your own words the concept of Resonance frequency.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_fc239abeb0",
+    "concept_id": "concept_02c2da5105",
+    "objective": "Apply to a new situation the concept of Resonance frequency.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_78f733c360",
+    "concept_id": "concept_02c2da5105",
+    "objective": "Break down and compare the concept of Resonance frequency.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_1986e83c86",
+    "concept_id": "concept_02c2da5105",
+    "objective": "Critique and justify decisions about the concept of Resonance frequency.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_e57c808245",
+    "concept_id": "concept_02c2da5105",
+    "objective": "Design or produce something using the concept of Resonance frequency.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_7fb77c766f",
+    "concept_id": "concept_d09c525f74",
+    "objective": "Recall and state the concept of Quality factor.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_e5bf7be041",
+    "concept_id": "concept_d09c525f74",
+    "objective": "Explain in your own words the concept of Quality factor.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_f8c4289224",
+    "concept_id": "concept_d09c525f74",
+    "objective": "Apply to a new situation the concept of Quality factor.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_af9232b4de",
+    "concept_id": "concept_d09c525f74",
+    "objective": "Break down and compare the concept of Quality factor.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_3289d403d9",
+    "concept_id": "concept_d09c525f74",
+    "objective": "Critique and justify decisions about the concept of Quality factor.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_a7495fa390",
+    "concept_id": "concept_d09c525f74",
+    "objective": "Design or produce something using the concept of Quality factor.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_ba099846a9",
+    "concept_id": "concept_04da8ecccc",
+    "objective": "Recall and state the concept of Transformer operation.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_e451081630",
+    "concept_id": "concept_04da8ecccc",
+    "objective": "Explain in your own words the concept of Transformer operation.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_3bfe3892ad",
+    "concept_id": "concept_04da8ecccc",
+    "objective": "Apply to a new situation the concept of Transformer operation.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_dc4f3b1c94",
+    "concept_id": "concept_04da8ecccc",
+    "objective": "Break down and compare the concept of Transformer operation.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_e53105e48c",
+    "concept_id": "concept_04da8ecccc",
+    "objective": "Critique and justify decisions about the concept of Transformer operation.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_3f99c06af8",
+    "concept_id": "concept_04da8ecccc",
+    "objective": "Design or produce something using the concept of Transformer operation.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_8f158995af",
+    "concept_id": "concept_52faab1a94",
+    "objective": "Recall and state the concept of Voltage transformation.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_702dfe2a22",
+    "concept_id": "concept_52faab1a94",
+    "objective": "Explain in your own words the concept of Voltage transformation.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_2fbd27a16a",
+    "concept_id": "concept_52faab1a94",
+    "objective": "Apply to a new situation the concept of Voltage transformation.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_8d6b3e2a72",
+    "concept_id": "concept_52faab1a94",
+    "objective": "Break down and compare the concept of Voltage transformation.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_a872597157",
+    "concept_id": "concept_52faab1a94",
+    "objective": "Critique and justify decisions about the concept of Voltage transformation.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_bd2ac28798",
+    "concept_id": "concept_52faab1a94",
+    "objective": "Design or produce something using the concept of Voltage transformation.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_9b09b2a62e",
+    "concept_id": "concept_258c353dd8",
+    "objective": "Recall and state the concept of Transformer efficiency.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_a60ca96695",
+    "concept_id": "concept_258c353dd8",
+    "objective": "Explain in your own words the concept of Transformer efficiency.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_c38a05e897",
+    "concept_id": "concept_258c353dd8",
+    "objective": "Apply to a new situation the concept of Transformer efficiency.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_8f689441a5",
+    "concept_id": "concept_258c353dd8",
+    "objective": "Break down and compare the concept of Transformer efficiency.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_79bd740b69",
+    "concept_id": "concept_258c353dd8",
+    "objective": "Critique and justify decisions about the concept of Transformer efficiency.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_e335ba8a7e",
+    "concept_id": "concept_258c353dd8",
+    "objective": "Design or produce something using the concept of Transformer efficiency.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  }
+]

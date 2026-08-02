@@ -1,0 +1,258 @@
+[
+  {
+    "competency_id": "comp_b40cf6cd7e",
+    "concept_id": "concept_7693272a7d",
+    "concept_name": "Magnetic flux through a surface",
+    "skill": "Compute using Magnetic flux through a surface",
+    "outcome": "Learner can select and apply Magnetic flux through a surface to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_a4411afe17",
+    "concept_id": "concept_f8eaf41ca7",
+    "concept_name": "Gauss’ law for magnetism",
+    "skill": "Compute using Gauss’ law for magnetism",
+    "outcome": "Learner can select and apply Gauss’ law for magnetism to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_97d0354767",
+    "concept_id": "concept_2a665274e3",
+    "concept_name": "Induced electromotive force",
+    "skill": "Compute using Induced electromotive force",
+    "outcome": "Learner can select and apply Induced electromotive force to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_533a7a63e6",
+    "concept_id": "concept_549729587d",
+    "concept_name": "Direction of induced emf",
+    "skill": "Compute using Direction of induced emf",
+    "outcome": "Learner can select and apply Direction of induced emf to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_939862a6c0",
+    "concept_id": "concept_5975bf7946",
+    "concept_name": "Charge transferred by induction",
+    "skill": "Compute using Charge transferred by induction",
+    "outcome": "Learner can select and apply Charge transferred by induction to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_1af52984e5",
+    "concept_id": "concept_9254b1d6a8",
+    "concept_name": "Emf produced by a moving conductor",
+    "skill": "Compute using Emf produced by a moving conductor",
+    "outcome": "Learner can select and apply Emf produced by a moving conductor to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_a08247b36e",
+    "concept_id": "concept_05210818a8",
+    "concept_name": "Emf from changing coil orientation",
+    "skill": "Compute using Emf from changing coil orientation",
+    "outcome": "Learner can select and apply Emf from changing coil orientation to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_92d61fd059",
+    "concept_id": "concept_1e6c744d80",
+    "concept_name": "Self-inductance of a coil",
+    "skill": "Compute using Self-inductance of a coil",
+    "outcome": "Learner can select and apply Self-inductance of a coil to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_aa11979e53",
+    "concept_id": "concept_9536cc79c4",
+    "concept_name": "Self-inductance of a circular coil",
+    "skill": "Compute using Self-inductance of a circular coil",
+    "outcome": "Learner can select and apply Self-inductance of a circular coil to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_9ab2f6d6ff",
+    "concept_id": "concept_6cd4d53f38",
+    "concept_name": "Energy stored in an inductor",
+    "skill": "Compute using Energy stored in an inductor",
+    "outcome": "Learner can select and apply Energy stored in an inductor to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_d6a4114ead",
+    "concept_id": "concept_08736307d6",
+    "concept_name": "Growth of current after switching on",
+    "skill": "Compute using Growth of current after switching on",
+    "outcome": "Learner can select and apply Growth of current after switching on to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_426bf733f8",
+    "concept_id": "concept_79d3dd9c51",
+    "concept_name": "Decay of current after switching off",
+    "skill": "Compute using Decay of current after switching off",
+    "outcome": "Learner can select and apply Decay of current after switching off to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_bbb6f0f85f",
+    "concept_id": "concept_19fc9d8e17",
+    "concept_name": "Mutual induction",
+    "skill": "Compute using Mutual induction",
+    "outcome": "Learner can select and apply Mutual induction to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_3bc6a73c8e",
+    "concept_id": "concept_12146cc5b6",
+    "concept_name": "Mutual inductance of coupled coils",
+    "skill": "Compute using Mutual inductance of coupled coils",
+    "outcome": "Learner can select and apply Mutual inductance of coupled coils to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_c84a342999",
+    "concept_id": "concept_cd149ebd0e",
+    "concept_name": "Inductors in series without mutual coupling",
+    "skill": "Compute using Inductors in series without mutual coupling",
+    "outcome": "Learner can select and apply Inductors in series without mutual coupling to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_7c32112ac8",
+    "concept_id": "concept_43fc18b0f9",
+    "concept_name": "Inductors in parallel without mutual coupling",
+    "skill": "Compute using Inductors in parallel without mutual coupling",
+    "outcome": "Learner can select and apply Inductors in parallel without mutual coupling to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_685222ecd3",
+    "concept_id": "concept_6bb4417781",
+    "concept_name": "Sinusoidal alternating current and emf",
+    "skill": "Compute using Sinusoidal alternating current and emf",
+    "outcome": "Learner can select and apply Sinusoidal alternating current and emf to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_5c3172a77a",
+    "concept_id": "concept_b680bd6489",
+    "concept_name": "RMS value of alternating current and voltage",
+    "skill": "Compute using RMS value of alternating current and voltage",
+    "outcome": "Learner can select and apply RMS value of alternating current and voltage to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_b8e962ec50",
+    "concept_id": "concept_739b563448",
+    "concept_name": "Average value of alternating current",
+    "skill": "Compute using Average value of alternating current",
+    "outcome": "Learner can select and apply Average value of alternating current to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_65f8e59f3f",
+    "concept_id": "concept_5e46c6f8a7",
+    "concept_name": "AC circuit containing resistance only",
+    "skill": "Compute using AC circuit containing resistance only",
+    "outcome": "Learner can select and apply AC circuit containing resistance only to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_f08dce434c",
+    "concept_id": "concept_fffb4e0618",
+    "concept_name": "AC circuit containing an inductor only",
+    "skill": "Compute using AC circuit containing an inductor only",
+    "outcome": "Learner can select and apply AC circuit containing an inductor only to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_b71b599d76",
+    "concept_id": "concept_f29fcaaad0",
+    "concept_name": "AC circuit containing a capacitor only",
+    "skill": "Compute using AC circuit containing a capacitor only",
+    "outcome": "Learner can select and apply AC circuit containing a capacitor only to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_753fee877b",
+    "concept_id": "concept_19626bf476",
+    "concept_name": "Impedance of a resistor and inductor in series",
+    "skill": "Compute using Impedance of a resistor and inductor in series",
+    "outcome": "Learner can select and apply Impedance of a resistor and inductor in series to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_30f814d320",
+    "concept_id": "concept_4679caf6b0",
+    "concept_name": "Average power",
+    "skill": "Compute using Average power",
+    "outcome": "Learner can select and apply Average power to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_a8fe8b90d4",
+    "concept_id": "concept_eab7c7445e",
+    "concept_name": "Impedance of an R-C circuit",
+    "skill": "Compute using Impedance of an R-C circuit",
+    "outcome": "Learner can select and apply Impedance of an R-C circuit to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_f3ef91eb7a",
+    "concept_id": "concept_8d88f13615",
+    "concept_name": "Impedance",
+    "skill": "Compute using Impedance",
+    "outcome": "Learner can select and apply Impedance to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_bbd38e2bd5",
+    "concept_id": "concept_41ccbd759e",
+    "concept_name": "Phase relationship",
+    "skill": "Compute using Phase relationship",
+    "outcome": "Learner can select and apply Phase relationship to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_93422fcb06",
+    "concept_id": "concept_02c2da5105",
+    "concept_name": "Resonance frequency",
+    "skill": "Compute using Resonance frequency",
+    "outcome": "Learner can select and apply Resonance frequency to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_a8deee3b94",
+    "concept_id": "concept_d09c525f74",
+    "concept_name": "Quality factor",
+    "skill": "Compute using Quality factor",
+    "outcome": "Learner can select and apply Quality factor to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_d52d3bc889",
+    "concept_id": "concept_04da8ecccc",
+    "concept_name": "Transformer operation",
+    "skill": "Compute using Transformer operation",
+    "outcome": "Learner can select and apply Transformer operation to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_e5c6b3bfae",
+    "concept_id": "concept_52faab1a94",
+    "concept_name": "Voltage transformation",
+    "skill": "Compute using Voltage transformation",
+    "outcome": "Learner can select and apply Voltage transformation to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_16bf5fbccb",
+    "concept_id": "concept_258c353dd8",
+    "concept_name": "Transformer efficiency",
+    "skill": "Compute using Transformer efficiency",
+    "outcome": "Learner can select and apply Transformer efficiency to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  }
+]

@@ -1,0 +1,471 @@
+{
+  "key": "5.2",
+  "topic": "5.2 Number Sequences",
+  "questions": [
+    {
+      "question": {
+        "id": "ac0a4f2a-7b2d-5470-8021-4a9464a04e07",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "An arithmetic progression has first term \\(5\\) and the sum of its first \\(10\\) terms is \\(155\\). A geometric progression has common ratio \\(5\\), and the sum of its first two terms is \\(9\\). Find the common difference of the arithmetic progression and the first term of the geometric progression.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For the arithmetic progression, \\(155=\\frac{10}{2}[2(5)+9d]\\), giving \\(d=\\frac{7}{3}\\). For the geometric progression, \\(b+5b=9\\), hence \\(b=\\frac{3}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 101,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "5.2 Number Sequences",
+            "concept_ids": [
+              "concept_2bfece366b",
+              "concept_631a52d707"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              97,
+              98,
+              99,
+              232,
+              233,
+              234
+            ],
+            "source_chunk_ids": [
+              "chunk_aca5f433c0",
+              "chunk_4e30edc993"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_frac_7_3_frac_3_2_r_1",
+              "label": "\\(\\left(\\frac{7}{3},\\frac{3}{2}\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Using \\(S_{10}=5(2\\cdot5+9d)=155\\), \\(d=\\frac{7}{3}\\); also \\(b(1+5)=9\\), so \\(b=\\frac{3}{2}\\)."
+            },
+            {
+              "id": "left_frac_3_2_frac_7_3_r_2",
+              "label": "\\(\\left(\\frac{3}{2},\\frac{7}{3}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two values are assigned to the wrong progressions."
+            },
+            {
+              "id": "left_frac_5_3_frac_9_5_r_3",
+              "label": "\\(\\left(\\frac{5}{3},\\frac{9}{5}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These values do not satisfy the given sums."
+            },
+            {
+              "id": "left_3_frac_7_3_right_4",
+              "label": "\\(\\left(3,\\frac{7}{3}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The geometric progression would have first two terms summing to \\(18\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "822b76b6-9a6a-59e9-ad06-ada334530e0b",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The sum of the first \\(n\\) terms of a geometric progression is \\(S_n=3(2^n-1)\\). What is its fifth term?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The \\(n\\)-th term is \\(a_n=S_n-S_{n-1}=3(2^n-1)-3(2^{n-1}-1)=3\\cdot2^{n-1}\\). Therefore, \\(a_5=3\\cdot2^4=48\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 102,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "5.2 Number Sequences",
+            "concept_ids": [
+              "concept_2bfece366b",
+              "concept_631a52d707"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              97,
+              98,
+              99,
+              232,
+              233,
+              234
+            ],
+            "source_chunk_ids": [
+              "chunk_aca5f433c0",
+              "chunk_4e30edc993"
+            ]
+          },
+          "options": [
+            {
+              "id": "24_1",
+              "label": "\\(24\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the fourth term, not the fifth."
+            },
+            {
+              "id": "36_2",
+              "label": "\\(36\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not follow the common ratio obtained from the sums."
+            },
+            {
+              "id": "48_3",
+              "label": "\\(48\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(a_n=S_n-S_{n-1}=3\\cdot2^{n-1}\\), so \\(a_5=48\\)."
+            },
+            {
+              "id": "96_4",
+              "label": "\\(96\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is twice the actual fifth term."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "3b8a8479-ee27-5c61-abf8-84cefed3392c",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A sequence is defined by \\(a_1=1\\) and \\(a_{n+1}=2a_n+3\\) for \\(n\\geq1\\). Find \\(a_8\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(b_n=a_n+3\\). Then \\(b_{n+1}=2b_n\\) and \\(b_1=4\\), so \\(a_n=4\\cdot2^{n-1}-3\\). Hence \\(a_8=4\\cdot2^7-3=509\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 103,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "5.2 Number Sequences",
+            "concept_ids": [
+              "concept_2bfece366b",
+              "concept_631a52d707"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              97,
+              98,
+              99,
+              232,
+              233,
+              234
+            ],
+            "source_chunk_ids": [
+              "chunk_aca5f433c0",
+              "chunk_4e30edc993"
+            ]
+          },
+          "options": [
+            {
+              "id": "253_1",
+              "label": "\\(253\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not obtained from the recurrence after eight terms."
+            },
+            {
+              "id": "509_2",
+              "label": "\\(509\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The closed form is \\(a_n=4\\cdot2^{n-1}-3\\), giving \\(a_8=509\\)."
+            },
+            {
+              "id": "512_3",
+              "label": "\\(512\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The constant term \\(-3\\) is omitted."
+            },
+            {
+              "id": "1021_4",
+              "label": "\\(1021\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This corresponds to advancing one extra recurrence step."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "dcfcba07-3128-5f42-8dc7-657c92645eac",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Three numbers are in increasing arithmetic progression. Their sum is \\(15\\), and the sum of their squares is \\(83\\). Find the common difference.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let the terms be \\(5-d,5,5+d\\). Then \\((5-d)^2+25+(5+d)^2=83\\), so \\(75+2d^2=83\\). Thus \\(d^2=4\\), and increasing order gives \\(d=2\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 104,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "5.2 Number Sequences",
+            "concept_ids": [
+              "concept_2bfece366b",
+              "concept_631a52d707"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              97,
+              98,
+              99,
+              232,
+              233,
+              234
+            ],
+            "source_chunk_ids": [
+              "chunk_aca5f433c0",
+              "chunk_4e30edc993"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_1",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives a sum of squares equal to \\(77\\)."
+            },
+            {
+              "id": "2_2",
+              "label": "\\(2\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Writing the terms as \\(5-d,5,5+d\\) gives \\(75+2d^2=83\\), so \\(d=2\\)."
+            },
+            {
+              "id": "3_3",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives a sum of squares equal to \\(93\\)."
+            },
+            {
+              "id": "4_4",
+              "label": "\\(4\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives a sum of squares equal to \\(107\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "32fdf7e6-426e-5651-a289-36ef6734f607",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Three positive numbers are inserted between \\(2\\) and \\(162\\) so that the resulting five numbers form a geometric progression. Find the sum of the three inserted numbers.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "If the common ratio is \\(r\\), then \\(2r^4=162\\), so \\(r^4=81\\). Since the terms are positive and increasing, \\(r=3\\). The progression is \\(2,6,18,54,162\\), and the required sum is \\(6+18+54=78\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 105,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "5.2 Number Sequences",
+            "concept_ids": [
+              "concept_2bfece366b",
+              "concept_631a52d707"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              97,
+              98,
+              99,
+              232,
+              233,
+              234
+            ],
+            "source_chunk_ids": [
+              "chunk_aca5f433c0",
+              "chunk_4e30edc993"
+            ]
+          },
+          "options": [
+            {
+              "id": "72_1",
+              "label": "\\(72\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not match the geometric progression with five terms."
+            },
+            {
+              "id": "76_2",
+              "label": "\\(76\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inserted terms have a different total."
+            },
+            {
+              "id": "78_3",
+              "label": "\\(78\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The progression is \\(2,6,18,54,162\\), whose inserted terms sum to \\(78\\)."
+            },
+            {
+              "id": "80_4",
+              "label": "\\(80\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not the sum of the three intermediate terms."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_aca5f433c0",
+    "chunk_4e30edc993"
+  ],
+  "source_pages": [
+    97,
+    98,
+    99,
+    232,
+    233,
+    234
+  ],
+  "rejected": []
+}

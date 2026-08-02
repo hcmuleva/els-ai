@@ -1,0 +1,541 @@
+{
+  "key": "8.2",
+  "topic": "8.2 Problems on Combinations of Polyhedra",
+  "questions": [
+    {
+      "question": {
+        "id": "4205a270-a5da-5b6a-8e5c-78241b99ca59",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A right circular cylinder has radius \\(R\\). A plane passing through the centre of its lower base makes an angle \\(\\alpha\\) with the base and cuts the upper base in a chord of length \\(b\\), which subtends a minor arc of \\(\\beta^\\circ\\) at the centre. The volume of the cylinder is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The chord relation gives \\(b=2R\\sin\\left(\\frac{\\beta}{2}\\right)\\). Its distance from the centre is \\(R\\cos\\left(\\frac{\\beta}{2}\\right)\\), so the cylinder height is \\(R\\cos\\left(\\frac{\\beta}{2}\\right)\\tan\\alpha\\). Hence \\(V=\\pi R^2h=\\frac{\\pi b^3\\tan\\alpha\\cos(\\beta/2)}{8\\sin^3(\\beta/2)}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 136,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.2 Problems on Combinations of Polyhedra",
+            "concept_ids": [
+              "concept_01295855fc",
+              "concept_40907e2e0b",
+              "concept_715e66b12a",
+              "concept_dc76038a15"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              119,
+              120,
+              121,
+              122,
+              123,
+              124,
+              125,
+              256,
+              257,
+              258,
+              259,
+              260,
+              261,
+              262
+            ],
+            "source_chunk_ids": [
+              "chunk_5d298bd0d2",
+              "chunk_57a2153674",
+              "chunk_d9e0cb09ed",
+              "chunk_b96acc8ab3"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_pi_b_3_tan_alpha_co_1",
+              "label": "\\(\\frac{\\pi b^3\\tan\\alpha\\cos\\left(\\frac{\\beta}{2}\\right)}{8\\sin^3\\left(\\frac{\\beta}{2}\\right)}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(R=\\frac{b}{2\\sin(\\beta/2)}\\) and height \\(=R\\cos(\\beta/2)\\tan\\alpha\\)."
+            },
+            {
+              "id": "frac_pi_b_3_tan_alpha_8_2",
+              "label": "\\(\\frac{\\pi b^3\\tan\\alpha}{8\\sin^2\\left(\\frac{\\beta}{2}\\right)}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The perpendicular distance from the centre to the chord is omitted."
+            },
+            {
+              "id": "frac_pi_b_3_cot_alpha_co_3",
+              "label": "\\(\\frac{\\pi b^3\\cot\\alpha\\cos\\left(\\frac{\\beta}{2}\\right)}{8\\sin^3\\left(\\frac{\\beta}{2}\\right)}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The height varies directly with \\(\\tan\\alpha\\), not \\(\\cot\\alpha\\)."
+            },
+            {
+              "id": "frac_pi_b_3_tan_alpha_si_4",
+              "label": "\\(\\frac{\\pi b^3\\tan\\alpha\\sin\\left(\\frac{\\beta}{2}\\right)}{8\\cos^3\\left(\\frac{\\beta}{2}\\right)}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The chord-distance relation uses cosine, while the chord length uses sine."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "2fb072fa-bd6f-5614-a454-f238636acad2",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A regular square pyramid has each lateral face making an angle \\(\\alpha\\) with its base. A sphere of radius \\(r\\) is inscribed in the pyramid. A plane through the centre of the sphere and parallel to the base cuts the pyramid. The area of the section is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let the pyramid height be \\(h\\) and base side be \\(a\\). From the axial section, \\(a=2h\\cot\\alpha\\). If \\(l\\) is the slant height, then the insphere relation gives \\(r=\\frac{h}{1+\\sec\\alpha}\\). The section through the sphere centre has side \\(a\\left(1-\\frac{r}{h}\\right)=2r\\csc\\alpha\\). Therefore its area is \\(4r^2\\csc^2\\alpha=\\frac{4r^2}{\\sin^2\\alpha}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 137,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "8.2 Problems on Combinations of Polyhedra",
+            "concept_ids": [
+              "concept_01295855fc",
+              "concept_40907e2e0b",
+              "concept_715e66b12a",
+              "concept_dc76038a15"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              119,
+              120,
+              121,
+              122,
+              123,
+              124,
+              125,
+              256,
+              257,
+              258,
+              259,
+              260,
+              261,
+              262
+            ],
+            "source_chunk_ids": [
+              "chunk_5d298bd0d2",
+              "chunk_57a2153674",
+              "chunk_d9e0cb09ed",
+              "chunk_b96acc8ab3"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_4r_2_sin_2_alpha_1",
+              "label": "\\(\\frac{4r^2}{\\sin^2\\alpha}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Similarity and the inradius relation give the section side as \\(2r\\csc\\alpha\\)."
+            },
+            {
+              "id": "4r_2_sin_2_alpha_2",
+              "label": "\\(4r^2\\sin^2\\alpha\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The section side varies inversely, not directly, with \\(\\sin\\alpha\\)."
+            },
+            {
+              "id": "frac_4r_2_cos_2_alpha_3",
+              "label": "\\(\\frac{4r^2}{\\cos^2\\alpha}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The base-side relation involves \\(\\sin\\alpha\\), not \\(\\cos\\alpha\\)."
+            },
+            {
+              "id": "frac_r_2_sin_2_alpha_4",
+              "label": "\\(\\frac{r^2}{\\sin^2\\alpha}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factor \\(4\\) from the square's side is missing."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "79018a8d-4206-5e7f-bea2-cc4696d7a53c",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A cube of side \\(a\\) has a tetrahedral cavity removed. The four vertices of the cavity are four alternate vertices of the cube, so that the cavity is a regular tetrahedron. The volume of the remaining solid is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The edge of the regular tetrahedron is the face diagonal of the cube, namely \\(a\\sqrt2\\). Thus its volume is \\(\\frac{(a\\sqrt2)^3}{6\\sqrt2}=\\frac{a^3}{3}\\). The remaining volume is \\(a^3-\\frac{a^3}{3}=\\frac{2a^3}{3}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 138,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.2 Problems on Combinations of Polyhedra",
+            "concept_ids": [
+              "concept_01295855fc",
+              "concept_40907e2e0b",
+              "concept_715e66b12a",
+              "concept_dc76038a15"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              119,
+              120,
+              121,
+              122,
+              123,
+              124,
+              125,
+              256,
+              257,
+              258,
+              259,
+              260,
+              261,
+              262
+            ],
+            "source_chunk_ids": [
+              "chunk_5d298bd0d2",
+              "chunk_57a2153674",
+              "chunk_d9e0cb09ed",
+              "chunk_b96acc8ab3"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_2a_3_3_1",
+              "label": "\\(\\frac{2a^3}{3}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The removed regular tetrahedron has volume \\(a^3/3\\)."
+            },
+            {
+              "id": "frac_a_3_3_2",
+              "label": "\\(\\frac{a^3}{3}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the volume of the removed tetrahedron, not the remainder."
+            },
+            {
+              "id": "frac_5a_3_6_3",
+              "label": "\\(\\frac{5a^3}{6}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This corresponds to removing an octahedral region of volume \\(a^3/6\\)."
+            },
+            {
+              "id": "frac_a_3_2_4",
+              "label": "\\(\\frac{a^3}{2}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The tetrahedron volume is not \\(a^3/2\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "957af250-5b7a-5f77-b05c-664819cfdd0c",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The centres of the six faces of a cube of side \\(a\\) are joined to form a regular octahedron. The ratio of the surface area of this octahedron to its volume is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The octahedron has eight equilateral triangular faces, each of side \\(a/\\sqrt2\\). Hence \\(S=8\\cdot\\frac{\\sqrt3}{4}\\cdot\\frac{a^2}{2}=\\sqrt3a^2\\). It consists of two square pyramids with common base area \\(a^2/2\\) and height \\(a/2\\), so \\(V=a^3/6\\). Therefore \\(\\frac{S}{V}=\\frac{6\\sqrt3}{a}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 139,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "8.2 Problems on Combinations of Polyhedra",
+            "concept_ids": [
+              "concept_01295855fc",
+              "concept_40907e2e0b",
+              "concept_715e66b12a",
+              "concept_dc76038a15"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              119,
+              120,
+              121,
+              122,
+              123,
+              124,
+              125,
+              256,
+              257,
+              258,
+              259,
+              260,
+              261,
+              262
+            ],
+            "source_chunk_ids": [
+              "chunk_5d298bd0d2",
+              "chunk_57a2153674",
+              "chunk_d9e0cb09ed",
+              "chunk_b96acc8ab3"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_6_sqrt3_a_1",
+              "label": "\\(\\frac{6\\sqrt3}{a}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Its surface area is \\(\\sqrt3a^2\\) and volume is \\(a^3/6\\)."
+            },
+            {
+              "id": "frac_3_sqrt3_a_2",
+              "label": "\\(\\frac{3\\sqrt3}{a}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The volume is divided by an incorrect factor."
+            },
+            {
+              "id": "frac_12_sqrt3_a_3",
+              "label": "\\(\\frac{12\\sqrt3}{a}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The surface area has been effectively doubled."
+            },
+            {
+              "id": "frac_sqrt3_6a_4",
+              "label": "\\(\\frac{\\sqrt3}{6a}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The ratio reverses the scale of surface area and volume."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "950efe1f-27d5-59a8-af22-973998e23ac1",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A regular square pyramid of base side \\(a\\) and height \\(a\\) is erected externally on the top face of a cube of side \\(a\\). The ratio of the volume of the resulting solid to its exposed surface area is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The pyramid's slant height is \\(\\ell=\\sqrt{a^2+(a/2)^2}=\\frac{a\\sqrt5}{2}\\). Its lateral area is \\(2a\\ell=a^2\\sqrt5\\). The cube contributes \\(5a^2\\) to the exposed area, so \\(S=a^2(5+\\sqrt5)\\). The total volume is \\(a^3+\\frac13a^2\\cdot a=\\frac{4a^3}{3}\\). Therefore \\(V/S=\\frac{4a}{3(5+\\sqrt5)}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 140,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.2 Problems on Combinations of Polyhedra",
+            "concept_ids": [
+              "concept_01295855fc",
+              "concept_40907e2e0b",
+              "concept_715e66b12a",
+              "concept_dc76038a15"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              119,
+              120,
+              121,
+              122,
+              123,
+              124,
+              125,
+              256,
+              257,
+              258,
+              259,
+              260,
+              261,
+              262
+            ],
+            "source_chunk_ids": [
+              "chunk_5d298bd0d2",
+              "chunk_57a2153674",
+              "chunk_d9e0cb09ed",
+              "chunk_b96acc8ab3"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_4a_3_5_sqrt5_1",
+              "label": "\\(\\frac{4a}{3(5+\\sqrt5)}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The volume is \\(4a^3/3\\) and exposed area is \\(a^2(5+\\sqrt5)\\)."
+            },
+            {
+              "id": "frac_4a_3_6_sqrt5_2",
+              "label": "\\(\\frac{4a}{3(6+\\sqrt5)}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The common cube-pyramid face must not be counted as exposed."
+            },
+            {
+              "id": "frac_a_3_5_sqrt5_3",
+              "label": "\\(\\frac{a}{3(5+\\sqrt5)}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The pyramid volume has been omitted from the numerator."
+            },
+            {
+              "id": "frac_4a_5_sqrt5_4",
+              "label": "\\(\\frac{4a}{5+\\sqrt5}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factor \\(1/3\\) for the pyramid volume is missing."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_5d298bd0d2",
+    "chunk_57a2153674",
+    "chunk_d9e0cb09ed",
+    "chunk_b96acc8ab3"
+  ],
+  "source_pages": [
+    119,
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    256,
+    257,
+    258,
+    259,
+    260,
+    261,
+    262
+  ],
+  "rejected": []
+}

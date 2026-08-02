@@ -1,0 +1,1813 @@
+{
+  "total_chunks": 225,
+  "approved_chunks": 225,
+  "rejected_chunks": 0,
+  "approval_rate": 1.0,
+  "rejection_reasons": {},
+  "records": [
+    {
+      "chunk_id": "chunk_547d566c7e",
+      "passed": true,
+      "reasons": [],
+      "characters": 720,
+      "words": 71,
+      "alphanumeric_ratio": 0.972
+    },
+    {
+      "chunk_id": "chunk_5a915aee89",
+      "passed": true,
+      "reasons": [],
+      "characters": 602,
+      "words": 86,
+      "alphanumeric_ratio": 0.944
+    },
+    {
+      "chunk_id": "chunk_e8d10e8b81",
+      "passed": true,
+      "reasons": [],
+      "characters": 6968,
+      "words": 1245,
+      "alphanumeric_ratio": 0.896
+    },
+    {
+      "chunk_id": "chunk_3a6255bd27",
+      "passed": true,
+      "reasons": [],
+      "characters": 925,
+      "words": 161,
+      "alphanumeric_ratio": 0.893
+    },
+    {
+      "chunk_id": "chunk_e4d898e4d5",
+      "passed": true,
+      "reasons": [],
+      "characters": 807,
+      "words": 146,
+      "alphanumeric_ratio": 0.847
+    },
+    {
+      "chunk_id": "chunk_eeb30acfe4",
+      "passed": true,
+      "reasons": [],
+      "characters": 1013,
+      "words": 169,
+      "alphanumeric_ratio": 0.902
+    },
+    {
+      "chunk_id": "chunk_2dedd45355",
+      "passed": true,
+      "reasons": [],
+      "characters": 793,
+      "words": 138,
+      "alphanumeric_ratio": 0.858
+    },
+    {
+      "chunk_id": "chunk_f18bbc940e",
+      "passed": true,
+      "reasons": [],
+      "characters": 1013,
+      "words": 169,
+      "alphanumeric_ratio": 0.902
+    },
+    {
+      "chunk_id": "chunk_3c29b90367",
+      "passed": true,
+      "reasons": [],
+      "characters": 801,
+      "words": 131,
+      "alphanumeric_ratio": 0.885
+    },
+    {
+      "chunk_id": "chunk_02802ce797",
+      "passed": true,
+      "reasons": [],
+      "characters": 1013,
+      "words": 161,
+      "alphanumeric_ratio": 0.903
+    },
+    {
+      "chunk_id": "chunk_d2fe6e2574",
+      "passed": true,
+      "reasons": [],
+      "characters": 871,
+      "words": 141,
+      "alphanumeric_ratio": 0.884
+    },
+    {
+      "chunk_id": "chunk_8cf7248b05",
+      "passed": true,
+      "reasons": [],
+      "characters": 997,
+      "words": 153,
+      "alphanumeric_ratio": 0.902
+    },
+    {
+      "chunk_id": "chunk_82b1affc3d",
+      "passed": true,
+      "reasons": [],
+      "characters": 1031,
+      "words": 165,
+      "alphanumeric_ratio": 0.902
+    },
+    {
+      "chunk_id": "chunk_010830052f",
+      "passed": true,
+      "reasons": [],
+      "characters": 1117,
+      "words": 161,
+      "alphanumeric_ratio": 0.913
+    },
+    {
+      "chunk_id": "chunk_13d56cc623",
+      "passed": true,
+      "reasons": [],
+      "characters": 1017,
+      "words": 171,
+      "alphanumeric_ratio": 0.873
+    },
+    {
+      "chunk_id": "chunk_717fe0288e",
+      "passed": true,
+      "reasons": [],
+      "characters": 1069,
+      "words": 193,
+      "alphanumeric_ratio": 0.866
+    },
+    {
+      "chunk_id": "chunk_eaa57117da",
+      "passed": true,
+      "reasons": [],
+      "characters": 1023,
+      "words": 197,
+      "alphanumeric_ratio": 0.848
+    },
+    {
+      "chunk_id": "chunk_27aa5470e8",
+      "passed": true,
+      "reasons": [],
+      "characters": 1173,
+      "words": 225,
+      "alphanumeric_ratio": 0.833
+    },
+    {
+      "chunk_id": "chunk_843756015b",
+      "passed": true,
+      "reasons": [],
+      "characters": 991,
+      "words": 173,
+      "alphanumeric_ratio": 0.855
+    },
+    {
+      "chunk_id": "chunk_9b1a68929c",
+      "passed": true,
+      "reasons": [],
+      "characters": 1085,
+      "words": 169,
+      "alphanumeric_ratio": 0.885
+    },
+    {
+      "chunk_id": "chunk_9619c0ab78",
+      "passed": true,
+      "reasons": [],
+      "characters": 845,
+      "words": 135,
+      "alphanumeric_ratio": 0.894
+    },
+    {
+      "chunk_id": "chunk_6a5aa17547",
+      "passed": true,
+      "reasons": [],
+      "characters": 973,
+      "words": 145,
+      "alphanumeric_ratio": 0.9
+    },
+    {
+      "chunk_id": "chunk_de8daf8819",
+      "passed": true,
+      "reasons": [],
+      "characters": 763,
+      "words": 129,
+      "alphanumeric_ratio": 0.874
+    },
+    {
+      "chunk_id": "chunk_4e989e1619",
+      "passed": true,
+      "reasons": [],
+      "characters": 1037,
+      "words": 169,
+      "alphanumeric_ratio": 0.896
+    },
+    {
+      "chunk_id": "chunk_73d8adc689",
+      "passed": true,
+      "reasons": [],
+      "characters": 853,
+      "words": 137,
+      "alphanumeric_ratio": 0.879
+    },
+    {
+      "chunk_id": "chunk_d99df5196e",
+      "passed": true,
+      "reasons": [],
+      "characters": 1013,
+      "words": 169,
+      "alphanumeric_ratio": 0.902
+    },
+    {
+      "chunk_id": "chunk_d797983451",
+      "passed": true,
+      "reasons": [],
+      "characters": 831,
+      "words": 147,
+      "alphanumeric_ratio": 0.896
+    },
+    {
+      "chunk_id": "chunk_f896a741ee",
+      "passed": true,
+      "reasons": [],
+      "characters": 1029,
+      "words": 177,
+      "alphanumeric_ratio": 0.895
+    },
+    {
+      "chunk_id": "chunk_745dc0bbb1",
+      "passed": true,
+      "reasons": [],
+      "characters": 1423,
+      "words": 237,
+      "alphanumeric_ratio": 0.839
+    },
+    {
+      "chunk_id": "chunk_87db776d88",
+      "passed": true,
+      "reasons": [],
+      "characters": 1301,
+      "words": 209,
+      "alphanumeric_ratio": 0.857
+    },
+    {
+      "chunk_id": "chunk_e736175e03",
+      "passed": true,
+      "reasons": [],
+      "characters": 1175,
+      "words": 161,
+      "alphanumeric_ratio": 0.92
+    },
+    {
+      "chunk_id": "chunk_1c67361887",
+      "passed": true,
+      "reasons": [],
+      "characters": 1093,
+      "words": 169,
+      "alphanumeric_ratio": 0.894
+    },
+    {
+      "chunk_id": "chunk_fdd7a7d7cb",
+      "passed": true,
+      "reasons": [],
+      "characters": 1131,
+      "words": 188,
+      "alphanumeric_ratio": 0.914
+    },
+    {
+      "chunk_id": "chunk_a4adf10623",
+      "passed": true,
+      "reasons": [],
+      "characters": 1213,
+      "words": 193,
+      "alphanumeric_ratio": 0.918
+    },
+    {
+      "chunk_id": "chunk_cf5dda43e8",
+      "passed": true,
+      "reasons": [],
+      "characters": 1295,
+      "words": 277,
+      "alphanumeric_ratio": 0.791
+    },
+    {
+      "chunk_id": "chunk_2a16fe6b3f",
+      "passed": true,
+      "reasons": [],
+      "characters": 1013,
+      "words": 161,
+      "alphanumeric_ratio": 0.903
+    },
+    {
+      "chunk_id": "chunk_63b301295c",
+      "passed": true,
+      "reasons": [],
+      "characters": 839,
+      "words": 139,
+      "alphanumeric_ratio": 0.882
+    },
+    {
+      "chunk_id": "chunk_6e8d912190",
+      "passed": true,
+      "reasons": [],
+      "characters": 949,
+      "words": 145,
+      "alphanumeric_ratio": 0.897
+    },
+    {
+      "chunk_id": "chunk_957d009ed5",
+      "passed": true,
+      "reasons": [],
+      "characters": 861,
+      "words": 156,
+      "alphanumeric_ratio": 0.868
+    },
+    {
+      "chunk_id": "chunk_29a4ef8824",
+      "passed": true,
+      "reasons": [],
+      "characters": 1067,
+      "words": 186,
+      "alphanumeric_ratio": 0.857
+    },
+    {
+      "chunk_id": "chunk_e31cb923f4",
+      "passed": true,
+      "reasons": [],
+      "characters": 733,
+      "words": 133,
+      "alphanumeric_ratio": 0.857
+    },
+    {
+      "chunk_id": "chunk_440a373ced",
+      "passed": true,
+      "reasons": [],
+      "characters": 875,
+      "words": 139,
+      "alphanumeric_ratio": 0.898
+    },
+    {
+      "chunk_id": "chunk_73da8f789d",
+      "passed": true,
+      "reasons": [],
+      "characters": 1149,
+      "words": 177,
+      "alphanumeric_ratio": 0.907
+    },
+    {
+      "chunk_id": "chunk_8d02b5d5e8",
+      "passed": true,
+      "reasons": [],
+      "characters": 883,
+      "words": 145,
+      "alphanumeric_ratio": 0.901
+    },
+    {
+      "chunk_id": "chunk_580f50b730",
+      "passed": true,
+      "reasons": [],
+      "characters": 1117,
+      "words": 169,
+      "alphanumeric_ratio": 0.905
+    },
+    {
+      "chunk_id": "chunk_cc4e243b54",
+      "passed": true,
+      "reasons": [],
+      "characters": 901,
+      "words": 153,
+      "alphanumeric_ratio": 0.904
+    },
+    {
+      "chunk_id": "chunk_70ab16c9f9",
+      "passed": true,
+      "reasons": [],
+      "characters": 1221,
+      "words": 193,
+      "alphanumeric_ratio": 0.919
+    },
+    {
+      "chunk_id": "chunk_db17716804",
+      "passed": true,
+      "reasons": [],
+      "characters": 875,
+      "words": 153,
+      "alphanumeric_ratio": 0.849
+    },
+    {
+      "chunk_id": "chunk_f6db325de6",
+      "passed": true,
+      "reasons": [],
+      "characters": 1133,
+      "words": 185,
+      "alphanumeric_ratio": 0.858
+    },
+    {
+      "chunk_id": "chunk_0f68ce59f8",
+      "passed": true,
+      "reasons": [],
+      "characters": 993,
+      "words": 149,
+      "alphanumeric_ratio": 0.904
+    },
+    {
+      "chunk_id": "chunk_fb48f0676e",
+      "passed": true,
+      "reasons": [],
+      "characters": 1317,
+      "words": 161,
+      "alphanumeric_ratio": 0.928
+    },
+    {
+      "chunk_id": "chunk_0c329e0f6d",
+      "passed": true,
+      "reasons": [],
+      "characters": 997,
+      "words": 165,
+      "alphanumeric_ratio": 0.909
+    },
+    {
+      "chunk_id": "chunk_dc7387f955",
+      "passed": true,
+      "reasons": [],
+      "characters": 1205,
+      "words": 193,
+      "alphanumeric_ratio": 0.918
+    },
+    {
+      "chunk_id": "chunk_8095edd586",
+      "passed": true,
+      "reasons": [],
+      "characters": 1019,
+      "words": 143,
+      "alphanumeric_ratio": 0.918
+    },
+    {
+      "chunk_id": "chunk_ae12ccda45",
+      "passed": true,
+      "reasons": [],
+      "characters": 1101,
+      "words": 161,
+      "alphanumeric_ratio": 0.912
+    },
+    {
+      "chunk_id": "chunk_00423d7014",
+      "passed": true,
+      "reasons": [],
+      "characters": 711,
+      "words": 114,
+      "alphanumeric_ratio": 0.892
+    },
+    {
+      "chunk_id": "chunk_c507a8fdd3",
+      "passed": true,
+      "reasons": [],
+      "characters": 973,
+      "words": 145,
+      "alphanumeric_ratio": 0.909
+    },
+    {
+      "chunk_id": "chunk_b03980578f",
+      "passed": true,
+      "reasons": [],
+      "characters": 1115,
+      "words": 153,
+      "alphanumeric_ratio": 0.925
+    },
+    {
+      "chunk_id": "chunk_f4e955b592",
+      "passed": true,
+      "reasons": [],
+      "characters": 1045,
+      "words": 161,
+      "alphanumeric_ratio": 0.906
+    },
+    {
+      "chunk_id": "chunk_8a409c6711",
+      "passed": true,
+      "reasons": [],
+      "characters": 1081,
+      "words": 151,
+      "alphanumeric_ratio": 0.92
+    },
+    {
+      "chunk_id": "chunk_b4ea9f7adc",
+      "passed": true,
+      "reasons": [],
+      "characters": 1101,
+      "words": 177,
+      "alphanumeric_ratio": 0.91
+    },
+    {
+      "chunk_id": "chunk_9316a6f4d5",
+      "passed": true,
+      "reasons": [],
+      "characters": 1129,
+      "words": 169,
+      "alphanumeric_ratio": 0.919
+    },
+    {
+      "chunk_id": "chunk_8e46cc6487",
+      "passed": true,
+      "reasons": [],
+      "characters": 997,
+      "words": 161,
+      "alphanumeric_ratio": 0.91
+    },
+    {
+      "chunk_id": "chunk_ad5a7ea77f",
+      "passed": true,
+      "reasons": [],
+      "characters": 1207,
+      "words": 185,
+      "alphanumeric_ratio": 0.893
+    },
+    {
+      "chunk_id": "chunk_62ec8b75e2",
+      "passed": true,
+      "reasons": [],
+      "characters": 1077,
+      "words": 177,
+      "alphanumeric_ratio": 0.867
+    },
+    {
+      "chunk_id": "chunk_53678c172b",
+      "passed": true,
+      "reasons": [],
+      "characters": 955,
+      "words": 137,
+      "alphanumeric_ratio": 0.914
+    },
+    {
+      "chunk_id": "chunk_868abda1e6",
+      "passed": true,
+      "reasons": [],
+      "characters": 1053,
+      "words": 169,
+      "alphanumeric_ratio": 0.906
+    },
+    {
+      "chunk_id": "chunk_735ee7c4d9",
+      "passed": true,
+      "reasons": [],
+      "characters": 1131,
+      "words": 167,
+      "alphanumeric_ratio": 0.926
+    },
+    {
+      "chunk_id": "chunk_6e6684b74a",
+      "passed": true,
+      "reasons": [],
+      "characters": 997,
+      "words": 161,
+      "alphanumeric_ratio": 0.91
+    },
+    {
+      "chunk_id": "chunk_691b9304dd",
+      "passed": true,
+      "reasons": [],
+      "characters": 1113,
+      "words": 177,
+      "alphanumeric_ratio": 0.923
+    },
+    {
+      "chunk_id": "chunk_03178b7eda",
+      "passed": true,
+      "reasons": [],
+      "characters": 1069,
+      "words": 177,
+      "alphanumeric_ratio": 0.907
+    },
+    {
+      "chunk_id": "chunk_e68bf6d04c",
+      "passed": true,
+      "reasons": [],
+      "characters": 1350,
+      "words": 188,
+      "alphanumeric_ratio": 0.924
+    },
+    {
+      "chunk_id": "chunk_b3a58de936",
+      "passed": true,
+      "reasons": [],
+      "characters": 1141,
+      "words": 161,
+      "alphanumeric_ratio": 0.923
+    },
+    {
+      "chunk_id": "chunk_352dbbc410",
+      "passed": true,
+      "reasons": [],
+      "characters": 957,
+      "words": 149,
+      "alphanumeric_ratio": 0.915
+    },
+    {
+      "chunk_id": "chunk_5c95d045f3",
+      "passed": true,
+      "reasons": [],
+      "characters": 1021,
+      "words": 161,
+      "alphanumeric_ratio": 0.904
+    },
+    {
+      "chunk_id": "chunk_cbd77a89a1",
+      "passed": true,
+      "reasons": [],
+      "characters": 873,
+      "words": 143,
+      "alphanumeric_ratio": 0.897
+    },
+    {
+      "chunk_id": "chunk_12776ab555",
+      "passed": true,
+      "reasons": [],
+      "characters": 1069,
+      "words": 161,
+      "alphanumeric_ratio": 0.909
+    },
+    {
+      "chunk_id": "chunk_f5ef12edae",
+      "passed": true,
+      "reasons": [],
+      "characters": 783,
+      "words": 137,
+      "alphanumeric_ratio": 0.857
+    },
+    {
+      "chunk_id": "chunk_ea57335c88",
+      "passed": true,
+      "reasons": [],
+      "characters": 949,
+      "words": 145,
+      "alphanumeric_ratio": 0.897
+    },
+    {
+      "chunk_id": "chunk_8b06b19860",
+      "passed": true,
+      "reasons": [],
+      "characters": 853,
+      "words": 153,
+      "alphanumeric_ratio": 0.877
+    },
+    {
+      "chunk_id": "chunk_0ca07b9d29",
+      "passed": true,
+      "reasons": [],
+      "characters": 1013,
+      "words": 169,
+      "alphanumeric_ratio": 0.902
+    },
+    {
+      "chunk_id": "chunk_23985a480e",
+      "passed": true,
+      "reasons": [],
+      "characters": 1189,
+      "words": 195,
+      "alphanumeric_ratio": 0.901
+    },
+    {
+      "chunk_id": "chunk_1091bcaec9",
+      "passed": true,
+      "reasons": [],
+      "characters": 973,
+      "words": 161,
+      "alphanumeric_ratio": 0.898
+    },
+    {
+      "chunk_id": "chunk_2ebfdac5f7",
+      "passed": true,
+      "reasons": [],
+      "characters": 841,
+      "words": 115,
+      "alphanumeric_ratio": 0.912
+    },
+    {
+      "chunk_id": "chunk_eea5595876",
+      "passed": true,
+      "reasons": [],
+      "characters": 1229,
+      "words": 153,
+      "alphanumeric_ratio": 0.93
+    },
+    {
+      "chunk_id": "chunk_2bfe278b04",
+      "passed": true,
+      "reasons": [],
+      "characters": 885,
+      "words": 151,
+      "alphanumeric_ratio": 0.891
+    },
+    {
+      "chunk_id": "chunk_85d8c6303a",
+      "passed": true,
+      "reasons": [],
+      "characters": 925,
+      "words": 145,
+      "alphanumeric_ratio": 0.892
+    },
+    {
+      "chunk_id": "chunk_016859ece7",
+      "passed": true,
+      "reasons": [],
+      "characters": 915,
+      "words": 141,
+      "alphanumeric_ratio": 0.88
+    },
+    {
+      "chunk_id": "chunk_118b83331e",
+      "passed": true,
+      "reasons": [],
+      "characters": 981,
+      "words": 153,
+      "alphanumeric_ratio": 0.871
+    },
+    {
+      "chunk_id": "chunk_32b054a745",
+      "passed": true,
+      "reasons": [],
+      "characters": 1119,
+      "words": 185,
+      "alphanumeric_ratio": 0.882
+    },
+    {
+      "chunk_id": "chunk_dbcf00a03c",
+      "passed": true,
+      "reasons": [],
+      "characters": 973,
+      "words": 145,
+      "alphanumeric_ratio": 0.9
+    },
+    {
+      "chunk_id": "chunk_da3343650c",
+      "passed": true,
+      "reasons": [],
+      "characters": 2399,
+      "words": 379,
+      "alphanumeric_ratio": 0.863
+    },
+    {
+      "chunk_id": "chunk_2c121212a0",
+      "passed": true,
+      "reasons": [],
+      "characters": 933,
+      "words": 161,
+      "alphanumeric_ratio": 0.857
+    },
+    {
+      "chunk_id": "chunk_f23bf51aea",
+      "passed": true,
+      "reasons": [],
+      "characters": 1773,
+      "words": 383,
+      "alphanumeric_ratio": 0.646
+    },
+    {
+      "chunk_id": "chunk_0b229b550c",
+      "passed": true,
+      "reasons": [],
+      "characters": 1205,
+      "words": 209,
+      "alphanumeric_ratio": 0.853
+    },
+    {
+      "chunk_id": "chunk_39b6120ef7",
+      "passed": true,
+      "reasons": [],
+      "characters": 1622,
+      "words": 291,
+      "alphanumeric_ratio": 0.847
+    },
+    {
+      "chunk_id": "chunk_309eb3cba5",
+      "passed": true,
+      "reasons": [],
+      "characters": 1091,
+      "words": 178,
+      "alphanumeric_ratio": 0.868
+    },
+    {
+      "chunk_id": "chunk_ddc72999e4",
+      "passed": true,
+      "reasons": [],
+      "characters": 1503,
+      "words": 271,
+      "alphanumeric_ratio": 0.839
+    },
+    {
+      "chunk_id": "chunk_9cdc8f52ef",
+      "passed": true,
+      "reasons": [],
+      "characters": 1091,
+      "words": 183,
+      "alphanumeric_ratio": 0.85
+    },
+    {
+      "chunk_id": "chunk_3f67ad8a32",
+      "passed": true,
+      "reasons": [],
+      "characters": 973,
+      "words": 153,
+      "alphanumeric_ratio": 0.892
+    },
+    {
+      "chunk_id": "chunk_1cea859816",
+      "passed": true,
+      "reasons": [],
+      "characters": 1279,
+      "words": 235,
+      "alphanumeric_ratio": 0.847
+    },
+    {
+      "chunk_id": "chunk_72d2791da2",
+      "passed": true,
+      "reasons": [],
+      "characters": 1253,
+      "words": 225,
+      "alphanumeric_ratio": 0.878
+    },
+    {
+      "chunk_id": "chunk_399197365f",
+      "passed": true,
+      "reasons": [],
+      "characters": 1251,
+      "words": 191,
+      "alphanumeric_ratio": 0.895
+    },
+    {
+      "chunk_id": "chunk_ddfe769b32",
+      "passed": true,
+      "reasons": [],
+      "characters": 1141,
+      "words": 177,
+      "alphanumeric_ratio": 0.899
+    },
+    {
+      "chunk_id": "chunk_b85ea21363",
+      "passed": true,
+      "reasons": [],
+      "characters": 1069,
+      "words": 177,
+      "alphanumeric_ratio": 0.841
+    },
+    {
+      "chunk_id": "chunk_7e796e59d2",
+      "passed": true,
+      "reasons": [],
+      "characters": 1269,
+      "words": 201,
+      "alphanumeric_ratio": 0.901
+    },
+    {
+      "chunk_id": "chunk_2a6ce4407b",
+      "passed": true,
+      "reasons": [],
+      "characters": 2655,
+      "words": 507,
+      "alphanumeric_ratio": 0.777
+    },
+    {
+      "chunk_id": "chunk_a048b1b8c4",
+      "passed": true,
+      "reasons": [],
+      "characters": 1077,
+      "words": 169,
+      "alphanumeric_ratio": 0.875
+    },
+    {
+      "chunk_id": "chunk_bd12a8278a",
+      "passed": true,
+      "reasons": [],
+      "characters": 1753,
+      "words": 359,
+      "alphanumeric_ratio": 0.811
+    },
+    {
+      "chunk_id": "chunk_0b8957eea5",
+      "passed": true,
+      "reasons": [],
+      "characters": 941,
+      "words": 161,
+      "alphanumeric_ratio": 0.856
+    },
+    {
+      "chunk_id": "chunk_c0e011ee5f",
+      "passed": true,
+      "reasons": [],
+      "characters": 1007,
+      "words": 163,
+      "alphanumeric_ratio": 0.851
+    },
+    {
+      "chunk_id": "chunk_5a4e211969",
+      "passed": true,
+      "reasons": [],
+      "characters": 1235,
+      "words": 194,
+      "alphanumeric_ratio": 0.878
+    },
+    {
+      "chunk_id": "chunk_0b01ab2989",
+      "passed": true,
+      "reasons": [],
+      "characters": 871,
+      "words": 139,
+      "alphanumeric_ratio": 0.838
+    },
+    {
+      "chunk_id": "chunk_9b6588339d",
+      "passed": true,
+      "reasons": [],
+      "characters": 979,
+      "words": 167,
+      "alphanumeric_ratio": 0.864
+    },
+    {
+      "chunk_id": "chunk_cc6fb1c272",
+      "passed": true,
+      "reasons": [],
+      "characters": 1157,
+      "words": 185,
+      "alphanumeric_ratio": 0.885
+    },
+    {
+      "chunk_id": "chunk_7cc4a7049b",
+      "passed": true,
+      "reasons": [],
+      "characters": 941,
+      "words": 169,
+      "alphanumeric_ratio": 0.86
+    },
+    {
+      "chunk_id": "chunk_11ceeadd92",
+      "passed": true,
+      "reasons": [],
+      "characters": 1037,
+      "words": 177,
+      "alphanumeric_ratio": 0.861
+    },
+    {
+      "chunk_id": "chunk_7fc157be79",
+      "passed": true,
+      "reasons": [],
+      "characters": 1057,
+      "words": 195,
+      "alphanumeric_ratio": 0.822
+    },
+    {
+      "chunk_id": "chunk_b0c3e6622e",
+      "passed": true,
+      "reasons": [],
+      "characters": 1269,
+      "words": 225,
+      "alphanumeric_ratio": 0.819
+    },
+    {
+      "chunk_id": "chunk_453301cc7e",
+      "passed": true,
+      "reasons": [],
+      "characters": 2049,
+      "words": 363,
+      "alphanumeric_ratio": 0.831
+    },
+    {
+      "chunk_id": "chunk_9e7bafd6f2",
+      "passed": true,
+      "reasons": [],
+      "characters": 997,
+      "words": 161,
+      "alphanumeric_ratio": 0.91
+    },
+    {
+      "chunk_id": "chunk_514ad062b9",
+      "passed": true,
+      "reasons": [],
+      "characters": 2773,
+      "words": 521,
+      "alphanumeric_ratio": 0.75
+    },
+    {
+      "chunk_id": "chunk_3a41b2a38d",
+      "passed": true,
+      "reasons": [],
+      "characters": 1030,
+      "words": 161,
+      "alphanumeric_ratio": 0.914
+    },
+    {
+      "chunk_id": "chunk_3ff6ea27ec",
+      "passed": true,
+      "reasons": [],
+      "characters": 1005,
+      "words": 151,
+      "alphanumeric_ratio": 0.869
+    },
+    {
+      "chunk_id": "chunk_5972935b50",
+      "passed": true,
+      "reasons": [],
+      "characters": 1181,
+      "words": 177,
+      "alphanumeric_ratio": 0.896
+    },
+    {
+      "chunk_id": "chunk_d6b784be70",
+      "passed": true,
+      "reasons": [],
+      "characters": 1505,
+      "words": 323,
+      "alphanumeric_ratio": 0.778
+    },
+    {
+      "chunk_id": "chunk_848fd5a5e0",
+      "passed": true,
+      "reasons": [],
+      "characters": 1021,
+      "words": 177,
+      "alphanumeric_ratio": 0.876
+    },
+    {
+      "chunk_id": "chunk_f9ca96ed6c",
+      "passed": true,
+      "reasons": [],
+      "characters": 3035,
+      "words": 553,
+      "alphanumeric_ratio": 0.769
+    },
+    {
+      "chunk_id": "chunk_5538bdb95f",
+      "passed": true,
+      "reasons": [],
+      "characters": 957,
+      "words": 145,
+      "alphanumeric_ratio": 0.908
+    },
+    {
+      "chunk_id": "chunk_32d038a0b9",
+      "passed": true,
+      "reasons": [],
+      "characters": 2119,
+      "words": 386,
+      "alphanumeric_ratio": 0.793
+    },
+    {
+      "chunk_id": "chunk_46682ab59a",
+      "passed": true,
+      "reasons": [],
+      "characters": 995,
+      "words": 154,
+      "alphanumeric_ratio": 0.91
+    },
+    {
+      "chunk_id": "chunk_1e7d1a532c",
+      "passed": true,
+      "reasons": [],
+      "characters": 2619,
+      "words": 435,
+      "alphanumeric_ratio": 0.83
+    },
+    {
+      "chunk_id": "chunk_c697333019",
+      "passed": true,
+      "reasons": [],
+      "characters": 1065,
+      "words": 177,
+      "alphanumeric_ratio": 0.883
+    },
+    {
+      "chunk_id": "chunk_08d3d0640b",
+      "passed": true,
+      "reasons": [],
+      "characters": 1117,
+      "words": 169,
+      "alphanumeric_ratio": 0.88
+    },
+    {
+      "chunk_id": "chunk_5cb4832316",
+      "passed": true,
+      "reasons": [],
+      "characters": 2779,
+      "words": 467,
+      "alphanumeric_ratio": 0.834
+    },
+    {
+      "chunk_id": "chunk_4eb2684497",
+      "passed": true,
+      "reasons": [],
+      "characters": 1093,
+      "words": 185,
+      "alphanumeric_ratio": 0.886
+    },
+    {
+      "chunk_id": "chunk_9a0fbcc9dc",
+      "passed": true,
+      "reasons": [],
+      "characters": 1833,
+      "words": 296,
+      "alphanumeric_ratio": 0.833
+    },
+    {
+      "chunk_id": "chunk_eed79b722d",
+      "passed": true,
+      "reasons": [],
+      "characters": 979,
+      "words": 146,
+      "alphanumeric_ratio": 0.909
+    },
+    {
+      "chunk_id": "chunk_ef547bd318",
+      "passed": true,
+      "reasons": [],
+      "characters": 2071,
+      "words": 351,
+      "alphanumeric_ratio": 0.798
+    },
+    {
+      "chunk_id": "chunk_da73204270",
+      "passed": true,
+      "reasons": [],
+      "characters": 1361,
+      "words": 245,
+      "alphanumeric_ratio": 0.857
+    },
+    {
+      "chunk_id": "chunk_3d18d1e866",
+      "passed": true,
+      "reasons": [],
+      "characters": 2155,
+      "words": 363,
+      "alphanumeric_ratio": 0.794
+    },
+    {
+      "chunk_id": "chunk_ef3072c17d",
+      "passed": true,
+      "reasons": [],
+      "characters": 1091,
+      "words": 189,
+      "alphanumeric_ratio": 0.867
+    },
+    {
+      "chunk_id": "chunk_6c6396b6a4",
+      "passed": true,
+      "reasons": [],
+      "characters": 2905,
+      "words": 529,
+      "alphanumeric_ratio": 0.762
+    },
+    {
+      "chunk_id": "chunk_331fce623c",
+      "passed": true,
+      "reasons": [],
+      "characters": 1921,
+      "words": 293,
+      "alphanumeric_ratio": 0.895
+    },
+    {
+      "chunk_id": "chunk_347ca6356c",
+      "passed": true,
+      "reasons": [],
+      "characters": 965,
+      "words": 137,
+      "alphanumeric_ratio": 0.909
+    },
+    {
+      "chunk_id": "chunk_7c93fdb8c6",
+      "passed": true,
+      "reasons": [],
+      "characters": 1367,
+      "words": 241,
+      "alphanumeric_ratio": 0.877
+    },
+    {
+      "chunk_id": "chunk_f359d63ac7",
+      "passed": true,
+      "reasons": [],
+      "characters": 917,
+      "words": 145,
+      "alphanumeric_ratio": 0.903
+    },
+    {
+      "chunk_id": "chunk_1d11570bdd",
+      "passed": true,
+      "reasons": [],
+      "characters": 2293,
+      "words": 387,
+      "alphanumeric_ratio": 0.867
+    },
+    {
+      "chunk_id": "chunk_6a82087b3e",
+      "passed": true,
+      "reasons": [],
+      "characters": 981,
+      "words": 153,
+      "alphanumeric_ratio": 0.891
+    },
+    {
+      "chunk_id": "chunk_74a7e9d41c",
+      "passed": true,
+      "reasons": [],
+      "characters": 849,
+      "words": 147,
+      "alphanumeric_ratio": 0.871
+    },
+    {
+      "chunk_id": "chunk_8c9eb61e3b",
+      "passed": true,
+      "reasons": [],
+      "characters": 949,
+      "words": 153,
+      "alphanumeric_ratio": 0.906
+    },
+    {
+      "chunk_id": "chunk_8e879776e5",
+      "passed": true,
+      "reasons": [],
+      "characters": 3390,
+      "words": 621,
+      "alphanumeric_ratio": 0.851
+    },
+    {
+      "chunk_id": "chunk_083d1efee2",
+      "passed": true,
+      "reasons": [],
+      "characters": 1011,
+      "words": 162,
+      "alphanumeric_ratio": 0.901
+    },
+    {
+      "chunk_id": "chunk_00486c7589",
+      "passed": true,
+      "reasons": [],
+      "characters": 3277,
+      "words": 601,
+      "alphanumeric_ratio": 0.845
+    },
+    {
+      "chunk_id": "chunk_e1249af3a8",
+      "passed": true,
+      "reasons": [],
+      "characters": 2325,
+      "words": 443,
+      "alphanumeric_ratio": 0.814
+    },
+    {
+      "chunk_id": "chunk_9823f5e223",
+      "passed": true,
+      "reasons": [],
+      "characters": 1253,
+      "words": 217,
+      "alphanumeric_ratio": 0.866
+    },
+    {
+      "chunk_id": "chunk_cf176c6f35",
+      "passed": true,
+      "reasons": [],
+      "characters": 2119,
+      "words": 406,
+      "alphanumeric_ratio": 0.784
+    },
+    {
+      "chunk_id": "chunk_8de67b77b9",
+      "passed": true,
+      "reasons": [],
+      "characters": 979,
+      "words": 162,
+      "alphanumeric_ratio": 0.907
+    },
+    {
+      "chunk_id": "chunk_cb4e4eb4c5",
+      "passed": true,
+      "reasons": [],
+      "characters": 2345,
+      "words": 479,
+      "alphanumeric_ratio": 0.738
+    },
+    {
+      "chunk_id": "chunk_e472d0343b",
+      "passed": true,
+      "reasons": [],
+      "characters": 3335,
+      "words": 563,
+      "alphanumeric_ratio": 0.862
+    },
+    {
+      "chunk_id": "chunk_0f53af505f",
+      "passed": true,
+      "reasons": [],
+      "characters": 1197,
+      "words": 193,
+      "alphanumeric_ratio": 0.859
+    },
+    {
+      "chunk_id": "chunk_3db9909f17",
+      "passed": true,
+      "reasons": [],
+      "characters": 2517,
+      "words": 485,
+      "alphanumeric_ratio": 0.834
+    },
+    {
+      "chunk_id": "chunk_6f9ac8316d",
+      "passed": true,
+      "reasons": [],
+      "characters": 957,
+      "words": 169,
+      "alphanumeric_ratio": 0.886
+    },
+    {
+      "chunk_id": "chunk_037cd9cc25",
+      "passed": true,
+      "reasons": [],
+      "characters": 2110,
+      "words": 359,
+      "alphanumeric_ratio": 0.83
+    },
+    {
+      "chunk_id": "chunk_c3d08d3019",
+      "passed": true,
+      "reasons": [],
+      "characters": 1087,
+      "words": 189,
+      "alphanumeric_ratio": 0.889
+    },
+    {
+      "chunk_id": "chunk_9b8d4f2d5d",
+      "passed": true,
+      "reasons": [],
+      "characters": 1096,
+      "words": 210,
+      "alphanumeric_ratio": 0.837
+    },
+    {
+      "chunk_id": "chunk_4586d81e5d",
+      "passed": true,
+      "reasons": [],
+      "characters": 1029,
+      "words": 190,
+      "alphanumeric_ratio": 0.844
+    },
+    {
+      "chunk_id": "chunk_97acee2c8e",
+      "passed": true,
+      "reasons": [],
+      "characters": 955,
+      "words": 185,
+      "alphanumeric_ratio": 0.831
+    },
+    {
+      "chunk_id": "chunk_2725a2c2b9",
+      "passed": true,
+      "reasons": [],
+      "characters": 1128,
+      "words": 207,
+      "alphanumeric_ratio": 0.844
+    },
+    {
+      "chunk_id": "chunk_d9c85c7ffe",
+      "passed": true,
+      "reasons": [],
+      "characters": 1199,
+      "words": 221,
+      "alphanumeric_ratio": 0.862
+    },
+    {
+      "chunk_id": "chunk_eadc8d7459",
+      "passed": true,
+      "reasons": [],
+      "characters": 1689,
+      "words": 305,
+      "alphanumeric_ratio": 0.863
+    },
+    {
+      "chunk_id": "chunk_4c29a50db1",
+      "passed": true,
+      "reasons": [],
+      "characters": 1119,
+      "words": 197,
+      "alphanumeric_ratio": 0.851
+    },
+    {
+      "chunk_id": "chunk_6164c8bdb7",
+      "passed": true,
+      "reasons": [],
+      "characters": 912,
+      "words": 174,
+      "alphanumeric_ratio": 0.849
+    },
+    {
+      "chunk_id": "chunk_e42b6a7e0c",
+      "passed": true,
+      "reasons": [],
+      "characters": 1023,
+      "words": 173,
+      "alphanumeric_ratio": 0.866
+    },
+    {
+      "chunk_id": "chunk_9e13fc0b50",
+      "passed": true,
+      "reasons": [],
+      "characters": 1015,
+      "words": 179,
+      "alphanumeric_ratio": 0.842
+    },
+    {
+      "chunk_id": "chunk_594ae1ad95",
+      "passed": true,
+      "reasons": [],
+      "characters": 1215,
+      "words": 213,
+      "alphanumeric_ratio": 0.872
+    },
+    {
+      "chunk_id": "chunk_dfc95dade0",
+      "passed": true,
+      "reasons": [],
+      "characters": 1960,
+      "words": 336,
+      "alphanumeric_ratio": 0.863
+    },
+    {
+      "chunk_id": "chunk_0fc41ff3b4",
+      "passed": true,
+      "reasons": [],
+      "characters": 1215,
+      "words": 205,
+      "alphanumeric_ratio": 0.865
+    },
+    {
+      "chunk_id": "chunk_ac7adad5af",
+      "passed": true,
+      "reasons": [],
+      "characters": 3154,
+      "words": 526,
+      "alphanumeric_ratio": 0.893
+    },
+    {
+      "chunk_id": "chunk_16e9b26f5c",
+      "passed": true,
+      "reasons": [],
+      "characters": 1199,
+      "words": 221,
+      "alphanumeric_ratio": 0.884
+    },
+    {
+      "chunk_id": "chunk_a24a246a0c",
+      "passed": true,
+      "reasons": [],
+      "characters": 1776,
+      "words": 316,
+      "alphanumeric_ratio": 0.883
+    },
+    {
+      "chunk_id": "chunk_4c32062abb",
+      "passed": true,
+      "reasons": [],
+      "characters": 1143,
+      "words": 205,
+      "alphanumeric_ratio": 0.822
+    },
+    {
+      "chunk_id": "chunk_013530519c",
+      "passed": true,
+      "reasons": [],
+      "characters": 2144,
+      "words": 376,
+      "alphanumeric_ratio": 0.855
+    },
+    {
+      "chunk_id": "chunk_12805931ff",
+      "passed": true,
+      "reasons": [],
+      "characters": 1119,
+      "words": 189,
+      "alphanumeric_ratio": 0.861
+    },
+    {
+      "chunk_id": "chunk_496ea36b9a",
+      "passed": true,
+      "reasons": [],
+      "characters": 1706,
+      "words": 304,
+      "alphanumeric_ratio": 0.831
+    },
+    {
+      "chunk_id": "chunk_95d7351f04",
+      "passed": true,
+      "reasons": [],
+      "characters": 1119,
+      "words": 197,
+      "alphanumeric_ratio": 0.868
+    },
+    {
+      "chunk_id": "chunk_6b58ad16f9",
+      "passed": true,
+      "reasons": [],
+      "characters": 2086,
+      "words": 414,
+      "alphanumeric_ratio": 0.842
+    },
+    {
+      "chunk_id": "chunk_881bdcd654",
+      "passed": true,
+      "reasons": [],
+      "characters": 1223,
+      "words": 245,
+      "alphanumeric_ratio": 0.821
+    },
+    {
+      "chunk_id": "chunk_b8c3cebebc",
+      "passed": true,
+      "reasons": [],
+      "characters": 1878,
+      "words": 314,
+      "alphanumeric_ratio": 0.868
+    },
+    {
+      "chunk_id": "chunk_475fe3e86b",
+      "passed": true,
+      "reasons": [],
+      "characters": 1223,
+      "words": 205,
+      "alphanumeric_ratio": 0.88
+    },
+    {
+      "chunk_id": "chunk_8464f42454",
+      "passed": true,
+      "reasons": [],
+      "characters": 1458,
+      "words": 260,
+      "alphanumeric_ratio": 0.866
+    },
+    {
+      "chunk_id": "chunk_5ef3206460",
+      "passed": true,
+      "reasons": [],
+      "characters": 1031,
+      "words": 181,
+      "alphanumeric_ratio": 0.856
+    },
+    {
+      "chunk_id": "chunk_1b0084e479",
+      "passed": true,
+      "reasons": [],
+      "characters": 2446,
+      "words": 390,
+      "alphanumeric_ratio": 0.915
+    },
+    {
+      "chunk_id": "chunk_c9bf84c578",
+      "passed": true,
+      "reasons": [],
+      "characters": 1095,
+      "words": 189,
+      "alphanumeric_ratio": 0.882
+    },
+    {
+      "chunk_id": "chunk_579774930b",
+      "passed": true,
+      "reasons": [],
+      "characters": 1672,
+      "words": 288,
+      "alphanumeric_ratio": 0.896
+    },
+    {
+      "chunk_id": "chunk_fd79f3e7fe",
+      "passed": true,
+      "reasons": [],
+      "characters": 1143,
+      "words": 213,
+      "alphanumeric_ratio": 0.854
+    },
+    {
+      "chunk_id": "chunk_bba489ec32",
+      "passed": true,
+      "reasons": [],
+      "characters": 1295,
+      "words": 242,
+      "alphanumeric_ratio": 0.848
+    },
+    {
+      "chunk_id": "chunk_b44cbd2be0",
+      "passed": true,
+      "reasons": [],
+      "characters": 1013,
+      "words": 174,
+      "alphanumeric_ratio": 0.88
+    },
+    {
+      "chunk_id": "chunk_f810697278",
+      "passed": true,
+      "reasons": [],
+      "characters": 1553,
+      "words": 285,
+      "alphanumeric_ratio": 0.833
+    },
+    {
+      "chunk_id": "chunk_810df2ad1a",
+      "passed": true,
+      "reasons": [],
+      "characters": 1756,
+      "words": 312,
+      "alphanumeric_ratio": 0.9
+    },
+    {
+      "chunk_id": "chunk_8f5b05838d",
+      "passed": true,
+      "reasons": [],
+      "characters": 1119,
+      "words": 189,
+      "alphanumeric_ratio": 0.876
+    },
+    {
+      "chunk_id": "chunk_36f19092c0",
+      "passed": true,
+      "reasons": [],
+      "characters": 1002,
+      "words": 190,
+      "alphanumeric_ratio": 0.837
+    },
+    {
+      "chunk_id": "chunk_f7dbd0a418",
+      "passed": true,
+      "reasons": [],
+      "characters": 1207,
+      "words": 221,
+      "alphanumeric_ratio": 0.831
+    },
+    {
+      "chunk_id": "chunk_fc7cc32c3e",
+      "passed": true,
+      "reasons": [],
+      "characters": 1698,
+      "words": 354,
+      "alphanumeric_ratio": 0.796
+    },
+    {
+      "chunk_id": "chunk_151b27a66c",
+      "passed": true,
+      "reasons": [],
+      "characters": 1095,
+      "words": 189,
+      "alphanumeric_ratio": 0.864
+    },
+    {
+      "chunk_id": "chunk_e5a5d24a2e",
+      "passed": true,
+      "reasons": [],
+      "characters": 2996,
+      "words": 566,
+      "alphanumeric_ratio": 0.848
+    },
+    {
+      "chunk_id": "chunk_3b729e5fa2",
+      "passed": true,
+      "reasons": [],
+      "characters": 1191,
+      "words": 229,
+      "alphanumeric_ratio": 0.838
+    },
+    {
+      "chunk_id": "chunk_1c1c06ec93",
+      "passed": true,
+      "reasons": [],
+      "characters": 1406,
+      "words": 260,
+      "alphanumeric_ratio": 0.824
+    },
+    {
+      "chunk_id": "chunk_0880b6d594",
+      "passed": true,
+      "reasons": [],
+      "characters": 1231,
+      "words": 221,
+      "alphanumeric_ratio": 0.829
+    },
+    {
+      "chunk_id": "chunk_98cff7834b",
+      "passed": true,
+      "reasons": [],
+      "characters": 1790,
+      "words": 366,
+      "alphanumeric_ratio": 0.787
+    },
+    {
+      "chunk_id": "chunk_fca9337d32",
+      "passed": true,
+      "reasons": [],
+      "characters": 1167,
+      "words": 197,
+      "alphanumeric_ratio": 0.874
+    },
+    {
+      "chunk_id": "chunk_3431d00caa",
+      "passed": true,
+      "reasons": [],
+      "characters": 1950,
+      "words": 386,
+      "alphanumeric_ratio": 0.803
+    },
+    {
+      "chunk_id": "chunk_7b96fed4a9",
+      "passed": true,
+      "reasons": [],
+      "characters": 1311,
+      "words": 277,
+      "alphanumeric_ratio": 0.793
+    },
+    {
+      "chunk_id": "chunk_be5f66c79a",
+      "passed": true,
+      "reasons": [],
+      "characters": 1692,
+      "words": 350,
+      "alphanumeric_ratio": 0.807
+    },
+    {
+      "chunk_id": "chunk_4388019089",
+      "passed": true,
+      "reasons": [],
+      "characters": 1255,
+      "words": 229,
+      "alphanumeric_ratio": 0.852
+    },
+    {
+      "chunk_id": "chunk_e55bacf990",
+      "passed": true,
+      "reasons": [],
+      "characters": 1886,
+      "words": 344,
+      "alphanumeric_ratio": 0.842
+    },
+    {
+      "chunk_id": "chunk_4d034bfaa3",
+      "passed": true,
+      "reasons": [],
+      "characters": 1023,
+      "words": 173,
+      "alphanumeric_ratio": 0.883
+    },
+    {
+      "chunk_id": "chunk_1dbe47c983",
+      "passed": true,
+      "reasons": [],
+      "characters": 2372,
+      "words": 432,
+      "alphanumeric_ratio": 0.846
+    },
+    {
+      "chunk_id": "chunk_1bcf0f2315",
+      "passed": true,
+      "reasons": [],
+      "characters": 1271,
+      "words": 197,
+      "alphanumeric_ratio": 0.871
+    },
+    {
+      "chunk_id": "chunk_626f658bd7",
+      "passed": true,
+      "reasons": [],
+      "characters": 1601,
+      "words": 271,
+      "alphanumeric_ratio": 0.825
+    },
+    {
+      "chunk_id": "chunk_100be5a60e",
+      "passed": true,
+      "reasons": [],
+      "characters": 1085,
+      "words": 190,
+      "alphanumeric_ratio": 0.853
+    },
+    {
+      "chunk_id": "chunk_43e055b810",
+      "passed": true,
+      "reasons": [],
+      "characters": 1499,
+      "words": 251,
+      "alphanumeric_ratio": 0.824
+    },
+    {
+      "chunk_id": "chunk_6379feb73c",
+      "passed": true,
+      "reasons": [],
+      "characters": 2937,
+      "words": 539,
+      "alphanumeric_ratio": 0.821
+    },
+    {
+      "chunk_id": "chunk_3357ad59dc",
+      "passed": true,
+      "reasons": [],
+      "characters": 1093,
+      "words": 190,
+      "alphanumeric_ratio": 0.888
+    },
+    {
+      "chunk_id": "chunk_191cba1592",
+      "passed": true,
+      "reasons": [],
+      "characters": 2823,
+      "words": 517,
+      "alphanumeric_ratio": 0.82
+    }
+  ],
+  "run_id": "math-prilepko-20260721-01",
+  "upstream_gates": {
+    "document_integrity": true
+  }
+}

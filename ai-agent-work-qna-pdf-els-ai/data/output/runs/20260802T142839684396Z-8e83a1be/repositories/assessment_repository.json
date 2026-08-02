@@ -1,0 +1,128 @@
+[
+  {
+    "concept_id": "concept_8f8d494e5c",
+    "concept_name": "Chapter 1: Knowing Our Numbers, Whole Numbers, Playing with Numbers, Basic Geometrical Ideas, practice pages 2-7",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_f7640a769f",
+    "concept_name": "Chapter 1: Knowing Our Numbers, Whole Numbers, Playing with Numbers, Basic Geometrical Ideas, practice pages 8-10",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_85510205dd",
+    "concept_name": "3, 1, 4, 2, 5 There",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_459bb3a928",
+    "concept_name": "Basket is by Preeti",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_215230e660",
+    "concept_name": "every whole number",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_6149279d7d",
+    "concept_name": "F T T F sF|IMO|Class-6|Set-B|Level 1 47.ABCD",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_d35f79154c",
+    "concept_name": "Chord of a circle",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  }
+]

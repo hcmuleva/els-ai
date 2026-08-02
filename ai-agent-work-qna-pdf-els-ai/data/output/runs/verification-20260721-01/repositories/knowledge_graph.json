@@ -1,0 +1,305 @@
+{
+  "nodes": [
+    {
+      "id": "concept_864bdb0ca9",
+      "label": "Displacement",
+      "concept_type": "Formula",
+      "weight": 0.8,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_fb83b3460d",
+      "label": "Velocity",
+      "concept_type": "Formula",
+      "weight": 0.8,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_1694170983",
+      "label": "Speed",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_a49b791f66",
+      "label": "Acceleration",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_c3ff7bca71",
+      "label": "Principle of inertia",
+      "concept_type": "Principle",
+      "weight": 0.7,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_314ec88491",
+      "label": "Force",
+      "concept_type": "Definition",
+      "weight": 0.7,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_bda73b7033",
+      "label": "Work",
+      "concept_type": "Formula",
+      "weight": 0.8,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_e7d35b0eab",
+      "label": "Energy",
+      "concept_type": "Formula",
+      "weight": 0.8,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_24b9f371d7",
+      "label": "Kinetic energy",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    }
+  ],
+  "edges": [
+    {
+      "source": "concept_864bdb0ca9",
+      "target": "concept_fb83b3460d",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_864bdb0ca9",
+      "target": "concept_1694170983",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_864bdb0ca9",
+      "target": "concept_a49b791f66",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1694170983",
+      "target": "concept_fb83b3460d",
+      "relation": "prerequisite_dependent",
+      "weight": 1.0
+    },
+    {
+      "source": "concept_fb83b3460d",
+      "target": "concept_864bdb0ca9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_fb83b3460d",
+      "target": "concept_a49b791f66",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1694170983",
+      "target": "concept_864bdb0ca9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1694170983",
+      "target": "concept_fb83b3460d",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1694170983",
+      "target": "concept_a49b791f66",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a49b791f66",
+      "target": "concept_864bdb0ca9",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a49b791f66",
+      "target": "concept_fb83b3460d",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a49b791f66",
+      "target": "concept_1694170983",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_a49b791f66",
+      "target": "concept_c3ff7bca71",
+      "relation": "prerequisite_dependent",
+      "weight": 1.0
+    },
+    {
+      "source": "concept_c3ff7bca71",
+      "target": "concept_314ec88491",
+      "relation": "cause_effect",
+      "weight": 0.8
+    },
+    {
+      "source": "concept_a49b791f66",
+      "target": "concept_314ec88491",
+      "relation": "prerequisite_dependent",
+      "weight": 1.0
+    },
+    {
+      "source": "concept_314ec88491",
+      "target": "concept_c3ff7bca71",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_864bdb0ca9",
+      "target": "concept_bda73b7033",
+      "relation": "prerequisite_dependent",
+      "weight": 1.0
+    },
+    {
+      "source": "concept_314ec88491",
+      "target": "concept_bda73b7033",
+      "relation": "prerequisite_dependent",
+      "weight": 1.0
+    },
+    {
+      "source": "concept_24b9f371d7",
+      "target": "concept_bda73b7033",
+      "relation": "prerequisite_dependent",
+      "weight": 1.0
+    },
+    {
+      "source": "concept_bda73b7033",
+      "target": "concept_e7d35b0eab",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_24b9f371d7",
+      "target": "concept_e7d35b0eab",
+      "relation": "prerequisite_dependent",
+      "weight": 1.0
+    },
+    {
+      "source": "concept_e7d35b0eab",
+      "target": "concept_bda73b7033",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_24b9f371d7",
+      "target": "concept_bda73b7033",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_24b9f371d7",
+      "target": "concept_e7d35b0eab",
+      "relation": "related",
+      "weight": 0.5
+    },
+    {
+      "source": "concept_1694170983",
+      "target": "concept_864bdb0ca9",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_1694170983",
+      "target": "concept_fb83b3460d",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_1694170983",
+      "target": "concept_a49b791f66",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_c3ff7bca71",
+      "target": "concept_314ec88491",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_24b9f371d7",
+      "target": "concept_bda73b7033",
+      "relation": "parent_child",
+      "weight": 0.9
+    },
+    {
+      "source": "concept_24b9f371d7",
+      "target": "concept_e7d35b0eab",
+      "relation": "parent_child",
+      "weight": 0.9
+    }
+  ],
+  "centrality": [
+    {
+      "concept_id": "concept_864bdb0ca9",
+      "degree": 0.875,
+      "betweenness": 0.116,
+      "pagerank": 0.111
+    },
+    {
+      "concept_id": "concept_fb83b3460d",
+      "degree": 0.625,
+      "betweenness": 0.0,
+      "pagerank": 0.111
+    },
+    {
+      "concept_id": "concept_1694170983",
+      "degree": 0.625,
+      "betweenness": 0.0,
+      "pagerank": 0.111
+    },
+    {
+      "concept_id": "concept_a49b791f66",
+      "degree": 1.0,
+      "betweenness": 0.116,
+      "pagerank": 0.111
+    },
+    {
+      "concept_id": "concept_c3ff7bca71",
+      "degree": 0.375,
+      "betweenness": 0.0,
+      "pagerank": 0.111
+    },
+    {
+      "concept_id": "concept_314ec88491",
+      "degree": 0.5,
+      "betweenness": 0.036,
+      "pagerank": 0.111
+    },
+    {
+      "concept_id": "concept_bda73b7033",
+      "degree": 0.625,
+      "betweenness": 0.107,
+      "pagerank": 0.111
+    },
+    {
+      "concept_id": "concept_e7d35b0eab",
+      "degree": 0.375,
+      "betweenness": 0.0,
+      "pagerank": 0.111
+    },
+    {
+      "concept_id": "concept_24b9f371d7",
+      "degree": 0.25,
+      "betweenness": 0.0,
+      "pagerank": 0.111
+    }
+  ]
+}

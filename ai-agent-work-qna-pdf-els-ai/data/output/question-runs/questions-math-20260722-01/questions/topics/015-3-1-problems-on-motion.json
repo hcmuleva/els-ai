@@ -1,0 +1,19 @@
+{
+  "key": "3.1",
+  "topic": "3.1 Problems on Motion",
+  "questions": [],
+  "requested": 5,
+  "generated": 0,
+  "context_chunks": [
+    "chunk_1768849c3d",
+    "chunk_cf83fe5906"
+  ],
+  "source_pages": [],
+  "rejected": [
+    {
+      "issues": [
+        "LaTeX backslashes inside JSON strings must be escaped"
+      ]
+    }
+  ]
+}

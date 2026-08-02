@@ -1,0 +1,471 @@
+{
+  "key": "3.2",
+  "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+  "questions": [
+    {
+      "question": {
+        "id": "25251fe5-e0c4-514c-a8de-b02e2c2c003a",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A vessel contains \\(60\\ \\mathrm{L}\\) of a milk-water mixture in the ratio \\(3:2\\). If \\(x\\\\ \\mathrm{L}\\) of the mixture is removed and replaced with water twice, the final ratio of milk to water becomes \\(27:73\\). Find \\(x\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Initially, the milk fraction is \\(\\frac{3}{5}\\). After two replacements, \\(\\frac{3}{5}\\left(1-\\frac{x}{60}\\right)^2=\\frac{27}{100}\\), so \\(1-\\frac{x}{60}=\\frac{3}{2\\sqrt{5}}\\). Hence \\(x=60-18\\sqrt{5}\\\\ \\mathrm{L}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 76,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+            "concept_ids": [
+              "concept_ce37252ec0",
+              "concept_e585373915"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              77,
+              78,
+              79,
+              80,
+              81,
+              221
+            ],
+            "source_chunk_ids": [
+              "chunk_4700e9ef9d",
+              "chunk_13dc0213de"
+            ]
+          },
+          "options": [
+            {
+              "id": "60_18_sqrt_5_mathrm_L_1",
+              "label": "\\(60-18\\sqrt{5}\\\\ \\mathrm{L}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The milk fraction becomes \\(\\frac{3}{5}\\left(1-\\frac{x}{60}\\right)^2=\\frac{27}{100}\\)."
+            },
+            {
+              "id": "60_12_sqrt_5_mathrm_L_2",
+              "label": "\\(60-12\\sqrt{5}\\\\ \\mathrm{L}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This results from using an incorrect initial milk fraction."
+            },
+            {
+              "id": "18_sqrt_5_mathrm_L_3",
+              "label": "\\(18\\sqrt{5}\\\\ \\mathrm{L}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits the remaining volume factor."
+            },
+            {
+              "id": "60_9_sqrt_5_mathrm_L_4",
+              "label": "\\(60-9\\sqrt{5}\\\\ \\mathrm{L}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The dilution factor is not evaluated correctly."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "6182542d-56c6-5700-8469-64f5e7c15898",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Alloy \\(A\\) contains copper and zinc in the ratio \\(5:3\\), while alloy \\(B\\) contains them in the ratio \\(7:5\\). How much alloy \\(A\\) must be mixed with alloy \\(B\\) to obtain \\(50\\\\ \\mathrm{kg}\\) of an alloy containing \\(60\\% \\) copper?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The copper fractions are \\(\\frac{5}{8}\\) and \\(\\frac{7}{12}\\). If the quantities are \\(a\\) and \\(b\\), then \\(\\frac{5}{8}a+\\frac{7}{12}b=\\frac{3}{5}(a+b)\\), which gives \\(a:b=2:3\\). Therefore, \\(a=\\frac{2}{5}\\times 50=20\\\\ \\mathrm{kg}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 77,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+            "concept_ids": [
+              "concept_ce37252ec0",
+              "concept_e585373915"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              77,
+              78,
+              79,
+              80,
+              81,
+              221
+            ],
+            "source_chunk_ids": [
+              "chunk_4700e9ef9d",
+              "chunk_13dc0213de"
+            ]
+          },
+          "options": [
+            {
+              "id": "20_mathrm_kg_1",
+              "label": "\\(20\\\\ \\mathrm{kg}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The required mixing ratio is \\(A:B=2:3\\), giving \\(20\\\\ \\mathrm{kg}\\) of \\(A\\)."
+            },
+            {
+              "id": "25_mathrm_kg_2",
+              "label": "\\(25\\\\ \\mathrm{kg}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This corresponds to equal quantities, which do not give \\(60\\%\\) copper."
+            },
+            {
+              "id": "30_mathrm_kg_3",
+              "label": "\\(30\\\\ \\mathrm{kg}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This reverses the relative quantities of the two alloys."
+            },
+            {
+              "id": "15_mathrm_kg_4",
+              "label": "\\(15\\\\ \\mathrm{kg}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not satisfy the copper balance equation."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "39d217d3-8a3b-5cf5-9a02-75b7f44f92fd",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A is \\(50\\% \\) more efficient than B. Working together, they complete a task in \\(12\\) days. In how many days can A alone complete the task?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let B's daily work rate be \\(r\\). Then A's rate is \\(\\frac{3r}{2}\\), and \\(\\frac{5r}{2}=\\frac{1}{12}\\). Thus A's rate is \\(\\frac{1}{20}\\), so A alone takes \\(20\\) days.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 78,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+            "concept_ids": [
+              "concept_ce37252ec0",
+              "concept_e585373915"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              77,
+              78,
+              79,
+              80,
+              81,
+              221
+            ],
+            "source_chunk_ids": [
+              "chunk_4700e9ef9d",
+              "chunk_13dc0213de"
+            ]
+          },
+          "options": [
+            {
+              "id": "20_days_1",
+              "label": "\\(20\\) days",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "A's rate is \\(\\frac{3}{2}\\) times B's rate, so A's rate is \\(\\frac{1}{20}\\) of the work per day."
+            },
+            {
+              "id": "18_days_2",
+              "label": "\\(18\\) days",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This underestimates A's efficiency relative to B."
+            },
+            {
+              "id": "24_days_3",
+              "label": "\\(24\\) days",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This treats A and B as having equal efficiency."
+            },
+            {
+              "id": "30_days_4",
+              "label": "\\(30\\) days",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This uses the rate ratio incorrectly."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "f0faff2e-fec7-55bd-8afa-6dc10ca2dbfa",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A and B together can complete a work in \\(15\\) days. A works alone for \\(5\\) days, after which B completes the remaining work in \\(20\\) days. In how many days can A alone complete the work?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let the daily rates of A and B be \\(a\\) and \\(b\\). Then \\(a+b=\\frac{1}{15}\\) and \\(5a+20b=1\\). Solving gives \\(a=\\frac{1}{45}\\). Hence A alone completes the work in \\(45\\) days.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 79,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+            "concept_ids": [
+              "concept_ce37252ec0",
+              "concept_e585373915"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              77,
+              78,
+              79,
+              80,
+              81,
+              221
+            ],
+            "source_chunk_ids": [
+              "chunk_4700e9ef9d",
+              "chunk_13dc0213de"
+            ]
+          },
+          "options": [
+            {
+              "id": "45_days_1",
+              "label": "\\(45\\) days",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equations give A's daily rate as \\(\\frac{1}{45}\\)."
+            },
+            {
+              "id": "30_days_2",
+              "label": "\\(30\\) days",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not satisfy both the combined and sequential work conditions."
+            },
+            {
+              "id": "40_days_3",
+              "label": "\\(40\\) days",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The remaining work is incorrectly assigned to B."
+            },
+            {
+              "id": "60_days_4",
+              "label": "\\(60\\) days",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives an insufficient contribution during A's first \\(5\\) days."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "69edc47e-12bd-53c4-be37-f5f5b04a4c82",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A pedestrian and a cyclist start simultaneously from point \\(A\\) towards point \\(B\\). The pedestrian travels at \\(6\\\\ \\mathrm{km/h}\\), while the cyclist travels at \\(18\\\\ \\mathrm{km/h}\\), reaches \\(B\\), immediately turns back, and meets the pedestrian after \\(1\\) hour. Find the distance \\(AB\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "After \\(1\\) hour, the pedestrian is \\(6\\\\ \\mathrm{km}\\) from \\(A\\). If \\(AB=d\\\\ \\mathrm{km}\\), the cyclist has travelled \\(d+(d-6)=18\\). Therefore, \\(2d=24\\), so \\(AB=12\\\\ \\mathrm{km}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 80,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+            "concept_ids": [
+              "concept_ce37252ec0",
+              "concept_e585373915"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              77,
+              78,
+              79,
+              80,
+              81,
+              221
+            ],
+            "source_chunk_ids": [
+              "chunk_4700e9ef9d",
+              "chunk_13dc0213de"
+            ]
+          },
+          "options": [
+            {
+              "id": "12_mathrm_km_1",
+              "label": "\\(12\\\\ \\mathrm{km}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "In \\(1\\) hour, the cyclist covers \\(18\\\\ \\mathrm{km}=AB+(AB-6)\\)."
+            },
+            {
+              "id": "9_mathrm_km_2",
+              "label": "\\(9\\\\ \\mathrm{km}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This ignores the cyclist's return distance."
+            },
+            {
+              "id": "15_mathrm_km_3",
+              "label": "\\(15\\\\ \\mathrm{km}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This equates the total cyclist distance with the distance to \\(B\\)."
+            },
+            {
+              "id": "18_mathrm_km_4",
+              "label": "\\(18\\\\ \\mathrm{km}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is only the cyclist's total distance travelled in \\(1\\) hour."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_4700e9ef9d",
+    "chunk_13dc0213de"
+  ],
+  "source_pages": [
+    77,
+    78,
+    79,
+    80,
+    81,
+    221
+  ],
+  "rejected": []
+}

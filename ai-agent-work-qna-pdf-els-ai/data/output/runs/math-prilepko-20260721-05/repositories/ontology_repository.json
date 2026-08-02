@@ -1,0 +1,2702 @@
+{
+  "entities": [
+    {
+      "entity_id": "concept_966b1f96a5",
+      "entity_type": "Definition",
+      "name": "1.1 Linear Equations andInequalities in One Variable practice pages 11-13",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "entity_id": "concept_f591c9246c",
+      "entity_type": "Definition",
+      "name": "1.2 QuadraticEquations andInequalities practice pages 14-18",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        13,
+        14,
+        15,
+        16,
+        17
+      ]
+    },
+    {
+      "entity_id": "concept_5e078c2130",
+      "entity_type": "Definition",
+      "name": "1.3 InverseProportionality practice pages 19-21",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        18,
+        19,
+        20
+      ]
+    },
+    {
+      "entity_id": "concept_5b1da3f2f2",
+      "entity_type": "Definition",
+      "name": "1.4 Equations and Inequalities of Higher Degrees practice pages 22-26",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        21,
+        22,
+        23,
+        24,
+        25
+      ]
+    },
+    {
+      "entity_id": "concept_aa5d393aaf",
+      "entity_type": "Definition",
+      "name": "1.5 Linear Systems of Equations and Inequalities practice pages 27-29",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        26,
+        27,
+        28
+      ]
+    },
+    {
+      "entity_id": "concept_416b34274b",
+      "entity_type": "Definition",
+      "name": "1.6 Systems ofEquationsandInequalities practice pages 30-32",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        29,
+        30,
+        31
+      ]
+    },
+    {
+      "entity_id": "concept_d37918f89a",
+      "entity_type": "Definition",
+      "name": "2.1 Irrational Equations andInequalities practice pages 33-37",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        32,
+        33,
+        34,
+        35,
+        36
+      ]
+    },
+    {
+      "entity_id": "concept_e81eedd27f",
+      "entity_type": "Definition",
+      "name": "2.2 Systems ofIrrational Equations andInequalities practice pages 38-38",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        37
+      ]
+    },
+    {
+      "entity_id": "concept_246ce853ae",
+      "entity_type": "Definition",
+      "name": "2.3 An Exponential and a Logarithmic Function, practice pages 39-44",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        38,
+        39,
+        40,
+        41,
+        42,
+        43
+      ]
+    },
+    {
+      "entity_id": "concept_19a4d53938",
+      "entity_type": "Definition",
+      "name": "2.3 An Exponential and a Logarithmic Function, practice pages 45-50",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        44,
+        45,
+        46,
+        47,
+        48,
+        49
+      ]
+    },
+    {
+      "entity_id": "concept_1a1cc801ab",
+      "entity_type": "Definition",
+      "name": "2.4 Transformation of Trigonometric Expressions practice pages 51-53",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        50,
+        51,
+        52
+      ]
+    },
+    {
+      "entity_id": "concept_a8bc606a3c",
+      "entity_type": "Definition",
+      "name": "2.5 Trigonometric Functions practice pages 54-56",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        53,
+        54,
+        55
+      ]
+    },
+    {
+      "entity_id": "concept_c659b18a62",
+      "entity_type": "Definition",
+      "name": "2.6 Inverse Trigonometric Functions practice pages 57-60",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        56,
+        57,
+        58,
+        59
+      ]
+    },
+    {
+      "entity_id": "concept_73b430198b",
+      "entity_type": "Definition",
+      "name": "2.7 Trigonometric Equations and Systems of Equations practice pages 61-66",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65
+      ]
+    },
+    {
+      "entity_id": "concept_2a6f7d6b1b",
+      "entity_type": "Definition",
+      "name": "2.7 Trigonometric Equations and Systems of Equations practice pages 67-69",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        66,
+        67,
+        68
+      ]
+    },
+    {
+      "entity_id": "concept_0b8bb1d4ab",
+      "entity_type": "Definition",
+      "name": "2.8 TrigonometricInequalities practice pages 70-71",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        69,
+        70
+      ]
+    },
+    {
+      "entity_id": "concept_80f2b383f9",
+      "entity_type": "Definition",
+      "name": "3.1 Problems onMotion practice pages 72-77",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        71,
+        72,
+        73,
+        74,
+        75,
+        76
+      ]
+    },
+    {
+      "entity_id": "concept_ce37252ec0",
+      "entity_type": "Definition",
+      "name": "3.2 Problems on Percentage,Mixtures, practice pages 78-82",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        77,
+        78,
+        79,
+        80,
+        81
+      ]
+    },
+    {
+      "entity_id": "concept_a7d0197ca3",
+      "entity_type": "Definition",
+      "name": "3.3 Problems onDerivingInequalities and Systems practice pages 83-85",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        82,
+        83,
+        84
+      ]
+    },
+    {
+      "entity_id": "concept_5d8da8cc3d",
+      "entity_type": "Definition",
+      "name": "4.1 TheAntiderivative.TheNewton-LeibnizFormula practice pages 86-88",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        85,
+        86,
+        87
+      ]
+    },
+    {
+      "entity_id": "concept_9a49ed3c17",
+      "entity_type": "Definition",
+      "name": "4.2 CalculatingtheAreas ofPlaneFigures practice pages 89-91",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        88,
+        89,
+        90
+      ]
+    },
+    {
+      "entity_id": "concept_bd349d0c63",
+      "entity_type": "Definition",
+      "name": "5.1 Progressions practice pages 92-97",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        91,
+        92,
+        93,
+        94,
+        95,
+        96
+      ]
+    },
+    {
+      "entity_id": "concept_2bfece366b",
+      "entity_type": "Definition",
+      "name": "5.2 Number Sequences practice pages 98-100",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        97,
+        98,
+        99
+      ]
+    },
+    {
+      "entity_id": "concept_0dc5c6a4a3",
+      "entity_type": "Definition",
+      "name": "6.1 Linear Operations onVectors practice pages 101-102",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        100,
+        101
+      ]
+    },
+    {
+      "entity_id": "concept_d6b3245864",
+      "entity_type": "Definition",
+      "name": "6.2 TheScalarProductofVectors practice pages 103-106",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        102,
+        103,
+        104,
+        105
+      ]
+    },
+    {
+      "entity_id": "concept_e007a08ac3",
+      "entity_type": "Definition",
+      "name": "7.1 Problems on Proving Propositions practice pages 107-108",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        106,
+        107
+      ]
+    },
+    {
+      "entity_id": "concept_958d98624e",
+      "entity_type": "Definition",
+      "name": "7.2 ConstructionProblems practice pages 109-109",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        108
+      ]
+    },
+    {
+      "entity_id": "concept_52319e8fbb",
+      "entity_type": "Definition",
+      "name": "7.3 Problems on Calculation practice pages 110-114",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        109,
+        110,
+        111,
+        112,
+        113
+      ]
+    },
+    {
+      "entity_id": "concept_322bf2bf32",
+      "entity_type": "Definition",
+      "name": "8.1 A Straight Line,a Plane,Polyhedra practice pages 115-119",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        114,
+        115,
+        116,
+        117,
+        118
+      ]
+    },
+    {
+      "entity_id": "concept_715e66b12a",
+      "entity_type": "Definition",
+      "name": "8.2 Problems on Combinations of Polyhedra practice pages 120-125",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        119,
+        120,
+        121,
+        122,
+        123,
+        124
+      ]
+    },
+    {
+      "entity_id": "concept_dc76038a15",
+      "entity_type": "Definition",
+      "name": "8.2 Problems on Combinations of Polyhedra practice pages 126-126",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        125
+      ]
+    },
+    {
+      "entity_id": "concept_5baf3b211f",
+      "entity_type": "Definition",
+      "name": "8.3 VolumesofSolidsofRevolution practice pages 127-127",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        126
+      ]
+    },
+    {
+      "entity_id": "concept_9f574ad684",
+      "entity_type": "Definition",
+      "name": "9.1 ProblemsinAlgebra practice pages 128-130",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        127,
+        128,
+        129
+      ]
+    },
+    {
+      "entity_id": "concept_df3b2956cd",
+      "entity_type": "Definition",
+      "name": "9.2 Limit of aFunction.Continuity practice pages 131-131",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        130
+      ]
+    },
+    {
+      "entity_id": "concept_c11559b955",
+      "entity_type": "Definition",
+      "name": "9.3 TheDerivative of aFunction practice pages 132-133",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        131,
+        132
+      ]
+    },
+    {
+      "entity_id": "concept_e929a4228c",
+      "entity_type": "Definition",
+      "name": "9.4 IntegralCalculus.MiscellaneousProblems practice pages 134-138",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        133,
+        134,
+        135,
+        136,
+        137
+      ]
+    },
+    {
+      "entity_id": "concept_afd5a9c26a",
+      "entity_type": "Procedure",
+      "name": "1.1 LinearEquations andInequalities in OneVariable practice pages 139-140",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        138,
+        139
+      ]
+    },
+    {
+      "entity_id": "concept_78fabb746d",
+      "entity_type": "Definition",
+      "name": "1.2 Quadratic Equations andInequalities practice pages 144-149",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        143,
+        144,
+        145,
+        148
+      ]
+    },
+    {
+      "entity_id": "concept_2c57fddca7",
+      "entity_type": "Definition",
+      "name": "1.3 InverseProportionality practice pages 150-152",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        149,
+        150,
+        151
+      ]
+    },
+    {
+      "entity_id": "concept_6a9f8ae9e4",
+      "entity_type": "Definition",
+      "name": "1.4 Equations and Inequalities of Higher Degrees practice pages 158-163",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        157,
+        158,
+        159,
+        160,
+        161,
+        162
+      ]
+    },
+    {
+      "entity_id": "concept_d3d5fa9c90",
+      "entity_type": "Definition",
+      "name": "1.4 Equations and Inequalities of Higher Degrees practice pages 164-167",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        163,
+        164,
+        165,
+        166
+      ]
+    },
+    {
+      "entity_id": "concept_78a9088b3c",
+      "entity_type": "Definition",
+      "name": "1.5 Linear Systems ofEquations andInequalities practice pages 168-170",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        167,
+        169
+      ]
+    },
+    {
+      "entity_id": "concept_48e09ef5fc",
+      "entity_type": "Definition",
+      "name": "1.6 Systems ofEquations andInequalities practice pages 171-173",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        170,
+        171,
+        172
+      ]
+    },
+    {
+      "entity_id": "concept_ddaf06dfd0",
+      "entity_type": "Procedure",
+      "name": "2.1 Irrational Equations and Inequalities practice pages 175-179",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        174,
+        175,
+        176,
+        177,
+        178
+      ]
+    },
+    {
+      "entity_id": "concept_e4db108e9c",
+      "entity_type": "Definition",
+      "name": "2.2 Systems ofIrrationalEquations practice pages 180-180",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        179
+      ]
+    },
+    {
+      "entity_id": "concept_86b20d7384",
+      "entity_type": "Definition",
+      "name": "2.3 An Exponential and aLogarithmic Functions, practice pages 181-186",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        180,
+        181,
+        182,
+        183,
+        184,
+        185
+      ]
+    },
+    {
+      "entity_id": "example_a4067d3f5c",
+      "entity_type": "Example",
+      "name": "The rootsofthequadratictrinomialx²-z-a²are x= =(1-√1+4a²/2andxg=（1+√1+4a²/2,and the solutions of the second inequality of the system arezE（-oo；z1）（x；oo) But<0and，therefore，the solution of the system isieinterval (z;oo)（x>1 fora>1）.We can，by analogy，consider the case when0<a<1.Wehaveasystem {=>1, x²--a<0.",
+      "concept_id": "concept_86b20d7384",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        180,
+        181,
+        182,
+        183,
+        184,
+        185
+      ]
+    },
+    {
+      "entity_id": "concept_7df0ec68cd",
+      "entity_type": "Definition",
+      "name": "2.3 An Exponential and aLogarithmic Functions, practice pages 187-190",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        186,
+        188,
+        189
+      ]
+    },
+    {
+      "entity_id": "concept_9b3dbd356a",
+      "entity_type": "Definition",
+      "name": "2.4 Transformation of TrigonometricExpressions practice pages 191-192",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        190,
+        191
+      ]
+    },
+    {
+      "entity_id": "concept_7d3b7f64b8",
+      "entity_type": "Definition",
+      "name": "2.5 TrigonometricFunctions practice pages 193-199",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        192,
+        193,
+        194,
+        196,
+        198
+      ]
+    },
+    {
+      "entity_id": "concept_28a33373e8",
+      "entity_type": "Definition",
+      "name": "2.6 InverseTrigonometricFunctions practice pages 200-204",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        199,
+        200,
+        201,
+        202,
+        203
+      ]
+    },
+    {
+      "entity_id": "concept_979d1266a0",
+      "entity_type": "Definition",
+      "name": "2.7 TrigonometricEquations and Systems ofEquations practice pages 205-210",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        204,
+        205,
+        206,
+        207,
+        208,
+        209
+      ]
+    },
+    {
+      "entity_id": "concept_45733a2de0",
+      "entity_type": "Definition",
+      "name": "2.7 TrigonometricEquations and Systems ofEquations practice pages 211-216",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        210,
+        211,
+        212,
+        213,
+        214,
+        215
+      ]
+    },
+    {
+      "entity_id": "concept_4bf489703b",
+      "entity_type": "Definition",
+      "name": "2.7 TrigonometricEquations and Systems ofEquations practice pages 217-218",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        216,
+        217
+      ]
+    },
+    {
+      "entity_id": "concept_9dcfcbddae",
+      "entity_type": "Definition",
+      "name": "2.8 TrigonometricInequalities practice pages 219-220",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        218,
+        219
+      ]
+    },
+    {
+      "entity_id": "concept_55243fb7b8",
+      "entity_type": "Definition",
+      "name": "3.1 ProblemsonMotion practice pages 221-221",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        220
+      ]
+    },
+    {
+      "entity_id": "concept_e585373915",
+      "entity_type": "Definition",
+      "name": "3.2 Problems on Percentages,Mixtures, practice pages 222-222",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        221
+      ]
+    },
+    {
+      "entity_id": "concept_6a958536a0",
+      "entity_type": "Definition",
+      "name": "3.3 Problems onDerivingInequalitiesand Systems practice pages 223-224",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        222,
+        223
+      ]
+    },
+    {
+      "entity_id": "concept_d5335cf614",
+      "entity_type": "Definition",
+      "name": "4.1 The Antiderivative.The Newton-LeibnizFormula practice pages 225-226",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        224,
+        225
+      ]
+    },
+    {
+      "entity_id": "concept_5510e8ae01",
+      "entity_type": "Definition",
+      "name": "4.2 CalculatingtheAreasofPlane Figures practice pages 227-229",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        226,
+        227,
+        228
+      ]
+    },
+    {
+      "entity_id": "concept_cd9ec05584",
+      "entity_type": "Definition",
+      "name": "5.1 Progressions practice pages 230-232",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        229,
+        230,
+        231
+      ]
+    },
+    {
+      "entity_id": "concept_631a52d707",
+      "entity_type": "Definition",
+      "name": "5.2 NumberSequences practice pages 233-235",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        232,
+        233,
+        234
+      ]
+    },
+    {
+      "entity_id": "example_f3d61f3e33",
+      "entity_type": "Example",
+      "name": "44.931.45.4,20,100;4/9,52/9,676/9.46.4,12,36;4/9,-20/9, 100/9.47.2±V3.48.4,20,100and5,20,35;100,20,4and101， 20,-61.49.5,5,5;10/3,5,15/2.50.2.51.3,6,9,12.52.1,4,16, 257983 225625 5.2.NumberSequences 1.(a)Letus choose arbitrarily a positive number eand show that we canfindfor it anaturalNsuchthat the inequality 11/n-0|<8 (1) holds for all numbers n>N.After transformations,we get an in- equality n>1/e.If the number nislarger than1/e,then inequality (1) holds true,i.e.we can takeNequal to[1/8]where[1/e]is the inte- gralpartof thenumber1/e.Thus,wehave shown the existence of the number Nsuchthat inequality (1)holdsforanyn>N=[1/e]and have completed the proof.Remark.We can take as Nany natural number exceeding 1/e;(b)OShow that N can be taken equal to 233 [(2-e)/e],where g>O；(c)Make use of the proof of the assertion limq”=0,0<q<1.2.1stmethod.The sequence（xn）is said tobebounded if there aretwonumbers mand Msuch that the in- n→00 equality m≤n≤Mholds trueforanynEN.We shallprove the existenceof thenumbersmandMfor thegivensequence.All the terms of the sequence with thegeneral term(1十（—1))/n²arenonnegative (xzh-1 =0 for n = 2k-1;xek = 2 （2k）2 therefore， we can take as m any negative number or zero (say，m = 2).Unity，for instance，can serve as M.Indeed，xh-1=0<1 1 n E N and this means that the given sequence is bounded.",
+      "concept_id": "concept_631a52d707",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        232,
+        233,
+        234
+      ]
+    },
+    {
+      "entity_id": "concept_310360799c",
+      "entity_type": "Definition",
+      "name": "6.1 Linear Operations onVectors practice pages 236-236",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        235
+      ]
+    },
+    {
+      "entity_id": "concept_6bcc14f8fd",
+      "entity_type": "Definition",
+      "name": "6.2 The ScalarProduct of Vectors practice pages 237-240",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        236,
+        237,
+        238,
+        239
+      ]
+    },
+    {
+      "entity_id": "concept_01dfdd2964",
+      "entity_type": "Definition",
+      "name": "7.1 Problems onProvingProportions practice pages 241-244",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        240,
+        241,
+        242,
+        243
+      ]
+    },
+    {
+      "entity_id": "concept_157b94d8d6",
+      "entity_type": "Definition",
+      "name": "7.2 Construction Problems practice pages 245-246",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        244,
+        245
+      ]
+    },
+    {
+      "entity_id": "concept_d29f22e744",
+      "entity_type": "Definition",
+      "name": "7.3 Problems on Calculation practice pages 247-251",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        246,
+        247,
+        248,
+        249,
+        250
+      ]
+    },
+    {
+      "entity_id": "concept_165743b2c0",
+      "entity_type": "Definition",
+      "name": "8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution practice pages 252-256",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        251,
+        252,
+        253,
+        254,
+        255
+      ]
+    },
+    {
+      "entity_id": "concept_01295855fc",
+      "entity_type": "Definition",
+      "name": "8.2 Problemson CombinationsofPolyhedra practice pages 257-262",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        256,
+        257,
+        258,
+        259,
+        260,
+        261
+      ]
+    },
+    {
+      "entity_id": "concept_40907e2e0b",
+      "entity_type": "Definition",
+      "name": "8.2 Problemson CombinationsofPolyhedra practice pages 263-263",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        262
+      ]
+    },
+    {
+      "entity_id": "concept_7851214b7a",
+      "entity_type": "Definition",
+      "name": "8.3 VolumesofSolidsofRevolution practice pages 264-264",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        263
+      ]
+    },
+    {
+      "entity_id": "concept_0a20a893b0",
+      "entity_type": "Definition",
+      "name": "9.1 ProblemsinAlgebra practice pages 265-269",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        264,
+        265,
+        266,
+        267,
+        268
+      ]
+    },
+    {
+      "entity_id": "example_97be741dd7",
+      "entity_type": "Example",
+      "name": "23.(a) y 23.(c) 23.(b) y 23.(d) 23.(e) y y 24.No,we cannot.The function f (x)=z，for instance，increases on the interval（-1;O）and the functionΦ（x)=x²decreases on that interval.25.Since for anyx,zE（a;b）and such thatz>， f（z1)>f（z2)and fa（z)）>f2（z）it followsthatf（z)+f2（x）> >f（x)）+f（z）or@（z1）>（x)，and this means thatthe function （)decreases on thatinterval.26.Carry out the proof byinduction.",
+      "concept_id": "concept_0a20a893b0",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        264,
+        265,
+        266,
+        267,
+        268
+      ]
+    },
+    {
+      "entity_id": "concept_7c05741f2e",
+      "entity_type": "Definition",
+      "name": "9.2 Limit of a Function.Continuity practice pages 270-272",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        269,
+        270,
+        271
+      ]
+    },
+    {
+      "entity_id": "concept_41e12f8bde",
+      "entity_type": "Definition",
+      "name": "9.3 TheDerivative ofaFunction practice pages 273-274",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        272,
+        273
+      ]
+    },
+    {
+      "entity_id": "example_3b80d576c7",
+      "entity_type": "Example",
+      "name": "9.3.TheDerivative ofaFunction 1.(a)We can;(b)we cannot.2.(a)We cannot； the function f （x)=x， for instance，is differentiable at the point x。=O，and the function f（x)=|x|is not，nevertheless,（）=z|z|is differentiable at the point x。=O；（b）we cannot.Consider the functions f（x)= f（x)=|x1.3.Suppose f（x) is a differentiable even function.",
+      "concept_id": "concept_41e12f8bde",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        272,
+        273
+      ]
+    },
+    {
+      "entity_id": "concept_7efa7a3bb2",
+      "entity_type": "Definition",
+      "name": "9.4 Integral Calculus.MiscellaneousProblems practice pages 275-280",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        274,
+        275,
+        276,
+        277,
+        278,
+        279
+      ]
+    },
+    {
+      "entity_id": "example_d9bdfcd4eb",
+      "entity_type": "Example",
+      "name": "No,we cannot.For instance,f (x)=1 + cos x is a periodic function and F (x)=(1 + cos z) dz = z+ sin x + c is a nonperiodic func- tion.2.（a)By the definition,F'（x)=f（x).But f（x)is an odd y B C1 A B2 X2 function.Consequently，F （x),is an even function （see problem 3in 9.3);(b)Use the assertion made in（a);(c)0.Prove that the function f（x)=x6（aresin z)is odd on the interval [-1,1].3.The antiderivativeF（x)isoddifF（0）=0.4.f（x)≥0ifa<b;f（x)≤0 ifa> b (for all zE[a;bl).5.{n/3}.",
+      "concept_id": "concept_7efa7a3bb2",
+      "book_id": "book_f2847eeae3",
+      "source_pages": [
+        274,
+        275,
+        276,
+        277,
+        278,
+        279
+      ]
+    },
+    {
+      "entity_id": "comp_1cbb8753b6",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 1.1 Linear Equations andInequalities in One Variable practice pages 11-13",
+      "concept_id": "concept_966b1f96a5"
+    },
+    {
+      "entity_id": "comp_bb68f4ae07",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 1.2 QuadraticEquations andInequalities practice pages 14-18",
+      "concept_id": "concept_f591c9246c"
+    },
+    {
+      "entity_id": "comp_98e31d8974",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 1.3 InverseProportionality practice pages 19-21",
+      "concept_id": "concept_5e078c2130"
+    },
+    {
+      "entity_id": "comp_503f38bb9c",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 1.4 Equations and Inequalities of Higher Degrees practice pages 22-26",
+      "concept_id": "concept_5b1da3f2f2"
+    },
+    {
+      "entity_id": "comp_6b3fed9023",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 1.5 Linear Systems of Equations and Inequalities practice pages 27-29",
+      "concept_id": "concept_aa5d393aaf"
+    },
+    {
+      "entity_id": "comp_1ee6597478",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 1.6 Systems ofEquationsandInequalities practice pages 30-32",
+      "concept_id": "concept_416b34274b"
+    },
+    {
+      "entity_id": "comp_b52ccdc61b",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.1 Irrational Equations andInequalities practice pages 33-37",
+      "concept_id": "concept_d37918f89a"
+    },
+    {
+      "entity_id": "comp_957c87db86",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.2 Systems ofIrrational Equations andInequalities practice pages 38-38",
+      "concept_id": "concept_e81eedd27f"
+    },
+    {
+      "entity_id": "comp_36fb4b2f5c",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.3 An Exponential and a Logarithmic Function, practice pages 39-44",
+      "concept_id": "concept_246ce853ae"
+    },
+    {
+      "entity_id": "comp_3367bb8f63",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.3 An Exponential and a Logarithmic Function, practice pages 45-50",
+      "concept_id": "concept_19a4d53938"
+    },
+    {
+      "entity_id": "comp_05856ba229",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.4 Transformation of Trigonometric Expressions practice pages 51-53",
+      "concept_id": "concept_1a1cc801ab"
+    },
+    {
+      "entity_id": "comp_7947583fe2",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.5 Trigonometric Functions practice pages 54-56",
+      "concept_id": "concept_a8bc606a3c"
+    },
+    {
+      "entity_id": "comp_fc0408ccc2",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.6 Inverse Trigonometric Functions practice pages 57-60",
+      "concept_id": "concept_c659b18a62"
+    },
+    {
+      "entity_id": "comp_2db2c784cc",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.7 Trigonometric Equations and Systems of Equations practice pages 61-66",
+      "concept_id": "concept_73b430198b"
+    },
+    {
+      "entity_id": "comp_dda8427e22",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.7 Trigonometric Equations and Systems of Equations practice pages 67-69",
+      "concept_id": "concept_2a6f7d6b1b"
+    },
+    {
+      "entity_id": "comp_5173015fa5",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.8 TrigonometricInequalities practice pages 70-71",
+      "concept_id": "concept_0b8bb1d4ab"
+    },
+    {
+      "entity_id": "comp_0dbb45892f",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 3.1 Problems onMotion practice pages 72-77",
+      "concept_id": "concept_80f2b383f9"
+    },
+    {
+      "entity_id": "comp_2db67b4933",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 3.2 Problems on Percentage,Mixtures, practice pages 78-82",
+      "concept_id": "concept_ce37252ec0"
+    },
+    {
+      "entity_id": "comp_b38dd245b2",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 3.3 Problems onDerivingInequalities and Systems practice pages 83-85",
+      "concept_id": "concept_a7d0197ca3"
+    },
+    {
+      "entity_id": "comp_192a551957",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 4.1 TheAntiderivative.TheNewton-LeibnizFormula practice pages 86-88",
+      "concept_id": "concept_5d8da8cc3d"
+    },
+    {
+      "entity_id": "comp_47e86364d1",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 4.2 CalculatingtheAreas ofPlaneFigures practice pages 89-91",
+      "concept_id": "concept_9a49ed3c17"
+    },
+    {
+      "entity_id": "comp_f80eb80040",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 5.1 Progressions practice pages 92-97",
+      "concept_id": "concept_bd349d0c63"
+    },
+    {
+      "entity_id": "comp_e1f2c1da4e",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 5.2 Number Sequences practice pages 98-100",
+      "concept_id": "concept_2bfece366b"
+    },
+    {
+      "entity_id": "comp_5fe617c0aa",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 6.1 Linear Operations onVectors practice pages 101-102",
+      "concept_id": "concept_0dc5c6a4a3"
+    },
+    {
+      "entity_id": "comp_579e6fb1d8",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 6.2 TheScalarProductofVectors practice pages 103-106",
+      "concept_id": "concept_d6b3245864"
+    },
+    {
+      "entity_id": "comp_2982c2378f",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 7.1 Problems on Proving Propositions practice pages 107-108",
+      "concept_id": "concept_e007a08ac3"
+    },
+    {
+      "entity_id": "comp_4965c6b643",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 7.2 ConstructionProblems practice pages 109-109",
+      "concept_id": "concept_958d98624e"
+    },
+    {
+      "entity_id": "comp_99668105dc",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 7.3 Problems on Calculation practice pages 110-114",
+      "concept_id": "concept_52319e8fbb"
+    },
+    {
+      "entity_id": "comp_840ae25947",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 8.1 A Straight Line,a Plane,Polyhedra practice pages 115-119",
+      "concept_id": "concept_322bf2bf32"
+    },
+    {
+      "entity_id": "comp_a3cf9f0f6f",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 8.2 Problems on Combinations of Polyhedra practice pages 120-125",
+      "concept_id": "concept_715e66b12a"
+    },
+    {
+      "entity_id": "comp_5168ba8739",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 8.2 Problems on Combinations of Polyhedra practice pages 126-126",
+      "concept_id": "concept_dc76038a15"
+    },
+    {
+      "entity_id": "comp_913e16c41e",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 8.3 VolumesofSolidsofRevolution practice pages 127-127",
+      "concept_id": "concept_5baf3b211f"
+    },
+    {
+      "entity_id": "comp_23214638cb",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 9.1 ProblemsinAlgebra practice pages 128-130",
+      "concept_id": "concept_9f574ad684"
+    },
+    {
+      "entity_id": "comp_becd02d27b",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 9.2 Limit of aFunction.Continuity practice pages 131-131",
+      "concept_id": "concept_df3b2956cd"
+    },
+    {
+      "entity_id": "comp_f31f495673",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 9.3 TheDerivative of aFunction practice pages 132-133",
+      "concept_id": "concept_c11559b955"
+    },
+    {
+      "entity_id": "comp_5565af4a70",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 9.4 IntegralCalculus.MiscellaneousProblems practice pages 134-138",
+      "concept_id": "concept_e929a4228c"
+    },
+    {
+      "entity_id": "comp_f2ad061bbe",
+      "entity_type": "Competency",
+      "name": "Perform the procedure 1.1 LinearEquations andInequalities in OneVariable practice pages 139-140",
+      "concept_id": "concept_afd5a9c26a"
+    },
+    {
+      "entity_id": "comp_ff0fb11424",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 1.2 Quadratic Equations andInequalities practice pages 144-149",
+      "concept_id": "concept_78fabb746d"
+    },
+    {
+      "entity_id": "comp_c9095f972a",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 1.3 InverseProportionality practice pages 150-152",
+      "concept_id": "concept_2c57fddca7"
+    },
+    {
+      "entity_id": "comp_92531c8dc6",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 1.4 Equations and Inequalities of Higher Degrees practice pages 158-163",
+      "concept_id": "concept_6a9f8ae9e4"
+    },
+    {
+      "entity_id": "comp_476300719a",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 1.4 Equations and Inequalities of Higher Degrees practice pages 164-167",
+      "concept_id": "concept_d3d5fa9c90"
+    },
+    {
+      "entity_id": "comp_9e9d6d08b7",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 1.5 Linear Systems ofEquations andInequalities practice pages 168-170",
+      "concept_id": "concept_78a9088b3c"
+    },
+    {
+      "entity_id": "comp_449e47621e",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 1.6 Systems ofEquations andInequalities practice pages 171-173",
+      "concept_id": "concept_48e09ef5fc"
+    },
+    {
+      "entity_id": "comp_bcda6efef2",
+      "entity_type": "Competency",
+      "name": "Perform the procedure 2.1 Irrational Equations and Inequalities practice pages 175-179",
+      "concept_id": "concept_ddaf06dfd0"
+    },
+    {
+      "entity_id": "comp_9f904e1584",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.2 Systems ofIrrationalEquations practice pages 180-180",
+      "concept_id": "concept_e4db108e9c"
+    },
+    {
+      "entity_id": "comp_29a93e3005",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.3 An Exponential and aLogarithmic Functions, practice pages 181-186",
+      "concept_id": "concept_86b20d7384"
+    },
+    {
+      "entity_id": "comp_cd5826cc87",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.3 An Exponential and aLogarithmic Functions, practice pages 187-190",
+      "concept_id": "concept_7df0ec68cd"
+    },
+    {
+      "entity_id": "comp_b52037e480",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.4 Transformation of TrigonometricExpressions practice pages 191-192",
+      "concept_id": "concept_9b3dbd356a"
+    },
+    {
+      "entity_id": "comp_597333bf91",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.5 TrigonometricFunctions practice pages 193-199",
+      "concept_id": "concept_7d3b7f64b8"
+    },
+    {
+      "entity_id": "comp_d07abcfab1",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.6 InverseTrigonometricFunctions practice pages 200-204",
+      "concept_id": "concept_28a33373e8"
+    },
+    {
+      "entity_id": "comp_6435ce82dc",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.7 TrigonometricEquations and Systems ofEquations practice pages 205-210",
+      "concept_id": "concept_979d1266a0"
+    },
+    {
+      "entity_id": "comp_023402969a",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.7 TrigonometricEquations and Systems ofEquations practice pages 211-216",
+      "concept_id": "concept_45733a2de0"
+    },
+    {
+      "entity_id": "comp_14066e0035",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.7 TrigonometricEquations and Systems ofEquations practice pages 217-218",
+      "concept_id": "concept_4bf489703b"
+    },
+    {
+      "entity_id": "comp_32d85a3b90",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 2.8 TrigonometricInequalities practice pages 219-220",
+      "concept_id": "concept_9dcfcbddae"
+    },
+    {
+      "entity_id": "comp_66b971fc1c",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 3.1 ProblemsonMotion practice pages 221-221",
+      "concept_id": "concept_55243fb7b8"
+    },
+    {
+      "entity_id": "comp_8cf230c102",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 3.2 Problems on Percentages,Mixtures, practice pages 222-222",
+      "concept_id": "concept_e585373915"
+    },
+    {
+      "entity_id": "comp_2824fe5e72",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 3.3 Problems onDerivingInequalitiesand Systems practice pages 223-224",
+      "concept_id": "concept_6a958536a0"
+    },
+    {
+      "entity_id": "comp_ed40779f6f",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 4.1 The Antiderivative.The Newton-LeibnizFormula practice pages 225-226",
+      "concept_id": "concept_d5335cf614"
+    },
+    {
+      "entity_id": "comp_f0bc31ca78",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 4.2 CalculatingtheAreasofPlane Figures practice pages 227-229",
+      "concept_id": "concept_5510e8ae01"
+    },
+    {
+      "entity_id": "comp_4799156d0a",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 5.1 Progressions practice pages 230-232",
+      "concept_id": "concept_cd9ec05584"
+    },
+    {
+      "entity_id": "comp_fa22e159a2",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 5.2 NumberSequences practice pages 233-235",
+      "concept_id": "concept_631a52d707"
+    },
+    {
+      "entity_id": "comp_0bafc5ee25",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 6.1 Linear Operations onVectors practice pages 236-236",
+      "concept_id": "concept_310360799c"
+    },
+    {
+      "entity_id": "comp_cf029a2349",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 6.2 The ScalarProduct of Vectors practice pages 237-240",
+      "concept_id": "concept_6bcc14f8fd"
+    },
+    {
+      "entity_id": "comp_8fdd51bb15",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 7.1 Problems onProvingProportions practice pages 241-244",
+      "concept_id": "concept_01dfdd2964"
+    },
+    {
+      "entity_id": "comp_1b84299e86",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 7.2 Construction Problems practice pages 245-246",
+      "concept_id": "concept_157b94d8d6"
+    },
+    {
+      "entity_id": "comp_2bc4f8eff7",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 7.3 Problems on Calculation practice pages 247-251",
+      "concept_id": "concept_d29f22e744"
+    },
+    {
+      "entity_id": "comp_6707bb2bdd",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution practice pages 252-256",
+      "concept_id": "concept_165743b2c0"
+    },
+    {
+      "entity_id": "comp_bc605aa54b",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 8.2 Problemson CombinationsofPolyhedra practice pages 257-262",
+      "concept_id": "concept_01295855fc"
+    },
+    {
+      "entity_id": "comp_eafc9fb82a",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 8.2 Problemson CombinationsofPolyhedra practice pages 263-263",
+      "concept_id": "concept_40907e2e0b"
+    },
+    {
+      "entity_id": "comp_ed83d70c6d",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 8.3 VolumesofSolidsofRevolution practice pages 264-264",
+      "concept_id": "concept_7851214b7a"
+    },
+    {
+      "entity_id": "comp_597db6677e",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 9.1 ProblemsinAlgebra practice pages 265-269",
+      "concept_id": "concept_0a20a893b0"
+    },
+    {
+      "entity_id": "comp_5a785d956e",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 9.2 Limit of a Function.Continuity practice pages 270-272",
+      "concept_id": "concept_7c05741f2e"
+    },
+    {
+      "entity_id": "comp_81e2bb3bb2",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 9.3 TheDerivative ofaFunction practice pages 273-274",
+      "concept_id": "concept_41e12f8bde"
+    },
+    {
+      "entity_id": "comp_18045f812f",
+      "entity_type": "Competency",
+      "name": "Define and distinguish 9.4 Integral Calculus.MiscellaneousProblems practice pages 275-280",
+      "concept_id": "concept_7efa7a3bb2"
+    },
+    {
+      "entity_id": "assessment_1cbb8753b6",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_966b1f96a5"
+    },
+    {
+      "entity_id": "assessment_bb68f4ae07",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_f591c9246c"
+    },
+    {
+      "entity_id": "assessment_98e31d8974",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_5e078c2130"
+    },
+    {
+      "entity_id": "assessment_503f38bb9c",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_5b1da3f2f2"
+    },
+    {
+      "entity_id": "assessment_6b3fed9023",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_aa5d393aaf"
+    },
+    {
+      "entity_id": "assessment_1ee6597478",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_416b34274b"
+    },
+    {
+      "entity_id": "assessment_b52ccdc61b",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_d37918f89a"
+    },
+    {
+      "entity_id": "assessment_957c87db86",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_e81eedd27f"
+    },
+    {
+      "entity_id": "assessment_36fb4b2f5c",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_246ce853ae"
+    },
+    {
+      "entity_id": "assessment_3367bb8f63",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_19a4d53938"
+    },
+    {
+      "entity_id": "assessment_05856ba229",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_1a1cc801ab"
+    },
+    {
+      "entity_id": "assessment_7947583fe2",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_a8bc606a3c"
+    },
+    {
+      "entity_id": "assessment_fc0408ccc2",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_c659b18a62"
+    },
+    {
+      "entity_id": "assessment_2db2c784cc",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_73b430198b"
+    },
+    {
+      "entity_id": "assessment_dda8427e22",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_2a6f7d6b1b"
+    },
+    {
+      "entity_id": "assessment_5173015fa5",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_0b8bb1d4ab"
+    },
+    {
+      "entity_id": "assessment_0dbb45892f",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_80f2b383f9"
+    },
+    {
+      "entity_id": "assessment_2db67b4933",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_ce37252ec0"
+    },
+    {
+      "entity_id": "assessment_b38dd245b2",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_a7d0197ca3"
+    },
+    {
+      "entity_id": "assessment_192a551957",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_5d8da8cc3d"
+    },
+    {
+      "entity_id": "assessment_47e86364d1",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_9a49ed3c17"
+    },
+    {
+      "entity_id": "assessment_f80eb80040",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_bd349d0c63"
+    },
+    {
+      "entity_id": "assessment_e1f2c1da4e",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_2bfece366b"
+    },
+    {
+      "entity_id": "assessment_5fe617c0aa",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_0dc5c6a4a3"
+    },
+    {
+      "entity_id": "assessment_579e6fb1d8",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_d6b3245864"
+    },
+    {
+      "entity_id": "assessment_2982c2378f",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_e007a08ac3"
+    },
+    {
+      "entity_id": "assessment_4965c6b643",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_958d98624e"
+    },
+    {
+      "entity_id": "assessment_99668105dc",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_52319e8fbb"
+    },
+    {
+      "entity_id": "assessment_840ae25947",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_322bf2bf32"
+    },
+    {
+      "entity_id": "assessment_a3cf9f0f6f",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_715e66b12a"
+    },
+    {
+      "entity_id": "assessment_5168ba8739",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_dc76038a15"
+    },
+    {
+      "entity_id": "assessment_913e16c41e",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_5baf3b211f"
+    },
+    {
+      "entity_id": "assessment_23214638cb",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_9f574ad684"
+    },
+    {
+      "entity_id": "assessment_becd02d27b",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_df3b2956cd"
+    },
+    {
+      "entity_id": "assessment_f31f495673",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_c11559b955"
+    },
+    {
+      "entity_id": "assessment_5565af4a70",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_e929a4228c"
+    },
+    {
+      "entity_id": "assessment_f2ad061bbe",
+      "entity_type": "Assessment",
+      "name": "Practical, Problem Solving",
+      "concept_id": "concept_afd5a9c26a"
+    },
+    {
+      "entity_id": "assessment_ff0fb11424",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_78fabb746d"
+    },
+    {
+      "entity_id": "assessment_c9095f972a",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_2c57fddca7"
+    },
+    {
+      "entity_id": "assessment_92531c8dc6",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_6a9f8ae9e4"
+    },
+    {
+      "entity_id": "assessment_476300719a",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_d3d5fa9c90"
+    },
+    {
+      "entity_id": "assessment_9e9d6d08b7",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_78a9088b3c"
+    },
+    {
+      "entity_id": "assessment_449e47621e",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_48e09ef5fc"
+    },
+    {
+      "entity_id": "assessment_bcda6efef2",
+      "entity_type": "Assessment",
+      "name": "Practical, Problem Solving",
+      "concept_id": "concept_ddaf06dfd0"
+    },
+    {
+      "entity_id": "assessment_9f904e1584",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_e4db108e9c"
+    },
+    {
+      "entity_id": "assessment_29a93e3005",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_86b20d7384"
+    },
+    {
+      "entity_id": "assessment_cd5826cc87",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_7df0ec68cd"
+    },
+    {
+      "entity_id": "assessment_b52037e480",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_9b3dbd356a"
+    },
+    {
+      "entity_id": "assessment_597333bf91",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_7d3b7f64b8"
+    },
+    {
+      "entity_id": "assessment_d07abcfab1",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_28a33373e8"
+    },
+    {
+      "entity_id": "assessment_6435ce82dc",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_979d1266a0"
+    },
+    {
+      "entity_id": "assessment_023402969a",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_45733a2de0"
+    },
+    {
+      "entity_id": "assessment_14066e0035",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_4bf489703b"
+    },
+    {
+      "entity_id": "assessment_32d85a3b90",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_9dcfcbddae"
+    },
+    {
+      "entity_id": "assessment_66b971fc1c",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_55243fb7b8"
+    },
+    {
+      "entity_id": "assessment_8cf230c102",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_e585373915"
+    },
+    {
+      "entity_id": "assessment_2824fe5e72",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_6a958536a0"
+    },
+    {
+      "entity_id": "assessment_ed40779f6f",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_d5335cf614"
+    },
+    {
+      "entity_id": "assessment_f0bc31ca78",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_5510e8ae01"
+    },
+    {
+      "entity_id": "assessment_4799156d0a",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_cd9ec05584"
+    },
+    {
+      "entity_id": "assessment_fa22e159a2",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_631a52d707"
+    },
+    {
+      "entity_id": "assessment_0bafc5ee25",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_310360799c"
+    },
+    {
+      "entity_id": "assessment_cf029a2349",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_6bcc14f8fd"
+    },
+    {
+      "entity_id": "assessment_8fdd51bb15",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_01dfdd2964"
+    },
+    {
+      "entity_id": "assessment_1b84299e86",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_157b94d8d6"
+    },
+    {
+      "entity_id": "assessment_2bc4f8eff7",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_d29f22e744"
+    },
+    {
+      "entity_id": "assessment_6707bb2bdd",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_165743b2c0"
+    },
+    {
+      "entity_id": "assessment_bc605aa54b",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_01295855fc"
+    },
+    {
+      "entity_id": "assessment_eafc9fb82a",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_40907e2e0b"
+    },
+    {
+      "entity_id": "assessment_ed83d70c6d",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_7851214b7a"
+    },
+    {
+      "entity_id": "assessment_597db6677e",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_0a20a893b0"
+    },
+    {
+      "entity_id": "assessment_5a785d956e",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_7c05741f2e"
+    },
+    {
+      "entity_id": "assessment_81e2bb3bb2",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_41e12f8bde"
+    },
+    {
+      "entity_id": "assessment_18045f812f",
+      "entity_type": "Assessment",
+      "name": "MCQ, Short Answer",
+      "concept_id": "concept_7efa7a3bb2"
+    },
+    {
+      "entity_id": "misc_5a6c90498d",
+      "entity_type": "Misconception",
+      "name": "1.1 Linear Equations andInequalities in One Variable practice pages 11-13 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_966b1f96a5"
+    },
+    {
+      "entity_id": "misc_3f44656a2f",
+      "entity_type": "Misconception",
+      "name": "1.1 Linear Equations andInequalities in One Variable practice pages 11-13 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_966b1f96a5"
+    },
+    {
+      "entity_id": "misc_2fc9c83279",
+      "entity_type": "Misconception",
+      "name": "1.2 QuadraticEquations andInequalities practice pages 14-18 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_f591c9246c"
+    },
+    {
+      "entity_id": "misc_c513ea7249",
+      "entity_type": "Misconception",
+      "name": "1.2 QuadraticEquations andInequalities practice pages 14-18 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_f591c9246c"
+    },
+    {
+      "entity_id": "misc_a81985e8c7",
+      "entity_type": "Misconception",
+      "name": "1.3 InverseProportionality practice pages 19-21 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_5e078c2130"
+    },
+    {
+      "entity_id": "misc_a8762c6843",
+      "entity_type": "Misconception",
+      "name": "1.3 InverseProportionality practice pages 19-21 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_5e078c2130"
+    },
+    {
+      "entity_id": "misc_fe90d69199",
+      "entity_type": "Misconception",
+      "name": "1.4 Equations and Inequalities of Higher Degrees practice pages 22-26 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_5b1da3f2f2"
+    },
+    {
+      "entity_id": "misc_051c27df2b",
+      "entity_type": "Misconception",
+      "name": "1.4 Equations and Inequalities of Higher Degrees practice pages 22-26 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_5b1da3f2f2"
+    },
+    {
+      "entity_id": "misc_2ec60480c3",
+      "entity_type": "Misconception",
+      "name": "1.5 Linear Systems of Equations and Inequalities practice pages 27-29 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_aa5d393aaf"
+    },
+    {
+      "entity_id": "misc_5e82a86bf2",
+      "entity_type": "Misconception",
+      "name": "1.5 Linear Systems of Equations and Inequalities practice pages 27-29 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_aa5d393aaf"
+    },
+    {
+      "entity_id": "misc_d5728fdbf1",
+      "entity_type": "Misconception",
+      "name": "1.6 Systems ofEquationsandInequalities practice pages 30-32 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_416b34274b"
+    },
+    {
+      "entity_id": "misc_6b3a7af21e",
+      "entity_type": "Misconception",
+      "name": "1.6 Systems ofEquationsandInequalities practice pages 30-32 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_416b34274b"
+    },
+    {
+      "entity_id": "misc_6762b87471",
+      "entity_type": "Misconception",
+      "name": "2.1 Irrational Equations andInequalities practice pages 33-37 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_d37918f89a"
+    },
+    {
+      "entity_id": "misc_dd3c11bc9c",
+      "entity_type": "Misconception",
+      "name": "2.1 Irrational Equations andInequalities practice pages 33-37 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_d37918f89a"
+    },
+    {
+      "entity_id": "misc_18c93563a1",
+      "entity_type": "Misconception",
+      "name": "2.2 Systems ofIrrational Equations andInequalities practice pages 38-38 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_e81eedd27f"
+    },
+    {
+      "entity_id": "misc_5b4efa576d",
+      "entity_type": "Misconception",
+      "name": "2.2 Systems ofIrrational Equations andInequalities practice pages 38-38 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_e81eedd27f"
+    },
+    {
+      "entity_id": "misc_001c1f19ad",
+      "entity_type": "Misconception",
+      "name": "2.3 An Exponential and a Logarithmic Function, practice pages 39-44 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_246ce853ae"
+    },
+    {
+      "entity_id": "misc_e2ff7ce5f5",
+      "entity_type": "Misconception",
+      "name": "2.3 An Exponential and a Logarithmic Function, practice pages 39-44 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_246ce853ae"
+    },
+    {
+      "entity_id": "misc_39dbfd6532",
+      "entity_type": "Misconception",
+      "name": "2.3 An Exponential and a Logarithmic Function, practice pages 45-50 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_19a4d53938"
+    },
+    {
+      "entity_id": "misc_51e4a826f0",
+      "entity_type": "Misconception",
+      "name": "2.3 An Exponential and a Logarithmic Function, practice pages 45-50 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_19a4d53938"
+    },
+    {
+      "entity_id": "misc_656b0cee21",
+      "entity_type": "Misconception",
+      "name": "2.4 Transformation of Trigonometric Expressions practice pages 51-53 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_1a1cc801ab"
+    },
+    {
+      "entity_id": "misc_b75b4af1a1",
+      "entity_type": "Misconception",
+      "name": "2.4 Transformation of Trigonometric Expressions practice pages 51-53 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_1a1cc801ab"
+    },
+    {
+      "entity_id": "misc_e5016c127d",
+      "entity_type": "Misconception",
+      "name": "2.5 Trigonometric Functions practice pages 54-56 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_a8bc606a3c"
+    },
+    {
+      "entity_id": "misc_b8450d4434",
+      "entity_type": "Misconception",
+      "name": "2.5 Trigonometric Functions practice pages 54-56 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_a8bc606a3c"
+    },
+    {
+      "entity_id": "misc_fcab5a7513",
+      "entity_type": "Misconception",
+      "name": "2.6 Inverse Trigonometric Functions practice pages 57-60 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_c659b18a62"
+    },
+    {
+      "entity_id": "misc_e222167e76",
+      "entity_type": "Misconception",
+      "name": "2.6 Inverse Trigonometric Functions practice pages 57-60 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_c659b18a62"
+    },
+    {
+      "entity_id": "misc_f312a2333d",
+      "entity_type": "Misconception",
+      "name": "2.7 Trigonometric Equations and Systems of Equations practice pages 61-66 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_73b430198b"
+    },
+    {
+      "entity_id": "misc_a492217c81",
+      "entity_type": "Misconception",
+      "name": "2.7 Trigonometric Equations and Systems of Equations practice pages 61-66 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_73b430198b"
+    },
+    {
+      "entity_id": "misc_e536c66718",
+      "entity_type": "Misconception",
+      "name": "2.7 Trigonometric Equations and Systems of Equations practice pages 67-69 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_2a6f7d6b1b"
+    },
+    {
+      "entity_id": "misc_d935cd3afa",
+      "entity_type": "Misconception",
+      "name": "2.7 Trigonometric Equations and Systems of Equations practice pages 67-69 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_2a6f7d6b1b"
+    },
+    {
+      "entity_id": "misc_b0d21bf6eb",
+      "entity_type": "Misconception",
+      "name": "2.8 TrigonometricInequalities practice pages 70-71 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_0b8bb1d4ab"
+    },
+    {
+      "entity_id": "misc_7bd496a1c3",
+      "entity_type": "Misconception",
+      "name": "2.8 TrigonometricInequalities practice pages 70-71 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_0b8bb1d4ab"
+    },
+    {
+      "entity_id": "misc_6c8f9ab2a6",
+      "entity_type": "Misconception",
+      "name": "3.1 Problems onMotion practice pages 72-77 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_80f2b383f9"
+    },
+    {
+      "entity_id": "misc_af55213a22",
+      "entity_type": "Misconception",
+      "name": "3.1 Problems onMotion practice pages 72-77 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_80f2b383f9"
+    },
+    {
+      "entity_id": "misc_c489bc712d",
+      "entity_type": "Misconception",
+      "name": "3.2 Problems on Percentage,Mixtures, practice pages 78-82 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_ce37252ec0"
+    },
+    {
+      "entity_id": "misc_df4dd1ffa5",
+      "entity_type": "Misconception",
+      "name": "3.2 Problems on Percentage,Mixtures, practice pages 78-82 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_ce37252ec0"
+    },
+    {
+      "entity_id": "misc_9c34be019a",
+      "entity_type": "Misconception",
+      "name": "3.3 Problems onDerivingInequalities and Systems practice pages 83-85 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_a7d0197ca3"
+    },
+    {
+      "entity_id": "misc_c97074b3e4",
+      "entity_type": "Misconception",
+      "name": "3.3 Problems onDerivingInequalities and Systems practice pages 83-85 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_a7d0197ca3"
+    },
+    {
+      "entity_id": "misc_0cd1203c87",
+      "entity_type": "Misconception",
+      "name": "4.1 TheAntiderivative.TheNewton-LeibnizFormula practice pages 86-88 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_5d8da8cc3d"
+    },
+    {
+      "entity_id": "misc_2ae5e610da",
+      "entity_type": "Misconception",
+      "name": "4.1 TheAntiderivative.TheNewton-LeibnizFormula practice pages 86-88 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_5d8da8cc3d"
+    },
+    {
+      "entity_id": "misc_4d7d422584",
+      "entity_type": "Misconception",
+      "name": "4.2 CalculatingtheAreas ofPlaneFigures practice pages 89-91 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_9a49ed3c17"
+    },
+    {
+      "entity_id": "misc_79939ef424",
+      "entity_type": "Misconception",
+      "name": "4.2 CalculatingtheAreas ofPlaneFigures practice pages 89-91 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_9a49ed3c17"
+    },
+    {
+      "entity_id": "misc_d94a688e36",
+      "entity_type": "Misconception",
+      "name": "5.1 Progressions practice pages 92-97 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_bd349d0c63"
+    },
+    {
+      "entity_id": "misc_56e792ae99",
+      "entity_type": "Misconception",
+      "name": "5.1 Progressions practice pages 92-97 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_bd349d0c63"
+    },
+    {
+      "entity_id": "misc_dc684f6dc1",
+      "entity_type": "Misconception",
+      "name": "5.2 Number Sequences practice pages 98-100 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_2bfece366b"
+    },
+    {
+      "entity_id": "misc_0a8233dc8d",
+      "entity_type": "Misconception",
+      "name": "5.2 Number Sequences practice pages 98-100 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_2bfece366b"
+    },
+    {
+      "entity_id": "misc_d4dd367a97",
+      "entity_type": "Misconception",
+      "name": "6.1 Linear Operations onVectors practice pages 101-102 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_0dc5c6a4a3"
+    },
+    {
+      "entity_id": "misc_753ac9c9c1",
+      "entity_type": "Misconception",
+      "name": "6.1 Linear Operations onVectors practice pages 101-102 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_0dc5c6a4a3"
+    },
+    {
+      "entity_id": "misc_a92e49d6ce",
+      "entity_type": "Misconception",
+      "name": "6.2 TheScalarProductofVectors practice pages 103-106 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_d6b3245864"
+    },
+    {
+      "entity_id": "misc_4f11423ee2",
+      "entity_type": "Misconception",
+      "name": "6.2 TheScalarProductofVectors practice pages 103-106 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_d6b3245864"
+    },
+    {
+      "entity_id": "misc_62591d1729",
+      "entity_type": "Misconception",
+      "name": "7.1 Problems on Proving Propositions practice pages 107-108 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_e007a08ac3"
+    },
+    {
+      "entity_id": "misc_8c5dc12012",
+      "entity_type": "Misconception",
+      "name": "7.1 Problems on Proving Propositions practice pages 107-108 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_e007a08ac3"
+    },
+    {
+      "entity_id": "misc_f9b26c552d",
+      "entity_type": "Misconception",
+      "name": "7.2 ConstructionProblems practice pages 109-109 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_958d98624e"
+    },
+    {
+      "entity_id": "misc_1e19dfc024",
+      "entity_type": "Misconception",
+      "name": "7.2 ConstructionProblems practice pages 109-109 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_958d98624e"
+    },
+    {
+      "entity_id": "misc_b0a667d965",
+      "entity_type": "Misconception",
+      "name": "7.3 Problems on Calculation practice pages 110-114 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_52319e8fbb"
+    },
+    {
+      "entity_id": "misc_4b531e2d37",
+      "entity_type": "Misconception",
+      "name": "7.3 Problems on Calculation practice pages 110-114 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_52319e8fbb"
+    },
+    {
+      "entity_id": "misc_27cc534e9e",
+      "entity_type": "Misconception",
+      "name": "8.1 A Straight Line,a Plane,Polyhedra practice pages 115-119 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_322bf2bf32"
+    },
+    {
+      "entity_id": "misc_f5805480bd",
+      "entity_type": "Misconception",
+      "name": "8.1 A Straight Line,a Plane,Polyhedra practice pages 115-119 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_322bf2bf32"
+    },
+    {
+      "entity_id": "misc_536abe6340",
+      "entity_type": "Misconception",
+      "name": "8.2 Problems on Combinations of Polyhedra practice pages 120-125 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_715e66b12a"
+    },
+    {
+      "entity_id": "misc_97a653ae97",
+      "entity_type": "Misconception",
+      "name": "8.2 Problems on Combinations of Polyhedra practice pages 120-125 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_715e66b12a"
+    },
+    {
+      "entity_id": "misc_1e81859ae4",
+      "entity_type": "Misconception",
+      "name": "8.2 Problems on Combinations of Polyhedra practice pages 126-126 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_dc76038a15"
+    },
+    {
+      "entity_id": "misc_4e6738d44b",
+      "entity_type": "Misconception",
+      "name": "8.2 Problems on Combinations of Polyhedra practice pages 126-126 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_dc76038a15"
+    },
+    {
+      "entity_id": "misc_794401c2ef",
+      "entity_type": "Misconception",
+      "name": "8.3 VolumesofSolidsofRevolution practice pages 127-127 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_5baf3b211f"
+    },
+    {
+      "entity_id": "misc_e853516079",
+      "entity_type": "Misconception",
+      "name": "8.3 VolumesofSolidsofRevolution practice pages 127-127 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_5baf3b211f"
+    },
+    {
+      "entity_id": "misc_e1ad3f24c2",
+      "entity_type": "Misconception",
+      "name": "9.1 ProblemsinAlgebra practice pages 128-130 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_9f574ad684"
+    },
+    {
+      "entity_id": "misc_db905b689f",
+      "entity_type": "Misconception",
+      "name": "9.1 ProblemsinAlgebra practice pages 128-130 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_9f574ad684"
+    },
+    {
+      "entity_id": "misc_5e01e0b93a",
+      "entity_type": "Misconception",
+      "name": "9.2 Limit of aFunction.Continuity practice pages 131-131 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_df3b2956cd"
+    },
+    {
+      "entity_id": "misc_61b778b10e",
+      "entity_type": "Misconception",
+      "name": "9.2 Limit of aFunction.Continuity practice pages 131-131 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_df3b2956cd"
+    },
+    {
+      "entity_id": "misc_bea5bb5965",
+      "entity_type": "Misconception",
+      "name": "9.3 TheDerivative of aFunction practice pages 132-133 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_c11559b955"
+    },
+    {
+      "entity_id": "misc_92adfc8b72",
+      "entity_type": "Misconception",
+      "name": "9.3 TheDerivative of aFunction practice pages 132-133 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_c11559b955"
+    },
+    {
+      "entity_id": "misc_5ca9aff4f8",
+      "entity_type": "Misconception",
+      "name": "9.4 IntegralCalculus.MiscellaneousProblems practice pages 134-138 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_e929a4228c"
+    },
+    {
+      "entity_id": "misc_e5ff6d3cbe",
+      "entity_type": "Misconception",
+      "name": "9.4 IntegralCalculus.MiscellaneousProblems practice pages 134-138 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_e929a4228c"
+    },
+    {
+      "entity_id": "misc_43b6bd0c99",
+      "entity_type": "Misconception",
+      "name": "1.1 LinearEquations andInequalities in OneVariable practice pages 139-140 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_afd5a9c26a"
+    },
+    {
+      "entity_id": "misc_ee758b297f",
+      "entity_type": "Misconception",
+      "name": "1.1 LinearEquations andInequalities in OneVariable practice pages 139-140 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_afd5a9c26a"
+    },
+    {
+      "entity_id": "misc_f77f66cdec",
+      "entity_type": "Misconception",
+      "name": "1.2 Quadratic Equations andInequalities practice pages 144-149 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_78fabb746d"
+    },
+    {
+      "entity_id": "misc_428aba7269",
+      "entity_type": "Misconception",
+      "name": "1.2 Quadratic Equations andInequalities practice pages 144-149 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_78fabb746d"
+    },
+    {
+      "entity_id": "misc_942d1e5ea6",
+      "entity_type": "Misconception",
+      "name": "1.3 InverseProportionality practice pages 150-152 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_2c57fddca7"
+    },
+    {
+      "entity_id": "misc_06ff627bf7",
+      "entity_type": "Misconception",
+      "name": "1.3 InverseProportionality practice pages 150-152 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_2c57fddca7"
+    },
+    {
+      "entity_id": "misc_686aa45bb8",
+      "entity_type": "Misconception",
+      "name": "1.4 Equations and Inequalities of Higher Degrees practice pages 158-163 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_6a9f8ae9e4"
+    },
+    {
+      "entity_id": "misc_67846cea6e",
+      "entity_type": "Misconception",
+      "name": "1.4 Equations and Inequalities of Higher Degrees practice pages 158-163 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_6a9f8ae9e4"
+    },
+    {
+      "entity_id": "misc_3350db56a6",
+      "entity_type": "Misconception",
+      "name": "1.4 Equations and Inequalities of Higher Degrees practice pages 164-167 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_d3d5fa9c90"
+    },
+    {
+      "entity_id": "misc_46f40e953f",
+      "entity_type": "Misconception",
+      "name": "1.4 Equations and Inequalities of Higher Degrees practice pages 164-167 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_d3d5fa9c90"
+    },
+    {
+      "entity_id": "misc_315695e720",
+      "entity_type": "Misconception",
+      "name": "1.5 Linear Systems ofEquations andInequalities practice pages 168-170 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_78a9088b3c"
+    },
+    {
+      "entity_id": "misc_47c1908d9b",
+      "entity_type": "Misconception",
+      "name": "1.5 Linear Systems ofEquations andInequalities practice pages 168-170 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_78a9088b3c"
+    },
+    {
+      "entity_id": "misc_1f93497df0",
+      "entity_type": "Misconception",
+      "name": "1.6 Systems ofEquations andInequalities practice pages 171-173 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_48e09ef5fc"
+    },
+    {
+      "entity_id": "misc_53f2e956ab",
+      "entity_type": "Misconception",
+      "name": "1.6 Systems ofEquations andInequalities practice pages 171-173 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_48e09ef5fc"
+    },
+    {
+      "entity_id": "misc_cbeb6137fb",
+      "entity_type": "Misconception",
+      "name": "2.1 Irrational Equations and Inequalities practice pages 175-179 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_ddaf06dfd0"
+    },
+    {
+      "entity_id": "misc_a4d4dc53fb",
+      "entity_type": "Misconception",
+      "name": "2.1 Irrational Equations and Inequalities practice pages 175-179 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_ddaf06dfd0"
+    },
+    {
+      "entity_id": "misc_77003d0c9c",
+      "entity_type": "Misconception",
+      "name": "2.2 Systems ofIrrationalEquations practice pages 180-180 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_e4db108e9c"
+    },
+    {
+      "entity_id": "misc_e40973f812",
+      "entity_type": "Misconception",
+      "name": "2.2 Systems ofIrrationalEquations practice pages 180-180 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_e4db108e9c"
+    },
+    {
+      "entity_id": "misc_a4067d3f5c",
+      "entity_type": "Misconception",
+      "name": "2.3 An Exponential and aLogarithmic Functions, practice pages 181-186 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_86b20d7384"
+    },
+    {
+      "entity_id": "misc_9a0908c5d7",
+      "entity_type": "Misconception",
+      "name": "2.3 An Exponential and aLogarithmic Functions, practice pages 181-186 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_86b20d7384"
+    },
+    {
+      "entity_id": "misc_ae416184be",
+      "entity_type": "Misconception",
+      "name": "2.3 An Exponential and aLogarithmic Functions, practice pages 187-190 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_7df0ec68cd"
+    },
+    {
+      "entity_id": "misc_2c4919ed59",
+      "entity_type": "Misconception",
+      "name": "2.3 An Exponential and aLogarithmic Functions, practice pages 187-190 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_7df0ec68cd"
+    },
+    {
+      "entity_id": "misc_3e3e2e8d3d",
+      "entity_type": "Misconception",
+      "name": "2.4 Transformation of TrigonometricExpressions practice pages 191-192 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_9b3dbd356a"
+    },
+    {
+      "entity_id": "misc_88861e5110",
+      "entity_type": "Misconception",
+      "name": "2.4 Transformation of TrigonometricExpressions practice pages 191-192 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_9b3dbd356a"
+    },
+    {
+      "entity_id": "misc_b9da578706",
+      "entity_type": "Misconception",
+      "name": "2.5 TrigonometricFunctions practice pages 193-199 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_7d3b7f64b8"
+    },
+    {
+      "entity_id": "misc_74864dd166",
+      "entity_type": "Misconception",
+      "name": "2.5 TrigonometricFunctions practice pages 193-199 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_7d3b7f64b8"
+    },
+    {
+      "entity_id": "misc_fe875bfbd9",
+      "entity_type": "Misconception",
+      "name": "2.6 InverseTrigonometricFunctions practice pages 200-204 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_28a33373e8"
+    },
+    {
+      "entity_id": "misc_88dca20c91",
+      "entity_type": "Misconception",
+      "name": "2.6 InverseTrigonometricFunctions practice pages 200-204 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_28a33373e8"
+    },
+    {
+      "entity_id": "misc_e18e34b5fc",
+      "entity_type": "Misconception",
+      "name": "2.7 TrigonometricEquations and Systems ofEquations practice pages 205-210 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_979d1266a0"
+    },
+    {
+      "entity_id": "misc_407ee7ed1c",
+      "entity_type": "Misconception",
+      "name": "2.7 TrigonometricEquations and Systems ofEquations practice pages 205-210 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_979d1266a0"
+    },
+    {
+      "entity_id": "misc_b3d55404e7",
+      "entity_type": "Misconception",
+      "name": "2.7 TrigonometricEquations and Systems ofEquations practice pages 211-216 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_45733a2de0"
+    },
+    {
+      "entity_id": "misc_7e5ce5b05f",
+      "entity_type": "Misconception",
+      "name": "2.7 TrigonometricEquations and Systems ofEquations practice pages 211-216 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_45733a2de0"
+    },
+    {
+      "entity_id": "misc_f020bce708",
+      "entity_type": "Misconception",
+      "name": "2.7 TrigonometricEquations and Systems ofEquations practice pages 217-218 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_4bf489703b"
+    },
+    {
+      "entity_id": "misc_5b8b4cdf32",
+      "entity_type": "Misconception",
+      "name": "2.7 TrigonometricEquations and Systems ofEquations practice pages 217-218 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_4bf489703b"
+    },
+    {
+      "entity_id": "misc_8f58dd8253",
+      "entity_type": "Misconception",
+      "name": "2.8 TrigonometricInequalities practice pages 219-220 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_9dcfcbddae"
+    },
+    {
+      "entity_id": "misc_a0b35002af",
+      "entity_type": "Misconception",
+      "name": "2.8 TrigonometricInequalities practice pages 219-220 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_9dcfcbddae"
+    },
+    {
+      "entity_id": "misc_20868bf8d9",
+      "entity_type": "Misconception",
+      "name": "3.1 ProblemsonMotion practice pages 221-221 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_55243fb7b8"
+    },
+    {
+      "entity_id": "misc_f9accbf422",
+      "entity_type": "Misconception",
+      "name": "3.1 ProblemsonMotion practice pages 221-221 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_55243fb7b8"
+    },
+    {
+      "entity_id": "misc_da79e7e616",
+      "entity_type": "Misconception",
+      "name": "3.2 Problems on Percentages,Mixtures, practice pages 222-222 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_e585373915"
+    },
+    {
+      "entity_id": "misc_e6f165a9ea",
+      "entity_type": "Misconception",
+      "name": "3.2 Problems on Percentages,Mixtures, practice pages 222-222 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_e585373915"
+    },
+    {
+      "entity_id": "misc_a512797e41",
+      "entity_type": "Misconception",
+      "name": "3.3 Problems onDerivingInequalitiesand Systems practice pages 223-224 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_6a958536a0"
+    },
+    {
+      "entity_id": "misc_2b236381f7",
+      "entity_type": "Misconception",
+      "name": "3.3 Problems onDerivingInequalitiesand Systems practice pages 223-224 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_6a958536a0"
+    },
+    {
+      "entity_id": "misc_558b1906cf",
+      "entity_type": "Misconception",
+      "name": "4.1 The Antiderivative.The Newton-LeibnizFormula practice pages 225-226 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_d5335cf614"
+    },
+    {
+      "entity_id": "misc_3bd97e2ea0",
+      "entity_type": "Misconception",
+      "name": "4.1 The Antiderivative.The Newton-LeibnizFormula practice pages 225-226 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_d5335cf614"
+    },
+    {
+      "entity_id": "misc_00b730284e",
+      "entity_type": "Misconception",
+      "name": "4.2 CalculatingtheAreasofPlane Figures practice pages 227-229 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_5510e8ae01"
+    },
+    {
+      "entity_id": "misc_be4cabd748",
+      "entity_type": "Misconception",
+      "name": "4.2 CalculatingtheAreasofPlane Figures practice pages 227-229 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_5510e8ae01"
+    },
+    {
+      "entity_id": "misc_a0b80ae151",
+      "entity_type": "Misconception",
+      "name": "5.1 Progressions practice pages 230-232 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_cd9ec05584"
+    },
+    {
+      "entity_id": "misc_32c90d36ad",
+      "entity_type": "Misconception",
+      "name": "5.1 Progressions practice pages 230-232 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_cd9ec05584"
+    },
+    {
+      "entity_id": "misc_f3d61f3e33",
+      "entity_type": "Misconception",
+      "name": "5.2 NumberSequences practice pages 233-235 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_631a52d707"
+    },
+    {
+      "entity_id": "misc_7a0fdec785",
+      "entity_type": "Misconception",
+      "name": "5.2 NumberSequences practice pages 233-235 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_631a52d707"
+    },
+    {
+      "entity_id": "misc_4e0b2b1d46",
+      "entity_type": "Misconception",
+      "name": "6.1 Linear Operations onVectors practice pages 236-236 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_310360799c"
+    },
+    {
+      "entity_id": "misc_b53d3e0115",
+      "entity_type": "Misconception",
+      "name": "6.1 Linear Operations onVectors practice pages 236-236 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_310360799c"
+    },
+    {
+      "entity_id": "misc_294282aaac",
+      "entity_type": "Misconception",
+      "name": "6.2 The ScalarProduct of Vectors practice pages 237-240 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_6bcc14f8fd"
+    },
+    {
+      "entity_id": "misc_e0c7533b89",
+      "entity_type": "Misconception",
+      "name": "6.2 The ScalarProduct of Vectors practice pages 237-240 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_6bcc14f8fd"
+    },
+    {
+      "entity_id": "misc_e8fa3c1136",
+      "entity_type": "Misconception",
+      "name": "7.1 Problems onProvingProportions practice pages 241-244 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_01dfdd2964"
+    },
+    {
+      "entity_id": "misc_b223b6f9c0",
+      "entity_type": "Misconception",
+      "name": "7.1 Problems onProvingProportions practice pages 241-244 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_01dfdd2964"
+    },
+    {
+      "entity_id": "misc_085853a8f9",
+      "entity_type": "Misconception",
+      "name": "7.2 Construction Problems practice pages 245-246 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_157b94d8d6"
+    },
+    {
+      "entity_id": "misc_c9452db60e",
+      "entity_type": "Misconception",
+      "name": "7.2 Construction Problems practice pages 245-246 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_157b94d8d6"
+    },
+    {
+      "entity_id": "misc_e02953949d",
+      "entity_type": "Misconception",
+      "name": "7.3 Problems on Calculation practice pages 247-251 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_d29f22e744"
+    },
+    {
+      "entity_id": "misc_555f92dc81",
+      "entity_type": "Misconception",
+      "name": "7.3 Problems on Calculation practice pages 247-251 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_d29f22e744"
+    },
+    {
+      "entity_id": "misc_ea79aeb258",
+      "entity_type": "Misconception",
+      "name": "8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution practice pages 252-256 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_165743b2c0"
+    },
+    {
+      "entity_id": "misc_e4a13c2196",
+      "entity_type": "Misconception",
+      "name": "8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution practice pages 252-256 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_165743b2c0"
+    },
+    {
+      "entity_id": "misc_4de162ef00",
+      "entity_type": "Misconception",
+      "name": "8.2 Problemson CombinationsofPolyhedra practice pages 257-262 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_01295855fc"
+    },
+    {
+      "entity_id": "misc_54e58f9e9e",
+      "entity_type": "Misconception",
+      "name": "8.2 Problemson CombinationsofPolyhedra practice pages 257-262 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_01295855fc"
+    },
+    {
+      "entity_id": "misc_4c91e8d463",
+      "entity_type": "Misconception",
+      "name": "8.2 Problemson CombinationsofPolyhedra practice pages 263-263 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_40907e2e0b"
+    },
+    {
+      "entity_id": "misc_5a750e2a5c",
+      "entity_type": "Misconception",
+      "name": "8.2 Problemson CombinationsofPolyhedra practice pages 263-263 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_40907e2e0b"
+    },
+    {
+      "entity_id": "misc_9aef9b94ce",
+      "entity_type": "Misconception",
+      "name": "8.3 VolumesofSolidsofRevolution practice pages 264-264 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_7851214b7a"
+    },
+    {
+      "entity_id": "misc_f7ee4c8d32",
+      "entity_type": "Misconception",
+      "name": "8.3 VolumesofSolidsofRevolution practice pages 264-264 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_7851214b7a"
+    },
+    {
+      "entity_id": "misc_97be741dd7",
+      "entity_type": "Misconception",
+      "name": "9.1 ProblemsinAlgebra practice pages 265-269 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_0a20a893b0"
+    },
+    {
+      "entity_id": "misc_0ec34e00e6",
+      "entity_type": "Misconception",
+      "name": "9.1 ProblemsinAlgebra practice pages 265-269 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_0a20a893b0"
+    },
+    {
+      "entity_id": "misc_ba4338c46f",
+      "entity_type": "Misconception",
+      "name": "9.2 Limit of a Function.Continuity practice pages 270-272 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_7c05741f2e"
+    },
+    {
+      "entity_id": "misc_824c1cd9c9",
+      "entity_type": "Misconception",
+      "name": "9.2 Limit of a Function.Continuity practice pages 270-272 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_7c05741f2e"
+    },
+    {
+      "entity_id": "misc_3b80d576c7",
+      "entity_type": "Misconception",
+      "name": "9.3 TheDerivative ofaFunction practice pages 273-274 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_41e12f8bde"
+    },
+    {
+      "entity_id": "misc_3659d056a4",
+      "entity_type": "Misconception",
+      "name": "9.3 TheDerivative ofaFunction practice pages 273-274 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_41e12f8bde"
+    },
+    {
+      "entity_id": "misc_d9bdfcd4eb",
+      "entity_type": "Misconception",
+      "name": "9.4 Integral Calculus.MiscellaneousProblems practice pages 275-280 is the same as a closely related term and can be used interchangeably.",
+      "concept_id": "concept_7efa7a3bb2"
+    },
+    {
+      "entity_id": "misc_91cc98510f",
+      "entity_type": "Misconception",
+      "name": "9.4 Integral Calculus.MiscellaneousProblems practice pages 275-280 always applies, regardless of context or assumptions.",
+      "concept_id": "concept_7efa7a3bb2"
+    }
+  ],
+  "entity_type_counts": {
+    "Assessment": 74,
+    "Competency": 74,
+    "Definition": 72,
+    "Example": 5,
+    "Misconception": 148,
+    "Procedure": 2
+  }
+}

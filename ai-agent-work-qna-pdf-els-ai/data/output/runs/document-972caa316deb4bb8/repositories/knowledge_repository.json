@@ -1,0 +1,72 @@
+[
+  {
+    "unit_id": "unit_c5e0825b63",
+    "book_id": "book_ff463445c6",
+    "chapter_index": 1,
+    "topic": "ELECTROMAGNETIC INDUCTION practice pages 1-6",
+    "subtopic": "ELECTROMAGNETIC INDUCTION practice pages 1-6",
+    "concept": "ELECTROMAGNETIC INDUCTION practice pages 1-6",
+    "definition": "1 ELECTROMAGNETIC INDUCTION AND ALTERNATING CURRENTS MAGNETIC FLUX Magnetic flux (B) through an area S  d in a magnetic field B  is defined as   S . B  dB For an elemental area S  d in a magnetic field B  , the associated magnetic flux is given by S . B  d dB   = B dS cos   B  S  d As magnetic lines of field are closed curves (i.e., monopoles do not exist), total magnetic flux linked with a closed surface is always zero, i.e., 0 S . B  d This law is called Gauss’ law for magnetism. JEE | NEET | Class 8 - 10 Download eSaral App www.esaral.com JEE Main Physics Revision Notes 2 INDUCED EMF FARADAY'S LAWS OF ELECTROMAGNETIC INDUCTION Law I: Whenever there is a change of flux linked with a circuit, or whenever a moving conductor cuts the flux, an emf is induced in it. This phenomenon is called electromagnetic induction and the emf, induced emf . If the circuit is closed the current which flows in it due to induced emf is called induced current. Law II: The magnitude of induced emf is equal to the rate of change of flux, i.e., dt dE  The direction or the sense of the induce d emf (or induced current) is given by Lenz’s law. JEE | NEET | Class 8 - 10 Download eSaral App www.esaral.com JEE Main Physics Revision Notes 3 LENZ’S LAW The effect of the induced emf is such as to oppose the change in flux that produces it. dt dE Negative sign indicates towards the Lenz’s law. Induced Charge Flow When a current is induced in the circuit due to the flux change, charge flows through the circuit. The net amount of charge which flows along the circuit is given as: dt d RRi  1E Thus, the induced charge is independent of the manner and time in which the flux changes. However, the induced emf and current depend on time.",
+    "examples": [
+      "JEE | NEET | Class 8 - 10 Download eSaral App www.esaral.com JEE Main Physics Revision Notes 3 LENZ’S LAW The effect of the induced emf is such as to oppose the change in flux that produces it. dt dE Negative sign indicates towards the Lenz’s law."
+    ],
+    "frameworks": [],
+    "processes": [],
+    "formulae": [],
+    "case_studies": [],
+    "facts": [],
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "unit_id": "unit_085877a8b3",
+    "book_id": "book_ff463445c6",
+    "chapter_index": 1,
+    "topic": "ELECTROMAGNETIC INDUCTION practice pages 7-12",
+    "subtopic": "ELECTROMAGNETIC INDUCTION practice pages 7-12",
+    "concept": "ELECTROMAGNETIC INDUCTION practice pages 7-12",
+    "definition": "7 MUTUAL INDUCTION The appearance of an induced emf in one circuit due to changes in the magnetic field produced by a nearby circuit is called mutual induction. Let the current through the primary winding at any instant be I1. Then the magnetic flux linking with the secondary winding, 2I1 or 2 = MI1 Thus, the induced emf in the secondary is given as dt d 2 2 E or dt dIM 1 2 E Where, M is the constant of proportionally, called the coefficient of mutual induction, The SI unit of mutual inductance is henry. We may define mutual inductance M as follows: The mutual inductance M of two colds having self-inductance L1 and L2 is given by 21LLkM  Where k is a constant called coefficient of coupling. For tight or close coupling, k = 1, and so M = 22LL . For loose coupling 0 <k< 1, and hence 21LLM  . JEE | NEET | Class 8 - 10 Download eSaral App www.esaral.com JEE Main Physics Revision Notes 8 GROUPING OF COILS (A)Coils in Series If two coils of inductances L1 and L2 are connected in series with coefficient of coupling k = 0, then potential divides, but the current remains same, e = e1 + e2 or dt dILdt dILdt dIL 21S   LS = L1 + L2 (B) Coils in Parallel In parallel combination, the current divides, but the voltage remains the same, I = I1 + I2  dt dI dt dI dt dI 2  21P L e L e L e       dt dILe as or 21P 111 LLL  JEE | NEET | Class 8 - 10 Download eSaral App www.esaral.com JEE Main Physics Revision Notes 9 ALTERNATING CURRENT I = Imax sint Where, I is the value of current at time t and Imax is the maximum value of the current and  is the angular frequency ( = 2f, f being frequency). Different Forms of a.c. emf The variation of A.C. quantity is sinusoidal hence can be expressed as: e = Emaxsin t as  = 2f, we have e = Emaxsin(2ft) since f = 1/T, we ha",
+    "examples": [],
+    "frameworks": [],
+    "processes": [],
+    "formulae": [],
+    "case_studies": [],
+    "facts": [],
+    "source_pages": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "unit_id": "unit_1fcd1fba5d",
+    "book_id": "book_ff463445c6",
+    "chapter_index": 1,
+    "topic": "ELECTROMAGNETIC INDUCTION practice pages 13-17",
+    "subtopic": "ELECTROMAGNETIC INDUCTION practice pages 13-17",
+    "concept": "ELECTROMAGNETIC INDUCTION practice pages 13-17",
+    "definition": "13 Average power in R and L in series circuit when A. C. current passes is given by P = Vr.m.s.Ir.m.s. cos  where  is the angle by which vector V leads the vector I. Resistance and Capacitance in Series A. C. Circuit The voltage and current vectors are as shown in figure. The voltage and impedance triangles are shown in figure are given as vR  i 22 RC vvv  vC vR  (a) 22 RC vvv  vC R  (b) 22 CxRz  xC 22 cR vvv  and 22 CXRZ  where  /1CX C is capacitive reactance. JEE | NEET | Class 8 - 10 Download eSaral App www.esaral.com JEE Main Physics Revision Notes 14 The power consumed p = v. I = Vr.m.s.Ir.m.s.cos RLC Series A. C. Circuit A circuit having resistance R, inductance L and capacitance C in series with an A. C. source shown in figure. vC ~ R vR C L vL i vR vL i i vC   22 CLR vvvv  and the impedance is given by 2 2 1       CLRZ vR i vC vL When L > 1/C The net reactance L - C 1 is positive hence  is also positive as a result current will lag behind voltage or voltage leads the current. JEE | NEET | Class 8 - 10 Download eSaral App www.esaral.com JEE Main Physics Revision Notes 15 When L = 1/C The net reactance is zero hence = 0 and the voltage and current are in phase and impedance is equal to the resistance.",
+    "examples": [],
+    "frameworks": [],
+    "processes": [],
+    "formulae": [],
+    "case_studies": [],
+    "facts": [],
+    "source_pages": [
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  }
+]

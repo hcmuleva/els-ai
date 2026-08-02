@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A focused question player with subject filters, diagrams, hints, and worked explanations."
+    />
+    <title>Knowledge Question Player</title>
+    <link rel="stylesheet" href="/assets/question-player.css?v=2" />
+    <script>
+      try {
+        localStorage.removeItem("MathJax-Menu-Settings");
+      } catch {}
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"], ["$", "$"]],
+          displayMath: [["\\[", "\\]"], ["$$", "$$"]],
+        },
+        svg: { fontCache: "local", scale: 1 },
+        options: {
+          enableMenu: false,
+          menuOptions: { settings: { renderer: "SVG" } },
+          skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+        },
+        startup: {
+          output: "svg",
+          typeset: false,
+          ready: () => {
+            MathJax.startup.defaultReady();
+            window.__mathJaxReady = true;
+            window.dispatchEvent(new Event("mathjax-ready"));
+          },
+        },
+      };
+    </script>
+    <script async src="/vendor/mathjax/tex-svg.js?v=3"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="app-shell topbar-inner">
+        <div class="brand" aria-label="Knowledge Question Player">
+          <div class="brand-mark" aria-hidden="true">K</div>
+          <div class="brand-copy">
+            <strong>Knowledge Question Player</strong>
+            <span>Persisted question practice</span>
+          </div>
+        </div>
+        <div class="top-progress" aria-label="Question progress">
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-label" id="progressLabel">Loading…</div>
+        </div>
+        <div class="score-chip" id="scoreChip">0 correct</div>
+      </div>
+    </header>
+
+    <main class="app-shell" id="app">
+      <section class="loading" aria-live="polite">
+        <div>
+          <div class="loading-spinner" aria-hidden="true"></div>
+          <div>Loading your validated question bank…</div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/assets/question-player.js?v=2"></script>
+  </body>
+</html>

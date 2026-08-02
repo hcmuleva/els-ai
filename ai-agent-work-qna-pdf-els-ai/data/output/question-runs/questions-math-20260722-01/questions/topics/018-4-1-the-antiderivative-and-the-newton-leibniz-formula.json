@@ -1,0 +1,19 @@
+{
+  "key": "4.1",
+  "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+  "questions": [],
+  "requested": 5,
+  "generated": 0,
+  "context_chunks": [
+    "chunk_52ad553893",
+    "chunk_63ed964612"
+  ],
+  "source_pages": [],
+  "rejected": [
+    {
+      "issues": [
+        "LaTeX backslashes inside JSON strings must be escaped"
+      ]
+    }
+  ]
+}

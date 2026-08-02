@@ -1,0 +1,14 @@
+{
+  "run_id": "20260802T142839684396Z-8e83a1be",
+  "chunks_file": "chunks/chunk_repository.json",
+  "relational_backend": "PostgresStore",
+  "qdrant_collection": "kp_chunks",
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "embedding_backend": "fastembed",
+  "concepts": 7,
+  "chunks": 7,
+  "edges": 24,
+  "qdrant_points": 7,
+  "accepted_concepts": 7,
+  "retrieval_report": "retrieval_validation.json"
+}

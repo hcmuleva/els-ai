@@ -1,0 +1,40 @@
+{
+  "run_id": "questions-prilepko-20260721-04",
+  "run_type": "question_diagram_revalidation",
+  "status": "completed",
+  "created_at": "2026-07-21T15:33:04.157682Z",
+  "source_run_id": "math-prilepko-20260721-05",
+  "source_run": "C:\\personal\\work\\ai-agent-work-qna-pdf\\data\\output\\runs\\math-prilepko-20260721-05",
+  "source_validation": {
+    "document": true,
+    "chunks": true,
+    "retrieval": true
+  },
+  "level_band": "jee_main",
+  "questions_per_topic": 5,
+  "topic_count": 33,
+  "expected_questions": 165,
+  "reused_from_run": "C:\\personal\\work\\ai-agent-work-qna-pdf\\data\\output\\question-runs\\questions-prilepko-20260721-02",
+  "completed_at": "2026-07-21T15:33:04.157682Z",
+  "generated_questions": 165,
+  "completed_topics": 33,
+  "validation_passed": true,
+  "persisted": false,
+  "files": {
+    "question_set.json": "questions/question_set.json",
+    "question_validation.json": "validation/question_validation.json",
+    "diagram_validation.json": "validation/diagram_validation.json",
+    "topics": "questions/topics"
+  },
+  "derived_from_question_run": "questions-prilepko-20260721-03",
+  "quiz_id": "quiz-6c7ee0837188",
+  "diagram_validation_passed": true,
+  "diagram_counts": {
+    "source": 37,
+    "final": 26,
+    "retained": 3,
+    "rebuilt": 23,
+    "removed": 11,
+    "not_needed": 128
+  }
+}

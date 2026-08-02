@@ -1,0 +1,83 @@
+{
+  "books": [
+    {
+      "book_id": "book_97d5fcbb5a",
+      "filename": "sample_classical_mechanics.pdf",
+      "title": "Classical Mechanics: Foundations of Motion",
+      "num_pages": 5,
+      "subject": "Physics",
+      "curriculum": "Higher Education",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "Kinematics",
+          "page_start": 1,
+          "page_end": 1,
+          "topics": [
+            {
+              "title": "Kinematics",
+              "subtopics": [
+                "Velocity",
+                "Displacement",
+                "Change",
+                "Defined",
+                "Given",
+                "Direction"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "title": "Newton's Laws of Motion",
+          "page_start": 2,
+          "page_end": 2,
+          "topics": [
+            {
+              "title": "Newton's Laws of Motion",
+              "subtopics": [
+                "Newton'S",
+                "Motion",
+                "Force",
+                "Second",
+                "First",
+                "Object"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "title": "Work and Energy",
+          "page_start": 3,
+          "page_end": 4,
+          "topics": [
+            {
+              "title": "References",
+              "subtopics": [
+                "Energy",
+                "Force",
+                "Kinetic",
+                "Object"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "overlaps": [],
+  "subject_index": {
+    "Physics": [
+      "book_97d5fcbb5a"
+    ]
+  },
+  "domain_index": {
+    "STEM": [
+      "book_97d5fcbb5a"
+    ]
+  },
+  "total_chapters": 3,
+  "total_topics": 3
+}

@@ -1,0 +1,495 @@
+{
+  "key": "8.1",
+  "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+  "questions": [
+    {
+      "question": {
+        "id": "a57f40b0-c611-5e95-8dd7-d1fcc8e502ec",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the shortest distance between the lines \\(\\vec r=(1,2,3)+\\lambda(1,1,0)\\) and \\(\\vec r=(2,1,1)+\\mu(1,0,1)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Here \\(\\vec u=(1,1,0)\\), \\(\\vec v=(1,0,1)\\), and \\(\\vec u\\times\\vec v=(1,-1,-1)\\). Thus the distance is \\(\\frac{|(1,-1,-2)\\cdot(1,-1,-1)|}{\\sqrt{3}}=\\frac{4}{\\sqrt{3}}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 131,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+            "concept_ids": [
+              "concept_165743b2c0",
+              "concept_322bf2bf32"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              114,
+              115,
+              116,
+              117,
+              118,
+              251,
+              252,
+              253,
+              254,
+              255
+            ],
+            "source_chunk_ids": [
+              "chunk_961ef424a5",
+              "chunk_e4f765bc02"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_4_sqrt_3_1",
+              "label": "\\(\\frac{4}{\\sqrt{3}}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Using \\(\\frac{|(\\vec b-\\vec a)\\cdot(\\vec u\\times\\vec v)|}{|\\vec u\\times\\vec v|}\\)."
+            },
+            {
+              "id": "frac_2_sqrt_3_2",
+              "label": "\\(\\frac{2}{\\sqrt{3}}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The scalar triple product is evaluated incorrectly."
+            },
+            {
+              "id": "frac_4_3_3",
+              "label": "\\(\\frac{4}{3}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The cross-product magnitude is not \\(3\\)."
+            },
+            {
+              "id": "2_sqrt_3_4",
+              "label": "\\(2\\sqrt{3}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not equal the skew-line distance."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "7c0ba8e0-ce89-5d56-bfe8-4fc820f8c20b",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The line \\(\\vec r=(1,0,2)+t(2,1,-1)\\) intersects the plane \\(x+2y-z=3\\) at which point?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "A general point on the line is \\((1+2t,t,2-t)\\). Substituting in the plane equation gives \\(1+2t+2t-(2-t)=3\\), so \\(t=\\frac{4}{5}\\). Therefore, the intersection point is \\(\\left(\\frac{13}{5},\\frac{4}{5},\\frac{6}{5}\\right)\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 132,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+            "concept_ids": [
+              "concept_165743b2c0",
+              "concept_322bf2bf32"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              114,
+              115,
+              116,
+              117,
+              118,
+              251,
+              252,
+              253,
+              254,
+              255
+            ],
+            "source_chunk_ids": [
+              "chunk_961ef424a5",
+              "chunk_e4f765bc02"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_frac_13_5_frac_4_5_1",
+              "label": "\\(\\left(\\frac{13}{5},\\frac{4}{5},\\frac{6}{5}\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Substitution gives \\(t=\\frac{4}{5}\\)."
+            },
+            {
+              "id": "left_frac_9_5_frac_4_5_f_2",
+              "label": "\\(\\left(\\frac{9}{5},\\frac{4}{5},\\frac{6}{5}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The \\(x\\)-coordinate is calculated incorrectly."
+            },
+            {
+              "id": "left_frac_13_5_frac_4_5_3",
+              "label": "\\(\\left(\\frac{13}{5},\\frac{4}{5},\\frac{4}{5}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The \\(z\\)-coordinate is calculated incorrectly."
+            },
+            {
+              "id": "left_frac_13_5_frac_2_5_4",
+              "label": "\\(\\left(\\frac{13}{5},\\frac{2}{5},\\frac{6}{5}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The parameter is not substituted correctly in \\(y\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "44dec35f-ceaf-52f2-8b2f-14397a160275",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A convex polyhedron has \\(12\\) pentagonal faces, and exactly \\(3\\) edges meet at every vertex. How many vertices does it have?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Counting face-edge incidences gives \\(5\\times12=2E\\), so \\(E=30\\). Since three edges meet at each vertex, \\(3V=2E=60\\), yielding \\(V=20\\). This also satisfies Euler's formula \\(V-E+F=20-30+12=2\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 133,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+            "concept_ids": [
+              "concept_165743b2c0",
+              "concept_322bf2bf32"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              114,
+              115,
+              116,
+              117,
+              118,
+              251,
+              252,
+              253,
+              254,
+              255
+            ],
+            "source_chunk_ids": [
+              "chunk_961ef424a5",
+              "chunk_e4f765bc02"
+            ]
+          },
+          "options": [
+            {
+              "id": "20_1",
+              "label": "\\(20\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "There are \\(30\\) edges and hence \\(3V=60\\)."
+            },
+            {
+              "id": "18_2",
+              "label": "\\(18\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Euler's relation is not satisfied."
+            },
+            {
+              "id": "22_3",
+              "label": "\\(22\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The edge count is used incorrectly."
+            },
+            {
+              "id": "24_4",
+              "label": "\\(24\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Pentagonal face incidences are double-counted incorrectly."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "716d4248-0529-5e8e-b3bf-9bcac981ad72",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The region bounded by \\(y=x\\), \\(y=x^2\\), and the coordinate axes is revolved about the \\(x\\)-axis. Find the volume of the resulting solid.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For \\(0\\le x\\le1\\), the outer radius is \\(x\\) and the inner radius is \\(x^2\\). Hence \\(V=\\pi\\int_0^1\\left(x^2-x^4\\right)dx=\\pi\\left[\\frac{x^3}{3}-\\frac{x^5}{5}\\right]_0^1=\\frac{2\\pi}{15}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 134,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+            "concept_ids": [
+              "concept_165743b2c0",
+              "concept_322bf2bf32"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              114,
+              115,
+              116,
+              117,
+              118,
+              251,
+              252,
+              253,
+              254,
+              255
+            ],
+            "source_chunk_ids": [
+              "chunk_961ef424a5",
+              "chunk_e4f765bc02"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_2_pi_15_1",
+              "label": "\\(\\frac{2\\pi}{15}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Washer integration gives \\(\\pi\\int_0^1(x^2-x^4)\\,dx\\)."
+            },
+            {
+              "id": "frac_pi_5_2",
+              "label": "\\(\\frac{\\pi}{5}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inner radius contribution is omitted."
+            },
+            {
+              "id": "frac_2_pi_5_3",
+              "label": "\\(\\frac{2\\pi}{5}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The integral is evaluated with an incorrect factor."
+            },
+            {
+              "id": "frac_pi_15_4",
+              "label": "\\(\\frac{\\pi}{15}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The difference of the squared radii is halved incorrectly."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "e09fc1eb-4d09-56ee-a7f8-1aecdc96de1f",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Two right triangles \\(\\triangle ACB\\) and \\(\\triangle ADB\\) lie in mutually perpendicular planes having the common line \\(AB\\). If \\(AB=10\\), \\(AC=AD=6\\), and \\(BC=BD=8\\), find \\(CD\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The projection of \\(C\\) on \\(AB\\) is \\(\\frac{6^2+10^2-8^2}{2\\cdot10}=\\frac{18}{5}\\). Its perpendicular distance from \\(AB\\) is \\(\\sqrt{6^2-(18/5)^2}=\\frac{24}{5}\\). The same holds for \\(D\\), and these distances lie in perpendicular planes. Therefore, \\(CD=\\sqrt{\\left(\\frac{24}{5}\\right)^2+\\left(\\frac{24}{5}\\right)^2}=\\frac{24\\sqrt{2}}{5}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 135,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+            "concept_ids": [
+              "concept_165743b2c0",
+              "concept_322bf2bf32"
+            ],
+            "source": "rag:math-prilepko-20260721-05:8.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              114,
+              115,
+              116,
+              117,
+              118,
+              251,
+              252,
+              253,
+              254,
+              255
+            ],
+            "source_chunk_ids": [
+              "chunk_961ef424a5",
+              "chunk_e4f765bc02"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_24_sqrt_2_5_1",
+              "label": "\\(\\frac{24\\sqrt{2}}{5}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Each right-angle vertex is \\(\\frac{24}{5}\\) from line \\(AB\\), in perpendicular directions."
+            },
+            {
+              "id": "frac_24_5_2",
+              "label": "\\(\\frac{24}{5}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the perpendicular distance from one vertex to \\(AB\\), not \\(CD\\)."
+            },
+            {
+              "id": "frac_48_5_3",
+              "label": "\\(\\frac{48}{5}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two perpendicular components are added instead of combined by Pythagoras."
+            },
+            {
+              "id": "8_sqrt_2_4",
+              "label": "\\(8\\sqrt{2}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The leg length is incorrectly used as the separation component."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_961ef424a5",
+    "chunk_e4f765bc02"
+  ],
+  "source_pages": [
+    114,
+    115,
+    116,
+    117,
+    118,
+    251,
+    252,
+    253,
+    254,
+    255
+  ],
+  "rejected": []
+}

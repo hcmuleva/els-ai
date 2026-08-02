@@ -1,0 +1,243 @@
+{
+  "nodes": [
+    {
+      "id": "concept_8f8d494e5c",
+      "label": "Chapter 1: Knowing Our Numbers, Whole Numbers, Playing with Numbers, Basic Geometrical Ideas, practice pages 2-7",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_f7640a769f",
+      "label": "Chapter 1: Knowing Our Numbers, Whole Numbers, Playing with Numbers, Basic Geometrical Ideas, practice pages 8-10",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_85510205dd",
+      "label": "3, 1, 4, 2, 5 There",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_459bb3a928",
+      "label": "Basket is by Preeti",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_215230e660",
+      "label": "every whole number",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_6149279d7d",
+      "label": "F T T F sF|IMO|Class-6|Set-B|Level 1 47.ABCD",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "foundational"
+    },
+    {
+      "id": "concept_d35f79154c",
+      "label": "Chord of a circle",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "foundational"
+    }
+  ],
+  "edges": [
+    {
+      "source": "concept_85510205dd",
+      "target": "concept_459bb3a928",
+      "relation": "related",
+      "weight": 0.425
+    },
+    {
+      "source": "concept_85510205dd",
+      "target": "concept_215230e660",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_85510205dd",
+      "target": "concept_6149279d7d",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_85510205dd",
+      "target": "concept_d35f79154c",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_459bb3a928",
+      "target": "concept_85510205dd",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_459bb3a928",
+      "target": "concept_215230e660",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_459bb3a928",
+      "target": "concept_6149279d7d",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_459bb3a928",
+      "target": "concept_d35f79154c",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_215230e660",
+      "target": "concept_85510205dd",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_215230e660",
+      "target": "concept_459bb3a928",
+      "relation": "related",
+      "weight": 0.425
+    },
+    {
+      "source": "concept_215230e660",
+      "target": "concept_6149279d7d",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_215230e660",
+      "target": "concept_d35f79154c",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_6149279d7d",
+      "target": "concept_85510205dd",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_6149279d7d",
+      "target": "concept_459bb3a928",
+      "relation": "related",
+      "weight": 0.425
+    },
+    {
+      "source": "concept_6149279d7d",
+      "target": "concept_215230e660",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_6149279d7d",
+      "target": "concept_d35f79154c",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_d35f79154c",
+      "target": "concept_85510205dd",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_d35f79154c",
+      "target": "concept_459bb3a928",
+      "relation": "related",
+      "weight": 0.425
+    },
+    {
+      "source": "concept_d35f79154c",
+      "target": "concept_215230e660",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_d35f79154c",
+      "target": "concept_6149279d7d",
+      "relation": "related",
+      "weight": 0.475
+    },
+    {
+      "source": "concept_459bb3a928",
+      "target": "concept_85510205dd",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_459bb3a928",
+      "target": "concept_215230e660",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_459bb3a928",
+      "target": "concept_6149279d7d",
+      "relation": "parent_child",
+      "weight": 0.855
+    },
+    {
+      "source": "concept_459bb3a928",
+      "target": "concept_d35f79154c",
+      "relation": "parent_child",
+      "weight": 0.855
+    }
+  ],
+  "centrality": [
+    {
+      "concept_id": "concept_8f8d494e5c",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.143
+    },
+    {
+      "concept_id": "concept_f7640a769f",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.143
+    },
+    {
+      "concept_id": "concept_85510205dd",
+      "degree": 1.333,
+      "betweenness": 0.0,
+      "pagerank": 0.143
+    },
+    {
+      "concept_id": "concept_459bb3a928",
+      "degree": 1.333,
+      "betweenness": 0.0,
+      "pagerank": 0.143
+    },
+    {
+      "concept_id": "concept_215230e660",
+      "degree": 1.333,
+      "betweenness": 0.0,
+      "pagerank": 0.143
+    },
+    {
+      "concept_id": "concept_6149279d7d",
+      "degree": 1.333,
+      "betweenness": 0.0,
+      "pagerank": 0.143
+    },
+    {
+      "concept_id": "concept_d35f79154c",
+      "degree": 1.333,
+      "betweenness": 0.0,
+      "pagerank": 0.143
+    }
+  ]
+}

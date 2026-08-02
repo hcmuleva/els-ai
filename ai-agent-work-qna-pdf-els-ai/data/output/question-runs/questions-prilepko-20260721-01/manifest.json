@@ -1,0 +1,27 @@
+{
+  "run_id": "questions-prilepko-20260721-01",
+  "run_type": "topic_question_generation",
+  "status": "failed",
+  "created_at": "2026-07-21T13:02:20.734760Z",
+  "source_run_id": "math-prilepko-20260721-05",
+  "source_run": "C:\\personal\\work\\ai-agent-work-qna-pdf\\data\\output\\runs\\math-prilepko-20260721-05",
+  "source_validation": {
+    "document": true,
+    "chunks": true,
+    "retrieval": true
+  },
+  "level_band": "jee_main",
+  "questions_per_topic": 5,
+  "topic_count": 33,
+  "expected_questions": 165,
+  "completed_at": "2026-07-21T13:11:03.852621Z",
+  "generated_questions": 157,
+  "completed_topics": 29,
+  "validation_passed": false,
+  "persisted": false,
+  "files": {
+    "question_set.json": "questions/question_set.json",
+    "question_validation.json": "validation/question_validation.json",
+    "topics": "questions/topics"
+  }
+}

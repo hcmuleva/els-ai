@@ -1,0 +1,65 @@
+[
+  {
+    "misconception_id": "misc_54ddf7439c",
+    "concept_id": "concept_657d98b019",
+    "misconception": "Magnetic flux is simply the magnetic field strength multiplied by the area, regardless of orientation.",
+    "explanation": "Flux depends on the component of the magnetic field perpendicular to the area, so it is given by Î¦B = BA cos Î¸ for a uniform field.",
+    "correction": "Include the angle between the magnetic field and the area vector. Flux is maximum when the field is perpendicular to the surface and zero when it is parallel to the surface."
+  },
+  {
+    "misconception_id": "misc_6a101008f4",
+    "concept_id": "concept_657d98b019",
+    "misconception": "A magnetic field always produces an induced emf in a circuit.",
+    "explanation": "An induced emf occurs only when the magnetic flux linked with the circuit changes, such as through a changing field, changing area, changing orientation, or relative motion.",
+    "correction": "Check whether the magnetic flux changes. A constant magnetic field through a stationary circuit does not induce emf."
+  },
+  {
+    "misconception_id": "misc_6f6764b39e",
+    "concept_id": "concept_657d98b019",
+    "misconception": "A changing magnetic flux always produces an induced current.",
+    "explanation": "A changing flux produces an induced emf, but current flows only if the circuit is closed and has a conducting path.",
+    "correction": "Distinguish between induced emf and induced current: emf can exist in an open circuit, whereas induced current requires a closed circuit."
+  },
+  {
+    "misconception_id": "misc_f36dd7d622",
+    "concept_id": "concept_b98adbe8f0",
+    "misconception": "Mutual induction occurs only when the current in the secondary coil changes.",
+    "explanation": "Mutual induction is caused by a changing magnetic field produced by the primary circuit, which changes the magnetic flux linked with the secondary coil.",
+    "correction": "A changing current in the primary coil induces an emf in the nearby secondary coil; the secondary need not already carry a changing current."
+  },
+  {
+    "misconception_id": "misc_7810bab9a1",
+    "concept_id": "concept_b98adbe8f0",
+    "misconception": "The mutual inductance of two coils is always equal to âˆš(L1L2).",
+    "explanation": "This equality applies only to tightly coupled coils, where the coupling coefficient k equals 1.",
+    "correction": "The general relation is M = kâˆš(L1L2), where 0 â‰¤ k â‰¤ 1. For loose coupling, M is less than âˆš(L1L2)."
+  },
+  {
+    "misconception_id": "misc_ca48293a27",
+    "concept_id": "concept_b98adbe8f0",
+    "misconception": "A larger mutual inductance means that the induced emf is always larger.",
+    "explanation": "The induced emf also depends on how quickly the primary current changes, as given by E2 = M(dI1/dt).",
+    "correction": "For a given rate of change of primary current, a larger M produces a larger induced emf. If the primary current is constant, no emf is induced."
+  },
+  {
+    "misconception_id": "misc_96187897d1",
+    "concept_id": "concept_8130b3391d",
+    "misconception": "Average power in an AC RLC circuit is always V_r.m.s. I_r.m.s.",
+    "explanation": "This ignores the phase difference between voltage and current caused by inductance and capacitance.",
+    "correction": "Average power is P = V_r.m.s. I_r.m.s. cos Ï†, where Ï† is the phase angle between voltage and current. Only a purely resistive circuit has cos Ï† = 1."
+  },
+  {
+    "misconception_id": "misc_396d4c1cb5",
+    "concept_id": "concept_8130b3391d",
+    "misconception": "If Ï‰L > 1/(Ï‰C), the current leads the voltage.",
+    "explanation": "A larger inductive reactance makes the circuit inductive, not capacitive.",
+    "correction": "When Ï‰L > 1/(Ï‰C), the net reactance is positive and the current lags behind the voltage. When Ï‰L < 1/(Ï‰C), the circuit is capacitive and the current leads."
+  },
+  {
+    "misconception_id": "misc_d0479e90f6",
+    "concept_id": "concept_8130b3391d",
+    "misconception": "At resonance, the resistance, inductive reactance, and capacitive reactance all become zero.",
+    "explanation": "At resonance, only the inductive and capacitive reactances cancel each other.",
+    "correction": "At resonance, Ï‰L = 1/(Ï‰C), so the net reactance is zero, but the resistance R remains. Therefore, impedance is minimum and equal to R."
+  }
+]

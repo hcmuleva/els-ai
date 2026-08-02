@@ -1,0 +1,420 @@
+{
+  "key": "2.6",
+  "topic": "2.6 Inverse Trigonometric Functions",
+  "questions": [
+    {
+      "question": {
+        "id": "d3e7c0bd-7892-552e-a45e-a50005b640fd",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(x\\in[0,1]\\), express \\(\\arccos(1-2x^2)\\) in terms of \\(\\arcsin x\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(\\theta=\\arcsin x\\). Since \\(x\\in[0,1]\\), \\(\\theta\\in[0,\\frac{\\pi}{2}]\\), so \\(2\\theta\\in[0,\\pi]\\). Therefore, \\(\\arccos(1-2x^2)=\\arccos(\\cos 2\\theta)=2\\theta=2\\arcsin x\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 50,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.6 Inverse Trigonometric Functions",
+            "concept_ids": [
+              "concept_28a33373e8",
+              "concept_c659b18a62"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              56,
+              57,
+              58,
+              59,
+              199,
+              200,
+              201,
+              202,
+              203
+            ],
+            "source_chunk_ids": [
+              "chunk_531ece25a2",
+              "chunk_320c672f99"
+            ]
+          },
+          "options": [
+            {
+              "id": "2_arcsin_x_1",
+              "label": "\\(2\\arcsin x\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Using \\(\\cos(2\\theta)=1-2\\sin^2\\theta\\) with \\(\\theta=\\arcsin x\\)."
+            },
+            {
+              "id": "arcsin_2x_2",
+              "label": "\\(\\arcsin(2x)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The double-angle relation does not produce this expression."
+            },
+            {
+              "id": "pi_2_arcsin_x_3",
+              "label": "\\(\\pi-2\\arcsin x\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not the principal value for \\(x\\in[0,1]\\)."
+            },
+            {
+              "id": "2_arccos_x_4",
+              "label": "\\(2\\arccos x\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The complementary-angle relation gives a different expression."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "3c0d9903-c5ca-5d8a-89b9-e3a198fdfe56",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "How many real solutions does the equation \\(\\arcsin x=2\\arctan x\\) have?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since \\(\\arcsin x\\) is defined for \\(x\\in[-1,1]\\), put \\(x=\\sin\\theta\\), where \\(\\theta\\in[-\\frac{\\pi}{2},\\frac{\\pi}{2}]\\). The equation becomes \\(\\arctan(\\sin\\theta)=\\frac{\\theta}{2}\\). Taking tangent gives \\(\\sin\\theta=\\tan\\frac{\\theta}{2}\\). With \\(t=\\tan\\frac{\\theta}{2}\\), this becomes \\(t=\\frac{2t}{1+t^2}\\), so \\(t(t^2-1)=0\\). Thus \\(\\theta=-\\frac{\\pi}{2},0,\\frac{\\pi}{2}\\), yielding \\(x=-1,0,1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 51,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.6 Inverse Trigonometric Functions",
+            "concept_ids": [
+              "concept_28a33373e8",
+              "concept_c659b18a62"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              56,
+              57,
+              58,
+              59,
+              199,
+              200,
+              201,
+              202,
+              203
+            ],
+            "source_chunk_ids": [
+              "chunk_531ece25a2",
+              "chunk_320c672f99"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_1",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The endpoint solutions are missed."
+            },
+            {
+              "id": "2_2",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "There is also the solution \\(x=0\\)."
+            },
+            {
+              "id": "3_3",
+              "label": "\\(3\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The solutions are \\(x=-1,0,1\\)."
+            },
+            {
+              "id": "4_4",
+              "label": "\\(4\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "No fourth solution arises from the principal-value restrictions."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "45df7a2b-bcd8-5b2b-8d70-f0672ddcc06a",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the range of \\(f(x)=\\arcsin(1-x)+\\arccos(2x-1)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The conditions \\(1-x\\in[-1,1]\\) and \\(2x-1\\in[-1,1]\\) give the domain \\(x\\in[0,1]\\). Both terms are continuous and decreasing on this interval. Since \\(f(0)=\\frac{\\pi}{2}+\\pi=\\frac{3\\pi}{2}\\) and \\(f(1)=0+0=0\\), the range is \\(\\left[0,\\frac{3\\pi}{2}\\right]\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 52,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.6 Inverse Trigonometric Functions",
+            "concept_ids": [
+              "concept_28a33373e8",
+              "concept_c659b18a62"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              56,
+              57,
+              58,
+              59,
+              199,
+              200,
+              201,
+              202,
+              203
+            ],
+            "source_chunk_ids": [
+              "chunk_531ece25a2",
+              "chunk_320c672f99"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_0_frac_3_pi_2_right_1",
+              "label": "\\(\\left[0,\\frac{3\\pi}{2}\\right]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The domain is \\([0,1]\\), and the function decreases continuously from \\(\\frac{3\\pi}{2}\\) to \\(0\\)."
+            },
+            {
+              "id": "left_0_pi_right_2",
+              "label": "\\(\\left[0,\\pi\\right]\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The value at \\(x=0\\) is \\(\\frac{3\\pi}{2}\\)."
+            },
+            {
+              "id": "left_frac_pi_2_frac_3_pi_3",
+              "label": "\\(\\left[\\frac{\\pi}{2},\\frac{3\\pi}{2}\\right]\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The function attains \\(0\\) at \\(x=1\\)."
+            },
+            {
+              "id": "left_frac_pi_2_pi_right_4",
+              "label": "\\(\\left[-\\frac{\\pi}{2},\\pi\\right]\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Both inverse functions contribute nonnegative principal values here."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "0a0240e7-3289-525b-80dc-61fedf1a2d4c",
+        "quiz_id": "quiz-0c244d8c1145",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(f(x)=\\arcsin\\left(\\frac{2x}{1+x^2}\\right)\\), find \\(f'(2)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For \\(x>1\\), \\(\\sqrt{1-\\left(\\frac{2x}{1+x^2}\\right)^2}=\\frac{x^2-1}{1+x^2}\\). Also, \\(\\frac{d}{dx}\\left(\\frac{2x}{1+x^2}\\right)=\\frac{2(1-x^2)}{(1+x^2)^2}\\). Hence \\(f'(x)=-\\frac{2}{1+x^2}\\), so \\(f'(2)=-\\frac{2}{5}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 53,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.6 Inverse Trigonometric Functions",
+            "concept_ids": [
+              "concept_28a33373e8",
+              "concept_c659b18a62"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              56,
+              57,
+              58,
+              59,
+              199,
+              200,
+              201,
+              202,
+              203
+            ],
+            "source_chunk_ids": [
+              "chunk_531ece25a2",
+              "chunk_320c672f99"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_2_5_1",
+              "label": "\\(-\\frac{2}{5}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "For \\(x>1\\), the principal-value branch gives \\(f'(x)=-\\frac{2}{1+x^2}\\)."
+            },
+            {
+              "id": "frac_2_5_2",
+              "label": "\\(\\frac{2}{5}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This ignores the sign change caused by the principal branch."
+            },
+            {
+              "id": "frac_4_5_3",
+              "label": "\\(-\\frac{4}{5}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative of the inner function is mishandled."
+            },
+            {
+              "id": "frac_4_5_4",
+              "label": "\\(\\frac{4}{5}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This uses an incorrect chain-rule factor."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:02:20.734760Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 4,
+  "context_chunks": [
+    "chunk_531ece25a2",
+    "chunk_320c672f99"
+  ],
+  "source_pages": [
+    56,
+    57,
+    58,
+    59,
+    199,
+    200,
+    201,
+    202,
+    203
+  ],
+  "rejected": [
+    {
+      "attempt": 1,
+      "stem": "Find the domain of \\(y=\\arcsin(x^2+2x)\\).",
+      "issues": [
+        "unbalanced ']'"
+      ]
+    },
+    {
+      "attempt": 2,
+      "stem": "The domain of definition of \\(f(x)=\\arccos\\left(\\frac{2x}{1+x}\\right)\\) is",
+      "issues": [
+        "unbalanced ')'",
+        "unbalanced ']'"
+      ]
+    },
+    {
+      "attempt": 3,
+      "stem": "Find the domain of the function \\\\(f(x)=\\\\cos^{-1}\\\\left(\\\\frac{2x+1}{x+2}\\\\right)\\\\).",
+      "issues": [
+        "unbalanced ')'",
+        "unbalanced ']'"
+      ]
+    }
+  ]
+}

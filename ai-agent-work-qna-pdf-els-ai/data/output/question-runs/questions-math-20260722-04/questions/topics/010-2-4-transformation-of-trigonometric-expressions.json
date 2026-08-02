@@ -1,0 +1,465 @@
+{
+  "key": "2.4",
+  "topic": "2.4 Transformation of Trigonometric Expressions",
+  "questions": [
+    {
+      "question": {
+        "id": "ed824683-007a-55e5-9f9e-577d5ea476ed",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(\\theta\\) is acute and \\(\\tan\\theta+\\cot\\theta=4\\), then the value of \\(\\sin^{4}\\theta+\\cos^{4}\\theta\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since \\(\\tan\\theta+\\cot\\theta=\\frac{1}{\\sin\\theta\\cos\\theta}=4\\), we get \\(\\sin\\theta\\cos\\theta=\\frac{1}{4}\\). Hence \\(\\sin^{4}\\theta+\\cos^{4}\\theta=(\\sin^{2}\\theta+\\cos^{2}\\theta)^2-2\\sin^{2}\\theta\\cos^{2}\\theta=1-\\frac{1}{8}=\\frac{7}{8}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 46,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.4 Transformation of Trigonometric Expressions",
+            "concept_ids": [
+              "concept_1a1cc801ab",
+              "concept_9b3dbd356a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              50,
+              51,
+              52,
+              190,
+              191
+            ],
+            "source_chunk_ids": [
+              "chunk_1a59bc4090",
+              "chunk_617763a75b"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_7_8_1",
+              "label": "\\(\\frac{7}{8}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(\\sin\\theta\\cos\\theta=\\frac{1}{4}\\), so the expression is \\(1-2\\left(\\frac{1}{4}\\right)^2\\)."
+            },
+            {
+              "id": "frac_3_4_2",
+              "label": "\\(\\frac{3}{4}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This results from an incorrect value of \\(\\sin\\theta\\cos\\theta\\)."
+            },
+            {
+              "id": "frac_15_16_3",
+              "label": "\\(\\frac{15}{16}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The subtraction term is evaluated incorrectly."
+            },
+            {
+              "id": "frac_1_2_4",
+              "label": "\\(\\frac{1}{2}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not follow from the given reciprocal relation."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "8d68d46b-9dd9-58a1-b533-81f53e730702",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For angles \\(A\\) and \\(B\\) such that the expression is defined, simplify \\(\\frac{\\cos(A+B)+\\cos(A-B)}{\\sin(A+B)+\\sin(A-B)}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using sum-to-product identities, the numerator is \\(2\\cos A\\cos B\\) and the denominator is \\(2\\sin A\\cos B\\). Therefore, the expression equals \\(\\frac{\\cos A}{\\sin A}=\\cot A\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 47,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Understand",
+            "topic": "2.4 Transformation of Trigonometric Expressions",
+            "concept_ids": [
+              "concept_1a1cc801ab",
+              "concept_9b3dbd356a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              50,
+              51,
+              52,
+              190,
+              191
+            ],
+            "source_chunk_ids": [
+              "chunk_1a59bc4090",
+              "chunk_617763a75b"
+            ]
+          },
+          "options": [
+            {
+              "id": "tan_A_1",
+              "label": "\\(\\tan A\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The simplified numerator and denominator give the reciprocal ratio."
+            },
+            {
+              "id": "cot_A_2",
+              "label": "\\(\\cot A\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Sum-to-product identities reduce the fraction to \\(\\frac{\\cos A}{\\sin A}\\)."
+            },
+            {
+              "id": "cot_B_3",
+              "label": "\\(\\cot B\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factor involving \\(B\\) cancels, so the result depends on \\(A\\)."
+            },
+            {
+              "id": "tan_B_4",
+              "label": "\\(\\tan B\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The expression does not reduce to a ratio involving only \\(B\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "1cb3a2b2-65d4-5572-952c-01d6b1d0175b",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(\\alpha\\) is acute and \\(\\sin\\alpha+\\cos\\alpha=\\sqrt{\\frac{3}{2}}\\), then \\(\\sin 2\\alpha\\) equals",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Squaring, \\((\\sin\\alpha+\\cos\\alpha)^2=1+2\\sin\\alpha\\cos\\alpha=1+\\sin 2\\alpha\\). Thus \\(\\frac{3}{2}=1+\\sin 2\\alpha\\), giving \\(\\sin 2\\alpha=\\frac{1}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 48,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.4 Transformation of Trigonometric Expressions",
+            "concept_ids": [
+              "concept_1a1cc801ab",
+              "concept_9b3dbd356a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              50,
+              51,
+              52,
+              190,
+              191
+            ],
+            "source_chunk_ids": [
+              "chunk_1a59bc4090",
+              "chunk_617763a75b"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_1_2_1",
+              "label": "\\(\\frac{1}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Squaring the given relation gives \\(1+\\sin 2\\alpha=\\frac{3}{2}\\)."
+            },
+            {
+              "id": "frac_sqrt_3_2_2",
+              "label": "\\(\\frac{\\sqrt{3}}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the value of a standard-angle sine, not the derived result."
+            },
+            {
+              "id": "frac_1_4_3",
+              "label": "\\(\\frac{1}{4}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The square of \\(\\sin\\alpha\\cos\\alpha\\) is confused with \\(\\sin 2\\alpha\\)."
+            },
+            {
+              "id": "1_4",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The cross term is omitted when squaring."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "faa9de9a-153f-5dd4-ad0b-ea9e3007ec35",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate \\(\\sin\\frac{\\pi}{9}\\sin\\frac{2\\pi}{9}\\sin\\frac{4\\pi}{9}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(x=\\frac{\\pi}{9}\\). Then \\(\\frac{2\\pi}{9}=\\frac{\\pi}{3}-x\\), \\(\\frac{4\\pi}{9}=\\frac{\\pi}{3}+x\\), and \\(3x=\\frac{\\pi}{3}\\). Hence the product is \\(\\frac{\\sin 3x}{4}=\\frac{\\sin\\frac{\\pi}{3}}{4}=\\frac{\\sqrt{3}}{8}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 49,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.4 Transformation of Trigonometric Expressions",
+            "concept_ids": [
+              "concept_1a1cc801ab",
+              "concept_9b3dbd356a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              50,
+              51,
+              52,
+              190,
+              191
+            ],
+            "source_chunk_ids": [
+              "chunk_1a59bc4090",
+              "chunk_617763a75b"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_sqrt_3_8_1",
+              "label": "\\(\\frac{\\sqrt{3}}{8}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Use \\(\\sin 3x=4\\sin x\\sin\\left(\\frac{\\pi}{3}-x\\right)\\sin\\left(\\frac{\\pi}{3}+x\\right)\\) with \\(x=\\frac{\\pi}{9}\\)."
+            },
+            {
+              "id": "frac_1_8_2",
+              "label": "\\(\\frac{1}{8}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factor \\(\\sin\\frac{\\pi}{3}\\) is omitted."
+            },
+            {
+              "id": "frac_3_8_3",
+              "label": "\\(\\frac{3}{8}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The value of \\(\\sin\\frac{\\pi}{3}\\) is used incorrectly."
+            },
+            {
+              "id": "frac_sqrt_2_8_4",
+              "label": "\\(\\frac{\\sqrt{2}}{8}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not match the required triple-angle identity."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "8b2ece96-d9c0-5879-b9b5-32fef709a39f",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(A+B=\\frac{\\pi}{4}\\) and \\(\\tan A\\), \\(\\tan B\\) are defined, find \\((1+\\tan A)(1+\\tan B)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(p=\\tan A\\) and \\(q=\\tan B\\). Since \\(\\tan(A+B)=\\tan\\frac{\\pi}{4}=1\\), \\(\\frac{p+q}{1-pq}=1\\), so \\(p+q=1-pq\\). Therefore, \\((1+p)(1+q)=1+p+q+pq=2\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 50,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.4 Transformation of Trigonometric Expressions",
+            "concept_ids": [
+              "concept_1a1cc801ab",
+              "concept_9b3dbd356a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              50,
+              51,
+              52,
+              190,
+              191
+            ],
+            "source_chunk_ids": [
+              "chunk_1a59bc4090",
+              "chunk_617763a75b"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_1",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits the sum \\(\\tan A+\\tan B\\)."
+            },
+            {
+              "id": "sqrt_2_2",
+              "label": "\\(\\sqrt{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The angle sum does not directly make the product equal to \\(\\sqrt{2}\\)."
+            },
+            {
+              "id": "2_3",
+              "label": "\\(2\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Since \\(\\tan(A+B)=1\\), we have \\(\\tan A+\\tan B=1-\\tan A\\tan B\\)."
+            },
+            {
+              "id": "4_4",
+              "label": "\\(4\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The tangent addition relation does not produce this value."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_1a59bc4090",
+    "chunk_617763a75b"
+  ],
+  "source_pages": [
+    50,
+    51,
+    52,
+    190,
+    191
+  ],
+  "rejected": []
+}

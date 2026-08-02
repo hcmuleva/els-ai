@@ -1,0 +1,471 @@
+{
+  "key": "1.6",
+  "topic": "1.6 Systems of Equations and Inequalities",
+  "questions": [
+    {
+      "question": {
+        "id": "2fd071d8-ebf7-5ee9-ac3c-409590d36e9b",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The lines \\(y=x+1\\), \\(y=3-x\\), and \\(y=-2x\\) form a triangle. For which values of \\(a\\) does the point \\((a,a^2)\\) lie in its interior?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The triangle is described by \\(y<x+1\\), \\(y<3-x\\), and \\(y>-2x\\). Substituting \\(y=a^2\\) gives \\(a^2<a+1\\), \\(a^2<3-a\\), and \\(a^2>-2a\\). These reduce to \\(\\dfrac{-1-\\sqrt{13}}{2}<a<-2\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 26,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.6 Systems of Equations and Inequalities",
+            "concept_ids": [
+              "concept_416b34274b",
+              "concept_48e09ef5fc"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              29,
+              30,
+              31,
+              170,
+              171,
+              172
+            ],
+            "source_chunk_ids": [
+              "chunk_21c06e7834",
+              "chunk_3999907eff"
+            ]
+          },
+          "options": [
+            {
+              "id": "dfrac_1_sqrt_13_2_a_2_1",
+              "label": "\\(\\dfrac{-1-\\sqrt{13}}{2}<a<-2\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The parabola must satisfy all three strict line inequalities."
+            },
+            {
+              "id": "2_a_dfrac_1_sqrt_13_2_2",
+              "label": "\\(-2<a<\\dfrac{-1+\\sqrt{13}}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This includes points outside the triangular region."
+            },
+            {
+              "id": "a_2_3",
+              "label": "\\(a<-2\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The upper boundary condition is also required."
+            },
+            {
+              "id": "a_dfrac_1_sqrt_13_2_4",
+              "label": "\\(a>\\dfrac{-1+\\sqrt{13}}{2}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These points do not satisfy the required line inequalities."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "4cb016c7-97e8-5b36-b90c-c7869dcac27a",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve the system \\(\\left\\{\\begin{aligned}x+y-z&=0\\\\2x-y+3z&=9\\\\-3x+4y+2z&=11\\end{aligned}\\right.\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "From the first equation, \\(z=x+y\\). Substitution gives \\(5x+2y=9\\) and \\(-x+6y=11\\). Solving these equations yields \\(x=1\\), \\(y=2\\), and hence \\(z=3\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 27,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.6 Systems of Equations and Inequalities",
+            "concept_ids": [
+              "concept_416b34274b",
+              "concept_48e09ef5fc"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              29,
+              30,
+              31,
+              170,
+              171,
+              172
+            ],
+            "source_chunk_ids": [
+              "chunk_21c06e7834",
+              "chunk_3999907eff"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_2_3_1",
+              "label": "\\((1,2,3)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "All three equations are satisfied."
+            },
+            {
+              "id": "2_1_3_2",
+              "label": "\\((2,1,3)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The second equation is not satisfied."
+            },
+            {
+              "id": "1_3_4_3",
+              "label": "\\((1,3,4)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The second equation is not satisfied."
+            },
+            {
+              "id": "3_2_1_4",
+              "label": "\\((3,2,1)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The first equation is not satisfied."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "3f95bb82-88c4-5e3c-b156-77a941c11b3f",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(x,y,z\\in\\mathbb{N}\\) satisfy \\(x+y+z=79\\), \\(2x+3y+z=126\\), and \\(x+2y+3z=173\\), then find \\((x,y,z)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Subtracting the first equation from the second gives \\(x+2y=47\\). Subtracting the first equation from the third gives \\(y+2z=94\\). Solving together with \\(x+y+z=79\\) gives \\(x=27\\), \\(y=10\\), and \\(z=42\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 28,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.6 Systems of Equations and Inequalities",
+            "concept_ids": [
+              "concept_416b34274b",
+              "concept_48e09ef5fc"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              29,
+              30,
+              31,
+              170,
+              171,
+              172
+            ],
+            "source_chunk_ids": [
+              "chunk_21c06e7834",
+              "chunk_3999907eff"
+            ]
+          },
+          "options": [
+            {
+              "id": "27_10_42_1",
+              "label": "\\((27,10,42)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Substitution verifies all three equations."
+            },
+            {
+              "id": "25_12_42_2",
+              "label": "\\((25,12,42)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It does not satisfy the second equation."
+            },
+            {
+              "id": "27_12_40_3",
+              "label": "\\((27,12,40)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It does not satisfy the second equation."
+            },
+            {
+              "id": "30_10_39_4",
+              "label": "\\((30,10,39)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It does not satisfy the third equation."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "c74a8ce7-477c-517f-befa-3744c49b2678",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(x\\geq 0\\) and \\(y\\geq 0\\), maximize \\(Z=3x+2y\\) subject to \\(2x+y\\leq 8\\) and \\(x+2y\\leq 8\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The feasible vertices are \\((0,0)\\), \\((4,0)\\), \\((0,4)\\), and \\(\\left(\\dfrac{8}{3},\\dfrac{8}{3}\\right)\\). The corresponding values of \\(Z\\) are \\(0\\), \\(12\\), \\(8\\), and \\(\\dfrac{40}{3}\\). Therefore, the maximum is \\(\\dfrac{40}{3}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 29,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.6 Systems of Equations and Inequalities",
+            "concept_ids": [
+              "concept_416b34274b",
+              "concept_48e09ef5fc"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              29,
+              30,
+              31,
+              170,
+              171,
+              172
+            ],
+            "source_chunk_ids": [
+              "chunk_21c06e7834",
+              "chunk_3999907eff"
+            ]
+          },
+          "options": [
+            {
+              "id": "Z_max_dfrac_40_3_at_left_1",
+              "label": "\\(Z_{\\max}=\\dfrac{40}{3}\\) at \\(\\left(\\dfrac{8}{3},\\dfrac{8}{3}\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The objective is largest at the intersection of the two boundary lines."
+            },
+            {
+              "id": "Z_max_12_at_4_0_2",
+              "label": "\\(Z_{\\max}=12\\) at \\((4,0)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The intersection gives a larger objective value."
+            },
+            {
+              "id": "Z_max_8_at_0_4_3",
+              "label": "\\(Z_{\\max}=8\\) at \\((0,4)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is feasible but not optimal."
+            },
+            {
+              "id": "Z_max_16_at_4_4_4",
+              "label": "\\(Z_{\\max}=16\\) at \\((4,4)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The point \\((4,4)\\) is not feasible."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "8727c12c-1bf0-5305-b986-ea0e049200eb",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "How many ordered pairs of non-negative integers \\((x,y)\\) satisfy \\(x+y\\leq 5\\) and \\(x-y\\geq 1\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For \\(y=0\\), \\(x=1,2,3,4,5\\), giving \\(5\\) pairs. For \\(y=1\\), there are \\(3\\) pairs, and for \\(y=2\\), there is \\(1\\) pair. Since \\(y\\geq 3\\) gives no solution, the total is \\(5+3+1=9\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 30,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.6 Systems of Equations and Inequalities",
+            "concept_ids": [
+              "concept_416b34274b",
+              "concept_48e09ef5fc"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.6",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              29,
+              30,
+              31,
+              170,
+              171,
+              172
+            ],
+            "source_chunk_ids": [
+              "chunk_21c06e7834",
+              "chunk_3999907eff"
+            ]
+          },
+          "options": [
+            {
+              "id": "9_1",
+              "label": "\\(9\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "There are \\(5+3+1=9\\) valid pairs."
+            },
+            {
+              "id": "8_2",
+              "label": "\\(8\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "One valid pair is omitted."
+            },
+            {
+              "id": "10_3",
+              "label": "\\(10\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "A boundary pair is counted incorrectly."
+            },
+            {
+              "id": "12_4",
+              "label": "\\(12\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This includes pairs violating one inequality."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_21c06e7834",
+    "chunk_3999907eff"
+  ],
+  "source_pages": [
+    29,
+    30,
+    31,
+    170,
+    171,
+    172
+  ],
+  "rejected": []
+}

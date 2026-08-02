@@ -1,0 +1,713 @@
+{
+  "books": [
+    {
+      "book_id": "book_f2847eeae3",
+      "filename": "prilepko-problem-book-in-high-school-mathematics-pdf-free.pdf",
+      "title": "ProblemBook",
+      "num_pages": 280,
+      "subject": "Mathematics",
+      "curriculum": "Higher Education",
+      "domain": "STEM",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable",
+          "page_start": 10,
+          "page_end": 31,
+          "topics": [
+            {
+              "title": "ANDFUNCTIONSINONEVARIABLE",
+              "subtopics": [
+                "Function",
+                "Point"
+              ]
+            },
+            {
+              "title": "A Linear Function",
+              "subtopics": [
+                "Equation",
+                "Values"
+              ]
+            },
+            {
+              "title": "A QuadraticFunction",
+              "subtopics": [
+                "Solve",
+                "Equations"
+              ]
+            },
+            {
+              "title": "ARational Function",
+              "subtopics": [
+                "Interval",
+                "Prove"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "title": "Chapter 2: Transcendental Functions, Equations and Inequalities",
+          "page_start": 32,
+          "page_end": 70,
+          "topics": [
+            {
+              "title": "ANDINEQUALITIES",
+              "subtopics": [
+                "Function",
+                "Arcsin",
+                "Arccos",
+                "Arctan"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "title": "Chapter 3: Problems on Deriving Equations and Inequalities",
+          "page_start": 71,
+          "page_end": 84,
+          "topics": [
+            {
+              "title": "PROBLEMSONDERIVINGEQUATIONS",
+              "subtopics": [
+                "First",
+                "Minutes"
+              ]
+            },
+            {
+              "title": "ANDINEQUALITIES",
+              "subtopics": [
+                "Second",
+                "Simultaneously"
+              ]
+            },
+            {
+              "title": "How many timesistheactualspeedof thetugboat",
+              "subtopics": [
+                "Speed"
+              ]
+            },
+            {
+              "title": "Howlong did ittake the raftand theboat tomake",
+              "subtopics": [
+                "Hours"
+              ]
+            },
+            {
+              "title": "Howmanyhoursdidittake each carto cover thewhole",
+              "subtopics": [
+                "Distance"
+              ]
+            },
+            {
+              "title": "NumbersandWork",
+              "subtopics": [
+                "Point"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "title": "Chapter 4: The Antiderivative and the Integral",
+          "page_start": 85,
+          "page_end": 90,
+          "topics": [
+            {
+              "title": "Whatisthe greatestand theleastpercentageof lead",
+              "subtopics": [
+                "Bounded",
+                "Point",
+                "Parabola",
+                "Litres"
+              ]
+            },
+            {
+              "title": "THEANTIDERIVATIVEANDTHEINTEGRAL",
+              "subtopics": [
+                "Curve",
+                "Values",
+                "Through",
+                "Contains"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "title": "Chapter 5: Progressions and Number Sequences",
+          "page_start": 91,
+          "page_end": 99,
+          "topics": [
+            {
+              "title": "PROGRESSIONSANDNUMBERSEQUENCES",
+              "subtopics": [
+                "Progression",
+                "Three"
+              ]
+            },
+            {
+              "title": "FindS",
+              "subtopics": [
+                "Terms",
+                "Second"
+              ]
+            },
+            {
+              "title": "One of thesenumbers isequal to the sum ofthesquares",
+              "subtopics": [
+                "First"
+              ]
+            },
+            {
+              "title": "26.1",
+              "subtopics": [
+                "Numbers"
+              ]
+            },
+            {
+              "title": "28.1",
+              "subtopics": [
+                "Geometric"
+              ]
+            },
+            {
+              "title": "2.3",
+              "subtopics": [
+                "Arithmetic"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "title": "Chapter 6: Elements of Vector Algebra",
+          "page_start": 100,
+          "page_end": 105,
+          "topics": [
+            {
+              "title": "ELEMENTSOFVECTORALGEBRA",
+              "subtopics": [
+                "Vectors",
+                "Points",
+                "Triangle",
+                "Collinear"
+              ]
+            },
+            {
+              "title": "Determine therelationshipbetweenthedegreemeasure",
+              "subtopics": [
+                "Vector",
+                "Coordinates",
+                "Given",
+                "Vertices"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "title": "Chapter 7: Plane Geometry",
+          "page_start": 106,
+          "page_end": 113,
+          "topics": [
+            {
+              "title": "PLANEGEOMETRY",
+              "subtopics": [
+                "Triangle",
+                "Length"
+              ]
+            },
+            {
+              "title": "Constructatriangleknowingitsperimeterandtwo",
+              "subtopics": [
+                "Sides",
+                "Point"
+              ]
+            },
+            {
+              "title": "Constructacirclepassing through thepointsAandB",
+              "subtopics": [
+                "Circle",
+                "Angle"
+              ]
+            },
+            {
+              "title": "Findthesmallerlegofthe trapezoidifitsmidline",
+              "subtopics": [
+                "Trapezoid"
+              ]
+            },
+            {
+              "title": "ABCD as a diameter passes through themidpoints of",
+              "subtopics": [
+                "Prove"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "title": "Chapter 8: Solid Geometry",
+          "page_start": 114,
+          "page_end": 126,
+          "topics": [
+            {
+              "title": "SOLIDGEOMETRY",
+              "subtopics": [
+                "Pyramid",
+                "Equal"
+              ]
+            },
+            {
+              "title": "SolidsofRevolution",
+              "subtopics": [
+                "Thebase",
+                "Thepyramid"
+              ]
+            },
+            {
+              "title": "Theareaofthesectionof theprismformedby theplane",
+              "subtopics": [
+                "Angle"
+              ]
+            },
+            {
+              "title": "Thebasesofthetruncatedtriangularpyramid",
+              "subtopics": [
+                "Regular"
+              ]
+            },
+            {
+              "title": "Findtheratioofthevolumesofthepolyhedraifitis",
+              "subtopics": [
+                "Plane"
+              ]
+            },
+            {
+              "title": "Determinethelateralsurfaceoftheconeiftheapothem",
+              "subtopics": [
+                "Triangular"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "title": "Chapter 9: Miscellaneous Problems",
+          "page_start": 127,
+          "page_end": 137,
+          "topics": [
+            {
+              "title": "MISCELLANEOUSPROBLEMS",
+              "subtopics": [
+                "Function",
+                "Value"
+              ]
+            },
+            {
+              "title": "Prove that the sum of thosenumbersis notsmaller",
+              "subtopics": [
+                "Prove",
+                "Numbers"
+              ]
+            },
+            {
+              "title": "Provethatthesumofthosenumbersisnotsmaller",
+              "subtopics": [
+                "Point",
+                "Functions"
+              ]
+            },
+            {
+              "title": "Prove that",
+              "subtopics": [
+                "Interval"
+              ]
+            },
+            {
+              "title": "Canweassertthattheantiderivative of thatfunction",
+              "subtopics": [
+                "Values"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "title": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable",
+          "page_start": 138,
+          "page_end": 173,
+          "topics": [
+            {
+              "title": "ANDFUNCTIONSINONEVARIABLE",
+              "subtopics": [
+                "Equation",
+                "Solutions"
+              ]
+            },
+            {
+              "title": "A Linear Function",
+              "subtopics": [
+                "Point",
+                "Solution"
+              ]
+            },
+            {
+              "title": "By the definition",
+              "subtopics": [
+                "System"
+              ]
+            },
+            {
+              "title": "AQuadraticFunction",
+              "subtopics": [
+                "Function"
+              ]
+            },
+            {
+              "title": "ARationalFunction",
+              "subtopics": [
+                "Inequality"
+              ]
+            },
+            {
+              "title": "Onthe intervals",
+              "subtopics": [
+                "Intervals"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 11,
+          "title": "Chapter 2: Transcendental Functions, Equations and Inequalities",
+          "page_start": 174,
+          "page_end": 219,
+          "topics": [
+            {
+              "title": "ANDINEQUALITIES",
+              "subtopics": [
+                "Equation",
+                "Reduce"
+              ]
+            },
+            {
+              "title": "Theoriginalequation isequivalent to the system",
+              "subtopics": [
+                "Arccos",
+                "Since"
+              ]
+            },
+            {
+              "title": "Systems ofEquationsandInequalities",
+              "subtopics": [
+                "System"
+              ]
+            },
+            {
+              "title": "Supposearcsin",
+              "subtopics": [
+                "Arcsin"
+              ]
+            },
+            {
+              "title": "0.5",
+              "subtopics": [
+                "Arctan"
+              ]
+            },
+            {
+              "title": "Usethe",
+              "subtopics": [
+                "Solutions"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 12,
+          "title": "Chapter 3: Problems on Deriving Equations and Inequalities",
+          "page_start": 220,
+          "page_end": 223,
+          "topics": [
+            {
+              "title": "PROBLEMSONDERIVINGEQUATIONS",
+              "subtopics": [
+                "System",
+                "First",
+                "Inequalities"
+              ]
+            },
+            {
+              "title": "ANDINEQUALITIES",
+              "subtopics": [
+                "Equation",
+                "Number",
+                "Suppose"
+              ]
+            },
+            {
+              "title": "Numbers and Work",
+              "subtopics": [
+                "Equations",
+                "Second"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 13,
+          "title": "Chapter 4: The Antiderivative and the Integral",
+          "page_start": 224,
+          "page_end": 228,
+          "topics": [
+            {
+              "title": "THEANTIDERIVATIVEANDTHEINTEGRAL",
+              "subtopics": [
+                "Function",
+                "Wehave",
+                "Therefore",
+                "Alloy"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 14,
+          "title": "Chapter 5: Progressions and Number Sequences",
+          "page_start": 229,
+          "page_end": 234,
+          "topics": [
+            {
+              "title": "The valueof the integralis equalto the",
+              "subtopics": [
+                "Sequence",
+                "Number"
+              ]
+            },
+            {
+              "title": "PROGRESSIONSANDNUMBERSEQUENCES",
+              "subtopics": [
+                "System",
+                "Second"
+              ]
+            },
+            {
+              "title": "From the hypothesis we have a system",
+              "subtopics": [
+                "Equation"
+              ]
+            },
+            {
+              "title": "Since all the terms",
+              "subtopics": [
+                "Progression"
+              ]
+            },
+            {
+              "title": "From thehypothesiswehave a system of equations",
+              "subtopics": [
+                "Terms"
+              ]
+            },
+            {
+              "title": "Real solutions exist if",
+              "subtopics": [
+                "Since"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 15,
+          "title": "Chapter 6: Elements of Vector Algebra",
+          "page_start": 235,
+          "page_end": 239,
+          "topics": [
+            {
+              "title": "ELEMENTSOFVECTORALGEBRA",
+              "subtopics": [
+                "Vectors",
+                "Plane"
+              ]
+            },
+            {
+              "title": "Prove thattherequiredratioisequal",
+              "subtopics": [
+                "Equation",
+                "Where"
+              ]
+            },
+            {
+              "title": "Since the vector BMis perpendicular to the",
+              "subtopics": [
+                "Vector",
+                "Equations"
+              ]
+            },
+            {
+              "title": "From thiswe get a system of equations",
+              "subtopics": [
+                "System",
+                "Arccos"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 16,
+          "title": "Chapter 7: Plane Geometry",
+          "page_start": 240,
+          "page_end": 250,
+          "topics": [
+            {
+              "title": "PLANEGEOMETRY",
+              "subtopics": [
+                "Point",
+                "Points"
+              ]
+            },
+            {
+              "title": "It followsfrom the congruence of those",
+              "subtopics": [
+                "Triangle",
+                "Suppose"
+              ]
+            },
+            {
+              "title": "Henceweget",
+              "subtopics": [
+                "Circle"
+              ]
+            },
+            {
+              "title": "Weseektheareaofthetriangle",
+              "subtopics": [
+                "Angle"
+              ]
+            },
+            {
+              "title": "SABC",
+              "subtopics": [
+                "Triangles"
+              ]
+            },
+            {
+              "title": "AEBbelong to the circle constructedon the",
+              "subtopics": [
+                "Since"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 17,
+          "title": "Chapter 8: Solid Geometry",
+          "page_start": 251,
+          "page_end": 263,
+          "topics": [
+            {
+              "title": "SOLIDGEOMETRY",
+              "subtopics": [
+                "Angle",
+                "Interval"
+              ]
+            },
+            {
+              "title": "Weintroducearectangular basis",
+              "subtopics": [
+                "Plane",
+                "Arccos"
+              ]
+            },
+            {
+              "title": "Supposeeisaunitvectorof the",
+              "subtopics": [
+                "Pyramid"
+              ]
+            },
+            {
+              "title": "Letusexpress theunitvectorein",
+              "subtopics": [
+                "Point"
+              ]
+            },
+            {
+              "title": "Itis evident that thevector",
+              "subtopics": [
+                "Length"
+              ]
+            },
+            {
+              "title": "Wehave equations",
+              "subtopics": [
+                "Triangle"
+              ]
+            }
+          ]
+        },
+        {
+          "index": 18,
+          "title": "Chapter 9: Miscellaneous Problems",
+          "page_start": 264,
+          "page_end": 279,
+          "topics": [
+            {
+              "title": "MISCELLANEOUSPROBLEMS",
+              "subtopics": [
+                "Function",
+                "Given"
+              ]
+            },
+            {
+              "title": "Since",
+              "subtopics": [
+                "Since",
+                "Suppose"
+              ]
+            },
+            {
+              "title": "From the last equality we have",
+              "subtopics": [
+                "Equation"
+              ]
+            },
+            {
+              "title": "10.16",
+              "subtopics": [
+                "Inequality"
+              ]
+            },
+            {
+              "title": "OShowthat for",
+              "subtopics": [
+                "Point"
+              ]
+            },
+            {
+              "title": "Printedin the Union of Soviet SocialistRepublics",
+              "subtopics": [
+                "System"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "overlaps": [],
+  "subject_index": {
+    "Mathematics": [
+      "book_f2847eeae3"
+    ]
+  },
+  "domain_index": {
+    "STEM": [
+      "book_f2847eeae3"
+    ]
+  },
+  "total_chapters": 18,
+  "total_topics": 81
+}

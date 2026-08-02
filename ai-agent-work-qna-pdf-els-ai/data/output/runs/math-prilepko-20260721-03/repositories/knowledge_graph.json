@@ -1,0 +1,657 @@
+{
+  "nodes": [
+    {
+      "id": "concept_14ce3522e9",
+      "label": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 5-10",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_f38fb54164",
+      "label": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 11-16",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_41429fe13d",
+      "label": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 17-22",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_d94490d8e0",
+      "label": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 23-28",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_d09045c7f9",
+      "label": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 29-32",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_2b48a890ed",
+      "label": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 33-38",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ebe7d84f17",
+      "label": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 39-44",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_7e304b67c2",
+      "label": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 45-50",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_4cfe9f624f",
+      "label": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 51-56",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_a888b095e9",
+      "label": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 57-62",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_173a82ddde",
+      "label": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 63-68",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ce7bb1f21d",
+      "label": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 69-71",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_da6e8a16cc",
+      "label": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 72-77",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_3402c49f8e",
+      "label": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 78-83",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_4e43e8aa24",
+      "label": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 84-85",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_c724d5806b",
+      "label": "Chapter 4: The Antiderivative and the Integral practice pages 86-91",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_a3a45bdb74",
+      "label": "Chapter 5: Progressions and Number Sequences practice pages 92-97",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_f30a6e81cf",
+      "label": "Chapter 5: Progressions and Number Sequences practice pages 98-100",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_8bed958fed",
+      "label": "Chapter 6: Elements of Vector Algebra practice pages 101-106",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_d586f493c7",
+      "label": "Chapter 7: Plane Geometry practice pages 107-112",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_11f300c59d",
+      "label": "Chapter 7: Plane Geometry practice pages 113-114",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_99959c5389",
+      "label": "Chapter 8: Solid Geometry practice pages 115-120",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_c3c67e00fe",
+      "label": "Chapter 8: Solid Geometry practice pages 121-126",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_46c3785e68",
+      "label": "Chapter 8: Solid Geometry practice pages 127-127",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_189e16c5b9",
+      "label": "Chapter 9: Miscellaneous Problems practice pages 128-133",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_a138bffd8e",
+      "label": "Chapter 9: Miscellaneous Problems practice pages 134-138",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_88a95a4673",
+      "label": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 139-149",
+      "concept_type": "Procedure",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_aa5ae097a8",
+      "label": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 150-160",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_19b3e13685",
+      "label": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 161-166",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_3800d1ea39",
+      "label": "Chapter 1: Rational Equations,Inequalities and Functions in One Variable practice pages 167-173",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_02864a27c9",
+      "label": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 175-180",
+      "concept_type": "Procedure",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_89bd26487a",
+      "label": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 181-186",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_7061890d3c",
+      "label": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 187-193",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_7a216f9fa5",
+      "label": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 194-201",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_9a236730b6",
+      "label": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 202-207",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_28876cea1f",
+      "label": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 208-213",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_05a52bbcdb",
+      "label": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 214-219",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_7103357a4a",
+      "label": "Chapter 2: Transcendental Functions, Equations and Inequalities practice pages 220-220",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_06e4f47e46",
+      "label": "Chapter 3: Problems on Deriving Equations and Inequalities practice pages 221-224",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_b77b305883",
+      "label": "Chapter 4: The Antiderivative and the Integral practice pages 225-229",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_3293b46ec5",
+      "label": "Chapter 5: Progressions and Number Sequences practice pages 230-235",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_1f9f4e9f3a",
+      "label": "Chapter 6: Elements of Vector Algebra practice pages 236-240",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_2ec2f55cc0",
+      "label": "Chapter 7: Plane Geometry practice pages 241-246",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_2c8f4c585f",
+      "label": "Chapter 7: Plane Geometry practice pages 247-251",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_5cb0c2e678",
+      "label": "Chapter 8: Solid Geometry practice pages 252-257",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ee2fb571f5",
+      "label": "Chapter 8: Solid Geometry practice pages 258-263",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_b42dcae4f2",
+      "label": "Chapter 8: Solid Geometry practice pages 264-264",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_3a05acc5f4",
+      "label": "Chapter 9: Miscellaneous Problems practice pages 265-270",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_97cb6175af",
+      "label": "Chapter 9: Miscellaneous Problems practice pages 271-276",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_98d1f8bca3",
+      "label": "Chapter 9: Miscellaneous Problems practice pages 277-280",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    }
+  ],
+  "edges": [],
+  "centrality": [
+    {
+      "concept_id": "concept_14ce3522e9",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_f38fb54164",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_41429fe13d",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_d94490d8e0",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_d09045c7f9",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_2b48a890ed",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_ebe7d84f17",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_7e304b67c2",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_4cfe9f624f",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_a888b095e9",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_173a82ddde",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_ce7bb1f21d",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_da6e8a16cc",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_3402c49f8e",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_4e43e8aa24",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_c724d5806b",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_a3a45bdb74",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_f30a6e81cf",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_8bed958fed",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_d586f493c7",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_11f300c59d",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_99959c5389",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_c3c67e00fe",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_46c3785e68",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_189e16c5b9",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_a138bffd8e",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_88a95a4673",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_aa5ae097a8",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_19b3e13685",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_3800d1ea39",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_02864a27c9",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_89bd26487a",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_7061890d3c",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_7a216f9fa5",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_9a236730b6",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_28876cea1f",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_05a52bbcdb",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_7103357a4a",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_06e4f47e46",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_b77b305883",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_3293b46ec5",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_1f9f4e9f3a",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_2ec2f55cc0",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_2c8f4c585f",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_5cb0c2e678",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_ee2fb571f5",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_b42dcae4f2",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_3a05acc5f4",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_97cb6175af",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    },
+    {
+      "concept_id": "concept_98d1f8bca3",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.02
+    }
+  ]
+}

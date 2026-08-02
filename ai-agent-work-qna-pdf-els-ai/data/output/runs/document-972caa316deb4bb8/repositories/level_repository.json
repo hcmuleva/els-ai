@@ -1,0 +1,41 @@
+[
+  {
+    "concept_id": "concept_657d98b019",
+    "concept_name": "ELECTROMAGNETIC INDUCTION practice pages 1-6",
+    "level_band": "intermediate",
+    "intrinsic_difficulty": "medium",
+    "reasoning_level": "Understand",
+    "steps_required": 2,
+    "concepts_combined": 3,
+    "prerequisite_depth": 0,
+    "confidence": 0.95,
+    "level_source": "droid",
+    "rationale": "The material covers foundational magnetic flux, Gauss's law for magnetism, Faraday's law, and Lenz's law. It supports direct conceptual understanding and simple applications, but does not itself require advanced multi-concept reasoning."
+  },
+  {
+    "concept_id": "concept_b98adbe8f0",
+    "concept_name": "ELECTROMAGNETIC INDUCTION practice pages 7-12",
+    "level_band": "advanced",
+    "intrinsic_difficulty": "medium",
+    "reasoning_level": "Apply",
+    "steps_required": 2,
+    "concepts_combined": 4,
+    "prerequisite_depth": 0,
+    "confidence": 0.93,
+    "level_source": "droid",
+    "rationale": "Introduces mutual inductance, coupling, and series/parallel coil formulas with straightforward derivative-based applications; it requires several linked concepts but no non-obvious competitive reasoning."
+  },
+  {
+    "concept_id": "concept_8130b3391d",
+    "concept_name": "ELECTROMAGNETIC INDUCTION practice pages 13-17",
+    "level_band": "advanced",
+    "intrinsic_difficulty": "medium",
+    "reasoning_level": "Apply",
+    "steps_required": 3,
+    "concepts_combined": 4,
+    "prerequisite_depth": 0,
+    "confidence": 0.94,
+    "level_source": "droid",
+    "rationale": "Combines AC power, phase relationships, resistance, capacitive and inductive reactance, impedance, and resonance, mainly through direct formula application with a few linked steps."
+  }
+]

@@ -1,0 +1,3554 @@
+[
+  {
+    "objective_id": "obj_5d89e9107d",
+    "concept_id": "concept_699a4972bd",
+    "objective": "Recall and state the concept of 1.1 Linear Equations andInequalities in One Variable. A Linear Function Solvethefollowingequations: 1.(3x practice pages 11-13.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_ad99c42c6d",
+    "concept_id": "concept_699a4972bd",
+    "objective": "Explain in your own words the concept of 1.1 Linear Equations andInequalities in One Variable. A Linear Function Solvethefollowingequations: 1.(3x practice pages 11-13.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_c00b8d0a6d",
+    "concept_id": "concept_699a4972bd",
+    "objective": "Apply to a new situation the concept of 1.1 Linear Equations andInequalities in One Variable. A Linear Function Solvethefollowingequations: 1.(3x practice pages 11-13.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_5e0e1cf0c2",
+    "concept_id": "concept_699a4972bd",
+    "objective": "Break down and compare the concept of 1.1 Linear Equations andInequalities in One Variable. A Linear Function Solvethefollowingequations: 1.(3x practice pages 11-13.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_e56b602c26",
+    "concept_id": "concept_699a4972bd",
+    "objective": "Critique and justify decisions about the concept of 1.1 Linear Equations andInequalities in One Variable. A Linear Function Solvethefollowingequations: 1.(3x practice pages 11-13.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_64cb3a97e5",
+    "concept_id": "concept_699a4972bd",
+    "objective": "Design or produce something using the concept of 1.1 Linear Equations andInequalities in One Variable. A Linear Function Solvethefollowingequations: 1.(3x practice pages 11-13.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_f26cc3c3df",
+    "concept_id": "concept_5c601a3629",
+    "objective": "Recall and state the concept of 1.2 QuadraticEquations andInequalities. A QuadraticFunction Solve the following equations and inequalitie practice pages 14-18.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_03ed114095",
+    "concept_id": "concept_5c601a3629",
+    "objective": "Explain in your own words the concept of 1.2 QuadraticEquations andInequalities. A QuadraticFunction Solve the following equations and inequalitie practice pages 14-18.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_15fd5fd1f9",
+    "concept_id": "concept_5c601a3629",
+    "objective": "Apply to a new situation the concept of 1.2 QuadraticEquations andInequalities. A QuadraticFunction Solve the following equations and inequalitie practice pages 14-18.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_ccd7fb91f8",
+    "concept_id": "concept_5c601a3629",
+    "objective": "Break down and compare the concept of 1.2 QuadraticEquations andInequalities. A QuadraticFunction Solve the following equations and inequalitie practice pages 14-18.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_b185c75a62",
+    "concept_id": "concept_5c601a3629",
+    "objective": "Critique and justify decisions about the concept of 1.2 QuadraticEquations andInequalities. A QuadraticFunction Solve the following equations and inequalitie practice pages 14-18.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_180107a517",
+    "concept_id": "concept_5c601a3629",
+    "objective": "Design or produce something using the concept of 1.2 QuadraticEquations andInequalities. A QuadraticFunction Solve the following equations and inequalitie practice pages 14-18.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_939635db5e",
+    "concept_id": "concept_02c945eac7",
+    "objective": "Recall and state the concept of 1.3 InverseProportionality Solve thefollowingequations: 1. (a)=5;(b) 2 4 -1 =a; (d) 1 2. (a) 3 2 2 2+1 x practice pages 19-21.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_6b89f6488c",
+    "concept_id": "concept_02c945eac7",
+    "objective": "Explain in your own words the concept of 1.3 InverseProportionality Solve thefollowingequations: 1. (a)=5;(b) 2 4 -1 =a; (d) 1 2. (a) 3 2 2 2+1 x practice pages 19-21.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_954b90dc5a",
+    "concept_id": "concept_02c945eac7",
+    "objective": "Apply to a new situation the concept of 1.3 InverseProportionality Solve thefollowingequations: 1. (a)=5;(b) 2 4 -1 =a; (d) 1 2. (a) 3 2 2 2+1 x practice pages 19-21.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_4d16401c6d",
+    "concept_id": "concept_02c945eac7",
+    "objective": "Break down and compare the concept of 1.3 InverseProportionality Solve thefollowingequations: 1. (a)=5;(b) 2 4 -1 =a; (d) 1 2. (a) 3 2 2 2+1 x practice pages 19-21.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_019464da81",
+    "concept_id": "concept_02c945eac7",
+    "objective": "Critique and justify decisions about the concept of 1.3 InverseProportionality Solve thefollowingequations: 1. (a)=5;(b) 2 4 -1 =a; (d) 1 2. (a) 3 2 2 2+1 x practice pages 19-21.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_7def7f8b01",
+    "concept_id": "concept_02c945eac7",
+    "objective": "Design or produce something using the concept of 1.3 InverseProportionality Solve thefollowingequations: 1. (a)=5;(b) 2 4 -1 =a; (d) 1 2. (a) 3 2 2 2+1 x practice pages 19-21.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_b644acf801",
+    "concept_id": "concept_7c23cfa9e4",
+    "objective": "Recall and state the concept of 1.4 Equations and Inequalities of Higher Degrees. ARational Function 1.Solve the equation (a)(x-1)(x²+4x+ practice pages 22-26.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_b158218abd",
+    "concept_id": "concept_7c23cfa9e4",
+    "objective": "Explain in your own words the concept of 1.4 Equations and Inequalities of Higher Degrees. ARational Function 1.Solve the equation (a)(x-1)(x²+4x+ practice pages 22-26.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_1a7f1c9ae3",
+    "concept_id": "concept_7c23cfa9e4",
+    "objective": "Apply to a new situation the concept of 1.4 Equations and Inequalities of Higher Degrees. ARational Function 1.Solve the equation (a)(x-1)(x²+4x+ practice pages 22-26.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_95a52b6452",
+    "concept_id": "concept_7c23cfa9e4",
+    "objective": "Break down and compare the concept of 1.4 Equations and Inequalities of Higher Degrees. ARational Function 1.Solve the equation (a)(x-1)(x²+4x+ practice pages 22-26.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_37772e5322",
+    "concept_id": "concept_7c23cfa9e4",
+    "objective": "Critique and justify decisions about the concept of 1.4 Equations and Inequalities of Higher Degrees. ARational Function 1.Solve the equation (a)(x-1)(x²+4x+ practice pages 22-26.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_f0f08cdced",
+    "concept_id": "concept_7c23cfa9e4",
+    "objective": "Design or produce something using the concept of 1.4 Equations and Inequalities of Higher Degrees. ARational Function 1.Solve the equation (a)(x-1)(x²+4x+ practice pages 22-26.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_56f514a168",
+    "concept_id": "concept_a7f703855e",
+    "objective": "Recall and state the concept of 1.5 Linear Systems of Equations and Inequalities Solve thefollowingsystemsof equations: 1. (a) 3x-y=0, [x practice pages 27-29.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_538a6f5182",
+    "concept_id": "concept_a7f703855e",
+    "objective": "Explain in your own words the concept of 1.5 Linear Systems of Equations and Inequalities Solve thefollowingsystemsof equations: 1. (a) 3x-y=0, [x practice pages 27-29.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_b080957b78",
+    "concept_id": "concept_a7f703855e",
+    "objective": "Apply to a new situation the concept of 1.5 Linear Systems of Equations and Inequalities Solve thefollowingsystemsof equations: 1. (a) 3x-y=0, [x practice pages 27-29.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_5e6af91fa3",
+    "concept_id": "concept_a7f703855e",
+    "objective": "Break down and compare the concept of 1.5 Linear Systems of Equations and Inequalities Solve thefollowingsystemsof equations: 1. (a) 3x-y=0, [x practice pages 27-29.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_1c33e54420",
+    "concept_id": "concept_a7f703855e",
+    "objective": "Critique and justify decisions about the concept of 1.5 Linear Systems of Equations and Inequalities Solve thefollowingsystemsof equations: 1. (a) 3x-y=0, [x practice pages 27-29.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_ee0e9bbc1d",
+    "concept_id": "concept_a7f703855e",
+    "objective": "Design or produce something using the concept of 1.5 Linear Systems of Equations and Inequalities Solve thefollowingsystemsof equations: 1. (a) 3x-y=0, [x practice pages 27-29.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_42e9d478cd",
+    "concept_id": "concept_b50f90bc0f",
+    "objective": "Recall and state the concept of 1.6 Systems ofEquationsandInequalities inSeveralHigher-DegreeVariables Solvethefollowingsystemsofequation practice pages 30-32.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_5965166523",
+    "concept_id": "concept_b50f90bc0f",
+    "objective": "Explain in your own words the concept of 1.6 Systems ofEquationsandInequalities inSeveralHigher-DegreeVariables Solvethefollowingsystemsofequation practice pages 30-32.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_09ad47834b",
+    "concept_id": "concept_b50f90bc0f",
+    "objective": "Apply to a new situation the concept of 1.6 Systems ofEquationsandInequalities inSeveralHigher-DegreeVariables Solvethefollowingsystemsofequation practice pages 30-32.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_4f027c9273",
+    "concept_id": "concept_b50f90bc0f",
+    "objective": "Break down and compare the concept of 1.6 Systems ofEquationsandInequalities inSeveralHigher-DegreeVariables Solvethefollowingsystemsofequation practice pages 30-32.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_9ada939292",
+    "concept_id": "concept_b50f90bc0f",
+    "objective": "Critique and justify decisions about the concept of 1.6 Systems ofEquationsandInequalities inSeveralHigher-DegreeVariables Solvethefollowingsystemsofequation practice pages 30-32.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_d9f68df3b3",
+    "concept_id": "concept_b50f90bc0f",
+    "objective": "Design or produce something using the concept of 1.6 Systems ofEquationsandInequalities inSeveralHigher-DegreeVariables Solvethefollowingsystemsofequation practice pages 30-32.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_02d3fb94d4",
+    "concept_id": "concept_f726c7ac6e",
+    "objective": "Recall and state the concept of 2.1 Irrational Equations andInequalities Solvethefollowingsystemsofequations: 1.Vx+1=a. 2.Vx+3=Va-x. 3.V4 practice pages 33-37.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_ed1ce30881",
+    "concept_id": "concept_f726c7ac6e",
+    "objective": "Explain in your own words the concept of 2.1 Irrational Equations andInequalities Solvethefollowingsystemsofequations: 1.Vx+1=a. 2.Vx+3=Va-x. 3.V4 practice pages 33-37.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_a47de86dd8",
+    "concept_id": "concept_f726c7ac6e",
+    "objective": "Apply to a new situation the concept of 2.1 Irrational Equations andInequalities Solvethefollowingsystemsofequations: 1.Vx+1=a. 2.Vx+3=Va-x. 3.V4 practice pages 33-37.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_19b482ce39",
+    "concept_id": "concept_f726c7ac6e",
+    "objective": "Break down and compare the concept of 2.1 Irrational Equations andInequalities Solvethefollowingsystemsofequations: 1.Vx+1=a. 2.Vx+3=Va-x. 3.V4 practice pages 33-37.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_985038441d",
+    "concept_id": "concept_f726c7ac6e",
+    "objective": "Critique and justify decisions about the concept of 2.1 Irrational Equations andInequalities Solvethefollowingsystemsofequations: 1.Vx+1=a. 2.Vx+3=Va-x. 3.V4 practice pages 33-37.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_da2dd047e4",
+    "concept_id": "concept_f726c7ac6e",
+    "objective": "Design or produce something using the concept of 2.1 Irrational Equations andInequalities Solvethefollowingsystemsofequations: 1.Vx+1=a. 2.Vx+3=Va-x. 3.V4 practice pages 33-37.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_40b95de0a7",
+    "concept_id": "concept_f00db189f9",
+    "objective": "Recall and state the concept of 2.2 Systems ofIrrational Equations andInequalities Solve thefollowing systems ofequations: 1. (a) 7 4 5 V practice pages 38-38.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_e8e97e6036",
+    "concept_id": "concept_f00db189f9",
+    "objective": "Explain in your own words the concept of 2.2 Systems ofIrrational Equations andInequalities Solve thefollowing systems ofequations: 1. (a) 7 4 5 V practice pages 38-38.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_e2f214ca9f",
+    "concept_id": "concept_f00db189f9",
+    "objective": "Apply to a new situation the concept of 2.2 Systems ofIrrational Equations andInequalities Solve thefollowing systems ofequations: 1. (a) 7 4 5 V practice pages 38-38.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_2bdc8851f5",
+    "concept_id": "concept_f00db189f9",
+    "objective": "Break down and compare the concept of 2.2 Systems ofIrrational Equations andInequalities Solve thefollowing systems ofequations: 1. (a) 7 4 5 V practice pages 38-38.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_7ec65eab92",
+    "concept_id": "concept_f00db189f9",
+    "objective": "Critique and justify decisions about the concept of 2.2 Systems ofIrrational Equations andInequalities Solve thefollowing systems ofequations: 1. (a) 7 4 5 V practice pages 38-38.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_156e351839",
+    "concept_id": "concept_f00db189f9",
+    "objective": "Design or produce something using the concept of 2.2 Systems ofIrrational Equations andInequalities Solve thefollowing systems ofequations: 1. (a) 7 4 5 V practice pages 38-38.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_b070212267",
+    "concept_id": "concept_e7def5672e",
+    "objective": "Recall and state the concept of 2.3 An Exponential and a Logarithmic Function, Exponential andLogarithmicEquations, Systems of Equations, practice pages 39-44.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_203944eddc",
+    "concept_id": "concept_e7def5672e",
+    "objective": "Explain in your own words the concept of 2.3 An Exponential and a Logarithmic Function, Exponential andLogarithmicEquations, Systems of Equations, practice pages 39-44.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_24e5b77cf2",
+    "concept_id": "concept_e7def5672e",
+    "objective": "Apply to a new situation the concept of 2.3 An Exponential and a Logarithmic Function, Exponential andLogarithmicEquations, Systems of Equations, practice pages 39-44.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_2f1aba6eb3",
+    "concept_id": "concept_e7def5672e",
+    "objective": "Break down and compare the concept of 2.3 An Exponential and a Logarithmic Function, Exponential andLogarithmicEquations, Systems of Equations, practice pages 39-44.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_e1f532c0d0",
+    "concept_id": "concept_e7def5672e",
+    "objective": "Critique and justify decisions about the concept of 2.3 An Exponential and a Logarithmic Function, Exponential andLogarithmicEquations, Systems of Equations, practice pages 39-44.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_38c3a185f9",
+    "concept_id": "concept_e7def5672e",
+    "objective": "Design or produce something using the concept of 2.3 An Exponential and a Logarithmic Function, Exponential andLogarithmicEquations, Systems of Equations, practice pages 39-44.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_a8cdac2f88",
+    "concept_id": "concept_29344c8c7b",
+    "objective": "Recall and state the concept of 2.3 An Exponential and a Logarithmic Function, Exponential andLogarithmicEquations, Systems of Equations, practice pages 45-50.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_dcb2ca1e3e",
+    "concept_id": "concept_29344c8c7b",
+    "objective": "Explain in your own words the concept of 2.3 An Exponential and a Logarithmic Function, Exponential andLogarithmicEquations, Systems of Equations, practice pages 45-50.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_63a4cbe3a4",
+    "concept_id": "concept_29344c8c7b",
+    "objective": "Apply to a new situation the concept of 2.3 An Exponential and a Logarithmic Function, Exponential andLogarithmicEquations, Systems of Equations, practice pages 45-50.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_9ff2e1b47f",
+    "concept_id": "concept_29344c8c7b",
+    "objective": "Break down and compare the concept of 2.3 An Exponential and a Logarithmic Function, Exponential andLogarithmicEquations, Systems of Equations, practice pages 45-50.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_cc3bb9fb1e",
+    "concept_id": "concept_29344c8c7b",
+    "objective": "Critique and justify decisions about the concept of 2.3 An Exponential and a Logarithmic Function, Exponential andLogarithmicEquations, Systems of Equations, practice pages 45-50.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_f6d3469053",
+    "concept_id": "concept_29344c8c7b",
+    "objective": "Design or produce something using the concept of 2.3 An Exponential and a Logarithmic Function, Exponential andLogarithmicEquations, Systems of Equations, practice pages 45-50.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_a4909b3a0e",
+    "concept_id": "concept_bfa3a0d347",
+    "objective": "Recall and state the concept of 2.4 Transformation of Trigonometric Expressions 1.Prove the identity (a)sinα+cosα+3 sin²αX ×cos²α=1;(b) s practice pages 51-53.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_474e22fb11",
+    "concept_id": "concept_bfa3a0d347",
+    "objective": "Explain in your own words the concept of 2.4 Transformation of Trigonometric Expressions 1.Prove the identity (a)sinα+cosα+3 sin²αX ×cos²α=1;(b) s practice pages 51-53.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_cae657ffa8",
+    "concept_id": "concept_bfa3a0d347",
+    "objective": "Apply to a new situation the concept of 2.4 Transformation of Trigonometric Expressions 1.Prove the identity (a)sinα+cosα+3 sin²αX ×cos²α=1;(b) s practice pages 51-53.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_4618e39b3f",
+    "concept_id": "concept_bfa3a0d347",
+    "objective": "Break down and compare the concept of 2.4 Transformation of Trigonometric Expressions 1.Prove the identity (a)sinα+cosα+3 sin²αX ×cos²α=1;(b) s practice pages 51-53.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_5171913fc0",
+    "concept_id": "concept_bfa3a0d347",
+    "objective": "Critique and justify decisions about the concept of 2.4 Transformation of Trigonometric Expressions 1.Prove the identity (a)sinα+cosα+3 sin²αX ×cos²α=1;(b) s practice pages 51-53.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_4df4a58a52",
+    "concept_id": "concept_bfa3a0d347",
+    "objective": "Design or produce something using the concept of 2.4 Transformation of Trigonometric Expressions 1.Prove the identity (a)sinα+cosα+3 sin²αX ×cos²α=1;(b) s practice pages 51-53.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_57f5c00541",
+    "concept_id": "concept_6618383d0b",
+    "objective": "Recall and state the concept of 2.5 Trigonometric Functions 1.Find the domain of definition of the functon (a)y= 1 tan 2x;(b)y=5 cot；(c)y practice pages 54-56.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_064af271b4",
+    "concept_id": "concept_6618383d0b",
+    "objective": "Explain in your own words the concept of 2.5 Trigonometric Functions 1.Find the domain of definition of the functon (a)y= 1 tan 2x;(b)y=5 cot；(c)y practice pages 54-56.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_abf620b717",
+    "concept_id": "concept_6618383d0b",
+    "objective": "Apply to a new situation the concept of 2.5 Trigonometric Functions 1.Find the domain of definition of the functon (a)y= 1 tan 2x;(b)y=5 cot；(c)y practice pages 54-56.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_0be071f8f6",
+    "concept_id": "concept_6618383d0b",
+    "objective": "Break down and compare the concept of 2.5 Trigonometric Functions 1.Find the domain of definition of the functon (a)y= 1 tan 2x;(b)y=5 cot；(c)y practice pages 54-56.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_fc8a363173",
+    "concept_id": "concept_6618383d0b",
+    "objective": "Critique and justify decisions about the concept of 2.5 Trigonometric Functions 1.Find the domain of definition of the functon (a)y= 1 tan 2x;(b)y=5 cot；(c)y practice pages 54-56.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_5ca48526f3",
+    "concept_id": "concept_6618383d0b",
+    "objective": "Design or produce something using the concept of 2.5 Trigonometric Functions 1.Find the domain of definition of the functon (a)y= 1 tan 2x;(b)y=5 cot；(c)y practice pages 54-56.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_18c7a17ca4",
+    "concept_id": "concept_2321fa21ad",
+    "objective": "Recall and state the concept of 2.6 Inverse Trigonometric Functions Find the domainsofdefinition of thefollowingfunctions: 1. (a) y=arcsi practice pages 57-60.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_6c7e04f1df",
+    "concept_id": "concept_2321fa21ad",
+    "objective": "Explain in your own words the concept of 2.6 Inverse Trigonometric Functions Find the domainsofdefinition of thefollowingfunctions: 1. (a) y=arcsi practice pages 57-60.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_ae76fb65d7",
+    "concept_id": "concept_2321fa21ad",
+    "objective": "Apply to a new situation the concept of 2.6 Inverse Trigonometric Functions Find the domainsofdefinition of thefollowingfunctions: 1. (a) y=arcsi practice pages 57-60.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_cff589519c",
+    "concept_id": "concept_2321fa21ad",
+    "objective": "Break down and compare the concept of 2.6 Inverse Trigonometric Functions Find the domainsofdefinition of thefollowingfunctions: 1. (a) y=arcsi practice pages 57-60.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_291b3de02b",
+    "concept_id": "concept_2321fa21ad",
+    "objective": "Critique and justify decisions about the concept of 2.6 Inverse Trigonometric Functions Find the domainsofdefinition of thefollowingfunctions: 1. (a) y=arcsi practice pages 57-60.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_24746d230b",
+    "concept_id": "concept_2321fa21ad",
+    "objective": "Design or produce something using the concept of 2.6 Inverse Trigonometric Functions Find the domainsofdefinition of thefollowingfunctions: 1. (a) y=arcsi practice pages 57-60.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_3d03be4d25",
+    "concept_id": "concept_f0c43a78ec",
+    "objective": "Recall and state the concept of 2.7 Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin practice pages 61-66.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_8379a88dcc",
+    "concept_id": "concept_f0c43a78ec",
+    "objective": "Explain in your own words the concept of 2.7 Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin practice pages 61-66.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_e2c19c635e",
+    "concept_id": "concept_f0c43a78ec",
+    "objective": "Apply to a new situation the concept of 2.7 Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin practice pages 61-66.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_d4e4555a5b",
+    "concept_id": "concept_f0c43a78ec",
+    "objective": "Break down and compare the concept of 2.7 Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin practice pages 61-66.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_0d3c105891",
+    "concept_id": "concept_f0c43a78ec",
+    "objective": "Critique and justify decisions about the concept of 2.7 Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin practice pages 61-66.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_53e122ff4c",
+    "concept_id": "concept_f0c43a78ec",
+    "objective": "Design or produce something using the concept of 2.7 Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin practice pages 61-66.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_ebc14fbc9e",
+    "concept_id": "concept_a54a40de21",
+    "objective": "Recall and state the concept of 2.7 Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin practice pages 67-69.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_eacbefaf5b",
+    "concept_id": "concept_a54a40de21",
+    "objective": "Explain in your own words the concept of 2.7 Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin practice pages 67-69.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_841e0740fc",
+    "concept_id": "concept_a54a40de21",
+    "objective": "Apply to a new situation the concept of 2.7 Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin practice pages 67-69.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_6d335540ae",
+    "concept_id": "concept_a54a40de21",
+    "objective": "Break down and compare the concept of 2.7 Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin practice pages 67-69.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_dfda4eef1a",
+    "concept_id": "concept_a54a40de21",
+    "objective": "Critique and justify decisions about the concept of 2.7 Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin practice pages 67-69.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_2a9ba4000e",
+    "concept_id": "concept_a54a40de21",
+    "objective": "Design or produce something using the concept of 2.7 Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin practice pages 67-69.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_149354884c",
+    "concept_id": "concept_142e0e2c41",
+    "objective": "Recall and state the concept of 2.8 TrigonometricInequalities Solve thefollowinginequalities: 1. (a) sin 2z>0; (b） sin<0; (c) sin(x+) (d) practice pages 70-71.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_6ff27a0951",
+    "concept_id": "concept_142e0e2c41",
+    "objective": "Explain in your own words the concept of 2.8 TrigonometricInequalities Solve thefollowinginequalities: 1. (a) sin 2z>0; (b） sin<0; (c) sin(x+) (d) practice pages 70-71.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_a5ebef7646",
+    "concept_id": "concept_142e0e2c41",
+    "objective": "Apply to a new situation the concept of 2.8 TrigonometricInequalities Solve thefollowinginequalities: 1. (a) sin 2z>0; (b） sin<0; (c) sin(x+) (d) practice pages 70-71.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_e5a6aab23d",
+    "concept_id": "concept_142e0e2c41",
+    "objective": "Break down and compare the concept of 2.8 TrigonometricInequalities Solve thefollowinginequalities: 1. (a) sin 2z>0; (b） sin<0; (c) sin(x+) (d) practice pages 70-71.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_87375bab2f",
+    "concept_id": "concept_142e0e2c41",
+    "objective": "Critique and justify decisions about the concept of 2.8 TrigonometricInequalities Solve thefollowinginequalities: 1. (a) sin 2z>0; (b） sin<0; (c) sin(x+) (d) practice pages 70-71.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_69e0f80e77",
+    "concept_id": "concept_142e0e2c41",
+    "objective": "Design or produce something using the concept of 2.8 TrigonometricInequalities Solve thefollowinginequalities: 1. (a) sin 2z>0; (b） sin<0; (c) sin(x+) (d) practice pages 70-71.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_a4365d186e",
+    "concept_id": "concept_12c35e7d73",
+    "objective": "Recall and state the concept of 3.1 Problems onMotion 1.The train left station A for station B.Having travelled 450km，which constitutes 7 practice pages 72-77.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_6f7b39a4a7",
+    "concept_id": "concept_12c35e7d73",
+    "objective": "Explain in your own words the concept of 3.1 Problems onMotion 1.The train left station A for station B.Having travelled 450km，which constitutes 7 practice pages 72-77.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_5559ff4b40",
+    "concept_id": "concept_12c35e7d73",
+    "objective": "Apply to a new situation the concept of 3.1 Problems onMotion 1.The train left station A for station B.Having travelled 450km，which constitutes 7 practice pages 72-77.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_9aaa541b70",
+    "concept_id": "concept_12c35e7d73",
+    "objective": "Break down and compare the concept of 3.1 Problems onMotion 1.The train left station A for station B.Having travelled 450km，which constitutes 7 practice pages 72-77.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_b72de87f20",
+    "concept_id": "concept_12c35e7d73",
+    "objective": "Critique and justify decisions about the concept of 3.1 Problems onMotion 1.The train left station A for station B.Having travelled 450km，which constitutes 7 practice pages 72-77.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_1980ab07b5",
+    "concept_id": "concept_12c35e7d73",
+    "objective": "Design or produce something using the concept of 3.1 Problems onMotion 1.The train left station A for station B.Having travelled 450km，which constitutes 7 practice pages 72-77.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_6904e763c3",
+    "concept_id": "concept_2d5675ab3c",
+    "objective": "Recall and state the concept of 3.2 Problems on Percentage,Mixtures, NumbersandWork 1.Three navvies dug a ditch of 216 min four days work practice pages 78-82.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_8830c6e78c",
+    "concept_id": "concept_2d5675ab3c",
+    "objective": "Explain in your own words the concept of 3.2 Problems on Percentage,Mixtures, NumbersandWork 1.Three navvies dug a ditch of 216 min four days work practice pages 78-82.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_a1aaf779ff",
+    "concept_id": "concept_2d5675ab3c",
+    "objective": "Apply to a new situation the concept of 3.2 Problems on Percentage,Mixtures, NumbersandWork 1.Three navvies dug a ditch of 216 min four days work practice pages 78-82.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_f7402f2da5",
+    "concept_id": "concept_2d5675ab3c",
+    "objective": "Break down and compare the concept of 3.2 Problems on Percentage,Mixtures, NumbersandWork 1.Three navvies dug a ditch of 216 min four days work practice pages 78-82.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_8cc938cc78",
+    "concept_id": "concept_2d5675ab3c",
+    "objective": "Critique and justify decisions about the concept of 3.2 Problems on Percentage,Mixtures, NumbersandWork 1.Three navvies dug a ditch of 216 min four days work practice pages 78-82.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_19752917dc",
+    "concept_id": "concept_2d5675ab3c",
+    "objective": "Design or produce something using the concept of 3.2 Problems on Percentage,Mixtures, NumbersandWork 1.Three navvies dug a ditch of 216 min four days work practice pages 78-82.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_f45cbc6d9b",
+    "concept_id": "concept_dd1c04413e",
+    "objective": "Recall and state the concept of 3.3 Problems onDerivingInequalities and Systems ofInequalities.ProblemsontheExtremum 1.In a four-digit nu practice pages 83-85.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_94d0d196e4",
+    "concept_id": "concept_dd1c04413e",
+    "objective": "Explain in your own words the concept of 3.3 Problems onDerivingInequalities and Systems ofInequalities.ProblemsontheExtremum 1.In a four-digit nu practice pages 83-85.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_9cedbf62ff",
+    "concept_id": "concept_dd1c04413e",
+    "objective": "Apply to a new situation the concept of 3.3 Problems onDerivingInequalities and Systems ofInequalities.ProblemsontheExtremum 1.In a four-digit nu practice pages 83-85.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_f8e223b053",
+    "concept_id": "concept_dd1c04413e",
+    "objective": "Break down and compare the concept of 3.3 Problems onDerivingInequalities and Systems ofInequalities.ProblemsontheExtremum 1.In a four-digit nu practice pages 83-85.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_5bbbb61979",
+    "concept_id": "concept_dd1c04413e",
+    "objective": "Critique and justify decisions about the concept of 3.3 Problems onDerivingInequalities and Systems ofInequalities.ProblemsontheExtremum 1.In a four-digit nu practice pages 83-85.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_b0e71fe85c",
+    "concept_id": "concept_dd1c04413e",
+    "objective": "Design or produce something using the concept of 3.3 Problems onDerivingInequalities and Systems ofInequalities.ProblemsontheExtremum 1.In a four-digit nu practice pages 83-85.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_741213124b",
+    "concept_id": "concept_b171d5f536",
+    "objective": "Recall and state the concept of 4.1 TheAntiderivative.TheNewton-LeibnizFormula Find the antiderivatives of thefollowing functions: 1.(a)y practice pages 86-88.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_57fc11dd83",
+    "concept_id": "concept_b171d5f536",
+    "objective": "Explain in your own words the concept of 4.1 TheAntiderivative.TheNewton-LeibnizFormula Find the antiderivatives of thefollowing functions: 1.(a)y practice pages 86-88.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_c318e6de17",
+    "concept_id": "concept_b171d5f536",
+    "objective": "Apply to a new situation the concept of 4.1 TheAntiderivative.TheNewton-LeibnizFormula Find the antiderivatives of thefollowing functions: 1.(a)y practice pages 86-88.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_a63f1cb027",
+    "concept_id": "concept_b171d5f536",
+    "objective": "Break down and compare the concept of 4.1 TheAntiderivative.TheNewton-LeibnizFormula Find the antiderivatives of thefollowing functions: 1.(a)y practice pages 86-88.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_ea2c623f3a",
+    "concept_id": "concept_b171d5f536",
+    "objective": "Critique and justify decisions about the concept of 4.1 TheAntiderivative.TheNewton-LeibnizFormula Find the antiderivatives of thefollowing functions: 1.(a)y practice pages 86-88.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_11ec633d02",
+    "concept_id": "concept_b171d5f536",
+    "objective": "Design or produce something using the concept of 4.1 TheAntiderivative.TheNewton-LeibnizFormula Find the antiderivatives of thefollowing functions: 1.(a)y practice pages 86-88.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_483a49fae1",
+    "concept_id": "concept_47665d8cf5",
+    "objective": "Recall and state the concept of 4.2 CalculatingtheAreas ofPlaneFigures Find the areasof thefiguresbounded by thefollowingcurves: 1.(a)y=, practice pages 89-91.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_31ff4bed0b",
+    "concept_id": "concept_47665d8cf5",
+    "objective": "Explain in your own words the concept of 4.2 CalculatingtheAreas ofPlaneFigures Find the areasof thefiguresbounded by thefollowingcurves: 1.(a)y=, practice pages 89-91.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_8f90c3f656",
+    "concept_id": "concept_47665d8cf5",
+    "objective": "Apply to a new situation the concept of 4.2 CalculatingtheAreas ofPlaneFigures Find the areasof thefiguresbounded by thefollowingcurves: 1.(a)y=, practice pages 89-91.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_4a9a5b09c9",
+    "concept_id": "concept_47665d8cf5",
+    "objective": "Break down and compare the concept of 4.2 CalculatingtheAreas ofPlaneFigures Find the areasof thefiguresbounded by thefollowingcurves: 1.(a)y=, practice pages 89-91.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_fa4cb4ac57",
+    "concept_id": "concept_47665d8cf5",
+    "objective": "Critique and justify decisions about the concept of 4.2 CalculatingtheAreas ofPlaneFigures Find the areasof thefiguresbounded by thefollowingcurves: 1.(a)y=, practice pages 89-91.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_08f1455460",
+    "concept_id": "concept_47665d8cf5",
+    "objective": "Design or produce something using the concept of 4.2 CalculatingtheAreas ofPlaneFigures Find the areasof thefiguresbounded by thefollowingcurves: 1.(a)y=, practice pages 89-91.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_f30f88e8e7",
+    "concept_id": "concept_0418a2b2b1",
+    "objective": "Recall and state the concept of 5.1 Progressions 1.The first term of the arithmetic progression is unity andthecommondifferenceis4.Isthen practice pages 92-97.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_9e2469869d",
+    "concept_id": "concept_0418a2b2b1",
+    "objective": "Explain in your own words the concept of 5.1 Progressions 1.The first term of the arithmetic progression is unity andthecommondifferenceis4.Isthen practice pages 92-97.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_37fe15cb46",
+    "concept_id": "concept_0418a2b2b1",
+    "objective": "Apply to a new situation the concept of 5.1 Progressions 1.The first term of the arithmetic progression is unity andthecommondifferenceis4.Isthen practice pages 92-97.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_e788c6230f",
+    "concept_id": "concept_0418a2b2b1",
+    "objective": "Break down and compare the concept of 5.1 Progressions 1.The first term of the arithmetic progression is unity andthecommondifferenceis4.Isthen practice pages 92-97.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_d23eb6280c",
+    "concept_id": "concept_0418a2b2b1",
+    "objective": "Critique and justify decisions about the concept of 5.1 Progressions 1.The first term of the arithmetic progression is unity andthecommondifferenceis4.Isthen practice pages 92-97.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_ca550aac6e",
+    "concept_id": "concept_0418a2b2b1",
+    "objective": "Design or produce something using the concept of 5.1 Progressions 1.The first term of the arithmetic progression is unity andthecommondifferenceis4.Isthen practice pages 92-97.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_7da2148454",
+    "concept_id": "concept_fe790a9f90",
+    "objective": "Recall and state the concept of 5.2 Number Sequences 1.Using the definition of thelimit of a number sequence, prove that (a) lim 1 =0;(b） practice pages 98-100.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_5d86209aec",
+    "concept_id": "concept_fe790a9f90",
+    "objective": "Explain in your own words the concept of 5.2 Number Sequences 1.Using the definition of thelimit of a number sequence, prove that (a) lim 1 =0;(b） practice pages 98-100.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_cdb045600c",
+    "concept_id": "concept_fe790a9f90",
+    "objective": "Apply to a new situation the concept of 5.2 Number Sequences 1.Using the definition of thelimit of a number sequence, prove that (a) lim 1 =0;(b） practice pages 98-100.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_43899d1943",
+    "concept_id": "concept_fe790a9f90",
+    "objective": "Break down and compare the concept of 5.2 Number Sequences 1.Using the definition of thelimit of a number sequence, prove that (a) lim 1 =0;(b） practice pages 98-100.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_a740bca60a",
+    "concept_id": "concept_fe790a9f90",
+    "objective": "Critique and justify decisions about the concept of 5.2 Number Sequences 1.Using the definition of thelimit of a number sequence, prove that (a) lim 1 =0;(b） practice pages 98-100.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_383b610012",
+    "concept_id": "concept_fe790a9f90",
+    "objective": "Design or produce something using the concept of 5.2 Number Sequences 1.Using the definition of thelimit of a number sequence, prove that (a) lim 1 =0;(b） practice pages 98-100.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_0701c1b192",
+    "concept_id": "concept_f5f123e65d",
+    "objective": "Recall and state the concept of 6.1 Linear Operations onVectors 1.What condition should be satisfied by the vectors a and bfor thefollowi practice pages 101-102.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_f97e59fe9c",
+    "concept_id": "concept_f5f123e65d",
+    "objective": "Explain in your own words the concept of 6.1 Linear Operations onVectors 1.What condition should be satisfied by the vectors a and bfor thefollowi practice pages 101-102.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_ccf6183dee",
+    "concept_id": "concept_f5f123e65d",
+    "objective": "Apply to a new situation the concept of 6.1 Linear Operations onVectors 1.What condition should be satisfied by the vectors a and bfor thefollowi practice pages 101-102.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_ef7a5d2da3",
+    "concept_id": "concept_f5f123e65d",
+    "objective": "Break down and compare the concept of 6.1 Linear Operations onVectors 1.What condition should be satisfied by the vectors a and bfor thefollowi practice pages 101-102.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_ec57ff8b57",
+    "concept_id": "concept_f5f123e65d",
+    "objective": "Critique and justify decisions about the concept of 6.1 Linear Operations onVectors 1.What condition should be satisfied by the vectors a and bfor thefollowi practice pages 101-102.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_a32c751520",
+    "concept_id": "concept_f5f123e65d",
+    "objective": "Design or produce something using the concept of 6.1 Linear Operations onVectors 1.What condition should be satisfied by the vectors a and bfor thefollowi practice pages 101-102.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_b536c12b54",
+    "concept_id": "concept_56ca435d7b",
+    "objective": "Recall and state the concept of 6.2 TheScalarProductofVectors 1.Determine theangle between the vectors 2a andb if a =(-4;2;4)and b=(V/2; practice pages 103-106.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_98cbc773b8",
+    "concept_id": "concept_56ca435d7b",
+    "objective": "Explain in your own words the concept of 6.2 TheScalarProductofVectors 1.Determine theangle between the vectors 2a andb if a =(-4;2;4)and b=(V/2; practice pages 103-106.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_e44e3a05c5",
+    "concept_id": "concept_56ca435d7b",
+    "objective": "Apply to a new situation the concept of 6.2 TheScalarProductofVectors 1.Determine theangle between the vectors 2a andb if a =(-4;2;4)and b=(V/2; practice pages 103-106.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_05ea479e55",
+    "concept_id": "concept_56ca435d7b",
+    "objective": "Break down and compare the concept of 6.2 TheScalarProductofVectors 1.Determine theangle between the vectors 2a andb if a =(-4;2;4)and b=(V/2; practice pages 103-106.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_9a200e6598",
+    "concept_id": "concept_56ca435d7b",
+    "objective": "Critique and justify decisions about the concept of 6.2 TheScalarProductofVectors 1.Determine theangle between the vectors 2a andb if a =(-4;2;4)and b=(V/2; practice pages 103-106.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_356691e9aa",
+    "concept_id": "concept_56ca435d7b",
+    "objective": "Design or produce something using the concept of 6.2 TheScalarProductofVectors 1.Determine theangle between the vectors 2a andb if a =(-4;2;4)and b=(V/2; practice pages 103-106.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_b75d3f5c86",
+    "concept_id": "concept_5f73948e82",
+    "objective": "Recall and state the concept of 7.1 Problems on Proving Propositions 1.Mis the midpoint of the interval[AB].Prove that 1 |CM|= 2 2.Five s practice pages 107-108.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_a60c98a15f",
+    "concept_id": "concept_5f73948e82",
+    "objective": "Explain in your own words the concept of 7.1 Problems on Proving Propositions 1.Mis the midpoint of the interval[AB].Prove that 1 |CM|= 2 2.Five s practice pages 107-108.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_c3f4ce3421",
+    "concept_id": "concept_5f73948e82",
+    "objective": "Apply to a new situation the concept of 7.1 Problems on Proving Propositions 1.Mis the midpoint of the interval[AB].Prove that 1 |CM|= 2 2.Five s practice pages 107-108.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_54c7bc6701",
+    "concept_id": "concept_5f73948e82",
+    "objective": "Break down and compare the concept of 7.1 Problems on Proving Propositions 1.Mis the midpoint of the interval[AB].Prove that 1 |CM|= 2 2.Five s practice pages 107-108.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_cb217a1894",
+    "concept_id": "concept_5f73948e82",
+    "objective": "Critique and justify decisions about the concept of 7.1 Problems on Proving Propositions 1.Mis the midpoint of the interval[AB].Prove that 1 |CM|= 2 2.Five s practice pages 107-108.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_2b32fd918e",
+    "concept_id": "concept_5f73948e82",
+    "objective": "Design or produce something using the concept of 7.1 Problems on Proving Propositions 1.Mis the midpoint of the interval[AB].Prove that 1 |CM|= 2 2.Five s practice pages 107-108.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_053c900e7d",
+    "concept_id": "concept_6188d5f072",
+    "objective": "Recall and state the concept of 7.2 ConstructionProblems 1.Through a point A lying in the interior of the angle, drawa straightline sotha practice pages 109-109.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_8b0a59a8f5",
+    "concept_id": "concept_6188d5f072",
+    "objective": "Explain in your own words the concept of 7.2 ConstructionProblems 1.Through a point A lying in the interior of the angle, drawa straightline sotha practice pages 109-109.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_f07e867c3d",
+    "concept_id": "concept_6188d5f072",
+    "objective": "Apply to a new situation the concept of 7.2 ConstructionProblems 1.Through a point A lying in the interior of the angle, drawa straightline sotha practice pages 109-109.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_b7132b8274",
+    "concept_id": "concept_6188d5f072",
+    "objective": "Break down and compare the concept of 7.2 ConstructionProblems 1.Through a point A lying in the interior of the angle, drawa straightline sotha practice pages 109-109.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_af1ef9caf3",
+    "concept_id": "concept_6188d5f072",
+    "objective": "Critique and justify decisions about the concept of 7.2 ConstructionProblems 1.Through a point A lying in the interior of the angle, drawa straightline sotha practice pages 109-109.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_c49b8d66f9",
+    "concept_id": "concept_6188d5f072",
+    "objective": "Design or produce something using the concept of 7.2 ConstructionProblems 1.Through a point A lying in the interior of the angle, drawa straightline sotha practice pages 109-109.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_0c6add919d",
+    "concept_id": "concept_f4b241ae25",
+    "objective": "Recall and state the concept of 7.3 Problems on Calculation 1.In the triangle ABC，the side |AB|=c=13cm， |BC|=α=14cm，|AC|=b=15cm.Deter- mi practice pages 110-114.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_8b3ae43aa6",
+    "concept_id": "concept_f4b241ae25",
+    "objective": "Explain in your own words the concept of 7.3 Problems on Calculation 1.In the triangle ABC，the side |AB|=c=13cm， |BC|=α=14cm，|AC|=b=15cm.Deter- mi practice pages 110-114.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_95b04a8609",
+    "concept_id": "concept_f4b241ae25",
+    "objective": "Apply to a new situation the concept of 7.3 Problems on Calculation 1.In the triangle ABC，the side |AB|=c=13cm， |BC|=α=14cm，|AC|=b=15cm.Deter- mi practice pages 110-114.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_e221d3ad49",
+    "concept_id": "concept_f4b241ae25",
+    "objective": "Break down and compare the concept of 7.3 Problems on Calculation 1.In the triangle ABC，the side |AB|=c=13cm， |BC|=α=14cm，|AC|=b=15cm.Deter- mi practice pages 110-114.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_179fe92d12",
+    "concept_id": "concept_f4b241ae25",
+    "objective": "Critique and justify decisions about the concept of 7.3 Problems on Calculation 1.In the triangle ABC，the side |AB|=c=13cm， |BC|=α=14cm，|AC|=b=15cm.Deter- mi practice pages 110-114.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_5d64c091d7",
+    "concept_id": "concept_f4b241ae25",
+    "objective": "Design or produce something using the concept of 7.3 Problems on Calculation 1.In the triangle ABC，the side |AB|=c=13cm， |BC|=α=14cm，|AC|=b=15cm.Deter- mi practice pages 110-114.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_07b7dedfc6",
+    "concept_id": "concept_4134733a95",
+    "objective": "Recall and state the concept of 8.1 A Straight Line,a Plane,Polyhedra. SolidsofRevolution 1.Two right triangles lie in the mutuallyperpen practice pages 115-119.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_2ba5931849",
+    "concept_id": "concept_4134733a95",
+    "objective": "Explain in your own words the concept of 8.1 A Straight Line,a Plane,Polyhedra. SolidsofRevolution 1.Two right triangles lie in the mutuallyperpen practice pages 115-119.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_f66561086e",
+    "concept_id": "concept_4134733a95",
+    "objective": "Apply to a new situation the concept of 8.1 A Straight Line,a Plane,Polyhedra. SolidsofRevolution 1.Two right triangles lie in the mutuallyperpen practice pages 115-119.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_940cf291fb",
+    "concept_id": "concept_4134733a95",
+    "objective": "Break down and compare the concept of 8.1 A Straight Line,a Plane,Polyhedra. SolidsofRevolution 1.Two right triangles lie in the mutuallyperpen practice pages 115-119.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_d71ad6be7b",
+    "concept_id": "concept_4134733a95",
+    "objective": "Critique and justify decisions about the concept of 8.1 A Straight Line,a Plane,Polyhedra. SolidsofRevolution 1.Two right triangles lie in the mutuallyperpen practice pages 115-119.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_4ea8b83035",
+    "concept_id": "concept_4134733a95",
+    "objective": "Design or produce something using the concept of 8.1 A Straight Line,a Plane,Polyhedra. SolidsofRevolution 1.Two right triangles lie in the mutuallyperpen practice pages 115-119.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_6789b8c5ff",
+    "concept_id": "concept_0aea1e7e89",
+    "objective": "Recall and state the concept of 8.2 Problems on Combinations of Polyhedra andSolidsofRevolution 1. The volume of a regular triangular pri practice pages 120-125.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_98caf49461",
+    "concept_id": "concept_0aea1e7e89",
+    "objective": "Explain in your own words the concept of 8.2 Problems on Combinations of Polyhedra andSolidsofRevolution 1. The volume of a regular triangular pri practice pages 120-125.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_a485b23f9c",
+    "concept_id": "concept_0aea1e7e89",
+    "objective": "Apply to a new situation the concept of 8.2 Problems on Combinations of Polyhedra andSolidsofRevolution 1. The volume of a regular triangular pri practice pages 120-125.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_23385f55e5",
+    "concept_id": "concept_0aea1e7e89",
+    "objective": "Break down and compare the concept of 8.2 Problems on Combinations of Polyhedra andSolidsofRevolution 1. The volume of a regular triangular pri practice pages 120-125.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_2446649624",
+    "concept_id": "concept_0aea1e7e89",
+    "objective": "Critique and justify decisions about the concept of 8.2 Problems on Combinations of Polyhedra andSolidsofRevolution 1. The volume of a regular triangular pri practice pages 120-125.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_d80410a8f4",
+    "concept_id": "concept_0aea1e7e89",
+    "objective": "Design or produce something using the concept of 8.2 Problems on Combinations of Polyhedra andSolidsofRevolution 1. The volume of a regular triangular pri practice pages 120-125.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_daaa79eb91",
+    "concept_id": "concept_b2caa73cc0",
+    "objective": "Recall and state the concept of 8.2 Problems on Combinations of Polyhedra andSolidsofRevolution 1. The volume of a regular triangular pri practice pages 126-126.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_a0a38daa27",
+    "concept_id": "concept_b2caa73cc0",
+    "objective": "Explain in your own words the concept of 8.2 Problems on Combinations of Polyhedra andSolidsofRevolution 1. The volume of a regular triangular pri practice pages 126-126.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_fa0595b161",
+    "concept_id": "concept_b2caa73cc0",
+    "objective": "Apply to a new situation the concept of 8.2 Problems on Combinations of Polyhedra andSolidsofRevolution 1. The volume of a regular triangular pri practice pages 126-126.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_6d5b4e3f96",
+    "concept_id": "concept_b2caa73cc0",
+    "objective": "Break down and compare the concept of 8.2 Problems on Combinations of Polyhedra andSolidsofRevolution 1. The volume of a regular triangular pri practice pages 126-126.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_d1fd1763b3",
+    "concept_id": "concept_b2caa73cc0",
+    "objective": "Critique and justify decisions about the concept of 8.2 Problems on Combinations of Polyhedra andSolidsofRevolution 1. The volume of a regular triangular pri practice pages 126-126.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_a448402e44",
+    "concept_id": "concept_b2caa73cc0",
+    "objective": "Design or produce something using the concept of 8.2 Problems on Combinations of Polyhedra andSolidsofRevolution 1. The volume of a regular triangular pri practice pages 126-126.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_7595b01785",
+    "concept_id": "concept_20d98ec665",
+    "objective": "Recall and state the concept of 8.3 VolumesofSolidsofRevolution 1.A trianglerotates about the sidewhichis ainlength. Determinethevolumeof practice pages 127-127.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_7f0b67a877",
+    "concept_id": "concept_20d98ec665",
+    "objective": "Explain in your own words the concept of 8.3 VolumesofSolidsofRevolution 1.A trianglerotates about the sidewhichis ainlength. Determinethevolumeof practice pages 127-127.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_ef974d40fe",
+    "concept_id": "concept_20d98ec665",
+    "objective": "Apply to a new situation the concept of 8.3 VolumesofSolidsofRevolution 1.A trianglerotates about the sidewhichis ainlength. Determinethevolumeof practice pages 127-127.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_e33161873f",
+    "concept_id": "concept_20d98ec665",
+    "objective": "Break down and compare the concept of 8.3 VolumesofSolidsofRevolution 1.A trianglerotates about the sidewhichis ainlength. Determinethevolumeof practice pages 127-127.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_71133640b6",
+    "concept_id": "concept_20d98ec665",
+    "objective": "Critique and justify decisions about the concept of 8.3 VolumesofSolidsofRevolution 1.A trianglerotates about the sidewhichis ainlength. Determinethevolumeof practice pages 127-127.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_d8207b2596",
+    "concept_id": "concept_20d98ec665",
+    "objective": "Design or produce something using the concept of 8.3 VolumesofSolidsofRevolution 1.A trianglerotates about the sidewhichis ainlength. Determinethevolumeof practice pages 127-127.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_7abe81fab3",
+    "concept_id": "concept_f1ee492b66",
+    "objective": "Recall and state the concept of 9.1 ProblemsinAlgebra 1.Given two sets:M,={1,2}and M={a,5}，a ER. Find thesetsA=MUMandB=M∩M 2.Prove that t practice pages 128-130.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_0b2069953c",
+    "concept_id": "concept_f1ee492b66",
+    "objective": "Explain in your own words the concept of 9.1 ProblemsinAlgebra 1.Given two sets:M,={1,2}and M={a,5}，a ER. Find thesetsA=MUMandB=M∩M 2.Prove that t practice pages 128-130.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_b05a3e029f",
+    "concept_id": "concept_f1ee492b66",
+    "objective": "Apply to a new situation the concept of 9.1 ProblemsinAlgebra 1.Given two sets:M,={1,2}and M={a,5}，a ER. Find thesetsA=MUMandB=M∩M 2.Prove that t practice pages 128-130.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_d0b85a216b",
+    "concept_id": "concept_f1ee492b66",
+    "objective": "Break down and compare the concept of 9.1 ProblemsinAlgebra 1.Given two sets:M,={1,2}and M={a,5}，a ER. Find thesetsA=MUMandB=M∩M 2.Prove that t practice pages 128-130.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_889f3bd600",
+    "concept_id": "concept_f1ee492b66",
+    "objective": "Critique and justify decisions about the concept of 9.1 ProblemsinAlgebra 1.Given two sets:M,={1,2}and M={a,5}，a ER. Find thesetsA=MUMandB=M∩M 2.Prove that t practice pages 128-130.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_16b434e6b1",
+    "concept_id": "concept_f1ee492b66",
+    "objective": "Design or produce something using the concept of 9.1 ProblemsinAlgebra 1.Given two sets:M,={1,2}and M={a,5}，a ER. Find thesetsA=MUMandB=M∩M 2.Prove that t practice pages 128-130.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_72af013099",
+    "concept_id": "concept_2209639bab",
+    "objective": "Recall and state the concept of 9.2 Limit of aFunction.Continuity Findthefollowinglimits: 1.lim x²1 2.lim x3—1 x→1 2x²-x-1 x→1 x²-x²+x-1 practice pages 131-131.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_733eae58dd",
+    "concept_id": "concept_2209639bab",
+    "objective": "Explain in your own words the concept of 9.2 Limit of aFunction.Continuity Findthefollowinglimits: 1.lim x²1 2.lim x3—1 x→1 2x²-x-1 x→1 x²-x²+x-1 practice pages 131-131.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_f36af01835",
+    "concept_id": "concept_2209639bab",
+    "objective": "Apply to a new situation the concept of 9.2 Limit of aFunction.Continuity Findthefollowinglimits: 1.lim x²1 2.lim x3—1 x→1 2x²-x-1 x→1 x²-x²+x-1 practice pages 131-131.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_e87524f3c2",
+    "concept_id": "concept_2209639bab",
+    "objective": "Break down and compare the concept of 9.2 Limit of aFunction.Continuity Findthefollowinglimits: 1.lim x²1 2.lim x3—1 x→1 2x²-x-1 x→1 x²-x²+x-1 practice pages 131-131.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_975c19bc55",
+    "concept_id": "concept_2209639bab",
+    "objective": "Critique and justify decisions about the concept of 9.2 Limit of aFunction.Continuity Findthefollowinglimits: 1.lim x²1 2.lim x3—1 x→1 2x²-x-1 x→1 x²-x²+x-1 practice pages 131-131.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_72cfa1c7ec",
+    "concept_id": "concept_2209639bab",
+    "objective": "Design or produce something using the concept of 9.2 Limit of aFunction.Continuity Findthefollowinglimits: 1.lim x²1 2.lim x3—1 x→1 2x²-x-1 x→1 x²-x²+x-1 practice pages 131-131.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_9c0ce2c865",
+    "concept_id": "concept_cdca0a2020",
+    "objective": "Recall and state the concept of 9.3 TheDerivative of aFunction 1.Can we assert that the function_Φ（x)=f（x)+f（z) doesnothavea derivativeat practice pages 132-133.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_2a41a957ff",
+    "concept_id": "concept_cdca0a2020",
+    "objective": "Explain in your own words the concept of 9.3 TheDerivative of aFunction 1.Can we assert that the function_Φ（x)=f（x)+f（z) doesnothavea derivativeat practice pages 132-133.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_6b7c0afd61",
+    "concept_id": "concept_cdca0a2020",
+    "objective": "Apply to a new situation the concept of 9.3 TheDerivative of aFunction 1.Can we assert that the function_Φ（x)=f（x)+f（z) doesnothavea derivativeat practice pages 132-133.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_e59353002f",
+    "concept_id": "concept_cdca0a2020",
+    "objective": "Break down and compare the concept of 9.3 TheDerivative of aFunction 1.Can we assert that the function_Φ（x)=f（x)+f（z) doesnothavea derivativeat practice pages 132-133.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_51720bc761",
+    "concept_id": "concept_cdca0a2020",
+    "objective": "Critique and justify decisions about the concept of 9.3 TheDerivative of aFunction 1.Can we assert that the function_Φ（x)=f（x)+f（z) doesnothavea derivativeat practice pages 132-133.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_b27e9381ba",
+    "concept_id": "concept_cdca0a2020",
+    "objective": "Design or produce something using the concept of 9.3 TheDerivative of aFunction 1.Can we assert that the function_Φ（x)=f（x)+f（z) doesnothavea derivativeat practice pages 132-133.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_3c1e91ffd2",
+    "concept_id": "concept_4bf3d561f3",
+    "objective": "Recall and state the concept of 9.4 IntegralCalculus.MiscellaneousProblems 1.Given the continuous periodic function f(x),x ER. Canweasser practice pages 134-138.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_f6a941bd8f",
+    "concept_id": "concept_4bf3d561f3",
+    "objective": "Explain in your own words the concept of 9.4 IntegralCalculus.MiscellaneousProblems 1.Given the continuous periodic function f(x),x ER. Canweasser practice pages 134-138.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_e6d49cef22",
+    "concept_id": "concept_4bf3d561f3",
+    "objective": "Apply to a new situation the concept of 9.4 IntegralCalculus.MiscellaneousProblems 1.Given the continuous periodic function f(x),x ER. Canweasser practice pages 134-138.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_1e82ad6b11",
+    "concept_id": "concept_4bf3d561f3",
+    "objective": "Break down and compare the concept of 9.4 IntegralCalculus.MiscellaneousProblems 1.Given the continuous periodic function f(x),x ER. Canweasser practice pages 134-138.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_32ec03ae6b",
+    "concept_id": "concept_4bf3d561f3",
+    "objective": "Critique and justify decisions about the concept of 9.4 IntegralCalculus.MiscellaneousProblems 1.Given the continuous periodic function f(x),x ER. Canweasser practice pages 134-138.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_eba0ea0d66",
+    "concept_id": "concept_4bf3d561f3",
+    "objective": "Design or produce something using the concept of 9.4 IntegralCalculus.MiscellaneousProblems 1.Given the continuous periodic function f(x),x ER. Canweasser practice pages 134-138.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_72228e43e7",
+    "concept_id": "concept_65b9dbec1c",
+    "objective": "Recall and state the concept of 1.1 LinearEquations andInequalities in OneVariable. A Linear Function 1.{1}.2.{-7}.3.(a){c |c∈R};(b).4.{a practice pages 139-140.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_4ed034bf5a",
+    "concept_id": "concept_65b9dbec1c",
+    "objective": "Explain in your own words the concept of 1.1 LinearEquations andInequalities in OneVariable. A Linear Function 1.{1}.2.{-7}.3.(a){c |c∈R};(b).4.{a practice pages 139-140.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_a3fa8fd14a",
+    "concept_id": "concept_65b9dbec1c",
+    "objective": "Apply to a new situation the concept of 1.1 LinearEquations andInequalities in OneVariable. A Linear Function 1.{1}.2.{-7}.3.(a){c |c∈R};(b).4.{a practice pages 139-140.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_b3854afe82",
+    "concept_id": "concept_65b9dbec1c",
+    "objective": "Break down and compare the concept of 1.1 LinearEquations andInequalities in OneVariable. A Linear Function 1.{1}.2.{-7}.3.(a){c |c∈R};(b).4.{a practice pages 139-140.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_8e0662d42e",
+    "concept_id": "concept_65b9dbec1c",
+    "objective": "Critique and justify decisions about the concept of 1.1 LinearEquations andInequalities in OneVariable. A Linear Function 1.{1}.2.{-7}.3.(a){c |c∈R};(b).4.{a practice pages 139-140.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_4fb3167455",
+    "concept_id": "concept_65b9dbec1c",
+    "objective": "Design or produce something using the concept of 1.1 LinearEquations andInequalities in OneVariable. A Linear Function 1.{1}.2.{-7}.3.(a){c |c∈R};(b).4.{a practice pages 139-140.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_f1a7df403e",
+    "concept_id": "concept_71785a85ce",
+    "objective": "Recall and state the concept of 1.2 Quadratic Equations andInequalities. AQuadraticFunction 1.(a) {3,4）; (b){—1;5）;(c) {1/3; 1/2); (d){—1 practice pages 144-149.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_10369ebf0f",
+    "concept_id": "concept_71785a85ce",
+    "objective": "Explain in your own words the concept of 1.2 Quadratic Equations andInequalities. AQuadraticFunction 1.(a) {3,4）; (b){—1;5）;(c) {1/3; 1/2); (d){—1 practice pages 144-149.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_94841daa11",
+    "concept_id": "concept_71785a85ce",
+    "objective": "Apply to a new situation the concept of 1.2 Quadratic Equations andInequalities. AQuadraticFunction 1.(a) {3,4）; (b){—1;5）;(c) {1/3; 1/2); (d){—1 practice pages 144-149.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_4de6ed347e",
+    "concept_id": "concept_71785a85ce",
+    "objective": "Break down and compare the concept of 1.2 Quadratic Equations andInequalities. AQuadraticFunction 1.(a) {3,4）; (b){—1;5）;(c) {1/3; 1/2); (d){—1 practice pages 144-149.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_80c17c1778",
+    "concept_id": "concept_71785a85ce",
+    "objective": "Critique and justify decisions about the concept of 1.2 Quadratic Equations andInequalities. AQuadraticFunction 1.(a) {3,4）; (b){—1;5）;(c) {1/3; 1/2); (d){—1 practice pages 144-149.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_9aa6aa4e61",
+    "concept_id": "concept_71785a85ce",
+    "objective": "Design or produce something using the concept of 1.2 Quadratic Equations andInequalities. AQuadraticFunction 1.(a) {3,4）; (b){—1;5）;(c) {1/3; 1/2); (d){—1 practice pages 144-149.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_dfb3d674a0",
+    "concept_id": "concept_31e4f1f83c",
+    "objective": "Recall and state the concept of 1.3 InverseProportionality 1.（a){1/5);(b);（c){4/a-2}fora∈（-∞o；0)U(0;∞); for a=0;（d){1/a+2;-1/a+2}fora∈(0; practice pages 150-152.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_7499cf73f9",
+    "concept_id": "concept_31e4f1f83c",
+    "objective": "Explain in your own words the concept of 1.3 InverseProportionality 1.（a){1/5);(b);（c){4/a-2}fora∈（-∞o；0)U(0;∞); for a=0;（d){1/a+2;-1/a+2}fora∈(0; practice pages 150-152.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_20b235d7ce",
+    "concept_id": "concept_31e4f1f83c",
+    "objective": "Apply to a new situation the concept of 1.3 InverseProportionality 1.（a){1/5);(b);（c){4/a-2}fora∈（-∞o；0)U(0;∞); for a=0;（d){1/a+2;-1/a+2}fora∈(0; practice pages 150-152.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_976f686fab",
+    "concept_id": "concept_31e4f1f83c",
+    "objective": "Break down and compare the concept of 1.3 InverseProportionality 1.（a){1/5);(b);（c){4/a-2}fora∈（-∞o；0)U(0;∞); for a=0;（d){1/a+2;-1/a+2}fora∈(0; practice pages 150-152.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_e6ff5ab16b",
+    "concept_id": "concept_31e4f1f83c",
+    "objective": "Critique and justify decisions about the concept of 1.3 InverseProportionality 1.（a){1/5);(b);（c){4/a-2}fora∈（-∞o；0)U(0;∞); for a=0;（d){1/a+2;-1/a+2}fora∈(0; practice pages 150-152.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_f9f9459fa1",
+    "concept_id": "concept_31e4f1f83c",
+    "objective": "Design or produce something using the concept of 1.3 InverseProportionality 1.（a){1/5);(b);（c){4/a-2}fora∈（-∞o；0)U(0;∞); for a=0;（d){1/a+2;-1/a+2}fora∈(0; practice pages 150-152.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_38892c9b4c",
+    "concept_id": "concept_c7e014c8f3",
+    "objective": "Recall and state the concept of 1.4 Equations and Inequalities of Higher Degrees. ARationalFunction 1. (a){3;-1;1);(b){-3/2);(c){-3);(d){ practice pages 158-163.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_07bacba4a8",
+    "concept_id": "concept_c7e014c8f3",
+    "objective": "Explain in your own words the concept of 1.4 Equations and Inequalities of Higher Degrees. ARationalFunction 1. (a){3;-1;1);(b){-3/2);(c){-3);(d){ practice pages 158-163.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_f9e68660f0",
+    "concept_id": "concept_c7e014c8f3",
+    "objective": "Apply to a new situation the concept of 1.4 Equations and Inequalities of Higher Degrees. ARationalFunction 1. (a){3;-1;1);(b){-3/2);(c){-3);(d){ practice pages 158-163.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_43a64efa7a",
+    "concept_id": "concept_c7e014c8f3",
+    "objective": "Break down and compare the concept of 1.4 Equations and Inequalities of Higher Degrees. ARationalFunction 1. (a){3;-1;1);(b){-3/2);(c){-3);(d){ practice pages 158-163.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_956e21812c",
+    "concept_id": "concept_c7e014c8f3",
+    "objective": "Critique and justify decisions about the concept of 1.4 Equations and Inequalities of Higher Degrees. ARationalFunction 1. (a){3;-1;1);(b){-3/2);(c){-3);(d){ practice pages 158-163.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_0d8a78c962",
+    "concept_id": "concept_c7e014c8f3",
+    "objective": "Design or produce something using the concept of 1.4 Equations and Inequalities of Higher Degrees. ARationalFunction 1. (a){3;-1;1);(b){-3/2);(c){-3);(d){ practice pages 158-163.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_03873ebb25",
+    "concept_id": "concept_19af879253",
+    "objective": "Recall and state the concept of 1.4 Equations and Inequalities of Higher Degrees. ARationalFunction 1. (a){3;-1;1);(b){-3/2);(c){-3);(d){ practice pages 164-167.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_15c0aab27c",
+    "concept_id": "concept_19af879253",
+    "objective": "Explain in your own words the concept of 1.4 Equations and Inequalities of Higher Degrees. ARationalFunction 1. (a){3;-1;1);(b){-3/2);(c){-3);(d){ practice pages 164-167.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_f4d4efe856",
+    "concept_id": "concept_19af879253",
+    "objective": "Apply to a new situation the concept of 1.4 Equations and Inequalities of Higher Degrees. ARationalFunction 1. (a){3;-1;1);(b){-3/2);(c){-3);(d){ practice pages 164-167.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_b6d7a365fb",
+    "concept_id": "concept_19af879253",
+    "objective": "Break down and compare the concept of 1.4 Equations and Inequalities of Higher Degrees. ARationalFunction 1. (a){3;-1;1);(b){-3/2);(c){-3);(d){ practice pages 164-167.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_1c5e16bdc2",
+    "concept_id": "concept_19af879253",
+    "objective": "Critique and justify decisions about the concept of 1.4 Equations and Inequalities of Higher Degrees. ARationalFunction 1. (a){3;-1;1);(b){-3/2);(c){-3);(d){ practice pages 164-167.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_6e888f9148",
+    "concept_id": "concept_19af879253",
+    "objective": "Design or produce something using the concept of 1.4 Equations and Inequalities of Higher Degrees. ARationalFunction 1. (a){3;-1;1);(b){-3/2);(c){-3);(d){ practice pages 164-167.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_93681e5739",
+    "concept_id": "concept_223333c96e",
+    "objective": "Recall and state the concept of 1.5 Linear Systems ofEquations andInequalities 1.（a）{（0;0）}；(b）1{（c,，c/2）1c∈R}；（c)（c，c2）Ic∈R，c∈R}； (d)（c; practice pages 168-170.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_94825a0946",
+    "concept_id": "concept_223333c96e",
+    "objective": "Explain in your own words the concept of 1.5 Linear Systems ofEquations andInequalities 1.（a）{（0;0）}；(b）1{（c,，c/2）1c∈R}；（c)（c，c2）Ic∈R，c∈R}； (d)（c; practice pages 168-170.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_7842984693",
+    "concept_id": "concept_223333c96e",
+    "objective": "Apply to a new situation the concept of 1.5 Linear Systems ofEquations andInequalities 1.（a）{（0;0）}；(b）1{（c,，c/2）1c∈R}；（c)（c，c2）Ic∈R，c∈R}； (d)（c; practice pages 168-170.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_51b0586bfc",
+    "concept_id": "concept_223333c96e",
+    "objective": "Break down and compare the concept of 1.5 Linear Systems ofEquations andInequalities 1.（a）{（0;0）}；(b）1{（c,，c/2）1c∈R}；（c)（c，c2）Ic∈R，c∈R}； (d)（c; practice pages 168-170.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_781c54fefa",
+    "concept_id": "concept_223333c96e",
+    "objective": "Critique and justify decisions about the concept of 1.5 Linear Systems ofEquations andInequalities 1.（a）{（0;0）}；(b）1{（c,，c/2）1c∈R}；（c)（c，c2）Ic∈R，c∈R}； (d)（c; practice pages 168-170.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_3b0ba8facb",
+    "concept_id": "concept_223333c96e",
+    "objective": "Design or produce something using the concept of 1.5 Linear Systems ofEquations andInequalities 1.（a）{（0;0）}；(b）1{（c,，c/2）1c∈R}；（c)（c，c2）Ic∈R，c∈R}； (d)（c; practice pages 168-170.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_86858b372e",
+    "concept_id": "concept_7631cce45e",
+    "objective": "Recall and state the concept of 1.6 Systems ofEquations andInequalities inSeveralHigher-DegreeVariables 1.、(a）（-4/9；20/9）;(2；1））；，(b）{（-1 practice pages 171-173.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_150cdc7578",
+    "concept_id": "concept_7631cce45e",
+    "objective": "Explain in your own words the concept of 1.6 Systems ofEquations andInequalities inSeveralHigher-DegreeVariables 1.、(a）（-4/9；20/9）;(2；1））；，(b）{（-1 practice pages 171-173.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_91877fcc28",
+    "concept_id": "concept_7631cce45e",
+    "objective": "Apply to a new situation the concept of 1.6 Systems ofEquations andInequalities inSeveralHigher-DegreeVariables 1.、(a）（-4/9；20/9）;(2；1））；，(b）{（-1 practice pages 171-173.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_00de1e198b",
+    "concept_id": "concept_7631cce45e",
+    "objective": "Break down and compare the concept of 1.6 Systems ofEquations andInequalities inSeveralHigher-DegreeVariables 1.、(a）（-4/9；20/9）;(2；1））；，(b）{（-1 practice pages 171-173.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_2601ae8982",
+    "concept_id": "concept_7631cce45e",
+    "objective": "Critique and justify decisions about the concept of 1.6 Systems ofEquations andInequalities inSeveralHigher-DegreeVariables 1.、(a）（-4/9；20/9）;(2；1））；，(b）{（-1 practice pages 171-173.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_1ec3e6bf27",
+    "concept_id": "concept_7631cce45e",
+    "objective": "Design or produce something using the concept of 1.6 Systems ofEquations andInequalities inSeveralHigher-DegreeVariables 1.、(a）（-4/9；20/9）;(2；1））；，(b）{（-1 practice pages 171-173.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_d69aa2a970",
+    "concept_id": "concept_404cebec81",
+    "objective": "Recall and state the concept of 2.1 Irrational Equations and Inequalities 1.{a²-1}fora ∈[0;oo），fora∈（—oo;0).2.（a—3)/2} for a∈[—3;oo)， for practice pages 175-179.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_db646a0dd1",
+    "concept_id": "concept_404cebec81",
+    "objective": "Explain in your own words the concept of 2.1 Irrational Equations and Inequalities 1.{a²-1}fora ∈[0;oo），fora∈（—oo;0).2.（a—3)/2} for a∈[—3;oo)， for practice pages 175-179.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_7ee8c7c0ea",
+    "concept_id": "concept_404cebec81",
+    "objective": "Apply to a new situation the concept of 2.1 Irrational Equations and Inequalities 1.{a²-1}fora ∈[0;oo），fora∈（—oo;0).2.（a—3)/2} for a∈[—3;oo)， for practice pages 175-179.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_e28b59997b",
+    "concept_id": "concept_404cebec81",
+    "objective": "Break down and compare the concept of 2.1 Irrational Equations and Inequalities 1.{a²-1}fora ∈[0;oo），fora∈（—oo;0).2.（a—3)/2} for a∈[—3;oo)， for practice pages 175-179.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_515528d07a",
+    "concept_id": "concept_404cebec81",
+    "objective": "Critique and justify decisions about the concept of 2.1 Irrational Equations and Inequalities 1.{a²-1}fora ∈[0;oo），fora∈（—oo;0).2.（a—3)/2} for a∈[—3;oo)， for practice pages 175-179.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_28d6481e03",
+    "concept_id": "concept_404cebec81",
+    "objective": "Design or produce something using the concept of 2.1 Irrational Equations and Inequalities 1.{a²-1}fora ∈[0;oo），fora∈（—oo;0).2.（a—3)/2} for a∈[—3;oo)， for practice pages 175-179.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_801640811e",
+    "concept_id": "concept_fc03c77790",
+    "objective": "Recall and state the concept of 2.2 Systems ofIrrationalEquations andInequalities 1.(a){（16;30)}.●Set 1/Vx-7=u，1/Vy+6=v;（b）{(41;40)}. 2.( practice pages 180-180.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_ef5a88c75b",
+    "concept_id": "concept_fc03c77790",
+    "objective": "Explain in your own words the concept of 2.2 Systems ofIrrationalEquations andInequalities 1.(a){（16;30)}.●Set 1/Vx-7=u，1/Vy+6=v;（b）{(41;40)}. 2.( practice pages 180-180.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_ca5af8893e",
+    "concept_id": "concept_fc03c77790",
+    "objective": "Apply to a new situation the concept of 2.2 Systems ofIrrationalEquations andInequalities 1.(a){（16;30)}.●Set 1/Vx-7=u，1/Vy+6=v;（b）{(41;40)}. 2.( practice pages 180-180.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_a7aa0302ef",
+    "concept_id": "concept_fc03c77790",
+    "objective": "Break down and compare the concept of 2.2 Systems ofIrrationalEquations andInequalities 1.(a){（16;30)}.●Set 1/Vx-7=u，1/Vy+6=v;（b）{(41;40)}. 2.( practice pages 180-180.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_50e9757cfe",
+    "concept_id": "concept_fc03c77790",
+    "objective": "Critique and justify decisions about the concept of 2.2 Systems ofIrrationalEquations andInequalities 1.(a){（16;30)}.●Set 1/Vx-7=u，1/Vy+6=v;（b）{(41;40)}. 2.( practice pages 180-180.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_3640bfa7bc",
+    "concept_id": "concept_fc03c77790",
+    "objective": "Design or produce something using the concept of 2.2 Systems ofIrrationalEquations andInequalities 1.(a){（16;30)}.●Set 1/Vx-7=u，1/Vy+6=v;（b）{(41;40)}. 2.( practice pages 180-180.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_29e2a1fc29",
+    "concept_id": "concept_fd21ee57d7",
+    "objective": "Recall and state the concept of 2.3 An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsand practice pages 181-186.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_ee8b5f26e1",
+    "concept_id": "concept_fd21ee57d7",
+    "objective": "Explain in your own words the concept of 2.3 An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsand practice pages 181-186.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_21f2f7351d",
+    "concept_id": "concept_fd21ee57d7",
+    "objective": "Apply to a new situation the concept of 2.3 An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsand practice pages 181-186.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_cba65d9a21",
+    "concept_id": "concept_fd21ee57d7",
+    "objective": "Break down and compare the concept of 2.3 An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsand practice pages 181-186.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_2976ef688d",
+    "concept_id": "concept_fd21ee57d7",
+    "objective": "Critique and justify decisions about the concept of 2.3 An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsand practice pages 181-186.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_0742da9724",
+    "concept_id": "concept_fd21ee57d7",
+    "objective": "Design or produce something using the concept of 2.3 An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsand practice pages 181-186.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_605a647b6c",
+    "concept_id": "concept_87a35f1250",
+    "objective": "Recall and state the concept of 2.3 An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsand practice pages 187-190.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_266edec104",
+    "concept_id": "concept_87a35f1250",
+    "objective": "Explain in your own words the concept of 2.3 An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsand practice pages 187-190.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_a0f7e0fc81",
+    "concept_id": "concept_87a35f1250",
+    "objective": "Apply to a new situation the concept of 2.3 An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsand practice pages 187-190.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_621494c91c",
+    "concept_id": "concept_87a35f1250",
+    "objective": "Break down and compare the concept of 2.3 An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsand practice pages 187-190.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_e86cda4c1d",
+    "concept_id": "concept_87a35f1250",
+    "objective": "Critique and justify decisions about the concept of 2.3 An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsand practice pages 187-190.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_09bd9504ed",
+    "concept_id": "concept_87a35f1250",
+    "objective": "Design or produce something using the concept of 2.3 An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsand practice pages 187-190.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_75d677c997",
+    "concept_id": "concept_003194ccea",
+    "objective": "Recall and state the concept of 2.4 Transformation of TrigonometricExpressions 2.（a）V2-a²;（b）1-（a-1）/2.sinα+cosa=（sinα+ +cosα)-2（sinαacos practice pages 191-192.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_e4c02c7379",
+    "concept_id": "concept_003194ccea",
+    "objective": "Explain in your own words the concept of 2.4 Transformation of TrigonometricExpressions 2.（a）V2-a²;（b）1-（a-1）/2.sinα+cosa=（sinα+ +cosα)-2（sinαacos practice pages 191-192.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_2fda3dc4bf",
+    "concept_id": "concept_003194ccea",
+    "objective": "Apply to a new situation the concept of 2.4 Transformation of TrigonometricExpressions 2.（a）V2-a²;（b）1-（a-1）/2.sinα+cosa=（sinα+ +cosα)-2（sinαacos practice pages 191-192.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_746079452a",
+    "concept_id": "concept_003194ccea",
+    "objective": "Break down and compare the concept of 2.4 Transformation of TrigonometricExpressions 2.（a）V2-a²;（b）1-（a-1）/2.sinα+cosa=（sinα+ +cosα)-2（sinαacos practice pages 191-192.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_45b76e2637",
+    "concept_id": "concept_003194ccea",
+    "objective": "Critique and justify decisions about the concept of 2.4 Transformation of TrigonometricExpressions 2.（a）V2-a²;（b）1-（a-1）/2.sinα+cosa=（sinα+ +cosα)-2（sinαacos practice pages 191-192.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_86fc703bb4",
+    "concept_id": "concept_003194ccea",
+    "objective": "Design or produce something using the concept of 2.4 Transformation of TrigonometricExpressions 2.（a）V2-a²;（b）1-（a-1）/2.sinα+cosa=（sinα+ +cosα)-2（sinαacos practice pages 191-192.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_617a29121b",
+    "concept_id": "concept_9f8fac7159",
+    "objective": "Recall and state the concept of 2.5 TrigonometricFunctions 1.（a）D（g）=U（-π/4+nn/2;π/4+n/2);(b）D（y）=U（3πn; nEZ nEZ 3π（n+1);（c)D（y)=U_（πn-n/ practice pages 193-199.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_5d91a05189",
+    "concept_id": "concept_9f8fac7159",
+    "objective": "Explain in your own words the concept of 2.5 TrigonometricFunctions 1.（a）D（g）=U（-π/4+nn/2;π/4+n/2);(b）D（y）=U（3πn; nEZ nEZ 3π（n+1);（c)D（y)=U_（πn-n/ practice pages 193-199.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_590a1fa27a",
+    "concept_id": "concept_9f8fac7159",
+    "objective": "Apply to a new situation the concept of 2.5 TrigonometricFunctions 1.（a）D（g）=U（-π/4+nn/2;π/4+n/2);(b）D（y）=U（3πn; nEZ nEZ 3π（n+1);（c)D（y)=U_（πn-n/ practice pages 193-199.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_221e1dd027",
+    "concept_id": "concept_9f8fac7159",
+    "objective": "Break down and compare the concept of 2.5 TrigonometricFunctions 1.（a）D（g）=U（-π/4+nn/2;π/4+n/2);(b）D（y）=U（3πn; nEZ nEZ 3π（n+1);（c)D（y)=U_（πn-n/ practice pages 193-199.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_0c3c142e14",
+    "concept_id": "concept_9f8fac7159",
+    "objective": "Critique and justify decisions about the concept of 2.5 TrigonometricFunctions 1.（a）D（g）=U（-π/4+nn/2;π/4+n/2);(b）D（y）=U（3πn; nEZ nEZ 3π（n+1);（c)D（y)=U_（πn-n/ practice pages 193-199.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_3dcf776723",
+    "concept_id": "concept_9f8fac7159",
+    "objective": "Design or produce something using the concept of 2.5 TrigonometricFunctions 1.（a）D（g）=U（-π/4+nn/2;π/4+n/2);(b）D（y）=U（3πn; nEZ nEZ 3π（n+1);（c)D（y)=U_（πn-n/ practice pages 193-199.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_c09175f928",
+    "concept_id": "concept_34908a523c",
+    "objective": "Recall and state the concept of 2.6 InverseTrigonometricFunctions 1.(a)D(y)=[0,2];(b)D（y)=[2;6];（c)D（y)=[-1-V2; V2-11:(d）D（y）=（-∞；∞）;（e）D practice pages 200-204.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_805eec455d",
+    "concept_id": "concept_34908a523c",
+    "objective": "Explain in your own words the concept of 2.6 InverseTrigonometricFunctions 1.(a)D(y)=[0,2];(b)D（y)=[2;6];（c)D（y)=[-1-V2; V2-11:(d）D（y）=（-∞；∞）;（e）D practice pages 200-204.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_690f6ac67f",
+    "concept_id": "concept_34908a523c",
+    "objective": "Apply to a new situation the concept of 2.6 InverseTrigonometricFunctions 1.(a)D(y)=[0,2];(b)D（y)=[2;6];（c)D（y)=[-1-V2; V2-11:(d）D（y）=（-∞；∞）;（e）D practice pages 200-204.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_2d9180ff70",
+    "concept_id": "concept_34908a523c",
+    "objective": "Break down and compare the concept of 2.6 InverseTrigonometricFunctions 1.(a)D(y)=[0,2];(b)D（y)=[2;6];（c)D（y)=[-1-V2; V2-11:(d）D（y）=（-∞；∞）;（e）D practice pages 200-204.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_1343ddab07",
+    "concept_id": "concept_34908a523c",
+    "objective": "Critique and justify decisions about the concept of 2.6 InverseTrigonometricFunctions 1.(a)D(y)=[0,2];(b)D（y)=[2;6];（c)D（y)=[-1-V2; V2-11:(d）D（y）=（-∞；∞）;（e）D practice pages 200-204.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_228fc927da",
+    "concept_id": "concept_34908a523c",
+    "objective": "Design or produce something using the concept of 2.6 InverseTrigonometricFunctions 1.(a)D(y)=[0,2];(b)D（y)=[2;6];（c)D（y)=[-1-V2; V2-11:(d）D（y）=（-∞；∞）;（e）D practice pages 200-204.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_fce01c4446",
+    "concept_id": "concept_8cabc696fc",
+    "objective": "Recall and state the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 205-210.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_8981f7df96",
+    "concept_id": "concept_8cabc696fc",
+    "objective": "Explain in your own words the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 205-210.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_d3ea28e8bc",
+    "concept_id": "concept_8cabc696fc",
+    "objective": "Apply to a new situation the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 205-210.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_159fd54497",
+    "concept_id": "concept_8cabc696fc",
+    "objective": "Break down and compare the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 205-210.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_0e821a5655",
+    "concept_id": "concept_8cabc696fc",
+    "objective": "Critique and justify decisions about the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 205-210.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_8fe05d6e14",
+    "concept_id": "concept_8cabc696fc",
+    "objective": "Design or produce something using the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 205-210.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_dc2cb622a1",
+    "concept_id": "concept_c179c62a83",
+    "objective": "Recall and state the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 211-216.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_d1fa2c64f1",
+    "concept_id": "concept_c179c62a83",
+    "objective": "Explain in your own words the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 211-216.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_d54fb4f051",
+    "concept_id": "concept_c179c62a83",
+    "objective": "Apply to a new situation the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 211-216.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_022fcd6c47",
+    "concept_id": "concept_c179c62a83",
+    "objective": "Break down and compare the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 211-216.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_baf7e17af8",
+    "concept_id": "concept_c179c62a83",
+    "objective": "Critique and justify decisions about the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 211-216.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_e798a131df",
+    "concept_id": "concept_c179c62a83",
+    "objective": "Design or produce something using the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 211-216.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_730de5b3d3",
+    "concept_id": "concept_7ba4c8f419",
+    "objective": "Recall and state the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 217-218.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_b59a065c8d",
+    "concept_id": "concept_7ba4c8f419",
+    "objective": "Explain in your own words the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 217-218.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_103344cb00",
+    "concept_id": "concept_7ba4c8f419",
+    "objective": "Apply to a new situation the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 217-218.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_12180abb61",
+    "concept_id": "concept_7ba4c8f419",
+    "objective": "Break down and compare the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 217-218.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_1ae613c4ba",
+    "concept_id": "concept_7ba4c8f419",
+    "objective": "Critique and justify decisions about the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 217-218.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_04d3c03085",
+    "concept_id": "concept_7ba4c8f419",
+    "objective": "Design or produce something using the concept of 2.7 TrigonometricEquations and Systems ofEquations 1.（a).{sπn+（-1）n+1π/6｜n∈Z）;(b）{rn+π/8｜n∈Z}； （c）{πn/2|n practice pages 217-218.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_0afe981522",
+    "concept_id": "concept_d7abf7ae73",
+    "objective": "Recall and state the concept of 2.8 TrigonometricInequalities 1.（a）（πn； πn+π/2)，nEZ； (b）（4πn + 2π;4πn+4nπ)，nEZ； 1 (d）(nπn-π/8+1/2;πn+5π/8 practice pages 219-220.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_77514c3e9b",
+    "concept_id": "concept_d7abf7ae73",
+    "objective": "Explain in your own words the concept of 2.8 TrigonometricInequalities 1.（a）（πn； πn+π/2)，nEZ； (b）（4πn + 2π;4πn+4nπ)，nEZ； 1 (d）(nπn-π/8+1/2;πn+5π/8 practice pages 219-220.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_f0b07db748",
+    "concept_id": "concept_d7abf7ae73",
+    "objective": "Apply to a new situation the concept of 2.8 TrigonometricInequalities 1.（a）（πn； πn+π/2)，nEZ； (b）（4πn + 2π;4πn+4nπ)，nEZ； 1 (d）(nπn-π/8+1/2;πn+5π/8 practice pages 219-220.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_ea4ea8ee85",
+    "concept_id": "concept_d7abf7ae73",
+    "objective": "Break down and compare the concept of 2.8 TrigonometricInequalities 1.（a）（πn； πn+π/2)，nEZ； (b）（4πn + 2π;4πn+4nπ)，nEZ； 1 (d）(nπn-π/8+1/2;πn+5π/8 practice pages 219-220.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_afaa29c10c",
+    "concept_id": "concept_d7abf7ae73",
+    "objective": "Critique and justify decisions about the concept of 2.8 TrigonometricInequalities 1.（a）（πn； πn+π/2)，nEZ； (b）（4πn + 2π;4πn+4nπ)，nEZ； 1 (d）(nπn-π/8+1/2;πn+5π/8 practice pages 219-220.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_fa606d0a4f",
+    "concept_id": "concept_d7abf7ae73",
+    "objective": "Design or produce something using the concept of 2.8 TrigonometricInequalities 1.（a）（πn； πn+π/2)，nEZ； (b）（4πn + 2π;4πn+4nπ)，nEZ； 1 (d）(nπn-π/8+1/2;πn+5π/8 practice pages 219-220.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_f251aa8fbd",
+    "concept_id": "concept_1817489a88",
+    "objective": "Recall and state the concept of 3.1 ProblemsonMotion 7 km/h.7.36or64km/h.8.20km/h,12km/h.9.1km/h.10.30km,6km/h, 4km/h.Suppose S isthe req practice pages 221-221.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_e295f562c3",
+    "concept_id": "concept_1817489a88",
+    "objective": "Explain in your own words the concept of 3.1 ProblemsonMotion 7 km/h.7.36or64km/h.8.20km/h,12km/h.9.1km/h.10.30km,6km/h, 4km/h.Suppose S isthe req practice pages 221-221.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_45d79b626a",
+    "concept_id": "concept_1817489a88",
+    "objective": "Apply to a new situation the concept of 3.1 ProblemsonMotion 7 km/h.7.36or64km/h.8.20km/h,12km/h.9.1km/h.10.30km,6km/h, 4km/h.Suppose S isthe req practice pages 221-221.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_2eed202d1a",
+    "concept_id": "concept_1817489a88",
+    "objective": "Break down and compare the concept of 3.1 ProblemsonMotion 7 km/h.7.36or64km/h.8.20km/h,12km/h.9.1km/h.10.30km,6km/h, 4km/h.Suppose S isthe req practice pages 221-221.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_2ea5499d33",
+    "concept_id": "concept_1817489a88",
+    "objective": "Critique and justify decisions about the concept of 3.1 ProblemsonMotion 7 km/h.7.36or64km/h.8.20km/h,12km/h.9.1km/h.10.30km,6km/h, 4km/h.Suppose S isthe req practice pages 221-221.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_a1c1c5ba34",
+    "concept_id": "concept_1817489a88",
+    "objective": "Design or produce something using the concept of 3.1 ProblemsonMotion 7 km/h.7.36or64km/h.8.20km/h,12km/h.9.1km/h.10.30km,6km/h, 4km/h.Suppose S isthe req practice pages 221-221.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_ae7762f62d",
+    "concept_id": "concept_2e114c05d1",
+    "objective": "Recall and state the concept of 3.2 Problems on Percentages,Mixtures, Numbers and Work 1.15 m.2. 60%.3.25 days,20 days, 30 days. 4.10 day practice pages 222-222.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_d7ad1571e1",
+    "concept_id": "concept_2e114c05d1",
+    "objective": "Explain in your own words the concept of 3.2 Problems on Percentages,Mixtures, Numbers and Work 1.15 m.2. 60%.3.25 days,20 days, 30 days. 4.10 day practice pages 222-222.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_344031ddf3",
+    "concept_id": "concept_2e114c05d1",
+    "objective": "Apply to a new situation the concept of 3.2 Problems on Percentages,Mixtures, Numbers and Work 1.15 m.2. 60%.3.25 days,20 days, 30 days. 4.10 day practice pages 222-222.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_624f8d9bf1",
+    "concept_id": "concept_2e114c05d1",
+    "objective": "Break down and compare the concept of 3.2 Problems on Percentages,Mixtures, Numbers and Work 1.15 m.2. 60%.3.25 days,20 days, 30 days. 4.10 day practice pages 222-222.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_2c14f02a08",
+    "concept_id": "concept_2e114c05d1",
+    "objective": "Critique and justify decisions about the concept of 3.2 Problems on Percentages,Mixtures, Numbers and Work 1.15 m.2. 60%.3.25 days,20 days, 30 days. 4.10 day practice pages 222-222.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_7ec06b4a29",
+    "concept_id": "concept_2e114c05d1",
+    "objective": "Design or produce something using the concept of 3.2 Problems on Percentages,Mixtures, Numbers and Work 1.15 m.2. 60%.3.25 days,20 days, 30 days. 4.10 day practice pages 222-222.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_7593220fa1",
+    "concept_id": "concept_3e86eac151",
+    "objective": "Recall and state the concept of 3.3 Problems onDerivingInequalitiesand Systems ofInequalities.Problems on theExtremum 1.7842.2.[4;(8+√61) practice pages 223-224.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_9c2e85f065",
+    "concept_id": "concept_3e86eac151",
+    "objective": "Explain in your own words the concept of 3.3 Problems onDerivingInequalitiesand Systems ofInequalities.Problems on theExtremum 1.7842.2.[4;(8+√61) practice pages 223-224.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_2fa0713525",
+    "concept_id": "concept_3e86eac151",
+    "objective": "Apply to a new situation the concept of 3.3 Problems onDerivingInequalitiesand Systems ofInequalities.Problems on theExtremum 1.7842.2.[4;(8+√61) practice pages 223-224.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_3a1a2afcae",
+    "concept_id": "concept_3e86eac151",
+    "objective": "Break down and compare the concept of 3.3 Problems onDerivingInequalitiesand Systems ofInequalities.Problems on theExtremum 1.7842.2.[4;(8+√61) practice pages 223-224.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_b3e101fe25",
+    "concept_id": "concept_3e86eac151",
+    "objective": "Critique and justify decisions about the concept of 3.3 Problems onDerivingInequalitiesand Systems ofInequalities.Problems on theExtremum 1.7842.2.[4;(8+√61) practice pages 223-224.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_5c811a83db",
+    "concept_id": "concept_3e86eac151",
+    "objective": "Design or produce something using the concept of 3.3 Problems onDerivingInequalitiesand Systems ofInequalities.Problems on theExtremum 1.7842.2.[4;(8+√61) practice pages 223-224.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_28fb1100e6",
+    "concept_id": "concept_242a12523b",
+    "objective": "Recall and state the concept of 4.1 The Antiderivative.The Newton-LeibnizFormula 1.（a)2x+C;(b)x-1.5x²+C;（c)(2x-1）²+C.2.（a)C- -x/3;_(b）/3 practice pages 225-226.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_d595910b9f",
+    "concept_id": "concept_242a12523b",
+    "objective": "Explain in your own words the concept of 4.1 The Antiderivative.The Newton-LeibnizFormula 1.（a)2x+C;(b)x-1.5x²+C;（c)(2x-1）²+C.2.（a)C- -x/3;_(b）/3 practice pages 225-226.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_e4fb49932c",
+    "concept_id": "concept_242a12523b",
+    "objective": "Apply to a new situation the concept of 4.1 The Antiderivative.The Newton-LeibnizFormula 1.（a)2x+C;(b)x-1.5x²+C;（c)(2x-1）²+C.2.（a)C- -x/3;_(b）/3 practice pages 225-226.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_defcd29d34",
+    "concept_id": "concept_242a12523b",
+    "objective": "Break down and compare the concept of 4.1 The Antiderivative.The Newton-LeibnizFormula 1.（a)2x+C;(b)x-1.5x²+C;（c)(2x-1）²+C.2.（a)C- -x/3;_(b）/3 practice pages 225-226.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_045421094c",
+    "concept_id": "concept_242a12523b",
+    "objective": "Critique and justify decisions about the concept of 4.1 The Antiderivative.The Newton-LeibnizFormula 1.（a)2x+C;(b)x-1.5x²+C;（c)(2x-1）²+C.2.（a)C- -x/3;_(b）/3 practice pages 225-226.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_8f8b513091",
+    "concept_id": "concept_242a12523b",
+    "objective": "Design or produce something using the concept of 4.1 The Antiderivative.The Newton-LeibnizFormula 1.（a)2x+C;(b)x-1.5x²+C;（c)(2x-1）²+C.2.（a)C- -x/3;_(b）/3 practice pages 225-226.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_404bc198a5",
+    "concept_id": "concept_a5c3fe89a1",
+    "objective": "Recall and state the concept of 4.2 CalculatingtheAreasofPlane Figures 1.（a)1/2;(b)4;（c)9/8.Carry out the integration with respect to the practice pages 227-229.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_1403c1d711",
+    "concept_id": "concept_a5c3fe89a1",
+    "objective": "Explain in your own words the concept of 4.2 CalculatingtheAreasofPlane Figures 1.（a)1/2;(b)4;（c)9/8.Carry out the integration with respect to the practice pages 227-229.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_1eea438c96",
+    "concept_id": "concept_a5c3fe89a1",
+    "objective": "Apply to a new situation the concept of 4.2 CalculatingtheAreasofPlane Figures 1.（a)1/2;(b)4;（c)9/8.Carry out the integration with respect to the practice pages 227-229.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_e7c4bc6321",
+    "concept_id": "concept_a5c3fe89a1",
+    "objective": "Break down and compare the concept of 4.2 CalculatingtheAreasofPlane Figures 1.（a)1/2;(b)4;（c)9/8.Carry out the integration with respect to the practice pages 227-229.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_d4c3fbb578",
+    "concept_id": "concept_a5c3fe89a1",
+    "objective": "Critique and justify decisions about the concept of 4.2 CalculatingtheAreasofPlane Figures 1.（a)1/2;(b)4;（c)9/8.Carry out the integration with respect to the practice pages 227-229.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_b184921e53",
+    "concept_id": "concept_a5c3fe89a1",
+    "objective": "Design or produce something using the concept of 4.2 CalculatingtheAreasofPlane Figures 1.（a)1/2;(b)4;（c)9/8.Carry out the integration with respect to the practice pages 227-229.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_9074952420",
+    "concept_id": "concept_53ccc8e8ee",
+    "objective": "Recall and state the concept of 5.1 Progressions 1.No,itis not.Show that the equation 1+4（n-1)=10091 has no integer solutions.2.13.3.9927 practice pages 230-232.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_65e008cfbc",
+    "concept_id": "concept_53ccc8e8ee",
+    "objective": "Explain in your own words the concept of 5.1 Progressions 1.No,itis not.Show that the equation 1+4（n-1)=10091 has no integer solutions.2.13.3.9927 practice pages 230-232.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_4e6615c198",
+    "concept_id": "concept_53ccc8e8ee",
+    "objective": "Apply to a new situation the concept of 5.1 Progressions 1.No,itis not.Show that the equation 1+4（n-1)=10091 has no integer solutions.2.13.3.9927 practice pages 230-232.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_c54eb9aebc",
+    "concept_id": "concept_53ccc8e8ee",
+    "objective": "Break down and compare the concept of 5.1 Progressions 1.No,itis not.Show that the equation 1+4（n-1)=10091 has no integer solutions.2.13.3.9927 practice pages 230-232.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_a6d2fe1f58",
+    "concept_id": "concept_53ccc8e8ee",
+    "objective": "Critique and justify decisions about the concept of 5.1 Progressions 1.No,itis not.Show that the equation 1+4（n-1)=10091 has no integer solutions.2.13.3.9927 practice pages 230-232.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_f22d60bc0d",
+    "concept_id": "concept_53ccc8e8ee",
+    "objective": "Design or produce something using the concept of 5.1 Progressions 1.No,itis not.Show that the equation 1+4（n-1)=10091 has no integer solutions.2.13.3.9927 practice pages 230-232.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_c5e2a89a28",
+    "concept_id": "concept_7c3a9f91ef",
+    "objective": "Recall and state the concept of 5.2 NumberSequences 1.(a)Letus choose arbitrarily a positive number eand show that we canfindfor it anatu practice pages 233-235.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_a34298ab94",
+    "concept_id": "concept_7c3a9f91ef",
+    "objective": "Explain in your own words the concept of 5.2 NumberSequences 1.(a)Letus choose arbitrarily a positive number eand show that we canfindfor it anatu practice pages 233-235.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_1db993e36e",
+    "concept_id": "concept_7c3a9f91ef",
+    "objective": "Apply to a new situation the concept of 5.2 NumberSequences 1.(a)Letus choose arbitrarily a positive number eand show that we canfindfor it anatu practice pages 233-235.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_4dc05461f7",
+    "concept_id": "concept_7c3a9f91ef",
+    "objective": "Break down and compare the concept of 5.2 NumberSequences 1.(a)Letus choose arbitrarily a positive number eand show that we canfindfor it anatu practice pages 233-235.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_7baef63f9f",
+    "concept_id": "concept_7c3a9f91ef",
+    "objective": "Critique and justify decisions about the concept of 5.2 NumberSequences 1.(a)Letus choose arbitrarily a positive number eand show that we canfindfor it anatu practice pages 233-235.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_e950c3de8e",
+    "concept_id": "concept_7c3a9f91ef",
+    "objective": "Design or produce something using the concept of 5.2 NumberSequences 1.(a)Letus choose arbitrarily a positive number eand show that we canfindfor it anatu practice pages 233-235.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_f14132bfbe",
+    "concept_id": "concept_d4fd006138",
+    "objective": "Recall and state the concept of 6.1 Linear Operations onVectors 1.(a) The vectors a and b must be mutually perpendicular;(b) the anglebet practice pages 236-236.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_9b142872da",
+    "concept_id": "concept_d4fd006138",
+    "objective": "Explain in your own words the concept of 6.1 Linear Operations onVectors 1.(a) The vectors a and b must be mutually perpendicular;(b) the anglebet practice pages 236-236.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_5a3de9772c",
+    "concept_id": "concept_d4fd006138",
+    "objective": "Apply to a new situation the concept of 6.1 Linear Operations onVectors 1.(a) The vectors a and b must be mutually perpendicular;(b) the anglebet practice pages 236-236.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_2b1c0bf9c4",
+    "concept_id": "concept_d4fd006138",
+    "objective": "Break down and compare the concept of 6.1 Linear Operations onVectors 1.(a) The vectors a and b must be mutually perpendicular;(b) the anglebet practice pages 236-236.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_b19f276189",
+    "concept_id": "concept_d4fd006138",
+    "objective": "Critique and justify decisions about the concept of 6.1 Linear Operations onVectors 1.(a) The vectors a and b must be mutually perpendicular;(b) the anglebet practice pages 236-236.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_a6e45286d6",
+    "concept_id": "concept_d4fd006138",
+    "objective": "Design or produce something using the concept of 6.1 Linear Operations onVectors 1.(a) The vectors a and b must be mutually perpendicular;(b) the anglebet practice pages 236-236.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_ab5d38e930",
+    "concept_id": "concept_e03238af32",
+    "objective": "Recall and state the concept of 6.2 The ScalarProduct of Vectors 1.3st/4.2.4.3.3/ V2i.▲ We have (a+b)(a—b)=|a+b11a- —b| cos Φ; hence COS= practice pages 237-240.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_493e5bb675",
+    "concept_id": "concept_e03238af32",
+    "objective": "Explain in your own words the concept of 6.2 The ScalarProduct of Vectors 1.3st/4.2.4.3.3/ V2i.▲ We have (a+b)(a—b)=|a+b11a- —b| cos Φ; hence COS= practice pages 237-240.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_9cb38989cd",
+    "concept_id": "concept_e03238af32",
+    "objective": "Apply to a new situation the concept of 6.2 The ScalarProduct of Vectors 1.3st/4.2.4.3.3/ V2i.▲ We have (a+b)(a—b)=|a+b11a- —b| cos Φ; hence COS= practice pages 237-240.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_1fce2137d1",
+    "concept_id": "concept_e03238af32",
+    "objective": "Break down and compare the concept of 6.2 The ScalarProduct of Vectors 1.3st/4.2.4.3.3/ V2i.▲ We have (a+b)(a—b)=|a+b11a- —b| cos Φ; hence COS= practice pages 237-240.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_a4c316bb89",
+    "concept_id": "concept_e03238af32",
+    "objective": "Critique and justify decisions about the concept of 6.2 The ScalarProduct of Vectors 1.3st/4.2.4.3.3/ V2i.▲ We have (a+b)(a—b)=|a+b11a- —b| cos Φ; hence COS= practice pages 237-240.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_92521fae40",
+    "concept_id": "concept_e03238af32",
+    "objective": "Design or produce something using the concept of 6.2 The ScalarProduct of Vectors 1.3st/4.2.4.3.3/ V2i.▲ We have (a+b)(a—b)=|a+b11a- —b| cos Φ; hence COS= practice pages 237-240.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_5e57414b2d",
+    "concept_id": "concept_2da67d9b7f",
+    "objective": "Recall and state the concept of 7.1 Problems onProvingProportions 1. ▲(1) C E [AB]. Supposing that C E [AM],we have |AC|+丨CM丨=|AM|and丨BC| practice pages 241-244.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_2fb5469527",
+    "concept_id": "concept_2da67d9b7f",
+    "objective": "Explain in your own words the concept of 7.1 Problems onProvingProportions 1. ▲(1) C E [AB]. Supposing that C E [AM],we have |AC|+丨CM丨=|AM|and丨BC| practice pages 241-244.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_909d663a0c",
+    "concept_id": "concept_2da67d9b7f",
+    "objective": "Apply to a new situation the concept of 7.1 Problems onProvingProportions 1. ▲(1) C E [AB]. Supposing that C E [AM],we have |AC|+丨CM丨=|AM|and丨BC| practice pages 241-244.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_8baf63fd0b",
+    "concept_id": "concept_2da67d9b7f",
+    "objective": "Break down and compare the concept of 7.1 Problems onProvingProportions 1. ▲(1) C E [AB]. Supposing that C E [AM],we have |AC|+丨CM丨=|AM|and丨BC| practice pages 241-244.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_7653b8db9c",
+    "concept_id": "concept_2da67d9b7f",
+    "objective": "Critique and justify decisions about the concept of 7.1 Problems onProvingProportions 1. ▲(1) C E [AB]. Supposing that C E [AM],we have |AC|+丨CM丨=|AM|and丨BC| practice pages 241-244.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_68cd17c7ce",
+    "concept_id": "concept_2da67d9b7f",
+    "objective": "Design or produce something using the concept of 7.1 Problems onProvingProportions 1. ▲(1) C E [AB]. Supposing that C E [AM],we have |AC|+丨CM丨=|AM|and丨BC| practice pages 241-244.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_8ca5a6a187",
+    "concept_id": "concept_4c285d869c",
+    "objective": "Recall and state the concept of 7.2 Construction Problems 1.Constructa parallelogram such that point A is the intersection of the diagona practice pages 245-246.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_604fa40b93",
+    "concept_id": "concept_4c285d869c",
+    "objective": "Explain in your own words the concept of 7.2 Construction Problems 1.Constructa parallelogram such that point A is the intersection of the diagona practice pages 245-246.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_166eaf02c0",
+    "concept_id": "concept_4c285d869c",
+    "objective": "Apply to a new situation the concept of 7.2 Construction Problems 1.Constructa parallelogram such that point A is the intersection of the diagona practice pages 245-246.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_0753d5c3b2",
+    "concept_id": "concept_4c285d869c",
+    "objective": "Break down and compare the concept of 7.2 Construction Problems 1.Constructa parallelogram such that point A is the intersection of the diagona practice pages 245-246.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_ea4dae1a12",
+    "concept_id": "concept_4c285d869c",
+    "objective": "Critique and justify decisions about the concept of 7.2 Construction Problems 1.Constructa parallelogram such that point A is the intersection of the diagona practice pages 245-246.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_6f87038674",
+    "concept_id": "concept_4c285d869c",
+    "objective": "Design or produce something using the concept of 7.2 Construction Problems 1.Constructa parallelogram such that point A is the intersection of the diagona practice pages 245-246.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_3dc2af5cea",
+    "concept_id": "concept_9ea36fe768",
+    "objective": "Recall and state the concept of 7.3 Problems on Calculation 1.(a)B = arccos (5/13)= arcsin (12/13).Use the cosine theorem; (b)84sq cm.App practice pages 247-251.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_2034a5ad59",
+    "concept_id": "concept_9ea36fe768",
+    "objective": "Explain in your own words the concept of 7.3 Problems on Calculation 1.(a)B = arccos (5/13)= arcsin (12/13).Use the cosine theorem; (b)84sq cm.App practice pages 247-251.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_8a6124aca3",
+    "concept_id": "concept_9ea36fe768",
+    "objective": "Apply to a new situation the concept of 7.3 Problems on Calculation 1.(a)B = arccos (5/13)= arcsin (12/13).Use the cosine theorem; (b)84sq cm.App practice pages 247-251.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_80e0499478",
+    "concept_id": "concept_9ea36fe768",
+    "objective": "Break down and compare the concept of 7.3 Problems on Calculation 1.(a)B = arccos (5/13)= arcsin (12/13).Use the cosine theorem; (b)84sq cm.App practice pages 247-251.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_42a9299fe5",
+    "concept_id": "concept_9ea36fe768",
+    "objective": "Critique and justify decisions about the concept of 7.3 Problems on Calculation 1.(a)B = arccos (5/13)= arcsin (12/13).Use the cosine theorem; (b)84sq cm.App practice pages 247-251.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_92344b5ed1",
+    "concept_id": "concept_9ea36fe768",
+    "objective": "Design or produce something using the concept of 7.3 Problems on Calculation 1.(a)B = arccos (5/13)= arcsin (12/13).Use the cosine theorem; (b)84sq cm.App practice pages 247-251.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_4919f9d15d",
+    "concept_id": "concept_72af962d8e",
+    "objective": "Recall and state the concept of 8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution 1.12√2/5or337/5cm.2.arcsin (sin@ sinp）.Letus d practice pages 252-256.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_0f71825c79",
+    "concept_id": "concept_72af962d8e",
+    "objective": "Explain in your own words the concept of 8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution 1.12√2/5or337/5cm.2.arcsin (sin@ sinp）.Letus d practice pages 252-256.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_57efeeec8e",
+    "concept_id": "concept_72af962d8e",
+    "objective": "Apply to a new situation the concept of 8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution 1.12√2/5or337/5cm.2.arcsin (sin@ sinp）.Letus d practice pages 252-256.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_aa3238caf1",
+    "concept_id": "concept_72af962d8e",
+    "objective": "Break down and compare the concept of 8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution 1.12√2/5or337/5cm.2.arcsin (sin@ sinp）.Letus d practice pages 252-256.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_e3fa07eb22",
+    "concept_id": "concept_72af962d8e",
+    "objective": "Critique and justify decisions about the concept of 8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution 1.12√2/5or337/5cm.2.arcsin (sin@ sinp）.Letus d practice pages 252-256.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_e27e19cea9",
+    "concept_id": "concept_72af962d8e",
+    "objective": "Design or produce something using the concept of 8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution 1.12√2/5or337/5cm.2.arcsin (sin@ sinp）.Letus d practice pages 252-256.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_6a47862800",
+    "concept_id": "concept_ac82b37693",
+    "objective": "Recall and state the concept of 8.2 Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- ti practice pages 257-262.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_5750524d17",
+    "concept_id": "concept_ac82b37693",
+    "objective": "Explain in your own words the concept of 8.2 Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- ti practice pages 257-262.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_279836070e",
+    "concept_id": "concept_ac82b37693",
+    "objective": "Apply to a new situation the concept of 8.2 Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- ti practice pages 257-262.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_263988d549",
+    "concept_id": "concept_ac82b37693",
+    "objective": "Break down and compare the concept of 8.2 Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- ti practice pages 257-262.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_cb4e8fd021",
+    "concept_id": "concept_ac82b37693",
+    "objective": "Critique and justify decisions about the concept of 8.2 Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- ti practice pages 257-262.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_6b06b6b2ba",
+    "concept_id": "concept_ac82b37693",
+    "objective": "Design or produce something using the concept of 8.2 Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- ti practice pages 257-262.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_fe214f9fd5",
+    "concept_id": "concept_9db5e62be4",
+    "objective": "Recall and state the concept of 8.2 Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- ti practice pages 263-263.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_5cd23dcab9",
+    "concept_id": "concept_9db5e62be4",
+    "objective": "Explain in your own words the concept of 8.2 Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- ti practice pages 263-263.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_9f69438aa7",
+    "concept_id": "concept_9db5e62be4",
+    "objective": "Apply to a new situation the concept of 8.2 Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- ti practice pages 263-263.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_68ebcaf983",
+    "concept_id": "concept_9db5e62be4",
+    "objective": "Break down and compare the concept of 8.2 Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- ti practice pages 263-263.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_60f8683370",
+    "concept_id": "concept_9db5e62be4",
+    "objective": "Critique and justify decisions about the concept of 8.2 Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- ti practice pages 263-263.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_2cdd743efc",
+    "concept_id": "concept_9db5e62be4",
+    "objective": "Design or produce something using the concept of 8.2 Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- ti practice pages 263-263.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_0ea0160bd3",
+    "concept_id": "concept_07c2cfbb0b",
+    "objective": "Recall and state the concept of 8.3 VolumesofSolidsofRevolution πa sinα sin2β πb3 1. 3 sin²(α+β)· 2. 4.3π/10.5.π/5.6.（a）5π.V= sin β 3 （lx practice pages 264-264.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_e496aaf10b",
+    "concept_id": "concept_07c2cfbb0b",
+    "objective": "Explain in your own words the concept of 8.3 VolumesofSolidsofRevolution πa sinα sin2β πb3 1. 3 sin²(α+β)· 2. 4.3π/10.5.π/5.6.（a）5π.V= sin β 3 （lx practice pages 264-264.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_d76caa41eb",
+    "concept_id": "concept_07c2cfbb0b",
+    "objective": "Apply to a new situation the concept of 8.3 VolumesofSolidsofRevolution πa sinα sin2β πb3 1. 3 sin²(α+β)· 2. 4.3π/10.5.π/5.6.（a）5π.V= sin β 3 （lx practice pages 264-264.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_5de39c18f8",
+    "concept_id": "concept_07c2cfbb0b",
+    "objective": "Break down and compare the concept of 8.3 VolumesofSolidsofRevolution πa sinα sin2β πb3 1. 3 sin²(α+β)· 2. 4.3π/10.5.π/5.6.（a）5π.V= sin β 3 （lx practice pages 264-264.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_9f3997294c",
+    "concept_id": "concept_07c2cfbb0b",
+    "objective": "Critique and justify decisions about the concept of 8.3 VolumesofSolidsofRevolution πa sinα sin2β πb3 1. 3 sin²(α+β)· 2. 4.3π/10.5.π/5.6.（a）5π.V= sin β 3 （lx practice pages 264-264.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_5a1540eff7",
+    "concept_id": "concept_07c2cfbb0b",
+    "objective": "Design or produce something using the concept of 8.3 VolumesofSolidsofRevolution πa sinα sin2β πb3 1. 3 sin²(α+β)· 2. 4.3π/10.5.π/5.6.（a）5π.V= sin β 3 （lx practice pages 264-264.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_921fa9fcf6",
+    "concept_id": "concept_14680bba41",
+    "objective": "Recall and state the concept of 9.1 ProblemsinAlgebra 1.A={1；2;a;5}，ifa≠1，a≠2,a≠5；A={1；2;5}，if a=1，ora=2，ora=5；B=0，ifa≠1ora≠2；B={1}， if a practice pages 265-269.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_4b6aee801d",
+    "concept_id": "concept_14680bba41",
+    "objective": "Explain in your own words the concept of 9.1 ProblemsinAlgebra 1.A={1；2;a;5}，ifa≠1，a≠2,a≠5；A={1；2;5}，if a=1，ora=2，ora=5；B=0，ifa≠1ora≠2；B={1}， if a practice pages 265-269.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_43acc023eb",
+    "concept_id": "concept_14680bba41",
+    "objective": "Apply to a new situation the concept of 9.1 ProblemsinAlgebra 1.A={1；2;a;5}，ifa≠1，a≠2,a≠5；A={1；2;5}，if a=1，ora=2，ora=5；B=0，ifa≠1ora≠2；B={1}， if a practice pages 265-269.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_34114eaa8d",
+    "concept_id": "concept_14680bba41",
+    "objective": "Break down and compare the concept of 9.1 ProblemsinAlgebra 1.A={1；2;a;5}，ifa≠1，a≠2,a≠5；A={1；2;5}，if a=1，ora=2，ora=5；B=0，ifa≠1ora≠2；B={1}， if a practice pages 265-269.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_8c7786b80b",
+    "concept_id": "concept_14680bba41",
+    "objective": "Critique and justify decisions about the concept of 9.1 ProblemsinAlgebra 1.A={1；2;a;5}，ifa≠1，a≠2,a≠5；A={1；2;5}，if a=1，ora=2，ora=5；B=0，ifa≠1ora≠2；B={1}， if a practice pages 265-269.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_1777e40903",
+    "concept_id": "concept_14680bba41",
+    "objective": "Design or produce something using the concept of 9.1 ProblemsinAlgebra 1.A={1；2;a;5}，ifa≠1，a≠2,a≠5；A={1；2;5}，if a=1，ora=2，ora=5；B=0，ifa≠1ora≠2；B={1}， if a practice pages 265-269.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_a69a302216",
+    "concept_id": "concept_89e09a3023",
+    "objective": "Recall and state the concept of 9.2 Limit of a Function.Continuity x²-1 =lim （x-1)（x+1） lim x+1 2x+1 x→1 x→1 2(x- x-1 2 .2.3/2.●Factor th practice pages 270-272.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_846a8cc394",
+    "concept_id": "concept_89e09a3023",
+    "objective": "Explain in your own words the concept of 9.2 Limit of a Function.Continuity x²-1 =lim （x-1)（x+1） lim x+1 2x+1 x→1 x→1 2(x- x-1 2 .2.3/2.●Factor th practice pages 270-272.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_ce05560d63",
+    "concept_id": "concept_89e09a3023",
+    "objective": "Apply to a new situation the concept of 9.2 Limit of a Function.Continuity x²-1 =lim （x-1)（x+1） lim x+1 2x+1 x→1 x→1 2(x- x-1 2 .2.3/2.●Factor th practice pages 270-272.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_7792bb92f4",
+    "concept_id": "concept_89e09a3023",
+    "objective": "Break down and compare the concept of 9.2 Limit of a Function.Continuity x²-1 =lim （x-1)（x+1） lim x+1 2x+1 x→1 x→1 2(x- x-1 2 .2.3/2.●Factor th practice pages 270-272.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_c8531319a9",
+    "concept_id": "concept_89e09a3023",
+    "objective": "Critique and justify decisions about the concept of 9.2 Limit of a Function.Continuity x²-1 =lim （x-1)（x+1） lim x+1 2x+1 x→1 x→1 2(x- x-1 2 .2.3/2.●Factor th practice pages 270-272.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_cea46ff4e8",
+    "concept_id": "concept_89e09a3023",
+    "objective": "Design or produce something using the concept of 9.2 Limit of a Function.Continuity x²-1 =lim （x-1)（x+1） lim x+1 2x+1 x→1 x→1 2(x- x-1 2 .2.3/2.●Factor th practice pages 270-272.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_b71af7e9c9",
+    "concept_id": "concept_3ebd0c165a",
+    "objective": "Recall and state the concept of 9.3 TheDerivative ofaFunction 1.(a)We can;(b)we cannot.2.(a)We cannot； the function f （x)=x， for instance practice pages 273-274.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_51eef93427",
+    "concept_id": "concept_3ebd0c165a",
+    "objective": "Explain in your own words the concept of 9.3 TheDerivative ofaFunction 1.(a)We can;(b)we cannot.2.(a)We cannot； the function f （x)=x， for instance practice pages 273-274.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_4fde80d6be",
+    "concept_id": "concept_3ebd0c165a",
+    "objective": "Apply to a new situation the concept of 9.3 TheDerivative ofaFunction 1.(a)We can;(b)we cannot.2.(a)We cannot； the function f （x)=x， for instance practice pages 273-274.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_04d5eaab76",
+    "concept_id": "concept_3ebd0c165a",
+    "objective": "Break down and compare the concept of 9.3 TheDerivative ofaFunction 1.(a)We can;(b)we cannot.2.(a)We cannot； the function f （x)=x， for instance practice pages 273-274.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_0334554651",
+    "concept_id": "concept_3ebd0c165a",
+    "objective": "Critique and justify decisions about the concept of 9.3 TheDerivative ofaFunction 1.(a)We can;(b)we cannot.2.(a)We cannot； the function f （x)=x， for instance practice pages 273-274.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_3e45bcd30c",
+    "concept_id": "concept_3ebd0c165a",
+    "objective": "Design or produce something using the concept of 9.3 TheDerivative ofaFunction 1.(a)We can;(b)we cannot.2.(a)We cannot； the function f （x)=x， for instance practice pages 273-274.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_6d0c6cea3c",
+    "concept_id": "concept_8b233812ac",
+    "objective": "Recall and state the concept of 9.4 Integral Calculus.MiscellaneousProblems 1. No,we cannot.For instance,f (x)=1 + cos x is a periodic fu practice pages 275-280.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_a010a47b7b",
+    "concept_id": "concept_8b233812ac",
+    "objective": "Explain in your own words the concept of 9.4 Integral Calculus.MiscellaneousProblems 1. No,we cannot.For instance,f (x)=1 + cos x is a periodic fu practice pages 275-280.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_f1f0ae5218",
+    "concept_id": "concept_8b233812ac",
+    "objective": "Apply to a new situation the concept of 9.4 Integral Calculus.MiscellaneousProblems 1. No,we cannot.For instance,f (x)=1 + cos x is a periodic fu practice pages 275-280.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_414426a679",
+    "concept_id": "concept_8b233812ac",
+    "objective": "Break down and compare the concept of 9.4 Integral Calculus.MiscellaneousProblems 1. No,we cannot.For instance,f (x)=1 + cos x is a periodic fu practice pages 275-280.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_0b60902281",
+    "concept_id": "concept_8b233812ac",
+    "objective": "Critique and justify decisions about the concept of 9.4 Integral Calculus.MiscellaneousProblems 1. No,we cannot.For instance,f (x)=1 + cos x is a periodic fu practice pages 275-280.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_544017054a",
+    "concept_id": "concept_8b233812ac",
+    "objective": "Design or produce something using the concept of 9.4 Integral Calculus.MiscellaneousProblems 1. No,we cannot.For instance,f (x)=1 + cos x is a periodic fu practice pages 275-280.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  }
+]

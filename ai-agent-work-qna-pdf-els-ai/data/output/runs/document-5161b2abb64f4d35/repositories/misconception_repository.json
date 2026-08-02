@@ -1,0 +1,674 @@
+[
+  {
+    "misconception_id": "misc_cf86eafbab",
+    "concept_id": "concept_7693272a7d",
+    "misconception": "Magnetic flux is the same as the magnetic field strength.",
+    "explanation": "Magnetic field strength describes the field at a location, whereas magnetic flux depends on the field, the surface area, and the angle between the field and the surface normal.",
+    "correction": "Calculate flux using Φ = BA cos θ for a uniform field, where θ is the angle between the magnetic field and the perpendicular to the surface."
+  },
+  {
+    "misconception_id": "misc_b0cfa2e604",
+    "concept_id": "concept_7693272a7d",
+    "misconception": "A magnetic field parallel to a surface produces maximum magnetic flux through it.",
+    "explanation": "When the field is parallel to the surface, it does not pass through the surface.",
+    "correction": "Flux is zero when the field is parallel to the surface and maximum when the field is perpendicular to it."
+  },
+  {
+    "misconception_id": "misc_ff53056649",
+    "concept_id": "concept_7693272a7d",
+    "misconception": "Magnetic flux is a vector because the magnetic field is a vector.",
+    "explanation": "Magnetic flux is defined as the surface integral of the magnetic field and is a scalar quantity, although its sign depends on the chosen surface direction.",
+    "correction": "Treat magnetic flux as a signed scalar, with positive or negative sign determined by the selected surface normal."
+  },
+  {
+    "misconception_id": "misc_3b587e175c",
+    "concept_id": "concept_f8eaf41ca7",
+    "misconception": "Gauss’ law for magnetism says the magnetic field is zero everywhere.",
+    "explanation": "The law states only that the net magnetic flux through a closed surface is zero, not that the magnetic field itself vanishes.",
+    "correction": "Magnetic field lines can pass through a closed surface; the flux entering the surface equals the flux leaving it."
+  },
+  {
+    "misconception_id": "misc_d4080a92ec",
+    "concept_id": "concept_f8eaf41ca7",
+    "misconception": "A magnetic field has no flux through a closed surface because magnetic fields do not cross surfaces.",
+    "explanation": "Magnetic field lines may cross the surface in both directions.",
+    "correction": "The opposing inward and outward flux contributions cancel, giving zero net flux."
+  },
+  {
+    "misconception_id": "misc_e8402cef60",
+    "concept_id": "concept_f8eaf41ca7",
+    "misconception": "A single north or south magnetic pole can exist independently.",
+    "explanation": "Isolated magnetic monopoles have not been observed in ordinary classical electromagnetism.",
+    "correction": "Magnetic field lines form closed loops, so magnetic poles occur in pairs and produce zero net flux through any closed surface."
+  },
+  {
+    "misconception_id": "misc_be08203ed3",
+    "concept_id": "concept_2a665274e3",
+    "misconception": "An induced electromotive force occurs only when the circuit is closed and current flows.",
+    "explanation": "A changing linked magnetic flux can induce an electromotive force even in an open circuit; the open circuit simply prevents sustained current.",
+    "correction": "Distinguish induced electromotive force from induced current: EMF can exist in an open circuit, while current requires a complete conducting path."
+  },
+  {
+    "misconception_id": "misc_ad705e3af2",
+    "concept_id": "concept_2a665274e3",
+    "misconception": "A magnetic field must change in strength for an electromotive force to be induced.",
+    "explanation": "Induction depends on a change in magnetic flux, which can result from changing field strength, changing area, changing orientation, or relative motion between the conductor and field.",
+    "correction": "Check whether the magnetic flux linked with the circuit changes, not only whether the field strength changes."
+  },
+  {
+    "misconception_id": "misc_d13b056794",
+    "concept_id": "concept_2a665274e3",
+    "misconception": "Any motion of a conductor through a magnetic field produces an induced electromotive force.",
+    "explanation": "Motion produces an induced EMF only when the conductor cuts magnetic flux, meaning the motion has a component across the magnetic field lines and changes the flux linkage.",
+    "correction": "A conductor moving parallel to uniform magnetic field lines may not cut flux and therefore may not experience a motional EMF."
+  },
+  {
+    "misconception_id": "misc_2bc376fc27",
+    "concept_id": "concept_549729587d",
+    "misconception": "The induced current always opposes the external magnetic field.",
+    "explanation": "The induced current opposes the change in magnetic flux, not necessarily the magnetic field itself.",
+    "correction": "Determine whether the magnetic flux is increasing or decreasing, then choose an induced field that opposes that change."
+  },
+  {
+    "misconception_id": "misc_2555c81f31",
+    "concept_id": "concept_549729587d",
+    "misconception": "The induced emf always produces a current in the opposite direction to the changing current.",
+    "explanation": "The induced direction depends on how the magnetic flux through the circuit changes, which may result from changing field strength, area, or orientation.",
+    "correction": "Use Lenz’s law by analyzing the change in flux through the loop, rather than comparing current directions directly."
+  },
+  {
+    "misconception_id": "misc_5e5038dcc9",
+    "concept_id": "concept_549729587d",
+    "misconception": "If the magnetic flux is large, the induced emf must be large.",
+    "explanation": "Induced emf depends on the rate of change of magnetic flux, not its magnitude alone.",
+    "correction": "A large but constant flux produces no induced emf; faster changes in flux produce greater induced emf."
+  },
+  {
+    "misconception_id": "misc_591272398b",
+    "concept_id": "concept_5975bf7946",
+    "misconception": "A faster change in magnetic flux always transfers more total charge.",
+    "explanation": "A faster flux change produces a larger induced emf and current, but for a fixed total flux change and constant resistance, the total transferred charge is unchanged.",
+    "correction": "The total charge depends on the total change in magnetic flux and the circuit resistance, not on how quickly the change occurs."
+  },
+  {
+    "misconception_id": "misc_3f6c6cc5fd",
+    "concept_id": "concept_5975bf7946",
+    "misconception": "No charge is transferred if the magnetic flux changes back to its original value.",
+    "explanation": "Charge can flow during the change, even if the final flux equals the initial flux; however, the algebraic net charge over the complete process may be zero.",
+    "correction": "Distinguish charge transferred during each part of the process from net signed charge. A complete return to the original flux can produce equal and opposite charge flows."
+  },
+  {
+    "misconception_id": "misc_da2155d383",
+    "concept_id": "concept_5975bf7946",
+    "misconception": "The total transferred charge is determined only by the magnetic flux change and is independent of circuit resistance.",
+    "explanation": "For a given flux change, a higher resistance produces a smaller current and therefore a smaller total charge.",
+    "correction": "For a fixed-resistance circuit, the magnitude of total charge is proportional to the total flux change and inversely proportional to resistance."
+  },
+  {
+    "misconception_id": "misc_911ecc88a5",
+    "concept_id": "concept_9254b1d6a8",
+    "misconception": "Motional emf is produced only when the magnetic field changes with time.",
+    "explanation": "A conductor can experience emf even in a constant magnetic field if it moves through the field and cuts magnetic flux.",
+    "correction": "Motional emf results from the conductor's motion through a magnetic field, typically due to the magnetic force on its charges."
+  },
+  {
+    "misconception_id": "misc_53fbe499f1",
+    "concept_id": "concept_9254b1d6a8",
+    "misconception": "Any motion of a conductor through a magnetic field produces motional emf.",
+    "explanation": "Motion alone is insufficient; the conductor must have a velocity component that cuts magnetic field lines, and its charges must experience magnetic force.",
+    "correction": "Motional emf is produced when the conductor moves across magnetic field lines, with emf magnitude depending on field strength, conductor length, and perpendicular velocity."
+  },
+  {
+    "misconception_id": "misc_6726d645fc",
+    "concept_id": "concept_9254b1d6a8",
+    "misconception": "The entire conductor must form a closed circuit for motional emf to exist.",
+    "explanation": "Charge separation and a potential difference can occur in an open moving conductor even though no continuous current flows.",
+    "correction": "A closed circuit is required for current, but motional emf can exist as a voltage in an open conductor."
+  },
+  {
+    "misconception_id": "misc_608d9704a8",
+    "concept_id": "concept_05210818a8",
+    "misconception": "A rotating coil produces emf simply because it is moving.",
+    "explanation": "Motion alone does not guarantee induced emf; the magnetic flux through the coil must change.",
+    "correction": "Emf is induced when the coil’s orientation changes the magnetic flux through it in an external magnetic field."
+  },
+  {
+    "misconception_id": "misc_5a3a0dfe9a",
+    "concept_id": "concept_05210818a8",
+    "misconception": "The induced emf is greatest when the magnetic flux is greatest.",
+    "explanation": "Emf depends on the rate of change of magnetic flux, not on the flux value itself.",
+    "correction": "The emf is greatest when the flux changes most rapidly and is zero when the flux is momentarily constant."
+  },
+  {
+    "misconception_id": "misc_50c9dff87c",
+    "concept_id": "concept_05210818a8",
+    "misconception": "The magnetic field must change for emf to be induced.",
+    "explanation": "A constant magnetic field can still produce emf if the coil rotates and changes its orientation relative to the field.",
+    "correction": "Changing the coil’s orientation changes the flux even when the magnetic field remains constant."
+  },
+  {
+    "misconception_id": "misc_31b7599afc",
+    "concept_id": "concept_1e6c744d80",
+    "misconception": "Self-inductance is the magnetic flux produced by the coil.",
+    "explanation": "Self-inductance is not the flux itself; it is the proportionality constant between flux linkage and current.",
+    "correction": "Self-inductance is defined as flux linkage per unit current, L = NΦ/I."
+  },
+  {
+    "misconception_id": "misc_e6b7ba3125",
+    "concept_id": "concept_1e6c744d80",
+    "misconception": "A coil has self-induced emf whenever a current flows through it.",
+    "explanation": "A steady current produces steady flux linkage, so no self-induced emf is generated.",
+    "correction": "Self-induced emf occurs when the current, and therefore the flux linkage, changes: ε = -L(dI/dt)."
+  },
+  {
+    "misconception_id": "misc_37f673305b",
+    "concept_id": "concept_1e6c744d80",
+    "misconception": "Self-inductance depends only on the current in the coil.",
+    "explanation": "For a given coil in a linear magnetic medium, inductance is determined mainly by its geometry, number of turns, and core material, not by the current itself.",
+    "correction": "Current determines the flux linkage, while the coil’s physical construction and magnetic environment determine L."
+  },
+  {
+    "misconception_id": "misc_7b8a4d2215",
+    "concept_id": "concept_9536cc79c4",
+    "misconception": "Self-inductance increases only linearly with the number of turns.",
+    "explanation": "Students may think doubling the turns doubles the inductance.",
+    "correction": "Self-inductance is proportional to N², so doubling the number of turns ideally increases the inductance by a factor of four."
+  },
+  {
+    "misconception_id": "misc_558b15ef5e",
+    "concept_id": "concept_9536cc79c4",
+    "misconception": "A larger coil always has a smaller self-inductance because the turns are farther apart.",
+    "explanation": "Students may focus only on the increased spacing or longer circumference.",
+    "correction": "For the stated model, self-inductance increases with the coil radius, along with its dependence on N² and permeability."
+  },
+  {
+    "misconception_id": "misc_79210ffa1f",
+    "concept_id": "concept_9536cc79c4",
+    "misconception": "Self-inductance is determined by the coil's resistance or by the current flowing through it.",
+    "explanation": "Students may confuse inductance with resistance or with the magnetic energy stored at a particular current.",
+    "correction": "Self-inductance is a property of the coil's geometry, number of turns, and surrounding permeability; current affects induced voltage and stored energy, not the inductance itself."
+  },
+  {
+    "misconception_id": "misc_23ff26f227",
+    "concept_id": "concept_6cd4d53f38",
+    "misconception": "An inductor stores electrical charge like a capacitor.",
+    "explanation": "An inductor stores energy in the magnetic field created by current, not as separated electric charge.",
+    "correction": "Remember that capacitors store energy in an electric field, while inductors store energy in a magnetic field."
+  },
+  {
+    "misconception_id": "misc_2efc8d1dd0",
+    "concept_id": "concept_6cd4d53f38",
+    "misconception": "An inductor stores energy only when the current is increasing.",
+    "explanation": "The magnetic field and stored energy depend on the current magnitude, whether the current is increasing, decreasing, or steady.",
+    "correction": "An ideal inductor stores energy whenever current flows through it, with energy given by E = 1/2 LI²."
+  },
+  {
+    "misconception_id": "misc_c01ebf7cd5",
+    "concept_id": "concept_6cd4d53f38",
+    "misconception": "An inductor immediately releases all its stored energy when the circuit is opened.",
+    "explanation": "An inductor opposes sudden changes in current and may produce a large voltage while releasing its energy over time or through an available path.",
+    "correction": "The stored magnetic energy is released as the current changes, and the circuit must provide a path for that energy."
+  },
+  {
+    "misconception_id": "misc_9c0a7856c3",
+    "concept_id": "concept_08736307d6",
+    "misconception": "The current reaches its final value immediately when the switch is closed.",
+    "explanation": "The inductor initially opposes the change in current, so the current rises gradually rather than instantly.",
+    "correction": "The current starts at zero and increases exponentially toward its final value over time."
+  },
+  {
+    "misconception_id": "misc_e5eaf3aa40",
+    "concept_id": "concept_08736307d6",
+    "misconception": "The inductor prevents current from flowing permanently.",
+    "explanation": "The inductor opposes changes in current, not steady current.",
+    "correction": "After a sufficiently long time with constant emf, the inductor behaves like a short circuit and the current reaches its final value determined by the resistance."
+  },
+  {
+    "misconception_id": "misc_79d2aa4af5",
+    "concept_id": "concept_08736307d6",
+    "misconception": "The current increases at a constant rate.",
+    "explanation": "The rate of increase is greatest immediately after switching and decreases as the current approaches its final value.",
+    "correction": "The current follows an exponential growth curve, not a linear one."
+  },
+  {
+    "misconception_id": "misc_e9cbc91456",
+    "concept_id": "concept_79d3dd9c51",
+    "misconception": "The current becomes zero immediately when the source is switched off.",
+    "explanation": "An inductor opposes sudden changes in current and releases its stored magnetic energy after the source is removed.",
+    "correction": "The current cannot change instantaneously; it decays exponentially through the resistance."
+  },
+  {
+    "misconception_id": "misc_d823a52c48",
+    "concept_id": "concept_79d3dd9c51",
+    "misconception": "The current decreases linearly with time.",
+    "explanation": "The rate of decrease is proportional to the current remaining, so the current falls rapidly at first and more slowly later.",
+    "correction": "The current follows an exponential decay, described by I = I₀e^(-tR/L)."
+  },
+  {
+    "misconception_id": "misc_9db4dad2e3",
+    "concept_id": "concept_79d3dd9c51",
+    "misconception": "The inductor continues to supply constant current after switching off.",
+    "explanation": "The inductor supplies energy temporarily, but its stored energy is gradually dissipated as heat in the resistance.",
+    "correction": "The current decreases toward zero as the inductor's stored energy is dissipated."
+  },
+  {
+    "misconception_id": "misc_f0e5a7ca3f",
+    "concept_id": "concept_19fc9d8e17",
+    "misconception": "Mutual induction occurs only when the two circuits are physically connected.",
+    "explanation": "The circuits can be electrically separate; the changing magnetic field from one circuit induces an emf in the nearby circuit.",
+    "correction": "Mutual induction transfers energy through a changing magnetic field, without requiring a conducting connection between the circuits."
+  },
+  {
+    "misconception_id": "misc_956c0b35f5",
+    "concept_id": "concept_19fc9d8e17",
+    "misconception": "A steady current in the first circuit continuously induces an emf in the second circuit.",
+    "explanation": "A constant current produces a constant magnetic field, so the magnetic flux through the second circuit does not change.",
+    "correction": "An induced emf occurs only while the current, and therefore the magnetic field or magnetic flux, is changing."
+  },
+  {
+    "misconception_id": "misc_5d3a2bce2e",
+    "concept_id": "concept_19fc9d8e17",
+    "misconception": "The induced current in the second circuit flows in the same direction as the current change in the first circuit.",
+    "explanation": "By Lenz's law, the induced current produces a magnetic field that opposes the change in magnetic flux causing it.",
+    "correction": "The direction of the induced current opposes the change in flux, not necessarily the original current itself."
+  },
+  {
+    "misconception_id": "misc_b7c34b74e6",
+    "concept_id": "concept_12146cc5b6",
+    "misconception": "Mutual inductance is simply the sum of the two coils’ self-inductances.",
+    "explanation": "Mutual inductance is not found by adding L1 and L2; it describes flux linkage in one coil caused by current in the other.",
+    "correction": "For two coupled coils, M = k√(L1L2), where k is the coefficient of coupling."
+  },
+  {
+    "misconception_id": "misc_070518f7f4",
+    "concept_id": "concept_12146cc5b6",
+    "misconception": "The coefficient of coupling is always 1 for coupled coils.",
+    "explanation": "Only perfectly coupled coils have k = 1. Leakage flux makes k less than 1 in practical systems.",
+    "correction": "The coefficient of coupling satisfies 0 ≤ k ≤ 1 and indicates the fraction of magnetic flux linking both coils."
+  },
+  {
+    "misconception_id": "misc_5dfe4403de",
+    "concept_id": "concept_12146cc5b6",
+    "misconception": "Mutual inductance depends only on the physical separation of the coils.",
+    "explanation": "Separation affects coupling, but mutual inductance also depends on both self-inductances and the coefficient of coupling.",
+    "correction": "Mutual inductance depends on L1, L2, and k according to M = k√(L1L2)."
+  },
+  {
+    "misconception_id": "misc_ad66ae4a67",
+    "concept_id": "concept_cd149ebd0e",
+    "misconception": "The inductances cancel because the coils are separate and do not share magnetic flux.",
+    "explanation": "Without mutual coupling, there is no mutual inductance term, but each coil still contributes its own self-inductance.",
+    "correction": "For uncoupled inductors connected in series, the equivalent inductance is L_total = L1 + L2."
+  },
+  {
+    "misconception_id": "misc_2b2e729a56",
+    "concept_id": "concept_cd149ebd0e",
+    "misconception": "Different currents flow through the two inductors because they have different inductance values.",
+    "explanation": "Series components carry the same current regardless of their individual inductances.",
+    "correction": "The same current flows through both inductors; their voltage drops may differ according to v = L(di/dt)."
+  },
+  {
+    "misconception_id": "misc_2382248a61",
+    "concept_id": "concept_cd149ebd0e",
+    "misconception": "The equivalent inductance depends on whether the coils are wound in the same or opposite direction.",
+    "explanation": "Winding direction affects mutual-inductance terms only when magnetic coupling exists.",
+    "correction": "For zero mutual coupling, winding orientation does not matter, and the inductances simply add."
+  },
+  {
+    "misconception_id": "misc_baed5a2bec",
+    "concept_id": "concept_43fc18b0f9",
+    "misconception": "The equivalent inductance of parallel uncoupled inductors is the sum of their inductances.",
+    "explanation": "Inductance adds directly for series-connected uncoupled inductors, not for parallel-connected inductors.",
+    "correction": "For parallel inductors, use 1/L_eq = 1/L_1 + 1/L_2, so L_eq = (L_1L_2)/(L_1+L_2)."
+  },
+  {
+    "misconception_id": "misc_b891586a0f",
+    "concept_id": "concept_43fc18b0f9",
+    "misconception": "The current through each parallel inductor is always equal.",
+    "explanation": "Parallel branches have equal voltage, but their currents depend on the inductance values and circuit conditions.",
+    "correction": "For ideal inductors under the same changing voltage, current changes satisfy di_1/dt = v/L_1 and di_2/dt = v/L_2. The smaller inductance has the larger rate of current change."
+  },
+  {
+    "misconception_id": "misc_8a0efb6398",
+    "concept_id": "concept_43fc18b0f9",
+    "misconception": "Parallel inductors must have mutual coupling between them.",
+    "explanation": "Physical proximity does not automatically mean the coils are magnetically coupled in the circuit model.",
+    "correction": "For uncoupled inductors, mutual inductance is taken as zero, and the total current is the sum of the individual branch currents without mutual-inductance terms."
+  },
+  {
+    "misconception_id": "misc_7230a2dbab",
+    "concept_id": "concept_6bb4417781",
+    "misconception": "Alternating current always has a constant magnitude and only changes direction.",
+    "explanation": "In sinusoidal alternating current, both magnitude and direction vary continuously with time.",
+    "correction": "The current follows a sinusoidal pattern, increasing from zero to a maximum, decreasing to zero, reversing direction, and repeating."
+  },
+  {
+    "misconception_id": "misc_03a6893f89",
+    "concept_id": "concept_6bb4417781",
+    "misconception": "The current reverses direction every cycle, so one complete cycle contains only one reversal.",
+    "explanation": "A sinusoidal waveform crosses zero twice during one complete cycle and changes direction at each crossing.",
+    "correction": "One complete cycle contains two direction reversals, separated by half a period."
+  },
+  {
+    "misconception_id": "misc_3267f85bef",
+    "concept_id": "concept_6bb4417781",
+    "misconception": "The average value of a sinusoidal alternating current over a complete cycle is its peak value.",
+    "explanation": "Positive and negative halves of a symmetrical sinusoidal cycle cancel when averaged over a complete cycle.",
+    "correction": "The average current or emf over a complete ideal cycle is zero, while its root-mean-square value represents its effective heating or power-producing value."
+  },
+  {
+    "misconception_id": "misc_0cfdfb7f02",
+    "concept_id": "concept_b680bd6489",
+    "misconception": "The RMS value is the arithmetic average of the instantaneous current or voltage values.",
+    "explanation": "Alternating quantities can have positive and negative values whose arithmetic average over a complete cycle may be zero.",
+    "correction": "RMS is found by squaring instantaneous values, calculating their mean over a cycle, and then taking the square root."
+  },
+  {
+    "misconception_id": "misc_d8cda716e6",
+    "concept_id": "concept_b680bd6489",
+    "misconception": "The RMS value is equal to the peak value.",
+    "explanation": "The peak value is the maximum instantaneous magnitude, whereas RMS represents the effective value over a cycle.",
+    "correction": "For a sinusoidal quantity, RMS value equals peak value divided by the square root of 2."
+  },
+  {
+    "misconception_id": "misc_c993fb28d5",
+    "concept_id": "concept_b680bd6489",
+    "misconception": "An AC supply with zero average voltage has no heating or power effect.",
+    "explanation": "Although the average voltage may be zero, the squared values are positive and can produce a nonzero RMS value and heating effect.",
+    "correction": "RMS voltage or current indicates the equivalent DC value that produces the same heating effect in a resistor."
+  },
+  {
+    "misconception_id": "misc_412e94eb47",
+    "concept_id": "concept_739b563448",
+    "misconception": "The average value of an alternating current over a complete cycle is equal to its peak value divided by two.",
+    "explanation": "Positive and negative half-cycles cancel over a full cycle, so the arithmetic mean over one complete cycle is zero.",
+    "correction": "Use the half-cycle average when a nonzero average value is intended; the full-cycle average of a symmetrical sinusoidal current is zero."
+  },
+  {
+    "misconception_id": "misc_a1fd7f01ec",
+    "concept_id": "concept_739b563448",
+    "misconception": "The average value is the same as the RMS value.",
+    "explanation": "Average value measures the arithmetic mean of instantaneous values, while RMS value represents the equivalent direct-current heating effect.",
+    "correction": "For a sinusoidal current, average value over a half-cycle is 2I₀/π, whereas RMS value is I₀/√2."
+  },
+  {
+    "misconception_id": "misc_7862b2faef",
+    "concept_id": "concept_739b563448",
+    "misconception": "The average value is found by averaging only the positive peak and negative peak values.",
+    "explanation": "A sinusoidal current changes continuously, so its average must account for all instantaneous values over the selected interval.",
+    "correction": "Calculate the arithmetic mean, or integral average, of the instantaneous current throughout the half-cycle or full cycle being considered."
+  },
+  {
+    "misconception_id": "misc_318931bb30",
+    "concept_id": "concept_5e46c6f8a7",
+    "misconception": "The current and voltage are always constant in a purely resistive AC circuit.",
+    "explanation": "Although the circuit contains only resistance, the alternating supply causes both current and voltage to vary sinusoidally with time.",
+    "correction": "Both voltage and current continuously change direction and magnitude sinusoidally, while remaining in phase."
+  },
+  {
+    "misconception_id": "misc_291aa46d4b",
+    "concept_id": "concept_5e46c6f8a7",
+    "misconception": "Current leads or lags voltage in a purely resistive AC circuit.",
+    "explanation": "Phase shifts occur with inductors or capacitors, not with an ideal resistor alone.",
+    "correction": "In a purely resistive AC circuit, current and voltage reach zero, maximum, and minimum values simultaneously."
+  },
+  {
+    "misconception_id": "misc_80f25a28cc",
+    "concept_id": "concept_5e46c6f8a7",
+    "misconception": "Resistance changes the phase relationship between AC voltage and current.",
+    "explanation": "Resistance limits current magnitude but does not introduce a phase difference.",
+    "correction": "Use Ohm’s law, I = V/R, to determine the instantaneous current; the current remains in phase with the voltage."
+  },
+  {
+    "misconception_id": "misc_956b3de2f1",
+    "concept_id": "concept_fffb4e0618",
+    "misconception": "The current leads the voltage by 90 degrees in a purely inductive circuit.",
+    "explanation": "An inductor opposes changes in current, so the voltage reaches its maximum before the current does.",
+    "correction": "In a purely inductive AC circuit, the current lags the voltage by 90 degrees."
+  },
+  {
+    "misconception_id": "misc_7c8885148a",
+    "concept_id": "concept_fffb4e0618",
+    "misconception": "The current and voltage are in phase because the circuit is supplied by AC voltage.",
+    "explanation": "Only a purely resistive circuit has current and voltage in phase; an inductor causes a phase difference.",
+    "correction": "The current is 90 degrees out of phase with the voltage and lags it."
+  },
+  {
+    "misconception_id": "misc_4f702f88a0",
+    "concept_id": "concept_fffb4e0618",
+    "misconception": "The inductor consumes average real power like a resistor.",
+    "explanation": "An ideal inductor stores energy in its magnetic field and returns it to the circuit during each AC cycle.",
+    "correction": "An ideal purely inductive circuit has zero average real power consumption, although it exchanges reactive power with the source."
+  },
+  {
+    "misconception_id": "misc_4a40783d1f",
+    "concept_id": "concept_f29fcaaad0",
+    "misconception": "The current lags the voltage by 90 degrees in a purely capacitive circuit.",
+    "explanation": "This reverses the phase relationship associated with a capacitor.",
+    "correction": "In a purely capacitive AC circuit, the current leads the voltage by 90 degrees."
+  },
+  {
+    "misconception_id": "misc_59ec04e836",
+    "concept_id": "concept_f29fcaaad0",
+    "misconception": "The current and voltage are in phase because the circuit is connected to an AC source.",
+    "explanation": "AC sources do not guarantee that current and voltage are in phase; the circuit element determines their phase relationship.",
+    "correction": "For an ideal capacitor, current and voltage differ in phase by 90 degrees."
+  },
+  {
+    "misconception_id": "misc_c537656117",
+    "concept_id": "concept_f29fcaaad0",
+    "misconception": "A capacitor continuously consumes real power like a resistor.",
+    "explanation": "An ideal capacitor stores energy in its electric field and returns it to the circuit each cycle rather than dissipating it as heat.",
+    "correction": "An ideal capacitor has zero average real power consumption, although it exchanges reactive power with the source."
+  },
+  {
+    "misconception_id": "misc_780817ec6f",
+    "concept_id": "concept_19626bf476",
+    "misconception": "The impedance is found by simply adding resistance and inductive reactance as ordinary numbers.",
+    "explanation": "In a series R-L circuit, resistance and inductive reactance are perpendicular components, not quantities in the same phase.",
+    "correction": "Use Z = R + jX_L for complex impedance, and |Z| = √(R² + X_L²) for its magnitude."
+  },
+  {
+    "misconception_id": "misc_d73b64e0bc",
+    "concept_id": "concept_19626bf476",
+    "misconception": "An ideal inductor has the same opposition to current at every frequency.",
+    "explanation": "Inductive reactance depends on the AC frequency.",
+    "correction": "Calculate inductive reactance using X_L = 2πfL; it increases as frequency increases."
+  },
+  {
+    "misconception_id": "misc_03c3997f3a",
+    "concept_id": "concept_19626bf476",
+    "misconception": "The current and source voltage are in phase because the resistor and inductor are connected in series.",
+    "explanation": "The resistor's voltage is in phase with current, but the inductor's voltage leads current by 90 degrees.",
+    "correction": "The total circuit voltage leads the current by a phase angle φ = tan⁻¹(X_L/R)."
+  },
+  {
+    "misconception_id": "misc_3285b80bb1",
+    "concept_id": "concept_4679caf6b0",
+    "misconception": "Average power is always equal to the product of rms voltage and rms current.",
+    "explanation": "In an R-L series circuit, voltage and current are generally out of phase, so their rms product is apparent power, not average real power.",
+    "correction": "Calculate average power using P = V_rms I_rms cosφ, where cosφ is the power factor."
+  },
+  {
+    "misconception_id": "misc_59ca9b69ea",
+    "concept_id": "concept_4679caf6b0",
+    "misconception": "The inductor consumes real power continuously like the resistor.",
+    "explanation": "An ideal inductor stores energy during part of the AC cycle and returns it during another part, resulting in zero average power consumption.",
+    "correction": "Only the resistance consumes average real power; the inductor contributes reactive power and reduces the power factor."
+  },
+  {
+    "misconception_id": "misc_6dc9fbef71",
+    "concept_id": "concept_4679caf6b0",
+    "misconception": "Power factor is the ratio of rms current to rms voltage.",
+    "explanation": "Power factor is not a direct ratio of current and voltage magnitudes.",
+    "correction": "For a sinusoidal R-L circuit, power factor is cosφ, the cosine of the phase angle between voltage and current."
+  },
+  {
+    "misconception_id": "misc_af970e4331",
+    "concept_id": "concept_eab7c7445e",
+    "misconception": "Resistance and capacitive reactance are added directly to find impedance.",
+    "explanation": "Resistance and capacitive reactance are out of phase in a series R-C circuit, so they cannot be combined as ordinary scalar quantities.",
+    "correction": "Use vector addition: Z = √(R² + Xc²), where Xc is the capacitive reactance."
+  },
+  {
+    "misconception_id": "misc_26ac862d81",
+    "concept_id": "concept_eab7c7445e",
+    "misconception": "The impedance of a series R-C circuit is always greater than R + Xc.",
+    "explanation": "Because R and Xc are perpendicular phasor components, the impedance magnitude is less than their direct sum.",
+    "correction": "The impedance magnitude is Z = √(R² + Xc²), which lies between the larger component and the direct sum."
+  },
+  {
+    "misconception_id": "misc_4494e689cf",
+    "concept_id": "concept_eab7c7445e",
+    "misconception": "Capacitive reactance increases as AC frequency increases.",
+    "explanation": "Capacitive reactance is inversely proportional to frequency.",
+    "correction": "Use Xc = 1/(2πfC): increasing frequency or capacitance decreases Xc and changes the total impedance."
+  },
+  {
+    "misconception_id": "misc_106ff37124",
+    "concept_id": "concept_8d88f13615",
+    "misconception": "Impedance is simply the sum of resistance, inductive reactance, and capacitive reactance.",
+    "explanation": "In a series RLC circuit, inductive and capacitive reactances oppose each other rather than adding directly.",
+    "correction": "Calculate the net reactance as X_L - X_C, then combine it with resistance using Z = √(R² + (X_L - X_C)²)."
+  },
+  {
+    "misconception_id": "misc_1bb7771d45",
+    "concept_id": "concept_8d88f13615",
+    "misconception": "Inductive and capacitive reactance always increase the circuit's impedance.",
+    "explanation": "Their effects can partially or completely cancel when they have similar magnitudes.",
+    "correction": "Compare X_L and X_C. At resonance, where X_L = X_C, the net reactance is zero and impedance equals the resistance."
+  },
+  {
+    "misconception_id": "misc_0e3d6b1c42",
+    "concept_id": "concept_8d88f13615",
+    "misconception": "Impedance is measured only in ohms of resistance and has no phase-related component.",
+    "explanation": "Impedance includes both resistance and reactance, which affects the phase relationship between voltage and current.",
+    "correction": "Treat impedance as a complex quantity, Z = R + j(X_L - X_C), with magnitude measured in ohms."
+  },
+  {
+    "misconception_id": "misc_b124ed6838",
+    "concept_id": "concept_41ccbd759e",
+    "misconception": "Current is always in phase with the applied voltage in an AC circuit.",
+    "explanation": "In circuits containing reactance, energy storage in inductors or capacitors can cause current and voltage to be out of phase.",
+    "correction": "The phase relationship depends on the relative magnitudes of inductive and capacitive reactance."
+  },
+  {
+    "misconception_id": "misc_9c0b5ba2cf",
+    "concept_id": "concept_41ccbd759e",
+    "misconception": "A circuit is inductive whenever it contains an inductor, regardless of its capacitors.",
+    "explanation": "Both inductive and capacitive reactances contribute to the circuit’s overall phase behavior.",
+    "correction": "The circuit is net inductive when inductive reactance is greater than capacitive reactance, and net capacitive when capacitive reactance is greater."
+  },
+  {
+    "misconception_id": "misc_21ff2641d1",
+    "concept_id": "concept_41ccbd759e",
+    "misconception": "Greater capacitive reactance makes current lead voltage more strongly.",
+    "explanation": "Capacitive dominance determines that current leads voltage, but the degree of phase shift depends on the net reactance and resistance.",
+    "correction": "Current leads voltage when capacitive reactance exceeds inductive reactance; the phase angle depends on the complete circuit impedance."
+  },
+  {
+    "misconception_id": "misc_a900a7085c",
+    "concept_id": "concept_02c2da5105",
+    "misconception": "At series resonance, the circuit impedance is zero.",
+    "explanation": "The inductive and capacitive reactances cancel, but the circuit's resistance remains.",
+    "correction": "At series resonance, the net reactance is zero and impedance equals the circuit resistance, so it is at a minimum rather than necessarily zero."
+  },
+  {
+    "misconception_id": "misc_cd3d6a680f",
+    "concept_id": "concept_02c2da5105",
+    "misconception": "Resonance occurs when the inductance equals the capacitance.",
+    "explanation": "Inductance and capacitance have different units and are not directly equal at resonance.",
+    "correction": "Resonance occurs when the magnitudes of inductive reactance and capacitive reactance are equal: XL = XC."
+  },
+  {
+    "misconception_id": "misc_7b68736081",
+    "concept_id": "concept_02c2da5105",
+    "misconception": "The voltage across each reactive component must be zero at resonance.",
+    "explanation": "The reactances cancel in their effects on total voltage, but substantial, opposing voltages can exist across the inductor and capacitor.",
+    "correction": "At series resonance, the inductor and capacitor voltages may be large and opposite in phase, while their vector sum is zero."
+  },
+  {
+    "misconception_id": "misc_ef83917125",
+    "concept_id": "concept_d09c525f74",
+    "misconception": "The Q-factor is the voltage across the inductor or capacitor at all frequencies.",
+    "explanation": "Voltage magnification by Q applies specifically at the resonant frequency in a series resonant circuit.",
+    "correction": "At resonance, Q equals the ratio of the voltage across the inductor or capacitor to the applied voltage."
+  },
+  {
+    "misconception_id": "misc_bc59bc5804",
+    "concept_id": "concept_d09c525f74",
+    "misconception": "A higher Q-factor means a larger applied voltage.",
+    "explanation": "Q describes voltage magnification within the circuit, not the magnitude of the source voltage.",
+    "correction": "For a fixed applied voltage, a higher Q produces a greater voltage across the inductor or capacitor at resonance."
+  },
+  {
+    "misconception_id": "misc_83925d87eb",
+    "concept_id": "concept_d09c525f74",
+    "misconception": "The Q-factor is always equal to the voltage across both the inductor and capacitor added together.",
+    "explanation": "At resonance, the inductor and capacitor voltages are equal in magnitude but opposite in phase, so they cancel in the total circuit voltage.",
+    "correction": "Q is the ratio of either individual reactive-component voltage to the applied voltage, not their sum."
+  },
+  {
+    "misconception_id": "misc_040eac6058",
+    "concept_id": "concept_04da8ecccc",
+    "misconception": "A transformer can operate normally with direct current.",
+    "explanation": "Direct current produces a steady magnetic field after the initial switch-on, so it does not provide continuously changing magnetic flux for induction.",
+    "correction": "Transformers require alternating current or another changing current to induce a voltage in the secondary coil."
+  },
+  {
+    "misconception_id": "misc_dd7a7bb4b6",
+    "concept_id": "concept_04da8ecccc",
+    "misconception": "A transformer creates additional electrical energy.",
+    "explanation": "A transformer transfers energy between coils but does not generate energy; practical transformers lose some energy as heat and sound.",
+    "correction": "The output power is approximately equal to, but slightly less than, the input power."
+  },
+  {
+    "misconception_id": "misc_9a6430e420",
+    "concept_id": "concept_04da8ecccc",
+    "misconception": "The primary and secondary coils are electrically connected.",
+    "explanation": "In an ordinary transformer, the coils are separate and energy is transferred through the changing magnetic field in the core.",
+    "correction": "The coils are magnetically coupled, not directly electrically connected."
+  },
+  {
+    "misconception_id": "misc_1ed509d71c",
+    "concept_id": "concept_52faab1a94",
+    "misconception": "A transformer always increases voltage.",
+    "explanation": "The secondary voltage can be higher or lower than the primary voltage depending on the turns ratio.",
+    "correction": "If the secondary has more turns, voltage increases; if it has fewer turns, voltage decreases."
+  },
+  {
+    "misconception_id": "misc_794d4da6ff",
+    "concept_id": "concept_52faab1a94",
+    "misconception": "The voltage ratio equals the inverse turns ratio.",
+    "explanation": "Students may reverse the primary and secondary terms when applying the relationship.",
+    "correction": "Use Vs/Vp = Ns/Np, where voltage and turns are paired for the same winding."
+  },
+  {
+    "misconception_id": "misc_eabc8fd5a1",
+    "concept_id": "concept_52faab1a94",
+    "misconception": "An ideal transformer produces more electrical power when it increases voltage.",
+    "explanation": "Increasing voltage does not create additional power in an ideal transformer.",
+    "correction": "For an ideal transformer, input power equals output power, so increased voltage corresponds to decreased current."
+  },
+  {
+    "misconception_id": "misc_ffbf6085fc",
+    "concept_id": "concept_258c353dd8",
+    "misconception": "An ideal transformer can have an efficiency greater than 100%.",
+    "explanation": "Efficiency compares useful output power with supplied input power, so losses prevent a real transformer from exceeding 100%.",
+    "correction": "Transformer efficiency is at most 100%, with real transformers having less than 100% due to energy losses."
+  },
+  {
+    "misconception_id": "misc_2cecc7be50",
+    "concept_id": "concept_258c353dd8",
+    "misconception": "A transformer produces power from nothing because it changes voltage and current.",
+    "explanation": "A transformer transfers electrical energy between circuits rather than creating it.",
+    "correction": "Ignoring losses, input power approximately equals output power, so increasing voltage results in a corresponding decrease in current."
+  },
+  {
+    "misconception_id": "misc_e56810484d",
+    "concept_id": "concept_258c353dd8",
+    "misconception": "Transformer efficiency is the ratio of secondary voltage to primary voltage.",
+    "explanation": "The voltage ratio describes voltage transformation, not how much input power is delivered to the output.",
+    "correction": "Efficiency is calculated as output power divided by input power, often expressed as a percentage."
+  }
+]

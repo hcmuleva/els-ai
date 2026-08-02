@@ -1,0 +1,562 @@
+{
+  "key": "9.4",
+  "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+  "questions": [
+    {
+      "question": {
+        "id": "821f5a31-42c6-5580-b07c-87e75d509a9c",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(f(x)=x^3-3x^2-9x+7\\). On which interval is \\(f\\) strictly decreasing?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(f'(x)=3x^2-6x-9=3(x+1)(x-3)\\). Hence \\(f'(x)<0\\) for \\(-1<x<3\\), so \\(f\\) is strictly decreasing on \\(\\left(-1,3\\right)\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 94,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+            "concept_ids": [
+              "concept_7efa7a3bb2",
+              "concept_e929a4228c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              133,
+              134,
+              135,
+              136,
+              137,
+              274,
+              275,
+              276,
+              277,
+              278,
+              279
+            ],
+            "source_chunk_ids": [
+              "chunk_47c2c2b257",
+              "chunk_e31016cd76"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_1_3_right_1",
+              "label": "\\(\\left(-1,3\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(f'(x)<0\\) between the critical points."
+            },
+            {
+              "id": "left_infty_1_right_cup_l_2",
+              "label": "\\(\\left(-\\infty,-1\\right)\\cup\\left(3,\\infty\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative is positive on these intervals."
+            },
+            {
+              "id": "left_infty_3_right_3",
+              "label": "\\(\\left(-\\infty,3\\right)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative changes sign at \\(x=-1\\)."
+            },
+            {
+              "id": "left_1_infty_right_4",
+              "label": "\\(\\left(-1,\\infty\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative changes sign at \\(x=3\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "27b1b2b5-25dc-58db-80f7-55a99d2c8ed1",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate \\(\\int_{-2}^{2}\\left|x^2-1\\right|\\,dx\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using symmetry, \\(\\int_{-2}^{2}\\left|x^2-1\\right|dx=2\\left[\\int_0^1(1-x^2)dx+\\int_1^2(x^2-1)dx\\right]=2\\left[\\frac{2}{3}+\\frac{4}{3}\\right]=4\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 95,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+            "concept_ids": [
+              "concept_7efa7a3bb2",
+              "concept_e929a4228c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              133,
+              134,
+              135,
+              136,
+              137,
+              274,
+              275,
+              276,
+              277,
+              278,
+              279
+            ],
+            "source_chunk_ids": [
+              "chunk_47c2c2b257",
+              "chunk_e31016cd76"
+            ]
+          },
+          "options": [
+            {
+              "id": "4_1",
+              "label": "\\(4\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Symmetry and splitting at \\(x=1\\) give total area \\(4\\)."
+            },
+            {
+              "id": "frac_8_3_2",
+              "label": "\\(\\frac{8}{3}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits the contribution from \\(1<x<2\\)."
+            },
+            {
+              "id": "frac_10_3_3",
+              "label": "\\(\\frac{10}{3}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The absolute-value intervals are handled incorrectly."
+            },
+            {
+              "id": "frac_14_3_4",
+              "label": "\\(\\frac{14}{3}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This results from not reversing the negative part."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "19451d3e-1180-5e70-b15f-9549ebfa83b9",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the area enclosed between the curves \\(y=x\\) and \\(y=x^2\\) in the interval \\(0\\leq x\\leq 1\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For \\(0\\leq x\\leq 1\\), \\(x\\geq x^2\\). Therefore, area \\(=\\int_0^1(x-x^2)dx=\\left[\\frac{x^2}{2}-\\frac{x^3}{3}\\right]_0^1=\\frac{1}{6}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 96,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+            "concept_ids": [
+              "concept_7efa7a3bb2",
+              "concept_e929a4228c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              133,
+              134,
+              135,
+              136,
+              137,
+              274,
+              275,
+              276,
+              277,
+              278,
+              279
+            ],
+            "source_chunk_ids": [
+              "chunk_47c2c2b257",
+              "chunk_e31016cd76"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_1_6_1",
+              "label": "\\(\\frac{1}{6}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The area is \\(\\int_0^1(x-x^2)\\,dx\\)."
+            },
+            {
+              "id": "frac_1_3_2",
+              "label": "\\(\\frac{1}{3}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the integral of only one boundary function."
+            },
+            {
+              "id": "frac_1_2_3",
+              "label": "\\(\\frac{1}{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This ignores the lower curve \\(y=x^2\\)."
+            },
+            {
+              "id": "frac_2_3_4",
+              "label": "\\(\\frac{2}{3}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The difference of the curves is integrated incorrectly."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "function-region",
+            "width": 360,
+            "height": 300,
+            "xmin": 0.0,
+            "xmax": 1.0,
+            "ymin": 0.0,
+            "ymax": 1.0,
+            "equal_scale": false,
+            "title": null,
+            "elements": [
+              {
+                "type": "grid",
+                "step_x": 1.0,
+                "step_y": 1.0
+              },
+              {
+                "type": "axes",
+                "role": null,
+                "x_label": "x",
+                "y_label": "y",
+                "ticks": true,
+                "tick_step": 1.0
+              },
+              {
+                "type": "function-region",
+                "upper_expr": "x",
+                "lower_expr": "x**2",
+                "domain": [
+                  0.0,
+                  1.0
+                ],
+                "samples": 120,
+                "fill": "#93c5fd",
+                "fill_opacity": 0.35
+              },
+              {
+                "type": "function",
+                "role": null,
+                "expr": "x",
+                "domain": [
+                  0.0,
+                  1.0
+                ],
+                "samples": 120,
+                "label": null,
+                "color": "#2563eb"
+              },
+              {
+                "type": "function",
+                "role": null,
+                "expr": "x**2",
+                "domain": [
+                  0.0,
+                  1.0
+                ],
+                "samples": 120,
+                "label": null,
+                "color": "#dc2626"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\" data-diagram-kind=\"function-region\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g data-spec-index=\"0\" data-element-type=\"grid\"><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"34\" y1=\"34\" x2=\"34\" y2=\"266\"/><line x1=\"326\" y1=\"34\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"34\" x2=\"326\" y2=\"34\"/></g></g><g data-spec-index=\"1\" data-element-type=\"axes\"><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"34\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"326\" y1=\"263\" x2=\"326\" y2=\"269\"/><text x=\"326\" y=\"280\" text-anchor=\"middle\">1</text><line x1=\"31\" y1=\"34\" x2=\"37\" y2=\"34\"/><text x=\"28\" y=\"37\" text-anchor=\"end\">1</text></g><text x=\"320\" y=\"258\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"38\" y=\"30\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">y</text></g><g data-spec-index=\"2\" data-element-type=\"function-region\"><polygon points=\"34,266 36.43,264.07 38.87,262.13 41.3,260.2 43.73,258.27 46.17,256.33 48.6,254.4 51.03,252.47 53.47,250.53 55.9,248.6 58.33,246.67 60.77,244.73 63.2,242.8 65.63,240.87 68.07,238.93 70.5,237 72.93,235.07 75.37,233.13 77.8,231.2 80.23,229.27 82.67,227.33 85.1,225.4 87.53,223.47 89.97,221.53 92.4,219.6 94.83,217.67 97.27,215.73 99.7,213.8 102.13,211.87 104.57,209.93 107,208 109.43,206.07 111.87,204.13 114.3,202.2 116.73,200.27 119.17,198.33 121.6,196.4 124.03,194.47 126.47,192.53 128.9,190.6 131.33,188.67 133.77,186.73 136.2,184.8 138.63,182.87 141.07,180.93 143.5,179 145.93,177.07 148.37,175.13 150.8,173.2 153.23,171.27 155.67,169.33 158.1,167.4 160.53,165.47 162.97,163.53 165.4,161.6 167.83,159.67 170.27,157.73 172.7,155.8 175.13,153.87 177.57,151.93 180,150 182.43,148.07 184.87,146.13 187.3,144.2 189.73,142.27 192.17,140.33 194.6,138.4 197.03,136.47 199.47,134.53 201.9,132.6 204.33,130.67 206.77,128.73 209.2,126.8 211.63,124.87 214.07,122.93 216.5,121 218.93,119.07 221.37,117.13 223.8,115.2 226.23,113.27 228.67,111.33 231.1,109.4 233.53,107.47 235.97,105.53 238.4,103.6 240.83,101.67 243.27,99.73 245.7,97.8 248.13,95.87 250.57,93.93 253,92 255.43,90.07 257.87,88.13 260.3,86.2 262.73,84.27 265.17,82.33 267.6,80.4 270.03,78.47 272.47,76.53 274.9,74.6 277.33,72.67 279.77,70.73 282.2,68.8 284.63,66.87 287.07,64.93 289.5,63 291.93,61.07 294.37,59.13 296.8,57.2 299.23,55.27 301.67,53.33 304.1,51.4 306.53,49.47 308.97,47.53 311.4,45.6 313.83,43.67 316.27,41.73 318.7,39.8 321.13,37.87 323.57,35.93 326,34 326,34 323.57,37.85 321.13,41.67 318.7,45.46 316.27,49.21 313.83,52.93 311.4,56.62 308.97,60.28 306.53,63.9 304.1,67.49 301.67,71.06 299.23,74.58 296.8,78.08 294.37,81.54 291.93,84.98 289.5,88.38 287.07,91.74 284.63,95.08 282.2,98.38 279.77,101.65 277.33,104.89 274.9,108.1 272.47,111.27 270.03,114.41 267.6,117.52 265.17,120.6 262.73,123.64 260.3,126.65 257.87,129.64 255.43,132.58 253,135.5 250.57,138.38 248.13,141.24 245.7,144.06 243.27,146.84 240.83,149.6 238.4,152.32 235.97,155.01 233.53,157.67 231.1,160.29 228.67,162.89 226.23,165.45 223.8,167.98 221.37,170.48 218.93,172.94 216.5,175.38 214.07,177.78 211.63,180.14 209.2,182.48 206.77,184.78 204.33,187.06 201.9,189.3 199.47,191.5 197.03,193.68 194.6,195.82 192.17,197.93 189.73,200.01 187.3,202.06 184.87,204.07 182.43,206.05 180,208 177.57,209.92 175.13,211.8 172.7,213.66 170.27,215.48 167.83,217.26 165.4,219.02 162.97,220.74 160.53,222.44 158.1,224.09 155.67,225.72 153.23,227.32 150.8,228.88 148.37,230.41 145.93,231.91 143.5,233.38 141.07,234.81 138.63,236.21 136.2,237.58 133.77,238.92 131.33,240.22 128.9,241.5 126.47,242.74 124.03,243.94 121.6,245.12 119.17,246.26 116.73,247.38 114.3,248.45 111.87,249.5 109.43,250.52 107,251.5 104.57,252.45 102.13,253.37 99.7,254.25 97.27,255.11 94.83,255.93 92.4,256.72 89.97,257.48 87.53,258.2 85.1,258.89 82.67,259.56 80.23,260.18 77.8,260.78 75.37,261.34 72.93,261.88 70.5,262.38 68.07,262.84 65.63,263.28 63.2,263.68 60.77,264.05 58.33,264.39 55.9,264.69 53.47,264.97 51.03,265.21 48.6,265.42 46.17,265.6 43.73,265.74 41.3,265.86 38.87,265.94 36.43,265.98 34,266\" fill=\"#93c5fd\" fill-opacity=\"0.35\" stroke=\"none\"/></g><g data-spec-index=\"3\" data-element-type=\"function\"><polyline points=\"34,266 36.43,264.07 38.87,262.13 41.3,260.2 43.73,258.27 46.17,256.33 48.6,254.4 51.03,252.47 53.47,250.53 55.9,248.6 58.33,246.67 60.77,244.73 63.2,242.8 65.63,240.87 68.07,238.93 70.5,237 72.93,235.07 75.37,233.13 77.8,231.2 80.23,229.27 82.67,227.33 85.1,225.4 87.53,223.47 89.97,221.53 92.4,219.6 94.83,217.67 97.27,215.73 99.7,213.8 102.13,211.87 104.57,209.93 107,208 109.43,206.07 111.87,204.13 114.3,202.2 116.73,200.27 119.17,198.33 121.6,196.4 124.03,194.47 126.47,192.53 128.9,190.6 131.33,188.67 133.77,186.73 136.2,184.8 138.63,182.87 141.07,180.93 143.5,179 145.93,177.07 148.37,175.13 150.8,173.2 153.23,171.27 155.67,169.33 158.1,167.4 160.53,165.47 162.97,163.53 165.4,161.6 167.83,159.67 170.27,157.73 172.7,155.8 175.13,153.87 177.57,151.93 180,150 182.43,148.07 184.87,146.13 187.3,144.2 189.73,142.27 192.17,140.33 194.6,138.4 197.03,136.47 199.47,134.53 201.9,132.6 204.33,130.67 206.77,128.73 209.2,126.8 211.63,124.87 214.07,122.93 216.5,121 218.93,119.07 221.37,117.13 223.8,115.2 226.23,113.27 228.67,111.33 231.1,109.4 233.53,107.47 235.97,105.53 238.4,103.6 240.83,101.67 243.27,99.73 245.7,97.8 248.13,95.87 250.57,93.93 253,92 255.43,90.07 257.87,88.13 260.3,86.2 262.73,84.27 265.17,82.33 267.6,80.4 270.03,78.47 272.47,76.53 274.9,74.6 277.33,72.67 279.77,70.73 282.2,68.8 284.63,66.87 287.07,64.93 289.5,63 291.93,61.07 294.37,59.13 296.8,57.2 299.23,55.27 301.67,53.33 304.1,51.4 306.53,49.47 308.97,47.53 311.4,45.6 313.83,43.67 316.27,41.73 318.7,39.8 321.13,37.87 323.57,35.93 326,34\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2\"/></g><g data-spec-index=\"4\" data-element-type=\"function\"><polyline points=\"34,266 36.43,265.98 38.87,265.94 41.3,265.86 43.73,265.74 46.17,265.6 48.6,265.42 51.03,265.21 53.47,264.97 55.9,264.69 58.33,264.39 60.77,264.05 63.2,263.68 65.63,263.28 68.07,262.84 70.5,262.38 72.93,261.88 75.37,261.34 77.8,260.78 80.23,260.18 82.67,259.56 85.1,258.89 87.53,258.2 89.97,257.48 92.4,256.72 94.83,255.93 97.27,255.11 99.7,254.25 102.13,253.37 104.57,252.45 107,251.5 109.43,250.52 111.87,249.5 114.3,248.45 116.73,247.38 119.17,246.26 121.6,245.12 124.03,243.94 126.47,242.74 128.9,241.5 131.33,240.22 133.77,238.92 136.2,237.58 138.63,236.21 141.07,234.81 143.5,233.38 145.93,231.91 148.37,230.41 150.8,228.88 153.23,227.32 155.67,225.72 158.1,224.09 160.53,222.44 162.97,220.74 165.4,219.02 167.83,217.26 170.27,215.48 172.7,213.66 175.13,211.8 177.57,209.92 180,208 182.43,206.05 184.87,204.07 187.3,202.06 189.73,200.01 192.17,197.93 194.6,195.82 197.03,193.68 199.47,191.5 201.9,189.3 204.33,187.06 206.77,184.78 209.2,182.48 211.63,180.14 214.07,177.78 216.5,175.38 218.93,172.94 221.37,170.48 223.8,167.98 226.23,165.45 228.67,162.89 231.1,160.29 233.53,157.67 235.97,155.01 238.4,152.32 240.83,149.6 243.27,146.84 245.7,144.06 248.13,141.24 250.57,138.38 253,135.5 255.43,132.58 257.87,129.64 260.3,126.65 262.73,123.64 265.17,120.6 267.6,117.52 270.03,114.41 272.47,111.27 274.9,108.1 277.33,104.89 279.77,101.65 282.2,98.38 284.63,95.08 287.07,91.74 289.5,88.38 291.93,84.98 294.37,81.54 296.8,78.08 299.23,74.58 301.67,71.06 304.1,67.49 306.53,63.9 308.97,60.28 311.4,56.62 313.83,52.93 316.27,49.21 318.7,45.46 321.13,41.67 323.57,37.85 326,34\" fill=\"none\" stroke=\"#dc2626\" stroke-width=\"2\"/></g></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "6be3de3d-b533-5bac-942f-b9b276bc13d6",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate \\(\\int_0^{\\frac{\\pi}{2}}x\\sin x\\,dx\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Taking \\(u=x\\) and \\(dv=\\sin x\\,dx\\), \\(\\int x\\sin x\\,dx=-x\\cos x+\\sin x\\). Hence \\(\\int_0^{\\frac{\\pi}{2}}x\\sin x\\,dx=1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 97,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+            "concept_ids": [
+              "concept_7efa7a3bb2",
+              "concept_e929a4228c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              133,
+              134,
+              135,
+              136,
+              137,
+              274,
+              275,
+              276,
+              277,
+              278,
+              279
+            ],
+            "source_chunk_ids": [
+              "chunk_47c2c2b257",
+              "chunk_e31016cd76"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_1",
+              "label": "\\(1\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Integration by parts gives \\(\\left[-x\\cos x+\\sin x\\right]_0^{\\frac{\\pi}{2}}=1\\)."
+            },
+            {
+              "id": "frac_pi_2_2",
+              "label": "\\(\\frac{\\pi}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This ignores the factor \\(x\\) during integration."
+            },
+            {
+              "id": "0_3",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The integrand is nonnegative and not identically zero."
+            },
+            {
+              "id": "frac_pi_2_4_4",
+              "label": "\\(\\frac{\\pi^2}{4}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not follow from the integration-by-parts result."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "050521fa-049e-5ebe-977d-89f26aa166e8",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(F(x)=\\int_0^x(t^2-4t+3)\\,dt\\). Which statement is correct?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "By the Fundamental Theorem of Calculus, \\(F'(x)=x^2-4x+3=(x-1)(x-3)\\). The sign pattern is positive, negative, positive across \\(1\\) and \\(3\\), so \\(x=1\\) is a local maximum and \\(x=3\\) is a local minimum.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 98,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+            "concept_ids": [
+              "concept_7efa7a3bb2",
+              "concept_e929a4228c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:9.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              133,
+              134,
+              135,
+              136,
+              137,
+              274,
+              275,
+              276,
+              277,
+              278,
+              279
+            ],
+            "source_chunk_ids": [
+              "chunk_47c2c2b257",
+              "chunk_e31016cd76"
+            ]
+          },
+          "options": [
+            {
+              "id": "F_has_a_local_maximum_at_1",
+              "label": "\\(F\\) has a local maximum at \\(x=1\\) and a local minimum at \\(x=3\\).",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(F'\\) changes from positive to negative at \\(1\\), then negative to positive at \\(3\\)."
+            },
+            {
+              "id": "F_has_a_local_minimum_at_2",
+              "label": "\\(F\\) has a local minimum at \\(x=1\\) and a local maximum at \\(x=3\\).",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative sign changes give the opposite classification."
+            },
+            {
+              "id": "F_is_increasing_on_1_3_3",
+              "label": "\\(F\\) is increasing on \\((1,3)\\).",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(F'(x)<0\\) on \\((1,3)\\)."
+            },
+            {
+              "id": "F_has_no_critical_points_4",
+              "label": "\\(F\\) has no critical points.",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(F'(x)=0\\) at \\(x=1\\) and \\(x=3\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_47c2c2b257",
+    "chunk_e31016cd76"
+  ],
+  "source_pages": [
+    133,
+    134,
+    135,
+    136,
+    137,
+    274,
+    275,
+    276,
+    277,
+    278,
+    279
+  ],
+  "rejected": []
+}

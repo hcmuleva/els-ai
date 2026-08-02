@@ -1,0 +1,6975 @@
+[
+  {
+    "concept_id": "concept_18ba8993a5",
+    "concept_name": "Are related if there",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_694aaa13ce",
+    "concept_name": "Not bother whether there",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f3710c5f8f",
+    "concept_name": "A set A",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_c97b0fbfcd",
+    "concept_name": "This",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_58987c858d",
+    "concept_name": "| a – b | ≥ 0}",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_d472d9b507",
+    "concept_name": "Is sister of b}",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_0071b4ac70",
+    "concept_name": "Hence, R = φ, showing that R",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_8ea47f2ca3",
+    "concept_name": "Shows that R′ = A × A",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_7a6518539f",
+    "concept_name": "Similarly, O",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_edd0c6db70",
+    "concept_name": "|a – b|",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f0b1cfc8d1",
+    "concept_name": "P ≠ (0, 0",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_876c2a45fa",
+    "concept_name": "What",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f6d9a0a8b2",
+    "concept_name": "Element of Y",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_4e55935395",
+    "concept_name": "co-domain N",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_0e2517aa10",
+    "concept_name": "Fact, this",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_8687faec2d",
+    "concept_name": "Onto, where R∗∗∗ ∗∗",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_be656c6c50",
+    "concept_name": "G, denoted by gof",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_0ce509d661",
+    "concept_name": "Is invertible and g",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_9829504557",
+    "concept_name": "Elements of these sets",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_3a0afcf92e",
+    "concept_name": "⇒ x – y",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_58365f9579",
+    "concept_name": "Thus, the only equivalence relation bigger than R1",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_388996f18c",
+    "concept_name": "X, consider P(X) which",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_725cf65772",
+    "concept_name": "® Empty relation",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d320068a12",
+    "concept_name": "Domain of sine function",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_6158a11282",
+    "concept_name": "Thus, sin –1",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_772e12a945",
+    "concept_name": "I.e., if (a, b",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_9d0c94a7eb",
+    "concept_name": "Like sine function, the cosine function",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_6440031c92",
+    "concept_name": "Thus, cos –1",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_58e5c80a3a",
+    "concept_name": "cosec function",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_4eb771dee8",
+    "concept_name": "Bijective and its range",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_0e9bd5087d",
+    "concept_name": "Y = sec x",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_73b5f8439d",
+    "concept_name": "Tan function (tangent function",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_63f15c0a01",
+    "concept_name": "Cot function (cotangent function",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_13046ffd07",
+    "concept_name": "whose domain",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_e4bac1870a",
+    "concept_name": "= sec–1 x, which",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_81dd4bb09c",
+    "concept_name": "  , which",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_e368b5de70",
+    "concept_name": "Evolution of concept of matrices",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5b983be026",
+    "concept_name": "Number inside [ ]",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_b2e878f930",
+    "concept_name": "indicate that A",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_cfcc9108c0",
+    "concept_name": "   ",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_8118c27580",
+    "concept_name": "General, A = [aij] m × 1",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_7820085f56",
+    "concept_name": "= −  ",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_282c54a8eb",
+    "concept_name": "Bij] 1 × n",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_c73bdcff68",
+    "concept_name": "M = n and",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_033a686ca9",
+    "concept_name": "  − ",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_5f576ccf2d",
+    "concept_name": "General, A = [aij] m × m",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_8ecba21078",
+    "concept_name": "ANote If A = [aij]",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_9e06ecb54a",
+    "concept_name": "Elements are zero, that",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_76cf535a53",
+    "concept_name": "= [aij]m × n\\",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_2bbe087db2",
+    "concept_name": "Reprint 2026-27 44 MATHEMA TICS This new matrix",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5f100016f1",
+    "concept_name": "We observe that the sum of two matrices",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_97a03f5a30",
+    "concept_name": "=   ",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_fe61d40c52",
+    "concept_name": "A and B",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_832cecf012",
+    "concept_name": "If A = [aij] m × n",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_c6830c0099",
+    "concept_name": "Difference A – B",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_025e479b18",
+    "concept_name": "Other words, O",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_873983e1ba",
+    "concept_name": "So – A",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_0ad2db1bb7",
+    "concept_name": "– 2A (– 2A",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_775c9bca3c",
+    "concept_name": "Matrix C = [cik]m × p",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_774f2f7d2b",
+    "concept_name": "This",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_69a4584edc",
+    "concept_name": "Solution Since A",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_e7f081cc0c",
+    "concept_name": "Thus, if the product of two matrices",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_072d793569",
+    "concept_name": "  and I",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_c10b106477",
+    "concept_name": " − − ",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_e91466bbad",
+    "concept_name": "Entries, A + A′",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_333ff01f96",
+    "concept_name": "= A + A′",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_2f52b474e9",
+    "concept_name": "That (A + A′",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_6e5a9e458d",
+    "concept_name": "+ B )2 ′",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_e922dc48f4",
+    "concept_name": "– B )2 ′",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_9e60565c21",
+    "concept_name": "I) (A + A′",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_0ce7fc9b97",
+    "concept_name": "Then AB – BA",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_dfae9c57a8",
+    "concept_name": "Definition 6 If A",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d5e497f772",
+    "concept_name": "Thus B",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_199cd19e1c",
+    "concept_name": "If B",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_7b651f267b",
+    "concept_name": "Since B",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_8a66376b33",
+    "concept_name": "That AB – BA",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f6e7575cbe",
+    "concept_name": "Symmetric, then (A) A",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_97739b1965",
+    "concept_name": "® [aij]m × 1",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_c00ae12842",
+    "concept_name": "This",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_dd8e98edf3",
+    "concept_name": "If M",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d8cec0eda9",
+    "concept_name": "Determinant of A",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_6da6527ccd",
+    "concept_name": "Where n = 2",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_4ae4626177",
+    "concept_name": "Remarks (i) Since area",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_9fe3c6026b",
+    "concept_name": "K if D(k, 0",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_2dfc993eb0",
+    "concept_name": "Y = 3x, which",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_006491a90e",
+    "concept_name": "Aij of a determinant",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_b4e58970a4",
+    "concept_name": "Order n(n ≥ 2",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d696a1a6e1",
+    "concept_name": "= [aij]n × n",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_770c8c8d5c",
+    "concept_name": "I , where I",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_6a2ecba6d2",
+    "concept_name": "Is zero Hence A",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_4e01e029c5",
+    "concept_name": "Hence A",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_1165f6a547",
+    "concept_name": "General, if A",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_897338d73a",
+    "concept_name": "Case I If A",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_01ae80f4f1",
+    "concept_name": "Method of solving system of equations",
+    "candidate_scores": {
+      "MCQ": 0.4,
+      "Scenario": 0.4,
+      "Problem Solving": 0.85,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 1.0
+    },
+    "recommended_types": [
+      "Practical",
+      "Problem Solving"
+    ],
+    "overall_suitability": 0.75
+  },
+  {
+    "concept_id": "concept_6916f5790e",
+    "concept_name": "Case II If A",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_909b0ae28a",
+    "concept_name": "Determinant of matrix A",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_8dc3602a23",
+    "concept_name": "Definition 1 Suppose f",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_04754e6456",
+    "concept_name": "That the common value",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_d504b30bdd",
+    "concept_name": "It may be noted that x = 0",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d80c23c23f",
+    "concept_name": "Suppose f",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_6a4e48c609",
+    "concept_name": "Continuity of f at a",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_522d7253d9",
+    "concept_name": "Domain of f",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_492153c7f3",
+    "concept_name": "Reprint 2026-27 MATHEMATICS108 Example 7",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_8dced28b17",
+    "concept_name": "This",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_dfc38c0a02",
+    "concept_name": "Thus f",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_fed4d06695",
+    "concept_name": "Given in Fig 5.3",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_e8b6d0f680",
+    "concept_name": "Hence x = 1",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5da136fd72",
+    "concept_name": "Solution Recall that a function p",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f6c6b570f1",
+    "concept_name": "Number and hence p",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_547a101204",
+    "concept_name": "3) above, if f",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_042aacf7e8",
+    "concept_name": "4) above, if f",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d2253bd72c",
+    "concept_name": "C) and hence f",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_6c844aebc1",
+    "concept_name": "X) = tan x",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_5efd52d95a",
+    "concept_name": "Interesting fact",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_56bd94c4b7",
+    "concept_name": "Range of g",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_88c8debb73",
+    "concept_name": "X) = sin (x2",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_469d89f1ec",
+    "concept_name": "Be deduced that f",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_488d67a0d5",
+    "concept_name": "Is any real number",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_1a7ebd0cb0",
+    "concept_name": "Have seen that h",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d0e02416d0",
+    "concept_name": "= n, where n",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_1aec74a900",
+    "concept_name": "what value of λ",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_b16d2289be",
+    "concept_name": "≠=   =",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_fa1c3724f3",
+    "concept_name": "< <  ≥",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_c7294c31ff",
+    "concept_name": "X) = cos (x2",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_17c830c82b",
+    "concept_name": "| cos x |",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_c72e3fcbb6",
+    "concept_name": "Examine that sin | x |",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_7302cb99ea",
+    "concept_name": "= | x |",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_c49f7a2c2b",
+    "concept_name": "Real valued function which",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_40666a323b",
+    "concept_name": "Solution Observe that the given function",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_518e8aacc8",
+    "concept_name": "Is implicit that y",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5621d3551f",
+    "concept_name": "That d dx π",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d9a6a1c9e0",
+    "concept_name": "Steeper the curve, faster",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_9efc52838f",
+    "concept_name": "What this",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_510b46c26c",
+    "concept_name": "Essentially, this",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5a43f768a9",
+    "concept_name": "Higher the degree, greater",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_13b938cba4",
+    "concept_name": "Base b > 1",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_4147f170d3",
+    "concept_name": "exponential function",
+    "candidate_scores": {
+      "MCQ": 0.75,
+      "Scenario": 0.5,
+      "Problem Solving": 1.0,
+      "Case Study": 0.5,
+      "Short Answer": 0.5,
+      "Essay": 0.5,
+      "Practical": 0.85
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.867
+  },
+  {
+    "concept_id": "concept_e4a0d5b40d",
+    "concept_name": "2!+ + +",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_8b49e517ad",
+    "concept_name": "Range of log function",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_2b1f0d2be3",
+    "concept_name": "1) There",
+    "candidate_scores": {
+      "MCQ": 0.75,
+      "Scenario": 0.9,
+      "Problem Solving": 0.65,
+      "Case Study": 0.4,
+      "Short Answer": 0.75,
+      "Essay": 0.85,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "Scenario",
+      "Essay",
+      "MCQ",
+      "Short Answer",
+      "Problem Solving"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_ff175984c2",
+    "concept_name": "Process of differentiation",
+    "candidate_scores": {
+      "MCQ": 0.45,
+      "Scenario": 0.7,
+      "Problem Solving": 0.9,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 1.0
+    },
+    "recommended_types": [
+      "Practical",
+      "Problem Solving",
+      "Scenario"
+    ],
+    "overall_suitability": 0.867
+  },
+  {
+    "concept_id": "concept_2c91efe7f1",
+    "concept_name": "W.r.t. x, where a",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_bac20d6b89",
+    "concept_name": "   ",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_57ad35ec71",
+    "concept_name": "= ® Logarithmic differentiation",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_64340daaa6",
+    "concept_name": "fast",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_2e434108ef",
+    "concept_name": "= 6x2, where x",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_49595d0fef",
+    "concept_name": "10 cm, how fast",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_0dd76eb30b",
+    "concept_name": "Solution Since marginal cost",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_24e30386c7",
+    "concept_name": "Solution Since marginal revenue",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_0a6f790fa8",
+    "concept_name": "8 cm, how fast",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f1885e1660",
+    "concept_name": "What",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_dfcf50b5e7",
+    "concept_name": "At what rate",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_7dd77f79d7",
+    "concept_name": "Graph of this function",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_ba00f87ef7",
+    "concept_name": "Î I, where c",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_1595f0a410",
+    "concept_name": "A, b) (c) f",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_3c963b2bb2",
+    "concept_name": "Remarks There",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_1a3427eb85",
+    "concept_name": "On which of the following intervals",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_251f21cbb5",
+    "concept_name": "Are constants and x",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f5497222a1",
+    "concept_name": "− , where x",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_a0120e6837",
+    "concept_name": "If x = c",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_c5b7bd47d4",
+    "concept_name": "6.13 Similarly, if c",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_6bd8727b3a",
+    "concept_name": "c, then c",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_891b832013",
+    "concept_name": "165 ANote If c",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_378c2c49bd",
+    "concept_name": "Similarly, if c",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_01440855df",
+    "concept_name": "Therefore, by first derivative test, x = 1",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5a0f7e1ab6",
+    "concept_name": "X = – 1",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_0388fb2399",
+    "concept_name": "Thus, x = 1",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_91ee53473d",
+    "concept_name": "Hence x = 1",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_32a4209117",
+    "concept_name": "Then (i) x = c",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_2f6deee5ec",
+    "concept_name": "whether c",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_a3ec154465",
+    "concept_name": "Note that 0",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_64a8fb784d",
+    "concept_name": "Therefore, by first derivative test, x = 0",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_82e0617c27",
+    "concept_name": "Test, x = 0",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_5cb45fbbcd",
+    "concept_name": "Minima and so it",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_a91fd388d0",
+    "concept_name": "Therefore, by second derivative test, 15 2x =",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_9689e725ce",
+    "concept_name": "Therefore, by second derivative test, x = 10",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_fbe8c38f57",
+    "concept_name": "So 2 rx =",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f019bc1784",
+    "concept_name": "It follows that 5",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_ea8ef4510a",
+    "concept_name": "Hence, 5",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_0569afde21",
+    "concept_name": "Product x2 y5",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_ff9906f8e7",
+    "concept_name": "Volume of the box",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_42af622f4b",
+    "concept_name": "Then, MS",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_c72a074a9f",
+    "concept_name": "If V(x",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f47dce54fa",
+    "concept_name": "Therefore, 2 3x =",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_993bd00174",
+    "concept_name": "Thus, x = 240",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_f680c617e0",
+    "concept_name": "A, b), where c",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_dfe4f287ad",
+    "concept_name": "Thus, each proof",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_d2e8436f96",
+    "concept_name": "Direct Proof It",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_29162020e7",
+    "concept_name": "Induction Mathematical induction",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_c40d6f77e1",
+    "concept_name": "T (where “∨ ”",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_514cbb3bd6",
+    "concept_name": "ABC",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_671f36e9a4",
+    "concept_name": "Iii) When ∠ C",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_f7ef98b11c",
+    "concept_name": "THEMATICS 193 If N",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_9684753621",
+    "concept_name": "Thus, in both the cases whether N",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_bb61133cba",
+    "concept_name": "Singular matrix, then it",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_8bc480808f",
+    "concept_name": "22 1 n +",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_f9d14f95ed",
+    "concept_name": "+ 1 = 5",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_b5ed2f3d3a",
+    "concept_name": "+ 1 = 17",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_553632b05a",
+    "concept_name": "+ 1 = 257",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_5d6dacb03e",
+    "concept_name": "This",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_f617ee0806",
+    "concept_name": "this is what",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_efd01cb91a",
+    "concept_name": "Shaded region OPQRST",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_546d9254bb",
+    "concept_name": "X = − This",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_a904fbac87",
+    "concept_name": "Further assume that y",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_1225479c72",
+    "concept_name": "Step 3 Equation (1",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f729f86947",
+    "concept_name": "... (2) where, c",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_7b26e79bdc",
+    "concept_name": "15. x = 1",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_0931db558a",
+    "concept_name": "Form or by any",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_75f454c702",
+    "concept_name": "Context This present edition",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_6171a975e4",
+    "concept_name": "Introduction 187 A.1.2 What",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_7104b2e50d",
+    "concept_name": "226 MATHEMA TICS There",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_790d17e053",
+    "concept_name": "Process of Differentiation Integration",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_6a21217437",
+    "concept_name": "Function cos x",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_24963d533d",
+    "concept_name": "Fact, C",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_ae600997ae",
+    "concept_name": "More generally, if there",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f9e6c8175b",
+    "concept_name": "Function whose derivative",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_30e1343604",
+    "concept_name": "Finding an anti derivative",
+    "candidate_scores": {
+      "MCQ": 0.4,
+      "Scenario": 0.4,
+      "Problem Solving": 0.85,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 1.0
+    },
+    "recommended_types": [
+      "Practical",
+      "Problem Solving"
+    ],
+    "overall_suitability": 0.75
+  },
+  {
+    "concept_id": "concept_2c0884e4da",
+    "concept_name": "Required anti derivative",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_b5d2d8ecae",
+    "concept_name": "That a rational function",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_c07e5ba6b9",
+    "concept_name": "+ , where T(x",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d371882159",
+    "concept_name": "+∫ Solution The integrand",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_b31babf669",
+    "concept_name": "Usually, if any function",
+    "candidate_scores": {
+      "MCQ": 0.4,
+      "Scenario": 0.4,
+      "Problem Solving": 0.85,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 1.0
+    },
+    "recommended_types": [
+      "Practical",
+      "Problem Solving"
+    ],
+    "overall_suitability": 0.75
+  },
+  {
+    "concept_id": "concept_2e191eb5b9",
+    "concept_name": "B], then its value",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_a846c8b755",
+    "concept_name": "this shaded region",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5a8283482d",
+    "concept_name": "B ax , which",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_fac4363d6b",
+    "concept_name": "Finding the indefinite integral",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_cc1308815d",
+    "concept_name": "Note that P 4",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_92eda767ad",
+    "concept_name": "∫ Summary /rhombus5 Integration",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_08865ebb9b",
+    "concept_name": "Thus, integration",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_00bf2801bc",
+    "concept_name": "X-Axis",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_88c7267ddf",
+    "concept_name": "Function f whose derivative",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_22b4a2421e",
+    "concept_name": "a differential equation",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_a914f22bef",
+    "concept_name": "Observe that equation (9",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_2790fac364",
+    "concept_name": "Differential equation, when it",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_fa49862055",
+    "concept_name": "this differential equation",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_12bdbd6a8c",
+    "concept_name": "So it",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_caff517f52",
+    "concept_name": "Y = e– 3x",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_618db3b7e9",
+    "concept_name": "Therefore, the given function",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_aba815d0e5",
+    "concept_name": "A, b ∈ R",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_1a2a54a6e0",
+    "concept_name": "Functions (explicit or implicit",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_8a79287c9e",
+    "concept_name": "X) h(y), where, g(x",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_bac8fe821d",
+    "concept_name": "X) respectively and C",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_145c07971b",
+    "concept_name": "= 2C 1 which",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_675d7c2205",
+    "concept_name": "X + C which",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_64282d5681",
+    "concept_name": "Function F (x, y",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_ccf3ebaf15",
+    "concept_name": "315 Therefore, F(x, y",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_3612fb6cbf",
+    "concept_name": "So, the given differential equation",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_73d590ff81",
+    "concept_name": " and so it",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_4129929d96",
+    "concept_name": "Therefore, equation (1",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_36af7168ae",
+    "concept_name": "Xy y x which",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_c13344f329",
+    "concept_name": "EQUA TIONS 317 It",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_54eac80115",
+    "concept_name": " Thus, F(x, y",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_995241a6b1",
+    "concept_name": "Therefore, the given differential equation",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_a5b68a3731",
+    "concept_name": "Log | Cx| which",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_524d0e5ae3",
+    "concept_name": "| = 2 which",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_d95a74c748",
+    "concept_name": "... (1) Clearly, (1",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_3d23672e22",
+    "concept_name": "Which of the following",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_57bb5a9934",
+    "concept_name": "Q C. . which",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_aed5e88bc3",
+    "concept_name": "+   which",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_2539cdd8d5",
+    "concept_name": "X+ = x which",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_2c34f0376a",
+    "concept_name": "2C4 x x−+ which",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_6bdddcd0de",
+    "concept_name": "− = 2y This",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_6af4b6a9b7",
+    "concept_name": "+ C y which",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_e036e3f2ab",
+    "concept_name": "Solution The given equation",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_c0aa0984a5",
+    "concept_name": "X π− ≠ which",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_483005cb68",
+    "concept_name": "X ... (1) This",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_8a5359f6e7",
+    "concept_name": "X e− + which",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_816c43c182",
+    "concept_name": "C2 are arbitrary constants",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_423a3e7bd3",
+    "concept_name": "Hence, the given function",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_1e253afca7",
+    "concept_name": "7 = 0, which",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_451be90c3a",
+    "concept_name": "TICS332 Clearly, equation (1",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_745ee79d67",
+    "concept_name": "= C xy which",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_6673ad6619",
+    "concept_name": "... (1) Now (1",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_c24135a33e",
+    "concept_name": "− − + which",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_d73cb74bf2",
+    "concept_name": "Function (implicit or explicit",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_745d675b34",
+    "concept_name": "C (x2 + y2)2",
+    "candidate_scores": {
+      "MCQ": 0.65,
+      "Scenario": 0.4,
+      "Problem Solving": 1.0,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 0.75
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.8
+  },
+  {
+    "concept_id": "concept_3ef496af13",
+    "concept_name": "independent variable (variables",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_76f0156558",
+    "concept_name": "One value (magnitude) which",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d27f218dce",
+    "concept_name": "However, an answer to the second query",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_2295003d1c",
+    "concept_name": "Line can be given two directions by",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5d9b42d650",
+    "concept_name": "Notice that a directed line segment",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_8821a8fd1e",
+    "concept_name": "Negative of a Vector A vector whose magnitude",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_245201997b",
+    "concept_name": "Vectors A vector simply",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_cd62af1fed",
+    "concept_name": "Expressed as = This",
+    "candidate_scores": {
+      "MCQ": 0.75,
+      "Scenario": 0.9,
+      "Problem Solving": 0.65,
+      "Case Study": 0.4,
+      "Short Answer": 0.75,
+      "Essay": 0.85,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "Scenario",
+      "Essay",
+      "MCQ",
+      "Short Answer",
+      "Problem Solving"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_ea592b48ca",
+    "concept_name": "Equation, we have This",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_0633f6736f",
+    "concept_name": "By two velocity vectors–one",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_b01f840a25",
+    "concept_name": "This",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_e04a5a53d5",
+    "concept_name": "= – , which",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_a63d6fcfa3",
+    "concept_name": "+ β + γ",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_1b37566123",
+    "concept_name": "P 1 and P2",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_893050fb05",
+    "concept_name": "Q, clearly P",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_168860f04b",
+    "concept_name": "So, the required vector joining P and Q",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_9d64440cb9",
+    "concept_name": "= Remark If R",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_421fd7e61c",
+    "concept_name": "= Hence, the triangle",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_b5341bc960",
+    "concept_name": "We may recall that product of two numbers",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_bad25e805c",
+    "concept_name": "Product where the result",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d6fb57566d",
+    "concept_name": "As = where, θ",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_a77b67fbc0",
+    "concept_name": "We define Observations 1.",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_e9637016c0",
+    "concept_name": "Then the projection of on l",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_3f3440f4df",
+    "concept_name": "If ˆp",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_e54a3bc815",
+    "concept_name": "Further, if",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_50934b709f",
+    "concept_name": "5 Example 18 If",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_878ddb6ad6",
+    "concept_name": "Solution Since",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_1ee8056d53",
+    "concept_name": "Show that each of the given three vectors",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_dcc1d8ff29",
+    "concept_name": "∠ ABC. [∠ ABC",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_ab18340eb0",
+    "concept_name": "= , where, θ",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_c7168d3a20",
+    "concept_name": "Let the vectors be such that , then",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_673f35148a",
+    "concept_name": "Solution Note that if θ",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_cc35e35474",
+    "concept_name": "Perpendicular to Solution Let",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_e1a208677c",
+    "concept_name": "I j k+ +",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_3a5e354845",
+    "concept_name": "Also, show that P",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_dd5664768c",
+    "concept_name": "If θ",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_9db309342e",
+    "concept_name": "Let be two unit vectors and θ",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_040e9150d2",
+    "concept_name": "Then",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_d04456face",
+    "concept_name": "Θ = /rhombus5If θ",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_7c754f4214",
+    "concept_name": "Latin word vectus, which",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5336bc3b84",
+    "concept_name": "C ... (3) This",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_fd128c8b9c",
+    "concept_name": "Λ + − Now",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_a9fe65323f",
+    "concept_name": "+ = − which",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_e79b9e68a3",
+    "concept_name": "Cartesian form, if θ",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_8756b497b6",
+    "concept_name": "If θ",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_d353ce1a87",
+    "concept_name": "Segment so obtained",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d6ce825fa9",
+    "concept_name": "On l1 and 2a/arrowrightnosp",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_769fb6b67e",
+    "concept_name": "ˆ... (3) where nˆ",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_0186f1b793",
+    "concept_name": "Lines whose direction ratios",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_86c92a5243",
+    "concept_name": "/rhombus5Angle between skew lines",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_0324fba7bc",
+    "concept_name": "While the term programming",
+    "candidate_scores": {
+      "MCQ": 0.4,
+      "Scenario": 0.4,
+      "Problem Solving": 0.85,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 1.0
+    },
+    "recommended_types": [
+      "Practical",
+      "Problem Solving"
+    ],
+    "overall_suitability": 0.75
+  },
+  {
+    "concept_id": "concept_5e1e47824c",
+    "concept_name": "= 250x + 75y",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_9b13f2e43f",
+    "concept_name": "Fig 12.1, the region OABC (shaded",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f5e09e9273",
+    "concept_name": "example, the point (10, 50",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_15458b3ce8",
+    "concept_name": "a feasible region",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_3c656800e2",
+    "concept_name": "Unbounded",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_6f910c2503",
+    "concept_name": "4. (a) M",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_57ee150a5a",
+    "concept_name": "Value. (b) Similarly, m",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_81fbe63c68",
+    "concept_name": "Region in Fig 12.2",
+    "candidate_scores": {
+      "MCQ": 0.4,
+      "Scenario": 0.4,
+      "Problem Solving": 0.85,
+      "Case Study": 0.4,
+      "Short Answer": 0.4,
+      "Essay": 0.4,
+      "Practical": 1.0
+    },
+    "recommended_types": [
+      "Practical",
+      "Problem Solving"
+    ],
+    "overall_suitability": 0.75
+  },
+  {
+    "concept_id": "concept_1e0fb61a77",
+    "concept_name": "Region in Fig 12.3",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_6548dedaa8",
+    "concept_name": "From this table, we find that – 300",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f23d88e45e",
+    "concept_name": "Smallest value of Z",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_cb7f863eb8",
+    "concept_name": "F occurs, then what",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_57c2c72365",
+    "concept_name": "What",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_03f77a3e31",
+    "concept_name": "‘at least one of the child",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_018e7ef7f5",
+    "concept_name": "More than 3, what",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_f19a7edbf0",
+    "concept_name": "Randomly chosen student",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_4260c0b1b8",
+    "concept_name": "If a family has two children, what",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_964f0ee26b",
+    "concept_name": "Question bank, what",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_c0ce4c0345",
+    "concept_name": "Above result",
+    "candidate_scores": {
+      "MCQ": 0.75,
+      "Scenario": 0.9,
+      "Problem Solving": 0.65,
+      "Case Study": 0.4,
+      "Short Answer": 0.75,
+      "Essay": 0.85,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "Scenario",
+      "Essay",
+      "MCQ",
+      "Short Answer",
+      "Problem Solving"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_7c2d028dfb",
+    "concept_name": "52 Also, P (K|K",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_a788efb7d5",
+    "concept_name": "Therefore P(K|K) = 3 51 Lastly, P(A|KK",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_c998e086a4",
+    "concept_name": "Events 'the card drawn",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_56b3bf455e",
+    "concept_name": "P (F) (ii) Sometimes there",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_e72cd804b0",
+    "concept_name": "Two experiments are performed",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_e092018c1e",
+    "concept_name": "If E",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_e4ca984283",
+    "concept_name": "‘the card drawn",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_11b7deaaa6",
+    "concept_name": "Formula developed by him",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_66fb6bf30f",
+    "concept_name": "F, E′ ∩ F′}",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_df6881a7f2",
+    "concept_name": "That E1, E2,..., En",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_494a9eaa06",
+    "concept_name": "On time if there",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_08fa27faba",
+    "concept_name": "Since the Ei's",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_7f3e9fe8e2",
+    "concept_name": "If the coin is of gold, what",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_324a44310e",
+    "concept_name": "Clearly, {E, E′}",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_bcd0f679b2",
+    "concept_name": "Scooter or by other",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_2c1d9ca392",
+    "concept_name": "He comes by other",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_ccb42001d6",
+    "concept_name": "Bus, scooter, and other",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_3e18cc3d53",
+    "concept_name": "He throws a die and reports that it",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_4a9f1d9666",
+    "concept_name": "8 Remark A random variable",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_9c5e2c84dc",
+    "concept_name": "Heads obtained, then X",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_8566d3918a",
+    "concept_name": "grade, what",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_d65250948e",
+    "concept_name": "Has the disease, what",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_6946d07ac1",
+    "concept_name": "One",
+    "candidate_scores": {
+      "MCQ": 0.7,
+      "Scenario": 0.45,
+      "Problem Solving": 1.0,
+      "Case Study": 0.45,
+      "Short Answer": 0.45,
+      "Essay": 0.45,
+      "Practical": 0.8
+    },
+    "recommended_types": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "overall_suitability": 0.833
+  },
+  {
+    "concept_id": "concept_c5876685e9",
+    "concept_name": "It shows heads, what",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_3819b60b9a",
+    "concept_name": "If she obtained exactly one head, what",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_aef5407957",
+    "concept_name": "Defective item is produced, what",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_bb9c479c07",
+    "concept_name": "Colour of the ball is black, what",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_5bd7ba50b5",
+    "concept_name": "Find P(B|A), if (i) A",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_9ce6f29a8c",
+    "concept_name": "That the elder child",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_466be8387e",
+    "concept_name": "Selected at random, what",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_297829ddb0",
+    "concept_name": "If the marble is red, what",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_dcbff1af94",
+    "concept_name": "Zero or one, what",
+    "candidate_scores": {
+      "MCQ": 0.95,
+      "Scenario": 0.4,
+      "Problem Solving": 0.4,
+      "Case Study": 0.4,
+      "Short Answer": 0.85,
+      "Essay": 0.4,
+      "Practical": 0.4
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.733
+  },
+  {
+    "concept_id": "concept_cda89d25b5",
+    "concept_name": "4. , where λ",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_96b1413fc2",
+    "concept_name": "Form or by any",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  },
+  {
+    "concept_id": "concept_5579a79694",
+    "concept_name": "Context This present edition",
+    "candidate_scores": {
+      "MCQ": 0.9,
+      "Scenario": 0.35,
+      "Problem Solving": 0.35,
+      "Case Study": 0.35,
+      "Short Answer": 0.8,
+      "Essay": 0.35,
+      "Practical": 0.35
+    },
+    "recommended_types": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "overall_suitability": 0.683
+  }
+]

@@ -1,0 +1,969 @@
+{
+  "nodes": [
+    {
+      "id": "concept_966b1f96a5",
+      "label": "1.1 Linear Equations andInequalities in One Variable practice pages 11-13",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_f591c9246c",
+      "label": "1.2 QuadraticEquations andInequalities practice pages 14-18",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_5e078c2130",
+      "label": "1.3 InverseProportionality practice pages 19-21",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_5b1da3f2f2",
+      "label": "1.4 Equations and Inequalities of Higher Degrees practice pages 22-26",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_aa5d393aaf",
+      "label": "1.5 Linear Systems of Equations and Inequalities practice pages 27-29",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_416b34274b",
+      "label": "1.6 Systems ofEquationsandInequalities practice pages 30-32",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_d37918f89a",
+      "label": "2.1 Irrational Equations andInequalities practice pages 33-37",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_e81eedd27f",
+      "label": "2.2 Systems ofIrrational Equations andInequalities practice pages 38-38",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_246ce853ae",
+      "label": "2.3 An Exponential and a Logarithmic Function, practice pages 39-44",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_19a4d53938",
+      "label": "2.3 An Exponential and a Logarithmic Function, practice pages 45-50",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_1a1cc801ab",
+      "label": "2.4 Transformation of Trigonometric Expressions practice pages 51-53",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_a8bc606a3c",
+      "label": "2.5 Trigonometric Functions practice pages 54-56",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_c659b18a62",
+      "label": "2.6 Inverse Trigonometric Functions practice pages 57-60",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_73b430198b",
+      "label": "2.7 Trigonometric Equations and Systems of Equations practice pages 61-66",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_2a6f7d6b1b",
+      "label": "2.7 Trigonometric Equations and Systems of Equations practice pages 67-69",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_0b8bb1d4ab",
+      "label": "2.8 TrigonometricInequalities practice pages 70-71",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_80f2b383f9",
+      "label": "3.1 Problems onMotion practice pages 72-77",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ce37252ec0",
+      "label": "3.2 Problems on Percentage,Mixtures, practice pages 78-82",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_a7d0197ca3",
+      "label": "3.3 Problems onDerivingInequalities and Systems practice pages 83-85",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_5d8da8cc3d",
+      "label": "4.1 TheAntiderivative.TheNewton-LeibnizFormula practice pages 86-88",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_9a49ed3c17",
+      "label": "4.2 CalculatingtheAreas ofPlaneFigures practice pages 89-91",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_bd349d0c63",
+      "label": "5.1 Progressions practice pages 92-97",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_2bfece366b",
+      "label": "5.2 Number Sequences practice pages 98-100",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_0dc5c6a4a3",
+      "label": "6.1 Linear Operations onVectors practice pages 101-102",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_d6b3245864",
+      "label": "6.2 TheScalarProductofVectors practice pages 103-106",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_e007a08ac3",
+      "label": "7.1 Problems on Proving Propositions practice pages 107-108",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_958d98624e",
+      "label": "7.2 ConstructionProblems practice pages 109-109",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_52319e8fbb",
+      "label": "7.3 Problems on Calculation practice pages 110-114",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_322bf2bf32",
+      "label": "8.1 A Straight Line,a Plane,Polyhedra practice pages 115-119",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_715e66b12a",
+      "label": "8.2 Problems on Combinations of Polyhedra practice pages 120-125",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_dc76038a15",
+      "label": "8.2 Problems on Combinations of Polyhedra practice pages 126-126",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_5baf3b211f",
+      "label": "8.3 VolumesofSolidsofRevolution practice pages 127-127",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_9f574ad684",
+      "label": "9.1 ProblemsinAlgebra practice pages 128-130",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_df3b2956cd",
+      "label": "9.2 Limit of aFunction.Continuity practice pages 131-131",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_c11559b955",
+      "label": "9.3 TheDerivative of aFunction practice pages 132-133",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_e929a4228c",
+      "label": "9.4 IntegralCalculus.MiscellaneousProblems practice pages 134-138",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_afd5a9c26a",
+      "label": "1.1 LinearEquations andInequalities in OneVariable practice pages 139-140",
+      "concept_type": "Procedure",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_78fabb746d",
+      "label": "1.2 Quadratic Equations andInequalities practice pages 144-149",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_2c57fddca7",
+      "label": "1.3 InverseProportionality practice pages 150-152",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_6a9f8ae9e4",
+      "label": "1.4 Equations and Inequalities of Higher Degrees practice pages 158-163",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_d3d5fa9c90",
+      "label": "1.4 Equations and Inequalities of Higher Degrees practice pages 164-167",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_78a9088b3c",
+      "label": "1.5 Linear Systems ofEquations andInequalities practice pages 168-170",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_48e09ef5fc",
+      "label": "1.6 Systems ofEquations andInequalities practice pages 171-173",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_ddaf06dfd0",
+      "label": "2.1 Irrational Equations and Inequalities practice pages 175-179",
+      "concept_type": "Procedure",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_e4db108e9c",
+      "label": "2.2 Systems ofIrrationalEquations practice pages 180-180",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_86b20d7384",
+      "label": "2.3 An Exponential and aLogarithmic Functions, practice pages 181-186",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_7df0ec68cd",
+      "label": "2.3 An Exponential and aLogarithmic Functions, practice pages 187-190",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_9b3dbd356a",
+      "label": "2.4 Transformation of TrigonometricExpressions practice pages 191-192",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_7d3b7f64b8",
+      "label": "2.5 TrigonometricFunctions practice pages 193-199",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_28a33373e8",
+      "label": "2.6 InverseTrigonometricFunctions practice pages 200-204",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_979d1266a0",
+      "label": "2.7 TrigonometricEquations and Systems ofEquations practice pages 205-210",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_45733a2de0",
+      "label": "2.7 TrigonometricEquations and Systems ofEquations practice pages 211-216",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_4bf489703b",
+      "label": "2.7 TrigonometricEquations and Systems ofEquations practice pages 217-218",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_9dcfcbddae",
+      "label": "2.8 TrigonometricInequalities practice pages 219-220",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_55243fb7b8",
+      "label": "3.1 ProblemsonMotion practice pages 221-221",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_e585373915",
+      "label": "3.2 Problems on Percentages,Mixtures, practice pages 222-222",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_6a958536a0",
+      "label": "3.3 Problems onDerivingInequalitiesand Systems practice pages 223-224",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_d5335cf614",
+      "label": "4.1 The Antiderivative.The Newton-LeibnizFormula practice pages 225-226",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_5510e8ae01",
+      "label": "4.2 CalculatingtheAreasofPlane Figures practice pages 227-229",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_cd9ec05584",
+      "label": "5.1 Progressions practice pages 230-232",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_631a52d707",
+      "label": "5.2 NumberSequences practice pages 233-235",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_310360799c",
+      "label": "6.1 Linear Operations onVectors practice pages 236-236",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_6bcc14f8fd",
+      "label": "6.2 The ScalarProduct of Vectors practice pages 237-240",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_01dfdd2964",
+      "label": "7.1 Problems onProvingProportions practice pages 241-244",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_157b94d8d6",
+      "label": "7.2 Construction Problems practice pages 245-246",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_d29f22e744",
+      "label": "7.3 Problems on Calculation practice pages 247-251",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_165743b2c0",
+      "label": "8.1 A Straight Line,a Plane,Polyhedra,Solids of Revolution practice pages 252-256",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_01295855fc",
+      "label": "8.2 Problemson CombinationsofPolyhedra practice pages 257-262",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_40907e2e0b",
+      "label": "8.2 Problemson CombinationsofPolyhedra practice pages 263-263",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_7851214b7a",
+      "label": "8.3 VolumesofSolidsofRevolution practice pages 264-264",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_0a20a893b0",
+      "label": "9.1 ProblemsinAlgebra practice pages 265-269",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_7c05741f2e",
+      "label": "9.2 Limit of a Function.Continuity practice pages 270-272",
+      "concept_type": "Definition",
+      "weight": 0.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "concept_41e12f8bde",
+      "label": "9.3 TheDerivative ofaFunction practice pages 273-274",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "advanced"
+    },
+    {
+      "id": "concept_7efa7a3bb2",
+      "label": "9.4 Integral Calculus.MiscellaneousProblems practice pages 275-280",
+      "concept_type": "Definition",
+      "weight": 0.6,
+      "difficulty": "advanced"
+    }
+  ],
+  "edges": [],
+  "centrality": [
+    {
+      "concept_id": "concept_966b1f96a5",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_f591c9246c",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_5e078c2130",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_5b1da3f2f2",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_aa5d393aaf",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_416b34274b",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_d37918f89a",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_e81eedd27f",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_246ce853ae",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_19a4d53938",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_1a1cc801ab",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_a8bc606a3c",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_c659b18a62",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_73b430198b",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_2a6f7d6b1b",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_0b8bb1d4ab",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_80f2b383f9",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_ce37252ec0",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_a7d0197ca3",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_5d8da8cc3d",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_9a49ed3c17",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_bd349d0c63",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_2bfece366b",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_0dc5c6a4a3",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_d6b3245864",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_e007a08ac3",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_958d98624e",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_52319e8fbb",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_322bf2bf32",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_715e66b12a",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_dc76038a15",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_5baf3b211f",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_9f574ad684",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_df3b2956cd",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_c11559b955",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_e929a4228c",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_afd5a9c26a",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_78fabb746d",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_2c57fddca7",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_6a9f8ae9e4",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_d3d5fa9c90",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_78a9088b3c",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_48e09ef5fc",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_ddaf06dfd0",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_e4db108e9c",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_86b20d7384",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_7df0ec68cd",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_9b3dbd356a",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_7d3b7f64b8",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_28a33373e8",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_979d1266a0",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_45733a2de0",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_4bf489703b",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_9dcfcbddae",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_55243fb7b8",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_e585373915",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_6a958536a0",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_d5335cf614",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_5510e8ae01",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_cd9ec05584",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_631a52d707",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_310360799c",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_6bcc14f8fd",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_01dfdd2964",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_157b94d8d6",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_d29f22e744",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_165743b2c0",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_01295855fc",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_40907e2e0b",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_7851214b7a",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_0a20a893b0",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_7c05741f2e",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_41e12f8bde",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    },
+    {
+      "concept_id": "concept_7efa7a3bb2",
+      "degree": 0.0,
+      "betweenness": 0.0,
+      "pagerank": 0.013
+    }
+  ]
+}

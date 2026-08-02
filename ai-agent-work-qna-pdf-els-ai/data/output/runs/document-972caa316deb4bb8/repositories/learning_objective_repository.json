@@ -1,0 +1,146 @@
+[
+  {
+    "objective_id": "obj_33c958fe60",
+    "concept_id": "concept_657d98b019",
+    "objective": "Recall and state the concept of ELECTROMAGNETIC INDUCTION practice pages 1-6.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_e8c8bd1f42",
+    "concept_id": "concept_657d98b019",
+    "objective": "Explain in your own words the concept of ELECTROMAGNETIC INDUCTION practice pages 1-6.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_e11eb60084",
+    "concept_id": "concept_657d98b019",
+    "objective": "Apply to a new situation the concept of ELECTROMAGNETIC INDUCTION practice pages 1-6.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_74212e6174",
+    "concept_id": "concept_657d98b019",
+    "objective": "Break down and compare the concept of ELECTROMAGNETIC INDUCTION practice pages 1-6.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_de0dab8614",
+    "concept_id": "concept_657d98b019",
+    "objective": "Critique and justify decisions about the concept of ELECTROMAGNETIC INDUCTION practice pages 1-6.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_bb745fd6e2",
+    "concept_id": "concept_657d98b019",
+    "objective": "Design or produce something using the concept of ELECTROMAGNETIC INDUCTION practice pages 1-6.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_34114a1367",
+    "concept_id": "concept_b98adbe8f0",
+    "objective": "Recall and state the concept of ELECTROMAGNETIC INDUCTION practice pages 7-12.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_0fa5f6b836",
+    "concept_id": "concept_b98adbe8f0",
+    "objective": "Explain in your own words the concept of ELECTROMAGNETIC INDUCTION practice pages 7-12.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_3a7b5cf5da",
+    "concept_id": "concept_b98adbe8f0",
+    "objective": "Apply to a new situation the concept of ELECTROMAGNETIC INDUCTION practice pages 7-12.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_5189600435",
+    "concept_id": "concept_b98adbe8f0",
+    "objective": "Break down and compare the concept of ELECTROMAGNETIC INDUCTION practice pages 7-12.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_bbf8720283",
+    "concept_id": "concept_b98adbe8f0",
+    "objective": "Critique and justify decisions about the concept of ELECTROMAGNETIC INDUCTION practice pages 7-12.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_876278533f",
+    "concept_id": "concept_b98adbe8f0",
+    "objective": "Design or produce something using the concept of ELECTROMAGNETIC INDUCTION practice pages 7-12.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  },
+  {
+    "objective_id": "obj_1603b78e94",
+    "concept_id": "concept_8130b3391d",
+    "objective": "Recall and state the concept of ELECTROMAGNETIC INDUCTION practice pages 13-17.",
+    "bloom_level": "Remember",
+    "competency": "Knowledge Retention",
+    "assessment_type": "MCQ"
+  },
+  {
+    "objective_id": "obj_d4faecebb4",
+    "concept_id": "concept_8130b3391d",
+    "objective": "Explain in your own words the concept of ELECTROMAGNETIC INDUCTION practice pages 13-17.",
+    "bloom_level": "Understand",
+    "competency": "Conceptual Understanding",
+    "assessment_type": "Short Answer"
+  },
+  {
+    "objective_id": "obj_e80fff3d6c",
+    "concept_id": "concept_8130b3391d",
+    "objective": "Apply to a new situation the concept of ELECTROMAGNETIC INDUCTION practice pages 13-17.",
+    "bloom_level": "Apply",
+    "competency": "Application",
+    "assessment_type": "Problem Solving"
+  },
+  {
+    "objective_id": "obj_078ffa6f33",
+    "concept_id": "concept_8130b3391d",
+    "objective": "Break down and compare the concept of ELECTROMAGNETIC INDUCTION practice pages 13-17.",
+    "bloom_level": "Analyze",
+    "competency": "Analysis",
+    "assessment_type": "Scenario"
+  },
+  {
+    "objective_id": "obj_4249933f31",
+    "concept_id": "concept_8130b3391d",
+    "objective": "Critique and justify decisions about the concept of ELECTROMAGNETIC INDUCTION practice pages 13-17.",
+    "bloom_level": "Evaluate",
+    "competency": "Evaluation",
+    "assessment_type": "Essay"
+  },
+  {
+    "objective_id": "obj_861c35139e",
+    "concept_id": "concept_8130b3391d",
+    "objective": "Design or produce something using the concept of ELECTROMAGNETIC INDUCTION practice pages 13-17.",
+    "bloom_level": "Create",
+    "competency": "Synthesis",
+    "assessment_type": "Practical"
+  }
+]

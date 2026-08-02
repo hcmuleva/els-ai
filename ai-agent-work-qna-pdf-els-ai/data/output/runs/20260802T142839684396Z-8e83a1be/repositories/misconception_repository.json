@@ -1,0 +1,149 @@
+[
+  {
+    "misconception_id": "misc_9cda81dc93",
+    "concept_id": "concept_8f8d494e5c",
+    "misconception": "Students assume each grid line on a bar graph represents one unit, leading to incorrect totals.",
+    "explanation": "Learners frequently overlook the scale indicator on the vertical axis and count every line as '1', causing massive overestimation or underestimation of values.",
+    "correction": "Always check the axis label and scale increment (e.g., each major grid line may represent 500 or 1000 units) before reading or calculating values from the graph."
+  },
+  {
+    "misconception_id": "misc_5f1f143a26",
+    "concept_id": "concept_8f8d494e5c",
+    "misconception": "Students believe a trapezium must have two pairs of parallel sides or equal non-parallel sides.",
+    "explanation": "The term is frequently confused with parallelograms or isosceles trapeziums. Learners incorrectly apply properties of other quadrilaterals to the general definition.",
+    "correction": "A trapezium is defined strictly as a quadrilateral with exactly one pair of opposite sides parallel; the other sides can be any length and do not need to be equal."
+  },
+  {
+    "misconception_id": "misc_b14f661576",
+    "concept_id": "concept_8f8d494e5c",
+    "misconception": "Students count lines of symmetry by guessing based on visual balance rather than testing reflectional equivalence.",
+    "explanation": "Learners often assume shapes look symmetric in multiple directions without verifying that folding along the line produces perfectly overlapping halves, or they confuse it with rotational symmetry.",
+    "correction": "A line of symmetry must divide a figure into two mirror-image halves; test each potential line by mentally folding or reflecting the shape to confirm exact overlap before counting."
+  },
+  {
+    "misconception_id": "misc_e47f1f9aca",
+    "concept_id": "concept_f7640a769f",
+    "misconception": "Students assume all angles in an isosceles triangle are equal or confuse the exterior angle with a base angle when finding x on a straight line.",
+    "explanation": "Learners often overgeneralize from equilateral triangles, believing 'isosceles' means three equal angles. When QRS is a straight line, they may incorrectly set x equal to one of the triangle's interior angles or add adjacent angles instead of using the exterior angle theorem (exterior angle = sum of two opposite interior angles).",
+    "correction": "Clarify that an isosceles triangle has exactly two equal sides and two equal base angles. Use the exterior angle theorem: x equals the sum of the two non-adjacent interior angles of triangle PQR, or use the linear pair property (x + adjacent interior angle = 180°)."
+  },
+  {
+    "misconception_id": "misc_d617824688",
+    "concept_id": "concept_f7640a769f",
+    "misconception": "Students calculate the number of diagonals in a hexagon as n-3 (6) or n(n-3) (18) instead of using the correct formula.",
+    "explanation": "Learners often confuse the number of diagonals emanating from a single vertex (n-3) with the total number of diagonals. They may also multiply by n without dividing by 2, double-counting each diagonal because every diagonal connects two vertices.",
+    "correction": "Teach the standard formula for total diagonals: D = n(n-3)/2. For a hexagon (n=6), D = 6(3)/2 = 9. Emphasize that dividing by 2 corrects for double-counting each diagonal from both endpoints."
+  },
+  {
+    "misconception_id": "misc_d9ea0a2549",
+    "concept_id": "concept_f7640a769f",
+    "misconception": "Students assume angles on a straight line are always equal (90° each) rather than supplementary.",
+    "explanation": "When encountering QRS as a straight line, learners frequently default to perpendicularity assumptions or split the line into two 90° angles regardless of the triangle's orientation. This ignores the fundamental linear pair axiom that adjacent angles on a straight line sum to 180°.",
+    "correction": "Reinforce that a straight line represents a 180° angle. Any point on it creates a linear pair where the two adjacent angles must add to exactly 180°, regardless of symmetry or triangle type."
+  },
+  {
+    "misconception_id": "misc_84cff3a3ba",
+    "concept_id": "concept_85510205dd",
+    "misconception": "The sequence '3, 1, 4, 2, 5' dictates the required order for analyzing or matching figures.",
+    "explanation": "Students often misinterpret scrambled numerical labels as a procedural instruction to solve the problem sequentially, rather than recognizing them as arbitrary reference identifiers or an answer key format.",
+    "correction": "The numbers are merely labels for individual figures within each group. The task requires identifying the underlying transformation rule that applies to the relationship between the two sets, independent of numerical order."
+  },
+  {
+    "misconception_id": "misc_d92edd600e",
+    "concept_id": "concept_85510205dd",
+    "misconception": "Figures are related by surface-level visual similarity rather than a consistent geometric or logical transformation.",
+    "explanation": "Learners frequently focus on matching identical shapes, colors, or shading instead of analyzing how one figure systematically changes into another through rotation, reflection, addition, subtraction, or positional shifting.",
+    "correction": "The relationship is defined by a specific, consistent transformation rule. Students must apply this rule to map figures from the first group to the second, prioritizing structural change over superficial appearance."
+  },
+  {
+    "misconception_id": "misc_0c79cefb63",
+    "concept_id": "concept_85510205dd",
+    "misconception": "Each figure in the first group corresponds directly to a figure in the second group by its original position or index.",
+    "explanation": "Students assume a rigid one-to-one positional mapping (e.g., figure 1 matches figure 1) rather than recognizing that the relationship operates across the entire set and may require cross-referencing based on the transformation pattern.",
+    "correction": "The figures in both groups should be evaluated as an interconnected system. The correct correspondence is determined by applying the identified transformation rule to all figures, which often results in a scrambled or non-positional mapping between the two sets."
+  },
+  {
+    "misconception_id": "misc_a5cb7ad4f6",
+    "concept_id": "concept_459bb3a928",
+    "misconception": "Students interpret 'by Preeti' as indicating physical location or ownership rather than authorship.",
+    "explanation": "Learners frequently apply spatial preposition rules to creative attribution phrases, causing them to misread the relationship between the object and the name.",
+    "correction": "'By Preeti' explicitly credits Preeti as the creator or author of the work titled 'Basket,' not as its physical owner or location."
+  },
+  {
+    "misconception_id": "misc_85c0790f84",
+    "concept_id": "concept_459bb3a928",
+    "misconception": "Students assume 'is A.' describes a literal shape, grade, or physical attribute of the basket.",
+    "explanation": "Without context, learners often treat alphanumeric labels as descriptive properties rather than recognizing them as categorical codes or answer references within an educational framework.",
+    "correction": "'Is A.' functions as a classification label or assessment key identifier in the source material, not a tangible characteristic of the basket."
+  },
+  {
+    "misconception_id": "misc_20a755aaf8",
+    "concept_id": "concept_459bb3a928",
+    "misconception": "Students expect mathematical operations due to the word 'basket' triggering quantitative schemas instead of textual analysis.",
+    "explanation": "The noun 'basket' commonly activates math-related problem-solving patterns in students, leading them to overlook the literary or contextual nature of the concept.",
+    "correction": "This concept refers to a specific titled curriculum item or reading passage attributed to Preeti, requiring comprehension and contextual identification rather than numerical computation."
+  },
+  {
+    "misconception_id": "misc_ddc9da6215",
+    "concept_id": "concept_215230e660",
+    "misconception": "Whole numbers and natural numbers are identical sets.",
+    "explanation": "Learners often use the terms interchangeably because both involve counting, failing to recognize that zero is explicitly included in whole numbers but excluded from natural numbers.",
+    "correction": "Natural numbers consist of positive integers starting from 1 (1, 2, 3...), while whole numbers include zero and all natural numbers (0, 1, 2, 3...)."
+  },
+  {
+    "misconception_id": "misc_c2ce354ad7",
+    "concept_id": "concept_215230e660",
+    "misconception": "Every whole number has a predecessor within the set of whole numbers.",
+    "explanation": "Students assume subtraction always yields a result in the same set, overlooking the boundary condition at zero.",
+    "correction": "Zero is a whole number but has no whole number predecessor because its predecessor is -1, which belongs to the integers, not the whole numbers."
+  },
+  {
+    "misconception_id": "misc_b229f812aa",
+    "concept_id": "concept_215230e660",
+    "misconception": "Every whole number is strictly greater than zero.",
+    "explanation": "Learners focus on counting numbers and overlook that zero is formally classified as a whole number in standard mathematical curricula.",
+    "correction": "Zero is the smallest whole number. The set of whole numbers includes zero and all positive integers (0, 1, 2, 3...)."
+  },
+  {
+    "misconception_id": "misc_87ea0f2542",
+    "concept_id": "concept_6149279d7d",
+    "misconception": "Students believe that adding a fixed amount to both length and breadth preserves the rectangle's original proportions.",
+    "explanation": "Learners often apply additive reasoning to geometric scaling, assuming equal additions maintain the shape's relative dimensions.",
+    "correction": "Adding a constant to both dimensions changes the aspect ratio unless the original length and breadth were equal. Proportions are preserved only when both dimensions are multiplied by the same scale factor."
+  },
+  {
+    "misconception_id": "misc_140336dcb5",
+    "concept_id": "concept_6149279d7d",
+    "misconception": "Students think enlargement refers exclusively to an increase in perimeter rather than area.",
+    "explanation": "The term is frequently associated with linear measurements in early geometry, causing students to overlook two-dimensional growth.",
+    "correction": "Enlargement occurs when dimensions increase, resulting in simultaneous increases in both perimeter (linear measure) and area (two-dimensional measure)."
+  },
+  {
+    "misconception_id": "misc_7ac8588ef8",
+    "concept_id": "concept_6149279d7d",
+    "misconception": "Students assume that increasing length and breadth by the same numerical value results in a proportionally larger rectangle.",
+    "explanation": "Learners conflate additive changes with multiplicative scaling, failing to recognize how area responds quadratically to dimensional increases.",
+    "correction": "While perimeter increases linearly when dimensions are increased by a fixed amount, area increases quadratically. True proportional enlargement requires multiplying dimensions by a scale factor, not adding to them."
+  },
+  {
+    "misconception_id": "misc_1a23d6668c",
+    "concept_id": "concept_d35f79154c",
+    "misconception": "A chord is an infinite line that passes through two points on a circle.",
+    "explanation": "Students frequently confuse chords with secants, overlooking the critical distinction that a chord is a finite geometric figure rather than an infinitely extending line.",
+    "correction": "A chord is strictly a line segment with both endpoints lying exactly on the circle's circumference; it does not extend beyond these points."
+  },
+  {
+    "misconception_id": "misc_b67105010f",
+    "concept_id": "concept_d35f79154c",
+    "misconception": "All chords must pass through the center of the circle.",
+    "explanation": "Because diameters are the longest possible chords and receive significant instructional focus, students incorrectly generalize this central property to every chord.",
+    "correction": "Only diameters pass through the center; any line segment connecting two distinct points on the circumference is a chord, regardless of its distance from the center."
+  },
+  {
+    "misconception_id": "misc_5d57bf09a2",
+    "concept_id": "concept_d35f79154c",
+    "misconception": "A chord can connect any two points located inside or on the boundary of a circle.",
+    "explanation": "Learners often relax the strict endpoint requirement, assuming that any line drawn within the circular region qualifies as a chord.",
+    "correction": "Both endpoints of a chord must lie exactly on the circumference; segments connecting interior points or starting/ending inside the circle are not chords."
+  }
+]

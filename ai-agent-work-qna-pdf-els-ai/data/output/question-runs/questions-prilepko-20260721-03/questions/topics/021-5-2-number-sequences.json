@@ -1,0 +1,471 @@
+{
+  "key": "5.2",
+  "topic": "5.2 Number Sequences",
+  "questions": [
+    {
+      "question": {
+        "id": "3cb3f690-81de-5597-87d0-5ad49b523833",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "In an arithmetic progression, the sum of the first \\(10\\) terms is \\(155\\) and its first term is \\(5\\). The common difference is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(S_{10}=\\frac{10}{2}[2(5)+9d]=155\\), so \\(5(10+9d)=155\\). Hence \\(9d=31-10=21\\), giving \\(d=\\frac{7}{3}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 101,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "5.2 Number Sequences",
+            "concept_ids": [
+              "concept_2bfece366b",
+              "concept_631a52d707"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              97,
+              98,
+              99,
+              232,
+              233,
+              234
+            ],
+            "source_chunk_ids": [
+              "chunk_aca5f433c0",
+              "chunk_4e30edc993"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_7_3_1",
+              "label": "\\(\\frac{7}{3}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Using \\(155=\\frac{10}{2}[2(5)+9d]\\) gives \\(d=\\frac{7}{3}\\)."
+            },
+            {
+              "id": "frac_5_3_2",
+              "label": "\\(\\frac{5}{3}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Incorrect substitution in the arithmetic progression sum formula."
+            },
+            {
+              "id": "frac_10_3_3",
+              "label": "\\(\\frac{10}{3}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Does not satisfy the given sum."
+            },
+            {
+              "id": "frac_14_3_4",
+              "label": "\\(\\frac{14}{3}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Produces a sum greater than \\(155\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "b01eda93-13df-57e1-bf4a-15ed2f93e8d8",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A geometric progression has positive first term \\(a\\) and positive common ratio \\(r\\). If the sum of its first two terms is \\(9\\) and its second term is \\(4\\), then \\((a,r)\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The second term is \\(ar=4\\), while \\(a+ar=9\\). Thus \\(a=5\\), and \\(r=\\frac{4}{5}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 102,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "5.2 Number Sequences",
+            "concept_ids": [
+              "concept_2bfece366b",
+              "concept_631a52d707"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              97,
+              98,
+              99,
+              232,
+              233,
+              234
+            ],
+            "source_chunk_ids": [
+              "chunk_aca5f433c0",
+              "chunk_4e30edc993"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_5_frac_4_5_right_1",
+              "label": "\\(\\left(5,\\frac{4}{5}\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The first term is \\(9-4=5\\), so \\(r=\\frac{4}{5}\\)."
+            },
+            {
+              "id": "left_4_frac_5_4_right_2",
+              "label": "\\(\\left(4,\\frac{5}{4}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This reverses the first term and ratio."
+            },
+            {
+              "id": "left_5_frac_5_4_right_3",
+              "label": "\\(\\left(5,\\frac{5}{4}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Its second term would be \\(\\frac{25}{4}\\)."
+            },
+            {
+              "id": "left_9_frac_4_9_right_4",
+              "label": "\\(\\left(9,\\frac{4}{9}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The second term would be \\(4\\), but the first two terms would not sum to \\(9\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "b03589e5-8f87-5303-b306-b95f0fdc0be5",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A sequence is defined by \\(a_1=1\\) and \\(a_{n+1}=a_n+2n\\) for \\(n\\ge 1\\). Find \\(\\sum_{n=1}^{20}a_n\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(a_n=1+2(1+2+\\cdots +(n-1))=n^2-n+1\\). Therefore \\(\\sum_{n=1}^{20}a_n=\\sum n^2-\\sum n+20=2870-210+20=2680\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 103,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "5.2 Number Sequences",
+            "concept_ids": [
+              "concept_2bfece366b",
+              "concept_631a52d707"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              97,
+              98,
+              99,
+              232,
+              233,
+              234
+            ],
+            "source_chunk_ids": [
+              "chunk_aca5f433c0",
+              "chunk_4e30edc993"
+            ]
+          },
+          "options": [
+            {
+              "id": "2680_1",
+              "label": "\\(2680\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The recurrence gives \\(a_n=n^2-n+1\\), whose first \\(20\\) terms sum to \\(2680\\)."
+            },
+            {
+              "id": "2870_2",
+              "label": "\\(2870\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is \\(\\sum_{n=1}^{20}n^2\\), omitting the other terms."
+            },
+            {
+              "id": "2660_3",
+              "label": "\\(2660\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This omits the constant contribution in \\(a_n\\)."
+            },
+            {
+              "id": "2700_4",
+              "label": "\\(2700\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not follow from the recurrence."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "6ec0a374-5644-515d-a400-2ea9581a7c94",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The \\(n\\)-th terms of an arithmetic progression and a geometric progression are respectively \\(a_n=3n-1\\) and \\(g_n=2^n\\). Find the least positive integer \\(n\\) for which \\(g_n\\) exceeds \\(a_n\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For \\(n=1,2,3\\), the pairs are \\((2,2)\\), \\((4,5)\\), and \\((8,8)\\). At \\(n=4\\), \\(g_4=16\\) while \\(a_4=11\\). Hence the least value is \\(n=4\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 104,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "5.2 Number Sequences",
+            "concept_ids": [
+              "concept_2bfece366b",
+              "concept_631a52d707"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              97,
+              98,
+              99,
+              232,
+              233,
+              234
+            ],
+            "source_chunk_ids": [
+              "chunk_aca5f433c0",
+              "chunk_4e30edc993"
+            ]
+          },
+          "options": [
+            {
+              "id": "4_1",
+              "label": "\\(4\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "At \\(n=4\\), \\(g_4=16\\) and \\(a_4=11\\); earlier terms do not satisfy the condition."
+            },
+            {
+              "id": "2_2",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "At \\(n=2\\), \\(g_2=4<5=a_2\\)."
+            },
+            {
+              "id": "3_3",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "At \\(n=3\\), both terms equal \\(8\\)."
+            },
+            {
+              "id": "5_4",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The condition is already satisfied at \\(n=4\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "595f6fbf-d30a-5dc4-aa28-55682ffdc59f",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The sum of the first \\(n\\) terms of a sequence is \\(S_n=3n^2+2n\\). Find its tenth term.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For any sequence, \\(a_n=S_n-S_{n-1}\\). Thus \\(a_{10}=(3\\cdot10^2+2\\cdot10)-(3\\cdot9^2+2\\cdot9)=320-261=59\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 105,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "5.2 Number Sequences",
+            "concept_ids": [
+              "concept_2bfece366b",
+              "concept_631a52d707"
+            ],
+            "source": "rag:math-prilepko-20260721-05:5.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              97,
+              98,
+              99,
+              232,
+              233,
+              234
+            ],
+            "source_chunk_ids": [
+              "chunk_aca5f433c0",
+              "chunk_4e30edc993"
+            ]
+          },
+          "options": [
+            {
+              "id": "59_1",
+              "label": "\\(59\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(a_{10}=S_{10}-S_9=320-261=59\\)."
+            },
+            {
+              "id": "61_2",
+              "label": "\\(61\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This incorrectly uses \\(S_{10}-S_8\\)."
+            },
+            {
+              "id": "57_3",
+              "label": "\\(57\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Incorrect subtraction of consecutive partial sums."
+            },
+            {
+              "id": "320_4",
+              "label": "\\(320\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the sum of the first \\(10\\) terms, not the tenth term."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_aca5f433c0",
+    "chunk_4e30edc993"
+  ],
+  "source_pages": [
+    97,
+    98,
+    99,
+    232,
+    233,
+    234
+  ],
+  "rejected": []
+}

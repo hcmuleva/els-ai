@@ -1,0 +1,522 @@
+{
+  "key": "2.4",
+  "topic": "2.4 Transformation of Trigonometric Expressions",
+  "questions": [
+    {
+      "question": {
+        "id": "87fb08c7-bf6c-5107-8701-de7f1785be3b",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The range of \\(3\\sin\\theta+4\\cos\\theta\\), for \\(\\theta\\in\\mathbb{R}\\), is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using \\(a\\sin\\theta+b\\cos\\theta=R\\sin(\\theta+\\phi)\\), where \\(R=\\sqrt{a^2+b^2}\\), we get \\(R=\\sqrt{3^2+4^2}=5\\). Hence the range is \\([-5,5]\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 46,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.4 Transformation of Trigonometric Expressions",
+            "concept_ids": [
+              "concept_1a1cc801ab",
+              "concept_9b3dbd356a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              50,
+              51,
+              52,
+              190,
+              191
+            ],
+            "source_chunk_ids": [
+              "chunk_1a59bc4090",
+              "chunk_617763a75b"
+            ]
+          },
+          "options": [
+            {
+              "id": "5_5_1",
+              "label": "\\([-5,5]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(3\\sin\\theta+4\\cos\\theta=5\\sin(\\theta+\\phi)\\)."
+            },
+            {
+              "id": "4_4_2",
+              "label": "\\([-4,4]\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This ignores the combined amplitude."
+            },
+            {
+              "id": "7_7_3",
+              "label": "\\([-7,7]\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The amplitude is not the sum of coefficients."
+            },
+            {
+              "id": "0_5_4",
+              "label": "\\([0,5]\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The expression can take negative values."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "049294d1-3b63-5f4c-b649-ef670b0f3291",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(\\sin\\alpha+\\cos\\alpha=\\sqrt{\\frac{3}{2}}\\), then \\(\\sin 2\\alpha\\) equals",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\((\\sin\\alpha+\\cos\\alpha)^2=1+2\\sin\\alpha\\cos\\alpha=1+\\sin 2\\alpha\\). Therefore, \\(1+\\sin 2\\alpha=\\frac{3}{2}\\), so \\(\\sin 2\\alpha=\\frac{1}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 47,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.4 Transformation of Trigonometric Expressions",
+            "concept_ids": [
+              "concept_1a1cc801ab",
+              "concept_9b3dbd356a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              50,
+              51,
+              52,
+              190,
+              191
+            ],
+            "source_chunk_ids": [
+              "chunk_1a59bc4090",
+              "chunk_617763a75b"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_1_2_1",
+              "label": "\\(\\frac{1}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Squaring gives \\(1+\\sin 2\\alpha=\\frac{3}{2}\\)."
+            },
+            {
+              "id": "frac_1_2_2",
+              "label": "\\(-\\frac{1}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sign is obtained incorrectly after transformation."
+            },
+            {
+              "id": "frac_3_2_3",
+              "label": "\\(\\frac{3}{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the squared sum, not \\(\\sin 2\\alpha\\)."
+            },
+            {
+              "id": "1_4",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The constant term is not the required value."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "afee8aec-6a57-5c57-97d3-e573c2fda337",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For all values of \\(\\alpha\\), simplify \\(\\cos(70^\\circ+\\alpha)+\\cos(50^\\circ-\\alpha)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using \\(\\cos A+\\cos B=2\\cos\\frac{A+B}{2}\\cos\\frac{A-B}{2}\\), the expression becomes \\(2\\cos60^\\circ\\cos(10^\\circ+\\alpha)=\\cos(10^\\circ+\\alpha)\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 48,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Understand",
+            "topic": "2.4 Transformation of Trigonometric Expressions",
+            "concept_ids": [
+              "concept_1a1cc801ab",
+              "concept_9b3dbd356a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              50,
+              51,
+              52,
+              190,
+              191
+            ],
+            "source_chunk_ids": [
+              "chunk_1a59bc4090",
+              "chunk_617763a75b"
+            ]
+          },
+          "options": [
+            {
+              "id": "cos_10_circ_alpha_1",
+              "label": "\\(\\cos(10^\\circ+\\alpha)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Apply the sum-to-product identity."
+            },
+            {
+              "id": "cos_60_circ_alpha_2",
+              "label": "\\(\\cos(60^\\circ+\\alpha)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The half-difference is \\(10^\\circ+\\alpha\\)."
+            },
+            {
+              "id": "2_cos_10_circ_alpha_3",
+              "label": "\\(2\\cos(10^\\circ+\\alpha)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factor \\(2\\cos 60^\\circ\\) equals \\(1\\)."
+            },
+            {
+              "id": "sin_10_circ_alpha_4",
+              "label": "\\(\\sin(10^\\circ+\\alpha)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The transformed expression remains a cosine."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "angle",
+            "width": 360,
+            "height": 300,
+            "xmin": -1.0,
+            "xmax": 4.0,
+            "ymin": -1.0,
+            "ymax": 3.598076211353316,
+            "title": null,
+            "elements": [
+              {
+                "type": "segment",
+                "a": [
+                  0.0,
+                  0.0
+                ],
+                "b": [
+                  3.0,
+                  0.0
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  0.0,
+                  0.0
+                ],
+                "b": [
+                  1.5000000000000004,
+                  2.598076211353316
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "angle",
+                "vertex": [
+                  0.0,
+                  0.0
+                ],
+                "p1": [
+                  3.0,
+                  0.0
+                ],
+                "p2": [
+                  1.5000000000000004,
+                  2.598076211353316
+                ],
+                "label": "60",
+                "radius_px": 22.0,
+                "color": "#9467bd"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><line x1=\"92.4\" y1=\"215.54\" x2=\"267.6\" y2=\"215.54\" stroke=\"#333333\" stroke-width=\"1.8\"/><line x1=\"92.4\" y1=\"215.54\" x2=\"180\" y2=\"84.46\" stroke=\"#333333\" stroke-width=\"1.8\"/><path d=\"M 114.4 215.54 A 22 22 0 1 1 104.62 197.25\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"62.41\" y=\"231.57\" text-anchor=\"middle\" fill=\"#9467bd\">60</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "b498bf43-5806-545b-8106-ec5e336eba44",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The value of \\(\\sin20^\\circ\\sin40^\\circ\\sin80^\\circ\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since \\(\\sin40^\\circ\\sin80^\\circ=\\frac{\\cos40^\\circ-\\cos120^\\circ}{2}=\\frac{\\cos40^\\circ+\\frac{1}{2}}{2}\\), multiplying by \\(\\sin20^\\circ\\) and using \\(\\sin3x=4\\sin x\\sin(60^\\circ+x)\\sin(60^\\circ-x)\\) at \\(x=20^\\circ\\) gives \\(\\sin20^\\circ\\sin40^\\circ\\sin80^\\circ=\\frac{\\sqrt{3}}{8}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 49,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.4 Transformation of Trigonometric Expressions",
+            "concept_ids": [
+              "concept_1a1cc801ab",
+              "concept_9b3dbd356a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              50,
+              51,
+              52,
+              190,
+              191
+            ],
+            "source_chunk_ids": [
+              "chunk_1a59bc4090",
+              "chunk_617763a75b"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_sqrt_3_8_1",
+              "label": "\\(\\frac{\\sqrt{3}}{8}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Repeated double-angle transformations give the standard product identity."
+            },
+            {
+              "id": "frac_1_8_2",
+              "label": "\\(\\frac{1}{8}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factor \\(\\sqrt{3}\\) is omitted."
+            },
+            {
+              "id": "frac_sqrt_3_4_3",
+              "label": "\\(\\frac{\\sqrt{3}}{4}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The product is half this value."
+            },
+            {
+              "id": "frac_3_8_4",
+              "label": "\\(\\frac{3}{8}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The trigonometric product does not simplify to this value."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "6c2d3365-ad97-5873-8a1d-b0376d02f96a",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(x\\in\\mathbb{R}\\), the minimum value of \\(2\\sin x-2\\cos x+1\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Write \\(2\\sin x-2\\cos x=2\\sqrt{2}\\sin(x-\\frac{\\pi}{4})\\). Its minimum is \\(-2\\sqrt{2}\\), so the required minimum is \\(1-2\\sqrt{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 50,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.4 Transformation of Trigonometric Expressions",
+            "concept_ids": [
+              "concept_1a1cc801ab",
+              "concept_9b3dbd356a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              50,
+              51,
+              52,
+              190,
+              191
+            ],
+            "source_chunk_ids": [
+              "chunk_1a59bc4090",
+              "chunk_617763a75b"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_2_sqrt_2_1",
+              "label": "\\(1-2\\sqrt{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The amplitude of \\(2\\sin x-2\\cos x\\) is \\(2\\sqrt{2}\\)."
+            },
+            {
+              "id": "1_2_2",
+              "label": "\\(1-2\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The coefficients cannot be combined by subtraction."
+            },
+            {
+              "id": "1_2_sqrt_2_3",
+              "label": "\\(1+2\\sqrt{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the maximum value."
+            },
+            {
+              "id": "2_sqrt_2_4",
+              "label": "\\(-2\\sqrt{2}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The constant \\(1\\) must be included."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_1a59bc4090",
+    "chunk_617763a75b"
+  ],
+  "source_pages": [
+    50,
+    51,
+    52,
+    190,
+    191
+  ],
+  "rejected": []
+}

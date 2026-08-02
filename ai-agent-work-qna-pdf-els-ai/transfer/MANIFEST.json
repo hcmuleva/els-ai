@@ -1,0 +1,30 @@
+{
+  "created_at": "2026-07-22",
+  "postgres": {
+    "file": "postgres/kp-full.dump",
+    "format": "PostgreSQL custom",
+    "postgres_version": "16.14",
+    "size_bytes": 562458,
+    "sha256": "52109de19c56454dbdf6a9d1eec21ee10ebc8b35201fd3c206dacc3d9c85b05c",
+    "record_counts": {
+      "books": 22,
+      "concepts": 547,
+      "concept_edges": 3587,
+      "chunks": 1277,
+      "level_profiles": 547,
+      "quizzes": 3,
+      "questions": 170,
+      "options": 680
+    }
+  },
+  "qdrant": {
+    "file": "qdrant/qdrant-local.tar.gz",
+    "mode": "embedded",
+    "collection": "kp_chunks",
+    "points": 1288,
+    "embedding_model": "BAAI/bge-small-en-v1.5",
+    "embedding_dimension": 384,
+    "size_bytes": 2669770,
+    "sha256": "31a4db02e1f18882260910b5840fec02a445f0c4ab1d68f50b49013f43c76884"
+  }
+}

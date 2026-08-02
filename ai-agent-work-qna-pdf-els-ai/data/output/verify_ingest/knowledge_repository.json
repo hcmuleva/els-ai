@@ -1,0 +1,206 @@
+[
+  {
+    "unit_id": "unit_b5112bb8c0",
+    "book_id": "book_97d5fcbb5a",
+    "chapter_index": 1,
+    "topic": "Kinematics",
+    "subtopic": "Displacement",
+    "concept": "Displacement",
+    "definition": "Displacement is defined as the change in position of an object in a given direction.",
+    "examples": [
+      "For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second."
+    ],
+    "frameworks": [],
+    "processes": [],
+    "formulae": [
+      "The formula for average velocity is v = d / t, where d is displacement and t is time."
+    ],
+    "case_studies": [],
+    "facts": [
+      "Chapter 1: Kinematics Displacement is defined as the change in position of an object in a given direction.",
+      "Velocity is the rate of change of displacement with respect to time, and is a vector quantity."
+    ],
+    "source_pages": [
+      1
+    ]
+  },
+  {
+    "unit_id": "unit_78aa0be1be",
+    "book_id": "book_97d5fcbb5a",
+    "chapter_index": 1,
+    "topic": "Kinematics",
+    "subtopic": "Velocity",
+    "concept": "Velocity",
+    "definition": "Velocity is the rate of change of displacement with respect to time, and is a vector quantity.",
+    "examples": [
+      "For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second."
+    ],
+    "frameworks": [],
+    "processes": [],
+    "formulae": [
+      "The formula for average velocity is v = d / t, where d is displacement and t is time.",
+      "Acceleration is defined as the rate of change of velocity with respect to time, given by a = (v2 - v1) / t."
+    ],
+    "case_studies": [],
+    "facts": [
+      "Speed refers to the magnitude of velocity without direction."
+    ],
+    "source_pages": [
+      1
+    ]
+  },
+  {
+    "unit_id": "unit_788378ca0f",
+    "book_id": "book_97d5fcbb5a",
+    "chapter_index": 1,
+    "topic": "Kinematics",
+    "subtopic": "Speed",
+    "concept": "Speed",
+    "definition": "Speed refers to the magnitude of velocity without direction.",
+    "examples": [
+      "For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second."
+    ],
+    "frameworks": [],
+    "processes": [],
+    "formulae": [],
+    "case_studies": [],
+    "facts": [],
+    "source_pages": [
+      1
+    ]
+  },
+  {
+    "unit_id": "unit_b5b5d14225",
+    "book_id": "book_97d5fcbb5a",
+    "chapter_index": 1,
+    "topic": "Kinematics",
+    "subtopic": "Acceleration",
+    "concept": "Acceleration",
+    "definition": "Acceleration is defined as the rate of change of velocity with respect to time, given by a = (v2 - v1) / t.",
+    "examples": [
+      "For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second."
+    ],
+    "frameworks": [],
+    "processes": [],
+    "formulae": [],
+    "case_studies": [],
+    "facts": [],
+    "source_pages": [
+      1
+    ]
+  },
+  {
+    "unit_id": "unit_f580f373d7",
+    "book_id": "book_97d5fcbb5a",
+    "chapter_index": 2,
+    "topic": "Newton's Laws of Motion",
+    "subtopic": "Principle of inertia",
+    "concept": "Principle of inertia",
+    "definition": "principle of inertia describes this tendency to resist changes in motion.",
+    "examples": [
+      "For example, a force of 10 newtons applied to a 2 kilogram mass produces an acceleration of 5 metres per second squared."
+    ],
+    "frameworks": [],
+    "processes": [],
+    "formulae": [],
+    "case_studies": [],
+    "facts": [
+      "The principle of inertia describes this tendency to resist changes in motion."
+    ],
+    "source_pages": [
+      2
+    ]
+  },
+  {
+    "unit_id": "unit_769c41fc07",
+    "book_id": "book_97d5fcbb5a",
+    "chapter_index": 2,
+    "topic": "Newton's Laws of Motion",
+    "subtopic": "Force",
+    "concept": "Force",
+    "definition": "Force is defined as the product of mass and acceleration, expressed by the formula F = m a.",
+    "examples": [
+      "For example, a force of 10 newtons applied to a 2 kilogram mass produces an acceleration of 5 metres per second squared."
+    ],
+    "frameworks": [],
+    "processes": [],
+    "formulae": [],
+    "case_studies": [],
+    "facts": [
+      "Chapter 2: Newton's Laws of Motion Newton's first law states that an object remains at rest or in uniform motion unless acted upon by a net external force.",
+      "Second, resolve the forces."
+    ],
+    "source_pages": [
+      2
+    ]
+  },
+  {
+    "unit_id": "unit_c3a6eb2c9e",
+    "book_id": "book_97d5fcbb5a",
+    "chapter_index": 3,
+    "topic": "Work and Energy",
+    "subtopic": "Work",
+    "concept": "Work",
+    "definition": "Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.",
+    "examples": [
+      "For example, a falling object converts potential energy into kinetic energy as it descends."
+    ],
+    "frameworks": [],
+    "processes": [],
+    "formulae": [
+      "Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d."
+    ],
+    "case_studies": [],
+    "facts": [
+      "Energy refers to the capacity of a system to do work."
+    ],
+    "source_pages": [
+      3
+    ]
+  },
+  {
+    "unit_id": "unit_7f096245b0",
+    "book_id": "book_97d5fcbb5a",
+    "chapter_index": 3,
+    "topic": "Work and Energy",
+    "subtopic": "Energy",
+    "concept": "Energy",
+    "definition": "Energy refers to the capacity of a system to do work.",
+    "examples": [
+      "For example, a falling object converts potential energy into kinetic energy as it descends."
+    ],
+    "frameworks": [],
+    "processes": [],
+    "formulae": [
+      "Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.",
+      "Kinetic energy is the energy possessed by an object due to its motion, expressed by the formula KE = 0.5 m v^2."
+    ],
+    "case_studies": [],
+    "facts": [
+      "The principle of conservation of energy states that energy cannot be created or destroyed, only transformed."
+    ],
+    "source_pages": [
+      3
+    ]
+  },
+  {
+    "unit_id": "unit_43e7cb638b",
+    "book_id": "book_97d5fcbb5a",
+    "chapter_index": 3,
+    "topic": "Work and Energy",
+    "subtopic": "Kinetic energy",
+    "concept": "Kinetic energy",
+    "definition": "Kinetic energy is the energy possessed by an object due to its motion, expressed by the formula KE = 0.5 m v^2.",
+    "examples": [
+      "For example, a falling object converts potential energy into kinetic energy as it descends."
+    ],
+    "frameworks": [],
+    "processes": [],
+    "formulae": [],
+    "case_studies": [],
+    "facts": [],
+    "source_pages": [
+      3
+    ]
+  }
+]

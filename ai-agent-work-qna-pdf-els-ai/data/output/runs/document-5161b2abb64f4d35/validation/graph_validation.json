@@ -1,0 +1,61 @@
+{
+  "passed": true,
+  "target_connectivity": 0.95,
+  "metrics": {
+    "nodes": 32,
+    "edges": 123,
+    "density": 0.124,
+    "connectivity": 0.969,
+    "coverage": 0.969,
+    "components": 10
+  },
+  "orphan_nodes": [
+    "concept_6cd4d53f38"
+  ],
+  "duplicate_concepts": [],
+  "circular_prerequisites": [],
+  "weak_relationships": [],
+  "missing_parents": [],
+  "disconnected_clusters": [
+    [
+      "concept_05210818a8",
+      "concept_2a665274e3",
+      "concept_549729587d",
+      "concept_5975bf7946",
+      "concept_9254b1d6a8"
+    ],
+    [
+      "concept_6bb4417781",
+      "concept_739b563448",
+      "concept_b680bd6489"
+    ],
+    [
+      "concept_04da8ecccc",
+      "concept_258c353dd8",
+      "concept_52faab1a94"
+    ],
+    [
+      "concept_7693272a7d",
+      "concept_f8eaf41ca7"
+    ],
+    [
+      "concept_1e6c744d80",
+      "concept_9536cc79c4"
+    ],
+    [
+      "concept_08736307d6",
+      "concept_79d3dd9c51"
+    ],
+    [
+      "concept_12146cc5b6",
+      "concept_19fc9d8e17"
+    ],
+    [
+      "concept_43fc18b0f9",
+      "concept_cd149ebd0e"
+    ],
+    [
+      "concept_6cd4d53f38"
+    ]
+  ]
+}

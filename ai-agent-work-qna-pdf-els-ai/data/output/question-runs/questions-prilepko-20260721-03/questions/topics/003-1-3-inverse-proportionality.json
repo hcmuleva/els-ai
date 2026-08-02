@@ -1,0 +1,523 @@
+{
+  "key": "1.3",
+  "topic": "1.3 Inverse Proportionality",
+  "questions": [
+    {
+      "question": {
+        "id": "5a6abe34-c89d-559b-b3cd-864d712853ed",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "\\(y\\) varies inversely as \\(x\\). If \\(y=12\\) when \\(x=3\\), find \\(y\\) when \\(x=8\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For inverse proportionality, \\(xy=k\\). Thus \\(k=3\\times12=36\\), and \\(y=\\frac{36}{8}=\\frac{9}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 11,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.3 Inverse Proportionality",
+            "concept_ids": [
+              "concept_2c57fddca7",
+              "concept_5e078c2130"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              18,
+              19,
+              20,
+              149,
+              150,
+              151
+            ],
+            "source_chunk_ids": [
+              "chunk_9118d80f41",
+              "chunk_574daf3a3a"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_9_2_1",
+              "label": "\\(\\frac{9}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(xy=36\\), so \\(y=\\frac{36}{8}\\)."
+            },
+            {
+              "id": "frac_8_3_2",
+              "label": "\\(\\frac{8}{3}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Incorrect inverse-product constant."
+            },
+            {
+              "id": "6_3",
+              "label": "\\(6\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Does not satisfy \\(xy=36\\)."
+            },
+            {
+              "id": "32_4",
+              "label": "\\(32\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This suggests direct variation."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "17d20279-9bb0-523b-ba29-b7732bddf8d5",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "\\(y\\) varies inversely as \\(x^2\\). If \\(y=18\\) when \\(x=2\\), find the positive value of \\(x\\) when \\(y=8\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since \\(y\\propto\\frac{1}{x^2}\\), \\(x^2y=k\\). Hence \\(k=2^2\\times18=72\\). For \\(y=8\\), \\(x^2=\\frac{72}{8}=9\\), so the positive value is \\(x=3\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 12,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.3 Inverse Proportionality",
+            "concept_ids": [
+              "concept_2c57fddca7",
+              "concept_5e078c2130"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              18,
+              19,
+              20,
+              149,
+              150,
+              151
+            ],
+            "source_chunk_ids": [
+              "chunk_9118d80f41",
+              "chunk_574daf3a3a"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_3_2_1",
+              "label": "\\(\\frac{3}{2}\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Substitution gives \\(y=32\\)."
+            },
+            {
+              "id": "3_2",
+              "label": "\\(3\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(x^2y=72\\), so \\(x^2=9\\)."
+            },
+            {
+              "id": "6_3",
+              "label": "\\(6\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives \\(y=2\\)."
+            },
+            {
+              "id": "9_4",
+              "label": "\\(9\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is \\(x^2\\), not \\(x\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "247640c4-9f4c-5c61-872d-db9773bc98fa",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A rectangle has fixed area \\(48\\,\\text{cm}^2\\). If its length is \\(x\\,\\text{cm}\\), determine the least possible perimeter.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The breadth is \\(\\frac{48}{x}\\), so \\(P=2\\left(x+\\frac{48}{x}\\right)\\). By AM-GM, \\(x+\\frac{48}{x}\\ge2\\sqrt{48}=8\\sqrt{3}\\). Therefore, \\(P_{\\min}=16\\sqrt{3}\\,\\text{cm}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 13,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.3 Inverse Proportionality",
+            "concept_ids": [
+              "concept_2c57fddca7",
+              "concept_5e078c2130"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              18,
+              19,
+              20,
+              149,
+              150,
+              151
+            ],
+            "source_chunk_ids": [
+              "chunk_9118d80f41",
+              "chunk_574daf3a3a"
+            ]
+          },
+          "options": [
+            {
+              "id": "8_sqrt_3_text_cm_1",
+              "label": "\\(8\\sqrt{3}\\,\\text{cm}\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is half the least perimeter."
+            },
+            {
+              "id": "12_sqrt_3_text_cm_2",
+              "label": "\\(12\\sqrt{3}\\,\\text{cm}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Not obtained from the minimum condition."
+            },
+            {
+              "id": "16_sqrt_3_text_cm_3",
+              "label": "\\(16\\sqrt{3}\\,\\text{cm}\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The minimum occurs when both sides equal \\(4\\sqrt{3}\\)."
+            },
+            {
+              "id": "24_sqrt_3_text_cm_4",
+              "label": "\\(24\\sqrt{3}\\,\\text{cm}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This exceeds the attainable minimum."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "b210a760-e36c-5635-ac4e-4b3370df416b",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the greatest and least values of \\(f(x)=\\frac{12}{x}\\) on the interval \\(1\\le x\\le4\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Because \\(f'(x)=-\\frac{12}{x^2}<0\\) for \\(x>0\\), \\(f\\) is decreasing on the interval. Thus \\(f(1)=12\\) is greatest and \\(f(4)=3\\) is least.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 14,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.3 Inverse Proportionality",
+            "concept_ids": [
+              "concept_2c57fddca7",
+              "concept_5e078c2130"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              18,
+              19,
+              20,
+              149,
+              150,
+              151
+            ],
+            "source_chunk_ids": [
+              "chunk_9118d80f41",
+              "chunk_574daf3a3a"
+            ]
+          },
+          "options": [
+            {
+              "id": "Greatest_12_least_3_1",
+              "label": "Greatest \\(=12\\), least \\(=3\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(f(x)\\) decreases for \\(x>0\\)."
+            },
+            {
+              "id": "Greatest_3_least_12_2",
+              "label": "Greatest \\(=3\\), least \\(=12\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The order is reversed."
+            },
+            {
+              "id": "Greatest_16_least_4_3",
+              "label": "Greatest \\(=16\\), least \\(=4\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These are not values of \\(\\frac{12}{x}\\) at the endpoints."
+            },
+            {
+              "id": "Greatest_4_least_1_4",
+              "label": "Greatest \\(=4\\), least \\(=1\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These are endpoint values, not function values."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "function-plot",
+            "width": 360,
+            "height": 300,
+            "xmin": 1.0,
+            "xmax": 4.0,
+            "ymin": -5.0,
+            "ymax": 5.0,
+            "title": null,
+            "elements": [
+              {
+                "type": "grid",
+                "step_x": 1.0,
+                "step_y": 1.0
+              },
+              {
+                "type": "axes",
+                "x_label": "x",
+                "y_label": "y",
+                "ticks": true,
+                "tick_step": 1.0
+              },
+              {
+                "type": "function",
+                "expr": "12/x",
+                "domain": [
+                  1.0,
+                  4.0
+                ],
+                "samples": 120,
+                "label": null,
+                "color": "#1f77b4"
+              },
+              {
+                "type": "point",
+                "at": [
+                  1.0,
+                  12.0
+                ],
+                "label": "A",
+                "color": "#d62728"
+              },
+              {
+                "type": "point",
+                "at": [
+                  4.0,
+                  3.0
+                ],
+                "label": "B",
+                "color": "#d62728"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"34\" y1=\"34\" x2=\"34\" y2=\"266\"/><line x1=\"131.33\" y1=\"34\" x2=\"131.33\" y2=\"266\"/><line x1=\"228.67\" y1=\"34\" x2=\"228.67\" y2=\"266\"/><line x1=\"326\" y1=\"34\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"266\" x2=\"326\" y2=\"266\"/><line x1=\"34\" y1=\"242.8\" x2=\"326\" y2=\"242.8\"/><line x1=\"34\" y1=\"219.6\" x2=\"326\" y2=\"219.6\"/><line x1=\"34\" y1=\"196.4\" x2=\"326\" y2=\"196.4\"/><line x1=\"34\" y1=\"173.2\" x2=\"326\" y2=\"173.2\"/><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"126.8\" x2=\"326\" y2=\"126.8\"/><line x1=\"34\" y1=\"103.6\" x2=\"326\" y2=\"103.6\"/><line x1=\"34\" y1=\"80.4\" x2=\"326\" y2=\"80.4\"/><line x1=\"34\" y1=\"57.2\" x2=\"326\" y2=\"57.2\"/><line x1=\"34\" y1=\"34\" x2=\"326\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"150\" x2=\"326\" y2=\"150\"/><line x1=\"34\" y1=\"266\" x2=\"34\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"34\" y1=\"147\" x2=\"34\" y2=\"153\"/><text x=\"34\" y=\"164\" text-anchor=\"middle\">1</text><line x1=\"131.33\" y1=\"147\" x2=\"131.33\" y2=\"153\"/><text x=\"131.33\" y=\"164\" text-anchor=\"middle\">2</text><line x1=\"228.67\" y1=\"147\" x2=\"228.67\" y2=\"153\"/><text x=\"228.67\" y=\"164\" text-anchor=\"middle\">3</text><line x1=\"326\" y1=\"147\" x2=\"326\" y2=\"153\"/><text x=\"326\" y=\"164\" text-anchor=\"middle\">4</text><line x1=\"31\" y1=\"266\" x2=\"37\" y2=\"266\"/><text x=\"28\" y=\"269\" text-anchor=\"end\">-5</text><line x1=\"31\" y1=\"242.8\" x2=\"37\" y2=\"242.8\"/><text x=\"28\" y=\"245.8\" text-anchor=\"end\">-4</text><line x1=\"31\" y1=\"219.6\" x2=\"37\" y2=\"219.6\"/><text x=\"28\" y=\"222.6\" text-anchor=\"end\">-3</text><line x1=\"31\" y1=\"196.4\" x2=\"37\" y2=\"196.4\"/><text x=\"28\" y=\"199.4\" text-anchor=\"end\">-2</text><line x1=\"31\" y1=\"173.2\" x2=\"37\" y2=\"173.2\"/><text x=\"28\" y=\"176.2\" text-anchor=\"end\">-1</text><line x1=\"31\" y1=\"126.8\" x2=\"37\" y2=\"126.8\"/><text x=\"28\" y=\"129.8\" text-anchor=\"end\">1</text><line x1=\"31\" y1=\"103.6\" x2=\"37\" y2=\"103.6\"/><text x=\"28\" y=\"106.6\" text-anchor=\"end\">2</text><line x1=\"31\" y1=\"80.4\" x2=\"37\" y2=\"80.4\"/><text x=\"28\" y=\"83.4\" text-anchor=\"end\">3</text><line x1=\"31\" y1=\"57.2\" x2=\"37\" y2=\"57.2\"/><text x=\"28\" y=\"60.2\" text-anchor=\"end\">4</text><line x1=\"31\" y1=\"34\" x2=\"37\" y2=\"34\"/><text x=\"28\" y=\"37\" text-anchor=\"end\">5</text></g><text x=\"328\" y=\"154\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"38\" y=\"30\" font-size=\"12\" fill=\"#555555\">y</text><polyline points=\"170.27,34 172.7,35.2 175.13,36.37 177.57,37.52 180,38.64 182.43,39.74 184.87,40.82 187.3,41.88 189.73,42.92 192.17,43.94 194.6,44.94 197.03,45.93 199.47,46.89 201.9,47.83 204.33,48.76 206.77,49.68 209.2,50.57 211.63,51.45 214.07,52.32 216.5,53.17 218.93,54 221.37,54.82 223.8,55.63 226.23,56.42 228.67,57.2 231.1,57.97 233.53,58.72 235.97,59.46 238.4,60.19 240.83,60.91 243.27,61.62 245.7,62.31 248.13,63 250.57,63.67 253,64.34 255.43,64.99 257.87,65.64 260.3,66.27 262.73,66.9 265.17,67.51 267.6,68.12 270.03,68.72 272.47,69.3 274.9,69.88 277.33,70.46 279.77,71.02 282.2,71.58 284.63,72.13 287.07,72.67 289.5,73.2 291.93,73.73 294.37,74.24 296.8,74.76 299.23,75.26 301.67,75.76 304.1,76.25 306.53,76.74 308.97,77.22 311.4,77.69 313.83,78.15 316.27,78.62 318.7,79.07 321.13,79.52 323.57,79.96 326,80.4\" fill=\"none\" stroke=\"#1f77b4\" stroke-width=\"2\"/><circle cx=\"34\" cy=\"-128.4\" r=\"3\" fill=\"#d62728\"/><text x=\"40\" y=\"-134.4\" fill=\"#111111\">A</text><circle cx=\"326\" cy=\"80.4\" r=\"3\" fill=\"#d62728\"/><text x=\"332\" y=\"74.4\" fill=\"#111111\">B</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "c52ecf37-03ce-5bc6-ae29-872bf889e597",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(x>0\\), let \\(g(x)=x+\\frac{9}{x}\\). What is the minimum value of \\(g(x)\\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "By AM-GM, \\(x+\\frac{9}{x}\\ge2\\sqrt{x\\cdot\\frac{9}{x}}=6\\). Equality occurs when \\(x=\\frac{9}{x}\\), giving \\(x=3\\). Hence the minimum value is \\(6\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 15,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.3 Inverse Proportionality",
+            "concept_ids": [
+              "concept_2c57fddca7",
+              "concept_5e078c2130"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              18,
+              19,
+              20,
+              149,
+              150,
+              151
+            ],
+            "source_chunk_ids": [
+              "chunk_9118d80f41",
+              "chunk_574daf3a3a"
+            ]
+          },
+          "options": [
+            {
+              "id": "3_1",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the minimizing value of \\(x\\)."
+            },
+            {
+              "id": "6_2",
+              "label": "\\(6\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Equality holds when \\(x=3\\)."
+            },
+            {
+              "id": "9_3",
+              "label": "\\(9\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the inverse-term constant."
+            },
+            {
+              "id": "12_4",
+              "label": "\\(12\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It is larger than the attainable minimum."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_9118d80f41",
+    "chunk_574daf3a3a"
+  ],
+  "source_pages": [
+    18,
+    19,
+    20,
+    149,
+    150,
+    151
+  ],
+  "rejected": []
+}

@@ -1,0 +1,1373 @@
+{
+  "passed": true,
+  "diagram_count": 13,
+  "categories": {
+    "mathematics": 7,
+    "physics": 3,
+    "statistics": 3
+  },
+  "diagrams": [
+    {
+      "slug": "quadratic-function",
+      "category": "Mathematics",
+      "topic": "Quadratic Functions",
+      "description": "Parabola with roots and vertex marked.",
+      "svg": "quadratic-function.svg",
+      "spec": {
+        "kind": "function-plot",
+        "width": 360,
+        "height": 300,
+        "xmin": -1.0,
+        "xmax": 5.0,
+        "ymin": -5.0,
+        "ymax": 6.0,
+        "title": "Quadratic Function",
+        "elements": [
+          {
+            "type": "grid",
+            "step_x": 1.0,
+            "step_y": 1.0
+          },
+          {
+            "type": "axes",
+            "x_label": "x",
+            "y_label": "y",
+            "ticks": true,
+            "tick_step": 1.0
+          },
+          {
+            "type": "function",
+            "expr": "x**2 - 4*x",
+            "domain": [
+              -1.0,
+              5.0
+            ],
+            "samples": 120,
+            "label": "y=x²−4x",
+            "color": "#1f77b4"
+          },
+          {
+            "type": "point",
+            "at": [
+              0.0,
+              0.0
+            ],
+            "label": "A",
+            "color": "#d62728"
+          },
+          {
+            "type": "point",
+            "at": [
+              2.0,
+              -4.0
+            ],
+            "label": "V",
+            "color": "#d62728"
+          },
+          {
+            "type": "point",
+            "at": [
+              4.0,
+              0.0
+            ],
+            "label": "B",
+            "color": "#d62728"
+          }
+        ]
+      },
+      "validation": {
+        "passed": true,
+        "issues": []
+      }
+    },
+    {
+      "slug": "linear-programming",
+      "category": "Mathematics",
+      "topic": "Linear Programming",
+      "description": "Feasible polygon, constraints, and optimum point.",
+      "svg": "linear-programming.svg",
+      "spec": {
+        "kind": "lpp",
+        "width": 360,
+        "height": 300,
+        "xmin": 0.0,
+        "xmax": 7.0,
+        "ymin": 0.0,
+        "ymax": 7.0,
+        "title": "Linear Programming Region",
+        "elements": [
+          {
+            "type": "grid",
+            "step_x": 1.0,
+            "step_y": 1.0
+          },
+          {
+            "type": "axes",
+            "x_label": "x",
+            "y_label": "y",
+            "ticks": true,
+            "tick_step": 1.0
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                4.0,
+                0.0
+              ],
+              [
+                2.0,
+                4.0
+              ],
+              [
+                0.0,
+                6.0
+              ]
+            ],
+            "label": "Feasible",
+            "fill": "#2ca02c",
+            "fill_opacity": 0.25,
+            "stroke": "#333333",
+            "closed": true
+          },
+          {
+            "type": "line",
+            "a": 1.0,
+            "b": 1.0,
+            "c": 6.0,
+            "label": "1x+1y ≤ 6",
+            "dashed": false,
+            "color": "#2ca02c"
+          },
+          {
+            "type": "line",
+            "a": 2.0,
+            "b": 1.0,
+            "c": 8.0,
+            "label": "2x+1y ≤ 8",
+            "dashed": false,
+            "color": "#2ca02c"
+          },
+          {
+            "type": "point",
+            "at": [
+              2.0,
+              4.0
+            ],
+            "label": "optimum",
+            "color": "#d62728"
+          }
+        ]
+      },
+      "validation": {
+        "passed": true,
+        "issues": []
+      }
+    },
+    {
+      "slug": "circle-chords",
+      "category": "Mathematics",
+      "topic": "Circle Geometry",
+      "description": "A cyclic quadrilateral built from marked chord endpoints.",
+      "svg": "circle-chords.svg",
+      "spec": {
+        "kind": "circle",
+        "width": 360,
+        "height": 300,
+        "xmin": -4.0,
+        "xmax": 4.0,
+        "ymin": -4.0,
+        "ymax": 4.0,
+        "title": "Cyclic Quadrilateral",
+        "elements": [
+          {
+            "type": "circle",
+            "center": [
+              0.0,
+              0.0
+            ],
+            "radius": 3.0,
+            "label": "O",
+            "fill": "none",
+            "stroke": "#333333"
+          },
+          {
+            "type": "point",
+            "at": [
+              2.8190778623577253,
+              1.0260604299770062
+            ],
+            "label": "A",
+            "color": "#d62728"
+          },
+          {
+            "type": "point",
+            "at": [
+              -1.9283628290596182,
+              2.298133329356934
+            ],
+            "label": "B",
+            "color": "#d62728"
+          },
+          {
+            "type": "point",
+            "at": [
+              -2.598076211353316,
+              -1.5000000000000004
+            ],
+            "label": "C",
+            "color": "#d62728"
+          },
+          {
+            "type": "point",
+            "at": [
+              1.9283628290596178,
+              -2.2981333293569346
+            ],
+            "label": "D",
+            "color": "#d62728"
+          },
+          {
+            "type": "segment",
+            "a": [
+              2.8190778623577253,
+              1.0260604299770062
+            ],
+            "b": [
+              -1.9283628290596182,
+              2.298133329356934
+            ],
+            "label": null,
+            "dashed": false,
+            "color": "#333333"
+          },
+          {
+            "type": "segment",
+            "a": [
+              -1.9283628290596182,
+              2.298133329356934
+            ],
+            "b": [
+              -2.598076211353316,
+              -1.5000000000000004
+            ],
+            "label": null,
+            "dashed": false,
+            "color": "#333333"
+          },
+          {
+            "type": "segment",
+            "a": [
+              -2.598076211353316,
+              -1.5000000000000004
+            ],
+            "b": [
+              1.9283628290596178,
+              -2.2981333293569346
+            ],
+            "label": null,
+            "dashed": false,
+            "color": "#333333"
+          },
+          {
+            "type": "segment",
+            "a": [
+              1.9283628290596178,
+              -2.2981333293569346
+            ],
+            "b": [
+              2.8190778623577253,
+              1.0260604299770062
+            ],
+            "label": null,
+            "dashed": false,
+            "color": "#333333"
+          }
+        ]
+      },
+      "validation": {
+        "passed": true,
+        "issues": []
+      }
+    },
+    {
+      "slug": "triangle-trigonometry",
+      "category": "Mathematics",
+      "topic": "Trigonometry",
+      "description": "Labeled triangle with an explicit angle marker.",
+      "svg": "triangle-trigonometry.svg",
+      "spec": {
+        "kind": "triangle",
+        "width": 360,
+        "height": 300,
+        "xmin": -1.5,
+        "xmax": 6.5,
+        "ymin": -1.5,
+        "ymax": 5.0,
+        "title": "Triangle and Angle",
+        "elements": [
+          {
+            "type": "polygon",
+            "points": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                5.0,
+                0.0
+              ],
+              [
+                1.5,
+                3.5
+              ]
+            ],
+            "label": null,
+            "fill": "none",
+            "fill_opacity": 0.25,
+            "stroke": "#333333",
+            "closed": true
+          },
+          {
+            "type": "label",
+            "at": [
+              0.0,
+              0.0
+            ],
+            "text": "A",
+            "color": "#111111",
+            "dx": 6.0,
+            "dy": -6.0
+          },
+          {
+            "type": "label",
+            "at": [
+              5.0,
+              0.0
+            ],
+            "text": "B",
+            "color": "#111111",
+            "dx": 6.0,
+            "dy": -6.0
+          },
+          {
+            "type": "label",
+            "at": [
+              1.5,
+              3.5
+            ],
+            "text": "C",
+            "color": "#111111",
+            "dx": 6.0,
+            "dy": -6.0
+          },
+          {
+            "type": "segment",
+            "a": [
+              0.0,
+              0.0
+            ],
+            "b": [
+              5.0,
+              0.0
+            ],
+            "label": "c",
+            "dashed": false,
+            "color": "#333333"
+          },
+          {
+            "type": "segment",
+            "a": [
+              5.0,
+              0.0
+            ],
+            "b": [
+              1.5,
+              3.5
+            ],
+            "label": "a",
+            "dashed": false,
+            "color": "#333333"
+          },
+          {
+            "type": "segment",
+            "a": [
+              1.5,
+              3.5
+            ],
+            "b": [
+              0.0,
+              0.0
+            ],
+            "label": "b",
+            "dashed": false,
+            "color": "#333333"
+          },
+          {
+            "type": "angle",
+            "vertex": [
+              0.0,
+              0.0
+            ],
+            "p1": [
+              5.0,
+              0.0
+            ],
+            "p2": [
+              1.5,
+              3.5
+            ],
+            "label": "θ",
+            "radius_px": 22.0,
+            "color": "#9467bd",
+            "sweep": "minor"
+          }
+        ]
+      },
+      "validation": {
+        "passed": true,
+        "issues": []
+      }
+    },
+    {
+      "slug": "coordinate-distance",
+      "category": "Mathematics",
+      "topic": "Coordinate Geometry",
+      "description": "Two points joined by a measured segment.",
+      "svg": "coordinate-distance.svg",
+      "spec": {
+        "kind": "coordinate",
+        "width": 360,
+        "height": 300,
+        "xmin": -0.5,
+        "xmax": 6.5,
+        "ymin": 0.5,
+        "ymax": 6.5,
+        "title": "Distance Between Two Points",
+        "elements": [
+          {
+            "type": "grid",
+            "step_x": 1.0,
+            "step_y": 1.0
+          },
+          {
+            "type": "axes",
+            "x_label": "x",
+            "y_label": "y",
+            "ticks": true,
+            "tick_step": 1.0
+          },
+          {
+            "type": "segment",
+            "a": [
+              1.0,
+              2.0
+            ],
+            "b": [
+              5.0,
+              5.0
+            ],
+            "label": "PQ=5",
+            "dashed": false,
+            "color": "#333333"
+          },
+          {
+            "type": "point",
+            "at": [
+              1.0,
+              2.0
+            ],
+            "label": "P(1,2)",
+            "color": "#d62728"
+          },
+          {
+            "type": "point",
+            "at": [
+              5.0,
+              5.0
+            ],
+            "label": "Q(5,5)",
+            "color": "#d62728"
+          }
+        ]
+      },
+      "validation": {
+        "passed": true,
+        "issues": []
+      }
+    },
+    {
+      "slug": "right-triangle-missing-side",
+      "category": "Mathematics",
+      "topic": "Right-Angled Trigonometry",
+      "description": "Proportional right triangle with a right-angle square and unknown side.",
+      "svg": "right-triangle-missing-side.svg",
+      "spec": {
+        "kind": "right-triangle",
+        "width": 360,
+        "height": 300,
+        "xmin": -1.5,
+        "xmax": 11.5,
+        "ymin": -1.5,
+        "ymax": 15.5,
+        "title": "Find the Missing Length",
+        "elements": [
+          {
+            "type": "polygon",
+            "points": [
+              [
+                10.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ],
+              [
+                10.0,
+                14.0
+              ]
+            ],
+            "label": null,
+            "fill": "none",
+            "fill_opacity": 0.25,
+            "stroke": "#333333",
+            "closed": true
+          },
+          {
+            "type": "label",
+            "at": [
+              10.0,
+              0.0
+            ],
+            "text": "",
+            "color": "#111111",
+            "dx": 6.0,
+            "dy": -6.0
+          },
+          {
+            "type": "label",
+            "at": [
+              0.0,
+              0.0
+            ],
+            "text": "",
+            "color": "#111111",
+            "dx": 6.0,
+            "dy": -6.0
+          },
+          {
+            "type": "label",
+            "at": [
+              10.0,
+              14.0
+            ],
+            "text": "",
+            "color": "#111111",
+            "dx": 6.0,
+            "dy": -6.0
+          },
+          {
+            "type": "segment",
+            "a": [
+              10.0,
+              0.0
+            ],
+            "b": [
+              0.0,
+              0.0
+            ],
+            "label": "10",
+            "dashed": false,
+            "color": "#333333"
+          },
+          {
+            "type": "segment",
+            "a": [
+              0.0,
+              0.0
+            ],
+            "b": [
+              10.0,
+              14.0
+            ],
+            "label": "?",
+            "dashed": false,
+            "color": "#333333"
+          },
+          {
+            "type": "segment",
+            "a": [
+              10.0,
+              14.0
+            ],
+            "b": [
+              10.0,
+              0.0
+            ],
+            "label": "14",
+            "dashed": false,
+            "color": "#333333"
+          },
+          {
+            "type": "angle",
+            "vertex": [
+              0.0,
+              0.0
+            ],
+            "p1": [
+              10.0,
+              0.0
+            ],
+            "p2": [
+              10.0,
+              14.0
+            ],
+            "label": "55°",
+            "radius_px": 22.0,
+            "color": "#9467bd",
+            "sweep": "minor"
+          },
+          {
+            "type": "right-angle",
+            "vertex": [
+              10.0,
+              0.0
+            ],
+            "p1": [
+              0.0,
+              0.0
+            ],
+            "p2": [
+              10.0,
+              14.0
+            ],
+            "size_px": 14.0,
+            "color": "#7c3aed"
+          }
+        ]
+      },
+      "validation": {
+        "passed": true,
+        "issues": []
+      }
+    },
+    {
+      "slug": "isosceles-angle-facts",
+      "category": "Mathematics",
+      "topic": "Angles in an Isosceles Triangle",
+      "description": "Equal-side ticks and an unknown angle on a proportional triangle.",
+      "svg": "isosceles-angle-facts.svg",
+      "spec": {
+        "kind": "triangle",
+        "width": 360,
+        "height": 300,
+        "xmin": -1.5,
+        "xmax": 5.5,
+        "ymin": -1.5,
+        "ymax": 6.5,
+        "title": "Find the Missing Angle",
+        "elements": [
+          {
+            "type": "polygon",
+            "points": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                4.0,
+                0.0
+              ],
+              [
+                2.0,
+                5.0
+              ]
+            ],
+            "label": null,
+            "fill": "none",
+            "fill_opacity": 0.25,
+            "stroke": "#333333",
+            "closed": true
+          },
+          {
+            "type": "label",
+            "at": [
+              0.0,
+              0.0
+            ],
+            "text": "",
+            "color": "#111111",
+            "dx": 6.0,
+            "dy": -6.0
+          },
+          {
+            "type": "label",
+            "at": [
+              4.0,
+              0.0
+            ],
+            "text": "",
+            "color": "#111111",
+            "dx": 6.0,
+            "dy": -6.0
+          },
+          {
+            "type": "label",
+            "at": [
+              2.0,
+              5.0
+            ],
+            "text": "",
+            "color": "#111111",
+            "dx": 6.0,
+            "dy": -6.0
+          },
+          {
+            "type": "angle",
+            "vertex": [
+              2.0,
+              5.0
+            ],
+            "p1": [
+              0.0,
+              0.0
+            ],
+            "p2": [
+              4.0,
+              0.0
+            ],
+            "label": "x",
+            "radius_px": 22.0,
+            "color": "#9467bd",
+            "sweep": "minor"
+          },
+          {
+            "type": "tick-mark",
+            "a": [
+              4.0,
+              0.0
+            ],
+            "b": [
+              2.0,
+              5.0
+            ],
+            "count": 1,
+            "size_px": 8.0,
+            "color": "#7c3aed"
+          },
+          {
+            "type": "tick-mark",
+            "a": [
+              2.0,
+              5.0
+            ],
+            "b": [
+              0.0,
+              0.0
+            ],
+            "count": 1,
+            "size_px": 8.0,
+            "color": "#7c3aed"
+          }
+        ]
+      },
+      "validation": {
+        "passed": true,
+        "issues": []
+      }
+    },
+    {
+      "slug": "categorical-bar-chart",
+      "category": "Statistics",
+      "topic": "Bar Charts",
+      "description": "Categorical frequency chart with a validated numeric scale.",
+      "svg": "categorical-bar-chart.svg",
+      "spec": {
+        "kind": "bar-chart",
+        "width": 480,
+        "height": 330,
+        "xmin": -5.0,
+        "xmax": 5.0,
+        "ymin": -5.0,
+        "ymax": 5.0,
+        "title": "Favourite Drinks",
+        "elements": [
+          {
+            "type": "bar-chart",
+            "categories": [
+              "Smoothie",
+              "Juice",
+              "Tea",
+              "Coffee",
+              "Milk"
+            ],
+            "values": [
+              65.0,
+              85.0,
+              40.0,
+              45.0,
+              105.0
+            ],
+            "colors": [],
+            "max_value": 120.0,
+            "tick_step": 20.0,
+            "x_label": "Drink",
+            "y_label": "Frequency",
+            "show_values": false
+          }
+        ]
+      },
+      "validation": {
+        "passed": true,
+        "issues": []
+      }
+    },
+    {
+      "slug": "transport-pie-chart",
+      "category": "Statistics",
+      "topic": "Pie Charts",
+      "description": "Proportional sectors with degree labels, total, colors, and legend.",
+      "svg": "transport-pie-chart.svg",
+      "spec": {
+        "kind": "pie-chart",
+        "width": 460,
+        "height": 330,
+        "xmin": -5.0,
+        "xmax": 5.0,
+        "ymin": -5.0,
+        "ymax": 5.0,
+        "title": "Modes of Transport",
+        "elements": [
+          {
+            "type": "pie-chart",
+            "categories": [
+              "Bus",
+              "Walk",
+              "Tram",
+              "Train",
+              "Car"
+            ],
+            "values": [
+              6.0,
+              7.0,
+              7.0,
+              11.0,
+              9.0
+            ],
+            "colors": [],
+            "label_mode": "degrees",
+            "total_label": "Total: 40 people",
+            "show_legend": true
+          }
+        ]
+      },
+      "validation": {
+        "passed": true,
+        "issues": []
+      }
+    },
+    {
+      "slug": "transport-pictogram",
+      "category": "Statistics",
+      "topic": "Pictograms",
+      "description": "Keyed pictogram supporting complete and fractional symbols.",
+      "svg": "transport-pictogram.svg",
+      "spec": {
+        "kind": "pictogram",
+        "width": 500,
+        "height": 284,
+        "xmin": -5.0,
+        "xmax": 5.0,
+        "ymin": -5.0,
+        "ymax": 5.0,
+        "title": "Travel Survey",
+        "elements": [
+          {
+            "type": "pictogram",
+            "rows": [
+              {
+                "label": "Bike",
+                "value": 5.0,
+                "color": "#0891b2"
+              },
+              {
+                "label": "Walk",
+                "value": 9.0,
+                "color": "#7c3aed"
+              },
+              {
+                "label": "Bus",
+                "value": 4.0,
+                "color": "#2563eb"
+              },
+              {
+                "label": "Train",
+                "value": 11.0,
+                "color": "#f97316"
+              }
+            ],
+            "unit": 2.0,
+            "key_label": "1 square = 2 people",
+            "max_icons_per_row": 12
+          }
+        ]
+      },
+      "validation": {
+        "passed": true,
+        "issues": []
+      }
+    },
+    {
+      "slug": "inclined-plane",
+      "category": "Physics",
+      "topic": "Laws of Motion",
+      "description": "Free-body diagram with gravity, normal, and friction vectors.",
+      "svg": "inclined-plane.svg",
+      "spec": {
+        "kind": "physics-free-body",
+        "width": 440,
+        "height": 320,
+        "xmin": -0.8,
+        "xmax": 5.996152422706632,
+        "ymin": -1.0419872981077811,
+        "ymax": 4.366858428704209,
+        "title": "Block on a 30° Incline",
+        "elements": [
+          {
+            "type": "polygon",
+            "points": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                5.196152422706632,
+                2.9999999999999996
+              ],
+              [
+                5.196152422706632,
+                0.0
+              ]
+            ],
+            "label": null,
+            "fill": "#dbe4ee",
+            "fill_opacity": 0.65,
+            "stroke": "#64748b",
+            "closed": true
+          },
+          {
+            "type": "segment",
+            "a": [
+              0.0,
+              0.0
+            ],
+            "b": [
+              5.196152422706632,
+              2.9999999999999996
+            ],
+            "label": null,
+            "dashed": false,
+            "color": "#334155"
+          },
+          {
+            "type": "segment",
+            "a": [
+              0.0,
+              0.0
+            ],
+            "b": [
+              2.0,
+              0.0
+            ],
+            "label": null,
+            "dashed": false,
+            "color": "#64748b"
+          },
+          {
+            "type": "angle",
+            "vertex": [
+              0.0,
+              0.0
+            ],
+            "p1": [
+              2.0,
+              0.0
+            ],
+            "p2": [
+              1.7320508075688774,
+              0.9999999999999999
+            ],
+            "label": "30°",
+            "radius_px": 22.0,
+            "color": "#9467bd",
+            "sweep": "minor"
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                2.053460969082653,
+                1.2433012701892214
+              ],
+              [
+                3.352499074759311,
+                1.9933012701892214
+              ],
+              [
+                2.902499074759311,
+                2.7727241335952164
+              ],
+              [
+                1.603460969082653,
+                2.0227241335952164
+              ]
+            ],
+            "label": null,
+            "fill": "#dbeafe",
+            "fill_opacity": 1.0,
+            "stroke": "#1e3a8a",
+            "closed": true
+          },
+          {
+            "type": "label",
+            "at": [
+              2.477980021920982,
+              2.008012701892219
+            ],
+            "text": "m",
+            "color": "#111111",
+            "dx": -4.0,
+            "dy": 4.0
+          },
+          {
+            "type": "arrow",
+            "start": [
+              2.477980021920982,
+              2.008012701892219
+            ],
+            "end": [
+              2.477980021920982,
+              -0.24198729810778108
+            ],
+            "label": "mg",
+            "dashed": false,
+            "color": "#dc2626"
+          },
+          {
+            "type": "arrow",
+            "start": [
+              2.477980021920982,
+              2.008012701892219
+            ],
+            "end": [
+              1.577980021920982,
+              3.566858428704209
+            ],
+            "label": "N",
+            "dashed": false,
+            "color": "#2563eb"
+          },
+          {
+            "type": "arrow",
+            "start": [
+              2.477980021920982,
+              2.008012701892219
+            ],
+            "end": [
+              4.036825748732972,
+              2.908012701892219
+            ],
+            "label": "f",
+            "dashed": false,
+            "color": "#d97706"
+          },
+          {
+            "type": "point",
+            "at": [
+              2.477980021920982,
+              2.008012701892219
+            ],
+            "label": null,
+            "color": "#111827"
+          }
+        ]
+      },
+      "validation": {
+        "passed": true,
+        "issues": []
+      }
+    },
+    {
+      "slug": "projectile-motion",
+      "category": "Physics",
+      "topic": "Kinematics",
+      "description": "Trajectory, launch velocity, angle, peak, and range.",
+      "svg": "projectile-motion.svg",
+      "spec": {
+        "kind": "physics-projectile",
+        "width": 440,
+        "height": 320,
+        "xmin": 0.0,
+        "xmax": 45.714285714285715,
+        "ymin": 0.0,
+        "ymax": 13.775510204081636,
+        "title": "Projectile Motion",
+        "elements": [
+          {
+            "type": "grid",
+            "step_x": 5.0,
+            "step_y": 2.0
+          },
+          {
+            "type": "axes",
+            "x_label": "x",
+            "y_label": "y",
+            "ticks": true,
+            "tick_step": 5.0
+          },
+          {
+            "type": "function",
+            "expr": "x*1-9.8*x**2/(2*20**2*0.7071067812**2)",
+            "domain": [
+              0.0,
+              40.816326530612244
+            ],
+            "samples": 120,
+            "label": "trajectory",
+            "color": "#7c3aed"
+          },
+          {
+            "type": "arrow",
+            "start": [
+              0.0,
+              0.0
+            ],
+            "end": [
+              4.906455216396453,
+              4.906455216396453
+            ],
+            "label": "u",
+            "dashed": false,
+            "color": "#2563eb"
+          },
+          {
+            "type": "angle",
+            "vertex": [
+              0.0,
+              0.0
+            ],
+            "p1": [
+              6.938775510204082,
+              0.0
+            ],
+            "p2": [
+              4.906455216396453,
+              4.906455216396453
+            ],
+            "label": "45°",
+            "radius_px": 22.0,
+            "color": "#9467bd",
+            "sweep": "minor"
+          },
+          {
+            "type": "point",
+            "at": [
+              0.0,
+              0.0
+            ],
+            "label": "launch",
+            "color": "#d62728"
+          },
+          {
+            "type": "point",
+            "at": [
+              40.816326530612244,
+              0.0
+            ],
+            "label": "range",
+            "color": "#d62728"
+          },
+          {
+            "type": "label",
+            "at": [
+              20.408163265306122,
+              10.204081632653063
+            ],
+            "text": "H=10.2",
+            "color": "#6d28d9",
+            "dx": 8.0,
+            "dy": -8.0
+          }
+        ]
+      },
+      "validation": {
+        "passed": true,
+        "issues": []
+      }
+    },
+    {
+      "slug": "convex-lens",
+      "category": "Physics",
+      "topic": "Ray Optics",
+      "description": "Principal rays for a real inverted image formed by a convex lens.",
+      "svg": "convex-lens.svg",
+      "spec": {
+        "kind": "physics-ray-optics",
+        "width": 460,
+        "height": 310,
+        "xmin": -7.0,
+        "xmax": 4.5,
+        "ymin": -2.0,
+        "ymax": 3.0,
+        "title": "Convex Lens Ray Diagram",
+        "elements": [
+          {
+            "type": "segment",
+            "a": [
+              -7.0,
+              0.0
+            ],
+            "b": [
+              4.5,
+              0.0
+            ],
+            "label": null,
+            "dashed": false,
+            "color": "#64748b"
+          },
+          {
+            "type": "segment",
+            "a": [
+              0.0,
+              -1.65
+            ],
+            "b": [
+              0.0,
+              2.65
+            ],
+            "label": null,
+            "dashed": false,
+            "color": "#0891b2"
+          },
+          {
+            "type": "arrow",
+            "start": [
+              -6.0,
+              0.0
+            ],
+            "end": [
+              -6.0,
+              2.0
+            ],
+            "label": "object",
+            "dashed": false,
+            "color": "#2563eb"
+          },
+          {
+            "type": "arrow",
+            "start": [
+              3.0,
+              0.0
+            ],
+            "end": [
+              3.0,
+              -1.0
+            ],
+            "label": "image",
+            "dashed": false,
+            "color": "#dc2626"
+          },
+          {
+            "type": "segment",
+            "a": [
+              -6.0,
+              2.0
+            ],
+            "b": [
+              0.0,
+              2.0
+            ],
+            "label": null,
+            "dashed": false,
+            "color": "#d97706"
+          },
+          {
+            "type": "segment",
+            "a": [
+              0.0,
+              2.0
+            ],
+            "b": [
+              3.0,
+              -1.0
+            ],
+            "label": null,
+            "dashed": false,
+            "color": "#d97706"
+          },
+          {
+            "type": "segment",
+            "a": [
+              -6.0,
+              2.0
+            ],
+            "b": [
+              3.0,
+              -1.0
+            ],
+            "label": null,
+            "dashed": false,
+            "color": "#7c3aed"
+          },
+          {
+            "type": "point",
+            "at": [
+              -2.0,
+              0.0
+            ],
+            "label": "F₁",
+            "color": "#0f766e"
+          },
+          {
+            "type": "point",
+            "at": [
+              2.0,
+              0.0
+            ],
+            "label": "F₂",
+            "color": "#0f766e"
+          },
+          {
+            "type": "point",
+            "at": [
+              0.0,
+              0.0
+            ],
+            "label": "O",
+            "color": "#0891b2"
+          },
+          {
+            "type": "label",
+            "at": [
+              0.0,
+              2.35
+            ],
+            "text": "convex lens",
+            "color": "#0891b2",
+            "dx": 8.0,
+            "dy": 0.0
+          }
+        ]
+      },
+      "validation": {
+        "passed": true,
+        "issues": []
+      }
+    }
+  ]
+}

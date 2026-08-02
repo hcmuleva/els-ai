@@ -1,0 +1,270 @@
+{
+  "key": "7.2",
+  "topic": "7.2 Construction Problems",
+  "questions": [
+    {
+      "question": {
+        "id": "e25884a9-e273-5782-8612-288ed5d4e864",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "In an angle with vertex \\(O\\), a point \\(P\\) lies inside it. The sides are \\(OA\\) and \\(OB\\). Which construction produces a line through \\(P\\) such that \\(P\\) is the midpoint of its intercepted segment?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "With \\(PM\\parallel OB\\), \\(\\vec{OP}=\\vec{OM}+\\vec{MP}\\). The construction gives \\(\\vec{OX}=2\\vec{OM}\\) and \\(\\vec{OY}=2\\vec{MP}\\). Hence the midpoint of \\(XY\\) has position vector \\(\\frac{\\vec{OX}+\\vec{OY}}{2}=\\vec{OP}\\), so it is \\(P\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 77,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "7.2 Construction Problems",
+            "concept_ids": [
+              "concept_157b94d8d6",
+              "concept_958d98624e"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              108,
+              244,
+              245
+            ],
+            "source_chunk_ids": [
+              "chunk_4fc61d4aa7",
+              "chunk_57fbf587f1"
+            ]
+          },
+          "options": [
+            {
+              "id": "Through_P_draw_a_line_pa_1",
+              "label": "Through \\(P\\), draw a line parallel to \\(OB\\), meeting \\(OA\\) at \\(M\\). Construct \\(X\\) on \\(OA\\) with \\(OX=2OM\\), construct \\(Y\\) on \\(OB\\) with \\(OY=2PM\\), and draw \\(XY\\).",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The midpoint of \\(XY\\) has position vector \\(\\vec{OM}+\\vec{MP}=\\vec{OP}\\)."
+            },
+            {
+              "id": "Through_P_draw_a_line_pa_2",
+              "label": "Through \\(P\\), draw a line parallel to \\(OB\\), meeting \\(OA\\) at \\(M\\), and draw the line through \\(M\\) perpendicular to \\(OA\\).",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not ensure that the two intercepted parts have equal lengths."
+            },
+            {
+              "id": "Construct_X_on_OA_with_O_3",
+              "label": "Construct \\(X\\) on \\(OA\\) with \\(OX=OM\\), construct \\(Y\\) on \\(OB\\) with \\(OY=PM\\), and draw \\(XY\\).",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The required distances must be doubled."
+            },
+            {
+              "id": "Reflect_P_in_the_vertex_4",
+              "label": "Reflect \\(P\\) in the vertex \\(O\\), and join the reflected point to \\(P\\).",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The resulting line need not meet both sides of the angle symmetrically about \\(P\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "993955d7-cce8-5441-a73e-b226bcdee833",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Given a circle with centre \\(O\\) and an external point \\(P\\), which construction correctly draws the tangents from \\(P\\) to the circle?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "If \\(M\\) is the midpoint of \\(OP\\), every intersection \\(T_i\\) of the auxiliary circle and the given circle satisfies \\(\\angle OT_iP=90^\\circ\\). Therefore \\(PT_i\\perp OT_i\\), so \\(PT_i\\) is tangent at \\(T_i\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 78,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.2 Construction Problems",
+            "concept_ids": [
+              "concept_157b94d8d6",
+              "concept_958d98624e"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              108,
+              244,
+              245
+            ],
+            "source_chunk_ids": [
+              "chunk_4fc61d4aa7",
+              "chunk_57fbf587f1"
+            ]
+          },
+          "options": [
+            {
+              "id": "Bisect_OP_at_M_Draw_the_1",
+              "label": "Bisect \\(OP\\) at \\(M\\). Draw the circle with centre \\(M\\) and radius \\(MO\\). Its intersections \\(T_1,T_2\\) with the given circle determine tangents \\(PT_1\\) and \\(PT_2\\).",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Since \\(\\angle OT_iP=90^\\circ\\), each \\(PT_i\\) is tangent."
+            },
+            {
+              "id": "Draw_a_circle_with_centr_2",
+              "label": "Draw a circle with centre \\(P\\) and radius \\(PO\\); join its intersections with the given circle to \\(P\\).",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This auxiliary circle does not make the contact radii perpendicular to the lines."
+            },
+            {
+              "id": "Draw_the_perpendicular_b_3",
+              "label": "Draw the perpendicular bisector of \\(OP\\); its intersections with the given circle are the points of contact.",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The perpendicular bisector need not intersect the circle at tangent points."
+            },
+            {
+              "id": "Draw_a_circle_with_centr_4",
+              "label": "Draw a circle with centre \\(O\\) and radius \\(OP\\); join its intersections with the given circle to \\(P\\).",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not construct the circle with diameter \\(OP\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 2,
+  "context_chunks": [
+    "chunk_4fc61d4aa7",
+    "chunk_57fbf587f1"
+  ],
+  "source_pages": [
+    108,
+    244,
+    245
+  ],
+  "rejected": [
+    {
+      "attempt": 1,
+      "stem": "In \\(\\angle XOY\\), point \\(P\\) lies in its interior. A line \\(s\\) through \\(P\\) must meet rays \\(OX\\) and \\(OY\\) at \\(B\\) and \\(C\\), respectively, such that \\(P\\) is the midpoint of \\(BC\\). Which construction is valid?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 1,
+      "stem": "Which sequence correctly constructs a triangle \\(ABC\\) with \\(AB=7\\ \\mathrm{cm}\\), \\(BC=9\\ \\mathrm{cm}\\), and \\(CA=8\\ \\mathrm{cm}\\)?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 1,
+      "stem": "A triangle is constructed with \\(AB=6\\ \\mathrm{cm}\\), \\(AC=8\\ \\mathrm{cm}\\), and \\(\\angle BAC=60^{\\circ}\\). What is the length of the third side \\(BC\\)?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 1,
+      "stem": "To construct triangle \\(ABC\\), the data are \\(BC=8\\ \\mathrm{cm}\\), \\(AB=7\\ \\mathrm{cm}\\), and the median \\(AD=5\\ \\mathrm{cm}\\), where \\(D\\) is the midpoint of \\(BC\\). Which construction is correct?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 1,
+      "stem": "Construct a triangle \\(ABC\\) such that \\(BC=7\\ \\mathrm{cm}\\), \\(\\angle ABC=45^{\\circ}\\), and \\(AB+AC=15\\ \\mathrm{cm}\\). Which procedure is valid?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 2,
+      "stem": "To construct triangle \\(ABC\\) when \\(BC=a\\), \\(\\angle ABC=\\beta\\), and \\(\\angle ACB=\\gamma\\), where \\(\\beta+\\gamma<180^\\circ\\), which procedure is correct?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 2,
+      "stem": "A triangle \\(ABC\\) is to be constructed from the three lengths \\(BC=a\\), \\(CA=b\\), and \\(AB=c\\). After drawing \\(BC=a\\), which pair of loci locates \\(A\\)?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 2,
+      "stem": "A counterclockwise rotation through \\(90^\\circ\\) about \\(B\\) maps point \\(F\\) to point \\(C\\). Which construction locates \\(C\\) correctly?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 3,
+      "stem": "To construct triangle \\(ABC\\) when \\(BC=6\\,\\mathrm{cm}\\), \\(\\angle ABC=60^\\circ\\), and \\(AB+AC=10\\,\\mathrm{cm}\\), which procedure is valid?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 3,
+      "stem": "A triangle \\(ABC\\) is to be constructed with \\(BC=8\\,\\mathrm{cm}\\), \\(\\angle ABC=60^\\circ\\), and \\(AB\\) longer than \\(AC\\) by \\(2\\,\\mathrm{cm}\\). Which construction is correct?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    },
+    {
+      "attempt": 3,
+      "stem": "Which sequence correctly constructs triangle \\(ABC\\) when \\(AB=7\\,\\mathrm{cm}\\), \\(AC=5\\,\\mathrm{cm}\\), and the included angle \\(\\angle BAC=60^\\circ\\) are given?",
+      "issues": [
+        "multi-letter text in math must use a LaTeX command or text/roman group"
+      ]
+    }
+  ]
+}

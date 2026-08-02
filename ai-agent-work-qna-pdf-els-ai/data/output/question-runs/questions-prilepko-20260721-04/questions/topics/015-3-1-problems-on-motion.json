@@ -1,0 +1,545 @@
+{
+  "key": "3.1",
+  "topic": "3.1 Problems on Motion",
+  "questions": [
+    {
+      "question": {
+        "id": "1fc6d1a1-9a8b-5d9f-a5c4-bb394956424d",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(f(x)=\\sin^2 x\\), which interval is one on which \\(f\\) is strictly increasing?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(f'(x)=2\\sin x\\cos x=\\sin 2x\\). Since \\(\\sin 2x>0\\) for \\(x\\in\\left(-\\pi,-\\frac{\\pi}{2}\\right)\\), \\(f\\) is strictly increasing there.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 71,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "3.1 Problems on Motion",
+            "concept_ids": [
+              "concept_55243fb7b8",
+              "concept_80f2b383f9"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              71,
+              72,
+              73,
+              74,
+              75,
+              76,
+              220
+            ],
+            "source_chunk_ids": [
+              "chunk_1768849c3d",
+              "chunk_cf83fe5906"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_pi_frac_pi_2_right_1",
+              "label": "\\(\\left(-\\pi,-\\frac{\\pi}{2}\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(f'(x)=\\sin 2x>0\\) on this interval."
+            },
+            {
+              "id": "left_frac_pi_2_0_right_2",
+              "label": "\\(\\left(-\\frac{\\pi}{2},0\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(\\sin 2x<0\\) here."
+            },
+            {
+              "id": "left_frac_pi_2_pi_right_3",
+              "label": "\\(\\left(\\frac{\\pi}{2},\\pi\\right)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(\\sin 2x<0\\) here."
+            },
+            {
+              "id": "left_frac_pi_4_frac_pi_4_4",
+              "label": "\\(\\left(-\\frac{\\pi}{4},\\frac{\\pi}{4}\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative changes sign at \\(0\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "function-plot",
+            "width": 360,
+            "height": 300,
+            "xmin": -3.141592653589793,
+            "xmax": 3.141592653589793,
+            "ymin": -0.15,
+            "ymax": 1.15,
+            "title": null,
+            "elements": [
+              {
+                "type": "grid",
+                "step_x": 1.0,
+                "step_y": 1.0
+              },
+              {
+                "type": "axes",
+                "x_label": "x",
+                "y_label": "y",
+                "ticks": true,
+                "tick_step": 1.0
+              },
+              {
+                "type": "function",
+                "expr": "sin(x)**2",
+                "domain": [
+                  -3.141592653589793,
+                  3.141592653589793
+                ],
+                "samples": 120,
+                "label": "sin²x",
+                "color": "#1f77b4"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"40.58\" y1=\"34\" x2=\"40.58\" y2=\"266\"/><line x1=\"87.05\" y1=\"34\" x2=\"87.05\" y2=\"266\"/><line x1=\"133.53\" y1=\"34\" x2=\"133.53\" y2=\"266\"/><line x1=\"180\" y1=\"34\" x2=\"180\" y2=\"266\"/><line x1=\"226.47\" y1=\"34\" x2=\"226.47\" y2=\"266\"/><line x1=\"272.95\" y1=\"34\" x2=\"272.95\" y2=\"266\"/><line x1=\"319.42\" y1=\"34\" x2=\"319.42\" y2=\"266\"/><line x1=\"34\" y1=\"239.23\" x2=\"326\" y2=\"239.23\"/><line x1=\"34\" y1=\"60.77\" x2=\"326\" y2=\"60.77\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"239.23\" x2=\"326\" y2=\"239.23\"/><line x1=\"180\" y1=\"266\" x2=\"180\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"40.58\" y1=\"236.23\" x2=\"40.58\" y2=\"242.23\"/><text x=\"40.58\" y=\"253.23\" text-anchor=\"middle\">-3</text><line x1=\"87.05\" y1=\"236.23\" x2=\"87.05\" y2=\"242.23\"/><text x=\"87.05\" y=\"253.23\" text-anchor=\"middle\">-2</text><line x1=\"133.53\" y1=\"236.23\" x2=\"133.53\" y2=\"242.23\"/><text x=\"133.53\" y=\"253.23\" text-anchor=\"middle\">-1</text><line x1=\"226.47\" y1=\"236.23\" x2=\"226.47\" y2=\"242.23\"/><text x=\"226.47\" y=\"253.23\" text-anchor=\"middle\">1</text><line x1=\"272.95\" y1=\"236.23\" x2=\"272.95\" y2=\"242.23\"/><text x=\"272.95\" y=\"253.23\" text-anchor=\"middle\">2</text><line x1=\"319.42\" y1=\"236.23\" x2=\"319.42\" y2=\"242.23\"/><text x=\"319.42\" y=\"253.23\" text-anchor=\"middle\">3</text><line x1=\"177\" y1=\"60.77\" x2=\"183\" y2=\"60.77\"/><text x=\"174\" y=\"63.77\" text-anchor=\"end\">1</text></g><text x=\"328\" y=\"243.23\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"184\" y=\"30\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">y</text><polyline points=\"34,239.23 36.43,238.74 38.87,237.28 41.3,234.86 43.73,231.52 46.17,227.28 48.6,222.19 51.03,216.31 53.47,209.71 55.9,202.45 58.33,194.62 60.77,186.29 63.2,177.57 65.63,168.55 68.07,159.33 70.5,150 72.93,140.67 75.37,131.45 77.8,122.43 80.23,113.71 82.67,105.38 85.1,97.55 87.53,90.29 89.97,83.69 92.4,77.81 94.83,72.72 97.27,68.48 99.7,65.14 102.13,62.72 104.57,61.26 107,60.77 109.43,61.26 111.87,62.72 114.3,65.14 116.73,68.48 119.17,72.72 121.6,77.81 124.03,83.69 126.47,90.29 128.9,97.55 131.33,105.38 133.77,113.71 136.2,122.43 138.63,131.45 141.07,140.67 143.5,150 145.93,159.33 148.37,168.55 150.8,177.57 153.23,186.29 155.67,194.62 158.1,202.45 160.53,209.71 162.97,216.31 165.4,222.19 167.83,227.28 170.27,231.52 172.7,234.86 175.13,237.28 177.57,238.74 180,239.23 182.43,238.74 184.87,237.28 187.3,234.86 189.73,231.52 192.17,227.28 194.6,222.19 197.03,216.31 199.47,209.71 201.9,202.45 204.33,194.62 206.77,186.29 209.2,177.57 211.63,168.55 214.07,159.33 216.5,150 218.93,140.67 221.37,131.45 223.8,122.43 226.23,113.71 228.67,105.38 231.1,97.55 233.53,90.29 235.97,83.69 238.4,77.81 240.83,72.72 243.27,68.48 245.7,65.14 248.13,62.72 250.57,61.26 253,60.77 255.43,61.26 257.87,62.72 260.3,65.14 262.73,68.48 265.17,72.72 267.6,77.81 270.03,83.69 272.47,90.29 274.9,97.55 277.33,105.38 279.77,113.71 282.2,122.43 284.63,131.45 287.07,140.67 289.5,150 291.93,159.33 294.37,168.55 296.8,177.57 299.23,186.29 301.67,194.62 304.1,202.45 306.53,209.71 308.97,216.31 311.4,222.19 313.83,227.28 316.27,231.52 318.7,234.86 321.13,237.28 323.57,238.74 326,239.23\" fill=\"none\" stroke=\"#1f77b4\" stroke-width=\"2\"/><text x=\"320\" y=\"231.23\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#1f77b4\">sin²x</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "d317292d-8cfc-57df-9ac0-e7ea22078c3e",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "On which interval is \\(f(x)=\\cos^3 x\\) strictly decreasing?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(f'(x)=-3\\cos^2x\\sin x\\). For \\(x\\in(0,\\pi)\\), the derivative is nonpositive and is negative except at isolated points, so \\(\\cos^3x\\) is strictly decreasing on \\([0,\\pi]\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 72,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Understand",
+            "topic": "3.1 Problems on Motion",
+            "concept_ids": [
+              "concept_55243fb7b8",
+              "concept_80f2b383f9"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              71,
+              72,
+              73,
+              74,
+              75,
+              76,
+              220
+            ],
+            "source_chunk_ids": [
+              "chunk_1768849c3d",
+              "chunk_cf83fe5906"
+            ]
+          },
+          "options": [
+            {
+              "id": "0_pi_1",
+              "label": "\\([0,\\pi]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(f'(x)=-3\\cos^2x\\sin x\\le 0\\) there."
+            },
+            {
+              "id": "pi_0_2",
+              "label": "\\([-\\pi,0]\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The function is increasing there."
+            },
+            {
+              "id": "pi_2_pi_3",
+              "label": "\\([\\pi,2\\pi]\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative is nonnegative there."
+            },
+            {
+              "id": "0_2_pi_4",
+              "label": "\\([0,2\\pi]\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The function increases on part of this interval."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "d8cc8b4d-4c73-56b8-83b6-5ca6d0a9b2be",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(0<x<\\frac{\\pi}{2}\\), which inequality is always true?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(t=\\tan\\frac{x}{2}\\). Then \\(0<t<1\\), and \\(\\tan x=\\frac{2t}{1-t^2}>2t=2\\tan\\frac{x}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 73,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "3.1 Problems on Motion",
+            "concept_ids": [
+              "concept_55243fb7b8",
+              "concept_80f2b383f9"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              71,
+              72,
+              73,
+              74,
+              75,
+              76,
+              220
+            ],
+            "source_chunk_ids": [
+              "chunk_1768849c3d",
+              "chunk_cf83fe5906"
+            ]
+          },
+          "options": [
+            {
+              "id": "tan_x_2_tan_frac_x_2_1",
+              "label": "\\(\\tan x>2\\tan\\frac{x}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Use \\(\\tan x=\\frac{2t}{1-t^2}\\), where \\(t=\\tan\\frac{x}{2}\\in(0,1)\\)."
+            },
+            {
+              "id": "tan_x_2_tan_frac_x_2_2",
+              "label": "\\(\\tan x<2\\tan\\frac{x}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The denominator \\(1-t^2\\) is less than \\(1\\)."
+            },
+            {
+              "id": "tan_x_2_tan_frac_x_2_3",
+              "label": "\\(\\tan x=2\\tan\\frac{x}{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This would require \\(t=0\\)."
+            },
+            {
+              "id": "tan_x_le_tan_frac_x_2_4",
+              "label": "\\(\\tan x\\le\\tan\\frac{x}{2}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Tangent is increasing on this range."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "f52949a9-cd5b-5e30-9d87-7bc1c9dff770",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For \\(f(x)=\\sin^2 x\\), the intervals on which \\(f\\) is strictly increasing within \\((-\\pi,\\pi)\\) are",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(f'(x)=2\\sin x\\cos x=\\sin 2x\\). Hence \\(f'(x)>0\\) on \\((-\\pi,-\\frac{\\pi}{2})\\) and \\((0,\\frac{\\pi}{2})\\), so \\(f\\) is strictly increasing there.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 74,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "3.1 Problems on Motion",
+            "concept_ids": [
+              "concept_55243fb7b8",
+              "concept_80f2b383f9"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              71,
+              72,
+              73,
+              74,
+              75,
+              76,
+              220
+            ],
+            "source_chunk_ids": [
+              "chunk_1768849c3d",
+              "chunk_cf83fe5906"
+            ]
+          },
+          "options": [
+            {
+              "id": "pi_frac_pi_2_cup_0_frac_1",
+              "label": "\\((-\\pi,-\\frac{\\pi}{2})\\cup(0,\\frac{\\pi}{2})\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(f'(x)=\\sin 2x>0\\) on these intervals."
+            },
+            {
+              "id": "frac_pi_2_0_cup_frac_pi_2",
+              "label": "\\((-\\frac{\\pi}{2},0)\\cup(\\frac{\\pi}{2},\\pi)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Here \\(\\sin 2x<0\\), so the function decreases."
+            },
+            {
+              "id": "pi_0_3",
+              "label": "\\((-\\pi,0)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative changes sign at \\(x=-\\frac{\\pi}{2}\\)."
+            },
+            {
+              "id": "0_pi_4",
+              "label": "\\((0,\\pi)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative changes sign at \\(x=\\frac{\\pi}{2}\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "function-plot",
+            "width": 360,
+            "height": 300,
+            "xmin": -3.141592653589793,
+            "xmax": 3.141592653589793,
+            "ymin": -0.15,
+            "ymax": 1.15,
+            "title": null,
+            "elements": [
+              {
+                "type": "grid",
+                "step_x": 1.0,
+                "step_y": 1.0
+              },
+              {
+                "type": "axes",
+                "x_label": "x",
+                "y_label": "y",
+                "ticks": true,
+                "tick_step": 1.0
+              },
+              {
+                "type": "function",
+                "expr": "sin(x)**2",
+                "domain": [
+                  -3.141592653589793,
+                  3.141592653589793
+                ],
+                "samples": 120,
+                "label": "sin²x",
+                "color": "#1f77b4"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><g stroke=\"#e6e6e6\" stroke-width=\"1\"><line x1=\"40.58\" y1=\"34\" x2=\"40.58\" y2=\"266\"/><line x1=\"87.05\" y1=\"34\" x2=\"87.05\" y2=\"266\"/><line x1=\"133.53\" y1=\"34\" x2=\"133.53\" y2=\"266\"/><line x1=\"180\" y1=\"34\" x2=\"180\" y2=\"266\"/><line x1=\"226.47\" y1=\"34\" x2=\"226.47\" y2=\"266\"/><line x1=\"272.95\" y1=\"34\" x2=\"272.95\" y2=\"266\"/><line x1=\"319.42\" y1=\"34\" x2=\"319.42\" y2=\"266\"/><line x1=\"34\" y1=\"239.23\" x2=\"326\" y2=\"239.23\"/><line x1=\"34\" y1=\"60.77\" x2=\"326\" y2=\"60.77\"/></g><g stroke=\"#555555\" stroke-width=\"1.2\"><line x1=\"34\" y1=\"239.23\" x2=\"326\" y2=\"239.23\"/><line x1=\"180\" y1=\"266\" x2=\"180\" y2=\"34\"/></g><g stroke=\"#555555\" stroke-width=\"1\" fill=\"#555555\" font-size=\"10\"><line x1=\"40.58\" y1=\"236.23\" x2=\"40.58\" y2=\"242.23\"/><text x=\"40.58\" y=\"253.23\" text-anchor=\"middle\">-3</text><line x1=\"87.05\" y1=\"236.23\" x2=\"87.05\" y2=\"242.23\"/><text x=\"87.05\" y=\"253.23\" text-anchor=\"middle\">-2</text><line x1=\"133.53\" y1=\"236.23\" x2=\"133.53\" y2=\"242.23\"/><text x=\"133.53\" y=\"253.23\" text-anchor=\"middle\">-1</text><line x1=\"226.47\" y1=\"236.23\" x2=\"226.47\" y2=\"242.23\"/><text x=\"226.47\" y=\"253.23\" text-anchor=\"middle\">1</text><line x1=\"272.95\" y1=\"236.23\" x2=\"272.95\" y2=\"242.23\"/><text x=\"272.95\" y=\"253.23\" text-anchor=\"middle\">2</text><line x1=\"319.42\" y1=\"236.23\" x2=\"319.42\" y2=\"242.23\"/><text x=\"319.42\" y=\"253.23\" text-anchor=\"middle\">3</text><line x1=\"177\" y1=\"60.77\" x2=\"183\" y2=\"60.77\"/><text x=\"174\" y=\"63.77\" text-anchor=\"end\">1</text></g><text x=\"328\" y=\"243.23\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">x</text><text x=\"184\" y=\"30\" data-layout=\"auto\" font-size=\"12\" fill=\"#555555\">y</text><polyline points=\"34,239.23 36.43,238.74 38.87,237.28 41.3,234.86 43.73,231.52 46.17,227.28 48.6,222.19 51.03,216.31 53.47,209.71 55.9,202.45 58.33,194.62 60.77,186.29 63.2,177.57 65.63,168.55 68.07,159.33 70.5,150 72.93,140.67 75.37,131.45 77.8,122.43 80.23,113.71 82.67,105.38 85.1,97.55 87.53,90.29 89.97,83.69 92.4,77.81 94.83,72.72 97.27,68.48 99.7,65.14 102.13,62.72 104.57,61.26 107,60.77 109.43,61.26 111.87,62.72 114.3,65.14 116.73,68.48 119.17,72.72 121.6,77.81 124.03,83.69 126.47,90.29 128.9,97.55 131.33,105.38 133.77,113.71 136.2,122.43 138.63,131.45 141.07,140.67 143.5,150 145.93,159.33 148.37,168.55 150.8,177.57 153.23,186.29 155.67,194.62 158.1,202.45 160.53,209.71 162.97,216.31 165.4,222.19 167.83,227.28 170.27,231.52 172.7,234.86 175.13,237.28 177.57,238.74 180,239.23 182.43,238.74 184.87,237.28 187.3,234.86 189.73,231.52 192.17,227.28 194.6,222.19 197.03,216.31 199.47,209.71 201.9,202.45 204.33,194.62 206.77,186.29 209.2,177.57 211.63,168.55 214.07,159.33 216.5,150 218.93,140.67 221.37,131.45 223.8,122.43 226.23,113.71 228.67,105.38 231.1,97.55 233.53,90.29 235.97,83.69 238.4,77.81 240.83,72.72 243.27,68.48 245.7,65.14 248.13,62.72 250.57,61.26 253,60.77 255.43,61.26 257.87,62.72 260.3,65.14 262.73,68.48 265.17,72.72 267.6,77.81 270.03,83.69 272.47,90.29 274.9,97.55 277.33,105.38 279.77,113.71 282.2,122.43 284.63,131.45 287.07,140.67 289.5,150 291.93,159.33 294.37,168.55 296.8,177.57 299.23,186.29 301.67,194.62 304.1,202.45 306.53,209.71 308.97,216.31 311.4,222.19 313.83,227.28 316.27,231.52 318.7,234.86 321.13,237.28 323.57,238.74 326,239.23\" fill=\"none\" stroke=\"#1f77b4\" stroke-width=\"2\"/><text x=\"320\" y=\"231.23\" text-anchor=\"end\" data-layout=\"auto\" font-size=\"12\" fill=\"#1f77b4\">sin²x</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "7a4ce316-d3d9-52fd-94b9-18facc3b1fd0",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(F(x)=\\tan x-2\\tan\\frac{x}{2}\\). For \\(x\\in(0,\\frac{\\pi}{2})\\), which statement is correct?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(F'(x)=\\sec^2x-\\sec^2\\frac{x}{2}>0\\), since \\(\\sec^2t\\) increases on \\((0,\\frac{\\pi}{2})\\). Also, \\(F(0)=0\\). Therefore \\(F(x)>0\\) for \\(x>0\\), proving \\(\\tan x>2\\tan\\frac{x}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 75,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "3.1 Problems on Motion",
+            "concept_ids": [
+              "concept_55243fb7b8",
+              "concept_80f2b383f9"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              71,
+              72,
+              73,
+              74,
+              75,
+              76,
+              220
+            ],
+            "source_chunk_ids": [
+              "chunk_1768849c3d",
+              "chunk_cf83fe5906"
+            ]
+          },
+          "options": [
+            {
+              "id": "F_x_0_and_F_x_0_1",
+              "label": "\\(F(x)>0\\) and \\(F'(x)>0\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(\\sec^2x>\\sec^2\\frac{x}{2}\\), and \\(F(0)=0\\)."
+            },
+            {
+              "id": "F_x_0_and_F_x_0_2",
+              "label": "\\(F(x)<0\\) and \\(F'(x)>0\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Although \\(F'(x)>0\\), \\(F(x)\\) is positive for \\(x>0\\)."
+            },
+            {
+              "id": "F_x_0_and_F_x_0_3",
+              "label": "\\(F(x)>0\\) and \\(F'(x)<0\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative is positive because \\(x>\\frac{x}{2}\\)."
+            },
+            {
+              "id": "F_x_0_for_every_x_in_0_f_4",
+              "label": "\\(F(x)=0\\) for every \\(x\\in(0,\\frac{\\pi}{2})\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inequality \\(\\tan x>2\\tan\\frac{x}{2}\\) is strict."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_1768849c3d",
+    "chunk_cf83fe5906"
+  ],
+  "source_pages": [
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    220
+  ],
+  "rejected": []
+}

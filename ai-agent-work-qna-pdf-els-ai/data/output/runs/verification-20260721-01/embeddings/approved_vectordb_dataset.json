@@ -1,0 +1,1176 @@
+[
+  {
+    "id": "chunk_42d3f0eef1",
+    "text": "CONCEPT: Displacement\nWHAT: Displacement is defined as the change in position of an object in a given direction.\nWHY IT MATTERS: Displacement is categorized as a advanced-level Formula within Kinematics; mastering it supports Velocity, Speed, Acceleration.\nHOW IT WORKS: Apply: The formula for average velocity is v = d / t, where d is displacement and t is time.\nEXAMPLE: For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second.\nASSESSMENT OPPORTUNITY: Suitable assessment: Problem Solving, Practical, MCQ.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ],
+      "topic": "Kinematics",
+      "subtopic": "Displacement",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Displacement",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Displacement"
+      ],
+      "prerequisites": [],
+      "formulae": [
+        "The formula for average velocity is v = d / t, where d is displacement and t is time."
+      ],
+      "graph_neighbors": [
+        "concept_1694170983",
+        "concept_a49b791f66",
+        "concept_bda73b7033",
+        "concept_fb83b3460d"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "1-1",
+      "concept_id": "concept_864bdb0ca9",
+      "chunk_type": "concept",
+      "title": "Displacement"
+    }
+  },
+  {
+    "id": "chunk_ee4cd58143",
+    "text": "CONCEPT: Displacement\nWHAT: Bloom-aligned objectives for Displacement.\nWHY IT MATTERS: Objectives make the concept measurable across cognitive levels.\nHOW IT WORKS: (Remember) Recall and state the concept of Displacement. (Understand) Explain in your own words the concept of Displacement. (Apply) Apply to a new situation the concept of Displacement. (Analyze) Break down and compare the concept of Displacement. (Evaluate) Critique and justify decisions about the concept of Displacement. (Create) Design or produce something using the concept of Displacement.\nEXAMPLE: For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second.\nASSESSMENT OPPORTUNITY: Progression maps to: Problem Solving, Practical, MCQ.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ],
+      "topic": "Kinematics",
+      "subtopic": "Displacement",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Displacement",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Displacement"
+      ],
+      "prerequisites": [],
+      "formulae": [
+        "The formula for average velocity is v = d / t, where d is displacement and t is time."
+      ],
+      "graph_neighbors": [
+        "concept_1694170983",
+        "concept_a49b791f66",
+        "concept_bda73b7033",
+        "concept_fb83b3460d"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "1-1",
+      "concept_id": "concept_864bdb0ca9",
+      "chunk_type": "learning_objective",
+      "title": "Learning objectives: Displacement"
+    }
+  },
+  {
+    "id": "chunk_ca7b8ce75d",
+    "text": "CONCEPT: Displacement\nWHAT: The formula for average velocity is v = d / t, where d is displacement and t is time.\nWHY IT MATTERS: This formula operationalizes Displacement.\nHOW IT WORKS: The formula for average velocity is v = d / t, where d is displacement and t is time.\nEXAMPLE: For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second.\nASSESSMENT OPPORTUNITY: Best assessed via: Problem Solving, Practical, MCQ.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ],
+      "topic": "Kinematics",
+      "subtopic": "Displacement",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Displacement",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Displacement"
+      ],
+      "prerequisites": [],
+      "formulae": [
+        "The formula for average velocity is v = d / t, where d is displacement and t is time."
+      ],
+      "graph_neighbors": [
+        "concept_1694170983",
+        "concept_a49b791f66",
+        "concept_bda73b7033",
+        "concept_fb83b3460d"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "1-1",
+      "concept_id": "concept_864bdb0ca9",
+      "chunk_type": "formula",
+      "title": "Displacement - formula 1"
+    }
+  },
+  {
+    "id": "chunk_41bf591189",
+    "text": "CONCEPT: Velocity\nWHAT: Velocity is the rate of change of displacement with respect to time, and is a vector quantity.\nWHY IT MATTERS: Velocity is categorized as a advanced-level Formula within Kinematics; mastering it supports Displacement, Speed, Acceleration.\nHOW IT WORKS: Apply: The formula for average velocity is v = d / t, where d is displacement and t is time.\nEXAMPLE: For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second.\nASSESSMENT OPPORTUNITY: Suitable assessment: Problem Solving, Practical, MCQ.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ],
+      "topic": "Kinematics",
+      "subtopic": "Velocity",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Velocity",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Velocity"
+      ],
+      "prerequisites": [
+        "concept_1694170983"
+      ],
+      "formulae": [
+        "The formula for average velocity is v = d / t, where d is displacement and t is time.",
+        "Acceleration is defined as the rate of change of velocity with respect to time, given by a = (v2 - v1) / t."
+      ],
+      "graph_neighbors": [
+        "concept_1694170983",
+        "concept_864bdb0ca9",
+        "concept_a49b791f66"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "1-1",
+      "concept_id": "concept_fb83b3460d",
+      "chunk_type": "concept",
+      "title": "Velocity"
+    }
+  },
+  {
+    "id": "chunk_086f6b5f43",
+    "text": "CONCEPT: Velocity\nWHAT: Bloom-aligned objectives for Velocity.\nWHY IT MATTERS: Objectives make the concept measurable across cognitive levels.\nHOW IT WORKS: (Remember) Recall and state the concept of Velocity. (Understand) Explain in your own words the concept of Velocity. (Apply) Apply to a new situation the concept of Velocity. (Analyze) Break down and compare the concept of Velocity. (Evaluate) Critique and justify decisions about the concept of Velocity. (Create) Design or produce something using the concept of Velocity.\nEXAMPLE: For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second.\nASSESSMENT OPPORTUNITY: Progression maps to: Problem Solving, Practical, MCQ.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ],
+      "topic": "Kinematics",
+      "subtopic": "Velocity",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Velocity",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Velocity"
+      ],
+      "prerequisites": [
+        "concept_1694170983"
+      ],
+      "formulae": [
+        "The formula for average velocity is v = d / t, where d is displacement and t is time.",
+        "Acceleration is defined as the rate of change of velocity with respect to time, given by a = (v2 - v1) / t."
+      ],
+      "graph_neighbors": [
+        "concept_1694170983",
+        "concept_864bdb0ca9",
+        "concept_a49b791f66"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "1-1",
+      "concept_id": "concept_fb83b3460d",
+      "chunk_type": "learning_objective",
+      "title": "Learning objectives: Velocity"
+    }
+  },
+  {
+    "id": "chunk_7c2f99b5a5",
+    "text": "CONCEPT: Velocity\nWHAT: The formula for average velocity is v = d / t, where d is displacement and t is time.\nWHY IT MATTERS: This formula operationalizes Velocity.\nHOW IT WORKS: The formula for average velocity is v = d / t, where d is displacement and t is time.\nEXAMPLE: For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second.\nASSESSMENT OPPORTUNITY: Best assessed via: Problem Solving, Practical, MCQ.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ],
+      "topic": "Kinematics",
+      "subtopic": "Velocity",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Velocity",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Velocity"
+      ],
+      "prerequisites": [
+        "concept_1694170983"
+      ],
+      "formulae": [
+        "The formula for average velocity is v = d / t, where d is displacement and t is time.",
+        "Acceleration is defined as the rate of change of velocity with respect to time, given by a = (v2 - v1) / t."
+      ],
+      "graph_neighbors": [
+        "concept_1694170983",
+        "concept_864bdb0ca9",
+        "concept_a49b791f66"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "1-1",
+      "concept_id": "concept_fb83b3460d",
+      "chunk_type": "formula",
+      "title": "Velocity - formula 1"
+    }
+  },
+  {
+    "id": "chunk_81c22e3da6",
+    "text": "CONCEPT: Velocity\nWHAT: Acceleration is defined as the rate of change of velocity with respect to time, given by a = (v2 - v1) / t.\nWHY IT MATTERS: This formula operationalizes Velocity.\nHOW IT WORKS: Acceleration is defined as the rate of change of velocity with respect to time, given by a = (v2 - v1) / t.\nEXAMPLE: For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second.\nASSESSMENT OPPORTUNITY: Best assessed via: Problem Solving, Practical, MCQ.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ],
+      "topic": "Kinematics",
+      "subtopic": "Velocity",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Velocity",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Velocity"
+      ],
+      "prerequisites": [
+        "concept_1694170983"
+      ],
+      "formulae": [
+        "The formula for average velocity is v = d / t, where d is displacement and t is time.",
+        "Acceleration is defined as the rate of change of velocity with respect to time, given by a = (v2 - v1) / t."
+      ],
+      "graph_neighbors": [
+        "concept_1694170983",
+        "concept_864bdb0ca9",
+        "concept_a49b791f66"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "1-1",
+      "concept_id": "concept_fb83b3460d",
+      "chunk_type": "formula",
+      "title": "Velocity - formula 2"
+    }
+  },
+  {
+    "id": "chunk_13231bce1e",
+    "text": "CONCEPT: Speed\nWHAT: Speed refers to the magnitude of velocity without direction.\nWHY IT MATTERS: Speed is categorized as a foundational-level Definition within Kinematics; mastering it supports Displacement, Velocity, Acceleration.\nHOW IT WORKS: Speed refers to the magnitude of velocity without direction.\nEXAMPLE: For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second.\nASSESSMENT OPPORTUNITY: Suitable assessment: MCQ, Short Answer.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ],
+      "topic": "Kinematics",
+      "subtopic": "Speed",
+      "concept_type": "Definition",
+      "difficulty": "foundational",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Speed",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Define and distinguish Speed"
+      ],
+      "prerequisites": [],
+      "formulae": [],
+      "graph_neighbors": [
+        "concept_864bdb0ca9",
+        "concept_a49b791f66",
+        "concept_fb83b3460d"
+      ],
+      "assessment_types": [
+        "MCQ",
+        "Short Answer"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "1-1",
+      "concept_id": "concept_1694170983",
+      "chunk_type": "concept",
+      "title": "Speed"
+    }
+  },
+  {
+    "id": "chunk_278938ede4",
+    "text": "CONCEPT: Speed\nWHAT: Bloom-aligned objectives for Speed.\nWHY IT MATTERS: Objectives make the concept measurable across cognitive levels.\nHOW IT WORKS: (Remember) Recall and state the concept of Speed. (Understand) Explain in your own words the concept of Speed. (Apply) Apply to a new situation the concept of Speed. (Analyze) Break down and compare the concept of Speed. (Evaluate) Critique and justify decisions about the concept of Speed. (Create) Design or produce something using the concept of Speed.\nEXAMPLE: For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second.\nASSESSMENT OPPORTUNITY: Progression maps to: MCQ, Short Answer.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ],
+      "topic": "Kinematics",
+      "subtopic": "Speed",
+      "concept_type": "Definition",
+      "difficulty": "foundational",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Speed",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Define and distinguish Speed"
+      ],
+      "prerequisites": [],
+      "formulae": [],
+      "graph_neighbors": [
+        "concept_864bdb0ca9",
+        "concept_a49b791f66",
+        "concept_fb83b3460d"
+      ],
+      "assessment_types": [
+        "MCQ",
+        "Short Answer"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "1-1",
+      "concept_id": "concept_1694170983",
+      "chunk_type": "learning_objective",
+      "title": "Learning objectives: Speed"
+    }
+  },
+  {
+    "id": "chunk_419a0bd05c",
+    "text": "CONCEPT: Acceleration\nWHAT: Acceleration is defined as the rate of change of velocity with respect to time, given by a = (v2 - v1) / t.\nWHY IT MATTERS: Acceleration is categorized as a foundational-level Definition within Kinematics; mastering it supports Displacement, Velocity, Speed.\nHOW IT WORKS: Acceleration is defined as the rate of change of velocity with respect to time, given by a = (v2 - v1) / t.\nEXAMPLE: For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second.\nASSESSMENT OPPORTUNITY: Suitable assessment: MCQ, Short Answer.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ],
+      "topic": "Kinematics",
+      "subtopic": "Acceleration",
+      "concept_type": "Definition",
+      "difficulty": "foundational",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Acceleration",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Define and distinguish Acceleration"
+      ],
+      "prerequisites": [],
+      "formulae": [],
+      "graph_neighbors": [
+        "concept_1694170983",
+        "concept_314ec88491",
+        "concept_864bdb0ca9",
+        "concept_c3ff7bca71",
+        "concept_fb83b3460d"
+      ],
+      "assessment_types": [
+        "MCQ",
+        "Short Answer"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "1-1",
+      "concept_id": "concept_a49b791f66",
+      "chunk_type": "concept",
+      "title": "Acceleration"
+    }
+  },
+  {
+    "id": "chunk_550b49731f",
+    "text": "CONCEPT: Acceleration\nWHAT: Bloom-aligned objectives for Acceleration.\nWHY IT MATTERS: Objectives make the concept measurable across cognitive levels.\nHOW IT WORKS: (Remember) Recall and state the concept of Acceleration. (Understand) Explain in your own words the concept of Acceleration. (Apply) Apply to a new situation the concept of Acceleration. (Analyze) Break down and compare the concept of Acceleration. (Evaluate) Critique and justify decisions about the concept of Acceleration. (Create) Design or produce something using the concept of Acceleration.\nEXAMPLE: For example, a car that travels 100 metres in 5 seconds has an average velocity of 20 metres per second.\nASSESSMENT OPPORTUNITY: Progression maps to: MCQ, Short Answer.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        1
+      ],
+      "topic": "Kinematics",
+      "subtopic": "Acceleration",
+      "concept_type": "Definition",
+      "difficulty": "foundational",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Acceleration",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Define and distinguish Acceleration"
+      ],
+      "prerequisites": [],
+      "formulae": [],
+      "graph_neighbors": [
+        "concept_1694170983",
+        "concept_314ec88491",
+        "concept_864bdb0ca9",
+        "concept_c3ff7bca71",
+        "concept_fb83b3460d"
+      ],
+      "assessment_types": [
+        "MCQ",
+        "Short Answer"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "1-1",
+      "concept_id": "concept_a49b791f66",
+      "chunk_type": "learning_objective",
+      "title": "Learning objectives: Acceleration"
+    }
+  },
+  {
+    "id": "chunk_59cfc76784",
+    "text": "CONCEPT: Principle of inertia\nWHAT: principle of inertia describes this tendency to resist changes in motion.\nWHY IT MATTERS: Principle of inertia is categorized as a foundational-level Principle within Newton's Laws of Motion; mastering it supports Force, Acceleration.\nHOW IT WORKS: The principle of inertia describes this tendency to resist changes in motion.\nEXAMPLE: For example, a force of 10 newtons applied to a 2 kilogram mass produces an acceleration of 5 metres per second squared.\nASSESSMENT OPPORTUNITY: Suitable assessment: Scenario, Essay, MCQ, Short Answer, Problem Solving.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        2
+      ],
+      "topic": "Newton's Laws of Motion",
+      "subtopic": "Principle of inertia",
+      "concept_type": "Principle",
+      "difficulty": "foundational",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Principle of inertia",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Apply the principle of Principle of inertia"
+      ],
+      "prerequisites": [
+        "concept_a49b791f66"
+      ],
+      "formulae": [],
+      "graph_neighbors": [
+        "concept_314ec88491",
+        "concept_a49b791f66"
+      ],
+      "assessment_types": [
+        "Scenario",
+        "Essay",
+        "MCQ",
+        "Short Answer",
+        "Problem Solving"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "2-2",
+      "concept_id": "concept_c3ff7bca71",
+      "chunk_type": "concept",
+      "title": "Principle of inertia"
+    }
+  },
+  {
+    "id": "chunk_bb9515fa4e",
+    "text": "CONCEPT: Principle of inertia\nWHAT: Bloom-aligned objectives for Principle of inertia.\nWHY IT MATTERS: Objectives make the concept measurable across cognitive levels.\nHOW IT WORKS: (Remember) Recall and state the concept of Principle of inertia. (Understand) Explain in your own words the concept of Principle of inertia. (Apply) Apply to a new situation the concept of Principle of inertia. (Analyze) Break down and compare the concept of Principle of inertia. (Evaluate) Critique and justify decisions about the concept of Principle of inertia. (Create) Design or produce something using the concept of Principle of inertia.\nEXAMPLE: For example, a force of 10 newtons applied to a 2 kilogram mass produces an acceleration of 5 metres per second squared.\nASSESSMENT OPPORTUNITY: Progression maps to: Scenario, Essay, MCQ, Short Answer, Problem Solving.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        2
+      ],
+      "topic": "Newton's Laws of Motion",
+      "subtopic": "Principle of inertia",
+      "concept_type": "Principle",
+      "difficulty": "foundational",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Principle of inertia",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Apply the principle of Principle of inertia"
+      ],
+      "prerequisites": [
+        "concept_a49b791f66"
+      ],
+      "formulae": [],
+      "graph_neighbors": [
+        "concept_314ec88491",
+        "concept_a49b791f66"
+      ],
+      "assessment_types": [
+        "Scenario",
+        "Essay",
+        "MCQ",
+        "Short Answer",
+        "Problem Solving"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "2-2",
+      "concept_id": "concept_c3ff7bca71",
+      "chunk_type": "learning_objective",
+      "title": "Learning objectives: Principle of inertia"
+    }
+  },
+  {
+    "id": "chunk_cd9aea89a6",
+    "text": "CONCEPT: Force\nWHAT: Force is defined as the product of mass and acceleration, expressed by the formula F = m a.\nWHY IT MATTERS: Force is categorized as a foundational-level Definition within Newton's Laws of Motion; mastering it supports Principle of inertia, Acceleration.\nHOW IT WORKS: Chapter 2: Newton's Laws of Motion Newton's first law states that an object remains at rest or in uniform motion unless acted upon by a net external force.\nEXAMPLE: For example, a force of 10 newtons applied to a 2 kilogram mass produces an acceleration of 5 metres per second squared.\nASSESSMENT OPPORTUNITY: Suitable assessment: MCQ, Short Answer.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        2
+      ],
+      "topic": "Newton's Laws of Motion",
+      "subtopic": "Force",
+      "concept_type": "Definition",
+      "difficulty": "foundational",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Force",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Define and distinguish Force"
+      ],
+      "prerequisites": [
+        "concept_a49b791f66"
+      ],
+      "formulae": [],
+      "graph_neighbors": [
+        "concept_a49b791f66",
+        "concept_bda73b7033",
+        "concept_c3ff7bca71"
+      ],
+      "assessment_types": [
+        "MCQ",
+        "Short Answer"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "2-2",
+      "concept_id": "concept_314ec88491",
+      "chunk_type": "concept",
+      "title": "Force"
+    }
+  },
+  {
+    "id": "chunk_6998779680",
+    "text": "CONCEPT: Force\nWHAT: Bloom-aligned objectives for Force.\nWHY IT MATTERS: Objectives make the concept measurable across cognitive levels.\nHOW IT WORKS: (Remember) Recall and state the concept of Force. (Understand) Explain in your own words the concept of Force. (Apply) Apply to a new situation the concept of Force. (Analyze) Break down and compare the concept of Force. (Evaluate) Critique and justify decisions about the concept of Force. (Create) Design or produce something using the concept of Force.\nEXAMPLE: For example, a force of 10 newtons applied to a 2 kilogram mass produces an acceleration of 5 metres per second squared.\nASSESSMENT OPPORTUNITY: Progression maps to: MCQ, Short Answer.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        2
+      ],
+      "topic": "Newton's Laws of Motion",
+      "subtopic": "Force",
+      "concept_type": "Definition",
+      "difficulty": "foundational",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Force",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Define and distinguish Force"
+      ],
+      "prerequisites": [
+        "concept_a49b791f66"
+      ],
+      "formulae": [],
+      "graph_neighbors": [
+        "concept_a49b791f66",
+        "concept_bda73b7033",
+        "concept_c3ff7bca71"
+      ],
+      "assessment_types": [
+        "MCQ",
+        "Short Answer"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "2-2",
+      "concept_id": "concept_314ec88491",
+      "chunk_type": "learning_objective",
+      "title": "Learning objectives: Force"
+    }
+  },
+  {
+    "id": "chunk_814a78b62b",
+    "text": "CONCEPT: Work\nWHAT: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.\nWHY IT MATTERS: Work is categorized as a advanced-level Formula within Work and Energy; mastering it supports Energy, Kinetic energy, Displacement.\nHOW IT WORKS: Apply: Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.\nEXAMPLE: For example, a falling object converts potential energy into kinetic energy as it descends.\nASSESSMENT OPPORTUNITY: Suitable assessment: Problem Solving, Practical, MCQ.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ],
+      "topic": "Work and Energy",
+      "subtopic": "Work",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Work",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Work"
+      ],
+      "prerequisites": [
+        "concept_864bdb0ca9",
+        "concept_314ec88491",
+        "concept_24b9f371d7"
+      ],
+      "formulae": [
+        "Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d."
+      ],
+      "graph_neighbors": [
+        "concept_24b9f371d7",
+        "concept_314ec88491",
+        "concept_864bdb0ca9",
+        "concept_e7d35b0eab"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "3-3",
+      "concept_id": "concept_bda73b7033",
+      "chunk_type": "concept",
+      "title": "Work"
+    }
+  },
+  {
+    "id": "chunk_5e5f66f039",
+    "text": "CONCEPT: Work\nWHAT: Bloom-aligned objectives for Work.\nWHY IT MATTERS: Objectives make the concept measurable across cognitive levels.\nHOW IT WORKS: (Remember) Recall and state the concept of Work. (Understand) Explain in your own words the concept of Work. (Apply) Apply to a new situation the concept of Work. (Analyze) Break down and compare the concept of Work. (Evaluate) Critique and justify decisions about the concept of Work. (Create) Design or produce something using the concept of Work.\nEXAMPLE: For example, a falling object converts potential energy into kinetic energy as it descends.\nASSESSMENT OPPORTUNITY: Progression maps to: Problem Solving, Practical, MCQ.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ],
+      "topic": "Work and Energy",
+      "subtopic": "Work",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Work",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Work"
+      ],
+      "prerequisites": [
+        "concept_864bdb0ca9",
+        "concept_314ec88491",
+        "concept_24b9f371d7"
+      ],
+      "formulae": [
+        "Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d."
+      ],
+      "graph_neighbors": [
+        "concept_24b9f371d7",
+        "concept_314ec88491",
+        "concept_864bdb0ca9",
+        "concept_e7d35b0eab"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "3-3",
+      "concept_id": "concept_bda73b7033",
+      "chunk_type": "learning_objective",
+      "title": "Learning objectives: Work"
+    }
+  },
+  {
+    "id": "chunk_03543a2322",
+    "text": "CONCEPT: Work\nWHAT: Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.\nWHY IT MATTERS: This formula operationalizes Work.\nHOW IT WORKS: Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.\nEXAMPLE: For example, a falling object converts potential energy into kinetic energy as it descends.\nASSESSMENT OPPORTUNITY: Best assessed via: Problem Solving, Practical, MCQ.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ],
+      "topic": "Work and Energy",
+      "subtopic": "Work",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Work",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Work"
+      ],
+      "prerequisites": [
+        "concept_864bdb0ca9",
+        "concept_314ec88491",
+        "concept_24b9f371d7"
+      ],
+      "formulae": [
+        "Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d."
+      ],
+      "graph_neighbors": [
+        "concept_24b9f371d7",
+        "concept_314ec88491",
+        "concept_864bdb0ca9",
+        "concept_e7d35b0eab"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "3-3",
+      "concept_id": "concept_bda73b7033",
+      "chunk_type": "formula",
+      "title": "Work - formula 1"
+    }
+  },
+  {
+    "id": "chunk_d352f3e616",
+    "text": "CONCEPT: Energy\nWHAT: Energy refers to the capacity of a system to do work.\nWHY IT MATTERS: Energy is categorized as a advanced-level Formula within Work and Energy; mastering it supports Work, Kinetic energy.\nHOW IT WORKS: Apply: Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.\nEXAMPLE: For example, a falling object converts potential energy into kinetic energy as it descends.\nASSESSMENT OPPORTUNITY: Suitable assessment: Problem Solving, Practical, MCQ.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ],
+      "topic": "Work and Energy",
+      "subtopic": "Energy",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Energy",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Energy"
+      ],
+      "prerequisites": [
+        "concept_24b9f371d7"
+      ],
+      "formulae": [
+        "Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.",
+        "Kinetic energy is the energy possessed by an object due to its motion, expressed by the formula KE = 0.5 m v^2."
+      ],
+      "graph_neighbors": [
+        "concept_24b9f371d7",
+        "concept_bda73b7033"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "3-3",
+      "concept_id": "concept_e7d35b0eab",
+      "chunk_type": "concept",
+      "title": "Energy"
+    }
+  },
+  {
+    "id": "chunk_52e2a75106",
+    "text": "CONCEPT: Energy\nWHAT: Bloom-aligned objectives for Energy.\nWHY IT MATTERS: Objectives make the concept measurable across cognitive levels.\nHOW IT WORKS: (Remember) Recall and state the concept of Energy. (Understand) Explain in your own words the concept of Energy. (Apply) Apply to a new situation the concept of Energy. (Analyze) Break down and compare the concept of Energy. (Evaluate) Critique and justify decisions about the concept of Energy. (Create) Design or produce something using the concept of Energy.\nEXAMPLE: For example, a falling object converts potential energy into kinetic energy as it descends.\nASSESSMENT OPPORTUNITY: Progression maps to: Problem Solving, Practical, MCQ.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ],
+      "topic": "Work and Energy",
+      "subtopic": "Energy",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Energy",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Energy"
+      ],
+      "prerequisites": [
+        "concept_24b9f371d7"
+      ],
+      "formulae": [
+        "Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.",
+        "Kinetic energy is the energy possessed by an object due to its motion, expressed by the formula KE = 0.5 m v^2."
+      ],
+      "graph_neighbors": [
+        "concept_24b9f371d7",
+        "concept_bda73b7033"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "3-3",
+      "concept_id": "concept_e7d35b0eab",
+      "chunk_type": "learning_objective",
+      "title": "Learning objectives: Energy"
+    }
+  },
+  {
+    "id": "chunk_77b0ea1a9a",
+    "text": "CONCEPT: Energy\nWHAT: Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.\nWHY IT MATTERS: This formula operationalizes Energy.\nHOW IT WORKS: Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.\nEXAMPLE: For example, a falling object converts potential energy into kinetic energy as it descends.\nASSESSMENT OPPORTUNITY: Best assessed via: Problem Solving, Practical, MCQ.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ],
+      "topic": "Work and Energy",
+      "subtopic": "Energy",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Energy",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Energy"
+      ],
+      "prerequisites": [
+        "concept_24b9f371d7"
+      ],
+      "formulae": [
+        "Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.",
+        "Kinetic energy is the energy possessed by an object due to its motion, expressed by the formula KE = 0.5 m v^2."
+      ],
+      "graph_neighbors": [
+        "concept_24b9f371d7",
+        "concept_bda73b7033"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "3-3",
+      "concept_id": "concept_e7d35b0eab",
+      "chunk_type": "formula",
+      "title": "Energy - formula 1"
+    }
+  },
+  {
+    "id": "chunk_f2f774fa59",
+    "text": "CONCEPT: Energy\nWHAT: Kinetic energy is the energy possessed by an object due to its motion, expressed by the formula KE = 0.5 m v^2.\nWHY IT MATTERS: This formula operationalizes Energy.\nHOW IT WORKS: Kinetic energy is the energy possessed by an object due to its motion, expressed by the formula KE = 0.5 m v^2.\nEXAMPLE: For example, a falling object converts potential energy into kinetic energy as it descends.\nASSESSMENT OPPORTUNITY: Best assessed via: Problem Solving, Practical, MCQ.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ],
+      "topic": "Work and Energy",
+      "subtopic": "Energy",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Energy",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Energy"
+      ],
+      "prerequisites": [
+        "concept_24b9f371d7"
+      ],
+      "formulae": [
+        "Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.",
+        "Kinetic energy is the energy possessed by an object due to its motion, expressed by the formula KE = 0.5 m v^2."
+      ],
+      "graph_neighbors": [
+        "concept_24b9f371d7",
+        "concept_bda73b7033"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "3-3",
+      "concept_id": "concept_e7d35b0eab",
+      "chunk_type": "formula",
+      "title": "Energy - formula 2"
+    }
+  },
+  {
+    "id": "chunk_988c240401",
+    "text": "CONCEPT: Kinetic energy\nWHAT: Kinetic energy is the energy possessed by an object due to its motion, expressed by the formula KE = 0.5 m v^2.\nWHY IT MATTERS: Kinetic energy is categorized as a foundational-level Definition within Work and Energy; mastering it supports Work, Energy.\nHOW IT WORKS: Kinetic energy is the energy possessed by an object due to its motion, expressed by the formula KE = 0.5 m v^2.\nEXAMPLE: For example, a falling object converts potential energy into kinetic energy as it descends.\nASSESSMENT OPPORTUNITY: Suitable assessment: MCQ, Short Answer.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ],
+      "topic": "Work and Energy",
+      "subtopic": "Kinetic energy",
+      "concept_type": "Definition",
+      "difficulty": "foundational",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Kinetic energy",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Define and distinguish Kinetic energy"
+      ],
+      "prerequisites": [],
+      "formulae": [],
+      "graph_neighbors": [
+        "concept_bda73b7033",
+        "concept_e7d35b0eab"
+      ],
+      "assessment_types": [
+        "MCQ",
+        "Short Answer"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "3-3",
+      "concept_id": "concept_24b9f371d7",
+      "chunk_type": "concept",
+      "title": "Kinetic energy"
+    }
+  },
+  {
+    "id": "chunk_f054657c56",
+    "text": "CONCEPT: Kinetic energy\nWHAT: Bloom-aligned objectives for Kinetic energy.\nWHY IT MATTERS: Objectives make the concept measurable across cognitive levels.\nHOW IT WORKS: (Remember) Recall and state the concept of Kinetic energy. (Understand) Explain in your own words the concept of Kinetic energy. (Apply) Apply to a new situation the concept of Kinetic energy. (Analyze) Break down and compare the concept of Kinetic energy. (Evaluate) Critique and justify decisions about the concept of Kinetic energy. (Create) Design or produce something using the concept of Kinetic energy.\nEXAMPLE: For example, a falling object converts potential energy into kinetic energy as it descends.\nASSESSMENT OPPORTUNITY: Progression maps to: MCQ, Short Answer.",
+    "metadata": {
+      "book_id": "book_97d5fcbb5a",
+      "source_pages": [
+        3
+      ],
+      "topic": "Work and Energy",
+      "subtopic": "Kinetic energy",
+      "concept_type": "Definition",
+      "difficulty": "foundational",
+      "level_band": "unrated",
+      "level_confidence": 0.0,
+      "subject": "Physics",
+      "concept": "Kinetic energy",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Define and distinguish Kinetic energy"
+      ],
+      "prerequisites": [],
+      "formulae": [],
+      "graph_neighbors": [
+        "concept_bda73b7033",
+        "concept_e7d35b0eab"
+      ],
+      "assessment_types": [
+        "MCQ",
+        "Short Answer"
+      ],
+      "source_book": "book_97d5fcbb5a",
+      "page_range": "3-3",
+      "concept_id": "concept_24b9f371d7",
+      "chunk_type": "learning_objective",
+      "title": "Learning objectives: Kinetic energy"
+    }
+  }
+]

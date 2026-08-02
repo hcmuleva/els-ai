@@ -1,0 +1,20 @@
+{
+  "key": "1.4",
+  "topic": "1.4 Equations and Inequalities of Higher Degrees",
+  "questions": [],
+  "requested": 5,
+  "generated": 0,
+  "context_chunks": [
+    "chunk_e8bd7a69e4",
+    "chunk_c34e69357a",
+    "chunk_493f8b58f0"
+  ],
+  "source_pages": [],
+  "rejected": [
+    {
+      "issues": [
+        "LaTeX backslashes inside JSON strings must be escaped"
+      ]
+    }
+  ]
+}

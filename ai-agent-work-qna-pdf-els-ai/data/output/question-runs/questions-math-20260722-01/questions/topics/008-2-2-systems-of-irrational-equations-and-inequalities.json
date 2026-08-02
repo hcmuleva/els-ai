@@ -1,0 +1,19 @@
+{
+  "key": "2.2",
+  "topic": "2.2 Systems of Irrational Equations and Inequalities",
+  "questions": [],
+  "requested": 5,
+  "generated": 0,
+  "context_chunks": [
+    "chunk_46af92306f",
+    "chunk_8f88c441f7"
+  ],
+  "source_pages": [],
+  "rejected": [
+    {
+      "issues": [
+        "LaTeX backslashes inside JSON strings must be escaped"
+      ]
+    }
+  ]
+}

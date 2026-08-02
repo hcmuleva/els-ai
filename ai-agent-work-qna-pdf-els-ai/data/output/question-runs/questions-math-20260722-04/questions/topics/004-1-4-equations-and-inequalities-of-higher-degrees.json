@@ -1,0 +1,536 @@
+{
+  "key": "1.4",
+  "topic": "1.4 Equations and Inequalities of Higher Degrees",
+  "questions": [
+    {
+      "question": {
+        "id": "7ec5af05-1b36-5706-b761-6b4eaa66817c",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "How many distinct real roots does the equation \\(x^{4}-5x^{2}+4=0\\) have?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Put \\(y=x^{2}\\). Then \\(y^{2}-5y+4=0\\), so \\(y=1,4\\). Hence \\(x=\\pm1,\\pm2\\), giving \\(4\\) distinct real roots.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 16,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.4 Equations and Inequalities of Higher Degrees",
+            "concept_ids": [
+              "concept_5b1da3f2f2",
+              "concept_6a9f8ae9e4",
+              "concept_d3d5fa9c90"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              21,
+              22,
+              23,
+              24,
+              25,
+              157,
+              158,
+              159,
+              160,
+              161,
+              162,
+              163,
+              164,
+              165,
+              166
+            ],
+            "source_chunk_ids": [
+              "chunk_e8bd7a69e4",
+              "chunk_c34e69357a",
+              "chunk_493f8b58f0"
+            ]
+          },
+          "options": [
+            {
+              "id": "4_1",
+              "label": "\\(4\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\((x^{2}-1)(x^{2}-4)=0\\) gives four distinct real roots."
+            },
+            {
+              "id": "2_2",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This counts only the positive roots."
+            },
+            {
+              "id": "3_3",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "No repeated root occurs."
+            },
+            {
+              "id": "0_4",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equation has real roots."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "411e070c-e350-5e27-9ab3-168946eede2a",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve the inequality \\((x-1)(x-2)(x-3)(x-4)\\leq0\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The sign of the quartic alternates across the simple roots \\(1,2,3,4\\). Since the leading coefficient is positive, the product is non-positive on \\(\\left[1,2\\right]\\) and \\(\\left[3,4\\right]\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 17,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.4 Equations and Inequalities of Higher Degrees",
+            "concept_ids": [
+              "concept_5b1da3f2f2",
+              "concept_6a9f8ae9e4",
+              "concept_d3d5fa9c90"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              21,
+              22,
+              23,
+              24,
+              25,
+              157,
+              158,
+              159,
+              160,
+              161,
+              162,
+              163,
+              164,
+              165,
+              166
+            ],
+            "source_chunk_ids": [
+              "chunk_e8bd7a69e4",
+              "chunk_c34e69357a",
+              "chunk_493f8b58f0"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_1_2_right_cup_left_1",
+              "label": "\\(\\left[1,2\\right]\\cup\\left[3,4\\right]\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The product is non-positive on alternate intervals between simple roots."
+            },
+            {
+              "id": "left_infty_1_right_cup_l_2",
+              "label": "\\(\\left(-\\infty,1\\right]\\cup\\left[2,3\\right]\\cup\\left[4,\\infty\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These intervals correspond mainly to positive product values."
+            },
+            {
+              "id": "left_1_4_right_3",
+              "label": "\\(\\left[1,4\\right]\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sign changes at each simple root."
+            },
+            {
+              "id": "left_1_2_right_cup_left_4",
+              "label": "\\(\\left(1,2\\right)\\cup\\left(3,4\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The roots must also be included because the inequality is non-strict."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "072f8104-a810-5713-bd15-bd6e66c198b5",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For which values of \\(k\\) does the equation \\(x^{4}-2(k+1)x^{2}+k^{2}-1=0\\) have four distinct real roots?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(y=x^{2}\\). Then \\(y^{2}-2(k+1)y+k^{2}-1=0\\), giving \\(y=k+1\\pm\\sqrt{2(k+1)}\\). For four distinct real values of \\(x\\), both distinct \\(y\\)-values must be positive. The smaller one is positive exactly when \\(k+1>\\sqrt{2(k+1)}\\), which gives \\(k>1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 18,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.4 Equations and Inequalities of Higher Degrees",
+            "concept_ids": [
+              "concept_5b1da3f2f2",
+              "concept_6a9f8ae9e4",
+              "concept_d3d5fa9c90"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              21,
+              22,
+              23,
+              24,
+              25,
+              157,
+              158,
+              159,
+              160,
+              161,
+              162,
+              163,
+              164,
+              165,
+              166
+            ],
+            "source_chunk_ids": [
+              "chunk_e8bd7a69e4",
+              "chunk_c34e69357a",
+              "chunk_493f8b58f0"
+            ]
+          },
+          "options": [
+            {
+              "id": "k_1_1",
+              "label": "\\(k>1\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Both distinct roots in \\(y=x^{2}\\) must be positive."
+            },
+            {
+              "id": "k_geq1_2",
+              "label": "\\(k\\geq1\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "At \\(k=1\\), one value of \\(y\\) is zero, so roots are not four distinct nonzero roots."
+            },
+            {
+              "id": "k_1_3",
+              "label": "\\(k>-1\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not ensure positivity of both values of \\(y\\)."
+            },
+            {
+              "id": "k_1_4",
+              "label": "\\(k<1\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The smaller value of \\(y\\) is not positive for this range."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "718aa442-bf2d-52f7-9774-b9e70567cb73",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve \\(\\frac{x^{2}-3x+2}{x^{2}-5x+6}\\geq0\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Factor the expression as \\(\\frac{(x-1)(x-2)}{(x-2)(x-3)}\\), with \\(x\\neq2,3\\). Thus its sign equals the sign of \\(\\frac{x-1}{x-3}\\). Therefore, the solution is \\(x\\leq1\\) or \\(x>3\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 19,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.4 Equations and Inequalities of Higher Degrees",
+            "concept_ids": [
+              "concept_5b1da3f2f2",
+              "concept_6a9f8ae9e4",
+              "concept_d3d5fa9c90"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              21,
+              22,
+              23,
+              24,
+              25,
+              157,
+              158,
+              159,
+              160,
+              161,
+              162,
+              163,
+              164,
+              165,
+              166
+            ],
+            "source_chunk_ids": [
+              "chunk_e8bd7a69e4",
+              "chunk_c34e69357a",
+              "chunk_493f8b58f0"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_infty_1_right_cup_l_1",
+              "label": "\\(\\left(-\\infty,1\\right]\\cup\\left(3,\\infty\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "After cancellation with domain restrictions, the sign is determined by \\(\\frac{x-1}{x-3}\\)."
+            },
+            {
+              "id": "left_infty_1_right_cup_l_2",
+              "label": "\\(\\left(-\\infty,1\\right]\\cup\\left[3,\\infty\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The denominator is zero at \\(x=3\\), so it cannot be included."
+            },
+            {
+              "id": "left_1_3_right_3",
+              "label": "\\(\\left[1,3\\right)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The reduced rational expression is negative between \\(1\\) and \\(3\\)."
+            },
+            {
+              "id": "left_1_3_right_4",
+              "label": "\\(\\left(1,3\\right)\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This interval gives negative values and excludes the valid endpoint \\(x=1\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "da7cfbc5-e14b-5ff0-adc4-0f5058c56369",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "On the interval \\(\\left[0,2\\right]\\), find the least and greatest values of \\(f(x)=\\frac{x-3}{x+1}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since \\(f'(x)=\\frac{4}{(x+1)^{2}}>0\\) on \\(\\left[0,2\\right]\\), \\(f\\) is strictly increasing. Hence \\(f(0)=-3\\) is the least value and \\(f(2)=-\\frac{1}{3}\\) is the greatest value.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 20,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.4 Equations and Inequalities of Higher Degrees",
+            "concept_ids": [
+              "concept_5b1da3f2f2",
+              "concept_6a9f8ae9e4",
+              "concept_d3d5fa9c90"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.4",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              21,
+              22,
+              23,
+              24,
+              25,
+              157,
+              158,
+              159,
+              160,
+              161,
+              162,
+              163,
+              164,
+              165,
+              166
+            ],
+            "source_chunk_ids": [
+              "chunk_e8bd7a69e4",
+              "chunk_c34e69357a",
+              "chunk_493f8b58f0"
+            ]
+          },
+          "options": [
+            {
+              "id": "Least_3_greatest_frac_1_1",
+              "label": "Least \\(=-3\\), greatest \\(=-\\frac{1}{3}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The function is strictly increasing on the interval, so endpoint values give the extrema."
+            },
+            {
+              "id": "Least_frac_1_3_greatest_2",
+              "label": "Least \\(=-\\frac{1}{3}\\), greatest \\(=-3\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This reverses the order of the endpoint values."
+            },
+            {
+              "id": "Least_3_greatest_frac_1_3",
+              "label": "Least \\(=-3\\), greatest \\(=\\frac{1}{3}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The value at \\(x=2\\) is \\(-\\frac{1}{3}\\), not \\(\\frac{1}{3}\\)."
+            },
+            {
+              "id": "Least_2_greatest_0_4",
+              "label": "Least \\(=-2\\), greatest \\(=0\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These are not the function values at the endpoints."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_e8bd7a69e4",
+    "chunk_c34e69357a",
+    "chunk_493f8b58f0"
+  ],
+  "source_pages": [
+    21,
+    22,
+    23,
+    24,
+    25,
+    157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
+    164,
+    165,
+    166
+  ],
+  "rejected": []
+}

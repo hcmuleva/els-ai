@@ -1,0 +1,570 @@
+[
+  {
+    "competency_id": "comp_c389303cd2",
+    "concept_id": "concept_77d4c390fb",
+    "concept_name": "Chapter 1",
+    "skill": "Define and distinguish Chapter 1",
+    "outcome": "Learner can accurately define Chapter 1 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_b7e608f6c6",
+    "concept_id": "concept_a1427cc398",
+    "concept_name": "Set D,or C",
+    "skill": "Define and distinguish Set D,or C",
+    "outcome": "Learner can accurately define Set D,or C and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_544de910fc",
+    "concept_id": "concept_3cd8a1d999",
+    "concept_name": "Chapter 1 practice pages 11-16",
+    "skill": "Define and distinguish Chapter 1 practice pages 11-16",
+    "outcome": "Learner can accurately define Chapter 1 practice pages 11-16 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_0148817e66",
+    "concept_id": "concept_393a7be286",
+    "concept_name": "Y=4x-x²at the point M(1;3)(a",
+    "skill": "Define and distinguish Y=4x-x²at the point M(1;3)(a",
+    "outcome": "Learner can accurately define Y=4x-x²at the point M(1;3)(a and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_876c5ad07a",
+    "concept_id": "concept_44acfa1cb4",
+    "concept_name": "Chapter 1 practice pages 23-28",
+    "skill": "Define and distinguish Chapter 1 practice pages 23-28",
+    "outcome": "Learner can accurately define Chapter 1 practice pages 23-28 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_a2be4d917a",
+    "concept_id": "concept_45127fdcf0",
+    "concept_name": "Chapter 1 practice pages 29-34",
+    "skill": "Define and distinguish Chapter 1 practice pages 29-34",
+    "outcome": "Learner can accurately define Chapter 1 practice pages 29-34 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_c77ecc8bb4",
+    "concept_id": "concept_15b5941407",
+    "concept_name": "Chapter 1 practice pages 35-40",
+    "skill": "Define and distinguish Chapter 1 practice pages 35-40",
+    "outcome": "Learner can accurately define Chapter 1 practice pages 35-40 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_52ae1eeaba",
+    "concept_id": "concept_a7f0d15a59",
+    "concept_name": "Chapter 1 practice pages 41-46",
+    "skill": "Define and distinguish Chapter 1 practice pages 41-46",
+    "outcome": "Learner can accurately define Chapter 1 practice pages 41-46 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_311c6ecdfb",
+    "concept_id": "concept_c656b7384f",
+    "concept_name": "Chapter 1 practice pages 47-52",
+    "skill": "Define and distinguish Chapter 1 practice pages 47-52",
+    "outcome": "Learner can accurately define Chapter 1 practice pages 47-52 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_75cb3c979a",
+    "concept_id": "concept_f92fd22ba1",
+    "concept_name": "Chapter 1 practice pages 53-58",
+    "skill": "Define and distinguish Chapter 1 practice pages 53-58",
+    "outcome": "Learner can accurately define Chapter 1 practice pages 53-58 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_e76e0f24b8",
+    "concept_id": "concept_eefc34380a",
+    "concept_name": "Chapter 1 practice pages 59-64",
+    "skill": "Define and distinguish Chapter 1 practice pages 59-64",
+    "outcome": "Learner can accurately define Chapter 1 practice pages 59-64 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_1ddd3243f4",
+    "concept_id": "concept_8c899b7eaf",
+    "concept_name": "Chapter 1 practice pages 65-70",
+    "skill": "Define and distinguish Chapter 1 practice pages 65-70",
+    "outcome": "Learner can accurately define Chapter 1 practice pages 65-70 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_768b8bc686",
+    "concept_id": "concept_ccaf311484",
+    "concept_name": "Chapter 1 practice pages 71-76",
+    "skill": "Define and distinguish Chapter 1 practice pages 71-76",
+    "outcome": "Learner can accurately define Chapter 1 practice pages 71-76 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_e1fae2734e",
+    "concept_id": "concept_8e3d64b025",
+    "concept_name": "Chapter 1 practice pages 77-82",
+    "skill": "Define and distinguish Chapter 1 practice pages 77-82",
+    "outcome": "Learner can accurately define Chapter 1 practice pages 77-82 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_e4871a9200",
+    "concept_id": "concept_993cf899cd",
+    "concept_name": "Chapter 1 practice pages 83-88",
+    "skill": "Define and distinguish Chapter 1 practice pages 83-88",
+    "outcome": "Learner can accurately define Chapter 1 practice pages 83-88 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_f6eb594ee1",
+    "concept_id": "concept_f2d508bbcb",
+    "concept_name": "Chapter 1 practice pages 89-94",
+    "skill": "Define and distinguish Chapter 1 practice pages 89-94",
+    "outcome": "Learner can accurately define Chapter 1 practice pages 89-94 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_68ddbde703",
+    "concept_id": "concept_36d02f7a65",
+    "concept_name": "Chapter 1 practice pages 95-100",
+    "skill": "Define and distinguish Chapter 1 practice pages 95-100",
+    "outcome": "Learner can accurately define Chapter 1 practice pages 95-100 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_27848596db",
+    "concept_id": "concept_16ab33fe85",
+    "concept_name": "Of a triangle， AB=a,AC=b,[AD]",
+    "skill": "Define and distinguish Of a triangle， AB=a,AC=b,[AD]",
+    "outcome": "Learner can accurately define Of a triangle， AB=a,AC=b,[AD] and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_2e808c6a87",
+    "concept_id": "concept_4c1ad5c066",
+    "concept_name": "Chapter 7 practice pages 107-112",
+    "skill": "Define and distinguish Chapter 7 practice pages 107-112",
+    "outcome": "Learner can accurately define Chapter 7 practice pages 107-112 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_124f6a10d6",
+    "concept_id": "concept_ccdc182e42",
+    "concept_name": "Chapter 7 practice pages 113-114",
+    "skill": "Define and distinguish Chapter 7 practice pages 113-114",
+    "outcome": "Learner can accurately define Chapter 7 practice pages 113-114 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_bceb4d617f",
+    "concept_id": "concept_b7fa009cbd",
+    "concept_name": "Chapter 8 practice pages 115-120",
+    "skill": "Define and distinguish Chapter 8 practice pages 115-120",
+    "outcome": "Learner can accurately define Chapter 8 practice pages 115-120 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_90074af0f5",
+    "concept_id": "concept_5ce269ee1e",
+    "concept_name": "Base of the pyramid",
+    "skill": "Define and distinguish Base of the pyramid",
+    "outcome": "Learner can accurately define Base of the pyramid and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_c21eb997d3",
+    "concept_id": "concept_b3c85fa64e",
+    "concept_name": "Chapter 8 practice pages 127-132",
+    "skill": "Define and distinguish Chapter 8 practice pages 127-132",
+    "outcome": "Learner can accurately define Chapter 8 practice pages 127-132 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_be1b923811",
+    "concept_id": "concept_62fc111fe1",
+    "concept_name": "Chapter 8 practice pages 133-138",
+    "skill": "Define and distinguish Chapter 8 practice pages 133-138",
+    "outcome": "Learner can accurately define Chapter 8 practice pages 133-138 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_cf712a2cfb",
+    "concept_id": "concept_9947576121",
+    "concept_name": "Chapter 1 practice pages 139-149",
+    "skill": "Perform the procedure Chapter 1 practice pages 139-149",
+    "outcome": "Learner can perform Chapter 1 practice pages 139-149 accurately and safely.",
+    "assessment": "Practical"
+  },
+  {
+    "competency_id": "comp_3013762fee",
+    "concept_id": "concept_46cf8a440d",
+    "concept_name": "Consequently，x=1",
+    "skill": "Define and distinguish Consequently，x=1",
+    "outcome": "Learner can accurately define Consequently，x=1 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_c380e33026",
+    "concept_id": "concept_5f309285d8",
+    "concept_name": "Origin has theformy=kx.Suppose M（zoyo",
+    "skill": "Define and distinguish Origin has theformy=kx.Suppose M（zoyo",
+    "outcome": "Learner can accurately define Origin has theformy=kx.Suppose M（zoyo and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_723cdc6e6a",
+    "concept_id": "concept_ce23a55e4b",
+    "concept_name": "Z= 2.Such roots are called miltiple roots.The rootz=2",
+    "skill": "Define and distinguish Z= 2.Such roots are called miltiple roots.The rootz=2",
+    "outcome": "Learner can accurately define Z= 2.Such roots are called miltiple roots.The rootz=2 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_daacaa06f9",
+    "concept_id": "concept_33cd575db2",
+    "concept_name": "One positive term （x+.2).This",
+    "skill": "Define and distinguish One positive term （x+.2).This",
+    "outcome": "Learner can accurately define One positive term （x+.2).This and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_9922878d6e",
+    "concept_id": "concept_2ad1c84fc0",
+    "concept_name": "—1；1) it increases; x=-1",
+    "skill": "Define and distinguish —1；1) it increases; x=-1",
+    "outcome": "Learner can accurately define —1；1) it increases; x=-1 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_793c2bfc5e",
+    "concept_id": "concept_acddf91d9c",
+    "concept_name": "Intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3",
+    "skill": "Define and distinguish Intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3",
+    "outcome": "Learner can accurately define Intervals.(3；-3), （-V3;V3）and（V3;3) it increases；z=-3 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_17deeeb0ca",
+    "concept_id": "concept_69cb78182a",
+    "concept_name": "Solving this system by",
+    "skill": "Perform the procedure Solving this system by",
+    "outcome": "Learner can perform Solving this system by accurately and safely.",
+    "assessment": "Practical"
+  },
+  {
+    "competency_id": "comp_be49acd8b5",
+    "concept_id": "concept_a0f16824e5",
+    "concept_name": "Consequently，f（z)>0on thatintervaland this",
+    "skill": "Define and distinguish Consequently，f（z)>0on thatintervaland this",
+    "outcome": "Learner can accurately define Consequently，f（z)>0on thatintervaland this and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_a03e5080d1",
+    "concept_id": "concept_180d305ba3",
+    "concept_name": "Weestablish by",
+    "skill": "Define and distinguish Weestablish by",
+    "outcome": "Learner can accurately define Weestablish by and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_63a0c607c9",
+    "concept_id": "concept_f26ab3e78f",
+    "concept_name": "Sets of solutions",
+    "skill": "Define and distinguish Sets of solutions",
+    "outcome": "Learner can accurately define Sets of solutions and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_3ea491f0b7",
+    "concept_id": "concept_493ea34ade",
+    "concept_name": "Chapter 2 practice pages 187-193",
+    "skill": "Define and distinguish Chapter 2 practice pages 187-193",
+    "outcome": "Learner can accurately define Chapter 2 practice pages 187-193 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_d7f77b9093",
+    "concept_id": "concept_759a0d7e40",
+    "concept_name": "Chapter 2 practice pages 194-201",
+    "skill": "Define and distinguish Chapter 2 practice pages 194-201",
+    "outcome": "Learner can accurately define Chapter 2 practice pages 194-201 and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_c29fe583fe",
+    "concept_id": "concept_a5bc52665f",
+    "concept_name": "Arctan（1/2）, kEZ.Verifying them by",
+    "skill": "Define and distinguish Arctan（1/2）, kEZ.Verifying them by",
+    "outcome": "Learner can accurately define Arctan（1/2）, kEZ.Verifying them by and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_29604ec890",
+    "concept_id": "concept_f57269bb13",
+    "concept_name": "Satisfied，we find that z=n,nEZ，",
+    "skill": "Define and distinguish Satisfied，we find that z=n,nEZ，",
+    "outcome": "Learner can accurately define Satisfied，we find that z=n,nEZ， and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_51aecbf9f1",
+    "concept_id": "concept_e0c8354fce",
+    "concept_name": "second equation",
+    "skill": "Compute using second equation",
+    "outcome": "Learner can select and apply second equation to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_7cc8177703",
+    "concept_id": "concept_5d3428cb57",
+    "concept_name": "Supposexroubles",
+    "skill": "Define and distinguish Supposexroubles",
+    "outcome": "Learner can accurately define Supposexroubles and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_24b0fce584",
+    "concept_id": "concept_aeb1d97acf",
+    "concept_name": "Suppose z",
+    "skill": "Define and distinguish Suppose z",
+    "outcome": "Learner can accurately define Suppose z and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_0a10810a07",
+    "concept_id": "concept_a42005065a",
+    "concept_name": "25 ma/h.Suppose S",
+    "skill": "Define and distinguish 25 ma/h.Suppose S",
+    "outcome": "Learner can accurately define 25 ma/h.Suppose S and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_e2c9afdea6",
+    "concept_id": "concept_c334a77355",
+    "concept_name": "Old system by",
+    "skill": "Define and distinguish Old system by",
+    "outcome": "Learner can accurately define Old system by and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_b9dea994d5",
+    "concept_id": "concept_28f65425cb",
+    "concept_name": "Side of equation (1",
+    "skill": "Compute using Side of equation (1",
+    "outcome": "Learner can select and apply Side of equation (1 to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_9481df93c6",
+    "concept_id": "concept_5f1c83982f",
+    "concept_name": "Can be found by",
+    "skill": "Define and distinguish Can be found by",
+    "outcome": "Learner can accurately define Can be found by and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_aadf4a885c",
+    "concept_id": "concept_c7dde8cfc3",
+    "concept_name": "1→00 lim n-7 c",
+    "skill": "Define and distinguish 1→00 lim n-7 c",
+    "outcome": "Learner can accurately define 1→00 lim n-7 c and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_34085944af",
+    "concept_id": "concept_2984782637",
+    "concept_name": "Sum of these vectors",
+    "skill": "Define and distinguish Sum of these vectors",
+    "outcome": "Learner can accurately define Sum of these vectors and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_6323fbe54f",
+    "concept_id": "concept_973f8e00df",
+    "concept_name": "N =(0; 1; 0",
+    "skill": "Compute using N =(0; 1; 0",
+    "outcome": "Learner can select and apply N =(0; 1; 0 to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_fa851e79e8",
+    "concept_id": "concept_05d448fa54",
+    "concept_name": "segment[EF]; [MF]",
+    "skill": "Define and distinguish segment[EF]; [MF]",
+    "outcome": "Learner can accurately define segment[EF]; [MF] and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_2125e9f73d",
+    "concept_id": "concept_83657abf05",
+    "concept_name": "M C trianglesthat丨KE|=|MC|andso KECM",
+    "skill": "Define and distinguish M C trianglesthat丨KE|=|MC|andso KECM",
+    "outcome": "Learner can accurately define M C trianglesthat丨KE|=|MC|andso KECM and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_97e22feaf7",
+    "concept_id": "concept_a90232301b",
+    "concept_name": "Thehypothe- sis)，it follows that[BP|",
+    "skill": "Define and distinguish Thehypothe- sis)，it follows that[BP|",
+    "outcome": "Learner can accurately define Thehypothe- sis)，it follows that[BP| and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_d7f705ce34",
+    "concept_id": "concept_24079685a3",
+    "concept_name": "By analogy，we find a point O，which",
+    "skill": "Define and distinguish By analogy，we find a point O，which",
+    "outcome": "Learner can accurately define By analogy，we find a point O，which and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_ae2223f5a8",
+    "concept_id": "concept_172b1feee0",
+    "concept_name": "ABC,it follows that [PQ]",
+    "skill": "Define and distinguish ABC,it follows that [PQ]",
+    "outcome": "Learner can accurately define ABC,it follows that [PQ] and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_34b5771d83",
+    "concept_id": "concept_69cce13951",
+    "concept_name": "Equal to(4-(1+ xE[0;6] V2)x)/2,wherex",
+    "skill": "Define and distinguish Equal to(4-(1+ xE[0;6] V2)x)/2,wherex",
+    "outcome": "Learner can accurately define Equal to(4-(1+ xE[0;6] V2)x)/2,wherex and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_55785a09fe",
+    "concept_id": "concept_537674f1cf",
+    "concept_name": "Regular tetra- hedron,in particular,a",
+    "skill": "Define and distinguish Regular tetra- hedron,in particular,a",
+    "outcome": "Learner can accurately define Regular tetra- hedron,in particular,a and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_cba5a3952f",
+    "concept_id": "concept_b154bcc0dd",
+    "concept_name": "SS)）， where S",
+    "skill": "Define and distinguish SS)）， where S",
+    "outcome": "Learner can accurately define SS)）， where S and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_3ae0d8897d",
+    "concept_id": "concept_444445d454",
+    "concept_name": "Planeof the base(ABCD",
+    "skill": "Define and distinguish Planeof the base(ABCD",
+    "outcome": "Learner can accurately define Planeof the base(ABCD and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_f422869db9",
+    "concept_id": "concept_aa5519117c",
+    "concept_name": "S The point O∈（ALS）and (OL）",
+    "skill": "Define and distinguish S The point O∈（ALS）and (OL）",
+    "outcome": "Learner can accurately define S The point O∈（ALS）and (OL） and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_da72ee3148",
+    "concept_id": "concept_359ead36a1",
+    "concept_name": "Suppose x",
+    "skill": "Define and distinguish Suppose x",
+    "outcome": "Learner can accurately define Suppose x and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_ba7d0000e4",
+    "concept_id": "concept_474e628c3c",
+    "concept_name": "Generatrix of the cone，@",
+    "skill": "Define and distinguish Generatrix of the cone，@",
+    "outcome": "Learner can accurately define Generatrix of the cone，@ and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_0790e4107a",
+    "concept_id": "concept_8aee7319a1",
+    "concept_name": "Since 6 6 （k+1）(k+2)(2k+3) and this",
+    "skill": "Define and distinguish Since 6 6 （k+1）(k+2)(2k+3) and this",
+    "outcome": "Learner can accurately define Since 6 6 （k+1）(k+2)(2k+3) and this and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_9d29f89e0c",
+    "concept_id": "concept_e10a3efa37",
+    "concept_name": "180 (b)▲ Suppose ABCD",
+    "skill": "Define and distinguish 180 (b)▲ Suppose ABCD",
+    "outcome": "Learner can accurately define 180 (b)▲ Suppose ABCD and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_2736567aef",
+    "concept_id": "concept_5f658eb084",
+    "concept_name": "Then f（x)=f（—z)=0as well,and this",
+    "skill": "Define and distinguish Then f（x)=f（—z)=0as well,and this",
+    "outcome": "Learner can accurately define Then f（x)=f（—z)=0as well,and this and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_207ca27ab1",
+    "concept_id": "concept_4eeefbdab6",
+    "concept_name": "That of problem3.5.Suppose f（x",
+    "skill": "Define and distinguish That of problem3.5.Suppose f（x",
+    "outcome": "Learner can accurately define That of problem3.5.Suppose f（x and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_45787a120e",
+    "concept_id": "concept_788ad47c8d",
+    "concept_name": "12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this",
+    "skill": "Define and distinguish 12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this",
+    "outcome": "Learner can accurately define 12/（a-2）1>1 anda≠1,i.e.if a∈(0；1）U(1;4)，and this and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_069620f39c",
+    "concept_id": "concept_ee77818df3",
+    "concept_name": "No,we cannot.For instance,f (x)=1 + cos x",
+    "skill": "Define and distinguish No,we cannot.For instance,f (x)=1 + cos x",
+    "outcome": "Learner can accurately define No,we cannot.For instance,f (x)=1 + cos x and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_c3e9ce2536",
+    "concept_id": "concept_2102a0a8d5",
+    "concept_name": "Suppose SABc",
+    "skill": "Define and distinguish Suppose SABc",
+    "outcome": "Learner can accurately define Suppose SABc and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_65257ec01f",
+    "concept_id": "concept_6ae9e02564",
+    "concept_name": "=(2n+1）-arctan 2the given quadraticfunction",
+    "skill": "Define and distinguish =(2n+1）-arctan 2the given quadraticfunction",
+    "outcome": "Learner can accurately define =(2n+1）-arctan 2the given quadraticfunction and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  },
+  {
+    "competency_id": "comp_6d1d946d9d",
+    "concept_id": "concept_ceb3b0f44e",
+    "concept_name": "Logs (3x+2) <1 277",
+    "skill": "Compute using Logs (3x+2) <1 277",
+    "outcome": "Learner can select and apply Logs (3x+2) <1 277 to solve quantitative problems.",
+    "assessment": "Problem Solving"
+  },
+  {
+    "competency_id": "comp_7012c443e2",
+    "concept_id": "concept_ecd6f0e62e",
+    "concept_name": "given system",
+    "skill": "Define and distinguish given system",
+    "outcome": "Learner can accurately define given system and separate it from related terms.",
+    "assessment": "MCQ + Short Answer"
+  }
+]

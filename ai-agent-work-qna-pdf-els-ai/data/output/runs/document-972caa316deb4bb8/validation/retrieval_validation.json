@@ -1,0 +1,74 @@
+{
+  "metrics": {
+    "recall_at_k": 1.0,
+    "precision_at_k": 0.3333,
+    "mrr": 1.0,
+    "ndcg": 1.0,
+    "coverage": 1.0
+  },
+  "queries": [
+    {
+      "query": "Find educational material about ELECTROMAGNETIC INDUCTION practice pages 1-6: 1 ELECTROMAGNETIC INDUCTION AND ALTERNATING CURRENTS MAGNETIC FLUX Magnetic flux (B) through an area S  d in a magnetic field B  is defined as   S . B  dB For an elemental area S  d in a magnetic field B  , the associated magnetic",
+      "concept_id": "concept_657d98b019",
+      "expected_chunks": [
+        "chunk_af6d4abaf9"
+      ],
+      "retrieved_chunks": [
+        "chunk_af6d4abaf9",
+        "chunk_25f57af2b5",
+        "chunk_80848d778e"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.3333,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about ELECTROMAGNETIC INDUCTION practice pages 7-12: 7 MUTUAL INDUCTION The appearance of an induced emf in one circuit due to changes in the magnetic field produced by a nearby circuit is called mutual induction. Let the current through the primary winding at any instant be I1. Then the magn",
+      "concept_id": "concept_b98adbe8f0",
+      "expected_chunks": [
+        "chunk_25f57af2b5"
+      ],
+      "retrieved_chunks": [
+        "chunk_25f57af2b5",
+        "chunk_af6d4abaf9",
+        "chunk_80848d778e"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.3333,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material about ELECTROMAGNETIC INDUCTION practice pages 13-17: 13 Average power in R and L in series circuit when A. C. current passes is given by P = Vr.m.s.Ir.m.s. cos  where  is the angle by which vector V leads the vector I. Resistance and Capacitance in Series A. C. Circuit The voltage and curre",
+      "concept_id": "concept_8130b3391d",
+      "expected_chunks": [
+        "chunk_80848d778e"
+      ],
+      "retrieved_chunks": [
+        "chunk_80848d778e",
+        "chunk_25f57af2b5",
+        "chunk_af6d4abaf9"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.3333,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    }
+  ],
+  "failed_concepts": [],
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "embedding_backend": "fastembed",
+  "run_id": "document-972caa316deb4bb8",
+  "top_k": 5,
+  "thresholds": {
+    "recall_at_k": 0.8,
+    "precision_at_k": 0.2,
+    "mrr": 0.8,
+    "ndcg": 0.75,
+    "coverage": 0.95
+  },
+  "passed": true,
+  "approved_chunks": 3,
+  "rejected_chunks": 0
+}

@@ -1,0 +1,606 @@
+{
+  "key": "2.7",
+  "topic": "2.7 Trigonometric Equations and Systems of Equations",
+  "questions": [
+    {
+      "question": {
+        "id": "7f7123f3-c19a-507f-bf7e-1990bf011d32",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The number of solutions of \\(\\cos x+\\sin\\left(\\frac{5x}{4}\\right)=2\\) in \\([0,2\\pi]\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since each term is at most \\(1\\), equality requires \\(\\cos x=1\\) and \\(\\sin\\left(\\frac{5x}{4}\\right)=1\\). Thus \\(x=2\\pi k\\) and \\(\\frac{5x}{4}=\\frac{\\pi}{2}+2\\pi l\\). These conditions give \\(x=2\\pi\\) in \\([0,2\\pi]\\). Therefore, there is exactly \\(1\\) solution.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 61,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.7 Trigonometric Equations and Systems of Equations",
+            "concept_ids": [
+              "concept_2a6f7d6b1b",
+              "concept_45733a2de0",
+              "concept_4bf489703b",
+              "concept_73b430198b",
+              "concept_979d1266a0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.7",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              204,
+              205,
+              206,
+              207,
+              208,
+              209,
+              210,
+              211,
+              212,
+              213,
+              214,
+              215,
+              216,
+              217
+            ],
+            "source_chunk_ids": [
+              "chunk_49d9529f5f",
+              "chunk_9f817e6546",
+              "chunk_b2db611d41",
+              "chunk_76bdad18c2",
+              "chunk_35dca9308e"
+            ]
+          },
+          "options": [
+            {
+              "id": "0_1",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The endpoint \\(x=2\\pi\\) is a solution."
+            },
+            {
+              "id": "1_2",
+              "label": "\\(1\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Equality requires both trigonometric terms to equal \\(1\\)."
+            },
+            {
+              "id": "2_3",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The endpoint and an interior solution are not distinct solutions."
+            },
+            {
+              "id": "4_4",
+              "label": "\\(4\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The simultaneous conditions yield only one value in the interval."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "f3a5ff9d-8048-5966-b242-8d06b7f54fdd",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The general solution of \\(\\cos x+\\sin\\left(\\frac{5x}{4}\\right)=2\\), where \\(x\\in\\mathbb{R}\\), is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since \\(\\cos x\\le1\\) and \\(\\sin\\left(\\frac{5x}{4}\\right)\\le1\\), equality to \\(2\\) requires \\(\\cos x=1\\) and \\(\\sin\\left(\\frac{5x}{4}\\right)=1\\). Thus \\(x=2\\pi k\\) and \\(x=\\frac{2\\pi}{5}+\\frac{8\\pi l}{5}\\). Their intersection is \\(x=2\\pi+8\\pi n\\), \\(n\\in\\mathbb{Z}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 62,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.7 Trigonometric Equations and Systems of Equations",
+            "concept_ids": [
+              "concept_2a6f7d6b1b",
+              "concept_45733a2de0",
+              "concept_4bf489703b",
+              "concept_73b430198b",
+              "concept_979d1266a0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.7",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              204,
+              205,
+              206,
+              207,
+              208,
+              209,
+              210,
+              211,
+              212,
+              213,
+              214,
+              215,
+              216,
+              217
+            ],
+            "source_chunk_ids": [
+              "chunk_49d9529f5f",
+              "chunk_9f817e6546",
+              "chunk_b2db611d41",
+              "chunk_76bdad18c2",
+              "chunk_35dca9308e"
+            ]
+          },
+          "options": [
+            {
+              "id": "x_2_pi_8_pi_n_n_in_mathb_1",
+              "label": "\\(x=2\\pi+8\\pi n,\\ n\\in\\mathbb{Z}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Both terms must equal \\(1\\), and their solution sets intersect at these values."
+            },
+            {
+              "id": "x_8_pi_n_n_in_mathbb_Z_2",
+              "label": "\\(x=8\\pi n,\\ n\\in\\mathbb{Z}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "At these values, \\(\\sin\\left(\\frac{5x}{4}\\right)=0\\), not \\(1\\)."
+            },
+            {
+              "id": "x_2_pi_4_pi_n_n_in_mathb_3",
+              "label": "\\(x=2\\pi+4\\pi n,\\ n\\in\\mathbb{Z}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sine condition fails for odd values of \\(n\\)."
+            },
+            {
+              "id": "x_frac_2_pi_5_frac_8_pi_4",
+              "label": "\\(x=\\frac{2\\pi}{5}+\\frac{8\\pi n}{5},\\ n\\in\\mathbb{Z}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This satisfies the sine condition but not necessarily \\(\\cos x=1\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "ad8b5bfb-c83f-5799-a714-b8d9e7a977be",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The general solution of \\(2\\sin x\\cos x-3\\sin 2x=0\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Since \\(\\sin 2x=2\\sin x\\cos x\\), the equation becomes \\(\\sin 2x-3\\sin 2x=0\\), so \\(\\sin 2x=0\\). Therefore, \\(2x=n\\pi\\), giving \\(x=\\frac{n\\pi}{2}\\), where \\(n\\in\\mathbb{Z}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 63,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "2.7 Trigonometric Equations and Systems of Equations",
+            "concept_ids": [
+              "concept_2a6f7d6b1b",
+              "concept_45733a2de0",
+              "concept_4bf489703b",
+              "concept_73b430198b",
+              "concept_979d1266a0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.7",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              204,
+              205,
+              206,
+              207,
+              208,
+              209,
+              210,
+              211,
+              212,
+              213,
+              214,
+              215,
+              216,
+              217
+            ],
+            "source_chunk_ids": [
+              "chunk_49d9529f5f",
+              "chunk_9f817e6546",
+              "chunk_b2db611d41",
+              "chunk_76bdad18c2",
+              "chunk_35dca9308e"
+            ]
+          },
+          "options": [
+            {
+              "id": "x_frac_n_pi_2_n_in_mathb_1",
+              "label": "\\(x=\\frac{n\\pi}{2},\\ n\\in\\mathbb{Z}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Using \\(\\sin 2x=2\\sin x\\cos x\\), the equation reduces to \\(\\sin 2x=0\\)."
+            },
+            {
+              "id": "x_n_pi_n_in_mathbb_Z_2",
+              "label": "\\(x=n\\pi,\\ n\\in\\mathbb{Z}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives only half of the solutions."
+            },
+            {
+              "id": "x_frac_2n_1_pi_4_n_in_ma_3",
+              "label": "\\(x=\\frac{(2n+1)\\pi}{4},\\ n\\in\\mathbb{Z}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These values make \\(\\sin 2x=\\pm1\\), not zero."
+            },
+            {
+              "id": "x_frac_n_pi_4_n_in_mathb_4",
+              "label": "\\(x=\\frac{n\\pi}{4},\\ n\\in\\mathbb{Z}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This includes values that do not satisfy \\(\\sin 2x=0\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "fba3fe46-80cc-5e9d-8f95-312f939db1bc",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The least positive solution of \\(\\sin\\left(\\frac{5x}{4}\\right)+\\cos x=2\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Each term is at most \\(1\\), so their sum can equal \\(2\\) only when \\(\\sin\\left(\\frac{5x}{4}\\right)=1\\) and \\(\\cos x=1\\). Thus \\(x=2\\pi k\\) and \\(\\frac{5x}{4}=\\frac{\\pi}{2}+2\\pi l\\), where \\(k,l\\in\\mathbb{Z}\\). Substitution gives \\(5k=1+4l\\), so \\(k=4m+1\\). Therefore, the least positive solution is \\(x=2\\pi\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 64,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.7 Trigonometric Equations and Systems of Equations",
+            "concept_ids": [
+              "concept_2a6f7d6b1b",
+              "concept_45733a2de0",
+              "concept_4bf489703b",
+              "concept_73b430198b",
+              "concept_979d1266a0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.7",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              204,
+              205,
+              206,
+              207,
+              208,
+              209,
+              210,
+              211,
+              212,
+              213,
+              214,
+              215,
+              216,
+              217
+            ],
+            "source_chunk_ids": [
+              "chunk_49d9529f5f",
+              "chunk_9f817e6546",
+              "chunk_b2db611d41",
+              "chunk_76bdad18c2",
+              "chunk_35dca9308e"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_pi_2_1",
+              "label": "\\(\\frac{\\pi}{2}\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Although \\(\\sin\\left(\\frac{5x}{4}\\right)=1\\), \\(\\cos x\\ne1\\)."
+            },
+            {
+              "id": "pi_2",
+              "label": "\\(\\pi\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two terms do not simultaneously attain their maximum values."
+            },
+            {
+              "id": "2_pi_3",
+              "label": "\\(2\\pi\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Both terms equal \\(1\\) when \\(x=2\\pi\\)."
+            },
+            {
+              "id": "4_pi_4",
+              "label": "\\(4\\pi\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is a later solution, not the least positive one."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "e760dcee-935d-5776-bfa4-0dca12a93706",
+        "quiz_id": "quiz-6c7ee0837188",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank (Validated Diagrams)",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(x\\in[0,2\\pi]\\), the number of solutions of \\(\\sin^2x+\\sin^22x=\\sin^23x\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using \\(\\sin^2A-\\sin^2B=\\sin(A+B)\\sin(A-B)\\), the equation becomes \\(\\sin x(\\sin5x-\\sin x)=0\\). Thus, \\(\\sin x=0\\) gives \\(x=0,\\pi,2\\pi\\). Also, \\(\\sin5x=\\sin x\\) gives \\(x=\\frac{k\\pi}{2}\\) or \\(x=\\frac{(2k+1)\\pi}{6}\\). After removing duplicate values in \\([0,2\\pi]\\), there are \\(9\\) solutions.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 65,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "2.7 Trigonometric Equations and Systems of Equations",
+            "concept_ids": [
+              "concept_2a6f7d6b1b",
+              "concept_45733a2de0",
+              "concept_4bf489703b",
+              "concept_73b430198b",
+              "concept_979d1266a0"
+            ],
+            "source": "rag:math-prilepko-20260721-05:2.7",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              204,
+              205,
+              206,
+              207,
+              208,
+              209,
+              210,
+              211,
+              212,
+              213,
+              214,
+              215,
+              216,
+              217
+            ],
+            "source_chunk_ids": [
+              "chunk_49d9529f5f",
+              "chunk_9f817e6546",
+              "chunk_b2db611d41",
+              "chunk_76bdad18c2",
+              "chunk_35dca9308e"
+            ]
+          },
+          "options": [
+            {
+              "id": "9_1",
+              "label": "\\(9\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The solution sets contain \\(9\\) distinct values in the interval."
+            },
+            {
+              "id": "8_2",
+              "label": "\\(8\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "One valid solution is omitted."
+            },
+            {
+              "id": "10_3",
+              "label": "\\(10\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Two solutions are counted more than once."
+            },
+            {
+              "id": "12_4",
+              "label": "\\(12\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equation does not yield twelve distinct solutions."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T15:33:04.157682Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_49d9529f5f",
+    "chunk_9f817e6546",
+    "chunk_b2db611d41",
+    "chunk_76bdad18c2",
+    "chunk_35dca9308e"
+  ],
+  "source_pages": [
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    204,
+    205,
+    206,
+    207,
+    208,
+    209,
+    210,
+    211,
+    212,
+    213,
+    214,
+    215,
+    216,
+    217
+  ],
+  "rejected": []
+}

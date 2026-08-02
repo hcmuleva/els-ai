@@ -1,0 +1,15 @@
+{
+  "books": [
+    {
+      "book_id": "book_f2847eeae3",
+      "filename": "prilepko-problem-book-in-high-school-mathematics-pdf-free.pdf",
+      "source_path": "C:\\personal\\work\\ai-agent-work-qna-pdf\\pdf-dump\\class-12-new\\prilepko-problem-book-in-high-school-mathematics-pdf-free.pdf",
+      "source_sha256": "485e872301c49df1b6d5d9b63b4379570259f3ff713c003b417a3dfc65b2a5af",
+      "pages": 280,
+      "methods": {
+        "ocr": 280
+      },
+      "ocr_mean_confidence": 0.903
+    }
+  ]
+}

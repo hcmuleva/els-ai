@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "target_connectivity": 0.95,
+  "metrics": {
+    "nodes": 9,
+    "edges": 21,
+    "density": 0.292,
+    "connectivity": 1.0,
+    "coverage": 1.0,
+    "components": 1
+  },
+  "orphan_nodes": [],
+  "duplicate_concepts": [],
+  "circular_prerequisites": [],
+  "weak_relationships": [],
+  "missing_parents": [],
+  "disconnected_clusters": []
+}

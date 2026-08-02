@@ -1,0 +1,465 @@
+{
+  "key": "4.1",
+  "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+  "questions": [
+    {
+      "question": {
+        "id": "4d223a6c-a663-5f69-a684-4e05c893cb62",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(F'(x)=3x^2-4x+1\\) and \\(F(1)=5\\). Find \\(F(3)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "An antiderivative is \\(F(x)=x^3-2x^2+x+C\\). Since \\(F(1)=5\\), \\(C=5\\). Hence \\(F(3)=27-18+3+5=17\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 86,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+            "concept_ids": [
+              "concept_5d8da8cc3d",
+              "concept_d5335cf614"
+            ],
+            "source": "rag:math-prilepko-20260721-05:4.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              85,
+              86,
+              87,
+              224,
+              225
+            ],
+            "source_chunk_ids": [
+              "chunk_52ad553893",
+              "chunk_63ed964612"
+            ]
+          },
+          "options": [
+            {
+              "id": "17_1",
+              "label": "\\(17\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(F(x)=x^3-2x^2+x+5\\), so \\(F(3)=17\\)."
+            },
+            {
+              "id": "15_2",
+              "label": "\\(15\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Incorrect evaluation of the antiderivative."
+            },
+            {
+              "id": "19_3",
+              "label": "\\(19\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The constant of integration is not applied correctly."
+            },
+            {
+              "id": "21_4",
+              "label": "\\(21\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Incorrect substitution in the antiderivative."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "258c2008-1ee8-5b75-9708-7b9580967be0",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Evaluate \\(\\displaystyle \\int_{1}^{2}\\frac{2x}{x^2+1}\\,dx\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "By the Newton-Leibniz formula, \\(\\displaystyle \\int_{1}^{2}\\frac{2x}{x^2+1}\\,dx=\\left[\\ln(x^2+1)\\right]_{1}^{2}=\\ln 5-\\ln 2=\\ln\\left(\\frac{5}{2}\\right)\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 87,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+            "concept_ids": [
+              "concept_5d8da8cc3d",
+              "concept_d5335cf614"
+            ],
+            "source": "rag:math-prilepko-20260721-05:4.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              85,
+              86,
+              87,
+              224,
+              225
+            ],
+            "source_chunk_ids": [
+              "chunk_52ad553893",
+              "chunk_63ed964612"
+            ]
+          },
+          "options": [
+            {
+              "id": "ln_left_frac_5_2_right_1",
+              "label": "\\(\\ln\\left(\\frac{5}{2}\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "An antiderivative is \\(\\ln(x^2+1)\\)."
+            },
+            {
+              "id": "ln_5_2",
+              "label": "\\(\\ln 5\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The lower-limit contribution is omitted."
+            },
+            {
+              "id": "frac_3_2_3",
+              "label": "\\(\\frac{3}{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The integrand is not integrated algebraically as a polynomial."
+            },
+            {
+              "id": "ln_2_4",
+              "label": "\\(\\ln 2\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The endpoint values are substituted incorrectly."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "3c4edc8c-c9aa-568a-82bd-ce3ac43c4dfe",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Define \\(F(x)=\\displaystyle \\int_{1}^{x^2}\\frac{dt}{1+t^2}\\). Find \\(F'(1)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using the fundamental theorem of calculus and the chain rule, \\(F'(x)=\\frac{1}{1+(x^2)^2}\\cdot 2x=\\frac{2x}{1+x^4}\\). Therefore, \\(F'(1)=1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 88,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+            "concept_ids": [
+              "concept_5d8da8cc3d",
+              "concept_d5335cf614"
+            ],
+            "source": "rag:math-prilepko-20260721-05:4.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              85,
+              86,
+              87,
+              224,
+              225
+            ],
+            "source_chunk_ids": [
+              "chunk_52ad553893",
+              "chunk_63ed964612"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_1",
+              "label": "\\(1\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Using the chain rule, \\(F'(x)=\\frac{2x}{1+x^4}\\)."
+            },
+            {
+              "id": "frac_1_2_2",
+              "label": "\\(\\frac{1}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The derivative of the upper limit is not handled correctly."
+            },
+            {
+              "id": "2_3",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The denominator at \\(x=1\\) is omitted."
+            },
+            {
+              "id": "0_4",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The variable upper limit does not make the derivative zero."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "e012ec76-1790-5165-a15a-5811f587acf9",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A continuous function \\(f\\) satisfies \\(\\displaystyle \\int_{0}^{x}f(t)\\,dt=x^3-3x^2+2x\\). Find \\(f(2)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "By the Newton-Leibniz formula, \\(f(x)=\\frac{d}{dx}(x^3-3x^2+2x)=3x^2-6x+2\\). Thus, \\(f(2)=12-12+2=2\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 89,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+            "concept_ids": [
+              "concept_5d8da8cc3d",
+              "concept_d5335cf614"
+            ],
+            "source": "rag:math-prilepko-20260721-05:4.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              85,
+              86,
+              87,
+              224,
+              225
+            ],
+            "source_chunk_ids": [
+              "chunk_52ad553893",
+              "chunk_63ed964612"
+            ]
+          },
+          "options": [
+            {
+              "id": "2_1",
+              "label": "\\(2\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Differentiate both sides and substitute \\(x=2\\)."
+            },
+            {
+              "id": "0_2",
+              "label": "\\(0\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the value of the derivative at a different point."
+            },
+            {
+              "id": "4_3",
+              "label": "\\(4\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The polynomial is evaluated instead of differentiated."
+            },
+            {
+              "id": "8_4",
+              "label": "\\(8\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Only the leading term is considered."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "954eef69-15b8-5c6f-b1de-025b8b418f8f",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The velocity of a particle is \\(v(t)=(6t-3t^2)\\,\\mathrm{m}\\,\\mathrm{s}^{-1}\\), and its position at \\(t=0\\) is \\(2\\,\\mathrm{m}\\). Find its position at \\(t=2\\,\\mathrm{s}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The displacement is \\(\\displaystyle \\int_{0}^{2}(6t-3t^2)\\,dt=\\left[3t^2-t^3\\right]_{0}^{2}=4\\,\\mathrm{m}\\). Therefore, the final position is \\(2+4=6\\,\\mathrm{m}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 90,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+            "concept_ids": [
+              "concept_5d8da8cc3d",
+              "concept_d5335cf614"
+            ],
+            "source": "rag:math-prilepko-20260721-05:4.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              85,
+              86,
+              87,
+              224,
+              225
+            ],
+            "source_chunk_ids": [
+              "chunk_52ad553893",
+              "chunk_63ed964612"
+            ]
+          },
+          "options": [
+            {
+              "id": "6_mathrm_m_1",
+              "label": "\\(6\\,\\mathrm{m}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Displacement is \\(\\int_{0}^{2}v(t)\\,dt=4\\,\\mathrm{m}\\)."
+            },
+            {
+              "id": "4_mathrm_m_2",
+              "label": "\\(4\\,\\mathrm{m}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the displacement, not the final position."
+            },
+            {
+              "id": "8_mathrm_m_3",
+              "label": "\\(8\\,\\mathrm{m}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The initial position is added incorrectly."
+            },
+            {
+              "id": "2_mathrm_m_4",
+              "label": "\\(2\\,\\mathrm{m}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The change in position is ignored."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_52ad553893",
+    "chunk_63ed964612"
+  ],
+  "source_pages": [
+    85,
+    86,
+    87,
+    224,
+    225
+  ],
+  "rejected": []
+}

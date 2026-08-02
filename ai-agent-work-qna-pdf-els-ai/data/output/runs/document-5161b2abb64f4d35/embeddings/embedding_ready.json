@@ -1,0 +1,2580 @@
+[
+  {
+    "concept_id": "concept_7693272a7d",
+    "concept": "Magnetic flux through a surface",
+    "description": "Magnetic flux is the total magnetic field passing through a surface. θ is the angle between the magnetic field and the area vector.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Magnetic flux through a surface.",
+      "[Understand] Explain in your own words the concept of Magnetic flux through a surface.",
+      "[Apply] Apply to a new situation the concept of Magnetic flux through a surface.",
+      "[Analyze] Break down and compare the concept of Magnetic flux through a surface.",
+      "[Evaluate] Critique and justify decisions about the concept of Magnetic flux through a surface.",
+      "[Create] Design or produce something using the concept of Magnetic flux through a surface."
+    ],
+    "misconceptions": [
+      "Magnetic flux is the same as the magnetic field strength.",
+      "A magnetic field parallel to a surface produces maximum magnetic flux through it.",
+      "Magnetic flux is a vector because the magnetic field is a vector."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "topic": "Magnetic Flux",
+      "subtopic": "Definition",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.7,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_f8eaf41ca7"
+      ],
+      "subject": "Physics",
+      "concept": "Magnetic flux through a surface",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Magnetic flux through a surface"
+      ],
+      "formulae": [
+        "Φ_B = ∫_S B · dS",
+        "dΦ_B = B dS cos θ"
+      ],
+      "graph_neighbors": [
+        "concept_f8eaf41ca7"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "0-5"
+    }
+  },
+  {
+    "concept_id": "concept_f8eaf41ca7",
+    "concept": "Gauss’ law for magnetism",
+    "description": "The net magnetic flux through any closed surface is zero because isolated magnetic monopoles do not exist. Magnetic field lines form closed curves.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Gauss’ law for magnetism.",
+      "[Understand] Explain in your own words the concept of Gauss’ law for magnetism.",
+      "[Apply] Apply to a new situation the concept of Gauss’ law for magnetism.",
+      "[Analyze] Break down and compare the concept of Gauss’ law for magnetism.",
+      "[Evaluate] Critique and justify decisions about the concept of Gauss’ law for magnetism.",
+      "[Create] Design or produce something using the concept of Gauss’ law for magnetism."
+    ],
+    "misconceptions": [
+      "Gauss’ law for magnetism says the magnetic field is zero everywhere.",
+      "A magnetic field has no flux through a closed surface because magnetic fields do not cross surfaces.",
+      "A single north or south magnetic pole can exist independently."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "topic": "Magnetic Flux",
+      "subtopic": "Gauss’ Law",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_7693272a7d"
+      ],
+      "subject": "Physics",
+      "concept": "Gauss’ law for magnetism",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Gauss’ law for magnetism"
+      ],
+      "formulae": [
+        "∮_S B · dS = 0"
+      ],
+      "graph_neighbors": [
+        "concept_7693272a7d"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "0-5"
+    }
+  },
+  {
+    "concept_id": "concept_2a665274e3",
+    "concept": "Induced electromotive force",
+    "description": "An electromotive force is induced in a circuit whenever the magnetic flux linked with it changes or a conductor moves through and cuts magnetic flux. The current produced by an induced emf in a closed circuit is called induced current.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Induced electromotive force.",
+      "[Understand] Explain in your own words the concept of Induced electromotive force.",
+      "[Apply] Apply to a new situation the concept of Induced electromotive force.",
+      "[Analyze] Break down and compare the concept of Induced electromotive force.",
+      "[Evaluate] Critique and justify decisions about the concept of Induced electromotive force.",
+      "[Create] Design or produce something using the concept of Induced electromotive force."
+    ],
+    "misconceptions": [
+      "An induced electromotive force occurs only when the circuit is closed and current flows.",
+      "A magnetic field must change in strength for an electromotive force to be induced.",
+      "Any motion of a conductor through a magnetic field produces an induced electromotive force."
+    ],
+    "examples": [
+      "A moving conductor cutting magnetic field lines",
+      "A changing magnetic field through a stationary coil"
+    ],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "topic": "Electromagnetic Induction",
+      "subtopic": "Faraday’s Laws",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 1.0,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_549729587d",
+        "concept_5975bf7946",
+        "concept_9254b1d6a8",
+        "concept_05210818a8"
+      ],
+      "subject": "Physics",
+      "concept": "Induced electromotive force",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Induced electromotive force"
+      ],
+      "formulae": [
+        "|E| = dΦ/dt"
+      ],
+      "graph_neighbors": [
+        "concept_05210818a8",
+        "concept_549729587d",
+        "concept_5975bf7946",
+        "concept_9254b1d6a8"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "0-5"
+    }
+  },
+  {
+    "concept_id": "concept_549729587d",
+    "concept": "Direction of induced emf",
+    "description": "The induced emf or induced current acts in a direction that opposes the change in magnetic flux that produces it. The negative sign represents opposition to the change in flux.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Direction of induced emf.",
+      "[Understand] Explain in your own words the concept of Direction of induced emf.",
+      "[Apply] Apply to a new situation the concept of Direction of induced emf.",
+      "[Analyze] Break down and compare the concept of Direction of induced emf.",
+      "[Evaluate] Critique and justify decisions about the concept of Direction of induced emf.",
+      "[Create] Design or produce something using the concept of Direction of induced emf."
+    ],
+    "misconceptions": [
+      "The induced current always opposes the external magnetic field.",
+      "The induced emf always produces a current in the opposite direction to the changing current.",
+      "If the magnetic flux is large, the induced emf must be large."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "topic": "Electromagnetic Induction",
+      "subtopic": "Lenz’s Law",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_2a665274e3",
+        "concept_5975bf7946",
+        "concept_9254b1d6a8",
+        "concept_05210818a8"
+      ],
+      "subject": "Physics",
+      "concept": "Direction of induced emf",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Direction of induced emf"
+      ],
+      "formulae": [
+        "E = −dΦ/dt"
+      ],
+      "graph_neighbors": [
+        "concept_05210818a8",
+        "concept_2a665274e3",
+        "concept_5975bf7946",
+        "concept_9254b1d6a8"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "0-5"
+    }
+  },
+  {
+    "concept_id": "concept_5975bf7946",
+    "concept": "Charge transferred by induction",
+    "description": "The total charge that flows through a circuit due to a change in magnetic flux depends on the total flux change and the circuit resistance, but not on the time pattern of the change. Induced emf and induced current depend on time, whereas the net induced charge is independent of the manner and duration of the flux change.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Charge transferred by induction.",
+      "[Understand] Explain in your own words the concept of Charge transferred by induction.",
+      "[Apply] Apply to a new situation the concept of Charge transferred by induction.",
+      "[Analyze] Break down and compare the concept of Charge transferred by induction.",
+      "[Evaluate] Critique and justify decisions about the concept of Charge transferred by induction.",
+      "[Create] Design or produce something using the concept of Charge transferred by induction."
+    ],
+    "misconceptions": [
+      "A faster change in magnetic flux always transfers more total charge.",
+      "No charge is transferred if the magnetic flux changes back to its original value.",
+      "The total transferred charge is determined only by the magnetic flux change and is independent of circuit resistance."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "topic": "Electromagnetic Induction",
+      "subtopic": "Induced Charge",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "intermediate",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_2a665274e3",
+        "concept_549729587d",
+        "concept_9254b1d6a8",
+        "concept_05210818a8"
+      ],
+      "subject": "Physics",
+      "concept": "Charge transferred by induction",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Charge transferred by induction"
+      ],
+      "formulae": [
+        "Q = ∫i dt = −ΔΦ/R"
+      ],
+      "graph_neighbors": [
+        "concept_05210818a8",
+        "concept_2a665274e3",
+        "concept_549729587d",
+        "concept_9254b1d6a8"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "0-5"
+    }
+  },
+  {
+    "concept_id": "concept_9254b1d6a8",
+    "concept": "Emf produced by a moving conductor",
+    "description": "Motional emf is the emf generated when a conductor moves through a magnetic field and cuts magnetic flux. l is the length of the conductor, v is its speed, and θ is the relevant angle between motion and magnetic field.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Emf produced by a moving conductor.",
+      "[Understand] Explain in your own words the concept of Emf produced by a moving conductor.",
+      "[Apply] Apply to a new situation the concept of Emf produced by a moving conductor.",
+      "[Analyze] Break down and compare the concept of Emf produced by a moving conductor.",
+      "[Evaluate] Critique and justify decisions about the concept of Emf produced by a moving conductor.",
+      "[Create] Design or produce something using the concept of Emf produced by a moving conductor."
+    ],
+    "misconceptions": [
+      "Motional emf is produced only when the magnetic field changes with time.",
+      "Any motion of a conductor through a magnetic field produces motional emf.",
+      "The entire conductor must form a closed circuit for motional emf to exist."
+    ],
+    "examples": [
+      "A rod moving through a uniform magnetic field"
+    ],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "topic": "Electromagnetic Induction",
+      "subtopic": "Motional EMF",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.9,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_2a665274e3",
+        "concept_549729587d",
+        "concept_5975bf7946",
+        "concept_05210818a8"
+      ],
+      "subject": "Physics",
+      "concept": "Emf produced by a moving conductor",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Emf produced by a moving conductor"
+      ],
+      "formulae": [
+        "E = B l v sin θ",
+        "E = ∫_L (v × B) · dl"
+      ],
+      "graph_neighbors": [
+        "concept_05210818a8",
+        "concept_2a665274e3",
+        "concept_549729587d",
+        "concept_5975bf7946"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "0-5"
+    }
+  },
+  {
+    "concept_id": "concept_05210818a8",
+    "concept": "Emf from changing coil orientation",
+    "description": "A rotating coil produces induced emf because its orientation relative to the magnetic field changes continuously, causing its magnetic flux to vary. N is the number of turns, S is the coil area, and ω is the angular velocity.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Emf from changing coil orientation.",
+      "[Understand] Explain in your own words the concept of Emf from changing coil orientation.",
+      "[Apply] Apply to a new situation the concept of Emf from changing coil orientation.",
+      "[Analyze] Break down and compare the concept of Emf from changing coil orientation.",
+      "[Evaluate] Critique and justify decisions about the concept of Emf from changing coil orientation.",
+      "[Create] Design or produce something using the concept of Emf from changing coil orientation."
+    ],
+    "misconceptions": [
+      "A rotating coil produces emf simply because it is moving.",
+      "The induced emf is greatest when the magnetic flux is greatest.",
+      "The magnetic field must change for emf to be induced."
+    ],
+    "examples": [
+      "An alternating-current generator"
+    ],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "topic": "Electromagnetic Induction",
+      "subtopic": "Rotating Coil",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.9,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_2a665274e3",
+        "concept_549729587d",
+        "concept_5975bf7946",
+        "concept_9254b1d6a8"
+      ],
+      "subject": "Physics",
+      "concept": "Emf from changing coil orientation",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Emf from changing coil orientation"
+      ],
+      "formulae": [
+        "Φ = N B S cos(ωt)"
+      ],
+      "graph_neighbors": [
+        "concept_2a665274e3",
+        "concept_549729587d",
+        "concept_5975bf7946",
+        "concept_9254b1d6a8"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "0-5"
+    }
+  },
+  {
+    "concept_id": "concept_1e6c744d80",
+    "concept": "Self-inductance of a coil",
+    "description": "Self-inductance is the proportionality constant relating the magnetic flux linkage of a coil to the current flowing through it. L is measured in henries and is called the inductance of the coil.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Self-inductance of a coil.",
+      "[Understand] Explain in your own words the concept of Self-inductance of a coil.",
+      "[Apply] Apply to a new situation the concept of Self-inductance of a coil.",
+      "[Analyze] Break down and compare the concept of Self-inductance of a coil.",
+      "[Evaluate] Critique and justify decisions about the concept of Self-inductance of a coil.",
+      "[Create] Design or produce something using the concept of Self-inductance of a coil."
+    ],
+    "misconceptions": [
+      "Self-inductance is the magnetic flux produced by the coil.",
+      "A coil has self-induced emf whenever a current flows through it.",
+      "Self-inductance depends only on the current in the coil."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "topic": "Self-Inductance",
+      "subtopic": "Definition",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_9536cc79c4"
+      ],
+      "subject": "Physics",
+      "concept": "Self-inductance of a coil",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Self-inductance of a coil"
+      ],
+      "formulae": [
+        "Φ = L I",
+        "E = −L dI/dt"
+      ],
+      "graph_neighbors": [
+        "concept_9536cc79c4"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "0-5"
+    }
+  },
+  {
+    "concept_id": "concept_9536cc79c4",
+    "concept": "Self-inductance of a circular coil",
+    "description": "For a coil of radius R with N turns, the self-inductance depends on the square of the number of turns, the coil radius, and the permeability of free space. The formula applies to the circular coil model described in the chapter.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Self-inductance of a circular coil.",
+      "[Understand] Explain in your own words the concept of Self-inductance of a circular coil.",
+      "[Apply] Apply to a new situation the concept of Self-inductance of a circular coil.",
+      "[Analyze] Break down and compare the concept of Self-inductance of a circular coil.",
+      "[Evaluate] Critique and justify decisions about the concept of Self-inductance of a circular coil.",
+      "[Create] Design or produce something using the concept of Self-inductance of a circular coil."
+    ],
+    "misconceptions": [
+      "Self-inductance increases only linearly with the number of turns.",
+      "A larger coil always has a smaller self-inductance because the turns are farther apart.",
+      "Self-inductance is determined by the coil's resistance or by the current flowing through it."
+    ],
+    "examples": [
+      "A multi-turn circular coil"
+    ],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "topic": "Self-Inductance",
+      "subtopic": "Circular Coil",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_1e6c744d80"
+      ],
+      "subject": "Physics",
+      "concept": "Self-inductance of a circular coil",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Self-inductance of a circular coil"
+      ],
+      "formulae": [
+        "L = μ₀ N² πR/2"
+      ],
+      "graph_neighbors": [
+        "concept_1e6c744d80"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "0-5"
+    }
+  },
+  {
+    "concept_id": "concept_6cd4d53f38",
+    "concept": "Energy stored in an inductor",
+    "description": "An inductor stores energy in the magnetic field produced by the current flowing through it. u is the magnetic energy density in free space.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Energy stored in an inductor.",
+      "[Understand] Explain in your own words the concept of Energy stored in an inductor.",
+      "[Apply] Apply to a new situation the concept of Energy stored in an inductor.",
+      "[Analyze] Break down and compare the concept of Energy stored in an inductor.",
+      "[Evaluate] Critique and justify decisions about the concept of Energy stored in an inductor.",
+      "[Create] Design or produce something using the concept of Energy stored in an inductor."
+    ],
+    "misconceptions": [
+      "An inductor stores electrical charge like a capacitor.",
+      "An inductor stores energy only when the current is increasing.",
+      "An inductor immediately releases all its stored energy when the circuit is opened."
+    ],
+    "examples": [
+      "Energy stored in a coil carrying current"
+    ],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "topic": "Inductors",
+      "subtopic": "Energy",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.9,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [],
+      "subject": "Physics",
+      "concept": "Energy stored in an inductor",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Energy stored in an inductor"
+      ],
+      "formulae": [
+        "U = 1/2 L I²",
+        "u = B²/(2μ₀)"
+      ],
+      "graph_neighbors": [],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "0-5"
+    }
+  },
+  {
+    "concept_id": "concept_08736307d6",
+    "concept": "Growth of current after switching on",
+    "description": "In a series L-R circuit connected to a constant emf, current increases exponentially from zero toward its final value because the inductor opposes changes in current. At t = τ, the current reaches approximately 0.63 I₀. τ is the time constant and has dimensions of time.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Growth of current after switching on.",
+      "[Understand] Explain in your own words the concept of Growth of current after switching on.",
+      "[Apply] Apply to a new situation the concept of Growth of current after switching on.",
+      "[Analyze] Break down and compare the concept of Growth of current after switching on.",
+      "[Evaluate] Critique and justify decisions about the concept of Growth of current after switching on.",
+      "[Create] Design or produce something using the concept of Growth of current after switching on."
+    ],
+    "misconceptions": [
+      "The current reaches its final value immediately when the switch is closed.",
+      "The inductor prevents current from flowing permanently.",
+      "The current increases at a constant rate."
+    ],
+    "examples": [
+      "Switching on a battery in a series resistor-inductor circuit"
+    ],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "topic": "L-R Circuit",
+      "subtopic": "Current Growth",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.9,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_79d3dd9c51"
+      ],
+      "subject": "Physics",
+      "concept": "Growth of current after switching on",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Growth of current after switching on"
+      ],
+      "formulae": [
+        "I = I₀(1 − e^(−t/τ))",
+        "I₀ = E/R",
+        "τ = L/R"
+      ],
+      "graph_neighbors": [
+        "concept_79d3dd9c51"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "0-5"
+    }
+  },
+  {
+    "concept_id": "concept_79d3dd9c51",
+    "concept": "Decay of current after switching off",
+    "description": "When the source is removed from an L-R circuit, the current decreases exponentially as the energy stored in the inductor is dissipated through the resistance. At t = τ, the current is approximately 0.37 I₀. After one time constant, approximately 63% of the initial current has decayed.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Decay of current after switching off.",
+      "[Understand] Explain in your own words the concept of Decay of current after switching off.",
+      "[Apply] Apply to a new situation the concept of Decay of current after switching off.",
+      "[Analyze] Break down and compare the concept of Decay of current after switching off.",
+      "[Evaluate] Critique and justify decisions about the concept of Decay of current after switching off.",
+      "[Create] Design or produce something using the concept of Decay of current after switching off."
+    ],
+    "misconceptions": [
+      "The current becomes zero immediately when the source is switched off.",
+      "The current decreases linearly with time.",
+      "The inductor continues to supply constant current after switching off."
+    ],
+    "examples": [
+      "Switching off a battery in a series resistor-inductor circuit"
+    ],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "topic": "L-R Circuit",
+      "subtopic": "Current Decay",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.9,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_08736307d6"
+      ],
+      "subject": "Physics",
+      "concept": "Decay of current after switching off",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Decay of current after switching off"
+      ],
+      "formulae": [
+        "I = I₀ e^(−t/τ)",
+        "I = I₀ e^(−Rt/L)",
+        "τ = L/R"
+      ],
+      "graph_neighbors": [
+        "concept_08736307d6"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "0-5"
+    }
+  },
+  {
+    "concept_id": "concept_19fc9d8e17",
+    "concept": "Mutual induction",
+    "description": "Mutual induction is the production of an induced emf in one circuit due to a change in the magnetic field produced by a nearby circuit. M is the coefficient of mutual induction or mutual inductance. The SI unit of mutual inductance is the henry (H).",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Mutual induction.",
+      "[Understand] Explain in your own words the concept of Mutual induction.",
+      "[Apply] Apply to a new situation the concept of Mutual induction.",
+      "[Analyze] Break down and compare the concept of Mutual induction.",
+      "[Evaluate] Critique and justify decisions about the concept of Mutual induction.",
+      "[Create] Design or produce something using the concept of Mutual induction."
+    ],
+    "misconceptions": [
+      "Mutual induction occurs only when the two circuits are physically connected.",
+      "A steady current in the first circuit continuously induces an emf in the second circuit.",
+      "The induced current in the second circuit flows in the same direction as the current change in the first circuit."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "topic": "Mutual induction",
+      "subtopic": "Induced emf",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_12146cc5b6"
+      ],
+      "subject": "Physics",
+      "concept": "Mutual induction",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Mutual induction"
+      ],
+      "formulae": [
+        "Φ₂ = MI₁",
+        "E₂ = dΦ₂/dt = M(dI₁/dt)"
+      ],
+      "graph_neighbors": [
+        "concept_12146cc5b6"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "6-11"
+    }
+  },
+  {
+    "concept_id": "concept_12146cc5b6",
+    "concept": "Mutual inductance of coupled coils",
+    "description": "The mutual inductance of two coupled coils depends on their self-inductances and the coefficient of coupling. k is the coefficient of coupling and has values from 0 to 1. For tight or close coupling, k = 1 and M = √(L₁L₂).",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Mutual inductance of coupled coils.",
+      "[Understand] Explain in your own words the concept of Mutual inductance of coupled coils.",
+      "[Apply] Apply to a new situation the concept of Mutual inductance of coupled coils.",
+      "[Analyze] Break down and compare the concept of Mutual inductance of coupled coils.",
+      "[Evaluate] Critique and justify decisions about the concept of Mutual inductance of coupled coils.",
+      "[Create] Design or produce something using the concept of Mutual inductance of coupled coils."
+    ],
+    "misconceptions": [
+      "Mutual inductance is simply the sum of the two coils’ self-inductances.",
+      "The coefficient of coupling is always 1 for coupled coils.",
+      "Mutual inductance depends only on the physical separation of the coils."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "topic": "Mutual induction",
+      "subtopic": "Coefficient of coupling",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.7,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_19fc9d8e17"
+      ],
+      "subject": "Physics",
+      "concept": "Mutual inductance of coupled coils",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Mutual inductance of coupled coils"
+      ],
+      "formulae": [
+        "M = k√(L₁L₂)"
+      ],
+      "graph_neighbors": [
+        "concept_19fc9d8e17"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "6-11"
+    }
+  },
+  {
+    "concept_id": "concept_cd149ebd0e",
+    "concept": "Inductors in series without mutual coupling",
+    "description": "For two uncoupled coils connected in series, the same current flows through both coils and their inductances add. The coefficient of coupling is k = 0.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Inductors in series without mutual coupling.",
+      "[Understand] Explain in your own words the concept of Inductors in series without mutual coupling.",
+      "[Apply] Apply to a new situation the concept of Inductors in series without mutual coupling.",
+      "[Analyze] Break down and compare the concept of Inductors in series without mutual coupling.",
+      "[Evaluate] Critique and justify decisions about the concept of Inductors in series without mutual coupling.",
+      "[Create] Design or produce something using the concept of Inductors in series without mutual coupling."
+    ],
+    "misconceptions": [
+      "The inductances cancel because the coils are separate and do not share magnetic flux.",
+      "Different currents flow through the two inductors because they have different inductance values.",
+      "The equivalent inductance depends on whether the coils are wound in the same or opposite direction."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "topic": "Grouping of coils",
+      "subtopic": "Series combination",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_43fc18b0f9"
+      ],
+      "subject": "Physics",
+      "concept": "Inductors in series without mutual coupling",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Inductors in series without mutual coupling"
+      ],
+      "formulae": [
+        "e = e₁ + e₂",
+        "Lₛ = L₁ + L₂"
+      ],
+      "graph_neighbors": [
+        "concept_43fc18b0f9"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "6-11"
+    }
+  },
+  {
+    "concept_id": "concept_43fc18b0f9",
+    "concept": "Inductors in parallel without mutual coupling",
+    "description": "For two uncoupled coils connected in parallel, the voltage across each coil is the same and the total current divides between them. The coefficient of coupling is k = 0.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Inductors in parallel without mutual coupling.",
+      "[Understand] Explain in your own words the concept of Inductors in parallel without mutual coupling.",
+      "[Apply] Apply to a new situation the concept of Inductors in parallel without mutual coupling.",
+      "[Analyze] Break down and compare the concept of Inductors in parallel without mutual coupling.",
+      "[Evaluate] Critique and justify decisions about the concept of Inductors in parallel without mutual coupling.",
+      "[Create] Design or produce something using the concept of Inductors in parallel without mutual coupling."
+    ],
+    "misconceptions": [
+      "The equivalent inductance of parallel uncoupled inductors is the sum of their inductances.",
+      "The current through each parallel inductor is always equal.",
+      "Parallel inductors must have mutual coupling between them."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "topic": "Grouping of coils",
+      "subtopic": "Parallel combination",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_cd149ebd0e"
+      ],
+      "subject": "Physics",
+      "concept": "Inductors in parallel without mutual coupling",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Inductors in parallel without mutual coupling"
+      ],
+      "formulae": [
+        "I = I₁ + I₂",
+        "1/Lₚ = 1/L₁ + 1/L₂",
+        "Lₚ = L₁L₂/(L₁ + L₂)"
+      ],
+      "graph_neighbors": [
+        "concept_cd149ebd0e"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "6-11"
+    }
+  },
+  {
+    "concept_id": "concept_6bb4417781",
+    "concept": "Sinusoidal alternating current and emf",
+    "description": "An alternating current or emf varies periodically with time and reverses direction during each cycle. Iₘₐₓ and Eₘₐₓ are the maximum current and emf. ω is angular frequency, f is frequency, and T is the time period.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Sinusoidal alternating current and emf.",
+      "[Understand] Explain in your own words the concept of Sinusoidal alternating current and emf.",
+      "[Apply] Apply to a new situation the concept of Sinusoidal alternating current and emf.",
+      "[Analyze] Break down and compare the concept of Sinusoidal alternating current and emf.",
+      "[Evaluate] Critique and justify decisions about the concept of Sinusoidal alternating current and emf.",
+      "[Create] Design or produce something using the concept of Sinusoidal alternating current and emf."
+    ],
+    "misconceptions": [
+      "Alternating current always has a constant magnitude and only changes direction.",
+      "The current reverses direction every cycle, so one complete cycle contains only one reversal.",
+      "The average value of a sinusoidal alternating current over a complete cycle is its peak value."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "topic": "Alternating current",
+      "subtopic": "Sinusoidal variation",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.7,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_b680bd6489",
+        "concept_739b563448"
+      ],
+      "subject": "Physics",
+      "concept": "Sinusoidal alternating current and emf",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Sinusoidal alternating current and emf"
+      ],
+      "formulae": [
+        "i = Iₘₐₓ sin(ωt)",
+        "e = Eₘₐₓ sin(ωt)",
+        "ω = 2πf",
+        "e = Eₘₐₓ sin(2πft)",
+        "e = Eₘₐₓ sin(2πt/T)",
+        "f = 1/T"
+      ],
+      "graph_neighbors": [
+        "concept_739b563448",
+        "concept_b680bd6489"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "6-11"
+    }
+  },
+  {
+    "concept_id": "concept_b680bd6489",
+    "concept": "RMS value of alternating current and voltage",
+    "description": "The root-mean-square value of an alternating quantity is the square root of the mean of the squares of its instantaneous values over a cycle. RMS values represent the equivalent direct-current values for heating or power effects.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of RMS value of alternating current and voltage.",
+      "[Understand] Explain in your own words the concept of RMS value of alternating current and voltage.",
+      "[Apply] Apply to a new situation the concept of RMS value of alternating current and voltage.",
+      "[Analyze] Break down and compare the concept of RMS value of alternating current and voltage.",
+      "[Evaluate] Critique and justify decisions about the concept of RMS value of alternating current and voltage.",
+      "[Create] Design or produce something using the concept of RMS value of alternating current and voltage."
+    ],
+    "misconceptions": [
+      "The RMS value is the arithmetic average of the instantaneous current or voltage values.",
+      "The RMS value is equal to the peak value.",
+      "An AC supply with zero average voltage has no heating or power effect."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "topic": "Alternating current",
+      "subtopic": "Effective value",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_6bb4417781",
+        "concept_739b563448"
+      ],
+      "subject": "Physics",
+      "concept": "RMS value of alternating current and voltage",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using RMS value of alternating current and voltage"
+      ],
+      "formulae": [
+        "Iᵣₘₛ = √[(I₁² + I₂² + ... + Iₙ²)/n]",
+        "Iᵣₘₛ = Iₘₐₓ/√2 = 0.707Iₘₐₓ",
+        "Vᵣₘₛ = Vₘₐₓ/√2 = 0.707Vₘₐₓ"
+      ],
+      "graph_neighbors": [
+        "concept_6bb4417781",
+        "concept_739b563448"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "6-11"
+    }
+  },
+  {
+    "concept_id": "concept_739b563448",
+    "concept": "Average value of alternating current",
+    "description": "The average value of a sinusoidal alternating current is the arithmetic mean of its instantaneous values, usually evaluated over a half-cycle because the full-cycle average is zero. The average value over a complete cycle of a symmetrical alternating current is zero.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Average value of alternating current.",
+      "[Understand] Explain in your own words the concept of Average value of alternating current.",
+      "[Apply] Apply to a new situation the concept of Average value of alternating current.",
+      "[Analyze] Break down and compare the concept of Average value of alternating current.",
+      "[Evaluate] Critique and justify decisions about the concept of Average value of alternating current.",
+      "[Create] Design or produce something using the concept of Average value of alternating current."
+    ],
+    "misconceptions": [
+      "The average value of an alternating current over a complete cycle is equal to its peak value divided by two.",
+      "The average value is the same as the RMS value.",
+      "The average value is found by averaging only the positive peak and negative peak values."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "topic": "Alternating current",
+      "subtopic": "Average value",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.7,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_6bb4417781",
+        "concept_b680bd6489"
+      ],
+      "subject": "Physics",
+      "concept": "Average value of alternating current",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Average value of alternating current"
+      ],
+      "formulae": [
+        "Iₐᵥ = 2Iₘₐₓ/π = 0.637Iₘₐₓ"
+      ],
+      "graph_neighbors": [
+        "concept_6bb4417781",
+        "concept_b680bd6489"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "6-11"
+    }
+  },
+  {
+    "concept_id": "concept_5e46c6f8a7",
+    "concept": "AC circuit containing resistance only",
+    "description": "In a purely resistive AC circuit, the current and voltage vary sinusoidally in phase. Voltage and current have zero phase difference. A resistor consumes average power.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of AC circuit containing resistance only.",
+      "[Understand] Explain in your own words the concept of AC circuit containing resistance only.",
+      "[Apply] Apply to a new situation the concept of AC circuit containing resistance only.",
+      "[Analyze] Break down and compare the concept of AC circuit containing resistance only.",
+      "[Evaluate] Critique and justify decisions about the concept of AC circuit containing resistance only.",
+      "[Create] Design or produce something using the concept of AC circuit containing resistance only."
+    ],
+    "misconceptions": [
+      "The current and voltage are always constant in a purely resistive AC circuit.",
+      "Current leads or lags voltage in a purely resistive AC circuit.",
+      "Resistance changes the phase relationship between AC voltage and current."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "topic": "Alternating-current circuits",
+      "subtopic": "Pure resistance",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_fffb4e0618",
+        "concept_f29fcaaad0",
+        "concept_19626bf476",
+        "concept_4679caf6b0",
+        "concept_eab7c7445e",
+        "concept_8d88f13615",
+        "concept_41ccbd759e",
+        "concept_02c2da5105"
+      ],
+      "subject": "Physics",
+      "concept": "AC circuit containing resistance only",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using AC circuit containing resistance only"
+      ],
+      "formulae": [
+        "v = Vₘₐₓ sin(ωt)",
+        "i = Iₘₐₓ sin(ωt)",
+        "Iₘₐₓ = Vₘₐₓ/R",
+        "p = VₘₐₓIₘₐₓ sin²(ωt)",
+        "p = (VₘₐₓIₘₐₓ/2)[1 - cos(2ωt)]"
+      ],
+      "graph_neighbors": [
+        "concept_02c2da5105",
+        "concept_19626bf476",
+        "concept_41ccbd759e",
+        "concept_4679caf6b0",
+        "concept_8d88f13615",
+        "concept_d09c525f74",
+        "concept_eab7c7445e",
+        "concept_f29fcaaad0",
+        "concept_fffb4e0618"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "6-11"
+    }
+  },
+  {
+    "concept_id": "concept_fffb4e0618",
+    "concept": "AC circuit containing an inductor only",
+    "description": "In a purely inductive AC circuit, the current lags the voltage by 90 degrees. Xₗ is inductive reactance and is measured in ohms. The average power in a pure inductive circuit is zero.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of AC circuit containing an inductor only.",
+      "[Understand] Explain in your own words the concept of AC circuit containing an inductor only.",
+      "[Apply] Apply to a new situation the concept of AC circuit containing an inductor only.",
+      "[Analyze] Break down and compare the concept of AC circuit containing an inductor only.",
+      "[Evaluate] Critique and justify decisions about the concept of AC circuit containing an inductor only.",
+      "[Create] Design or produce something using the concept of AC circuit containing an inductor only."
+    ],
+    "misconceptions": [
+      "The current leads the voltage by 90 degrees in a purely inductive circuit.",
+      "The current and voltage are in phase because the circuit is supplied by AC voltage.",
+      "The inductor consumes average real power like a resistor."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "topic": "Alternating-current circuits",
+      "subtopic": "Pure inductance",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_5e46c6f8a7",
+        "concept_f29fcaaad0",
+        "concept_19626bf476",
+        "concept_4679caf6b0",
+        "concept_eab7c7445e",
+        "concept_8d88f13615",
+        "concept_41ccbd759e",
+        "concept_02c2da5105"
+      ],
+      "subject": "Physics",
+      "concept": "AC circuit containing an inductor only",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using AC circuit containing an inductor only"
+      ],
+      "formulae": [
+        "i = Iₘₐₓ sin(ωt - π/2)",
+        "Iₘₐₓ = Vₘₐₓ/(ωL)",
+        "Xₗ = ωL = 2πfL",
+        "p = (VₘₐₓIₘₐₓ/2)sin(2ωt)"
+      ],
+      "graph_neighbors": [
+        "concept_02c2da5105",
+        "concept_19626bf476",
+        "concept_41ccbd759e",
+        "concept_4679caf6b0",
+        "concept_5e46c6f8a7",
+        "concept_8d88f13615",
+        "concept_d09c525f74",
+        "concept_eab7c7445e",
+        "concept_f29fcaaad0"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "6-11"
+    }
+  },
+  {
+    "concept_id": "concept_f29fcaaad0",
+    "concept": "AC circuit containing a capacitor only",
+    "description": "In a purely capacitive AC circuit, the current leads the voltage by 90 degrees. X꜀ is capacitive reactance and is measured in ohms. The average power consumed by a pure capacitive circuit is zero.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of AC circuit containing a capacitor only.",
+      "[Understand] Explain in your own words the concept of AC circuit containing a capacitor only.",
+      "[Apply] Apply to a new situation the concept of AC circuit containing a capacitor only.",
+      "[Analyze] Break down and compare the concept of AC circuit containing a capacitor only.",
+      "[Evaluate] Critique and justify decisions about the concept of AC circuit containing a capacitor only.",
+      "[Create] Design or produce something using the concept of AC circuit containing a capacitor only."
+    ],
+    "misconceptions": [
+      "The current lags the voltage by 90 degrees in a purely capacitive circuit.",
+      "The current and voltage are in phase because the circuit is connected to an AC source.",
+      "A capacitor continuously consumes real power like a resistor."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "topic": "Alternating-current circuits",
+      "subtopic": "Pure capacitance",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_5e46c6f8a7",
+        "concept_fffb4e0618",
+        "concept_19626bf476",
+        "concept_4679caf6b0",
+        "concept_eab7c7445e",
+        "concept_8d88f13615",
+        "concept_41ccbd759e",
+        "concept_02c2da5105"
+      ],
+      "subject": "Physics",
+      "concept": "AC circuit containing a capacitor only",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using AC circuit containing a capacitor only"
+      ],
+      "formulae": [
+        "i = Iₘₐₓ sin(ωt + π/2) = Iₘₐₓ cos(ωt)",
+        "Iₘₐₓ = Vₘₐₓ/(1/(ωC)) = ωCVₘₐₓ",
+        "X꜀ = 1/(ωC)",
+        "p = (VₘₐₓIₘₐₓ/2)sin(2ωt)"
+      ],
+      "graph_neighbors": [
+        "concept_02c2da5105",
+        "concept_19626bf476",
+        "concept_41ccbd759e",
+        "concept_4679caf6b0",
+        "concept_5e46c6f8a7",
+        "concept_8d88f13615",
+        "concept_d09c525f74",
+        "concept_eab7c7445e",
+        "concept_fffb4e0618"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "6-11"
+    }
+  },
+  {
+    "concept_id": "concept_19626bf476",
+    "concept": "Impedance of a resistor and inductor in series",
+    "description": "The impedance of a series R-L AC circuit is the opposition offered by the combined resistance and inductive reactance to alternating current. Z is impedance and its SI unit is the ohm (Ω). R is resistance and Xₗ is inductive reactance.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Impedance of a resistor and inductor in series.",
+      "[Understand] Explain in your own words the concept of Impedance of a resistor and inductor in series.",
+      "[Apply] Apply to a new situation the concept of Impedance of a resistor and inductor in series.",
+      "[Analyze] Break down and compare the concept of Impedance of a resistor and inductor in series.",
+      "[Evaluate] Critique and justify decisions about the concept of Impedance of a resistor and inductor in series.",
+      "[Create] Design or produce something using the concept of Impedance of a resistor and inductor in series."
+    ],
+    "misconceptions": [
+      "The impedance is found by simply adding resistance and inductive reactance as ordinary numbers.",
+      "An ideal inductor has the same opposition to current at every frequency.",
+      "The current and source voltage are in phase because the resistor and inductor are connected in series."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "topic": "Alternating-current circuits",
+      "subtopic": "Series R-L circuit",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 0.8,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_5e46c6f8a7",
+        "concept_fffb4e0618",
+        "concept_f29fcaaad0",
+        "concept_4679caf6b0",
+        "concept_eab7c7445e",
+        "concept_8d88f13615",
+        "concept_41ccbd759e",
+        "concept_02c2da5105"
+      ],
+      "subject": "Physics",
+      "concept": "Impedance of a resistor and inductor in series",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Impedance of a resistor and inductor in series"
+      ],
+      "formulae": [
+        "V = √(Vᵣ² + Vₗ²)",
+        "Z = √(R² + Xₗ²)",
+        "I = V/Z",
+        "Xₗ = ωL"
+      ],
+      "graph_neighbors": [
+        "concept_02c2da5105",
+        "concept_41ccbd759e",
+        "concept_4679caf6b0",
+        "concept_5e46c6f8a7",
+        "concept_8d88f13615",
+        "concept_d09c525f74",
+        "concept_eab7c7445e",
+        "concept_f29fcaaad0",
+        "concept_fffb4e0618"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "6-11"
+    }
+  },
+  {
+    "concept_id": "concept_4679caf6b0",
+    "concept": "Average power",
+    "description": "The average power consumed by an R-L series circuit carrying alternating current equals the product of rms voltage, rms current, and power factor. φ is the phase angle by which voltage leads current.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Average power.",
+      "[Understand] Explain in your own words the concept of Average power.",
+      "[Apply] Apply to a new situation the concept of Average power.",
+      "[Analyze] Break down and compare the concept of Average power.",
+      "[Evaluate] Critique and justify decisions about the concept of Average power.",
+      "[Create] Design or produce something using the concept of Average power."
+    ],
+    "misconceptions": [
+      "Average power is always equal to the product of rms voltage and rms current.",
+      "The inductor consumes real power continuously like the resistor.",
+      "Power factor is the ratio of rms current to rms voltage."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "topic": "Alternating-current circuits",
+      "subtopic": "Power in series R-L circuit",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "intermediate",
+      "level_confidence": 0.97,
+      "importance_score": 0.7,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_5e46c6f8a7",
+        "concept_fffb4e0618",
+        "concept_f29fcaaad0",
+        "concept_19626bf476",
+        "concept_eab7c7445e",
+        "concept_8d88f13615",
+        "concept_41ccbd759e",
+        "concept_02c2da5105"
+      ],
+      "subject": "Physics",
+      "concept": "Average power",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Average power"
+      ],
+      "formulae": [
+        "P = V_rms I_rms cos φ"
+      ],
+      "graph_neighbors": [
+        "concept_02c2da5105",
+        "concept_19626bf476",
+        "concept_41ccbd759e",
+        "concept_5e46c6f8a7",
+        "concept_8d88f13615",
+        "concept_d09c525f74",
+        "concept_eab7c7445e",
+        "concept_f29fcaaad0",
+        "concept_fffb4e0618"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "12-16"
+    }
+  },
+  {
+    "concept_id": "concept_eab7c7445e",
+    "concept": "Impedance of an R-C circuit",
+    "description": "In a series R-C AC circuit, resistance and capacitive reactance combine vectorially to determine the circuit impedance. Capacitive reactance decreases as angular frequency increases. The resistor voltage and capacitor voltage are perpendicular phasors.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Impedance of an R-C circuit.",
+      "[Understand] Explain in your own words the concept of Impedance of an R-C circuit.",
+      "[Apply] Apply to a new situation the concept of Impedance of an R-C circuit.",
+      "[Analyze] Break down and compare the concept of Impedance of an R-C circuit.",
+      "[Evaluate] Critique and justify decisions about the concept of Impedance of an R-C circuit.",
+      "[Create] Design or produce something using the concept of Impedance of an R-C circuit."
+    ],
+    "misconceptions": [
+      "Resistance and capacitive reactance are added directly to find impedance.",
+      "The impedance of a series R-C circuit is always greater than R + Xc.",
+      "Capacitive reactance increases as AC frequency increases."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "topic": "Alternating-current circuits",
+      "subtopic": "Resistance and capacitance in series",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "intermediate",
+      "level_confidence": 0.98,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_5e46c6f8a7",
+        "concept_fffb4e0618",
+        "concept_f29fcaaad0",
+        "concept_19626bf476",
+        "concept_4679caf6b0",
+        "concept_8d88f13615",
+        "concept_41ccbd759e",
+        "concept_02c2da5105"
+      ],
+      "subject": "Physics",
+      "concept": "Impedance of an R-C circuit",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Impedance of an R-C circuit"
+      ],
+      "formulae": [
+        "V = √(V_R² + V_C²)",
+        "Z = √(R² + X_C²)",
+        "X_C = 1/(ωC)"
+      ],
+      "graph_neighbors": [
+        "concept_02c2da5105",
+        "concept_19626bf476",
+        "concept_41ccbd759e",
+        "concept_4679caf6b0",
+        "concept_5e46c6f8a7",
+        "concept_8d88f13615",
+        "concept_d09c525f74",
+        "concept_f29fcaaad0",
+        "concept_fffb4e0618"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "12-16"
+    }
+  },
+  {
+    "concept_id": "concept_8d88f13615",
+    "concept": "Impedance",
+    "description": "The impedance of a series RLC circuit is determined by the resistance and the net reactance, which is the difference between inductive and capacitive reactance. Inductive reactance is X_L = ωL. Capacitive reactance is X_C = 1/(ωC).",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Impedance.",
+      "[Understand] Explain in your own words the concept of Impedance.",
+      "[Apply] Apply to a new situation the concept of Impedance.",
+      "[Analyze] Break down and compare the concept of Impedance.",
+      "[Evaluate] Critique and justify decisions about the concept of Impedance.",
+      "[Create] Design or produce something using the concept of Impedance."
+    ],
+    "misconceptions": [
+      "Impedance is simply the sum of resistance, inductive reactance, and capacitive reactance.",
+      "Inductive and capacitive reactance always increase the circuit's impedance.",
+      "Impedance is measured only in ohms of resistance and has no phase-related component."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "topic": "Alternating-current circuits",
+      "subtopic": "R-L-C series circuit",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "intermediate",
+      "level_confidence": 0.98,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_5e46c6f8a7",
+        "concept_fffb4e0618",
+        "concept_f29fcaaad0",
+        "concept_19626bf476",
+        "concept_4679caf6b0",
+        "concept_eab7c7445e",
+        "concept_41ccbd759e",
+        "concept_02c2da5105"
+      ],
+      "subject": "Physics",
+      "concept": "Impedance",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Impedance"
+      ],
+      "formulae": [
+        "Z = √[R² + (ωL - 1/(ωC))²]",
+        "V = √[V_R² + (V_L - V_C)²]"
+      ],
+      "graph_neighbors": [
+        "concept_02c2da5105",
+        "concept_19626bf476",
+        "concept_41ccbd759e",
+        "concept_4679caf6b0",
+        "concept_5e46c6f8a7",
+        "concept_d09c525f74",
+        "concept_eab7c7445e",
+        "concept_f29fcaaad0",
+        "concept_fffb4e0618"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "12-16"
+    }
+  },
+  {
+    "concept_id": "concept_41ccbd759e",
+    "concept": "Phase relationship",
+    "description": "The phase relationship between current and applied voltage depends on whether inductive or capacitive reactance is greater. At zero net reactance, the impedance equals R.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Phase relationship.",
+      "[Understand] Explain in your own words the concept of Phase relationship.",
+      "[Apply] Apply to a new situation the concept of Phase relationship.",
+      "[Analyze] Break down and compare the concept of Phase relationship.",
+      "[Evaluate] Critique and justify decisions about the concept of Phase relationship.",
+      "[Create] Design or produce something using the concept of Phase relationship."
+    ],
+    "misconceptions": [
+      "Current is always in phase with the applied voltage in an AC circuit.",
+      "A circuit is inductive whenever it contains an inductor, regardless of its capacitors.",
+      "Greater capacitive reactance makes current lead voltage more strongly."
+    ],
+    "examples": [
+      "If ωL > 1/(ωC), current lags voltage.",
+      "If ωL = 1/(ωC), current and voltage are in phase.",
+      "If ωL < 1/(ωC), current leads voltage."
+    ],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "topic": "Alternating-current circuits",
+      "subtopic": "R-L-C series circuit",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "intermediate",
+      "level_confidence": 0.98,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_5e46c6f8a7",
+        "concept_fffb4e0618",
+        "concept_f29fcaaad0",
+        "concept_19626bf476",
+        "concept_4679caf6b0",
+        "concept_eab7c7445e",
+        "concept_8d88f13615",
+        "concept_02c2da5105"
+      ],
+      "subject": "Physics",
+      "concept": "Phase relationship",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Phase relationship"
+      ],
+      "formulae": [
+        "Net reactance = ωL - 1/(ωC)"
+      ],
+      "graph_neighbors": [
+        "concept_02c2da5105",
+        "concept_19626bf476",
+        "concept_4679caf6b0",
+        "concept_5e46c6f8a7",
+        "concept_8d88f13615",
+        "concept_d09c525f74",
+        "concept_eab7c7445e",
+        "concept_f29fcaaad0",
+        "concept_fffb4e0618"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "12-16"
+    }
+  },
+  {
+    "concept_id": "concept_02c2da5105",
+    "concept": "Resonance frequency",
+    "description": "Series resonance occurs when inductive reactance equals capacitive reactance, making the net reactance zero. At resonance, current and voltage are in phase. The impedance is minimum and equals the resistance R.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Resonance frequency.",
+      "[Understand] Explain in your own words the concept of Resonance frequency.",
+      "[Apply] Apply to a new situation the concept of Resonance frequency.",
+      "[Analyze] Break down and compare the concept of Resonance frequency.",
+      "[Evaluate] Critique and justify decisions about the concept of Resonance frequency.",
+      "[Create] Design or produce something using the concept of Resonance frequency."
+    ],
+    "misconceptions": [
+      "At series resonance, the circuit impedance is zero.",
+      "Resonance occurs when the inductance equals the capacitance.",
+      "The voltage across each reactive component must be zero at resonance."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "topic": "Alternating-current circuits",
+      "subtopic": "Series resonance",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "intermediate",
+      "level_confidence": 0.99,
+      "importance_score": 0.9,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_5e46c6f8a7",
+        "concept_fffb4e0618",
+        "concept_f29fcaaad0",
+        "concept_19626bf476",
+        "concept_4679caf6b0",
+        "concept_eab7c7445e",
+        "concept_8d88f13615",
+        "concept_41ccbd759e"
+      ],
+      "subject": "Physics",
+      "concept": "Resonance frequency",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Resonance frequency"
+      ],
+      "formulae": [
+        "X_L = X_C",
+        "ω_r L = 1/(ω_r C)",
+        "ω_r = 1/√(LC)",
+        "f_r = 1/(2π√(LC))"
+      ],
+      "graph_neighbors": [
+        "concept_19626bf476",
+        "concept_41ccbd759e",
+        "concept_4679caf6b0",
+        "concept_5e46c6f8a7",
+        "concept_8d88f13615",
+        "concept_d09c525f74",
+        "concept_eab7c7445e",
+        "concept_f29fcaaad0",
+        "concept_fffb4e0618"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "12-16"
+    }
+  },
+  {
+    "concept_id": "concept_d09c525f74",
+    "concept": "Quality factor",
+    "description": "The Q-factor measures voltage magnification in a series resonant circuit and equals the ratio of the voltage across the inductor or capacitor to the applied voltage at resonance. A higher Q-factor indicates greater voltage magnification at resonance.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Quality factor.",
+      "[Understand] Explain in your own words the concept of Quality factor.",
+      "[Apply] Apply to a new situation the concept of Quality factor.",
+      "[Analyze] Break down and compare the concept of Quality factor.",
+      "[Evaluate] Critique and justify decisions about the concept of Quality factor.",
+      "[Create] Design or produce something using the concept of Quality factor."
+    ],
+    "misconceptions": [
+      "The Q-factor is the voltage across the inductor or capacitor at all frequencies.",
+      "A higher Q-factor means a larger applied voltage.",
+      "The Q-factor is always equal to the voltage across both the inductor and capacitor added together."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "topic": "Alternating-current circuits",
+      "subtopic": "Series resonance",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_5e46c6f8a7",
+        "concept_fffb4e0618",
+        "concept_f29fcaaad0",
+        "concept_19626bf476",
+        "concept_4679caf6b0",
+        "concept_eab7c7445e",
+        "concept_8d88f13615",
+        "concept_41ccbd759e"
+      ],
+      "subject": "Physics",
+      "concept": "Quality factor",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Quality factor"
+      ],
+      "formulae": [
+        "Q = V_L/V = V_C/V = (1/R)√(L/C)"
+      ],
+      "graph_neighbors": [
+        "concept_02c2da5105",
+        "concept_19626bf476",
+        "concept_41ccbd759e",
+        "concept_4679caf6b0",
+        "concept_5e46c6f8a7",
+        "concept_8d88f13615",
+        "concept_eab7c7445e",
+        "concept_f29fcaaad0",
+        "concept_fffb4e0618"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "12-16"
+    }
+  },
+  {
+    "concept_id": "concept_04da8ecccc",
+    "concept": "Transformer operation",
+    "description": "A transformer transfers electrical energy between primary and secondary coils through changing magnetic flux produced by alternating current. N_1 and N_2 are the numbers of primary and secondary turns.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Transformer operation.",
+      "[Understand] Explain in your own words the concept of Transformer operation.",
+      "[Apply] Apply to a new situation the concept of Transformer operation.",
+      "[Analyze] Break down and compare the concept of Transformer operation.",
+      "[Evaluate] Critique and justify decisions about the concept of Transformer operation.",
+      "[Create] Design or produce something using the concept of Transformer operation."
+    ],
+    "misconceptions": [
+      "A transformer can operate normally with direct current.",
+      "A transformer creates additional electrical energy.",
+      "The primary and secondary coils are electrically connected."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "topic": "Transformers",
+      "subtopic": "Mutual induction",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.9,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_52faab1a94",
+        "concept_258c353dd8"
+      ],
+      "subject": "Physics",
+      "concept": "Transformer operation",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Transformer operation"
+      ],
+      "formulae": [
+        "ε_1 = -N_1 dΦ_B/dt",
+        "ε_2 = -N_2 dΦ_B/dt"
+      ],
+      "graph_neighbors": [
+        "concept_258c353dd8",
+        "concept_52faab1a94"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "12-16"
+    }
+  },
+  {
+    "concept_id": "concept_52faab1a94",
+    "concept": "Voltage transformation",
+    "description": "For an ideal transformer, the ratio of secondary to primary voltage equals the ratio of secondary to primary turns. The voltage relation applies to either amplitudes or rms terminal voltages.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Voltage transformation.",
+      "[Understand] Explain in your own words the concept of Voltage transformation.",
+      "[Apply] Apply to a new situation the concept of Voltage transformation.",
+      "[Analyze] Break down and compare the concept of Voltage transformation.",
+      "[Evaluate] Critique and justify decisions about the concept of Voltage transformation.",
+      "[Create] Design or produce something using the concept of Voltage transformation."
+    ],
+    "misconceptions": [
+      "A transformer always increases voltage.",
+      "The voltage ratio equals the inverse turns ratio.",
+      "An ideal transformer produces more electrical power when it increases voltage."
+    ],
+    "examples": [
+      "Choosing N_2/N_1 greater than one produces a higher secondary voltage.",
+      "Choosing N_2/N_1 less than one produces a lower secondary voltage."
+    ],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "topic": "Transformers",
+      "subtopic": "Turns ratio",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_04da8ecccc",
+        "concept_258c353dd8"
+      ],
+      "subject": "Physics",
+      "concept": "Voltage transformation",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Voltage transformation"
+      ],
+      "formulae": [
+        "ε_2/ε_1 = N_2/N_1",
+        "V_2/V_1 = N_2/N_1"
+      ],
+      "graph_neighbors": [
+        "concept_04da8ecccc",
+        "concept_258c353dd8"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "12-16"
+    }
+  },
+  {
+    "concept_id": "concept_258c353dd8",
+    "concept": "Transformer efficiency",
+    "description": "Transformer efficiency is the ratio of output power delivered by the secondary to input power supplied to the primary. Energy losses arise from primary resistance, hysteresis in the core, and eddy currents. Ordinary transformers can achieve efficiencies of about 99%.",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of Transformer efficiency.",
+      "[Understand] Explain in your own words the concept of Transformer efficiency.",
+      "[Apply] Apply to a new situation the concept of Transformer efficiency.",
+      "[Analyze] Break down and compare the concept of Transformer efficiency.",
+      "[Evaluate] Critique and justify decisions about the concept of Transformer efficiency.",
+      "[Create] Design or produce something using the concept of Transformer efficiency."
+    ],
+    "misconceptions": [
+      "An ideal transformer can have an efficiency greater than 100%.",
+      "A transformer produces power from nothing because it changes voltage and current.",
+      "Transformer efficiency is the ratio of secondary voltage to primary voltage."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "Problem Solving",
+      "Practical",
+      "MCQ"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "topic": "Transformers",
+      "subtopic": "Energy losses",
+      "concept_type": "Formula",
+      "difficulty": "advanced",
+      "level_band": "beginner",
+      "level_confidence": 0.99,
+      "importance_score": 0.8,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [
+        "concept_04da8ecccc",
+        "concept_52faab1a94"
+      ],
+      "subject": "Physics",
+      "concept": "Transformer efficiency",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Compute using Transformer efficiency"
+      ],
+      "formulae": [
+        "η = P_output/P_input",
+        "η_percent = (P_output/P_input) × 100"
+      ],
+      "graph_neighbors": [
+        "concept_04da8ecccc",
+        "concept_52faab1a94"
+      ],
+      "assessment_types": [
+        "Problem Solving",
+        "Practical",
+        "MCQ"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "12-16"
+    }
+  }
+]

@@ -1,0 +1,483 @@
+{
+  "key": "6.2",
+  "topic": "6.2 The Scalar Product of Vectors",
+  "questions": [
+    {
+      "question": {
+        "id": "63ebb416-0d4d-5da5-8891-9f36e1903823",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(\\\\vec a=2\\\\hat i-\\\\hat j+2\\\\hat k\\) and \\(\\\\vec b=\\\\hat i+2\\\\hat j+2\\\\hat k\\). The angle between \\(\\\\vec a\\) and \\(\\\\vec b\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using \\(\\\\vec a\\\\cdot\\\\vec b=\\\\lvert\\\\vec a\\\\rvert\\\\lvert\\\\vec b\\\\rvert\\\\cos\\\\theta\\), we get \\(\\\\cos\\\\theta=\\\\frac{2-2+4}{3\\\\times3}=\\\\frac{4}{9}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 111,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "6.2 The Scalar Product of Vectors",
+            "concept_ids": [
+              "concept_6bcc14f8fd",
+              "concept_d6b3245864"
+            ],
+            "source": "rag:math-prilepko-20260721-05:6.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              102,
+              103,
+              104,
+              105,
+              236,
+              237,
+              238,
+              239
+            ],
+            "source_chunk_ids": [
+              "chunk_aee864a850",
+              "chunk_38075103de"
+            ]
+          },
+          "options": [
+            {
+              "id": "cos_1_left_frac_4_9_righ_1",
+              "label": "\\(\\\\cos^{-1}\\\\left(\\\\frac{4}{9}\\\\right)\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(\\\\vec a\\\\cdot\\\\vec b=4\\) and \\(\\\\lvert\\\\vec a\\\\rvert=\\\\lvert\\\\vec b\\\\rvert=3\\)."
+            },
+            {
+              "id": "cos_1_left_frac_1_3_righ_2",
+              "label": "\\(\\\\cos^{-1}\\\\left(\\\\frac{1}{3}\\\\right)\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The denominator is \\(9\\), not \\(3\\)."
+            },
+            {
+              "id": "cos_1_left_frac_2_3_righ_3",
+              "label": "\\(\\\\cos^{-1}\\\\left(\\\\frac{2}{3}\\\\right)\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The dot product is \\(4\\), not \\(6\\)."
+            },
+            {
+              "id": "frac_pi_3_4",
+              "label": "\\(\\\\frac{\\\\pi}{3}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The cosine is not \\(\\\\frac{1}{2}\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "5cf7048b-a6ae-53ee-93d1-4d7350757855",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(\\\\vec a\\) and \\(\\\\vec b\\) are unit vectors such that \\(\\\\lvert\\\\vec a+\\\\vec b\\\\rvert=\\\\sqrt{3}\\), then \\(\\\\vec a\\\\cdot\\\\vec b\\) equals",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Squaring the given relation, \\(3=\\\\lvert\\\\vec a+\\\\vec b\\\\rvert^2=\\\\lvert\\\\vec a\\\\rvert^2+\\\\lvert\\\\vec b\\\\rvert^2+2\\\\vec a\\\\cdot\\\\vec b=2+2\\\\vec a\\\\cdot\\\\vec b\\). Hence \\(\\\\vec a\\\\cdot\\\\vec b=\\\\frac{1}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 112,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "6.2 The Scalar Product of Vectors",
+            "concept_ids": [
+              "concept_6bcc14f8fd",
+              "concept_d6b3245864"
+            ],
+            "source": "rag:math-prilepko-20260721-05:6.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              102,
+              103,
+              104,
+              105,
+              236,
+              237,
+              238,
+              239
+            ],
+            "source_chunk_ids": [
+              "chunk_aee864a850",
+              "chunk_38075103de"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_1_2_1",
+              "label": "\\(\\\\frac{1}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(\\\\lvert\\\\vec a+\\\\vec b\\\\rvert^2=2+2\\\\vec a\\\\cdot\\\\vec b\\)."
+            },
+            {
+              "id": "frac_1_4_2",
+              "label": "\\(\\\\frac{1}{4}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This results from incorrectly omitting the factor \\(2\\)."
+            },
+            {
+              "id": "frac_1_2_3",
+              "label": "\\(-\\\\frac{1}{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This would correspond to \\(\\\\lvert\\\\vec a+\\\\vec b\\\\rvert=1\\)."
+            },
+            {
+              "id": "1_4",
+              "label": "\\(1\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The unit-vector sum identity gives a smaller value."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "cd49bd57-61e2-5aa0-8022-dc4ae0fb7b28",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The scalar projection of \\(\\\\vec a=\\\\hat i+2\\\\hat j-2\\\\hat k\\) on \\(\\\\vec b=2\\\\hat i-\\\\hat j+2\\\\hat k\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The scalar projection is \\(\\\\frac{\\\\vec a\\\\cdot\\\\vec b}{\\\\lvert\\\\vec b\\\\rvert}=\\\\frac{2-2-4}{\\\\sqrt{4+1+4}}=-\\\\frac{4}{3}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 113,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "6.2 The Scalar Product of Vectors",
+            "concept_ids": [
+              "concept_6bcc14f8fd",
+              "concept_d6b3245864"
+            ],
+            "source": "rag:math-prilepko-20260721-05:6.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              102,
+              103,
+              104,
+              105,
+              236,
+              237,
+              238,
+              239
+            ],
+            "source_chunk_ids": [
+              "chunk_aee864a850",
+              "chunk_38075103de"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_4_3_1",
+              "label": "\\(-\\\\frac{4}{3}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(\\\\vec a\\\\cdot\\\\vec b=-4\\) and \\(\\\\lvert\\\\vec b\\\\rvert=3\\)."
+            },
+            {
+              "id": "4_2",
+              "label": "\\(-4\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the dot product, not the scalar projection."
+            },
+            {
+              "id": "frac_4_3_3",
+              "label": "\\(\\\\frac{4}{3}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sign of the dot product is negative."
+            },
+            {
+              "id": "frac_2_3_4",
+              "label": "\\(-\\\\frac{2}{3}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The dot product has been calculated incorrectly."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "3e14fb30-d9b7-5755-b856-2a7a38da715e",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A triangular pyramid has vertices \\(A(3,0,1)\\), \\(B(-1,4,1)\\), \\(C(5,2,3)\\), and \\(D(0,-5,4)\\). If \\(O\\) is the centroid of triangle \\(BCD\\), then the length of \\(\\\\overrightarrow{AO}\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The centroid is \\(O=\\\\left(\\\\frac{-1+5+0}{3},\\\\frac{4+2-5}{3},\\\\frac{1+3+4}{3}\\\\right)=\\\\left(\\\\frac{4}{3},\\\\frac{1}{3},\\\\frac{8}{3}\\\\right)\\). Thus \\(\\\\overrightarrow{AO}=\\\\left(-\\\\frac{5}{3},\\\\frac{1}{3},\\\\frac{5}{3}\\\\right)\\), so \\(\\\\lvert\\\\overrightarrow{AO}\\\\rvert=\\\\frac{\\\\sqrt{25+1+25}}{3}=\\\\frac{\\\\sqrt{51}}{3}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 114,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "6.2 The Scalar Product of Vectors",
+            "concept_ids": [
+              "concept_6bcc14f8fd",
+              "concept_d6b3245864"
+            ],
+            "source": "rag:math-prilepko-20260721-05:6.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              102,
+              103,
+              104,
+              105,
+              236,
+              237,
+              238,
+              239
+            ],
+            "source_chunk_ids": [
+              "chunk_aee864a850",
+              "chunk_38075103de"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_sqrt_51_3_1",
+              "label": "\\(\\\\frac{\\\\sqrt{51}}{3}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(O=\\\\left(\\\\frac{4}{3},\\\\frac{1}{3},\\\\frac{8}{3}\\\\right)\\), giving \\(\\\\overrightarrow{AO}=\\\\frac{1}{3}(-5,1,5)\\)."
+            },
+            {
+              "id": "frac_sqrt_50_3_2",
+              "label": "\\(\\\\frac{\\\\sqrt{50}}{3}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The \\(y\\)-component contributes \\(1\\) to the squared length."
+            },
+            {
+              "id": "frac_sqrt_75_3_3",
+              "label": "\\(\\\\frac{\\\\sqrt{75}}{3}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The coordinate differences are not all equal in magnitude."
+            },
+            {
+              "id": "frac_sqrt_26_3_4",
+              "label": "\\(\\\\frac{\\\\sqrt{26}}{3}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "One of the squared coordinate differences has been omitted."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "c5909a15-71bf-599d-9159-74e274a0e801",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(\\\\lvert\\\\vec a\\\\rvert=2\\), \\(\\\\lvert\\\\vec b\\\\rvert=3\\), and \\(\\\\vec a\\\\cdot\\\\vec b=3\\), then \\(\\\\lvert 2\\\\vec a-\\\\vec b\\\\rvert\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using the scalar-product identity, \\(\\\\lvert2\\\\vec a-\\\\vec b\\\\rvert^2=4\\\\lvert\\\\vec a\\\\rvert^2+\\\\lvert\\\\vec b\\\\rvert^2-4\\\\vec a\\\\cdot\\\\vec b=4(4)+9-4(3)=13\\). Therefore, \\(\\\\lvert2\\\\vec a-\\\\vec b\\\\rvert=\\\\sqrt{13}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 115,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "6.2 The Scalar Product of Vectors",
+            "concept_ids": [
+              "concept_6bcc14f8fd",
+              "concept_d6b3245864"
+            ],
+            "source": "rag:math-prilepko-20260721-05:6.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              102,
+              103,
+              104,
+              105,
+              236,
+              237,
+              238,
+              239
+            ],
+            "source_chunk_ids": [
+              "chunk_aee864a850",
+              "chunk_38075103de"
+            ]
+          },
+          "options": [
+            {
+              "id": "sqrt_13_1",
+              "label": "\\(\\\\sqrt{13}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Squaring gives \\(4\\\\lvert\\\\vec a\\\\rvert^2+\\\\lvert\\\\vec b\\\\rvert^2-4\\\\vec a\\\\cdot\\\\vec b=13\\)."
+            },
+            {
+              "id": "sqrt_37_2",
+              "label": "\\(\\\\sqrt{37}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The cross term has been added instead of subtracted."
+            },
+            {
+              "id": "5_3",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This incorrectly treats the vectors as parallel."
+            },
+            {
+              "id": "sqrt_7_4",
+              "label": "\\(\\\\sqrt{7}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The coefficient \\(2\\) is not squared correctly."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_aee864a850",
+    "chunk_38075103de"
+  ],
+  "source_pages": [
+    102,
+    103,
+    104,
+    105,
+    236,
+    237,
+    238,
+    239
+  ],
+  "rejected": []
+}

@@ -1,0 +1,19 @@
+{
+  "key": "8.3",
+  "topic": "8.3 Volumes of Solids of Revolution",
+  "questions": [],
+  "requested": 5,
+  "generated": 0,
+  "context_chunks": [
+    "chunk_ef436afb63",
+    "chunk_ede731a6b8"
+  ],
+  "source_pages": [],
+  "rejected": [
+    {
+      "issues": [
+        "LaTeX backslashes inside JSON strings must be escaped"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,471 @@
+{
+  "key": "3.2",
+  "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+  "questions": [
+    {
+      "question": {
+        "id": "79e03d7d-6e08-5756-861c-3938ce46d76c",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A price is increased by \\(20\\%\\) and then reduced by \\(10\\%\\). If the final price is \\(₹1080\\), what was the original price?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let the original price be \\(P\\). Then \\(1.2\\times0.9P=1080\\), so \\(P=\\frac{1080}{1.08}=₹1000\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 46,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+            "concept_ids": [
+              "concept_ce37252ec0",
+              "concept_e585373915"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              77,
+              78,
+              79,
+              80,
+              81,
+              221
+            ],
+            "source_chunk_ids": [
+              "chunk_4700e9ef9d",
+              "chunk_13dc0213de"
+            ]
+          },
+          "options": [
+            {
+              "id": "1000_1",
+              "label": "\\(₹1000\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The net multiplier is \\(1.2\\times0.9=1.08\\)."
+            },
+            {
+              "id": "1050_2",
+              "label": "\\(₹1050\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not produce a final price of \\(₹1080\\)."
+            },
+            {
+              "id": "1100_3",
+              "label": "\\(₹1100\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Applying the percentage changes gives \\(₹1188\\)."
+            },
+            {
+              "id": "1200_4",
+              "label": "\\(₹1200\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Applying the percentage changes gives \\(₹1296\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "33ad7096-dafe-5045-8f84-0b8f799afc30",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A vessel contains milk and water in the ratio \\(5:1\\). If \\(12\\,\\mathrm{L}\\) of the mixture is removed and replaced with water, the ratio becomes \\(3:1\\). What was the initial volume of the mixture?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let the initial volume be \\(V\\,\\mathrm{L}\\). Milk initially is \\(\\frac{5V}{6}\\). After removal and replacement, milk is \\(\\frac{5V}{6}\\left(1-\\frac{12}{V}\\right)\\). Since the final milk fraction is \\(\\frac{3}{4}\\), \\(\\frac{5V}{6}-10=\\frac{3V}{4}\\), giving \\(V=120\\,\\mathrm{L}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 47,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+            "concept_ids": [
+              "concept_ce37252ec0",
+              "concept_e585373915"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              77,
+              78,
+              79,
+              80,
+              81,
+              221
+            ],
+            "source_chunk_ids": [
+              "chunk_4700e9ef9d",
+              "chunk_13dc0213de"
+            ]
+          },
+          "options": [
+            {
+              "id": "120_mathrm_L_1",
+              "label": "\\(120\\,\\mathrm{L}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The initial volume obtained from the ratio equation is \\(120\\,\\mathrm{L}\\)."
+            },
+            {
+              "id": "96_mathrm_L_2",
+              "label": "\\(96\\,\\mathrm{L}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It gives an incorrect final milk fraction."
+            },
+            {
+              "id": "108_mathrm_L_3",
+              "label": "\\(108\\,\\mathrm{L}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It does not satisfy the required final ratio."
+            },
+            {
+              "id": "144_mathrm_L_4",
+              "label": "\\(144\\,\\mathrm{L}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It does not satisfy the required final ratio."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "faaea14e-20a2-5c8f-9320-ef8e5adfeae8",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "An alloy contains copper and zinc in the ratio \\(7:3\\). When \\(20\\,\\mathrm{kg}\\) of copper is added, the ratio becomes \\(3:1\\). What was the initial mass of the alloy?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let the initial amounts of copper and zinc be \\(7x\\) and \\(3x\\). Then \\(\\frac{7x+20}{3x}=3\\), so \\(7x+20=9x\\), giving \\(x=10\\). Hence the initial mass is \\(10x=100\\,\\mathrm{kg}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 48,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+            "concept_ids": [
+              "concept_ce37252ec0",
+              "concept_e585373915"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              77,
+              78,
+              79,
+              80,
+              81,
+              221
+            ],
+            "source_chunk_ids": [
+              "chunk_4700e9ef9d",
+              "chunk_13dc0213de"
+            ]
+          },
+          "options": [
+            {
+              "id": "100_mathrm_kg_1",
+              "label": "\\(100\\,\\mathrm{kg}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Taking the original amounts as \\(7x\\) and \\(3x\\) gives \\(x=10\\)."
+            },
+            {
+              "id": "80_mathrm_kg_2",
+              "label": "\\(80\\,\\mathrm{kg}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This mass is inconsistent with both alloy ratios."
+            },
+            {
+              "id": "120_mathrm_kg_3",
+              "label": "\\(120\\,\\mathrm{kg}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The corresponding value of \\(x\\) would not satisfy the equation."
+            },
+            {
+              "id": "140_mathrm_kg_4",
+              "label": "\\(140\\,\\mathrm{kg}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The copper-to-zinc ratio after addition would not be \\(3:1\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "e1dddadb-72c8-55b7-99fb-29c08f421072",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A is \\(50\\%\\) more efficient than B. Working together, they complete a job in \\(12\\) days. In how many days can B alone complete the job?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let B's daily work rate be \\(r\\). A's rate is \\(1.5r\\), and \\(2.5r=\\frac{1}{12}\\). Thus \\(r=\\frac{1}{30}\\), which would suggest \\(30\\) days. However, the stated efficiency relation means A completes \\(50\\%\\) more work than B, so the correct calculation is \\(\\frac{1}{T_A}=\\frac{3}{2}\\frac{1}{T_B}\\), with \\(\\frac{1}{T_A}+\\frac{1}{T_B}=\\frac{1}{12}\\), giving \\(T_B=30\\) days.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 49,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+            "concept_ids": [
+              "concept_ce37252ec0",
+              "concept_e585373915"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              77,
+              78,
+              79,
+              80,
+              81,
+              221
+            ],
+            "source_chunk_ids": [
+              "chunk_4700e9ef9d",
+              "chunk_13dc0213de"
+            ]
+          },
+          "options": [
+            {
+              "id": "27_days_1",
+              "label": "\\(27\\) days",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "If B's rate is \\(r\\), A's rate is \\(1.5r\\), so their total rate is \\(2.5r\\)."
+            },
+            {
+              "id": "18_days_2",
+              "label": "\\(18\\) days",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is A's time, not B's time."
+            },
+            {
+              "id": "24_days_3",
+              "label": "\\(24\\) days",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "It does not correspond to the combined rate."
+            },
+            {
+              "id": "30_days_4",
+              "label": "\\(30\\) days",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The implied efficiency ratio is incorrect."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "2005b5fc-3ddb-54c2-acb4-c4dea0ea60c8",
+        "quiz_id": "quiz-a4586ad0877e",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A pedestrian and a cyclist leave point \\(A\\) for point \\(B\\) simultaneously. The cyclist reaches \\(B\\), turns back, and meets the pedestrian \\(1\\,\\mathrm{h}\\) after the start. If the pedestrian reaches \\(B\\) \\(3\\,\\mathrm{h}\\) after the start, what is the ratio of the cyclist's speed to the pedestrian's speed?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Let \\(AB=D\\). The pedestrian's speed is \\(\\frac{D}{3}\\). If the cyclist's speed is \\(v\\), then after \\(1\\,\\mathrm{h}\\) the cyclist's position is \\(2D-v\\), because the cyclist has travelled to \\(B\\) and returned. At the meeting, \\(2D-v=\\frac{D}{3}\\), so \\(v=\\frac{5D}{3}\\). Therefore, the speed ratio is \\(\\frac{5D}{3}:\\frac{D}{3}=5:1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 50,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+            "concept_ids": [
+              "concept_ce37252ec0",
+              "concept_e585373915"
+            ],
+            "source": "rag:math-prilepko-20260721-05:3.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              77,
+              78,
+              79,
+              80,
+              81,
+              221
+            ],
+            "source_chunk_ids": [
+              "chunk_4700e9ef9d",
+              "chunk_13dc0213de"
+            ]
+          },
+          "options": [
+            {
+              "id": "5_1_1",
+              "label": "\\(5:1\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The cyclist's speed is \\(\\frac{5D}{3}\\) and the pedestrian's speed is \\(\\frac{D}{3}\\)."
+            },
+            {
+              "id": "3_1_2",
+              "label": "\\(3:1\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This ignores the cyclist's return journey."
+            },
+            {
+              "id": "4_1_3",
+              "label": "\\(4:1\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The meeting condition does not yield this ratio."
+            },
+            {
+              "id": "6_1_4",
+              "label": "\\(6:1\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The cyclist's position after returning is miscalculated."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T09:42:14.886119Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_4700e9ef9d",
+    "chunk_13dc0213de"
+  ],
+  "source_pages": [
+    77,
+    78,
+    79,
+    80,
+    81,
+    221
+  ],
+  "rejected": []
+}

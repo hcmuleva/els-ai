@@ -1,0 +1,162 @@
+{
+  "passed": true,
+  "integrity_score": 99.15,
+  "books": [
+    {
+      "book_id": "book_bb4fd7fba1",
+      "filename": "CMO-Sample-Paper-for-Class-6.pdf",
+      "integrity_score": 98.7,
+      "passed": true,
+      "issues": [
+        {
+          "type": "formula_corruption",
+          "severity": "warning",
+          "count": 3,
+          "items": [
+            ")-2",
+            ")-2",
+            ")-1"
+          ]
+        },
+        {
+          "type": "missing_figure_captions",
+          "severity": "warning",
+          "count": 8,
+          "items": [
+            "figure",
+            "figure. ",
+            "figure: \n \n \n \n \n \n \n \n",
+            "figure ",
+            "figure",
+            "figure",
+            "figure ",
+            "figure "
+          ]
+        },
+        {
+          "type": "broken_numbering",
+          "severity": "warning",
+          "count": 7,
+          "items": [
+            {
+              "after": 1,
+              "before": 8
+            },
+            {
+              "after": 8,
+              "before": 15
+            },
+            {
+              "after": 15,
+              "before": 22
+            },
+            {
+              "after": 22,
+              "before": 29
+            },
+            {
+              "after": 29,
+              "before": 36
+            },
+            {
+              "after": 36,
+              "before": 43
+            },
+            {
+              "after": 43,
+              "before": 50
+            }
+          ]
+        }
+      ],
+      "metrics": {
+        "pages": 11,
+        "empty_pages": 0,
+        "corrupt_pages": 0,
+        "duplicate_pages": 0,
+        "formulae_detected": 57,
+        "figures_referenced": 8,
+        "numbering_gaps": 7
+      },
+      "limitations": [
+        "OCR text does not preserve equation typography perfectly.",
+        "Figure pixels are not embedded; references are retained for traceability.",
+        "Table cells are retained as reading-order text when layout recovery is unavailable."
+      ]
+    },
+    {
+      "book_id": "book_9c719ec1b5",
+      "filename": "IMO - Class 6 - 2019-20.pdf",
+      "integrity_score": 99.6,
+      "passed": true,
+      "issues": [
+        {
+          "type": "missing_figure_captions",
+          "severity": "warning",
+          "count": 22,
+          "items": [
+            "diagram",
+            "figure.\n",
+            "figure",
+            "figure ",
+            "figure",
+            "figure",
+            "figure",
+            "Fig. ",
+            "figure",
+            "figure ",
+            "Figure",
+            "Figure",
+            "figure",
+            "figure",
+            "figure ",
+            "Figure ",
+            "Figure ",
+            "Figure ",
+            "Figure ",
+            "figure ",
+            "figure",
+            "figure "
+          ]
+        },
+        {
+          "type": "broken_numbering",
+          "severity": "warning",
+          "count": 4,
+          "items": [
+            {
+              "after": 5,
+              "before": 7
+            },
+            {
+              "after": 7,
+              "before": 10
+            },
+            {
+              "after": 10,
+              "before": 16
+            },
+            {
+              "after": 16,
+              "before": 26
+            }
+          ]
+        }
+      ],
+      "metrics": {
+        "pages": 8,
+        "empty_pages": 0,
+        "corrupt_pages": 0,
+        "duplicate_pages": 0,
+        "formulae_detected": 36,
+        "figures_referenced": 22,
+        "numbering_gaps": 4
+      },
+      "limitations": [
+        "OCR text does not preserve equation typography perfectly.",
+        "Figure pixels are not embedded; references are retained for traceability.",
+        "Table cells are retained as reading-order text when layout recovery is unavailable."
+      ]
+    }
+  ]
+}

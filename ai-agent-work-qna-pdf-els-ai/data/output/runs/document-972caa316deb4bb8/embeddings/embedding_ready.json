@@ -1,0 +1,204 @@
+[
+  {
+    "concept_id": "concept_657d98b019",
+    "concept": "ELECTROMAGNETIC INDUCTION practice pages 1-6",
+    "description": "1 ELECTROMAGNETIC INDUCTION AND ALTERNATING CURRENTS MAGNETIC FLUX Magnetic flux (B) through an area S  d in a magnetic field B  is defined as   S . B  dB For an elemental area S  d in a magnetic field B  , the associated magnetic flux is given by S . B  d dB   = B dS cos   B  S  d As magnetic lines of field are closed curves (i.e., monopoles do not exist), total magnetic flux linked with a closed surface is always zero, i.e., 0 S . B  d This law is called Gauss’ law for magnetism. JEE | NEET | Class 8 - 10 Download eSaral App www.esaral.com JEE Main Physics Revision Note",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of ELECTROMAGNETIC INDUCTION practice pages 1-6.",
+      "[Understand] Explain in your own words the concept of ELECTROMAGNETIC INDUCTION practice pages 1-6.",
+      "[Apply] Apply to a new situation the concept of ELECTROMAGNETIC INDUCTION practice pages 1-6.",
+      "[Analyze] Break down and compare the concept of ELECTROMAGNETIC INDUCTION practice pages 1-6.",
+      "[Evaluate] Critique and justify decisions about the concept of ELECTROMAGNETIC INDUCTION practice pages 1-6.",
+      "[Create] Design or produce something using the concept of ELECTROMAGNETIC INDUCTION practice pages 1-6."
+    ],
+    "misconceptions": [
+      "Magnetic flux is simply the magnetic field strength multiplied by the area, regardless of orientation.",
+      "A magnetic field always produces an induced emf in a circuit.",
+      "A changing magnetic flux always produces an induced current."
+    ],
+    "examples": [
+      "JEE | NEET | Class 8 - 10 Download eSaral App www.esaral.com JEE Main Physics Revision Notes 3 LENZ’S LAW The effect of the induced emf is such as to oppose the change in flux that produces it. dt dE Negative sign indicates towards the Lenz’s law."
+    ],
+    "assessment_candidates": [
+      "Scenario",
+      "Essay",
+      "MCQ",
+      "Short Answer",
+      "Problem Solving"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "topic": "ELECTROMAGNETIC INDUCTION practice pages 1-6",
+      "subtopic": "ELECTROMAGNETIC INDUCTION practice pages 1-6",
+      "concept_type": "Principle",
+      "difficulty": "intermediate",
+      "level_band": "intermediate",
+      "level_confidence": 0.95,
+      "importance_score": 0.6,
+      "confidence_score": 1.0,
+      "prerequisites": [],
+      "related_concepts": [],
+      "subject": "Physics",
+      "concept": "ELECTROMAGNETIC INDUCTION practice pages 1-6",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Apply the principle of ELECTROMAGNETIC INDUCTION practice pages 1-6"
+      ],
+      "formulae": [],
+      "graph_neighbors": [],
+      "assessment_types": [
+        "Scenario",
+        "Essay",
+        "MCQ",
+        "Short Answer",
+        "Problem Solving"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "0-5"
+    }
+  },
+  {
+    "concept_id": "concept_b98adbe8f0",
+    "concept": "ELECTROMAGNETIC INDUCTION practice pages 7-12",
+    "description": "7 MUTUAL INDUCTION The appearance of an induced emf in one circuit due to changes in the magnetic field produced by a nearby circuit is called mutual induction. Let the current through the primary winding at any instant be I1. Then the magnetic flux linking with the secondary winding, 2I1 or 2 = MI1 Thus, the induced emf in the secondary is given as dt d 2 2 E or dt dIM 1 2 E Where, M is the constant of proportionally, called the coefficient of mutual induction, The SI unit of mutual inductance is henry. We may define mutual inductance M as follows: The mutual inductance M of two colds h",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of ELECTROMAGNETIC INDUCTION practice pages 7-12.",
+      "[Understand] Explain in your own words the concept of ELECTROMAGNETIC INDUCTION practice pages 7-12.",
+      "[Apply] Apply to a new situation the concept of ELECTROMAGNETIC INDUCTION practice pages 7-12.",
+      "[Analyze] Break down and compare the concept of ELECTROMAGNETIC INDUCTION practice pages 7-12.",
+      "[Evaluate] Critique and justify decisions about the concept of ELECTROMAGNETIC INDUCTION practice pages 7-12.",
+      "[Create] Design or produce something using the concept of ELECTROMAGNETIC INDUCTION practice pages 7-12."
+    ],
+    "misconceptions": [
+      "Mutual induction occurs only when the current in the secondary coil changes.",
+      "The mutual inductance of two coils is always equal to âˆš(L1L2).",
+      "A larger mutual inductance means that the induced emf is always larger."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "topic": "ELECTROMAGNETIC INDUCTION practice pages 7-12",
+      "subtopic": "ELECTROMAGNETIC INDUCTION practice pages 7-12",
+      "concept_type": "Definition",
+      "difficulty": "intermediate",
+      "level_band": "advanced",
+      "level_confidence": 0.93,
+      "importance_score": 0.5,
+      "confidence_score": 0.9,
+      "prerequisites": [],
+      "related_concepts": [],
+      "subject": "Physics",
+      "concept": "ELECTROMAGNETIC INDUCTION practice pages 7-12",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Define and distinguish ELECTROMAGNETIC INDUCTION practice pages 7-12"
+      ],
+      "formulae": [],
+      "graph_neighbors": [],
+      "assessment_types": [
+        "MCQ",
+        "Short Answer"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "6-11"
+    }
+  },
+  {
+    "concept_id": "concept_8130b3391d",
+    "concept": "ELECTROMAGNETIC INDUCTION practice pages 13-17",
+    "description": "13 Average power in R and L in series circuit when A. C. current passes is given by P = Vr.m.s.Ir.m.s. cos  where  is the angle by which vector V leads the vector I. Resistance and Capacitance in Series A. C. Circuit The voltage and current vectors are as shown in figure. The voltage and impedance triangles are shown in figure are given as vR  i 22 RC vvv  vC vR  (a) 22 RC vvv  vC R  (b) 22 CxRz  xC 22 cR vvv  and 22 CXRZ  where  /1CX C is capacitive reactance. JEE | NEET | Class 8 - 10 Download eSaral App www.esaral.com JEE Main Physics Revision Notes 14 The power consumed",
+    "learning_objectives": [
+      "[Remember] Recall and state the concept of ELECTROMAGNETIC INDUCTION practice pages 13-17.",
+      "[Understand] Explain in your own words the concept of ELECTROMAGNETIC INDUCTION practice pages 13-17.",
+      "[Apply] Apply to a new situation the concept of ELECTROMAGNETIC INDUCTION practice pages 13-17.",
+      "[Analyze] Break down and compare the concept of ELECTROMAGNETIC INDUCTION practice pages 13-17.",
+      "[Evaluate] Critique and justify decisions about the concept of ELECTROMAGNETIC INDUCTION practice pages 13-17.",
+      "[Create] Design or produce something using the concept of ELECTROMAGNETIC INDUCTION practice pages 13-17."
+    ],
+    "misconceptions": [
+      "Average power in an AC RLC circuit is always V_r.m.s. I_r.m.s.",
+      "If Ï‰L > 1/(Ï‰C), the current leads the voltage.",
+      "At resonance, the resistance, inductive reactance, and capacitive reactance all become zero."
+    ],
+    "examples": [],
+    "assessment_candidates": [
+      "MCQ",
+      "Short Answer"
+    ],
+    "metadata": {
+      "book_id": "book_ff463445c6",
+      "source_pages": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "topic": "ELECTROMAGNETIC INDUCTION practice pages 13-17",
+      "subtopic": "ELECTROMAGNETIC INDUCTION practice pages 13-17",
+      "concept_type": "Definition",
+      "difficulty": "intermediate",
+      "level_band": "advanced",
+      "level_confidence": 0.94,
+      "importance_score": 0.5,
+      "confidence_score": 0.7,
+      "prerequisites": [],
+      "related_concepts": [],
+      "subject": "Physics",
+      "concept": "ELECTROMAGNETIC INDUCTION practice pages 13-17",
+      "bloom": [
+        "Analyze",
+        "Apply",
+        "Create",
+        "Evaluate",
+        "Remember",
+        "Understand"
+      ],
+      "competencies": [
+        "Define and distinguish ELECTROMAGNETIC INDUCTION practice pages 13-17"
+      ],
+      "formulae": [],
+      "graph_neighbors": [],
+      "assessment_types": [
+        "MCQ",
+        "Short Answer"
+      ],
+      "source_book": "book_ff463445c6",
+      "page_range": "12-16"
+    }
+  }
+]

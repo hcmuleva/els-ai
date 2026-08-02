@@ -1,0 +1,816 @@
+{
+  "key": "7.2",
+  "topic": "7.2 Construction Problems",
+  "questions": [
+    {
+      "question": {
+        "id": "cb90d4a6-0665-56e8-828e-47de3a9323bf",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(A\\) lie inside the angle formed by the rays \\(OX\\) and \\(OY\\). Which construction correctly draws a line through \\(A\\) such that \\(A\\) is the midpoint of the segment intercepted on the two rays?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "A half-turn about \\(A\\) maps \\(P\\) to \\(Q\\) exactly when \\(A\\) is the midpoint of \\(PQ\\). Thus, intersecting the half-turn image of one arm with the other arm gives the required construction.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 121,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.2 Construction Problems",
+            "concept_ids": [
+              "concept_157b94d8d6",
+              "concept_958d98624e"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              108,
+              244,
+              245
+            ],
+            "source_chunk_ids": [
+              "chunk_4fc61d4aa7",
+              "chunk_57fbf587f1"
+            ]
+          },
+          "options": [
+            {
+              "id": "Construct_the_image_of_r_1",
+              "label": "Construct the image of ray \\(OX\\) under a half-turn about \\(A\\), let it meet \\(OY\\) at \\(Q\\), reflect \\(Q\\) about \\(A\\) to obtain \\(P\\), and draw \\(PQ\\).",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The half-turn ensures \\(A\\) is the midpoint of \\(PQ\\), with \\(P\\) on \\(OX\\) and \\(Q\\) on \\(OY\\)."
+            },
+            {
+              "id": "Draw_the_angle_bisector_2",
+              "label": "Draw the angle bisector through \\(A\\) and mark equal lengths on both arms.",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Equal distances on the arms do not ensure that the intercepted points and \\(A\\) are collinear."
+            },
+            {
+              "id": "Draw_a_perpendicular_fro_3",
+              "label": "Draw a perpendicular from \\(A\\) to \\(OX\\), then join its foot to \\(OY\\).",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This construction does not generally make \\(A\\) the midpoint of the intercepted segment."
+            },
+            {
+              "id": "Reflect_ray_OY_in_the_an_4",
+              "label": "Reflect ray \\(OY\\) in the angle bisector and join its intersection with \\(OX\\) to \\(A\\).",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Reflection in the angle bisector does not impose the midpoint condition about \\(A\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "angle",
+            "width": 360,
+            "height": 300,
+            "xmin": -1.0,
+            "xmax": 4.0,
+            "ymin": -1.0,
+            "ymax": 3.598076211353316,
+            "title": null,
+            "elements": [
+              {
+                "type": "segment",
+                "a": [
+                  0.0,
+                  0.0
+                ],
+                "b": [
+                  3.0,
+                  0.0
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  0.0,
+                  0.0
+                ],
+                "b": [
+                  1.5000000000000004,
+                  2.598076211353316
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              },
+              {
+                "type": "angle",
+                "vertex": [
+                  0.0,
+                  0.0
+                ],
+                "p1": [
+                  3.0,
+                  0.0
+                ],
+                "p2": [
+                  1.5000000000000004,
+                  2.598076211353316
+                ],
+                "label": "\\\\theta",
+                "radius_px": 22.0,
+                "color": "#9467bd"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><line x1=\"92.4\" y1=\"215.54\" x2=\"267.6\" y2=\"215.54\" stroke=\"#333333\" stroke-width=\"1.8\"/><line x1=\"92.4\" y1=\"215.54\" x2=\"180\" y2=\"84.46\" stroke=\"#333333\" stroke-width=\"1.8\"/><path d=\"M 114.4 215.54 A 22 22 0 1 1 104.62 197.25\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"62.41\" y=\"231.57\" text-anchor=\"middle\" fill=\"#9467bd\">\\\\theta</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "e690fb29-ec9a-5c5f-b223-06f02bc64be8",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "To construct \\(\\triangle ABC\\) when \\(AB=c\\), \\(AC=b\\), and \\(\\angle BAC=\\alpha\\) are given, which sequence is correct?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Construct two rays with included angle \\(\\alpha\\). Mark \\(B\\) and \\(C\\) so that \\(AB=c\\) and \\(AC=b\\), respectively, and join \\(BC\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 122,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.2 Construction Problems",
+            "concept_ids": [
+              "concept_157b94d8d6",
+              "concept_958d98624e"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              108,
+              244,
+              245
+            ],
+            "source_chunk_ids": [
+              "chunk_4fc61d4aa7",
+              "chunk_57fbf587f1"
+            ]
+          },
+          "options": [
+            {
+              "id": "Draw_two_rays_forming_an_1",
+              "label": "Draw two rays forming angle \\(\\alpha\\), mark \\(AB=c\\) on one and \\(AC=b\\) on the other, then join \\(B\\) and \\(C\\).",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The two rays fix the included angle and the compass markings fix both adjacent sides."
+            },
+            {
+              "id": "Draw_BC_c_construct_angl_2",
+              "label": "Draw \\(BC=c\\), construct angle \\(\\alpha\\) at \\(B\\), and mark \\(AC=b\\) from \\(B\\).",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The given side \\(AB\\), not \\(BC\\), must be fixed from the vertex of the given angle."
+            },
+            {
+              "id": "Draw_AB_c_construct_a_pe_3",
+              "label": "Draw \\(AB=c\\), construct a perpendicular at \\(A\\), and mark \\(AC=b\\) on it.",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The required angle is \\(\\alpha\\), not necessarily \\(90^\\circ\\)."
+            },
+            {
+              "id": "Draw_a_circle_of_radius_4",
+              "label": "Draw a circle of radius \\(b\\) centered at \\(A\\), then choose any point \\(B\\) with \\(AB=c\\).",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The prescribed angle \\(\\angle BAC=\\alpha\\) is not enforced."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "triangle",
+            "width": 360,
+            "height": 300,
+            "xmin": -1.5,
+            "xmax": 5.5,
+            "ymin": -1.5,
+            "ymax": 4.1,
+            "title": null,
+            "elements": [
+              {
+                "type": "polygon",
+                "points": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    4.0,
+                    0.0
+                  ],
+                  [
+                    1.5,
+                    2.6
+                  ]
+                ],
+                "label": null,
+                "fill": "none",
+                "fill_opacity": 0.25,
+                "stroke": "#333333",
+                "closed": true
+              },
+              {
+                "type": "label",
+                "at": [
+                  0.0,
+                  0.0
+                ],
+                "text": "A",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  4.0,
+                  0.0
+                ],
+                "text": "B",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  1.5,
+                  2.6
+                ],
+                "text": "C",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "angle",
+                "vertex": [
+                  0.0,
+                  0.0
+                ],
+                "p1": [
+                  4.0,
+                  0.0
+                ],
+                "p2": [
+                  1.5,
+                  2.6
+                ],
+                "label": "\\\\alpha",
+                "radius_px": 22.0,
+                "color": "#9467bd"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><polygon points=\"96.57,203.86 263.43,203.86 159.14,96.14\" fill=\"none\" fill-opacity=\"0.25\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"102.57\" y=\"197.86\" fill=\"#111111\">A</text><text x=\"269.43\" y=\"197.86\" fill=\"#111111\">B</text><text x=\"165.14\" y=\"90.14\" fill=\"#111111\">C</text><path d=\"M 118.57 203.86 A 22 22 0 1 1 107.62 184.83\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"67.1\" y=\"220.82\" text-anchor=\"middle\" fill=\"#9467bd\">\\\\alpha</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "72a1d09c-b6aa-57a4-b3f3-da135dc0cb54",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "A triangle \\(ABC\\) is to be constructed with \\(BC=a\\), \\(AB+AC=s\\), and \\(\\angle ABC=\\beta\\). Which construction is valid, assuming a solution exists?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Choose \\(D\\) on the ray from \\(B\\) making angle \\(\\beta\\) with \\(BC\\), with \\(BD=s\\). If \\(A\\) lies on the perpendicular bisector of \\(CD\\), then \\(AD=AC\\). Since \\(A\\) lies between \\(B\\) and \\(D\\), \\(BD=BA+AD=AB+AC=s\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 123,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "7.2 Construction Problems",
+            "concept_ids": [
+              "concept_157b94d8d6",
+              "concept_958d98624e"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              108,
+              244,
+              245
+            ],
+            "source_chunk_ids": [
+              "chunk_4fc61d4aa7",
+              "chunk_57fbf587f1"
+            ]
+          },
+          "options": [
+            {
+              "id": "Draw_BC_a_at_B_draw_a_ra_1",
+              "label": "Draw \\(BC=a\\); at \\(B\\), draw a ray making angle \\(\\beta\\) with \\(BC\\); mark \\(D\\) on it with \\(BD=s\\); the intersection of this ray with the perpendicular bisector of \\(CD\\) is \\(A\\).",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "For \\(A\\) on \\(BD\\), \\(BD=BA+AD\\); the perpendicular bisector gives \\(AD=AC\\), hence \\(AB+AC=s\\)."
+            },
+            {
+              "id": "Draw_BC_a_mark_D_with_BD_2",
+              "label": "Draw \\(BC=a\\), mark \\(D\\) with \\(BD=s\\), and take \\(A\\) as the midpoint of \\(CD\\).",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The midpoint condition does not impose \\(\\angle ABC=\\beta\\) or the required side sum."
+            },
+            {
+              "id": "Draw_BC_a_construct_angl_3",
+              "label": "Draw \\(BC=a\\), construct angle \\(\\beta\\) at \\(B\\), and mark \\(BA=s\\).",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This sets \\(AB=s\\), leaving no construction condition for \\(AC\\)."
+            },
+            {
+              "id": "Draw_BC_a_construct_the_4",
+              "label": "Draw \\(BC=a\\), construct the perpendicular bisector of \\(BC\\), and choose any point \\(A\\) on it.",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Points on this bisector satisfy \\(AB=AC\\), not \\(AB+AC=s\\) with a prescribed angle."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "triangle",
+            "width": 360,
+            "height": 300,
+            "xmin": -1.5,
+            "xmax": 6.5,
+            "ymin": -1.5,
+            "ymax": 4.5,
+            "title": null,
+            "elements": [
+              {
+                "type": "polygon",
+                "points": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    5.0,
+                    0.0
+                  ],
+                  [
+                    2.5,
+                    3.0
+                  ]
+                ],
+                "label": null,
+                "fill": "none",
+                "fill_opacity": 0.25,
+                "stroke": "#333333",
+                "closed": true
+              },
+              {
+                "type": "label",
+                "at": [
+                  0.0,
+                  0.0
+                ],
+                "text": "B",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  5.0,
+                  0.0
+                ],
+                "text": "C",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  2.5,
+                  3.0
+                ],
+                "text": "D",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "angle",
+                "vertex": [
+                  0.0,
+                  0.0
+                ],
+                "p1": [
+                  5.0,
+                  0.0
+                ],
+                "p2": [
+                  2.5,
+                  3.0
+                ],
+                "label": "\\\\beta",
+                "radius_px": 22.0,
+                "color": "#9467bd"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><polygon points=\"88.75,208 271.25,208 180,92\" fill=\"none\" fill-opacity=\"0.25\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"94.75\" y=\"202\" fill=\"#111111\">B</text><text x=\"277.25\" y=\"202\" fill=\"#111111\">C</text><text x=\"186\" y=\"86\" fill=\"#111111\">D</text><path d=\"M 110.75 208 A 22 22 0 1 1 102.35 190.71\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"58.17\" y=\"222.85\" text-anchor=\"middle\" fill=\"#9467bd\">\\\\beta</text></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "881faf89-d90c-507c-a2d9-8939a5016f2e",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let a circle with centre \\(O\\) and radius \\(r\\) be given, and let \\(P\\) be an exterior point. Which is the standard construction for the tangents from \\(P\\) to the circle?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "If \\(T\\) lies on the circle with diameter \\(OP\\), then \\(\\angle OTP=90^\\circ\\). Therefore \\(PT\\perp OT\\), making \\(PT\\) a tangent to the given circle.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 124,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Understand",
+            "topic": "7.2 Construction Problems",
+            "concept_ids": [
+              "concept_157b94d8d6",
+              "concept_958d98624e"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              108,
+              244,
+              245
+            ],
+            "source_chunk_ids": [
+              "chunk_4fc61d4aa7",
+              "chunk_57fbf587f1"
+            ]
+          },
+          "options": [
+            {
+              "id": "Join_OP_bisect_it_at_M_d_1",
+              "label": "Join \\(OP\\), bisect it at \\(M\\), draw the circle with centre \\(M\\) and radius \\(MO\\), and join \\(P\\) to its intersections with the given circle.",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The intersections are points \\(T\\) satisfying \\(\\angle OTP=90^\\circ\\), so \\(PT\\) is tangent."
+            },
+            {
+              "id": "Draw_a_circle_with_centr_2",
+              "label": "Draw a circle with centre \\(P\\) and radius \\(PO\\), then join its intersections with the given circle to \\(P\\).",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not guarantee a right angle between the radius and the proposed tangent."
+            },
+            {
+              "id": "Draw_the_perpendicular_b_3",
+              "label": "Draw the perpendicular bisector of \\(OP\\) and use its intersections with the given circle as tangent points.",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The perpendicular bisector generally does not contain the tangent points."
+            },
+            {
+              "id": "At_P_draw_any_two_lines_4",
+              "label": "At \\(P\\), draw any two lines meeting the given circle, and choose the shorter segments.",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "A tangent must meet the circle at exactly one point and be perpendicular to the corresponding radius."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "circle",
+            "width": 360,
+            "height": 300,
+            "xmin": -4.0,
+            "xmax": 4.0,
+            "ymin": -4.0,
+            "ymax": 4.0,
+            "title": null,
+            "elements": [
+              {
+                "type": "circle",
+                "center": [
+                  0.0,
+                  0.0
+                ],
+                "radius": 3.0,
+                "label": "O",
+                "fill": "none",
+                "stroke": "#333333"
+              },
+              {
+                "type": "point",
+                "at": [
+                  3.0,
+                  0.0
+                ],
+                "label": "T_1",
+                "color": "#d62728"
+              },
+              {
+                "type": "point",
+                "at": [
+                  -1.0260604299770062,
+                  2.8190778623577253
+                ],
+                "label": "T_2",
+                "color": "#d62728"
+              },
+              {
+                "type": "segment",
+                "a": [
+                  3.0,
+                  0.0
+                ],
+                "b": [
+                  -1.0260604299770062,
+                  2.8190778623577253
+                ],
+                "label": null,
+                "dashed": false,
+                "color": "#333333"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><ellipse cx=\"180\" cy=\"150\" rx=\"109.5\" ry=\"87\" fill=\"none\" stroke=\"#333333\" stroke-width=\"1.8\"/><circle cx=\"180\" cy=\"150\" r=\"2\" fill=\"#333333\"/><text x=\"184\" y=\"146\" fill=\"#333333\">O</text><circle cx=\"289.5\" cy=\"150\" r=\"3\" fill=\"#d62728\"/><text x=\"295.5\" y=\"144\" fill=\"#111111\">T_1</text><circle cx=\"142.55\" cy=\"68.25\" r=\"3\" fill=\"#d62728\"/><text x=\"148.55\" y=\"62.25\" fill=\"#111111\">T_2</text><line x1=\"289.5\" y1=\"150\" x2=\"142.55\" y2=\"68.25\" stroke=\"#333333\" stroke-width=\"1.8\"/></svg>"
+      }
+    },
+    {
+      "question": {
+        "id": "1c0cee0a-ed5a-587d-a712-7c521d7f1d81",
+        "quiz_id": "quiz-e2315d04f14a",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "In a geometric construction, \\(\\triangle DBF\\) is rotated about \\(B\\) through \\(90^\\circ\\). The image of \\(F\\) is \\(C\\), and the image of \\(D\\) is \\(D'\\). If \\(BD=4\\), \\(BF=3\\), and \\(\\angle DBF=60^\\circ\\), find \\(D'C\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "A rotation preserves lengths, so \\(D'C=DF\\). By the cosine rule, \\(DF^2=4^2+3^2-2\\cdot4\\cdot3\\cos60^\\circ=13\\), hence \\(D'C=\\sqrt{13}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 125,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.2 Construction Problems",
+            "concept_ids": [
+              "concept_157b94d8d6",
+              "concept_958d98624e"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.2",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              108,
+              244,
+              245
+            ],
+            "source_chunk_ids": [
+              "chunk_4fc61d4aa7",
+              "chunk_57fbf587f1"
+            ]
+          },
+          "options": [
+            {
+              "id": "sqrt_13_1",
+              "label": "\\(\\sqrt{13}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Rotation preserves distances, so \\(D'C=DF\\), and \\(DF^2=4^2+3^2-2(4)(3)\\cos60^\\circ=13\\)."
+            },
+            {
+              "id": "5_2",
+              "label": "\\(5\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(5\\) is obtained by incorrectly treating \\(DB\\) and \\(BF\\) as perpendicular."
+            },
+            {
+              "id": "7_3",
+              "label": "\\(7\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The side lengths are not added because \\(D\\), \\(B\\), and \\(F\\) are not collinear."
+            },
+            {
+              "id": "sqrt_37_4",
+              "label": "\\(\\sqrt{37}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This results from using the wrong sign in the cosine rule."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": {
+            "kind": "triangle",
+            "width": 360,
+            "height": 300,
+            "xmin": -1.5,
+            "xmax": 5.5,
+            "ymin": -1.5,
+            "ymax": 4.1,
+            "title": null,
+            "elements": [
+              {
+                "type": "polygon",
+                "points": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    4.0,
+                    0.0
+                  ],
+                  [
+                    2.5,
+                    2.6
+                  ]
+                ],
+                "label": null,
+                "fill": "none",
+                "fill_opacity": 0.25,
+                "stroke": "#333333",
+                "closed": true
+              },
+              {
+                "type": "label",
+                "at": [
+                  0.0,
+                  0.0
+                ],
+                "text": "D",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  4.0,
+                  0.0
+                ],
+                "text": "B",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "label",
+                "at": [
+                  2.5,
+                  2.6
+                ],
+                "text": "F",
+                "color": "#111111",
+                "dx": 6.0,
+                "dy": -6.0
+              },
+              {
+                "type": "angle",
+                "vertex": [
+                  4.0,
+                  0.0
+                ],
+                "p1": [
+                  0.0,
+                  0.0
+                ],
+                "p2": [
+                  2.5,
+                  2.6
+                ],
+                "label": "60^\\\\circ",
+                "radius_px": 22.0,
+                "color": "#9467bd"
+              }
+            ]
+          }
+        },
+        "created_at": "2026-07-21T13:17:35.763203Z",
+        "question_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"360\" height=\"300\" viewBox=\"0 0 360 300\" font-family=\"sans-serif\" font-size=\"12\"><rect x=\"0\" y=\"0\" width=\"360\" height=\"300\" fill=\"#ffffff\"/><polygon points=\"96.57,203.86 263.43,203.86 200.86,96.14\" fill=\"none\" fill-opacity=\"0.25\" stroke=\"#333333\" stroke-width=\"1.8\"/><text x=\"102.57\" y=\"197.86\" fill=\"#111111\">D</text><text x=\"269.43\" y=\"197.86\" fill=\"#111111\">B</text><text x=\"206.86\" y=\"90.14\" fill=\"#111111\">F</text><path d=\"M 241.43 203.86 A 22 22 0 0 1 252.38 184.83\" fill=\"none\" stroke=\"#9467bd\" stroke-width=\"1.6\"/><text x=\"233.96\" y=\"186.9\" text-anchor=\"middle\" fill=\"#9467bd\">60^\\\\circ</text></svg>"
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_4fc61d4aa7",
+    "chunk_57fbf587f1"
+  ],
+  "source_pages": [
+    108,
+    244,
+    245
+  ],
+  "rejected": []
+}

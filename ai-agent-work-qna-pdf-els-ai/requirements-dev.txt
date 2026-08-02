@@ -1,0 +1,7 @@
+-r requirements.txt
+
+# Development / demo tooling
+pytest>=8.0
+reportlab>=4.1        # generate sample educational PDFs for the demo
+openai>=1.30          # enable OpenAI provider
+anthropic>=0.30       # enable Anthropic provider

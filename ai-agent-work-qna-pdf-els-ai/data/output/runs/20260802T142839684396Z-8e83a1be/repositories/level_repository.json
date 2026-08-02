@@ -1,0 +1,93 @@
+[
+  {
+    "concept_id": "concept_8f8d494e5c",
+    "concept_name": "Chapter 1: Knowing Our Numbers, Whole Numbers, Playing with Numbers, Basic Geometrical Ideas, practice pages 2-7",
+    "level_band": "beginner",
+    "intrinsic_difficulty": "low",
+    "reasoning_level": "Remember",
+    "steps_required": 1,
+    "concepts_combined": 1,
+    "prerequisite_depth": 0,
+    "confidence": 0.95,
+    "level_source": "llm:local",
+    "rationale": "Content covers foundational arithmetic (bar graph interpretation), basic geometry definitions (trapezium), and symmetry counting. All items require direct recall or single-step application typical of elementary curriculum."
+  },
+  {
+    "concept_id": "concept_f7640a769f",
+    "concept_name": "Chapter 1: Knowing Our Numbers, Whole Numbers, Playing with Numbers, Basic Geometrical Ideas, practice pages 8-10",
+    "level_band": "beginner",
+    "intrinsic_difficulty": "low",
+    "reasoning_level": "Apply",
+    "steps_required": 2,
+    "concepts_combined": 2,
+    "prerequisite_depth": 0,
+    "confidence": 0.9,
+    "level_source": "llm:local",
+    "rationale": "Early middle-school foundational material covering basic number sense and elementary Euclidean geometry. Items require direct application of simple angle properties and polygon formulas without multi-step synthesis or advanced reasoning."
+  },
+  {
+    "concept_id": "concept_85510205dd",
+    "concept_name": "3, 1, 4, 2, 5 There",
+    "level_band": "beginner",
+    "intrinsic_difficulty": "low",
+    "reasoning_level": "Apply",
+    "steps_required": 1,
+    "concepts_combined": 1,
+    "prerequisite_depth": 0,
+    "confidence": 0.8,
+    "level_source": "llm:local",
+    "rationale": "Basic visual sequence prompt with zero prerequisite depth, requiring single-step pattern recognition typical of introductory aptitude assessments."
+  },
+  {
+    "concept_id": "concept_459bb3a928",
+    "concept_name": "Basket is by Preeti",
+    "level_band": "beginner",
+    "intrinsic_difficulty": "low",
+    "reasoning_level": "Remember",
+    "steps_required": 1,
+    "concepts_combined": 1,
+    "prerequisite_depth": 0,
+    "confidence": 0.9,
+    "level_source": "llm:local",
+    "rationale": "Direct definition with zero prerequisites; requires simple recall without application or multi-step reasoning."
+  },
+  {
+    "concept_id": "concept_215230e660",
+    "concept_name": "every whole number",
+    "level_band": "beginner",
+    "intrinsic_difficulty": "low",
+    "reasoning_level": "Remember",
+    "steps_required": 1,
+    "concepts_combined": 1,
+    "prerequisite_depth": 0,
+    "confidence": 0.95,
+    "level_source": "llm:local",
+    "rationale": "Tests foundational definitions of whole and natural numbers via direct true/false recall, typical of introductory middle-school mathematics with no multi-step reasoning required."
+  },
+  {
+    "concept_id": "concept_6149279d7d",
+    "concept_name": "F T T F sF|IMO|Class-6|Set-B|Level 1 47.ABCD",
+    "level_band": "beginner",
+    "intrinsic_difficulty": "low",
+    "reasoning_level": "Apply",
+    "steps_required": 1,
+    "concepts_combined": 1,
+    "prerequisite_depth": 0,
+    "confidence": 0.95,
+    "level_source": "llm:local",
+    "rationale": "Elementary geometry concept requiring single-step recognition that increasing dimensions directly increases size; no calculation or synthesis needed."
+  },
+  {
+    "concept_id": "concept_d35f79154c",
+    "concept_name": "Chord of a circle",
+    "level_band": "beginner",
+    "intrinsic_difficulty": "low",
+    "reasoning_level": "Remember",
+    "steps_required": 1,
+    "concepts_combined": 1,
+    "prerequisite_depth": 0,
+    "confidence": 0.95,
+    "level_source": "llm:local",
+    "rationale": "Pure definitional recall of a fundamental geometric term taught at introductory levels; requires no multi-step reasoning or advanced synthesis."
+  }
+]

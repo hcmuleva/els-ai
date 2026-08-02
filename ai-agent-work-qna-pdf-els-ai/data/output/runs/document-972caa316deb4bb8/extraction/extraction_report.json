@@ -1,0 +1,15 @@
+{
+  "books": [
+    {
+      "book_id": "book_ff463445c6",
+      "filename": "source.pdf",
+      "source_path": "C:\\personal\\work\\ai-agent-work-qna-pdf\\data\\uploads\\ingest-562b4e8a534b4b17\\source.pdf",
+      "source_sha256": "6694382d9b0bae751cd3069d134e6a921c2ebf76b2db67b31f1fdd03533bbacd",
+      "pages": 17,
+      "methods": {
+        "embedded_text": 17
+      },
+      "ocr_mean_confidence": null
+    }
+  ]
+}

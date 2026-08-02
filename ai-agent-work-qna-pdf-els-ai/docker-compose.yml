@@ -1,0 +1,14 @@
+# Local Qdrant service. PostgreSQL uses the installed system instance.
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: kp_qdrant
+    ports:
+      - "6333:6333"   # REST + dashboard
+      - "6334:6334"   # gRPC
+    volumes:
+      - qdrant_data:/qdrant/storage
+    restart: unless-stopped
+
+volumes:
+  qdrant_data:

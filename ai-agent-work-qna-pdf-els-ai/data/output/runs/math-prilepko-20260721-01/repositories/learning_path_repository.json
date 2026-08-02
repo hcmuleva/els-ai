@@ -1,0 +1,1183 @@
+[
+  {
+    "concept": "concept_6977739fc5",
+    "prerequisites": [],
+    "next_concepts": [
+      "concept_a1427cc398",
+      "concept_4661dde141",
+      "concept_69cb78182a",
+      "concept_f57269bb13",
+      "concept_5d3428cb57",
+      "concept_42e944d14d",
+      "concept_5f1c83982f"
+    ],
+    "recommended_sequence": [
+      "concept_6977739fc5"
+    ]
+  },
+  {
+    "concept": "concept_a1427cc398",
+    "prerequisites": [
+      "concept_6977739fc5"
+    ],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_6977739fc5",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38",
+      "concept_48f8037ece"
+    ]
+  },
+  {
+    "concept": "concept_5ea023785c",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_5ea023785c",
+      "concept_a1427cc398",
+      "concept_995ff0ef38",
+      "concept_48f8037ece"
+    ]
+  },
+  {
+    "concept": "concept_995ff0ef38",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_995ff0ef38",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_48f8037ece"
+    ]
+  },
+  {
+    "concept": "concept_48f8037ece",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_48f8037ece",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_6a571504b9",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_6a571504b9",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_107349d71e",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_107349d71e",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_393a7be286",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_393a7be286",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_9e62605e77",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_9e62605e77",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_911a8ff103",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_911a8ff103",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_e504683848",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_e504683848",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_f30483e1aa",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_f30483e1aa",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_4661dde141",
+    "prerequisites": [
+      "concept_6977739fc5"
+    ],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_6977739fc5",
+      "concept_4661dde141",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_a71b12be54",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_a71b12be54",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_34905394b5",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_34905394b5",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_9513739ad0",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_9513739ad0",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_f248b70e77",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_f248b70e77",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_127a52533f",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_127a52533f",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_d8bb65aeb1",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_d8bb65aeb1",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_92b9b0d457",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_92b9b0d457",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_6ed4c88702",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_6ed4c88702",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_87f52172af",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_87f52172af",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_5313896ceb",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_5313896ceb",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_52a156303e",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_52a156303e",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_7ed50f7e95",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_7ed50f7e95",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_6fb9b3e4f9",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_6fb9b3e4f9",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_8f477f0513",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_8f477f0513",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_69d4625ea3",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_69d4625ea3",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_6dd38d30e6",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_6dd38d30e6",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_3168e0e1c6",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_3168e0e1c6",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_c2b045315a",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_c2b045315a",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_0bd1d5847a",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_0bd1d5847a",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_131bcbeb96",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_131bcbeb96",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_5ce269ee1e",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_5ce269ee1e",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_1efa89a043",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_1efa89a043",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_d3460d97dc",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_d3460d97dc",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_1b6458441a",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_1b6458441a",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_13fcf89d37",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_13fcf89d37",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_d836d6a58b",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_d836d6a58b",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_8f74da1664",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_8f74da1664",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_2a028c087a",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_2a028c087a",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_93ecf75125",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_93ecf75125",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_0be3cc4b5a",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_0be3cc4b5a",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_5bc78f30d4",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_5bc78f30d4",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_a33128e4ef",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_a33128e4ef",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_418209a021",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_418209a021",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_3b6c6d54f4",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_3b6c6d54f4",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_2aec255871",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_2aec255871",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_46cf8a440d",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_46cf8a440d",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_ed8cd288ba",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_ed8cd288ba",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_5f309285d8",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_5f309285d8",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_ce23a55e4b",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_ce23a55e4b",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_33cd575db2",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_33cd575db2",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_c63b29b50c",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_c63b29b50c",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_ab55f83199",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_ab55f83199",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_3b3e043b41",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_3b3e043b41",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_2ad1c84fc0",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_2ad1c84fc0",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_acddf91d9c",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_acddf91d9c",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_ee863603f6",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_ee863603f6",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_69cb78182a",
+    "prerequisites": [
+      "concept_6977739fc5"
+    ],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_6977739fc5",
+      "concept_69cb78182a",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_a0f16824e5",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_a0f16824e5",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_1ce5377c6b",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_1ce5377c6b",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_180d305ba3",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_180d305ba3",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_f26ab3e78f",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_f26ab3e78f",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_a5bc52665f",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_a5bc52665f",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_f57269bb13",
+    "prerequisites": [
+      "concept_6977739fc5"
+    ],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_6977739fc5",
+      "concept_f57269bb13",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_e0c8354fce",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_e0c8354fce",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_5d3428cb57",
+    "prerequisites": [
+      "concept_6977739fc5"
+    ],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_6977739fc5",
+      "concept_5d3428cb57",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_aeb1d97acf",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_aeb1d97acf",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_a42005065a",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_a42005065a",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_c334a77355",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_c334a77355",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_28f65425cb",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_28f65425cb",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_42e944d14d",
+    "prerequisites": [
+      "concept_6977739fc5"
+    ],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_6977739fc5",
+      "concept_42e944d14d",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_5f1c83982f",
+    "prerequisites": [
+      "concept_6977739fc5"
+    ],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_6977739fc5",
+      "concept_5f1c83982f",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_4235b23a5f",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_4235b23a5f",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_c7dde8cfc3",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_c7dde8cfc3",
+      "concept_a1427cc398",
+      "concept_5ea023785c",
+      "concept_995ff0ef38"
+    ]
+  },
+  {
+    "concept": "concept_2984782637",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3",
+      "concept_1e34d84b73"
+    ]
+  },
+  {
+    "concept": "concept_973f8e00df",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_973f8e00df",
+      "concept_2984782637",
+      "concept_d7ac944dd3",
+      "concept_1e34d84b73"
+    ]
+  },
+  {
+    "concept": "concept_d7ac944dd3",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_d7ac944dd3",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_1e34d84b73"
+    ]
+  },
+  {
+    "concept": "concept_1e34d84b73",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_1e34d84b73",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_a67d057008",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_a67d057008",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_83657abf05",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_83657abf05",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_a90232301b",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_a90232301b",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_24079685a3",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_24079685a3",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_861ff86626",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_861ff86626",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_3014c32bb1",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_3014c32bb1",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_172b1feee0",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_172b1feee0",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_69cce13951",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_69cce13951",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_537674f1cf",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_537674f1cf",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_b154bcc0dd",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_b154bcc0dd",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_444445d454",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_444445d454",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_aa5519117c",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_aa5519117c",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_359ead36a1",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_359ead36a1",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_474e628c3c",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_474e628c3c",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_8aee7319a1",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_8aee7319a1",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_e10a3efa37",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_e10a3efa37",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_5f658eb084",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_5f658eb084",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_4b74badbaf",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_4b74badbaf",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_4eeefbdab6",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_4eeefbdab6",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_788ad47c8d",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_788ad47c8d",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_ee77818df3",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_ee77818df3",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_2102a0a8d5",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_2102a0a8d5",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_6ae9e02564",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_6ae9e02564",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_ceb3b0f44e",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_ceb3b0f44e",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  },
+  {
+    "concept": "concept_0926231053",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_0926231053",
+      "concept_2984782637",
+      "concept_973f8e00df",
+      "concept_d7ac944dd3"
+    ]
+  }
+]

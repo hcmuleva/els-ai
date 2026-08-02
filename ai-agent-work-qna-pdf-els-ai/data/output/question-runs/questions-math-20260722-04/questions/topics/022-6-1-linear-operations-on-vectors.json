@@ -1,0 +1,453 @@
+{
+  "key": "6.1",
+  "topic": "6.1 Linear Operations on Vectors",
+  "questions": [
+    {
+      "question": {
+        "id": "f09e068a-06a0-5762-85d9-1eaa0a60bfab",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(\\vec{a}\\) and \\(\\vec{b}\\) be nonzero vectors. If \\(\\left|\\vec{a}+\\vec{b}\\right|=\\left|\\vec{a}-\\vec{b}\\right|\\), the angle between them is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Squaring the equality gives \\(\\left|\\vec{a}\\right|^2+\\left|\\vec{b}\\right|^2+2\\vec{a}\\cdot\\vec{b}=\\left|\\vec{a}\\right|^2+\\left|\\vec{b}\\right|^2-2\\vec{a}\\cdot\\vec{b}\\). Hence \\(\\vec{a}\\cdot\\vec{b}=0\\), so the vectors are perpendicular.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 106,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "6.1 Linear Operations on Vectors",
+            "concept_ids": [
+              "concept_0dc5c6a4a3",
+              "concept_310360799c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:6.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              100,
+              101,
+              235
+            ],
+            "source_chunk_ids": [
+              "chunk_481602a881",
+              "chunk_2fbf0d2eb0"
+            ]
+          },
+          "options": [
+            {
+              "id": "0_circ_1",
+              "label": "\\(0^{\\circ}\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This would make the sum magnitude larger."
+            },
+            {
+              "id": "60_circ_2",
+              "label": "\\(60^{\\circ}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The given equality does not hold for this angle."
+            },
+            {
+              "id": "90_circ_3",
+              "label": "\\(90^{\\circ}\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The scalar product must be zero."
+            },
+            {
+              "id": "180_circ_4",
+              "label": "\\(180^{\\circ}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This would make the difference magnitude larger."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "fcedbdfa-54bb-51dd-964c-f060ab400e5d",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For nonzero vectors \\(\\vec{a}\\) and \\(\\vec{b}\\), if \\(\\left|\\vec{a}+\\vec{b}\\right|<\\left|\\vec{a}-\\vec{b}\\right|\\), then the angle between \\(\\vec{a}\\) and \\(\\vec{b}\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Using squared magnitudes, \\(\\left|\\vec{a}+\\vec{b}\\right|^2-\\left|\\vec{a}-\\vec{b}\\right|^2=4\\vec{a}\\cdot\\vec{b}\\). The given inequality makes this difference negative, so \\(\\vec{a}\\cdot\\vec{b}<0\\), implying an obtuse angle.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 107,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Understand",
+            "topic": "6.1 Linear Operations on Vectors",
+            "concept_ids": [
+              "concept_0dc5c6a4a3",
+              "concept_310360799c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:6.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              100,
+              101,
+              235
+            ],
+            "source_chunk_ids": [
+              "chunk_481602a881",
+              "chunk_2fbf0d2eb0"
+            ]
+          },
+          "options": [
+            {
+              "id": "Acute_1",
+              "label": "Acute",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "An acute angle gives a positive scalar product."
+            },
+            {
+              "id": "Right_2",
+              "label": "Right",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "A right angle gives equal magnitudes."
+            },
+            {
+              "id": "Obtuse_3",
+              "label": "Obtuse",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The scalar product is negative."
+            },
+            {
+              "id": "Zero_4",
+              "label": "Zero",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "A zero angle is acute, not obtuse."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "1af21e47-faff-5858-a77e-dc64d77bff85",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(\\left|\\vec{a}\\right|=3\\), \\(\\left|\\vec{b}\\right|=4\\), and the angle between them is \\(60^{\\circ}\\), then \\(\\left|2\\vec{a}-\\vec{b}\\right|\\) equals",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(\\left|2\\vec{a}-\\vec{b}\\right|^2=4\\left|\\vec{a}\\right|^2+\\left|\\vec{b}\\right|^2-4\\vec{a}\\cdot\\vec{b}\\). Since \\(\\vec{a}\\cdot\\vec{b}=3\\cdot4\\cos 60^{\\circ}=6\\), the squared magnitude is \\(36+16-24=28\\). Therefore, \\(\\left|2\\vec{a}-\\vec{b}\\right|=2\\sqrt{7}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 108,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "6.1 Linear Operations on Vectors",
+            "concept_ids": [
+              "concept_0dc5c6a4a3",
+              "concept_310360799c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:6.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              100,
+              101,
+              235
+            ],
+            "source_chunk_ids": [
+              "chunk_481602a881",
+              "chunk_2fbf0d2eb0"
+            ]
+          },
+          "options": [
+            {
+              "id": "2_sqrt_7_1",
+              "label": "\\(2\\sqrt{7}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The squared magnitude is \\(28\\)."
+            },
+            {
+              "id": "sqrt_37_2",
+              "label": "\\(\\sqrt{37}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This results from using the wrong sign for the cross term."
+            },
+            {
+              "id": "sqrt_61_3",
+              "label": "\\(\\sqrt{61}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This ignores the contribution of the angle."
+            },
+            {
+              "id": "7_4",
+              "label": "\\(7\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The magnitude is not the sum of the coefficients."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "4f84225c-ed97-52c7-9d1d-cc87f9bbd1f2",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Three nonzero vectors satisfy \\(\\vec{a}+\\vec{b}+\\vec{c}=\\vec{0}\\) and \\(\\left|\\vec{a}\\right|=\\left|\\vec{b}\\right|=\\left|\\vec{c}\\right|\\). The angle between \\(\\vec{a}\\) and \\(\\vec{b}\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "From \\(\\vec{c}=-(\\vec{a}+\\vec{b})\\), equality of magnitudes gives \\(\\left|\\vec{a}+\\vec{b}\\right|^2=\\left|\\vec{a}\\right|^2\\). Thus \\(2\\left|\\vec{a}\\right|\\left|\\vec{b}\\right|\\cos\\theta+\\left|\\vec{b}\\right|^2=0\\). Since the magnitudes are equal, \\(\\cos\\theta=-\\frac{1}{2}\\), so \\(\\theta=120^{\\circ}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 109,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "6.1 Linear Operations on Vectors",
+            "concept_ids": [
+              "concept_0dc5c6a4a3",
+              "concept_310360799c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:6.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              100,
+              101,
+              235
+            ],
+            "source_chunk_ids": [
+              "chunk_481602a881",
+              "chunk_2fbf0d2eb0"
+            ]
+          },
+          "options": [
+            {
+              "id": "60_circ_1",
+              "label": "\\(60^{\\circ}\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "That angle would not close the vector triangle."
+            },
+            {
+              "id": "90_circ_2",
+              "label": "\\(90^{\\circ}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Perpendicular vectors have a different resultant magnitude."
+            },
+            {
+              "id": "120_circ_3",
+              "label": "\\(120^{\\circ}\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The scalar product is \\(-\\frac{1}{2}\\left|\\vec{a}\\right|\\left|\\vec{b}\\right|\\)."
+            },
+            {
+              "id": "180_circ_4",
+              "label": "\\(180^{\\circ}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The three equal nonzero vectors cannot all be collinear in this relation."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "8a50033f-9bb5-5478-8384-63e7dbb01f34",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Let \\(\\vec{p}=\\vec{a}+\\vec{b}\\) and \\(\\vec{q}=\\vec{a}-\\vec{b}\\), where \\(\\left|\\vec{a}\\right|=5\\) and \\(\\left|\\vec{b}\\right|=3\\). The value of \\(\\vec{p}\\cdot\\vec{q}\\) is",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(\\vec{p}\\cdot\\vec{q}=(\\vec{a}+\\vec{b})\\cdot(\\vec{a}-\\vec{b})=\\left|\\vec{a}\\right|^2-\\left|\\vec{b}\\right|^2\\). Therefore, \\(\\vec{p}\\cdot\\vec{q}=5^2-3^2=16\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 110,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "6.1 Linear Operations on Vectors",
+            "concept_ids": [
+              "concept_0dc5c6a4a3",
+              "concept_310360799c"
+            ],
+            "source": "rag:math-prilepko-20260721-05:6.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              100,
+              101,
+              235
+            ],
+            "source_chunk_ids": [
+              "chunk_481602a881",
+              "chunk_2fbf0d2eb0"
+            ]
+          },
+          "options": [
+            {
+              "id": "8_1",
+              "label": "\\(8\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the difference of the magnitudes, not their squared values."
+            },
+            {
+              "id": "16_2",
+              "label": "\\(16\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The cross terms cancel, leaving \\(\\left|\\vec{a}\\right|^2-\\left|\\vec{b}\\right|^2\\)."
+            },
+            {
+              "id": "25_3",
+              "label": "\\(25\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is only \\(\\left|\\vec{a}\\right|^2\\)."
+            },
+            {
+              "id": "34_4",
+              "label": "\\(34\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The squared magnitudes must be subtracted."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_481602a881",
+    "chunk_2fbf0d2eb0"
+  ],
+  "source_pages": [
+    100,
+    101,
+    235
+  ],
+  "rejected": []
+}

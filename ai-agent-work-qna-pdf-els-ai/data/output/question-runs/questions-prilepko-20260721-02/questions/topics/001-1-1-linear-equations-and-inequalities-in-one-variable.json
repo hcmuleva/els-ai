@@ -1,0 +1,465 @@
+{
+  "key": "1.1",
+  "topic": "1.1 Linear Equations and Inequalities in One Variable",
+  "questions": [
+    {
+      "question": {
+        "id": "2a76ce45-fb6e-5d1e-bb89-9402bd6dfdbc",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Solve \\( (3x+7)-(2x+5)=3 \\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(3x+7-2x-5=3\\Rightarrow x+2=3\\Rightarrow x=1\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 1,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.1 Linear Equations and Inequalities in One Variable",
+            "concept_ids": [
+              "concept_966b1f96a5",
+              "concept_afd5a9c26a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              10,
+              11,
+              12,
+              138,
+              139
+            ],
+            "source_chunk_ids": [
+              "chunk_3378c1ebb0",
+              "chunk_ed94845000"
+            ]
+          },
+          "options": [
+            {
+              "id": "1_1",
+              "label": "\\(1\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(x+2=3\\), so \\(x=1\\)."
+            },
+            {
+              "id": "2_2",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This results from not subtracting constants correctly."
+            },
+            {
+              "id": "1_3",
+              "label": "\\(-1\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The simplified equation does not give \\(x=-1\\)."
+            },
+            {
+              "id": "3_4",
+              "label": "\\(3\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the right-hand side, not the solution."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "6978d8d9-2ba0-5ea2-999b-da9244eb5e0e",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "For which value of \\(a\\) does the equation \\( (a-2)x+3=2x+a \\) have no solution?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Rearranging gives \\( (a-4)x=a-3 \\). When \\(a=4\\), this becomes \\(0\\cdot x=1\\), so there is no solution.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 2,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.1 Linear Equations and Inequalities in One Variable",
+            "concept_ids": [
+              "concept_966b1f96a5",
+              "concept_afd5a9c26a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              10,
+              11,
+              12,
+              138,
+              139
+            ],
+            "source_chunk_ids": [
+              "chunk_3378c1ebb0",
+              "chunk_ed94845000"
+            ]
+          },
+          "options": [
+            {
+              "id": "a_3_1",
+              "label": "\\(a=3\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives a unique solution."
+            },
+            {
+              "id": "a_4_2",
+              "label": "\\(a=4\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The equation becomes \\(2x+3=2x+4\\), which is impossible."
+            },
+            {
+              "id": "a_3_3",
+              "label": "\\(a=-3\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The coefficients of \\(x\\) are unequal, giving a unique solution."
+            },
+            {
+              "id": "a_2_4",
+              "label": "\\(a=2\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This gives a unique solution."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "db4d080a-2f8b-5248-a88d-adaa3c5b34d6",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Find the solution set of \\(3(2x-1)-2(x+4)\\le 5x+1\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "\\(6x-3-2x-8\\le5x+1\\Rightarrow4x-11\\le5x+1\\Rightarrow-12\\le x\\). Thus, \\(x\\ge-12\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 3,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.1 Linear Equations and Inequalities in One Variable",
+            "concept_ids": [
+              "concept_966b1f96a5",
+              "concept_afd5a9c26a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              10,
+              11,
+              12,
+              138,
+              139
+            ],
+            "source_chunk_ids": [
+              "chunk_3378c1ebb0",
+              "chunk_ed94845000"
+            ]
+          },
+          "options": [
+            {
+              "id": "x_ge_12_1",
+              "label": "\\(x\\ge -12\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Simplification gives \\(4x-11\\le5x+1\\), hence \\(x\\ge-12\\)."
+            },
+            {
+              "id": "x_le_12_2",
+              "label": "\\(x\\le -12\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inequality reverses incorrectly when terms are transposed."
+            },
+            {
+              "id": "x_ge_12_3",
+              "label": "\\(x\\ge 12\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The constant term has been mishandled."
+            },
+            {
+              "id": "x_le_12_4",
+              "label": "\\(x\\le 12\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Both the sign and constant are incorrect."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "57ad091a-6a80-55ea-a4e9-fdbf2b2a6329",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "How many integers satisfy the compound inequality \\( -3\\le \\frac{2x-1}{3}<4 \\)?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Multiplying by \\(3\\) gives \\( -9\\le2x-1<12 \\), so \\( -4\\le x<\\frac{13}{2} \\). The integers are \\( -4 \\) through \\(6\\), giving \\(11\\) solutions.",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 4,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "1.1 Linear Equations and Inequalities in One Variable",
+            "concept_ids": [
+              "concept_966b1f96a5",
+              "concept_afd5a9c26a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              10,
+              11,
+              12,
+              138,
+              139
+            ],
+            "source_chunk_ids": [
+              "chunk_3378c1ebb0",
+              "chunk_ed94845000"
+            ]
+          },
+          "options": [
+            {
+              "id": "10_1",
+              "label": "\\(10\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "One endpoint is excluded after solving the inequality."
+            },
+            {
+              "id": "11_2",
+              "label": "\\(11\\)",
+              "is_correct": true,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The integer solutions are \\( -4,-3,\\ldots,6 \\)."
+            },
+            {
+              "id": "12_3",
+              "label": "\\(12\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The upper endpoint \\(x=7\\) is not allowed."
+            },
+            {
+              "id": "9_4",
+              "label": "\\(9\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The full integer interval contains more values."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "ef16bbd2-1cd5-5b96-94ca-6602b4ec59ee",
+        "quiz_id": "quiz-fc03369ce8e6",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "If \\(x\\) is a real number satisfying \\( \\frac{x-1}{3}-\\frac{2x+5}{4}\\ge1 \\), which statement is correct?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Multiplying by \\(12\\), \\(4x-4-6x-15\\ge12\\), so \\(-2x\\ge31\\). Dividing by \\(-2\\) reverses the inequality: \\(x\\le-\\frac{31}{2}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 5,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "1.1 Linear Equations and Inequalities in One Variable",
+            "concept_ids": [
+              "concept_966b1f96a5",
+              "concept_afd5a9c26a"
+            ],
+            "source": "rag:math-prilepko-20260721-05:1.1",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              10,
+              11,
+              12,
+              138,
+              139
+            ],
+            "source_chunk_ids": [
+              "chunk_3378c1ebb0",
+              "chunk_ed94845000"
+            ]
+          },
+          "options": [
+            {
+              "id": "x_le_frac_31_2_1",
+              "label": "\\(x\\le-\\frac{31}{2}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Multiplication by \\(12\\) gives \\(-2x-19\\ge12\\), hence \\(x\\le-\\frac{31}{2}\\)."
+            },
+            {
+              "id": "x_ge_frac_31_2_2",
+              "label": "\\(x\\ge-\\frac{31}{2}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The inequality reverses when dividing by \\(-2\\)."
+            },
+            {
+              "id": "x_le_frac_31_2_3",
+              "label": "\\(x\\le\\frac{31}{2}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The sign of the constant is incorrect."
+            },
+            {
+              "id": "x_ge_frac_31_2_4",
+              "label": "\\(x\\ge\\frac{31}{2}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Both the direction and sign are incorrect."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T13:14:15.816673Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_3378c1ebb0",
+    "chunk_ed94845000"
+  ],
+  "source_pages": [
+    10,
+    11,
+    12,
+    138,
+    139
+  ],
+  "rejected": []
+}

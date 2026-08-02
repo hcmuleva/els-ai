@@ -1,0 +1,1362 @@
+{
+  "metrics": {
+    "recall_at_k": 0.9595,
+    "precision_at_k": 0.1919,
+    "mrr": 0.9077,
+    "ndcg": 0.921,
+    "coverage": 0.9595
+  },
+  "queries": [
+    {
+      "query": "Find educational material that discusses: Chapter1 RATIONALEQUATIONS,INEQUALITIES ANDFUNCTIONSINONEVARIABLE 1.1.Linear Equations andInequalities in One Variable. A Linear Function Solvethefollowingequations: 1.(3x+7)-(2x+5)=3. 工 12 20 30 42 6 3.(a)3x+1=(4x—3)—(x-4); (b) 3x + 1 =(4x -3)-(c -5). 4.ax=a².5.(a-2)x =a²-4. 6.(a²-9) x = a² + 27. Solve thefollowinginequalities: 7.(a)7x>3;(b)-4x>5;(c)5x+6≤3x",
+      "concept_id": "concept_699a4972bd",
+      "expected_chunks": [
+        "chunk_3e8683d62b"
+      ],
+      "retrieved_chunks": [
+        "chunk_3e8683d62b",
+        "chunk_4ab2073692",
+        "chunk_3bc2f69133",
+        "chunk_9473c093e6",
+        "chunk_fc9b72b0ad"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 60.y=2|x-11-3|x+2|+x. 61.y =|x-2|+|x-a |. 62.Find the values of a for which thefunction y possesses a maximum at thepoint x=2,if [x+1forx<2, a for x=2， 5-x forx>2. 63.Findtheleastand the greatest valueof thefunction y=|x-a|on the interval [1;2](a≠1;a≠ 2). 1.2.QuadraticEquations andInequalities. A QuadraticFunction Solve the following equations and inequaliti",
+      "concept_id": "concept_5c601a3629",
+      "expected_chunks": [
+        "chunk_fc9b72b0ad"
+      ],
+      "retrieved_chunks": [
+        "chunk_fc9b72b0ad",
+        "chunk_39a56b95fc",
+        "chunk_3bc2f69133",
+        "chunk_a69ca5ad56",
+        "chunk_064cef1f7e"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: Find the least and the greatestvalue of the functionsin the indicated intervals: 63.(a)y=3x²-x+5on the interval[1;2]; (b)y=-4x²+ 5x -8 on the interval [2;3]; (c)y=x²-2x+5on the interval[—1；2]; (d）y=—x²+6x-1 on the interval [0;4]. 64.(a) y =x²+|x+2|on the interval [—3；—1]; (b)y=(x-3)|2-x|on the interval[1；4]; (c)y=|x²-4|xllon the interval [—1;3]. 65.Suppose a",
+      "concept_id": "concept_02c945eac7",
+      "expected_chunks": [
+        "chunk_064cef1f7e"
+      ],
+      "retrieved_chunks": [
+        "chunk_064cef1f7e",
+        "chunk_39a56b95fc",
+        "chunk_3bc2f69133",
+        "chunk_4baf86d32b",
+        "chunk_dcd2cafca3"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 22.Prove that the function y= ax+b is strictly mono- cx+d tonic on any interval(x1;x2)，provided that ad≠bc， c≠0，x=-d/c（x；2) 23.Findthegreatestandtheleastvalueofthefunction （a)y=（x-3)/（x+1）on theinterval[0;2]; (b）y=(2x+1)/（x-2）on the interval[-1；1]. 24.Thefunction y=k/x,k>0 is specified on the interval [；x].Prove that there is a point xoE（x;）such that y（x2)-y",
+      "concept_id": "concept_7c23cfa9e4",
+      "expected_chunks": [
+        "chunk_a69ca5ad56"
+      ],
+      "retrieved_chunks": [
+        "chunk_a69ca5ad56",
+        "chunk_064cef1f7e",
+        "chunk_39a56b95fc",
+        "chunk_45e4b5e657",
+        "chunk_50e9fb4625"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 48.Determine thepointsof extremum of thefunction (a)y=x²+3x²-45x+1；(b)y=号- 23 -2x²+ +4x-3;(c)y=|3x-1|-x²；(d)y= =（x-1)²（x+2)；(e)y=（x+3)²（x-4)²； (f)y=2x²+； 2x—1 49.Find the absolute value of thedifference between the extremaof thefunction y =x²+3x²-3x+1. 50.Find theleast and the greatest value of the function ontheindicatedintervals (a)y=x²+9x-3on the interval",
+      "concept_id": "concept_a7f703855e",
+      "expected_chunks": [
+        "chunk_3bc2f69133"
+      ],
+      "retrieved_chunks": [
+        "chunk_3bc2f69133",
+        "chunk_39a56b95fc",
+        "chunk_064cef1f7e",
+        "chunk_fc9b72b0ad",
+        "chunk_dcd2cafca3"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 16.At what a ER does the point(a;a²) lie in the interior of thetriangleformedattheintersection of thelines y=x+1，y=3-x，y=-2x? Solve thefollowingsystems ofequations: 17. x+y-z=0, 18. （x=3t--2, 2x-y+3z=9, y=-4t+1, -3x+4y+2z=11. z=4t-5， 4x-3y-6z=5. 19. 2x+3y+z-1=0， -1 y+1 名 1 -2 20. +2 y-1 2-3 -2 3 2 +2y-2z+6=0. 21.Given the system of equations x+y+z=61, 2 4 5 ",
+      "concept_id": "concept_b50f90bc0f",
+      "expected_chunks": [
+        "chunk_bcd454fcc6"
+      ],
+      "retrieved_chunks": [
+        "chunk_bcd454fcc6",
+        "chunk_d15fae7de8",
+        "chunk_3bc2f69133",
+        "chunk_df6bd6c8d1",
+        "chunk_c310028d33"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 21.Find all triples of the integers (x;y;z)for which the relation 5x²+y²+32²-2yz=30is satisfied. 22. Hatch the setof points of the coordinateplane defined bythesystemofinequalities (a)」y2x≤0, (b) ）」x²+y≤0, x²+y²-5<0; 2x²+y-1≤0. 23.Represent on the plane the set of points (x;y)whose coordinatessatisfy the systems ofinequalities (a) [2y≥x², (b) ）（+x²≤0， y≤-2x²",
+      "concept_id": "concept_f726c7ac6e",
+      "expected_chunks": [
+        "chunk_c310028d33"
+      ],
+      "retrieved_chunks": [
+        "chunk_c310028d33",
+        "chunk_bcd454fcc6",
+        "chunk_3bc2f69133",
+        "chunk_132a3c169c",
+        "chunk_b46f4d0080"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 2.2.Systems ofIrrational Equations andInequalities Solve thefollowing systems ofequations: 1. (a) 7 4 5 Vx-7 Vy+6 3， 5 3 13 Vx-7 Vy+6 6 (b) 4 1 Vx+y-Vx-y Vx-y-x+y 2 4 9 Vx+y-Vx-y Vx+y-x-y 2. (a) x+y + 4 2x-1 2x-1 x+y 5， x=y+1; (b) x-y 2+y 10 x+y x-y xy-2x-2y=2. 3. x+y+l x+y 12 x-y x-y xy=15. 4.{yVx²+y²-2ay-3=0, xVx²+y²=2ax. 5.At what values of a does the fol",
+      "concept_id": "concept_f00db189f9",
+      "expected_chunks": [
+        "chunk_9473c093e6"
+      ],
+      "retrieved_chunks": [
+        "chunk_9473c093e6",
+        "chunk_3bc2f69133",
+        "chunk_bcd454fcc6",
+        "chunk_cb49ac01b0",
+        "chunk_b46f4d0080"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: Find the graphicalsolutions ot the followinginequalities and systems ofinequalities: 8.Vx-y>Vx+y.9.1+Vx≥y. 10.{y-2<V1-x², y>2|x|. 2.3.An Exponential and a Logarithmic Function, Exponential andLogarithmicEquations, Systems of Equations,andInequalities 1.Which of the numbers (a)(2)°;(b) (1.4)6; 2 (c)(0.8)3; (d) (1.5)-0.1；(e) (0.4)-0.3；(f) (0.7)0.4; (g) (4.8)-0",
+      "concept_id": "concept_e7def5672e",
+      "expected_chunks": [
+        "chunk_bb214cf87b"
+      ],
+      "retrieved_chunks": [
+        "chunk_bb214cf87b",
+        "chunk_dcd2cafca3",
+        "chunk_a7e99c201e",
+        "chunk_9473c093e6",
+        "chunk_c1aff92cda"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 2(logyx+logxy)=5, 38. (a) xy=8; logxy+logyx=2.5, (b) x+y=a²+a. x²/y+y²/x=28, 39. logsx-log± y=1.5. 9 log2y=logs(xy-2)， 40. loggx²+ logs(x—y)=1. 2x²+v4（v²+x)/2 41 Vxy = 2. 4x/v-3y/x=16, 42. Vx-V2y=V12-V8. x+y=4+Vy²+2, 43. log x-21og 2=log(1+0.5y). logs (log2x)+ log (log1 y)= 1. 44. 3 2 xy²=4. /9=9x/(2y) 45. 2+3y 2x 4. y Solve the followinginequalities: 46.(a)",
+      "concept_id": "concept_29344c8c7b",
+      "expected_chunks": [
+        "chunk_dcd2cafca3"
+      ],
+      "retrieved_chunks": [
+        "chunk_dcd2cafca3",
+        "chunk_bb214cf87b",
+        "chunk_a7e99c201e",
+        "chunk_c1aff92cda",
+        "chunk_d5d30b7027"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 92.Find theintervals of the increase and decreaseof the ln3. (c)y=(2x-1) (2*-2). 93.Find the point of extremum of the function (a)y= 3 x2 +x-1. 94.Find the values of a andbfor which the function f(x)= =alnx+bx²+x+2possesses extrema at the points =1andx=2. 95.In the indicated intervals,find the greatest and the least value of the function (a) y =e-(x²+α —5), ",
+      "concept_id": "concept_bfa3a0d347",
+      "expected_chunks": [
+        "chunk_cb1677e5e3"
+      ],
+      "retrieved_chunks": [
+        "chunk_cb1677e5e3",
+        "chunk_3bc2f69133",
+        "chunk_39a56b95fc",
+        "chunk_064cef1f7e",
+        "chunk_a7e99c201e"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: (f)sin 6°—sin 42°—sin 66°+ sin 78°; (g) cos²33°-cos257° (i)tan20°—33tan420°+27tan²20°3; (j)cot²36°cot272°. 12.Excluding α from the relations,find the relationship between x and y: [x=3cosα, （α²-2=-2cosα， (a) y=4 sin α, (b) {Vx=tana, [x=V1-sina, (c) lVy=seca; (d) a +cos a 2 2.5. Trigonometric Functions 1.Find the domain of definition of the functon (a)y= 1 ta",
+      "concept_id": "concept_6618383d0b",
+      "expected_chunks": [
+        "chunk_4baf86d32b"
+      ],
+      "retrieved_chunks": [
+        "chunk_4baf86d32b",
+        "chunk_9d662d74b0",
+        "chunk_ca4a01fbe0",
+        "chunk_0fa5daf0ce",
+        "chunk_9fb2f30b96"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 2.6.Inverse Trigonometric Functions Find the domainsofdefinition of thefollowingfunctions: 1. (a) y=arcsin (1-z);(b) y=arccos(2-); (c)y=arcsin(2x+x²);(d)y=arccos 2x 1+x (e) y=arcsin (cos z); (f) y=arccos (sin²x). 2. (a) y=arctan (1-x²); (b) y=arccot Vx; (c)y=arctan (log2x);(d)y=arccot (e*+e-x). 3.Find the range of the function (a)y=arcsinVr; (b)y=arccos(一 ；(",
+      "concept_id": "concept_2321fa21ad",
+      "expected_chunks": [
+        "chunk_0fa5daf0ce"
+      ],
+      "retrieved_chunks": [
+        "chunk_0fa5daf0ce",
+        "chunk_4baf86d32b",
+        "chunk_a46f53b485",
+        "chunk_eae9ceac9b",
+        "chunk_9d662d74b0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 2.7. Trigonometric Equations and Systems of Equations Solve the followingequations: 1. (a) sin x=-;(b) sin (2x+)=1; 1 (c)2 sinx cos x-3 sin 2x=0; COS COS 2 3 (e) sin Vx=-1. 2.(a) cos =0;(b) cos(3x-)=-1; (d) cos 孔 6 (e)cos x²=1. 3. 2 cos[(sin x- 13+ )]=V3. 4.Find all values of the parameter a for which the equa- tion cos x=(a—1.5)/(2-0.5a)has a solution. 5.Fi",
+      "concept_id": "concept_f0c43a78ec",
+      "expected_chunks": [
+        "chunk_9fb2f30b96"
+      ],
+      "retrieved_chunks": [
+        "chunk_9fb2f30b96",
+        "chunk_ca4a01fbe0",
+        "chunk_54fc20a73b",
+        "chunk_54a3280b0f",
+        "chunk_9d662d74b0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 0.(a) sin²x + sin² 2x = sin² 3x; (b)cos²x+cos² 2x+cos²3x-+cos²4r=2； (c) sin 7x+sin 9x=2|cos²(-x）-cos2(+ 2x)」; 9 (b)cos x + cos 2x + cos 3x = -0.5. 42.(a) sin²x cos 3x +cos3x sin 3x +0.375 =0; (b)cos x cos 3x + sin²x sin 3x =V2/4. 43.(a) sin sin( -csin (b)8cosxcos 八 （+x+1=0; (c)tan x tan =V3. 44.(a) sin 3x=4 sin x cos 2x;(b) sin 3xcos x=1.5 tan x; (c)tanxcot3",
+      "concept_id": "concept_a54a40de21",
+      "expected_chunks": [
+        "chunk_ca4a01fbe0"
+      ],
+      "retrieved_chunks": [
+        "chunk_ca4a01fbe0",
+        "chunk_9fb2f30b96",
+        "chunk_9d662d74b0",
+        "chunk_d5d30b7027",
+        "chunk_4baf86d32b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: (c) tanx+tan y：=2, cosxcos y=0.5; (d) sin x cosy=1/4, 3 tan x = tan y. 62. (a) tanx-2siny=-2, 5 tan+2 sin y=-4; (b) 4siny-6V2cosx=5+4cos²y, cos 2x=0； (c) 1 cosy= a+3 sin a 3 sin zcos y= a 3 (d) 1 -tany=2a+2， coSx tan y+ (a²+2a) cosx=0. 63. ∫ sin2(—2x)-(3-V2) tan 5y =(3V2—1)/2, ((3—V2)sin(-2x)+ tan²5y=(3V2—1)/2. 2.8.TrigonometricInequalities Solve thefollowin",
+      "concept_id": "concept_142e0e2c41",
+      "expected_chunks": [
+        "chunk_d5d30b7027"
+      ],
+      "retrieved_chunks": [
+        "chunk_d5d30b7027",
+        "chunk_ca4a01fbe0",
+        "chunk_9fb2f30b96",
+        "chunk_4baf86d32b",
+        "chunk_9d662d74b0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 30.Prove that the function y=sin²x increases monoto- nically on the interval zE(—π; -). 31.Prove that the functiony=cos3xdecreases monoto- 32.Prove that if 0<<2<，then tanx> 2 tanz1 21 Find the criticalpoints of thefollowing functions: 1 1 V4a-a². 34. f(2)=(1 - cosa） cosa-3 4 +V2a-a²+3. Va-2 V8-a Chapter3 PROBLEMSONDERIVINGEQUATIONS ANDINEQUALITIES 3.1.Proble",
+      "concept_id": "concept_12c35e7d73",
+      "expected_chunks": [
+        "chunk_2e34e6f8fa"
+      ],
+      "retrieved_chunks": [
+        "chunk_a69ca5ad56",
+        "chunk_eae9ceac9b",
+        "chunk_39a56b95fc",
+        "chunk_064cef1f7e",
+        "chunk_45e4b5e657"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Find educational material that discusses: 31.A pedestrian anda cyclist leftpointA for pointBat the same time.Having reached point B，the cyclist turnedbackandmetthepedestriananhourafterthe start.After their meeting，the pedestrian continued his triptoBandthecyclistturnedbackandalsoheaded for B.Having reached B，the cyclist turned back again andmetthepedestrian40minutesaftertheirfirst meeting.Determine ",
+      "concept_id": "concept_2d5675ab3c",
+      "expected_chunks": [
+        "chunk_9861368f3b"
+      ],
+      "retrieved_chunks": [
+        "chunk_9861368f3b",
+        "chunk_2e34e6f8fa",
+        "chunk_3c80a325d9",
+        "chunk_48dc932f15",
+        "chunk_0da247de0b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 25.There are three pieces of a copper-tin alloy.The masses of the pieces are in the ratio of 3:4:5.The percentage of copper in the second piece is a times as large,and in thefirstpiece atimesassmall,asinthethird piece. Afterthethreealloysweresmeltedtogether，anewalloy ofcopperand tinwas obtained，in whichthepercentage of copperchanged bypper cent ascomparedto ",
+      "concept_id": "concept_dd1c04413e",
+      "expected_chunks": [
+        "chunk_7ca73fcb0c"
+      ],
+      "retrieved_chunks": [
+        "chunk_7ca73fcb0c",
+        "chunk_9ebd300d00",
+        "chunk_9861368f3b",
+        "chunk_8ce9b5a985",
+        "chunk_1869362b84"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: of6kmfrom Aa cyclist followed him,startingfrom A andcyclingata speed9km/hhigher than thatofthe pedestrian.Whenthe cyclist overtook thepedestrian， they turned back and returned toA together，at the speed of 4km/h.At whatvwill the time spentby the pedestrian on hisstrollbetheleast? 15.A vessel of 5 litres capacity contains 2litres of p-per cent (by volume)salt ",
+      "concept_id": "concept_b171d5f536",
+      "expected_chunks": [
+        "chunk_3c80a325d9"
+      ],
+      "retrieved_chunks": [
+        "chunk_9861368f3b",
+        "chunk_3c80a325d9",
+        "chunk_2e34e6f8fa",
+        "chunk_48dc932f15",
+        "chunk_9ebd300d00"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 0.5,
+      "ndcg": 0.6309
+    },
+    {
+      "query": "Find educational material that discusses: (d) (arcsin(x+1)+arccos(z+1)dx; -2 3 (e) arctan 19.Find the setof positive values of asatisfyingthe a equation (3x²+4x-5)dx=a3-2. 20.Find all the values ofa for which theinequality 0 (V+1- dx<4is satisfied. Va 21.Find all the values of αbelonging to the interval d [0,2π]and satisfying the equation sinxdx=sin2a. 元 22.Solve the equation 1.5x+1 logx+1Vx+1 4.2.C",
+      "concept_id": "concept_47665d8cf5",
+      "expected_chunks": [
+        "chunk_132a3c169c"
+      ],
+      "retrieved_chunks": [
+        "chunk_132a3c169c",
+        "chunk_a69ca5ad56",
+        "chunk_45e4b5e657",
+        "chunk_eae9ceac9b",
+        "chunk_54a3280b0f"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: Findthe areasof thefiguresboundedby thefollowingcurves: 24.（a)y= sinx，y=0，x=0，=2; (b)y=sin3x，x=π/12，x=π/6，y=0; （c)y=2cosx，x=-π/4，x=π/4，y=0； (d)y=cos 2x，x=-π/6，=π/8，y=0. 25.(a)y=V3/2，x=1，y=cosx，x=0,y=0; (b)y=sinx，y=0.5，y=0,=0，x=3； (c)y=sinx，y=2V2/3,x=0,x=arcsin(2V2/3); (d)y=2-｜1-x｜，y=sinx，x=0，x=2. 26.(a)Find the value of k for which the area of the figure bou",
+      "concept_id": "concept_0418a2b2b1",
+      "expected_chunks": [
+        "chunk_dc61b8d3e7"
+      ],
+      "retrieved_chunks": [
+        "chunk_132a3c169c",
+        "chunk_dc61b8d3e7",
+        "chunk_0c604c1ae2",
+        "chunk_df6bd6c8d1",
+        "chunk_5898c39054"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 0.5,
+      "ndcg": 0.6309
+    },
+    {
+      "query": "Find educational material that discusses: 53.The sum of thefirst ten terms of the arithmetic progres- sionis 155andthesumofthefirsttwotermsofthe geometricprogression is 9.Determine the progressions if thefirsttermofthearithmeticprogressionis equal tothecommonratioof thegeometricprogressionand thefirst term of thegeometricprogressionis equal tothedifferenceof thearithmeticprogression. 5.2.Number Sequ",
+      "concept_id": "concept_fe790a9f90",
+      "expected_chunks": [
+        "chunk_41086080ee"
+      ],
+      "retrieved_chunks": [
+        "chunk_dc61b8d3e7",
+        "chunk_41086080ee",
+        "chunk_07db2318e5",
+        "chunk_d15fae7de8",
+        "chunk_df6bd6c8d1"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 0.5,
+      "ndcg": 0.6309
+    },
+    {
+      "query": "Find educational material that discusses: Chapter6 ELEMENTSOFVECTORALGEBRA 6.1.Linear Operations onVectors 1.What condition should be satisfied by the vectors a and bfor thefollowingrelations tohold true:(a)|a+b|= =| a - b l; (b) | a + b | > | a - b l; (c) | a + b | < <la-bi? 2.The nonzero vectors a,b and c are related as b= 5a and.c=—2b.Determine (a)the angle between the vectors a and c,(b)|a|/|c|.",
+      "concept_id": "concept_f5f123e65d",
+      "expected_chunks": [
+        "chunk_1e1ef3fb84"
+      ],
+      "retrieved_chunks": [
+        "chunk_1e1ef3fb84",
+        "chunk_e69925b3ba",
+        "chunk_7c214bf83b",
+        "chunk_8ce9b5a985",
+        "chunk_df6bd6c8d1"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 23.A triangular pyramid is defined by the coordinates of its vertices A(3;0；1)，B(-1；4;1),C(5;2;3) andD(0;—5;4).Calculate thelengthof the vector AOif Ois the_point of intersection of the medians of the triangleBCD. 24.Are the vectors a =(3/7;1/2;-3/4),b=(-3/2;6； 4/3)andc=(9/8;-9/2;—1)coplanar? 25.Given three vectors:a =(3；—2;1),b=(—1;1;-2) and c=(2;1；-3).Repr",
+      "concept_id": "concept_56ca435d7b",
+      "expected_chunks": [
+        "chunk_8ce9b5a985"
+      ],
+      "retrieved_chunks": [
+        "chunk_8ce9b5a985",
+        "chunk_deb3abc63c",
+        "chunk_5f17073888",
+        "chunk_3c8e270171",
+        "chunk_53fcd6112f"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: Chapter7 PLANEGEOMETRY 7.1.Problems on Proving Propositions 1.Mis the midpoint of the interval[AB].Prove that 1 |CM|= 2 2.Five straight lines meeting at a point O are drawn in theplane a.Prove that the sum of theangles，which arenotadjacenttoeachotherandhaveacommon vertex O,isequalto. 3.In the convex quadrilateral ABCD,the length of the diagonal AC is equal t",
+      "concept_id": "concept_5f73948e82",
+      "expected_chunks": [
+        "chunk_0da247de0b"
+      ],
+      "retrieved_chunks": [
+        "chunk_0da247de0b",
+        "chunk_eefa772981",
+        "chunk_5dd8b8f703",
+        "chunk_df6bd6c8d1",
+        "chunk_1ad5bf728a"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 7.2.ConstructionProblems 1.Through a point A lying in the interior of the angle, drawa straightline sothatthepointAwould be the midpointof thesegmentinterceptedon thestraight line by the sides of the angle. 2.Construct a triangle if its two sides and the median, allemanatingfroma common vertex,aregiven. 3.Points A and B belong to one of the half-planes into ",
+      "concept_id": "concept_6188d5f072",
+      "expected_chunks": [
+        "chunk_1ad5bf728a"
+      ],
+      "retrieved_chunks": [
+        "chunk_1ad5bf728a",
+        "chunk_53fcd6112f",
+        "chunk_5dd8b8f703",
+        "chunk_0da247de0b",
+        "chunk_8ce9b5a985"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 7.3.Problems on Calculation 1.In the triangle ABC，the side |AB|=c=13cm， |BC|=α=14cm，|AC|=b=15cm.Deter- mine:(a)the degreemeasure of thelargest interior angle of that triangle;(b)the area S；（c)the length h,of the altitude BD;(d)thelengthrof the radius of theinscri- bed circle;(e)the length R of theradius of thecircum- scribed circle;(f)the length l,of thebise",
+      "concept_id": "concept_f4b241ae25",
+      "expected_chunks": [
+        "chunk_3c8e270171"
+      ],
+      "retrieved_chunks": [
+        "chunk_3c8e270171",
+        "chunk_1869362b84",
+        "chunk_eefa772981",
+        "chunk_0da247de0b",
+        "chunk_1ad5bf728a"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: Chapter8 SOLIDGEOMETRY 8.1.A Straight Line,a Plane,Polyhedra. SolidsofRevolution 1.Two right triangles lie in the mutuallyperpendicular planes andhaveahypotenuse incommon.Find the dis- tancebetweentheverticesoftherightanglesofthe triangles if the legs ofthe triangles are 4 cm and 3 cm inlength. 2.Given a dihedral angle p in magnitude.From a point of its edge",
+      "concept_id": "concept_4134733a95",
+      "expected_chunks": [
+        "chunk_5dd8b8f703"
+      ],
+      "retrieved_chunks": [
+        "chunk_5dd8b8f703",
+        "chunk_01470ddf46",
+        "chunk_5f17073888",
+        "chunk_1ad5bf728a",
+        "chunk_0defbb5196"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 45.The plane passing through the centre of the lower base of the cylinder atanangleα°to theplane of thebase cuts the upperbase along the chord,binlength,subtend- ing the arc ofβ°.Find thevolume ofthe cylinder. 46.Thearea ofthe total surface of thecone isSand the angle atthe vertex of the axial section isa.Find the volumeofthecone. 47.Aregular triangle,whose ",
+      "concept_id": "concept_0aea1e7e89",
+      "expected_chunks": [
+        "chunk_01470ddf46"
+      ],
+      "retrieved_chunks": [
+        "chunk_01470ddf46",
+        "chunk_0defbb5196",
+        "chunk_5f17073888",
+        "chunk_5dd8b8f703",
+        "chunk_1ad5bf728a"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 43.A lateral face of a regular quadrangular pyramid is at an angle α to the base.The radius of the sphereinscribed intothepyramid isequal to r.Findthearea of the sectionofthepyramid 1passingthroughthecentreof the inscribedsphereparallel to thebase of thepyramid. 44.In the regular rquadrangularpyramidSABCDthe side of thebaseABCDisainlength and the altitudeis ",
+      "concept_id": "concept_b2caa73cc0",
+      "expected_chunks": [
+        "chunk_5f17073888"
+      ],
+      "retrieved_chunks": [
+        "chunk_5f17073888",
+        "chunk_0defbb5196",
+        "chunk_01470ddf46",
+        "chunk_8ae27d243a",
+        "chunk_5dd8b8f703"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 52.Aregular hexagonalprism isinscribedinto a cone with thealtitudeHandthe radius of thebase R，so thatoneofitsbasesliesintheplaneofthebaseofthe coneandtheverticesoftheotherbasebelongtothe lateralsurfaceof the cone.Whatshouldthealtitude oftheprismbeforitsvolumetobethegreatest?Find thatgreatestvalueofthevolume oftheprism. 53.The anglebetween alateraledge and th",
+      "concept_id": "concept_20d98ec665",
+      "expected_chunks": [
+        "chunk_0defbb5196"
+      ],
+      "retrieved_chunks": [
+        "chunk_0defbb5196",
+        "chunk_5f17073888",
+        "chunk_01470ddf46",
+        "chunk_5dd8b8f703",
+        "chunk_deb3abc63c"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 5.Find thevolume of the figure resulting from rotation abouttheaxisofordinatesofacurvilinear trapezoid whose boundary is defined by the equations y²=x, y=0，y=1andx=0. 6.Find the volume of the figure resulting from rotation abouttheaxisofabscissasofacurvilineartrapezoid whose boundary is defined by the equations (a)y= =｜1x-11-21，x=0，x=3，y=0；(b）y= =｜x-11-｜x+11",
+      "concept_id": "concept_f1ee492b66",
+      "expected_chunks": [
+        "chunk_df6bd6c8d1"
+      ],
+      "retrieved_chunks": [
+        "chunk_df6bd6c8d1",
+        "chunk_132a3c169c",
+        "chunk_d15fae7de8",
+        "chunk_5898c39054",
+        "chunk_01470ddf46"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 33.Prove that the even function f(x)does not have an inverse. 34.Prove that the periodic function f(z) does not have an inverse. 9.2.Limit of aFunction.Continuity Findthefollowinglimits: 1.lim x²1 2.lim x3—1 x→1 2x²-x-1 x→1 x²-x²+x-1 3. lim x46x²27 x→-3 x+3x²+x+3· 4. lim 4 1-3x+x² +3 x-1 22 x-1 1 -23 x→1 5.lim 3x 2x²+1 x→00 5x-1 x²+2x 6.lim 23 x→00 3x²4 3x+2",
+      "concept_id": "concept_2209639bab",
+      "expected_chunks": [
+        "chunk_f7595ddc0d"
+      ],
+      "retrieved_chunks": [
+        "chunk_f7595ddc0d",
+        "chunk_50e9fb4625",
+        "chunk_e17098c4a6",
+        "chunk_064cef1f7e",
+        "chunk_43b227e11f"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 18.lim 1-4 sin²r x→n/3 cos(x+π/6) x→π/6 cos3x 20.lim x→0 5x （x²+3x-1） tanz x→0 22.lim .23.lim x+x²-2 x→0 x²+2x x→1 sin(z-1) 24.lim coszsinx-tanz 25. lim 1-cos5x x→0 x² sin x x→0 3x² 26.lim 1-cos7（π-z） 5（x-π）n ，n=1，2. x→π 27.lim sin（a+2x)-2sin（a+z）+sina x→0 28.lim V1+tanz-√1+sinx x→0 23 1+x²-1-2 29.lim x→0 x+x² 30.Find thepoints of discontinuity of the functi",
+      "concept_id": "concept_cdca0a2020",
+      "expected_chunks": [
+        "chunk_e17098c4a6"
+      ],
+      "retrieved_chunks": [
+        "chunk_f7595ddc0d",
+        "chunk_e17098c4a6",
+        "chunk_ca4a01fbe0",
+        "chunk_4baf86d32b",
+        "chunk_22bc13779a"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 0.5,
+      "ndcg": 0.6309
+    },
+    {
+      "query": "Find educational material that discusses: 11.Find the critical points of the function f (x)=4x²—6x²cos 2a+3x sin 2a sin 6a +VIn (2a-a²). Does f(z)decrease or increase at the point x = 1/2? 12.Does f(x)decrease or increase at the point x= sin 8 if f(x)=—x²/3 +x² sin 1.5a-x sin a sin 2a - -5 arcsin (a²—8a + 17)? 13.Find all the values of aforwhichthefunction f(x)=(a+ -1x-3x+ln5 1-a decreases for all x",
+      "concept_id": "concept_4bf3d561f3",
+      "expected_chunks": [
+        "chunk_b1180e2381"
+      ],
+      "retrieved_chunks": [
+        "chunk_b1180e2381",
+        "chunk_39a56b95fc",
+        "chunk_45e4b5e657",
+        "chunk_eae9ceac9b",
+        "chunk_a69ca5ad56"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: ANSWERS,HINTS,SOLUTIONS Chapter1 RATIONALEQUATIONS,INEQUALITIES ANDFUNCTIONSINONEVARIABLE 1.1.LinearEquations andInequalities in OneVariable. A Linear Function 1.{1}.2.{-7}.3.(a){c |c∈R};(b).4.{a}fora≠0;{c｜c ∈ R} for a=0.5.{a+2} fora≠2;{c｜c∈R}fora=2. a-3 {c | c E R}for α =3; for a = 3. 7.(a) (3/7; oo); (b)(-oo;5/4); (c)（-∞o；-7);(d）[3+2V3;∞o）.8.（a）[1/a;∞o）for",
+      "concept_id": "concept_65b9dbec1c",
+      "expected_chunks": [
+        "chunk_4ab2073692"
+      ],
+      "retrieved_chunks": [
+        "chunk_4ab2073692",
+        "chunk_3e8683d62b",
+        "chunk_16d8823b4c",
+        "chunk_3bc2f69133",
+        "chunk_fc9b72b0ad"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 53.Since the given function is defined in the neighbourhood of the point x=0 and y (0)=1 at that point itself,it follows that for this function to be continuous at that point,it is necessary that lim(2x+1)=lim（x+a)=1，i.e.a=1.54.（a）{-1/3}. x→0 Theinterior points of the domain of definition of the function at x→0 which thederivativeisequal to zero or does not ",
+      "concept_id": "concept_71785a85ce",
+      "expected_chunks": [
+        "chunk_1252f7225e"
+      ],
+      "retrieved_chunks": [
+        "chunk_1252f7225e",
+        "chunk_50e9fb4625",
+        "chunk_43b227e11f",
+        "chunk_e17098c4a6",
+        "chunk_75597829c5"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: E（—1；1/2).At the pointx=-1 the derivative of the function does not exist (the pointx=—1 is critical)，but inits neighbourhood thederivative of the function exists and changes sign from plus to minus in the passage through that point. Consequently，x=1 is a point of maximum;y’(1/2)=0 and y’> 0 for z E /1. and, therefore，x=1/2isapointofminimum.60.（a)x=-1.5and x=",
+      "concept_id": "concept_31e4f1f83c",
+      "expected_chunks": [
+        "chunk_75597829c5"
+      ],
+      "retrieved_chunks": [
+        "chunk_75597829c5",
+        "chunk_39a56b95fc",
+        "chunk_1252f7225e",
+        "chunk_e17098c4a6",
+        "chunk_22bc13779a"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: (a) (b) 2 1 d (e) 2 2 5 11 (x+2)2 (1) (2x—1）² (g) （x+1）2； (h) (1-3x)2 16.（a)-3;(b)1/4;(c)--1;(d)-1.17.（a)n/4;(b)arctan 5 9 (c)n-arctan 1 ；(d)π-arctan 4;(e)π—arctan 5 ；(f)π- -arctan6.18.（a)x-3y-6=0;(b)y+x=0; （c）4y-5x+6=0;（d）36y+29x-23=0. i9.（a)M（0;-1）;M（-2;3）;(b）M（-1/2；3）;M（-3/2;5）. Use thecondition of perpendicularity of the straightlineskk=1, where k,and ka",
+      "concept_id": "concept_c7e014c8f3",
+      "expected_chunks": [
+        "chunk_45e4b5e657"
+      ],
+      "retrieved_chunks": [
+        "chunk_45e4b5e657",
+        "chunk_a69ca5ad56",
+        "chunk_df6bd6c8d1",
+        "chunk_601adec61b",
+        "chunk_deb3abc63c"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 52.0n theintervals （—; -2/v3) and (2/v3;o）thefunction （V3-1） decreases,on the interval 2 (-2/v3;2/v3)itin- creases;x=-2/v3 isa pointof minimum;x=2/√3 point_of maxi- mum;y(-2/√/3)=-3- -16/(3V3);y(2/V3) =-3+16/(3V3). 53. On.the intervals oo;-2）and（-1/2;1） the function decreases，on the intervals —2; and （1；∞)itincreases; x=-2andx=1arepoints ofminimum，x=-i/2is 9",
+      "concept_id": "concept_19af879253",
+      "expected_chunks": [
+        "chunk_39a56b95fc"
+      ],
+      "retrieved_chunks": [
+        "chunk_39a56b95fc",
+        "chunk_064cef1f7e",
+        "chunk_cb49ac01b0",
+        "chunk_3bc2f69133",
+        "chunk_fef5abdebc"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 1.5.Linear Systems ofEquations andInequalities 1.（a）{（0;0）}；(b）1{（c,，c/2）1c∈R}；（c)（c，c2）Ic∈R，c∈R}； (d)（c;0)1c∈R};(e).2.(a){（1；-1）}；(b){(3/4+2c,c)1c∈R}； (c)0;（d){（c;4c-1/2)1c∈R}fora∈{—1/2}and fora{—1/2}. 3.（a）（-0o；-1）U（-1；∞o）;(b）k∈‘R；（c)（-0o；-2)U（-2;∞o）. 4.（a){-2/3};(b){1）;(c){-1/2}.5.{(0;0)}.6.{(0;0;9/4）;(2;-1；1）}. Substituting the solution (i;3）into the sys",
+      "concept_id": "concept_223333c96e",
+      "expected_chunks": [
+        "chunk_16d8823b4c"
+      ],
+      "retrieved_chunks": [
+        "chunk_16d8823b4c",
+        "chunk_b46f4d0080",
+        "chunk_3bc2f69133",
+        "chunk_4ab2073692",
+        "chunk_cb49ac01b0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: NowwefindS=2y/5+z/2=25-z/2+z/2=25； (b){(27；10;42)}.Since,by the hypothesis,x,y andz are natural numbers,it follows thatx=3k,y=5land z=6m,where kE N IE N, m E N. The system of equations can now be represented in the form 4l+5m=61-2k， 5l+6m=79-3k. Hence we find↓=29—3k and m=2k—11.The greatest value of k EN satisfying the system of inequalities {k>0, 29-3k>0， 2",
+      "concept_id": "concept_7631cce45e",
+      "expected_chunks": [
+        "chunk_b46f4d0080"
+      ],
+      "retrieved_chunks": [
+        "chunk_b46f4d0080",
+        "chunk_bcd454fcc6",
+        "chunk_a7e99c201e",
+        "chunk_9473c093e6",
+        "chunk_cb49ac01b0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: Chapter2 TRANSCENDENTALFUNCTIONS,EQUATIONS ANDINEQUALITIES 2.1.Irrational Equations and Inequalities 1.{a²-1}fora ∈[0;oo），fora∈（—oo;0).2.（a—3)/2} for a∈[—3;oo)， fora∈（-oo;-3）.3.{3}.4.（a){—3}.▲We set V22—x =y≥ 0 and then we have x = 22—y², and the original equation isequivalent tothesystem {11+2(22-y²)=y， ly≥0. The solution of the system is y=5.Now we canfind",
+      "concept_id": "concept_404cebec81",
+      "expected_chunks": [
+        "chunk_c0c431a86e"
+      ],
+      "retrieved_chunks": [
+        "chunk_c0c431a86e",
+        "chunk_c310028d33",
+        "chunk_9473c093e6",
+        "chunk_a69ca5ad56",
+        "chunk_cb49ac01b0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 2.2.Systems ofIrrationalEquations andInequalities 1.(a){（16;30)}.●Set 1/Vx-7=u，1/Vy+6=v;（b）{(41;40)}. 2.(a)(（c;c—1)1c∈R,except for c=1/2);(b){-1/2;-2/5);(5; 4)}.3.{(V(3V109+9)/2;V(3V109-9)/2);(-5;-3).●Reduce thefirst equation of the system to the form x²-y²+√²-y²= =12forx-y>0andx²-y²-Vx²-y²=12forx-y<0.4.{（0; a+Va²+3)）fora∈（-∞∞；V3）,{（0；a+Va²+3);(0;-a-Va²-3); ",
+      "concept_id": "concept_fc03c77790",
+      "expected_chunks": [
+        "chunk_cb49ac01b0"
+      ],
+      "retrieved_chunks": [
+        "chunk_cb49ac01b0",
+        "chunk_9473c093e6",
+        "chunk_b46f4d0080",
+        "chunk_bcd454fcc6",
+        "chunk_16d8823b4c"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 2.3.An Exponential and aLogarithmic Functions, ExponentialandLogarithmicEquations, Systems ofEquationsandInequalities 1. The numbers given in (b), (c), (e),(i), (i),(k), (l) exceed unity. 2.（a)y>x;(b)y>x;（c)x>y;（d)x>y.3.2800<3200.▲2800= =(28)100=8100,3200=(32)100=9100;consequently，g100>8100. 4.(a) 9;(b) 1n 3;(c) 1n |a 1;(d) 4 loga 1 b 1; (e) 3;(f) 2;(g) 1; (",
+      "concept_id": "concept_fd21ee57d7",
+      "expected_chunks": [
+        "chunk_c1aff92cda"
+      ],
+      "retrieved_chunks": [
+        "chunk_c1aff92cda",
+        "chunk_a7e99c201e",
+        "chunk_bb214cf87b",
+        "chunk_dcd2cafca3",
+        "chunk_b46f4d0080"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: U[1;2)U(2;7/2).63.(3;5-V3)U (7;∞0).64.(a)(1;2); (b)(0;3)U(4;6)U (6;12)U (14;∞0).65.(a)(0;4);(b)[2,4)； (c)(1/2,4);(d) (1; 2).66.(a)(0; 2).Reduce the inequality to the form(2x-1)(25-5x)>0;(b)(1/v5;1)U(3;∞o).○Reduce thein- equality to the form(logsz-1)(2logsx+1))/(logsx>0;(c)(—1;oo). 67. (8). ● Prove that logo.s((loga5-1))<0; (b) (4). 68.(0; 1/a*) for aG(1;oo)，",
+      "concept_id": "concept_87a35f1250",
+      "expected_chunks": [
+        "chunk_a7e99c201e"
+      ],
+      "retrieved_chunks": [
+        "chunk_a7e99c201e",
+        "chunk_bb214cf87b",
+        "chunk_dcd2cafca3",
+        "chunk_b46f4d0080",
+        "chunk_a69ca5ad56"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 99. 100. 2.4.Transformation of TrigonometricExpressions 2.（a）V2-a²;（b）1-（a-1）/2.sinα+cosa=（sinα+ +cosα)-2（sinαacosα）=1-2（a-1)/2)².3.（a）p2； (b）p-3p.4.(a)（4V3+3)/10;(b）（V3(1-b)-b）/2.、Setting 40°+α=β，wegetcos（70°+α）=cos（30°+β）=（v3/2）cosβ （1/2)sinβ.Since0°<a<45°，wehavecosβ>0and，therefore， cosβ=V1-b.Thefinalresultiscos（30°+β）=√3（1-b）/2-b/2; （c）1073/1105.sin（α+β-y",
+      "concept_id": "concept_003194ccea",
+      "expected_chunks": [
+        "chunk_526e9640f1"
+      ],
+      "retrieved_chunks": [
+        "chunk_526e9640f1",
+        "chunk_9d662d74b0",
+        "chunk_cb1677e5e3",
+        "chunk_ca4a01fbe0",
+        "chunk_54fc20a73b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: itis clear from th 2 <，i.e.α+β+=π). 11.(a)(V2-√2)/2.●cos 292°30'=sin 22°30'=V(1-cos 45°)/2i 2sin100 (b)4.cosec 10°—V3sec 10°= sin 10°cos10° 4 sin(30°—10°) =4；（c)V3. 2c0s40°-c0s20° sin 20° sin 20° = cos40°—2sin30°sin10°sin50°-sin1002cos30°sin200 =V3; sin200 sin20o sin 200 (d）4._-2√2(2sin 35°sin10°—sin5°-2cos5°cos40%)= =—2√2(cos 25°-sin 5°-cos 35°2 cos 45°)=-2",
+      "concept_id": "concept_9f8fac7159",
+      "expected_chunks": [
+        "chunk_9d662d74b0"
+      ],
+      "retrieved_chunks": [
+        "chunk_9d662d74b0",
+        "chunk_ca4a01fbe0",
+        "chunk_526e9640f1",
+        "chunk_9fb2f30b96",
+        "chunk_601adec61b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 15.(a) 2 2π 3π 15.(b) 16.（a）cos z+sinz；（b)-（4 cos 2z/sin² 2z);（c)sin 2x;（d）-sin 2x； (e）tan²x（tan²x+1）;（f）-cot²z（cot²x+1）;（g）3cos3x； (h)(—1/v2) sin (x/v2);(i) 2 sin (4x —2);(i） [3 cos² (x²+x) × Xsin（x²+z)](2x+1）;(k)1/（1+c0sz）.17.（a）V3/2;(b）-2； (c）3.18.（a)y-2=0；（b）y-1/2=/4-x；（c）y-1= =4（x-n/8).i9.maxy=21；miny=-19.20.3/4.Since f（x)=0 for anyx∈R，it follows thatf（",
+      "concept_id": "concept_34908a523c",
+      "expected_chunks": [
+        "chunk_a46f53b485"
+      ],
+      "retrieved_chunks": [
+        "chunk_9d662d74b0",
+        "chunk_601adec61b",
+        "chunk_ca4a01fbe0",
+        "chunk_39a56b95fc",
+        "chunk_54a3280b0f"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Find educational material that discusses: 25.(a) Suppose f (z)= sin s.Then,by the formula for the derivative (g (z) arcsin z), we find (arcsinx)= 1 1 1 f(aresin x)cos（arcsina)1 (b) the proof is similar to that carried out in (a); (c) suppose f (x) = = tan x,g(z)= arctan z; we have (arctan z)=F′ (arctan z) 1 =cos²（arctanx) 1 1 tan²（arctanz）+1=1+x²； (d)the proof is similar to that carried out in (c).2",
+      "concept_id": "concept_8cabc696fc",
+      "expected_chunks": [
+        "chunk_eae9ceac9b"
+      ],
+      "retrieved_chunks": [
+        "chunk_eae9ceac9b",
+        "chunk_0fa5daf0ce",
+        "chunk_45e4b5e657",
+        "chunk_54a3280b0f",
+        "chunk_cb1677e5e3"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: +arctan- n∈Zforc²≤a²+b², for c²>a²+b².Since a²+b²≠0，wedividetheequation byVa²+b²andget an equation a b COS3十 sinx= c Va²+b2 Va²+b2 Va²+b， (1) equivalent to the originalequation.Thenumbers a/Va+b²and b/Va²+b²donot exceedunity in absolute value,and satisfy the identity =1.We can, therefore,put a/Va²+b²=cosΦandb/√a²+b²=sinp. Equation (1) now assumes the form co",
+      "concept_id": "concept_c179c62a83",
+      "expected_chunks": [
+        "chunk_54a3280b0f"
+      ],
+      "retrieved_chunks": [
+        "chunk_54a3280b0f",
+        "chunk_54fc20a73b",
+        "chunk_601adec61b",
+        "chunk_a69ca5ad56",
+        "chunk_eae9ceac9b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: Since sin(5x/4)≤1,cosx≤1,for equation（1)toholditisneces- sary that the equations cos x=1and sin (5x/4)=1hold simulta- neously. Thus we have a system of equations x=2πk, {5x/4=π/2+2πl， where k,l are some integers. Excluding x from the system, we arrive at anequation 4l=5k-1，orl=k+ k—1 .The last equation has an integer solution if （k-1)/4=n,nEZ.We finally get:",
+      "concept_id": "concept_7ba4c8f419",
+      "expected_chunks": [
+        "chunk_54fc20a73b"
+      ],
+      "retrieved_chunks": [
+        "chunk_54fc20a73b",
+        "chunk_ca4a01fbe0",
+        "chunk_9fb2f30b96",
+        "chunk_54a3280b0f",
+        "chunk_d15fae7de8"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 2πk+）；(2nn-；2nk+号）; (2nn+；2nk+ (b）{(2πn±3π/4;πm+(-1）mn/6)1n，mEZ};（c） {(2nn+； 2nk±arccos（))｜n,，k∈7}for a∈(-3;3]，(2nn+π/2; 2nk);(2πn-π/2;π(2k+1）1n，k∈Z}for a=-3， for a∈（-oo； 一3)U(3;∞);(d) {(2πn±arccos ；nk-arectan(a+2); 1 (2sn±arccos- a2; nk-arctana)/n, kez} 1 foraE(-∞∞; 3]U[1;∞)， {(2πn±arccos 1 ；πk-arctan(a+2)）|n,k∈z} for aE(3;—1),{(2stn ±arccos - a+2；πk-arctan",
+      "concept_id": "concept_d7abf7ae73",
+      "expected_chunks": [
+        "chunk_601adec61b"
+      ],
+      "retrieved_chunks": [
+        "chunk_601adec61b",
+        "chunk_54a3280b0f",
+        "chunk_a7e99c201e",
+        "chunk_cb49ac01b0",
+        "chunk_9d662d74b0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: (—+2sina)1ne2} interval x(0; π/2). 33. 1 for aE(0; π/6]U [5π/6;4)，{πn|n∈Z} for a∈(π/6, 5π/6).34。 πn,πn±a 1 2-cosa arccos nEZ}for αE[-1;], 2 {πn|nEZ}fora∈(;3].35.{πn±aretan Vcosec a-1|nEZ} for aE[2;π) U (2n; 8);for a[n; 2n] the_function has no critical points. Chapter3 PROBLEMSONDERIVINGEQUATIONS ANDINEQUALITIES 3.1.ProblemsonMotion 7 km/h.7.36or64km/h.8.20km",
+      "concept_id": "concept_1817489a88",
+      "expected_chunks": [
+        "chunk_48dc932f15"
+      ],
+      "retrieved_chunks": [
+        "chunk_601adec61b",
+        "chunk_39a56b95fc",
+        "chunk_45e4b5e657",
+        "chunk_a69ca5ad56",
+        "chunk_064cef1f7e"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr": 0.0,
+      "ndcg": 0.0
+    },
+    {
+      "query": "Find educational material that discusses: Setting u/v=z,u=zv and dividing the first equation by the sec- ond,we get an equation - 2Sx 4Sx13 26.a(V2+1)h.27. 10 and 5 h. 28.3 and 6 h, or (V145-1)/6h 6 2p 2n P+n cars travelled until they met,for which purpose we set up a system of equations: 16v=vgt,25v=t. Dividing the first equation by the second,we get（v/v)²=25/16 or v/v=5/4,and now it is easy to fin",
+      "concept_id": "concept_2e114c05d1",
+      "expected_chunks": [
+        "chunk_9ebd300d00"
+      ],
+      "retrieved_chunks": [
+        "chunk_9ebd300d00",
+        "chunk_d15fae7de8",
+        "chunk_0c604c1ae2",
+        "chunk_2e34e6f8fa",
+        "chunk_df6bd6c8d1"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 11.40 m,25m.12.45 metres of black fabric,36metres of green fabric and 30metres ofblue fabric.13.50m2/min.14.4.8h;4.8h or 4h; 6h.15.15h.Supposexis the time period forwhich the second valve was open，P andpare the speedsofwater flow throughthe first and the second valve respectively.Then we have a system P（x+5)+ Pgx=425,2p2=pa（x+5)，(p+Pa)17 =425. From the secon",
+      "concept_id": "concept_3e86eac151",
+      "expected_chunks": [
+        "chunk_1544116340"
+      ],
+      "retrieved_chunks": [
+        "chunk_1544116340",
+        "chunk_9ebd300d00",
+        "chunk_2e34e6f8fa",
+        "chunk_9861368f3b",
+        "chunk_48dc932f15"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: of thereservoir (S>O)，then 0.3S 0.7S S（1 7 We find the derivative of the function t(o): t'（）=- 1 49 25 0（(20-v）（90+70)² 25 E(1，10); at the pointu=25/7 the derivative changes sign（at thepoint on theleft thevalues ofthederivative arenegativeandon theright they are positive)and, therefore，at the pointv=25/7 the function t（v)has aminimum.14.6km/h.Determine wheth",
+      "concept_id": "concept_242a12523b",
+      "expected_chunks": [
+        "chunk_fef5abdebc"
+      ],
+      "retrieved_chunks": [
+        "chunk_fef5abdebc",
+        "chunk_45e4b5e657",
+        "chunk_064cef1f7e",
+        "chunk_39a56b95fc",
+        "chunk_eae9ceac9b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: -cos 12x+C. 14.(a)tan4z+C; (b) 一4cot+C; (c)tanz- 1 3 -a+C.○Use the identity 1+tan²x=1/cos²x;(d)C-cot x-z. 15.（a)x3-2x.▲F（x)=(3x²-2)dz=x²-2x+C.Wehave F(2)=23-2.2+C=4,whencewe get C=0;(b)x+sinx+ 十(1/2) sin 2x +1；(c)3sin x+ 2cosx—2;(d)2ex/2+ 1. 16.(a）arcsin²x，(b）sinxV1+x.17.（a){-4,1}.●f'(z)= n∈Z}；(d）{nπn/2±(1/4) arccos(2a-1)/3|n∈Z} for aE(—1, 2], for a &[1; 2] ",
+      "concept_id": "concept_a5c3fe89a1",
+      "expected_chunks": [
+        "chunk_0c604c1ae2"
+      ],
+      "retrieved_chunks": [
+        "chunk_ca4a01fbe0",
+        "chunk_eae9ceac9b",
+        "chunk_0c604c1ae2",
+        "chunk_d5d30b7027",
+        "chunk_9d662d74b0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 0.3333,
+      "ndcg": 0.5
+    },
+    {
+      "query": "Find educational material that discusses: Theareaof thecurvilinear trapezoidABDOcanbe foundbyintegrat- ing thefunction =evin thelimits from 0 toln2（the ordinates of the points Oand A respectively): yA 1n2 SABDO= eW dy =eln 2_1=1. 0 We finally have I=2 1n 2-1.29.π/2—1. The valueof the integralis equalto the area S of the hatched figure (see the figure). We find that area: π/2 π/2 0 X 1dy- sinydy= -1 ",
+      "concept_id": "concept_53ccc8e8ee",
+      "expected_chunks": [
+        "chunk_d15fae7de8"
+      ],
+      "retrieved_chunks": [
+        "chunk_df6bd6c8d1",
+        "chunk_d15fae7de8",
+        "chunk_132a3c169c",
+        "chunk_0c604c1ae2",
+        "chunk_45e4b5e657"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 0.5,
+      "ndcg": 0.6309
+    },
+    {
+      "query": "Find educational material that discusses: wehaveasystemofequations {vgt=vt+400, vt=vg（t+2/3）， wheretis the time during which the second skater ran a circlemore than the first.Excluding tfrom these equations，we get（u—v)vs/ /（—v）=（²uD)/（vv）=v=600.33.Sn-Sn= =an+1+an+s+.+an=an+（1-qn）/（1-q)，Ssn- S2m=an+1（1-qm）/（1-q).34.2/3.35.1029/38.Suppose geometricprogression.Indeed，sincea+iaq,tEN，it follows that inde",
+      "concept_id": "concept_7c3a9f91ef",
+      "expected_chunks": [
+        "chunk_07db2318e5"
+      ],
+      "retrieved_chunks": [
+        "chunk_07db2318e5",
+        "chunk_df6bd6c8d1",
+        "chunk_cb49ac01b0",
+        "chunk_d15fae7de8",
+        "chunk_7c214bf83b"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: Chapter 6 ELEMENTSOFVECTORALGEBRA 6.1.Linear Operations onVectors 1.(a) The vectors a and b must be mutually perpendicular;(b) the anglebetween thevectors a and b mustbe acute;(c)the anglebetween the vectors a and b must be obtuse.2.(a)π;(b) 1/10.3.xE（—1;5). Theoriginalinequality is equivalenttotheinequality|x21× X|a∣<3|a∣orx-2|<3.4.xE（-3；-1]U[1;）.Solve thes",
+      "concept_id": "concept_d4fd006138",
+      "expected_chunks": [
+        "chunk_e69925b3ba"
+      ],
+      "retrieved_chunks": [
+        "chunk_e69925b3ba",
+        "chunk_1e1ef3fb84",
+        "chunk_7c214bf83b",
+        "chunk_8ce9b5a985",
+        "chunk_df6bd6c8d1"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: (AB)II (CD).18.(1.5;1;-2).19.Show that CD=-—2AB.20. V18.21.(a)(4V2;-2;8)，(-4√2;2;-8);(b)(-24;32;30);(c) -6;8; 24).22.M (—1;0; 0).○Use the equality| MA|=|MB 1, where MA = (1 -z; 2; 3) and MB = (3 -x; 3; 2). 23.V51/3. AO=AB+（1/3)(BC+BD）.24.Yes,they are.25.d=2a- 3b+c.Represent thevectordin theform d=Aa十μb+ve and from the system ofequations 3-μ+2v=11， -2+μ+v=-6,",
+      "concept_id": "concept_e03238af32",
+      "expected_chunks": [
+        "chunk_7c214bf83b"
+      ],
+      "retrieved_chunks": [
+        "chunk_7c214bf83b",
+        "chunk_a7e99c201e",
+        "chunk_b46f4d0080",
+        "chunk_601adec61b",
+        "chunk_cb49ac01b0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: Chapter7 PLANEGEOMETRY 7.1.Problems onProvingProportions 1. ▲(1) C E [AB]. Supposing that C E [AM],we have |AC|+丨CM丨=|AM|and丨BC|=|CM丨+1MB|= = I CM 1 + I AM I. Excluding|AM|from these equalities，we find that|CM1= =AC-BCi/2.By analogy，wecan consider thecase when C∈[MB];(2)C\"[AB].Suppose CE[BD)，where D∈(AB). Then|MC|=|MB|+|BC|and 1AC|=IAMI+IMCI=|MBI+ 十|MC1.Excl",
+      "concept_id": "concept_2da67d9b7f",
+      "expected_chunks": [
+        "chunk_eefa772981"
+      ],
+      "retrieved_chunks": [
+        "chunk_eefa772981",
+        "chunk_0da247de0b",
+        "chunk_3c8e270171",
+        "chunk_5dd8b8f703",
+        "chunk_7ca73fcb0c"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: Provethat MPN=MFH，PNQ=PMQ.18.Rotationofthe triangle DBF about the point B through the angle of 90°(see the F A P C figure)carries the pointD into the point D,and the point Finto the pointFcoinciding with the pointC.Atthe same time,|DC|= =|DF1，andD∈（AB).Since丨AB|=|BD∣=|BD↓（asthe lengthsof the sidesof a square)and|AP|=|PC|(by thehypothe- sis)，it follows that[B",
+      "concept_id": "concept_4c285d869c",
+      "expected_chunks": [
+        "chunk_53fcd6112f"
+      ],
+      "retrieved_chunks": [
+        "chunk_53fcd6112f",
+        "chunk_0da247de0b",
+        "chunk_5898c39054",
+        "chunk_df6bd6c8d1",
+        "chunk_2f34ce44c3"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: A K]is a segment of the tangent drawn from the pointA to thegiven circle (K being the point of tangency)(see problem 15 in 7.1).11. Find theradii R，R，Rgof thecircles from the system ofequations 7R+R=a， R+R=b, （Rg+R=C, where a,b,c are the lengths of the sides of the given triangle.12. （a) We draw a straight line (AB) (see the figure);K =(AB) p.Using C2KC P th",
+      "concept_id": "concept_9ea36fe768",
+      "expected_chunks": [
+        "chunk_1869362b84"
+      ],
+      "retrieved_chunks": [
+        "chunk_1869362b84",
+        "chunk_5dd8b8f703",
+        "chunk_1ad5bf728a",
+        "chunk_3c8e270171",
+        "chunk_45e4b5e657"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: （x=5/4,y=7/4)defines the coordinates of the point A.Suppose c and yc are the coordinates of the point C.ThenxB=（xA+c)/2, yB=(yA+yc)/2.Wehavea systemof equations x+y=2, c+5/4 2 2 =1, solving which, we find: xc = 13/16, yc = —7V7/16. Now we have 1AC1=V(xA-xc)²+(yA-yc)² =V /513)2 =V 7 16 2 9 the length of the other is 6x.The area of the convex quadrangle， whose",
+      "concept_id": "concept_72af962d8e",
+      "expected_chunks": [
+        "chunk_5898c39054"
+      ],
+      "retrieved_chunks": [
+        "chunk_5898c39054",
+        "chunk_d15fae7de8",
+        "chunk_df6bd6c8d1",
+        "chunk_dc61b8d3e7",
+        "chunk_132a3c169c"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: 47. πV6 a3.48. 2n-3V3 27 10π+3√3· (1+sin） a 49. 7 cos cos²β 8.2.Problemson CombinationsofPolyhedra and Solids of Revolution 4V 3.For α∈o; ，α≠β there are two solu- tions: V V sin (α+β) and α=β there is one solution: V 4a3 sin²ΦX nl²cosa πsin cosa 5. 6. 2 3sin a 1+3cos²α 9 × ×1 1+2cosα .7. Jtr2 8. 3 sin4(α/2) 24 sin3α tan p.9.2arc sin (tan α), 11. 3h c(a²+b2) ",
+      "concept_id": "concept_ac82b37693",
+      "expected_chunks": [
+        "chunk_8ae27d243a"
+      ],
+      "retrieved_chunks": [
+        "chunk_8ae27d243a",
+        "chunk_deb3abc63c",
+        "chunk_601adec61b",
+        "chunk_54fc20a73b",
+        "chunk_ca4a01fbe0"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: have: r=Rcot 2， 2 V(Φ）= πR3 3 2， PE(o,=). We introduce a new variable t= tan(p/2)and differentiate the function obtained.Then wehave V (t)= 2R3 1 3(1-t)a，t∈(0,1)， 2πR32(2t²-1) V'(t)= 3 （1-2) We haveV'(1/v2)=0at the point t=1/v2,v”(t)<0 on the interval (0; 1/V/2)，and V'(t)>0 on the interval (1/v2;1)，i.e. at thepointt=1/√2the functionV（t)hasaminimum coinciding",
+      "concept_id": "concept_9db5e62be4",
+      "expected_chunks": [
+        "chunk_deb3abc63c"
+      ],
+      "retrieved_chunks": [
+        "chunk_45e4b5e657",
+        "chunk_39a56b95fc",
+        "chunk_deb3abc63c",
+        "chunk_064cef1f7e",
+        "chunk_fef5abdebc"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 0.3333,
+      "ndcg": 0.5
+    },
+    {
+      "query": "Find educational material that discusses: Let us find now the length of the generatrix of the cone (of the lateral edgeof thepyramid):l=h/sinβ.We can now find the expression fortheareaofthesection: Ssec=（sinβ） 1 h sin @= 1 k² sin² α(1+4 cot2 α) sin Φ. The magnitude of the angle in the axial section of the cone is in this case Smax= 1 k² sin²α2 cot β=2k² sin²α cot α=k² sin2a. 2 Now if 0<β≤π/4,i.e.for",
+      "concept_id": "concept_07c2cfbb0b",
+      "expected_chunks": [
+        "chunk_d287a1949a"
+      ],
+      "retrieved_chunks": [
+        "chunk_d287a1949a",
+        "chunk_5898c39054",
+        "chunk_deb3abc63c",
+        "chunk_0defbb5196",
+        "chunk_5f17073888"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: (c)18π/5;(d)2.1n;(e)8n.7.The diagonal of a square is perpen- dicular to theaxisofrevolution.Denoting thelength of theside of the square by a,and the magnitude of the angle formed by one of the sides of the square and the axisofrevolution，byα,show that the volume of the resulting solid ofrevolution is equal to πa² (sin α 十 cos α). Chapter9 MISCELLANEOUSPROBLE",
+      "concept_id": "concept_14680bba41",
+      "expected_chunks": [
+        "chunk_2f34ce44c3"
+      ],
+      "retrieved_chunks": [
+        "chunk_2f34ce44c3",
+        "chunk_5dd8b8f703",
+        "chunk_0defbb5196",
+        "chunk_d287a1949a",
+        "chunk_01470ddf46"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: strictly decreasing）.On the other hand，the function f（x)belng even， wehave f（-x)=f（x)，which fact leads to a contradiction.31.f（x)= =0.By the definition of an even function，we have f （z)=f（x)， andby the definition of an odd function,f（x)=f(x).'Conse- quently，f（-x)=-f（—x)，which is only possible for f（—x）=0， but then f（x)=f（—z)=0as well,and this means that the ",
+      "concept_id": "concept_89e09a3023",
+      "expected_chunks": [
+        "chunk_50e9fb4625"
+      ],
+      "retrieved_chunks": [
+        "chunk_50e9fb4625",
+        "chunk_43b227e11f",
+        "chunk_22bc13779a",
+        "chunk_e17098c4a6",
+        "chunk_39a56b95fc"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: Now we can calculate the limits: /1+x²-1 lim f1（x)=lim x→0 x→0 2+x² 1+x²-1 lim x→0x（x+1）（(1+x)²+1+x²+1） lim (x+1)(/（1+x)²+1+x²+1) =0， x→0 1-√1-2x limf2(z)=lim x→0 x→0 （1+x) 1—(1-2x) =lim x→0x（1+x)(1+1-2x)(1+V12z) 2 2 =lim 1 x→0(1+x)(1+/1—2x)(1+V12x) 1(1+1)(1+1) Next we find lim /(z)= lim f(z)+ lim fa(z)=0+2 1 1 x→0 x→0 30.(a)(-3;3）;(b)(0）;(c){0};（d）{0）;(e){n",
+      "concept_id": "concept_3ebd0c165a",
+      "expected_chunks": [
+        "chunk_43b227e11f"
+      ],
+      "retrieved_chunks": [
+        "chunk_43b227e11f",
+        "chunk_f7595ddc0d",
+        "chunk_50e9fb4625",
+        "chunk_39a56b95fc",
+        "chunk_e17098c4a6"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    },
+    {
+      "query": "Find educational material that discusses: is positive and cos 2<0.12.It decreases.13.[—4;(3-V21)/2] U U (1; 0).14. [—7;1) U [2;3].15. 1 function has a period 2nt and find its largest and least values on the interval [0;2n].16.M(e-4/3;-V2e-4/).Find the least value [e-1.b;oo）(lbeing thelength of the segmentof the tangent to the given curve intercepted between the point Mand the y-axis). i7.M(1;e-1),M（",
+      "concept_id": "concept_8b233812ac",
+      "expected_chunks": [
+        "chunk_22bc13779a"
+      ],
+      "retrieved_chunks": [
+        "chunk_22bc13779a",
+        "chunk_39a56b95fc",
+        "chunk_45e4b5e657",
+        "chunk_4baf86d32b",
+        "chunk_064cef1f7e"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr": 1.0,
+      "ndcg": 1.0
+    }
+  ],
+  "failed_concepts": [
+    "concept_12c35e7d73",
+    "concept_34908a523c",
+    "concept_1817489a88"
+  ],
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "embedding_backend": "fastembed",
+  "run_id": "math-prilepko-20260721-04",
+  "top_k": 5,
+  "thresholds": {
+    "recall_at_k": 0.8,
+    "precision_at_k": 0.2,
+    "mrr": 0.8,
+    "ndcg": 0.75,
+    "coverage": 0.95
+  },
+  "passed": false,
+  "approved_chunks": 71,
+  "rejected_chunks": 3
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "formula_id": "formula_d849b106df",
+    "expression": "The formula for average velocity is v = d / t, where d is displacement and t is time.",
+    "variables": [],
+    "concepts": [
+      "concept_864bdb0ca9"
+    ],
+    "source_book": "book_97d5fcbb5a",
+    "source_pages": [
+      1
+    ]
+  },
+  {
+    "formula_id": "formula_ba2728a510",
+    "expression": "The formula for average velocity is v = d / t, where d is displacement and t is time.",
+    "variables": [],
+    "concepts": [
+      "concept_fb83b3460d"
+    ],
+    "source_book": "book_97d5fcbb5a",
+    "source_pages": [
+      1
+    ]
+  },
+  {
+    "formula_id": "formula_b7961a6cd1",
+    "expression": "Acceleration is defined as the rate of change of velocity with respect to time, given by a = (v2 - v1) / t.",
+    "variables": [],
+    "concepts": [
+      "concept_fb83b3460d"
+    ],
+    "source_book": "book_97d5fcbb5a",
+    "source_pages": [
+      1
+    ]
+  },
+  {
+    "formula_id": "formula_6fff6ad539",
+    "expression": "Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.",
+    "variables": [],
+    "concepts": [
+      "concept_bda73b7033"
+    ],
+    "source_book": "book_97d5fcbb5a",
+    "source_pages": [
+      3
+    ]
+  },
+  {
+    "formula_id": "formula_caf15fb5cf",
+    "expression": "Chapter 3: Work and Energy Work is defined as the product of force and the displacement in the direction of the force, given by W = F d.",
+    "variables": [],
+    "concepts": [
+      "concept_e7d35b0eab"
+    ],
+    "source_book": "book_97d5fcbb5a",
+    "source_pages": [
+      3
+    ]
+  },
+  {
+    "formula_id": "formula_cedb955019",
+    "expression": "Kinetic energy is the energy possessed by an object due to its motion, expressed by the formula KE = 0.5 m v^2.",
+    "variables": [],
+    "concepts": [
+      "concept_e7d35b0eab"
+    ],
+    "source_book": "book_97d5fcbb5a",
+    "source_pages": [
+      3
+    ]
+  }
+]

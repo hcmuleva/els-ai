@@ -1,0 +1,495 @@
+{
+  "key": "7.3",
+  "topic": "7.3 Problems on Calculation",
+  "questions": [
+    {
+      "question": {
+        "id": "139b8e20-55f8-590f-be2f-5920290bec90",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "From an external point \\(A\\), \\(AK\\) and \\(AL\\) are tangents to a circle at \\(K\\) and \\(L\\), respectively. If \\(AK=(3x+2)\\,\\mathrm{cm}\\) and \\(AL=(5x-6)\\,\\mathrm{cm}\\), find \\(x\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Tangents drawn from the same external point are equal. Hence, \\(AK=AL\\), so \\(3x+2=5x-6\\). Therefore, \\(2x=8\\) and \\(x=4\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 126,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.3 Problems on Calculation",
+            "concept_ids": [
+              "concept_52319e8fbb",
+              "concept_d29f22e744"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              109,
+              110,
+              111,
+              112,
+              113,
+              246,
+              247,
+              248,
+              249,
+              250
+            ],
+            "source_chunk_ids": [
+              "chunk_b291c81f10",
+              "chunk_a2c34ed22c"
+            ]
+          },
+          "options": [
+            {
+              "id": "4_1",
+              "label": "\\(4\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Tangents from the same external point are equal, so \\(3x+2=5x-6\\)."
+            },
+            {
+              "id": "2_2",
+              "label": "\\(2\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Substitution gives unequal tangent lengths."
+            },
+            {
+              "id": "6_3",
+              "label": "\\(6\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This does not satisfy the equality of tangent segments."
+            },
+            {
+              "id": "8_4",
+              "label": "\\(8\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This produces unequal values for \\(AK\\) and \\(AL\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "7c98afbf-19a6-5920-8d24-f42441e726e5",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Three mutually externally tangent circles have radii \\(R_1\\), \\(R_2\\), and \\(R_3\\). Their pairwise centre distances satisfy \\(R_1+R_2=13\\,\\mathrm{cm}\\), \\(R_2+R_3=15\\,\\mathrm{cm}\\), and \\(R_3+R_1=14\\,\\mathrm{cm}\\). Find \\(\\left(R_1,R_2,R_3\\right)\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "Adding the first and third equations and subtracting the second gives \\(2R_1=13+14-15=12\\), so \\(R_1=6\\,\\mathrm{cm}\\). Then \\(R_2=13-6=7\\,\\mathrm{cm}\\) and \\(R_3=15-7=8\\,\\mathrm{cm}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 127,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Analyze",
+            "topic": "7.3 Problems on Calculation",
+            "concept_ids": [
+              "concept_52319e8fbb",
+              "concept_d29f22e744"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              109,
+              110,
+              111,
+              112,
+              113,
+              246,
+              247,
+              248,
+              249,
+              250
+            ],
+            "source_chunk_ids": [
+              "chunk_b291c81f10",
+              "chunk_a2c34ed22c"
+            ]
+          },
+          "options": [
+            {
+              "id": "left_6_7_8_right_mathrm_1",
+              "label": "\\(\\left(6,7,8\\right)\\,\\mathrm{cm}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Solving the three simultaneous equations gives \\(R_1=6\\), \\(R_2=7\\), and \\(R_3=8\\)."
+            },
+            {
+              "id": "left_7_6_8_right_mathrm_2",
+              "label": "\\(\\left(7,6,8\\right)\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These values do not satisfy \\(R_1+R_2=13\\,\\mathrm{cm}\\)."
+            },
+            {
+              "id": "left_6_8_7_right_mathrm_3",
+              "label": "\\(\\left(6,8,7\\right)\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These values do not satisfy \\(R_2+R_3=15\\,\\mathrm{cm}\\)."
+            },
+            {
+              "id": "left_8_7_6_right_mathrm_4",
+              "label": "\\(\\left(8,7,6\\right)\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "These values do not satisfy \\(R_1+R_2=13\\,\\mathrm{cm}\\)."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "4d2c84c9-d83e-5673-b143-e9d1076cf0f5",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Two circles have radii \\(7\\,\\mathrm{cm}\\) and \\(2\\,\\mathrm{cm}\\), and their centres are \\(13\\,\\mathrm{cm}\\) apart. Their common external tangent touches them at \\(P\\) and \\(Q\\). Find \\(PQ\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The radii difference and the tangent segment form a right triangle with hypotenuse equal to the centre distance. Hence, \\(PQ=\\sqrt{13^2-(7-2)^2}=\\sqrt{144}=12\\,\\mathrm{cm}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 128,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.3 Problems on Calculation",
+            "concept_ids": [
+              "concept_52319e8fbb",
+              "concept_d29f22e744"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              109,
+              110,
+              111,
+              112,
+              113,
+              246,
+              247,
+              248,
+              249,
+              250
+            ],
+            "source_chunk_ids": [
+              "chunk_b291c81f10",
+              "chunk_a2c34ed22c"
+            ]
+          },
+          "options": [
+            {
+              "id": "12_mathrm_cm_1",
+              "label": "\\(12\\,\\mathrm{cm}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "\\(PQ=\\sqrt{13^2-(7-2)^2}=12\\,\\mathrm{cm}\\)."
+            },
+            {
+              "id": "8_mathrm_cm_2",
+              "label": "\\(8\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The radius difference is used incorrectly."
+            },
+            {
+              "id": "13_mathrm_cm_3",
+              "label": "\\(13\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the distance between the centres."
+            },
+            {
+              "id": "10_mathrm_cm_4",
+              "label": "\\(10\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The right-triangle relation is evaluated incorrectly."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "c573303b-dc98-5532-ad6a-88c5ed7dee79",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "Three mutually externally tangent circles have radii \\(R_1\\), \\(R_2\\), and \\(R_3\\), with pairwise centre distances \\(9\\,\\mathrm{cm}\\), \\(11\\,\\mathrm{cm}\\), and \\(13\\,\\mathrm{cm}\\), respectively. Find the largest radius.",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "For externally tangent circles, centre distance equals the sum of their radii. Solving \\(R_1+R_2=9\\), \\(R_2+R_3=11\\), and \\(R_3+R_1=13\\) gives \\(R_1=\\frac{11}{2}\\), \\(R_2=\\frac{7}{2}\\), and \\(R_3=\\frac{13}{2}\\). Thus, the largest radius is \\(\\frac{13}{2}\\,\\mathrm{cm}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 129,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.3 Problems on Calculation",
+            "concept_ids": [
+              "concept_52319e8fbb",
+              "concept_d29f22e744"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              109,
+              110,
+              111,
+              112,
+              113,
+              246,
+              247,
+              248,
+              249,
+              250
+            ],
+            "source_chunk_ids": [
+              "chunk_b291c81f10",
+              "chunk_a2c34ed22c"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_13_2_mathrm_cm_1",
+              "label": "\\(\\frac{13}{2}\\,\\mathrm{cm}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The radii satisfy \\(R_1+R_2=9\\), \\(R_2+R_3=11\\), and \\(R_3+R_1=13\\)."
+            },
+            {
+              "id": "frac_11_2_mathrm_cm_2",
+              "label": "\\(\\frac{11}{2}\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This corresponds to the sum of two radii, not the largest radius."
+            },
+            {
+              "id": "5_mathrm_cm_3",
+              "label": "\\(5\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The simultaneous equations do not give this value."
+            },
+            {
+              "id": "frac_9_2_mathrm_cm_4",
+              "label": "\\(\\frac{9}{2}\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is half of one centre distance."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    },
+    {
+      "question": {
+        "id": "97cc9c1f-b009-5c79-959d-3041776e4b36",
+        "quiz_id": "quiz-6a352a6209b5",
+        "quiz_title": "Prilepko Mathematics Topic Question Bank",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "In a triangle, the side lengths are \\(9\\,\\mathrm{cm}\\), \\(10\\,\\mathrm{cm}\\), and \\(17\\,\\mathrm{cm}\\). Find the altitude drawn to the side of length \\(17\\,\\mathrm{cm}\\).",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The semiperimeter is \\(s=18\\,\\mathrm{cm}\\). By Heron’s formula, the area is \\(\\sqrt{18(9)(8)(1)}=36\\,\\mathrm{cm^2}\\). If \\(h\\) is the altitude to the \\(17\\,\\mathrm{cm}\\) side, then \\(36=\\frac{1}{2}(17)h\\), so \\(h=\\frac{72}{17}\\,\\mathrm{cm}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 130,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "jee_main",
+            "bloom_level": "Apply",
+            "topic": "7.3 Problems on Calculation",
+            "concept_ids": [
+              "concept_52319e8fbb",
+              "concept_d29f22e744"
+            ],
+            "source": "rag:math-prilepko-20260721-05:7.3",
+            "source_run_id": "math-prilepko-20260721-05",
+            "source_book_id": "book_f2847eeae3",
+            "source_pages": [
+              109,
+              110,
+              111,
+              112,
+              113,
+              246,
+              247,
+              248,
+              249,
+              250
+            ],
+            "source_chunk_ids": [
+              "chunk_b291c81f10",
+              "chunk_a2c34ed22c"
+            ]
+          },
+          "options": [
+            {
+              "id": "frac_72_17_mathrm_cm_1",
+              "label": "\\(\\frac{72}{17}\\,\\mathrm{cm}\\)",
+              "is_correct": true,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "Heron’s formula gives area \\(36\\,\\mathrm{cm^2}\\), so the altitude is \\(\\frac{2\\times36}{17}\\,\\mathrm{cm}\\)."
+            },
+            {
+              "id": "frac_36_17_mathrm_cm_2",
+              "label": "\\(\\frac{36}{17}\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The factor \\(2\\) in the area formula is omitted."
+            },
+            {
+              "id": "frac_17_72_mathrm_cm_3",
+              "label": "\\(\\frac{17}{72}\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The altitude and its reciprocal are confused."
+            },
+            {
+              "id": "frac_9_2_mathrm_cm_4",
+              "label": "\\(\\frac{9}{2}\\,\\mathrm{cm}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The altitude is not obtained from half the shortest side."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-22T10:13:40.843740Z",
+        "question_svg": null
+      }
+    }
+  ],
+  "requested": 5,
+  "generated": 5,
+  "context_chunks": [
+    "chunk_b291c81f10",
+    "chunk_a2c34ed22c"
+  ],
+  "source_pages": [
+    109,
+    110,
+    111,
+    112,
+    113,
+    246,
+    247,
+    248,
+    249,
+    250
+  ],
+  "rejected": []
+}

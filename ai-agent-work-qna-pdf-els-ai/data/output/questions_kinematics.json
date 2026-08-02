@@ -1,0 +1,91 @@
+{
+  "quiz_id": "quiz-d41bc82d1f",
+  "quiz_title": "Kinematics Questions",
+  "topic": "Kinematics",
+  "query": "",
+  "level_band": "intermediate",
+  "subject": "Mathematics",
+  "class_level": "Class 12",
+  "count": 1,
+  "context_used": true,
+  "questions": [
+    {
+      "question": {
+        "id": "1202654c-5d12-5df6-947c-87d65a14ae24",
+        "quiz_id": "quiz-d41bc82d1f",
+        "quiz_title": "Kinematics Questions",
+        "class_level": "Class 12",
+        "subject": "Mathematics",
+        "quiz_type": "single_choice",
+        "question_type": "single_choice",
+        "question_title": "The position of a particle moving along the \\(x\\)-axis is \\(x(t)=t^3-6t^2+9t\\) m, where \\(t\\) is in seconds. What is its average speed during the interval \\(0\\\\le t\\\\le 4\\) s?",
+        "question_instruction": "Choose one correct option.",
+        "explanation": "The velocity is \\(v=\\\\frac{dx}{dt}=3t^2-12t+9=3(t-1)(t-3)\\). The particle changes direction at \\(t=1\\\\) s and \\(t=3\\\\) s. Its positions are \\(x(0)=0\\\\) m, \\(x(1)=4\\\\) m, \\(x(3)=0\\\\) m, and \\(x(4)=4\\\\) m. Hence, total distance \\(=4+4+4=12\\\\) m. Therefore, average speed \\(=\\\\frac{12}{4}=3\\\\,\\\\text{m s}^{-1}\\).",
+        "question_audio": null,
+        "time_limit_seconds": 30,
+        "points": 10,
+        "sort_order": 1,
+        "question_data": {
+          "_meta": {
+            "subject": "Mathematics",
+            "creatorId": null,
+            "classLevel": "Class 12",
+            "organizationId": null,
+            "level_band": "intermediate",
+            "bloom_level": "Apply",
+            "topic": "Kinematics",
+            "concept_ids": [
+              "concept_864bdb0ca9",
+              "concept_fb83b3460d",
+              "concept_1694170983",
+              "concept_a49b791f66"
+            ],
+            "source": "rag:Kinematics"
+          },
+          "options": [
+            {
+              "id": "1_text_m_s_1_1",
+              "label": "\\(1\\\\,\\\\text{m s}^{-1}\\)",
+              "is_correct": false,
+              "slot_position": 1,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is the average velocity, not the average speed."
+            },
+            {
+              "id": "2_text_m_s_1_2",
+              "label": "\\(2\\\\,\\\\text{m s}^{-1}\\)",
+              "is_correct": false,
+              "slot_position": 2,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The total distance is not \\(8\\\\,\\\\text{m}\\)."
+            },
+            {
+              "id": "3_text_m_s_1_3",
+              "label": "\\(3\\\\,\\\\text{m s}^{-1}\\)",
+              "is_correct": true,
+              "slot_position": 3,
+              "svg": null,
+              "diagram": null,
+              "rationale": "The particle covers \\(12\\\\,\\\\text{m}\\) in \\(4\\\\,\\\\text{s}\\)."
+            },
+            {
+              "id": "4_text_m_s_1_4",
+              "label": "\\(4\\\\,\\\\text{m s}^{-1}\\)",
+              "is_correct": false,
+              "slot_position": 4,
+              "svg": null,
+              "diagram": null,
+              "rationale": "This is not obtained from total distance divided by total time."
+            }
+          ],
+          "variant": "single_choice",
+          "diagram": null
+        },
+        "created_at": "2026-07-21T10:36:14Z",
+        "question_svg": null
+      }
+    }
+  ]
+}

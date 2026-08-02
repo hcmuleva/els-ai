@@ -1,0 +1,26 @@
+[
+  {
+    "concept": "concept_657d98b019",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_657d98b019"
+    ]
+  },
+  {
+    "concept": "concept_b98adbe8f0",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_b98adbe8f0"
+    ]
+  },
+  {
+    "concept": "concept_8130b3391d",
+    "prerequisites": [],
+    "next_concepts": [],
+    "recommended_sequence": [
+      "concept_8130b3391d"
+    ]
+  }
+]

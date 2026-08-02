@@ -1,0 +1,3316 @@
+{
+  "passed": true,
+  "source_question_run": "questions-prilepko-20260721-03",
+  "questions_reviewed": 165,
+  "source_diagrams": 37,
+  "final_diagrams": 26,
+  "decisions": {
+    "retained": 3,
+    "rebuilt": 23,
+    "removed": 11,
+    "not_needed": 128
+  },
+  "failed_diagrams": [],
+  "questions": [
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "24175237-7203-58be-957d-3b37a1e6a77e",
+      "source_question_id": "d840e179-2d03-5b5a-9dfa-3420aeac54a4",
+      "topic": "1.1 Linear Equations and Inequalities in One Variable",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "02591835-6f73-5510-8175-527a4cb48317",
+      "source_question_id": "44de4391-913c-5d6e-9ec8-60f211c233ab",
+      "topic": "1.1 Linear Equations and Inequalities in One Variable",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "facb7f54-684c-5cb4-a986-55e7908c6ba9",
+      "source_question_id": "d03dfc91-ae6c-56f4-b65a-ada76cc9a00e",
+      "topic": "1.1 Linear Equations and Inequalities in One Variable",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "f7047c0b-25c0-5000-81e2-7f8e0c4211c7",
+      "source_question_id": "3d2b8ed3-8904-583f-9183-5faba8894a48",
+      "topic": "1.1 Linear Equations and Inequalities in One Variable",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "e08f97ce-cd1d-5b07-90c1-d7f42d3f83a5",
+      "source_question_id": "f5c78686-d2e2-5dd6-9200-56d2ba1f9c10",
+      "topic": "1.1 Linear Equations and Inequalities in One Variable",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "caee3db2-0e3d-5289-896c-5cd7bbabafd0",
+      "source_question_id": "0bc47108-752c-509d-a2df-2a51d119cf8d",
+      "topic": "1.2 Quadratic Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "9719093c-673a-5cbc-bbd8-d8f0c6d47e28",
+      "source_question_id": "0f3755bf-3e4a-5336-8698-376f40380572",
+      "topic": "1.2 Quadratic Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "772811d1-99c5-56f6-90cf-8fe407e4bb0d",
+      "source_question_id": "75e0c5c5-3abb-5947-a27d-cc109a5a64b3",
+      "topic": "1.2 Quadratic Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "29d67d83-14f8-588d-95c3-788d12b3f34f",
+      "source_question_id": "1a067690-04f6-5a1c-8289-863192d73fb8",
+      "topic": "1.2 Quadratic Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "bd690e2b-a224-5f4d-ad13-74e9392c8e5e",
+      "source_question_id": "445bac5d-697e-5d36-ab41-86576ac6858c",
+      "topic": "1.2 Quadratic Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "e9fa57d6-0dbc-5989-b572-d33963bdb7d9",
+      "source_question_id": "5a6abe34-c89d-559b-b3cd-864d712853ed",
+      "topic": "1.3 Inverse Proportionality",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "5a8875c6-5cbe-533a-90e7-825f6df68a30",
+      "source_question_id": "17d20279-9bb0-523b-ba29-b7732bddf8d5",
+      "topic": "1.3 Inverse Proportionality",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "bc6c5df9-1135-5a42-96d3-0d07e228b600",
+      "source_question_id": "247640c4-9f4c-5c61-872d-db9773bc98fa",
+      "topic": "1.3 Inverse Proportionality",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Reframed the function so both interval extrema are visible and labeled.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "5dab35f0-ebc3-5f27-9868-040f72b9307f",
+      "source_question_id": "b210a760-e36c-5635-ac4e-4b3370df416b",
+      "topic": "1.3 Inverse Proportionality",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "function-plot"
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "2fad6689-48e4-509d-93bb-742d2cff605f",
+      "source_question_id": "c52ecf37-03ce-5bc6-ae29-872bf889e597",
+      "topic": "1.3 Inverse Proportionality",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "a2568852-dd52-5971-be28-40c0d6d5a70d",
+      "source_question_id": "6b44696d-498d-518d-891a-410b6c8a2a04",
+      "topic": "1.4 Equations and Inequalities of Higher Degrees",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "The function, interval, endpoint values, and viewport match the extrema question.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "f2dd49a6-57be-562c-9ac1-6de4619daaf6",
+      "source_question_id": "80f00cb3-d55d-5b1a-9820-156bd2e2d0bb",
+      "topic": "1.4 Equations and Inequalities of Higher Degrees",
+      "decision": "retained",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "function-plot"
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "2d567397-82a0-50f8-896e-ec00707a4d64",
+      "source_question_id": "4cc35d3d-4f83-5e25-9e5b-04f6d95cc1c7",
+      "topic": "1.4 Equations and Inequalities of Higher Degrees",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "0b59dd0f-2f72-5eac-ac0c-d9bb6cb6c18a",
+      "source_question_id": "62bbb1fc-d9f2-554b-a340-613d09252028",
+      "topic": "1.4 Equations and Inequalities of Higher Degrees",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "5abf94f5-ff3d-5705-ac8b-c68a1ce9727b",
+      "source_question_id": "06b22ba4-0f0c-5317-84b1-bd7b30d2aa17",
+      "topic": "1.4 Equations and Inequalities of Higher Degrees",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "48b2ea72-6b67-5b5c-a0df-9b9d37ce54a2",
+      "source_question_id": "9967d34c-76f4-550b-8569-fae390245381",
+      "topic": "1.5 Linear Systems of Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "The constraints, feasible polygon, and optimum match the linear program.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "38caa418-cb6e-5af4-9177-18aabc9462b3",
+      "source_question_id": "cce5ddd6-c6bc-5cdd-b7fc-f6ac094966ee",
+      "topic": "1.5 Linear Systems of Equations and Inequalities",
+      "decision": "retained",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "lpp"
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "864867f3-3db2-5c71-85e0-78a911400563",
+      "source_question_id": "d0580ecf-8c82-594e-8733-b5c391bffe36",
+      "topic": "1.5 Linear Systems of Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "cbd967de-bd66-51db-8412-b6c7013928d8",
+      "source_question_id": "007cd6f6-b4c0-5178-ba7d-381325983f8d",
+      "topic": "1.5 Linear Systems of Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Removed the false optimization marker from the feasible-area diagram.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "c78fd404-4e50-59b8-a57c-e305b2d1cca1",
+      "source_question_id": "5fbeb26c-590d-57f9-85ce-ad397cbfe18b",
+      "topic": "1.5 Linear Systems of Equations and Inequalities",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "lpp"
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "352ad9cf-6df0-573d-9782-526dd546fba5",
+      "source_question_id": "ea04a739-bc1c-5c54-9a21-fe1f301ffb69",
+      "topic": "1.6 Systems of Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "Generic triangle omitted the three defining lines, axes, and parabola.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "f11fbf5d-280d-53b1-a9c2-7a8a078dc25b",
+      "source_question_id": "01a896ea-4086-548b-a7ba-175764bc0487",
+      "topic": "1.6 Systems of Equations and Inequalities",
+      "decision": "removed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "0909caa2-2214-5dda-8d0e-1615d0fb2d48",
+      "source_question_id": "3e052ede-17aa-58f9-afbf-bdf17c0cbb4e",
+      "topic": "1.6 Systems of Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "The constraints, feasible polygon, and optimum match the linear program.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "8bc31197-5fc0-5cb3-8d90-287437de7457",
+      "source_question_id": "44226efa-9a71-5cb8-93e3-216ff33533d3",
+      "topic": "1.6 Systems of Equations and Inequalities",
+      "decision": "retained",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "lpp"
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "dd68e25a-2dbd-54ec-bdf7-6c17444893ef",
+      "source_question_id": "f9e40c9b-dd12-501a-a57c-0fafedf1f0ff",
+      "topic": "1.6 Systems of Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "0511dc42-3535-5832-b084-14c916ff6d3f",
+      "source_question_id": "d369c412-6434-55a8-8a84-5caa12c5f0a5",
+      "topic": "2.1 Irrational Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "464ad648-f1f7-5ed5-8d1e-721374b40baf",
+      "source_question_id": "156c9199-7a7d-545f-afa9-cc61e9f9e09e",
+      "topic": "2.1 Irrational Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "279f334c-7cd9-5547-b73f-c94ca068197b",
+      "source_question_id": "167ed8eb-f17b-53c7-8fdc-ad4cca64a3d3",
+      "topic": "2.1 Irrational Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "8b79ea68-c4f1-56f9-9362-c84cc867ed46",
+      "source_question_id": "cb8eb77e-1823-5c76-9c65-1185844447a8",
+      "topic": "2.1 Irrational Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "98a29e45-1188-51e6-8ec8-6a2969fd4561",
+      "source_question_id": "4b2d77b3-38a2-5071-9214-71002bf38c89",
+      "topic": "2.1 Irrational Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "f5ca32ec-aed0-56ad-82fd-24e6fad94798",
+      "source_question_id": "2899a132-914b-58c8-8b53-761546464b1b",
+      "topic": "2.2 Systems of Irrational Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "65c66814-aa8b-52ab-a42d-f730a48f165c",
+      "source_question_id": "ca401db0-1992-5806-9c60-ab1746dec4cb",
+      "topic": "2.2 Systems of Irrational Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "b66d65d2-4742-5eeb-84c0-7cc29227c45e",
+      "source_question_id": "9b1783ce-d68e-507d-982b-b286368df90b",
+      "topic": "2.2 Systems of Irrational Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "446fde16-8a6c-598e-92b9-24a0df730c88",
+      "source_question_id": "9494d68f-abe4-5135-a6c0-214960e3a85b",
+      "topic": "2.2 Systems of Irrational Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "73f64712-a065-55b7-85f1-26fbbec1c32e",
+      "source_question_id": "fcf8cf8e-9f84-59d5-9413-ce2f701afb11",
+      "topic": "2.2 Systems of Irrational Equations and Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "2889649a-bbcb-5a81-901d-2098511860c1",
+      "source_question_id": "c840d44a-e2d2-5047-af55-0f9ece9faedf",
+      "topic": "2.3 An Exponential and a Logarithmic Functions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "5394a511-0f9d-53c6-84f9-759628e4d828",
+      "source_question_id": "9a91c2b4-168a-53f5-b515-1a3ce3789756",
+      "topic": "2.3 An Exponential and a Logarithmic Functions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The solved coordinate segment was decorative and disclosed derived values.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "9aeea0c0-3e86-5454-b711-d5fc7d20e0d2",
+      "source_question_id": "fad7ee71-6af8-5f34-9e74-288394557d41",
+      "topic": "2.3 An Exponential and a Logarithmic Functions",
+      "decision": "removed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "fefacbf6-3585-5ce2-bd08-8144ff9b4464",
+      "source_question_id": "c264048c-ab30-5483-8e50-526d28501840",
+      "topic": "2.3 An Exponential and a Logarithmic Functions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "eb7dbfbb-3b88-54aa-a262-a5b7ad326414",
+      "source_question_id": "6543f447-d109-578c-aa53-e198e7a2789e",
+      "topic": "2.3 An Exponential and a Logarithmic Functions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "7fc594c9-b008-5861-8a3c-923c38de2563",
+      "source_question_id": "87fb08c7-bf6c-5107-8701-de7f1785be3b",
+      "topic": "2.4 Transformation of Trigonometric Expressions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "5de04694-aa01-5e51-a1a0-af2f24f20f26",
+      "source_question_id": "049294d1-3b63-5f4c-b649-ef670b0f3291",
+      "topic": "2.4 Transformation of Trigonometric Expressions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "A generic 60-degree angle did not represent the trigonometric identity.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "037872ed-e6c0-5683-9407-20b9c868c84e",
+      "source_question_id": "afee8aec-6a57-5c57-97d3-e573c2fda337",
+      "topic": "2.4 Transformation of Trigonometric Expressions",
+      "decision": "removed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "298c05d8-82ac-513a-83cd-07b4192ab327",
+      "source_question_id": "b498bf43-5806-545b-8106-ec5e336eba44",
+      "topic": "2.4 Transformation of Trigonometric Expressions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "ffa9185a-9652-5566-a0ae-ae95be7e85ad",
+      "source_question_id": "6c2d3365-ad97-5873-8a1d-b0376d02f96a",
+      "topic": "2.4 Transformation of Trigonometric Expressions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "a7a24a63-4d5a-53c8-ae4d-9a163fefc92b",
+      "source_question_id": "2aa7da4f-5f75-5bdd-9825-27ebd9253dbb",
+      "topic": "2.5 Trigonometric Functions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "ce99c65a-286a-5d95-b874-ffa5e6d791b8",
+      "source_question_id": "50e95ccd-e1c9-59a2-af6a-561a26382c70",
+      "topic": "2.5 Trigonometric Functions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "090c9f58-99ec-5fa5-90f5-5a7816ab3c76",
+      "source_question_id": "b55776aa-e32a-5325-b55b-79d7cc4cbc95",
+      "topic": "2.5 Trigonometric Functions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "edf2d593-1bba-5741-b471-e829280387ee",
+      "source_question_id": "98aeb237-d545-5144-973c-b7abf9650655",
+      "topic": "2.5 Trigonometric Functions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "eef898b7-8b0d-5441-a7be-010a5fdb0b9a",
+      "source_question_id": "83478edc-a970-52c8-8f3e-3c80d793a974",
+      "topic": "2.5 Trigonometric Functions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "4b08a16a-96b8-5dda-962a-d740089f5184",
+      "source_question_id": "5a6f046d-cbe8-5757-a80a-8dc3a82d1c53",
+      "topic": "2.6 Inverse Trigonometric Functions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "43d50a66-409f-510c-ab11-90050ce9ef8a",
+      "source_question_id": "f053a3ce-dbef-56b8-b0f1-e9395c4ac77a",
+      "topic": "2.6 Inverse Trigonometric Functions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "966f5627-1df5-5a2b-a402-03917596a298",
+      "source_question_id": "c3844a7b-c8d4-58b6-b710-db853843518f",
+      "topic": "2.6 Inverse Trigonometric Functions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "183614a2-5625-5489-9721-5a13ec397b4e",
+      "source_question_id": "b48135c8-ebbe-5691-bb90-fc3e15392bab",
+      "topic": "2.6 Inverse Trigonometric Functions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "a0e55358-75ef-523f-b6cc-492ae2032d76",
+      "source_question_id": "1fe9143b-0872-5d26-ac6c-94f73bf8bb95",
+      "topic": "2.6 Inverse Trigonometric Functions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "7f7123f3-c19a-507f-bf7e-1990bf011d32",
+      "source_question_id": "d38441fd-924b-5ed6-85a5-497e56c08feb",
+      "topic": "2.7 Trigonometric Equations and Systems of Equations",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "f3a5ff9d-8048-5966-b242-8d06b7f54fdd",
+      "source_question_id": "11a22400-8275-563d-8c39-d4028832b026",
+      "topic": "2.7 Trigonometric Equations and Systems of Equations",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "ad8b5bfb-c83f-5799-a714-b8d9e7a977be",
+      "source_question_id": "d8178aed-5e37-5e0c-9170-796402119d61",
+      "topic": "2.7 Trigonometric Equations and Systems of Equations",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "fba3fe46-80cc-5e9d-8f95-312f939db1bc",
+      "source_question_id": "01bd216b-0139-56d3-8896-cf636bdf49b9",
+      "topic": "2.7 Trigonometric Equations and Systems of Equations",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "e760dcee-935d-5776-bfa4-0dca12a93706",
+      "source_question_id": "dbf7b7ab-f834-5b36-8a8b-fb8526f4eef6",
+      "topic": "2.7 Trigonometric Equations and Systems of Equations",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "14a39dcf-2fc8-5821-8dd2-289072f12045",
+      "source_question_id": "8666224d-6454-5646-ae5d-e1f014032bfd",
+      "topic": "2.8 Trigonometric Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "852f4a59-9c08-5a0a-b2cc-1866eacc313a",
+      "source_question_id": "95b7c539-709a-5393-a414-b6a4738b2249",
+      "topic": "2.8 Trigonometric Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "658ce3d3-d867-526b-a019-c710ee2b0508",
+      "source_question_id": "31154bb3-eb8c-53b3-a364-4c1af3c59ce8",
+      "topic": "2.8 Trigonometric Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "4377c678-0ad7-5883-baf4-dc474b42521a",
+      "source_question_id": "03aacaf5-e41b-5e7e-9bfb-7c5c683b9d26",
+      "topic": "2.8 Trigonometric Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "94215a37-77a2-58c7-b3a6-4a0a07f9c9f6",
+      "source_question_id": "ce8909c6-2ee0-57df-8127-293ab6b52c78",
+      "topic": "2.8 Trigonometric Inequalities",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Scaled the vertical axis to the actual range of sin squared.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "1fc6d1a1-9a8b-5d9f-a5c4-bb394956424d",
+      "source_question_id": "ac078f4f-3bc1-5793-9c6d-fa4e1b581b70",
+      "topic": "3.1 Problems on Motion",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "function-plot"
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "d317292d-8cfc-57df-9ac0-e7ea22078c3e",
+      "source_question_id": "e5bb42df-a580-55ac-9904-fb65baec2f4d",
+      "topic": "3.1 Problems on Motion",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "An arbitrary angle did not establish the stated half-angle inequality.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "d8cc8b4d-4c73-56b8-83b6-5ca6d0a9b2be",
+      "source_question_id": "bba9365e-378d-56f2-977b-72e4e76ce39b",
+      "topic": "3.1 Problems on Motion",
+      "decision": "removed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Scaled the vertical axis to the actual range of sin squared.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "f52949a9-cd5b-5e30-9d87-7bc1c9dff770",
+      "source_question_id": "b03622c0-3b9f-5fcd-9ba4-3b80389afb43",
+      "topic": "3.1 Problems on Motion",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "function-plot"
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "7a4ce316-d3d9-52fd-94b9-18facc3b1fd0",
+      "source_question_id": "f0199713-4a56-5991-843b-43b762b137b4",
+      "topic": "3.1 Problems on Motion",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "25251fe5-e0c4-514c-a8de-b02e2c2c003a",
+      "source_question_id": "27fcbae4-ff94-5609-8caf-2b4b1dd1c9ef",
+      "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "6182542d-56c6-5700-8469-64f5e7c15898",
+      "source_question_id": "66d63c2c-70db-5144-9682-a3b1487dff6f",
+      "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "39d217d3-8a3b-5cf5-9a02-75b7f44f92fd",
+      "source_question_id": "896c94e3-add8-56c2-9c05-db9ee9669a88",
+      "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "f0faff2e-fec7-55bd-8afa-6dc10ca2dbfa",
+      "source_question_id": "90a557ed-1a4e-5306-b7ab-fa6acd1a8ea6",
+      "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The route diagram hard-coded the unknown distance and meeting point.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "69edc47e-12bd-53c4-be37-f5f5b04a4c82",
+      "source_question_id": "89f3762e-ad9f-5bb0-8ed0-7b3bf9c076ec",
+      "topic": "3.2 Problems on Percentages, Mixtures, Alloys, and Work",
+      "decision": "removed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "8ab739e4-f106-51ec-8584-a6d83bffcc74",
+      "source_question_id": "176a09f2-4cf0-5036-b331-a1535fc544d1",
+      "topic": "3.3 Problems on Deriving Inequalities and Systems",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Expanded the viewport to include every feasible vertex and the optimum.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "d5453c94-3b80-5192-8df7-f8e1a71a0f3d",
+      "source_question_id": "134ec142-4a96-56a1-a62c-595e0777f59b",
+      "topic": "3.3 Problems on Deriving Inequalities and Systems",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "lpp"
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "4222f6db-72ad-5510-b94e-797db8e77ac7",
+      "source_question_id": "09ab95df-41c3-582b-8b51-b4d5a1ed76af",
+      "topic": "3.3 Problems on Deriving Inequalities and Systems",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "1eea7f65-e484-516b-941c-ee8ea67aa61e",
+      "source_question_id": "634a3621-b808-5c4f-9043-cb950cd06ff8",
+      "topic": "3.3 Problems on Deriving Inequalities and Systems",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "491e29ff-b659-5507-b1a5-7a8de79738af",
+      "source_question_id": "3f139045-ba62-5e3b-9212-56efc410df8b",
+      "topic": "3.3 Problems on Deriving Inequalities and Systems",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "44f1c5c8-fc31-52c3-9b3a-966e0290b06f",
+      "source_question_id": "746e5395-35f3-5b04-a068-e5be02871cd6",
+      "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "b1c962e6-dd2d-5a1f-86e1-532624c5aae6",
+      "source_question_id": "c2b2bb25-2838-5561-af3f-e11a9b8ee131",
+      "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "4987df30-bb46-5542-ae9a-77d0a8b163ad",
+      "source_question_id": "ebfebfd8-2510-5957-ba28-06a0edec1778",
+      "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "bf5c051b-5279-591c-b8ce-e33b9a8db569",
+      "source_question_id": "85905616-ef62-5827-93cc-3975f0304438",
+      "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "4e61f6e8-1c96-507f-acd4-df451a1fcc34",
+      "source_question_id": "48f78769-202f-56db-b863-8f427dc316cd",
+      "topic": "4.1 The Antiderivative and the Newton-Leibniz Formula",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "29bb914c-e98d-5afe-b1a1-65b4cb0942fa",
+      "source_question_id": "feb07c03-7462-500b-b06b-2810f01b553b",
+      "topic": "4.2 Calculating Areas of Plane Figures",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "df9ec9b7-fe23-5918-9bca-93598f511246",
+      "source_question_id": "ed9ce4ea-25a7-5f40-85bb-189f204cff3e",
+      "topic": "4.2 Calculating Areas of Plane Figures",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Rendered both parabola branches, the x=3 boundary, and the enclosed region.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "1d95b755-d9ad-5f43-8d33-cb54154d5942",
+      "source_question_id": "d3731637-876c-5fa2-8992-0070ea182780",
+      "topic": "4.2 Calculating Areas of Plane Figures",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "function-region"
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Rendered the parabola, y=4, and the region between the stated curves.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "69ec8e3b-926c-55c8-91b7-efd15b09cb76",
+      "source_question_id": "6400ec74-838c-59ae-a824-0eda7e0fbc17",
+      "topic": "4.2 Calculating Areas of Plane Figures",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "function-region"
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "66390c42-554f-5a44-acae-fdc9247c29ae",
+      "source_question_id": "a6d7c037-d657-5f52-b249-3fb7bab190f8",
+      "topic": "4.2 Calculating Areas of Plane Figures",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "9d6c84e5-a634-5445-9bb7-dd92044aafee",
+      "source_question_id": "8988be4a-14ca-58b0-a59f-0c86212f4263",
+      "topic": "5.1 Progressions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "9164fb25-d332-58bd-96db-5cb98d1ae94b",
+      "source_question_id": "4de772a9-7f74-5498-a0a5-f6a8bd463204",
+      "topic": "5.1 Progressions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "6c17e6f3-20d1-5e75-bb6f-51b3781b8c7d",
+      "source_question_id": "010e66f5-f7a5-5e7c-9c77-112ba52a211d",
+      "topic": "5.1 Progressions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "5c4c77a7-282a-550a-91b2-6d88696774b1",
+      "source_question_id": "7f2d9532-73df-549d-a219-7b691923818d",
+      "topic": "5.1 Progressions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "10400fdf-b030-5346-8997-deb1bd87b043",
+      "source_question_id": "072154e9-74fd-5e43-af9e-a8ca21c2fe13",
+      "topic": "5.1 Progressions",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "ed2d5245-086d-5baa-a1dc-a52fbc0c8fd5",
+      "source_question_id": "3cb3f690-81de-5597-87d0-5ad49b523833",
+      "topic": "5.2 Number Sequences",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "fe4e2063-cdc1-58b8-8442-40751103708a",
+      "source_question_id": "b01eda93-13df-57e1-bf4a-15ed2f93e8d8",
+      "topic": "5.2 Number Sequences",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "5d01a6a3-ec09-5561-af7e-8b512f1031f6",
+      "source_question_id": "b03589e5-8f87-5303-b306-b95f0fdc0be5",
+      "topic": "5.2 Number Sequences",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "a674fcf6-6db9-511f-9945-25a1b3422ee3",
+      "source_question_id": "6ec0a374-5644-515d-a400-2ea9581a7c94",
+      "topic": "5.2 Number Sequences",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "564d6cb5-62ea-5231-8411-a96d32ead4c5",
+      "source_question_id": "595f6fbf-d30a-5dc4-aa28-55682ffdc59f",
+      "topic": "5.2 Number Sequences",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The diagram directly depicted the derived 90-degree answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "f8206d62-a51b-59ef-b1d7-f991faf38e86",
+      "source_question_id": "9a97e036-c887-56da-bfce-7ee87de9a0e3",
+      "topic": "6.1 Linear Operations on Vectors",
+      "decision": "removed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The generic 60-degree sketch invented a special case.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "db3c93db-d4d7-5e85-9e10-875d625860e4",
+      "source_question_id": "4a837eed-a831-5255-8f0e-6fd86f0eb87d",
+      "topic": "6.1 Linear Operations on Vectors",
+      "decision": "removed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "A two-dimensional segment was invalid for the three-dimensional vector.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "c041f8a7-b697-562f-ab71-744e3a77effc",
+      "source_question_id": "0632ac38-07ac-5a6c-b24a-80007d1203ee",
+      "topic": "6.1 Linear Operations on Vectors",
+      "decision": "removed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Rendered vectors with lengths 3 and 4 and the stated 60-degree angle.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "8a94226e-04c0-5e9f-af29-4666fb88b43e",
+      "source_question_id": "e9f6a45a-c7e8-567a-a189-a42e0076b3fe",
+      "topic": "6.1 Linear Operations on Vectors",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "vector-angle"
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "995e15cd-b185-501a-a046-11ae1ed21da6",
+      "source_question_id": "7339820b-b5d8-5de3-b0e9-4b26f1d9177a",
+      "topic": "6.1 Linear Operations on Vectors",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "75a26b34-7f6d-542e-bca1-eec41d2cbd06",
+      "source_question_id": "2a987917-5b67-5666-ba3e-4821ce819008",
+      "topic": "6.2 The Scalar Product of Vectors",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "1776d3c0-11ba-5ac3-875d-e3e818a2a6bb",
+      "source_question_id": "1671bc81-e555-55fc-a866-a58916406c23",
+      "topic": "6.2 The Scalar Product of Vectors",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "66f13305-e81e-5cf9-9983-0dc1d54eb94f",
+      "source_question_id": "04e1d4b1-4e7b-5339-99c0-19a1edf22d18",
+      "topic": "6.2 The Scalar Product of Vectors",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "b4fe1824-8c8b-5af2-b8df-8a61dfded011",
+      "source_question_id": "a70ea04b-6cce-54d8-aacc-c9d54b61039e",
+      "topic": "6.2 The Scalar Product of Vectors",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "29c9fcf0-ba14-52c8-917d-d185d99302dd",
+      "source_question_id": "5d151c5f-96ff-5478-80d5-269065f37d65",
+      "topic": "6.2 The Scalar Product of Vectors",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Added the midpoint, median, and all three side lengths.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "037bf7e4-d7ad-52f1-96da-d871dd9b3d4b",
+      "source_question_id": "302accd9-3c7c-50a5-bd56-c61beb0cf4a7",
+      "topic": "7.1 Problems on Proving Propositions",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "median-triangle"
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Added D, the angle bisector, equal angle marks, and all side lengths.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "e1552af5-ef66-588e-bed3-6cea2c285b4f",
+      "source_question_id": "61890bac-d550-5f77-a37f-8e767a94a82e",
+      "topic": "7.1 Problems on Proving Propositions",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "angle-bisector"
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Rendered all five consecutive angles in the stated half-plane.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "81cbe399-ed55-59b6-8638-4464d5b63260",
+      "source_question_id": "ec1cf2ce-abf3-53e8-a0f5-285317e3842c",
+      "topic": "7.1 Problems on Proving Propositions",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "consecutive-angles"
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Added both midpoints and the midpoint segment DE.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "39af44e3-a5db-5d80-8faf-923552787439",
+      "source_question_id": "7e311c9c-3b01-571d-8e6e-0d0f25afccc8",
+      "topic": "7.1 Problems on Proving Propositions",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "midpoint-theorem"
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Added the median endpoint D and the centroid G on the median.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "81baa2b9-c734-5a2a-a4d7-f25ac5faf881",
+      "source_question_id": "53c68b38-39e1-5e8e-9889-aa3f54e563ea",
+      "topic": "7.1 Problems on Proving Propositions",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "coordinate"
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Added A, the intercepted endpoints, named rays, and midpoint relation.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "eec90084-add1-53d6-b1d7-b288680d73cd",
+      "source_question_id": "cb90d4a6-0665-56e8-828e-47de3a9323bf",
+      "topic": "7.2 Construction Problems",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "midpoint-intercept-construction"
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Added the given side labels b and c to the included-angle construction.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "cdb03ff0-08cb-5b28-a8f6-db5c4ea162a7",
+      "source_question_id": "e690fb29-ec9a-5c5f-b223-06f02bc64be8",
+      "topic": "7.2 Construction Problems",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "triangle"
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Added BC=a, BD=s, A on the construction ray, and the angle beta.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "ab08d516-d13d-5471-9dc2-2a20e0f6f293",
+      "source_question_id": "72a1d09c-b6aa-57a4-b3f3-da135dc0cb54",
+      "topic": "7.2 Construction Problems",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "sum-of-sides-construction"
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Added P, midpoint M, the auxiliary circle, and both tangents.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "b166265d-bf91-548e-acda-c927d54a9dd3",
+      "source_question_id": "881faf89-d90c-507c-a2d9-8939a5016f2e",
+      "topic": "7.2 Construction Problems",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "tangent-construction"
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Added the original and rotated triangles with C, D-prime, and the rotation.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "2558274c-d8f9-5eab-abea-4124c64d2a5f",
+      "source_question_id": "1c0cee0a-ed5a-587d-a712-7c521d7f1d81",
+      "topic": "7.2 Construction Problems",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "rotation-construction"
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Rebuilt the triangle to scale with side lengths 13, 14, and 15.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "24ec967c-89ae-5874-a512-ad808740d275",
+      "source_question_id": "f7c84041-404d-5c07-b430-905289f8dd0d",
+      "topic": "7.3 Problems on Calculation",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "triangle"
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The unlabeled generic triangle did not aid the self-contained Heron calculation.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "9c0540d4-0127-5682-b98e-bfe240252e45",
+      "source_question_id": "153b3fd0-3745-551e-98bf-23a5c30348e2",
+      "topic": "7.3 Problems on Calculation",
+      "decision": "removed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Added altitude BD, its foot, perpendicularity, and all side lengths.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "7e90845c-37c8-5c75-a299-feaec9c67504",
+      "source_question_id": "a531654c-eecd-58aa-b780-9a19b8150e5e",
+      "topic": "7.3 Problems on Calculation",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "triangle-altitude"
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Rebuilt the 13-14-15 triangle with its mathematically correct circumcircle.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "57bd8666-0cc7-5b70-80ad-1039e5052103",
+      "source_question_id": "cbefff6d-8a97-5551-9589-d1de8deb1da3",
+      "topic": "7.3 Problems on Calculation",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "triangle-circumcircle"
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Replaced the incorrect circumcircle with the correct incircle and radius.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "c5204b66-baf1-59a7-9e49-72ff026666cb",
+      "source_question_id": "71efc019-b5a7-54a1-b1f1-238efcf64b37",
+      "topic": "7.3 Problems on Calculation",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "triangle-incircle"
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "010e94dc-f47f-5d6e-b136-ee10648f451a",
+      "source_question_id": "a57f40b0-c611-5e95-8dd7-d1fcc8e502ec",
+      "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "cee1258f-3aa3-5851-90c5-4acaea23fe24",
+      "source_question_id": "7c0ba8e0-ce89-5d56-bfe8-4fc820f8c20b",
+      "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "34e0fe34-9136-538b-a6f3-550499f6e391",
+      "source_question_id": "44dec35f-ceaf-52f2-8b2f-14397a160275",
+      "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "f544767b-7338-5126-a4cc-dff557fb92ec",
+      "source_question_id": "716d4248-0529-5e8e-b3bf-9bcac981ad72",
+      "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "5277b2c8-0a00-506c-bad1-5335be545d51",
+      "source_question_id": "e09fc1eb-4d09-56ee-a7f8-1aecdc96de1f",
+      "topic": "8.1 A Straight Line, a Plane, Polyhedra, Solids of Revolution",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The circle-only sketch omitted the cylinder and oblique cutting plane.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "4205a270-a5da-5b6a-8e5c-78241b99ca59",
+      "source_question_id": "a2a65614-ee1d-57d4-ae3d-a63ea44ca4c2",
+      "topic": "8.2 Problems on Combinations of Polyhedra",
+      "decision": "removed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The generic triangle omitted the square pyramid, insphere, and section.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "2fb072fa-bd6f-5614-a454-f238636acad2",
+      "source_question_id": "af4ef7d2-ed68-50f1-af4e-2f4ddf95a625",
+      "topic": "8.2 Problems on Combinations of Polyhedra",
+      "decision": "removed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "79018a8d-4206-5e7f-bea2-cc4696d7a53c",
+      "source_question_id": "393cd6e2-8be6-5884-acb7-89b2010baeb7",
+      "topic": "8.2 Problems on Combinations of Polyhedra",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "957af250-5b7a-5f77-b05c-664819cfdd0c",
+      "source_question_id": "ae52c46b-e401-5e8b-b80c-c1d0c6f1947b",
+      "topic": "8.2 Problems on Combinations of Polyhedra",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "950efe1f-27d5-59a8-af22-973998e23ac1",
+      "source_question_id": "6b4eb3b9-df36-5aca-b3e3-5acdafb9535b",
+      "topic": "8.2 Problems on Combinations of Polyhedra",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "128c08dd-8507-588e-aac9-0ce314c239a9",
+      "source_question_id": "a797872f-5338-5736-ac7e-6ed0a66437d0",
+      "topic": "8.3 Volumes of Solids of Revolution",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "ac1af2a5-512d-5d44-a595-24d52c5f01eb",
+      "source_question_id": "c858e1e6-f816-5607-a514-e9aa4a52100d",
+      "topic": "8.3 Volumes of Solids of Revolution",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "ceebc7c7-8c82-5f4d-99f9-ead4172205c0",
+      "source_question_id": "26800439-0d98-5dbe-92e1-f74c04445181",
+      "topic": "8.3 Volumes of Solids of Revolution",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "498ca708-1602-5543-8f74-81fe52d57e69",
+      "source_question_id": "420a7d67-c4d1-55bb-9c36-6c841bb3791b",
+      "topic": "8.3 Volumes of Solids of Revolution",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "98a2a820-a4e8-5c02-9256-928be3b7a502",
+      "source_question_id": "e87c126e-4076-5001-b756-d5934a7b57cb",
+      "topic": "8.3 Volumes of Solids of Revolution",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "35d9450e-edb9-52d5-be05-2d059151cfe2",
+      "source_question_id": "b3dd226c-6992-5160-80c0-41d0b37b039d",
+      "topic": "9.1 Problems in Algebra",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "44b4ed48-4281-5233-90b6-f6324f14b200",
+      "source_question_id": "332ab147-0567-5c41-a4fa-32054442f3d3",
+      "topic": "9.1 Problems in Algebra",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "1a8f4e53-d471-5988-b0e7-95eeccf06cc7",
+      "source_question_id": "c710b1c3-3c4a-5390-9fed-5e63f9229f08",
+      "topic": "9.1 Problems in Algebra",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "bdd59448-338d-505e-ad26-683cb3f33820",
+      "source_question_id": "a0896f2b-4cda-582d-8485-cb3aab945ef2",
+      "topic": "9.1 Problems in Algebra",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "412ef19f-f89f-558c-b04f-72dafa8b7e21",
+      "source_question_id": "6976aca6-4b59-52da-9feb-05fedebff952",
+      "topic": "9.1 Problems in Algebra",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "abf5053a-f359-5e92-aff6-3e9173142af9",
+      "source_question_id": "2ce71ed7-0684-578c-b2f3-9ab9712d849d",
+      "topic": "9.2 Limit of a Function and Continuity",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "171bb657-ed6f-5d0b-b6eb-e9891cdd7b8a",
+      "source_question_id": "7815c49e-9f70-5766-bb29-e9aac9eaea64",
+      "topic": "9.2 Limit of a Function and Continuity",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "6e9967ab-1802-50c7-b424-3cbc0de6cda6",
+      "source_question_id": "3e135bc3-9ae4-52b1-9c9e-af87d26c5279",
+      "topic": "9.2 Limit of a Function and Continuity",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "37e4435a-fe24-5adc-a2cd-dbc339a0d695",
+      "source_question_id": "b9871652-2be2-5045-86a1-baf731a38544",
+      "topic": "9.2 Limit of a Function and Continuity",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "27a2d2ef-cdb6-5f2c-a4f4-c39a6cd639f9",
+      "source_question_id": "feea355d-4bb9-5b56-9744-9777b9e9f406",
+      "topic": "9.2 Limit of a Function and Continuity",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "38951751-01f2-580a-bbf4-f750648de084",
+      "source_question_id": "186e0885-5c4f-5d1a-821f-5e00c06733cf",
+      "topic": "9.3 The Derivative of a Function",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "ba848044-c152-5e54-a84c-04bfa432252e",
+      "source_question_id": "85f9624f-b901-555b-a8b3-29b8c0da95c8",
+      "topic": "9.3 The Derivative of a Function",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "d71312e7-ae24-58d1-9ab6-d58339828286",
+      "source_question_id": "03b5f8f5-2043-54bd-93a7-3457140422a0",
+      "topic": "9.3 The Derivative of a Function",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "14f65967-113b-55ca-a74e-2bfdc31f06a0",
+      "source_question_id": "9d1053d2-d61a-5d7b-bf59-627c4e668b4d",
+      "topic": "9.3 The Derivative of a Function",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "8d42f1f8-9d82-539a-878d-9752114d1d83",
+      "source_question_id": "6915a279-a1cf-50e3-ada6-7ad1db13c34e",
+      "topic": "9.3 The Derivative of a Function",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "7325092b-5eec-5783-8b0f-b5444ecb2c30",
+      "source_question_id": "b0c5ac47-9cf2-5120-afbe-51708d952a63",
+      "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "f7b2503c-5011-5630-b608-ca9b1ffc29b6",
+      "source_question_id": "c899d650-5fb0-582a-82e3-5dc31e4bd11d",
+      "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": true,
+      "rationale": "Rendered both curves and shaded only their enclosed region.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "cc751447-6afe-5187-8bc7-b8715a885d87",
+      "source_question_id": "ecc88b01-b909-5905-8d9e-fd820dfe8954",
+      "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+      "decision": "rebuilt",
+      "diagram_required_by_stem": false,
+      "diagram_useful": true,
+      "diagram_kind": "function-region"
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "48d74833-c2dd-512c-be57-77fb5a3e3c4b",
+      "source_question_id": "35f56c19-08b1-500d-95c6-d8d031285d32",
+      "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    },
+    {
+      "passed": true,
+      "expected": false,
+      "rationale": "The stem is self-contained and does not require a visual to answer.",
+      "checks": {
+        "necessity_classified": true,
+        "presence_matches_decision": true,
+        "spec_semantics": true,
+        "svg_structure": true,
+        "layout": true
+      },
+      "issues": [],
+      "question_id": "c459aa41-0c2d-5472-bf05-36c70059d10a",
+      "source_question_id": "934aa3b1-edb9-5720-bfe9-0db2f7f0d94a",
+      "topic": "9.4 Integral Calculus and Miscellaneous Problems",
+      "decision": "not_needed",
+      "diagram_required_by_stem": false,
+      "diagram_useful": false,
+      "diagram_kind": null
+    }
+  ]
+}
