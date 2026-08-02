@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: question-bank-service
-          image: harishdell/els-ai-question-bank-service:sha-c0db0f7
+          image: harishdell/els-ai-question-bank-service:sha-4788d3c
           imagePullPolicy: Always
           ports:
             - containerPort: 4008

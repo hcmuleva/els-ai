@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: media-service
-          image: harishdell/els-ai-media-service:sha-ad4a33a
+          image: harishdell/els-ai-media-service:sha-4788d3c
           imagePullPolicy: Always
           ports:
             - containerPort: 4004
