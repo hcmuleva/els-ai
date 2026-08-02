@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
-import { Animated, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Animated, Modal, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Maximize2, X } from 'lucide-react-native';
 import type { QuestionTheme } from './QuizRenderer';
 import { resolveMediaUrl } from './QuizRenderer';
 import SafeImage from './SafeImage';
@@ -24,7 +25,7 @@ const DEFAULT_BUTTONS = [
 const CARD_ASPECT       = 526 / 725;
 const SLOT_RAIL_WIDTH   = 54;
 const RAIL_GAP          = 2;
-const HEADER_HEIGHT_RATIO = 0.04;
+const HEADER_HEIGHT_RATIO = 0.08;
 
 const parseButton = (buttonId: string) => {
   const [color = 'gray', variant = 'solid'] = buttonId.toLowerCase().split('-');
@@ -51,8 +52,12 @@ type Phase = 'playing' | 'review';
 
 export default function LogicoQuestionRenderer({ questionData, onComplete, theme }: Props) {
   const { height: screenHeight, width: screenWidth } = useWindowDimensions();
+  const isDesktop = screenWidth >= 640;
   const accent = theme?.accent || '#4A90E2';
   const rawQuestionData = questionData as Record<string, unknown>;
+
+  const [isImageExpanded, setIsImageExpanded] = useState(false);
+  const [draggedHoverSlotId, setDraggedHoverSlotId] = useState<number | null>(null);
 
   const cardImage = resolveMediaUrl(
     String(
@@ -78,13 +83,17 @@ export default function LogicoQuestionRenderer({ questionData, onComplete, theme
   const [placements, setPlacements]             = useState<Record<number, string>>({});
   const [errorText, setErrorText]               = useState('');
   const [phase, setPhase]                       = useState<Phase>('playing');
-  const [rowWidth, setRowWidth]                 = useState(0);
 
-  const boardHeight   = Math.min(560, Math.max(320, screenHeight * 0.62));
-  const compact       = screenWidth < 420;
-  const slotBtnSize   = compact ? 18 : 20;
-  const trayBtnSize   = compact ? 18 : 20;
-  const availableCardW = Math.max(140, rowWidth - SLOT_RAIL_WIDTH - RAIL_GAP);
+  const maxBoardH = isDesktop
+    ? Math.max(500, screenHeight - 190)
+    : Math.min(560, Math.max(320, screenHeight * 0.62));
+  const boardHeight = maxBoardH;
+  const compact       = screenWidth < 480;
+  const slotBtnSize   = compact ? 18 : 22;
+  const trayBtnSize   = compact ? 20 : 26;
+
+  const trayWidth = isDesktop ? 70 : 0;
+  const availableCardW = Math.max(140, screenWidth - trayWidth - SLOT_RAIL_WIDTH - 60);
   const cardHeight    = Math.min(boardHeight, availableCardW / CARD_ASPECT);
   const cardWidth     = Math.max(120, cardHeight * CARD_ASPECT);
   const headerHeight  = cardHeight * HEADER_HEIGHT_RATIO;
@@ -113,6 +122,44 @@ export default function LogicoQuestionRenderer({ questionData, onComplete, theme
 
   const expectedButtonForSlot = (slotId: number) =>
     buttonIds.find((b) => Number(expectedMap[b]) === slotId) ?? null;
+
+  // ── Drag & Drop Handlers (Web) ──────────────────────────────────────────────
+  const getWebDragProps = (buttonId: string) =>
+    Platform.OS === 'web'
+      ? ({
+          draggable: true,
+          onDragStart: (e: any) => {
+            if (e?.dataTransfer) {
+              e.dataTransfer.setData('text/plain', buttonId);
+              e.dataTransfer.effectAllowed = 'move';
+            }
+            setSelectedButtonId(buttonId);
+          },
+        } as any)
+      : {};
+
+  const getWebDropProps = (slotId: number) =>
+    Platform.OS === 'web'
+      ? ({
+          onDragOver: (e: any) => {
+            if (e?.preventDefault) e.preventDefault();
+            if (e?.dataTransfer) e.dataTransfer.dropEffect = 'move';
+            setDraggedHoverSlotId(slotId);
+          },
+          onDragLeave: () => {
+            setDraggedHoverSlotId((curr) => (curr === slotId ? null : curr));
+          },
+          onDrop: (e: any) => {
+            if (e?.preventDefault) e.preventDefault();
+            setDraggedHoverSlotId(null);
+            const draggedId = e?.dataTransfer?.getData('text/plain') || selectedButtonId;
+            if (draggedId && phase === 'playing') {
+              setPlacements((prev) => ({ ...prev, [slotId]: draggedId }));
+              setSelectedButtonId(null);
+            }
+          },
+        } as any)
+      : {};
 
   // ── Slot press (playing only) ───────────────────────────────────────────────
   const onSlotPress = (slotId: number) => {
@@ -152,6 +199,40 @@ export default function LogicoQuestionRenderer({ questionData, onComplete, theme
     return '#1f2937';
   };
 
+  const renderParkingTray = (isVertical = false) => (
+    <View
+      style={[
+        isVertical ? s.parkingTrayVertical : s.parkingTray,
+        phase === 'review' && { opacity: 0.45 },
+      ]}
+    >
+      {buttonIds.map((buttonId) => {
+        const occupied = placedSet.has(buttonId);
+        const selected = selectedButtonId === buttonId;
+        return (
+          <Pressable
+            key={buttonId}
+            disabled={occupied || phase === 'review'}
+            onPress={() => setSelectedButtonId(selected ? null : buttonId)}
+            style={[
+              s.parkingItem,
+              selected && s.parkingItemSelected,
+              occupied && s.parkingItemDisabled,
+            ]}
+            {...getWebDragProps(buttonId)}
+          >
+            <LogicoButton buttonId={buttonId} size={isVertical ? 24 : trayBtnSize} />
+            {selected ? (
+              <View style={s.selectedCheckBadge}>
+                <Text style={s.selectedCheckBadgeText}>✓</Text>
+              </View>
+            ) : null}
+          </Pressable>
+        );
+      })}
+    </View>
+  );
+
   return (
     <View style={s.container}>
 
@@ -172,8 +253,16 @@ export default function LogicoQuestionRenderer({ questionData, onComplete, theme
       <View style={s.toolbar}>
         {phase === 'playing' ? (
           <>
-            <View style={s.progressPill}>
-              <Text style={s.progressTxt}>{placedCount}/10 placed</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <View style={s.progressPill}>
+                <Text style={s.progressTxt}>{placedCount}/10 placed</Text>
+              </View>
+              {cardImage ? (
+                <Pressable style={s.expandBtn} onPress={() => setIsImageExpanded(true)}>
+                  <Maximize2 size={13} color="#4F46E5" />
+                  <Text style={s.expandBtnText}>Expand Image</Text>
+                </Pressable>
+              ) : null}
             </View>
             <Pressable
               disabled={placedCount !== 10}
@@ -185,10 +274,18 @@ export default function LogicoQuestionRenderer({ questionData, onComplete, theme
           </>
         ) : (
           <>
-            <View style={[s.progressPill, { backgroundColor: correctCount === 10 ? '#DCFCE7' : '#FFF3E0' }]}>
-              <Text style={[s.progressTxt, { color: correctCount === 10 ? '#16a34a' : '#F97316' }]}>
-                {correctCount === 10 ? '✓ All correct' : `${10 - correctCount} incorrect`}
-              </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <View style={[s.progressPill, { backgroundColor: correctCount === 10 ? '#DCFCE7' : '#FFF3E0' }]}>
+                <Text style={[s.progressTxt, { color: correctCount === 10 ? '#16a34a' : '#F97316' }]}>
+                  {correctCount === 10 ? '✓ All correct' : `${10 - correctCount} incorrect`}
+                </Text>
+              </View>
+              {cardImage ? (
+                <Pressable style={s.expandBtn} onPress={() => setIsImageExpanded(true)}>
+                  <Maximize2 size={13} color="#4F46E5" />
+                  <Text style={s.expandBtnText}>Expand Image</Text>
+                </Pressable>
+              ) : null}
             </View>
             <Pressable style={[s.doneBtn, { backgroundColor: '#4CAF50' }]} onPress={handleConfirm}>
               <Text style={s.doneBtnText}>Confirm →</Text>
@@ -197,14 +294,26 @@ export default function LogicoQuestionRenderer({ questionData, onComplete, theme
         )}
       </View>
 
-      {/* ── Board ─────────────────────────────────────────────────────────── */}
-      <View style={[s.boardShell, { borderColor: `${accent}40` }]}>
-        <View style={s.cardAndRailRow} onLayout={(e) => setRowWidth(e.nativeEvent.layout.width)}>
+      {/* ── Board Shell ─────────────────────────────────────────────────── */}
+      <View style={s.boardShell}>
+        <View style={s.mainLayoutRow}>
 
-          {/* Card */}
-          <View style={s.cardWrap}>
-            <View style={[s.cardFrame, { height: cardHeight, width: cardWidth }]}>
-              {cardImage ? <SafeImage uri={cardImage} style={s.cardImage} resizeMode="contain" /> : null}
+          {/* Left: Button Tray (Desktop / Larger screens) */}
+          {isDesktop ? (
+            <View style={s.leftTrayPanel}>
+              <Text style={s.trayTitle}>Buttons</Text>
+              {renderParkingTray(true)}
+            </View>
+          ) : null}
+
+          {/* Middle: Card Image + Right: Slot Rail */}
+          <View style={s.cardAndRailWrap}>
+            {/* Card Frame */}
+            <Pressable
+              onPress={() => setIsImageExpanded(true)}
+              style={[s.cardFrame, { height: cardHeight, width: cardWidth }]}
+            >
+              {cardImage ? <SafeImage uri={cardImage} style={s.cardImage} resizeMode="stretch" /> : null}
               {/* Correct-answer overlay — shown only in review */}
               <View style={s.optionOverlayCol}>
                 <View style={[s.optionHeaderSpacer, { height: headerHeight }]} />
@@ -221,51 +330,40 @@ export default function LogicoQuestionRenderer({ questionData, onComplete, theme
                   })}
                 </View>
               </View>
-            </View>
-          </View>
+            </Pressable>
 
-          {/* Slot rail */}
-          <View style={[s.slotRail, { height: cardHeight }]}>
-            <View style={[s.railHeaderSpacer, { height: headerHeight }]} />
-            <View style={s.railRowsWrap}>
-              {Array.from({ length: 10 }, (_, i) => i + 1).map((slotId) => (
-                <Pressable key={slotId} style={s.slotCell} onPress={() => onSlotPress(slotId)}>
-                  <View style={[s.slotHole, { backgroundColor: slotHoleBg(slotId) }]}>
-                    {placements[slotId] ? <LogicoButton buttonId={placements[slotId]} size={slotBtnSize} /> : null}
-                  </View>
-                  {/* Review: small tick/cross overlay */}
-                  {phase === 'review' && slotResult[slotId] && (
-                    <View style={[s.slotBadge, { backgroundColor: slotResult[slotId] === 'correct' ? '#16a34a' : '#dc2626' }]}>
-                      <Text style={s.slotBadgeText}>{slotResult[slotId] === 'correct' ? '✓' : '✗'}</Text>
-                    </View>
-                  )}
-                </Pressable>
-              ))}
+            {/* Slot Rail */}
+            <View style={[s.slotRail, { height: cardHeight }]}>
+              <View style={[s.railHeaderSpacer, { height: headerHeight }]} />
+              <View style={s.railRowsWrap}>
+                {Array.from({ length: 10 }, (_, i) => i + 1).map((slotId) => {
+                  const isHovered = draggedHoverSlotId === slotId;
+                  return (
+                    <Pressable
+                      key={slotId}
+                      style={[s.slotCell, isHovered && s.slotCellHovered]}
+                      onPress={() => onSlotPress(slotId)}
+                      {...getWebDropProps(slotId)}
+                    >
+                      <View style={[s.slotHole, { backgroundColor: slotHoleBg(slotId) }, isHovered && s.slotHoleHovered]}>
+                        {placements[slotId] ? <LogicoButton buttonId={placements[slotId]} size={slotBtnSize} /> : null}
+                      </View>
+                      {/* Review: small tick/cross overlay */}
+                      {phase === 'review' && slotResult[slotId] && (
+                        <View style={[s.slotBadge, { backgroundColor: slotResult[slotId] === 'correct' ? '#16a34a' : '#dc2626' }]}>
+                          <Text style={s.slotBadgeText}>{slotResult[slotId] === 'correct' ? '✓' : '✗'}</Text>
+                        </View>
+                      )}
+                    </Pressable>
+                  );
+                })}
+              </View>
             </View>
           </View>
         </View>
 
-        {/* Button tray */}
-        <View style={[s.parkingTray, phase === 'review' && { opacity: 0.45 }]}>
-          {buttonIds.map((buttonId) => {
-            const occupied = placedSet.has(buttonId);
-            const selected = selectedButtonId === buttonId;
-            return (
-              <Pressable
-                key={buttonId}
-                disabled={occupied || phase === 'review'}
-                onPress={() => setSelectedButtonId(selected ? null : buttonId)}
-                style={[
-                  s.parkingItem,
-                  selected && { borderColor: accent, borderWidth: 2 },
-                  occupied && s.parkingItemDisabled,
-                ]}
-              >
-                <LogicoButton buttonId={buttonId} size={trayBtnSize} />
-              </Pressable>
-            );
-          })}
-        </View>
+        {/* Bottom Tray (Mobile / Smaller screens) */}
+        {!isDesktop ? renderParkingTray(false) : null}
       </View>
 
       {errorText ? <Text style={s.errorText}>{errorText}</Text> : null}
@@ -287,6 +385,28 @@ export default function LogicoQuestionRenderer({ questionData, onComplete, theme
           </View>
         </View>
       )}
+
+      {/* Expanded Worksheet Image Lightbox Modal */}
+      {isImageExpanded && cardImage ? (
+        <Modal
+          visible={isImageExpanded}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setIsImageExpanded(false)}
+        >
+          <View style={s.modalBackdrop}>
+            <View style={s.modalHeaderRow}>
+              <Text style={s.modalImageTitle}>Logico Worksheet Image</Text>
+              <Pressable style={s.modalCloseBtn} onPress={() => setIsImageExpanded(false)}>
+                <X size={20} color="#fff" />
+              </Pressable>
+            </View>
+            <View style={s.modalBody}>
+              <SafeImage uri={cardImage} style={s.expandedImage} resizeMode="contain" />
+            </View>
+          </View>
+        </Modal>
+      ) : null}
     </View>
   );
 }
@@ -307,22 +427,49 @@ const s = StyleSheet.create({
   // Toolbar
   toolbar: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8 },
   progressPill: {
-    flex: 1, backgroundColor: '#F0F4FF', borderRadius: 10,
+    backgroundColor: '#F0F4FF', borderRadius: 10,
     paddingHorizontal: 14, paddingVertical: 8,
   },
-  progressTxt: { fontSize: 12, fontWeight: '700', color: '#4A90E2' },
-  doneBtn:     { borderRadius: 12, paddingHorizontal: 20, paddingVertical: 9 },
-  doneBtnText: { color: '#fff', fontSize: 13, fontWeight: '900' },
-
-  // Board
-  boardShell: {
-    backgroundColor: '#fff', borderRadius: 16, borderWidth: 1.5, padding: 4, gap: 6,
+  progressTxt: { fontSize: 12, fontWeight: '800', color: '#4A90E2' },
+  doneBtn: {
+    borderRadius: 10, paddingHorizontal: 16, paddingVertical: 8,
+    alignItems: 'center', justifyContent: 'center',
   },
-  cardAndRailRow: { flexDirection: 'row', gap: RAIL_GAP },
-  cardWrap:       { flex: 1, alignItems: 'center' },
+  doneBtnText: { fontSize: 13, fontWeight: '800', color: '#fff' },
+
+  // Board Shell
+  boardShell: {
+    borderRadius: 16, borderWidth: 0, padding: 8,
+    backgroundColor: 'transparent', gap: 12,
+    alignItems: 'center', justifyContent: 'center',
+  },
+  mainLayoutRow: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    gap: 18, width: '100%',
+  },
+  leftTrayPanel: {
+    alignItems: 'center', gap: 8, paddingRight: 14,
+    borderRightWidth: 1.5, borderRightColor: '#e2e8f0',
+  },
+  trayTitle: {
+    fontSize: 11, fontWeight: '800', color: '#64748B',
+    textTransform: 'uppercase', letterSpacing: 0.5,
+  },
+  parkingTrayVertical: {
+    flexDirection: 'column', flexWrap: 'nowrap',
+    width: 44, gap: 6,
+    borderRadius: 12, backgroundColor: '#ffffff',
+    borderWidth: 1, borderColor: '#cbd5e1', paddingVertical: 8, paddingHorizontal: 6,
+    alignItems: 'center', justifyContent: 'space-around',
+  },
+  cardAndRailWrap: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    gap: 2,
+  },
+  cardWrap: { alignItems: 'center' },
   cardFrame: {
-    aspectRatio: CARD_ASPECT, maxWidth: '100%', borderRadius: 8,
-    overflow: 'hidden', borderWidth: 1.5, borderColor: '#e2e8f0', backgroundColor: '#f8fafc',
+    aspectRatio: CARD_ASPECT, borderRadius: 8,
+    overflow: 'hidden', borderWidth: 0, backgroundColor: '#ffffff',
   },
   cardImage: { ...StyleSheet.absoluteFillObject, width: '100%', height: '100%' },
   optionOverlayCol: {
@@ -330,9 +477,9 @@ const s = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   optionHeaderSpacer: {},
-  optionRowsWrap:     { flex: 1 },
+  optionRowsWrap:     { flex: 1, flexDirection: 'column', justifyContent: 'flex-start', gap: 2, paddingVertical: '1%' },
   optionRow: {
-    flex: 1, alignItems: 'center', justifyContent: 'center', gap: 2, paddingHorizontal: 2,
+    height: '9.3%', alignItems: 'center', justifyContent: 'center', gap: 2, paddingHorizontal: 2,
   },
 
   // Slot rail
@@ -341,14 +488,22 @@ const s = StyleSheet.create({
     borderWidth: 1, borderColor: '#cbd5e1', overflow: 'visible',
   },
   railHeaderSpacer: { borderBottomWidth: 1, borderBottomColor: '#e2e8f0' },
-  railRowsWrap: { flex: 1 },
+  railRowsWrap: { flex: 1, flexDirection: 'column', justifyContent: 'flex-start', gap: 2, paddingVertical: '1%' },
   slotCell: {
-    flex: 1, borderBottomWidth: 1, borderBottomColor: '#e2e8f0',
+    height: '9.3%', borderBottomWidth: 1, borderBottomColor: '#e2e8f0',
     alignItems: 'center', justifyContent: 'center',
+  },
+  slotCellHovered: {
+    backgroundColor: '#EDE4FF',
   },
   slotHole: {
     width: 24, height: 24, borderRadius: 12, borderWidth: 2,
     borderColor: '#334155', alignItems: 'center', justifyContent: 'center',
+  },
+  slotHoleHovered: {
+    borderColor: '#7B4FCA',
+    borderWidth: 3,
+    transform: [{ scale: 1.15 }],
   },
   slotBadge: {
     position: 'absolute', top: 1, right: 1,
@@ -363,13 +518,28 @@ const s = StyleSheet.create({
     backgroundColor: '#f8fafc', borderWidth: 1, borderColor: '#e2e8f0',
     paddingVertical: 5, paddingHorizontal: 4,
     alignItems: 'center', justifyContent: 'space-between',
+    width: '100%',
   },
   parkingItem: {
-    width: 24, height: 24, borderRadius: 12,
+    width: 32, height: 32, borderRadius: 16,
     alignItems: 'center', justifyContent: 'center',
-    backgroundColor: '#fff', borderColor: 'transparent',
+    backgroundColor: '#ffffff', borderWidth: 2, borderColor: '#E2E8F0',
+    cursor: 'pointer' as any,
   },
-  parkingItemDisabled: { opacity: 0 },
+  parkingItemSelected: {
+    borderColor: '#4F46E5', borderWidth: 3, backgroundColor: '#EEF2FF',
+    transform: [{ scale: 1.22 }],
+    shadowColor: '#4F46E5', shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5, shadowRadius: 6, elevation: 6, zIndex: 10,
+  },
+  parkingItemDisabled: { opacity: 0.25, cursor: 'not-allowed' as any },
+  selectedCheckBadge: {
+    position: 'absolute', top: -4, right: -4,
+    width: 14, height: 14, borderRadius: 7,
+    backgroundColor: '#4F46E5', alignItems: 'center', justifyContent: 'center',
+    borderWidth: 1, borderColor: '#FFFFFF',
+  },
+  selectedCheckBadgeText: { color: '#FFFFFF', fontSize: 8, fontWeight: '900' },
 
   // Button
   buttonOuter: { borderWidth: 2, borderColor: '#1f2937', alignItems: 'center', justifyContent: 'center' },
@@ -381,4 +551,13 @@ const s = StyleSheet.create({
   legendItem: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   legendDot: { width: 10, height: 10, borderRadius: 5 },
   legendTxt: { fontSize: 11, fontWeight: '600', color: '#6B7280' },
+
+  expandBtn: { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: '#EEF2FF', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 8, borderWidth: 1, borderColor: '#C7D2FE' },
+  expandBtnText: { fontSize: 12, fontWeight: '700', color: '#4F46E5' },
+  modalBackdrop: { flex: 1, backgroundColor: 'rgba(15, 23, 42, 0.9)', justifyContent: 'center', alignItems: 'center', padding: 20 },
+  modalHeaderRow: { width: '100%', maxWidth: 960, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 },
+  modalImageTitle: { color: '#FFFFFF', fontSize: 17, fontWeight: '800' },
+  modalCloseBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: 'rgba(255, 255, 255, 0.2)', alignItems: 'center', justifyContent: 'center' },
+  modalBody: { width: '100%', maxWidth: 960, height: '82%', alignItems: 'center', justifyContent: 'center' },
+  expandedImage: { width: '100%', height: '100%' },
 });
