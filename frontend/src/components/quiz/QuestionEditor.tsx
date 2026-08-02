@@ -39,6 +39,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Maximize2, ZoomIn, X } from 'lucide-react-native';
 import SelectorModal, { SelectorOption } from '../SelectorModal';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import SafeImage from './SafeImage';
@@ -187,6 +188,8 @@ export default function QuestionEditor({
   const [pendingOptionRemoval, setPendingOptionRemoval] = useState<OptionRemovalRequest | null>(null);
   const [assetPickerOpen, setAssetPickerOpen] = useState(false);
   const [assetPickerTarget, setAssetPickerTarget] = useState<{ pairIdx: number } | null>(null);
+  const [isLogicoImageExpanded, setIsLogicoImageExpanded] = useState(false);
+  const [showLogicoPositionNumbers, setShowLogicoPositionNumbers] = useState(true);
   const insets = useSafeAreaInsets();
 
   const actionBadgeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -875,59 +878,106 @@ export default function QuestionEditor({
                 <Text style={qFormS.secHint}>
                   Assign each Logico button to one unique option position (1-10).
                 </Text>
-                {draft.mainImage.trim() ? (
-                  <SafeImage
-                    uri={resolveMediaUrl(draft.mainImage.trim())}
-                    style={qFormS.logicoWorksheetPreview}
-                    resizeMode="contain"
-                  />
-                ) : null}
-                {hasLogicoMappingBlocker ? (
-                  <View style={qFormS.logicoBlockerBanner}>
-                    <Text style={qFormS.logicoBlockerText}>
-                      {(logicoSlotStats?.invalidCount || 0) > 0
-                        ? 'All positions must be between 1 and 10.'
-                        : `Duplicate positions found: ${duplicateLogicoSlots.join(', ')}.`}
-                    </Text>
-                  </View>
-                ) : null}
-                <View style={qFormS.logicoGrid}>
-                  {draft.options.map((option, index) => (
-                    <View key={`logico-${option.id || index}`} style={qFormS.logicoCard}>
-                      <View style={qFormS.logicoButtonCell}>
-                        <LogicoButtonBadge buttonId={option.id} />
-                        <Text style={qFormS.logicoButtonLabel}>
-                          {frameButtons.find((b) => b.id === option.id)?.label || option.id}
+
+                <View style={isDesktop ? qFormS.logicoTwoColContainer : undefined}>
+                  {/* LEFT COLUMN: Button Mapping Grid */}
+                  <View style={isDesktop ? qFormS.logicoLeftCol : undefined}>
+                    {hasLogicoMappingBlocker ? (
+                      <View style={qFormS.logicoBlockerBanner}>
+                        <Text style={qFormS.logicoBlockerText}>
+                          {(logicoSlotStats?.invalidCount || 0) > 0
+                            ? 'All positions must be between 1 and 10.'
+                            : `Duplicate positions found: ${duplicateLogicoSlots.join(', ')}.`}
                         </Text>
                       </View>
-                      <View style={qFormS.logicoSlotCell}>
-                        <Text style={qFormS.fieldLabel}>Position</Text>
-                        <TextInput
-                          value={String(option.slotPosition || '')}
-                          onChangeText={(value) => {
-                            const parsed = Number(value.replace(/[^0-9]/g, ''));
-                            updateOption(index, {
-                              slotPosition: Number.isFinite(parsed) ? parsed : 0,
-                            });
-                          }}
-                          keyboardType="numeric"
-                          placeholder="1-10"
-                          placeholderTextColor="#B0B8D0"
-                          style={qFormS.logicoSlotInput}
-                        />
-                      </View>
-                      <View style={qFormS.logicoLabelCell}>
-                        <Text style={qFormS.fieldLabel}>Option label (optional)</Text>
-                        <TextInput
-                          value={option.label}
-                          onChangeText={(value) => updateOption(index, { label: value })}
-                          placeholder="e.g. Elephant"
-                          placeholderTextColor="#B0B8D0"
-                          style={qFormS.optInput}
-                        />
+                    ) : null}
+                    <View style={qFormS.logicoGrid}>
+                      {draft.options.map((option, index) => (
+                        <View key={`logico-${option.id || index}`} style={isDesktop ? qFormS.logicoCardDesktop : qFormS.logicoCard}>
+                          <View style={qFormS.logicoButtonCell}>
+                            <LogicoButtonBadge buttonId={option.id} />
+                            <Text style={qFormS.logicoButtonLabel}>
+                              {frameButtons.find((b) => b.id === option.id)?.label || option.id}
+                            </Text>
+                          </View>
+                          <View style={qFormS.logicoSlotCell}>
+                            <Text style={qFormS.fieldLabel}>Position</Text>
+                            <TextInput
+                              value={String(option.slotPosition || '')}
+                              onChangeText={(value) => {
+                                const parsed = Number(value.replace(/[^0-9]/g, ''));
+                                updateOption(index, {
+                                  slotPosition: Number.isFinite(parsed) ? parsed : 0,
+                                });
+                              }}
+                              keyboardType="numeric"
+                              placeholder="1-10"
+                              placeholderTextColor="#B0B8D0"
+                              style={qFormS.logicoSlotInput}
+                            />
+                          </View>
+                          <View style={qFormS.logicoLabelCell}>
+                            <Text style={qFormS.fieldLabel}>Option label</Text>
+                            <TextInput
+                              value={option.label}
+                              onChangeText={(value) => updateOption(index, { label: value })}
+                              placeholder="e.g. Elephant"
+                              placeholderTextColor="#B0B8D0"
+                              style={qFormS.optInput}
+                            />
+                          </View>
+                        </View>
+                      ))}
+                    </View>
+                  </View>
+
+                  {/* RIGHT COLUMN: Worksheet Image Preview with Logico Slot Numbers & Expand */}
+                  <View style={isDesktop ? qFormS.logicoRightCol : { marginTop: 16 }}>
+                    <View style={qFormS.logicoImageCardHeader}>
+                      <Text style={qFormS.logicoImageCardTitle}>Worksheet Image</Text>
+                      <View style={qFormS.logicoHeaderActions}>
+                        <Pressable
+                          style={[
+                            qFormS.logicoToggleBtn,
+                            showLogicoPositionNumbers && qFormS.logicoToggleBtnActive,
+                          ]}
+                          onPress={() => setShowLogicoPositionNumbers((prev) => !prev)}
+                        >
+                          <Text
+                            style={[
+                              qFormS.logicoToggleBtnText,
+                              showLogicoPositionNumbers && qFormS.logicoToggleBtnTextActive,
+                            ]}
+                          >
+                            {showLogicoPositionNumbers ? 'Numbers 1-10 ✓' : 'Numbers 1-10'}
+                          </Text>
+                        </Pressable>
+                        {draft.mainImage.trim() ? (
+                          <Pressable style={qFormS.expandBtn} onPress={() => setIsLogicoImageExpanded(true)}>
+                            <Maximize2 size={13} color="#4F46E5" />
+                            <Text style={qFormS.expandBtnText}>Expand</Text>
+                          </Pressable>
+                        ) : null}
                       </View>
                     </View>
-                  ))}
+
+                    {draft.mainImage.trim() ? (
+                      <LogicoWorksheetImageOverlay
+                        imageUri={resolveMediaUrl(draft.mainImage.trim())}
+                        options={draft.options}
+                        onPress={() => setIsLogicoImageExpanded(true)}
+                        height={isDesktop ? 420 : 280}
+                        showOverlay={showLogicoPositionNumbers}
+                      />
+                    ) : (
+                      <View style={qFormS.logicoNoImageCard}>
+                        <Text style={qFormS.logicoNoImageText}>No worksheet image uploaded yet.</Text>
+                        <Pressable style={qFormS.uploadSwitchBtn} onPress={() => setTab('setup')}>
+                          <Text style={qFormS.uploadSwitchBtnText}>Upload Worksheet Image</Text>
+                        </Pressable>
+                      </View>
+                    )}
+                  </View>
                 </View>
               </>
             ) : (
@@ -1216,7 +1266,117 @@ export default function QuestionEditor({
           </View>
         </View>
       </Modal>
+
+      {/* Expanded Logico Worksheet Image Lightbox Modal */}
+      {isLogicoImageExpanded && draft.mainImage.trim() ? (
+        <Modal
+          visible={isLogicoImageExpanded}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setIsLogicoImageExpanded(false)}
+        >
+          <View style={qFormS.modalBackdrop}>
+            <View style={qFormS.modalHeaderRow}>
+              <Text style={qFormS.modalImageTitle}>
+                {draft.mainImageLabel || 'Logico Worksheet Image'}
+              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                <Pressable
+                  style={[
+                    qFormS.logicoToggleBtn,
+                    showLogicoPositionNumbers && qFormS.logicoToggleBtnActive,
+                    { backgroundColor: 'rgba(255, 255, 255, 0.25)', borderColor: 'rgba(255, 255, 255, 0.4)' },
+                  ]}
+                  onPress={() => setShowLogicoPositionNumbers((prev) => !prev)}
+                >
+                  <Text style={{ color: '#fff', fontSize: 12, fontWeight: '700' }}>
+                    {showLogicoPositionNumbers ? 'Numbers 1-10 ✓' : 'Numbers 1-10'}
+                  </Text>
+                </Pressable>
+                <Pressable style={qFormS.modalCloseBtn} onPress={() => setIsLogicoImageExpanded(false)}>
+                  <X size={20} color="#fff" />
+                </Pressable>
+              </View>
+            </View>
+            <View style={qFormS.modalImageBody}>
+              <LogicoWorksheetImageOverlay
+                imageUri={resolveMediaUrl(draft.mainImage.trim())}
+                options={draft.options}
+                height="100%"
+                showOverlay={showLogicoPositionNumbers}
+              />
+            </View>
+          </View>
+        </Modal>
+      ) : null}
     </View>
+  );
+}
+
+// ── Logico Worksheet Image Overlay Sub-component ────────────────────────────
+
+function LogicoWorksheetImageOverlay({
+  imageUri,
+  options,
+  onPress,
+  height = 420,
+  showOverlay = true,
+}: {
+  imageUri: string;
+  options: OptionDraft[];
+  onPress?: () => void;
+  height?: number | string;
+  showOverlay?: boolean;
+}) {
+  const slotMap = useMemo(() => {
+    const map = new Map<number, OptionDraft>();
+    options.forEach((opt) => {
+      const pos = Number(opt.slotPosition);
+      if (pos >= 1 && pos <= 10) {
+        map.set(pos, opt);
+      }
+    });
+    return map;
+  }, [options]);
+
+  return (
+    <Pressable
+      style={[qFormS.logicoOverlayCardWrap, { height }]}
+      onPress={onPress}
+    >
+      <SafeImage
+        uri={imageUri}
+        style={qFormS.logicoOverlayImage}
+        resizeMode="stretch"
+      />
+      {showOverlay ? (
+        <View style={qFormS.logicoOverlayRailContainer} pointerEvents="none">
+          <View style={qFormS.logicoOverlayHeaderSpacer} />
+          <View style={qFormS.logicoOverlaySlotColumn}>
+            {Array.from({ length: 10 }, (_, i) => i + 1).map((slotId) => {
+              const mappedOpt = slotMap.get(slotId);
+              return (
+                <View key={`overlay-slot-${slotId}`} style={qFormS.logicoOverlaySlotRow}>
+                  <View
+                    style={[
+                      qFormS.logicoPositionBadge,
+                      mappedOpt ? qFormS.logicoPositionBadgeMapped : qFormS.logicoPositionBadgeUnmapped,
+                    ]}
+                  >
+                    <Text style={qFormS.logicoPositionBadgeText}>{slotId}</Text>
+                  </View>
+                  {mappedOpt ? (
+                    <View style={qFormS.logicoOverlayMappedPill}>
+                      <LogicoButtonBadge buttonId={mappedOpt.id} size={16} />
+                    </View>
+                  ) : null}
+                </View>
+              );
+            })}
+          </View>
+        </View>
+      ) : null}
+    </Pressable>
   );
 }
 

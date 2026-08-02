@@ -13,7 +13,7 @@ export const logicopiccoloStyles = StyleSheet.create({
     padding: 10,
     gap: 12,
   },
-  title: {
+  title: {  
     fontSize: 24,
     fontWeight: '700',
     color: '#e6f7ea',

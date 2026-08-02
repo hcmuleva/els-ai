@@ -17,7 +17,7 @@
         "buildType": "apk"
       },
       "env": {
-        "NODE_OPTIONS": "--max-old-space-size=4096",
+        "NODE_OPTIONS": "--max-old-space-size=4096",            
         "EXPO_PUBLIC_API_BASE_URL": "https://emeelan.in/els-ai/api",
         "EXPO_PUBLIC_TTS_URL": "https://emeelan.in/els-ai/tts"
       }
