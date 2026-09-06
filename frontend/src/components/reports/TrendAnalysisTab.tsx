@@ -14,6 +14,7 @@ import {
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,
 } from 'react-native';
 import {
   TrendingUp,
@@ -235,6 +236,10 @@ function AIInsight({ text }: { text: string }) {
 export default function TrendAnalysisTab({ studentId, studentName }: Props) {
   const { apiFetch } = useAuth();
   const { analytics, quizAttempts, classroomRemarks, activeStudent } = useStudentProfile();
+  // Laptop/monitor-sized viewports pair up comparable sections side by side
+  // instead of stacking every one of the 16 sections full-width.
+  const { width: windowWidth } = useWindowDimensions();
+  const isLargeScreen = windowWidth >= 1024;
 
   const [sessions, setSessions] = useState<CounselingSession[]>([]);
   const [parentFeedback, setParentFeedback] = useState<ParentFeedbackItem[]>([]);
@@ -812,50 +817,56 @@ export default function TrendAnalysisTab({ studentId, studentName }: Props) {
         <AIInsight text={journeyInsight(M.perBucket)} />
       </Section>
 
-      {/* 3 ─ ACADEMIC PERFORMANCE TREND */}
-      {M.academicRaw.length > 0 && (
-        <Section n={3} title="Academic Performance" subtitle="Quiz scores over time" right={<GrowthChip delta={round(M.academicNow - M.academicJoin)} />}>
-          <LineChart labels={M.labels} series={[{ label: 'Academic', color: Colors.primary, points: M.academicAligned }]} yUnit="%" showValues={M.labels.length <= 12} />
-          <View style={a.statStrip}>
-            <Stat label="Joining" value={`${round(M.academicJoin)}%`} />
-            <Stat label="Current" value={`${round(M.academicNow)}%`} />
-            <Stat label="Best" value={`${round(Math.max(...M.academicRaw))}%`} />
-            <Stat label="Lowest" value={`${round(Math.min(...M.academicRaw))}%`} />
-          </View>
-          {M.subjects.length > 1 && (
-            <>
-              <Text style={a.subHead}>By type (joining → current)</Text>
-              <VBars
-                labels={M.subjects.map((s) => s.name)}
-                groups={[
-                  { color: '#C9D4E8', values: M.subjects.map((s) => s.joining) },
-                  { color: Colors.primary, values: M.subjects.map((s) => s.current) },
-                ]}
-                unit="%"
+      {/* 3 + 4 ─ ACADEMIC PERFORMANCE + NON-ACADEMIC DEVELOPMENT — paired
+          side by side on large screens, both are single-domain trend cards. */}
+      <View style={{ flexDirection: isLargeScreen ? 'row' : 'column', gap: 14 }}>
+        {M.academicRaw.length > 0 && (
+          <View style={isLargeScreen ? a.rowItem : undefined}>
+            <Section n={3} title="Academic Performance" subtitle="Quiz scores over time" right={<GrowthChip delta={round(M.academicNow - M.academicJoin)} />}>
+              <LineChart labels={M.labels} series={[{ label: 'Academic', color: Colors.primary, points: M.academicAligned }]} yUnit="%" showValues={M.labels.length <= 12} />
+              <View style={a.statStrip}>
+                <Stat label="Joining" value={`${round(M.academicJoin)}%`} />
+                <Stat label="Current" value={`${round(M.academicNow)}%`} />
+                <Stat label="Best" value={`${round(Math.max(...M.academicRaw))}%`} />
+                <Stat label="Lowest" value={`${round(Math.min(...M.academicRaw))}%`} />
+              </View>
+              {M.subjects.length > 1 && (
+                <>
+                  <Text style={a.subHead}>By type (joining → current)</Text>
+                  <VBars
+                    labels={M.subjects.map((s) => s.name)}
+                    groups={[
+                      { color: '#C9D4E8', values: M.subjects.map((s) => s.joining) },
+                      { color: Colors.primary, values: M.subjects.map((s) => s.current) },
+                    ]}
+                    unit="%"
+                  />
+                  <Legend items={[{ label: 'Joining', color: '#C9D4E8' }, { label: 'Current', color: Colors.primary }]} />
+                </>
+              )}
+              <AIInsight
+                text={`${M.subjects[0] ? `${M.subjects[0].name} moved ${M.subjects[0].joining}% → ${M.subjects[0].current}% (${M.subjects[0].growth >= 0 ? '+' : ''}${M.subjects[0].growth}%). ` : ''}Best recorded score is ${round(Math.max(...M.academicRaw))}%.`}
               />
-              <Legend items={[{ label: 'Joining', color: '#C9D4E8' }, { label: 'Current', color: Colors.primary }]} />
-            </>
-          )}
-          <AIInsight
-            text={`${M.subjects[0] ? `${M.subjects[0].name} moved ${M.subjects[0].joining}% → ${M.subjects[0].current}% (${M.subjects[0].growth >= 0 ? '+' : ''}${M.subjects[0].growth}%). ` : ''}Best recorded score is ${round(Math.max(...M.academicRaw))}%.`}
-          />
-        </Section>
-      )}
+            </Section>
+          </View>
+        )}
 
-      {/* 4 ─ NON-ACADEMIC DEVELOPMENT */}
-      {(M.behaviorRaw.length > 0 || M.confidenceRaw.length > 0) && (
-        <Section n={4} title="Non-Academic Development" subtitle="Skills: joining vs current">
-          <Radar
-            axes={['Communication', 'Discipline', 'Teamwork', 'Leadership', 'Responsibility', 'Confidence']}
-            series={[
-              { label: 'Current', color: Colors.primary, values: M.radarCurrent },
-              { label: 'Joining', color: Colors.accent, values: M.radarJoin },
-            ]}
-          />
-          <Legend items={[{ label: 'Current', color: Colors.primary }, { label: 'Joining', color: Colors.accent }]} />
-          <AIInsight text="Skills are mapped from teacher remark scores (behaviour, confidence, participation, performance). A wider blue shape than coral shows growth since joining." />
-        </Section>
-      )}
+        {(M.behaviorRaw.length > 0 || M.confidenceRaw.length > 0) && (
+          <View style={isLargeScreen ? a.rowItem : undefined}>
+            <Section n={4} title="Non-Academic Development" subtitle="Skills: joining vs current">
+              <Radar
+                axes={['Communication', 'Discipline', 'Teamwork', 'Leadership', 'Responsibility', 'Confidence']}
+                series={[
+                  { label: 'Current', color: Colors.primary, values: M.radarCurrent },
+                  { label: 'Joining', color: Colors.accent, values: M.radarJoin },
+                ]}
+              />
+              <Legend items={[{ label: 'Current', color: Colors.primary }, { label: 'Joining', color: Colors.accent }]} />
+              <AIInsight text="Skills are mapped from teacher remark scores (behaviour, confidence, participation, performance). A wider blue shape than coral shows growth since joining." />
+            </Section>
+          </View>
+        )}
+      </View>
 
       {/* 5 ─ ATTENDANCE & PARTICIPATION */}
       <Section n={5} title="Attendance & Participation" subtitle="Consistency, completion and active days">
@@ -879,64 +890,70 @@ export default function TrendAnalysisTab({ studentId, studentName }: Props) {
         <AIInsight text={`Attendance/consistency moved from ${round(M.attendanceJoin)}% to ${round(M.attendanceNow)}%. Higher consistency periods align with stronger academic scores.`} />
       </Section>
 
-      {/* 6 ─ TEACHER FEEDBACK TREND */}
-      {M.remarkCount > 0 && (
-        <Section n={6} title="Teacher Feedback" subtitle={`${M.remarkCount} remark${M.remarkCount !== 1 ? 's' : ''} analysed`} right={<GrowthChip delta={round(M.teacherNow - (M.teacherAvgRaw[0] ?? 0))} />}>
-          <Donut
-            slices={[
-              { label: 'Recognition', value: M.recognition, color: Colors.success },
-              { label: 'Positive', value: M.positive, color: Colors.primary },
-              { label: 'Improvement', value: M.improvement, color: Colors.warning },
-              { label: 'Concern', value: M.concern, color: Colors.error },
-            ].filter((s) => s.value > 0)}
-            centerValue={`${M.remarkCount}`}
-            centerLabel="remarks"
-          />
-          <Text style={a.subHead}>Sentiment trend</Text>
-          <LineChart labels={M.labels} series={[{ label: 'Teacher score', color: Colors.accent, points: M.teacherAligned }]} yUnit="%" showValues={M.labels.length <= 12} />
-          <Text style={a.subHead}>Category averages</Text>
-          <HBars
-            items={[
-              { label: 'Learning', value: M.performanceNow, color: Colors.purple },
-              { label: 'Behavior', value: M.behaviorNow, color: Colors.accent },
-              { label: 'Participation', value: M.participationNow, color: Colors.success },
-              { label: 'Communication', value: M.confidenceNow, color: Colors.primary },
-            ].filter((i) => i.value > 0)}
-          />
-          <AIInsight text={`Feedback skews ${M.recognition + M.positive >= M.improvement + M.concern ? 'positive' : 'toward improvement'}: ${M.recognition} recognition, ${M.positive} positive, ${M.improvement} improvement, ${M.concern} concern remarks.`} />
-        </Section>
-      )}
-
-      {/* 7 ─ PARENT FEEDBACK TREND */}
-      <Section n={7} title="Parent Feedback" subtitle={`${M.feedback.length} submission${M.feedback.length !== 1 ? 's' : ''}`}>
-        {M.feedback.length === 0 ? (
-          <Text style={a.emptyInline}>No parent feedback in this range. Parents can add observations from the Feedback tab.</Text>
-        ) : (
-          <>
-            <Donut
-              slices={[
-                { label: 'Positive', value: M.pPos, color: Colors.success },
-                { label: 'Neutral', value: M.pNeu, color: Colors.textMuted },
-                { label: 'Concern', value: M.pCon, color: Colors.error },
-              ].filter((s) => s.value > 0)}
-              centerValue={`${M.feedback.length}`}
-              centerLabel="notes"
-            />
-            <View style={{ gap: 8 }}>
-              {M.feedback.slice(-4).reverse().map((f) => (
-                <View key={f.id} style={a.fbItem}>
-                  <View style={[a.fbDot, { backgroundColor: textSentiment(f.feedback) === 'positive' ? Colors.success : textSentiment(f.feedback) === 'concern' ? Colors.error : Colors.textMuted }]} />
-                  <View style={{ flex: 1 }}>
-                    <Text style={a.fbText} numberOfLines={2}>{f.feedback}</Text>
-                    <Text style={a.fbDate}>{fmtDate(new Date(f.createdAt))}</Text>
-                  </View>
-                </View>
-              ))}
-            </View>
-            <AIInsight text={`Parent observations are ${M.pPos >= M.pCon ? 'mostly positive' : 'flagging some concerns'} (${M.pPos} positive, ${M.pCon} concern).`} />
-          </>
+      {/* 6 + 7 ─ TEACHER FEEDBACK + PARENT FEEDBACK — paired side by side
+          on large screens, both are "feedback source" cards. */}
+      <View style={{ flexDirection: isLargeScreen ? 'row' : 'column', gap: 14 }}>
+        {M.remarkCount > 0 && (
+          <View style={isLargeScreen ? a.rowItem : undefined}>
+            <Section n={6} title="Teacher Feedback" subtitle={`${M.remarkCount} remark${M.remarkCount !== 1 ? 's' : ''} analysed`} right={<GrowthChip delta={round(M.teacherNow - (M.teacherAvgRaw[0] ?? 0))} />}>
+              <Donut
+                slices={[
+                  { label: 'Recognition', value: M.recognition, color: Colors.success },
+                  { label: 'Positive', value: M.positive, color: Colors.primary },
+                  { label: 'Improvement', value: M.improvement, color: Colors.warning },
+                  { label: 'Concern', value: M.concern, color: Colors.error },
+                ].filter((s) => s.value > 0)}
+                centerValue={`${M.remarkCount}`}
+                centerLabel="remarks"
+              />
+              <Text style={a.subHead}>Sentiment trend</Text>
+              <LineChart labels={M.labels} series={[{ label: 'Teacher score', color: Colors.accent, points: M.teacherAligned }]} yUnit="%" showValues={M.labels.length <= 12} />
+              <Text style={a.subHead}>Category averages</Text>
+              <HBars
+                items={[
+                  { label: 'Learning', value: M.performanceNow, color: Colors.purple },
+                  { label: 'Behavior', value: M.behaviorNow, color: Colors.accent },
+                  { label: 'Participation', value: M.participationNow, color: Colors.success },
+                  { label: 'Communication', value: M.confidenceNow, color: Colors.primary },
+                ].filter((i) => i.value > 0)}
+              />
+              <AIInsight text={`Feedback skews ${M.recognition + M.positive >= M.improvement + M.concern ? 'positive' : 'toward improvement'}: ${M.recognition} recognition, ${M.positive} positive, ${M.improvement} improvement, ${M.concern} concern remarks.`} />
+            </Section>
+          </View>
         )}
-      </Section>
+
+        <View style={isLargeScreen ? a.rowItem : undefined}>
+          <Section n={7} title="Parent Feedback" subtitle={`${M.feedback.length} submission${M.feedback.length !== 1 ? 's' : ''}`}>
+            {M.feedback.length === 0 ? (
+              <Text style={a.emptyInline}>No parent feedback in this range. Parents can add observations from the Feedback tab.</Text>
+            ) : (
+              <>
+                <Donut
+                  slices={[
+                    { label: 'Positive', value: M.pPos, color: Colors.success },
+                    { label: 'Neutral', value: M.pNeu, color: Colors.textMuted },
+                    { label: 'Concern', value: M.pCon, color: Colors.error },
+                  ].filter((s) => s.value > 0)}
+                  centerValue={`${M.feedback.length}`}
+                  centerLabel="notes"
+                />
+                <View style={{ gap: 8 }}>
+                  {M.feedback.slice(-4).reverse().map((f) => (
+                    <View key={f.id} style={a.fbItem}>
+                      <View style={[a.fbDot, { backgroundColor: textSentiment(f.feedback) === 'positive' ? Colors.success : textSentiment(f.feedback) === 'concern' ? Colors.error : Colors.textMuted }]} />
+                      <View style={{ flex: 1 }}>
+                        <Text style={a.fbText} numberOfLines={2}>{f.feedback}</Text>
+                        <Text style={a.fbDate}>{fmtDate(new Date(f.createdAt))}</Text>
+                      </View>
+                    </View>
+                  ))}
+                </View>
+                <AIInsight text={`Parent observations are ${M.pPos >= M.pCon ? 'mostly positive' : 'flagging some concerns'} (${M.pPos} positive, ${M.pCon} concern).`} />
+              </>
+            )}
+          </Section>
+        </View>
+      </View>
 
       {/* 8 ─ COUNSELING IMPACT */}
       <Section n={8} title="Counseling Impact" subtitle={`${M.sessionCount} session${M.sessionCount !== 1 ? 's' : ''} · ${M.reportedSessions} report${M.reportedSessions !== 1 ? 's' : ''}`}>
@@ -972,65 +989,77 @@ export default function TrendAnalysisTab({ studentId, studentName }: Props) {
         </View>
       </View>
 
-      {/* 11 ─ RISK PREDICTION */}
-      <Section n={11} title="Risk Prediction" subtitle="Early-warning indicators" right={<RiskPill level={M.overallRisk} />}>
-        {M.risks.map((r) => (
-          <RiskRow key={r.label} label={r.label} level={r.level} />
-        ))}
-        <AIInsight text={`Overall risk is ${M.overallRisk}. ${M.risks.filter((r) => r.level !== 'Low').map((r) => r.label).join(', ') || 'All indicators are healthy'}${M.risks.some((r) => r.level !== 'Low') ? ' need monitoring.' : '.'}`} />
-      </Section>
+      {/* 11 + 12 ─ RISK PREDICTION + BENCHMARK COMPARISON — paired side by
+          side on large screens, both are compact assessment cards. */}
+      <View style={{ flexDirection: isLargeScreen ? 'row' : 'column', gap: 14 }}>
+        <View style={isLargeScreen ? a.rowItem : undefined}>
+          <Section n={11} title="Risk Prediction" subtitle="Early-warning indicators" right={<RiskPill level={M.overallRisk} />}>
+            {M.risks.map((r) => (
+              <RiskRow key={r.label} label={r.label} level={r.level} />
+            ))}
+            <AIInsight text={`Overall risk is ${M.overallRisk}. ${M.risks.filter((r) => r.level !== 'Low').map((r) => r.label).join(', ') || 'All indicators are healthy'}${M.risks.some((r) => r.level !== 'Low') ? ' need monitoring.' : '.'}`} />
+          </Section>
+        </View>
 
-      {/* 12 ─ BENCHMARK COMPARISON (personal benchmarks) */}
-      <Section n={12} title="Benchmark Comparison" subtitle="Current vs personal average vs best">
-        <VBars
-          labels={['Academic', 'Attendance', 'Behavior', 'Particip.']}
-          groups={[
-            { color: Colors.primary, values: [M.academicNow, M.attendanceNow, M.behaviorNow, M.participationNow] },
-            { color: '#C9D4E8', values: [avg(M.academicRaw), avg(M.consistencyRaw), avg(M.behaviorRaw), avg(M.participationRaw)] },
-            { color: Colors.success, values: [maxOr0(M.academicRaw), maxOr0(M.consistencyRaw), maxOr0(M.behaviorRaw), maxOr0(M.participationRaw)] },
-          ]}
-          unit="%"
-        />
-        <Legend items={[{ label: 'Current', color: Colors.primary }, { label: 'Average', color: '#C9D4E8' }, { label: 'Best', color: Colors.success }]} />
-        <AIInsight text="Compared against the student's own history (peer/class averages can be added once available from the school dataset)." />
-      </Section>
+        <View style={isLargeScreen ? a.rowItem : undefined}>
+          <Section n={12} title="Benchmark Comparison" subtitle="Current vs personal average vs best">
+            <VBars
+              labels={['Academic', 'Attendance', 'Behavior', 'Particip.']}
+              groups={[
+                { color: Colors.primary, values: [M.academicNow, M.attendanceNow, M.behaviorNow, M.participationNow] },
+                { color: '#C9D4E8', values: [avg(M.academicRaw), avg(M.consistencyRaw), avg(M.behaviorRaw), avg(M.participationRaw)] },
+                { color: Colors.success, values: [maxOr0(M.academicRaw), maxOr0(M.consistencyRaw), maxOr0(M.behaviorRaw), maxOr0(M.participationRaw)] },
+              ]}
+              unit="%"
+            />
+            <Legend items={[{ label: 'Current', color: Colors.primary }, { label: 'Average', color: '#C9D4E8' }, { label: 'Best', color: Colors.success }]} />
+            <AIInsight text="Compared against the student's own history (peer/class averages can be added once available from the school dataset)." />
+          </Section>
+        </View>
+      </View>
 
-      {/* 13 ─ GROWTH MILESTONES */}
-      {M.milestones.length > 0 && (
-        <Section n={13} title="Growth Milestones" subtitle="Achievements and key moments">
-          <Timeline items={M.milestones.slice(0, 8)} />
-        </Section>
-      )}
-
-      {/* 14 ─ FUTURE PROJECTION */}
-      {M.academicAligned.filter((v) => v != null).length >= 2 && (
-        <Section n={14} title="Future Projection" subtitle="Forecast for next period">
-          <LineChart
-            labels={[...M.labels, 'Next']}
-            series={[
-              { label: 'Academic', color: Colors.primary, points: [...M.academicAligned, null] },
-              { label: 'Forecast', color: Colors.primary, dashed: true, points: forecastSeries(M.academicAligned, M.forecast.academic) },
-            ]}
-            yUnit="%"
-          />
-          <View style={a.metricGrid}>
-            {[
-              { label: 'Academic', v: M.forecast.academic },
-              { label: 'Attendance', v: M.forecast.attendance },
-              { label: 'Behavior', v: M.forecast.behavior },
-              { label: 'Overall', v: M.forecast.overall },
-            ]
-              .filter((f) => f.v != null)
-              .map((f) => (
-                <View key={f.label} style={a.metricCell}>
-                  <Text style={a.metricVal}>{round(f.v as number)}%</Text>
-                  <Text style={a.metricLbl}>{f.label}</Text>
-                </View>
-              ))}
+      {/* 13 + 14 ─ GROWTH MILESTONES + FUTURE PROJECTION — paired side by
+          side on large screens, both are compact single-domain cards. */}
+      <View style={{ flexDirection: isLargeScreen ? 'row' : 'column', gap: 14 }}>
+        {M.milestones.length > 0 && (
+          <View style={isLargeScreen ? a.rowItem : undefined}>
+            <Section n={13} title="Growth Milestones" subtitle="Achievements and key moments">
+              <Timeline items={M.milestones.slice(0, 8)} />
+            </Section>
           </View>
-          <AIInsight text={`Based on the current trajectory, projected academic performance next ${GRAN_UNIT[gran]} is about ${M.forecast.academic != null ? round(M.forecast.academic) : '—'}%.`} />
-        </Section>
-      )}
+        )}
+
+        {M.academicAligned.filter((v) => v != null).length >= 2 && (
+          <View style={isLargeScreen ? a.rowItem : undefined}>
+            <Section n={14} title="Future Projection" subtitle="Forecast for next period">
+              <LineChart
+                labels={[...M.labels, 'Next']}
+                series={[
+                  { label: 'Academic', color: Colors.primary, points: [...M.academicAligned, null] },
+                  { label: 'Forecast', color: Colors.primary, dashed: true, points: forecastSeries(M.academicAligned, M.forecast.academic) },
+                ]}
+                yUnit="%"
+              />
+              <View style={a.metricGrid}>
+                {[
+                  { label: 'Academic', v: M.forecast.academic },
+                  { label: 'Attendance', v: M.forecast.attendance },
+                  { label: 'Behavior', v: M.forecast.behavior },
+                  { label: 'Overall', v: M.forecast.overall },
+                ]
+                  .filter((f) => f.v != null)
+                  .map((f) => (
+                    <View key={f.label} style={a.metricCell}>
+                      <Text style={a.metricVal}>{round(f.v as number)}%</Text>
+                      <Text style={a.metricLbl}>{f.label}</Text>
+                    </View>
+                  ))}
+              </View>
+              <AIInsight text={`Based on the current trajectory, projected academic performance next ${GRAN_UNIT[gran]} is about ${M.forecast.academic != null ? round(M.forecast.academic) : '—'}%.`} />
+            </Section>
+          </View>
+        )}
+      </View>
 
       {/* 15 ─ RECOMMENDATIONS */}
       <Section n={15} title="Personalized Recommendations" subtitle="Action items for everyone">
@@ -1206,6 +1235,9 @@ const a = StyleSheet.create({
 
   // split
   splitRow: { flexDirection: 'row', gap: 10 },
+  // Applied to a Section's wrapper when two sections sit in a large-screen
+  // row (see isLargeScreen usages above) so each takes an equal share.
+  rowItem: { flex: 1, minWidth: 0 },
   splitCard: { flex: 1, gap: 8 },
   splitHeader: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   splitTitle: { fontSize: 14, fontWeight: '900', color: Colors.text },

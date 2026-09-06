@@ -87,4 +87,18 @@ Reused the codebase's existing `useWindowDimensions()` + `width >= N` breakpoint
 
 Verified via `tsc --noEmit` (steady at the 59-error baseline, zero new/resolved) and live `agent-browser` checks at 1600×950 (large) and 390×844 (mobile) for all three screens — row layout activates correctly on large screens, mobile stacking is unaffected.
 
-Not yet covered (candidates for a follow-up if the user wants a broader pass): any other dashboard-style screen not explicitly called out (e.g. `manage.tsx`'s content/question list views), and non-layout "professional styling" polish (typography, spacing, shadows) beyond column/row restructuring.
+**Follow-up survey** (user confirmed "similarly other also" applies — check other dashboard-style screens for the same issue): checked `admin.tsx` (only a `logoGrid` picker + tab-based CRUD tables, no stat-dashboard stacking issue), `manage.tsx` (only option pills, not dashboard cards), `counseling.tsx` (single summary card, not multi-section), `index.tsx` (student home's `tilesGrid` subject tiles — already a multi-column grid, not a candidate). Found one more genuine case:
+
+- **`TrendAnalysisTab`** ("Growth Trends" tab within Reports, `src/components/reports/TrendAnalysisTab.tsx`) — a 16-section holistic student analytics report that stacked every section full-width, single-column, regardless of viewport. Added the same `useWindowDimensions()` + `isLargeScreen = width >= 1024` pattern and paired 4 more section-groups into responsive rows (new `a.rowItem` style, `flex: 1, minWidth: 0`, only applied above 1024px):
+  - Academic Performance (3) + Non-Academic Development (4)
+  - Teacher Feedback (6) + Parent Feedback (7)
+  - Risk Prediction (11) + Benchmark Comparison (12)
+  - Growth Milestones (13) + Future Projection (14)
+
+  Left untouched: Growth Summary (1, hero card), Journey Timeline (2, wide table), Attendance & Participation (5, dense strip), Counseling Impact (8), Strengths/Focus Areas (9+10, already had a pre-existing unconditional `splitRow` side-by-side layout), Personalized Recommendations (15), Executive Summary (16).
+
+  Verified via `tsc --noEmit` (59, 0 new/resolved) and live `agent-browser` checks at 1600×950 and 390×844 using a seeded demo account with real data (`rahul@els.ai`, the multi-child demo student) — 3 of the 4 pairs were visually/DOM-position confirmed side-by-side on desktop and single-column on mobile; the 4th pair's second section ("Future Projection") didn't render for this student (pre-existing data-sufficiency guard, `academicAligned` needs ≥2 points — unrelated to this change) but uses the identical wrapper pattern as the other 3 confirmed pairs.
+
+  Incidentally reproduced the known intermittent `NotificationContext.tsx`/Ably "Connection closed" crash (see §7) once during this verification pass — confirms it's a real, reproducible issue, still not investigated/fixed.
+
+Not yet covered (candidates for a follow-up if the user wants a broader pass): non-layout "professional styling" polish (typography, spacing, shadows) beyond column/row restructuring.
