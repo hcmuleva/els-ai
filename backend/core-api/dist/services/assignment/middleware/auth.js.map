@@ -1,0 +1,1 @@
+{"version":3,"file":"auth.js","sourceRoot":"","sources":["../../../../src/services/assignment/middleware/auth.ts"],"names":[],"mappings":"AAAA,OAAO,EAEL,iBAAiB,EACjB,WAAW,IAAI,iBAAiB,GACjC,MAAM,uBAAuB,CAAC;AAG/B,MAAM,CAAC,MAAM,WAAW,GAAG,iBAAiB,EAAE,CAAC;AAC/C,MAAM,CAAC,MAAM,WAAW,GAAG,iBAAiB,CAAC"}

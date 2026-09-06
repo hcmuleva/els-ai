@@ -1,0 +1,17 @@
+/home/dhruv/work-dhruv/hph/els-ai/els-ai/frontend/node_modules/typescript/lib/_tsc.js:122142
+      throw e;
+      ^
+
+RangeError: Maximum call stack size exceeded
+    at resolveNameHelper (/home/dhruv/work-dhruv/hph/els-ai/els-ai/frontend/node_modules/typescript/lib/_tsc.js:19432:29)
+    at getResolvedSymbol (/home/dhruv/work-dhruv/hph/els-ai/els-ai/frontend/node_modules/typescript/lib/_tsc.js:68326:54)
+    at checkIdentifier (/home/dhruv/work-dhruv/hph/els-ai/els-ai/frontend/node_modules/typescript/lib/_tsc.js:71058:20)
+    at checkExpressionWorker (/home/dhruv/work-dhruv/hph/els-ai/els-ai/frontend/node_modules/typescript/lib/_tsc.js:79912:16)
+    at checkExpression (/home/dhruv/work-dhruv/hph/els-ai/els-ai/frontend/node_modules/typescript/lib/_tsc.js:79856:32)
+    at checkNonNullExpression (/home/dhruv/work-dhruv/hph/els-ai/els-ai/frontend/node_modules/typescript/lib/_tsc.js:73882:29)
+    at checkPropertyAccessExpression (/home/dhruv/work-dhruv/hph/els-ai/els-ai/frontend/node_modules/typescript/lib/_tsc.js:73961:162)
+    at checkExpressionWorker (/home/dhruv/work-dhruv/hph/els-ai/els-ai/frontend/node_modules/typescript/lib/_tsc.js:79946:16)
+    at checkExpression (/home/dhruv/work-dhruv/hph/els-ai/els-ai/frontend/node_modules/typescript/lib/_tsc.js:79856:32)
+    at checkNonNullExpression (/home/dhruv/work-dhruv/hph/els-ai/els-ai/frontend/node_modules/typescript/lib/_tsc.js:73882:29)
+
+Node.js v22.22.2

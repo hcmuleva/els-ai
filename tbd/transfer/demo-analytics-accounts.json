@@ -1,0 +1,118 @@
+{
+  "password": "welcome",
+  "generated_at": "2026-06-26T16:00:54.188Z",
+  "accounts": [
+    {
+      "id": "2f81b9f3-93eb-4469-af09-b90fd20773dd",
+      "email": "demo.aarav@els.ai",
+      "role": "student",
+      "name": "Aarav Sharma"
+    },
+    {
+      "id": "d6f4b378-e7d9-41ad-992d-0c1bc4bf89b9",
+      "email": "demo.ananya@els.ai",
+      "role": "student",
+      "name": "Ananya Reddy"
+    },
+    {
+      "id": "69e83c05-0387-4621-abe4-13371fefcd50",
+      "email": "demo.diya@els.ai",
+      "role": "student",
+      "name": "Diya Patel"
+    },
+    {
+      "id": "139d1000-d432-4038-a197-7fa474ba1f56",
+      "email": "demo.kabir@els.ai",
+      "role": "student",
+      "name": "Kabir Khan"
+    },
+    {
+      "id": "bea91a28-8d07-4490-a3d6-e9b3bd0a59d6",
+      "email": "demo.parent.gupta@els.ai",
+      "role": "parent",
+      "name": "Manoj Gupta"
+    },
+    {
+      "id": "9ae11a8d-9201-497a-b574-3fe1312f175e",
+      "email": "demo.parent.khan@els.ai",
+      "role": "parent",
+      "name": "Imran Khan"
+    },
+    {
+      "id": "b3e7d2ae-2a6e-4e00-ab9b-b1c4c6b790ec",
+      "email": "demo.parent.patel@els.ai",
+      "role": "parent",
+      "name": "Rakesh Patel"
+    },
+    {
+      "id": "3e4e0463-1589-40a7-879d-6e3cd805e882",
+      "email": "demo.parent.reddy@els.ai",
+      "role": "parent",
+      "name": "Lakshmi Reddy"
+    },
+    {
+      "id": "e150da14-eefa-4e8d-ac53-25ff457e5ae6",
+      "email": "demo.parent.sharma@els.ai",
+      "role": "parent",
+      "name": "Sunita Sharma"
+    },
+    {
+      "id": "b4448038-cdcd-4d1b-892b-57e6a162e728",
+      "email": "demo.parent@els.ai",
+      "role": "parent",
+      "name": "Demo Parent"
+    },
+    {
+      "id": "7adba89c-9db5-4b09-9064-0d7acfaee174",
+      "email": "demo.teacher.desai@els.ai",
+      "role": "teacher",
+      "name": "Neha Desai"
+    },
+    {
+      "id": "02135cdc-4812-4992-ae6b-e4e117d2ca6f",
+      "email": "demo.teacher.iyer@els.ai",
+      "role": "teacher",
+      "name": "Meera Iyer"
+    },
+    {
+      "id": "86d281ef-80c0-4746-a027-a850d0bc0304",
+      "email": "demo.teacher.joshi@els.ai",
+      "role": "teacher",
+      "name": "Pooja Joshi"
+    },
+    {
+      "id": "e016cd08-0af7-4c1c-9042-2a1ff60e7db4",
+      "email": "demo.teacher.nair@els.ai",
+      "role": "teacher",
+      "name": "Arjun Nair"
+    },
+    {
+      "id": "1cceb2a8-6068-4bcf-8412-5c353bac8992",
+      "email": "demo.teacher.verma@els.ai",
+      "role": "teacher",
+      "name": "Sanjay Verma"
+    },
+    {
+      "id": "64e37f97-c96e-434b-ae56-03ac558c1f8a",
+      "email": "demo.vivaan@els.ai",
+      "role": "student",
+      "name": "Vivaan Gupta"
+    }
+  ],
+  "table_row_counts": {
+    "users": 16,
+    "user_roles": 16,
+    "parent_student_links": 10,
+    "classrooms": 35,
+    "classroom_student_remarks": 35,
+    "student_activity": 6607,
+    "student_analytics": 4188,
+    "student_attempts": 390,
+    "achievements": 5,
+    "student_achievements": 7,
+    "counseling_sessions": 20,
+    "counseling_reports": 20,
+    "parent_feedback": 65,
+    "parent_assessments": 35
+  }
+}

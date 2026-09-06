@@ -1,0 +1,431 @@
+{
+  "metadata": {
+    "class": "12",
+    "subject": "mathematics",
+    "chapter": null,
+    "topic": null,
+    "difficulty": "Mixed",
+    "questionSetType": "Practice",
+    "totalQuestions": 8,
+    "requestedCount": 8,
+    "questionTypes": [
+      "SCQ",
+      "MCQ",
+      "TF",
+      "Numerical",
+      "AssertionReason"
+    ],
+    "provider": "droid-authored-offline",
+    "generatedAt": "2026-06-20T12:32:05.058403+00:00"
+  },
+  "validation": {
+    "passed": true,
+    "schemaValid": true,
+    "totalAccepted": 8,
+    "verified": 5,
+    "refuted": 0,
+    "qualityRejected": 0,
+    "checks": [
+      "8 questions passed structural + quality-gate validation",
+      "answer keys derived from verified correct options / numeric answers",
+      "5 independently verified by sympy",
+      "0 candidates rejected by the quality gate",
+      "syllabus scope matched"
+    ],
+    "warnings": []
+  },
+  "questions": [
+    {
+      "id": "MAT12_PROBABILITY_BRD_001",
+      "questionType": "TF",
+      "difficulty": "Board",
+      "bloomLevel": "Understand",
+      "marks": 1,
+      "chapter": "Probability",
+      "topic": "Conditional probability and independence",
+      "question": "State whether True or False: If $A$ and $B$ are independent events with $P(B) > 0$, then $P(A\\mid B) = P(A)$.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True"
+        },
+        {
+          "key": "B",
+          "text": "False"
+        }
+      ],
+      "correctAnswer": "true",
+      "solution": {
+        "finalAnswer": "True",
+        "stepByStep": [
+          "$P(A\\mid B) = \\dfrac{P(A\\cap B)}{P(B)}$.",
+          "Independence: $P(A\\cap B) = P(A)P(B)$.",
+          "So $P(A\\mid B) = \\dfrac{P(A)P(B)}{P(B)} = P(A)$."
+        ],
+        "formulaUsed": [
+          "P(A|B) = P(A and B)/P(B)",
+          "independence: P(A and B) = P(A)P(B)"
+        ],
+        "commonMistake": "Confusing independent events with mutually exclusive ones.",
+        "examinerNote": "Independence means $B$ gives no information about $A$."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": false,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "true-false",
+        "probability"
+      ]
+    },
+    {
+      "id": "MAT12_CALCULUS_BRD_002",
+      "questionType": "Numerical",
+      "difficulty": "Board",
+      "bloomLevel": "Apply",
+      "marks": 3,
+      "chapter": "Calculus",
+      "topic": "Definite integrals and area",
+      "question": "Evaluate $\\displaystyle\\int_0^{4} x \\, dx$ and report the numerical value.",
+      "options": [],
+      "correctAnswer": "8",
+      "solution": {
+        "finalAnswer": "$8$",
+        "stepByStep": [
+          "Antiderivative: $\\int x\\,dx = x^2/2$.",
+          "Apply limits: $[x^2/2]_0^4 = 16/2 - 0 = 8$."
+        ],
+        "formulaUsed": [
+          "integral of x = x^2/2"
+        ],
+        "commonMistake": "Dividing by the wrong constant or skipping the lower limit.",
+        "examinerNote": "Equals the area of a triangle of base 4 and height 4."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": true,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "numerical",
+        "board"
+      ]
+    },
+    {
+      "id": "MAT12_CALCULUS_JM_003",
+      "questionType": "AssertionReason",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Understand",
+      "marks": 4,
+      "chapter": "Calculus",
+      "topic": "Differentiation and applications of derivatives",
+      "question": "Assertion (A): $\\dfrac{d}{dx}(\\sin x) = \\cos x$.\nReason (R): From first principles, $\\dfrac{d}{dx}\\sin x = \\lim_{h\\to 0}\\dfrac{\\sin(x+h)-\\sin x}{h}$, which simplifies to $\\cos x$ using $\\lim_{h\\to0}\\frac{\\sin h}{h}=1$.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Both A and R are true and R is the correct explanation of A."
+        },
+        {
+          "key": "B",
+          "text": "Both A and R are true but R is NOT the correct explanation of A."
+        },
+        {
+          "key": "C",
+          "text": "A is true but R is false."
+        },
+        {
+          "key": "D",
+          "text": "A is false but R is true."
+        }
+      ],
+      "correctAnswer": "A",
+      "solution": {
+        "finalAnswer": "Both A and R are true and R correctly explains A.",
+        "stepByStep": [
+          "Expand $\\sin(x+h) = \\sin x\\cos h + \\cos x\\sin h$.",
+          "The difference quotient becomes $\\sin x\\frac{\\cos h - 1}{h} + \\cos x\\frac{\\sin h}{h}$.",
+          "As $h\\to0$: $\\frac{\\cos h - 1}{h}\\to 0$ and $\\frac{\\sin h}{h}\\to 1$, giving $\\cos x$."
+        ],
+        "formulaUsed": [
+          "d/dx sin x = cos x"
+        ],
+        "commonMistake": "Quoting the result without recognising it follows from the standard limit.",
+        "examinerNote": "R is precisely the derivation of A."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": false,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "assertion-reason",
+        "calculus"
+      ]
+    },
+    {
+      "id": "MAT12_VECTORSAND3DGE_JM_004",
+      "questionType": "SCQ",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Vectors and 3D Geometry",
+      "topic": "Scalar (dot) product",
+      "question": "For $\\vec{a} = \\hat{i} + 2\\hat{j} + 2\\hat{k}$ and $\\vec{b} = 2\\hat{i} + 0\\hat{j} + \\hat{k}$, the scalar product $\\vec{a}\\cdot\\vec{b}$ is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "$4$"
+        },
+        {
+          "key": "B",
+          "text": "$2$"
+        },
+        {
+          "key": "C",
+          "text": "$6$"
+        },
+        {
+          "key": "D",
+          "text": "$8$"
+        }
+      ],
+      "correctAnswer": "A",
+      "solution": {
+        "finalAnswer": "$4$",
+        "stepByStep": [
+          "Dot product: $\\vec{a}\\cdot\\vec{b} = a_x b_x + a_y b_y + a_z b_z$.",
+          "$= (1)(2) + (2)(0) + (2)(1) = 2 + 0 + 2 = 4$."
+        ],
+        "formulaUsed": [
+          "a.b = ax bx + ay by + az bz"
+        ],
+        "commonMistake": "Adding components instead of multiplying matching components.",
+        "examinerNote": "The dot product is a scalar."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": true,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "numerical",
+        "vectors"
+      ]
+    },
+    {
+      "id": "MAT12_VECTORSAND3DGE_JA_005",
+      "questionType": "Numerical",
+      "difficulty": "JEE_Advanced",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Vectors and 3D Geometry",
+      "topic": "Vector (cross) product",
+      "question": "Two vectors are mutually perpendicular with $|\\vec{a}| = 2$ and $|\\vec{b}| = 3$. Find $|\\vec{a}\\times\\vec{b}|$.",
+      "options": [],
+      "correctAnswer": "6",
+      "solution": {
+        "finalAnswer": "$6$",
+        "stepByStep": [
+          "$|\\vec{a}\\times\\vec{b}| = |\\vec{a}||\\vec{b}|\\sin\\theta$.",
+          "Perpendicular: $\\theta = 90^\\circ$, $\\sin\\theta = 1$.",
+          "$|\\vec{a}\\times\\vec{b}| = 2 \\times 3 \\times 1 = 6$."
+        ],
+        "formulaUsed": [
+          "|a x b| = |a||b| sin(theta)"
+        ],
+        "commonMistake": "Using $\\cos\\theta$ (that is the dot product).",
+        "examinerNote": "Equals the area of the parallelogram formed by the vectors."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": true,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "numerical",
+        "vectors"
+      ]
+    },
+    {
+      "id": "MAT12_CALCULUS_JM_006",
+      "questionType": "SCQ",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Calculus",
+      "topic": "Definite integrals and area",
+      "question": "Evaluate the definite integral $\\displaystyle\\int_1^{2} 3x^2 \\, dx$.",
+      "options": [
+        {
+          "key": "A",
+          "text": "$7$"
+        },
+        {
+          "key": "B",
+          "text": "$9$"
+        },
+        {
+          "key": "C",
+          "text": "$8$"
+        },
+        {
+          "key": "D",
+          "text": "$3$"
+        }
+      ],
+      "correctAnswer": "A",
+      "solution": {
+        "finalAnswer": "$7$",
+        "stepByStep": [
+          "Antiderivative: $\\int 3x^2\\,dx = x^3$.",
+          "Apply limits: $[x^3]_1^2 = 2^3 - 1^3 = 8 - 1 = 7$."
+        ],
+        "formulaUsed": [
+          "integral of x^n = x^{n+1}/(n+1)"
+        ],
+        "commonMistake": "Forgetting to subtract the value at the lower limit.",
+        "examinerNote": "Fundamental theorem of calculus."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": true,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "numerical",
+        "calculus"
+      ]
+    },
+    {
+      "id": "MAT12_PROBABILITY_JM_007",
+      "questionType": "SCQ",
+      "difficulty": "JEE_Main",
+      "bloomLevel": "Apply",
+      "marks": 4,
+      "chapter": "Probability",
+      "topic": "Binomial distribution",
+      "question": "A fair coin is tossed $4$ times. The probability of getting exactly $2$ heads is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "$0.375$"
+        },
+        {
+          "key": "B",
+          "text": "$0.25$"
+        },
+        {
+          "key": "C",
+          "text": "$0.5$"
+        },
+        {
+          "key": "D",
+          "text": "$0.125$"
+        }
+      ],
+      "correctAnswer": "A",
+      "solution": {
+        "finalAnswer": "$0.375$ (i.e. $3/8$)",
+        "stepByStep": [
+          "Binomial: $P(X=k) = \\binom{n}{k} p^k (1-p)^{n-k}$ with $n=4$, $p=0.5$.",
+          "$P(X=2) = \\binom{4}{2}(0.5)^4 = 6 \\times 0.0625 = 0.375$."
+        ],
+        "formulaUsed": [
+          "P(X=k) = C(n,k) p^k (1-p)^{n-k}"
+        ],
+        "commonMistake": "Forgetting the $\\binom{4}{2} = 6$ combinatorial factor.",
+        "examinerNote": "Each toss is independent with $p = 0.5$."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": true,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "numerical",
+        "probability"
+      ]
+    },
+    {
+      "id": "MAT12_VECTORSAND3DGE_JA_008",
+      "questionType": "MCQ",
+      "difficulty": "JEE_Advanced",
+      "bloomLevel": "Analyze",
+      "marks": 4,
+      "chapter": "Vectors and 3D Geometry",
+      "topic": "Vector (cross) product",
+      "question": "Select ALL correct statements about the cross product $\\vec{a}\\times\\vec{b}$.",
+      "options": [
+        {
+          "key": "A",
+          "text": "It is anti-commutative: $\\vec{a}\\times\\vec{b} = -(\\vec{b}\\times\\vec{a})$."
+        },
+        {
+          "key": "B",
+          "text": "Its magnitude equals the area of the parallelogram formed by $\\vec{a}$ and $\\vec{b}$."
+        },
+        {
+          "key": "C",
+          "text": "It is the zero vector when $\\vec{a}$ and $\\vec{b}$ are parallel."
+        },
+        {
+          "key": "D",
+          "text": "The result is a scalar quantity."
+        }
+      ],
+      "correctAnswer": [
+        "A",
+        "B",
+        "C"
+      ],
+      "solution": {
+        "finalAnswer": "Statements 1, 2 and 3 are correct.",
+        "stepByStep": [
+          "Swapping the order flips the direction: $\\vec{a}\\times\\vec{b} = -(\\vec{b}\\times\\vec{a})$.",
+          "$|\\vec{a}\\times\\vec{b}|$ is the parallelogram area.",
+          "Parallel vectors give $\\sin\\theta = 0$, so the product is the zero vector.",
+          "The result is a VECTOR, not a scalar, so the last statement is false."
+        ],
+        "formulaUsed": [
+          "|a x b| = |a||b| sin(theta)"
+        ],
+        "commonMistake": "Treating the cross product like the dot product (which gives a scalar).",
+        "examinerNote": "Direction follows the right-hand rule."
+      },
+      "qualityChecks": {
+        "syllabusAligned": true,
+        "classLevelMatched": true,
+        "answerVerified": false,
+        "noAmbiguity": true,
+        "notTooEasy": true,
+        "notCopiedFromKnownPaper": true
+      },
+      "tags": [
+        "multiple-correct",
+        "vectors"
+      ]
+    }
+  ]
+}

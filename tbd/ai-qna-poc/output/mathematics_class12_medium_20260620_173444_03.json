@@ -1,0 +1,153 @@
+{
+  "meta": {
+    "class_level": "12",
+    "subject": "mathematics",
+    "difficulty": "medium",
+    "requested_count": 4,
+    "returned_count": 3,
+    "topic": "vector_algebra",
+    "allowed_types": [
+      "single_choice",
+      "true_false"
+    ],
+    "provider": "droid-authored",
+    "format": "book-markdown-latex",
+    "generated_at": "2026-06-20T12:04:44.478405+00:00"
+  },
+  "source": {
+    "mode": "sample",
+    "dataset": null,
+    "pdf_path": null,
+    "pdf_url": null,
+    "detected_topic": "calculus",
+    "text_chars": 499,
+    "note": "PDF_SOURCE_MODE=sample"
+  },
+  "validation": {
+    "passed": true,
+    "checks": [
+      "3 questions passed structural validation",
+      "answer keys derived from correct options",
+      "book-format math delimiters checked",
+      "2 verified by deterministic sympy checks",
+      "LLM critic skipped (no API key)"
+    ],
+    "warnings": [],
+    "deduped": 3,
+    "verified": 2,
+    "refuted": 0,
+    "critic": "skipped",
+    "repaired": 0,
+    "attempts": 2
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single_choice",
+      "title_markdown": "For $\\vec{a} = \\hat{i} + 2\\hat{j} + 2\\hat{k}$ and $\\vec{b} = 2\\hat{i} + 0\\hat{j} + \\hat{k}$, the scalar (dot) product $\\vec{a} \\cdot \\vec{b}$ is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "medium",
+      "points": 10,
+      "sort_order": 1,
+      "options": [
+        {
+          "id": "q1_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$4$",
+          "is_correct": true
+        },
+        {
+          "id": "q1_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$2$",
+          "is_correct": false
+        },
+        {
+          "id": "q1_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$6$",
+          "is_correct": false
+        },
+        {
+          "id": "q1_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$8$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q1_opt_1"
+      ],
+      "explanation_markdown": "**Rule — dot product.** $$\\vec{a} \\cdot \\vec{b} = a_x b_x + a_y b_y + a_z b_z.$$\n\n**Step 1 — Multiply matching components.** $(1)(2) + (2)(0) + (2)(1)$.\n\n**Step 2 — Add.** $$2 + 0 + 2 = 4.$$\n\n**Answer.** $\\vec{a} \\cdot \\vec{b} = 4$.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q2",
+      "type": "single_choice",
+      "title_markdown": "The magnitude of the vector $\\vec{a} = \\hat{i} + 2\\hat{j} + 2\\hat{k}$ is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "hard",
+      "points": 10,
+      "sort_order": 2,
+      "options": [
+        {
+          "id": "q2_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$3$",
+          "is_correct": true
+        },
+        {
+          "id": "q2_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$5$",
+          "is_correct": false
+        },
+        {
+          "id": "q2_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$9$",
+          "is_correct": false
+        },
+        {
+          "id": "q2_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$\\sqrt{5}$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q2_opt_1"
+      ],
+      "explanation_markdown": "**Rule — magnitude.** $$|\\vec{a}| = \\sqrt{a_x^2 + a_y^2 + a_z^2}.$$\n\n**Step 1 — Square and add components.** $1^2 + 2^2 + 2^2 = 1 + 4 + 4 = 9$.\n\n**Step 2 — Take the square root.** $$|\\vec{a}| = \\sqrt{9} = 3.$$\n\n**Answer.** $|\\vec{a}| = 3$.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "title_markdown": "The dot product of two non-zero mutually perpendicular vectors is zero.",
+      "instruction": "State whether the statement is True or False.",
+      "difficulty": "easy",
+      "points": 10,
+      "sort_order": 3,
+      "options": [
+        {
+          "id": "q3_opt_1",
+          "slot_position": 1,
+          "label_markdown": "True",
+          "is_correct": true
+        },
+        {
+          "id": "q3_opt_2",
+          "slot_position": 2,
+          "label_markdown": "False",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q3_opt_1"
+      ],
+      "explanation_markdown": "**Idea.** $\\vec{a} \\cdot \\vec{b} = |\\vec{a}||\\vec{b}|\\cos\\theta$.\n\nFor perpendicular vectors $\\theta = 90^\\circ$ and $\\cos 90^\\circ = 0$, so the dot product is zero. The statement is **true**.",
+      "source_style_ref": "Droid-authored (exam-grade)"
+    }
+  ]
+}

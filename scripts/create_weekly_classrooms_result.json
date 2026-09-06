@@ -1,0 +1,762 @@
+{
+  "createdAt": "2026-06-06T14:56:07.553Z",
+  "createdBy": "teacher@els.ai",
+  "classes": [
+    {
+      "classLevel": "LKG",
+      "label": "LKG",
+      "classrooms": [
+        {
+          "id": "65de056c-ef5e-4d66-85b3-76f4221b4cee",
+          "title": "Sanskar_Shivir_LKG_06Jun",
+          "startTime": "2026-06-06T15:55:34.808Z",
+          "quizId": "aaccd8f4-d12f-48e9-a80c-dddd27ec7285",
+          "questionCount": 10,
+          "contentIds": [
+            "10c583f4-0c94-490a-8711-9e233dfc136f",
+            "01e5411e-4bbf-4efd-8a59-aae650ca04b6",
+            "1e74658d-c126-448f-8fe7-5a730be5c3bd",
+            "06e6e077-0ec9-4d37-b24d-bb17abc7a5eb",
+            "126cdf1f-04c6-4d76-adfb-7bd5c08be4c6",
+            "181e5998-1828-4ae1-8e42-342ad63b87e6",
+            "0a481c7f-f905-4079-a411-f60bad14f7a6",
+            "201b50c3-0199-4a48-be45-dc081361fc33",
+            "05f45b46-9524-4803-a719-d5cf8cd54c29",
+            "12240dcd-5d67-4e4e-a38c-ecc0d3c8a563",
+            "104d0220-fbd1-414d-833d-f17f1b13ed1c"
+          ]
+        },
+        {
+          "id": "324b3a9a-c228-4d64-a816-4e8fc2835e56",
+          "title": "Sanskar_Shivir_LKG_07Jun",
+          "startTime": "2026-06-07T15:55:34.808Z",
+          "quizId": "cde249a2-b141-4774-bb0e-73e1beb2e637",
+          "questionCount": 10,
+          "contentIds": [
+            "1c53db37-e11d-43c7-b5ed-c5e09b5a468c",
+            "10c6d9e6-6e13-493c-9c28-866666e49d51",
+            "258d46b8-705c-4c31-beb3-fb1d48f7c5c9",
+            "1ce6814c-4756-48e0-82e4-b15aca7c23b8",
+            "1ca126f5-a6e4-46d4-a05e-29f57edf22c1",
+            "1ba97145-563b-49ff-b336-86ff753e400b",
+            "0cdc2714-d3a3-49e4-b10f-e422b10620b3",
+            "20f699c6-81fa-47b3-8261-7b97dce08250",
+            "0acf2801-7235-4511-9a45-a254538029f0",
+            "17280985-f6ed-4b55-88de-6f78fedeeac5",
+            "12e721b5-a04a-4f11-b405-7ca0645b141b"
+          ]
+        },
+        {
+          "id": "5ee54f8e-ee78-4660-a3f3-89e242ce1237",
+          "title": "Sanskar_Shivir_LKG_08Jun",
+          "startTime": "2026-06-08T15:55:34.808Z",
+          "quizId": "0295fec3-b05b-4346-becb-ff134821d2a7",
+          "questionCount": 10,
+          "contentIds": [
+            "201e4953-e1f5-4995-bb3c-8f3f058181d0",
+            "364d701c-62be-4f28-9c1d-d9667b107ced",
+            "32b1137f-2ef5-408d-8e10-b3a25447e074",
+            "22363d7e-db3e-479c-a796-ee791bf61219",
+            "23dc9409-152b-43c3-a256-df0156e83ba6",
+            "1c0e1088-34d0-45a6-b97f-9ba317f3e208",
+            "19058496-d34b-4461-847c-36ae156ac481",
+            "22287bc2-502e-453a-b88a-e61a713d9f3c",
+            "0aeda758-6979-4048-88be-d2a90b5ec978",
+            "18890378-55f8-4014-bfa2-e83106ebe161",
+            "2571c170-9723-480a-8bd7-6a88c597f0b3"
+          ]
+        },
+        {
+          "id": "a1e116d2-0cd2-4182-8ecd-3fb77f1ce310",
+          "title": "Sanskar_Shivir_LKG_09Jun",
+          "startTime": "2026-06-09T15:55:34.808Z",
+          "quizId": "5d732f75-f004-4157-b513-705a163c4efd",
+          "questionCount": 10,
+          "contentIds": [
+            "2d06106b-d072-4e5d-ada9-53209882b417",
+            "44662868-1467-4842-a6ac-301ed6a440ab",
+            "3381135d-733a-4193-889c-07d368cb15d1",
+            "27bda982-4383-4431-a57b-ddedc3a26a0c",
+            "2af094a6-72f2-4e1d-bd84-e01df86b84ba",
+            "1e9485f0-da80-47cd-b2b6-2033d802e450",
+            "2620c5bd-e6eb-4987-847f-448ab3d63c27",
+            "51377259-d2f2-4b8d-857a-7b11e6b5c7be",
+            "1b1571af-a95a-452f-8a66-61c3c4fbe814",
+            "2218715b-4109-4548-a266-4925eb999f81",
+            "380ac157-8662-490f-a7ab-7062fcfa2465"
+          ]
+        },
+        {
+          "id": "c717cd31-d463-47a2-a3e4-5a4517a92470",
+          "title": "Sanskar_Shivir_LKG_10Jun",
+          "startTime": "2026-06-10T15:55:34.808Z",
+          "quizId": "367b0ac0-9abe-4054-af1d-143472c6eab9",
+          "questionCount": 10,
+          "contentIds": [
+            "47309adf-5614-4ee2-b3a4-5826f228bb2e",
+            "464e61d5-6bc9-466f-a1b6-9ea569b6c55c",
+            "3c1345dd-0c3c-47f0-a13e-4866ead8175b",
+            "493908de-20a7-4803-8a1a-fd02e81f289e",
+            "37724c34-74c1-4f30-9bdd-8f5a8bfcbd4f",
+            "1f0af14e-ec36-4143-be7e-e5e22147418f",
+            "2e61ee76-8fa0-4f81-802b-6f6e7cbb3991",
+            "6209140a-0932-4329-948d-4bd61c71d6fc",
+            "3c429ff3-8d77-466b-a2f7-b633559a5886",
+            "259b8b39-496a-4962-bc6b-d4a299e1812f",
+            "3eb13909-1753-4d78-9a74-9955bbffca94"
+          ]
+        },
+        {
+          "id": "5e398e4e-db1c-496d-bc59-18c743290bb8",
+          "title": "Sanskar_Shivir_LKG_11Jun",
+          "startTime": "2026-06-11T15:55:34.808Z",
+          "quizId": "c816ad63-2b25-46a7-bd9b-6075d8b4ff24",
+          "questionCount": 10,
+          "contentIds": [
+            "0d2965b7-87f6-48e9-aeda-f9f7eb16f22b",
+            "00f6ab63-15e8-49d4-b624-7d59a51dd476",
+            "02876db6-308c-46d6-a0d4-b01eb345ddb1",
+            "0596ea9f-6576-430d-974e-26a61edffbf4",
+            "02a53725-14d0-48aa-ab54-e2d6b078fef3",
+            "1329b949-409f-4122-88ad-67d5755a3b29",
+            "022621b3-b309-4825-a016-2786c38de180",
+            "027b6608-5da2-4447-bbb1-d770ced8ad17",
+            "02ae282e-3b68-40fc-b1f2-48bff29ed992",
+            "0b626b5a-c923-46d3-bfde-8206ada41e95",
+            "05ec6908-6deb-4ae9-89c9-8cf8f6668018"
+          ]
+        }
+      ]
+    },
+    {
+      "classLevel": "UKG",
+      "label": "UKG",
+      "classrooms": [
+        {
+          "id": "b1ef7693-08f8-45a2-afba-7f1f702617a3",
+          "title": "Sanskar_Shivir_UKG_06Jun",
+          "startTime": "2026-06-06T15:55:40.801Z",
+          "quizId": "db1a7476-b449-41cc-be02-9345789e0e2f",
+          "questionCount": 10,
+          "contentIds": [
+            "1903e2fc-aba1-4a13-a05a-137b2e248052",
+            "30b74f5a-f9b2-40c6-9f78-0b2a8fc97afd",
+            "055cc293-6d00-4943-895c-a296058c567d",
+            "0a08d096-073e-40f1-b558-9f04c837ceb8",
+            "1033e930-d1d2-4aed-8ebe-b3b6ad052079",
+            "1c240750-95ca-4f51-a1d2-dbc0389d1c72",
+            "14e0c08c-3918-49fe-a8a8-3445dca711af",
+            "2259500b-1e80-463d-a864-b0eed21a6cf4",
+            "118ec32b-7b57-4846-a387-e31047c37b02",
+            "187e7aa0-d16b-4ed2-892d-97aadf5aed01",
+            "0ec7bf23-e3d5-417a-8136-97c4cb2d1902"
+          ]
+        },
+        {
+          "id": "7563014a-f7d6-421c-90fd-ec864b315d21",
+          "title": "Sanskar_Shivir_UKG_07Jun",
+          "startTime": "2026-06-07T15:55:40.801Z",
+          "quizId": "37207e94-4c98-4fdb-a5d8-2ec648e4042b",
+          "questionCount": 10,
+          "contentIds": [
+            "2031a38b-0914-4cd5-98e2-3a5ef661486d",
+            "43b0c81b-d0eb-4213-8909-93553331c7c9",
+            "0b130d46-b892-4d59-bcd6-21df7bf42f96",
+            "0f45900b-f616-422b-b401-cb5f2401378d",
+            "15aa02bd-46ec-484a-a79a-fe613fab0fee",
+            "2611db35-d59f-4024-aa5a-dc12810a485e",
+            "19b45d19-a568-4455-aa98-0f826344f9f1",
+            "2be6f992-2847-4982-9538-ed9228ec6529",
+            "1cad87ee-85c2-4e73-8773-4d1ecd53c0e1",
+            "241a2d54-6c43-43ba-88ad-790392697b4f",
+            "14e36eb4-dd6b-4c85-a8ba-0b5d9b982ea8"
+          ]
+        },
+        {
+          "id": "eeef7269-086c-4ff6-bfa2-5358bce7a0cb",
+          "title": "Sanskar_Shivir_UKG_08Jun",
+          "startTime": "2026-06-08T15:55:40.801Z",
+          "quizId": "197791f2-4d5e-4390-a4c1-c8fc751d6b21",
+          "questionCount": 10,
+          "contentIds": [
+            "2b6bbe94-32a3-4c2c-81a9-081cb486c127",
+            "4a30d2a0-d087-440f-94bf-d701ee3d954f",
+            "0f514c42-cbdc-4bfc-a34e-bb4cefc0fb2f",
+            "1bee962f-9973-4164-afb4-71d35f7debdd",
+            "2c7dd76b-a6bc-4bc4-8841-cc89c72764f4",
+            "27d1e484-d193-4a88-861d-74aa3bcf0f6e",
+            "200e2cfc-6e0f-4aba-83df-e0d1228a9208",
+            "30326c3f-0ff7-4b64-a112-0f170cdc652c",
+            "261dca8f-d2c2-474b-881e-44beaa00513d",
+            "274e908b-3ad0-46ae-bdee-124f43d10168",
+            "1685469e-8ba3-4e8f-a3ea-406afeb2f5a8"
+          ]
+        },
+        {
+          "id": "3a026b6e-4d53-428f-b5cc-fad10f8e5b28",
+          "title": "Sanskar_Shivir_UKG_09Jun",
+          "startTime": "2026-06-09T15:55:40.801Z",
+          "quizId": "4ef12122-9ee7-4aa2-9ff3-99db2c7c059c",
+          "questionCount": 10,
+          "contentIds": [
+            "2d062134-2ab7-4674-b7a4-08e0c2fd3941",
+            "50f517ed-1b6f-4d63-a954-4a5073a0913b",
+            "16b1b1be-b20e-49d5-b93f-d70689d069f0",
+            "1e30d0ec-f46d-4b49-a1a8-1d37bb63ddf0",
+            "441cf635-04d2-44ef-aeda-6bd529b495d1",
+            "2b1b9050-eaf3-498d-a516-10bb2ebc8270",
+            "372fc746-52aa-4d5e-948c-f2b7f892ea79",
+            "33a31850-e32d-41b9-a363-5c11a52016a7",
+            "2b3e60b4-8462-48c5-84d5-986b36b4f104",
+            "2ea76874-b725-475e-b5aa-98b989e039cf",
+            "3139a50e-fa73-4576-a7a6-af7a66716502"
+          ]
+        },
+        {
+          "id": "5b01f0c5-6241-490b-abb0-e88a4c498893",
+          "title": "Sanskar_Shivir_UKG_10Jun",
+          "startTime": "2026-06-10T15:55:40.801Z",
+          "quizId": "fc8b2968-84f6-4823-910c-f0d8c5fc329b",
+          "questionCount": 10,
+          "contentIds": [
+            "46b0250a-3a5f-432b-b77c-47ed85bc439b",
+            "5a262865-dca5-43af-ab8a-49f9916204bb",
+            "1adca368-b29d-48e7-bbc7-5b2c5ee0b845",
+            "1e57ff6b-0102-4890-b769-f453be6121ce",
+            "4b17cd84-6d5b-4c58-843c-f63258e0b3af",
+            "37fe4926-ed11-4039-9409-dffe89e0ac42",
+            "3d2ecf43-b2f6-4be2-b48a-6dad8682f1eb",
+            "4029d354-9339-49d4-ba10-11c4d943def7",
+            "4766765f-2eb6-4fa0-8eef-179bf9c94445",
+            "2f9fbbf4-bdf6-44c8-a628-386182a33b04",
+            "39ccb382-0715-4432-9684-f1c6c70ed840"
+          ]
+        },
+        {
+          "id": "3b711c3a-de98-4383-913b-dbba0204181c",
+          "title": "Sanskar_Shivir_UKG_11Jun",
+          "startTime": "2026-06-11T15:55:40.801Z",
+          "quizId": "ff8bc93f-9f37-4e4c-86ff-02d4e023742f",
+          "questionCount": 10,
+          "contentIds": [
+            "064645d2-6a30-47ca-8ebc-7d2fdf09750d",
+            "064d4480-8961-4086-8509-e9158dffcd6e",
+            "05182faf-4f4f-499f-a6be-2c0d073136b3",
+            "010b8979-380a-4341-857f-51a0a2b7e471",
+            "0b725b07-ddc2-4c1f-a94c-0d5a8d622933",
+            "0b93997d-c923-4b2d-8a3d-96d43085e155",
+            "0ea0cb6f-aa51-45d7-a606-04da8dcbbf79",
+            "1d13c430-49bf-49fb-97d8-2c882f87755a",
+            "05d6475d-5e42-4423-938f-95a7b09d584f",
+            "1691b2e2-f272-4b48-b680-33f5631d6cd4",
+            "00607f78-bca9-43c8-83ec-0409f30a5d52"
+          ]
+        }
+      ]
+    },
+    {
+      "classLevel": "1",
+      "label": "Class1",
+      "classrooms": [
+        {
+          "id": "93e65c9a-1523-4b2b-9459-9c579f8e808c",
+          "title": "Sanskar_Shivir_Class1_06Jun",
+          "startTime": "2026-06-06T15:55:46.806Z",
+          "quizId": "5a063110-a876-4f43-a13b-74f3f8dbb104",
+          "questionCount": 10,
+          "contentIds": [
+            "15e3618b-66fa-413a-9749-7be9e05d7800",
+            "13892526-4d5b-4dd0-939f-ec05fd402096",
+            "06743024-503b-4481-8e7d-9b10c619edc0",
+            "0e0c46a4-e916-4492-aa71-2ad306798128",
+            "0a056ebd-bede-4ce0-be49-6b6fe1e853be",
+            "0c2eecd2-a445-4959-a4f1-40cc0935bc6a",
+            "16d0d368-7d80-460d-89c7-3bad7ff64fbf",
+            "289d5838-345e-4aa0-9e7a-7cf8a04bf221",
+            "1c92415c-d2bf-4517-ad85-a091716ecce6",
+            "0fec2ce8-a9af-4458-b02a-4865a7d6bd2e",
+            "31a43d71-c6e4-47a1-978c-4222d033d58a"
+          ]
+        },
+        {
+          "id": "8392e47f-c651-4b6f-83bd-bdcbd215ddac",
+          "title": "Sanskar_Shivir_Class1_07Jun",
+          "startTime": "2026-06-07T15:55:46.806Z",
+          "quizId": "290d5ed3-b1f3-414d-a063-c06e86d8f8d8",
+          "questionCount": 10,
+          "contentIds": [
+            "1a26688c-9ae7-4ee1-b678-f1657b4a2e88",
+            "16f8eef0-f4c1-4b02-a6f2-fbb57d56455b",
+            "121b3391-7758-4bef-a6fa-13ad6d2afae9",
+            "1182da08-2138-42bc-bc4b-d6bcd6b7f64a",
+            "0a89000b-32b6-490d-ba6a-5fefbe596851",
+            "0e79d40f-13dc-4f46-80dc-11bf27804111",
+            "3ec94764-dc70-47b5-aa72-2505db234df8",
+            "3c48c3dd-6b13-4859-b080-792c8a1170d5",
+            "1e864b18-49a8-4a06-95c8-9e80d9b0131f",
+            "11c8e84d-9849-4014-b81f-df07022f8140",
+            "32ffeda7-9d3c-48ff-ab04-251e0265a912"
+          ]
+        },
+        {
+          "id": "e15d86de-8cda-4224-998f-89572cfe5727",
+          "title": "Sanskar_Shivir_Class1_08Jun",
+          "startTime": "2026-06-08T15:55:46.806Z",
+          "quizId": "351c8c78-8406-4b84-a391-e7d37393b69e",
+          "questionCount": 10,
+          "contentIds": [
+            "1ddea753-80d4-407b-ba85-fb363eb496b8",
+            "1de8c06a-357e-4c1d-bc82-153fbaf42e25",
+            "1eb9d4f1-86fa-4300-8b62-c5bd4dcb1107",
+            "14a5c2a9-a73d-4f17-a197-7d80e45614d9",
+            "18778f53-b924-4d11-a4b2-a6c7f74a0ae5",
+            "12f3a652-610b-475b-ad16-1417d512fc87",
+            "3ef8a575-b6e5-477c-9533-6976d81deafb",
+            "446a0ef5-345a-4ee2-a30b-a7ba7c79a9f9",
+            "2370f581-54a5-4509-841c-20edcfa75be8",
+            "196ea94a-a142-4c4f-bf2a-ffcd471c2dff",
+            "36d4e038-828f-4210-b4ad-389565a08552"
+          ]
+        },
+        {
+          "id": "de8205f0-e338-49c0-965b-7c5377a4326c",
+          "title": "Sanskar_Shivir_Class1_09Jun",
+          "startTime": "2026-06-09T15:55:46.806Z",
+          "quizId": "1b873c83-3d07-412e-9e6b-aadb0461290e",
+          "questionCount": 10,
+          "contentIds": [
+            "3327b70f-3783-4ce6-ab2b-3e7550948028",
+            "1fd0bf03-600f-43d5-9c98-cef6ecc66304",
+            "20ff6a51-1e3a-449f-9cd4-544ad537d601",
+            "1872e800-497f-46e5-ae4a-0ec2c76ccbdf",
+            "1d85d047-6edf-4cb4-83bb-f4901bf358ed",
+            "13651eb2-63c6-4912-aad2-8eab76e4f4d7",
+            "4031af64-78dd-469b-996f-bb4dbfd4fe53",
+            "45fff794-4807-4436-aadc-db3ad435aa1f",
+            "3d383668-d997-47f4-84b6-6c929a131ac8",
+            "1b7768a6-ffb8-4628-8654-e071021c892b",
+            "50468772-328a-433a-b246-765c486e2812"
+          ]
+        },
+        {
+          "id": "b856d960-34f0-4e9e-a897-60b968e189cd",
+          "title": "Sanskar_Shivir_Class1_10Jun",
+          "startTime": "2026-06-10T15:55:46.806Z",
+          "quizId": "511da595-af6d-4107-bee7-cd8328b3f838",
+          "questionCount": 10,
+          "contentIds": [
+            "53821c52-c1dd-4414-ae6c-4d8b0e3ef59c",
+            "29416e6e-8dc8-4018-91e1-8c1357dcdcb5",
+            "292863df-a586-4e9b-913d-0fb464795ecb",
+            "2e9e07a3-fe8f-4948-9ab7-a1532e447e6d",
+            "1ed528fa-f41d-4624-8416-00ab60a3ae17",
+            "19074225-a2b4-4331-baf0-0ce692f1064a",
+            "4b743584-2134-41ac-9c39-ecd4c27e546a",
+            "4e173657-ed57-4caa-a138-35ba96fdc72f",
+            "4a702151-ec97-4f12-b040-990a8d9f9362",
+            "2643376c-6527-40c3-9e27-17610228a461",
+            "554192de-c9a4-42bd-ba51-18324483609c"
+          ]
+        },
+        {
+          "id": "5c64919c-77a8-4da3-a230-39ea62662bfa",
+          "title": "Sanskar_Shivir_Class1_11Jun",
+          "startTime": "2026-06-11T15:55:46.806Z",
+          "quizId": "fd591f74-45a7-4305-9aa5-490edc51de5e",
+          "questionCount": 10,
+          "contentIds": [
+            "0c733574-6e5e-48eb-bbe3-76848e1a8b5d",
+            "07848a5b-b753-4834-89f3-a552a3d2680e",
+            "03c2ebcd-d46e-4b3f-9789-d819b40c993f",
+            "085e0168-b011-4579-b9d2-bb0df4a4b4a1",
+            "04357204-1d33-4810-8671-9229a77cbefb",
+            "03484de5-7175-4b05-ac58-fdb49b2a1585",
+            "03f55d6f-a3b9-42a0-97d1-0bea16c3bd4f",
+            "0c6009b2-d381-4509-80d0-051744e8ab54",
+            "0e695f13-f943-44b7-8a3a-541627684111",
+            "0000824c-668f-4f9a-9572-70eda83e102d",
+            "080daa0e-b5d8-42b6-9b4f-c4197350881c"
+          ]
+        }
+      ]
+    },
+    {
+      "classLevel": "2",
+      "label": "Class2",
+      "classrooms": [
+        {
+          "id": "7ff40893-69a4-455c-93f9-bdc800a81581",
+          "title": "Sanskar_Shivir_Class2_06Jun",
+          "startTime": "2026-06-06T15:55:52.847Z",
+          "quizId": "8d34ed25-aeb8-4e97-9c55-7660d03c75ce",
+          "questionCount": 10,
+          "contentIds": [
+            "0da9f33f-4588-42ec-b627-0ad272e154fd",
+            "0704e2f5-6c00-4503-b3af-8cb0d301a41e",
+            "07449b74-4385-4be2-b19a-8063a58dc25a",
+            "080781f0-a8f4-4bc0-b349-97d0466b88e4",
+            "1ebbd23f-beb5-475b-92fb-d9ca0e51a417",
+            "326a99a0-a20c-4a89-b62a-4c3c59dbd655",
+            "32e7fe71-e554-47a0-886b-5fe1478aa9ca",
+            "0cc18ccf-5726-49f9-b9c4-6a4d8615984f",
+            "0a98b403-edd0-46ac-837c-c0b412a38347",
+            "06cf0c1f-8ff5-4c43-9b6d-9e71dc5fcc08",
+            "1383440f-f387-4184-8aaa-5f4ba2164d54"
+          ]
+        },
+        {
+          "id": "40269f6d-dc7e-4708-9e61-1e0bb06d344e",
+          "title": "Sanskar_Shivir_Class2_07Jun",
+          "startTime": "2026-06-07T15:55:52.847Z",
+          "quizId": "cec784af-2359-4ee4-8c7f-89118849a261",
+          "questionCount": 10,
+          "contentIds": [
+            "11cf369d-4e9b-4025-b509-1086eefb3cbb",
+            "2249dd28-2a4d-4591-a869-dc9590627263",
+            "0986c843-8be4-4284-9b76-cb9b451f59b2",
+            "148f9690-2011-4ef4-9020-c63ed256b85b",
+            "2164478f-262c-4961-929c-0a068ad16557",
+            "3bc8af4f-cf2b-40f6-9271-39cf12134489",
+            "45ab8a4d-573c-41d6-8aac-3b259bc79778",
+            "1607f07b-21d9-4c33-95e6-9f91afa9be5f",
+            "0b2cf20f-0558-42a7-8066-9b14d8d8dce9",
+            "17bceb40-15e6-4034-80c7-a23544056b1d",
+            "2825ecdd-b7c3-4763-8973-ea238dc3b658"
+          ]
+        },
+        {
+          "id": "8fec7941-efc5-4531-b17f-0ac3b4bdc38b",
+          "title": "Sanskar_Shivir_Class2_08Jun",
+          "startTime": "2026-06-08T15:55:52.847Z",
+          "quizId": "ffde585a-a1cb-4e74-800f-ed1ed991e3b5",
+          "questionCount": 10,
+          "contentIds": [
+            "1495ea75-f9d0-48fe-8219-7f82dfc47a6c",
+            "2971aaf0-5f09-4126-9d69-eaca477eb639",
+            "0ec551f6-f227-45a3-8c9a-6cabf1991fa9",
+            "23ddc25f-021d-4309-ac79-2477eae0c810",
+            "286b54dd-e656-4588-bf50-b8e17be3d665",
+            "3c6fb41b-caa0-48db-af42-0dceb7e70c4b",
+            "464a0e68-9fcb-4e27-bc2c-391618804dd4",
+            "182aa237-4c63-4170-9730-bbe3ec11cd6d",
+            "0d133781-235e-465b-a2c0-812bb7c7c863",
+            "1afa39da-3a66-4038-a134-d0df99465598",
+            "2e551695-433d-4125-ae83-2389adbaff8d"
+          ]
+        },
+        {
+          "id": "8006a4e1-d7cc-41fe-9070-cdd345275cb5",
+          "title": "Sanskar_Shivir_Class2_09Jun",
+          "startTime": "2026-06-09T15:55:52.847Z",
+          "quizId": "15a7bc18-4743-4ad9-ba3b-3cad63f52b50",
+          "questionCount": 10,
+          "contentIds": [
+            "1fefab4d-1368-400a-bdb0-1f454896e853",
+            "33dc941d-af52-4ffd-a7f1-e998199a5275",
+            "0f1a48e0-7007-457b-b6ef-19060b6491f6",
+            "29225a65-1969-4fe9-9780-fe12907bd6bb",
+            "4d06013b-0af7-4cda-abcc-0fc7f88112e1",
+            "435355b4-d4a4-49d2-8adc-ab7ed7fc92d9",
+            "4e1b68af-098b-46f4-be0a-5a245fe71603",
+            "192a426d-72b2-46fe-9152-8739222c5cbf",
+            "27544663-ac83-4743-9d04-85b24bf60b31",
+            "1f469545-24d2-44ac-95f3-497673f156d8",
+            "2e88d11e-371b-41ed-81bb-c4bf2db9f03c"
+          ]
+        },
+        {
+          "id": "0b303956-55ae-41c5-9e93-2f8e1d06c04c",
+          "title": "Sanskar_Shivir_Class2_10Jun",
+          "startTime": "2026-06-10T15:55:52.847Z",
+          "quizId": "7890a418-882a-44c0-96fd-ff9d7bb9a5a8",
+          "questionCount": 10,
+          "contentIds": [
+            "36d9a859-4c78-47da-aadb-de06ed436046",
+            "3b2b8039-cef4-4341-a3da-2d5bcd613ca1",
+            "125c809c-6243-4e4d-a96f-c58ab22dea59",
+            "29e029a1-20b7-42f1-9344-3a3c993b1bb9",
+            "65a025cc-2019-48e6-a85d-b9718c6c1708",
+            "471b00f1-c033-42ee-9ca6-6be7efbbeabe",
+            "512b2e6c-26e4-42d9-8c36-79ef4fd36c7d",
+            "1be922f3-6e51-4cf1-bc9c-a92b3755d80a",
+            "2b49489a-8b84-46c3-82ed-2776e3b16798",
+            "271735f1-57e6-4d23-ab14-0bcf07117739",
+            "3ab528f2-32e8-4386-a8f0-1fa63e98b9d6"
+          ]
+        },
+        {
+          "id": "89dbd68d-ba06-4b6b-b5be-1def3dde8fcb",
+          "title": "Sanskar_Shivir_Class2_11Jun",
+          "startTime": "2026-06-11T15:55:52.847Z",
+          "quizId": "3c46209b-ae03-4052-aa0e-7e8307a46e19",
+          "questionCount": 10,
+          "contentIds": [
+            "0d6d9d99-865d-4e60-9874-b35fade1055d",
+            "01d1de1e-fa32-4c2f-8c4d-d39928b0e0eb",
+            "05ad7034-a204-44c9-8faf-11420b66fe12",
+            "04de0ce7-8085-46ad-b421-d251809ab2be",
+            "01072bfc-d9a9-4df5-a360-139b3f508dde",
+            "0cffe981-36d8-4f0a-bc84-9c9239236ef5",
+            "17205293-f486-49a4-8fe5-f910a8552b13",
+            "02756d51-eac8-49d1-bd42-fc6a360219fe",
+            "03ce0730-4a51-4e49-970d-1a8173a26533",
+            "0326bd18-46b2-4a59-9842-c2f5e62d5d62",
+            "04ea89e1-a999-4417-a564-20532a56d4e3"
+          ]
+        }
+      ]
+    },
+    {
+      "classLevel": "3",
+      "label": "Class3",
+      "classrooms": [
+        {
+          "id": "d64e9c08-7035-48d4-a557-7c2b95440093",
+          "title": "Sanskar_Shivir_Class3_06Jun",
+          "startTime": "2026-06-06T15:55:58.877Z",
+          "quizId": "616d9643-74b6-4f3b-9f8e-ccd06cef1dfa",
+          "questionCount": 10,
+          "contentIds": [
+            "18366760-f88d-4b21-be9f-9824121b632e",
+            "0ce4a98f-4941-46c4-b1bb-0d5e7fa060c7",
+            "06aa4b73-769a-4d6a-bcc9-d8af5cf3c4bf",
+            "0a18bc02-c84f-426b-81c1-d856b6494b10",
+            "100f68fd-48cb-4945-8019-df31778bebb3",
+            "08eaa825-bba7-4b26-8d8b-29bcf833cd72",
+            "0bfca657-720d-44db-a1ff-fb37d2a0f2fd",
+            "1e0534fd-429a-40a1-8cae-1f876527e404",
+            "0797ba68-c339-40be-910d-5ed3780ae892",
+            "072fb17c-741d-4b06-afc2-3b651409f908",
+            "271ef498-7b69-47a5-82c6-b7834b987c76"
+          ]
+        },
+        {
+          "id": "7877323d-2afe-4c1a-a025-949256f9fc4e",
+          "title": "Sanskar_Shivir_Class3_07Jun",
+          "startTime": "2026-06-07T15:55:58.877Z",
+          "quizId": "509ac0c7-fd42-4fb3-baff-8d73fcd6aaed",
+          "questionCount": 10,
+          "contentIds": [
+            "3b76b7fd-9831-4878-bd2c-df24fb44921e",
+            "19d22dfd-d638-4e71-ac28-675244b63335",
+            "0cd47f6f-c0b0-4720-b048-46024e085526",
+            "0be08d28-01ab-40de-8b65-0c1b26007aed",
+            "1751afb4-1610-42b5-b51f-f23ba39ccfa2",
+            "10a54d3d-4c37-4212-84b5-d838cb48a20c",
+            "15ae1e30-71f4-48b4-877d-8a6e520b6822",
+            "20f40b52-15d1-4a51-972a-a135b58bf33d",
+            "0d79689c-1683-4247-a57b-7e1bed38b118",
+            "0d6db03f-854d-43ec-ba7f-7504225fedd4",
+            "42b77fb6-ce29-4f92-a477-1101cea19306"
+          ]
+        },
+        {
+          "id": "120e7ea1-404a-4e72-bc43-edfe3627d6c4",
+          "title": "Sanskar_Shivir_Class3_08Jun",
+          "startTime": "2026-06-08T15:55:58.877Z",
+          "quizId": "22288bb9-05c1-4d6b-978d-042f20d2fb06",
+          "questionCount": 10,
+          "contentIds": [
+            "662a16bc-46d1-429e-b8ad-8153c3768768",
+            "350dfb9d-ae40-4c0e-a0d4-ecff4d2c5110",
+            "37d81f9f-1861-4aeb-bde6-0c8a9f0e8471",
+            "0eb83ae4-bfc5-4e2f-89c8-ee0d49a991b4",
+            "219a0af6-8397-4518-adec-c760cfc5d30a",
+            "1d7fe658-3dfd-4443-812b-5fb3c35235f3",
+            "32d81d96-142f-4339-a997-cb74eedf2074",
+            "26329b8b-e2b5-496c-91e2-55ae235cc8ca",
+            "24cd9f95-707b-4c81-ad03-433c8ccefe3b",
+            "1c5d39c2-0e31-4cb4-9995-82061b3c19cb",
+            "4d2471e9-b31c-4e88-85c5-743153a184fd"
+          ]
+        },
+        {
+          "id": "4ac17787-ad81-4a9c-bca3-a003fcc274b6",
+          "title": "Sanskar_Shivir_Class3_09Jun",
+          "startTime": "2026-06-09T15:55:58.877Z",
+          "quizId": "28d8f4de-c5ac-4d87-bfd9-835703e25c95",
+          "questionCount": 10,
+          "contentIds": [
+            "66950588-1de1-43d3-86e5-d466d71cc32a",
+            "3c2b2722-5281-4c6e-9185-b8fe6f1a52b8",
+            "3f5b1006-3e0d-47ea-99d4-f261f6ab5bb7",
+            "1bc51085-3434-4f27-9e1e-5eb57673c284",
+            "24cbb16e-2771-48ab-9784-34c5917eef65",
+            "3654b923-8b45-4c17-a934-a99a62b3acc0",
+            "35a5f8c7-6f9e-48e0-8367-0f4175cabfe0",
+            "2e288345-cf71-46d4-a3ec-73cb1a616a30",
+            "379d18ff-bfde-4d37-801c-e3a6d4d7da4a",
+            "21e409a1-a7bc-4dad-9564-f49a583ed28a",
+            "5525a646-8fc7-4437-97a0-80748a77a02c"
+          ]
+        },
+        {
+          "id": "c436403a-42c1-41da-8dd2-cf0dcb65f6db",
+          "title": "Sanskar_Shivir_Class3_10Jun",
+          "startTime": "2026-06-10T15:55:58.877Z",
+          "quizId": "60f5d297-a6dc-481f-92f2-f4cacd846779",
+          "questionCount": 10,
+          "contentIds": [
+            "66b4340c-b93b-4de2-8d60-d712e3d2c1b3",
+            "518b3428-7128-4906-8166-20e2c49b903d",
+            "5479df14-31a2-40ce-9350-d528ce1d6e46",
+            "25e9ddb6-eb8b-48c5-9064-8d6fd7fa542f",
+            "2f9eb9cd-173f-43b9-bde6-c966fe827a89",
+            "452b2e4f-14ae-4c69-9f44-b32b256ea9a6",
+            "490c2bb9-171b-469e-ac39-2f18a3b200ab",
+            "31e104b0-7833-4910-b54c-b11dab30872d",
+            "3da4159d-2877-43a6-bed0-9a729be97435",
+            "3a2a3d15-1b85-4103-a9ef-99bf7793fe99",
+            "60a2f393-085a-4bb1-b588-b3f12839111f"
+          ]
+        },
+        {
+          "id": "740cbc82-34c6-4727-a0f5-069cd4bdbf2e",
+          "title": "Sanskar_Shivir_Class3_11Jun",
+          "startTime": "2026-06-11T15:55:58.877Z",
+          "quizId": "79e1dd87-91fc-4211-a060-361949049f88",
+          "questionCount": 10,
+          "contentIds": [
+            "04425530-d587-4efa-a364-d98aab664235",
+            "048e3237-852b-46c7-9d02-eb0898a99d32",
+            "010112cc-2095-4874-bf1f-411d9bbc9e73",
+            "066aae7d-68e8-4fbd-b4bb-7aeff04a72b2",
+            "04fcf6e8-89f6-4515-b3e0-2456109874d1",
+            "083ecdb6-c5d3-49c9-aef1-71a41c72f527",
+            "08ba484a-5a17-49c3-b4e4-22280771e2d6",
+            "11ceaf12-3fff-4d97-9f88-9760162561c1",
+            "0227dfc3-77a9-4638-89d4-337ed43e0727",
+            "031e642e-fb4a-4b5e-9ed6-427335d03947",
+            "1676df3e-0715-457a-ba5e-9db8a8f5e5b2"
+          ]
+        }
+      ]
+    },
+    {
+      "classLevel": "4",
+      "label": "Class4",
+      "classrooms": [
+        {
+          "id": "3259e107-378d-4f96-a828-5750f0e58b46",
+          "title": "Sanskar_Shivir_Class4_06Jun",
+          "startTime": "2026-06-06T15:56:04.789Z",
+          "quizId": "3a759701-a06a-4a66-9315-ae102ed0413e",
+          "questionCount": 10,
+          "contentIds": [
+            "1a50876d-e165-49d2-935e-f2b4e4471702",
+            "13f95495-89ea-47a1-9e30-63d93efbce89",
+            "06551c47-8620-466e-9afe-c77e777ab22f",
+            "1602e94d-c062-4d51-9e68-0afbf2c6fc85",
+            "02a27918-e7bd-4142-870c-bd3fd2e499bf",
+            "1e80d1c8-9b5d-47f1-8d41-4122e9e0991d",
+            "056d5e3c-2bf3-40b0-9b35-ab962de3f9c4",
+            "323121d9-0ede-4f03-a260-f677e16c2ddc",
+            "08fc6337-68e3-47a3-b666-97c91f9dce2c",
+            "1a4bf2c4-be97-4839-b096-71e03008a762",
+            "0873b79e-313b-47f1-85a4-f90b294ea103"
+          ]
+        },
+        {
+          "id": "b06af378-5c9f-4a4e-be1b-02b545f1d979",
+          "title": "Sanskar_Shivir_Class4_07Jun",
+          "startTime": "2026-06-07T15:56:04.789Z",
+          "quizId": "5c942eaa-b5c0-4715-95f2-b6c06a13becc",
+          "questionCount": 10,
+          "contentIds": [
+            "256dad00-dc07-47b0-939a-d87e78cecb65",
+            "158308d8-70a0-46b5-92b1-71a251d3fc81",
+            "13119066-e1d3-4b33-8c0b-a9c8e129728f",
+            "23e19e96-53a1-4f5e-9519-57f639000e08",
+            "13dc3878-4d96-4ba6-b94d-05c2a43be4e2",
+            "2719ae49-842a-45cf-bcbd-bdeb53806b49",
+            "0644167a-a527-48e1-8777-211ac0cfa676",
+            "34c54f4a-9d37-4fd1-bec8-95eec41623b3",
+            "1d733ffe-2f9e-4304-a5c7-251ba8d7f99b",
+            "271f4390-199e-4bcc-ab9c-fadd7ca403ff",
+            "0d883c5c-73b3-49b5-8a5d-750585b22bf9"
+          ]
+        },
+        {
+          "id": "bd0fd442-4005-4a77-b235-d25cffbb93a5",
+          "title": "Sanskar_Shivir_Class4_08Jun",
+          "startTime": "2026-06-08T15:56:04.789Z",
+          "quizId": "4bbae6dc-6c24-4145-93c7-5f635f78d409",
+          "questionCount": 10,
+          "contentIds": [
+            "2999b6d6-6982-446a-a1f3-c3920003a4e7",
+            "1c66f334-9e01-4a53-b07b-3cec94d5cdc8",
+            "2f8858d0-4ada-4149-8386-07b16033900a",
+            "27f6d76f-f3a2-4588-a428-912847ed4f4b",
+            "2acd7072-a9ab-4ae4-8e65-fc0ac3dfd1c5",
+            "3c4fc07b-c8a8-4526-9a7d-4f314260ba6d",
+            "07d0d176-14b4-420f-8a89-a45d82996d6a",
+            "46d6c3be-1294-4633-abd3-69440db2c71e",
+            "1e9493fa-5baf-45d6-a2f0-e1ac808e7c56",
+            "30a88c47-2cd3-42f1-8a65-8e9fac8a3caa",
+            "102f9be9-954a-459e-af5f-c16649745f58"
+          ]
+        },
+        {
+          "id": "bdace52d-820c-415d-b777-6d7b1cf571a0",
+          "title": "Sanskar_Shivir_Class4_09Jun",
+          "startTime": "2026-06-09T15:56:04.789Z",
+          "quizId": "02ef637a-7559-4585-9d84-691336b7ba7d",
+          "questionCount": 10,
+          "contentIds": [
+            "2bc47dfe-30ba-467f-9cdd-744c65cc47f1",
+            "1f6487a2-d403-4287-947b-44790fe73099",
+            "34e3c492-d967-48c6-aa60-3889e1539931",
+            "28ff7771-c21b-4895-96b5-61d46930e7f0",
+            "30025935-f40b-4869-a414-43478c87b723",
+            "3e85f6f9-8a98-4bc9-9f8e-f513c1b17270",
+            "3e3b1b5c-3fde-4ece-8ccc-1bbe5e537aba",
+            "4f4161db-7f09-4add-92a1-1960678c6bfc",
+            "1ffb7794-f457-4a18-88d7-3ecc61065b45",
+            "652950b4-1ddf-4d1f-bea6-33ad86bb8c1a",
+            "149df16d-595d-429c-b6b1-1938516f3d98"
+          ]
+        },
+        {
+          "id": "d3a254c2-4b94-4dc9-97cc-20f32e7d7ffe",
+          "title": "Sanskar_Shivir_Class4_10Jun",
+          "startTime": "2026-06-10T15:56:04.789Z",
+          "quizId": "f77da2fc-4efc-4ecd-859a-39b16265ab56",
+          "questionCount": 10,
+          "contentIds": [
+            "2c93f595-a523-43fb-8915-4be4c0ff74cf",
+            "2371920a-6ddd-41ed-8125-caa53759c2a3",
+            "39cec808-c001-47c9-b5df-e98b079fff60",
+            "365b2c32-0601-4523-9ecc-561fbd8294d3",
+            "3aa8fe20-3d44-4908-a587-da8639ebf445",
+            "5624cde1-b14a-4bb4-b331-6d94bb47fb36",
+            "41a8ecf2-e4f2-4c71-8ae8-9aacf37be02c",
+            "4f48bd37-edbe-40d5-8cba-d4ff4e1272fb",
+            "2b244640-8acf-46e4-bfd4-d5db548a65ab",
+            "68b7a321-91fa-4e12-bec4-051a20211194",
+            "263952be-e94b-42f6-aad8-711a96a2f14d"
+          ]
+        },
+        {
+          "id": "d048d378-3ecd-404a-ae5b-0d52dc95878f",
+          "title": "Sanskar_Shivir_Class4_11Jun",
+          "startTime": "2026-06-11T15:56:04.789Z",
+          "quizId": "9f9b4cb1-f1d8-423f-a916-ae71086147f0",
+          "questionCount": 10,
+          "contentIds": [
+            "194a1cf9-9c6f-4eaa-9304-03651505503a",
+            "05ab2f1e-dbd1-4e40-9115-7c1c1353902e",
+            "05f49772-2aab-4949-807c-521ac09f6df5",
+            "0d291769-5bd2-4eb9-bd13-4c48fa39248d",
+            "000858ac-068d-4080-bb15-00e510fd986f",
+            "10097e74-18a8-4a37-a012-a46df6309035",
+            "04ca31ec-6115-420e-bb7b-18bbbf8a89cc",
+            "0f16c579-91da-4941-8839-1d0a684d5e7c",
+            "08e1266d-b538-4947-90b1-5472b2a8eade",
+            "0f148658-8a5b-4521-8fc8-e78acd3aae3d",
+            "0830876a-efd7-40dc-87cf-b0773dabaf42"
+          ]
+        }
+      ]
+    }
+  ]
+}

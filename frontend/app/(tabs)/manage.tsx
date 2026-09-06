@@ -1,0 +1,6104 @@
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useFocusEffect, useRouter } from 'expo-router';
+import { useQuery } from '@tanstack/react-query';
+import { ModalHeader } from '../../src/components/common/ModalHeader';
+import { Card } from '../../src/components/common/Card';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Linking from 'expo-linking';
+import {
+  ActivityIndicator,
+  Dimensions,
+  Image,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  useWindowDimensions,
+} from 'react-native';
+import { WebView } from 'react-native-webview';
+
+import { FolderOpen, Video as VideoIcon, HelpCircle, BookOpen as BookOpenIcon, Trophy as TrophyIcon, ListChecks, SplitSquareHorizontal, Eye as EyeIcon, Volume2, CheckSquare, Image as ImageIcon, BookOpenCheck as StoriesIcon, Bookmark as BookmarkIcon } from 'lucide-react-native';
+import SelectorModal from '../../src/components/SelectorModal';
+import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
+import { getAuthorizedClasses, getAuthorizedSubjects } from '../../src/utils/assignments';
+import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
+import { PickedFile, pickFileAsDataUrl, uploadPickedFileToS3 } from '../../src/utils/fileUpload';
+import { AudioManager } from '../../src/utils/audio';
+import TopicsTab from '../../src/components/manage/TopicsTab';
+import ContentTab from '../../src/components/manage/ContentTab';
+import QuestionsTab from '../../src/components/manage/QuestionsTab';
+import BookmarksTab from '../../src/components/manage/BookmarksTab';
+import QuizTab from '../../src/components/manage/QuizTab';
+import { Video, ResizeMode } from 'expo-av';
+import AudioPlayer from '../../src/components/media/AudioPlayer';
+import DocumentViewer from '../../src/components/media/DocumentViewer';
+import JigsawRenderer from '../../src/components/quiz/JigsawRenderer';
+import QuizRenderer from '../../src/components/quiz/QuizRenderer';
+import QuestionEditor from '../../src/components/quiz/QuestionEditor';
+import { frameButtons } from '../modules/logicopiccolo/generated/buttons';
+import { MEMORY_ASSETS, GRID_PAIR_COUNTS, GRID_COLS, pickRandomAssets, type MemoryAsset } from '../../src/data/memoryAssets';
+import { LinearGradient } from 'expo-linear-gradient';
+
+type QuestionItem = {
+  id: string;
+  quiz_id: string;
+  quiz_title: string;
+  class_level?: string;
+  subject?: string;
+  quiz_type: string;
+  question_type: string;
+  question_title?: string;
+  question_instruction?: string;
+  explanation?: string;
+  question_audio?: string;
+  time_limit_seconds: number;
+  points: number;
+  sort_order?: number;
+  question_data: unknown;
+  created_at: string;
+};
+
+type QuestionEditorMode = 'choice' | 'drag_drop' | 'logico' | 'memory_match' | 'fill_blank' | 'jigsaw' | 'custom';
+
+type SupportedQuestionType =
+  | 'guess_image'
+  | 'drag_drop_match'
+  | 'guess_audio'
+  | 'true_false'
+  | 'single_choice'
+  | 'multi_choice'
+  | 'logico'
+  | 'memory_match'
+  | 'fill_blank'
+  | 'jigsaw';
+
+type OptionDraft = {
+  id: string;
+  slotPosition: number;
+  image: string;
+  imageLabel: string;
+  imageAssetId: string;
+  audio: string;
+  audioLabel: string;
+  audioAssetId: string;
+  label: string;
+  isCorrect: boolean;
+};
+
+type MatchPairDraft = {
+  id: string;
+  itemLabel: string;
+  targetLabel: string;
+  image: string;
+  imageLabel: string;
+  imageAssetId: string;
+  audio: string;
+  audioLabel: string;
+  audioAssetId: string;
+};
+
+type QuestionDraft = {
+  classLevel: string;
+  subject: string;
+  questionTitle: string;
+  questionInstruction: string;
+  explanation: string;
+  questionType: string;
+  mainImage: string;
+  mainImageLabel: string;
+  mainImageAssetId: string;
+  mainAudio: string;
+  mainAudioLabel: string;
+  mainAudioAssetId: string;
+  points: string;
+  timeLimitSeconds: string;
+  sortOrder: string;
+  options: OptionDraft[];
+  matchPairs: MatchPairDraft[];
+  rawQuestionData: unknown;
+};
+
+type MediaRemovalRequest =
+  | { scope: 'question'; mode: 'create' | 'edit'; mediaType: 'image' | 'audio' }
+  | { scope: 'option'; mode: 'create' | 'edit'; index: number; mediaType: 'image' | 'audio' }
+  | { scope: 'pair'; mode: 'create' | 'edit'; index: number; mediaType: 'image' | 'audio' };
+
+type OptionRemovalRequest = { mode: 'create' | 'edit'; index: number };
+type SelectorField = 'classLevel' | 'subject' | 'filterClassLevel' | 'filterSubject';
+type LearningTab = 'topic' | 'content' | 'question' | 'exam' | 'quiz' | 'stories' | 'bookmark';
+type ContentModeTab = 'create' | 'assign';
+type ContentSelectorField =
+  | 'contentFilterClassLevel'
+  | 'contentFilterSubject'
+  | 'topicClassLevel'
+  | 'topicSubject'
+  | 'assignTargetClassLevel'
+  | 'assignTargetSubject'
+  | 'quizFilterClassLevel'
+  | 'quizFilterSubject';
+
+type SubjectCatalogItem = {
+  id: string;
+  title: string;
+  classLevel: string;
+  coverImage?: string;
+  iconImage?: string;
+  iconBgColor?: string;
+};
+
+type ContentTopic = {
+  id: string;
+  classLevel: string;
+  subject: string;
+  title: string;
+  coverImage?: string;
+  sectionCount: number;
+};
+
+type TopicContentSection = {
+  id: string;
+  sectionOrder: number;
+  title?: string;
+  contentType: 'reel' | 'image' | 'text' | 'audio' | 'youtube_url' | 'reel_url';
+  mediaUrl?: string;
+  externalUrl?: string;
+  textContent?: string;
+};
+
+type LearningContentItem = {
+  id: string;
+  classLevel: string;
+  subject: string;
+  title: string;
+  contentType: string;
+  sectionCount?: number;
+  quizCount?: number;
+  mediaUrl?: string;
+  externalUrl?: string;
+  textContent?: string;
+  sections?: TopicContentSection[];
+  assignedTopics?: Array<{ topicId: string; title: string; classLevel: string; subject: string }>;
+};
+
+type QuizItem = {
+  id: string;
+  title: string;
+  quiz_type: string;
+  class_level: string;
+  subject: string;
+  is_published: boolean;
+  total_questions: number;
+  created_at: string;
+};
+type QuizCatalogItem = {
+  classLevel: string;
+  subject: string;
+};
+
+type TopicDraft = {
+  title: string;
+  classLevel: string;
+  subject: string;
+  coverImage: string;
+};
+
+type TopicSectionDraft = {
+  id: string;
+  title?: string;
+  contentType: 'reel' | 'image' | 'text' | 'audio' | 'youtube_url' | 'reel_url';
+  mediaUrl: string;
+  mediaLabel: string;
+  externalUrl: string;
+  textContent: string;
+};
+
+const CONTENT_TYPE_CHOICES: Array<{ value: TopicSectionDraft['contentType']; label: string }> = [
+  { value: 'reel', label: 'Reel (Video Upload)' },
+  { value: 'image', label: 'Image / Video Upload' },
+  { value: 'text', label: 'Text' },
+  { value: 'audio', label: 'Audio Upload' },
+  { value: 'youtube_url', label: 'Youtube URL' },
+  { value: 'reel_url', label: 'Reel URL' },
+];
+const CREATE_CONTENT_TYPE_CHOICES: Array<{ value: 'media' | 'text' | 'youtube_url' | 'reel_url'; label: string }> = [
+  { value: 'media', label: 'Media Upload' },
+  { value: 'text', label: 'Text' },
+  { value: 'youtube_url', label: 'Youtube URL' },
+  { value: 'reel_url', label: 'Reel URL' },
+];
+
+const QUESTION_TYPE_CHOICES: Array<{ value: SupportedQuestionType; label: string; description: string }> = [
+  {
+    value: 'guess_image',
+    label: 'Guess the Image / Video',
+    description: 'Show a main image/video prompt and let students choose the correct image option.',
+  },
+  {
+    value: 'drag_drop_match',
+    label: 'Drag & Drop Match',
+    description: 'Students drag each item and drop it on the correct matching target.',
+  },
+  {
+    value: 'guess_audio',
+    label: 'Guess the Audio',
+    description: 'Play a main audio prompt and ask students to pick the correct option.',
+  },
+  {
+    value: 'true_false',
+    label: 'True / False',
+    description: 'Students answer using exactly two options: True and False.',
+  },
+  {
+    value: 'single_choice',
+    label: 'Single Choice',
+    description: 'Students pick exactly one correct answer from multiple options.',
+  },
+  {
+    value: 'multi_choice',
+    label: 'Multi Choice',
+    description: 'Students select all correct options. Score is correct only when all are selected with no wrong picks.',
+  },
+  {
+    value: 'logico',
+    label: 'Logico',
+    description: 'Upload a worksheet image and map each Logico button to slot positions 1 to 10.',
+  },
+  {
+    value: 'memory_match',
+    label: 'Memory Match',
+    description: 'Card flip matching game — students pair up matching cards on a grid.',
+  },
+  {
+    value: 'fill_blank',
+    label: 'Fill in the Blank',
+    description: 'Students complete a sentence by selecting the missing word from options.',
+  },
+  {
+    value: 'jigsaw',
+    label: 'Jigsaw Puzzle',
+    description: 'Students drag and rearrange puzzle pieces of an uploaded image.',
+  },
+];
+
+const QUESTION_TYPE_LABELS: Record<string, string> = {
+  guess_image: 'Guess the Image / Video',
+  drag_drop_match: 'Drag & Drop Match',
+  guess_audio: 'Guess the Audio',
+  true_false: 'True / False',
+  single_choice: 'Single Choice',
+  multi_choice: 'Multi Choice',
+  logico: 'Logico',
+  memory_match: 'Memory Match',
+  fill_blank: 'Fill in the Blank',
+  jigsaw: 'Jigsaw Puzzle',
+  image_select: 'Guess the Image / Video',
+  drag_drop: 'Drag & Drop Match',
+  sound_match: 'Guess the Audio',
+  memory_game: 'Multi Choice',
+};
+
+const QUESTION_TYPE_DEFAULT_INSTRUCTIONS: Record<SupportedQuestionType, string> = {
+  guess_image: 'Look at the main image and choose the correct option.',
+  drag_drop_match: 'Drag each item and drop it on the correct matching target.',
+  guess_audio: 'Listen to the audio and choose the correct answer.',
+  true_false: 'Read the statement carefully and choose True or False.',
+  single_choice: 'Choose one correct option.',
+  multi_choice: 'Select all correct options before submitting your answer.',
+  logico: 'Match each Logico button with the correct option position from top to bottom.',
+  memory_match: 'Tap cards to find all matching pairs before time runs out.',
+  fill_blank: 'Read the sentence carefully and choose the correct missing word.',
+  jigsaw: 'Drag and rearrange pieces until the full image is complete.',
+};
+
+const toSlug = (value: string) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+
+const buildAutoId = (seed: string, fallbackPrefix: string, index: number) => {
+  const slug = toSlug(seed);
+  return `${slug || fallbackPrefix}_${index + 1}`;
+};
+
+const QUESTION_TYPE_ALIASES: Record<string, SupportedQuestionType> = {
+  image_select: 'guess_image',
+  drag_drop: 'drag_drop_match',
+  sound_match: 'guess_audio',
+  memory_game: 'multi_choice',
+};
+
+const normalizeQuestionType = (value: string): string => QUESTION_TYPE_ALIASES[value] || value;
+
+const getDefaultInstructionByType = (questionType: string): string => {
+  const normalized = normalizeQuestionType(questionType);
+  return isSupportedQuestionType(normalized) ? QUESTION_TYPE_DEFAULT_INSTRUCTIONS[normalized] : '';
+};
+
+const isSupportedQuestionType = (value: unknown): value is SupportedQuestionType =>
+  value === 'guess_image' ||
+  value === 'drag_drop_match' ||
+  value === 'memory_match' ||
+  value === 'fill_blank' ||
+  value === 'jigsaw' ||
+  value === 'guess_audio' ||
+  value === 'true_false' ||
+  value === 'single_choice' ||
+  value === 'multi_choice' ||
+  value === 'logico';
+
+const getQuestionEditorMode = (questionType: string): QuestionEditorMode => {
+  const normalized = normalizeQuestionType(questionType);
+  if (normalized === 'logico') return 'logico';
+  if (normalized === 'drag_drop_match') return 'drag_drop';
+  if (normalized === 'memory_match') return 'memory_match';
+  if (normalized === 'fill_blank') return 'fill_blank';
+  if (normalized === 'jigsaw') return 'jigsaw';
+  if (
+    normalized === 'guess_image' ||
+    normalized === 'guess_audio' ||
+    normalized === 'true_false' ||
+    normalized === 'single_choice' ||
+    normalized === 'multi_choice'
+  ) {
+    return 'choice';
+  }
+  return 'custom';
+};
+
+const getQuestionTypeLabel = (questionType: string) => {
+  const normalized = normalizeQuestionType(questionType);
+  if (isSupportedQuestionType(normalized)) {
+    return QUESTION_TYPE_LABELS[normalized];
+  }
+  return QUESTION_TYPE_LABELS[questionType] || questionType || 'Custom';
+};
+
+const extractFileName = (source: string): string => {
+  const trimmed = source.trim();
+  if (!trimmed) return '';
+  if (trimmed.startsWith('data:')) {
+    const mime = trimmed.slice(5, trimmed.indexOf(';') > -1 ? trimmed.indexOf(';') : undefined).trim();
+    const extension = mime.includes('/') ? mime.split('/')[1] : 'file';
+    return `uploaded-file.${extension || 'file'}`;
+  }
+  try {
+    const normalized = resolveMediaUrl(trimmed);
+    const path = normalized.split('?')[0].split('#')[0];
+    const segment = decodeURIComponent(path.substring(path.lastIndexOf('/') + 1));
+    return segment || 'uploaded-file';
+  } catch {
+    return 'uploaded-file';
+  }
+};
+
+const toMediaLabel = (source: string, fallback: string, explicitLabel?: string) => {
+  if (explicitLabel?.trim()) return explicitLabel.trim();
+  if (!source.trim()) return `No ${fallback} selected`;
+  return extractFileName(source);
+};
+
+const LOGICO_BUTTON_ORDER = frameButtons.map((button) => button.id);
+const LOGICO_BUTTON_COLOR_MAP = Object.fromEntries(frameButtons.map((button) => [button.id, button.color]));
+
+const makeEmptyMatchPair = (): MatchPairDraft => ({
+  id: '',
+  itemLabel: '',
+  targetLabel: '',
+  image: '',
+  imageLabel: '',
+  imageAssetId: '',
+  audio: '',
+  audioLabel: '',
+  audioAssetId: '',
+});
+
+const makeEmptyOption = (): OptionDraft => ({
+  id: '',
+  slotPosition: 1,
+  image: '',
+  imageLabel: '',
+  imageAssetId: '',
+  audio: '',
+  audioLabel: '',
+  audioAssetId: '',
+  label: '',
+  isCorrect: false,
+});
+
+const makeTrueFalseOptions = (): OptionDraft[] => [
+  { ...makeEmptyOption(), id: 'true', slotPosition: 1, label: 'True', isCorrect: true },
+  { ...makeEmptyOption(), id: 'false', slotPosition: 2, label: 'False', isCorrect: false },
+];
+
+const makeLogicoOptions = (): OptionDraft[] =>
+  LOGICO_BUTTON_ORDER.map((buttonId, index) => ({
+    ...makeEmptyOption(),
+    id: buttonId,
+    slotPosition: index + 1,
+    label: '',
+    isCorrect: true,
+  }));
+
+const makeDefaultOptionsByType = (questionType: string): OptionDraft[] => {
+  const normalized = normalizeQuestionType(questionType);
+  if (normalized === 'true_false') return makeTrueFalseOptions();
+  if (normalized === 'logico') return makeLogicoOptions();
+  return [makeEmptyOption()];
+};
+
+const makeInitialDraft = (questionType: string = 'guess_image'): QuestionDraft => ({
+  classLevel: '',
+  subject: '',
+  questionTitle: '',
+  questionInstruction: getDefaultInstructionByType(questionType),
+  explanation: '',
+  questionType,
+  mainImage: '',
+  mainImageLabel: '',
+  mainImageAssetId: '',
+  mainAudio: '',
+  mainAudioLabel: '',
+  mainAudioAssetId: '',
+  points: '10',
+  timeLimitSeconds: '30',
+  sortOrder: '',
+  options: makeDefaultOptionsByType(questionType),
+  matchPairs: [makeEmptyMatchPair()],
+  rawQuestionData: {},
+});
+
+const makeInitialTopicDraft = (): TopicDraft => ({
+  title: '',
+  classLevel: '',
+  subject: '',
+  coverImage: '',
+});
+
+const buildClientId = () => `section-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+const makeEmptyTopicSection = (): TopicSectionDraft => ({
+  id: buildClientId(),
+  title: '',
+  contentType: 'text',
+  mediaUrl: '',
+  mediaLabel: '',
+  externalUrl: '',
+  textContent: '',
+});
+
+const isMediaContentType = (contentType: TopicSectionDraft['contentType']) =>
+  contentType === 'image' || contentType === 'audio' || contentType === 'reel';
+
+const getCreateSectionChoiceValue = (contentType: TopicSectionDraft['contentType']) =>
+  isMediaContentType(contentType) ? 'media' : contentType;
+
+function questionDataToOptions(questionData: unknown): OptionDraft[] {
+  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
+    return [makeEmptyOption()];
+  }
+
+  const options = (questionData as Record<string, unknown>).options;
+  if (!Array.isArray(options) || options.length === 0) {
+    return [makeEmptyOption()];
+  }
+
+  return options.map((item) => {
+    if (item && typeof item === 'object' && !Array.isArray(item)) {
+      const optionRecord = item as Record<string, unknown>;
+      const rawSlotPosition = Number(optionRecord.slot_position);
+      return {
+        id: typeof optionRecord.id === 'string' ? optionRecord.id : '',
+        slotPosition: Number.isInteger(rawSlotPosition) && rawSlotPosition > 0 ? rawSlotPosition : 1,
+        image: typeof optionRecord.image === 'string' ? optionRecord.image : '',
+        imageLabel:
+          typeof optionRecord.image === 'string'
+            ? toMediaLabel(optionRecord.image, 'image')
+            : '',
+        imageAssetId: typeof optionRecord.image_asset_id === 'string' ? optionRecord.image_asset_id : '',
+        audio: typeof optionRecord.audio === 'string' ? optionRecord.audio : '',
+        audioLabel:
+          typeof optionRecord.audio === 'string'
+            ? toMediaLabel(optionRecord.audio, 'audio')
+            : '',
+        audioAssetId: typeof optionRecord.audio_asset_id === 'string' ? optionRecord.audio_asset_id : '',
+        label: typeof optionRecord.label === 'string' ? optionRecord.label : '',
+        isCorrect: Boolean(optionRecord.is_correct),
+      };
+    }
+    return makeEmptyOption();
+  });
+}
+
+function questionDataToLogicoOptions(questionData: unknown): OptionDraft[] {
+  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
+    return makeLogicoOptions();
+  }
+
+  const data = questionData as Record<string, unknown>;
+  const buttonSlotMapRaw = data.button_slot_map;
+  const optionSlotsRaw = data.option_slots;
+
+  const buttonSlotMap: Record<string, number> =
+    buttonSlotMapRaw && typeof buttonSlotMapRaw === 'object' && !Array.isArray(buttonSlotMapRaw)
+      ? Object.fromEntries(
+        Object.entries(buttonSlotMapRaw).map(([buttonId, slot]) => [buttonId, Number(slot)]).filter(([, slot]) => Number.isInteger(slot)),
+      )
+      : {};
+
+  const optionSlotLabelById = new Map<number, string>();
+  if (Array.isArray(optionSlotsRaw)) {
+    optionSlotsRaw.forEach((slot) => {
+      if (!slot || typeof slot !== 'object' || Array.isArray(slot)) return;
+      const record = slot as Record<string, unknown>;
+      const slotId = Number(record.id);
+      if (!Number.isInteger(slotId)) return;
+      optionSlotLabelById.set(slotId, typeof record.value === 'string' ? record.value : '');
+    });
+  }
+
+  return LOGICO_BUTTON_ORDER.map((buttonId, index) => {
+    const slotPosition = buttonSlotMap[buttonId];
+    const safeSlot = Number.isInteger(slotPosition) && slotPosition >= 1 && slotPosition <= 10 ? slotPosition : index + 1;
+    return {
+      ...makeEmptyOption(),
+      id: buttonId,
+      slotPosition: safeSlot,
+      label: optionSlotLabelById.get(safeSlot) ?? '',
+      isCorrect: true,
+    };
+  });
+}
+
+function questionDataToMatchPairs(questionData: unknown): MatchPairDraft[] {
+  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
+    return [makeEmptyMatchPair()];
+  }
+
+  const data = questionData as Record<string, unknown>;
+  const dragItems = Array.isArray(data.drag_items) ? data.drag_items : [];
+  const dropTargets = Array.isArray(data.drop_targets) ? data.drop_targets : [];
+  const matchRules = Array.isArray(data.match_rules) ? data.match_rules : [];
+
+  if (dragItems.length === 0) {
+    return [makeEmptyMatchPair()];
+  }
+
+  const dropTargetLabels = new Map<string, string>();
+  for (const target of dropTargets) {
+    if (target && typeof target === 'object' && !Array.isArray(target)) {
+      const targetRecord = target as Record<string, unknown>;
+      const id = typeof targetRecord.id === 'string' ? targetRecord.id : '';
+      const label = typeof targetRecord.label === 'string' ? targetRecord.label : '';
+      if (id) {
+        dropTargetLabels.set(id, label);
+      }
+    }
+  }
+
+  const matchedTargetByDragId = new Map<string, string>();
+  for (const rule of matchRules) {
+    if (rule && typeof rule === 'object' && !Array.isArray(rule)) {
+      const ruleRecord = rule as Record<string, unknown>;
+      const dragId = typeof ruleRecord.drag_item_id === 'string' ? ruleRecord.drag_item_id : '';
+      const targetId = typeof ruleRecord.drop_target_id === 'string' ? ruleRecord.drop_target_id : '';
+      if (dragId && targetId) {
+        matchedTargetByDragId.set(dragId, targetId);
+      }
+    }
+  }
+
+  const pairs: MatchPairDraft[] = [];
+  for (const dragItem of dragItems) {
+    if (dragItem && typeof dragItem === 'object' && !Array.isArray(dragItem)) {
+      const dragRecord = dragItem as Record<string, unknown>;
+      const id = typeof dragRecord.id === 'string' ? dragRecord.id : '';
+      const itemLabel = typeof dragRecord.label === 'string' ? dragRecord.label : '';
+      const image = typeof dragRecord.image === 'string' ? dragRecord.image : '';
+      const imageAssetId = typeof dragRecord.image_asset_id === 'string' ? dragRecord.image_asset_id : '';
+      const audio = typeof dragRecord.sound === 'string' ? dragRecord.sound : '';
+      const audioAssetId =
+        typeof dragRecord.sound_asset_id === 'string'
+          ? dragRecord.sound_asset_id
+          : typeof dragRecord.audio_asset_id === 'string'
+            ? dragRecord.audio_asset_id
+            : '';
+      const targetId = matchedTargetByDragId.get(id) || id;
+      const targetLabel = dropTargetLabels.get(targetId || '') || '';
+
+      pairs.push({
+        id,
+        itemLabel,
+        targetLabel: targetLabel || itemLabel,
+        image,
+        imageLabel: toMediaLabel(image, 'image'),
+        imageAssetId,
+        audio,
+        audioLabel: toMediaLabel(audio, 'audio'),
+        audioAssetId,
+      });
+    }
+  }
+
+  return pairs.length > 0 ? pairs : [makeEmptyMatchPair()];
+}
+
+function questionDataPromptAudio(questionData: unknown): string {
+  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
+    return '';
+  }
+
+  const promptAudio = (questionData as Record<string, unknown>).prompt_audio;
+  return typeof promptAudio === 'string' ? promptAudio : '';
+}
+
+function questionDataPromptAudioAssetId(questionData: unknown): string {
+  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
+    return '';
+  }
+  const promptAudioAssetId = (questionData as Record<string, unknown>).prompt_audio_asset_id;
+  return typeof promptAudioAssetId === 'string' ? promptAudioAssetId : '';
+}
+
+function questionDataPromptImage(questionData: unknown): string {
+  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
+    return '';
+  }
+
+  const payload = questionData as Record<string, unknown>;
+  const promptImage = payload.prompt_image ?? payload.image;
+  return typeof promptImage === 'string' ? promptImage : '';
+}
+
+function questionDataPromptImageAssetId(questionData: unknown): string {
+  if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
+    return '';
+  }
+  const payload = questionData as Record<string, unknown>;
+  const promptImageAssetId = payload.prompt_image_asset_id ?? payload.image_asset_id;
+  return typeof promptImageAssetId === 'string' ? promptImageAssetId : '';
+}
+
+function toPersistentMediaUrl(url: string): string {
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+  if (!trimmed.includes('X-Amz-') && !trimmed.includes('x-amz-')) {
+    return trimmed;
+  }
+  try {
+    const parsed = new URL(trimmed);
+    return `${parsed.origin}${parsed.pathname}`;
+  } catch {
+    return trimmed;
+  }
+}
+
+const normalizeLogicoButtonId = (id: string) => id.trim().toLowerCase();
+
+const getLogicoButtonColor = (buttonId: string) => {
+  const normalized = normalizeLogicoButtonId(buttonId);
+  return LOGICO_BUTTON_COLOR_MAP[normalized] || '#4b5563';
+};
+
+const isRingButton = (buttonId: string) => normalizeLogicoButtonId(buttonId).includes('-ring');
+
+function LogicoButtonBadge({ buttonId, size = 26 }: { buttonId: string; size?: number }) {
+  const color = getLogicoButtonColor(buttonId);
+  return (
+    <View
+      style={[
+        qFormS.logicoButtonCircle,
+        { width: size, height: size, borderRadius: size / 2, backgroundColor: color },
+      ]}
+    >
+      {isRingButton(buttonId) ? (
+        <View
+          style={[
+            qFormS.logicoButtonRingInner,
+            { width: size * 0.44, height: size * 0.44, borderRadius: (size * 0.44) / 2 },
+          ]}
+        />
+      ) : null}
+    </View>
+  );
+}
+
+function draftToPayload(draft: QuestionDraft) {
+  if (!draft.questionTitle.trim()) {
+    throw new Error('Question title is required.');
+  }
+  if (!draft.questionType.trim()) {
+    throw new Error('Question type is required.');
+  }
+
+  const points = Number(draft.points);
+  const timeLimitSeconds = Number(draft.timeLimitSeconds);
+  if (Number.isNaN(points) || Number.isNaN(timeLimitSeconds)) {
+    throw new Error('Points and time limit must be valid numbers.');
+  }
+
+  const mode = getQuestionEditorMode(draft.questionType);
+  const mainImage = toPersistentMediaUrl(draft.mainImage);
+  const mainImageAssetId = draft.mainImageAssetId.trim();
+  const mainAudio = toPersistentMediaUrl(draft.mainAudio);
+  const mainAudioAssetId = draft.mainAudioAssetId.trim();
+  let questionData: unknown = {};
+
+  const normalizedType = normalizeQuestionType(draft.questionType.trim());
+
+  if (mode === 'choice') {
+    const preparedOptions = draft.options
+      .map((option) => ({
+        id: option.id.trim(),
+        slotPosition: Number(option.slotPosition),
+        image: toPersistentMediaUrl(option.image),
+        imageAssetId: option.imageAssetId.trim(),
+        audio: toPersistentMediaUrl(option.audio),
+        audioAssetId: option.audioAssetId.trim(),
+        label: option.label.trim(),
+        isCorrect: option.isCorrect,
+      }))
+      .filter((option) => option.id || option.image || option.audio || option.label);
+
+    if (normalizedType === 'true_false') {
+      if (preparedOptions.length !== 2) {
+        throw new Error('True / False requires exactly 2 options.');
+      }
+    } else if (preparedOptions.length < 2) {
+      throw new Error('Add at least 2 options.');
+    }
+
+    const correctOptionCount = preparedOptions.filter((option) => option.isCorrect).length;
+    if (normalizedType === 'multi_choice') {
+      if (correctOptionCount < 1) {
+        throw new Error('Mark at least one correct option for Multi Choice.');
+      }
+    } else if (correctOptionCount !== 1) {
+      throw new Error('Mark exactly one option as the correct answer.');
+    }
+
+    if (normalizedType === 'guess_image') {
+      if (!mainImage) {
+        throw new Error('Add main media for Guess the Image / Video questions.');
+      }
+      preparedOptions.forEach((option, index) => {
+        if (!option.image) {
+          throw new Error(`Add an image for option ${index + 1}.`);
+        }
+      });
+    }
+
+    if (normalizedType === 'guess_audio' && !mainAudio) {
+      throw new Error('Add main audio for Guess the Audio questions.');
+    }
+
+    const normalizedOptions = preparedOptions.map((option, index) => ({
+      id: option.id || buildAutoId(option.label, 'option', index),
+      slot_position: option.slotPosition || index + 1,
+      image: option.image || undefined,
+      image_asset_id: option.imageAssetId || undefined,
+      audio: option.audio || undefined,
+      audio_asset_id: option.audioAssetId || undefined,
+      label: option.label || `Option ${index + 1}`,
+      is_correct: option.isCorrect,
+    }));
+
+    questionData = {
+      options: normalizedOptions,
+      ...(normalizedType === 'guess_image' && mainImage ? { prompt_image: mainImage } : {}),
+      ...(normalizedType === 'guess_image' && mainImageAssetId ? { prompt_image_asset_id: mainImageAssetId } : {}),
+      ...(normalizedType === 'guess_audio' && mainAudio ? { prompt_audio: mainAudio } : {}),
+      ...(normalizedType === 'guess_audio' && mainAudioAssetId ? { prompt_audio_asset_id: mainAudioAssetId } : {}),
+      ...(normalizedType ? { variant: normalizedType } : {}),
+    };
+  } else if (mode === 'logico') {
+    if (!mainImage) {
+      throw new Error('Add worksheet image for Logico questions.');
+    }
+
+    const mappings = draft.options.map((option, index) => ({
+      buttonId: normalizeLogicoButtonId(option.id || LOGICO_BUTTON_ORDER[index] || ''),
+      slotPosition: Number(option.slotPosition),
+      label: option.label.trim(),
+    }));
+
+    if (mappings.some((item) => !item.buttonId)) {
+      throw new Error('Each Logico button mapping must have a valid button id.');
+    }
+    if (mappings.length !== LOGICO_BUTTON_ORDER.length) {
+      throw new Error('Logico questions require mapping for all 10 buttons.');
+    }
+    if (mappings.some((item) => !Number.isInteger(item.slotPosition) || item.slotPosition < 1 || item.slotPosition > 10)) {
+      throw new Error('Each Logico button must be mapped to a position from 1 to 10.');
+    }
+
+    const uniqueSlots = new Set(mappings.map((item) => item.slotPosition));
+    if (uniqueSlots.size !== 10) {
+      throw new Error('Logico button positions must be unique (1 to 10).');
+    }
+
+    const buttonSlotMap = Object.fromEntries(mappings.map((item) => [item.buttonId, item.slotPosition]));
+    const optionSlots = Array.from({ length: 10 }, (_, index) => {
+      const slotId = index + 1;
+      const mapped = mappings.find((item) => item.slotPosition === slotId);
+      return {
+        id: slotId,
+        value: mapped?.label || '',
+      };
+    });
+
+    questionData = {
+      variant: 'logico',
+      prompt_image: mainImage,
+      ...(mainImageAssetId ? { prompt_image_asset_id: mainImageAssetId } : {}),
+      button_slot_map: buttonSlotMap,
+      option_slots: optionSlots,
+      logico_buttons: LOGICO_BUTTON_ORDER,
+    };
+  } else if (mode === 'drag_drop') {
+    const preparedPairs = draft.matchPairs
+      .map((pair) => ({
+        id: pair.id.trim(),
+        itemLabel: pair.itemLabel.trim(),
+        targetLabel: pair.targetLabel.trim(),
+        image: toPersistentMediaUrl(pair.image),
+        imageAssetId: pair.imageAssetId.trim(),
+        audio: toPersistentMediaUrl(pair.audio),
+        audioAssetId: pair.audioAssetId.trim(),
+      }))
+      .filter((pair) => pair.id || pair.itemLabel || pair.targetLabel || pair.image || pair.audio);
+
+    if (preparedPairs.length === 0) {
+      throw new Error('Add at least one match pair.');
+    }
+
+    const dragItems = preparedPairs.map((pair, index) => {
+      if (!pair.image) {
+        throw new Error(`Add an image for pair ${index + 1}.`);
+      }
+      const id = pair.id || buildAutoId(pair.itemLabel || pair.targetLabel, 'item', index);
+      return {
+        id,
+        image: pair.image,
+        image_asset_id: pair.imageAssetId || undefined,
+        label: pair.itemLabel || `Item ${index + 1}`,
+        ...(pair.audio ? { sound: pair.audio } : {}),
+        ...(pair.audioAssetId ? { sound_asset_id: pair.audioAssetId } : {}),
+      };
+    });
+
+    const dropTargets = preparedPairs.map((pair, index) => {
+      const dragItemId = dragItems[index].id;
+      return {
+        id: dragItemId,
+        label: pair.targetLabel || pair.itemLabel || `Target ${index + 1}`,
+      };
+    });
+
+    const matchRules = dragItems.map((item) => ({
+      drag_item_id: item.id,
+      drop_target_id: item.id,
+    }));
+
+    questionData = {
+      drag_items: dragItems,
+      drop_targets: dropTargets,
+      match_rules: matchRules,
+    };
+  } else if (mode === 'memory_match') {
+    const pairs = (draft.rawQuestionData as any)?.pairs;
+    if (!Array.isArray(pairs) || pairs.length === 0) {
+      throw new Error('Add at least one pair for Memory Match.');
+    }
+    const rawClickLimit = (draft.rawQuestionData as any)?.clickLimit ?? 0;
+    questionData = {
+      grid: (draft.rawQuestionData as any)?.grid ?? '4x4',
+      pairs,
+      ...(rawClickLimit > 0 ? { clickLimit: rawClickLimit } : {}),
+    };
+  } else if (mode === 'fill_blank') {
+    const sentence = ((draft.rawQuestionData as any)?.sentence ?? '').trim();
+    const answer = ((draft.rawQuestionData as any)?.answer ?? '').trim();
+    const opts = ((draft.rawQuestionData as any)?.options ?? []) as string[];
+    if (!sentence) throw new Error('Sentence is required for Fill in the Blank.');
+    if (!sentence.includes('___')) throw new Error('Sentence must include ___ to mark the blank.');
+    if (!answer) throw new Error('Correct answer is required.');
+    if (opts.length < 2) throw new Error('Add at least 2 answer options.');
+    if (!opts.some((o) => o.toLowerCase() === answer.toLowerCase())) {
+      throw new Error('The correct answer must be one of the options.');
+    }
+    questionData = {
+      sentence,
+      answer,
+      hint: ((draft.rawQuestionData as any)?.hint ?? '').trim() || undefined,
+      options: opts.filter(Boolean),
+    };
+  } else if (mode === 'jigsaw') {
+    if (!mainImage) {
+      throw new Error('Add puzzle image for Jigsaw questions.');
+    }
+    const rawGridSize = String((draft.rawQuestionData as any)?.gridSize ?? '3x3');
+    const gridSize = ['2x2', '3x3', '4x4', '5x5'].includes(rawGridSize) ? rawGridSize : '3x3';
+    const rawDifficulty = String((draft.rawQuestionData as any)?.difficulty ?? 'medium');
+    const difficulty = ['easy', 'medium', 'hard'].includes(rawDifficulty) ? rawDifficulty : 'medium';
+    const rawClickLimit = Number((draft.rawQuestionData as any)?.clickLimit ?? 0);
+    questionData = {
+      image: mainImage,
+      ...(mainImageAssetId ? { image_asset_id: mainImageAssetId } : {}),
+      gridSize,
+      difficulty,
+      ...(Number.isFinite(rawClickLimit) && rawClickLimit > 0 ? { clickLimit: rawClickLimit } : {}),
+    };
+  } else {
+    questionData = draft.rawQuestionData ?? {};
+  }
+
+  if (questionData && typeof questionData === 'object' && !Array.isArray(questionData)) {
+    const rawMeta =
+      draft.rawQuestionData &&
+        typeof draft.rawQuestionData === 'object' &&
+        !Array.isArray(draft.rawQuestionData) &&
+        '_meta' in (draft.rawQuestionData as Record<string, unknown>)
+        ? (draft.rawQuestionData as Record<string, unknown>)._meta
+        : undefined;
+    const existingMeta =
+      rawMeta && typeof rawMeta === 'object' && !Array.isArray(rawMeta) ? (rawMeta as Record<string, unknown>) : {};
+    const classLevel = draft.classLevel.trim();
+    const subject = draft.subject.trim();
+    questionData = {
+      ...(questionData as Record<string, unknown>),
+      _meta: {
+        ...existingMeta,
+        classLevel: classLevel || null,
+        subject: subject || null,
+      },
+    };
+  }
+
+  const payload: Record<string, unknown> = {
+    classLevel: draft.classLevel.trim() || undefined,
+    subject: draft.subject.trim() || undefined,
+    questionTitle: draft.questionTitle.trim(),
+    questionInstruction: draft.questionInstruction.trim() || undefined,
+    questionType: normalizedType,
+    questionAudio: normalizedType === 'guess_audio' ? mainAudio || undefined : undefined,
+    points,
+    timeLimitSeconds,
+    questionData,
+  };
+
+  if (draft.sortOrder.trim()) {
+    const sortOrder = Number(draft.sortOrder);
+    if (!Number.isNaN(sortOrder)) {
+      payload.sortOrder = sortOrder;
+    }
+  }
+
+  return payload;
+}
+
+function resolveMediaUrl(url: string | undefined): string {
+  if (!url) return '';
+  if (url.startsWith('/media')) {
+    return `${API_BASE_URL}${url}`;
+  }
+  return url;
+}
+
+function SafeImage({ uri, style, resizeMode = 'contain' }: { uri: string; style?: any; resizeMode?: any }) {
+  const [error, setError] = useState(false);
+  if (!uri || error) {
+    return (
+      <View style={[style, { justifyContent: 'center', alignItems: 'center', backgroundColor: '#F4F4FB', overflow: 'hidden' }]}>
+        <ImageIcon size={24} color="#525C6B" />
+      </View>
+    );
+  }
+  return (
+    <Image
+      source={{ uri }}
+      style={style}
+      resizeMode={resizeMode}
+      onError={() => setError(true)}
+    />
+  );
+}
+
+function getYouTubeEmbedUrl(url: string): string | null {
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+  ];
+  for (const re of patterns) {
+    const m = url.match(re);
+    if (m) return `https://www.youtube.com/embed/${m[1]}?rel=0&playsinline=1`;
+  }
+  return null;
+}
+
+function isYouTubeUrl(url: string): boolean {
+  return /(?:youtube\.com|youtu\.be)/i.test(url);
+}
+
+function isImageUrl(url: string): boolean {
+  return /\.(png|jpe?g|gif|webp|bmp|svg)(?:$|[?#])/i.test(url);
+}
+
+function isVideoContentType(type: string): boolean {
+  return ['video', 'youtube_url', 'youtube', 'video_url'].includes(type.toLowerCase());
+}
+
+function openExternalResource(url: string): void {
+  if (!url) return;
+  if (Platform.OS === 'web' && typeof globalThis.open === 'function') {
+    globalThis.open(url, '_blank', 'noopener,noreferrer');
+    return;
+  }
+  void Linking.openURL(url);
+}
+
+type PickedFile = { dataUrl: string; fileName: string; mimeType: string };
+
+function resolvePickedMediaKind(file: PickedFile): 'image' | 'audio' | null {
+  const mimeType = file.mimeType.toLowerCase();
+  if (mimeType.startsWith('image/')) return 'image';
+  if (mimeType.startsWith('audio/')) return 'audio';
+
+  const fileName = file.fileName.toLowerCase();
+  if (/\.(png|jpg|jpeg|gif|webp|bmp|svg)$/.test(fileName)) return 'image';
+  if (/\.(mp3|wav|ogg|aac|m4a|flac)$/.test(fileName)) return 'audio';
+  return null;
+}
+
+
+async function pickAudioAsDataUrl(): Promise<PickedFile> {
+  return pickFileAsDataUrl('audio/*', 'Audio upload is currently available on web. On mobile, paste audio URL manually.');
+}
+
+async function pickImageAsDataUrl(): Promise<PickedFile> {
+  return pickFileAsDataUrl('image/*,video/*', 'Media upload is currently available on web. On mobile, paste media URL manually.');
+}
+
+async function pickMediaAsDataUrl(): Promise<PickedFile> {
+  return pickFileAsDataUrl(
+    'image/*,audio/*',
+    'Media upload is currently available on web. On mobile, paste media URL manually.',
+  );
+}
+
+export default function QuestionManagementScreen() {
+  const { user, apiFetch } = useAuth();
+  const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 768;
+  const router = useRouter();
+  const actionBadgeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [creating, setCreating] = useState(false);
+  const [savingQuestionId, setSavingQuestionId] = useState<string | null>(null);
+  const [deletingQuestionId, setDeletingQuestionId] = useState<string | null>(null);
+  const [editingQuestionId, setEditingQuestionId] = useState<string | null>(null);
+  const [editingQuestionPayload, setEditingQuestionPayload] = useState<QuestionItem | null>(null);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [questionFormTab, setQuestionFormTab] = useState<'setup' | 'options' | 'preview'>('setup');
+  const [actionBadge, setActionBadge] = useState<string | null>(null);
+  const [pendingMediaRemoval, setPendingMediaRemoval] = useState<MediaRemovalRequest | null>(null);
+  const [pendingOptionRemoval, setPendingOptionRemoval] = useState<OptionRemovalRequest | null>(null);
+  const [questions, setQuestions] = useState<QuestionItem[]>([]);
+  const [createDraft, setCreateDraft] = useState<QuestionDraft>(makeInitialDraft());
+  const [editDraft, setEditDraft] = useState<QuestionDraft>(makeInitialDraft());
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [selectorField, setSelectorField] = useState<SelectorField | null>(null);
+  const [activeLearningTab, setActiveLearningTab] = useState<LearningTab>('topic');
+
+  // Persist and restore the active learning tab
+  useEffect(() => {
+    AsyncStorage.getItem('manage_active_tab').then((v) => {
+      if (v) setActiveLearningTab(v as LearningTab);
+    });
+  }, []);
+  const handleSetActiveLearningTab = useCallback((tab: LearningTab) => {
+    setActiveLearningTab(tab);
+    AsyncStorage.setItem('manage_active_tab', tab);
+  }, []);
+  const [contentModeTab, setContentModeTab] = useState<ContentModeTab>('create');
+  const [contentSelectorField, setContentSelectorField] = useState<ContentSelectorField | null>(null);
+  const [contentFilters, setContentFilters] = useState({ classLevel: '', subject: '' });
+  // `enabled: false` — this data is shared by the topic/content/question tabs
+  // below, each of which triggers its own `subjectCatalogQuery.refetch()`
+  // only when that tab becomes active (matching the previous lazy,
+  // tab-gated `loadSubjectCatalog()` timing exactly; `refetch()` still works
+  // on a disabled query, it just isn't fetched automatically on mount).
+  const subjectCatalogQuery = useQuery({
+    queryKey: ['manage', 'subjectCatalog'],
+    queryFn: async () => {
+      const res = await apiFetch('/content/subjects');
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to load subject catalog');
+      }
+      const payload = await res.json();
+      return (payload.subjects || []) as SubjectCatalogItem[];
+    },
+    enabled: false,
+  });
+  const subjectCatalog = subjectCatalogQuery.data ?? [];
+  const [topics, setTopics] = useState<ContentTopic[]>([]);
+  const [loadingTopics, setLoadingTopics] = useState(false);
+  const [topicReloadToken, setTopicReloadToken] = useState(0);
+  const [contentReloadToken, setContentReloadToken] = useState(0);
+  const [questionReloadToken, setQuestionReloadToken] = useState(0);
+  const [topicDraft, setTopicDraft] = useState<TopicDraft>(makeInitialTopicDraft());
+  const [topicDialogMode, setTopicDialogMode] = useState<'create' | 'edit' | null>(null);
+  const [editingTopicId, setEditingTopicId] = useState<string | null>(null);
+  const [savingTopic, setSavingTopic] = useState(false);
+  const [deletingTopicId, setDeletingTopicId] = useState<string | null>(null);
+  const [selectedTopic, setSelectedTopic] = useState<ContentTopic | null>(null);
+  const [topicActionMenuTopic, setTopicActionMenuTopic] = useState<ContentTopic | null>(null);
+  const [topicContentActionItem, setTopicContentActionItem] = useState<LearningContentItem | null>(null);
+  const [contentLibraryActionItem, setContentLibraryActionItem] = useState<LearningContentItem | null>(null);
+  const [topicSections, setTopicSections] = useState<TopicContentSection[]>([]);
+  const [topicContentItems, setTopicContentItems] = useState<LearningContentItem[]>([]);
+  const [loadingTopicDetails, setLoadingTopicDetails] = useState(false);
+  const [isSectionDialogOpen, setIsSectionDialogOpen] = useState(false);
+  const [sectionDrafts, setSectionDrafts] = useState<TopicSectionDraft[]>([makeEmptyTopicSection()]);
+  const [savingSections, setSavingSections] = useState(false);
+  const [uploadingTopicCover, setUploadingTopicCover] = useState(false);
+  const [uploadingSectionMediaId, setUploadingSectionMediaId] = useState<string | null>(null);
+  const [contentCreateSections, setContentCreateSections] = useState<TopicSectionDraft[]>([makeEmptyTopicSection()]);
+  const [contentCreateMeta, setContentCreateMeta] = useState({ classLevel: '', subject: '', topicId: '', title: '' });
+  const [isCreateContentDialogOpen, setIsCreateContentDialogOpen] = useState(false);
+  const [editingContentId, setEditingContentId] = useState<string | null>(null);
+  const [previewContentItem, setPreviewContentItem] = useState<LearningContentItem | null>(null);
+  const [savingContentCreate, setSavingContentCreate] = useState(false);
+  const [deletingContentId, setDeletingContentId] = useState<string | null>(null);
+  const [loadingContentItems, setLoadingContentItems] = useState(false);
+  const [contentItems, setContentItems] = useState<LearningContentItem[]>([]);
+  const [topicPage, setTopicPage] = useState(0);
+  const [contentPage, setContentPage] = useState(0);
+  const [questionPage, setQuestionPage] = useState(0);
+  const [topicContentPage, setTopicContentPage] = useState(0);
+  const renderPagination = (
+    currentPage: number,
+    totalItems: number,
+    pageSize: number,
+    onPageChange: (newPage: number) => void
+  ) => {
+    const totalPages = Math.ceil(totalItems / pageSize);
+    if (totalPages <= 1) return null;
+
+    return (
+      <View style={styles.paginationRow}>
+        <Pressable
+          style={[styles.paginationButton, currentPage === 0 && styles.paginationButtonDisabled]}
+          onPress={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 0}
+        >
+          <Text style={[styles.paginationButtonText, currentPage === 0 && styles.paginationButtonTextDisabled]}>
+            Previous
+          </Text>
+        </Pressable>
+        <Text style={styles.paginationText}>
+          Page {currentPage + 1} of {totalPages}
+        </Text>
+        <Pressable
+          style={[styles.paginationButton, currentPage >= totalPages - 1 && styles.paginationButtonDisabled]}
+          onPress={() => onPageChange(currentPage + 1)}
+          disabled={currentPage >= totalPages - 1}
+        >
+          <Text style={[styles.paginationButtonText, currentPage >= totalPages - 1 && styles.paginationButtonTextDisabled]}>
+            Next
+          </Text>
+        </Pressable>
+      </View>
+    );
+  };
+  const [contentItemFilters, setContentItemFilters] = useState({ classLevel: '', subject: '', topicId: '' });
+  const [selectedAssignContentIds, setSelectedAssignContentIds] = useState<string[]>([]);
+  const [assignTargetTopicId, setAssignTargetTopicId] = useState('');
+  const [createTopicSearch, setCreateTopicSearch] = useState('');
+  const [assignTopicFilters, setAssignTopicFilters] = useState({ classLevel: '', subject: '', search: '' });
+  const [savingAssignments, setSavingAssignments] = useState(false);
+  const [topicQuizzes, setTopicQuizzes] = useState<QuizItem[]>([]);
+  const [allOrgQuizzes, setAllOrgQuizzes] = useState<QuizItem[]>([]);
+  const [quizCatalogItems, setQuizCatalogItems] = useState<QuizCatalogItem[]>([]);
+  const [loadingTopicQuizzes, setLoadingTopicQuizzes] = useState(false);
+  const [isQuizDialogOpen, setIsQuizDialogOpen] = useState(false);
+  const [quizDialogFilters, setQuizDialogFilters] = useState({ classLevel: '', subject: '', search: '' });
+  const [selectedQuizIds, setSelectedQuizIds] = useState<string[]>([]);
+  const [savingQuizSelections, setSavingQuizSelections] = useState(false);
+  const [previewQuiz, setPreviewQuiz] = useState<QuizItem | null>(null);
+  const [questionActionItem, setQuestionActionItem] = useState<QuestionItem | null>(null);
+  const [previewQuestion, setPreviewQuestion] = useState<QuestionItem | null>(null);
+  const [studentPreviewQuizId, setStudentPreviewQuizId] = useState<string | null>(null);
+  // Asset picker for memory match creator
+  const [assetPickerOpen, setAssetPickerOpen] = useState(false);
+  const [assetPickerTarget, setAssetPickerTarget] = useState<{ mode: 'create' | 'edit'; pairIdx: number } | null>(null);
+  const [filters, setFilters] = useState({
+    search: '',
+    classLevel: '',
+    subject: '',
+    category: '',
+  });
+
+  // Auto-fill memory match pairs when the Game Config tab is first opened and pairs are empty
+  useEffect(() => {
+    if (questionFormTab !== 'options') return;
+    const initIfEmpty = (m: 'create' | 'edit', d: QuestionDraft) => {
+      if (getQuestionEditorMode(d.questionType) !== 'memory_match') return;
+      const existing = (d.rawQuestionData as any)?.pairs;
+      if (Array.isArray(existing) && existing.length > 0) return;
+      const grid = (d.rawQuestionData as any)?.grid ?? '4x4';
+      const need = GRID_PAIR_COUNTS[grid] ?? 4;
+      const picked = pickRandomAssets(need);
+      updateDraftField(m, 'rawQuestionData', {
+        grid,
+        pairs: picked.map((a, i) => ({ id: i + 1, label: a.label, imageUrl: a.mediaPath })),
+      });
+    };
+    if (isCreateDialogOpen) initIfEmpty('create', createDraft);
+    if (editingQuestionId) initIfEmpty('edit', editDraft);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [questionFormTab, isCreateDialogOpen, editingQuestionId]);
+
+  const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
+  const classOptions = useMemo(() => getAuthorizedClasses(user, STANDARD_OPTIONS.map(i => i.value)), [user]);
+  
+  const contentClassOptions = useMemo(() => getAuthorizedClasses(user, STANDARD_OPTIONS.map(i => i.value)), [user]);
+  const contentSubjectOptions = useMemo(
+    () => getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, contentFilters.classLevel),
+    [contentFilters.classLevel, subjectCatalog, user]
+  );
+  const createContentTopicOptions = useMemo(
+    () =>
+      topics
+        .filter(
+          (topic) =>
+            (!contentCreateMeta.classLevel || topic.classLevel === contentCreateMeta.classLevel || topic.classLevel === 'ANY') &&
+            (!contentCreateMeta.subject || topic.subject === contentCreateMeta.subject) &&
+            (!createTopicSearch.trim() || topic.title.toLowerCase().includes(createTopicSearch.trim().toLowerCase())),
+        )
+        .sort((a, b) => a.title.localeCompare(b.title)),
+    [contentCreateMeta.classLevel, contentCreateMeta.subject, createTopicSearch, topics],
+  );
+  const assignTargetTopicOptions = useMemo(
+    () =>
+      topics
+        .filter(
+          (topic) =>
+            (!assignTopicFilters.classLevel || topic.classLevel === assignTopicFilters.classLevel || topic.classLevel === 'ANY') &&
+            (!assignTopicFilters.subject || topic.subject === assignTopicFilters.subject) &&
+            (!assignTopicFilters.search.trim() ||
+              topic.title.toLowerCase().includes(assignTopicFilters.search.trim().toLowerCase())),
+        )
+        .sort((a, b) => a.title.localeCompare(b.title)),
+    [assignTopicFilters.classLevel, assignTopicFilters.search, assignTopicFilters.subject, topics],
+  );
+  const filteredQuizOptions = useMemo(
+    () =>
+      allOrgQuizzes
+        .filter(
+          (quiz) =>
+            (!quizDialogFilters.classLevel || (quiz.class_level || '').trim() === quizDialogFilters.classLevel.trim() || (quiz.class_level || '').trim() === 'ANY') &&
+            (!quizDialogFilters.subject || (quiz.subject || '').trim() === quizDialogFilters.subject.trim()) &&
+            (!quizDialogFilters.search.trim() ||
+              `${quiz.title} ${quiz.subject || ''}`.toLowerCase().includes(quizDialogFilters.search.trim().toLowerCase())),
+        )
+        .sort((a, b) => a.title.localeCompare(b.title)),
+    [allOrgQuizzes, quizDialogFilters.classLevel, quizDialogFilters.search, quizDialogFilters.subject],
+  );
+  const quizClassOptions = useMemo(() => getAuthorizedClasses(user, STANDARD_OPTIONS.map(i => i.value)), [user]);
+  const quizSubjectOptions = useMemo(
+    () => getAuthorizedSubjects(user, quizCatalogItems, (i) => i.classLevel, (i) => i.subject, quizDialogFilters.classLevel),
+    [quizCatalogItems, quizDialogFilters.classLevel, user]
+  );
+
+  const showActionBadge = useCallback((text: string) => {
+    setActionBadge(text);
+    if (actionBadgeTimerRef.current) {
+      clearTimeout(actionBadgeTimerRef.current);
+    }
+    actionBadgeTimerRef.current = setTimeout(() => {
+      setActionBadge(null);
+    }, 1800);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (actionBadgeTimerRef.current) {
+        clearTimeout(actionBadgeTimerRef.current);
+      }
+    };
+  }, []);
+
+  const fetchPaginatedCollection = useCallback(
+    async (endpoint: string, key: string, baseQuery: URLSearchParams, chunkSize = 200) => {
+      const merged: any[] = [];
+      let offset = 0;
+      let guard = 0;
+
+      while (guard < 1000) {
+        const query = new URLSearchParams(baseQuery);
+        query.set('limit', String(chunkSize));
+        query.set('offset', String(offset));
+
+        const res = await apiFetch(`${endpoint}?${query.toString()}`);
+        if (!res.ok) {
+          const errorPayload = await res.json().catch(() => ({}));
+          throw new Error(errorPayload.message || `Failed to load ${key}`);
+        }
+
+        const payload = await res.json();
+        const rows = Array.isArray(payload[key]) ? payload[key] : [];
+        merged.push(...rows);
+
+        if (rows.length === 0) break;
+
+        const total = Number(payload.total ?? NaN);
+        if (Number.isFinite(total)) {
+          if (merged.length >= total) break;
+        } else if (rows.length < chunkSize) {
+          break;
+        }
+
+        offset += rows.length;
+        guard += 1;
+      }
+
+      return merged;
+    },
+    [apiFetch],
+  );
+
+  const loadQuestions = useCallback(async () => {
+    const query = new URLSearchParams();
+    if (filters.search.trim()) query.set('search', filters.search.trim());
+    if (filters.classLevel.trim()) query.set('class_level', filters.classLevel.trim());
+    if (filters.subject.trim()) query.set('subject', filters.subject.trim());
+    if (filters.category.trim()) query.set('category', filters.category.trim());
+
+    // Refresh the paginated QuestionsTab list.
+    setQuestionReloadToken((t) => t + 1);
+    const rows = await fetchPaginatedCollection('/questions', 'questions', query, 200);
+    setQuestions(rows as QuestionItem[]);
+    setQuestionPage(0);
+  }, [
+    fetchPaginatedCollection,
+    filters.category,
+    filters.classLevel,
+    filters.search,
+    filters.subject,
+  ]);
+
+  const loadQuizCatalog = useCallback(async () => {
+    const res = await apiFetch('/catalog/subjects');
+    if (!res.ok) {
+      return;
+    }
+    const payload = await res.json();
+    const items = Array.isArray(payload.items) ? payload.items : [];
+    const mapped = items
+      .map((item: any) => ({
+        classLevel: String(item.class_level || '').trim(),
+        subject: String(item.subject || '').trim(),
+      }))
+      .filter((item: QuizCatalogItem) => item.classLevel && item.subject);
+    setQuizCatalogItems(mapped);
+  }, [apiFetch]);
+
+  const loadTopics = useCallback(async () => {
+    // Refresh the paginated TopicsTab list.
+    setTopicReloadToken((t) => t + 1);
+    // Keep the full topic list cached for selector dropdowns (create/assign flows).
+    const query = new URLSearchParams();
+    if (contentFilters.classLevel.trim()) query.set('class_level', contentFilters.classLevel.trim());
+    if (contentFilters.subject.trim()) query.set('subject', contentFilters.subject.trim());
+    const rows = await fetchPaginatedCollection('/topics', 'topics', query, 150);
+    setTopics(rows as ContentTopic[]);
+  }, [contentFilters.classLevel, contentFilters.subject, fetchPaginatedCollection]);
+
+  const loadTopicDetails = useCallback(
+    async (topicId: string) => {
+      setLoadingTopicDetails(true);
+      try {
+        const res = await apiFetch(`/topics/${topicId}/details`);
+        if (!res.ok) {
+          const errorPayload = await res.json().catch(() => ({}));
+          throw new Error(errorPayload.message || 'Failed to load topic details');
+        }
+        const payload = await res.json();
+        setSelectedTopic(payload.topic as ContentTopic);
+        setTopicSections((payload.sections || []) as TopicContentSection[]);
+        setTopicContentItems((payload.contentItems || []) as LearningContentItem[]);
+        setTopicContentPage(0);
+      } catch (error) {
+        setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load topic details' });
+      } finally {
+        setLoadingTopicDetails(false);
+      }
+    },
+    [apiFetch],
+  );
+
+  const uploadTopicCover = async () => {
+    try {
+      setUploadingTopicCover(true);
+      const picked = await pickImageAsDataUrl();
+      const uploaded = await uploadPickedFileToS3(picked, 'image');
+      setTopicDraft((current) => ({ ...current, coverImage: uploaded.url }));
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload topic cover' });
+    } finally {
+      setUploadingTopicCover(false);
+    }
+  };
+
+  const uploadSectionMedia = async (sectionId: string, contentType: TopicSectionDraft['contentType']) => {
+    try {
+      setUploadingSectionMediaId(sectionId);
+      let picked: PickedFile;
+      let mediaType: 'image' | 'audio' | 'video' = 'image';
+      if (contentType === 'audio') {
+        picked = await pickAudioAsDataUrl();
+        mediaType = 'audio';
+      } else if (contentType === 'reel') {
+        picked = await pickFileAsDataUrl(
+          'video/*',
+          'Video upload is currently available on web. On mobile, provide Reel URL.',
+        );
+        mediaType = 'video';
+      } else {
+        picked = await pickImageAsDataUrl();
+        mediaType = 'image';
+      }
+      const uploaded = await uploadPickedFileToS3(picked, mediaType);
+      setSectionDrafts((current) =>
+        current.map((section) =>
+          section.id === sectionId
+            ? { ...section, mediaUrl: uploaded.url, mediaLabel: uploaded.fileName, externalUrl: '', textContent: '' }
+            : section,
+        ),
+      );
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload section media' });
+    } finally {
+      setUploadingSectionMediaId(null);
+    }
+  };
+
+  const updateCreateSection = (sectionId: string, patch: Partial<TopicSectionDraft>) => {
+    setContentCreateSections((current) =>
+      current.map((section) => {
+        if (section.id !== sectionId) return section;
+        const next = { ...section, ...patch };
+        if (patch.contentType) {
+          if (patch.contentType === 'text') {
+            next.mediaUrl = '';
+            next.mediaLabel = '';
+            next.externalUrl = '';
+          } else if (patch.contentType === 'youtube_url' || patch.contentType === 'reel_url') {
+            next.mediaUrl = '';
+            next.mediaLabel = '';
+            next.textContent = '';
+          } else {
+            next.externalUrl = '';
+            next.textContent = '';
+          }
+        }
+        return next;
+      }),
+    );
+  };
+
+  const addCreateSection = () => {
+    setContentCreateSections((current) => [...current, makeEmptyTopicSection()]);
+  };
+
+  const removeCreateSection = (sectionId: string) => {
+    setContentCreateSections((current) => (current.length <= 1 ? current : current.filter((item) => item.id !== sectionId)));
+  };
+
+  const uploadCreateContentMedia = async (sectionId: string) => {
+    try {
+      setUploadingSectionMediaId(sectionId);
+      const picked = await pickFileAsDataUrl(
+        'image/*,audio/*,video/*',
+        'Media upload is currently available on web. On mobile, provide URL-based content.',
+      );
+      const lowerMime = picked.mimeType.toLowerCase();
+      const lowerName = picked.fileName.toLowerCase();
+      const mediaType: 'image' | 'audio' | 'video' = lowerMime.startsWith('video/')
+        || /\.(mp4|mov|m4v|webm|mkv)$/.test(lowerName)
+        ? 'video'
+        : lowerMime.startsWith('audio/') || /\.(mp3|wav|ogg|aac|m4a|flac)$/.test(lowerName)
+          ? 'audio'
+          : 'image';
+      const uploaded = await uploadPickedFileToS3(picked, mediaType);
+      updateCreateSection(sectionId, {
+        contentType: mediaType === 'video' ? 'image' : mediaType === 'audio' ? 'audio' : 'image',
+        mediaUrl: uploaded.url,
+        mediaLabel: uploaded.fileName,
+        externalUrl: '',
+        textContent: '',
+      });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload content media' });
+    } finally {
+      setUploadingSectionMediaId(null);
+    }
+  };
+
+  const saveTopic = async () => {
+    if (!topicDraft.title.trim() || !topicDraft.classLevel.trim() || !topicDraft.subject.trim()) {
+      setMessage({ type: 'error', text: 'Topic title, standard and subject are required.' });
+      return;
+    }
+    
+    if (user?.activeRole === 'teacher') {
+      const allowedClasses = getAuthorizedClasses(user, STANDARD_OPTIONS.map(i => i.value));
+      if (!allowedClasses.includes(topicDraft.classLevel.trim())) {
+        setMessage({ type: 'error', text: 'You are not authorized to create content for this standard.' });
+        return;
+      }
+      const allowedSubjects = getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, topicDraft.classLevel);
+      if (!allowedSubjects.includes(topicDraft.subject.trim())) {
+        setMessage({ type: 'error', text: 'You are not authorized to create content for this subject.' });
+        return;
+      }
+    }
+    
+    setSavingTopic(true);
+    try {
+      const payload = {
+        title: topicDraft.title.trim(),
+        classLevel: topicDraft.classLevel.trim(),
+        subject: topicDraft.subject.trim(),
+        coverImage: toPersistentMediaUrl(topicDraft.coverImage.trim()) || undefined,
+      };
+      const endpoint = topicDialogMode === 'edit' && editingTopicId ? `/topics/${editingTopicId}` : '/topics';
+      const method = topicDialogMode === 'edit' ? 'PATCH' : 'POST';
+      const res = await apiFetch(endpoint, { method, body: JSON.stringify(payload) });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to save topic');
+      }
+      setTopicDialogMode(null);
+      setEditingTopicId(null);
+      setTopicDraft(makeInitialTopicDraft());
+      await loadTopics();
+      setMessage({ type: 'success', text: topicDialogMode === 'edit' ? 'Topic updated successfully.' : 'Topic created successfully.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to save topic' });
+    } finally {
+      setSavingTopic(false);
+    }
+  };
+
+  const saveTopicSections = async () => {
+    if (!selectedTopic) return;
+    const normalizedSections = sectionDrafts.map((section) => ({
+      title: section.title?.trim() || undefined,
+      contentType: section.contentType,
+      mediaUrl: section.mediaUrl.trim() ? toPersistentMediaUrl(section.mediaUrl.trim()) : undefined,
+      externalUrl: section.externalUrl.trim() || undefined,
+      textContent: section.textContent.trim() || undefined,
+    }));
+    const missing = normalizedSections.some((section) => {
+      if (section.contentType === 'text') return !section.textContent;
+      if (section.contentType === 'youtube_url' || section.contentType === 'reel_url') return !section.externalUrl;
+      return !section.mediaUrl;
+    });
+    if (missing) {
+      setMessage({ type: 'error', text: 'Each section needs required content based on type.' });
+      return;
+    }
+
+    setSavingSections(true);
+    try {
+      const res = await apiFetch(`/topics/${selectedTopic.id}/sections`, {
+        method: 'PUT',
+        body: JSON.stringify({ sections: normalizedSections }),
+      });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to save content sections');
+      }
+      const payload = await res.json();
+      setTopicSections((payload.sections || []) as TopicContentSection[]);
+      setIsSectionDialogOpen(false);
+      setSectionDrafts([makeEmptyTopicSection()]);
+      await loadTopics();
+      setMessage({ type: 'success', text: 'Topic content saved successfully.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to save content sections' });
+    } finally {
+      setSavingSections(false);
+    }
+  };
+
+  const loadContentItems = useCallback(async () => {
+    const query = new URLSearchParams();
+    const classLevelFilter = contentFilters.classLevel.trim() || contentItemFilters.classLevel.trim();
+    const subjectFilter = contentFilters.subject.trim() || contentItemFilters.subject.trim();
+    if (classLevelFilter) query.set('class_level', classLevelFilter);
+    if (subjectFilter) query.set('subject', subjectFilter);
+    if (contentItemFilters.topicId.trim()) query.set('topic_id', contentItemFilters.topicId.trim());
+    // Refresh the paginated ContentTab list.
+    setContentReloadToken((t) => t + 1);
+    const rows = await fetchPaginatedCollection('/content/items', 'items', query, 200);
+    setContentItems(rows as LearningContentItem[]);
+    setContentPage(0);
+  }, [
+    fetchPaginatedCollection,
+    contentFilters.classLevel,
+    contentFilters.subject,
+    contentItemFilters.classLevel,
+    contentItemFilters.subject,
+    contentItemFilters.topicId,
+  ]);
+
+  const createSingleContentItem = async () => {
+    if (!contentCreateMeta.classLevel.trim() || !contentCreateMeta.subject.trim()) {
+      setMessage({ type: 'error', text: 'Standard, subject and topic are required.' });
+      return;
+    }
+    if (!editingContentId && !contentCreateMeta.topicId.trim()) {
+      setMessage({ type: 'error', text: 'Standard, subject and topic are required.' });
+      return;
+    }
+    if (!contentCreateMeta.title.trim()) {
+      setMessage({ type: 'error', text: 'Content title is required.' });
+      return;
+    }
+    
+    if (user?.activeRole === 'teacher') {
+      const allowedClasses = getAuthorizedClasses(user, STANDARD_OPTIONS.map(i => i.value));
+      if (!allowedClasses.includes(contentCreateMeta.classLevel.trim())) {
+        setMessage({ type: 'error', text: 'You are not authorized to create content for this standard.' });
+        return;
+      }
+      const allowedSubjects = getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, contentCreateMeta.classLevel);
+      if (!allowedSubjects.includes(contentCreateMeta.subject.trim())) {
+        setMessage({ type: 'error', text: 'You are not authorized to create content for this subject.' });
+        return;
+      }
+    }
+    const normalizedSections = contentCreateSections.map((section) => ({
+      title: section.title?.trim() || undefined,
+      contentType: section.contentType,
+      mediaUrl: section.mediaUrl.trim() ? toPersistentMediaUrl(section.mediaUrl.trim()) : undefined,
+      externalUrl: section.externalUrl.trim() || undefined,
+      textContent: section.textContent.trim() || undefined,
+    }));
+    const invalidIndex = normalizedSections.findIndex((section) => {
+      if (section.contentType === 'text') return !section.textContent;
+      if (section.contentType === 'youtube_url' || section.contentType === 'reel_url') return !section.externalUrl;
+      return !section.mediaUrl;
+    });
+    if (invalidIndex > -1) {
+      setMessage({ type: 'error', text: `Section ${invalidIndex + 1} is incomplete. Fill required fields.` });
+      return;
+    }
+
+    setSavingContentCreate(true);
+    try {
+      if (editingContentId) {
+        const res = await apiFetch(`/content/items/${editingContentId}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            classLevel: contentCreateMeta.classLevel.trim(),
+            subject: contentCreateMeta.subject.trim(),
+            title: contentCreateMeta.title.trim(),
+            sections: normalizedSections,
+          }),
+        });
+        if (!res.ok) {
+          const errorPayload = await res.json().catch(() => ({}));
+          throw new Error(errorPayload.message || 'Failed to update content');
+        }
+        setIsCreateContentDialogOpen(false);
+        setEditingContentId(null);
+        setContentCreateSections([makeEmptyTopicSection()]);
+        await loadContentItems();
+        setMessage({ type: 'success', text: 'Content updated successfully.' });
+        return;
+      }
+
+      const res = await apiFetch('/content/items', {
+        method: 'POST',
+        body: JSON.stringify({
+          classLevel: contentCreateMeta.classLevel.trim(),
+          subject: contentCreateMeta.subject.trim(),
+          topicId: contentCreateMeta.topicId.trim(),
+          title: contentCreateMeta.title.trim(),
+          sections: normalizedSections,
+        }),
+      });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to create content');
+      }
+      setIsCreateContentDialogOpen(false);
+      setContentCreateSections([makeEmptyTopicSection()]);
+      setContentCreateMeta((current) => ({ ...current, title: '' }));
+      await Promise.all([loadTopicDetails(contentCreateMeta.topicId), loadTopics(), loadContentItems()]);
+      setMessage({ type: 'success', text: 'Content created successfully.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to create content' });
+    } finally {
+      setSavingContentCreate(false);
+    }
+  };
+
+  const toggleAssignContent = (contentId: string) => {
+    setSelectedAssignContentIds((current) =>
+      current.includes(contentId) ? current.filter((id) => id !== contentId) : [...current, contentId],
+    );
+  };
+
+  const assignContentsToTopic = async () => {
+    if (!assignTargetTopicId.trim()) {
+      setMessage({ type: 'error', text: 'Select target topic for assignment.' });
+      return;
+    }
+    setSavingAssignments(true);
+    try {
+      const existingRes = await apiFetch(`/topics/${assignTargetTopicId}/assignments`);
+      const existingPayload = existingRes.ok ? await existingRes.json() : { contentIds: [] };
+      const mergedIds = [...new Set([...(existingPayload.contentIds || []), ...selectedAssignContentIds])];
+      const res = await apiFetch(`/topics/${assignTargetTopicId}/assignments`, {
+        method: 'PUT',
+        body: JSON.stringify({ contentIds: mergedIds }),
+      });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to assign content');
+      }
+      setSelectedAssignContentIds([]);
+      await Promise.all([loadTopics(), loadContentItems()]);
+      if (selectedTopic?.id === assignTargetTopicId) {
+        await loadTopicDetails(assignTargetTopicId);
+      }
+      setMessage({ type: 'success', text: 'Selected content assigned successfully.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to assign content' });
+    } finally {
+      setSavingAssignments(false);
+    }
+  };
+  const removeContentAssignment = async (contentId: string) => {
+    if (!selectedTopic) return;
+    try {
+      const existingRes = await apiFetch(`/topics/${selectedTopic.id}/assignments`);
+      if (!existingRes.ok) {
+        throw new Error('Failed to load current assignments');
+      }
+      const existingPayload = await existingRes.json();
+      const updatedIds = (existingPayload.contentIds || []).filter((id: string) => id !== contentId);
+
+      const res = await apiFetch(`/topics/${selectedTopic.id}/assignments`, {
+        method: 'PUT',
+        body: JSON.stringify({ contentIds: updatedIds }),
+      });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to remove content assignment');
+      }
+      await Promise.all([loadTopics(), loadContentItems(), loadTopicDetails(selectedTopic.id)]);
+      setMessage({ type: 'success', text: 'Content removed from topic successfully.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to remove content assignment' });
+    }
+  };
+
+  const loadTopicQuizzes = async (topicId: string) => {
+    setLoadingTopicQuizzes(true);
+    try {
+      const assignedRes = await apiFetch(`/topics/${topicId}/quizzes`);
+      if (assignedRes.ok) {
+        const payload = await assignedRes.json();
+        const assigned = (payload.quizzes || []) as QuizItem[];
+        setTopicQuizzes(assigned);
+        setSelectedQuizIds(assigned.map((quiz) => quiz.id));
+      }
+      const libraryRows = await fetchPaginatedCollection(
+        '/quizzes/teacher/library',
+        'quizzes',
+        new URLSearchParams({ status: 'all' }),
+        200,
+      );
+      setAllOrgQuizzes(libraryRows as QuizItem[]);
+    } catch {
+      // silently fail
+    } finally {
+      setLoadingTopicQuizzes(false);
+    }
+  };
+
+  const openQuizAssignmentDialog = async (topicOverride?: ContentTopic) => {
+    const topic = topicOverride || selectedTopic;
+    if (!topic) return;
+    if (!selectedTopic || selectedTopic.id !== topic.id) {
+      await loadTopicDetails(topic.id);
+    }
+    setIsQuizDialogOpen(true);
+    setQuizDialogFilters({ classLevel: topic.classLevel || '', subject: topic.subject || '', search: '' });
+    await Promise.all([loadQuizCatalog(), loadTopicQuizzes(topic.id)]);
+  };
+
+  const toggleQuizSelection = (quizId: string) => {
+    setSelectedQuizIds((current) =>
+      current.includes(quizId) ? current.filter((id) => id !== quizId) : [...current, quizId],
+    );
+  };
+
+  const saveSelectedQuizzesToTopic = async () => {
+    if (!selectedTopic) return;
+    setSavingQuizSelections(true);
+    try {
+      const res = await apiFetch(`/topics/${selectedTopic.id}/quizzes`, {
+        method: 'PUT',
+        body: JSON.stringify({ quizIds: selectedQuizIds }),
+      });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to save quiz assignments');
+      }
+      await loadTopicQuizzes(selectedTopic.id);
+      setIsQuizDialogOpen(false);
+      setMessage({ type: 'success', text: 'Quiz assignments saved successfully.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to save quiz assignments' });
+    } finally {
+      setSavingQuizSelections(false);
+    }
+  };
+
+  const deleteContentItem = async (contentId: string) => {
+    setDeletingContentId(contentId);
+    try {
+      const res = await apiFetch(`/content/items/${contentId}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to delete content');
+      }
+      await Promise.all([loadContentItems(), loadTopics()]);
+      setMessage({ type: 'success', text: 'Content deleted successfully.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to delete content' });
+    } finally {
+      setDeletingContentId(null);
+    }
+  };
+
+  const loadData = useCallback(async () => {
+    if (!isTeacherView) return;
+    setLoading(true);
+    setMessage(null);
+    try {
+      await loadQuestions();
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load question management data' });
+    } finally {
+      setLoading(false);
+    }
+  }, [isTeacherView, loadQuestions]);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, [loadData]),
+  );
+
+  useEffect(() => {
+    if (!isTeacherView || activeLearningTab !== 'topic') return;
+    let cancelled = false;
+    const run = async () => {
+      setLoadingTopics(true);
+      try {
+        await Promise.all([subjectCatalogQuery.refetch({ throwOnError: true }), loadQuizCatalog(), loadContentItems()]);
+        await loadTopics();
+      } catch (error) {
+        if (!cancelled) {
+          setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load content topics' });
+        }
+      } finally {
+        if (!cancelled) {
+          setLoadingTopics(false);
+        }
+      }
+    };
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [activeLearningTab, isTeacherView, loadQuizCatalog, subjectCatalogQuery.refetch, loadTopics, loadContentItems]);
+
+  useEffect(() => {
+    if (!isTeacherView || activeLearningTab !== 'content') return;
+    let mounted = true;
+    const run = async () => {
+      try {
+        setLoadingContentItems(true);
+        await Promise.all([subjectCatalogQuery.refetch({ throwOnError: true }), loadTopics(), loadContentItems()]);
+      } catch (error) {
+        if (mounted) setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load content data' });
+      } finally {
+        if (mounted) setLoadingContentItems(false);
+      }
+    };
+    run();
+    return () => {
+      mounted = false;
+    };
+  }, [activeLearningTab, isTeacherView, loadContentItems, subjectCatalogQuery.refetch, loadTopics]);
+
+  useEffect(() => {
+    if (!isTeacherView || activeLearningTab !== 'question') return;
+    let mounted = true;
+    const run = async () => {
+      try {
+        await subjectCatalogQuery.refetch({ throwOnError: true });
+      } catch (error) {
+        if (mounted) {
+          setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to load subject catalog' });
+        }
+      }
+    };
+    run();
+    return () => {
+      mounted = false;
+    };
+  }, [activeLearningTab, isTeacherView, subjectCatalogQuery.refetch]);
+
+  const updateDraftField = (mode: 'create' | 'edit', key: keyof QuestionDraft, value: any) => {
+    if (mode === 'create') {
+      setCreateDraft((current) => ({ ...current, [key]: value }));
+    } else {
+      setEditDraft((current) => ({ ...current, [key]: value }));
+    }
+  };
+
+  const setQuestionType = (questionType: SupportedQuestionType) => {
+    setCreateDraft((current) => ({
+      ...current,
+      questionType,
+      questionInstruction: getDefaultInstructionByType(questionType),
+      mainImage: questionType === 'guess_image' || questionType === 'logico' || questionType === 'jigsaw' ? current.mainImage : '',
+      mainImageLabel: questionType === 'guess_image' || questionType === 'logico' || questionType === 'jigsaw' ? current.mainImageLabel : '',
+      mainImageAssetId: questionType === 'guess_image' || questionType === 'logico' || questionType === 'jigsaw' ? current.mainImageAssetId : '',
+      mainAudio: questionType === 'guess_audio' ? current.mainAudio : '',
+      mainAudioLabel: questionType === 'guess_audio' ? current.mainAudioLabel : '',
+      mainAudioAssetId: questionType === 'guess_audio' ? current.mainAudioAssetId : '',
+      options: makeDefaultOptionsByType(questionType),
+      rawQuestionData:
+        questionType === 'jigsaw'
+          ? {
+              gridSize: '3x3',
+              difficulty: 'medium',
+              clickLimit: 20,
+            }
+          : {},
+    }));
+  };
+
+  // using shared uploadPickedFileToS3
+
+  const uploadAudioForQuestion = async (mode: 'create' | 'edit') => {
+    try {
+      const picked = await pickAudioAsDataUrl();
+      const uploaded = await uploadPickedFileToS3(picked, 'audio');
+      updateDraftField(mode, 'mainAudio', uploaded.url);
+      updateDraftField(mode, 'mainAudioLabel', uploaded.fileName);
+      updateDraftField(mode, 'mainAudioAssetId', uploaded.assetId);
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload audio' });
+    }
+  };
+
+  const uploadImageForQuestion = async (mode: 'create' | 'edit') => {
+    try {
+      const picked = await pickImageAsDataUrl();
+      const uploaded = await uploadPickedFileToS3(picked, 'image');
+      updateDraftField(mode, 'mainImage', uploaded.url);
+      updateDraftField(mode, 'mainImageLabel', uploaded.fileName);
+      updateDraftField(mode, 'mainImageAssetId', uploaded.assetId);
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload image' });
+    }
+  };
+
+  const clearQuestionImage = (mode: 'create' | 'edit') => {
+    updateDraftField(mode, 'mainImage', '');
+    updateDraftField(mode, 'mainImageLabel', '');
+    updateDraftField(mode, 'mainImageAssetId', '');
+  };
+
+  const clearQuestionAudio = (mode: 'create' | 'edit') => {
+    updateDraftField(mode, 'mainAudio', '');
+    updateDraftField(mode, 'mainAudioLabel', '');
+    updateDraftField(mode, 'mainAudioAssetId', '');
+  };
+
+  const playAudioPreview = async (audioUrl: string) => {
+    const url = audioUrl.trim();
+    if (!url) {
+      setMessage({ type: 'error', text: 'Add or upload an audio URL before preview.' });
+      return;
+    }
+    try {
+      await AudioManager.playSound(resolveMediaUrl(url));
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to play audio preview' });
+    }
+  };
+
+  const updateOption = (mode: 'create' | 'edit', index: number, patch: Partial<OptionDraft>) => {
+    const updater = (options: OptionDraft[]) =>
+      options.map((option, optionIndex) => (optionIndex === index ? { ...option, ...patch } : option));
+    if (mode === 'create') {
+      setCreateDraft((current) => ({ ...current, options: updater(current.options) }));
+    } else {
+      setEditDraft((current) => ({ ...current, options: updater(current.options) }));
+    }
+  };
+
+  const setCorrectOption = (mode: 'create' | 'edit', index: number) => {
+    const activeType = normalizeQuestionType((mode === 'create' ? createDraft : editDraft).questionType);
+    const updater = (options: OptionDraft[]) => {
+      if (activeType === 'multi_choice') {
+        return options.map((option, optionIndex) =>
+          optionIndex === index ? { ...option, isCorrect: !option.isCorrect } : option,
+        );
+      }
+      return options.map((option, optionIndex) => ({ ...option, isCorrect: optionIndex === index }));
+    };
+    if (mode === 'create') {
+      setCreateDraft((current) => ({ ...current, options: updater(current.options) }));
+    } else {
+      setEditDraft((current) => ({ ...current, options: updater(current.options) }));
+    }
+  };
+
+  const addOption = (mode: 'create' | 'edit') => {
+    const activeDraft = mode === 'create' ? createDraft : editDraft;
+    if (normalizeQuestionType(activeDraft.questionType) === 'true_false') {
+      setMessage({ type: 'error', text: 'True / False always has exactly two options.' });
+      return;
+    }
+    if (mode === 'create') {
+      setCreateDraft((current) => ({ ...current, options: [makeEmptyOption(), ...current.options] }));
+    } else {
+      setEditDraft((current) => ({ ...current, options: [makeEmptyOption(), ...current.options] }));
+    }
+    showActionBadge('Option added');
+  };
+
+  const removeOption = (mode: 'create' | 'edit', index: number) => {
+    const activeDraft = mode === 'create' ? createDraft : editDraft;
+    if (normalizeQuestionType(activeDraft.questionType) === 'true_false') {
+      setMessage({ type: 'error', text: 'True / False requires both True and False options.' });
+      return;
+    }
+    if (mode === 'create') {
+      setCreateDraft((current) => {
+        const remaining = current.options.filter((_, optionIndex) => optionIndex !== index);
+        return { ...current, options: remaining.length ? remaining : [makeEmptyOption()] };
+      });
+    } else {
+      setEditDraft((current) => {
+        const remaining = current.options.filter((_, optionIndex) => optionIndex !== index);
+        return { ...current, options: remaining.length ? remaining : [makeEmptyOption()] };
+      });
+    }
+  };
+
+  const uploadMediaForOption = async (mode: 'create' | 'edit', index: number) => {
+    try {
+      const picked = await pickMediaAsDataUrl();
+      const mediaType = resolvePickedMediaKind(picked);
+      if (mediaType === 'image') {
+        const uploaded = await uploadPickedFileToS3(picked, 'image');
+        updateOption(mode, index, { image: uploaded.url, imageLabel: uploaded.fileName, imageAssetId: uploaded.assetId });
+        return;
+      }
+      if (mediaType === 'audio') {
+        const uploaded = await uploadPickedFileToS3(picked, 'audio');
+        updateOption(mode, index, { audio: uploaded.url, audioLabel: uploaded.fileName, audioAssetId: uploaded.assetId });
+        return;
+      }
+      setMessage({ type: 'error', text: 'Unsupported media type. Please upload image or audio.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload media' });
+    }
+  };
+
+  const clearOptionMedia = (mode: 'create' | 'edit', index: number, mediaType: 'image' | 'audio') => {
+    if (mediaType === 'image') {
+      updateOption(mode, index, { image: '', imageLabel: '', imageAssetId: '' });
+      return;
+    }
+    updateOption(mode, index, { audio: '', audioLabel: '', audioAssetId: '' });
+  };
+
+  const updateMatchPair = (mode: 'create' | 'edit', index: number, patch: Partial<MatchPairDraft>) => {
+    const updater = (pairs: MatchPairDraft[]) =>
+      pairs.map((pair, pairIndex) => (pairIndex === index ? { ...pair, ...patch } : pair));
+    if (mode === 'create') {
+      setCreateDraft((current) => ({ ...current, matchPairs: updater(current.matchPairs) }));
+    } else {
+      setEditDraft((current) => ({ ...current, matchPairs: updater(current.matchPairs) }));
+    }
+  };
+
+  const addMatchPair = (mode: 'create' | 'edit') => {
+    if (mode === 'create') {
+      setCreateDraft((current) => ({ ...current, matchPairs: [...current.matchPairs, makeEmptyMatchPair()] }));
+    } else {
+      setEditDraft((current) => ({ ...current, matchPairs: [...current.matchPairs, makeEmptyMatchPair()] }));
+    }
+  };
+
+  const removeMatchPair = (mode: 'create' | 'edit', index: number) => {
+    if (mode === 'create') {
+      setCreateDraft((current) => {
+        const remaining = current.matchPairs.filter((_, pairIndex) => pairIndex !== index);
+        return { ...current, matchPairs: remaining.length ? remaining : [makeEmptyMatchPair()] };
+      });
+    } else {
+      setEditDraft((current) => {
+        const remaining = current.matchPairs.filter((_, pairIndex) => pairIndex !== index);
+        return { ...current, matchPairs: remaining.length ? remaining : [makeEmptyMatchPair()] };
+      });
+    }
+  };
+
+  const uploadMediaForMatchPair = async (mode: 'create' | 'edit', index: number) => {
+    try {
+      const picked = await pickMediaAsDataUrl();
+      const mediaType = resolvePickedMediaKind(picked);
+      if (mediaType === 'image') {
+        const uploaded = await uploadPickedFileToS3(picked, 'image');
+        updateMatchPair(mode, index, { image: uploaded.url, imageLabel: uploaded.fileName, imageAssetId: uploaded.assetId });
+        return;
+      }
+      if (mediaType === 'audio') {
+        const uploaded = await uploadPickedFileToS3(picked, 'audio');
+        updateMatchPair(mode, index, { audio: uploaded.url, audioLabel: uploaded.fileName, audioAssetId: uploaded.assetId });
+        return;
+      }
+      setMessage({ type: 'error', text: 'Unsupported media type. Please upload image or audio.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to upload media' });
+    }
+  };
+
+  const clearPairMedia = (mode: 'create' | 'edit', index: number, mediaType: 'image' | 'audio') => {
+    if (mediaType === 'image') {
+      updateMatchPair(mode, index, { image: '', imageLabel: '', imageAssetId: '' });
+      return;
+    }
+    updateMatchPair(mode, index, { audio: '', audioLabel: '', audioAssetId: '' });
+  };
+
+  const requestMediaRemoval = (request: MediaRemovalRequest) => {
+    setPendingMediaRemoval(request);
+  };
+
+  const confirmMediaRemoval = () => {
+    if (!pendingMediaRemoval) return;
+
+    if (pendingMediaRemoval.scope === 'question') {
+      if (pendingMediaRemoval.mediaType === 'image') {
+        clearQuestionImage(pendingMediaRemoval.mode);
+      } else {
+        clearQuestionAudio(pendingMediaRemoval.mode);
+      }
+    } else if (pendingMediaRemoval.scope === 'option') {
+      clearOptionMedia(pendingMediaRemoval.mode, pendingMediaRemoval.index, pendingMediaRemoval.mediaType);
+    } else {
+      clearPairMedia(pendingMediaRemoval.mode, pendingMediaRemoval.index, pendingMediaRemoval.mediaType);
+    }
+
+    showActionBadge(`${pendingMediaRemoval.mediaType === 'image' ? 'Image' : 'Audio'} removed`);
+    setPendingMediaRemoval(null);
+  };
+
+  const requestOptionRemoval = (request: OptionRemovalRequest) => {
+    setPendingOptionRemoval(request);
+  };
+
+  const confirmOptionRemoval = () => {
+    if (!pendingOptionRemoval) return;
+    removeOption(pendingOptionRemoval.mode, pendingOptionRemoval.index);
+    showActionBadge('Option removed');
+    setPendingOptionRemoval(null);
+  };
+
+  const openCreateDialog = () => {
+    setCreateDraft(makeInitialDraft('guess_image'));
+    setEditingQuestionPayload(null);
+    setActionBadge(null);
+    setIsCreateDialogOpen(true);
+    setQuestionFormTab('setup');
+    setMessage(null);
+  };
+
+  const openEditDialog = (question: QuestionItem & { question_data?: unknown }) => {
+    const rawMeta =
+      question.question_data &&
+      typeof question.question_data === 'object' &&
+      !Array.isArray(question.question_data) &&
+      '_meta' in (question.question_data as Record<string, unknown>)
+        ? (question.question_data as Record<string, unknown>)._meta
+        : undefined;
+    const meta =
+      rawMeta && typeof rawMeta === 'object' && !Array.isArray(rawMeta)
+        ? (rawMeta as Record<string, unknown>)
+        : {};
+    const resolvedClassLevel = typeof meta.classLevel === 'string' && meta.classLevel.trim() ? meta.classLevel.trim() : (question.class_level || '');
+    const resolvedSubject = typeof meta.subject === 'string' && meta.subject.trim() ? meta.subject.trim() : (question.subject || '');
+    const resolvedMainImage = questionDataPromptImage(question.question_data ?? {});
+    const resolvedMainImageAssetId = questionDataPromptImageAssetId(question.question_data ?? {});
+    const resolvedMainAudio = question.question_audio || questionDataPromptAudio(question.question_data ?? {});
+    const resolvedMainAudioAssetId = questionDataPromptAudioAssetId(question.question_data ?? {});
+    const normalizedType = normalizeQuestionType(question.question_type || 'guess_image');
+    const parsedOptions =
+      normalizedType === 'logico'
+        ? questionDataToLogicoOptions(question.question_data ?? {})
+        : questionDataToOptions(question.question_data ?? {});
+    const resolvedOptions =
+      normalizeQuestionType(normalizedType) === 'true_false' && parsedOptions.every((item) => !item.id && !item.label && !item.image && !item.audio)
+        ? makeTrueFalseOptions()
+        : parsedOptions;
+    setEditingQuestionId(question.id);
+    setEditingQuestionPayload(question as QuestionItem);
+    setEditDraft({
+      classLevel: resolvedClassLevel,
+      subject: resolvedSubject,
+      questionTitle: question.question_title || '',
+      questionInstruction: question.question_instruction || getDefaultInstructionByType(normalizedType),
+      explanation: question.explanation || '',
+      questionType: normalizedType,
+      mainImage: resolvedMainImage,
+      mainImageLabel: toMediaLabel(resolvedMainImage, 'image'),
+      mainImageAssetId: resolvedMainImageAssetId,
+      mainAudio: resolvedMainAudio,
+      mainAudioLabel: toMediaLabel(resolvedMainAudio, 'audio'),
+      mainAudioAssetId: resolvedMainAudioAssetId,
+      points: String(question.points ?? 10),
+      timeLimitSeconds: String(question.time_limit_seconds ?? 30),
+      sortOrder: question.sort_order !== undefined && question.sort_order !== null ? String(question.sort_order) : '',
+      options: resolvedOptions,
+      matchPairs: questionDataToMatchPairs(question.question_data ?? {}),
+      rawQuestionData: question.question_data ?? {},
+    });
+    setActionBadge(null);
+    setQuestionFormTab('setup');
+    setMessage(null);
+  };
+
+  const createQuestion = async () => {
+    setCreating(true);
+    setMessage(null);
+    try {
+      const payload = draftToPayload(createDraft);
+      const res = await apiFetch('/questions', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to create question');
+      }
+      setIsCreateDialogOpen(false);
+      setCreateDraft(makeInitialDraft('guess_image'));
+      setMessage({ type: 'success', text: 'Question created successfully.' });
+      await loadQuestions();
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to create question' });
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  const saveQuestion = async () => {
+    if (!editingQuestionId) return;
+    setSavingQuestionId(editingQuestionId);
+    setMessage(null);
+    try {
+      const payload = draftToPayload(editDraft);
+      const res = await apiFetch(`/questions/${editingQuestionId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to update question');
+      }
+      setEditingQuestionId(null);
+      setEditingQuestionPayload(null);
+      setMessage({ type: 'success', text: 'Question updated successfully.' });
+      await loadQuestions();
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to update question' });
+    } finally {
+      setSavingQuestionId(null);
+    }
+  };
+
+  const deleteQuestion = async (questionId: string) => {
+    setDeletingQuestionId(questionId);
+    setMessage(null);
+    try {
+      const res = await apiFetch(`/questions/${questionId}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to delete question');
+      }
+      if (editingQuestionId === questionId) {
+        setEditingQuestionId(null);
+        setEditingQuestionPayload(null);
+      }
+      setMessage({ type: 'success', text: 'Question deleted successfully.' });
+      await loadQuestions();
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to delete question' });
+    } finally {
+      setDeletingQuestionId(null);
+    }
+  };
+
+  const applySelectorValue = (value: string) => {
+    if (selectorField === 'filterClassLevel') {
+      setFilters((current) => ({ ...current, classLevel: value, subject: '' }));
+    } else if (selectorField === 'filterSubject') {
+      setFilters((current) => ({ ...current, subject: value }));
+    } else if (selectorField === 'classLevel') {
+      if (editingQuestionId) {
+        setEditDraft((current) => ({ ...current, classLevel: value, subject: '' }));
+      } else {
+        setCreateDraft((current) => ({ ...current, classLevel: value, subject: '' }));
+      }
+    } else if (selectorField === 'subject') {
+      if (editingQuestionId) {
+        setEditDraft((current) => ({ ...current, subject: value }));
+      } else {
+        setCreateDraft((current) => ({ ...current, subject: value }));
+      }
+    }
+    setSelectorField(null);
+  };
+
+  const applyContentSelectorValue = (value: string) => {
+    if (contentSelectorField === 'contentFilterClassLevel') {
+      if (activeLearningTab === 'content') {
+        if (contentModeTab === 'create') {
+          setContentCreateMeta((current) => ({ ...current, classLevel: value, subject: '', topicId: '' }));
+          setCreateTopicSearch('');
+        } else {
+          setContentItemFilters((current) => ({ ...current, classLevel: value, subject: '', topicId: '' }));
+        }
+      } else {
+        setContentFilters((current) => ({ ...current, classLevel: value, subject: '' }));
+      }
+    } else if (contentSelectorField === 'contentFilterSubject') {
+      if (activeLearningTab === 'content') {
+        if (contentModeTab === 'create') {
+          setContentCreateMeta((current) => ({ ...current, subject: value, topicId: '' }));
+        } else {
+          setContentItemFilters((current) => ({ ...current, subject: value }));
+        }
+      } else {
+        setContentFilters((current) => ({ ...current, subject: value }));
+      }
+    } else if (contentSelectorField === 'assignTargetClassLevel') {
+      setAssignTopicFilters((current) => ({ ...current, classLevel: value, subject: '' }));
+    } else if (contentSelectorField === 'assignTargetSubject') {
+      setAssignTopicFilters((current) => ({ ...current, subject: value }));
+    } else if (contentSelectorField === 'quizFilterClassLevel') {
+      setQuizDialogFilters((current) => ({ ...current, classLevel: value, subject: '' }));
+    } else if (contentSelectorField === 'quizFilterSubject') {
+      setQuizDialogFilters((current) => ({ ...current, subject: value }));
+    } else if (contentSelectorField === 'topicClassLevel') {
+      setTopicDraft((current) => ({ ...current, classLevel: value, subject: '' }));
+    } else if (contentSelectorField === 'topicSubject') {
+      setTopicDraft((current) => ({ ...current, subject: value }));
+    }
+    setContentSelectorField(null);
+  };
+
+  const openCreateTopicDialog = () => {
+    setTopicDialogMode('create');
+    setEditingTopicId(null);
+    setTopicDraft(makeInitialTopicDraft());
+  };
+
+  const openEditTopicDialog = (topic: ContentTopic) => {
+    setTopicDialogMode('edit');
+    setEditingTopicId(topic.id);
+    setTopicDraft({
+      title: topic.title,
+      classLevel: topic.classLevel,
+      subject: topic.subject,
+      coverImage: topic.coverImage || '',
+    });
+  };
+
+  const runTopicAction = async (
+    topic: ContentTopic,
+    action: 'details' | 'create_content' | 'assign_quiz' | 'edit' | 'delete',
+  ) => {
+    setTopicActionMenuTopic(null);
+    if (action === 'details') {
+      await Promise.all([loadTopicDetails(topic.id), loadTopicQuizzes(topic.id)]);
+      return;
+    }
+    if (action === 'create_content') {
+      await openCreateContentDialog(topic);
+      return;
+    }
+    if (action === 'assign_quiz') {
+      await openQuizAssignmentDialog(topic);
+      return;
+    }
+    if (action === 'edit') {
+      openEditTopicDialog(topic);
+      return;
+    }
+    await deleteTopic(topic.id);
+  };
+
+  const deleteTopic = async (topicId: string) => {
+    setDeletingTopicId(topicId);
+    try {
+      const res = await apiFetch(`/topics/${topicId}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to delete topic');
+      }
+      if (selectedTopic?.id === topicId) {
+        setSelectedTopic(null);
+        setTopicSections([]);
+      }
+      await loadTopics();
+      setMessage({ type: 'success', text: 'Topic deleted successfully.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to delete topic' });
+    } finally {
+      setDeletingTopicId(null);
+    }
+  };
+
+  const addSectionDraft = () => {
+    setSectionDrafts((current) => [...current, makeEmptyTopicSection()]);
+  };
+
+  const removeSectionDraft = (sectionId: string) => {
+    setSectionDrafts((current) => (current.length <= 1 ? current : current.filter((section) => section.id !== sectionId)));
+  };
+
+  const updateSectionDraft = (sectionId: string, patch: Partial<TopicSectionDraft>) => {
+    setSectionDrafts((current) =>
+      current.map((section) => {
+        if (section.id !== sectionId) return section;
+        const next = { ...section, ...patch };
+        if (patch.contentType) {
+          if (patch.contentType === 'text') {
+            next.mediaUrl = '';
+            next.mediaLabel = '';
+            next.externalUrl = '';
+          } else if (patch.contentType === 'youtube_url' || patch.contentType === 'reel_url') {
+            next.mediaUrl = '';
+            next.mediaLabel = '';
+            next.textContent = '';
+          } else {
+            next.externalUrl = '';
+            next.textContent = '';
+          }
+        }
+        return next;
+      }),
+    );
+  };
+
+  const openCreateContentDialog = async (topicOverride?: ContentTopic) => {
+    const topic = topicOverride || selectedTopic;
+    if (!topic) return;
+    if (!selectedTopic || selectedTopic.id !== topic.id) {
+      await loadTopicDetails(topic.id);
+    }
+    handleSetActiveLearningTab('content');
+    setContentModeTab('create');
+    setCreateTopicSearch(topic.title);
+    setContentCreateSections([makeEmptyTopicSection()]);
+    setEditingContentId(null);
+    setContentCreateMeta({
+      classLevel: topic.classLevel,
+      subject: topic.subject,
+      topicId: topic.id,
+      title: '',
+    });
+    setIsCreateContentDialogOpen(true);
+  };
+
+  const openCreateContentModal = () => {
+    setEditingContentId(null);
+    setContentCreateSections([makeEmptyTopicSection()]);
+    setContentCreateMeta((current) => ({ ...current, title: '', topicId: current.topicId || '' }));
+    setIsCreateContentDialogOpen(true);
+  };
+
+  const openEditContentModal = async (item: LearningContentItem) => {
+    try {
+      const res = await apiFetch(`/content/items/${item.id}`);
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to load content details');
+      }
+      const payload = (await res.json()) as LearningContentItem;
+      setEditingContentId(item.id);
+      setContentCreateMeta({
+        classLevel: payload.classLevel,
+        subject: payload.subject,
+        topicId: '',
+        title: payload.title,
+      });
+      const sections = (payload.sections || []).length
+        ? (payload.sections || []).map((section: any) => ({
+          id: buildClientId(),
+          title: section.title || '',
+          contentType: section.contentType,
+          mediaUrl: section.mediaUrl || '',
+          mediaLabel: section.mediaUrl ? extractFileName(section.mediaUrl) : '',
+          externalUrl: section.externalUrl || '',
+          textContent: section.textContent || '',
+        }))
+        : [
+          {
+            id: buildClientId(),
+            title: '',
+            contentType: (payload.contentType as TopicSectionDraft['contentType']) || 'text',
+            mediaUrl: payload.mediaUrl || '',
+            mediaLabel: payload.mediaUrl ? extractFileName(payload.mediaUrl) : '',
+            externalUrl: payload.externalUrl || '',
+            textContent: payload.textContent || '',
+          },
+        ];
+      setContentCreateSections(sections);
+      setIsCreateContentDialogOpen(true);
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to open content editor' });
+    }
+  };
+
+  const openPreviewContentModal = async (item: LearningContentItem) => {
+    try {
+      const res = await apiFetch(`/content/items/${item.id}`);
+      if (!res.ok) {
+        const errorPayload = await res.json().catch(() => ({}));
+        throw new Error(errorPayload.message || 'Failed to load content preview');
+      }
+      const payload = (await res.json()) as LearningContentItem;
+      setPreviewContentItem(payload);
+    } catch (error) {
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to preview content' });
+    }
+  };
+
+  const questionSubjectClassLevel =
+    selectorField === 'filterSubject'
+      ? filters.classLevel
+      : editingQuestionId
+        ? editDraft.classLevel
+        : createDraft.classLevel;
+  const questionSubjectOptions = useMemo(
+    () => getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, questionSubjectClassLevel),
+    [subjectCatalog, questionSubjectClassLevel, user]
+  );
+  const selectorOptions =
+    selectorField === 'classLevel' || selectorField === 'filterClassLevel' ? classOptions : questionSubjectOptions;
+  const selectorTitle =
+    selectorField === 'classLevel' || selectorField === 'filterClassLevel' ? 'Select Standard' : 'Select Subject';
+  const isQuestionStandardSelector = selectorField === 'classLevel' || selectorField === 'filterClassLevel';
+  const contentSelectorOptions =
+    contentSelectorField === 'quizFilterClassLevel'
+      ? quizClassOptions
+      : contentSelectorField === 'quizFilterSubject'
+        ? quizSubjectOptions
+        : contentSelectorField === 'contentFilterClassLevel' ||
+          contentSelectorField === 'topicClassLevel' ||
+          contentSelectorField === 'assignTargetClassLevel'
+          ? contentClassOptions
+          : (() => {
+              const classLevelFilter =
+                contentSelectorField === 'topicSubject'
+                  ? topicDraft.classLevel
+                  : contentSelectorField === 'assignTargetSubject'
+                    ? assignTopicFilters.classLevel
+                    : activeLearningTab === 'content'
+                      ? contentModeTab === 'create'
+                        ? contentCreateMeta.classLevel
+                        : contentFilters.classLevel || contentItemFilters.classLevel
+                      : contentFilters.classLevel;
+              return getAuthorizedSubjects(user, subjectCatalog, (i) => i.classLevel, (i) => i.title, classLevelFilter);
+            })();
+  const contentSelectorTitle =
+    contentSelectorField === 'contentFilterClassLevel' ||
+      contentSelectorField === 'topicClassLevel' ||
+      contentSelectorField === 'assignTargetClassLevel' ||
+      contentSelectorField === 'quizFilterClassLevel'
+      ? 'Select Standard'
+      : 'Select Subject';
+  const isContentStandardSelector =
+    contentSelectorField === 'contentFilterClassLevel' ||
+    contentSelectorField === 'topicClassLevel' ||
+    contentSelectorField === 'assignTargetClassLevel' ||
+    contentSelectorField === 'quizFilterClassLevel';
+  const isTopicSelectorActive = contentSelectorField === 'topicClassLevel' || contentSelectorField === 'topicSubject';
+  if (!isTeacherView) {
+    return (
+      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+        <Text style={styles.title}>Question Management</Text>
+        <Text style={styles.errorText}>You do not have permission to manage questions.</Text>
+      </ScrollView>
+    );
+  }
+
+  const renderDialogContent = (mode: 'create' | 'edit') => {
+    const draft = mode === 'create' ? createDraft : editDraft;
+    const normalizedQuestionType = normalizeQuestionType(draft.questionType);
+    const dialogTitle = mode === 'create' ? 'New Question' : 'Edit Question';
+    const saveAction = mode === 'create' ? createQuestion : saveQuestion;
+    const isSaving = mode === 'create' ? creating : savingQuestionId !== null;
+    const closeAction = () => {
+      setActionBadge(null);
+      if (mode === 'create') {
+        setIsCreateDialogOpen(false);
+        return;
+      }
+      setEditingQuestionId(null);
+      setEditingQuestionPayload(null);
+    };
+    const editorMode = getQuestionEditorMode(draft.questionType);
+    const isLogicoMode = editorMode === 'logico';
+    const isMemoryMatchMode = editorMode === 'memory_match';
+    const isFillBlankMode = editorMode === 'fill_blank';
+    const isJigsawMode = editorMode === 'jigsaw';
+    const isGameMode = isMemoryMatchMode || isFillBlankMode || isJigsawMode;
+    const hasOptions = (editorMode === 'choice' || isLogicoMode) && !isGameMode;
+    const hasPairs = editorMode === 'drag_drop';
+    const tab2Label = hasPairs ? 'Pairs' : isLogicoMode ? 'Mappings' : isGameMode ? 'Game Config' : 'Options';
+    const logicoSlotStats = isLogicoMode
+      ? draft.options.reduce(
+        (acc, option) => {
+          const slot = Number(option.slotPosition);
+          const isValid = Number.isInteger(slot) && slot >= 1 && slot <= 10;
+          if (!isValid) {
+            acc.invalidCount += 1;
+            return acc;
+          }
+          acc.slotCounts.set(slot, (acc.slotCounts.get(slot) || 0) + 1);
+          return acc;
+        },
+        { slotCounts: new Map<number, number>(), invalidCount: 0 },
+      )
+      : null;
+    const duplicateLogicoSlots = logicoSlotStats
+      ? Array.from(logicoSlotStats.slotCounts.entries())
+        .filter(([, count]) => count > 1)
+        .map(([slot]) => slot)
+      : [];
+    const hasLogicoMappingBlocker = Boolean(
+      isLogicoMode &&
+      ((logicoSlotStats?.invalidCount || 0) > 0 || duplicateLogicoSlots.length > 0),
+    );
+    const canSave = !isSaving && !hasLogicoMappingBlocker;
+
+    const QTYPES_EMOJI: Record<string, string> = {
+      guess_image: '', drag_drop_match: '', guess_audio: '',
+      true_false: '', single_choice: '', multi_choice: '', logico: '',
+    };
+    const QTYPES_COLOR: Record<string, string> = {
+      guess_image: '#2D5DC9', drag_drop_match: '#9B8EC4', guess_audio: '#7DC67A',
+      true_false: '#E6A817', single_choice: '#D33F13', multi_choice: '#E91E8C', logico: '#0f766e',
+      memory_match: '#7B4FCA', fill_blank: '#E6A020',
+      jigsaw: '#0EA5E9',
+    };
+    const QTYPES_BG: Record<string, string> = {
+      guess_image: '#D6EAFF', drag_drop_match: '#EDE4FF', guess_audio: '#D6F5D6',
+      true_false: '#FFF5CC', single_choice: '#FFE8D6', multi_choice: '#FFE0F0', logico: '#DCFCE7',
+      memory_match: '#EDE4FF', fill_blank: '#FFF5CC',
+      jigsaw: '#E0F2FE',
+    };
+
+    return (
+      <View style={qFormS.screen}>
+        {/* Header */}
+        <ModalHeader
+          title={dialogTitle}
+          subtitle={mode === 'edit' ? getQuestionTypeLabel(draft.questionType) : undefined}
+          onBack={closeAction}
+          right={
+            <Pressable style={[qFormS.saveBtn, !canSave && qFormS.saveBtnDisabled]} onPress={saveAction} disabled={!canSave}>
+              {isSaving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={qFormS.saveBtnText}>Save</Text>}
+            </Pressable>
+          }
+        />
+
+        {/* Tab bar */}
+        <View style={qFormS.tabBar}>
+          {([
+            ['setup', '⚙ Setup'],
+            ...(hasOptions || hasPairs || isGameMode ? [['options', tab2Label] as [string, string]] : []),
+            ['preview', '👁 Preview'],
+          ] as [string, string][]).map(([key, label]) => (
+            <Pressable key={key} style={[qFormS.tab, questionFormTab === key && qFormS.tabActive]}
+              onPress={() => setQuestionFormTab(key as 'setup' | 'options' | 'preview')}>
+              <Text style={[qFormS.tabText, questionFormTab === key && qFormS.tabTextActive]}>{label}</Text>
+            </Pressable>
+          ))}
+        </View>
+
+        {/* Toast */}
+        {actionBadge ? (
+          <View style={qFormS.toast}><Text style={qFormS.toastText}>{actionBadge}</Text></View>
+        ) : null}
+        {message ? (
+          <View style={[qFormS.toast, message.type === 'error' ? qFormS.toastError : qFormS.toastSuccess]}>
+            <Text style={[qFormS.toastText, message.type === 'error' ? qFormS.toastErrorText : qFormS.toastSuccessText]}>{message.text}</Text>
+          </View>
+        ) : null}
+
+        {/* SETUP TAB */}
+        {questionFormTab === 'setup' && (
+          <ScrollView contentContainerStyle={qFormS.tabContent}>
+            {mode === 'create' ? (
+              <View style={qFormS.group}>
+                <Text style={qFormS.groupLabel}>QUESTION TYPE</Text>
+                <View style={qFormS.fieldCard}>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingVertical: 4 }}>
+                    {QUESTION_TYPE_CHOICES.map((choice) => {
+                      const sel = draft.questionType === choice.value;
+                      const ec = QTYPES_COLOR[choice.value] ?? '#2D5DC9';
+                      const eb = QTYPES_BG[choice.value] ?? '#D6EAFF';
+                      const ee = QTYPES_EMOJI[choice.value] ?? '';
+                      return (
+                        <Pressable key={choice.value}
+                          style={[qFormS.qtypeChip, sel && { backgroundColor: eb, borderColor: ec }]}
+                          onPress={() => setQuestionType(choice.value)}>
+                          <Text style={qFormS.qtypeEmoji}>{ee}</Text>
+                          <Text style={[qFormS.qtypeLabel, sel && { color: ec, fontWeight: '800' }]}>{choice.label}</Text>
+                        </Pressable>
+                      );
+                    })}
+                  </ScrollView>
+                  {QUESTION_TYPE_CHOICES.find((c) => c.value === draft.questionType) ? (
+                    <Text style={qFormS.qtypeDesc}>{QUESTION_TYPE_CHOICES.find((c) => c.value === draft.questionType)!.description}</Text>
+                  ) : null}
+                </View>
+              </View>
+            ) : null}
+
+            <View style={qFormS.group}>
+              <Text style={qFormS.groupLabel}>BASIC INFO</Text>
+              <View style={qFormS.fieldCard}>
+                <Text style={qFormS.fieldLabel}>Question Title</Text>
+                <TextInput value={draft.questionTitle}
+                  onChangeText={(v) => updateDraftField(mode, 'questionTitle', v)}
+                  placeholder="e.g. What animal says Moo?" style={qFormS.input} placeholderTextColor="#B0B8D0" />
+                <View style={qFormS.divider} />
+                <Text style={qFormS.fieldLabel}>Instruction (optional)</Text>
+                <TextInput value={draft.questionInstruction}
+                  onChangeText={(v) => updateDraftField(mode, 'questionInstruction', v)}
+                  placeholder="e.g. Listen and choose the correct animal"
+                  style={[qFormS.input, { minHeight: 52 }]} multiline placeholderTextColor="#B0B8D0" />
+              </View>
+            </View>
+
+            <View style={qFormS.group}>
+              <Text style={qFormS.groupLabel}>CLASS SETTINGS</Text>
+              <View style={qFormS.fieldCard}>
+                <Text style={qFormS.fieldLabel}>Standard / Class</Text>
+                <Pressable style={qFormS.selectorRow} onPress={() => setSelectorField('classLevel')}>
+                  <Text style={draft.classLevel ? qFormS.selectorVal : qFormS.selectorPlaceholder}>
+                    {draft.classLevel ? getStandardLabel(draft.classLevel) : 'Select Standard'}
+                  </Text>
+                  <Text style={{ color: '#B0B8D0', fontSize: 16 }}>›</Text>
+                </Pressable>
+                <View style={qFormS.divider} />
+                <Text style={qFormS.fieldLabel}>Subject</Text>
+                <Pressable style={qFormS.selectorRow} onPress={() => setSelectorField('subject')}>
+                  <Text style={draft.subject ? qFormS.selectorVal : qFormS.selectorPlaceholder}>
+                    {draft.subject || 'Select Subject'}
+                  </Text>
+                  <Text style={{ color: '#B0B8D0', fontSize: 16 }}>›</Text>
+                </Pressable>
+              </View>
+            </View>
+
+            <View style={qFormS.group}>
+              <Text style={qFormS.groupLabel}>SCORING</Text>
+              <View style={qFormS.fieldCard}>
+                <View style={qFormS.twoCol}>
+                  <View style={{ flex: 1 }}>
+                    <Text style={qFormS.fieldLabel}>Points</Text>
+                    <TextInput value={draft.points}
+                      onChangeText={(v) => updateDraftField(mode, 'points', v)}
+                      placeholder="10" style={qFormS.input} keyboardType="numeric" placeholderTextColor="#B0B8D0" />
+                  </View>
+                  <View style={qFormS.colDivider} />
+                  <View style={{ flex: 1 }}>
+                    <Text style={qFormS.fieldLabel}>Time Limit (s)</Text>
+                    <TextInput value={draft.timeLimitSeconds}
+                      onChangeText={(v) => updateDraftField(mode, 'timeLimitSeconds', v)}
+                      placeholder="30" style={qFormS.input} keyboardType="numeric" placeholderTextColor="#B0B8D0" />
+                  </View>
+                </View>
+              </View>
+            </View>
+
+            {normalizedQuestionType === 'guess_image' || normalizedQuestionType === 'logico' || normalizedQuestionType === 'jigsaw' ? (
+              <View style={qFormS.group}>
+                <Text style={qFormS.groupLabel}>
+                  {normalizedQuestionType === 'logico' ? 'WORKSHEET IMAGE' : normalizedQuestionType === 'jigsaw' ? 'PUZZLE IMAGE' : 'PROMPT IMAGE'}
+                </Text>
+                <View style={qFormS.fieldCard}>
+                  <Pressable style={qFormS.uploadBtn} onPress={() => uploadImageForQuestion(mode)}>
+                    <Text style={qFormS.uploadBtnText}>
+                      {normalizedQuestionType === 'logico' ? '⬆ Upload Worksheet Image' : normalizedQuestionType === 'jigsaw' ? '⬆ Upload Puzzle Image' : '⬆ Upload Prompt Image'}
+                    </Text>
+                  </Pressable>
+                  {draft.mainImage.trim() ? (
+                    <View style={qFormS.mediaRow}>
+                      <SafeImage uri={resolveMediaUrl(draft.mainImage.trim())} style={qFormS.mediaThumb} resizeMode="contain" />
+                      <View style={{ flex: 1 }}>
+                        <Text style={qFormS.mediaName} numberOfLines={2}>{toMediaLabel(draft.mainImage, 'image', draft.mainImageLabel)}</Text>
+                      </View>
+                      <Pressable onPress={() => requestMediaRemoval({ scope: 'question', mode, mediaType: 'image' })} style={qFormS.removeBtn}>
+                        <Text style={qFormS.removeBtnText}>✕</Text>
+                      </Pressable>
+                    </View>
+                  ) : null}
+                </View>
+              </View>
+            ) : null}
+
+            {normalizedQuestionType === 'guess_audio' ? (
+              <View style={qFormS.group}>
+                <Text style={qFormS.groupLabel}>PROMPT AUDIO</Text>
+                <View style={qFormS.fieldCard}>
+                  <Pressable style={qFormS.uploadBtn} onPress={() => uploadAudioForQuestion(mode)}>
+                    <Text style={qFormS.uploadBtnText}>⬆ Upload Prompt Audio</Text>
+                  </Pressable>
+                  {draft.mainAudio.trim() ? (
+                    <View style={qFormS.mediaRow}>
+                      <Text style={qFormS.audioIcon}>🎵</Text>
+                      <View style={{ flex: 1 }}>
+                        <Text style={qFormS.mediaName} numberOfLines={2}>{toMediaLabel(draft.mainAudio, 'audio', draft.mainAudioLabel)}</Text>
+                      </View>
+                      <Pressable onPress={() => playAudioPreview(draft.mainAudio)} style={qFormS.playBtn}>
+                        <Text style={qFormS.playBtnText}>▶ Play</Text>
+                      </Pressable>
+                      <Pressable onPress={() => requestMediaRemoval({ scope: 'question', mode, mediaType: 'audio' })} style={qFormS.removeBtn}>
+                        <Text style={qFormS.removeBtnText}>✕</Text>
+                      </Pressable>
+                    </View>
+                  ) : null}
+                </View>
+              </View>
+            ) : null}
+          </ScrollView>
+        )}
+
+        {/* OPTIONS TAB */}
+        {questionFormTab === 'options' && hasOptions && (
+          <ScrollView contentContainerStyle={qFormS.tabContent}>
+            <View style={qFormS.secGroup}>
+              <View style={qFormS.secHeader}>
+                <Text style={qFormS.secTitle}>{isLogicoMode ? 'Logico Button Mapping' : 'Answer Options'}</Text>
+                {!isLogicoMode && normalizedQuestionType !== 'true_false' ? (
+                  <Pressable style={qFormS.addBtn} onPress={() => addOption(mode)}>
+                    <Text style={qFormS.addBtnText}>+ Add</Text>
+                  </Pressable>
+                ) : null}
+              </View>
+              {isLogicoMode ? (
+                <>
+                  <Text style={qFormS.secHint}>Assign each Logico button to one unique option position (1-10).</Text>
+                  {draft.mainImage.trim() ? (
+                    <SafeImage uri={resolveMediaUrl(draft.mainImage.trim())} style={qFormS.logicoWorksheetPreview} resizeMode="contain" />
+                  ) : null}
+                  {hasLogicoMappingBlocker ? (
+                    <View style={qFormS.logicoBlockerBanner}>
+                      <Text style={qFormS.logicoBlockerText}>
+                        {(logicoSlotStats?.invalidCount || 0) > 0
+                          ? 'All positions must be between 1 and 10.'
+                          : `Duplicate positions found: ${duplicateLogicoSlots.join(', ')}.`}
+                      </Text>
+                    </View>
+                  ) : null}
+                  <View style={qFormS.logicoGrid}>
+                    {draft.options.map((option, index) => (
+                      <View key={`${mode}-logico-${option.id || index}`} style={qFormS.logicoCard}>
+                        <View style={qFormS.logicoButtonCell}>
+                          <LogicoButtonBadge buttonId={option.id} />
+                          <Text style={qFormS.logicoButtonLabel}>{frameButtons.find((button) => button.id === option.id)?.label || option.id}</Text>
+                        </View>
+                        <View style={qFormS.logicoSlotCell}>
+                          <Text style={qFormS.fieldLabel}>Position</Text>
+                          <TextInput
+                            value={String(option.slotPosition || '')}
+                            onChangeText={(value) => {
+                              const parsed = Number(value.replace(/[^0-9]/g, ''));
+                              updateOption(mode, index, { slotPosition: Number.isFinite(parsed) ? parsed : 0 });
+                            }}
+                            keyboardType="numeric"
+                            placeholder="1-10"
+                            placeholderTextColor="#B0B8D0"
+                            style={qFormS.logicoSlotInput}
+                          />
+                        </View>
+                        <View style={qFormS.logicoLabelCell}>
+                          <Text style={qFormS.fieldLabel}>Option label (optional)</Text>
+                          <TextInput
+                            value={option.label}
+                            onChangeText={(value) => updateOption(mode, index, { label: value })}
+                            placeholder="e.g. Elephant"
+                            placeholderTextColor="#B0B8D0"
+                            style={qFormS.optInput}
+                          />
+                        </View>
+                      </View>
+                    ))}
+                  </View>
+                </>
+              ) : (
+                <>
+                  <Text style={qFormS.secHint}>
+                    {normalizedQuestionType === 'multi_choice' ? 'Mark all correct options.' : 'Mark exactly one correct option.'}
+                  </Text>
+                  {draft.options.map((option, index) => (
+                    <View key={`${mode}-opt-${index}`} style={qFormS.optBlock}>
+                      <View style={qFormS.optBlockHeader}>
+                        <View style={[qFormS.optNumBadge, option.isCorrect && { backgroundColor: '#7DC67A' }]}>
+                          <Text style={[qFormS.optNum, option.isCorrect && { color: '#fff' }]}>{index + 1}</Text>
+                        </View>
+                        <View style={{ flex: 1 }}>
+                          <TextInput value={option.label}
+                            onChangeText={(v) => updateOption(mode, index, { label: v })}
+                            placeholder={`Option ${index + 1} label`} style={qFormS.optInput} placeholderTextColor="#B0B8D0" />
+                        </View>
+                        <Pressable
+                          style={[qFormS.correctBtn, option.isCorrect && qFormS.correctBtnActive]}
+                          onPress={() => setCorrectOption(mode, index)}>
+                          <Text style={[qFormS.correctBtnText, option.isCorrect && qFormS.correctBtnTextActive]}>
+                            {option.isCorrect ? '✓' : '○'}
+                          </Text>
+                        </Pressable>
+                        {normalizedQuestionType !== 'true_false' ? (
+                          <Pressable onPress={() => requestOptionRemoval({ mode, index })} style={qFormS.removeBtn}>
+                            <Text style={qFormS.removeBtnText}>✕</Text>
+                          </Pressable>
+                        ) : null}
+                      </View>
+                      <View style={{ paddingHorizontal: 14, paddingBottom: 12 }}>
+                        <Pressable style={qFormS.uploadBtn} onPress={() => uploadMediaForOption(mode, index)}>
+                          <Text style={qFormS.uploadBtnText}>
+                            {normalizedQuestionType === 'guess_audio' ? '⬆ Upload Option Audio / Image' : '⬆ Upload Option Image / Audio'}
+                          </Text>
+                        </Pressable>
+                        {option.image.trim() ? (
+                          <View style={[qFormS.mediaRow, { marginTop: 8 }]}>
+                            <SafeImage uri={resolveMediaUrl(option.image.trim())} style={qFormS.mediaThumb} resizeMode="cover" />
+                            <Text style={qFormS.mediaName} numberOfLines={1}>{toMediaLabel(option.image, 'image', option.imageLabel)}</Text>
+                            <Pressable onPress={() => requestMediaRemoval({ scope: 'option', mode, index, mediaType: 'image' })} style={qFormS.removeBtn}>
+                              <Text style={qFormS.removeBtnText}>✕</Text>
+                            </Pressable>
+                          </View>
+                        ) : null}
+                        {option.audio.trim() ? (
+                          <View style={[qFormS.mediaRow, { marginTop: 8 }]}>
+                            <Text style={qFormS.audioIcon}>🎵</Text>
+                            <Text style={[qFormS.mediaName, { flex: 1 }]} numberOfLines={1}>{toMediaLabel(option.audio, 'audio', option.audioLabel)}</Text>
+                            <Pressable onPress={() => playAudioPreview(option.audio)} style={qFormS.playBtn}>
+                              <Text style={qFormS.playBtnText}>▶</Text>
+                            </Pressable>
+                            <Pressable onPress={() => requestMediaRemoval({ scope: 'option', mode, index, mediaType: 'audio' })} style={qFormS.removeBtn}>
+                              <Text style={qFormS.removeBtnText}>✕</Text>
+                            </Pressable>
+                          </View>
+                        ) : null}
+                      </View>
+                    </View>
+                  ))}
+                </>
+              )}
+            </View>
+          </ScrollView>
+        )}
+
+        {/* PAIRS TAB */}
+        {questionFormTab === 'options' && hasPairs && (
+          <ScrollView contentContainerStyle={qFormS.tabContent}>
+            <View style={qFormS.secGroup}>
+              <View style={qFormS.secHeader}>
+                <Text style={qFormS.secTitle}>🔀 Match Pairs</Text>
+                <Pressable style={qFormS.addBtn} onPress={() => addMatchPair(mode)}>
+                  <Text style={qFormS.addBtnText}>+ Add</Text>
+                </Pressable>
+              </View>
+              <Text style={qFormS.secHint}>Each pair: one draggable item ↔ one matching target.</Text>
+              {draft.matchPairs.map((pair, index) => (
+                <View key={`${mode}-pair-${index}`} style={qFormS.optBlock}>
+                  <View style={qFormS.pairHeaderRow}>
+                    <Text style={qFormS.pairNum}>Pair {index + 1}</Text>
+                    <Pressable onPress={() => removeMatchPair(mode, index)} style={qFormS.removeBtnWide}>
+                      <Text style={qFormS.removeBtnText}>✕ Remove</Text>
+                    </Pressable>
+                  </View>
+                  <View style={{ paddingHorizontal: 14, paddingBottom: 14, gap: 10 }}>
+                    <View>
+                      <Text style={qFormS.fieldLabel}>Item (draggable)</Text>
+                      <TextInput value={pair.itemLabel}
+                        onChangeText={(v) => updateMatchPair(mode, index, { itemLabel: v })}
+                        placeholder="e.g. Lion" style={qFormS.optInput} placeholderTextColor="#B0B8D0" />
+                    </View>
+                    <View>
+                      <Text style={qFormS.fieldLabel}>Target (matching)</Text>
+                      <TextInput value={pair.targetLabel}
+                        onChangeText={(v) => updateMatchPair(mode, index, { targetLabel: v })}
+                        placeholder="e.g. Den" style={qFormS.optInput} placeholderTextColor="#B0B8D0" />
+                    </View>
+                    <Pressable style={qFormS.uploadBtn} onPress={() => uploadMediaForMatchPair(mode, index)}>
+                      <Text style={qFormS.uploadBtnText}>⬆ Upload Image / Audio</Text>
+                    </Pressable>
+                    {pair.image.trim() ? (
+                      <View style={qFormS.mediaRow}>
+                        <SafeImage uri={resolveMediaUrl(pair.image.trim())} style={qFormS.mediaThumb} resizeMode="cover" />
+                        <Text style={qFormS.mediaName} numberOfLines={1}>{toMediaLabel(pair.image, 'image', pair.imageLabel)}</Text>
+                        <Pressable onPress={() => requestMediaRemoval({ scope: 'pair', mode, index, mediaType: 'image' })} style={qFormS.removeBtn}>
+                          <Text style={qFormS.removeBtnText}>✕</Text>
+                        </Pressable>
+                      </View>
+                    ) : null}
+                    {pair.audio.trim() ? (
+                      <View style={qFormS.mediaRow}>
+                        <Text style={qFormS.audioIcon}>🎵</Text>
+                        <Text style={[qFormS.mediaName, { flex: 1 }]} numberOfLines={1}>{toMediaLabel(pair.audio, 'audio', pair.audioLabel)}</Text>
+                        <Pressable onPress={() => playAudioPreview(pair.audio)} style={qFormS.playBtn}>
+                          <Text style={qFormS.playBtnText}>▶</Text>
+                        </Pressable>
+                        <Pressable onPress={() => requestMediaRemoval({ scope: 'pair', mode, index, mediaType: 'audio' })} style={qFormS.removeBtn}>
+                          <Text style={qFormS.removeBtnText}>✕</Text>
+                        </Pressable>
+                      </View>
+                    ) : null}
+                  </View>
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+        )}
+
+        {/* ── MEMORY MATCH CONFIG TAB ── */}
+        {questionFormTab === 'options' && isMemoryMatchMode && (() => {
+          type MMPair = { id: number; label: string; imageUrl?: string };
+          const mmGrid = ((draft.rawQuestionData as any)?.grid as string) || '4x4';
+          const mmPairs = ((draft.rawQuestionData as any)?.pairs ?? []) as MMPair[];
+          const required = GRID_PAIR_COUNTS[mmGrid] ?? 8;
+          const cols = GRID_COLS[mmGrid] ?? 4;
+          const usedIds = mmPairs.map((p) => p.imageUrl?.split('/').pop()?.replace('-svgrepo-com.svg', '').replace(/-/g, '') ?? '');
+
+          const setMM = (patch: object) =>
+            updateDraftField(mode, 'rawQuestionData', { ...(draft.rawQuestionData as any), ...patch });
+
+          const randomFill = () => {
+            const picked = pickRandomAssets(required);
+            setMM({ grid: mmGrid, pairs: picked.map((a, i) => ({ id: i + 1, label: a.label, imageUrl: a.mediaPath })) });
+          };
+
+          const applyAsset = (asset: MemoryAsset) => {
+            if (!assetPickerTarget) return;
+            const { pairIdx } = assetPickerTarget;
+            const updated = mmPairs.map((p, i) => i === pairIdx ? { ...p, label: asset.label, imageUrl: asset.mediaPath } : p);
+            setMM({ pairs: updated });
+            setAssetPickerOpen(false);
+            setAssetPickerTarget(null);
+          };
+
+          // Ensure pairs array is the right length when grid changes
+          const handleGridChange = (g: string) => {
+            const need = GRID_PAIR_COUNTS[g] ?? 8;
+            let newPairs = [...mmPairs];
+            if (newPairs.length > need) newPairs = newPairs.slice(0, need);
+            if (newPairs.length < need) {
+              const extra = pickRandomAssets(need - newPairs.length, newPairs.map((p) => p.imageUrl?.split('/').pop()?.replace('.svg', '') ?? ''));
+              extra.forEach((a, i) => newPairs.push({ id: newPairs.length + i + 1, label: a.label, imageUrl: a.mediaPath }));
+            }
+            setMM({ grid: g, pairs: newPairs });
+          };
+
+          // ── pixel-perfect sizing ──────────────────────────────────────────
+          const SW = Dimensions.get('window').width;
+          // section padding (16) × 2 sides + tabContent padding (16) × 2 sides
+          const SECTION_H_PAD = 16;
+          const TAB_H_PAD = 16;
+          const innerW = SW - TAB_H_PAD * 2 - SECTION_H_PAD * 2;
+          const CARD_GAP = 8;
+          const cardW = Math.floor((innerW - CARD_GAP * (cols - 1)) / cols);
+
+          // asset modal: 4 columns, 12px side padding × 2
+          const MODAL_ASSET_COLS = 4;
+          const MODAL_H_PAD = 12;
+          const assetInnerW = SW - MODAL_H_PAD * 2;
+          const ASSET_GAP = 8;
+          const assetCellW = Math.floor((assetInnerW - ASSET_GAP * (MODAL_ASSET_COLS - 1)) / MODAL_ASSET_COLS);
+
+          return (
+            <ScrollView contentContainerStyle={qFormS.tabContent}>
+              {/* ── Grid Size ── */}
+              <LinearGradient colors={['#F4EFFF', '#EDE4FF']} style={mmS.section}>
+                <Text style={mmS.sectionTitle}>Grid Size</Text>
+                <Text style={mmS.sectionHint}>Choose how many pairs students must find.</Text>
+                <View style={mmS.gridRow}>
+                  {(['2x2', '4x4', '6x6'] as const).map((g) => {
+                    const n = GRID_PAIR_COUNTS[g];
+                    const sel = mmGrid === g;
+                    const label = `${n} Pairs`;
+                    const sub = `${n * 2} cards`;
+                    return (
+                      <Pressable key={g} onPress={() => handleGridChange(g)} style={{ flex: 1 }}>
+                        {sel ? (
+                          <LinearGradient colors={['#9B6CF5', '#7B4FCA']} style={mmS.gridChipSel}>
+                            <Text style={mmS.gridChipMainSel}>{label}</Text>
+                            <Text style={mmS.gridChipSubSel}>{sub}</Text>
+                          </LinearGradient>
+                        ) : (
+                          <View style={mmS.gridChip}>
+                            <Text style={mmS.gridChipMain}>{label}</Text>
+                            <Text style={mmS.gridChipSub}>{sub}</Text>
+                          </View>
+                        )}
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              </LinearGradient>
+
+              {/* ── Click Limit ── */}
+              <View style={mmS.section}>
+                <Text style={mmS.sectionTitle}>Click Limit</Text>
+                <Text style={[mmS.sectionHint, { marginBottom: 8 }]}>Max card flips — prevents spam clicking.</Text>
+
+                {/* Unlimited toggle — full width */}
+                {(() => {
+                  const curLimit = (draft.rawQuestionData as any)?.clickLimit ?? 0;
+                  const isUnlimited = curLimit === 0;
+                  return (
+                    <>
+                      <Pressable onPress={() => setMM({ clickLimit: 0 })} style={{ marginBottom: 8 }}>
+                        {isUnlimited ? (
+                          <LinearGradient colors={['#9B6CF5', '#7B4FCA']} style={mmS.unlimitedChipSel}>
+                            <Text style={mmS.unlimitedChipTextSel}>Unlimited</Text>
+                            <Text style={mmS.unlimitedChipSubSel}>No flip restriction</Text>
+                          </LinearGradient>
+                        ) : (
+                          <View style={mmS.unlimitedChip}>
+                            <Text style={mmS.unlimitedChipText}>Unlimited</Text>
+                            <Text style={mmS.unlimitedChipSub}>No flip restriction</Text>
+                          </View>
+                        )}
+                      </Pressable>
+
+                      {/* 2×2 number grid */}
+                      <View style={mmS.clickGrid}>
+                        {([10, 20, 30, 40] as const).map((n) => {
+                          const sel = curLimit === n;
+                          return (
+                            <Pressable key={n} onPress={() => setMM({ clickLimit: n })} style={{ width: '48%' }}>
+                              {sel ? (
+                                <LinearGradient colors={['#9B6CF5', '#7B4FCA']} style={mmS.clickChipSel}>
+                                  <Text style={mmS.clickChipNumSel}>{n}</Text>
+                                  <Text style={mmS.clickChipSubSel}>clicks max</Text>
+                                </LinearGradient>
+                              ) : (
+                                <View style={mmS.clickChip}>
+                                  <Text style={mmS.clickChipNum}>{n}</Text>
+                                  <Text style={mmS.clickChipSub}>clicks max</Text>
+                                </View>
+                              )}
+                            </Pressable>
+                          );
+                        })}
+                      </View>
+                    </>
+                  );
+                })()}
+              </View>
+
+              {/* ── Pairs Grid ── */}
+              <View style={mmS.section}>
+                <View style={mmS.sectionHeader}>
+                  <View style={{ flex: 1 }}>
+                    <Text style={mmS.sectionTitle}>Pairs  <Text style={{ color: '#9B6CF5', fontWeight: '900' }}>{mmPairs.length}/{required}</Text></Text>
+                    <Text style={mmS.sectionHint}>Tap any card to swap its image.</Text>
+                  </View>
+                  <Pressable onPress={randomFill}>
+                    <LinearGradient colors={['#9B6CF5', '#7B4FCA']} style={mmS.randomBtn}>
+                      <Text style={mmS.randomBtnText}>Randomize All</Text>
+                    </LinearGradient>
+                  </Pressable>
+                </View>
+
+                {/* Symmetrical grid — exact pixel widths, uniform gaps */}
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: CARD_GAP }}>
+                  {Array.from({ length: required }).map((_, idx) => {
+                    const pair = mmPairs[idx];
+                    const imgUrl = pair?.imageUrl ? `${API_BASE_URL}${pair.imageUrl}` : undefined;
+                    return (
+                      <Pressable
+                        key={idx}
+                        style={[mmS.pairCard, { width: cardW }, !pair && mmS.pairCardEmpty]}
+                        onPress={() => { setAssetPickerTarget({ mode, pairIdx: idx }); setAssetPickerOpen(true); }}
+                      >
+                        {imgUrl ? (
+                          <Image source={{ uri: imgUrl }} style={{ width: cardW * 0.6, height: cardW * 0.6 }} resizeMode="contain" />
+                        ) : (
+                          <View style={[mmS.pairImgPlaceholder, { width: cardW * 0.6, height: cardW * 0.6, borderRadius: 10 }]}>
+                            <Text style={mmS.pairImgPlaceholderText}>+</Text>
+                          </View>
+                        )}
+                        <Text style={mmS.pairLabel} numberOfLines={1}>{pair?.label ?? '—'}</Text>
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              </View>
+
+              {/* ── Asset picker modal ── */}
+              <Modal visible={assetPickerOpen} animationType="slide" transparent onRequestClose={() => { setAssetPickerOpen(false); setAssetPickerTarget(null); }}>
+                <View style={mmS.modalOverlay}>
+                  <View style={[mmS.modalSheet, { paddingBottom: Math.max(insets.bottom, 32) }]}>
+                    {/* modal header gradient */}
+                    <LinearGradient colors={['#F4EFFF', '#EDE4FF']} style={mmS.modalHeaderGrad}>
+                      <View style={mmS.modalHeaderRow}>
+                        <View>
+                          <Text style={mmS.modalTitle}>Choose Image</Text>
+                          <Text style={mmS.modalHint}>
+                            {assetPickerTarget != null ? `Slot ${assetPickerTarget.pairIdx + 1} — already-used are dimmed` : ''}
+                          </Text>
+                        </View>
+                        <Pressable onPress={() => { setAssetPickerOpen(false); setAssetPickerTarget(null); }} style={mmS.modalClose}>
+                          <Text style={mmS.modalCloseText}>✕</Text>
+                        </Pressable>
+                      </View>
+                    </LinearGradient>
+
+                    <ScrollView contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', padding: MODAL_H_PAD, gap: ASSET_GAP }} showsVerticalScrollIndicator={false}>
+                      {MEMORY_ASSETS.map((asset) => {
+                        const alreadyUsed = assetPickerTarget != null
+                          ? mmPairs.some((p, i) => i !== assetPickerTarget.pairIdx && p.imageUrl === asset.mediaPath)
+                          : false;
+                        const isCurrent = assetPickerTarget != null && mmPairs[assetPickerTarget.pairIdx]?.imageUrl === asset.mediaPath;
+                        return (
+                          <Pressable
+                            key={asset.id}
+                            onPress={() => !alreadyUsed && applyAsset(asset)}
+                            style={[mmS.assetCell, { width: assetCellW }, isCurrent && mmS.assetCellCurrent, alreadyUsed && mmS.assetCellUsed]}
+                          >
+                            {isCurrent && (
+                              <LinearGradient colors={['#9B6CF5', '#7B4FCA']} style={mmS.assetCurrentRing} />
+                            )}
+                            <Image source={{ uri: `${API_BASE_URL}${asset.mediaPath}` }} style={{ width: assetCellW * 0.58, height: assetCellW * 0.58 }} resizeMode="contain" />
+                            <Text style={[mmS.assetLabel, alreadyUsed && { color: '#C0C0D0' }]} numberOfLines={1}>{asset.label}</Text>
+                          </Pressable>
+                        );
+                      })}
+                    </ScrollView>
+                  </View>
+                </View>
+              </Modal>
+            </ScrollView>
+          );
+        })()}
+
+        {/* ── JIGSAW CONFIG TAB ── */}
+        {questionFormTab === 'options' && isJigsawMode && (() => {
+          const raw = (draft.rawQuestionData as any) ?? {};
+          const gridSize = ['2x2', '3x3', '4x4', '5x5'].includes(raw.gridSize) ? raw.gridSize : '3x3';
+          const difficulty = ['easy', 'medium', 'hard'].includes(raw.difficulty) ? raw.difficulty : 'medium';
+          const clickLimit = Number(raw.clickLimit ?? 20);
+          const setJigsaw = (patch: Record<string, unknown>) =>
+            updateDraftField(mode, 'rawQuestionData', { ...raw, ...patch });
+          return (
+            <ScrollView contentContainerStyle={qFormS.tabContent}>
+              <View style={mmS.section}>
+                <Text style={mmS.sectionTitle}>Puzzle Settings</Text>
+                <Text style={mmS.sectionHint}>Configure jigsaw board and challenge level.</Text>
+
+                <Text style={[qFormS.fieldLabel, { marginTop: 6 }]}>Grid Size</Text>
+                <View style={mmS.gridRow}>
+                  {(['2x2', '3x3', '4x4', '5x5'] as const).map((g) => {
+                    const selected = gridSize === g;
+                    return (
+                      <Pressable key={g} style={{ flex: 1 }} onPress={() => setJigsaw({ gridSize: g })}>
+                        {selected ? (
+                          <LinearGradient colors={['#0EA5E9', '#0284C7']} style={mmS.gridChipSel}>
+                            <Text style={mmS.gridChipMainSel}>{g}</Text>
+                            <Text style={mmS.gridChipSubSel}>{Number(g.split('x')[0]) ** 2} pieces</Text>
+                          </LinearGradient>
+                        ) : (
+                          <View style={mmS.gridChip}>
+                            <Text style={mmS.gridChipMain}>{g}</Text>
+                            <Text style={mmS.gridChipSub}>{Number(g.split('x')[0]) ** 2} pieces</Text>
+                          </View>
+                        )}
+                      </Pressable>
+                    );
+                  })}
+                </View>
+
+                <Text style={[qFormS.fieldLabel, { marginTop: 14 }]}>Difficulty</Text>
+                <View style={mmS.clickGrid}>
+                  {(['easy', 'medium', 'hard'] as const).map((level) => {
+                    const selected = difficulty === level;
+                    return (
+                      <Pressable key={level} style={{ width: '31%' }} onPress={() => setJigsaw({ difficulty: level })}>
+                        {selected ? (
+                          <LinearGradient colors={['#0EA5E9', '#0284C7']} style={mmS.clickChipSel}>
+                            <Text style={mmS.clickChipNumSel}>{level.toUpperCase()}</Text>
+                            <Text style={mmS.clickChipSubSel}>mode</Text>
+                          </LinearGradient>
+                        ) : (
+                          <View style={mmS.clickChip}>
+                            <Text style={mmS.clickChipNum}>{level.toUpperCase()}</Text>
+                            <Text style={mmS.clickChipSub}>mode</Text>
+                          </View>
+                        )}
+                      </Pressable>
+                    );
+                  })}
+                </View>
+
+                <Text style={[qFormS.fieldLabel, { marginTop: 14 }]}>Move Limit (0 = Unlimited)</Text>
+                <View style={mmS.clickGrid}>
+                  {[0, 20, 40, 60].map((limit) => {
+                    const selected = clickLimit === limit;
+                    return (
+                      <Pressable key={limit} style={{ width: '48%' }} onPress={() => setJigsaw({ clickLimit: limit })}>
+                        {selected ? (
+                          <LinearGradient colors={['#0EA5E9', '#0284C7']} style={mmS.clickChipSel}>
+                            <Text style={mmS.clickChipNumSel}>{limit === 0 ? '∞' : limit}</Text>
+                            <Text style={mmS.clickChipSubSel}>moves</Text>
+                          </LinearGradient>
+                        ) : (
+                          <View style={mmS.clickChip}>
+                            <Text style={mmS.clickChipNum}>{limit === 0 ? '∞' : limit}</Text>
+                            <Text style={mmS.clickChipSub}>moves</Text>
+                          </View>
+                        )}
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              </View>
+            </ScrollView>
+          );
+        })()}
+
+        {/* ── FILL IN THE BLANK CONFIG TAB ── */}
+        {questionFormTab === 'options' && isFillBlankMode && (
+          <ScrollView contentContainerStyle={[qFormS.tabContent, { gap: 16 }]}>
+
+            {/* ── Live sentence preview ── */}
+            {(() => {
+              const sentence: string = (draft.rawQuestionData as any)?.sentence ?? '';
+              const answer: string   = (draft.rawQuestionData as any)?.answer   ?? '';
+              const parts = sentence.split('___');
+              return sentence.includes('___') ? (
+                <View style={fbS.previewBox}>
+                  <Text style={fbS.previewLabel}>PREVIEW</Text>
+                  <Text style={fbS.previewSentence}>
+                    <Text>{parts[0]}</Text>
+                    <Text style={[fbS.previewBlank, { borderBottomColor: answer ? '#4CAF50' : '#2D5DC9', color: answer ? '#2E7D32' : '#2D5DC9' }]}>
+                      {' '}{answer || '___'}{' '}
+                    </Text>
+                    <Text>{parts[1] ?? ''}</Text>
+                  </Text>
+                </View>
+              ) : null;
+            })()}
+
+            {/* ── Sentence input ── */}
+            <Card variant="outlined" style={fbS.section}>
+              <View style={fbS.sectionHeader}>
+                <View style={[fbS.sectionIcon, { backgroundColor: '#E8F4FF' }]}>
+                  <Text style={{ fontSize: 14 }}>📝</Text>
+                </View>
+                <View>
+                  <Text style={fbS.sectionTitle}>Sentence</Text>
+                  <Text style={fbS.sectionHint}>Use ___ to mark the blank</Text>
+                </View>
+              </View>
+              <TextInput
+                value={(draft.rawQuestionData as any)?.sentence ?? ''}
+                onChangeText={(v) => updateDraftField(mode, 'rawQuestionData', { ...(draft.rawQuestionData as any), sentence: v })}
+                placeholder="The ___ shines during the day."
+                style={fbS.textArea}
+                placeholderTextColor="#B0B8D0"
+                multiline
+              />
+            </Card>
+
+            {/* ── Answer options with correct-answer selector ── */}
+            <View style={qFormS.secGroup}>
+              {(() => {
+                const optCount = (((draft.rawQuestionData as any)?.options ?? []) as string[]).length;
+                const atMax = optCount >= 4;
+                return (
+              <View style={qFormS.secHeader}>
+                <Text style={qFormS.secTitle}>Answer Options <Text style={{ color: '#525C6B', fontWeight: '500', fontSize: 12 }}>({optCount}/4)</Text></Text>
+                <Pressable
+                  disabled={atMax}
+                  style={[qFormS.addBtn, atMax && { backgroundColor: '#E8E8F0', opacity: 0.5 }]}
+                  onPress={() => {
+                    updateDraftField(mode, 'rawQuestionData', { ...(draft.rawQuestionData as any), options: [...(((draft.rawQuestionData as any)?.options ?? []) as string[]), ''] });
+                  }}>
+                  <Text style={[qFormS.addBtnText, atMax && { color: '#525C6B' }]}>+ Add</Text>
+                </Pressable>
+              </View>
+                );
+              })()}
+              <Text style={qFormS.secHint}>Tap ○ next to an option to mark it as the correct answer.</Text>
+
+              {(((draft.rawQuestionData as any)?.options ?? []) as string[]).length === 0 && (
+                <Pressable style={fbS.emptyOptions} onPress={() => {
+                  updateDraftField(mode, 'rawQuestionData', { ...(draft.rawQuestionData as any), options: ['', '', ''] });
+                }}>
+                  <Text style={{ fontSize: 20, marginBottom: 6 }}>＋</Text>
+                  <Text style={fbS.emptyOptionsTxt}>Tap to add 3 starter options</Text>
+                </Pressable>
+              )}
+
+              {(((draft.rawQuestionData as any)?.options ?? []) as string[]).map((opt, idx) => {
+                const answer: string = (draft.rawQuestionData as any)?.answer ?? '';
+                const isCorrect = opt !== '' && opt.toLowerCase() === answer.toLowerCase();
+                return (
+                  <View key={idx} style={qFormS.optBlock}>
+                    <View style={qFormS.optBlockHeader}>
+                      {/* Number badge */}
+                      <View style={[qFormS.optNumBadge, isCorrect && { backgroundColor: '#7DC67A' }]}>
+                        <Text style={[qFormS.optNum, isCorrect && { color: '#fff' }]}>{idx + 1}</Text>
+                      </View>
+                      {/* Text input */}
+                      <View style={{ flex: 1 }}>
+                        <TextInput
+                          value={opt}
+                          onChangeText={(v) => {
+                            const current = ((draft.rawQuestionData as any)?.options ?? []) as string[];
+                            const updated = current.map((o, i) => i === idx ? v : o);
+                            const newData: any = { ...(draft.rawQuestionData as any), options: updated };
+                            if (isCorrect) newData.answer = v;
+                            updateDraftField(mode, 'rawQuestionData', newData);
+                          }}
+                          placeholder={`Option ${idx + 1}`}
+                          style={qFormS.optInput}
+                          placeholderTextColor="#B0B8D0"
+                        />
+                      </View>
+                      {/* Correct toggle */}
+                      <Pressable
+                        style={[qFormS.correctBtn, isCorrect && qFormS.correctBtnActive]}
+                        onPress={() => {
+                          if (opt.trim()) updateDraftField(mode, 'rawQuestionData', { ...(draft.rawQuestionData as any), answer: opt.trim() });
+                        }}>
+                        <Text style={[qFormS.correctBtnText, isCorrect && qFormS.correctBtnTextActive]}>
+                          {isCorrect ? '✓' : '○'}
+                        </Text>
+                      </Pressable>
+                      {/* Remove */}
+                      <Pressable
+                        style={qFormS.removeBtn}
+                        onPress={() => {
+                          const current = ((draft.rawQuestionData as any)?.options ?? []) as string[];
+                          const removed = current.filter((_, i) => i !== idx);
+                          const newData: any = { ...(draft.rawQuestionData as any), options: removed };
+                          if (isCorrect) newData.answer = '';
+                          updateDraftField(mode, 'rawQuestionData', newData);
+                        }}>
+                        <Text style={qFormS.removeBtnText}>✕</Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                );
+              })}
+            </View>
+
+            {/* ── Hint (optional) ── */}
+            <View style={fbS.section}>
+              <View style={fbS.sectionHeader}>
+                <View style={[fbS.sectionIcon, { backgroundColor: '#FFF8E1' }]}>
+                  <Text style={{ fontSize: 14 }}>💡</Text>
+                </View>
+                <View>
+                  <Text style={fbS.sectionTitle}>Hint <Text style={fbS.optional}>(optional)</Text></Text>
+                  <Text style={fbS.sectionHint}>Starting letters shown to students, e.g. "su"</Text>
+                </View>
+              </View>
+              <TextInput
+                value={(draft.rawQuestionData as any)?.hint ?? ''}
+                onChangeText={(v) => updateDraftField(mode, 'rawQuestionData', { ...(draft.rawQuestionData as any), hint: v })}
+                placeholder="e.g. su"
+                style={fbS.textInput}
+                placeholderTextColor="#B0B8D0"
+              />
+            </View>
+
+          </ScrollView>
+        )}
+
+        {/* PREVIEW TAB */}
+        {questionFormTab === 'preview' && (
+          <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
+            <View style={qFormS.previewCard}>
+              <View style={[qFormS.previewHero, { backgroundColor: QTYPES_BG[normalizedQuestionType] ?? '#D6EAFF' }]}>
+                <Text style={{ fontSize: 42 }}>{QTYPES_EMOJI[normalizedQuestionType] ?? ''}</Text>
+                <View style={{ flex: 1 }}>
+                  <View style={[qFormS.previewTypeBadge, { backgroundColor: `${QTYPES_COLOR[normalizedQuestionType] ?? '#2D5DC9'}25` }]}>
+                    <Text style={[qFormS.previewTypeBadgeText, { color: QTYPES_COLOR[normalizedQuestionType] ?? '#2D5DC9' }]}>
+                      {getQuestionTypeLabel(draft.questionType)}
+                    </Text>
+                  </View>
+                  <Text style={qFormS.previewTitle}>{draft.questionTitle || 'Untitled Question'}</Text>
+                  {draft.classLevel ? <Text style={qFormS.previewMeta}>{getStandardLabel(draft.classLevel)} · {draft.subject}</Text> : null}
+                </View>
+              </View>
+              <View style={qFormS.previewStats}>
+                <View style={qFormS.previewStat}>
+                  <Text style={qFormS.previewStatVal}>{draft.points || '–'}</Text>
+                  <Text style={qFormS.previewStatLabel}>pts</Text>
+                </View>
+                <View style={qFormS.previewStat}>
+                  <Text style={qFormS.previewStatVal}>{draft.timeLimitSeconds || '–'}s</Text>
+                  <Text style={qFormS.previewStatLabel}>time</Text>
+                </View>
+                <View style={qFormS.previewStat}>
+                  <Text style={qFormS.previewStatVal}>
+                    {isFillBlankMode
+                      ? (((draft.rawQuestionData as any)?.options ?? []) as string[]).length
+                      : isJigsawMode
+                        ? Number((((draft.rawQuestionData as any)?.gridSize ?? '3x3').split('x')[0]) ** 2 || 9)
+                      : hasOptions ? draft.options.length : hasPairs ? draft.matchPairs.length : '–'}
+                  </Text>
+                  <Text style={qFormS.previewStatLabel}>{hasPairs ? 'pairs' : isLogicoMode ? 'maps' : isJigsawMode ? 'pieces' : 'opts'}</Text>
+                </View>
+              </View>
+              {draft.questionInstruction ? (
+                <View style={qFormS.previewInstBlock}>
+                  <Text style={qFormS.previewInstText}>💬 {draft.questionInstruction}</Text>
+                </View>
+              ) : null}
+              {draft.mainImage.trim() ? (
+                <SafeImage uri={resolveMediaUrl(draft.mainImage.trim())} style={qFormS.previewImage} resizeMode="contain" />
+              ) : null}
+              {isLogicoMode ? (
+                <View style={qFormS.logicoPreviewWrap}>
+                  {Array.from({ length: 10 }, (_, index) => {
+                    const slotId = index + 1;
+                    const mapped = draft.options.find((option) => Number(option.slotPosition) === slotId);
+                    return (
+                      <View key={`logico-preview-slot-${slotId}`} style={qFormS.logicoPreviewRow}>
+                        <Text style={qFormS.logicoPreviewSlotText}>{slotId}</Text>
+                        <Text style={qFormS.logicoPreviewOptionText}>{mapped?.label || `Position ${slotId}`}</Text>
+                        {mapped ? <LogicoButtonBadge buttonId={mapped.id} /> : <View style={qFormS.logicoPreviewEmptyButton} />}
+                      </View>
+                    );
+                  })}
+                </View>
+              ) : hasOptions ? (
+                draft.options.map((opt, i) => (
+                  <View key={i} style={[qFormS.previewOptRow, opt.isCorrect && { borderColor: '#7DC67A', borderWidth: 1.5 }]}>
+                    <View style={[qFormS.previewOptDot, { backgroundColor: opt.isCorrect ? '#7DC67A' : '#E0E4F0' }]}>
+                      <Text style={{ color: opt.isCorrect ? '#fff' : '#525C6B', fontSize: 11, fontWeight: '800' }}>{i + 1}</Text>
+                    </View>
+                    <Text style={qFormS.previewOptText}>{opt.label || `Option ${i + 1}`}</Text>
+                    {opt.isCorrect ? <Text style={qFormS.previewCorrectBadge}>✓</Text> : null}
+                  </View>
+                ))
+              ) : null}
+              {hasPairs && draft.matchPairs.map((pair, i) => (
+                <View key={i} style={qFormS.previewPairRow}>
+                  <Text style={qFormS.previewPairText}>{pair.itemLabel || `Item ${i + 1}`}</Text>
+                  <Text style={{ color: '#525C6B', fontWeight: '700' }}>↔</Text>
+                  <Text style={qFormS.previewPairText}>{pair.targetLabel || `Target ${i + 1}`}</Text>
+                </View>
+              ))}
+              {/* Fill in the Blank preview */}
+              {isFillBlankMode && (() => {
+                const sentence: string = ((draft.rawQuestionData as any)?.sentence ?? '');
+                const answer: string   = ((draft.rawQuestionData as any)?.answer   ?? '');
+                const hint: string     = ((draft.rawQuestionData as any)?.hint     ?? '');
+                const opts             = ((draft.rawQuestionData as any)?.options  ?? []) as string[];
+                const parts = sentence.split('___');
+                return (
+                  <View style={{ padding: 14, gap: 12 }}>
+                    {/* Sentence with filled blank */}
+                    <View style={{ backgroundColor: '#F0F7FF', borderRadius: 14, padding: 16, borderWidth: 1, borderColor: '#C5D8F8' }}>
+                      <Text style={{ fontSize: 11, fontWeight: '800', color: '#2D5DC9', letterSpacing: 1, marginBottom: 8, textTransform: 'uppercase' }}>Sentence Preview</Text>
+                      {sentence ? (
+                        <Text style={{ fontSize: 16, fontWeight: '600', color: '#1a1a2e', textAlign: 'center', lineHeight: 26 }}>
+                          <Text>{parts[0] ?? ''}</Text>
+                          <Text style={{ fontWeight: '900', color: answer ? '#2E7D32' : '#2D5DC9', borderBottomWidth: 2, borderBottomColor: answer ? '#4CAF50' : '#2D5DC9' }}>
+                            {' '}{answer || (hint ? `${hint}___` : '___')}{' '}
+                          </Text>
+                          <Text>{parts[1] ?? ''}</Text>
+                        </Text>
+                      ) : (
+                        <Text style={{ color: '#525C6B', textAlign: 'center', fontStyle: 'italic' }}>No sentence yet — use ___ to mark the blank</Text>
+                      )}
+                      {hint ? (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 10, alignSelf: 'center', backgroundColor: '#FFF8E1', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 }}>
+                          <Text style={{ fontSize: 12 }}>💡</Text>
+                          <Text style={{ fontSize: 12, fontWeight: '600', color: '#E6A020' }}>Hint: "{hint}"</Text>
+                        </View>
+                      ) : null}
+                    </View>
+
+                    {/* Options */}
+                    {opts.length > 0 && (
+                      <View style={{ gap: 8 }}>
+                        <Text style={{ fontSize: 11, fontWeight: '700', color: '#525C6B', textTransform: 'uppercase', letterSpacing: 0.4 }}>Options</Text>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                          {opts.map((opt, i) => {
+                            const isCorrect = answer && opt.toLowerCase() === answer.toLowerCase();
+                            return (
+                              <View key={i} style={{
+                                flexDirection: 'row', alignItems: 'center', gap: 6,
+                                paddingHorizontal: 14, paddingVertical: 9, borderRadius: 12,
+                                borderWidth: isCorrect ? 2 : 1.5,
+                                borderColor: isCorrect ? '#4CAF50' : '#D0D4E8',
+                                backgroundColor: isCorrect ? '#E8F5E9' : '#F4F6FF',
+                              }}>
+                                <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: isCorrect ? '#4CAF50' : '#C0C8D8' }} />
+                                <Text style={{ fontSize: 14, fontWeight: isCorrect ? '800' : '600', color: isCorrect ? '#2E7D32' : '#3A3A5A' }}>{opt}</Text>
+                                {isCorrect && <Text style={{ fontSize: 13, color: '#4CAF50', fontWeight: '900' }}>✓</Text>}
+                              </View>
+                            );
+                          })}
+                        </View>
+                        {!answer && <Text style={{ fontSize: 11, color: '#F97316', fontWeight: '600' }}>⚠ No correct answer selected yet</Text>}
+                      </View>
+                    )}
+                    {opts.length === 0 && (
+                      <Text style={{ fontSize: 12, color: '#525C6B', fontStyle: 'italic', textAlign: 'center' }}>No options added yet</Text>
+                    )}
+                  </View>
+                );
+              })()}
+
+              {/* Memory match board preview */}
+              {isMemoryMatchMode && (() => {
+                type MMPair = { id: number; label: string; imageUrl?: string };
+                const pvGrid = ((draft.rawQuestionData as any)?.grid as string) || '4x4';
+                const pvPairs = ((draft.rawQuestionData as any)?.pairs ?? []) as MMPair[];
+                const pvCols = GRID_COLS[pvGrid] ?? 4;
+                const pvNeeded = GRID_PAIR_COUNTS[pvGrid] ?? 4;
+                // duplicate pairs (each pair appears twice)
+                const allCards = [...pvPairs, ...pvPairs].slice(0, pvNeeded * 2);
+                const previewW = Dimensions.get('window').width - 64;
+                const GAP = 6;
+                const pvCardW = Math.floor((previewW - GAP * (pvCols - 1)) / pvCols);
+                const pvRows: MMPair[][] = [];
+                for (let i = 0; i < allCards.length; i += pvCols) pvRows.push(allCards.slice(i, i + pvCols));
+                return (
+                  <View style={{ padding: 14 }}>
+                    <Text style={{ fontSize: 11, fontWeight: '700', color: '#525C6B', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                      Board Preview — {pvPairs.length}/{pvNeeded} pairs · {pvNeeded * 2} cards
+                    </Text>
+                    <View style={{ alignItems: 'center' }}>
+                      <View style={{ width: previewW, gap: GAP }}>
+                        {pvRows.map((row, rIdx) => (
+                          <View key={rIdx} style={{ flexDirection: 'row', gap: GAP, justifyContent: 'center' }}>
+                            {row.map((card, cIdx) => {
+                              const imgUrl = card?.imageUrl ? `${API_BASE_URL}${card.imageUrl}` : undefined;
+                              return (
+                                <View key={cIdx} style={[mmS.pairCard, { width: pvCardW, backgroundColor: '#2D5DC9', borderColor: '#3A7BD5', paddingVertical: 6 }]}>
+                                  {imgUrl ? (
+                                    <Image source={{ uri: imgUrl }} style={{ width: pvCardW * 0.55, height: pvCardW * 0.55 }} resizeMode="contain" />
+                                  ) : (
+                                    <Text style={{ fontSize: 9, color: '#fff', fontWeight: '700', textAlign: 'center' }}>?</Text>
+                                  )}
+                                  <Text style={{ fontSize: 8, color: '#fff', fontWeight: '700', textAlign: 'center' }} numberOfLines={1}>{card?.label ?? '?'}</Text>
+                                </View>
+                              );
+                            })}
+                          </View>
+                        ))}
+                      </View>
+                    </View>
+                    {pvPairs.length < pvNeeded && (
+                      <Text style={{ fontSize: 11, color: '#F97316', fontWeight: '700', textAlign: 'center', marginTop: 8 }}>
+                        {pvNeeded - pvPairs.length} more pair{pvNeeded - pvPairs.length > 1 ? 's' : ''} needed
+                      </Text>
+                    )}
+                  </View>
+                );
+              })()}
+
+              {isJigsawMode && (() => {
+                const raw = (draft.rawQuestionData as any) ?? {};
+                const gridSize = ['2x2', '3x3', '4x4', '5x5'].includes(raw.gridSize) ? raw.gridSize : '3x3';
+                const difficulty = ['easy', 'medium', 'hard'].includes(raw.difficulty) ? raw.difficulty : 'medium';
+                const clickLimit = Number(raw.clickLimit ?? 20);
+                return (
+                  <View style={{ padding: 14, gap: 10 }}>
+                    <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+                      <View style={qFormS.previewTypeBadge}>
+                        <Text style={qFormS.previewTypeBadgeText}>Grid {gridSize}</Text>
+                      </View>
+                      <View style={qFormS.previewTypeBadge}>
+                        <Text style={qFormS.previewTypeBadgeText}>Difficulty {difficulty}</Text>
+                      </View>
+                      <View style={qFormS.previewTypeBadge}>
+                        <Text style={qFormS.previewTypeBadgeText}>{clickLimit > 0 ? `${clickLimit} moves` : 'Unlimited moves'}</Text>
+                      </View>
+                    </View>
+                    <Text style={{ fontSize: 12, color: '#4B5768' }}>
+                      Students will drag puzzle pieces and snap/swap into the board.
+                    </Text>
+                    <View style={{ backgroundColor: '#fff', borderRadius: 12, borderWidth: 1, borderColor: '#E2E8F0', overflow: 'hidden' }}>
+                      <JigsawRenderer
+                        questionData={{
+                          image: draft.mainImage.trim(),
+                          gridSize,
+                          difficulty,
+                          clickLimit,
+                        }}
+                        onComplete={() => {}}
+                        theme={{ bg: '#E0F2FE', cardBg: '#F0F9FF', accent: '#0EA5E9', textColor: '#0C4A6E', emoji: '🧩', label: 'Jigsaw Puzzle' }}
+                      />
+                    </View>
+                  </View>
+                );
+              })()}
+            </View>
+          </ScrollView>
+        )}
+      </View>
+    );
+  };
+
+  const removalAssetLabel = pendingMediaRemoval?.mediaType === 'image' ? 'image' : 'audio';
+  const removalScopeLabel =
+    pendingMediaRemoval?.scope === 'question'
+      ? 'this question'
+      : pendingMediaRemoval?.scope === 'option'
+        ? 'this option'
+        : pendingMediaRemoval?.scope === 'pair'
+          ? 'this match pair'
+          : 'this item';
+
+  return (
+    <View style={{ flex: 1, backgroundColor: '#F5F7FF' }}>
+      {/* ── Tab bar ── */}
+      <View style={styles.newTabBar}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flex: 1 }} contentContainerStyle={{ paddingHorizontal: 8, alignItems: 'center' }}>
+          {(['topic', 'content', 'question', 'quiz', 'bookmark', 'stories'] as LearningTab[]).map((tab) => (
+            <Pressable
+              key={tab}
+              style={[styles.newTab, activeLearningTab === tab && styles.newTabActive]}
+              onPress={() => handleSetActiveLearningTab(tab)}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                {tab === 'topic' && <FolderOpen size={11} color={activeLearningTab === tab ? '#2D5DC9' : '#525C6B'} />}
+                {tab === 'content' && <VideoIcon size={11} color={activeLearningTab === tab ? '#2D5DC9' : '#525C6B'} />}
+                {tab === 'question' && <HelpCircle size={11} color={activeLearningTab === tab ? '#2D5DC9' : '#525C6B'} />}
+                {tab === 'quiz' && <TrophyIcon size={11} color={activeLearningTab === tab ? '#2D5DC9' : '#525C6B'} />}
+                {tab === 'stories' && <StoriesIcon size={11} color={activeLearningTab === tab ? '#2D5DC9' : '#525C6B'} />}
+                {tab === 'bookmark' && <BookmarkIcon size={11} color={activeLearningTab === tab ? '#2D5DC9' : '#525C6B'} />}
+                <Text style={[styles.newTabText, activeLearningTab === tab && styles.newTabTextActive]}>
+                  {tab === 'topic' ? 'Topic' : tab === 'content' ? 'Content' : tab === 'question' ? 'Questions' : tab === 'quiz' ? 'Quiz' : tab === 'stories' ? 'Stories' : 'Bookmarks'}
+                </Text>
+              </View>
+            </Pressable>
+          ))}
+        </ScrollView>
+      </View>
+
+      {activeLearningTab === 'topic' ? (
+        <TopicsTab
+          enabled={activeLearningTab === 'topic'}
+          reloadToken={topicReloadToken}
+          filters={contentFilters}
+          subjectCatalog={subjectCatalog}
+          contentItems={contentItems}
+          apiFetch={apiFetch}
+          user={user}
+          onFiltersChange={(f) => {
+            setContentFilters(f);
+            setFilters((p) => ({ ...p, ...f }));
+          }}
+          onApplyFilters={loadTopics}
+          onTopicAction={(topic, action) => {
+            if (action === 'delete') runTopicAction(topic, 'delete');
+          }}
+          onRefresh={() => { loadTopics(); loadContentItems(); }}
+          onUploadCover={async () => {
+            const picked = await pickImageAsDataUrl();
+            const uploaded = await uploadPickedFileToS3(picked, 'image');
+            return uploaded.url;
+          }}
+          message={message}
+        />
+      ) : null}
+      {(false as boolean) && activeLearningTab === ('topic_legacy' as LearningTab) ? (
+        <>
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Content Filters</Text>
+            <View style={styles.row}>
+              <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setContentSelectorField('contentFilterClassLevel')}>
+                <Text style={contentFilters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
+                  {contentFilters.classLevel ? getStandardLabel(contentFilters.classLevel) : 'Standard'}
+                </Text>
+              </Pressable>
+              <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setContentSelectorField('contentFilterSubject')}>
+                <Text style={contentFilters.subject ? styles.selectorText : styles.selectorPlaceholder}>
+                  {contentFilters.subject || 'Subject'}
+                </Text>
+              </Pressable>
+            </View>
+            <View style={styles.row}>
+              <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={loadTopics} disabled={loadingTopics}>
+                {loadingTopics ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Apply Filters</Text>}
+              </Pressable>
+              <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={openCreateTopicDialog}>
+                <Text style={styles.primaryButtonText}>Create Topic</Text>
+              </Pressable>
+            </View>
+          </View>
+
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Topics ({topics.length})</Text>
+            {loadingTopics ? (
+              <ActivityIndicator size="small" color="#1d4ed8" />
+            ) : topics.length === 0 ? (
+              <Text style={styles.emptyText}>No topics found for selected filters.</Text>
+            ) : (
+              <>
+                <ScrollView horizontal>
+                  <View>
+                    <View style={[styles.tableRow, styles.tableHeader]}>
+                      <Text style={[styles.tableCell, styles.colStandard]}>Standard</Text>
+                      <Text style={[styles.tableCell, styles.colSubject]}>Subject</Text>
+                      <Text style={[styles.tableCell, styles.colQuestion]}>Topic</Text>
+                      <Text style={[styles.tableCell, styles.colCategory]}>Sections</Text>
+                      <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
+                    </View>
+                    {topics.slice(topicPage * 20, (topicPage + 1) * 20).map((topic) => (
+                      <View key={topic.id} style={styles.tableRow}>
+                        <Text style={[styles.tableCell, styles.colStandard]}>{getStandardLabel(topic.classLevel)}</Text>
+                        <Text style={[styles.tableCell, styles.colSubject]}>{topic.subject}</Text>
+                        <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
+                          {topic.title}
+                        </Text>
+                        <Text style={[styles.tableCell, styles.colCategory]}>{topic.sectionCount}</Text>
+                        <View style={[styles.colActions, styles.actionsCell]}>
+                          <Pressable style={styles.topicActionsTrigger} onPress={() => setTopicActionMenuTopic(topic)}>
+                            <Text style={styles.topicActionsTriggerText}>Actions</Text>
+                          </Pressable>
+                        </View>
+                      </View>
+                    ))}
+                  </View>
+                </ScrollView>
+                {renderPagination(topicPage, topics.length, 20, setTopicPage)}
+              </>
+            )}
+          </View>
+
+        </>
+      ) : null}
+
+      {activeLearningTab === 'content' ? (
+        <ContentTab
+          enabled={activeLearningTab === 'content'}
+          reloadToken={contentReloadToken}
+          deletingContentId={deletingContentId}
+          filters={{ classLevel: contentFilters.classLevel, subject: contentFilters.subject }}
+          subjectCatalog={subjectCatalog}
+          topics={topics.map((t) => ({ id: t.id, title: t.title, classLevel: t.classLevel, subject: t.subject }))}
+          apiFetch={apiFetch}
+          user={user}
+          onFiltersChange={(f) => {
+            setContentFilters((p) => ({ ...p, ...f }));
+            setFilters((p) => ({ ...p, ...f }));
+          }}
+          onApplyFilters={loadContentItems}
+          onDeleteContent={(id) => deleteContentItem(id)}
+          onRefresh={() => { loadContentItems(); loadTopics(); }}
+          onUploadMedia={async (_draftId, onProgress) => {
+            const picked = await pickFileAsDataUrl(
+              'image/*,audio/*,video/*',
+              'Media upload is currently available on web. On mobile, provide URL-based content.',
+            );
+            const lm = picked.mimeType.toLowerCase();
+            const ln = picked.fileName.toLowerCase();
+            const mediaType: 'image' | 'audio' | 'video' = lm.startsWith('video/') || /\.(mp4|mov|m4v|webm|mkv)$/.test(ln)
+              ? 'video'
+              : lm.startsWith('audio/') || /\.(mp3|wav|ogg|aac|m4a|flac)$/.test(ln)
+                ? 'audio'
+                : 'image';
+            const uploaded = await uploadPickedFileToS3(picked, mediaType, onProgress);
+            const contentType: 'reel_url' | 'audio' | 'image' | 'youtube_url' | 'text' =
+              mediaType === 'video' ? 'image' : mediaType === 'audio' ? 'audio' : 'image';
+            return { url: uploaded.url, contentType };
+          }}
+          message={message}
+        />
+      ) : null}
+
+      {activeLearningTab === 'bookmark' ? (
+        <BookmarksTab apiFetch={apiFetch} user={user} />
+      ) : null}
+      {(false as boolean) && activeLearningTab === ('content_legacy' as LearningTab) ? (
+        <>
+          <View style={styles.card}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.cardTitle}>Content Workspace</Text>
+              <View style={styles.inlineActions}>
+                <Pressable
+                  style={[styles.secondaryButton, contentModeTab === 'create' && styles.tabButtonActive]}
+                  onPress={() => setContentModeTab('create')}
+                >
+                  <Text style={styles.secondaryButtonText}>Create Content</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.secondaryButton, contentModeTab === 'assign' && styles.tabButtonActive]}
+                  onPress={() => setContentModeTab('assign')}
+                >
+                  <Text style={styles.secondaryButtonText}>Assign Content</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+
+          {contentModeTab === 'create' ? (
+            <>
+              <View style={styles.card}>
+                <Text style={styles.cardTitle}>Create Content</Text>
+                <Text style={styles.metaText}>Use dialog-based content creation.</Text>
+                <Pressable style={styles.primaryButton} onPress={openCreateContentModal}>
+                  <Text style={styles.primaryButtonText}>Create Content</Text>
+                </Pressable>
+              </View>
+              <View style={styles.card}>
+                <View style={styles.sectionHeader}>
+                  <Text style={styles.cardTitle}>Contents ({contentItems.length})</Text>
+                  <Pressable style={styles.secondaryButton} onPress={loadContentItems} disabled={loadingContentItems}>
+                    {loadingContentItems ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Refresh</Text>}
+                  </Pressable>
+                </View>
+                {loadingContentItems ? (
+                  <ActivityIndicator size="small" color="#1d4ed8" />
+                ) : contentItems.length === 0 ? (
+                  <Text style={styles.emptyText}>No content created yet.</Text>
+                ) : (
+                  <>
+                    <ScrollView horizontal>
+                      <View>
+                        <View style={[styles.tableRow, styles.tableHeader]}>
+                          <Text style={[styles.tableCell, styles.colStandard]}>Standard</Text>
+                          <Text style={[styles.tableCell, styles.colSubject]}>Subject</Text>
+                          <Text style={[styles.tableCell, styles.colQuestion]}>Title</Text>
+                          <Text style={[styles.tableCell, styles.colCategory]}>Type</Text>
+                          <Text style={[styles.tableCell, styles.colCategory]}>Sections</Text>
+                          <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
+                        </View>
+                        {contentItems.slice(contentPage * 20, (contentPage + 1) * 20).map((item) => (
+                          <View key={item.id} style={styles.tableRow}>
+                            <Text style={[styles.tableCell, styles.colStandard]}>{getStandardLabel(item.classLevel)}</Text>
+                            <Text style={[styles.tableCell, styles.colSubject]}>{item.subject}</Text>
+                            <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>{item.title}</Text>
+                            <Text style={[styles.tableCell, styles.colCategory]}>{item.contentType}</Text>
+                            <Text style={[styles.tableCell, styles.colCategory]}>{item.sectionCount || 1}</Text>
+                            <View style={[styles.colActions, styles.actionsCell]}>
+                              <Pressable style={styles.topicActionsTrigger} onPress={() => setContentLibraryActionItem(item)}>
+                                <Text style={styles.topicActionsTriggerText}>Actions</Text>
+                              </Pressable>
+                            </View>
+                          </View>
+                        ))}
+                      </View>
+                    </ScrollView>
+                    {renderPagination(contentPage, contentItems.length, 20, setContentPage)}
+                  </>
+                )}
+              </View>
+            </>
+          ) : (
+            <>
+              <View style={styles.card}>
+                <Text style={styles.cardTitle}>Assign Filters</Text>
+                <View style={styles.row}>
+                  <Pressable
+                    style={[styles.selectorInput, styles.halfInput]}
+                    onPress={() => setContentSelectorField('contentFilterClassLevel')}
+                  >
+                    <Text style={contentItemFilters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
+                      {contentItemFilters.classLevel ? getStandardLabel(contentItemFilters.classLevel) : 'Standard'}
+                    </Text>
+                  </Pressable>
+                  <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setContentSelectorField('contentFilterSubject')}>
+                    <Text style={contentItemFilters.subject ? styles.selectorText : styles.selectorPlaceholder}>
+                      {contentItemFilters.subject || 'Subject'}
+                    </Text>
+                  </Pressable>
+                </View>
+                <View style={styles.fieldGroup}>
+                  <Text style={styles.fieldLabel}>Filter Topic</Text>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <View style={styles.typeChipRow}>
+                      <Pressable
+                        style={[styles.typeChip, !contentItemFilters.topicId && styles.typeChipActive]}
+                        onPress={() => setContentItemFilters((current) => ({ ...current, topicId: '' }))}
+                      >
+                        <Text style={[styles.typeChipText, !contentItemFilters.topicId && styles.typeChipTextActive]}>All Topics</Text>
+                      </Pressable>
+                      {topics.map((topic) => {
+                        const selected = contentItemFilters.topicId === topic.id;
+                        return (
+                          <Pressable
+                            key={`filter-topic-${topic.id}`}
+                            style={[styles.typeChip, selected && styles.typeChipActive]}
+                            onPress={() => setContentItemFilters((current) => ({ ...current, topicId: topic.id }))}
+                          >
+                            <Text style={[styles.typeChipText, selected && styles.typeChipTextActive]}>{topic.title}</Text>
+                          </Pressable>
+                        );
+                      })}
+                    </View>
+                  </ScrollView>
+                </View>
+                <Pressable style={styles.secondaryButton} onPress={loadContentItems} disabled={loadingContentItems}>
+                  {loadingContentItems ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Apply Filters</Text>}
+                </Pressable>
+              </View>
+
+              <View style={styles.card}>
+                <Text style={styles.cardTitle}>Select Contents ({selectedAssignContentIds.length})</Text>
+                <View style={styles.fieldGroup}>
+                  <View style={styles.row}>
+                    <Pressable
+                      style={[styles.selectorInput, styles.halfInput]}
+                      onPress={() => setContentSelectorField('assignTargetClassLevel')}
+                    >
+                      <Text style={assignTopicFilters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
+                        {assignTopicFilters.classLevel ? getStandardLabel(assignTopicFilters.classLevel) : 'Target Standard'}
+                      </Text>
+                    </Pressable>
+                    <Pressable
+                      style={[styles.selectorInput, styles.halfInput]}
+                      onPress={() => setContentSelectorField('assignTargetSubject')}
+                    >
+                      <Text style={assignTopicFilters.subject ? styles.selectorText : styles.selectorPlaceholder}>
+                        {assignTopicFilters.subject || 'Target Subject'}
+                      </Text>
+                    </Pressable>
+                  </View>
+                  <TextInput
+                    value={assignTopicFilters.search}
+                    onChangeText={(value) => setAssignTopicFilters((current) => ({ ...current, search: value }))}
+                    placeholder="Search target topic"
+                    style={styles.input}
+                  />
+                  <View style={styles.topicSelectList}>
+                    {assignTargetTopicOptions.length === 0 ? (
+                      <Text style={styles.emptyText}>No target topics found.</Text>
+                    ) : (
+                      assignTargetTopicOptions.map((topic) => {
+                        const selected = assignTargetTopicId === topic.id;
+                        return (
+                          <Pressable
+                            key={`assign-topic-${topic.id}`}
+                            style={[styles.topicSelectCard, selected && styles.topicSelectCardActive]}
+                            onPress={() => setAssignTargetTopicId(topic.id)}
+                          >
+                            <Text style={[styles.optionTitle, selected && styles.typeChipTextActive]}>{topic.title}</Text>
+                            <Text style={styles.metaText}>
+                              {topic.classLevel} • {topic.subject}
+                            </Text>
+                          </Pressable>
+                        );
+                      })
+                    )}
+                  </View>
+                </View>
+                {contentItems.map((item) => {
+                  const selected = selectedAssignContentIds.includes(item.id);
+                  return (
+                    <Pressable
+                      key={item.id}
+                      style={[styles.optionCard, selected && styles.topicSelectCardActive]}
+                      onPress={() => toggleAssignContent(item.id)}
+                    >
+                      <View style={styles.cardHeaderRow}>
+                        <Text style={styles.optionTitle}>{item.title}</Text>
+                        <Text style={selected ? styles.typeChipTextActive : styles.metaText}>{selected ? 'Selected' : 'Select'}</Text>
+                      </View>
+                      <Text style={styles.metaText}>
+                        {item.classLevel} • {item.subject} • {item.contentType}
+                      </Text>
+                    </Pressable>
+                  );
+                })}
+                <Pressable style={styles.primaryButton} onPress={assignContentsToTopic} disabled={savingAssignments}>
+                  {savingAssignments ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Assign Selected Content</Text>}
+                </Pressable>
+              </View>
+            </>
+          )}
+        </>
+      ) : null}
+
+      {activeLearningTab === 'question' ? (
+        <QuestionsTab
+          enabled={activeLearningTab === 'question'}
+          reloadToken={questionReloadToken}
+          deletingQuestionId={deletingQuestionId}
+          filters={filters}
+          subjectCatalog={subjectCatalog}
+          apiFetch={apiFetch}
+          user={user}
+          onFiltersChange={(patch) => {
+            setFilters((p) => ({ ...p, ...patch }));
+            if (patch.classLevel !== undefined || patch.subject !== undefined) {
+              setContentFilters((p) => ({
+                ...p,
+                ...(patch.classLevel !== undefined ? { classLevel: patch.classLevel } : {}),
+                ...(patch.subject !== undefined ? { subject: patch.subject } : {}),
+              }));
+            }
+          }}
+          onApplyFilters={loadData}
+          onOpenCreate={openCreateDialog}
+          onQuestionAction={(q, action) => {
+            if (action === 'edit') { openEditDialog(q as QuestionItem); }
+            else if (action === 'delete') { deleteQuestion(q.id); }
+          }}
+          message={message}
+        />
+      ) : null}
+      {(false as boolean) && activeLearningTab === ('question_legacy' as LearningTab) ? (
+        <>
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Filters</Text>
+            <TextInput
+              value={filters.search}
+              onChangeText={(value) => setFilters((current) => ({ ...current, search: value }))}
+              placeholder="Search question/quiz title"
+              style={styles.input}
+            />
+            <View style={styles.row}>
+              <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setSelectorField('filterClassLevel')}>
+                <Text style={filters.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
+                  {filters.classLevel ? getStandardLabel(filters.classLevel) : 'Standard'}
+                </Text>
+              </Pressable>
+              <Pressable style={[styles.selectorInput, styles.halfInput]} onPress={() => setSelectorField('filterSubject')}>
+                <Text style={filters.subject ? styles.selectorText : styles.selectorPlaceholder}>
+                  {filters.subject || 'Subject'}
+                </Text>
+              </Pressable>
+            </View>
+            <TextInput
+              value={filters.category}
+              onChangeText={(value) => setFilters((current) => ({ ...current, category: value }))}
+              placeholder="Question type"
+              style={styles.input}
+            />
+            <View style={styles.row}>
+              <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={loadData} disabled={loading}>
+                {loading ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Apply Filters</Text>}
+              </Pressable>
+              <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={openCreateDialog}>
+                <Text style={styles.primaryButtonText}>Create Question</Text>
+              </Pressable>
+            </View>
+          </View>
+
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Questions Table ({questions.length})</Text>
+            {loading ? (
+              <ActivityIndicator size="small" color="#1d4ed8" />
+            ) : questions.length === 0 ? (
+              <Text style={styles.emptyText}>No questions found.</Text>
+            ) : (
+              <>
+                <ScrollView horizontal>
+                  <View>
+                    <View style={[styles.tableRow, styles.tableHeader]}>
+                      <Text style={[styles.tableCell, styles.colStandard]}>Standard</Text>
+                      <Text style={[styles.tableCell, styles.colSubject]}>Subject</Text>
+                      <Text style={[styles.tableCell, styles.colCategory]}>Question Type</Text>
+                      <Text style={[styles.tableCell, styles.colQuestion]}>Question</Text>
+                      <Text style={[styles.tableCell, styles.colActions]}>Actions</Text>
+                    </View>
+                    {questions.slice(questionPage * 20, (questionPage + 1) * 20).map((question) => (
+                      <View key={question.id} style={styles.tableRow}>
+                        <Text style={[styles.tableCell, styles.colStandard]}>{getStandardLabel(question.class_level)}</Text>
+                        <Text style={[styles.tableCell, styles.colSubject]}>{question.subject || '-'}</Text>
+                        <Text style={[styles.tableCell, styles.colCategory]}>{getQuestionTypeLabel(question.question_type)}</Text>
+                        <Text style={[styles.tableCell, styles.colQuestion]} numberOfLines={2}>
+                          {question.question_title || 'Untitled'}
+                        </Text>
+                        <View style={[styles.colActions, styles.actionsCell]}>
+                          <Pressable style={styles.topicActionsTrigger} onPress={() => setQuestionActionItem(question)}>
+                            <Text style={styles.topicActionsTriggerText}>Actions</Text>
+                          </Pressable>
+                        </View>
+                      </View>
+                    ))}
+                  </View>
+                </ScrollView>
+                {renderPagination(questionPage, questions.length, 20, setQuestionPage)}
+              </>
+            )}
+          </View>
+        </>
+      ) : null}
+
+      {activeLearningTab === 'quiz' ? (
+        <QuizTab
+          filters={contentFilters}
+          onFiltersChange={(f) => {
+            setContentFilters((p) => ({ ...p, ...f }));
+            setFilters((p) => ({ ...p, ...f }));
+          }}
+        />
+      ) : null}
+
+      {activeLearningTab === 'stories' ? (
+        <ScrollView contentContainerStyle={{ padding: 24, flexGrow: 1 }}>
+          <View style={{ flex: 1, backgroundColor: '#fff', borderRadius: 16, borderWidth: 1, borderColor: '#e2e8f0', alignItems: 'center', justifyContent: 'center', padding: 40, minHeight: 400 }}>
+            <View style={{ width: 80, height: 80, borderRadius: 40, backgroundColor: '#FAF5FF', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
+              <StoriesIcon size={40} color="#9333EA" />
+            </View>
+            <Text style={{ fontSize: 24, fontWeight: '700', color: '#0F172A', marginBottom: 12 }}>Stories Workspace</Text>
+            <Text style={{ fontSize: 15, color: '#4B5768', textAlign: 'center', maxWidth: 480, marginBottom: 32, lineHeight: 22 }}>
+              Engage your students by writing and assigning captivating educational stories with integrated media and interactive questions.
+            </Text>
+            <Pressable style={[styles.primaryButton, { backgroundColor: '#9333EA', paddingHorizontal: 32, paddingVertical: 14, borderRadius: 12 }]} onPress={() => router.push('/stories')}>
+              <Text style={[styles.primaryButtonText, { fontSize: 16, fontWeight: '600' }]}>Open Stories Studio</Text>
+            </Pressable>
+          </View>
+        </ScrollView>
+      ) : null}
+
+      {/* Topic details modal is now handled inside TopicsTab component */}
+
+      <Modal
+        visible={topicActionMenuTopic !== null}
+        transparent
+        animationType="fade"
+        presentationStyle="overFullScreen"
+        statusBarTranslucent
+        onRequestClose={() => setTopicActionMenuTopic(null)}
+      >
+        <Pressable style={styles.actionMenuOverlay} onPress={() => setTopicActionMenuTopic(null)}>
+          <Pressable style={styles.actionMenuCard} onPress={() => { }}>
+            <Text style={styles.actionMenuTitle}>Actions</Text>
+            {topicActionMenuTopic ? (
+              <Text style={styles.actionMenuMeta}>
+                {topicActionMenuTopic.title} • {topicActionMenuTopic.classLevel} • {topicActionMenuTopic.subject}
+              </Text>
+            ) : null}
+            <Pressable style={styles.actionMenuItem} onPress={() => topicActionMenuTopic && runTopicAction(topicActionMenuTopic, 'details')}>
+              <Text style={styles.actionMenuItemText}>View Details</Text>
+            </Pressable>
+            <Pressable style={styles.actionMenuItem} onPress={() => topicActionMenuTopic && runTopicAction(topicActionMenuTopic, 'create_content')}>
+              <Text style={styles.actionMenuItemText}>Create Content</Text>
+            </Pressable>
+            <Pressable style={styles.actionMenuItem} onPress={() => topicActionMenuTopic && runTopicAction(topicActionMenuTopic, 'assign_quiz')}>
+              <Text style={styles.actionMenuItemText}>Assign Quizzes</Text>
+            </Pressable>
+            <Pressable style={styles.actionMenuItem} onPress={() => topicActionMenuTopic && runTopicAction(topicActionMenuTopic, 'edit')}>
+              <Text style={styles.actionMenuItemText}>Edit Topic</Text>
+            </Pressable>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={() => topicActionMenuTopic && runTopicAction(topicActionMenuTopic, 'delete')}
+              disabled={!!deletingTopicId}
+            >
+              {deletingTopicId ? <ActivityIndicator color="#dc2626" /> : <Text style={styles.actionMenuDangerText}>Delete Topic</Text>}
+            </Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
+      <Modal
+        visible={topicContentActionItem !== null}
+        transparent
+        animationType="fade"
+        presentationStyle="overFullScreen"
+        statusBarTranslucent
+        onRequestClose={() => setTopicContentActionItem(null)}
+      >
+        <Pressable style={styles.actionMenuOverlay} onPress={() => setTopicContentActionItem(null)}>
+          <Pressable style={styles.actionMenuCard} onPress={() => { }}>
+            <Text style={styles.actionMenuTitle}>Actions</Text>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={() => {
+                if (!topicContentActionItem) return;
+                openPreviewContentModal(topicContentActionItem);
+                setTopicContentActionItem(null);
+              }}
+            >
+              <Text style={styles.actionMenuItemText}>Preview</Text>
+            </Pressable>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={() => {
+                if (!topicContentActionItem) return;
+                openEditContentModal(topicContentActionItem);
+                setTopicContentActionItem(null);
+              }}
+            >
+              <Text style={styles.actionMenuItemText}>Edit</Text>
+            </Pressable>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={async () => {
+                if (!topicContentActionItem) return;
+                await removeContentAssignment(topicContentActionItem.id);
+                setTopicContentActionItem(null);
+              }}
+            >
+              <Text style={styles.actionMenuDangerText}>Remove</Text>
+            </Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
+      <Modal
+        visible={contentLibraryActionItem !== null}
+        transparent
+        animationType="fade"
+        presentationStyle="overFullScreen"
+        statusBarTranslucent
+        onRequestClose={() => setContentLibraryActionItem(null)}
+      >
+        <Pressable style={styles.actionMenuOverlay} onPress={() => setContentLibraryActionItem(null)}>
+          <Pressable style={styles.actionMenuCard} onPress={() => { }}>
+            <Text style={styles.actionMenuTitle}>Actions</Text>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={() => {
+                if (!contentLibraryActionItem) return;
+                openPreviewContentModal(contentLibraryActionItem);
+                setContentLibraryActionItem(null);
+              }}
+            >
+              <Text style={styles.actionMenuItemText}>Preview</Text>
+            </Pressable>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={() => {
+                if (!contentLibraryActionItem) return;
+                openEditContentModal(contentLibraryActionItem);
+                setContentLibraryActionItem(null);
+              }}
+            >
+              <Text style={styles.actionMenuItemText}>Edit</Text>
+            </Pressable>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={async () => {
+                if (!contentLibraryActionItem) return;
+                await deleteContentItem(contentLibraryActionItem.id);
+                setContentLibraryActionItem(null);
+              }}
+              disabled={!!deletingContentId}
+            >
+              {deletingContentId ? <ActivityIndicator color="#dc2626" /> : <Text style={styles.actionMenuDangerText}>Delete</Text>}
+            </Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
+      <Modal
+        visible={questionActionItem !== null}
+        transparent
+        animationType="fade"
+        presentationStyle="overFullScreen"
+        statusBarTranslucent
+        onRequestClose={() => setQuestionActionItem(null)}
+      >
+        <Pressable style={styles.actionMenuOverlay} onPress={() => setQuestionActionItem(null)}>
+          <Pressable style={styles.actionMenuCard} onPress={() => { }}>
+            <Text style={styles.actionMenuTitle}>Actions</Text>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={() => {
+                if (!questionActionItem) return;
+                setPreviewQuestion(questionActionItem);
+                setQuestionActionItem(null);
+              }}
+            >
+              <Text style={styles.actionMenuItemText}>View</Text>
+            </Pressable>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={() => {
+                if (!questionActionItem) return;
+                openEditDialog(questionActionItem);
+                setQuestionActionItem(null);
+              }}
+            >
+              <Text style={styles.actionMenuItemText}>Edit</Text>
+            </Pressable>
+            <Pressable
+              style={styles.actionMenuItem}
+              onPress={async () => {
+                if (!questionActionItem) return;
+                await deleteQuestion(questionActionItem.id);
+                setQuestionActionItem(null);
+              }}
+              disabled={!!deletingQuestionId}
+            >
+              {deletingQuestionId ? <ActivityIndicator color="#dc2626" /> : <Text style={styles.actionMenuDangerText}>Delete</Text>}
+            </Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
+      {/* Assign quiz modal is now handled inside TopicsTab component */}
+
+      <Modal
+        visible={isCreateContentDialogOpen}
+        transparent
+        animationType="fade"
+        onRequestClose={() => {
+          setIsCreateContentDialogOpen(false);
+          setEditingContentId(null);
+        }}
+      >
+        <Pressable
+          style={styles.dialogOverlay}
+          onPress={() => {
+            setIsCreateContentDialogOpen(false);
+            setEditingContentId(null);
+          }}
+        >
+          <Pressable style={styles.dialogCard} onPress={() => { }}>
+            <View style={styles.dialogHeader}>
+              <Text style={styles.dialogTitle}>{editingContentId ? 'Edit Content' : 'Create Content'}</Text>
+            </View>
+            <ScrollView style={styles.dialogScroll} contentContainerStyle={styles.dialogScrollContent}>
+              <View style={styles.row}>
+                <Pressable
+                  style={[styles.selectorInput, styles.halfInput]}
+                  onPress={() => setContentSelectorField('contentFilterClassLevel')}
+                >
+                  <Text style={contentCreateMeta.classLevel ? styles.selectorText : styles.selectorPlaceholder}>
+                    {contentCreateMeta.classLevel ? getStandardLabel(contentCreateMeta.classLevel) : 'Standard'}
+                  </Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.selectorInput, styles.halfInput]}
+                  onPress={() => setContentSelectorField('contentFilterSubject')}
+                >
+                  <Text style={contentCreateMeta.subject ? styles.selectorText : styles.selectorPlaceholder}>
+                    {contentCreateMeta.subject || 'Subject'}
+                  </Text>
+                </Pressable>
+              </View>
+              {!editingContentId ? (
+                <>
+                  <TextInput
+                    value={createTopicSearch}
+                    onChangeText={setCreateTopicSearch}
+                    placeholder="Search topic by name"
+                    style={styles.input}
+                  />
+                  <View style={styles.fieldGroup}>
+                    <Text style={styles.fieldLabel}>Topic *</Text>
+                    <View style={styles.topicSelectList}>
+                      {createContentTopicOptions.length === 0 ? (
+                        <Text style={styles.emptyText}>No topics found for selected filters.</Text>
+                      ) : (
+                        createContentTopicOptions.map((topic) => {
+                          const selected = contentCreateMeta.topicId === topic.id;
+                          return (
+                            <Pressable
+                              key={topic.id}
+                              style={[styles.topicSelectCard, selected && styles.topicSelectCardActive]}
+                              onPress={() => setContentCreateMeta((current) => ({ ...current, topicId: topic.id }))}
+                            >
+                              <Text style={[styles.optionTitle, selected && styles.typeChipTextActive]}>{topic.title}</Text>
+                              <Text style={styles.metaText}>
+                                {topic.classLevel} • {topic.subject}
+                              </Text>
+                            </Pressable>
+                          );
+                        })
+                      )}
+                    </View>
+                  </View>
+                </>
+              ) : null}
+              <View style={styles.fieldGroup}>
+                <Text style={styles.fieldLabel}>Content Title *</Text>
+                <TextInput
+                  value={contentCreateMeta.title}
+                  onChangeText={(value) => setContentCreateMeta((current) => ({ ...current, title: value }))}
+                  placeholder="Enter content title"
+                  style={styles.input}
+                />
+              </View>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.fieldLabel}>Sections</Text>
+                <Pressable style={styles.smallButton} onPress={addCreateSection}>
+                  <Text style={styles.smallButtonText}>+ Add Section</Text>
+                </Pressable>
+              </View>
+              {contentCreateSections.map((section, index) => {
+                const activeChoice = getCreateSectionChoiceValue(section.contentType);
+                return (
+                  <View key={section.id} style={styles.optionCard}>
+                    <View style={styles.cardHeaderRow}>
+                      <Text style={styles.optionTitle}>Section {index + 1}</Text>
+                      <Pressable style={styles.inlineRemoveButton} onPress={() => removeCreateSection(section.id)}>
+                        <Text style={styles.inlineRemoveButtonText}>Remove</Text>
+                      </Pressable>
+                    </View>
+                    <Text style={styles.fieldLabel}>Section Title (Optional)</Text>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="e.g. Introduction"
+                      value={section.title || ''}
+                      onChangeText={(val) => updateCreateSection(section.id, { title: val })}
+                    />
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                      <View style={styles.typeChipRow}>
+                        {CREATE_CONTENT_TYPE_CHOICES.map((choice) => {
+                          const selected = activeChoice === choice.value;
+                          return (
+                            <Pressable
+                              key={`${section.id}-${choice.value}`}
+                              style={[styles.typeChip, selected && styles.typeChipActive]}
+                              onPress={() =>
+                                updateCreateSection(section.id, { contentType: choice.value === 'media' ? 'image' : choice.value })
+                              }
+                            >
+                              <Text style={[styles.typeChipText, selected && styles.typeChipTextActive]}>{choice.label}</Text>
+                            </Pressable>
+                          );
+                        })}
+                      </View>
+                    </ScrollView>
+
+                    {activeChoice === 'text' ? (
+                      <TextInput
+                        value={section.textContent}
+                        onChangeText={(value) => updateCreateSection(section.id, { textContent: value })}
+                        placeholder="Enter content text"
+                        multiline
+                        style={[styles.input, styles.richTextInput]}
+                      />
+                    ) : activeChoice === 'youtube_url' || activeChoice === 'reel_url' ? (
+                      <TextInput
+                        value={section.externalUrl}
+                        onChangeText={(value) => updateCreateSection(section.id, { externalUrl: value })}
+                        placeholder="Enter URL"
+                        autoCapitalize="none"
+                        style={styles.input}
+                      />
+                    ) : (
+                      <View style={styles.fieldGroup}>
+                        <Pressable style={styles.secondaryButton} onPress={() => uploadCreateContentMedia(section.id)}>
+                          {uploadingSectionMediaId === section.id ? (
+                            <ActivityIndicator color="#1d4ed8" />
+                          ) : (
+                            <Text style={styles.secondaryButtonText}>Upload Media (Image / Audio / Video)</Text>
+                          )}
+                        </Pressable>
+                        {section.mediaUrl ? (
+                          <Text style={styles.metaText}>{toMediaLabel(section.mediaUrl, 'media', section.mediaLabel)}</Text>
+                        ) : null}
+                      </View>
+                    )}
+                  </View>
+                );
+              })}
+            </ScrollView>
+            <View style={styles.dialogActions}>
+              <Pressable
+                style={[styles.secondaryButton, styles.halfInput]}
+                onPress={() => {
+                  setIsCreateContentDialogOpen(false);
+                  setEditingContentId(null);
+                }}
+              >
+                <Text style={styles.secondaryButtonText}>Cancel</Text>
+              </Pressable>
+              <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={createSingleContentItem} disabled={savingContentCreate}>
+                {savingContentCreate ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>{editingContentId ? 'Save' : 'Create Content'}</Text>}
+              </Pressable>
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
+      <Modal visible={previewQuiz !== null} transparent animationType="fade" onRequestClose={() => setPreviewQuiz(null)}>
+        <View style={styles.dialogOverlay}>
+          <View style={styles.confirmCard}>
+            <Text style={styles.confirmTitle}>Quiz Preview</Text>
+            {previewQuiz ? (
+              <ScrollView style={styles.selectorList}>
+                <Text style={styles.previewTitle}>{previewQuiz.title}</Text>
+                <Text style={styles.previewMeta}>
+                  {previewQuiz.class_level || '-'} • {previewQuiz.subject || '-'} • {previewQuiz.quiz_type}
+                </Text>
+                <Text style={styles.previewMeta}>Questions: {previewQuiz.total_questions}</Text>
+                <Text style={styles.previewMeta}>Status: {previewQuiz.is_published ? 'Published' : 'Draft'}</Text>
+                <Text style={styles.previewMeta}>Created: {new Date(previewQuiz.created_at).toLocaleString()}</Text>
+              </ScrollView>
+            ) : null}
+            <Pressable style={styles.primaryButton} onPress={() => setPreviewQuiz(null)}>
+              <Text style={styles.primaryButtonText}>Close</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal visible={previewContentItem !== null} transparent animationType="fade" onRequestClose={() => setPreviewContentItem(null)}>
+        <View style={styles.dialogOverlay}>
+          <View style={styles.confirmCard}>
+            <Text style={styles.confirmTitle}>Content Preview</Text>
+            {previewContentItem ? (
+              <ScrollView style={styles.selectorList}>
+                <Text style={styles.previewTitle}>{previewContentItem.title}</Text>
+                <Text style={styles.previewMeta}>
+                  {previewContentItem.classLevel} • {previewContentItem.subject} • {(previewContentItem.sectionCount || previewContentItem.sections?.length || 1)} sections
+                </Text>
+                {(previewContentItem.sections || []).map((section, index) => (
+                  <View key={`preview-content-section-${section.id}-${index}`} style={styles.previewMediaCard}>
+                    <Text style={styles.previewMediaLabel}>{section.title ? `${section.title} — ` : `Section ${section.sectionOrder || index + 1} — `}{section.contentType}</Text>
+                    {section.textContent ? <Text style={styles.previewInstruction}>{section.textContent}</Text> : null}
+                    {(() => {
+                      const mUrl = section.mediaUrl ? resolveMediaUrl(section.mediaUrl) : '';
+                      const eUrl = section.externalUrl ? resolveMediaUrl(section.externalUrl) : '';
+                      const url = mUrl || eUrl || '';
+                      
+                      if (!url) return null;
+
+                      if (section.contentType === 'image' || isImageUrl(url)) {
+                        return <SafeImage uri={url} style={styles.previewImage} resizeMode="contain" />;
+                      }
+
+                      if (section.contentType === 'youtube_url' || isYouTubeUrl(url)) {
+                        const embedUrl = getYouTubeEmbedUrl(url);
+                        if (embedUrl) {
+                          return (
+                            <View style={styles.previewVideoEmbed}>
+                              {Platform.OS === 'web' ? (
+                                <iframe
+                                  src={embedUrl + `&controls=1&modestbranding=1`}
+                                  style={{ width: '100%', height: '100%', border: 'none', borderRadius: 16 }}
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                />
+                              ) : (
+                                <WebView
+                                  source={{ uri: embedUrl + `&controls=1` }}
+                                  style={{ width: '100%', height: '100%', borderRadius: 16 }}
+                                  allowsFullscreenVideo
+                                  allowsInlineMediaPlayback
+                                />
+                              )}
+                            </View>
+                          );
+                        }
+                      }
+
+                      if (section.contentType === 'audio' || url.match(/\.(mp3|wav|ogg|aac|m4a|flac)/i)) {
+                        return (
+                          <View style={{ marginTop: 10 }}>
+                            <AudioPlayer
+                              uri={url}
+                              title={section.title || previewContentItem.title}
+                              subtitle={previewContentItem.subject}
+                              emoji="🎵"
+                              accentColor="#2D5DC9"
+                              bgColor="#D6EAFF"
+                            />
+                          </View>
+                        );
+                      }
+
+                      if (section.contentType === 'reel' || url.match(/\.(mp4|mov|webm|avi)/i)) {
+                        return (
+                          <View style={styles.previewVideoEmbed}>
+                            <Video
+                              source={{ uri: url }}
+                              useNativeControls
+                              resizeMode={ResizeMode.CONTAIN}
+                              style={{ width: '100%', height: '100%' }}
+                            />
+                          </View>
+                        );
+                      }
+
+                      if (url.match(/\.(pdf|doc|docx|xls|xlsx|ppt|pptx|zip|rar)/i)) {
+                        return <DocumentViewer uri={url} title={section.title} accentColor="#2D5DC9" bgColor="#D6EAFF" />;
+                      }
+
+                      return (
+                        <Pressable style={[styles.primaryButton, { marginTop: 10 }]} onPress={() => openExternalResource(url)}>
+                          <Text style={styles.primaryButtonText}>Open Resource Link</Text>
+                        </Pressable>
+                      );
+                    })()}
+                  </View>
+                ))}
+              </ScrollView>
+            ) : null}
+            <Pressable style={styles.primaryButton} onPress={() => setPreviewContentItem(null)}>
+              <Text style={styles.primaryButtonText}>Done</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <SelectorModal
+        visible={contentSelectorField !== null}
+        title={contentSelectorTitle}
+        options={contentSelectorOptions.map((o) => {
+          const matched = !isContentStandardSelector ? subjectCatalog.find((item) => item.title.trim() === o) : undefined;
+          return {
+            label: isContentStandardSelector ? getStandardLabel(o) : o,
+            value: o,
+            coverImage: matched?.coverImage,
+            iconUrl: matched?.iconImage,
+            iconBgColor: matched?.iconBgColor,
+          };
+        })}
+        selected={''}
+        isSubject={!isContentStandardSelector}
+        onSelect={applyContentSelectorValue}
+        onClose={() => setContentSelectorField(null)}
+      />
+
+      {/* Topic create/edit modal is now handled inside TopicsTab component */}
+
+      <Modal visible={isSectionDialogOpen} transparent animationType="fade" onRequestClose={() => setIsSectionDialogOpen(false)}>
+        <View style={styles.dialogOverlay}>
+          <View style={styles.dialogCard}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.dialogTitle}>Create Content Sections</Text>
+              <Pressable style={styles.smallButton} onPress={addSectionDraft}>
+                <Text style={styles.smallButtonText}>+ Add Section</Text>
+              </Pressable>
+            </View>
+            <ScrollView style={styles.dialogScroll} contentContainerStyle={styles.dialogScrollContent}>
+              {sectionDrafts.map((section, index) => (
+                <View key={section.id} style={styles.optionCard}>
+                  <View style={styles.cardHeaderRow}>
+                    <Text style={styles.optionTitle}>Section {index + 1}</Text>
+                    <Pressable style={styles.inlineRemoveButton} onPress={() => removeSectionDraft(section.id)}>
+                      <Text style={styles.inlineRemoveButtonText}>Remove</Text>
+                    </Pressable>
+                  </View>
+
+                  <Text style={styles.fieldLabel}>Section Title (Optional)</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="e.g. Introduction"
+                    value={section.title || ''}
+                    onChangeText={(val) => updateSectionDraft(section.id, { title: val })}
+                  />
+
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <View style={styles.typeChipRow}>
+                      {CONTENT_TYPE_CHOICES.map((choice) => {
+                        const selected = section.contentType === choice.value;
+                        return (
+                          <Pressable
+                            key={`${section.id}-${choice.value}`}
+                            style={[styles.typeChip, selected && styles.typeChipActive]}
+                            onPress={() => updateSectionDraft(section.id, { contentType: choice.value })}
+                          >
+                            <Text style={[styles.typeChipText, selected && styles.typeChipTextActive]}>{choice.label}</Text>
+                          </Pressable>
+                        );
+                      })}
+                    </View>
+                  </ScrollView>
+
+                  {section.contentType === 'text' ? (
+                    <TextInput
+                      value={section.textContent}
+                      onChangeText={(value) => updateSectionDraft(section.id, { textContent: value })}
+                      placeholder="Enter rich text content"
+                      multiline
+                      style={[styles.input, styles.richTextInput]}
+                    />
+                  ) : null}
+
+                  {section.contentType === 'youtube_url' || section.contentType === 'reel_url' ? (
+                    <TextInput
+                      value={section.externalUrl}
+                      onChangeText={(value) => updateSectionDraft(section.id, { externalUrl: value })}
+                      placeholder="Enter URL"
+                      autoCapitalize="none"
+                      style={styles.input}
+                    />
+                  ) : null}
+
+                  {section.contentType === 'image' || section.contentType === 'audio' || section.contentType === 'reel' ? (
+                    <View style={styles.fieldGroup}>
+                      <View style={styles.mediaActionRow}>
+                        <Pressable
+                          style={[styles.secondaryButton, styles.mediaActionButton]}
+                          onPress={() => uploadSectionMedia(section.id, section.contentType)}
+                        >
+                          {uploadingSectionMediaId === section.id ? (
+                            <ActivityIndicator color="#1d4ed8" />
+                          ) : (
+                            <Text style={styles.secondaryButtonText}>
+                              {section.contentType === 'image'
+                                ? 'Upload Image'
+                                : section.contentType === 'audio'
+                                  ? 'Upload Audio'
+                                  : 'Upload Reel'}
+                            </Text>
+                          )}
+                        </Pressable>
+                      </View>
+                      {section.mediaUrl.trim() ? (
+                        <View style={styles.previewCard}>
+                          <View style={styles.previewHeader}>
+                            <View style={styles.previewHeaderContent}>
+                              <Text style={styles.mediaInfoLabel}>Selected Media</Text>
+                              <Text style={styles.mediaInfoValue}>{toMediaLabel(section.mediaUrl, 'media')}</Text>
+                            </View>
+                            <Pressable
+                              style={styles.previewRemoveButton}
+                              onPress={() => updateSectionDraft(section.id, { mediaUrl: '', mediaLabel: '' })}
+                            >
+                              <Text style={styles.previewRemoveButtonText}>Remove</Text>
+                            </Pressable>
+                          </View>
+                          {section.contentType === 'image' ? (
+                            <SafeImage uri={resolveMediaUrl(section.mediaUrl)} style={styles.optionImagePreview} resizeMode="contain" />
+                          ) : (
+                            <Text style={styles.metaText}>{section.mediaLabel || section.mediaUrl}</Text>
+                          )}
+                        </View>
+                      ) : null}
+                    </View>
+                  ) : null}
+                </View>
+              ))}
+            </ScrollView>
+            <View style={styles.dialogActions}>
+              <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={() => setIsSectionDialogOpen(false)}>
+                <Text style={styles.secondaryButtonText}>Cancel</Text>
+              </Pressable>
+              <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={saveTopicSections} disabled={savingSections}>
+                {savingSections ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Save Content</Text>}
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal visible={isCreateDialogOpen && activeLearningTab === 'question'} animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setIsCreateDialogOpen(false)}>
+        <View style={[styles.modalScreen, isDesktop && styles.modalScreenDesktop]}>
+          <View style={[styles.modalInner, isDesktop && styles.modalInnerDesktop]}>
+            <QuestionEditor
+              apiFetch={apiFetch}
+              mode="create"
+              subjectCatalog={subjectCatalog}
+              user={user}
+              onSaved={() => { loadQuestions(); }}
+              onClose={() => setIsCreateDialogOpen(false)}
+            />
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        visible={editingQuestionId !== null && activeLearningTab === 'question'}
+        animationType="slide"
+        presentationStyle="fullScreen"
+        onRequestClose={() => {
+          setEditingQuestionId(null);
+          setEditingQuestionPayload(null);
+        }}
+      >
+        <View style={[styles.modalScreen, isDesktop && styles.modalScreenDesktop]}>
+          <View style={[styles.modalInner, isDesktop && styles.modalInnerDesktop]}>
+            {(() => {
+              const q = editingQuestionPayload ?? questions.find((item) => item.id === editingQuestionId);
+              if (!q) return null;
+              return (
+                <QuestionEditor
+                  apiFetch={apiFetch}
+                  mode="edit"
+                  subjectCatalog={subjectCatalog}
+                  user={user}
+                  editingQuestion={{
+                    id: q.id,
+                    class_level: q.class_level,
+                    subject: q.subject,
+                    question_type: q.question_type,
+                    question_title: q.question_title,
+                    question_instruction: q.question_instruction,
+                    explanation: q.explanation,
+                    question_audio: q.question_audio,
+                    time_limit_seconds: q.time_limit_seconds,
+                    points: q.points,
+                    sort_order: q.sort_order,
+                    question_data: q.question_data,
+                  }}
+                  onSaved={() => {
+                    setEditingQuestionPayload(null);
+                    loadQuestions();
+                  }}
+                  onClose={() => {
+                    setEditingQuestionId(null);
+                    setEditingQuestionPayload(null);
+                  }}
+                />
+              );
+            })()}
+          </View>
+        </View>
+      </Modal>
+
+      <SelectorModal
+        visible={selectorField !== null && activeLearningTab === 'question'}
+        title={selectorTitle}
+        options={selectorOptions.map((o) => {
+          const matched = !isQuestionStandardSelector
+            ? subjectCatalog.find(
+                (item) =>
+                  item.title.trim() === o &&
+                  (!questionSubjectClassLevel || item.classLevel.trim() === questionSubjectClassLevel.trim()),
+              )
+            : undefined;
+          return {
+            label: isQuestionStandardSelector ? getStandardLabel(o) : o,
+            value: o,
+            coverImage: matched?.coverImage,
+            iconUrl: matched?.iconImage,
+            iconBgColor: matched?.iconBgColor,
+          };
+        })}
+        selected={''}
+        isSubject={!isQuestionStandardSelector}
+        onSelect={applySelectorValue}
+        onClose={() => setSelectorField(null)}
+      />
+
+      <Modal visible={previewQuestion !== null && activeLearningTab === 'question'} transparent animationType="fade" onRequestClose={() => setPreviewQuestion(null)}>
+        <View style={styles.dialogOverlay}>
+          <View style={styles.confirmCard}>
+            <Text style={styles.confirmTitle}>Question Preview</Text>
+            {previewQuestion ? (
+              <ScrollView style={styles.selectorList}>
+                <Text style={styles.previewTitle}>{previewQuestion.question_title || 'Untitled question'}</Text>
+                <Text style={styles.previewMeta}>
+                  {previewQuestion.class_level || '-'} • {previewQuestion.subject || '-'} •{' '}
+                  {getQuestionTypeLabel(previewQuestion.question_type)}
+                </Text>
+                {previewQuestion.question_instruction ? (
+                  <Text style={styles.previewInstruction}>{previewQuestion.question_instruction}</Text>
+                ) : null}
+                <Text style={styles.previewMeta}>Points: {previewQuestion.points}</Text>
+                <Text style={styles.previewMeta}>Time: {previewQuestion.time_limit_seconds}s</Text>
+
+                {questionDataPromptImage(previewQuestion.question_data).trim() ? (
+                  <View style={styles.previewMediaCard}>
+                    <Text style={styles.previewMediaLabel}>Prompt Image</Text>
+                    <SafeImage uri={resolveMediaUrl(questionDataPromptImage(previewQuestion.question_data).trim())} style={styles.previewImage} resizeMode="contain" />
+                  </View>
+                ) : null}
+
+                {normalizeQuestionType(previewQuestion.question_type) === 'jigsaw' ? (
+                  <View style={styles.previewMediaCard}>
+                    <Text style={styles.previewMediaLabel}>Play Preview</Text>
+                    <View style={{ borderRadius: 12, overflow: 'hidden', backgroundColor: '#fff' }}>
+                      <JigsawRenderer
+                        key={`preview-jigsaw-${previewQuestion.id}`}
+                        questionData={previewQuestion.question_data as any}
+                        onComplete={() => {}}
+                        theme={{ bg: '#E0F2FE', cardBg: '#F0F9FF', accent: '#0EA5E9', textColor: '#0C4A6E', emoji: '🧩', label: 'Jigsaw Puzzle' }}
+                      />
+                    </View>
+                  </View>
+                ) : normalizeQuestionType(previewQuestion.question_type) === 'logico' ? (
+                  <View style={styles.previewMediaCard}>
+                    <Text style={styles.previewMediaLabel}>Logico Mapping Preview</Text>
+                    <View style={qFormS.logicoPreviewWrap}>
+                      {Array.from({ length: 10 }, (_, index) => {
+                        const slotId = index + 1;
+                        const mapped = questionDataToLogicoOptions(previewQuestion.question_data).find((option) => option.slotPosition === slotId);
+                        return (
+                          <View key={`preview-logico-${slotId}`} style={qFormS.logicoPreviewRow}>
+                            <Text style={qFormS.logicoPreviewSlotText}>{slotId}</Text>
+                            <Text style={qFormS.logicoPreviewOptionText}>{mapped?.label || `Position ${slotId}`}</Text>
+                            {mapped ? <LogicoButtonBadge buttonId={mapped.id} /> : <View style={qFormS.logicoPreviewEmptyButton} />}
+                          </View>
+                        );
+                      })}
+                    </View>
+                  </View>
+                ) : (
+                  questionDataToOptions(previewQuestion.question_data)
+                    .filter((option) => option.image.trim())
+                    .map((option, index) => (
+                      <View key={`preview-option-${index}`} style={styles.previewMediaCard}>
+                        <Text style={styles.previewMediaLabel}>Option {index + 1}: {option.label || 'Untitled'}</Text>
+                        <SafeImage uri={resolveMediaUrl(option.image.trim())} style={styles.previewImage} resizeMode="contain" />
+                      </View>
+                    ))
+                )}
+
+                {questionDataToMatchPairs(previewQuestion.question_data)
+                  .filter((pair) => pair.image.trim())
+                  .map((pair, index) => (
+                    <View key={`preview-pair-${index}`} style={styles.previewMediaCard}>
+                      <Text style={styles.previewMediaLabel}>
+                        Pair {index + 1}: {pair.itemLabel || 'Item'} → {pair.targetLabel || 'Target'}
+                      </Text>
+                      <SafeImage uri={resolveMediaUrl(pair.image.trim())} style={styles.previewImage} resizeMode="contain" />
+                    </View>
+                  ))}
+              </ScrollView>
+            ) : null}
+            {previewQuestion?.quiz_id ? (
+              <Pressable style={styles.secondaryButton} onPress={() => setStudentPreviewQuizId(previewQuestion.quiz_id)}>
+                <Text style={styles.secondaryButtonText}>Open Student Player</Text>
+              </Pressable>
+            ) : null}
+            <Pressable style={styles.primaryButton} onPress={() => setPreviewQuestion(null)}>
+              <Text style={styles.primaryButtonText}>Done</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <QuizRenderer
+        quizId={studentPreviewQuizId || ''}
+        visible={Boolean(studentPreviewQuizId)}
+        onClose={() => setStudentPreviewQuizId(null)}
+      />
+
+      <Modal
+        visible={pendingMediaRemoval !== null && activeLearningTab === 'question'}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setPendingMediaRemoval(null)}
+      >
+        <View style={styles.dialogOverlay}>
+          <View style={styles.confirmCard}>
+            <Text style={styles.confirmTitle}>Remove {removalAssetLabel}?</Text>
+            <Text style={styles.confirmMessage}>
+              This will remove the selected {removalAssetLabel} from {removalScopeLabel}. You can upload it again anytime.
+            </Text>
+            <View style={styles.confirmActions}>
+              <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={() => setPendingMediaRemoval(null)}>
+                <Text style={styles.secondaryButtonText}>Cancel</Text>
+              </Pressable>
+              <Pressable style={[styles.actionDangerButton, styles.halfInput]} onPress={confirmMediaRemoval}>
+                <Text style={styles.deleteButtonText}>Remove</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        visible={pendingOptionRemoval !== null && activeLearningTab === 'question'}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setPendingOptionRemoval(null)}
+      >
+        <View style={styles.dialogOverlay}>
+          <View style={styles.confirmCard}>
+            <Text style={styles.confirmTitle}>Remove option?</Text>
+            <Text style={styles.confirmMessage}>
+              This will remove the full option from this question.
+            </Text>
+            <View style={styles.confirmActions}>
+              <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={() => setPendingOptionRemoval(null)}>
+                <Text style={styles.secondaryButtonText}>Cancel</Text>
+              </Pressable>
+              <Pressable style={[styles.actionDangerButton, styles.halfInput]} onPress={confirmOptionRemoval}>
+                <Text style={styles.deleteButtonText}>Remove</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  modalScreen: { flex: 1, backgroundColor: '#F5F7FF' },
+  modalScreenDesktop: { flex: 1, backgroundColor: '#F5F7FF' },
+  modalInner: { flex: 1, width: '100%', backgroundColor: '#F5F7FF', overflow: 'hidden' },
+  modalInnerDesktop: { flex: 1, width: '100%', height: '100%', borderRadius: 0, overflow: 'hidden' },
+  container: {
+    flex: 1,
+    backgroundColor: '#f8fafc',
+  },
+  content: {
+    padding: 16,
+    gap: 14,
+  },
+  tabRow: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  tabButton: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    paddingVertical: 9,
+    alignItems: 'center',
+  },
+  tabButtonActive: {
+    borderColor: '#93c5fd',
+    backgroundColor: '#eff6ff',
+  },
+  tabButtonText: {
+    color: '#475569',
+    fontWeight: '700',
+    fontSize: 12,
+  },
+  tabButtonTextActive: {
+    color: '#1d4ed8',
+  },
+  // New tab bar (revamped)
+  newTabBar: {
+    height: 36,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F0F8',
+  },
+  newTab: {
+    height: 36,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
+  },
+  newTabActive: {
+    borderBottomColor: '#2D5DC9',
+  },
+  newTabText: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: '#525C6B',
+  },
+  newTabTextActive: {
+    color: '#2D5DC9',
+    fontWeight: '800',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#0f172a',
+  },
+  subtitle: {
+    fontSize: 13,
+    color: '#475569',
+  },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    padding: 14,
+    gap: 12,
+  },
+  cardTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#0f172a',
+  },
+  fieldLabel: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#334155',
+  },
+  fieldGroup: {
+    gap: 6,
+  },
+  richTextInput: {
+    minHeight: 120,
+    textAlignVertical: 'top',
+  },
+  readonlyTag: {
+    alignSelf: 'flex-start',
+    borderWidth: 1,
+    borderColor: '#bfdbfe',
+    backgroundColor: '#eff6ff',
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+  },
+  readonlyTagText: {
+    color: '#1d4ed8',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  mediaInfoLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#475569',
+    textTransform: 'uppercase',
+  },
+  mediaInfoValue: {
+    fontSize: 13,
+    color: '#0f172a',
+    fontWeight: '600',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 13,
+    color: '#0f172a',
+    backgroundColor: '#fff',
+  },
+  selectorInput: {
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
+  selectorPlaceholder: {
+    color: '#4E5D71',
+    fontSize: 13,
+  },
+  selectorText: {
+    color: '#0f172a',
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  row: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  mediaActionRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  mediaActionButton: {
+    flexBasis: '48%',
+    flexGrow: 1,
+  },
+  halfInput: {
+    flex: 1,
+  },
+  fullWidthButton: {
+    width: '100%',
+  },
+  secondaryButton: {
+    borderWidth: 1,
+    borderColor: '#93c5fd',
+    borderRadius: 10,
+    backgroundColor: '#eff6ff',
+    paddingVertical: 9,
+    alignItems: 'center',
+  },
+  secondaryButtonText: {
+    color: '#1d4ed8',
+    fontWeight: '700',
+    fontSize: 12,
+  },
+  disabledButton: {
+    opacity: 0.55,
+  },
+  primaryButton: {
+    borderRadius: 10,
+    backgroundColor: '#1d4ed8',
+    paddingVertical: 9,
+    alignItems: 'center',
+  },
+  primaryButtonText: {
+    color: '#fff',
+    fontWeight: '700',
+    fontSize: 12,
+  },
+  messageCard: {
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 10,
+  },
+  successCard: {
+    backgroundColor: '#ecfdf5',
+    borderColor: '#86efac',
+  },
+  errorCard: {
+    backgroundColor: '#fef2f2',
+    borderColor: '#fecaca',
+  },
+  messageText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  successText: {
+    color: '#166534',
+  },
+  errorText: {
+    color: '#b91c1c',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  emptyText: {
+    fontSize: 12,
+    color: '#4B5768',
+  },
+  tableRow: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e2e8f0',
+    alignItems: 'center',
+    minHeight: 48,
+    overflow: 'visible',
+  },
+  tableHeader: {
+    backgroundColor: '#f1f5f9',
+    borderTopWidth: 1,
+    borderTopColor: '#e2e8f0',
+  },
+  tableCell: {
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    fontSize: 12,
+    color: '#334155',
+  },
+  colStandard: {
+    width: 120,
+  },
+  colSubject: {
+    width: 140,
+  },
+  colCategory: {
+    width: 130,
+  },
+  colQuestion: {
+    width: 260,
+  },
+  colActions: {
+    width: 180,
+  },
+  actionsCell: {
+    alignItems: 'flex-end',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    overflow: 'visible',
+  },
+  topicActionsTrigger: {
+    borderWidth: 1,
+    borderColor: '#f5b66c',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    alignSelf: 'flex-start',
+  },
+  topicActionsTriggerText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#d97706',
+  },
+  actionMenuOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(15, 23, 42, 0.25)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+  },
+  actionMenuCard: {
+    width: '100%',
+    maxWidth: 320,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    borderRadius: 12,
+    padding: 10,
+    gap: 4,
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+  },
+  actionMenuTitle: {
+    fontSize: 17,
+    fontWeight: '700',
+    color: '#0f172a',
+    paddingHorizontal: 8,
+    paddingTop: 2,
+  },
+  actionMenuMeta: {
+    fontSize: 12,
+    color: '#4B5768',
+    paddingHorizontal: 8,
+    paddingBottom: 4,
+  },
+  actionMenuItem: {
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+  actionMenuItemText: {
+    fontSize: 14,
+    color: '#111827',
+    fontWeight: '500',
+  },
+  actionMenuDangerText: {
+    fontSize: 14,
+    color: '#dc2626',
+    fontWeight: '600',
+  },
+  deleteButtonText: {
+    color: '#b91c1c',
+    fontWeight: '700',
+  },
+  dialogOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(15, 23, 42, 0.45)',
+    padding: 20,
+    justifyContent: 'center',
+  },
+  dialogCard: {
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    maxHeight: '90%',
+    overflow: 'hidden',
+  },
+  topicDialogCard: {
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    width: '100%',
+    maxWidth: 680,
+    alignSelf: 'center',
+    overflow: 'hidden',
+  },
+  topicDialogBody: {
+    padding: 16,
+    gap: 12,
+  },
+  dialogHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 10,
+    paddingHorizontal: 14,
+    paddingTop: 14,
+    paddingBottom: 6,
+  },
+  dialogTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#0f172a',
+  },
+  actionBadge: {
+    alignSelf: 'flex-start',
+    marginHorizontal: 14,
+    marginBottom: 4,
+    borderWidth: 1,
+    borderColor: '#86efac',
+    backgroundColor: '#ecfdf5',
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
+  actionBadgeText: {
+    fontSize: 11,
+    color: '#166534',
+    fontWeight: '700',
+  },
+  dialogScroll: {
+    maxHeight: 520,
+  },
+  dialogScrollContent: {
+    padding: 14,
+    gap: 10,
+  },
+  dialogActions: {
+    flexDirection: 'row',
+    gap: 10,
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: '#e2e8f0',
+  },
+  confirmCard: {
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    padding: 16,
+    gap: 12,
+  },
+  confirmTitle: {
+    fontSize: 17,
+    fontWeight: '800',
+    color: '#0f172a',
+  },
+  confirmMessage: {
+    fontSize: 13,
+    color: '#475569',
+    lineHeight: 18,
+  },
+  confirmActions: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 4,
+  },
+  selectorList: {
+    maxHeight: 320,
+  },
+  selectorOption: {
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    backgroundColor: '#fff',
+  },
+  selectorOptionText: {
+    color: '#0f172a',
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  previewTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#0f172a',
+    marginBottom: 6,
+  },
+  previewMeta: {
+    fontSize: 12,
+    color: '#475569',
+    marginBottom: 4,
+  },
+  previewInstruction: {
+    fontSize: 13,
+    color: '#334155',
+    marginBottom: 8,
+    lineHeight: 18,
+  },
+  previewMediaCard: {
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    borderRadius: 10,
+    padding: 8,
+    marginBottom: 8,
+    gap: 6,
+    backgroundColor: '#f8fafc',
+  },
+  previewMediaLabel: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#334155',
+  },
+  previewImage: {
+    width: '100%',
+    height: 160,
+    borderRadius: 8,
+    backgroundColor: '#fff',
+  },
+  previewVideoEmbed: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+    marginBottom: 8,
+    backgroundColor: '#000',
+  },
+  quizChipRow: {
+    flexDirection: 'row',
+    gap: 8,
+    paddingVertical: 4,
+  },
+  quizChip: {
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    borderRadius: 999,
+    backgroundColor: '#f8fafc',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+  },
+  quizChipActive: {
+    borderColor: '#60a5fa',
+    backgroundColor: '#dbeafe',
+  },
+  quizChipText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#334155',
+  },
+  quizChipTextActive: {
+    color: '#1d4ed8',
+  },
+  typeChipRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  typeChip: {
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    borderRadius: 999,
+    backgroundColor: '#f8fafc',
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+  },
+  typeChipActive: {
+    borderColor: '#60a5fa',
+    backgroundColor: '#dbeafe',
+  },
+  typeChipText: {
+    fontSize: 12,
+    color: '#334155',
+    fontWeight: '600',
+  },
+  typeChipTextActive: {
+    color: '#1d4ed8',
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 6,
+    gap: 14,
+  },
+  topicDetailHeader: {
+    flexDirection: 'column',
+    gap: 10,
+    marginBottom: 2,
+  },
+  topicDetailTitleRow: {
+    flex: 1,
+    minWidth: 0,
+  },
+  topicDetailActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+  },
+  inlineActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
+  },
+  topicCoverImage: {
+    width: '100%',
+    height: 180,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    backgroundColor: '#e2e8f0',
+  },
+  sectionTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#334155',
+  },
+  smallButton: {
+    borderWidth: 1,
+    borderColor: '#93c5fd',
+    backgroundColor: '#eff6ff',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  smallButtonText: {
+    fontSize: 11,
+    color: '#1d4ed8',
+    fontWeight: '700',
+  },
+  optionCard: {
+    borderWidth: 1,
+    borderColor: '#dbeafe',
+    backgroundColor: '#f8fbff',
+    borderRadius: 10,
+    padding: 10,
+    gap: 10,
+  },
+  topicSelectList: {
+    borderWidth: 1,
+    borderColor: '#dbeafe',
+    borderRadius: 10,
+    backgroundColor: '#f8fbff',
+    padding: 10,
+    gap: 8,
+    maxHeight: 240,
+  },
+  topicSelectCard: {
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    gap: 3,
+  },
+  topicSelectCardActive: {
+    borderColor: '#60a5fa',
+    backgroundColor: '#eff6ff',
+  },
+  cardHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  inlineRemoveButton: {
+    borderWidth: 1,
+    borderColor: '#fecaca',
+    backgroundColor: '#fff1f2',
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
+  inlineRemoveButtonText: {
+    fontSize: 11,
+    color: '#b91c1c',
+    fontWeight: '700',
+  },
+  optionTitle: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#1e3a8a',
+  },
+  previewCard: {
+    borderWidth: 1,
+    borderColor: '#bfdbfe',
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    padding: 8,
+    gap: 6,
+  },
+  previewHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  previewHeaderContent: {
+    flex: 1,
+    gap: 2,
+  },
+  previewRemoveButton: {
+    borderWidth: 1,
+    borderColor: '#fecaca',
+    backgroundColor: '#fff1f2',
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  previewRemoveButtonText: {
+    fontSize: 11,
+    color: '#b91c1c',
+    fontWeight: '700',
+  },
+  audioPreviewCard: {
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    padding: 8,
+    gap: 8,
+  },
+  playButton: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 12,
+  },
+  optionImagePreview: {
+    width: '100%',
+    height: 150,
+    borderRadius: 8,
+    backgroundColor: '#f1f5f9',
+  },
+  actionDangerButton: {
+    borderWidth: 1,
+    borderColor: '#fecaca',
+    backgroundColor: '#fef2f2',
+    borderRadius: 8,
+    paddingVertical: 8,
+    alignItems: 'center',
+  },
+  paginationRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#e2e8f0',
+    marginTop: 8,
+  },
+  paginationButton: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  paginationButtonDisabled: {
+    borderColor: '#f1f5f9',
+    backgroundColor: '#f8fafc',
+  },
+  paginationButtonText: {
+    fontSize: 12,
+    color: '#0f172a',
+    fontWeight: '600',
+  },
+  paginationButtonTextDisabled: {
+    color: '#4E5D71',
+  },
+  paginationText: {
+    fontSize: 12,
+    color: '#475569',
+    fontWeight: '500',
+  },
+  metaText: {
+    fontSize: 12,
+    color: '#4B5768',
+  },
+});
+
+// ── Question form full-screen styles ──────────────────────────────────────────
+const qFormS = StyleSheet.create({
+  screen: { flex: 1, backgroundColor: '#F5F7FF' },
+  header: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 12, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  backBtn: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
+  backArrow: { fontSize: 28, color: '#1a1a2e', fontWeight: '300', lineHeight: 34 },
+  titleText: { fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
+  subTitle: { fontSize: 11, color: '#525C6B', fontWeight: '600', marginTop: 2 },
+  saveBtn: { backgroundColor: '#2D5DC9', borderRadius: 10, paddingHorizontal: 18, paddingVertical: 8 },
+  saveBtnDisabled: { opacity: 0.5 },
+  saveBtnText: { color: '#fff', fontWeight: '800', fontSize: 13 },
+
+  tabBar: { flexDirection: 'row', backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  tab: { flex: 1, paddingVertical: 12, alignItems: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
+  tabActive: { borderBottomColor: '#2D5DC9' },
+  tabText: { fontSize: 13, fontWeight: '600', color: '#525C6B' },
+  tabTextActive: { color: '#2D5DC9', fontWeight: '800' },
+
+  toast: { marginHorizontal: 16, marginTop: 8, borderRadius: 10, padding: 10, borderWidth: 1, borderColor: '#E0E4F0', backgroundColor: '#F0F4FF' },
+  toastText: { fontSize: 13, fontWeight: '600', color: '#1a1a2e', textAlign: 'center' },
+  toastError: { backgroundColor: '#FFE8E8', borderColor: '#D33F13' },
+  toastErrorText: { color: '#B91C1C' },
+  toastSuccess: { backgroundColor: '#D6F5D6', borderColor: '#7DC67A' },
+  toastSuccessText: { color: '#1A6B1A' },
+
+  tabContent: { padding: 16, gap: 16, paddingBottom: 40 },
+  group: { gap: 8 },
+  groupLabel: { fontSize: 10, fontWeight: '800', color: '#525C6B', letterSpacing: 1, textTransform: 'uppercase', paddingLeft: 4 },
+  fieldCard: { backgroundColor: '#fff', borderRadius: 16, padding: 14, gap: 10, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
+  fieldLabel: { fontSize: 11, fontWeight: '700', color: '#525C6B', textTransform: 'uppercase', letterSpacing: 0.5 },
+  input: { fontSize: 14, color: '#1a1a2e', fontWeight: '500', paddingVertical: 6 },
+  divider: { height: 1, backgroundColor: '#F0F0F8' },
+  selectorRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 6 },
+  selectorVal: { fontSize: 14, color: '#1a1a2e', fontWeight: '500' },
+  selectorPlaceholder: { fontSize: 14, color: '#B0B8D0' },
+  twoCol: { flexDirection: 'row', gap: 10, alignItems: 'flex-start' },
+  colDivider: { width: 1, backgroundColor: '#F0F0F8', alignSelf: 'stretch', marginVertical: 4 },
+
+  qtypeChip: { flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: '#F0F0F8', borderWidth: 1.5, borderColor: 'transparent' },
+  qtypeEmoji: { fontSize: 16 },
+  qtypeLabel: { fontSize: 12, fontWeight: '600', color: '#525C6B' },
+  qtypeDesc: { fontSize: 12, color: '#525C6B', fontStyle: 'italic', lineHeight: 18, paddingTop: 4 },
+
+  uploadBtn: { borderRadius: 8, borderWidth: 1, borderColor: '#D6EAFF', backgroundColor: '#F5F9FF', paddingVertical: 10, alignItems: 'center' },
+  uploadBtnText: { fontSize: 13, fontWeight: '700', color: '#2D5DC9' },
+  mediaRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 8 },
+  mediaThumb: { width: 56, height: 44, borderRadius: 8, backgroundColor: '#F0F0F8' },
+  mediaName: { fontSize: 12, color: '#525C6B', fontWeight: '500' },
+  audioIcon: { fontSize: 22 },
+  playBtn: { borderRadius: 8, backgroundColor: '#D6EAFF', paddingHorizontal: 10, paddingVertical: 6 },
+  playBtnText: { fontSize: 12, fontWeight: '700', color: '#1A4DA2' },
+  removeBtn: { width: 28, height: 28, borderRadius: 8, backgroundColor: '#FFE8E8', alignItems: 'center', justifyContent: 'center' },
+  removeBtnWide: { borderRadius: 8, backgroundColor: '#FFE8E8', paddingHorizontal: 10, paddingVertical: 6 },
+  removeBtnText: { fontSize: 11, fontWeight: '800', color: '#D33F13' },
+
+  secGroup: { backgroundColor: '#fff', borderRadius: 16, overflow: 'hidden' },
+  secHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  secTitle: { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  secHint: { fontSize: 12, color: '#525C6B', paddingHorizontal: 14, paddingVertical: 8 },
+  addBtn: { backgroundColor: '#D6EAFF', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 },
+  addBtnText: { fontSize: 12, fontWeight: '800', color: '#1A4DA2' },
+
+  optBlock: { borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
+  optBlockHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 10, paddingVertical: 10 },
+  optNumBadge: { width: 28, height: 28, borderRadius: 14, backgroundColor: '#E0E4F0', alignItems: 'center', justifyContent: 'center' },
+  optNum: { fontSize: 12, fontWeight: '800', color: '#525C6B' },
+  optInput: { fontSize: 14, color: '#1a1a2e', fontWeight: '500', backgroundColor: '#F8F9FF', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6, borderWidth: 1, borderColor: '#ECEEF4' },
+  correctBtn: { width: 32, height: 32, borderRadius: 8, backgroundColor: '#F0F0F8', alignItems: 'center', justifyContent: 'center' },
+  correctBtnActive: { backgroundColor: '#D6F5D6' },
+  correctBtnText: { fontSize: 15, color: '#525C6B', fontWeight: '700' },
+  // Darkened from #7DC67A (1.75:1 on the #D6F5D6 active bg) to clear WCAG AA.
+  correctBtnTextActive: { color: '#2F6B2D' },
+  pairHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
+  pairNum: { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
+  gridChip: { borderRadius: 14, borderWidth: 1.5, borderColor: '#E0E0EE', backgroundColor: '#F8F9FC', paddingHorizontal: 18, paddingVertical: 10, alignItems: 'center', minWidth: 72 },
+  gridChipActive: { backgroundColor: '#7B4FCA', borderColor: '#7B4FCA' },
+  gridChipText: { fontSize: 15, fontWeight: '900', color: '#1a1a2e' },
+  gridChipTextActive: { color: '#fff' },
+  gridChipSub: { fontSize: 9, fontWeight: '700', color: '#525C6B', marginTop: 2 },
+  removeBtnSmallText: { fontSize: 12, fontWeight: '800', color: '#D33F13' },
+  logicoWorksheetPreview: { width: '100%', height: 180, borderRadius: 10, backgroundColor: '#F8FAFC', marginBottom: 10 },
+  logicoBlockerBanner: { backgroundColor: '#FEE2E2', borderWidth: 1, borderColor: '#FCA5A5', borderRadius: 10, paddingHorizontal: 10, paddingVertical: 8, marginBottom: 10 },
+  logicoBlockerText: { fontSize: 12, fontWeight: '700', color: '#B91C1C' },
+  logicoGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  logicoCard: { width: '48%', borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 10, padding: 10, gap: 8, backgroundColor: '#FFFFFF' },
+  logicoButtonCell: { gap: 8, alignItems: 'center', justifyContent: 'center' },
+  logicoButtonLabel: { fontSize: 12, fontWeight: '700', color: '#334155', textAlign: 'center' },
+  logicoSlotCell: { gap: 4 },
+  logicoSlotInput: { fontSize: 14, color: '#1a1a2e', fontWeight: '700', backgroundColor: '#F8F9FF', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 8, borderWidth: 1, borderColor: '#ECEEF4', textAlign: 'center' },
+  logicoLabelCell: { flex: 1, gap: 4 },
+  logicoButtonCircle: { borderWidth: 2, borderColor: '#1f2937', alignItems: 'center', justifyContent: 'center' },
+  logicoButtonRingInner: { backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#9ca3af' },
+  logicoPreviewWrap: { marginHorizontal: 14, marginBottom: 14, borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 12, overflow: 'hidden' },
+  logicoPreviewRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 10, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: '#F1F5F9' },
+  logicoPreviewSlotText: { width: 24, fontSize: 12, fontWeight: '800', color: '#334155', textAlign: 'center' },
+  logicoPreviewOptionText: { flex: 1, fontSize: 12, fontWeight: '600', color: '#1e293b' },
+  logicoPreviewEmptyButton: { width: 26, height: 26, borderRadius: 13, backgroundColor: '#E2E8F0', borderWidth: 1, borderColor: '#CBD5E1' },
+
+  previewCard: { backgroundColor: '#fff', borderRadius: 20, overflow: 'hidden' },
+  previewHero: { flexDirection: 'row', alignItems: 'flex-start', gap: 14, padding: 20 },
+  previewTypeBadge: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 3, alignSelf: 'flex-start', marginBottom: 6 },
+  previewTypeBadgeText: { fontSize: 11, fontWeight: '700' },
+  previewTitle: { fontSize: 17, fontWeight: '900', color: '#1a1a2e', lineHeight: 24 },
+  previewMeta: { fontSize: 12, color: '#525C6B', marginTop: 4 },
+  previewStats: { flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#F5F7FF' },
+  previewStat: { flex: 1, alignItems: 'center', paddingVertical: 14, borderRightWidth: 1, borderRightColor: '#F5F7FF', gap: 2 },
+  previewStatVal: { fontSize: 20, fontWeight: '900', color: '#1a1a2e' },
+  previewStatLabel: { fontSize: 10, fontWeight: '700', color: '#525C6B', textTransform: 'uppercase' },
+  previewInstBlock: { margin: 14, backgroundColor: '#F8F9FF', borderRadius: 12, padding: 12 },
+  previewInstText: { fontSize: 13, color: '#5A6A8A', lineHeight: 20 },
+  previewImage: { width: '100%', height: 180, marginBottom: 8 },
+  previewOptRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF', borderRadius: 0 },
+  previewOptDot: { width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  previewOptText: { flex: 1, fontSize: 14, fontWeight: '600', color: '#1a1a2e' },
+  // Darkened from #7DC67A (2.05:1 on white) to clear WCAG AA.
+  previewCorrectBadge: { fontSize: 14, color: '#2F6B2D', fontWeight: '800' },
+  previewPairRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF', justifyContent: 'space-between' },
+  previewPairText: { fontSize: 13, fontWeight: '700', color: '#1a1a2e', flex: 1, textAlign: 'center' },
+});
+
+// ── Fill in the Blank creator styles ──────────────────────────────────────────
+const fbS = StyleSheet.create({
+  previewBox: {
+    backgroundColor: '#F0F7FF', borderRadius: 14, padding: 16,
+    borderWidth: 1, borderColor: '#C5D8F8',
+  },
+  previewLabel: {
+    fontSize: 9, fontWeight: '800', color: '#2D5DC9', letterSpacing: 1,
+    marginBottom: 8, textTransform: 'uppercase',
+  },
+  previewSentence: { fontSize: 17, fontWeight: '600', color: '#1a1a2e', lineHeight: 26, textAlign: 'center' },
+  previewBlank:    { fontWeight: '900', borderBottomWidth: 2, paddingHorizontal: 4 },
+  section:         { backgroundColor: '#fff', borderRadius: 16, padding: 16, borderWidth: 1, borderColor: '#EEF0F8' },
+  sectionHeader:   { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 },
+  sectionIcon:     { width: 36, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  sectionTitle:    { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  sectionHint:     { fontSize: 11, color: '#525C6B', marginTop: 2 },
+  optional:        { fontWeight: '500', color: '#B0B8D0' },
+  textArea:        { borderWidth: 1.5, borderColor: '#E0E8F5', borderRadius: 12, padding: 12, fontSize: 14, color: '#1a1a2e', minHeight: 72, backgroundColor: '#FAFBFF' },
+  textInput:       { borderWidth: 1.5, borderColor: '#E0E8F5', borderRadius: 12, padding: 12, fontSize: 14, color: '#1a1a2e', backgroundColor: '#FAFBFF' },
+  emptyOptions:    { alignItems: 'center', paddingVertical: 24, marginHorizontal: 14, marginBottom: 12, borderWidth: 1.5, borderColor: '#E0E8F5', borderStyle: 'dashed', borderRadius: 12, backgroundColor: '#FAFBFF' },
+  emptyOptionsTxt: { fontSize: 13, color: '#525C6B', fontWeight: '600' },
+});
+
+// ── Memory Match creator styles ────────────────────────────────────────────────
+const mmS = StyleSheet.create({
+  // sections
+  section: { backgroundColor: '#fff', borderRadius: 18, padding: 16, shadowColor: '#7B4FCA', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.07, shadowRadius: 10, elevation: 3 },
+  sectionTitle: { fontSize: 14, fontWeight: '800', color: '#1a1a2e', marginBottom: 3 },
+  sectionHint: { fontSize: 12, color: '#525C6B', fontWeight: '500', marginBottom: 12 },
+  sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 },
+  // grid size chips
+  gridRow: { flexDirection: 'row', gap: 10 },
+  gridChip: { borderRadius: 14, borderWidth: 1.5, borderColor: '#DDD8F0', backgroundColor: '#FAFBFF', paddingVertical: 14, alignItems: 'center', gap: 3 },
+  gridChipSel: { borderRadius: 14, paddingVertical: 14, alignItems: 'center', gap: 3 },
+  gridChipMain: { fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
+  gridChipMainSel: { fontSize: 17, fontWeight: '900', color: '#fff' },
+  gridChipSub: { fontSize: 10, fontWeight: '700', color: '#525C6B' },
+  gridChipSubSel: { fontSize: 10, fontWeight: '700', color: '#fff' },
+  // randomize button
+  randomBtn: { borderRadius: 11, paddingHorizontal: 14, paddingVertical: 9 },
+  randomBtnText: { fontSize: 12, fontWeight: '800', color: '#fff' },
+  // unlimited toggle
+  unlimitedChip: { borderRadius: 10, borderWidth: 1.5, borderColor: '#DDD8F0', backgroundColor: '#FAFBFF', paddingVertical: 8, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  unlimitedChipSel: { borderRadius: 10, paddingVertical: 8, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  unlimitedChipText: { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
+  unlimitedChipTextSel: { fontSize: 13, fontWeight: '800', color: '#fff' },
+  unlimitedChipSub: { fontSize: 10, fontWeight: '600', color: '#525C6B' },
+  unlimitedChipSubSel: { fontSize: 10, fontWeight: '600', color: '#fff' },
+  // 2×2 click limit grid
+  clickGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  clickChip: { borderRadius: 10, borderWidth: 1.5, borderColor: '#DDD8F0', backgroundColor: '#FAFBFF', paddingVertical: 8, alignItems: 'center', gap: 1 },
+  clickChipSel: { borderRadius: 10, paddingVertical: 8, alignItems: 'center', gap: 1 },
+  clickChipNum: { fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
+  clickChipNumSel: { fontSize: 17, fontWeight: '900', color: '#fff' },
+  clickChipSub: { fontSize: 9, fontWeight: '700', color: '#525C6B' },
+  clickChipSubSel: { fontSize: 9, fontWeight: '700', color: '#fff' },
+  // pair cards
+  pairCard: { backgroundColor: '#F8F9FF', borderRadius: 12, borderWidth: 1.5, borderColor: '#E2E8FF', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 4, gap: 5 },
+  pairCardEmpty: { borderStyle: 'dashed', borderColor: '#C8D0EE', backgroundColor: '#FAFBFF' },
+  pairImgPlaceholder: { backgroundColor: '#EEF0FA', alignItems: 'center', justifyContent: 'center' },
+  pairImgPlaceholderText: { fontSize: 22, color: '#C0C8E0', fontWeight: '300' },
+  pairLabel: { fontSize: 10, fontWeight: '700', color: '#1a1a2e', textAlign: 'center', paddingHorizontal: 2 },
+  // modal
+  modalOverlay: { flex: 1, backgroundColor: 'rgba(15,10,40,0.55)', justifyContent: 'flex-end' },
+  modalSheet: { backgroundColor: '#fff', borderTopLeftRadius: 26, borderTopRightRadius: 26, maxHeight: '85%' },
+  modalHeaderGrad: { borderTopLeftRadius: 26, borderTopRightRadius: 26, paddingHorizontal: 20, paddingVertical: 16 },
+  modalHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  modalTitle: { fontSize: 16, fontWeight: '900', color: '#1a1a2e' },
+  modalHint: { fontSize: 12, color: '#7B60B0', fontWeight: '500', marginTop: 2 },
+  modalClose: { width: 32, height: 32, borderRadius: 16, backgroundColor: 'rgba(255,255,255,0.7)', alignItems: 'center', justifyContent: 'center' },
+  modalCloseText: { fontSize: 13, fontWeight: '800', color: '#6A7280' },
+  // asset cells
+  assetCell: { alignItems: 'center', backgroundColor: '#F8F9FF', borderRadius: 12, borderWidth: 1.5, borderColor: '#E2E8FF', padding: 8, gap: 5, overflow: 'hidden' },
+  assetCellCurrent: { borderColor: '#7B4FCA', backgroundColor: '#EDE4FF', borderWidth: 2 },
+  assetCellUsed: { opacity: 0.32 },
+  assetLabel: { fontSize: 10, fontWeight: '700', color: '#1a1a2e', textAlign: 'center' },
+  assetCurrentRing: { position: 'absolute', top: 0, left: 0, right: 0, height: 3, borderTopLeftRadius: 10, borderTopRightRadius: 10 },
+});

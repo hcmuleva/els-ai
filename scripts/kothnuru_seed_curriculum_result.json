@@ -1,0 +1,295 @@
+{
+  "org": "8ba8388f-9907-486c-9883-3784c2f2f34e",
+  "classes": [
+    {
+      "classLevel": "1",
+      "topics": [
+        {
+          "topicId": "54eb3dd0-8183-4db5-a957-f938559c56ad",
+          "contentId": "4caa684b-be8d-40ce-8623-13e86119aead",
+          "quizId": "55c69c7b-dfb5-4b0c-96ce-46cb4a5286bd"
+        },
+        {
+          "topicId": "877bdf3a-b99c-4ef8-a6d7-e6fc5d176b3e",
+          "contentId": "edec7c75-f4aa-476d-bc53-a539becfe8f4",
+          "quizId": "23cd2e10-5a88-4c03-a262-bf2533d02bd7"
+        }
+      ],
+      "classroomId": "52ca4a5f-0e83-4746-8ce4-44d5c8929ec5",
+      "stories": [
+        {
+          "id": "d80935ff-f20c-40de-a4b2-eca93fc5ab65",
+          "title": "The Hare and the Tortoise",
+          "status": "live"
+        },
+        {
+          "id": "fe068692-1d9a-4be7-8ac0-ed693f321a28",
+          "title": "The Honest Woodcutter",
+          "status": "scheduled"
+        }
+      ]
+    },
+    {
+      "classLevel": "2",
+      "topics": [
+        {
+          "topicId": "fbece530-864f-4c90-b360-fbf56c18811f",
+          "contentId": "8912d09c-99df-4183-9df3-5e98e386ac12",
+          "quizId": "84cb69b7-06c3-4c7d-83f5-284c73ef33a8"
+        },
+        {
+          "topicId": "ed15de1b-2197-4889-92b4-0f7e320bb4b3",
+          "contentId": "39c6f649-78aa-4b2a-b3e0-a8a79de89a42",
+          "quizId": "ba5d4143-9217-41aa-9898-5d590381b27f"
+        }
+      ],
+      "classroomId": "8f8c0577-647a-42d5-9034-2971d1c6f31b",
+      "stories": [
+        {
+          "id": "30c5f6e7-1f6e-4145-a55b-e6f306a8cf98",
+          "title": "The Greedy Dog",
+          "status": "live"
+        },
+        {
+          "id": "84613436-c13f-4044-8045-237ec9bdc536",
+          "title": "The Ant and the Grasshopper",
+          "status": "scheduled"
+        }
+      ]
+    },
+    {
+      "classLevel": "4",
+      "topics": [
+        {
+          "topicId": "3c36cd0a-ec72-452f-8670-3ce797643ab3",
+          "contentId": "d2e22931-34a7-49e4-8aa2-034508b7c7f1",
+          "quizId": "2aa8b827-5f09-482f-aa3f-9d93c6f7962f"
+        },
+        {
+          "topicId": "2618d328-b94d-4fb5-b093-3da3f4c73f0f",
+          "contentId": "b61cfa46-25a1-4016-aac4-55685785a2bf",
+          "quizId": "6c70793f-fcc1-4fe1-a834-1ac5c868015e"
+        }
+      ],
+      "classroomId": "857f59df-8dba-4439-9aa8-d048fb0b6e49",
+      "stories": [
+        {
+          "id": "1b754ae7-e34c-4152-806a-0e2e84de9e1e",
+          "title": "The Boy Who Cried Wolf",
+          "status": "live"
+        },
+        {
+          "id": "c776857c-a540-4c0c-be2a-f9deb4993b95",
+          "title": "King Bruce and the Spider",
+          "status": "scheduled"
+        }
+      ]
+    },
+    {
+      "classLevel": "5",
+      "topics": [
+        {
+          "topicId": "a20740b3-46d3-4859-bac4-5eec66e5671b",
+          "contentId": "cead3e22-b2d9-4f2b-a80d-ab8b4dc231ca",
+          "quizId": "cf4c34cf-cfac-4d56-8d23-f2d1c4546a42"
+        },
+        {
+          "topicId": "61ba4375-360f-45b7-b903-e32d4daaf9c6",
+          "contentId": "b358e5b5-df72-4571-921e-0baa33784146",
+          "quizId": "7a0d3d2a-385a-44d1-8fdc-3b687b33de67"
+        }
+      ],
+      "classroomId": "9c930104-b55f-4032-ba1e-d10869122a76",
+      "stories": [
+        {
+          "id": "2d0e6920-ab27-4dcc-9ea5-0c89762fa3b5",
+          "title": "The Story of Ekalavya",
+          "status": "live"
+        },
+        {
+          "id": "b51ed0e1-87b7-43ba-9a6f-31a83282b773",
+          "title": "The Magic Pot",
+          "status": "scheduled"
+        }
+      ]
+    },
+    {
+      "classLevel": "6",
+      "topics": [
+        {
+          "topicId": "c369daa5-9691-4403-86e1-b63f16a2ff1a",
+          "contentId": "67d0b1f3-131b-42ad-a121-0af04a017422",
+          "quizId": "310ff212-8372-4599-844e-62ccd51c21bc"
+        },
+        {
+          "topicId": "9a375eee-ad42-453a-8c02-2d5d32f1356c",
+          "contentId": "9977a96c-2a91-46cd-8584-c80d87f55f07",
+          "quizId": "3e401312-7039-4fea-aeca-169d63b58de1"
+        }
+      ],
+      "classroomId": "1e6c47c1-1dc1-4f41-ae5c-803a40a3d318",
+      "stories": [
+        {
+          "id": "787d4d68-db34-48cd-9cdb-7b759634da43",
+          "title": "Newton and the Apple",
+          "status": "live"
+        },
+        {
+          "id": "2ae0863f-1532-4414-97db-d309afa3a441",
+          "title": "The Clever Birbal",
+          "status": "scheduled"
+        }
+      ]
+    },
+    {
+      "classLevel": "8",
+      "topics": [
+        {
+          "topicId": "b37214a9-f4fe-4646-8786-156c9dc58e19",
+          "contentId": "d55adf31-8949-43a9-adcc-1ca2968a84d9",
+          "quizId": "0bbf453d-92ad-4657-976a-1ff101729ec1"
+        },
+        {
+          "topicId": "63046c15-b670-4e3f-aaa1-3ebf6d24c3e3",
+          "contentId": "d1cc47d0-0cac-4707-bfc9-b6d3f4175a32",
+          "quizId": "4b813cb2-ed01-4e44-9472-83253479b9f6"
+        }
+      ],
+      "classroomId": "9848627e-dbf0-4455-884a-a49cc9f40931",
+      "stories": [
+        {
+          "id": "47ae65df-198c-4233-a900-5abd1545db96",
+          "title": "The Discovery of Penicillin",
+          "status": "live"
+        },
+        {
+          "id": "58520f3f-5ac7-4338-981e-7d0d454e3385",
+          "title": "Kalpana Chawla's Dream",
+          "status": "scheduled"
+        }
+      ]
+    },
+    {
+      "classLevel": "9",
+      "topics": [
+        {
+          "topicId": "8482f157-dd04-4390-aad6-d7eaa3ea9f6a",
+          "contentId": "520df216-5f42-42d2-8084-bf5b06a20656",
+          "quizId": "91d505df-597d-47ec-848a-d99b1b9f9de1"
+        },
+        {
+          "topicId": "bb19bf98-c261-4cd9-9d97-76419d6fdd3c",
+          "contentId": "7c2cca82-d7a6-46c9-82f2-1b9e40398f03",
+          "quizId": "0286dd3d-66e4-4316-86c7-8b707d169b88"
+        }
+      ],
+      "classroomId": "7c59508c-8ad5-445d-b77b-7285fa3e453f",
+      "stories": [
+        {
+          "id": "fae522a9-9efc-46c8-8ea7-da48314ad221",
+          "title": "Madame Curie's Glow",
+          "status": "live"
+        },
+        {
+          "id": "81fbed42-5549-4047-9d9f-6addcaec4078",
+          "title": "CV Raman and the Blue Sea",
+          "status": "scheduled"
+        }
+      ]
+    },
+    {
+      "classLevel": "10",
+      "topics": [
+        {
+          "topicId": "32db49a1-412f-4251-b469-5f26721ce148",
+          "contentId": "9daabd2d-b6a9-4ee6-bfda-8592d0defb86",
+          "quizId": "57d7a496-3b4c-4a9d-906c-79dac812b336"
+        },
+        {
+          "topicId": "2380b6a3-27a3-4d93-b7dc-3d3bb4b3a9b1",
+          "contentId": "d074d96b-01da-4601-9128-c490ff07a0d9",
+          "quizId": "0b5c8837-dfb1-4316-82b5-9021f906335c"
+        }
+      ],
+      "classroomId": "442b6a4f-37fa-4da6-9c68-84694727e009",
+      "stories": [
+        {
+          "id": "2726fc81-b8c1-42a4-ad02-0cb3f0191886",
+          "title": "Ramanujan's Notebooks",
+          "status": "live"
+        },
+        {
+          "id": "1a82c9b7-077e-444a-815a-d66e4b6fcfd9",
+          "title": "Mission Mangalyaan",
+          "status": "scheduled"
+        }
+      ]
+    },
+    {
+      "classLevel": "11",
+      "topics": [
+        {
+          "topicId": "00106e9f-9f31-4e4c-afbe-03b72af12b89",
+          "contentId": "0871c592-e9af-4e48-8a6c-a7286f08cd03",
+          "quizId": "82e09eca-22bf-4737-96d7-3cf8c21b337f"
+        },
+        {
+          "topicId": "79181a3b-f5a3-4a9d-9335-55d7f702ca30",
+          "contentId": "e9f9b930-280c-4da9-8241-f96387f9a977",
+          "quizId": "0ac2019a-bf39-4b39-9909-d627a298c2c2"
+        }
+      ],
+      "classroomId": "8fea768e-bb05-4484-b106-08b51edaba97",
+      "stories": [
+        {
+          "id": "85cba6d6-73a3-467f-b194-fcec221590b5",
+          "title": "The Wright Brothers' First Flight",
+          "status": "live"
+        },
+        {
+          "id": "994552cf-6ab9-4e3c-bab8-e036abac4eda",
+          "title": "Hawking's Universe",
+          "status": "scheduled"
+        }
+      ]
+    },
+    {
+      "classLevel": "12",
+      "topics": [
+        {
+          "topicId": "1a7b57f3-2290-4958-9edd-c737b67f3ac4",
+          "contentId": "9566d083-0851-4082-98e1-336dd5b25f1c",
+          "quizId": "55c6332a-e6f4-4c6a-943b-58ecbcb650dc"
+        },
+        {
+          "topicId": "17ce0387-b4b8-480e-97dc-a7a0f13296e3",
+          "contentId": "dffef31d-f139-4545-a599-264ba0e494f6",
+          "quizId": "8aa8cd80-7941-4205-b60b-1f35a0c6dea7"
+        }
+      ],
+      "classroomId": "add1e103-4ae5-43bf-852d-96810a14ec38",
+      "stories": [
+        {
+          "id": "a3001ba3-815d-427b-bbc0-17186ab7d12a",
+          "title": "Einstein's Year of Miracles",
+          "status": "live"
+        },
+        {
+          "id": "f661853a-a2b0-4f9f-afca-968b2c9f15f3",
+          "title": "APJ Abdul Kalam: Wings of Fire",
+          "status": "scheduled"
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "topics": 20,
+    "contents": 20,
+    "quizzes": 40,
+    "questions": 140,
+    "classrooms": 10,
+    "stories": 20,
+    "failures": 0
+  },
+  "failures": []
+}

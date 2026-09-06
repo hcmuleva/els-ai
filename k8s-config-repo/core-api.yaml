@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-api
+  namespace: els-ai
+  labels:
+    app.kubernetes.io/name: core-api
+    app.kubernetes.io/part-of: els
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: core-api
+  template:
+    metadata:
+      labels:
+        app: core-api
+        app.kubernetes.io/name: core-api
+        app.kubernetes.io/part-of: els
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: core-api
+          image: harishdell/els-ai-core-api:2.1
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 4020
+          env:
+            - name: PORT
+              value: "4020"
+          envFrom:
+            - configMapRef:
+                name: els-ai-config
+            - secretRef:
+                name: els-ai-secrets
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /livez
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: core-api
+  namespace: els-ai
+  labels:
+    app.kubernetes.io/name: core-api
+    app.kubernetes.io/part-of: els
+spec:
+  selector:
+    app: core-api
+  ports:
+    - name: http
+      port: 4020
+      targetPort: http

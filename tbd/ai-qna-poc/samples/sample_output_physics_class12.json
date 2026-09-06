@@ -1,0 +1,436 @@
+{
+  "meta": {
+    "class_level": "12",
+    "subject": "physics",
+    "difficulty": "medium",
+    "requested_count": 10,
+    "returned_count": 10,
+    "topic": "current_electricity",
+    "allowed_types": [
+      "single_choice",
+      "multi_choice",
+      "true_false"
+    ],
+    "provider": "droid-authored",
+    "format": "book-markdown-latex",
+    "generated_at": "2026-06-20T09:56:05.880774+00:00"
+  },
+  "source": {
+    "mode": "sample",
+    "dataset": null,
+    "pdf_path": null,
+    "pdf_url": null,
+    "detected_topic": "current_electricity",
+    "text_chars": 944,
+    "note": "PDF_SOURCE_MODE=sample"
+  },
+  "validation": {
+    "passed": true,
+    "checks": [
+      "10 questions passed structural validation",
+      "answer keys derived from correct options",
+      "book-format math delimiters checked",
+      "7 verified by deterministic sympy checks",
+      "LLM critic skipped (no API key)"
+    ],
+    "warnings": [],
+    "deduped": 0,
+    "verified": 7,
+    "refuted": 0,
+    "critic": "skipped",
+    "repaired": 0,
+    "attempts": 1
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multi_choice",
+      "title_markdown": "Select **all** correct expressions for the power $P$ dissipated in a resistor $R$ carrying current $I$ across potential difference $V$.",
+      "instruction": "Select all correct options.",
+      "difficulty": "medium",
+      "points": 10,
+      "sort_order": 1,
+      "options": [
+        {
+          "id": "q1_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$P = VI$",
+          "is_correct": true
+        },
+        {
+          "id": "q1_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$P = I^2 R$",
+          "is_correct": true
+        },
+        {
+          "id": "q1_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$P = \\dfrac{V^2}{R}$",
+          "is_correct": true
+        },
+        {
+          "id": "q1_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$P = \\dfrac{IR}{V}$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q1_opt_1",
+        "q1_opt_2",
+        "q1_opt_3"
+      ],
+      "explanation_markdown": "**Start from the definition.** Electrical power is energy delivered per second: $$P = VI.$$\n\n**Step 1 — Swap out $V$.** Using Ohm's law $V = IR$: $$P = (IR)\\,I = I^2 R.$$\n\n**Step 2 — Swap out $I$ instead.** Using $I = \\dfrac{V}{R}$: $$P = V\\cdot\\dfrac{V}{R} = \\dfrac{V^2}{R}.$$\n\n**Why the last one is wrong.** $\\dfrac{IR}{V} = \\dfrac{V}{V} = 1$, which is just a number, not power.\n\n**Answer.** The correct forms are $P = VI$, $P = I^2R$ and $P = \\dfrac{V^2}{R}$.",
+      "source_style_ref": "CBSE Class 12 Physics, Current Electricity (electric power)"
+    },
+    {
+      "id": "q2",
+      "type": "single_choice",
+      "title_markdown": "A wire of resistivity $\\rho$, length $L$ and area of cross-section $A$ has resistance $R$. If it is stretched so that its length doubles (volume constant), the new resistance is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "medium",
+      "points": 10,
+      "sort_order": 2,
+      "options": [
+        {
+          "id": "q2_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$4R$",
+          "is_correct": true
+        },
+        {
+          "id": "q2_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$2R$",
+          "is_correct": false
+        },
+        {
+          "id": "q2_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$R/2$",
+          "is_correct": false
+        },
+        {
+          "id": "q2_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$R/4$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q2_opt_1"
+      ],
+      "explanation_markdown": "**Given.** Original resistance $R = \\rho\\dfrac{L}{A}$; the wire is stretched so its length doubles, with the volume unchanged.\n\n**Why volume matters.** Stretching only reshapes the same metal, so the volume $V = AL$ stays fixed. If the length doubles, the area must halve to keep $V$ constant.\n\n**Step 1 — New length and area.** $L' = 2L$ and, since $A'L' = AL$, we get $A' = \\dfrac{A}{2}$.\n\n**Step 2 — New resistance.** $$R' = \\rho\\dfrac{L'}{A'} = \\rho\\dfrac{2L}{A/2} = 4\\,\\rho\\dfrac{L}{A}.$$\n\n**Step 3 — Recognise the old resistance.** Since $\\rho\\dfrac{L}{A} = R$, $$R' = 4R.$$\n\n**Answer.** The resistance becomes $4R$ (stretching makes a wire thinner *and* longer, both of which raise resistance).",
+      "source_style_ref": "CBSE Class 12 Physics, Current Electricity (resistivity, 2-mark)"
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "title_markdown": "The equivalent resistance of a parallel combination is always **greater** than the largest individual resistance.",
+      "instruction": "State whether the statement is True or False.",
+      "difficulty": "medium",
+      "points": 10,
+      "sort_order": 3,
+      "options": [
+        {
+          "id": "q3_opt_1",
+          "slot_position": 1,
+          "label_markdown": "True",
+          "is_correct": false
+        },
+        {
+          "id": "q3_opt_2",
+          "slot_position": 2,
+          "label_markdown": "False",
+          "is_correct": true
+        }
+      ],
+      "answer_key": [
+        "q3_opt_2"
+      ],
+      "explanation_markdown": "**The rule.** For resistors in parallel, $$\\dfrac{1}{R_{eq}} = \\sum \\dfrac{1}{R_i}.$$\n\n**Think about it.** Adding another parallel branch gives the current an *extra* path to flow through, which makes it easier for current to pass, i.e. lowers the resistance.\n\n**Conclusion.** So $R_{eq}$ comes out *smaller* than even the smallest branch, never larger than the biggest one.\n\n**Answer.** False.",
+      "source_style_ref": "CBSE Class 12 Physics, Current Electricity (parallel combination)"
+    },
+    {
+      "id": "q4",
+      "type": "single_choice",
+      "title_markdown": "Two resistors $R_1 = 6\\,\\Omega$ and $R_2 = 3\\,\\Omega$ are connected in **series**. The equivalent resistance $R_{eq}$ is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "medium",
+      "points": 10,
+      "sort_order": 4,
+      "options": [
+        {
+          "id": "q4_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$9\\,\\Omega$",
+          "is_correct": true
+        },
+        {
+          "id": "q4_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$2.0\\,\\Omega$",
+          "is_correct": false
+        },
+        {
+          "id": "q4_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$3\\,\\Omega$",
+          "is_correct": false
+        },
+        {
+          "id": "q4_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$18\\,\\Omega$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q4_opt_1"
+      ],
+      "explanation_markdown": "**Given.** $R_1 = 6\\,\\Omega$ and $R_2 = 3\\,\\Omega$, connected in series.\n\n**The idea.** In series there is a single path, so the same current flows through both resistors and their resistances add up.\n\n**Step 1 — Series rule.** $$R_{eq} = R_1 + R_2.$$\n\n**Step 2 — Substitute the values.** $$R_{eq} = 6 + 3 = 9\\,\\Omega.$$\n\n**Answer.** $R_{eq} = 9\\,\\Omega$.",
+      "source_style_ref": "CBSE Class 12 Physics, Current Electricity (parametrised numerical)"
+    },
+    {
+      "id": "q5",
+      "type": "single_choice",
+      "title_markdown": "Two resistors $R_1 = 3\\,\\Omega$ and $R_2 = 6\\,\\Omega$ are connected in **parallel**. The equivalent resistance $R_{eq}$ is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "medium",
+      "points": 10,
+      "sort_order": 5,
+      "options": [
+        {
+          "id": "q5_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$2.0\\,\\Omega$",
+          "is_correct": true
+        },
+        {
+          "id": "q5_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$9\\,\\Omega$",
+          "is_correct": false
+        },
+        {
+          "id": "q5_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$18\\,\\Omega$",
+          "is_correct": false
+        },
+        {
+          "id": "q5_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$3\\,\\Omega$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q5_opt_1"
+      ],
+      "explanation_markdown": "**Given.** $R_1 = 3\\,\\Omega$ and $R_2 = 6\\,\\Omega$, connected in parallel.\n\n**The idea.** Parallel branches give the current extra paths, so the combined resistance comes out smaller than either branch.\n\n**Step 1 — Parallel rule.** $$\\dfrac{1}{R_{eq}} = \\dfrac{1}{R_1} + \\dfrac{1}{R_2}.$$\n\n**Step 2 — Combine into one fraction.** $$R_{eq} = \\dfrac{R_1 R_2}{R_1 + R_2}.$$\n\n**Step 3 — Substitute the values.** $$R_{eq} = \\dfrac{18}{9} = 2.0\\,\\Omega.$$\n\n**Answer.** $R_{eq} = 2.0\\,\\Omega$.",
+      "source_style_ref": "CBSE Class 12 Physics, Current Electricity (parametrised numerical)"
+    },
+    {
+      "id": "q6",
+      "type": "single_choice",
+      "title_markdown": "Two resistors $R_1 = 3\\,\\Omega$ and $R_2 = 7\\,\\Omega$ are connected in **series**. The equivalent resistance $R_{eq}$ is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "medium",
+      "points": 10,
+      "sort_order": 6,
+      "options": [
+        {
+          "id": "q6_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$10\\,\\Omega$",
+          "is_correct": true
+        },
+        {
+          "id": "q6_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$2.1\\,\\Omega$",
+          "is_correct": false
+        },
+        {
+          "id": "q6_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$4\\,\\Omega$",
+          "is_correct": false
+        },
+        {
+          "id": "q6_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$21\\,\\Omega$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q6_opt_1"
+      ],
+      "explanation_markdown": "**Given.** $R_1 = 3\\,\\Omega$ and $R_2 = 7\\,\\Omega$, connected in series.\n\n**The idea.** In series there is a single path, so the same current flows through both resistors and their resistances add up.\n\n**Step 1 — Series rule.** $$R_{eq} = R_1 + R_2.$$\n\n**Step 2 — Substitute the values.** $$R_{eq} = 3 + 7 = 10\\,\\Omega.$$\n\n**Answer.** $R_{eq} = 10\\,\\Omega$.",
+      "source_style_ref": "CBSE Class 12 Physics, Current Electricity (parametrised numerical)"
+    },
+    {
+      "id": "q7",
+      "type": "single_choice",
+      "title_markdown": "A device operates at $V = 5\\,\\text{V}$ and draws a current $I = 2\\,\\text{A}$. The electrical power consumed is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "medium",
+      "points": 10,
+      "sort_order": 7,
+      "options": [
+        {
+          "id": "q7_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$10\\,\\text{W}$",
+          "is_correct": true
+        },
+        {
+          "id": "q7_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$2.5\\,\\text{W}$",
+          "is_correct": false
+        },
+        {
+          "id": "q7_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$7\\,\\text{W}$",
+          "is_correct": false
+        },
+        {
+          "id": "q7_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$5\\,\\text{W}$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q7_opt_1"
+      ],
+      "explanation_markdown": "**Given.** $V = 5\\,\\text{V}$ and $I = 2\\,\\text{A}$.\n\n**Step 1 — Power relation.** Electrical power is $$P = VI.$$\n\n**Step 2 — Substitute the values.** $$P = 5 \\times 2 = 10\\,\\text{W}.$$\n\n**Answer.** $P = 10\\,\\text{W}$.",
+      "source_style_ref": "CBSE Class 10/12 Physics, Electricity (parametrised numerical)"
+    },
+    {
+      "id": "q8",
+      "type": "single_choice",
+      "title_markdown": "Two resistors $R_1 = 5\\,\\Omega$ and $R_2 = 3\\,\\Omega$ are connected in **series**. The equivalent resistance $R_{eq}$ is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "medium",
+      "points": 10,
+      "sort_order": 8,
+      "options": [
+        {
+          "id": "q8_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$8\\,\\Omega$",
+          "is_correct": true
+        },
+        {
+          "id": "q8_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$1.88\\,\\Omega$",
+          "is_correct": false
+        },
+        {
+          "id": "q8_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$2\\,\\Omega$",
+          "is_correct": false
+        },
+        {
+          "id": "q8_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$15\\,\\Omega$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q8_opt_1"
+      ],
+      "explanation_markdown": "**Given.** $R_1 = 5\\,\\Omega$ and $R_2 = 3\\,\\Omega$, connected in series.\n\n**The idea.** In series there is a single path, so the same current flows through both resistors and their resistances add up.\n\n**Step 1 — Series rule.** $$R_{eq} = R_1 + R_2.$$\n\n**Step 2 — Substitute the values.** $$R_{eq} = 5 + 3 = 8\\,\\Omega.$$\n\n**Answer.** $R_{eq} = 8\\,\\Omega$.",
+      "source_style_ref": "CBSE Class 12 Physics, Current Electricity (parametrised numerical)"
+    },
+    {
+      "id": "q9",
+      "type": "single_choice",
+      "title_markdown": "Two resistors $R_1 = 5\\,\\Omega$ and $R_2 = 8\\,\\Omega$ are connected in **series**. The equivalent resistance $R_{eq}$ is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "medium",
+      "points": 10,
+      "sort_order": 9,
+      "options": [
+        {
+          "id": "q9_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$13\\,\\Omega$",
+          "is_correct": true
+        },
+        {
+          "id": "q9_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$3.08\\,\\Omega$",
+          "is_correct": false
+        },
+        {
+          "id": "q9_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$3\\,\\Omega$",
+          "is_correct": false
+        },
+        {
+          "id": "q9_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$40\\,\\Omega$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q9_opt_1"
+      ],
+      "explanation_markdown": "**Given.** $R_1 = 5\\,\\Omega$ and $R_2 = 8\\,\\Omega$, connected in series.\n\n**The idea.** In series there is a single path, so the same current flows through both resistors and their resistances add up.\n\n**Step 1 — Series rule.** $$R_{eq} = R_1 + R_2.$$\n\n**Step 2 — Substitute the values.** $$R_{eq} = 5 + 8 = 13\\,\\Omega.$$\n\n**Answer.** $R_{eq} = 13\\,\\Omega$.",
+      "source_style_ref": "CBSE Class 12 Physics, Current Electricity (parametrised numerical)"
+    },
+    {
+      "id": "q10",
+      "type": "single_choice",
+      "title_markdown": "A device operates at $V = 10\\,\\text{V}$ and draws a current $I = 5\\,\\text{A}$. The electrical power consumed is:",
+      "instruction": "Choose the one correct option.",
+      "difficulty": "medium",
+      "points": 10,
+      "sort_order": 10,
+      "options": [
+        {
+          "id": "q10_opt_1",
+          "slot_position": 1,
+          "label_markdown": "$50\\,\\text{W}$",
+          "is_correct": true
+        },
+        {
+          "id": "q10_opt_2",
+          "slot_position": 2,
+          "label_markdown": "$2.0\\,\\text{W}$",
+          "is_correct": false
+        },
+        {
+          "id": "q10_opt_3",
+          "slot_position": 3,
+          "label_markdown": "$15\\,\\text{W}$",
+          "is_correct": false
+        },
+        {
+          "id": "q10_opt_4",
+          "slot_position": 4,
+          "label_markdown": "$10\\,\\text{W}$",
+          "is_correct": false
+        }
+      ],
+      "answer_key": [
+        "q10_opt_1"
+      ],
+      "explanation_markdown": "**Given.** $V = 10\\,\\text{V}$ and $I = 5\\,\\text{A}$.\n\n**Step 1 — Power relation.** Electrical power is $$P = VI.$$\n\n**Step 2 — Substitute the values.** $$P = 10 \\times 5 = 50\\,\\text{W}.$$\n\n**Answer.** $P = 50\\,\\text{W}$.",
+      "source_style_ref": "CBSE Class 10/12 Physics, Electricity (parametrised numerical)"
+    }
+  ]
+}

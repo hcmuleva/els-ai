@@ -1,0 +1,16 @@
+{
+  "questionsScanned": 50,
+  "questionsUpdated": 6,
+  "unmatched": {},
+  "reused": [
+    "namaste.svg"
+  ],
+  "downloaded": [
+    "abc.svg  <-  https://api.iconify.design/noto/input-latin-uppercase.svg"
+  ],
+  "failed": [],
+  "localReuse": [
+    "/media/flags/m/IN.svg",
+    "/media/flags/m/IN.svg"
+  ]
+}

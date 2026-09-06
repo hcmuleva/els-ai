@@ -1,0 +1,6 @@
+CBSE CLASS X SCIENCE (CHEMISTRY) - SAMPLE QUESTION PAPER (bundled fallback)
+
+1. Define pH. Classify solutions as acidic, basic or neutral and describe the
+   action of acids and bases on litmus (indicators, neutralisation).
+2. Classify NaOH + HCl -> NaCl + H2O and 2Mg + O2 -> 2MgO by reaction type
+   (combination reaction, displacement, balanced equation, oxidation).

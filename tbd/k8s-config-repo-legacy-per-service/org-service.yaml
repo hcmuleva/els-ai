@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: org-service
+  namespace: els-ai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: org-service
+  template:
+    metadata:
+      labels:
+        app: org-service
+    spec:
+      initContainers:
+        - name: run-migrations
+          image: harishdell/els-ai-org-service:2.1
+          imagePullPolicy: Always
+          command: ["sh", "-c", "npm run migrate"]
+          envFrom:
+            - configMapRef:
+                name: els-ai-config
+            - secretRef:
+                name: els-ai-secrets
+      containers:
+        - name: org-service
+          image: harishdell/els-ai-org-service:2.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4012
+          env:
+            - name: PORT
+              value: "4012"
+          envFrom:
+            - configMapRef:
+                name: els-ai-config
+            - secretRef:
+                name: els-ai-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 4012
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 4012
+            initialDelaySeconds: 20
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: org-service
+  namespace: els-ai
+spec:
+  selector:
+    app: org-service
+  ports:
+    - name: http
+      port: 4012
+      targetPort: 4012

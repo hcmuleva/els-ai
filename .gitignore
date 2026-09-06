@@ -1,0 +1,23 @@
+node_modules/
+**/node_modules/
+
+.env
+.env.*
+**/.env
+**/.env.*
+
+**/logs
+logs/
+*.log
+venv/
+__pycache__/
+**/.venv/
+k8s-els-ai
+
+# Local-only content, DB dumps, and archives (kept on disk, not tracked)
+content_generator/
+dump/
+Before_AI_AUOMATIN_dump.zip
+*.dump
+k8s-config-repo/secrets.yaml
+ai-qna-poc/*

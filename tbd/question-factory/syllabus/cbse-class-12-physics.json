@@ -1,0 +1,25 @@
+{
+  "class_level": "12",
+  "subject": "physics",
+  "chapters": {
+    "Electrostatics": [
+      "Coulomb's law",
+      "Electric field due to continuous charge distribution",
+      "Gauss's law and applications",
+      "Electric potential and potential energy",
+      "Capacitance and capacitors"
+    ],
+    "Current Electricity": [
+      "Ohm's law and resistance",
+      "Series and parallel combinations",
+      "Electrical power and energy",
+      "Kirchhoff's laws and Wheatstone bridge"
+    ],
+    "Modern Physics": [
+      "Photoelectric effect",
+      "Bohr model of the atom",
+      "Dual nature of matter and radiation",
+      "Nuclei and radioactivity"
+    ]
+  }
+}

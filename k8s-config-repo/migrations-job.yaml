@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: els-migrations
+  namespace: els-ai
+  labels:
+    app.kubernetes.io/name: migrations
+    app.kubernetes.io/part-of: els
+spec:
+  backoffLimit: 2
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: migrations
+        app.kubernetes.io/part-of: els
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: migrations
+          image: harishdell/els-ai-core-api:2.1
+          imagePullPolicy: Always
+          command: ["node", "scripts/migrate.cjs"]
+          envFrom:
+            - configMapRef:
+                name: els-ai-config
+            - secretRef:
+                name: els-ai-secrets

@@ -1,0 +1,10 @@
+CBSE CLASS XII CHEMISTRY - SAMPLE QUESTION PAPER (bundled fallback)
+
+1. Define standard electrode potential. What is the electrode potential of the
+   standard hydrogen electrode (SHE)?
+2. Write the Nernst equation for a galvanic cell at 298 K and identify the
+   meaning of the 0.0591 factor. Distinguish anode and cathode (oxidation,
+   reduction, electrolysis).
+3. Derive the units of the rate constant for a first-order reaction and show
+   that the half-life is independent of initial concentration (chemical
+   kinetics, order of reaction, activation energy).

@@ -1,0 +1,395 @@
+import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState, useCallback } from 'react';
+import { AppUser, UserRole } from '../types/roles';
+import { getStorageItem, setStorageItem, deleteStorageItem } from '../utils/storage';
+
+const trimTrailingSlash = (url: string) => url.replace(/\/+$/, '');
+
+const resolveApiBaseUrl = () => {
+  const configuredUrl = process.env.EXPO_PUBLIC_API_BASE_URL || process.env.EXPO_PUBLIC_API_URL;
+  if (configuredUrl && configuredUrl.trim().length > 0) return trimTrailingSlash(configuredUrl.trim());
+
+  if (typeof window !== 'undefined') return '/els-ai/api';
+  return 'http://localhost:4000';
+};
+
+export const API_BASE_URL = resolveApiBaseUrl();
+
+// Refresh tokens are single-use (rotated + revoked server-side), so concurrent
+// 401s must share ONE refresh call. Otherwise the losing requests retry with an
+// already-revoked token and the user is falsely logged out (e.g. on the burst
+// of requests that fires on every reload / app update).
+let inFlightRefresh: Promise<{ accessToken: string | null; revoked: boolean }> | null = null;
+
+async function performTokenRefresh(): Promise<{ accessToken: string | null; revoked: boolean }> {
+  const refresh = await getStorageItem('refreshToken');
+  if (!refresh) return { accessToken: null, revoked: true };
+  try {
+    const refreshResponse = await fetch(`${API_BASE_URL}/auth/refresh`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refreshToken: refresh }),
+    });
+    if (refreshResponse.ok) {
+      const tokens = await refreshResponse.json();
+      await setStorageItem('accessToken', tokens.accessToken);
+      await setStorageItem('refreshToken', tokens.refreshToken);
+      return { accessToken: tokens.accessToken as string, revoked: false };
+    }
+    // Only an explicit auth rejection means the session is genuinely dead.
+    if (refreshResponse.status === 401 || refreshResponse.status === 403) {
+      return { accessToken: null, revoked: true };
+    }
+    // Server hiccup (5xx etc.) — transient, keep the session.
+    return { accessToken: null, revoked: false };
+  } catch (e) {
+    // Network/transient failure — keep the session and let the caller retry.
+    console.warn('Token refresh failed', e);
+    return { accessToken: null, revoked: false };
+  }
+}
+
+function refreshAccessTokenOnce() {
+  if (!inFlightRefresh) {
+    inFlightRefresh = performTokenRefresh().finally(() => {
+      inFlightRefresh = null;
+    });
+  }
+  return inFlightRefresh;
+}
+
+type AuthContextValue = {
+  user: AppUser | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  signIn: (identifier: string, password?: string) => Promise<{ success: boolean; error?: string }>;
+  signUp: (payload: {
+    firstName: string;
+    lastName: string;
+    email?: string;
+    mobileNumber?: string;
+    password?: string;
+    role: Extract<UserRole, 'student' | 'teacher' | 'parent'>;
+    classLevel?: string;
+    childRegistrationId?: string;
+    formStartedAt: number;
+    botField?: string;
+  }) => Promise<{ success: boolean; error?: string }>;
+  signOut: () => Promise<void>;
+  setActiveRole: (role: UserRole) => Promise<void>;
+  refreshUser: () => Promise<void>;
+  apiFetch: (path: string, options?: RequestInit) => Promise<Response>;
+  deleteChildAccount: (registrationId: string) => Promise<{ success: boolean; error?: string }>;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; error?: string }>;
+};
+
+const AuthContext = createContext<AuthContextValue | null>(null);
+
+export function AuthProvider({ children }: PropsWithChildren) {
+  const [user, setUser] = useState<AppUser | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Helper: Get cached tokens
+  const getAccessToken = async () => getStorageItem('accessToken');
+
+  // Load profile on start, then background-refresh to get fresh classAssignments
+  useEffect(() => {
+    async function loadUser() {
+      let parsedUser: AppUser | null = null;
+      try {
+        const cachedUser = await getStorageItem('user');
+        const token = await getAccessToken();
+        if (cachedUser && token) {
+          parsedUser = JSON.parse(cachedUser);
+          setUser(parsedUser);
+          setIsAuthenticated(true);
+        }
+      } catch (e) {
+        console.warn('Failed to load user state', e);
+      } finally {
+        setIsLoading(false);
+      }
+
+      // Background refresh: pull fresh profile (including classAssignments)
+      // so stale cached data is hydrated without requiring re-login
+      if (parsedUser) {
+        try {
+          const token = await getAccessToken();
+          if (token) {
+            const res = await fetch(`${API_BASE_URL}/users/${parsedUser.id}`, {
+              headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+            });
+            if (res.ok) {
+              const freshUser = await res.json();
+              await setStorageItem('user', JSON.stringify(freshUser));
+              setUser(freshUser);
+            }
+          }
+        } catch (_e) {
+          // Non-critical; stale cache still works for the session
+        }
+      }
+    }
+    loadUser();
+  }, []);
+
+  // Authenticated fetch wrapper with automatic token refresh rotation
+  const apiFetch = async (path: string, options: RequestInit = {}): Promise<Response> => {
+    let token = await getAccessToken();
+    const headers = new Headers(options.headers || {});
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
+    headers.set('Content-Type', 'application/json');
+
+    const fetchOptions = { ...options, headers };
+    let response = await fetch(`${API_BASE_URL}${path}`, fetchOptions);
+
+    // If unauthorized, run a single shared token refresh and retry once.
+    if (response.status === 401) {
+      const { accessToken, revoked } = await refreshAccessTokenOnce();
+      if (accessToken) {
+        headers.set('Authorization', `Bearer ${accessToken}`);
+        response = await fetch(`${API_BASE_URL}${path}`, fetchOptions);
+      } else if (revoked) {
+        // Only sign out when the refresh token is genuinely revoked/expired —
+        // never on a transient network/server error.
+        await cleanAuth();
+      }
+    }
+
+    return response;
+  };
+
+  const cleanAuth = async () => {
+    await deleteStorageItem('accessToken');
+    await deleteStorageItem('refreshToken');
+    await deleteStorageItem('user');
+
+    // Best-effort: purge any other app-scoped state stored in web
+    // localStorage so the next user doesn't inherit the previous session.
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        const ls = window.localStorage;
+        const PRESERVE = new Set([
+          'ably-transport-preference',
+        ]);
+        const PURGE_PREFIXES = [
+          'admin:',
+          'els_',
+          'parent_',
+          'student_',
+          'teacher_',
+          'classroom_',
+          'quiz_',
+          'subject_',
+          'planner_',
+          'assignment_',
+        ];
+        const PURGE_KEYS = new Set([
+          'accessToken',
+          'refreshToken',
+          'user',
+        ]);
+        const toRemove: string[] = [];
+        for (let i = 0; i < ls.length; i++) {
+          const key = ls.key(i);
+          if (!key) continue;
+          if (PRESERVE.has(key)) continue;
+          if (PURGE_KEYS.has(key) || PURGE_PREFIXES.some((p) => key.startsWith(p))) {
+            toRemove.push(key);
+          }
+        }
+        toRemove.forEach((k) => ls.removeItem(k));
+      } catch (e) {
+        console.warn('Failed to purge localStorage on signOut', e);
+      }
+    }
+
+    setUser(null);
+    setIsAuthenticated(false);
+  };
+
+  const signIn = async (identifier: string, password = 'welcome') => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifier, password }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        return { success: false, error: err.message || 'Login failed' };
+      }
+
+      const data = await res.json();
+      await setStorageItem('accessToken', data.accessToken);
+      await setStorageItem('refreshToken', data.refreshToken);
+      await setStorageItem('user', JSON.stringify(data.user));
+
+      setUser(data.user);
+      setIsAuthenticated(true);
+      return { success: true };
+    } catch (e: any) {
+      return { success: false, error: e.message || 'Network error connection' };
+    }
+  };
+
+  const signUp = async (payload: {
+    firstName: string;
+    lastName: string;
+    email?: string;
+    mobileNumber?: string;
+    password?: string;
+    role: Extract<UserRole, 'student' | 'teacher' | 'parent'>;
+    classLevel?: string;
+    childRegistrationId?: string;
+    formStartedAt: number;
+    botField?: string;
+  }) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: payload.firstName,
+          lastName: payload.lastName,
+          email: payload.email,
+          mobileNumber: payload.mobileNumber,
+          password: payload.password || 'welcome',
+          role: payload.role,
+          classLevel: payload.classLevel,
+          childRegistrationId: payload.childRegistrationId,
+          formStartedAt: payload.formStartedAt,
+          botField: payload.botField || '',
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        return { success: false, error: err.message || 'Registration failed' };
+      }
+
+      return { success: true };
+    } catch (e: any) {
+      return { success: false, error: e.message || 'Network error connection' };
+    }
+  };
+
+  const signOut = async () => {
+    await cleanAuth();
+  };
+
+  const setActiveRole = async (role: UserRole) => {
+    if (!user) return;
+    try {
+      const res = await apiFetch(`/users/${user.id}/active-role`, {
+        method: 'PATCH',
+        body: JSON.stringify({ role }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const updatedUser = data.user || data;
+        if (data.accessToken && data.refreshToken) {
+          await setStorageItem('accessToken', data.accessToken);
+          await setStorageItem('refreshToken', data.refreshToken);
+        }
+        await setStorageItem('user', JSON.stringify(updatedUser));
+        setUser(updatedUser);
+      } else {
+        console.warn('Failed to update active role on backend');
+      }
+    } catch (e) {
+      console.warn('Network error setting active role', e);
+    }
+  };
+
+  const refreshUser = useCallback(async () => {
+    if (!user) return;
+    try {
+      const res = await apiFetch(`/users/${user.id}`);
+      if (res.ok) {
+        const updatedUser = await res.json();
+        await setStorageItem('user', JSON.stringify(updatedUser));
+        setUser(updatedUser);
+      }
+    } catch (e) {
+      console.warn('Network error refreshing user', e);
+    }
+  }, [user, apiFetch]);
+
+  const deleteAccount = async () => {
+    try {
+      const res = await apiFetch('/users/me', { method: 'DELETE' });
+      if (!res.ok) {
+        const err = await res.json();
+        return { success: false, error: err.message || 'Failed to delete account' };
+      }
+      await signOut();
+      return { success: true };
+    } catch (e: any) {
+      return { success: false, error: e.message || 'Network error' };
+    }
+  };
+
+  const deleteChildAccount = async (registrationId: string) => {
+    try {
+      const res = await apiFetch('/users/me/delete-child', {
+        method: 'POST',
+        body: JSON.stringify({ registrationId }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        return { success: false, error: err.message || 'Failed to delete child account' };
+      }
+      return { success: true };
+    } catch (e: any) {
+      return { success: false, error: e.message || 'Network error' };
+    }
+  };
+  const changePassword = async (currentPassword: string, newPassword: string) => {
+    try {
+      const res = await apiFetch('/users/me/password', {
+        method: 'PATCH',
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        return { success: false, error: err.message || 'Failed to change password' };
+      }
+      return { success: true };
+    } catch (e: any) {
+      return { success: false, error: e.message || 'Network error' };
+    }
+  };
+
+  const value = useMemo(
+    () => ({
+      user,
+      isAuthenticated,
+      isLoading,
+      signIn,
+      signUp,
+      signOut,
+      setActiveRole,
+      refreshUser,
+      apiFetch,
+      deleteAccount,
+      deleteChildAccount,
+      changePassword,
+    }),
+    [isAuthenticated, isLoading, user, refreshUser, apiFetch],
+  );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used inside AuthProvider');
+  }
+  return context;
+}

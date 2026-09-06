@@ -1,0 +1,248 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      force_build_all:
+        description: 'Force build all backend units (One-time baseline override)'
+        type: boolean
+        default: false
+
+jobs:
+  # -------------------------------------------------------------
+  # 1. CHANGE DETECTION: Determine which backend units changed
+  # -------------------------------------------------------------
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend-services: ${{ steps.backend_matrix.outputs.backend-services }}
+      frontend-changed: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Detect changed file paths
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            backend:
+              - 'backend/shared/**'
+              - 'Dockerfile.service'
+              - 'package.json'
+              - 'package-lock.json'
+            frontend:
+              - 'frontend/**'
+            core-api: 'backend/core-api/**'
+            workers: 'backend/workers/**'
+            media-service: 'backend/media-service/**'
+            ai-service: 'backend/ai-service/**'
+            gateway: 'backend/gateway/**'
+
+      - name: Compute Backend Units Matrix
+        id: backend_matrix
+        run: |
+          CHANGES='${{ steps.filter.outputs.changes }}'
+          echo "Raw changes: $CHANGES"
+
+          # Filter out non-unit keys ('frontend', 'backend')
+          CLEANED=$(echo "$CHANGES" | jq -c '[.[] | select(. != "frontend" and . != "backend")]')
+
+          # If shared backend code or build configs changed, build all backend units
+          BACKEND_SHARED='${{ steps.filter.outputs.backend }}'
+          if [ "$BACKEND_SHARED" = "true" ] && [ "$CLEANED" = "[]" ]; then
+            CLEANED='["core-api","workers","media-service","ai-service","gateway"]'
+          fi
+
+          echo "Computed backend units: $CLEANED"
+          echo "backend-services=$CLEANED" >> $GITHUB_OUTPUT
+
+  # -------------------------------------------------------------
+  # 2. BUILD & PUSH BACKEND
+  # -------------------------------------------------------------
+  build-and-push-backend:
+    needs: [detect-changes]
+    if: ${{ (needs.detect-changes.outputs.backend-services != '[]' && needs.detect-changes.outputs.backend-services != '') || inputs.force_build_all == true }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: ${{ inputs.force_build_all == true && fromJson('["core-api","workers","media-service","ai-service","gateway"]') || fromJson(needs.detect-changes.outputs.backend-services) }}
+      fail-fast: false
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Resolve image name for unit
+        id: image
+        run: |
+          case "${{ matrix.service }}" in
+            media-service) echo "name=media-api" >> "$GITHUB_OUTPUT" ;;
+            ai-service) echo "name=education-ai-api" >> "$GITHUB_OUTPUT" ;;
+            *) echo "name=${{ matrix.service }}" >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: harishdell/els-ai-${{ steps.image.outputs.name }}
+          tags: |
+            type=sha,format=short
+            type=raw,value=latest
+
+      - name: Build and push backend unit
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile.service
+          platforms: linux/amd64
+          build-args: |
+            SERVICE_WORKSPACE=backend/${{ matrix.service }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # -------------------------------------------------------------
+  # 3. BUILD & PUSH FRONTEND
+  # -------------------------------------------------------------
+  build-and-push-frontend:
+    needs: [detect-changes]
+    if: ${{ needs.detect-changes.outputs.frontend-changed == 'true' || inputs.force_build_all == true }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: harishdell/els-ai-frontend
+          tags: |
+            type=sha,format=short
+            type=raw,value=latest
+
+      - name: Build and push frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: frontend/Dockerfile
+          platforms: linux/amd64
+          build-args: |
+            EXPO_PUBLIC_API_BASE_URL=https://emeelan.in/els-ai/api
+            EXPO_PUBLIC_TTS_URL=https://emeelan.in/els-ai/tts
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # -------------------------------------------------------------
+  # 4. GITOPS UPDATE STEP: Updates manifests in config repository
+  # -------------------------------------------------------------
+  update-gitops-manifests:
+    needs: [detect-changes, build-and-push-backend, build-and-push-frontend]
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          repository: 'hcmuleva/els-ai'
+          token: ${{ secrets.CONFIG_REPO_PAT }}
+          path: 'config-repo'
+
+      - name: Update Image Tags for Built Units Only
+        run: |
+          cd config-repo/k8s-config-repo
+
+          # Extract first 7 chars of commit SHA and add 'sha-' prefix (e.g. sha-9f9ed58)
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+          COMMIT_TAG="sha-${SHORT_SHA}"
+
+          # Parse inputs and changed outputs
+          CHANGED_BACKEND='${{ needs.detect-changes.outputs.backend-services }}'
+          FORCE_ALL='${{ inputs.force_build_all }}'
+
+          # A backend unit's workspace name can differ from its Docker image
+          # name and its manifest filename (media-service -> media-api image,
+          # ai-service -> education-ai-api image; both keep their original
+          # manifest filenames).
+          image_name_for() {
+            case "$1" in
+              media-service) echo "media-api" ;;
+              ai-service) echo "education-ai-api" ;;
+              *) echo "$1" ;;
+            esac
+          }
+          manifest_file_for() {
+            case "$1" in
+              media-service) echo "media-service.yaml" ;;
+              ai-service) echo "ai-service.yaml" ;;
+              *) echo "$1.yaml" ;;
+            esac
+          }
+
+          update_unit_tag() {
+            UNIT_NAME=$1
+            IMAGE_NAME=$(image_name_for "$UNIT_NAME")
+            YAML_FILE=$(manifest_file_for "$UNIT_NAME")
+            if [ -f "$YAML_FILE" ]; then
+              echo "Updating tag for $UNIT_NAME ($IMAGE_NAME) to $COMMIT_TAG"
+              sed -i "s|image: harishdell/els-ai-${IMAGE_NAME}:.*|image: harishdell/els-ai-${IMAGE_NAME}:${COMMIT_TAG}|g" "$YAML_FILE"
+            fi
+          }
+
+          # Update backend units that were built
+          if [ "$FORCE_ALL" = "true" ]; then
+            for f in *.yaml; do
+              sed -i "s|image: harishdell/els-ai-\([^:]*\):.*|image: harishdell/els-ai-\1:${COMMIT_TAG}|g" "$f"
+            done
+          elif [ "$CHANGED_BACKEND" != "[]" ] && [ -n "$CHANGED_BACKEND" ]; then
+            for unit in $(echo "$CHANGED_BACKEND" | jq -r '.[]'); do
+              update_unit_tag "$unit"
+            done
+          fi
+
+          # Update frontend if it changed
+          FRONTEND_CHANGED='${{ needs.detect-changes.outputs.frontend-changed }}'
+          if [ "$FRONTEND_CHANGED" = "true" ] || [ "$FORCE_ALL" = "true" ]; then
+            update_unit_tag "frontend"
+          fi
+
+          # Configure Git credentials
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Commit and push changes if updates occurred
+          if ! git diff --quiet; then
+            git add .
+            git commit -m "chore(deploy): update image tags to ${COMMIT_TAG}"
+            git push
+          else
+            echo "No image tags needed updating."
+          fi

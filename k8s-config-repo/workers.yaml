@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workers
+  namespace: els-ai
+  labels:
+    app.kubernetes.io/name: workers
+    app.kubernetes.io/part-of: els
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workers
+  template:
+    metadata:
+      labels:
+        app: workers
+        app.kubernetes.io/name: workers
+        app.kubernetes.io/part-of: els
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+        - name: workers
+          image: harishdell/els-ai-workers:2.1
+          imagePullPolicy: Always
+          env:
+            - name: WORKER_MODE
+              value: "core"
+          envFrom:
+            - configMapRef:
+                name: els-ai-config
+            - secretRef:
+                name: els-ai-secrets
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi

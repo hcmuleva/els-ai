@@ -1,0 +1,67 @@
+{
+  "catalog": 68,
+  "questionsScanned": 6,
+  "questionsUpdated": 6,
+  "assignments": [
+    {
+      "q": "Match same shapes",
+      "label": "Circle",
+      "asset": "/media/memory-assets/cat-svgrepo-com.svg"
+    },
+    {
+      "q": "Match same shapes",
+      "label": "Triangle",
+      "asset": "/media/memory-assets/dog-svgrepo-com.svg"
+    },
+    {
+      "q": "Match same shapes",
+      "label": "Circle",
+      "asset": "/media/memory-assets/cat-svgrepo-com.svg"
+    },
+    {
+      "q": "Match same shapes",
+      "label": "Triangle",
+      "asset": "/media/memory-assets/dog-svgrepo-com.svg"
+    },
+    {
+      "q": "Match same fruits",
+      "label": "Apple",
+      "asset": "/media/memory-assets/apple-svgrepo-com.svg"
+    },
+    {
+      "q": "Match same fruits",
+      "label": "Banana",
+      "asset": "/media/memory-assets/banana-svgrepo-com.svg"
+    },
+    {
+      "q": "Match same fruits",
+      "label": "Apple",
+      "asset": "/media/memory-assets/apple-svgrepo-com.svg"
+    },
+    {
+      "q": "Match same fruits",
+      "label": "Banana",
+      "asset": "/media/memory-assets/banana-svgrepo-com.svg"
+    },
+    {
+      "q": "Match polite words",
+      "label": "Please",
+      "asset": "/media/memory-assets/cat-svgrepo-com.svg"
+    },
+    {
+      "q": "Match polite words",
+      "label": "Thank You",
+      "asset": "/media/memory-assets/dog-svgrepo-com.svg"
+    },
+    {
+      "q": "Match polite words",
+      "label": "Please",
+      "asset": "/media/memory-assets/cat-svgrepo-com.svg"
+    },
+    {
+      "q": "Match polite words",
+      "label": "Thank You",
+      "asset": "/media/memory-assets/dog-svgrepo-com.svg"
+    }
+  ]
+}

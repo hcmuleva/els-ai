@@ -1,0 +1,27 @@
+FROM node:20-alpine AS build
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+COPY backend ./backend
+COPY scripts ./scripts
+COPY assets ./assets
+
+RUN npm ci
+RUN npm run build
+RUN npm prune --omit=dev
+
+FROM node:20-alpine AS runtime
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY package.json package-lock.json ./
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/backend ./backend
+COPY --from=build /app/scripts ./scripts
+COPY --from=build /app/assets ./assets
+
+RUN chmod +x /app/scripts/start-all-services.sh
+
+EXPOSE 4000 4002 4003 4004 4006 4007 4008 4009 4010 4011 4012 4013 4014 4101
+
+CMD ["/app/scripts/start-all-services.sh"]

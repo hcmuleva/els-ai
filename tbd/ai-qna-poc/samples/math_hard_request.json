@@ -1,0 +1,9 @@
+{
+  "class_level": "12",
+  "subject": "mathematics",
+  "difficulty": "hard",
+  "count": 10,
+  "types": ["sc", "mcq", "tf"],
+  "topic": null,
+  "seed": 21
+}

@@ -1,0 +1,46 @@
+{
+  "name": "els-ai",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend/shared/event-bus",
+    "backend/shared/internal-auth",
+    "backend/shared/media-client",
+    "backend/shared/db-tenant",
+    "backend/shared/db-runtime",
+    "backend/core-api",
+    "backend/workers",
+    "backend/gateway",
+    "backend/media-service",
+    "backend/ai-service"
+  ],
+  "scripts": {
+    "content:generate": "node content_generator/src/index.js",
+    "content:generate-multiclass": "node content_generator/src/generate-multiclass-content.js",
+    "content:auto": "node content_generator/src/generate-content.js",
+    "content:generate-questions": "node content_generator/src/generate-subject-questions.js",
+    "content:resolve-youtube": "node content_generator/src/resolve-youtube.js",
+    "content:generate-from-videos": "node content_generator/src/video-dump-converter.js",
+    "content:validate-age": "node content_generator/src/validate-age-appropriateness.js",
+    "content:report-age": "node content_generator/src/report-age-appropriateness.js",
+    "typecheck": "npm run typecheck --workspaces",
+    "build": "npm run build --workspace backend/shared/event-bus && npm run build --workspace backend/shared/internal-auth && npm run build --workspace backend/shared/media-client && npm run build --workspace backend/shared/db-tenant && npm run build --workspace backend/shared/db-runtime && npm run build --workspace backend/gateway && npm run build --workspace backend/media-service && npm run build --workspace backend/ai-service && npm run build --workspace backend/core-api && npm run build --workspace backend/workers",
+    "build:core": "npm run build --workspace backend/shared/event-bus && npm run build --workspace backend/shared/internal-auth && npm run build --workspace backend/shared/media-client && npm run build --workspace backend/shared/db-tenant && npm run build --workspace backend/shared/db-runtime && npm run build --workspace backend/core-api && npm run build --workspace backend/workers",
+    "build:shared": "npm run build --workspace backend/shared/event-bus && npm run build --workspace backend/shared/internal-auth && npm run build --workspace backend/shared/media-client && npm run build --workspace backend/shared/db-tenant",
+    "services:start": "node scripts/manage-services.js start",
+    "services:stop": "node scripts/manage-services.js stop",
+    "services:restart": "node scripts/manage-services.js restart",
+    "services:status": "node scripts/manage-services.js status",
+    "services:health": "node scripts/manage-services.js health",
+    "services:list": "node scripts/manage-services.js list",
+    "services:logs": "node scripts/manage-services.js logs",
+    "core:dev": "npm run dev --workspace backend/core-api",
+    "core:start": "npm run start --workspace backend/core-api",
+    "migrate": "node scripts/migrate.cjs",
+    "migrate:status": "node scripts/migrate.cjs --status"
+  },
+  "dependencies": {
+    "youtube-search-api": "^2.0.1"
+  }
+}

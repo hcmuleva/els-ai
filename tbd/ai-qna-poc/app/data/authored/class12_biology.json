@@ -1,0 +1,153 @@
+{
+  "class_level": "12",
+  "subject": "biology",
+  "topics": {
+    "genetics": [
+      {
+        "type": "single_choice",
+        "difficulty": "hard",
+        "title_md": "In a population in Hardy-Weinberg equilibrium, the dominant allele frequency is $p = 0.6$ and the recessive allele frequency is $q = 0.4$. The frequency of heterozygotes is:",
+        "options": [
+          {"label_md": "$0.48$", "is_correct": true},
+          {"label_md": "$0.36$", "is_correct": false},
+          {"label_md": "$0.16$", "is_correct": false},
+          {"label_md": "$0.24$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** $p = 0.6$, $q = 0.4$, with $p + q = 1$.\n\n**Idea.** Hardy-Weinberg: genotype frequencies are $p^2 + 2pq + q^2 = 1$, where $2pq$ is the heterozygote frequency.\n\n**Step 1.** $$\\text{Heterozygotes} = 2pq.$$\n\n**Step 2.** $$2pq = 2 \\times 0.6 \\times 0.4 = 0.48.$$\n\n**Answer.** $0.48$.",
+        "verification": {"kind": "numeric", "expression": "2*0.6*0.4", "expected": 0.48, "tol": 0.0001, "exact_label": "$0.48$"}
+      },
+      {
+        "type": "true_false",
+        "difficulty": "easy",
+        "title_md": "In humans, the sex of a child is determined by the type of sperm ($X$- or $Y$-bearing) that fertilizes the egg.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** The mother always contributes an $X$ (she is $XX$); the father is $XY$.\n\nIf a $Y$-bearing sperm fertilizes the egg the child is $XY$ (male); an $X$-bearing sperm gives $XX$ (female). So the father's sperm decides the sex. The statement is **true**."
+      }
+    ],
+    "molecular_basis_of_inheritance": [
+      {
+        "type": "single_choice",
+        "difficulty": "medium",
+        "title_md": "The genetic code is read in triplets from the four bases $A, U, G, C$. The total number of possible codons is:",
+        "options": [
+          {"label_md": "$64$", "is_correct": true},
+          {"label_md": "$20$", "is_correct": false},
+          {"label_md": "$16$", "is_correct": false},
+          {"label_md": "$61$", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Each codon is a sequence of $3$ bases chosen from $4$ possibilities.\n\n**Step 1.** Number of codons $= 4^3$.\n\n**Step 2.** $$4^3 = 64.$$\n\nOf these, $61$ code for amino acids and $3$ are stop codons.\n\n**Answer.** $64$.",
+        "verification": {"kind": "numeric", "expression": "4**3", "expected": 64, "exact_label": "$64$"}
+      },
+      {
+        "type": "true_false",
+        "difficulty": "medium",
+        "title_md": "Of the $64$ codons, three (UAA, UAG, UGA) act as stop codons that terminate translation.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Translation stops when the ribosome reaches a codon with no matching tRNA.\n\nUAA, UAG and UGA are the three stop (termination) codons; the remaining $61$ are sense codons. The statement is **true**."
+      }
+    ],
+    "evolution": [
+      {
+        "type": "single_choice",
+        "difficulty": "medium",
+        "title_md": "Wings of a butterfly and wings of a bird, which perform a similar function but have different structural origins, are an example of:",
+        "options": [
+          {"label_md": "analogous organs (convergent evolution)", "is_correct": true},
+          {"label_md": "homologous organs (divergent evolution)", "is_correct": false},
+          {"label_md": "vestigial organs", "is_correct": false},
+          {"label_md": "atavism", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Analogous structures share function but not common ancestry; homologous structures share ancestry but may differ in function.\n\nButterfly and bird wings evolved independently for flight from different structures, so they are **analogous**, an example of convergent evolution.\n\n**Answer.** Analogous organs."
+      },
+      {
+        "type": "true_false",
+        "difficulty": "easy",
+        "title_md": "The increase in the frequency of dark-coloured peppered moths during the Industrial Revolution is a classic example of natural selection.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Soot-darkened tree bark made dark moths better camouflaged than light moths.\n\nPredators removed more of the conspicuous light moths, so the dark form increased, a textbook case of natural selection (industrial melanism). The statement is **true**."
+      }
+    ],
+    "ecology": [
+      {
+        "type": "single_choice",
+        "difficulty": "hard",
+        "title_md": "In a food chain, producers capture $1000\\,\\text{J}$ of energy. Applying the $10\\%$ law of energy transfer, the energy available to the secondary consumers (third trophic level) is:",
+        "options": [
+          {"label_md": "$10\\,\\text{J}$", "is_correct": true},
+          {"label_md": "$100\\,\\text{J}$", "is_correct": false},
+          {"label_md": "$1\\,\\text{J}$", "is_correct": false},
+          {"label_md": "$0.1\\,\\text{J}$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** Producers (1st level) have $1000\\,\\text{J}$; only $10\\%$ passes to each next level.\n\n**Step 1 — Primary consumers (2nd level).** $1000 \\times 0.1 = 100\\,\\text{J}$.\n\n**Step 2 — Secondary consumers (3rd level).** $100 \\times 0.1 = 10\\,\\text{J}$, i.e. $1000 \\times 0.1 \\times 0.1$.\n\n**Answer.** $10\\,\\text{J}$.",
+        "verification": {"kind": "numeric", "expression": "1000*0.1*0.1", "expected": 10, "exact_label": "$10\\,\\text{J}$"}
+      },
+      {
+        "type": "true_false",
+        "difficulty": "easy",
+        "title_md": "An ecological pyramid of energy is always upright (energy decreases at each higher trophic level).",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Energy is lost as heat at every transfer (only ~10% passes up).\n\nBecause usable energy always decreases up the chain, the pyramid of energy can never be inverted; it is always upright. The statement is **true**."
+      }
+    ],
+    "biotechnology": [
+      {
+        "type": "true_false",
+        "difficulty": "medium",
+        "title_md": "The polymerase chain reaction (PCR) is used to amplify a specific segment of DNA in vitro.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** PCR uses repeated cycles of denaturation, primer annealing and extension by a thermostable DNA polymerase (Taq).\n\nEach cycle doubles the target sequence, producing millions of copies in vitro. The statement is **true**."
+      },
+      {
+        "type": "single_choice",
+        "difficulty": "medium",
+        "title_md": "In recombinant DNA technology, the enzymes used as 'molecular scissors' to cut DNA at specific recognition sequences are:",
+        "options": [
+          {"label_md": "restriction endonucleases", "is_correct": true},
+          {"label_md": "DNA ligases", "is_correct": false},
+          {"label_md": "DNA polymerases", "is_correct": false},
+          {"label_md": "helicases", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Different enzymes do different jobs in genetic engineering.\n\nRestriction endonucleases recognise specific palindromic sequences and cut the DNA there (the 'scissors'); ligases then join fragments (the 'glue'). \n\n**Answer.** Restriction endonucleases."
+      }
+    ],
+    "reproduction": [
+      {
+        "type": "single_choice",
+        "difficulty": "easy",
+        "title_md": "In humans, fertilization (fusion of sperm and egg) normally takes place in the:",
+        "options": [
+          {"label_md": "ampulla of the fallopian tube", "is_correct": true},
+          {"label_md": "uterus", "is_correct": false},
+          {"label_md": "ovary", "is_correct": false},
+          {"label_md": "cervix", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** The egg is released into the fallopian tube, where sperm meet it.\n\nFertilization usually occurs in the **ampullary region** (ampulla) of the fallopian tube; the resulting zygote then travels to the uterus for implantation.\n\n**Answer.** Ampulla of the fallopian tube."
+      },
+      {
+        "type": "true_false",
+        "difficulty": "medium",
+        "title_md": "In the human female, a single mature ovum is normally released during each menstrual cycle (ovulation).",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** During the ovarian cycle one dominant follicle usually matures.\n\nAt ovulation that follicle releases a single secondary oocyte (ovum) around mid-cycle. The statement is **true**."
+      }
+    ]
+  }
+}

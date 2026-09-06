@@ -1,0 +1,136 @@
+{
+  "class_level": "12",
+  "subject": "mathematics",
+  "topics": {
+    "calculus": [
+      {
+        "type": "single_choice",
+        "difficulty": "hard",
+        "title_md": "Evaluate the definite integral $$\\int_1^{2} 3x^2 \\, dx.$$",
+        "options": [
+          {"label_md": "$7$", "is_correct": true},
+          {"label_md": "$9$", "is_correct": false},
+          {"label_md": "$8$", "is_correct": false},
+          {"label_md": "$3$", "is_correct": false}
+        ],
+        "explanation_md": "**Step 1 — Antiderivative.** $$\\int 3x^2\\,dx = x^3.$$\n\n**Step 2 — Apply limits $1$ to $2$.** $$\\left[x^3\\right]_1^{2} = 2^3 - 1^3.$$\n\n**Step 3 — Simplify.** $$= 8 - 1 = 7.$$\n\n**Answer.** $7$.",
+        "verification": {"kind": "symbolic_integral_def", "integrand": "3*x**2", "lower": 1, "upper": 2, "expected": 7, "exact_label": "$7$"}
+      },
+      {
+        "type": "true_false",
+        "difficulty": "hard",
+        "title_md": "For a definite integral, swapping the limits changes the sign: $\\displaystyle\\int_a^b f(x)\\,dx = -\\int_b^a f(x)\\,dx$.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Reversing the direction of integration reverses the sign of every signed-area element.\n\nFormally $\\int_a^b f = F(b) - F(a)$ and $\\int_b^a f = F(a) - F(b)$, which are negatives of each other. The statement is **true**."
+      }
+    ],
+    "probability": [
+      {
+        "type": "single_choice",
+        "difficulty": "hard",
+        "title_md": "A fair coin is tossed $4$ times. Using the binomial distribution, the probability of getting exactly $2$ heads is:",
+        "options": [
+          {"label_md": "$0.375$", "is_correct": true},
+          {"label_md": "$0.25$", "is_correct": false},
+          {"label_md": "$0.5$", "is_correct": false},
+          {"label_md": "$0.125$", "is_correct": false}
+        ],
+        "explanation_md": "**Given.** $n = 4$ tosses, $p = 0.5$, want $P(X = 2)$.\n\n**Step 1 — Binomial formula.** $$P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}.$$\n\n**Step 2 — Substitute.** $$P(X=2) = \\binom{4}{2}(0.5)^2(0.5)^2 = 6 \\times (0.5)^4.$$\n\n**Step 3 — Simplify.** $$= 6 \\times 0.0625 = 0.375.$$\n\n**Answer.** $0.375$.",
+        "verification": {"kind": "numeric", "expression": "6*(0.5**4)", "expected": 0.375, "tol": 0.0001, "exact_label": "$0.375$"}
+      },
+      {
+        "type": "true_false",
+        "difficulty": "hard",
+        "title_md": "If $A$ and $B$ are independent events with $P(B) > 0$, then $P(A \\mid B) = P(A)$.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Conditional probability is $P(A\\mid B) = \\dfrac{P(A \\cap B)}{P(B)}$.\n\nFor independent events $P(A\\cap B) = P(A)P(B)$, so $P(A\\mid B) = \\dfrac{P(A)P(B)}{P(B)} = P(A)$. Independence means $B$ gives no information about $A$. The statement is **true**."
+      }
+    ],
+    "vector_algebra": [
+      {
+        "type": "single_choice",
+        "difficulty": "hard",
+        "title_md": "For two mutually perpendicular vectors with $|\\vec{a}| = 2$ and $|\\vec{b}| = 3$, the magnitude of the cross product $|\\vec{a} \\times \\vec{b}|$ is:",
+        "options": [
+          {"label_md": "$6$", "is_correct": true},
+          {"label_md": "$0$", "is_correct": false},
+          {"label_md": "$5$", "is_correct": false},
+          {"label_md": "$1$", "is_correct": false}
+        ],
+        "explanation_md": "**Rule.** $$|\\vec{a} \\times \\vec{b}| = |\\vec{a}|\\,|\\vec{b}|\\sin\\theta.$$\n\n**Step 1 — Perpendicular vectors.** $\\theta = 90^\\circ$, so $\\sin\\theta = 1$.\n\n**Step 2 — Substitute.** $$|\\vec{a} \\times \\vec{b}| = 2 \\times 3 \\times 1 = 6.$$\n\n**Answer.** $6$.",
+        "verification": {"kind": "numeric", "expression": "2*3", "expected": 6, "exact_label": "$6$"}
+      },
+      {
+        "type": "multi_choice",
+        "difficulty": "hard",
+        "title_md": "Select **all** correct statements about the vector (cross) product $\\vec{a} \\times \\vec{b}$.",
+        "options": [
+          {"label_md": "It is anti-commutative: $\\vec{a} \\times \\vec{b} = -(\\vec{b} \\times \\vec{a})$.", "is_correct": true},
+          {"label_md": "Its magnitude equals the area of the parallelogram formed by $\\vec{a}$ and $\\vec{b}$.", "is_correct": true},
+          {"label_md": "It is zero when $\\vec{a}$ and $\\vec{b}$ are parallel.", "is_correct": true},
+          {"label_md": "The result is a scalar.", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** The cross product yields a vector perpendicular to both inputs.\n\n- $\\vec{a}\\times\\vec{b} = -(\\vec{b}\\times\\vec{a})$ (anti-commutative) — **correct**.\n- $|\\vec{a}\\times\\vec{b}|$ is the parallelogram area — **correct**.\n- For parallel vectors $\\sin\\theta = 0$, so the product is the zero vector — **correct**.\n- The result is a **vector**, not a scalar (that is the dot product) — **wrong**."
+      }
+    ],
+    "matrices_determinants": [
+      {
+        "type": "single_choice",
+        "difficulty": "hard",
+        "title_md": "Evaluate the determinant $$\\begin{vmatrix} 2 & 0 & 1 \\\\ 1 & 3 & 2 \\\\ 0 & 1 & 1 \\end{vmatrix}.$$",
+        "options": [
+          {"label_md": "$3$", "is_correct": true},
+          {"label_md": "$5$", "is_correct": false},
+          {"label_md": "$1$", "is_correct": false},
+          {"label_md": "$7$", "is_correct": false}
+        ],
+        "explanation_md": "**Expand along the first row.**\n\n**Step 1.** $$2\\begin{vmatrix}3 & 2\\\\1 & 1\\end{vmatrix} - 0\\begin{vmatrix}1 & 2\\\\0 & 1\\end{vmatrix} + 1\\begin{vmatrix}1 & 3\\\\0 & 1\\end{vmatrix}.$$\n\n**Step 2 — $2\\times2$ minors.** $\\begin{vmatrix}3 & 2\\\\1 & 1\\end{vmatrix} = 3 - 2 = 1$ and $\\begin{vmatrix}1 & 3\\\\0 & 1\\end{vmatrix} = 1 - 0 = 1$.\n\n**Step 3 — Combine.** $$2(1) - 0 + 1(1) = 2 + 1 = 3.$$\n\n**Answer.** $3$.",
+        "verification": {"kind": "numeric", "expression": "2*(3*1 - 2*1) - 0 + 1*(1*1 - 3*0)", "expected": 3, "exact_label": "$3$"}
+      }
+    ],
+    "inverse_trigonometric_functions": [
+      {
+        "type": "single_choice",
+        "difficulty": "hard",
+        "title_md": "The principal value of $\\cos^{-1}\\!\\left(-\\dfrac{1}{2}\\right)$ is:",
+        "options": [
+          {"label_md": "$\\dfrac{2\\pi}{3}$", "is_correct": true},
+          {"label_md": "$\\dfrac{\\pi}{3}$", "is_correct": false},
+          {"label_md": "$\\dfrac{\\pi}{6}$", "is_correct": false},
+          {"label_md": "$-\\dfrac{\\pi}{3}$", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** $\\cos^{-1}x$ returns the angle in the principal range $[0, \\pi]$ whose cosine is $x$.\n\n**Step 1.** We need $\\theta \\in [0,\\pi]$ with $\\cos\\theta = -\\tfrac{1}{2}$.\n\n**Step 2.** Since $\\cos\\dfrac{2\\pi}{3} = -\\dfrac{1}{2}$ and $\\dfrac{2\\pi}{3} \\in [0,\\pi]$, $$\\cos^{-1}\\!\\left(-\\dfrac{1}{2}\\right) = \\dfrac{2\\pi}{3}.$$\n\n**Answer.** $\\dfrac{2\\pi}{3}$."
+      }
+    ],
+    "three_dimensional_geometry": [
+      {
+        "type": "single_choice",
+        "difficulty": "hard",
+        "title_md": "The direction cosines $l, m, n$ of any line satisfy:",
+        "options": [
+          {"label_md": "$l^2 + m^2 + n^2 = 1$", "is_correct": true},
+          {"label_md": "$l + m + n = 1$", "is_correct": false},
+          {"label_md": "$l^2 + m^2 + n^2 = 0$", "is_correct": false},
+          {"label_md": "$lmn = 1$", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** Direction cosines are the cosines of the angles a line makes with the $x, y, z$ axes.\n\nThey are the components of a unit vector along the line, so the sum of their squares is $1$: $$l^2 + m^2 + n^2 = 1.$$\n\n**Answer.** $l^2 + m^2 + n^2 = 1$."
+      },
+      {
+        "type": "true_false",
+        "difficulty": "hard",
+        "title_md": "Two lines in space with direction ratios $(a_1, b_1, c_1)$ and $(a_2, b_2, c_2)$ are perpendicular if $a_1 a_2 + b_1 b_2 + c_1 c_2 = 0$.",
+        "options": [
+          {"label_md": "True", "is_correct": true},
+          {"label_md": "False", "is_correct": false}
+        ],
+        "explanation_md": "**Idea.** The angle between two lines is found from the dot product of their direction vectors.\n\nPerpendicular lines have $\\cos 90^\\circ = 0$, which forces $a_1 a_2 + b_1 b_2 + c_1 c_2 = 0$. The statement is **true**."
+      }
+    ]
+  }
+}

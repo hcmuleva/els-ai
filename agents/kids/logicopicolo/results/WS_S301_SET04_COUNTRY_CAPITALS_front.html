@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WS_S301_SET04_COUNTRY_CAPITALS Front</title>
+  <style>
+    :root { --w: 794px; --h: 1123px; --line: #666; --head-bg: #d8efcb; --head-border: #80aa75; --panel-bg: #f8f8f4; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 18px; background: #ecefe8; font-family: "Trebuchet MS", Verdana, sans-serif; }
+    .sheet { width: var(--w); height: var(--h); margin: 0 auto; background: #fff; border: 1.4px solid var(--line); position: relative; }
+    .header { margin: 10px; border: 1px solid var(--head-border); background: var(--head-bg); padding: 10px 12px; display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; }
+    .title { font-size: 15px; font-weight: 700; }
+    .meta { font-size: 12px; color: #333; margin-top: 2px; }
+    .badge { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font-weight: 700; background: #f3f3f3; }
+    .board { margin: 0 10px 10px; height: calc(100% - 92px); display: grid; grid-template-columns: 1fr 220px; gap: 10px; }
+    .left { border: 1px solid var(--line); background: #fff; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px; align-content: start; }
+    .card { border: 1px dashed #bbb; border-radius: 6px; padding: 8px; display: grid; grid-template-columns: 44px 1fr auto; gap: 8px; align-items: center; min-height: 88px; }
+    .icon { font-size: 30px; text-align: center; }
+    .txt { font-size: 14px; font-weight: 700; }
+    .slot { font-size: 12px; color: #333; margin-top: 4px; }
+    .slot-btn img { width: 28px; height: 28px; display: block; }
+    .right { border: 1px solid var(--line); background: var(--panel-bg); display: grid; grid-template-rows: repeat(10, 1fr); }
+    .opt { border-bottom: 1px solid var(--line); padding: 6px; display: grid; grid-template-columns: 36px 1fr; gap: 6px; align-items: center; font-size: 13px; }
+    .opt:last-child { border-bottom: 0; }
+    .oid { font-weight: 700; text-align: center; }
+    @media print { body { background: #fff; padding: 0; } .sheet { border: 1px solid #444; } }
+  </style>
+</head>
+<body>
+  <article class="sheet">
+    <header class="header">
+      <div>
+        <div class="title">Match each country with its capital city.</div>
+        <div class="meta">Worksheet ID: WS_S301_SET04_COUNTRY_CAPITALS | Structure: LP_FIXED_V1 | Side: Front</div>
+      </div>
+      <div class="badge">4</div>
+    </header>
+    <section class="board">
+      <div class="left">
+        <div class="card"><div class="icon">🇫🇷</div><div><div class="txt">France</div><div class="slot">Slot S3</div></div><div class="slot-btn"><img src="../visual/buttons/btn-03-blue.svg" alt="S3" /></div></div>
+        <div class="card"><div class="icon">🇧🇷</div><div><div class="txt">Brazil</div><div class="slot">Slot S8</div></div><div class="slot-btn"><img src="../visual/buttons/btn-08-blue-white-top.svg" alt="S8" /></div></div>
+        <div class="card"><div class="icon">🇮🇳</div><div><div class="txt">India</div><div class="slot">Slot S1</div></div><div class="slot-btn"><img src="../visual/buttons/btn-01-red.svg" alt="S1" /></div></div>
+        <div class="card"><div class="icon">🇹🇭</div><div><div class="txt">Thailand</div><div class="slot">Slot S10</div></div><div class="slot-btn"><img src="../visual/buttons/btn-10-orange-white-top.svg" alt="S10" /></div></div>
+        <div class="card"><div class="icon">🇳🇵</div><div><div class="txt">Nepal</div><div class="slot">Slot S5</div></div><div class="slot-btn"><img src="../visual/buttons/btn-05-orange.svg" alt="S5" /></div></div>
+        <div class="card"><div class="icon">🇯🇵</div><div><div class="txt">Japan</div><div class="slot">Slot S2</div></div><div class="slot-btn"><img src="../visual/buttons/btn-02-green.svg" alt="S2" /></div></div>
+        <div class="card"><div class="icon">🇨🇦</div><div><div class="txt">Canada</div><div class="slot">Slot S7</div></div><div class="slot-btn"><img src="../visual/buttons/btn-07-green-white-top.svg" alt="S7" /></div></div>
+        <div class="card"><div class="icon">🇮🇹</div><div><div class="txt">Italy</div><div class="slot">Slot S4</div></div><div class="slot-btn"><img src="../visual/buttons/btn-04-yellow.svg" alt="S4" /></div></div>
+        <div class="card"><div class="icon">🇪🇬</div><div><div class="txt">Egypt</div><div class="slot">Slot S9</div></div><div class="slot-btn"><img src="../visual/buttons/btn-09-yellow-white-top.svg" alt="S9" /></div></div>
+        <div class="card"><div class="icon">🇦🇺</div><div><div class="txt">Australia</div><div class="slot">Slot S6</div></div><div class="slot-btn"><img src="../visual/buttons/btn-06-red-white-top.svg" alt="S6" /></div></div>
+      </div>
+      <aside class="right">
+        <div class="opt"><div class="oid">R7</div><div>Ottawa</div></div>
+        <div class="opt"><div class="oid">R1</div><div>New Delhi</div></div>
+        <div class="opt"><div class="oid">R9</div><div>Cairo</div></div>
+        <div class="opt"><div class="oid">R4</div><div>Rome</div></div>
+        <div class="opt"><div class="oid">R6</div><div>Canberra</div></div>
+        <div class="opt"><div class="oid">R2</div><div>Tokyo</div></div>
+        <div class="opt"><div class="oid">R10</div><div>Bangkok</div></div>
+        <div class="opt"><div class="oid">R8</div><div>Brasilia</div></div>
+        <div class="opt"><div class="oid">R5</div><div>Kathmandu</div></div>
+        <div class="opt"><div class="oid">R3</div><div>Paris</div></div>
+      </aside>
+    </section>
+  </article>
+</body>
+</html>
