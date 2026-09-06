@@ -70,7 +70,7 @@ export default function ConfirmModal({
               disabled={loading}
             >
               {loading ? (
-                <ActivityIndicator size="small" color="#fff" />
+                <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" />
               ) : (
                 <>
                   {danger && <Trash2 size={14} color="#fff" />}

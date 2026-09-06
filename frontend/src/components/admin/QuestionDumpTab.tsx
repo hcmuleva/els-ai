@@ -834,7 +834,7 @@ export function QuestionDumpTab({ apiFetch, subjectCatalog }: QuestionDumpTabPro
       {stage === 'importing' && validationReport && (
         <View style={s.progressCenteredWrap}>
           <View style={s.progressCard}>
-            <ActivityIndicator size="large" color={Colors.primary} />
+            <ActivityIndicator accessibilityLabel="Loading" size="large" color={Colors.primary} />
             <Text style={s.progressTitle}>Bulk Creating Questions...</Text>
             <Text style={s.progressSub}>
               Processing question {currentImportIndex} of {validationReport.validItems.length}
@@ -1078,7 +1078,7 @@ export function QuestionDumpTab({ apiFetch, subjectCatalog }: QuestionDumpTabPro
 
                   {loadingCatalog ? (
                     <View style={{ padding: 36, alignItems: 'center' }}>
-                      <ActivityIndicator size="large" color={Colors.primary} />
+                      <ActivityIndicator accessibilityLabel="Loading" size="large" color={Colors.primary} />
                       <Text style={{ marginTop: 12, fontSize: 13, color: Colors.textSecondary }}>
                         Fetching Database Classes & Subjects...
                       </Text>

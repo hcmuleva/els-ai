@@ -48,7 +48,7 @@ export default function TeacherVideoProgressDashboard({ contentId, contentTitle,
     };
   }, [api, contentId]);
 
-  if (loading) return <ActivityIndicator style={{ marginTop: 24 }} color="#2D5DC9" />;
+  if (loading) return <ActivityIndicator accessibilityLabel="Loading" style={{ marginTop: 24 }} color="#2D5DC9" />;
   if (error || !summary) return <Text style={styles.error}>{error || 'No data'}</Text>;
 
   return (

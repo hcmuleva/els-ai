@@ -2748,7 +2748,7 @@ export default function QuestionManagementScreen() {
           onBack={closeAction}
           right={
             <Pressable style={[qFormS.saveBtn, !canSave && qFormS.saveBtnDisabled]} onPress={saveAction} disabled={!canSave}>
-              {isSaving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={qFormS.saveBtnText}>Save</Text>}
+              {isSaving ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" size="small" /> : <Text style={qFormS.saveBtnText}>Save</Text>}
             </Pressable>
           }
         />
@@ -3877,7 +3877,7 @@ export default function QuestionManagementScreen() {
             </View>
             <View style={styles.row}>
               <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={loadTopics} disabled={loadingTopics}>
-                {loadingTopics ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Apply Filters</Text>}
+                {loadingTopics ? <ActivityIndicator accessibilityLabel="Loading" color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Apply Filters</Text>}
               </Pressable>
               <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={openCreateTopicDialog}>
                 <Text style={styles.primaryButtonText}>Create Topic</Text>
@@ -3888,7 +3888,7 @@ export default function QuestionManagementScreen() {
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Topics ({topics.length})</Text>
             {loadingTopics ? (
-              <ActivityIndicator size="small" color="#1d4ed8" />
+              <ActivityIndicator accessibilityLabel="Loading" size="small" color="#1d4ed8" />
             ) : topics.length === 0 ? (
               <Text style={styles.emptyText}>No topics found for selected filters.</Text>
             ) : (
@@ -4003,11 +4003,11 @@ export default function QuestionManagementScreen() {
                 <View style={styles.sectionHeader}>
                   <Text style={styles.cardTitle}>Contents ({contentItems.length})</Text>
                   <Pressable style={styles.secondaryButton} onPress={loadContentItems} disabled={loadingContentItems}>
-                    {loadingContentItems ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Refresh</Text>}
+                    {loadingContentItems ? <ActivityIndicator accessibilityLabel="Loading" color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Refresh</Text>}
                   </Pressable>
                 </View>
                 {loadingContentItems ? (
-                  <ActivityIndicator size="small" color="#1d4ed8" />
+                  <ActivityIndicator accessibilityLabel="Loading" size="small" color="#1d4ed8" />
                 ) : contentItems.length === 0 ? (
                   <Text style={styles.emptyText}>No content created yet.</Text>
                 ) : (
@@ -4088,7 +4088,7 @@ export default function QuestionManagementScreen() {
                   </ScrollView>
                 </View>
                 <Pressable style={styles.secondaryButton} onPress={loadContentItems} disabled={loadingContentItems}>
-                  {loadingContentItems ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Apply Filters</Text>}
+                  {loadingContentItems ? <ActivityIndicator accessibilityLabel="Loading" color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Apply Filters</Text>}
                 </Pressable>
               </View>
 
@@ -4160,7 +4160,7 @@ export default function QuestionManagementScreen() {
                   );
                 })}
                 <Pressable style={styles.primaryButton} onPress={assignContentsToTopic} disabled={savingAssignments}>
-                  {savingAssignments ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Assign Selected Content</Text>}
+                  {savingAssignments ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={styles.primaryButtonText}>Assign Selected Content</Text>}
                 </Pressable>
               </View>
             </>
@@ -4226,7 +4226,7 @@ export default function QuestionManagementScreen() {
             />
             <View style={styles.row}>
               <Pressable style={[styles.secondaryButton, styles.halfInput]} onPress={loadData} disabled={loading}>
-                {loading ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Apply Filters</Text>}
+                {loading ? <ActivityIndicator accessibilityLabel="Loading" color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Apply Filters</Text>}
               </Pressable>
               <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={openCreateDialog}>
                 <Text style={styles.primaryButtonText}>Create Question</Text>
@@ -4237,7 +4237,7 @@ export default function QuestionManagementScreen() {
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Questions Table ({questions.length})</Text>
             {loading ? (
-              <ActivityIndicator size="small" color="#1d4ed8" />
+              <ActivityIndicator accessibilityLabel="Loading" size="small" color="#1d4ed8" />
             ) : questions.length === 0 ? (
               <Text style={styles.emptyText}>No questions found.</Text>
             ) : (
@@ -4337,7 +4337,7 @@ export default function QuestionManagementScreen() {
               onPress={() => topicActionMenuTopic && runTopicAction(topicActionMenuTopic, 'delete')}
               disabled={!!deletingTopicId}
             >
-              {deletingTopicId ? <ActivityIndicator color="#dc2626" /> : <Text style={styles.actionMenuDangerText}>Delete Topic</Text>}
+              {deletingTopicId ? <ActivityIndicator accessibilityLabel="Loading" color="#dc2626" /> : <Text style={styles.actionMenuDangerText}>Delete Topic</Text>}
             </Pressable>
           </Pressable>
         </Pressable>
@@ -4428,7 +4428,7 @@ export default function QuestionManagementScreen() {
               }}
               disabled={!!deletingContentId}
             >
-              {deletingContentId ? <ActivityIndicator color="#dc2626" /> : <Text style={styles.actionMenuDangerText}>Delete</Text>}
+              {deletingContentId ? <ActivityIndicator accessibilityLabel="Loading" color="#dc2626" /> : <Text style={styles.actionMenuDangerText}>Delete</Text>}
             </Pressable>
           </Pressable>
         </Pressable>
@@ -4474,7 +4474,7 @@ export default function QuestionManagementScreen() {
               }}
               disabled={!!deletingQuestionId}
             >
-              {deletingQuestionId ? <ActivityIndicator color="#dc2626" /> : <Text style={styles.actionMenuDangerText}>Delete</Text>}
+              {deletingQuestionId ? <ActivityIndicator accessibilityLabel="Loading" color="#dc2626" /> : <Text style={styles.actionMenuDangerText}>Delete</Text>}
             </Pressable>
           </Pressable>
         </Pressable>
@@ -4626,7 +4626,7 @@ export default function QuestionManagementScreen() {
                       <View style={styles.fieldGroup}>
                         <Pressable style={styles.secondaryButton} onPress={() => uploadCreateContentMedia(section.id)}>
                           {uploadingSectionMediaId === section.id ? (
-                            <ActivityIndicator color="#1d4ed8" />
+                            <ActivityIndicator accessibilityLabel="Loading" color="#1d4ed8" />
                           ) : (
                             <Text style={styles.secondaryButtonText}>Upload Media (Image / Audio / Video)</Text>
                           )}
@@ -4651,7 +4651,7 @@ export default function QuestionManagementScreen() {
                 <Text style={styles.secondaryButtonText}>Cancel</Text>
               </Pressable>
               <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={createSingleContentItem} disabled={savingContentCreate}>
-                {savingContentCreate ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>{editingContentId ? 'Save' : 'Create Content'}</Text>}
+                {savingContentCreate ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={styles.primaryButtonText}>{editingContentId ? 'Save' : 'Create Content'}</Text>}
               </Pressable>
             </View>
           </Pressable>
@@ -4872,7 +4872,7 @@ export default function QuestionManagementScreen() {
                           onPress={() => uploadSectionMedia(section.id, section.contentType)}
                         >
                           {uploadingSectionMediaId === section.id ? (
-                            <ActivityIndicator color="#1d4ed8" />
+                            <ActivityIndicator accessibilityLabel="Loading" color="#1d4ed8" />
                           ) : (
                             <Text style={styles.secondaryButtonText}>
                               {section.contentType === 'image'
@@ -4915,7 +4915,7 @@ export default function QuestionManagementScreen() {
                 <Text style={styles.secondaryButtonText}>Cancel</Text>
               </Pressable>
               <Pressable style={[styles.primaryButton, styles.halfInput]} onPress={saveTopicSections} disabled={savingSections}>
-                {savingSections ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Save Content</Text>}
+                {savingSections ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={styles.primaryButtonText}>Save Content</Text>}
               </Pressable>
             </View>
           </View>

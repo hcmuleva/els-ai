@@ -8,8 +8,11 @@ import { StudentProfileProvider } from '../src/context/StudentProfileContext';
 import { NotificationProvider } from '../src/context/NotificationContext';
 import { AiChatProvider } from '../src/context/AiChatContext';
 import { queryClient } from '../src/config/queryClient';
+import useInertAriaHidden from '../src/hooks/useInertAriaHidden';
 
 export default function RootLayout() {
+  useInertAriaHidden();
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>

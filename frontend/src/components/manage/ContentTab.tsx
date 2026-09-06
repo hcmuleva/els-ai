@@ -189,7 +189,7 @@ function ContentDetailsModal({ item, apiFetch, onClose, onEdit }: {
           </View>
 
           {loading ? (
-            <View style={c.centerWrap}><ActivityIndicator size="large" color="#2D5DC9" /><Text style={c.loadingText}>Loading…</Text></View>
+            <View style={c.centerWrap}><ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" /><Text style={c.loadingText}>Loading…</Text></View>
           ) : data ? (
             <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
               {/* Hero */}
@@ -1083,7 +1083,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
             <Pressable onPress={onClose} style={c.modalBackBtn}><ChevronLeft size={24} color="#1a1a2e" /></Pressable>
             <Text style={c.modalTitle} numberOfLines={1}>{isEdit ? 'Edit Content' : 'New Content'}</Text>
             <Pressable style={c.modalSaveBtn} onPress={handleSave} disabled={saving}>
-              {saving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={c.modalSaveBtnText}>Save</Text>}
+              {saving ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" size="small" /> : <Text style={c.modalSaveBtnText}>Save</Text>}
             </Pressable>
           </View>
 
@@ -1110,7 +1110,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
           )}
 
           {loadingEdit ? (
-            <View style={c.centerWrap}><ActivityIndicator size="large" color="#2D5DC9" /></View>
+            <View style={c.centerWrap}><ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" /></View>
           ) : isDesktop ? (
             /* Desktop Symmetrical 2-Column Layout */
             <View style={c.desktopLayout}>
@@ -1456,7 +1456,7 @@ export default function ContentTab({
             </Pressable>
           )}
           <Pressable style={c.applyBtn} onPress={onApplyFilters} disabled={loadingContent}>
-            {loadingContent ? <ActivityIndicator size="small" color="#fff" /> : <Text style={c.applyBtnText}>Apply</Text>}
+            {loadingContent ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" /> : <Text style={c.applyBtnText}>Apply</Text>}
           </Pressable>
         </View>
       </View>
@@ -1485,7 +1485,7 @@ export default function ContentTab({
           )}
           ListEmptyComponent={
             loadingContent ? (
-              <View style={c.emptyWrap}><ActivityIndicator size="large" color="#2D5DC9" /><Text style={c.loadingText}>Loading content…</Text></View>
+              <View style={c.emptyWrap}><ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" /><Text style={c.loadingText}>Loading content…</Text></View>
             ) : pager.error ? (
               <View style={c.emptyWrap}>
                 <VideoIcon size={36} color="#D0D8F0" />

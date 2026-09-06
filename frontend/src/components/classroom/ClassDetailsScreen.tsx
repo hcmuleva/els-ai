@@ -853,7 +853,7 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
 
         {loading ? (
           <View style={ds.centerWrap}>
-            <ActivityIndicator size="large" color="#2D5DC9" />
+            <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
             <Text style={ds.loadingText}>Loading…</Text>
           </View>
         ) : (
@@ -1139,13 +1139,13 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
 
           {detailLoading ? (
             <View style={ds.centerWrap}>
-              <ActivityIndicator size="large" color="#2D5DC9" />
+              <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
             </View>
           ) : (
             <ScrollView contentContainerStyle={ds.content} showsVerticalScrollIndicator={false}>
               {detailTab === 'parentFeedback' ? (
                 parentFeedbackLoading ? (
-                  <View style={ds.centerWrap}><ActivityIndicator size="large" color="#2D5DC9" /></View>
+                  <View style={ds.centerWrap}><ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" /></View>
                 ) : parentFeedbackItems.length === 0 ? (
                   <View style={ds.emptyWrap}>
                     <View style={ds.emptyIconBox}>

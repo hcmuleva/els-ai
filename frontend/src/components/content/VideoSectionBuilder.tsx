@@ -185,7 +185,7 @@ export default function VideoSectionBuilder({ contentId, videoUrl, videoDuration
             {error ? <Text style={styles.error}>{error}</Text> : null}
 
             {loading ? (
-              <ActivityIndicator style={{ marginTop: 16 }} color="#2D5DC9" />
+              <ActivityIndicator accessibilityLabel="Loading" style={{ marginTop: 16 }} color="#2D5DC9" />
             ) : (
               <VideoSectionList
                 sections={sections}
@@ -232,7 +232,7 @@ export default function VideoSectionBuilder({ contentId, videoUrl, videoDuration
           {error ? <Text style={styles.error}>{error}</Text> : null}
 
           {loading ? (
-            <ActivityIndicator style={{ marginTop: 16 }} color="#2D5DC9" />
+            <ActivityIndicator accessibilityLabel="Loading" style={{ marginTop: 16 }} color="#2D5DC9" />
           ) : (
             <VideoSectionList
               sections={sections}

@@ -168,7 +168,7 @@ function InlineAudio({ url, label = 'Audio', accentColor = '#9B8EC4' }: {
         disabled={loading || error}
       >
         {loading
-          ? <ActivityIndicator size="small" color="#fff" />
+          ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" />
           : error
             ? <Volume2 size={18} color="#fff" />
             : playing
@@ -871,7 +871,7 @@ export default function QuestionsTab({
             </Pressable>
           )}
           <Pressable style={q.applyBtn} onPress={onApplyFilters} disabled={loading}>
-            {loading ? <ActivityIndicator size="small" color="#fff" /> : <Text style={q.applyBtnText}>Apply</Text>}
+            {loading ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" /> : <Text style={q.applyBtnText}>Apply</Text>}
           </Pressable>
         </ScrollView>
       </View>
@@ -945,7 +945,7 @@ export default function QuestionsTab({
           ListEmptyComponent={
             loading ? (
               <View style={q.emptyWrap}>
-                <ActivityIndicator size="large" color="#2D5DC9" />
+                <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
                 <Text style={q.loadingText}>Loading questions…</Text>
               </View>
             ) : pager.error ? (
@@ -994,7 +994,7 @@ export default function QuestionsTab({
       {fetchingDetails && (
         <View style={q.fetchingOverlay}>
           <View style={q.fetchingCard}>
-            <ActivityIndicator size="large" color="#2D5DC9" />
+            <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
             <Text style={q.fetchingText}>Loading question…</Text>
           </View>
         </View>

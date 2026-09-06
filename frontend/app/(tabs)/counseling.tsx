@@ -944,7 +944,7 @@ export default function CounselingScreen() {
 
             <Pressable onPress={onExportPdf} style={styles.pdfBtn} disabled={exporting}>
               {exporting ? (
-                <ActivityIndicator color="#fff" />
+                <ActivityIndicator accessibilityLabel="Loading" color="#fff" />
               ) : (
                 <>
                   <Download size={18} color="#fff" />
@@ -964,7 +964,7 @@ export default function CounselingScreen() {
         <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 16) }]}>
           <Pressable onPress={goNext} style={[styles.nextBtn, busy && styles.nextBtnDisabled]} disabled={busy}>
             {busy ? (
-              <ActivityIndicator color="#fff" />
+              <ActivityIndicator accessibilityLabel="Loading" color="#fff" />
             ) : (
               <>
                 <Text style={styles.nextBtnText}>

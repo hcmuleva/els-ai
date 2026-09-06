@@ -149,7 +149,9 @@ function TopicScreen({ topic, onBack }: { topic: TopicDetail; onBack: () => void
         }
         center={
           <View style={{ flex: 1 }}>
-            <Text style={sc.topicHeaderTitle} numberOfLines={1}>{topic.title}</Text>
+            {/* This screen hides the tab bar (headerShown: false), so it has no other
+                heading/landmark — give axe's `bypass` rule a page heading to latch onto. */}
+            <Text style={sc.topicHeaderTitle} numberOfLines={1} accessibilityRole="header">{topic.title}</Text>
             <Text style={sc.topicHeaderSub}>{topic.subject} · Class {topic.classLevel}</Text>
           </View>
         }
@@ -166,7 +168,7 @@ function TopicScreen({ topic, onBack }: { topic: TopicDetail; onBack: () => void
 
       {loading ? (
         <View style={sc.center}>
-          <ActivityIndicator size="large" color={ss.accent} />
+          <ActivityIndicator accessibilityLabel="Loading" size="large" color={ss.accent} />
           <Text style={sc.loadingText}>Loading content…</Text>
         </View>
       ) : contents.length === 0 ? (
@@ -297,7 +299,7 @@ export default function SubjectScreen() {
         }
         center={
           <View style={{ flex: 1 }}>
-            <Text style={sc.headerTitle}>{headerSubject}</Text>
+            <Text style={sc.headerTitle} accessibilityRole="header">{headerSubject}</Text>
             {classLevel && <Text style={sc.headerSub}>Class {classLevel}</Text>}
           </View>
         }
@@ -310,7 +312,7 @@ export default function SubjectScreen() {
 
       {loading ? (
         <View style={sc.center}>
-          <ActivityIndicator size="large" color={hs.accent} />
+          <ActivityIndicator accessibilityLabel="Loading" size="large" color={hs.accent} />
           <Text style={sc.loadingText}>Loading subjects…</Text>
         </View>
       ) : displaySubjects.length === 0 ? (

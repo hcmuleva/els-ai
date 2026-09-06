@@ -625,7 +625,7 @@ export default function StoriesScreen() {
           />
           {historyLoading ? (
             <View style={s.historyCenter}>
-              <ActivityIndicator color="#2D5DC9" size="large" />
+              <ActivityIndicator accessibilityLabel="Loading" color="#2D5DC9" size="large" />
             </View>
           ) : (
             <FlatList
@@ -669,7 +669,7 @@ export default function StoriesScreen() {
 
       {/* ── Story List ── */}
       {loading ? (
-        <View style={s.center}><ActivityIndicator color="#2D5DC9" size="large" /></View>
+        <View style={s.center}><ActivityIndicator accessibilityLabel="Loading" color="#2D5DC9" size="large" /></View>
       ) : stories.length === 0 ? (
         <View style={s.emptyBox}>
           <BookOpenCheck size={56} color="#D0D8F0" />
@@ -730,7 +730,7 @@ export default function StoriesScreen() {
             right={
               !readOnlyEndedView ? (
                 <Pressable style={s.modalSaveBtn} onPress={saveStory} disabled={saving}>
-                  {saving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={s.modalSaveBtnText}>Save</Text>}
+                  {saving ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" size="small" /> : <Text style={s.modalSaveBtnText}>Save</Text>}
                 </Pressable>
               ) : undefined
             }
@@ -781,7 +781,7 @@ export default function StoriesScreen() {
                   {!readOnlyEndedView && (
                     <Pressable style={s.uploadBtn} onPress={uploadCoverImage} disabled={coverUploading}>
                       {coverUploading
-                        ? <ActivityIndicator size="small" color="#2D5DC9" />
+                        ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" />
                         : <Text style={s.uploadBtnText}>Upload Cover Image</Text>}
                     </Pressable>
                   )}
@@ -1015,7 +1015,7 @@ export default function StoriesScreen() {
                     onPress={scheduleStory}
                   >
                     {schedSaving
-                      ? <ActivityIndicator color="#B45309" size="small" />
+                      ? <ActivityIndicator accessibilityLabel="Loading" color="#B45309" size="small" />
                       : <><Calendar size={14} color="#B45309" /><Text style={[s.actionBtnText, { color: '#B45309' }]}>Schedule Story</Text></>}
                   </Pressable>
                 </View>
@@ -1068,7 +1068,7 @@ export default function StoriesScreen() {
             right={
               !readOnlyEndedView ? (
                 <Pressable style={s.modalSaveBtn} onPress={() => editingSec && saveSec(editingSec)} disabled={secSaving}>
-                  {secSaving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={s.modalSaveBtnText}>Save</Text>}
+                  {secSaving ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" size="small" /> : <Text style={s.modalSaveBtnText}>Save</Text>}
                 </Pressable>
               ) : undefined
             }
@@ -1157,7 +1157,7 @@ export default function StoriesScreen() {
                             {!readOnlyEndedView && secMediaSource === 'upload' ? (
                               <Pressable style={s.uploadBtn} onPress={uploadSectionMedia} disabled={secMediaUploading}>
                                 {secMediaUploading
-                                  ? <ActivityIndicator size="small" color="#2D5DC9" />
+                                  ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" />
                                   : <Text style={s.uploadBtnText}>Upload {media.kind[0].toUpperCase() + media.kind.slice(1)}</Text>}
                               </Pressable>
                             ) : secMediaSource === 'link' && !readOnlyEndedView ? (

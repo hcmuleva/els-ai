@@ -61,7 +61,7 @@ export default function DynamicQuizPanel({ api, activeSectionId, autoOpen, onQui
   if (loading) {
     return (
       <View style={styles.panel}>
-        <ActivityIndicator color="#2D5DC9" />
+        <ActivityIndicator accessibilityLabel="Loading" color="#2D5DC9" />
       </View>
     );
   }

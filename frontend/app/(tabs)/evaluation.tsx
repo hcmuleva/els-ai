@@ -114,7 +114,7 @@ export default function ContentEvaluationScreen() {
       <Text style={styles.subtitle}>Review AI-generated quiz templates and approve for live use.</Text>
 
       {loading ? (
-        <ActivityIndicator size="large" color="#1d4ed8" />
+        <ActivityIndicator accessibilityLabel="Loading" size="large" color="#1d4ed8" />
       ) : (
         <>
           <View style={styles.card}>
@@ -152,7 +152,7 @@ export default function ContentEvaluationScreen() {
                     onPress={() => togglePublish(quiz.id, quiz.is_published)}
                   >
                     {savingId === quiz.id ? (
-                      <ActivityIndicator color="#1d4ed8" />
+                      <ActivityIndicator accessibilityLabel="Loading" color="#1d4ed8" />
                     ) : (
                       <Text style={styles.actionButtonText}>
                         {quiz.is_published ? 'Mark as Needs Manual Edit' : 'Approve and Publish'}

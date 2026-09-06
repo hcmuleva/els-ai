@@ -293,7 +293,7 @@ export default function StudentStoryViewer({ visible, story, sections, onClose }
                     </TouchableOpacity>
                   ) : (
                     <TouchableOpacity style={[s.primaryBtn, { backgroundColor: '#22A36E' }, finishing && { opacity: 0.6 }]} onPress={handleFinish} disabled={finishing}>
-                      {finishing ? <ActivityIndicator color="#fff" /> : <Text style={s.primaryBtnText}>Close Preview</Text>}
+                      {finishing ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={s.primaryBtnText}>Close Preview</Text>}
                     </TouchableOpacity>
                   )}
                 </View>

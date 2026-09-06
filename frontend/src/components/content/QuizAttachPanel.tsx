@@ -195,7 +195,7 @@ export default function QuizAttachPanel({
           {error ? <Text style={styles.error}>{error}</Text> : null}
 
           {loading ? (
-            <ActivityIndicator style={{ marginTop: 24 }} color="#2D5DC9" />
+            <ActivityIndicator accessibilityLabel="Loading" style={{ marginTop: 24 }} color="#2D5DC9" />
           ) : (
             <FlatList
               data={filtered}
@@ -219,7 +219,7 @@ export default function QuizAttachPanel({
                     </View>
                     {isCurrent ? <Text style={styles.unselectHint}>Tap to unselect</Text> : null}
                     {isCurrent ? <CheckCircle2 size={18} color="#2FA36B" /> : null}
-                    {attachingId === item.id ? <ActivityIndicator color="#2D5DC9" /> : null}
+                    {attachingId === item.id ? <ActivityIndicator accessibilityLabel="Loading" color="#2D5DC9" /> : null}
                   </Pressable>
                 );
               }}

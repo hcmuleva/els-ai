@@ -172,6 +172,8 @@ export default function SettingsScreen() {
                     trackColor={{ false: '#E8EAF0', true: row.color ?? '#2D5DC9' }}
                     thumbColor="#FFFFFF"
                     ios_backgroundColor="#E8EAF0"
+                    accessibilityLabel={row.label}
+                    accessibilityHint={row.sub}
                   />
                 ) : (
                   <ChevronRight size={16} color={row.type === 'danger' ? '#FF4444' : '#C0C8D8'} />
@@ -213,7 +215,7 @@ export default function SettingsScreen() {
                 disabled={clearing}
               >
                 {clearing ? (
-                  <ActivityIndicator color="#fff" />
+                  <ActivityIndicator accessibilityLabel="Loading" color="#fff" />
                 ) : (
                   <Text style={s.modalBtnDangerText}>Clear Data</Text>
                 )}
@@ -272,7 +274,7 @@ export default function SettingsScreen() {
                 disabled={changingPassword}
               >
                 {changingPassword ? (
-                  <ActivityIndicator color="#fff" />
+                  <ActivityIndicator accessibilityLabel="Loading" color="#fff" />
                 ) : (
                   <Text style={s.modalBtnDangerText}>Update</Text>
                 )}

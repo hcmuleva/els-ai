@@ -731,7 +731,7 @@ export default function QuizForm({
 
           <Pressable style={[s.createBtn, activeMode === 'exam' && s.createBtnExam]} onPress={createAssessment} disabled={creating}>
             {creating ? (
-              <ActivityIndicator color="#fff" />
+              <ActivityIndicator accessibilityLabel="Loading" color="#fff" />
             ) : (
               <>
                 {activeMode === 'quiz' ? <Trophy size={16} color="#fff" /> : <GraduationCap size={16} color="#fff" />}
@@ -749,7 +749,7 @@ export default function QuizForm({
             </View>
             <Pressable style={s.refreshBtn} onPress={loadQuestionBank} disabled={loadingQuestionBank}>
               {loadingQuestionBank
-                ? <ActivityIndicator size="small" color="#2D5DC9" />
+                ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" />
                 : <RotateCw size={16} color="#2D5DC9" />}
             </Pressable>
           </View>
@@ -845,7 +845,7 @@ export default function QuizForm({
 
           {loadingQuestionBank ? (
             <View style={s.bankEmpty}>
-              <ActivityIndicator size="large" color="#2D5DC9" />
+              <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
               <Text style={s.bankEmptyText}>Loading questions...</Text>
             </View>
           ) : rowsToRender.length === 0 ? (

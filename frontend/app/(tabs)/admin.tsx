@@ -1452,12 +1452,12 @@ export default function AdminScreen() {
             </View>
           </View>
           {loadingTable && subjects.length === 0 ? (
-            <ActivityIndicator size="small" color={Colors.primary} />
+            <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.primary} />
           ) : (
             <View style={{ position: 'relative' }}>
               {loadingTable ? (
                 <View style={styles.refreshOverlay}>
-                  <ActivityIndicator size="small" color={Colors.primary} />
+                  <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.primary} />
                 </View>
               ) : null}
               <View style={styles.listContainer}>
@@ -1489,7 +1489,7 @@ export default function AdminScreen() {
                         disabled={deletingSubjectId === subject.id}
                       >
                         {deletingSubjectId === subject.id ? (
-                          <ActivityIndicator size="small" color="#b91c1c" />
+                          <ActivityIndicator accessibilityLabel="Loading" size="small" color="#b91c1c" />
                         ) : (
                           <Text style={styles.dangerBtnText}>Delete</Text>
                         )}
@@ -1553,12 +1553,12 @@ export default function AdminScreen() {
             </View>
           </View>
             {loadingTable && students.length === 0 ? (
-              <ActivityIndicator size="small" color={Colors.primary} />
+              <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.primary} />
             ) : (
               <View style={{ position: 'relative' }}>
                 {refreshingStudents ? (
                   <View style={styles.refreshOverlay}>
-                    <ActivityIndicator size="small" color={Colors.primary} />
+                    <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.primary} />
                   </View>
                 ) : null}
               <View style={styles.listContainer}>
@@ -1627,12 +1627,12 @@ export default function AdminScreen() {
             ) : null}
           </View>
           {loadingTable && teachers.length === 0 ? (
-            <ActivityIndicator size="small" color={Colors.primary} />
+            <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.primary} />
           ) : (
             <View style={{ position: 'relative' }}>
               {loadingTable ? (
                 <View style={styles.refreshOverlay}>
-                  <ActivityIndicator size="small" color={Colors.primary} />
+                  <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.primary} />
                 </View>
               ) : null}
               <View style={styles.listContainer}>
@@ -1750,12 +1750,12 @@ export default function AdminScreen() {
             ) : null}
           </View>
           {loadingTable && parents.length === 0 ? (
-            <ActivityIndicator size="small" color={Colors.primary} />
+            <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.primary} />
           ) : (
             <View style={{ position: 'relative' }}>
               {loadingTable ? (
                 <View style={styles.refreshOverlay}>
-                  <ActivityIndicator size="small" color={Colors.primary} />
+                  <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.primary} />
                 </View>
               ) : null}
               <View style={styles.listContainer}>
@@ -2010,7 +2010,7 @@ export default function AdminScreen() {
               <Text style={styles.secondaryButtonText}>Cancel</Text>
             </Pressable>
             <Pressable style={[styles.primaryButton, styles.half]} onPress={submitUserDialog} disabled={savingUser}>
-              {savingUser ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Save User</Text>}
+              {savingUser ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={styles.primaryButtonText}>Save User</Text>}
             </Pressable>
           </View>
         </View>
@@ -2054,7 +2054,7 @@ export default function AdminScreen() {
               <Text style={styles.fieldLabel}>Cover Image</Text>
               <View style={styles.mediaActionRow}>
                 <Pressable style={[styles.secondaryButton, styles.mediaActionButton]} onPress={uploadCoverImage} disabled={uploadingCoverImage}>
-                  {uploadingCoverImage ? <ActivityIndicator color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Upload Image</Text>}
+                  {uploadingCoverImage ? <ActivityIndicator accessibilityLabel="Loading" color="#1d4ed8" /> : <Text style={styles.secondaryButtonText}>Upload Image</Text>}
                 </Pressable>
               </View>
               {subjectForm.coverImage.trim() ? (
@@ -2185,7 +2185,7 @@ export default function AdminScreen() {
                     />
                   </View>
                   <Pressable style={styles.searchInlineButton} onPress={searchAuthorUsers}>
-                    {loadingAuthorSearch ? <ActivityIndicator color="#fff" size="small" /> : <Text style={styles.searchInlineButtonText}>Search</Text>}
+                    {loadingAuthorSearch ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" size="small" /> : <Text style={styles.searchInlineButtonText}>Search</Text>}
                   </Pressable>
                 </View>
 
@@ -2260,7 +2260,7 @@ export default function AdminScreen() {
               <Text style={styles.secondaryButtonText}>Cancel</Text>
             </Pressable>
             <Pressable style={[styles.primaryButton, styles.half]} onPress={submitSubjectDialog} disabled={savingSubject}>
-              {savingSubject ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Save Subject</Text>}
+              {savingSubject ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={styles.primaryButtonText}>Save Subject</Text>}
             </Pressable>
           </View>
         </View>
@@ -2314,7 +2314,7 @@ export default function AdminScreen() {
               </Pressable>
               <Pressable style={[styles.confirmDeleteButton, styles.confirmActionButton]} onPress={confirmDeleteSubject}>
                 {deletingSubjectId ? (
-                  <ActivityIndicator size="small" color="#b91c1c" />
+                  <ActivityIndicator accessibilityLabel="Loading" size="small" color="#b91c1c" />
                 ) : (
                   <Text style={styles.deleteActionButtonText}>Delete</Text>
                 )}
@@ -2699,7 +2699,7 @@ export default function AdminScreen() {
               <Text style={styles.secondaryButtonText}>Cancel</Text>
             </Pressable>
             <Pressable style={[styles.primaryButton, styles.half]} onPress={saveTeacherAssignments} disabled={savingTeacherAssignments}>
-              {savingTeacherAssignments ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Save Assignments</Text>}
+              {savingTeacherAssignments ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={styles.primaryButtonText}>Save Assignments</Text>}
             </Pressable>
           </View>
 
@@ -2857,7 +2857,7 @@ export default function AdminScreen() {
                 onPress={() => searchStudentsForParent(parentStudentSearch, parentStudentClassLevel)}
                 disabled={loadingParentStudents}
               >
-                {loadingParentStudents ? <ActivityIndicator color={Colors.primary} /> : <Text style={styles.secondaryButtonText}>Search</Text>}
+                {loadingParentStudents ? <ActivityIndicator accessibilityLabel="Loading" color={Colors.primary} /> : <Text style={styles.secondaryButtonText}>Search</Text>}
               </Pressable>
             </View>
             <ScrollView style={styles.transferList}>
@@ -2886,7 +2886,7 @@ export default function AdminScreen() {
               <Text style={styles.secondaryButtonText}>Cancel</Text>
             </Pressable>
             <Pressable style={[styles.primaryButton, styles.half]} onPress={saveParentStudents} disabled={savingParentStudents}>
-              {savingParentStudents ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Save Mapping</Text>}
+              {savingParentStudents ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={styles.primaryButtonText}>Save Mapping</Text>}
             </Pressable>
           </View>
         </View>

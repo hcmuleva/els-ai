@@ -299,7 +299,7 @@ export default function PracticeScreen() {
 
         {loading ? (
           <View style={styles.centerWrapper}>
-            <ActivityIndicator size="large" color="#1d4ed8" />
+            <ActivityIndicator accessibilityLabel="Loading" size="large" color="#1d4ed8" />
             <Text style={styles.loadingText}>Loading classroom...</Text>
           </View>
         ) : !selectedClassroom ? (
@@ -599,7 +599,7 @@ export default function PracticeScreen() {
               </Pressable>
               {assignmentModal?.status !== 'submitted' && (
                 <Pressable style={[styles.primaryButton, styles.halfButton]} onPress={submitAssignment} disabled={savingSubmission}>
-                  {savingSubmission ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Submit</Text>}
+                  {savingSubmission ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={styles.primaryButtonText}>Submit</Text>}
                 </Pressable>
               )}
             </View>

@@ -119,7 +119,7 @@ export default function AudioPlayer({
         </>
       ) : status === 'loading' ? (
         <View style={ap.loadingRow}>
-          <ActivityIndicator color={accentColor} size="small" />
+          <ActivityIndicator accessibilityLabel="Loading" color={accentColor} size="small" />
           <Text style={[ap.loadingTxt, { color: accentColor }]}>Loading audio…</Text>
         </View>
       ) : (
@@ -142,7 +142,7 @@ export default function AudioPlayer({
           disabled={status !== 'ready'}
         >
           {status === 'loading'
-            ? <ActivityIndicator color="#fff" size="small" />
+            ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" size="small" />
             : playing
               ? <Pause size={24} color="#fff" fill="#fff" />
               : <Play  size={24} color="#fff" fill="#fff" />}

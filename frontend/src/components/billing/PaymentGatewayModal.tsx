@@ -111,7 +111,7 @@ export function PaymentGatewayModal({ visible, invoice, onClose, onConfirm }: Pr
 
           <Pressable disabled={submitting || !invoice} style={[styles.payBtn, (submitting || !invoice) && { opacity: 0.6 }]} onPress={handlePay}>
             {submitting ? (
-              <ActivityIndicator color="#FFFFFF" size="small" />
+              <ActivityIndicator accessibilityLabel="Loading" color="#FFFFFF" size="small" />
             ) : (
               <>
                 <Lock size={14} color="#FFFFFF" />

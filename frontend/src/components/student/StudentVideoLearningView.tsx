@@ -99,7 +99,7 @@ export default function StudentVideoLearningView({ contentId, videoUrl, apiFetch
   );
 
   if (loading) {
-    return <ActivityIndicator style={{ marginTop: 24 }} color="#2D5DC9" />;
+    return <ActivityIndicator accessibilityLabel="Loading" style={{ marginTop: 24 }} color="#2D5DC9" />;
   }
 
   if (sections.length === 0) {

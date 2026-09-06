@@ -364,7 +364,7 @@ export default function TeacherFeedbackTab() {
   if (loading && view === 'recent') {
     return (
       <View style={ts.loaderWrap}>
-        <ActivityIndicator size="large" color="#2D5DC9" />
+        <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
         <Text style={ts.loaderText}>Loading feedback...</Text>
       </View>
     );
@@ -497,7 +497,7 @@ export default function TeacherFeedbackTab() {
 
           {/* Student results */}
           {studentsLoading ? (
-            <ActivityIndicator size="small" color="#2D5DC9" style={{ marginTop: 20 }} />
+            <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" style={{ marginTop: 20 }} />
           ) : students.length === 0 ? (
             <View style={ts.emptyState}>
               <Text style={{ fontSize: 36 }}>🔍</Text>
@@ -576,7 +576,7 @@ export default function TeacherFeedbackTab() {
           )}
 
           {studentDataLoading ? (
-            <ActivityIndicator size="small" color="#2D5DC9" style={{ marginTop: 20 }} />
+            <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" style={{ marginTop: 20 }} />
           ) : (
             <>
               {/* Parent feedback submissions */}
@@ -630,7 +630,7 @@ export default function TeacherFeedbackTab() {
         <View style={ts.modalOverlay}>
           <View style={ts.modalSheet}>
             {threadLoading ? (
-              <View style={ts.loaderWrap}><ActivityIndicator size="large" color="#2D5DC9" /></View>
+              <View style={ts.loaderWrap}><ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" /></View>
             ) : threadDetail ? (
               <>
                 <View style={ts.modalHeader}>
@@ -683,7 +683,7 @@ export default function TeacherFeedbackTab() {
                     {hasMoreMessages && (
                       <Pressable onPress={loadOlderMessages} style={{ alignItems: 'center', paddingVertical: 8 }}>
                         {loadingOlder ? (
-                          <ActivityIndicator size="small" color="#2D5DC9" />
+                          <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" />
                         ) : (
                           <Text style={{ color: '#2D5DC9', fontSize: 12, fontWeight: '600' }}>Load older messages</Text>
                         )}
@@ -758,7 +758,7 @@ export default function TeacherFeedbackTab() {
                         onPress={sendReply}
                         disabled={!replyText.trim() || sending}
                       >
-                        {sending ? <ActivityIndicator size="small" color="#fff" /> : <Send size={16} color="#fff" />}
+                        {sending ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" /> : <Send size={16} color="#fff" />}
                       </Pressable>
                     </View>
                   </View>
@@ -813,7 +813,7 @@ export default function TeacherFeedbackTab() {
                 disabled={!newSubject.trim() || !newMessage.trim() || creating}
               >
                 {creating ? (
-                  <ActivityIndicator size="small" color="#fff" />
+                  <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" />
                 ) : (
                   <>
                     <Send size={14} color="#fff" />

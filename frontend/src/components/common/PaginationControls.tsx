@@ -74,7 +74,7 @@ function PaginationControlsBase({
         <Text style={s.pageText}>Page {currentPage} of {totalPages}</Text>
         <Text style={s.dot}>•</Text>
         <Text style={s.countText}>{totalCount} {itemLabel}</Text>
-        {loading && <ActivityIndicator size="small" color="#2D5DC9" style={{ marginLeft: 6 }} />}
+        {loading && <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" style={{ marginLeft: 6 }} />}
       </View>
     </View>
   );

@@ -453,7 +453,7 @@ export default function QuizRenderer({ quizId, visible, onClose, onCompleted }: 
         <View style={styles.loadingContainer}>
           <View style={styles.loadingCard}>
             <Text style={styles.loadingMascot}>🦒</Text>
-            <ActivityIndicator size="large" color="#2D5DC9" />
+            <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
             <Text style={styles.loadingText}>Loading Playroom...</Text>
           </View>
         </View>
@@ -620,7 +620,7 @@ export default function QuizRenderer({ quizId, visible, onClose, onCompleted }: 
 
             {savingAttempt ? (
               <View style={styles.savingRow}>
-                <ActivityIndicator size="small" color="#2D5DC9" />
+                <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" />
                 <Text style={styles.savingText}>Saving your progress...</Text>
               </View>
             ) : (

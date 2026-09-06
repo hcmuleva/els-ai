@@ -595,7 +595,7 @@ export default function QuestionEditor({
             disabled={!canSave}
           >
             {saving ? (
-              <ActivityIndicator color="#fff" size="small" />
+              <ActivityIndicator accessibilityLabel="Loading" color="#fff" size="small" />
             ) : (
               <Text style={qFormS.saveBtnText}>Save</Text>
             )}
@@ -636,7 +636,7 @@ export default function QuestionEditor({
             disabled={!canSave}
           >
             {saving ? (
-              <ActivityIndicator color="#fff" size="small" />
+              <ActivityIndicator accessibilityLabel="Loading" color="#fff" size="small" />
             ) : (
               <Text style={qFormS.saveBtnText}>{quizId ? 'Save & Attach' : 'Save'}</Text>
             )}

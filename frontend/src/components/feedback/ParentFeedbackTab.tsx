@@ -345,7 +345,7 @@ export default function ParentFeedbackTab({ studentId, studentName, classLevel }
   if (loading) {
     return (
       <View style={s.loaderWrap}>
-        <ActivityIndicator size="large" color="#2D5DC9" />
+        <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
         <Text style={s.loaderText}>Loading...</Text>
       </View>
     );
@@ -491,7 +491,7 @@ export default function ParentFeedbackTab({ studentId, studentName, classLevel }
         <View style={s.modalOverlay}>
           <View style={s.modalSheet}>
             {threadLoading ? (
-              <View style={s.loaderWrap}><ActivityIndicator size="large" color="#2D5DC9" /></View>
+              <View style={s.loaderWrap}><ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" /></View>
             ) : threadDetail ? (
               <>
                 <View style={s.modalHeader}>
@@ -545,7 +545,7 @@ export default function ParentFeedbackTab({ studentId, studentName, classLevel }
                     {hasMoreMessages && (
                       <Pressable onPress={loadOlderMessages} style={{ alignItems: 'center', paddingVertical: 8 }}>
                         {loadingOlder ? (
-                          <ActivityIndicator size="small" color="#2D5DC9" />
+                          <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" />
                         ) : (
                           <Text style={{ color: '#2D5DC9', fontSize: 12, fontWeight: '600' }}>Load older messages</Text>
                         )}
@@ -595,7 +595,7 @@ export default function ParentFeedbackTab({ studentId, studentName, classLevel }
                       onPress={sendReply}
                       disabled={!replyText.trim() || sending}
                     >
-                      {sending ? <ActivityIndicator size="small" color="#fff" /> : <Send size={16} color="#fff" />}
+                      {sending ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" /> : <Send size={16} color="#fff" />}
                     </Pressable>
                   </View>
                 )}
@@ -718,7 +718,7 @@ export default function ParentFeedbackTab({ studentId, studentName, classLevel }
                 onPress={createThread}
                 disabled={!selectedSubjectId || !newTitle.trim() || !newDescription.trim() || creating}
               >
-                {creating ? <ActivityIndicator size="small" color="#fff" /> : (
+                {creating ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" /> : (
                   <Text style={s.submitBtnText}>Submit Feedback</Text>
                 )}
               </Pressable>

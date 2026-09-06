@@ -395,7 +395,7 @@ export default function SuperadminPage() {
   if (loading) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" color={Colors.primary} />
+        <ActivityIndicator accessibilityLabel="Loading" size="large" color={Colors.primary} />
       </View>
     );
   }
@@ -634,7 +634,7 @@ export default function SuperadminPage() {
             </Pressable>
             <Pressable style={styles.primaryBtn} onPress={handleSaveEditOrg} disabled={editSaving}>
               {editSaving
-                ? <ActivityIndicator size="small" color="#FFFFFF" />
+                ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#FFFFFF" />
                 : <Text style={styles.primaryBtnText}>Save changes</Text>}
             </Pressable>
           </View>
@@ -731,7 +731,7 @@ export default function SuperadminPage() {
               disabled={userSaving || !userFirstName.trim() || !userLastName.trim() || !userEmail.trim()}
             >
               {userSaving
-                ? <ActivityIndicator size="small" color="#FFFFFF" />
+                ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#FFFFFF" />
                 : (
                   <>
                     <UserPlus size={14} color="#FFFFFF" />
@@ -903,7 +903,7 @@ export default function SuperadminPage() {
               disabled={assignSaving || !assignSelectedUser || !assignTargetOrgId}
             >
               {assignSaving
-                ? <ActivityIndicator size="small" color="#FFFFFF" />
+                ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#FFFFFF" />
                 : (
                   <>
                     <ArrowRight size={14} color="#FFFFFF" />
@@ -1004,7 +1004,7 @@ export default function SuperadminPage() {
               </View>
             ) : assignSearching ? (
               <View style={styles.searchEmpty}>
-                <ActivityIndicator size="small" color={Colors.primary} />
+                <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.primary} />
                 <Text style={[styles.searchEmptyText, { marginTop: 6 }]}>Searching…</Text>
               </View>
             ) : assignSearch.trim().length < 2 ? (
@@ -1198,7 +1198,7 @@ function LogoUploader({ url, uploading, onPick, onClear }: { url: string; upload
         <View style={styles.logoActions}>
           <Pressable style={styles.outlineBtn} onPress={onPick} disabled={uploading}>
             {uploading
-              ? <ActivityIndicator size="small" color={Colors.primary} />
+              ? <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.primary} />
               : <UploadCloud size={14} color={Colors.primary} />}
             <Text style={[styles.outlineBtnText, { marginLeft: 6 }]}>{url ? 'Replace' : 'Upload'}</Text>
           </Pressable>

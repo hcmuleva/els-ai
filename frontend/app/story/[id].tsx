@@ -159,7 +159,7 @@ export default function StoryReaderScreen() {
   if (loading) {
     return (
       <View style={s.center}>
-        <ActivityIndicator color="#2D5DC9" size="large" />
+        <ActivityIndicator accessibilityLabel="Loading" color="#2D5DC9" size="large" />
         <Text style={s.loadingText}>Loading story…</Text>
       </View>
     );
@@ -367,7 +367,7 @@ export default function StoryReaderScreen() {
                   disabled={finishing}
                 >
                   {finishing
-                    ? <ActivityIndicator color="#fff" />
+                    ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" />
                     : <Text style={s.primaryBtnText}>Finish Story</Text>}
                 </TouchableOpacity>
               )}

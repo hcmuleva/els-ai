@@ -399,7 +399,7 @@ export default function ClassroomScreen() {
 
         {loading ? (
           <View style={styles.centerWrapper}>
-            <ActivityIndicator size="large" color="#4f46e5" />
+            <ActivityIndicator accessibilityLabel="Loading" size="large" color="#4f46e5" />
             <Text style={styles.loadingText}>Loading Playroom...</Text>
           </View>
         ) : activeClassrooms.length === 0 && !(selectedClassroomId && classrooms.find((c) => c.id === selectedClassroomId)) ? (
@@ -753,7 +753,7 @@ export default function ClassroomScreen() {
 
           {historyLoading ? (
             <View style={clStyles.historyCenter}>
-              <ActivityIndicator size="large" color="#2D5DC9" />
+              <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
               <Text style={{ color: '#525C6B', marginTop: 8 }}>Loading history…</Text>
             </View>
           ) : !historySelectedId ? (
@@ -1344,7 +1344,7 @@ export default function ClassroomScreen() {
             <View style={[aStyles.footer, { paddingBottom: Math.max(insets.bottom, 16) }]}>
               <Pressable style={aStyles.submitBtn} onPress={submitAssignment} disabled={savingSubmission}>
                 {savingSubmission
-                  ? <ActivityIndicator color="#fff" />
+                  ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" />
                   : <Text style={aStyles.submitBtnText}>Submit Assignment</Text>}
               </Pressable>
             </View>

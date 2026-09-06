@@ -362,7 +362,7 @@ export function BillingPanel({ mode, organizations, currentOrganizationId, selec
 
         {loading ? (
           <View style={styles.loadingBox}>
-            <ActivityIndicator color={Colors.primary} size="small" />
+            <ActivityIndicator accessibilityLabel="Loading" color={Colors.primary} size="small" />
           </View>
         ) : invoices.length === 0 ? (
           <View style={styles.emptyBox}>

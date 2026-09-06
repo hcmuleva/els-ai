@@ -1049,7 +1049,7 @@ export default function PlannerScreen() {
       {/* ── Classroom cards ── */}
       {loading ? (
         <View style={p.loadingWrap}>
-          <ActivityIndicator size="large" color="#2D5DC9" />
+          <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
           <Text style={p.loadingText}>Loading classrooms…</Text>
         </View>
       ) : classrooms.length === 0 ? (
@@ -1157,13 +1157,13 @@ export default function PlannerScreen() {
                   {item.status !== 'completed' && (
                     <Pressable style={[p.footerBtn, { backgroundColor: '#FEF0ED' }]} onPress={() => setPendingEndClassroom(item)} disabled={endingClassroomId === item.id}>
                       {endingClassroomId === item.id
-                        ? <ActivityIndicator size="small" color="#D33F13" />
+                        ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#D33F13" />
                         : <Text numberOfLines={1} style={[p.footerBtnText, { color: '#B03A19' }]}>End Class</Text>}
                     </Pressable>
                   )}
                   <Pressable style={p.footerBtnGhost} onPress={() => setPendingDelete(item)} disabled={deletingClassroomId === item.id}>
                     {deletingClassroomId === item.id
-                      ? <ActivityIndicator size="small" color="#D33F13" />
+                      ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#D33F13" />
                       : <Text numberOfLines={1} style={p.footerBtnDelete}>Delete</Text>}
                   </Pressable>
                 </View>
@@ -1206,7 +1206,7 @@ export default function PlannerScreen() {
             onBack={() => setIsFormOpen(false)}
             right={
               <Pressable style={p.modalSaveBtn} onPress={saveClassroom} disabled={saving}>
-                {saving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={p.modalSaveBtnText}>Save</Text>}
+                {saving ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" size="small" /> : <Text style={p.modalSaveBtnText}>Save</Text>}
               </Pressable>
             }
           />
@@ -1715,7 +1715,7 @@ export default function PlannerScreen() {
                 </View>
                 <ScrollView contentContainerStyle={{ padding: 12, gap: 8 }}>
                   {loadingBookmarks ? (
-                    <ActivityIndicator size="small" color="#2D5DC9" style={{ marginTop: 16 }} />
+                    <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" style={{ marginTop: 16 }} />
                   ) : (() => {
                     const kw = bookmarkSearch.trim().toLowerCase();
                     const list = kw
@@ -1744,7 +1744,7 @@ export default function PlannerScreen() {
                 </View>
                 <ScrollView contentContainerStyle={{ padding: 12, gap: 8 }}>
                   {loadingBookmarkDetail ? (
-                    <ActivityIndicator size="small" color="#2D5DC9" style={{ marginTop: 16 }} />
+                    <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" style={{ marginTop: 16 }} />
                   ) : activeBookmark.items.length === 0 ? (
                     <Text style={p.flatEmpty}>This bookmark has no items.</Text>
                   ) : (
@@ -1961,7 +1961,7 @@ export default function PlannerScreen() {
                 disabled={endingClassroomId === pendingEndClassroom?.id}
               >
                 {endingClassroomId === pendingEndClassroom?.id
-                  ? <ActivityIndicator size="small" color="#fff" />
+                  ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" />
                   : <Text style={p.confirmDeleteText}>End Class</Text>}
               </Pressable>
             </View>
@@ -1980,7 +1980,7 @@ export default function PlannerScreen() {
 
           {historyLoading ? (
             <View style={p.historyCenter}>
-              <ActivityIndicator size="large" color="#2D5DC9" />
+              <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
               <Text style={{ color: '#525C6B', marginTop: 8 }}>Loading history…</Text>
             </View>
           ) : historyRooms.length === 0 ? (
@@ -2051,7 +2051,7 @@ export default function PlannerScreen() {
                       </Pressable>
                       <Pressable style={p.historyRestartBtn} onPress={() => restartClassroom(room.id)} disabled={restartingId === room.id}>
                         {restartingId === room.id
-                          ? <ActivityIndicator size="small" color="#2D5DC9" />
+                          ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" />
                           : <Text style={p.historyRestartBtnText}>Restart</Text>}
                       </Pressable>
                     </View>

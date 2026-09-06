@@ -676,7 +676,7 @@ export default function TrendAnalysisTab({ studentId, studentName }: Props) {
   if (loading) {
     return (
       <View style={a.loaderWrap}>
-        <ActivityIndicator size="large" color={Colors.primary} />
+        <ActivityIndicator accessibilityLabel="Loading" size="large" color={Colors.primary} />
         <Text style={a.loaderText}>Building trend report…</Text>
       </View>
     );

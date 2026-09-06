@@ -305,7 +305,7 @@ export default function StudentRemarkSheet({
                   <View style={sh.mediaBtnRow}>
                     <Pressable style={sh.uploadBtn} onPress={handleUpload} disabled={uploading}>
                       {uploading
-                        ? <ActivityIndicator size="small" color="#2D5DC9" />
+                        ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" />
                         : <Text style={sh.uploadBtnText}>⬆ Upload Image</Text>}
                     </Pressable>
                     <TextInput
@@ -344,7 +344,7 @@ export default function StudentRemarkSheet({
                         >
                           <View style={sh.achievCardTop}>
                             {granting
-                              ? <ActivityIndicator size="small" color={a.color} />
+                              ? <ActivityIndicator accessibilityLabel="Loading" size="small" color={a.color} />
                               : <Text style={sh.achievEmoji}>{a.emoji}</Text>}
                             {granted && (
                               <View style={[sh.achievGrantedBadge, { backgroundColor: a.color }]}>
@@ -395,7 +395,7 @@ export default function StudentRemarkSheet({
             </Pressable>
             <Pressable style={sh.saveBtn} onPress={handleSave} disabled={saving}>
               {saving
-                ? <ActivityIndicator color="#fff" size="small" />
+                ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" size="small" />
                 : <Text style={sh.saveBtnText}>Save Feedback</Text>}
             </Pressable>
           </View>

@@ -235,7 +235,7 @@ function TopicDetailsModal({ topic, apiFetch, onClose, onEdit }: {
 
               {loading ? (
                 <View style={d.loadingWrap}>
-                  <ActivityIndicator size="large" color="#2D5DC9" />
+                  <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
                   <Text style={d.loadingText}>Loading details…</Text>
                 </View>
               ) : (
@@ -896,7 +896,7 @@ export default function TopicsTab({
             </Pressable>
           )}
           <Pressable style={s.applyBtn} onPress={onApplyFilters} disabled={loading}>
-            {loading ? <ActivityIndicator size="small" color="#fff" /> : <Text style={s.applyBtnText}>Apply</Text>}
+            {loading ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" /> : <Text style={s.applyBtnText}>Apply</Text>}
           </Pressable>
         </View>
       </View>
@@ -926,7 +926,7 @@ export default function TopicsTab({
           ListEmptyComponent={
             loading ? (
               <View style={s.emptyWrap}>
-                <ActivityIndicator size="large" color="#2D5DC9" />
+                <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
                 <Text style={s.loadingText}>Loading topics…</Text>
               </View>
             ) : pager.error ? (
@@ -994,7 +994,7 @@ export default function TopicsTab({
             </Pressable>
             <Text style={s.modalTitle} numberOfLines={1}>{editingId ? 'Edit Topic' : 'New Topic'}</Text>
             <Pressable style={s.modalSaveBtn} onPress={handleSave} disabled={saving}>
-              {saving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={s.modalSaveBtnText}>Save</Text>}
+              {saving ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" size="small" /> : <Text style={s.modalSaveBtnText}>Save</Text>}
             </Pressable>
           </View>
 
@@ -1067,7 +1067,7 @@ export default function TopicsTab({
                   <View style={s.fieldDivider} />
                   <Pressable style={s.uploadBtn} onPress={handleUploadCover} disabled={uploadingCover}>
                     {uploadingCover
-                      ? <ActivityIndicator size="small" color="#2D5DC9" />
+                      ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" />
                       : <Text style={s.uploadBtnText}>⬆ Upload Image</Text>}
                   </Pressable>
                   {coverImage.trim() ? (
@@ -1140,7 +1140,7 @@ export default function TopicsTab({
                 {quizIds.length === 0 ? (
                   <Text style={s.secEmptyText}>No quizzes added yet.</Text>
                 ) : loadingQuizzes ? (
-                  <ActivityIndicator size="small" color="#D33F13" style={{ margin: 12 }} />
+                  <ActivityIndicator accessibilityLabel="Loading" size="small" color="#D33F13" style={{ margin: 12 }} />
                 ) : (
                   selectedQuizzes.map((qItem, qidx) => (
                     <View key={qItem.id} style={s.sectionItem}>
@@ -1188,7 +1188,7 @@ export default function TopicsTab({
                   </Text>
                   {loadingTopicPreview ? (
                     <View style={s.previewEmpty}>
-                      <ActivityIndicator size="small" color="#2D5DC9" />
+                      <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" />
                       <Text style={s.previewEmptyText}>Preparing student preview…</Text>
                     </View>
                   ) : null}
@@ -1282,7 +1282,7 @@ export default function TopicsTab({
                 </View>
               </View>
               <ScrollView contentContainerStyle={{ padding: 12, gap: 8 }}>
-                {loadingQuizzes ? <ActivityIndicator style={{ marginTop: 20 }} color="#D33F13" /> :
+                {loadingQuizzes ? <ActivityIndicator accessibilityLabel="Loading" style={{ marginTop: 20 }} color="#D33F13" /> :
                   filteredQuizzes.length === 0 ? <Text style={s.flatEmpty}>No quizzes found.</Text> :
                   filteredQuizzes.map((quiz) => {
                     const sel = quizIds.includes(quiz.id);

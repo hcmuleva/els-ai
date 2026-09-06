@@ -284,7 +284,7 @@ export function PlansPanel({ organizations, selectedOrgId, onSelectOrg, canManag
         </View>
         {loading ? (
           <View style={styles.loadingBox}>
-            <ActivityIndicator size="small" color={Colors.primary} />
+            <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.primary} />
           </View>
         ) : (
           <View style={styles.plansGrid}>

@@ -108,7 +108,7 @@ function TeacherAssessmentDashboard() {
       <Text style={styles.subtitle}>Track performance, submissions, and intervention needs.</Text>
 
       {loading ? (
-        <ActivityIndicator size="large" color="#1d4ed8" />
+        <ActivityIndicator accessibilityLabel="Loading" size="large" color="#1d4ed8" />
       ) : error ? (
         <Text style={styles.errorText}>{error}</Text>
       ) : (
@@ -287,7 +287,7 @@ function ParentAssessmentDashboard() {
   if (loadingStudents || loading) {
     return (
       <View style={[styles.container, styles.center]}>
-        <ActivityIndicator size="large" color="#1d4ed8" />
+        <ActivityIndicator accessibilityLabel="Loading" size="large" color="#1d4ed8" />
       </View>
     );
   }

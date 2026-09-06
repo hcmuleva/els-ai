@@ -250,7 +250,7 @@ export default function ProfileScreen() {
                 style={s.connectInput}
               />
               <Pressable style={s.connectBtn} onPress={handleConnect} disabled={connecting}>
-                {connecting ? <ActivityIndicator color="#fff" /> : <Text style={s.connectBtnText}>Connect</Text>}
+                {connecting ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={s.connectBtnText}>Connect</Text>}
               </Pressable>
               {!!connectMessage && <Text style={s.connectSuccess}>{connectMessage}</Text>}
               {!!connectError && <Text style={s.connectError}>{connectError}</Text>}
@@ -275,7 +275,7 @@ export default function ProfileScreen() {
                 style={s.connectInput}
               />
               <Pressable style={s.deleteBtn} onPress={handleDeleteChildAccount} disabled={deleteChildLoading}>
-                {deleteChildLoading ? <ActivityIndicator color="#fff" /> : <Text style={s.deleteBtnText}>Delete Child's Account</Text>}
+                {deleteChildLoading ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={s.deleteBtnText}>Delete Child's Account</Text>}
               </Pressable>
               {!!deleteChildError && <Text style={s.connectError}>{deleteChildError}</Text>}
             </View>
@@ -308,7 +308,7 @@ export default function ProfileScreen() {
                 <Text style={s.modalBtnCancelText}>Cancel</Text>
               </Pressable>
               <Pressable style={s.modalBtnDelete} onPress={confirmDeleteAccount} disabled={deleteAccountLoading}>
-                {deleteAccountLoading ? <ActivityIndicator color="#fff" /> : <Text style={s.modalBtnDeleteText}>Delete</Text>}
+                {deleteAccountLoading ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={s.modalBtnDeleteText}>Delete</Text>}
               </Pressable>
             </View>
           </View>
@@ -334,7 +334,7 @@ export default function ProfileScreen() {
                 <Text style={s.modalBtnCancelText}>Cancel</Text>
               </Pressable>
               <Pressable style={s.modalBtnDelete} onPress={confirmDeleteChildAccount} disabled={deleteChildLoading}>
-                {deleteChildLoading ? <ActivityIndicator color="#fff" /> : <Text style={s.modalBtnDeleteText}>Delete</Text>}
+                {deleteChildLoading ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={s.modalBtnDeleteText}>Delete</Text>}
               </Pressable>
             </View>
           </View>

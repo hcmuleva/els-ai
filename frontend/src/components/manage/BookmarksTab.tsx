@@ -187,7 +187,7 @@ export default function BookmarksTab({ apiFetch, user }: Props) {
 
       <ScrollView contentContainerStyle={c.list} showsVerticalScrollIndicator={false}>
         {loading ? (
-          <View style={c.emptyWrap}><ActivityIndicator size="large" color="#2D5DC9" /></View>
+          <View style={c.emptyWrap}><ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" /></View>
         ) : bookmarks.length === 0 ? (
           <View style={c.emptyWrap}>
             <View style={c.emptyIcon}><Bookmark size={34} color="#2D5DC9" /></View>
@@ -477,7 +477,7 @@ function BookmarkEditorModal({ editing, apiFetch, user, catalog, onClose, onSave
           <Pressable onPress={onClose} style={c.modalBackBtn}><ChevronLeft size={24} color="#1a1a2e" /></Pressable>
           <Text style={c.modalTitle} numberOfLines={1}>{isEdit ? 'Edit Bookmark' : 'Create Bookmark'}</Text>
           <Pressable style={c.modalSaveBtn} onPress={handleSave} disabled={saving}>
-            {saving ? <ActivityIndicator color="#fff" size="small" /> : <Text style={c.modalSaveBtnText}>Save</Text>}
+            {saving ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" size="small" /> : <Text style={c.modalSaveBtnText}>Save</Text>}
           </Pressable>
         </View>
 
@@ -513,7 +513,7 @@ function BookmarkEditorModal({ editing, apiFetch, user, catalog, onClose, onSave
                 {!classLevel || !subject ? (
                   <Text style={c.panelHint}>Select a class and subject to list topics.</Text>
                 ) : loadingTopics ? (
-                  <ActivityIndicator size="small" color="#2D5DC9" style={{ marginTop: 16 }} />
+                  <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" style={{ marginTop: 16 }} />
                 ) : topics.length === 0 ? (
                   <Text style={c.panelHint}>No topics found.</Text>
                 ) : (
@@ -532,7 +532,7 @@ function BookmarkEditorModal({ editing, apiFetch, user, catalog, onClose, onSave
                         </Pressable>
                         {isOpenTopic ? (
                           loadingChild.has(topic.id) ? (
-                            <ActivityIndicator size="small" color="#2D5DC9" style={{ marginVertical: 8 }} />
+                            <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" style={{ marginVertical: 8 }} />
                           ) : (
                             <View style={c.childList}>
                               {(ch?.contents || []).map((it) => {

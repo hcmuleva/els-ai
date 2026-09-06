@@ -140,7 +140,7 @@ function ParentDashboard() {
         <View style={s.profileSwitcherWrap}>
           <Text style={s.profileSwitcherLabel}>My Children</Text>
           {loadingStudents ? (
-            <ActivityIndicator color={Colors.purple} size="small" style={{ marginTop: 8 }} />
+            <ActivityIndicator accessibilityLabel="Loading" color={Colors.purple} size="small" style={{ marginTop: 8 }} />
           ) : linkedStudents.length === 0 ? (
             <View style={s.emptyBlock}>
               <SvgXml xml={PENGUIN} width={80} height={80} />
@@ -275,7 +275,7 @@ function ParentDashboard() {
               </Pressable>
             </View>
             {loadingActivity ? (
-              <ActivityIndicator color={Colors.primary} style={{ marginVertical: 16 }} />
+              <ActivityIndicator accessibilityLabel="Loading" color={Colors.primary} style={{ marginVertical: 16 }} />
             ) : activity.length === 0 ? (
               <View style={s.emptyBlock}>
                 <Text style={s.emptyTitle}>No activity yet</Text>
@@ -448,7 +448,7 @@ export default function HomeScreen() {
 
         {loading ? (
           <View style={s.loadingBlock}>
-            <ActivityIndicator size="large" color={Colors.primary} />
+            <ActivityIndicator accessibilityLabel="Loading" size="large" color={Colors.primary} />
             <Text style={s.loadingLabel}>Loading your space…</Text>
           </View>
         ) : (
@@ -612,7 +612,7 @@ export default function HomeScreen() {
                       )}
                       ListEmptyComponent={
                         historyPage.loading
-                          ? <ActivityIndicator color="#9B8EC4" style={{ marginTop: 40 }} />
+                          ? <ActivityIndicator accessibilityLabel="Loading" color="#9B8EC4" style={{ marginTop: 40 }} />
                           : <Text style={{ textAlign: 'center', color: '#B0B8D0', marginTop: 40, fontSize: 14 }}>No previous stories yet.</Text>
                       }
                       ListFooterComponent={

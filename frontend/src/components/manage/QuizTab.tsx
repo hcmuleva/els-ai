@@ -594,7 +594,7 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
 
             {loadingQuizBank ? (
               <View style={s.emptyBox}>
-                <ActivityIndicator size="large" color="#2D5DC9" />
+                <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
                 <Text style={s.emptyText}>Loading quizzes...</Text>
               </View>
             ) : filteredQuizBank.length === 0 ? (
@@ -659,7 +659,7 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
                               disabled={deletingQuizId === q.id}
                             >
                               {deletingQuizId === q.id ? (
-                                <ActivityIndicator size="small" color="#DC2626" />
+                                <ActivityIndicator accessibilityLabel="Loading" size="small" color="#DC2626" />
                               ) : (
                                 <Trash2 size={15} color="#DC2626" />
                               )}
@@ -779,7 +779,7 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
               <View>
                 <Pressable style={s.createSubmitBtn} onPress={handleCreate} disabled={creating}>
                   {creating ? (
-                    <ActivityIndicator color="#fff" size="small" />
+                    <ActivityIndicator accessibilityLabel="Loading" color="#fff" size="small" />
                   ) : (
                     <>
                       <Check size={16} color="#fff" />
@@ -873,7 +873,7 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
               {/* Question list */}
               {loadingQuestionBank ? (
                 <View style={s.bankLoadingBox}>
-                  <ActivityIndicator size="large" color="#2D5DC9" />
+                  <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
                   <Text style={s.emptyText}>Loading question bank...</Text>
                 </View>
               ) : bankTab === 'selected' ? (
@@ -1091,7 +1091,7 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
             <ScrollView style={s.pvModalScroll} contentContainerStyle={s.pvModalContent}>
               {loadingPreview && (
                 <View style={s.pvLoadingRow}>
-                  <ActivityIndicator size="small" color="#2D5DC9" />
+                  <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" />
                   <Text style={s.pvLoadingText}>Loading complete details...</Text>
                 </View>
               )}

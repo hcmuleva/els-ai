@@ -473,7 +473,7 @@ export default function QuizEditorModal({
       </ScrollView>
 
       <Pressable style={[s.submitSaveBtn, saving && s.saveBtnDisabled]} onPress={handleSave} disabled={saving || loading}>
-        {saving ? <ActivityIndicator size="small" color="#fff" /> : <Text style={s.submitSaveText}>Save Quiz Settings</Text>}
+        {saving ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" /> : <Text style={s.submitSaveText}>Save Quiz Settings</Text>}
       </Pressable>
     </View>
   );
@@ -520,7 +520,7 @@ export default function QuizEditorModal({
                   disabled={busyQuestionId === q.id}
                 >
                   {busyQuestionId === q.id
-                    ? <ActivityIndicator size="small" color="#dc2626" />
+                    ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#dc2626" />
                     : <Trash2 size={16} color="#dc2626" />}
                 </Pressable>
               </View>
@@ -536,7 +536,7 @@ export default function QuizEditorModal({
       <View style={s.cardHeaderRow}>
         <Text style={s.cardTitle}>2. Question Bank Selection</Text>
         <Pressable style={s.refreshBtn} onPress={loadBank} disabled={loadingBank}>
-          {loadingBank ? <ActivityIndicator size="small" color="#2D5DC9" /> : <RotateCw size={14} color="#2D5DC9" />}
+          {loadingBank ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" /> : <RotateCw size={14} color="#2D5DC9" />}
         </Pressable>
       </View>
 
@@ -623,7 +623,7 @@ export default function QuizEditorModal({
                     disabled={busyQuestionId === q.id}
                   >
                     {busyQuestionId === q.id
-                      ? <ActivityIndicator size="small" color="#16a34a" />
+                      ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#16a34a" />
                       : <><Plus size={13} color="#16a34a" /><Text style={s.attachBtnText}>Add</Text></>}
                   </Pressable>
                 </View>
@@ -702,7 +702,7 @@ export default function QuizEditorModal({
             <Text style={s.headerSub} numberOfLines={1}>{title || 'Untitled'}</Text>
           </View>
           <Pressable style={[s.saveBtn, saving && s.saveBtnDisabled]} onPress={handleSave} disabled={saving || loading}>
-            {saving ? <ActivityIndicator size="small" color="#fff" /> : <Text style={s.saveBtnText}>Save</Text>}
+            {saving ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" /> : <Text style={s.saveBtnText}>Save</Text>}
           </Pressable>
         </View>
 
@@ -722,7 +722,7 @@ export default function QuizEditorModal({
         </View>
 
         {loading ? (
-          <View style={s.centerWrap}><ActivityIndicator size="large" color="#2D5DC9" /></View>
+          <View style={s.centerWrap}><ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" /></View>
         ) : isDesktop ? (
           /* Desktop Symmetrical 2-Column Fixed Card View */
           <View style={s.desktopLayout}>
@@ -838,7 +838,7 @@ export default function QuizEditorModal({
             <ScrollView style={s.pvModalScroll} contentContainerStyle={s.pvModalContent}>
               {loadingPreview && (
                 <View style={s.pvLoadingRow}>
-                  <ActivityIndicator size="small" color="#2D5DC9" />
+                  <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" />
                   <Text style={s.pvLoadingText}>Loading complete details...</Text>
                 </View>
               )}

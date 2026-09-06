@@ -1038,7 +1038,7 @@ function CounselingTab({
       </View>
 
       {loading ? (
-        <ActivityIndicator color="#2D5DC9" style={{ marginVertical: 24 }} />
+        <ActivityIndicator accessibilityLabel="Loading" color="#2D5DC9" style={{ marginVertical: 24 }} />
       ) : sessions.length === 0 ? (
         <View style={pr.emptyStateCard}>
           <SvgXml xml={OWL} width={64} height={64} />
@@ -1128,7 +1128,7 @@ function CounselingTab({
             </View>
 
             {loadingReport || !report ? (
-              <ActivityIndicator
+              <ActivityIndicator accessibilityLabel="Loading"
                 color="#2D5DC9"
                 style={{ marginVertical: 40 }}
               />
@@ -1216,7 +1216,7 @@ function CounselingTab({
                   disabled={exporting}
                 >
                   {exporting ? (
-                    <ActivityIndicator color="#fff" />
+                    <ActivityIndicator accessibilityLabel="Loading" color="#fff" />
                   ) : (
                     <>
                       <Download size={18} color="#fff" />
@@ -1606,7 +1606,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
 
       {loadingStudents ? (
         <View style={pr.centerBlock}>
-          <ActivityIndicator color="#2D5DC9" size="large" />
+          <ActivityIndicator accessibilityLabel="Loading" color="#2D5DC9" size="large" />
         </View>
       ) : !activeStudent ? (
         <View style={pr.centerBlock}>
@@ -1761,6 +1761,9 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
             style={{ flex: 1 }}
             contentContainerStyle={pr.scroll}
             showsVerticalScrollIndicator={false}
+            // Lets keyboard-only users (no trackpad/touch) focus and arrow-key-scroll
+            // this region — axe's `scrollable-region-focusable` rule (web only).
+            {...(Platform.OS === "web" ? { tabIndex: 0 } : {})}
           >
             {/* OVERVIEW */}
             {activeTab === "overview" && (
@@ -1937,7 +1940,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                   </Text>
                 </View>
                 {loadingActivity ? (
-                  <ActivityIndicator
+                  <ActivityIndicator accessibilityLabel="Loading"
                     color="#2D5DC9"
                     style={{ marginVertical: 24 }}
                   />
@@ -2289,7 +2292,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                   <Text style={pr.sectionHdrChip}>{activity.length} total</Text>
                 </View>
                 {loadingActivity ? (
-                  <ActivityIndicator
+                  <ActivityIndicator accessibilityLabel="Loading"
                     color="#2D5DC9"
                     style={{ marginVertical: 24 }}
                   />
@@ -2711,7 +2714,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                   paddingVertical: 60,
                 }}
               >
-                <ActivityIndicator size="large" color="#2D5DC9" />
+                <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
                 <Text
                   style={{ marginTop: 12, color: "#525C6B", fontWeight: "600" }}
                 >
@@ -3812,7 +3815,7 @@ export default function ReportsScreen() {
   if (loading) {
     return (
       <View style={s.center}>
-        <ActivityIndicator size="large" color="#2D5DC9" />
+        <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
         <Text style={s.loadingText}>Loading report…</Text>
       </View>
     );
@@ -4267,7 +4270,7 @@ export default function ReportsScreen() {
                     paddingVertical: 60,
                   }}
                 >
-                  <ActivityIndicator size="large" color="#2D5DC9" />
+                  <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
                   <Text
                     style={{
                       marginTop: 12,
