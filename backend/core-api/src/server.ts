@@ -37,6 +37,8 @@ import { tokenRouter } from './services/notification/routes/token.js';
 import { aiConversationsRouter } from './services/aichat/routes/conversations.js';
 import { aiUsageRouter } from './services/aichat/routes/usage.js';
 import { ensureSchema as ensureAiChatSchema } from './services/aichat/db.js';
+import { featureFlagsRouter } from './services/featureFlags/routes/featureFlags.js';
+import { ensureSchema as ensureFeatureFlagsSchema } from './services/featureFlags/db.js';
 
 config();
 
@@ -96,6 +98,9 @@ app.use('/notifications', notificationsRouter);
 app.use('/ai-conversations', aiConversationsRouter);
 app.use('/ai-usage', aiUsageRouter);
 
+// Feature flags (per-organization overrides of services/featureFlags/registry.ts)
+app.use('/feature-flags', featureFlagsRouter);
+
 app.use((error: unknown, _req: Request, res: Response, _next: unknown) => {
   console.error('[els-core-api] unhandled request error', error);
   res.status(500).json({ message: 'Internal server error' });
@@ -103,15 +108,18 @@ app.use((error: unknown, _req: Request, res: Response, _next: unknown) => {
 
 let server: ReturnType<typeof app.listen>;
 
-ensureAiChatSchema()
-  .catch((error) => {
+Promise.all([
+  ensureAiChatSchema().catch((error) => {
     console.error('[els-core-api] failed to ensure ai-chat schema', error);
-  })
-  .finally(() => {
-    server = app.listen(PORT, () => {
-      console.log(`ELS Core API listening on port ${PORT}`);
-    });
+  }),
+  ensureFeatureFlagsSchema().catch((error) => {
+    console.error('[els-core-api] failed to ensure feature-flags schema', error);
+  }),
+]).finally(() => {
+  server = app.listen(PORT, () => {
+    console.log(`ELS Core API listening on port ${PORT}`);
   });
+});
 
 function shutdown(signal: string) {
   console.log(`[els-core-api] received ${signal}, shutting down`);

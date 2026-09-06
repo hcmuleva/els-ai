@@ -98,6 +98,7 @@ app.use('/quizzes', makeProxy(CORE_API_URL, '/quizzes'));
 app.use('/ai', makeProxy(EDUCATION_AI_API_URL, '/ai'));
 app.use('/ai-conversations', makeProxy(CORE_API_URL, '/ai-conversations'));
 app.use('/ai-usage', makeProxy(CORE_API_URL, '/ai-usage'));
+app.use('/feature-flags', makeProxy(CORE_API_URL, '/feature-flags'));
 app.use('/assets', makeProxy(MEDIA_API_URL, '/assets'));
 app.use('/notifications', makeProxy(CORE_API_URL, '/notifications'));
 app.use('/stories', makeProxy(CORE_API_URL, '/stories'));

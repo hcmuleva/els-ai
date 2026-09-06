@@ -2,13 +2,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Activity, BookOpen, ChevronLeft, ChevronRight, CreditCard, FileSpreadsheet, FlaskConical, Globe, GraduationCap, Hash, Languages, Leaf, Monitor, Palette, Plus, Search, Shield, Sparkles, Users, UserCheck, X, Check, Trash2, ShieldCheck, CheckCircle2 } from 'lucide-react-native';
+import { Activity, BookOpen, ChevronLeft, ChevronRight, CreditCard, FileSpreadsheet, Flag, FlaskConical, Globe, GraduationCap, Hash, Languages, Leaf, Monitor, Palette, Plus, Search, Shield, Sparkles, Users, UserCheck, X, Check, Trash2, ShieldCheck, CheckCircle2 } from 'lucide-react-native';
 
 import { ScreenTemplate } from '../../src/components/ScreenTemplate';
 import SelectorModal from '../../src/components/SelectorModal';
 import { BillingPanel } from '../../src/components/billing/BillingPanel';
 import { QuestionDumpTab } from '../../src/components/admin/QuestionDumpTab';
 import { SchoolAnalyticsTab } from '../../src/components/admin/SchoolAnalyticsTab';
+import { FeatureFlagsTab } from '../../src/components/admin/FeatureFlagsTab';
+import { useFeatureFlag } from '../../src/hooks/useFeatureFlags';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import { Colors, Radius, Shadow } from '../../src/theme';
@@ -17,7 +19,7 @@ import { UserRole } from '../../src/types/roles';
 type IconComp = React.ComponentType<{ size?: number; color?: string }>;
 
 type ManagedRole = Extract<UserRole, 'student' | 'teacher' | 'parent' | 'admin'>;
-type AdminTab = 'subject' | 'student' | 'teacher' | 'parent' | 'billing' | 'question_dump' | 'analytics';
+type AdminTab = 'subject' | 'student' | 'teacher' | 'parent' | 'billing' | 'question_dump' | 'analytics' | 'feature_flags';
 type DialogMode = 'create' | 'edit';
 
 type ManagedUser = {
@@ -153,10 +155,11 @@ const TAB_OPTIONS: Array<{ key: AdminTab; label: string; description: string; ti
   { key: 'billing', label: 'Billing', description: 'Track subscriptions and organizational billing settings.', tint: Colors.warning, tintLight: Colors.warningLight, activeFill: '#A6541B', Icon: CreditCard },
   { key: 'question_dump', label: 'Question Dump', description: 'Bulk create questions from JSON format.', tint: '#0EA5E9', tintLight: '#E0F2FE', activeFill: '#0369A1', Icon: FileSpreadsheet },
   { key: 'analytics', label: 'Analytics', description: 'School-wide risk distribution, at-risk students, and performance forecasts.', tint: '#B71C1C', tintLight: '#FEE2E2', Icon: Activity },
+  { key: 'feature_flags', label: 'Feature Flags', description: 'Turn features on or off for your organization without a deploy.', tint: '#6D28D9', tintLight: '#EDE9FE', Icon: Flag },
 ];
 const TABLE_PAGE_SIZE = 8;
 const ADMIN_ACTIVE_TAB_KEY = 'admin:activeTab';
-const ADMIN_TAB_KEYS: AdminTab[] = ['subject', 'student', 'teacher', 'parent', 'billing', 'question_dump', 'analytics'];
+const ADMIN_TAB_KEYS: AdminTab[] = ['subject', 'student', 'teacher', 'parent', 'billing', 'question_dump', 'analytics', 'feature_flags'];
 
 const EMPTY_USER_FORM: UserFormState = {
   firstName: '',
@@ -304,6 +307,19 @@ export default function AdminScreen() {
   const { user, apiFetch } = useAuth();
   const insets = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState<AdminTab>('subject');
+  // Demonstrates the feature-flags mechanism end-to-end: the Analytics tab
+  // (the most recently-added, explicitly-heuristic-based feature — see
+  // PENDING_ITEMS.md #10) can be turned off per-organization from the new
+  // Feature Flags tab below without a deploy. Fails open (tab stays
+  // visible) while loading or on error — see useFeatureFlag's docstring.
+  const analyticsEnabled = useFeatureFlag('admin_school_analytics');
+  const visibleTabOptions = useMemo(
+    () => TAB_OPTIONS.filter((tab) => tab.key !== 'analytics' || analyticsEnabled),
+    [analyticsEnabled],
+  );
+  useEffect(() => {
+    if (!analyticsEnabled && activeTab === 'analytics') setActiveTab('subject');
+  }, [analyticsEnabled, activeTab]);
   const [subjects, setSubjects] = useState<SubjectRecord[]>([]);
   const [students, setStudents] = useState<ManagedUser[]>([]);
   const [teachers, setTeachers] = useState<TeacherAssignmentUser[]>([]);
@@ -316,6 +332,7 @@ export default function AdminScreen() {
     billing: 1,
     question_dump: 1,
     analytics: 1,
+    feature_flags: 1,
   });
   const [adminCounts, setAdminCounts] = useState({ subjects: 0, students: 0, teachers: 0, parents: 0 });
   const [assignmentCatalog, setAssignmentCatalog] = useState<AssignmentPair[]>([]);
@@ -1380,7 +1397,7 @@ export default function AdminScreen() {
 
 
       <View style={styles.tabGrid}>
-        {TAB_OPTIONS.map((tab) => {
+        {visibleTabOptions.map((tab) => {
           const active = activeTab === tab.key;
           const TabIcon = tab.Icon;
           return (
@@ -1719,6 +1736,8 @@ export default function AdminScreen() {
       ) : null}
 
       {activeTab === 'analytics' ? <SchoolAnalyticsTab apiFetch={apiFetch} /> : null}
+
+      {activeTab === 'feature_flags' ? <FeatureFlagsTab apiFetch={apiFetch} /> : null}
 
       {activeTab === 'parent' ? (
         <View style={styles.card}>
