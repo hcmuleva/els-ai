@@ -118,7 +118,7 @@ Given there is no existing chat or LLM backend, this was scoped as a **v1**, not
      - Verified throughout via `tsc --noEmit` (0 new errors at each step) and live `agent-browser a11y` re-sweeps (0 violations, 0 incomplete on Settings, Reports (parent + student), and `subject.tsx` after each fix).
      - **New bug found while testing, not fixed (needs its own investigation):** `NotificationContext.tsx`'s Ably `stopRealtime()` throws an uncaught "Connection closed" error intermittently on **direct URL navigation/reload** (reproduced on `/settings` and `/reports`, both roles) — the existing connection-state guard doesn't fully prevent it. This is a real crash a real user could hit by refreshing the browser or opening a deep link, not just a dev-mode artifact. See `PENDING_ITEMS.md` §7.
 7. ~~Dark mode / theme engine, built on the P0 design tokens.~~ **Deferred per explicit decision — light mode only for now.** See `PENDING_ITEMS.md` §2.
-8. ~~Gamification widgets for the student dashboard (streaks, achievements) — needs new backend fields on quiz/attempt completion.~~ ✅ **Already done, no new work needed.** Checked before starting: streaks (`student_analytics.streak_days`, computed server-side) and achievements (teacher-granted via `/achievements/grant`, listed via `/achievements/my`) are both fully real and already rendered on the student home screen — the "needs new backend fields" premise in this item was inaccurate. Separately found (not part of this item, tracked in `PENDING_ITEMS.md` §1): `reports.tsx` has an unrelated mock XP/points section showing hardcoded fake numbers to real users — needs a product decision on whether to remove it or build a real XP system.
+8. ~~Gamification widgets for the student dashboard (streaks, achievements) — needs new backend fields on quiz/attempt completion.~~ ✅ **Already done, no new work needed.** Checked before starting: streaks (`student_analytics.streak_days`, computed server-side) and achievements (teacher-granted via `/achievements/grant`, listed via `/achievements/my`) are both fully real and already rendered on the student home screen — the "needs new backend fields" premise in this item was inaccurate. Separately found (not part of this item, tracked in `PENDING_ITEMS.md` §1): `reports.tsx` had an unrelated mock XP/points section showing hardcoded fake numbers — since removed entirely, per decision (see §7 below).
 
 **P2 (larger investments, sequence after P0/P1 prove out):**
 9. Full multi-agent AI router (Factory AI / Copilot / local LLM providers) per Phase 5.
@@ -148,8 +148,8 @@ Given there is no existing chat or LLM backend, this was scoped as a **v1**, not
 - ~~**AI provider for chat v1**~~ — resolved: local Ollama (`llama3`), placeholder `OLLAMA_BASE_URL` until the user points it at a real instance.
 - ~~**Chat scope for v1**~~ — resolved: role-specific behavior shipped from day one (teacher/student/parent/admin/superadmin each get a distinct system prompt).
 - **Design system investment:** is a dedicated design-token/component-library pass worth doing now (P0/P1 above), or should visual polish wait until after the AI chat and data-fetching work lands? *(Proceeding with P0 items 2–3 next per the user's "implement all phases" instruction.)*
-- **P2 sequencing (items 9-12 above):** which of the 4 P2 items to start with — not yet answered.
-- **Fake XP/points data in `reports.tsx`:** remove vs. build a real backend-driven system — not yet answered. See `PENDING_ITEMS.md` §1.
+- ~~**P2 sequencing (items 9-12 above)**~~ — resolved: do all four, in listed order (9 → 10 → 11 → 12).
+- ~~**Fake XP/points data in `reports.tsx`**~~ — resolved: removed entirely (turned out to be unreachable dead code, not just a display issue — see `PENDING_ITEMS.md` §1).
 
 ---
 

@@ -4,20 +4,19 @@ A running list of things found during the `CLIENT_PLAN.md` backlog work that wer
 
 ---
 
-## 1. Needs a product decision
+## 1. Fake XP/points data in `app/(tabs)/reports.tsx` — resolved (removed)
 
-### Fake XP/points data in `app/(tabs)/reports.tsx`
-Real users are shown made-up numbers today:
-- `STUDENT_SUMMARY.totalXp` / `weeklyXp` — hardcoded fallback constants, not read from any database column.
-- Per-activity XP values (50 for a quiz, 20 for content, 35 for practice, etc.) — fixed literals, not computed from anything.
-- Fake relative timestamps in the "recent activity" list (`"Today · 10 min ago"`) when no real classroom data is available.
+**Decision:** remove the fake XP section entirely (no real backend-driven XP system needed).
 
-This looks like legacy scaffolding from before the real, backend-driven analytics (`analytics.summary.*`, `/achievements/my`) existed elsewhere in the app (e.g. `index.tsx`'s home screen, which is fully real). Streaks and achievements are **not** affected — those are already real and backend-computed (see §3).
+Investigating this turned up something better than a simple "hide the numbers" patch: the entire code path serving the fake XP (`STUDENT_SUMMARY.totalXp`/`weeklyXp`, the 50/20/35-point per-activity literals, and the fake `"Today · 10 min ago"` timestamps) lived in a `ReportsScreen` fallback render branch guarded by `role` checks that **can never be true** — `UserRole` only ever takes `student | teacher | parent | admin | superadmin`, and each of those is already handled by an earlier `return` (parent/student roles return `<ParentReports mode=... />`, teacher/admin/superadmin return the real teacher dashboard). This was orphaned scaffolding from before `ParentReports` gained `mode="student"` support — it hadn't rendered in production for a while, but it was still costing a real, wasted `/classrooms/student` fetch on every focus for parent/student roles (whose result was then discarded).
 
-Options, not yet decided:
-- Remove/hide the XP section — showing fabricated numbers to real users is misleading.
-- Build a real XP system: a backend column (e.g. `student_analytics.xp_total` or similar) plus a per-activity-type XP rule, computed the same way streaks already are.
-- Leave it as-is for now (this entry exists so it isn't lost).
+Removed, all confirmed to have no other callers first:
+- The unreachable "STUDENT VIEW" render branch and its `stats`/`recentActivity`/`chartData`/`todayIdx`/`activeSubject`/`period`/`classroom` state and derived values.
+- Its exclusive helper components: `AnimatedBar`, `BarChart` (+ `bc` styles), `ScoreSparkline`, `SubjectModal` (+ `m` styles) — none were used anywhere reachable.
+- The now-fully-unused `src/data/studentMockData.ts` (its own header comment: *"Replace individual fields with real API calls as endpoints become available"*) and its imports (`CHART_DATA`, `SUBJECT_DETAILS`, `STUDENT_SUMMARY`, `BADGES_DATA`, plus now-unused `react-native-reanimated`/`react-native-svg` imports and the `Star`/`Flame` icons).
+- Simplified `loadData`'s parent/student branch to a no-op comment, since `ParentReports` fetches its own data independently — removing one redundant network round-trip per screen focus for those roles.
+
+Real gamification data (streaks, achievements) was never affected — see §3. Verified via `tsc --noEmit` (steady at the pre-existing 59-error baseline, zero new/resolved) and live checks of teacher Dashboard and student Overview after the removal — both render identically to before.
 
 ---
 
