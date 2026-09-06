@@ -435,9 +435,19 @@ quizzesRouter.get('/teacher/class-activity', requireAuth, async (req, res) => {
          q.title           AS quiz_title,
          COUNT(qa.id)                                     AS total_questions,
          COUNT(qa.id) FILTER (WHERE qa.is_correct)        AS correct_count,
-         CASE WHEN COUNT(qa.id) > 0
-           THEN ROUND(COUNT(qa.id) FILTER (WHERE qa.is_correct)::numeric / COUNT(qa.id) * 100)
-           ELSE 0 END                                     AS score_pct,
+         -- Scored from question_attempts when present; falls back to the
+         -- attempt-level score/total_points for attempts with no
+         -- question_attempts rows at all (e.g. seed-demo-trends.ts synthetic
+         -- attempts used for Growth Trends testing) so those don't read as
+         -- a false 0% — without this fallback they were silently ranking as
+         -- the "worst" students on the dashboard, which they aren't.
+         CASE
+           WHEN COUNT(qa.id) > 0
+             THEN ROUND(COUNT(qa.id) FILTER (WHERE qa.is_correct)::numeric / COUNT(qa.id) * 100)
+           WHEN sa.total_points > 0
+             THEN ROUND(sa.score::numeric / sa.total_points * 100)
+           ELSE 0
+         END                                               AS score_pct,
          BOOL_OR(qq.question_type IN ('memory_match','fill_blank','jigsaw')) AS has_game,
          MAX(CASE WHEN qq.question_type = 'memory_match'
            THEN (qa.response_data->>'clicksUsed')::int    END) AS mm_clicks_used,
@@ -497,6 +507,101 @@ quizzesRouter.get('/teacher/class-activity', requireAuth, async (req, res) => {
     catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Failed to load class activity' });
+    }
+});
+// ── GET /quizzes/admin/analytics ──────────────────────────────────────────
+// School-wide risk roster + performance trend, for the Admin School
+// Analytics dashboard (admin/superadmin only — same audience as Billing).
+// Returns raw numbers only; risk classification (Low/Medium/High) and the
+// forecast projection are computed client-side via
+// frontend/src/utils/riskForecast.ts, the same shared logic used by the
+// parent Growth Trends report and the teacher Student Activity list, so
+// "risk" means the same thing everywhere in the app. If a dedicated
+// analytics/forecasting service is stood up later, it can replace this
+// query behind the same response shape without any caller changes.
+quizzesRouter.get('/admin/analytics', requireAuth, async (req, res) => {
+    const orgId = getOrganizationId(req);
+    if (!orgId)
+        return res.status(400).json({ message: 'Organization not found in auth context' });
+    if (!canBypassOwnership(req)) {
+        return res.status(403).json({ message: 'Admin access required' });
+    }
+    try {
+        // Scored from question_attempts (correct/total per attempt), same as
+        // /teacher/class-activity, with the same fallback to the attempt-level
+        // score/total_points for attempts with no question_attempts rows at all
+        // (e.g. seed-demo-trends.ts synthetic attempts) — without it those
+        // attempts read as a false 0% and would dominate the "most at risk"
+        // roster. Deliberately NOT the same formula as /teacher/overview's
+        // summary card, which uses student_attempts.score/total_points alone;
+        // that turned out to silently exclude attempts with total_points = 0
+        // rather than counting them as 0%, overstating the org-wide average
+        // (pre-existing, out of scope here — see PENDING_ITEMS.md).
+        const rosterResult = await db.query(`SELECT
+         u.id            AS student_id,
+         u.first_name,
+         u.last_name,
+         u.class_level,
+         COUNT(DISTINCT sa.id)                 AS attempts,
+         COALESCE(ROUND(AVG(attempt_pct.pct), 2), 0) AS average_score_pct
+       FROM users u
+       INNER JOIN user_roles ur ON ur.user_id = u.id AND ur.organization_id = $1::uuid
+       INNER JOIN student_attempts sa ON sa.student_id = u.id
+       INNER JOIN quizzes q ON q.id = sa.quiz_id AND q.organization_id = $1::uuid
+       INNER JOIN LATERAL (
+         SELECT CASE
+           WHEN COUNT(qa.id) > 0
+             THEN COUNT(qa.id) FILTER (WHERE qa.is_correct)::numeric / COUNT(qa.id) * 100
+           WHEN sa.total_points > 0
+             THEN sa.score::numeric / sa.total_points * 100
+           ELSE NULL
+         END AS pct
+         FROM question_attempts qa
+         WHERE qa.attempt_id = sa.id
+       ) attempt_pct ON true
+       WHERE u.active_role = 'student'
+       GROUP BY u.id, u.first_name, u.last_name, u.class_level
+       ORDER BY average_score_pct ASC, attempts DESC
+       LIMIT 200`, [orgId]);
+        const trendResult = await db.query(`SELECT
+         date_trunc('week', sa.completed_at) AS week_start,
+         COUNT(DISTINCT sa.id)                 AS attempts,
+         COALESCE(ROUND(AVG(attempt_pct.pct), 2), 0) AS average_score_pct
+       FROM student_attempts sa
+       INNER JOIN quizzes q ON q.id = sa.quiz_id AND q.organization_id = $1::uuid
+       INNER JOIN LATERAL (
+         SELECT CASE
+           WHEN COUNT(qa.id) > 0
+             THEN COUNT(qa.id) FILTER (WHERE qa.is_correct)::numeric / COUNT(qa.id) * 100
+           WHEN sa.total_points > 0
+             THEN sa.score::numeric / sa.total_points * 100
+           ELSE NULL
+         END AS pct
+         FROM question_attempts qa
+         WHERE qa.attempt_id = sa.id
+       ) attempt_pct ON true
+       WHERE sa.completed_at >= NOW() - INTERVAL '8 weeks'
+       GROUP BY week_start
+       ORDER BY week_start ASC`, [orgId]);
+        return res.json({
+            riskRoster: rosterResult.rows.map((r) => ({
+                studentId: r.student_id,
+                firstName: r.first_name,
+                lastName: r.last_name,
+                classLevel: r.class_level,
+                attempts: Number(r.attempts),
+                averageScorePct: Number(r.average_score_pct),
+            })),
+            performanceTrend: trendResult.rows.map((r) => ({
+                weekStart: r.week_start,
+                attempts: Number(r.attempts),
+                averageScorePct: Number(r.average_score_pct),
+            })),
+        });
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Failed to load admin analytics' });
     }
 });
 quizzesRouter.post('/:quizId/questions/reuse', requireAuth, async (req, res) => {

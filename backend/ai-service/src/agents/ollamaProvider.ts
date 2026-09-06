@@ -9,7 +9,7 @@ import type { AgentProvider, AgentStreamEvent, AgentStreamParams } from './types
  */
 export function createOllamaProvider(): AgentProvider {
   const baseUrl = (process.env.OLLAMA_BASE_URL || 'http://localhost:11434').replace(/\/$/, '');
-  const model = process.env.OLLAMA_MODEL || 'llama3';
+  const model = process.env.OLLAMA_MODEL || 'llama3.2';
 
   return {
     id: 'ollama',

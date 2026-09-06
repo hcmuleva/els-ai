@@ -2,6 +2,7 @@ import cors from 'cors';
 import { config } from 'dotenv';
 import express from 'express';
 import { aiRouter } from './routes/ai.js';
+import { chatRouter, aiConversationsProxyRouter } from './routes/chat.js';
 config();
 const PORT = process.env.PORT || 4003;
 const app = express();
@@ -12,6 +13,8 @@ app.get('/health', (_req, res) => {
     res.json({ status: 'ok', service: 'ai-service' });
 });
 app.use('/ai', aiRouter);
+app.use('/ai/chat', chatRouter);
+app.use('/ai/chat', aiConversationsProxyRouter);
 async function bootstrap() {
     app.listen(PORT, () => {
         console.log(`AI Service listening on http://localhost:${PORT}`);

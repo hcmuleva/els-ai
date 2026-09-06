@@ -200,8 +200,18 @@ export function ChatPanel() {
                   placeholderTextColor="#9CA3AF"
                   multiline
                   editable={!isSending}
-                  onSubmitEditing={Platform.OS === 'web' ? handleSend : undefined}
+                  onSubmitEditing={handleSend}
                   blurOnSubmit={false}
+                  onKeyPress={(e) => {
+                    if (Platform.OS === 'web') {
+                      const nativeEvent = e.nativeEvent as any;
+                      if (nativeEvent?.key === 'Enter' && !nativeEvent?.shiftKey) {
+                        (e as any).preventDefault?.();
+                        nativeEvent?.preventDefault?.();
+                        handleSend();
+                      }
+                    }
+                  }}
                 />
                 <Pressable
                   onPress={handleSend}

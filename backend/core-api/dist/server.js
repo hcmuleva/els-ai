@@ -22,6 +22,11 @@ import { storiesRouter } from './services/story/routes/stories.js';
 import { notificationsRouter } from './services/notification/routes/notifications.js';
 import { preferencesRouter } from './services/notification/routes/preferences.js';
 import { tokenRouter } from './services/notification/routes/token.js';
+import { aiConversationsRouter } from './services/aichat/routes/conversations.js';
+import { aiUsageRouter } from './services/aichat/routes/usage.js';
+import { ensureSchema as ensureAiChatSchema } from './services/aichat/db.js';
+import { featureFlagsRouter } from './services/featureFlags/routes/featureFlags.js';
+import { ensureSchema as ensureFeatureFlagsSchema } from './services/featureFlags/db.js';
 config();
 const PORT = Number(process.env.PORT || 4020);
 const app = express();
@@ -66,15 +71,34 @@ app.use('/stories', storiesRouter);
 app.use('/notifications/preferences', preferencesRouter);
 app.use('/notifications/ably-token', tokenRouter);
 app.use('/notifications', notificationsRouter);
+// AI chat
+app.use('/ai-conversations', aiConversationsRouter);
+app.use('/ai-usage', aiUsageRouter);
+// Feature flags (per-organization overrides of services/featureFlags/registry.ts)
+app.use('/feature-flags', featureFlagsRouter);
 app.use((error, _req, res, _next) => {
     console.error('[els-core-api] unhandled request error', error);
     res.status(500).json({ message: 'Internal server error' });
 });
-const server = app.listen(PORT, () => {
-    console.log(`ELS Core API listening on port ${PORT}`);
+let server;
+Promise.all([
+    ensureAiChatSchema().catch((error) => {
+        console.error('[els-core-api] failed to ensure ai-chat schema', error);
+    }),
+    ensureFeatureFlagsSchema().catch((error) => {
+        console.error('[els-core-api] failed to ensure feature-flags schema', error);
+    }),
+]).finally(() => {
+    server = app.listen(PORT, () => {
+        console.log(`ELS Core API listening on port ${PORT}`);
+    });
 });
 function shutdown(signal) {
     console.log(`[els-core-api] received ${signal}, shutting down`);
+    if (!server) {
+        void closeDb().finally(() => process.exit(0));
+        return;
+    }
     server.close(() => {
         void closeDb().finally(() => process.exit(0));
     });
