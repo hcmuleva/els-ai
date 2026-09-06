@@ -13,6 +13,7 @@ import {
   View,
   Image,
   Linking,
+  useWindowDimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
@@ -1362,6 +1363,10 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
   const { apiFetch } = useAuth();
   const isStudentMode = mode === "student";
   const insets = useSafeAreaInsets();
+  // Laptop/monitor-sized viewports get a 2-column dashboard grid for paired
+  // content (e.g. side-by-side charts) instead of one full-width block per row.
+  const { width: windowWidth } = useWindowDimensions();
+  const isLargeScreen = windowWidth >= 1024;
 
   const [activeTab, setActiveTab] = useState<ParentTab>("overview");
   const prevTab = useRef<ParentTab>("overview");
@@ -1881,42 +1886,58 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                   </View>
                 </View>
 
-                <View style={pr.sectionHdr}>
-                  <Text style={pr.sectionHdrTitle}>Time Spent per Day</Text>
-                  <Text style={pr.sectionHdrChip}>
-                    {fmtSec(sum?.totalTimeSeconds ?? 0)} total
-                  </Text>
-                </View>
-                <View style={pr.card}>
-                  <ProperBarChart
-                    data={timeChartData}
-                    color="#2D5DC9"
-                    unit="m"
-                    yTicks={4}
-                    height={110}
-                  />
-                  <Text style={pr.chartNote}>
-                    Minutes of learning per day (last 7 days)
-                  </Text>
-                </View>
+                {/* Two comparable charts sit side by side on large screens
+                    instead of stacking full-width, one under the other. */}
+                <View
+                  style={[
+                    pr.chartsGridRow,
+                    {
+                      flexDirection: isLargeScreen ? "row" : "column",
+                      gap: isLargeScreen ? 16 : 0,
+                    },
+                  ]}
+                >
+                  <View style={pr.chartsGridCol}>
+                    <View style={[pr.sectionHdr, isLargeScreen && { paddingHorizontal: 0 }]}>
+                      <Text style={pr.sectionHdrTitle}>Time Spent per Day</Text>
+                      <Text style={pr.sectionHdrChip}>
+                        {fmtSec(sum?.totalTimeSeconds ?? 0)} total
+                      </Text>
+                    </View>
+                    <View style={[pr.card, isLargeScreen && { marginHorizontal: 0 }]}>
+                      <ProperBarChart
+                        data={timeChartData}
+                        color="#2D5DC9"
+                        unit="m"
+                        yTicks={4}
+                        height={110}
+                      />
+                      <Text style={pr.chartNote}>
+                        Minutes of learning per day (last 7 days)
+                      </Text>
+                    </View>
+                  </View>
 
-                <View style={pr.sectionHdr}>
-                  <Text style={pr.sectionHdrTitle}>Daily Completion Rate</Text>
-                  <Text style={pr.sectionHdrChip}>
-                    avg {sum ? sum.completionRate.toFixed(0) : 0}%
-                  </Text>
-                </View>
-                <View style={pr.card}>
-                  <ProperBarChart
-                    data={completionChartData}
-                    color="#7DC67A"
-                    unit="%"
-                    yTicks={4}
-                    height={110}
-                  />
-                  <Text style={pr.chartNote}>
-                    Percentage of activities completed each day
-                  </Text>
+                  <View style={pr.chartsGridCol}>
+                    <View style={[pr.sectionHdr, isLargeScreen && { paddingHorizontal: 0 }]}>
+                      <Text style={pr.sectionHdrTitle}>Daily Completion Rate</Text>
+                      <Text style={pr.sectionHdrChip}>
+                        avg {sum ? sum.completionRate.toFixed(0) : 0}%
+                      </Text>
+                    </View>
+                    <View style={[pr.card, isLargeScreen && { marginHorizontal: 0 }]}>
+                      <ProperBarChart
+                        data={completionChartData}
+                        color="#7DC67A"
+                        unit="%"
+                        yTicks={4}
+                        height={110}
+                      />
+                      <Text style={pr.chartNote}>
+                        Percentage of activities completed each day
+                      </Text>
+                    </View>
+                  </View>
                 </View>
               </>
             )}
@@ -3614,6 +3635,10 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
 export default function ReportsScreen() {
   const { user, apiFetch } = useAuth();
   const insets = useSafeAreaInsets();
+  // Laptop/monitor-sized viewports get a denser stat row and side-by-side
+  // panels instead of one full-width block per row (see ParentReports above).
+  const { width: teacherWindowWidth } = useWindowDimensions();
+  const isLargeScreen = teacherWindowWidth >= 1024;
   const {
     linkedStudents,
     activeStudent,
@@ -3905,7 +3930,11 @@ export default function ReportsScreen() {
                 ].map((item) => (
                   <View
                     key={item.label}
-                    style={[s.statCard2, { backgroundColor: item.bg }]}
+                    style={[
+                      s.statCard2,
+                      isLargeScreen && { width: "23%" },
+                      { backgroundColor: item.bg },
+                    ]}
                   >
                     <Text style={[s.statVal2, { color: item.color }]}>
                       {item.val}
@@ -3915,8 +3944,18 @@ export default function ReportsScreen() {
                 ))}
               </View>
 
-              <Text style={s.secTitle}>Class Performance</Text>
-              <View style={s.card}>
+              {/* Class Performance and Topic Gaps sit side by side on large
+                  screens instead of stacking full-width one under the other. */}
+              <View
+                style={{
+                  flexDirection: isLargeScreen ? "row" : "column",
+                  gap: isLargeScreen ? 16 : 0,
+                  paddingHorizontal: isLargeScreen ? 16 : 0,
+                }}
+              >
+              <View style={{ flex: 1, minWidth: 0 }}>
+              <Text style={[s.secTitle, isLargeScreen && { paddingHorizontal: 0 }]}>Class Performance</Text>
+              <View style={[s.card, isLargeScreen && { marginHorizontal: 0 }]}>
                 {overview?.classPerformance?.length ? (
                   overview.classPerformance.map((cls) => {
                     const pct = Math.round(Number(cls.average_score_pct));
@@ -3951,9 +3990,11 @@ export default function ReportsScreen() {
                   <Text style={s.emptyText}>No class data yet.</Text>
                 )}
               </View>
+              </View>
 
-              <Text style={s.secTitle}>Topic Gaps</Text>
-              <View style={s.card}>
+              <View style={{ flex: 1, minWidth: 0 }}>
+              <Text style={[s.secTitle, isLargeScreen && { paddingHorizontal: 0 }]}>Topic Gaps</Text>
+              <View style={[s.card, isLargeScreen && { marginHorizontal: 0 }]}>
                 {overview?.topGaps?.length ? (
                   overview.topGaps.map((gap) => {
                     const pct = Number(gap.incorrect_pct);
@@ -3989,6 +4030,8 @@ export default function ReportsScreen() {
                 ) : (
                   <Text style={s.emptyText}>No topic gap data yet.</Text>
                 )}
+              </View>
+              </View>
               </View>
 
               {/* ── Student Activity ──────────────────────────────────────── */}
@@ -6603,6 +6646,14 @@ const pr = StyleSheet.create({
   },
   sectionHdrTitle: { fontSize: 17, fontWeight: "900", color: "#1a1a2e" },
   sectionHdrChip: { fontSize: 12, fontWeight: "700", color: "#2D5DC9" },
+
+  // Wraps a pair of section-header+card blocks so they sit side by side on
+  // large screens (row) but stack exactly as before on phones (column, no gap
+  // — spacing there still comes from each section's own sectionHdr margins).
+  chartsGridRow: {
+    paddingHorizontal: 16,
+  },
+  chartsGridCol: { flex: 1, minWidth: 0 },
 
   // Inline meta row (compact date/time in one line)
   inlineMetaRow: {

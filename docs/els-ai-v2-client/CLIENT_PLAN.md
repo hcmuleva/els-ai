@@ -148,3 +148,12 @@ Given there is no existing chat or LLM backend, this was scoped as a **v1**, not
 - ~~**AI provider for chat v1**~~ — resolved: local Ollama (`llama3`), placeholder `OLLAMA_BASE_URL` until the user points it at a real instance.
 - ~~**Chat scope for v1**~~ — resolved: role-specific behavior shipped from day one (teacher/student/parent/admin/superadmin each get a distinct system prompt).
 - **Design system investment:** is a dedicated design-token/component-library pass worth doing now (P0/P1 above), or should visual polish wait until after the AI chat and data-fetching work lands? *(Proceeding with P0 items 2–3 next per the user's "implement all phases" instruction.)*
+- **P2 sequencing (items 9-12 above):** which of the 4 P2 items to start with — not yet answered.
+- **Fake XP/points data in `reports.tsx`:** remove vs. build a real backend-driven system — not yet answered. See `PENDING_ITEMS.md` §1.
+
+---
+
+## 7. Ad-hoc requests handled outside the P0–P2 backlog
+
+### Responsive multi-column layouts for large screens — done
+Explicit ask: Reports (teacher/admin/parent) and Planner's classroom Analytics tab were rendering single-column even on wide laptop/monitor viewports; asked for "professional styles" and dynamic multi-column/multi-row layout "as per needed." Implemented on the 3 screens with genuinely comparable/paired sections — `ParentReports`' two bar charts, `ReportsScreen`'s 4 stat cards + Class Performance/Topic Gaps cards, and `ClassDetailsScreen`'s 3 `MiniBarChart` summaries — using the codebase's existing `useWindowDimensions()` breakpoint convention at a new 1024px threshold. Variable-length lists/tables (Student Activity, Student Breakdown) were deliberately left full-width. Full detail and verification notes in `PENDING_ITEMS.md` §8. Not yet scoped: whether other dashboard-style screens (e.g. `manage.tsx`) need the same treatment, and whether "professional styles" extends beyond layout into typography/spacing/shadow polish.

@@ -6,6 +6,7 @@ import { useEffect, useState, useCallback } from 'react';
 import {
   ActivityIndicator, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, View, Image, Linking, TextInput,
+  useWindowDimensions,
 } from 'react-native';
 import Svg, { Rect, Text as SvgText, G, Circle, SvgXml } from 'react-native-svg';
 import {
@@ -303,6 +304,10 @@ type Props = {
 };
 
 export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onUploadMedia }: Props) {
+  // Laptop/monitor-sized viewports show the 3 Analytics summary charts side
+  // by side instead of stacking full-width, one under the other.
+  const { width: windowWidth } = useWindowDimensions();
+  const isLargeScreen = windowWidth >= 1024;
   const [tab, setTab]             = useState<DetailTab>('overview');
   const [loading, setLoading]     = useState(false);
   const [classroom, setClassroom] = useState<ClassroomDetail | null>(null);
@@ -1039,37 +1044,46 @@ export default function ClassDetailsScreen({ classroomId, apiFetch, onClose, onU
                   </View>
                 ) : (
                   <>
-                    <View style={ds.section}>
-                      <View style={ds.sectionTitleRow}>
-                        <TrendingUp size={14} color="#2D5DC9" />
-                        <Text style={ds.sectionTitle}>Avg Teacher Score (per student)</Text>
+                    {/* 3 comparable summary charts sit side by side on large
+                        screens instead of stacking full-width one under the other. */}
+                    <View
+                      style={{
+                        flexDirection: isLargeScreen ? "row" : "column",
+                        gap: isLargeScreen ? 12 : 0,
+                      }}
+                    >
+                      <View style={[ds.section, isLargeScreen && { flex: 1, minWidth: 0 }]}>
+                        <View style={ds.sectionTitleRow}>
+                          <TrendingUp size={14} color="#2D5DC9" />
+                          <Text style={ds.sectionTitle}>Avg Teacher Score (per student)</Text>
+                        </View>
+                        <Text style={ds.chartSub}>Out of 5 — averaged across behavior, confidence, participation, performance</Text>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                          <MiniBarChart data={scoreData} color="#2D5DC9" maxVal={5} />
+                        </ScrollView>
                       </View>
-                      <Text style={ds.chartSub}>Out of 5 — averaged across behavior, confidence, participation, performance</Text>
-                      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                        <MiniBarChart data={scoreData} color="#2D5DC9" maxVal={5} />
-                      </ScrollView>
-                    </View>
 
-                    <View style={ds.section}>
-                      <View style={ds.sectionTitleRow}>
-                        <Trophy size={14} color="#7DC67A" />
-                        <Text style={ds.sectionTitle}>Quizzes Completed</Text>
+                      <View style={[ds.section, isLargeScreen && { flex: 1, minWidth: 0 }]}>
+                        <View style={ds.sectionTitleRow}>
+                          <Trophy size={14} color="#7DC67A" />
+                          <Text style={ds.sectionTitle}>Quizzes Completed</Text>
+                        </View>
+                        <Text style={ds.chartSub}>Total quizzes in class: {classroom?.totalQuizzes ?? 0}</Text>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                          <MiniBarChart data={quizData} color="#7DC67A" maxVal={Math.max(classroom?.totalQuizzes ?? 1, 1)} />
+                        </ScrollView>
                       </View>
-                      <Text style={ds.chartSub}>Total quizzes in class: {classroom?.totalQuizzes ?? 0}</Text>
-                      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                        <MiniBarChart data={quizData} color="#7DC67A" maxVal={Math.max(classroom?.totalQuizzes ?? 1, 1)} />
-                      </ScrollView>
-                    </View>
 
-                    <View style={ds.section}>
-                      <View style={ds.sectionTitleRow}>
-                        <ClipboardList size={14} color="#D33F13" />
-                        <Text style={ds.sectionTitle}>Assignments Submitted</Text>
+                      <View style={[ds.section, isLargeScreen && { flex: 1, minWidth: 0 }]}>
+                        <View style={ds.sectionTitleRow}>
+                          <ClipboardList size={14} color="#D33F13" />
+                          <Text style={ds.sectionTitle}>Assignments Submitted</Text>
+                        </View>
+                        <Text style={ds.chartSub}>Total assignments: {classroom?.totalAssignments ?? 0}</Text>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                          <MiniBarChart data={asnData} color="#D33F13" maxVal={Math.max(classroom?.totalAssignments ?? 1, 1)} />
+                        </ScrollView>
                       </View>
-                      <Text style={ds.chartSub}>Total assignments: {classroom?.totalAssignments ?? 0}</Text>
-                      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                        <MiniBarChart data={asnData} color="#D33F13" maxVal={Math.max(classroom?.totalAssignments ?? 1, 1)} />
-                      </ScrollView>
                     </View>
 
                     {/* Per-student table */}

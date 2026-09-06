@@ -73,3 +73,19 @@ These backlog items were shipped as a working example on a subset of the codebas
 Reproduced on both `/settings` and `/reports`, on more than one role: navigating straight to the URL (a hard refresh or a deep link, not in-app navigation) intermittently throws an uncaught error from Ably's `stopRealtime()` — "Connection closed" / "only close a connection that's actually still live" — which surfaces as a full dev-mode error overlay. There is already a connection-state guard in `stopRealtime()` intended to prevent exactly this, but it doesn't fully close the race: on a fresh page load, the realtime connection can still be mid-setup (or mid-teardown from a fast-refresh) when something else calls `stopRealtime()`, and the guard's state check doesn't cover that window.
 
 This wasn't hit by chance — it reproduced on repeat, independent attempts, on two different screens. Since real users do refresh browsers and open bookmarked/shared links directly, this is a genuine production risk, not just a dev-server quirk (though dev mode's error overlay makes it more visible than production's silent error boundary would). Not fixed here because it surfaced as a side effect of unrelated a11y testing and needs proper root-causing (likely an async guard/cleanup-ordering issue in the Ably connection lifecycle, not a one-line fix) rather than a quick patch.
+
+---
+
+## 8. Responsive multi-column layouts for large screens — done
+
+User-requested: Reports (teacher/admin/parent) and Planner's Analytics tab were rendering strictly single-column even on wide laptop/monitor viewports, wasting horizontal space. Investigated first whether this was a container-width bug (grepped for `maxWidth`, checked computed styles/`getBoundingClientRect` at 1600px) — it wasn't; content already spans the full viewport width. The real issue was that comparable sections (paired charts, stat cards) were stacked one under another instead of using the available width.
+
+Reused the codebase's existing `useWindowDimensions()` + `width >= N` breakpoint convention (already used in ~9 other files at a 768px "tablet" threshold for modals) with a new `1024` threshold for "laptop/monitor" — additive only, mobile/tablet layouts are byte-for-byte unchanged since the new row wrappers only activate `flexDirection: "row"` above 1024px.
+
+- **`ParentReports`** (parent + student Reports Overview, `app/(tabs)/reports.tsx`): "Time Spent per Day" and "Daily Completion Rate" bar charts now render side-by-side on large screens (new `chartsGridRow`/`chartsGridCol` styles).
+- **`ReportsScreen`** (teacher/admin Dashboard, same file): the 4 top-line stat cards render 4-across instead of 2×2; "Class Performance" and "Topic Gaps" cards render side-by-side. "Student Activity" (a variable-length list) stays full-width — lists don't compress well into narrow columns.
+- **`ClassDetailsScreen`** (Planner → classroom "Details" → Analytics tab, `src/components/classroom/ClassDetailsScreen.tsx`): the 3 `MiniBarChart` summary sections (Avg Teacher Score, Quizzes Completed, Assignments Submitted) render side-by-side. "Student Breakdown" (a data table) stays full-width for the same reason.
+
+Verified via `tsc --noEmit` (steady at the 59-error baseline, zero new/resolved) and live `agent-browser` checks at 1600×950 (large) and 390×844 (mobile) for all three screens — row layout activates correctly on large screens, mobile stacking is unaffected.
+
+Not yet covered (candidates for a follow-up if the user wants a broader pass): any other dashboard-style screen not explicitly called out (e.g. `manage.tsx`'s content/question list views), and non-layout "professional styling" polish (typography, spacing, shadows) beyond column/row restructuring.
