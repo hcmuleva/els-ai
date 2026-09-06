@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: harishdell/els-ai-gateway:2.1
+          image: harishdell/els-ai-gateway:sha-793438c
           imagePullPolicy: Always
           ports:
             - containerPort: 4000
