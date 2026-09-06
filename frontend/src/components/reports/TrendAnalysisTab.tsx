@@ -51,6 +51,7 @@ import {
   type LineSeries,
 } from './charts';
 import { RangeSlider } from './RangeSlider';
+import { type RiskLevel, riskFromScore, worstRisk, projectNext, forecastSeries } from '../../utils/riskForecast';
 
 type Props = { studentId: string; studentName: string };
 
@@ -65,7 +66,6 @@ type CounselingSession = {
 };
 type ParentFeedbackItem = { id: string; feedback: string; createdAt: string };
 type Gran = 'week' | 'month' | 'year' | 'overall';
-type RiskLevel = 'Low' | 'Medium' | 'High';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -136,24 +136,6 @@ const fmtDate = (d: Date) =>
 
 const firstLast = (a: number[]) => (a.length ? { first: a[0], last: a[a.length - 1] } : { first: 0, last: 0 });
 
-function projectNext(vals: number[]): number | null {
-  const ys = vals.filter((v) => v != null);
-  if (ys.length < 2) return null;
-  const n = ys.length;
-  const xs = ys.map((_, i) => i);
-  const mx = avg(xs);
-  const my = avg(ys);
-  let num = 0;
-  let den = 0;
-  for (let i = 0; i < n; i++) {
-    num += (xs[i] - mx) * (ys[i] - my);
-    den += (xs[i] - mx) ** 2;
-  }
-  const slope = den ? num / den : 0;
-  const intercept = my - slope * mx;
-  return clamp(intercept + slope * n, 0, 100);
-}
-
 const teacherAvgPct = (r: ClassroomRemarkItem) => {
   const present = [r.scoreBehavior, r.scoreConfidence, r.scoreParticipation, r.scorePerformance].filter(
     (v): v is number => typeof v === 'number' && v > 0,
@@ -163,9 +145,6 @@ const teacherAvgPct = (r: ClassroomRemarkItem) => {
 
 const ratingLabel = (p: number) =>
   p >= 85 ? 'Excellent' : p >= 70 ? 'Good' : p >= 55 ? 'Improving' : p > 0 ? 'Average' : '—';
-const riskFromScore = (v: number, hi = 70, mid = 50): RiskLevel => (v >= hi ? 'Low' : v >= mid ? 'Medium' : 'High');
-const worstRisk = (levels: RiskLevel[]): RiskLevel =>
-  levels.includes('High') ? 'High' : levels.includes('Medium') ? 'Medium' : 'Low';
 
 const POS_WORDS = ['good', 'great', 'improv', 'happy', 'better', 'confiden', 'proud', 'excellent', 'progress', 'well', 'love', 'enjoy', 'focus', 'help'];
 const NEG_WORDS = ['worri', 'concern', 'problem', 'struggl', 'difficult', 'poor', 'fail', 'behind', 'issue', 'lazy', 'distract', 'weak', 'late', 'incomplete'];
@@ -1089,15 +1068,6 @@ export default function TrendAnalysisTab({ studentId, studentName }: Props) {
 
 // ── derived render helpers ──────────────────────────────────────────────────
 function maxOr0(a: number[]) { return a.length ? Math.max(...a) : 0; }
-
-function forecastSeries(aligned: (number | null)[], next: number | null): (number | null)[] {
-  const out: (number | null)[] = aligned.map(() => null);
-  const lastIdx = [...aligned].reverse().findIndex((v) => v != null);
-  if (lastIdx === -1 || next == null) return [...out, null];
-  const realIdx = aligned.length - 1 - lastIdx;
-  out[realIdx] = aligned[realIdx];
-  return [...out, round(next)];
-}
 
 function journeyInsight(perBucket: Array<{ label: string; academic: number | null }>): string {
   const pts = perBucket.filter((b) => b.academic != null) as Array<{ label: string; academic: number }>;

@@ -67,6 +67,8 @@ import {
 import ParentFeedbackTab from "../../src/components/feedback/ParentFeedbackTab";
 import TeacherFeedbackTab from "../../src/components/feedback/TeacherFeedbackTab";
 import TrendAnalysisTab from "../../src/components/reports/TrendAnalysisTab";
+import { RISK_CLR } from "../../src/components/reports/charts";
+import { riskFromScore } from "../../src/utils/riskForecast";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type TeacherOverview = {
@@ -3246,6 +3248,29 @@ export default function ReportsScreen() {
   const [classActivity, setClassActivity] = useState<ClassActivityStudent[]>(
     [],
   );
+  // Worst-first ordering + a shared risk classification (same thresholds as
+  // the parent Growth Trends report and the Admin School Analytics tab, via
+  // utils/riskForecast) so teachers see who most needs attention as soon as
+  // the dashboard opens, not just whoever attempted a quiz most recently.
+  const sortedClassActivity = useMemo(() => {
+    const RISK_RANK: Record<string, number> = { High: 0, Medium: 1, Low: 2 };
+    return classActivity
+      .map((student) => {
+        const totalAtt = student.attempts.length;
+        const avgPct =
+          totalAtt > 0
+            ? Math.round(
+                student.attempts.reduce((a, b) => a + b.scorePct, 0) /
+                  totalAtt,
+              )
+            : 0;
+        return { student, avgPct, risk: riskFromScore(avgPct) };
+      })
+      .sort((a, b) => {
+        const rankDiff = RISK_RANK[a.risk] - RISK_RANK[b.risk];
+        return rankDiff !== 0 ? rankDiff : a.avgPct - b.avgPct;
+      });
+  }, [classActivity]);
   const [expandedStudent, setExpandedStudent] = useState<string | null>(null);
   const [teacherQuizDetail, setTeacherQuizDetail] =
     useState<QuizAttemptDetail | null>(null);
@@ -3535,18 +3560,9 @@ export default function ReportsScreen() {
                 <View
                   style={{ gap: 10, marginHorizontal: 16, marginBottom: 8 }}
                 >
-                  {classActivity.map((student) => {
+                  {sortedClassActivity.map(({ student, avgPct, risk }) => {
                     const latest = student.attempts[0];
                     const totalAtt = student.attempts.length;
-                    const avgPct =
-                      totalAtt > 0
-                        ? Math.round(
-                            student.attempts.reduce(
-                              (a, b) => a + b.scorePct,
-                              0,
-                            ) / totalAtt,
-                          )
-                        : 0;
                     const isNew =
                       latest &&
                       !seenStudentAttempts.has(latest.attemptId) &&
@@ -3593,6 +3609,25 @@ export default function ReportsScreen() {
                                     <Text style={gr.newBadgeText}>New</Text>
                                   </View>
                                 )}
+                                {/* Risk badge: same Low/Medium/High classification
+                                    (utils/riskForecast) used on the parent Growth
+                                    Trends report and Admin School Analytics, so
+                                    the label means the same thing everywhere. */}
+                                <View
+                                  style={[
+                                    gr.riskBadge,
+                                    { backgroundColor: RISK_CLR[risk].bg },
+                                  ]}
+                                >
+                                  <Text
+                                    style={[
+                                      gr.riskBadgeText,
+                                      { color: RISK_CLR[risk].fg },
+                                    ]}
+                                  >
+                                    {risk}
+                                  </Text>
+                                </View>
                               </View>
                               <Text style={gr.studentMeta}>
                                 {getStandardLabel(student.classLevel ?? "")} ·{" "}
@@ -3603,27 +3638,13 @@ export default function ReportsScreen() {
                             <View
                               style={[
                                 gr.pctBadge,
-                                {
-                                  backgroundColor:
-                                    avgPct >= 70
-                                      ? "#D6F5D6"
-                                      : avgPct >= 40
-                                        ? "#FFF5CC"
-                                        : "#FFE8D6",
-                                },
+                                { backgroundColor: RISK_CLR[risk].bg },
                               ]}
                             >
                               <Text
                                 style={[
                                   gr.pctText,
-                                  {
-                                    color:
-                                      avgPct >= 70
-                                        ? "#2E7D32"
-                                        : avgPct >= 40
-                                          ? "#E6A020"
-                                          : "#C62828",
-                                  },
+                                  { color: RISK_CLR[risk].fg },
                                 ]}
                               >
                                 {avgPct}%
@@ -5275,6 +5296,12 @@ const gr = StyleSheet.create({
     backgroundColor: "#FF5252",
   },
   newBadgeText: { fontSize: 9, fontWeight: "900", color: "#fff" },
+  riskBadge: {
+    paddingHorizontal: 7,
+    paddingVertical: 2,
+    borderRadius: 99,
+  },
+  riskBadgeText: { fontSize: 9, fontWeight: "900" },
 });
 
 // ── ParentReports Styles ──────────────────────────────────────────────────────

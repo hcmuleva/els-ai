@@ -483,7 +483,7 @@ export function Timeline({
 // fg values are darkened from the original palette (#1F8A5B/#C77B2B/#D63A3A),
 // which measured 3.56:1 / 2.98:1 / 3.80:1 against their own bg — all under
 // the 4.5:1 needed for this 11px bold label.
-const RISK_CLR: Record<string, { bg: string; fg: string }> = {
+export const RISK_CLR: Record<string, { bg: string; fg: string }> = {
   Low: { bg: '#D4EFE3', fg: '#176B47' },
   Medium: { bg: '#FFF0DC', fg: '#8F4A17' },
   High: { bg: '#FEE2E2', fg: '#B71C1C' },

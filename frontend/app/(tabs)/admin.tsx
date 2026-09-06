@@ -8,6 +8,7 @@ import { ScreenTemplate } from '../../src/components/ScreenTemplate';
 import SelectorModal from '../../src/components/SelectorModal';
 import { BillingPanel } from '../../src/components/billing/BillingPanel';
 import { QuestionDumpTab } from '../../src/components/admin/QuestionDumpTab';
+import { SchoolAnalyticsTab } from '../../src/components/admin/SchoolAnalyticsTab';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import { Colors, Radius, Shadow } from '../../src/theme';
@@ -16,7 +17,7 @@ import { UserRole } from '../../src/types/roles';
 type IconComp = React.ComponentType<{ size?: number; color?: string }>;
 
 type ManagedRole = Extract<UserRole, 'student' | 'teacher' | 'parent' | 'admin'>;
-type AdminTab = 'subject' | 'student' | 'teacher' | 'parent' | 'billing' | 'question_dump';
+type AdminTab = 'subject' | 'student' | 'teacher' | 'parent' | 'billing' | 'question_dump' | 'analytics';
 type DialogMode = 'create' | 'edit';
 
 type ManagedUser = {
@@ -151,10 +152,11 @@ const TAB_OPTIONS: Array<{ key: AdminTab; label: string; description: string; ti
   // and #0EA5E9 only give white text 2.06:1 / 2.77:1, so activeFill overrides just that fill.
   { key: 'billing', label: 'Billing', description: 'Track subscriptions and organizational billing settings.', tint: Colors.warning, tintLight: Colors.warningLight, activeFill: '#A6541B', Icon: CreditCard },
   { key: 'question_dump', label: 'Question Dump', description: 'Bulk create questions from JSON format.', tint: '#0EA5E9', tintLight: '#E0F2FE', activeFill: '#0369A1', Icon: FileSpreadsheet },
+  { key: 'analytics', label: 'Analytics', description: 'School-wide risk distribution, at-risk students, and performance forecasts.', tint: '#B71C1C', tintLight: '#FEE2E2', Icon: Activity },
 ];
 const TABLE_PAGE_SIZE = 8;
 const ADMIN_ACTIVE_TAB_KEY = 'admin:activeTab';
-const ADMIN_TAB_KEYS: AdminTab[] = ['subject', 'student', 'teacher', 'parent', 'billing', 'question_dump'];
+const ADMIN_TAB_KEYS: AdminTab[] = ['subject', 'student', 'teacher', 'parent', 'billing', 'question_dump', 'analytics'];
 
 const EMPTY_USER_FORM: UserFormState = {
   firstName: '',
@@ -313,6 +315,7 @@ export default function AdminScreen() {
     parent: 1,
     billing: 1,
     question_dump: 1,
+    analytics: 1,
   });
   const [adminCounts, setAdminCounts] = useState({ subjects: 0, students: 0, teachers: 0, parents: 0 });
   const [assignmentCatalog, setAssignmentCatalog] = useState<AssignmentPair[]>([]);
@@ -1714,6 +1717,8 @@ export default function AdminScreen() {
       {activeTab === 'question_dump' ? (
         <QuestionDumpTab apiFetch={apiFetch} subjectCatalog={assignmentCatalog} />
       ) : null}
+
+      {activeTab === 'analytics' ? <SchoolAnalyticsTab apiFetch={apiFetch} /> : null}
 
       {activeTab === 'parent' ? (
         <View style={styles.card}>
