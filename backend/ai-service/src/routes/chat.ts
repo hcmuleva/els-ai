@@ -1,15 +1,27 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { requireAuth, type AuthenticatedRequest } from '../middleware/auth.js';
-import { streamOllamaChat, type ChatMessage } from '../chat/ollamaClient.js';
+import type { ChatMessage } from '../chat/ollamaClient.js';
 import { systemPromptForRole, defaultTitleForRole } from '../chat/prompts.js';
 import { appendMessage, createConversation, loadConversationMessages } from '../chat/persistClient.js';
+import { recordProviderUsage } from '../chat/usageClient.js';
+import { agentRouter } from '../agents/router.js';
 
 export const chatRouter = Router();
 
 const chatRequestSchema = z.object({
   conversationId: z.string().uuid().optional(),
   message: z.string().trim().min(1).max(8000),
+  // Optional explicit provider id (e.g. "ollama") for the multi-agent
+  // router. Omit to use the default fallback chain. No frontend selector
+  // exists yet — this is the wire contract for when one is added.
+  provider: z.string().trim().min(1).max(64).optional(),
+});
+
+// GET /ai/chat/providers — registered providers the caller's role may use,
+// for a future provider-selector UI.
+chatRouter.get('/providers', requireAuth, (req: AuthenticatedRequest, res) => {
+  res.json({ providers: agentRouter.list(req.user?.role) });
 });
 
 function writeSse(res: import('express').Response, event: Record<string, unknown>) {
@@ -32,10 +44,8 @@ chatRouter.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
   }
 
   const gatewayBaseUrl = process.env.API_GATEWAY_URL || 'http://localhost:4000';
-  const ollamaBaseUrl = process.env.OLLAMA_BASE_URL || 'http://localhost:11434';
-  const ollamaModel = process.env.OLLAMA_MODEL || 'llama3';
   const role = req.user?.role;
-  const { conversationId, message } = parsed.data;
+  const { conversationId, message, provider: requestedProvider } = parsed.data;
 
   try {
     let activeConversationId = conversationId;
@@ -59,7 +69,7 @@ chatRouter.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
       titleHint,
     });
 
-    const ollamaMessages: ChatMessage[] = [
+    const chatMessages: ChatMessage[] = [
       { role: 'system', content: systemPromptForRole(role) },
       ...priorMessages,
       { role: 'user', content: message },
@@ -72,14 +82,41 @@ chatRouter.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
 
     writeSse(res, { conversationId: activeConversationId });
 
+    const startedAt = Date.now();
     let fullReply = '';
+    let usedProviderId = requestedProvider;
+    let promptTokens: number | undefined;
+    let completionTokens: number | undefined;
+    let runError: unknown;
     try {
-      for await (const chunk of streamOllamaChat({ baseUrl: ollamaBaseUrl, model: ollamaModel, messages: ollamaMessages })) {
-        fullReply += chunk;
-        writeSse(res, { delta: chunk });
+      for await (const event of agentRouter.run({ providerId: requestedProvider, role, messages: chatMessages })) {
+        usedProviderId = event.providerId;
+        if (event.type === 'delta') {
+          fullReply += event.text;
+          writeSse(res, { delta: event.text });
+        } else if (event.type === 'usage') {
+          promptTokens = event.promptTokens;
+          completionTokens = event.completionTokens;
+        }
+        // 'attempt' events just update usedProviderId (above) for accurate
+        // usage-log attribution even if this candidate fails immediately.
       }
-    } catch (streamError) {
-      const errMessage = streamError instanceof Error ? streamError.message : 'AI provider request failed';
+    } catch (error) {
+      runError = error;
+    }
+
+    await recordProviderUsage(gatewayBaseUrl, authorization, {
+      provider: usedProviderId || 'unknown',
+      conversationId: activeConversationId,
+      success: !runError,
+      errorMessage: runError instanceof Error ? runError.message : runError ? String(runError) : undefined,
+      promptTokens,
+      completionTokens,
+      durationMs: Date.now() - startedAt,
+    });
+
+    if (runError) {
+      const errMessage = runError instanceof Error ? runError.message : 'AI provider request failed';
       writeSse(res, { error: errMessage });
       return res.end();
     }

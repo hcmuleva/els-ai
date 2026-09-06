@@ -7,14 +7,20 @@ export type OllamaChatOptions = {
   signal?: AbortSignal;
 };
 
+export type OllamaStreamEvent =
+  | { type: 'delta'; text: string }
+  | { type: 'done'; promptTokens?: number; completionTokens?: number };
+
 /**
  * Streams a chat completion from a local Ollama instance (`POST /api/chat`,
  * `stream: true`). Ollama streams newline-delimited JSON objects, one per
  * token/chunk, e.g. `{"message":{"content":"..."},"done":false}` ending with
- * a final `{"done":true,...}` object. This yields just the accumulated text
- * deltas so callers don't need to know Ollama's wire format.
+ * a final `{"done":true,"prompt_eval_count":N,"eval_count":N,...}` object.
+ * Yields accumulated text deltas plus a final `done` event carrying Ollama's
+ * token counts (used for cost/usage tracking by the agent router), so
+ * callers don't need to know Ollama's wire format.
  */
-export async function* streamOllamaChat(options: OllamaChatOptions): AsyncGenerator<string> {
+export async function* streamOllamaChat(options: OllamaChatOptions): AsyncGenerator<OllamaStreamEvent> {
   const { baseUrl, model, messages, signal } = options;
 
   let response: Response;
@@ -64,9 +70,16 @@ export async function* streamOllamaChat(options: OllamaChatOptions): AsyncGenera
         if (parsed.error) throw new Error(`Ollama error: ${parsed.error}`);
         const chunk = parsed?.message?.content;
         if (typeof chunk === 'string' && chunk.length > 0) {
-          yield chunk;
+          yield { type: 'delta', text: chunk };
         }
-        if (parsed.done) return;
+        if (parsed.done) {
+          yield {
+            type: 'done',
+            promptTokens: typeof parsed.prompt_eval_count === 'number' ? parsed.prompt_eval_count : undefined,
+            completionTokens: typeof parsed.eval_count === 'number' ? parsed.eval_count : undefined,
+          };
+          return;
+        }
       }
     }
   } finally {

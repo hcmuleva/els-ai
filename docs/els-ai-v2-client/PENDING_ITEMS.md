@@ -102,3 +102,27 @@ Verified via `tsc --noEmit` (steady at the 59-error baseline, zero new/resolved)
   Incidentally reproduced the known intermittent `NotificationContext.tsx`/Ably "Connection closed" crash (see §7) once during this verification pass — confirms it's a real, reproducible issue, still not investigated/fixed.
 
 Not yet covered (candidates for a follow-up if the user wants a broader pass): non-layout "professional styling" polish (typography, spacing, shadows) beyond column/row restructuring.
+
+---
+
+## 9. P2 item 9 — multi-agent AI router — done (Ollama-only, extensible)
+
+Before writing any code, checked what Factory's public API (`api.factory.ai`, the `FACTORY_API_KEY` the user added to `backend/core-api/.env`) actually exposes: platform-management endpoints only (CI automations, Droid Computers, Organization/Service-Account admin, AutoWiki, and a **Droid Sessions API** for driving coding-agent sessions — gated to select orgs). There is no general chat/completion endpoint. Wiring "Factory AI" to the Sessions API would mean spinning up a real coding-agent session (shell/file access, billable compute) per chat message — not an appropriate fit for a student/teacher/parent tutor chat. Flagged via `AskUser` rather than guessing; user confirmed:
+1. Skip Factory AI for now (revisit if Factory ships a plain completion API).
+2. Skip Microsoft Copilot too (no credentials provided).
+3. Build the router abstraction (provider interface, fallback, permissions, cost/usage log) with Ollama as the only working provider, ready to plug in real providers later. No frontend provider-selector UI yet (explicitly out of scope per the user's answer).
+
+**What shipped**, all in `backend/ai-service/src/agents/`:
+- `types.ts` — the `AgentProvider` interface (`id`, `label`, `isAvailable()`, `stream()`) every provider implements, plus the event types the router emits.
+- `ollamaProvider.ts` — wraps the existing Ollama wire client (`chat/ollamaClient.ts`, which now also surfaces `prompt_eval_count`/`eval_count` token counts from Ollama's final `done` chunk) in that interface.
+- `router.ts` — `AgentRouter`: builds a fallback chain (explicitly-requested provider first, then the rest in registration order), a per-role provider allowlist (`ROLE_PROVIDER_ALLOWLIST`, permissive today since there's one free provider and nothing to gate), and falls over to the next candidate **only if the current one fails before yielding any content** — once a provider starts streaming text back, a failure is surfaced as an error rather than silently splicing in a different provider's reply mid-response.
+- Cost/audit trail: new `ai_provider_usage` table in `core-api` (`services/aichat/db.ts`) + `POST /ai-usage` (called by `ai-service` after every chat request, success or failure) + `GET /ai-usage/summary` (admin/superadmin-only, per-provider request/success/token/duration aggregates) — gateway-proxied at `/ai-usage` alongside `/ai-conversations`.
+- `routes/chat.ts`: now runs every chat request through `agentRouter.run()` instead of calling Ollama directly; accepts an optional `provider` field (validated, unused by any UI yet); records usage via the new endpoint; adds `GET /ai/chat/providers` (role-filtered registered-provider list) for whenever a selector UI is built.
+
+Verified: `tsc --noEmit` clean across `ai-service`, `core-api`, and `gateway` (0 errors in each). Restarted the local dev stack (`npm run services:restart`) and live-tested end-to-end via curl: `GET /ai/chat/providers` returns `[{id: "ollama", ...}]`; a chat request with Ollama unreachable surfaces the same graceful "Could not reach Ollama" error as v1, now attributed correctly to `provider: "ollama"` in `ai_provider_usage` (fixed a real bug caught during this testing — see below); requesting an unknown provider id returns a clean error instead of a crash; a non-admin hitting `/ai-usage/summary` gets 403; user-message persistence is unaffected by an AI failure. Deleted the 3 test conversations created during this pass.
+
+**Bug found and fixed during verification:** the router originally only learned which provider it was using from the events that provider yielded — so a provider that failed before yielding anything (e.g., Ollama unreachable) logged as `provider: "unknown"` in the usage table, making the audit trail useless for exactly the failure case it exists to capture. Fixed by having the router yield an `{ type: 'attempt', providerId }` marker immediately before trying each candidate, so the usage log always attributes correctly even on an instant failure.
+
+**Unrelated side-effect found and fixed during verification:** logging in as the seeded `teacher@els.ai` account returned `role: "student"` in the JWT — its `active_role` column had been left on "student" from this session's earlier `agent-browser` role-switcher testing (before this conversation was compacted) and never switched back. Restored via the app's own `PATCH /users/:id/active-role` endpoint (as `super@els.ai`) rather than a raw DB edit. Not a bug in this session's code — a leftover test-data artifact from manual UI testing — but worth restoring since it's a shared demo account.
+
+**Deferred, by decision:** Factory AI and Microsoft Copilot providers (no working API/credentials — see above); a frontend provider-selector UI (the wire contract exists via the optional `provider` field and `/ai/chat/providers`, but no chat-panel dropdown was built).

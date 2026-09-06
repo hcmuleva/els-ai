@@ -35,6 +35,7 @@ import { notificationsRouter } from './services/notification/routes/notification
 import { preferencesRouter } from './services/notification/routes/preferences.js';
 import { tokenRouter } from './services/notification/routes/token.js';
 import { aiConversationsRouter } from './services/aichat/routes/conversations.js';
+import { aiUsageRouter } from './services/aichat/routes/usage.js';
 import { ensureSchema as ensureAiChatSchema } from './services/aichat/db.js';
 
 config();
@@ -93,6 +94,7 @@ app.use('/notifications', notificationsRouter);
 
 // AI chat
 app.use('/ai-conversations', aiConversationsRouter);
+app.use('/ai-usage', aiUsageRouter);
 
 app.use((error: unknown, _req: Request, res: Response, _next: unknown) => {
   console.error('[els-core-api] unhandled request error', error);

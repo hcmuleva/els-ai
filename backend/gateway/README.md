@@ -14,7 +14,7 @@ All previously separate per-domain services (auth, org, classroom, achievement, 
 
 | Prefix | Forwarded to | Port |
 |---|---|---|
-| `/auth`, `/users`, `/organizations`, `/billing`, `/classrooms`, `/achievements`, `/questions`, `/question-bank`, `/content`, `/video-sections`, `/bookmarks`, `/topics`, `/catalog/subjects`, `/students/subjects`, `/assignments`, `/students`, `/counseling`, `/feedback`, `/quizzes`, `/notifications`, `/stories`, `/ai-conversations` | `core-api` | 4020 |
+| `/auth`, `/users`, `/organizations`, `/billing`, `/classrooms`, `/achievements`, `/questions`, `/question-bank`, `/content`, `/video-sections`, `/bookmarks`, `/topics`, `/catalog/subjects`, `/students/subjects`, `/assignments`, `/students`, `/counseling`, `/feedback`, `/quizzes`, `/notifications`, `/stories`, `/ai-conversations`, `/ai-usage` | `core-api` | 4020 |
 | `/ai` | `ai-service` (`education-ai-api`) | 4003 |
 | `/assets` | `media-service` (`media-api`) | 4004 |
 | `/media` | served locally by the gateway from `assets/` (not proxied) | — |
