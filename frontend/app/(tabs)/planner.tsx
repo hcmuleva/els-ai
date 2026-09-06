@@ -8,6 +8,7 @@ import SelectorModal from '../../src/components/SelectorModal';
 import CreateQuizModal from '../../src/components/quiz/CreateQuizModal';
 import { ModalHeader } from '../../src/components/common/ModalHeader';
 import { Card } from '../../src/components/common/Card';
+import { Colors } from '../../src/theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
@@ -124,7 +125,7 @@ const bookmarkItemKey = (itemType: 'content' | 'quiz', resourceId: string) => `$
 
 const STATUS_COLORS: Record<ClassroomStatus, string> = {
   active: '#16a34a',
-  completed: '#525C6B',
+  completed: Colors.textMuted,
   draft: '#2563eb',
 };
 
@@ -220,7 +221,7 @@ function DateTimeInput({ kind, value, onChange, placeholder, minDate }: {
         borderRadius: 10,
         padding: 10,
         fontSize: 13,
-        color: '#1a1a2e',
+        color: Colors.text,
         border: '1px solid #E2E5F0',
         outline: 'none',
         fontFamily: 'inherit',
@@ -259,7 +260,7 @@ function DateTimeInput({ kind, value, onChange, placeholder, minDate }: {
           borderColor: '#E2E5F0',
         }}
       >
-        <Text style={{ fontSize: 14, color: value ? '#1a1a2e' : '#B0B8D0', fontWeight: '600' }}>{display}</Text>
+        <Text style={{ fontSize: 14, color: value ? Colors.text : '#B0B8D0', fontWeight: '600' }}>{display}</Text>
       </Pressable>
       {show ? (
         <DateTimePicker
@@ -286,7 +287,7 @@ function DateTimeInput({ kind, value, onChange, placeholder, minDate }: {
       ) : null}
       {show && Platform.OS === 'ios' ? (
         <Pressable onPress={() => setShow(false)} style={{ alignSelf: 'flex-end', paddingVertical: 6 }}>
-          <Text style={{ color: '#2D5DC9', fontWeight: '800', fontSize: 12 }}>Done</Text>
+          <Text style={{ color: Colors.primary, fontWeight: '800', fontSize: 12 }}>Done</Text>
         </Pressable>
       ) : null}
     </>
@@ -1004,8 +1005,8 @@ export default function PlannerScreen() {
   // its own tint, per an `agent-browser a11y` audit finding.
   const CARD_PALETTES = [
     { bg: '#4A7FE0', light: '#D6EAFF', text: '#29467B' },
-    { bg: '#D33F13', light: '#FFE8D6', text: '#74230A' },
-    { bg: '#9B8EC4', light: '#EDE4FF', text: '#554E6C' },
+    { bg: Colors.accent, light: '#FFE8D6', text: '#74230A' },
+    { bg: '#9B8EC4', light: Colors.purpleLight, text: '#554E6C' },
     { bg: '#7DC67A', light: '#D6F5D6', text: '#456D43' },
     { bg: '#E6A817', light: '#FFF5CC', text: '#7F5C0D' },
     { bg: '#F06292', light: '#FFE0EC', text: '#843650' },
@@ -1013,7 +1014,7 @@ export default function PlannerScreen() {
   const CARD_ICONS = [BookOpen, School, Trophy, ClipboardList, BookOpen, Trophy, Settings, CheckCircle];
   const STATUS_TAG: Record<ClassroomStatus, { bg: string; text: string; label: string }> = {
     active:    { bg: '#D6F5D6', text: '#1A6B1A', label: '● Live' },
-    completed: { bg: '#F0F0F8', text: '#6B6B8A', label: 'Done' },
+    completed: { bg: Colors.borderLight, text: '#6B6B8A', label: 'Done' },
     draft:     { bg: '#D6EAFF', text: '#1A4DA2', label: 'Draft' },
   };
   const viewportWidth = Dimensions.get('window').width;
@@ -1049,7 +1050,7 @@ export default function PlannerScreen() {
       {/* ── Classroom cards ── */}
       {loading ? (
         <View style={p.loadingWrap}>
-          <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
+          <ActivityIndicator accessibilityLabel="Loading" size="large" color={Colors.primary} />
           <Text style={p.loadingText}>Loading classrooms…</Text>
         </View>
       ) : classrooms.length === 0 ? (
@@ -1157,13 +1158,13 @@ export default function PlannerScreen() {
                   {item.status !== 'completed' && (
                     <Pressable style={[p.footerBtn, { backgroundColor: '#FEF0ED' }]} onPress={() => setPendingEndClassroom(item)} disabled={endingClassroomId === item.id}>
                       {endingClassroomId === item.id
-                        ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#D33F13" />
+                        ? <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.accent} />
                         : <Text numberOfLines={1} style={[p.footerBtnText, { color: '#B03A19' }]}>End Class</Text>}
                     </Pressable>
                   )}
                   <Pressable style={p.footerBtnGhost} onPress={() => setPendingDelete(item)} disabled={deletingClassroomId === item.id}>
                     {deletingClassroomId === item.id
-                      ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#D33F13" />
+                      ? <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.accent} />
                       : <Text numberOfLines={1} style={p.footerBtnDelete}>Delete</Text>}
                   </Pressable>
                 </View>
@@ -1220,7 +1221,7 @@ export default function PlannerScreen() {
                 onPress={() => setModalTab(tab)}
               >
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-                  <TabIcon size={13} color={modalTab === tab ? '#2D5DC9' : '#525C6B'} />
+                  <TabIcon size={13} color={modalTab === tab ? Colors.primary : Colors.textMuted} />
                   <Text style={[p.modalTabText, modalTab === tab && p.modalTabTextActive]}>{label}</Text>
                 </View>
               </Pressable>
@@ -1263,7 +1264,7 @@ export default function PlannerScreen() {
                     {([['instant', 'Instant', Zap], ['scheduled', 'Scheduled', Calendar]] as [ScheduleType, string, any][]).map(([v, l, ChipIcon]) => (
                       <Pressable key={v} style={[p.chip, form.scheduleType === v && p.chipActive]} onPress={() => setFormPatch({ scheduleType: v })}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-                          <ChipIcon size={12} color={form.scheduleType === v ? '#2D5DC9' : '#525C6B'} />
+                          <ChipIcon size={12} color={form.scheduleType === v ? Colors.primary : Colors.textMuted} />
                           <Text style={[p.chipText, form.scheduleType === v && p.chipTextActive]}>{l}</Text>
                         </View>
                       </Pressable>
@@ -1388,7 +1389,7 @@ export default function PlannerScreen() {
 
               <View style={p.secGroup}>
                 <View style={p.secGroupHeader}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><BookOpen size={14} color="#2D5DC9" /><Text style={p.secGroupTitle}>Learning Content</Text></View>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><BookOpen size={14} color={Colors.primary} /><Text style={p.secGroupTitle}>Learning Content</Text></View>
                   <Pressable style={[p.addSecBtn, !form.classLevel && { opacity: 0.4 }]} disabled={!form.classLevel} onPress={() => setIsAssignContentOpen(true)}>
                     <Text style={p.addSecBtnText}>+ Add</Text>
                   </Pressable>
@@ -1407,8 +1408,8 @@ export default function PlannerScreen() {
                           <Text style={p.sectionItemMeta}>{cItem.subject} · {cItem.contentType}</Text>
                         </View>
                         <View style={p.sectionItemActions}>
-                          <TouchableOpacity onPress={() => setFormPatch({ selectedContentIds: moveItemUp(form.selectedContentIds, cid) })} disabled={cidx === 0} style={[p.orderBtn, cidx === 0 && { opacity: 0.2 }]}><ChevronUp size={14} color="#2D5DC9" /></TouchableOpacity>
-                          <TouchableOpacity onPress={() => setFormPatch({ selectedContentIds: moveItemDown(form.selectedContentIds, cid) })} disabled={cidx === form.selectedContentIds.length - 1} style={[p.orderBtn, cidx === form.selectedContentIds.length - 1 && { opacity: 0.2 }]}><ChevronDown size={14} color="#2D5DC9" /></TouchableOpacity>
+                          <TouchableOpacity onPress={() => setFormPatch({ selectedContentIds: moveItemUp(form.selectedContentIds, cid) })} disabled={cidx === 0} style={[p.orderBtn, cidx === 0 && { opacity: 0.2 }]}><ChevronUp size={14} color={Colors.primary} /></TouchableOpacity>
+                          <TouchableOpacity onPress={() => setFormPatch({ selectedContentIds: moveItemDown(form.selectedContentIds, cid) })} disabled={cidx === form.selectedContentIds.length - 1} style={[p.orderBtn, cidx === form.selectedContentIds.length - 1 && { opacity: 0.2 }]}><ChevronDown size={14} color={Colors.primary} /></TouchableOpacity>
                           <TouchableOpacity onPress={() => setFormPatch({ selectedContentIds: form.selectedContentIds.filter((x) => x !== cid) })} style={p.removeBtn}><Text style={p.removeBtnText}>✕</Text></TouchableOpacity>
                         </View>
                       </View>
@@ -1419,13 +1420,13 @@ export default function PlannerScreen() {
 
               <View style={p.secGroup}>
                 <View style={p.secGroupHeader}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><Trophy size={14} color="#D33F13" /><Text style={p.secGroupTitle}>Quizzes</Text></View>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><Trophy size={14} color={Colors.accent} /><Text style={p.secGroupTitle}>Quizzes</Text></View>
                   <View style={{ flexDirection: 'row', gap: 6 }}>
                     <Pressable style={[p.addSecBtn, !form.classLevel && { opacity: 0.4 }]} disabled={!form.classLevel} onPress={() => setIsAssignQuizOpen(true)}>
                       <Text style={p.addSecBtnText}>+ Add</Text>
                     </Pressable>
                     <Pressable style={[p.addSecBtn, { backgroundColor: '#EBF4FF' }, !form.classLevel && { opacity: 0.4 }]} disabled={!form.classLevel} onPress={() => setQuizCreatorOpen(true)}>
-                      <Text style={[p.addSecBtnText, { color: '#2D5DC9' }]}>+ Create</Text>
+                      <Text style={[p.addSecBtnText, { color: Colors.primary }]}>+ Create</Text>
                     </Pressable>
                   </View>
                 </View>
@@ -1443,8 +1444,8 @@ export default function PlannerScreen() {
                           <Text style={p.sectionItemMeta}>{qItem.subject || '-'} · {qItem.difficulty_level || '-'}</Text>
                         </View>
                         <View style={p.sectionItemActions}>
-                          <TouchableOpacity onPress={() => setFormPatch({ selectedQuizIds: moveItemUp(form.selectedQuizIds, qid) })} disabled={qidx === 0} style={[p.orderBtn, qidx === 0 && { opacity: 0.2 }]}><ChevronUp size={14} color="#D33F13" /></TouchableOpacity>
-                          <TouchableOpacity onPress={() => setFormPatch({ selectedQuizIds: moveItemDown(form.selectedQuizIds, qid) })} disabled={qidx === form.selectedQuizIds.length - 1} style={[p.orderBtn, qidx === form.selectedQuizIds.length - 1 && { opacity: 0.2 }]}><ChevronDown size={14} color="#D33F13" /></TouchableOpacity>
+                          <TouchableOpacity onPress={() => setFormPatch({ selectedQuizIds: moveItemUp(form.selectedQuizIds, qid) })} disabled={qidx === 0} style={[p.orderBtn, qidx === 0 && { opacity: 0.2 }]}><ChevronUp size={14} color={Colors.accent} /></TouchableOpacity>
+                          <TouchableOpacity onPress={() => setFormPatch({ selectedQuizIds: moveItemDown(form.selectedQuizIds, qid) })} disabled={qidx === form.selectedQuizIds.length - 1} style={[p.orderBtn, qidx === form.selectedQuizIds.length - 1 && { opacity: 0.2 }]}><ChevronDown size={14} color={Colors.accent} /></TouchableOpacity>
                           <TouchableOpacity onPress={() => setFormPatch({ selectedQuizIds: form.selectedQuizIds.filter((x) => x !== qid) })} style={p.removeBtn}><Text style={p.removeBtnText}>✕</Text></TouchableOpacity>
                         </View>
                       </View>
@@ -1522,13 +1523,13 @@ export default function PlannerScreen() {
                 <View style={p.previewBody}>
                   {form.selectedContentIds.length > 0 && (
                     <>
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 6 }}><BookOpen size={13} color="#2D5DC9" /><Text style={p.previewSectionTitle}>Content</Text></View>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 6 }}><BookOpen size={13} color={Colors.primary} /><Text style={p.previewSectionTitle}>Content</Text></View>
                       {form.selectedContentIds.map((cid, cidx) => {
                         const c = contentItems.find((x) => x.id === cid);
                         if (!c) return null;
                         return (
                           <View key={cid} style={p.previewItem}>
-                            <View style={[p.previewItemDot, { backgroundColor: '#2D5DC9' }]}><Text style={{ color: '#fff', fontSize: 10, fontWeight: '800' }}>{cidx + 1}</Text></View>
+                            <View style={[p.previewItemDot, { backgroundColor: Colors.primary }]}><Text style={{ color: '#fff', fontSize: 10, fontWeight: '800' }}>{cidx + 1}</Text></View>
                             <View style={{ flex: 1 }}>
                               <Text style={p.previewItemTitle}>{c.title}</Text>
                               <Text style={p.previewItemMeta}>{c.subject} · {c.contentType}</Text>
@@ -1540,13 +1541,13 @@ export default function PlannerScreen() {
                   )}
                   {form.selectedQuizIds.length > 0 && (
                     <>
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 12, marginBottom: 6 }}><Trophy size={13} color="#D33F13" /><Text style={p.previewSectionTitle}>Quizzes</Text></View>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 12, marginBottom: 6 }}><Trophy size={13} color={Colors.accent} /><Text style={p.previewSectionTitle}>Quizzes</Text></View>
                       {form.selectedQuizIds.map((qid, qidx) => {
                         const q = quizItems.find((x) => x.id === qid);
                         if (!q) return null;
                         return (
                           <View key={qid} style={p.previewItem}>
-                            <View style={[p.previewItemDot, { backgroundColor: '#D33F13' }]}><Text style={{ color: '#fff', fontSize: 10, fontWeight: '800' }}>{qidx + 1}</Text></View>
+                            <View style={[p.previewItemDot, { backgroundColor: Colors.accent }]}><Text style={{ color: '#fff', fontSize: 10, fontWeight: '800' }}>{qidx + 1}</Text></View>
                             <View style={{ flex: 1 }}>
                               <Text style={p.previewItemTitle}>{q.title}</Text>
                               <Text style={p.previewItemMeta}>{q.subject || '-'} · {q.difficulty_level || 'standard'}</Text>
@@ -1653,7 +1654,7 @@ export default function PlannerScreen() {
                         onPress={() => setAssignContentPage((pg) => Math.max(0, pg - 1))}
                         disabled={assignContentPage === 0}
                       >
-                        <ChevronLeft size={16} color={assignContentPage === 0 ? '#C0C8D8' : '#2D5DC9'} />
+                        <ChevronLeft size={16} color={assignContentPage === 0 ? '#C0C8D8' : Colors.primary} />
                         <Text style={[pagerS.btnText, assignContentPage === 0 && pagerS.btnTextDisabled]}>Prev</Text>
                       </Pressable>
                       <Text style={pagerS.indicator}>Page {assignContentPage + 1} / {acTotalPages}</Text>
@@ -1663,7 +1664,7 @@ export default function PlannerScreen() {
                         disabled={assignContentPage >= acTotalPages - 1}
                       >
                         <Text style={[pagerS.btnText, assignContentPage >= acTotalPages - 1 && pagerS.btnTextDisabled]}>Next</Text>
-                        <ChevronRight size={16} color={assignContentPage >= acTotalPages - 1 ? '#C0C8D8' : '#2D5DC9'} />
+                        <ChevronRight size={16} color={assignContentPage >= acTotalPages - 1 ? '#C0C8D8' : Colors.primary} />
                       </Pressable>
                     </View>
                   )}
@@ -1681,7 +1682,7 @@ export default function PlannerScreen() {
             <View style={p.pickerHeader}>
               {activeBookmark ? (
                 <Pressable style={p.bmBackBtn} onPress={() => setActiveBookmark(null)}>
-                  <ChevronLeft size={16} color="#2D5DC9" />
+                  <ChevronLeft size={16} color={Colors.primary} />
                   <Text style={p.bmBackText}>Bookmarks</Text>
                 </Pressable>
               ) : (
@@ -1715,7 +1716,7 @@ export default function PlannerScreen() {
                 </View>
                 <ScrollView contentContainerStyle={{ padding: 12, gap: 8 }}>
                   {loadingBookmarks ? (
-                    <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" style={{ marginTop: 16 }} />
+                    <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.primary} style={{ marginTop: 16 }} />
                   ) : (() => {
                     const kw = bookmarkSearch.trim().toLowerCase();
                     const list = kw
@@ -1744,7 +1745,7 @@ export default function PlannerScreen() {
                 </View>
                 <ScrollView contentContainerStyle={{ padding: 12, gap: 8 }}>
                   {loadingBookmarkDetail ? (
-                    <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" style={{ marginTop: 16 }} />
+                    <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.primary} style={{ marginTop: 16 }} />
                   ) : activeBookmark.items.length === 0 ? (
                     <Text style={p.flatEmpty}>This bookmark has no items.</Text>
                   ) : (
@@ -1756,7 +1757,7 @@ export default function PlannerScreen() {
                       return (
                         <Pressable key={key} style={[p.pickerItem, sel && p.pickerItemSelected]} onPress={() => toggleBookmarkItem(key)}>
                           <View style={[p.checkBox, sel && p.checkBoxSelected]}>{sel && <Text style={p.checkTick}>✓</Text>}</View>
-                          {it.itemType === 'content' ? <FileText size={13} color="#3F5D8C" /> : <Trophy size={13} color="#D33F13" />}
+                          {it.itemType === 'content' ? <FileText size={13} color="#3F5D8C" /> : <Trophy size={13} color={Colors.accent} />}
                           <View style={{ flex: 1 }}>
                             <Text style={p.pickerItemTitle}>{it.title}</Text>
                             <Text style={p.pickerItemMeta}>{(it.subject || '-')} · {it.itemType === 'content' ? (it.contentType || 'content') : (it.quizType || 'quiz')}</Text>
@@ -1868,7 +1869,7 @@ export default function PlannerScreen() {
                         onPress={() => setAssignQuizPage((pg) => Math.max(0, pg - 1))}
                         disabled={assignQuizPage === 0}
                       >
-                        <ChevronLeft size={16} color={assignQuizPage === 0 ? '#C0C8D8' : '#2D5DC9'} />
+                        <ChevronLeft size={16} color={assignQuizPage === 0 ? '#C0C8D8' : Colors.primary} />
                         <Text style={[pagerS.btnText, assignQuizPage === 0 && pagerS.btnTextDisabled]}>Prev</Text>
                       </Pressable>
                       <Text style={pagerS.indicator}>Page {assignQuizPage + 1} / {aqTotalPages}</Text>
@@ -1878,7 +1879,7 @@ export default function PlannerScreen() {
                         disabled={assignQuizPage >= aqTotalPages - 1}
                       >
                         <Text style={[pagerS.btnText, assignQuizPage >= aqTotalPages - 1 && pagerS.btnTextDisabled]}>Next</Text>
-                        <ChevronRight size={16} color={assignQuizPage >= aqTotalPages - 1 ? '#C0C8D8' : '#2D5DC9'} />
+                        <ChevronRight size={16} color={assignQuizPage >= aqTotalPages - 1 ? '#C0C8D8' : Colors.primary} />
                       </Pressable>
                     </View>
                   )}
@@ -1980,8 +1981,8 @@ export default function PlannerScreen() {
 
           {historyLoading ? (
             <View style={p.historyCenter}>
-              <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
-              <Text style={{ color: '#525C6B', marginTop: 8 }}>Loading history…</Text>
+              <ActivityIndicator accessibilityLabel="Loading" size="large" color={Colors.primary} />
+              <Text style={{ color: Colors.textMuted, marginTop: 8 }}>Loading history…</Text>
             </View>
           ) : historyRooms.length === 0 ? (
             <View style={p.historyCenter}>
@@ -1998,7 +1999,7 @@ export default function PlannerScreen() {
                   <View key={room.id} style={[p.historyCard, { width: historyCardWidth }]}>
                     <View style={p.historyCardTop}>
                       <View style={p.historyCardIcon}>
-                        <School size={22} color="#2D5DC9" />
+                        <School size={22} color={Colors.primary} />
                       </View>
                       <View style={p.historyCardBody}>
                         <Text style={p.historyCardTitle} numberOfLines={1}>{room.title}</Text>
@@ -2051,7 +2052,7 @@ export default function PlannerScreen() {
                       </Pressable>
                       <Pressable style={p.historyRestartBtn} onPress={() => restartClassroom(room.id)} disabled={restartingId === room.id}>
                         {restartingId === room.id
-                          ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#2D5DC9" />
+                          ? <ActivityIndicator accessibilityLabel="Loading" size="small" color={Colors.primary} />
                           : <Text style={p.historyRestartBtnText}>Restart</Text>}
                       </Pressable>
                     </View>
@@ -2080,32 +2081,32 @@ export default function PlannerScreen() {
 }
 
 const p = StyleSheet.create({
-  screen:       { flex: 1, backgroundColor: '#F5F7FF' },
+  screen:       { flex: 1, backgroundColor: Colors.background },
   scroll:       { paddingBottom: 40 },
-  noPermText:   { margin: 24, color: '#525C6B', fontSize: 14 },
+  noPermText:   { margin: 24, color: Colors.textMuted, fontSize: 14 },
 
   // ── Header ──
   header:         { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', paddingHorizontal: 20, paddingBottom: 16 },
-  headerTitle:    { fontSize: 24, fontWeight: '900', color: '#1a1a2e' },
-  headerSub:      { fontSize: 12, color: '#525C6B', fontWeight: '500', marginTop: 2 },
-  createBtn:      { backgroundColor: '#2D5DC9', borderRadius: 12, paddingHorizontal: 16, paddingVertical: 9 },
+  headerTitle:    { fontSize: 24, fontWeight: '900', color: Colors.text },
+  headerSub:      { fontSize: 12, color: Colors.textMuted, fontWeight: '500', marginTop: 2 },
+  createBtn:      { backgroundColor: Colors.primary, borderRadius: 12, paddingHorizontal: 16, paddingVertical: 9 },
   createBtnText:  { color: '#fff', fontWeight: '800', fontSize: 13 },
 
   // ── Toast ──
   toast:            { marginHorizontal: 16, marginBottom: 12, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 10 },
   toastSuccess:     { backgroundColor: '#D6F5D6', borderWidth: 1, borderColor: '#7DC67A' },
-  toastError:       { backgroundColor: '#FFE8E8', borderWidth: 1, borderColor: '#D33F13' },
+  toastError:       { backgroundColor: '#FFE8E8', borderWidth: 1, borderColor: Colors.accent },
   toastText:        { fontSize: 13, fontWeight: '600' },
   toastSuccessText: { color: '#1A6B1A' },
   toastErrorText:   { color: '#B91C1C' },
 
   // ── Loading / Empty ──
   loadingWrap: { alignItems: 'center', paddingVertical: 60, gap: 12 },
-  loadingText: { fontSize: 13, color: '#525C6B', fontWeight: '500' },
+  loadingText: { fontSize: 13, color: Colors.textMuted, fontWeight: '500' },
   emptyWrap:   { alignItems: 'center', paddingHorizontal: 32, paddingVertical: 60, gap: 8 },
-  emptyTitle:  { fontSize: 18, fontWeight: '900', color: '#1a1a2e', textAlign: 'center' },
-  emptySub:    { fontSize: 13, color: '#525C6B', textAlign: 'center', lineHeight: 20 },
-  emptyBtn:    { marginTop: 10, backgroundColor: '#2D5DC9', borderRadius: 14, paddingHorizontal: 24, paddingVertical: 12 },
+  emptyTitle:  { fontSize: 18, fontWeight: '900', color: Colors.text, textAlign: 'center' },
+  emptySub:    { fontSize: 13, color: Colors.textMuted, textAlign: 'center', lineHeight: 20 },
+  emptyBtn:    { marginTop: 10, backgroundColor: Colors.primary, borderRadius: 14, paddingHorizontal: 24, paddingVertical: 12 },
   emptyBtnText:{ color: '#fff', fontWeight: '800', fontSize: 14 },
 
   // ── Classroom card ──
@@ -2113,7 +2114,7 @@ const p = StyleSheet.create({
   classCard: {
     marginBottom: 2,
     borderRadius: 22, padding: 16,
-    shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 4 },
+    shadowColor: Colors.text, shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.07, shadowRadius: 12, elevation: 3,
     gap: 12,
   },
@@ -2121,12 +2122,12 @@ const p = StyleSheet.create({
   classArtBox:     { width: 56, height: 56, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
   classArtEmoji:   { fontSize: 30 },
   classCardInfo:    { flex: 1, gap: 5 },
-  classCardTitle:   { fontSize: 15, fontWeight: '800', color: '#1a1a2e' },
+  classCardTitle:   { fontSize: 15, fontWeight: '800', color: Colors.text },
   classModeRow:     { flexDirection: 'column', gap: 4, alignItems: 'flex-start' },
   classModeChip:    { flexDirection: 'row', alignItems: 'center', gap: 4 },
   classModeChipLabel: { fontSize: 10, fontWeight: '700', color: '#525C70', textTransform: 'uppercase' },
   classModeChipValue: { fontSize: 11, fontWeight: '800', color: '#334155' },
-  classCardMeta:    { fontSize: 12, color: '#525C6B', fontWeight: '500' },
+  classCardMeta:    { fontSize: 12, color: Colors.textMuted, fontWeight: '500' },
   classMetaGrid:    { flexDirection: 'row', flexWrap: 'wrap', columnGap: 10, rowGap: 6, marginTop: 2 },
   classMetaItem:    { flexBasis: '48%', flexGrow: 1, minWidth: 96 },
   classTimingRow:   { flexDirection: 'row', gap: 10 },
@@ -2139,7 +2140,7 @@ const p = StyleSheet.create({
   classCardCounts:  { fontSize: 12, color: '#667085', fontWeight: '600' },
   classCountsRow:   { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: -2 },
   classCountChip:   { borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.45)', paddingHorizontal: 9, paddingVertical: 4 },
-  classCountChipText: { fontSize: 11, fontWeight: '700', color: '#4B5563' },
+  classCountChipText: { fontSize: 11, fontWeight: '700', color: Colors.textSecondary },
   statusTag:        { borderRadius: 999, paddingHorizontal: 9, paddingVertical: 3, alignSelf: 'flex-start' },
   statusTagText:    { fontSize: 10, fontWeight: '800' },
   classCardFooter:  { flexDirection: 'row', gap: 6, paddingTop: 2 },
@@ -2149,104 +2150,104 @@ const p = StyleSheet.create({
     position: 'absolute',
     top: -4, right: -4,
     minWidth: 18, height: 18, paddingHorizontal: 4,
-    borderRadius: 9, backgroundColor: '#EF4444',
+    borderRadius: 9, backgroundColor: Colors.error,
     alignItems: 'center', justifyContent: 'center',
     borderWidth: 1.5, borderColor: '#fff',
   },
   activityDotText: { fontSize: 10, fontWeight: '900', color: '#fff', lineHeight: 12 },
   footerBtnGhost:   { flex: 1, minWidth: 0, borderRadius: 12, paddingVertical: 9, alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.04)' },
-  footerBtnDelete:  { fontSize: 11, fontWeight: '700', color: '#525C6B' },
+  footerBtnDelete:  { fontSize: 11, fontWeight: '700', color: Colors.textMuted },
 
   // ── Full-screen modal ──
-  modalScreen:       { flex: 1, backgroundColor: '#F5F7FF' },
+  modalScreen:       { flex: 1, backgroundColor: Colors.background },
   modalHeader: {
     flexDirection: 'row', alignItems: 'center', gap: 12,
     paddingHorizontal: 16, paddingBottom: 12,
     backgroundColor: '#fff',
-    borderBottomWidth: 1, borderBottomColor: '#F0F0F8',
+    borderBottomWidth: 1, borderBottomColor: Colors.borderLight,
   },
   modalBackBtn:     { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
-  modalBackArrow:   { fontSize: 28, color: '#1a1a2e', fontWeight: '300', lineHeight: 34 },
-  modalTitle:       { flex: 1, fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
-  modalSaveBtn:     { backgroundColor: '#2D5DC9', borderRadius: 10, paddingHorizontal: 18, paddingVertical: 8 },
+  modalBackArrow:   { fontSize: 28, color: Colors.text, fontWeight: '300', lineHeight: 34 },
+  modalTitle:       { flex: 1, fontSize: 17, fontWeight: '900', color: Colors.text },
+  modalSaveBtn:     { backgroundColor: Colors.primary, borderRadius: 10, paddingHorizontal: 18, paddingVertical: 8 },
   modalSaveBtnText: { color: '#fff', fontWeight: '800', fontSize: 13 },
 
   // ── Modal tab bar ──
   modalTabBar: {
     flexDirection: 'row', backgroundColor: '#fff',
-    borderBottomWidth: 1, borderBottomColor: '#F0F0F8',
+    borderBottomWidth: 1, borderBottomColor: Colors.borderLight,
   },
   modalTab: {
     flex: 1, paddingVertical: 12, alignItems: 'center',
     borderBottomWidth: 2, borderBottomColor: 'transparent',
   },
-  modalTabActive:     { borderBottomColor: '#2D5DC9' },
-  modalTabText:       { fontSize: 13, fontWeight: '600', color: '#525C6B' },
-  modalTabTextActive: { color: '#2D5DC9', fontWeight: '800' },
+  modalTabActive:     { borderBottomColor: Colors.primary },
+  modalTabText:       { fontSize: 13, fontWeight: '600', color: Colors.textMuted },
+  modalTabTextActive: { color: Colors.primary, fontWeight: '800' },
 
   // ── Tab content ──
   tabContent: { padding: 16, gap: 16, paddingBottom: 40 },
 
   // ── Field groups (modal form) ──
   fieldGroup:   { gap: 8 },
-  groupLabel:   { fontSize: 10, fontWeight: '800', color: '#525C6B', letterSpacing: 1, textTransform: 'uppercase', paddingLeft: 4 },
-  fieldCard:    { backgroundColor: '#fff', borderRadius: 16, padding: 14, gap: 10, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
-  fieldLabel:   { fontSize: 11, fontWeight: '700', color: '#525C6B', textTransform: 'uppercase', letterSpacing: 0.5 },
-  fieldInput:   { fontSize: 14, color: '#1a1a2e', fontWeight: '500', paddingVertical: 6 },
-  fieldDivider: { height: 1, backgroundColor: '#F0F0F8' },
+  groupLabel:   { fontSize: 10, fontWeight: '800', color: Colors.textMuted, letterSpacing: 1, textTransform: 'uppercase', paddingLeft: 4 },
+  fieldCard:    { backgroundColor: '#fff', borderRadius: 16, padding: 14, gap: 10, shadowColor: Colors.text, shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
+  fieldLabel:   { fontSize: 11, fontWeight: '700', color: Colors.textMuted, textTransform: 'uppercase', letterSpacing: 0.5 },
+  fieldInput:   { fontSize: 14, color: Colors.text, fontWeight: '500', paddingVertical: 6 },
+  fieldDivider: { height: 1, backgroundColor: Colors.borderLight },
   dateTimeRow:  { flexDirection: 'row', gap: 10, marginTop: 6 },
   dateTimeCol:  { flex: 1 },
-  dateTimeLabel:{ fontSize: 10, fontWeight: '700', color: '#525C6B', marginBottom: 4 },
+  dateTimeLabel:{ fontSize: 10, fontWeight: '700', color: Colors.textMuted, marginBottom: 4 },
   addEndBtn:    { marginTop: 8, alignSelf: 'flex-start', paddingHorizontal: 12, paddingVertical: 8, borderRadius: 999, backgroundColor: '#EBF4FF' },
-  addEndBtnText:{ fontSize: 12, fontWeight: '800', color: '#2D5DC9' },
+  addEndBtnText:{ fontSize: 12, fontWeight: '800', color: Colors.primary },
   removeEndText:{ fontSize: 11, fontWeight: '700', color: '#B03A19' },
   selectorRow:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 6 },
-  selectorVal:  { fontSize: 14, color: '#1a1a2e', fontWeight: '500' },
+  selectorVal:  { fontSize: 14, color: Colors.text, fontWeight: '500' },
   selectorPlaceholder: { fontSize: 14, color: '#B0B8D0' },
   chipRow:      { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  chip:         { borderRadius: 999, paddingHorizontal: 14, paddingVertical: 7, backgroundColor: '#F0F0F8' },
+  chip:         { borderRadius: 999, paddingHorizontal: 14, paddingVertical: 7, backgroundColor: Colors.borderLight },
   chipActive:   { backgroundColor: '#D6EAFF' },
-  chipText:     { fontSize: 13, fontWeight: '600', color: '#525C6B' },
+  chipText:     { fontSize: 13, fontWeight: '600', color: Colors.textMuted },
   chipTextActive: { color: '#1A4DA2', fontWeight: '700' },
 
   // ── Sections tab ──
-  secGroup:       { backgroundColor: '#fff', borderRadius: 16, overflow: 'hidden', shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
-  secGroupHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  secGroupTitle:  { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
+  secGroup:       { backgroundColor: '#fff', borderRadius: 16, overflow: 'hidden', shadowColor: Colors.text, shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
+  secGroupHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: Colors.borderLight },
+  secGroupTitle:  { fontSize: 14, fontWeight: '800', color: Colors.text },
   addSecBtn:      { backgroundColor: '#D6EAFF', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 },
   addSecBtnText:  { fontSize: 12, fontWeight: '800', color: '#1A4DA2' },
   secEmptyText:   { fontSize: 13, color: '#B0B8D0', padding: 14, textAlign: 'center' },
   bookmarkBtn:    { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, paddingVertical: 11, borderRadius: 12, borderWidth: 1.5, borderColor: '#E5D9F8', backgroundColor: '#F7F2FE', borderStyle: 'dashed', marginBottom: 12 },
   bookmarkBtnText:{ fontSize: 13, fontWeight: '800', color: '#7C3AED' },
   bmBackBtn:      { flexDirection: 'row', alignItems: 'center', gap: 2 },
-  bmBackText:     { fontSize: 14, fontWeight: '700', color: '#2D5DC9' },
+  bmBackText:     { fontSize: 14, fontWeight: '700', color: Colors.primary },
   bmIcon:         { width: 32, height: 32, borderRadius: 16, backgroundColor: '#EFE7FB', alignItems: 'center', justifyContent: 'center' },
-  bmDetailName:   { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
-  bmFooter:       { padding: 12, borderTopWidth: 1, borderTopColor: '#F0F0F8' },
+  bmDetailName:   { fontSize: 14, fontWeight: '800', color: Colors.text },
+  bmFooter:       { padding: 12, borderTopWidth: 1, borderTopColor: Colors.borderLight },
   bmAddBtn:       { backgroundColor: '#7C3AED', borderRadius: 12, paddingVertical: 12, alignItems: 'center' },
   bmAddText:      { color: '#fff', fontWeight: '800', fontSize: 14 },
-  sectionItem:    { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 10, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
+  sectionItem:    { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 10, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.background },
   dragHandle:     { alignItems: 'center', gap: 2, paddingHorizontal: 4 },
   sectionItemOrder: { fontSize: 10, fontWeight: '800', color: '#B0B8D0' },
   sectionItemBody:  { flex: 1, gap: 2 },
-  sectionItemTitle: { fontSize: 13, fontWeight: '700', color: '#1a1a2e' },
-  sectionItemMeta:  { fontSize: 11, color: '#525C6B' },
+  sectionItemTitle: { fontSize: 13, fontWeight: '700', color: Colors.text },
+  sectionItemMeta:  { fontSize: 11, color: Colors.textMuted },
   sectionItemActions: { flexDirection: 'row', gap: 2, alignItems: 'center' },
-  orderBtn:       { width: 26, height: 26, alignItems: 'center', justifyContent: 'center', borderRadius: 6, backgroundColor: '#F5F7FF' },
+  orderBtn:       { width: 26, height: 26, alignItems: 'center', justifyContent: 'center', borderRadius: 6, backgroundColor: Colors.background },
   removeBtn:      { width: 26, height: 26, alignItems: 'center', justifyContent: 'center', borderRadius: 6, backgroundColor: '#FFE8E8', marginLeft: 2 },
-  removeBtnText:  { fontSize: 11, fontWeight: '800', color: '#D33F13' },
-  assignCard:     { padding: 14, gap: 6, borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
+  removeBtnText:  { fontSize: 11, fontWeight: '800', color: Colors.accent },
+  assignCard:     { padding: 14, gap: 6, borderBottomWidth: 1, borderBottomColor: Colors.background },
   assignCardHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  assignCardLabel:  { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
+  assignCardLabel:  { fontSize: 13, fontWeight: '800', color: Colors.text },
   uploadBtn:      { marginTop: 4, borderRadius: 8, borderWidth: 1, borderColor: '#D6EAFF', backgroundColor: '#F5F9FF', paddingVertical: 8, alignItems: 'center' },
-  uploadBtnText:  { fontSize: 12, fontWeight: '700', color: '#2D5DC9' },
+  uploadBtnText:  { fontSize: 12, fontWeight: '700', color: Colors.primary },
 
   // ── Form layout (flat, no nested cards) ──
   formScroll:  { flex: 1, backgroundColor: '#F4F6FB' },
   formContent: { paddingVertical: 20, paddingHorizontal: 0, gap: 0, paddingBottom: 48 },
 
   // Section header label above each block
-  sectionHdr:  { fontSize: 11, fontWeight: '700', color: '#525C6B', letterSpacing: 0.8, textTransform: 'uppercase', paddingHorizontal: 20, marginBottom: 6, marginTop: 20 },
+  sectionHdr:  { fontSize: 11, fontWeight: '700', color: Colors.textMuted, letterSpacing: 0.8, textTransform: 'uppercase', paddingHorizontal: 20, marginBottom: 6, marginTop: 20 },
   secHdrRow:   { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, marginBottom: 6, marginTop: 20 },
 
   // White block — full width, no border, no shadow
@@ -2254,23 +2255,23 @@ const p = StyleSheet.create({
 
   // Each row inside a block
   formRow:         { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 14, minHeight: 50 },
-  formRowLabel:    { fontSize: 14, fontWeight: '600', color: '#1a1a2e', minWidth: 90 },
-  formRowInput:    { flex: 1, fontSize: 14, color: '#1a1a2e', textAlign: 'right', fontWeight: '400' },
-  formRowValue:    { fontSize: 14, color: '#1a1a2e', fontWeight: '400' },
+  formRowLabel:    { fontSize: 14, fontWeight: '600', color: Colors.text, minWidth: 90 },
+  formRowInput:    { flex: 1, fontSize: 14, color: Colors.text, textAlign: 'right', fontWeight: '400' },
+  formRowValue:    { fontSize: 14, color: Colors.text, fontWeight: '400' },
   formRowPlaceholder: { fontSize: 14, color: '#C0C8D8' },
-  formRowAction:   { fontSize: 14, color: '#2D5DC9', fontWeight: '600' },
+  formRowAction:   { fontSize: 14, color: Colors.primary, fontWeight: '600' },
   rowDivider:      { height: 1, backgroundColor: '#F0F2F8', marginLeft: 20 },
 
   // Segmented control (replaces chips inside the row)
   segRow:       { flexDirection: 'row', gap: 4 },
   seg:          { paddingHorizontal: 14, paddingVertical: 6, borderRadius: 8, backgroundColor: '#F0F2F8' },
   segActive:    { backgroundColor: '#D6EAFF' },
-  segText:      { fontSize: 13, fontWeight: '600', color: '#525C6B' },
+  segText:      { fontSize: 13, fontWeight: '600', color: Colors.textMuted },
   segTextActive:{ color: '#1A4DA2', fontWeight: '700' },
 
   // Toggle switch
   toggle:        { width: 44, height: 26, borderRadius: 13, backgroundColor: '#D8DCE8', justifyContent: 'center', paddingHorizontal: 3 },
-  toggleOn:      { backgroundColor: '#2D5DC9' },
+  toggleOn:      { backgroundColor: Colors.primary },
   toggleThumb:   { width: 20, height: 20, borderRadius: 10, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.15, shadowRadius: 2, elevation: 2 },
   toggleThumbOn: { alignSelf: 'flex-end' },
 
@@ -2281,8 +2282,8 @@ const p = StyleSheet.create({
   // Flat list rows (sections tab content/quiz items)
   flatRow:       { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 16, paddingVertical: 12 },
   flatRowBody:   { flex: 1, gap: 2 },
-  flatRowTitle:  { fontSize: 13, fontWeight: '600', color: '#1a1a2e' },
-  flatRowMeta:   { fontSize: 11, color: '#525C6B' },
+  flatRowTitle:  { fontSize: 13, fontWeight: '600', color: Colors.text },
+  flatRowMeta:   { fontSize: 11, color: Colors.textMuted },
   flatRowCtrls:  { flexDirection: 'row', gap: 4, alignItems: 'center' },
   flatEmpty:     { fontSize: 13, color: '#B0B8D0', paddingVertical: 16, textAlign: 'center' },
   miniBtn:       { width: 24, height: 24, alignItems: 'center', justifyContent: 'center', borderRadius: 6, backgroundColor: '#F4F6FB' },
@@ -2295,11 +2296,11 @@ const p = StyleSheet.create({
 
   // Assignment sub-header
   asgnHdrRow:   { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, paddingTop: 20, paddingBottom: 6 },
-  asgnIndex:    { fontSize: 12, fontWeight: '700', color: '#525C6B', textTransform: 'uppercase', letterSpacing: 0.5 },
+  asgnIndex:    { fontSize: 12, fontWeight: '700', color: Colors.textMuted, textTransform: 'uppercase', letterSpacing: 0.5 },
   asgnRemove:   { fontSize: 13, fontWeight: '600', color: '#B03A19' },
 
   // ── Preview tab ──
-  previewCard:          { backgroundColor: '#fff', borderRadius: 20, overflow: 'hidden', shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 },
+  previewCard:          { backgroundColor: '#fff', borderRadius: 20, overflow: 'hidden', shadowColor: Colors.text, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 },
   previewHeader:        { padding: 20, gap: 6 },
   previewTitle:         { fontSize: 20, fontWeight: '900', color: '#fff' },
   previewSub:           { fontSize: 13, color: '#fff' },
@@ -2308,35 +2309,35 @@ const p = StyleSheet.create({
   previewStatVal:       { fontSize: 22, fontWeight: '900', color: '#fff' },
   previewStatLabel:     { fontSize: 10, fontWeight: '700', color: '#fff', textTransform: 'uppercase' },
   previewBody:          { padding: 16, gap: 6 },
-  previewSectionTitle:  { fontSize: 13, fontWeight: '800', color: '#525C6B', textTransform: 'uppercase', letterSpacing: 0.8 },
-  previewItem:          { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
+  previewSectionTitle:  { fontSize: 13, fontWeight: '800', color: Colors.textMuted, textTransform: 'uppercase', letterSpacing: 0.8 },
+  previewItem:          { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: Colors.background },
   previewItemDot:       { width: 24, height: 24, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
-  previewItemTitle:     { fontSize: 13, fontWeight: '700', color: '#1a1a2e' },
-  previewItemMeta:      { fontSize: 11, color: '#525C6B', marginTop: 1 },
+  previewItemTitle:     { fontSize: 13, fontWeight: '700', color: Colors.text },
+  previewItemMeta:      { fontSize: 11, color: Colors.textMuted, marginTop: 1 },
   previewEmpty:         { alignItems: 'center', paddingVertical: 32, gap: 8 },
-  previewEmptyText:     { fontSize: 13, color: '#525C6B', textAlign: 'center', lineHeight: 20 },
+  previewEmptyText:     { fontSize: 13, color: Colors.textMuted, textAlign: 'center', lineHeight: 20 },
 
   // ── Content/Quiz pickers ──
   pickerOverlay: { flex: 1, backgroundColor: 'rgba(15,23,42,0.4)', justifyContent: 'flex-end' },
   pickerSheet:   { backgroundColor: '#fff', borderTopLeftRadius: 24, borderTopRightRadius: 24, maxHeight: '85%', overflow: 'hidden' },
-  pickerHeader:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16, borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  pickerTitle:   { fontSize: 16, fontWeight: '900', color: '#1a1a2e' },
-  pickerDoneBtn: { backgroundColor: '#2D5DC9', borderRadius: 10, paddingHorizontal: 14, paddingVertical: 7 },
+  pickerHeader:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16, borderBottomWidth: 1, borderBottomColor: Colors.borderLight },
+  pickerTitle:   { fontSize: 16, fontWeight: '900', color: Colors.text },
+  pickerDoneBtn: { backgroundColor: Colors.primary, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 7 },
   pickerDoneText:{ color: '#fff', fontWeight: '800', fontSize: 13 },
-  pickerSearch:  { padding: 12, borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  searchInput:   { backgroundColor: '#F5F7FF', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 9, fontSize: 13, color: '#1a1a2e' },
+  pickerSearch:  { padding: 12, borderBottomWidth: 1, borderBottomColor: Colors.borderLight },
+  searchInput:   { backgroundColor: Colors.background, borderRadius: 12, paddingHorizontal: 12, paddingVertical: 9, fontSize: 13, color: Colors.text },
   quizFilterRow: { flexDirection: 'row', gap: 8, alignItems: 'center' },
-  filterChipBtn: { borderRadius: 10, backgroundColor: '#F0F0F8', paddingHorizontal: 12, paddingVertical: 9 },
-  filterChipActive:     { fontSize: 12, fontWeight: '700', color: '#2D5DC9' },
-  filterChipPlaceholder:{ fontSize: 12, fontWeight: '600', color: '#525C6B' },
+  filterChipBtn: { borderRadius: 10, backgroundColor: Colors.borderLight, paddingHorizontal: 12, paddingVertical: 9 },
+  filterChipActive:     { fontSize: 12, fontWeight: '700', color: Colors.primary },
+  filterChipPlaceholder:{ fontSize: 12, fontWeight: '600', color: Colors.textMuted },
   filterClearBtn: { borderRadius: 10, paddingHorizontal: 10, paddingVertical: 9 },
-  filterClearText: { fontSize: 12, fontWeight: '700', color: '#D33F13' },
+  filterClearText: { fontSize: 12, fontWeight: '700', color: Colors.accent },
   pickerItem:         { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: '#F9FAFF', borderRadius: 12, padding: 12 },
-  pickerItemSelected: { backgroundColor: '#D6EAFF', borderWidth: 1, borderColor: '#2D5DC9' },
-  pickerItemTitle:    { fontSize: 13, fontWeight: '700', color: '#1a1a2e' },
-  pickerItemMeta:     { fontSize: 11, color: '#525C6B', marginTop: 1 },
+  pickerItemSelected: { backgroundColor: '#D6EAFF', borderWidth: 1, borderColor: Colors.primary },
+  pickerItemTitle:    { fontSize: 13, fontWeight: '700', color: Colors.text },
+  pickerItemMeta:     { fontSize: 11, color: Colors.textMuted, marginTop: 1 },
   checkBox:           { width: 20, height: 20, borderWidth: 2, borderColor: '#D0D8F0', borderRadius: 6, alignItems: 'center', justifyContent: 'center' },
-  checkBoxSelected:   { backgroundColor: '#2D5DC9', borderColor: '#2D5DC9' },
+  checkBoxSelected:   { backgroundColor: Colors.primary, borderColor: Colors.primary },
   checkTick:          { color: '#fff', fontSize: 11, fontWeight: '900' },
 
   // ── Selector sheet ──
@@ -2344,12 +2345,12 @@ const p = StyleSheet.create({
 
   // ── Delete confirm ──
   confirmCard:        { backgroundColor: '#fff', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 24, alignItems: 'center', gap: 6 },
-  confirmTitle:       { fontSize: 18, fontWeight: '900', color: '#1a1a2e', textAlign: 'center' },
-  confirmSub:         { fontSize: 13, color: '#525C6B', textAlign: 'center', lineHeight: 20 },
+  confirmTitle:       { fontSize: 18, fontWeight: '900', color: Colors.text, textAlign: 'center' },
+  confirmSub:         { fontSize: 13, color: Colors.textMuted, textAlign: 'center', lineHeight: 20 },
   confirmActions:     { width: '100%', flexDirection: 'row', gap: 10, marginTop: 16 },
   confirmCancelBtn:   { flex: 1, borderRadius: 12, borderWidth: 1, borderColor: '#D0D8F0', paddingVertical: 13, alignItems: 'center' },
-  confirmCancelText:  { fontWeight: '700', color: '#525C6B', fontSize: 14 },
-  confirmDeleteBtn:   { flex: 1, borderRadius: 12, backgroundColor: '#D33F13', paddingVertical: 13, alignItems: 'center' },
+  confirmCancelText:  { fontWeight: '700', color: Colors.textMuted, fontSize: 14 },
+  confirmDeleteBtn:   { flex: 1, borderRadius: 12, backgroundColor: Colors.accent, paddingVertical: 13, alignItems: 'center' },
   confirmEndBtn:      { backgroundColor: '#B03A19' },
   confirmDeleteText:  { fontWeight: '800', color: '#fff', fontSize: 14 },
 
@@ -2358,27 +2359,27 @@ const p = StyleSheet.create({
   historyBtnText: { fontSize: 12, fontWeight: '700', color: '#5A6A8A' },
 
   // ── History full-screen modal
-  historyScreen:     { flex: 1, backgroundColor: '#F5F7FF' },
-  historyHeader:     { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 14, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  historyBackBtn:    { width: 36, height: 36, borderRadius: 18, backgroundColor: '#F5F7FF', alignItems: 'center', justifyContent: 'center' },
-  historyBackArrow:  { fontSize: 28, color: '#1a1a2e', fontWeight: '300', lineHeight: 34 },
-  historyTitle:      { fontSize: 18, fontWeight: '900', color: '#1a1a2e' },
-  historySubtitle:   { fontSize: 12, color: '#525C6B', fontWeight: '500', marginTop: 1 },
+  historyScreen:     { flex: 1, backgroundColor: Colors.background },
+  historyHeader:     { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 14, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: Colors.borderLight },
+  historyBackBtn:    { width: 36, height: 36, borderRadius: 18, backgroundColor: Colors.background, alignItems: 'center', justifyContent: 'center' },
+  historyBackArrow:  { fontSize: 28, color: Colors.text, fontWeight: '300', lineHeight: 34 },
+  historyTitle:      { fontSize: 18, fontWeight: '900', color: Colors.text },
+  historySubtitle:   { fontSize: 12, color: Colors.textMuted, fontWeight: '500', marginTop: 1 },
   historyCenter:     { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 10, paddingTop: 60 },
-  historyEmptyTitle: { fontSize: 18, fontWeight: '900', color: '#1a1a2e' },
-  historyEmptyText:  { fontSize: 13, color: '#525C6B', textAlign: 'center' },
+  historyEmptyTitle: { fontSize: 18, fontWeight: '900', color: Colors.text },
+  historyEmptyText:  { fontSize: 13, color: Colors.textMuted, textAlign: 'center' },
   historyList:       { flexDirection: 'row', flexWrap: 'wrap', padding: 16, gap: 12, paddingBottom: 40 },
 
-  historyCard:       { backgroundColor: '#fff', borderRadius: 20, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2, overflow: 'hidden' },
+  historyCard:       { backgroundColor: '#fff', borderRadius: 20, shadowColor: Colors.text, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2, overflow: 'hidden' },
   historyCardTop:    { flexDirection: 'row', alignItems: 'flex-start', gap: 14, padding: 16, paddingBottom: 8 },
   historyCardIcon:   { width: 46, height: 46, borderRadius: 13, backgroundColor: '#EEF4FF', alignItems: 'center', justifyContent: 'center' },
   historyCardBody:   { flex: 1, gap: 6 },
-  historyCardTitle:  { fontSize: 15, fontWeight: '800', color: '#1a1a2e', lineHeight: 22 },
+  historyCardTitle:  { fontSize: 15, fontWeight: '800', color: Colors.text, lineHeight: 22 },
   historyModeRow:    { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   historyModeChip:   { borderRadius: 999, backgroundColor: '#F2F6FF', paddingHorizontal: 9, paddingVertical: 4, flexDirection: 'row', alignItems: 'center', gap: 4 },
   historyModeChipLabel: { fontSize: 10, fontWeight: '700', color: '#525C70', textTransform: 'uppercase' },
   historyModeChipValue: { fontSize: 11, fontWeight: '800', color: '#334155' },
-  historyCardMeta:   { fontSize: 12, color: '#525C6B', fontWeight: '500', marginTop: 2 },
+  historyCardMeta:   { fontSize: 12, color: Colors.textMuted, fontWeight: '500', marginTop: 2 },
   historyMetaGrid:   { flexDirection: 'row', columnGap: 10, rowGap: 8, paddingHorizontal: 16, marginTop: 2 },
   historyMetaItem:   { flexBasis: '48%', flexGrow: 1, minWidth: 130 },
   historyMetaItemWide: { flexBasis: '100%' },
@@ -2396,15 +2397,15 @@ const p = StyleSheet.create({
   historyRestartBtnText: { fontSize: 13, fontWeight: '800', color: '#1A6B1A' },
 
   pageBtn:      { paddingHorizontal: 16, paddingVertical: 8, backgroundColor: '#EEF4FF', borderRadius: 8 },
-  pageBtnText:  { fontSize: 13, fontWeight: '700', color: '#2D5DC9' },
-  pageText:     { fontSize: 13, fontWeight: '600', color: '#525C6B' },
+  pageBtnText:  { fontSize: 13, fontWeight: '700', color: Colors.primary },
+  pageText:     { fontSize: 13, fontWeight: '600', color: Colors.textMuted },
 });
 
 const pagerS = StyleSheet.create({
   bar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 14, paddingVertical: 10, borderTopWidth: 1, borderTopColor: '#F0F4FF' },
   btn: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 10, backgroundColor: '#EBF4FF' },
   btnDisabled: { backgroundColor: '#F4F5FF' },
-  btnText: { fontSize: 12, fontWeight: '700', color: '#2D5DC9' },
+  btnText: { fontSize: 12, fontWeight: '700', color: Colors.primary },
   btnTextDisabled: { color: '#C0C8D8' },
   indicator: { fontSize: 12, fontWeight: '700', color: '#5A6A8A' },
 });

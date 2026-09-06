@@ -3,6 +3,7 @@ import { useFocusEffect, useRouter } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import { ModalHeader } from '../../src/components/common/ModalHeader';
 import { Card } from '../../src/components/common/Card';
+import { Colors } from '../../src/theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Linking from 'expo-linking';
@@ -703,7 +704,7 @@ const normalizeLogicoButtonId = (id: string) => id.trim().toLowerCase();
 
 const getLogicoButtonColor = (buttonId: string) => {
   const normalized = normalizeLogicoButtonId(buttonId);
-  return LOGICO_BUTTON_COLOR_MAP[normalized] || '#4b5563';
+  return LOGICO_BUTTON_COLOR_MAP[normalized] || Colors.textSecondary;
 };
 
 const isRingButton = (buttonId: string) => normalizeLogicoButtonId(buttonId).includes('-ring');
@@ -1016,7 +1017,7 @@ function SafeImage({ uri, style, resizeMode = 'contain' }: { uri: string; style?
   if (!uri || error) {
     return (
       <View style={[style, { justifyContent: 'center', alignItems: 'center', backgroundColor: '#F4F4FB', overflow: 'hidden' }]}>
-        <ImageIcon size={24} color="#525C6B" />
+        <ImageIcon size={24} color={Colors.textMuted} />
       </View>
     );
   }
@@ -2727,15 +2728,15 @@ export default function QuestionManagementScreen() {
       true_false: '', single_choice: '', multi_choice: '', logico: '',
     };
     const QTYPES_COLOR: Record<string, string> = {
-      guess_image: '#2D5DC9', drag_drop_match: '#9B8EC4', guess_audio: '#7DC67A',
-      true_false: '#E6A817', single_choice: '#D33F13', multi_choice: '#E91E8C', logico: '#0f766e',
+      guess_image: Colors.primary, drag_drop_match: '#9B8EC4', guess_audio: '#7DC67A',
+      true_false: '#E6A817', single_choice: Colors.accent, multi_choice: '#E91E8C', logico: '#0f766e',
       memory_match: '#7B4FCA', fill_blank: '#E6A020',
       jigsaw: '#0EA5E9',
     };
     const QTYPES_BG: Record<string, string> = {
-      guess_image: '#D6EAFF', drag_drop_match: '#EDE4FF', guess_audio: '#D6F5D6',
+      guess_image: '#D6EAFF', drag_drop_match: Colors.purpleLight, guess_audio: '#D6F5D6',
       true_false: '#FFF5CC', single_choice: '#FFE8D6', multi_choice: '#FFE0F0', logico: '#DCFCE7',
-      memory_match: '#EDE4FF', fill_blank: '#FFF5CC',
+      memory_match: Colors.purpleLight, fill_blank: '#FFF5CC',
       jigsaw: '#E0F2FE',
     };
 
@@ -2787,7 +2788,7 @@ export default function QuestionManagementScreen() {
                   <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingVertical: 4 }}>
                     {QUESTION_TYPE_CHOICES.map((choice) => {
                       const sel = draft.questionType === choice.value;
-                      const ec = QTYPES_COLOR[choice.value] ?? '#2D5DC9';
+                      const ec = QTYPES_COLOR[choice.value] ?? Colors.primary;
                       const eb = QTYPES_BG[choice.value] ?? '#D6EAFF';
                       const ee = QTYPES_EMOJI[choice.value] ?? '';
                       return (
@@ -3165,7 +3166,7 @@ export default function QuestionManagementScreen() {
           return (
             <ScrollView contentContainerStyle={qFormS.tabContent}>
               {/* ── Grid Size ── */}
-              <LinearGradient colors={['#F4EFFF', '#EDE4FF']} style={mmS.section}>
+              <LinearGradient colors={['#F4EFFF', Colors.purpleLight]} style={mmS.section}>
                 <Text style={mmS.sectionTitle}>Grid Size</Text>
                 <Text style={mmS.sectionHint}>Choose how many pairs students must find.</Text>
                 <View style={mmS.gridRow}>
@@ -3288,7 +3289,7 @@ export default function QuestionManagementScreen() {
                 <View style={mmS.modalOverlay}>
                   <View style={[mmS.modalSheet, { paddingBottom: Math.max(insets.bottom, 32) }]}>
                     {/* modal header gradient */}
-                    <LinearGradient colors={['#F4EFFF', '#EDE4FF']} style={mmS.modalHeaderGrad}>
+                    <LinearGradient colors={['#F4EFFF', Colors.purpleLight]} style={mmS.modalHeaderGrad}>
                       <View style={mmS.modalHeaderRow}>
                         <View>
                           <Text style={mmS.modalTitle}>Choose Image</Text>
@@ -3428,7 +3429,7 @@ export default function QuestionManagementScreen() {
                   <Text style={fbS.previewLabel}>PREVIEW</Text>
                   <Text style={fbS.previewSentence}>
                     <Text>{parts[0]}</Text>
-                    <Text style={[fbS.previewBlank, { borderBottomColor: answer ? '#4CAF50' : '#2D5DC9', color: answer ? '#2E7D32' : '#2D5DC9' }]}>
+                    <Text style={[fbS.previewBlank, { borderBottomColor: answer ? '#4CAF50' : Colors.primary, color: answer ? '#2E7D32' : Colors.primary }]}>
                       {' '}{answer || '___'}{' '}
                     </Text>
                     <Text>{parts[1] ?? ''}</Text>
@@ -3465,14 +3466,14 @@ export default function QuestionManagementScreen() {
                 const atMax = optCount >= 4;
                 return (
               <View style={qFormS.secHeader}>
-                <Text style={qFormS.secTitle}>Answer Options <Text style={{ color: '#525C6B', fontWeight: '500', fontSize: 12 }}>({optCount}/4)</Text></Text>
+                <Text style={qFormS.secTitle}>Answer Options <Text style={{ color: Colors.textMuted, fontWeight: '500', fontSize: 12 }}>({optCount}/4)</Text></Text>
                 <Pressable
                   disabled={atMax}
                   style={[qFormS.addBtn, atMax && { backgroundColor: '#E8E8F0', opacity: 0.5 }]}
                   onPress={() => {
                     updateDraftField(mode, 'rawQuestionData', { ...(draft.rawQuestionData as any), options: [...(((draft.rawQuestionData as any)?.options ?? []) as string[]), ''] });
                   }}>
-                  <Text style={[qFormS.addBtnText, atMax && { color: '#525C6B' }]}>+ Add</Text>
+                  <Text style={[qFormS.addBtnText, atMax && { color: Colors.textMuted }]}>+ Add</Text>
                 </Pressable>
               </View>
                 );
@@ -3572,8 +3573,8 @@ export default function QuestionManagementScreen() {
               <View style={[qFormS.previewHero, { backgroundColor: QTYPES_BG[normalizedQuestionType] ?? '#D6EAFF' }]}>
                 <Text style={{ fontSize: 42 }}>{QTYPES_EMOJI[normalizedQuestionType] ?? ''}</Text>
                 <View style={{ flex: 1 }}>
-                  <View style={[qFormS.previewTypeBadge, { backgroundColor: `${QTYPES_COLOR[normalizedQuestionType] ?? '#2D5DC9'}25` }]}>
-                    <Text style={[qFormS.previewTypeBadgeText, { color: QTYPES_COLOR[normalizedQuestionType] ?? '#2D5DC9' }]}>
+                  <View style={[qFormS.previewTypeBadge, { backgroundColor: `${QTYPES_COLOR[normalizedQuestionType] ?? Colors.primary}25` }]}>
+                    <Text style={[qFormS.previewTypeBadgeText, { color: QTYPES_COLOR[normalizedQuestionType] ?? Colors.primary }]}>
                       {getQuestionTypeLabel(draft.questionType)}
                     </Text>
                   </View>
@@ -3627,7 +3628,7 @@ export default function QuestionManagementScreen() {
                 draft.options.map((opt, i) => (
                   <View key={i} style={[qFormS.previewOptRow, opt.isCorrect && { borderColor: '#7DC67A', borderWidth: 1.5 }]}>
                     <View style={[qFormS.previewOptDot, { backgroundColor: opt.isCorrect ? '#7DC67A' : '#E0E4F0' }]}>
-                      <Text style={{ color: opt.isCorrect ? '#fff' : '#525C6B', fontSize: 11, fontWeight: '800' }}>{i + 1}</Text>
+                      <Text style={{ color: opt.isCorrect ? '#fff' : Colors.textMuted, fontSize: 11, fontWeight: '800' }}>{i + 1}</Text>
                     </View>
                     <Text style={qFormS.previewOptText}>{opt.label || `Option ${i + 1}`}</Text>
                     {opt.isCorrect ? <Text style={qFormS.previewCorrectBadge}>✓</Text> : null}
@@ -3637,7 +3638,7 @@ export default function QuestionManagementScreen() {
               {hasPairs && draft.matchPairs.map((pair, i) => (
                 <View key={i} style={qFormS.previewPairRow}>
                   <Text style={qFormS.previewPairText}>{pair.itemLabel || `Item ${i + 1}`}</Text>
-                  <Text style={{ color: '#525C6B', fontWeight: '700' }}>↔</Text>
+                  <Text style={{ color: Colors.textMuted, fontWeight: '700' }}>↔</Text>
                   <Text style={qFormS.previewPairText}>{pair.targetLabel || `Target ${i + 1}`}</Text>
                 </View>
               ))}
@@ -3652,17 +3653,17 @@ export default function QuestionManagementScreen() {
                   <View style={{ padding: 14, gap: 12 }}>
                     {/* Sentence with filled blank */}
                     <View style={{ backgroundColor: '#F0F7FF', borderRadius: 14, padding: 16, borderWidth: 1, borderColor: '#C5D8F8' }}>
-                      <Text style={{ fontSize: 11, fontWeight: '800', color: '#2D5DC9', letterSpacing: 1, marginBottom: 8, textTransform: 'uppercase' }}>Sentence Preview</Text>
+                      <Text style={{ fontSize: 11, fontWeight: '800', color: Colors.primary, letterSpacing: 1, marginBottom: 8, textTransform: 'uppercase' }}>Sentence Preview</Text>
                       {sentence ? (
-                        <Text style={{ fontSize: 16, fontWeight: '600', color: '#1a1a2e', textAlign: 'center', lineHeight: 26 }}>
+                        <Text style={{ fontSize: 16, fontWeight: '600', color: Colors.text, textAlign: 'center', lineHeight: 26 }}>
                           <Text>{parts[0] ?? ''}</Text>
-                          <Text style={{ fontWeight: '900', color: answer ? '#2E7D32' : '#2D5DC9', borderBottomWidth: 2, borderBottomColor: answer ? '#4CAF50' : '#2D5DC9' }}>
+                          <Text style={{ fontWeight: '900', color: answer ? '#2E7D32' : Colors.primary, borderBottomWidth: 2, borderBottomColor: answer ? '#4CAF50' : Colors.primary }}>
                             {' '}{answer || (hint ? `${hint}___` : '___')}{' '}
                           </Text>
                           <Text>{parts[1] ?? ''}</Text>
                         </Text>
                       ) : (
-                        <Text style={{ color: '#525C6B', textAlign: 'center', fontStyle: 'italic' }}>No sentence yet — use ___ to mark the blank</Text>
+                        <Text style={{ color: Colors.textMuted, textAlign: 'center', fontStyle: 'italic' }}>No sentence yet — use ___ to mark the blank</Text>
                       )}
                       {hint ? (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 10, alignSelf: 'center', backgroundColor: '#FFF8E1', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 }}>
@@ -3675,7 +3676,7 @@ export default function QuestionManagementScreen() {
                     {/* Options */}
                     {opts.length > 0 && (
                       <View style={{ gap: 8 }}>
-                        <Text style={{ fontSize: 11, fontWeight: '700', color: '#525C6B', textTransform: 'uppercase', letterSpacing: 0.4 }}>Options</Text>
+                        <Text style={{ fontSize: 11, fontWeight: '700', color: Colors.textMuted, textTransform: 'uppercase', letterSpacing: 0.4 }}>Options</Text>
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
                           {opts.map((opt, i) => {
                             const isCorrect = answer && opt.toLowerCase() === answer.toLowerCase();
@@ -3698,7 +3699,7 @@ export default function QuestionManagementScreen() {
                       </View>
                     )}
                     {opts.length === 0 && (
-                      <Text style={{ fontSize: 12, color: '#525C6B', fontStyle: 'italic', textAlign: 'center' }}>No options added yet</Text>
+                      <Text style={{ fontSize: 12, color: Colors.textMuted, fontStyle: 'italic', textAlign: 'center' }}>No options added yet</Text>
                     )}
                   </View>
                 );
@@ -3720,7 +3721,7 @@ export default function QuestionManagementScreen() {
                 for (let i = 0; i < allCards.length; i += pvCols) pvRows.push(allCards.slice(i, i + pvCols));
                 return (
                   <View style={{ padding: 14 }}>
-                    <Text style={{ fontSize: 11, fontWeight: '700', color: '#525C6B', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    <Text style={{ fontSize: 11, fontWeight: '700', color: Colors.textMuted, marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                       Board Preview — {pvPairs.length}/{pvNeeded} pairs · {pvNeeded * 2} cards
                     </Text>
                     <View style={{ alignItems: 'center' }}>
@@ -3730,7 +3731,7 @@ export default function QuestionManagementScreen() {
                             {row.map((card, cIdx) => {
                               const imgUrl = card?.imageUrl ? `${API_BASE_URL}${card.imageUrl}` : undefined;
                               return (
-                                <View key={cIdx} style={[mmS.pairCard, { width: pvCardW, backgroundColor: '#2D5DC9', borderColor: '#3A7BD5', paddingVertical: 6 }]}>
+                                <View key={cIdx} style={[mmS.pairCard, { width: pvCardW, backgroundColor: Colors.primary, borderColor: '#3A7BD5', paddingVertical: 6 }]}>
                                   {imgUrl ? (
                                     <Image source={{ uri: imgUrl }} style={{ width: pvCardW * 0.55, height: pvCardW * 0.55 }} resizeMode="contain" />
                                   ) : (
@@ -3807,7 +3808,7 @@ export default function QuestionManagementScreen() {
           : 'this item';
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#F5F7FF' }}>
+    <View style={{ flex: 1, backgroundColor: Colors.background }}>
       {/* ── Tab bar ── */}
       <View style={styles.newTabBar}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flex: 1 }} contentContainerStyle={{ paddingHorizontal: 8, alignItems: 'center' }}>
@@ -3818,12 +3819,12 @@ export default function QuestionManagementScreen() {
               onPress={() => handleSetActiveLearningTab(tab)}
             >
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-                {tab === 'topic' && <FolderOpen size={11} color={activeLearningTab === tab ? '#2D5DC9' : '#525C6B'} />}
-                {tab === 'content' && <VideoIcon size={11} color={activeLearningTab === tab ? '#2D5DC9' : '#525C6B'} />}
-                {tab === 'question' && <HelpCircle size={11} color={activeLearningTab === tab ? '#2D5DC9' : '#525C6B'} />}
-                {tab === 'quiz' && <TrophyIcon size={11} color={activeLearningTab === tab ? '#2D5DC9' : '#525C6B'} />}
-                {tab === 'stories' && <StoriesIcon size={11} color={activeLearningTab === tab ? '#2D5DC9' : '#525C6B'} />}
-                {tab === 'bookmark' && <BookmarkIcon size={11} color={activeLearningTab === tab ? '#2D5DC9' : '#525C6B'} />}
+                {tab === 'topic' && <FolderOpen size={11} color={activeLearningTab === tab ? Colors.primary : Colors.textMuted} />}
+                {tab === 'content' && <VideoIcon size={11} color={activeLearningTab === tab ? Colors.primary : Colors.textMuted} />}
+                {tab === 'question' && <HelpCircle size={11} color={activeLearningTab === tab ? Colors.primary : Colors.textMuted} />}
+                {tab === 'quiz' && <TrophyIcon size={11} color={activeLearningTab === tab ? Colors.primary : Colors.textMuted} />}
+                {tab === 'stories' && <StoriesIcon size={11} color={activeLearningTab === tab ? Colors.primary : Colors.textMuted} />}
+                {tab === 'bookmark' && <BookmarkIcon size={11} color={activeLearningTab === tab ? Colors.primary : Colors.textMuted} />}
                 <Text style={[styles.newTabText, activeLearningTab === tab && styles.newTabTextActive]}>
                   {tab === 'topic' ? 'Topic' : tab === 'content' ? 'Content' : tab === 'question' ? 'Questions' : tab === 'quiz' ? 'Quiz' : tab === 'stories' ? 'Stories' : 'Bookmarks'}
                 </Text>
@@ -4738,7 +4739,7 @@ export default function QuestionManagementScreen() {
                               title={section.title || previewContentItem.title}
                               subtitle={previewContentItem.subject}
                               emoji="🎵"
-                              accentColor="#2D5DC9"
+                              accentColor={Colors.primary}
                               bgColor="#D6EAFF"
                             />
                           </View>
@@ -4759,7 +4760,7 @@ export default function QuestionManagementScreen() {
                       }
 
                       if (url.match(/\.(pdf|doc|docx|xls|xlsx|ppt|pptx|zip|rar)/i)) {
-                        return <DocumentViewer uri={url} title={section.title} accentColor="#2D5DC9" bgColor="#D6EAFF" />;
+                        return <DocumentViewer uri={url} title={section.title} accentColor={Colors.primary} bgColor="#D6EAFF" />;
                       }
 
                       return (
@@ -5157,9 +5158,9 @@ export default function QuestionManagementScreen() {
 }
 
 const styles = StyleSheet.create({
-  modalScreen: { flex: 1, backgroundColor: '#F5F7FF' },
-  modalScreenDesktop: { flex: 1, backgroundColor: '#F5F7FF' },
-  modalInner: { flex: 1, width: '100%', backgroundColor: '#F5F7FF', overflow: 'hidden' },
+  modalScreen: { flex: 1, backgroundColor: Colors.background },
+  modalScreenDesktop: { flex: 1, backgroundColor: Colors.background },
+  modalInner: { flex: 1, width: '100%', backgroundColor: Colors.background, overflow: 'hidden' },
   modalInnerDesktop: { flex: 1, width: '100%', height: '100%', borderRadius: 0, overflow: 'hidden' },
   container: {
     flex: 1,
@@ -5199,7 +5200,7 @@ const styles = StyleSheet.create({
     height: 36,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F8',
+    borderBottomColor: Colors.borderLight,
   },
   newTab: {
     height: 36,
@@ -5210,15 +5211,15 @@ const styles = StyleSheet.create({
     borderBottomColor: 'transparent',
   },
   newTabActive: {
-    borderBottomColor: '#2D5DC9',
+    borderBottomColor: Colors.primary,
   },
   newTabText: {
     fontSize: 10,
     fontWeight: '600',
-    color: '#525C6B',
+    color: Colors.textMuted,
   },
   newTabTextActive: {
-    color: '#2D5DC9',
+    color: Colors.primary,
     fontWeight: '800',
   },
   title: {
@@ -5905,93 +5906,93 @@ const styles = StyleSheet.create({
 
 // ── Question form full-screen styles ──────────────────────────────────────────
 const qFormS = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: '#F5F7FF' },
-  header: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 12, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  screen: { flex: 1, backgroundColor: Colors.background },
+  header: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 12, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: Colors.borderLight },
   backBtn: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
-  backArrow: { fontSize: 28, color: '#1a1a2e', fontWeight: '300', lineHeight: 34 },
-  titleText: { fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
-  subTitle: { fontSize: 11, color: '#525C6B', fontWeight: '600', marginTop: 2 },
-  saveBtn: { backgroundColor: '#2D5DC9', borderRadius: 10, paddingHorizontal: 18, paddingVertical: 8 },
+  backArrow: { fontSize: 28, color: Colors.text, fontWeight: '300', lineHeight: 34 },
+  titleText: { fontSize: 17, fontWeight: '900', color: Colors.text },
+  subTitle: { fontSize: 11, color: Colors.textMuted, fontWeight: '600', marginTop: 2 },
+  saveBtn: { backgroundColor: Colors.primary, borderRadius: 10, paddingHorizontal: 18, paddingVertical: 8 },
   saveBtnDisabled: { opacity: 0.5 },
   saveBtnText: { color: '#fff', fontWeight: '800', fontSize: 13 },
 
-  tabBar: { flexDirection: 'row', backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
+  tabBar: { flexDirection: 'row', backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: Colors.borderLight },
   tab: { flex: 1, paddingVertical: 12, alignItems: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
-  tabActive: { borderBottomColor: '#2D5DC9' },
-  tabText: { fontSize: 13, fontWeight: '600', color: '#525C6B' },
-  tabTextActive: { color: '#2D5DC9', fontWeight: '800' },
+  tabActive: { borderBottomColor: Colors.primary },
+  tabText: { fontSize: 13, fontWeight: '600', color: Colors.textMuted },
+  tabTextActive: { color: Colors.primary, fontWeight: '800' },
 
   toast: { marginHorizontal: 16, marginTop: 8, borderRadius: 10, padding: 10, borderWidth: 1, borderColor: '#E0E4F0', backgroundColor: '#F0F4FF' },
-  toastText: { fontSize: 13, fontWeight: '600', color: '#1a1a2e', textAlign: 'center' },
-  toastError: { backgroundColor: '#FFE8E8', borderColor: '#D33F13' },
+  toastText: { fontSize: 13, fontWeight: '600', color: Colors.text, textAlign: 'center' },
+  toastError: { backgroundColor: '#FFE8E8', borderColor: Colors.accent },
   toastErrorText: { color: '#B91C1C' },
   toastSuccess: { backgroundColor: '#D6F5D6', borderColor: '#7DC67A' },
   toastSuccessText: { color: '#1A6B1A' },
 
   tabContent: { padding: 16, gap: 16, paddingBottom: 40 },
   group: { gap: 8 },
-  groupLabel: { fontSize: 10, fontWeight: '800', color: '#525C6B', letterSpacing: 1, textTransform: 'uppercase', paddingLeft: 4 },
-  fieldCard: { backgroundColor: '#fff', borderRadius: 16, padding: 14, gap: 10, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
-  fieldLabel: { fontSize: 11, fontWeight: '700', color: '#525C6B', textTransform: 'uppercase', letterSpacing: 0.5 },
-  input: { fontSize: 14, color: '#1a1a2e', fontWeight: '500', paddingVertical: 6 },
-  divider: { height: 1, backgroundColor: '#F0F0F8' },
+  groupLabel: { fontSize: 10, fontWeight: '800', color: Colors.textMuted, letterSpacing: 1, textTransform: 'uppercase', paddingLeft: 4 },
+  fieldCard: { backgroundColor: '#fff', borderRadius: 16, padding: 14, gap: 10, shadowColor: Colors.text, shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
+  fieldLabel: { fontSize: 11, fontWeight: '700', color: Colors.textMuted, textTransform: 'uppercase', letterSpacing: 0.5 },
+  input: { fontSize: 14, color: Colors.text, fontWeight: '500', paddingVertical: 6 },
+  divider: { height: 1, backgroundColor: Colors.borderLight },
   selectorRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 6 },
-  selectorVal: { fontSize: 14, color: '#1a1a2e', fontWeight: '500' },
+  selectorVal: { fontSize: 14, color: Colors.text, fontWeight: '500' },
   selectorPlaceholder: { fontSize: 14, color: '#B0B8D0' },
   twoCol: { flexDirection: 'row', gap: 10, alignItems: 'flex-start' },
-  colDivider: { width: 1, backgroundColor: '#F0F0F8', alignSelf: 'stretch', marginVertical: 4 },
+  colDivider: { width: 1, backgroundColor: Colors.borderLight, alignSelf: 'stretch', marginVertical: 4 },
 
-  qtypeChip: { flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: '#F0F0F8', borderWidth: 1.5, borderColor: 'transparent' },
+  qtypeChip: { flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: Colors.borderLight, borderWidth: 1.5, borderColor: 'transparent' },
   qtypeEmoji: { fontSize: 16 },
-  qtypeLabel: { fontSize: 12, fontWeight: '600', color: '#525C6B' },
-  qtypeDesc: { fontSize: 12, color: '#525C6B', fontStyle: 'italic', lineHeight: 18, paddingTop: 4 },
+  qtypeLabel: { fontSize: 12, fontWeight: '600', color: Colors.textMuted },
+  qtypeDesc: { fontSize: 12, color: Colors.textMuted, fontStyle: 'italic', lineHeight: 18, paddingTop: 4 },
 
   uploadBtn: { borderRadius: 8, borderWidth: 1, borderColor: '#D6EAFF', backgroundColor: '#F5F9FF', paddingVertical: 10, alignItems: 'center' },
-  uploadBtnText: { fontSize: 13, fontWeight: '700', color: '#2D5DC9' },
+  uploadBtnText: { fontSize: 13, fontWeight: '700', color: Colors.primary },
   mediaRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 8 },
-  mediaThumb: { width: 56, height: 44, borderRadius: 8, backgroundColor: '#F0F0F8' },
-  mediaName: { fontSize: 12, color: '#525C6B', fontWeight: '500' },
+  mediaThumb: { width: 56, height: 44, borderRadius: 8, backgroundColor: Colors.borderLight },
+  mediaName: { fontSize: 12, color: Colors.textMuted, fontWeight: '500' },
   audioIcon: { fontSize: 22 },
   playBtn: { borderRadius: 8, backgroundColor: '#D6EAFF', paddingHorizontal: 10, paddingVertical: 6 },
   playBtnText: { fontSize: 12, fontWeight: '700', color: '#1A4DA2' },
   removeBtn: { width: 28, height: 28, borderRadius: 8, backgroundColor: '#FFE8E8', alignItems: 'center', justifyContent: 'center' },
   removeBtnWide: { borderRadius: 8, backgroundColor: '#FFE8E8', paddingHorizontal: 10, paddingVertical: 6 },
-  removeBtnText: { fontSize: 11, fontWeight: '800', color: '#D33F13' },
+  removeBtnText: { fontSize: 11, fontWeight: '800', color: Colors.accent },
 
   secGroup: { backgroundColor: '#fff', borderRadius: 16, overflow: 'hidden' },
-  secHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  secTitle: { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
-  secHint: { fontSize: 12, color: '#525C6B', paddingHorizontal: 14, paddingVertical: 8 },
+  secHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: Colors.borderLight },
+  secTitle: { fontSize: 14, fontWeight: '800', color: Colors.text },
+  secHint: { fontSize: 12, color: Colors.textMuted, paddingHorizontal: 14, paddingVertical: 8 },
   addBtn: { backgroundColor: '#D6EAFF', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 },
   addBtnText: { fontSize: 12, fontWeight: '800', color: '#1A4DA2' },
 
-  optBlock: { borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
+  optBlock: { borderBottomWidth: 1, borderBottomColor: Colors.background },
   optBlockHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 10, paddingVertical: 10 },
   optNumBadge: { width: 28, height: 28, borderRadius: 14, backgroundColor: '#E0E4F0', alignItems: 'center', justifyContent: 'center' },
-  optNum: { fontSize: 12, fontWeight: '800', color: '#525C6B' },
-  optInput: { fontSize: 14, color: '#1a1a2e', fontWeight: '500', backgroundColor: '#F8F9FF', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6, borderWidth: 1, borderColor: '#ECEEF4' },
-  correctBtn: { width: 32, height: 32, borderRadius: 8, backgroundColor: '#F0F0F8', alignItems: 'center', justifyContent: 'center' },
+  optNum: { fontSize: 12, fontWeight: '800', color: Colors.textMuted },
+  optInput: { fontSize: 14, color: Colors.text, fontWeight: '500', backgroundColor: Colors.surfaceAlt, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6, borderWidth: 1, borderColor: '#ECEEF4' },
+  correctBtn: { width: 32, height: 32, borderRadius: 8, backgroundColor: Colors.borderLight, alignItems: 'center', justifyContent: 'center' },
   correctBtnActive: { backgroundColor: '#D6F5D6' },
-  correctBtnText: { fontSize: 15, color: '#525C6B', fontWeight: '700' },
+  correctBtnText: { fontSize: 15, color: Colors.textMuted, fontWeight: '700' },
   // Darkened from #7DC67A (1.75:1 on the #D6F5D6 active bg) to clear WCAG AA.
   correctBtnTextActive: { color: '#2F6B2D' },
-  pairHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
-  pairNum: { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
+  pairHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.background },
+  pairNum: { fontSize: 13, fontWeight: '800', color: Colors.text },
   gridChip: { borderRadius: 14, borderWidth: 1.5, borderColor: '#E0E0EE', backgroundColor: '#F8F9FC', paddingHorizontal: 18, paddingVertical: 10, alignItems: 'center', minWidth: 72 },
   gridChipActive: { backgroundColor: '#7B4FCA', borderColor: '#7B4FCA' },
-  gridChipText: { fontSize: 15, fontWeight: '900', color: '#1a1a2e' },
+  gridChipText: { fontSize: 15, fontWeight: '900', color: Colors.text },
   gridChipTextActive: { color: '#fff' },
-  gridChipSub: { fontSize: 9, fontWeight: '700', color: '#525C6B', marginTop: 2 },
-  removeBtnSmallText: { fontSize: 12, fontWeight: '800', color: '#D33F13' },
+  gridChipSub: { fontSize: 9, fontWeight: '700', color: Colors.textMuted, marginTop: 2 },
+  removeBtnSmallText: { fontSize: 12, fontWeight: '800', color: Colors.accent },
   logicoWorksheetPreview: { width: '100%', height: 180, borderRadius: 10, backgroundColor: '#F8FAFC', marginBottom: 10 },
-  logicoBlockerBanner: { backgroundColor: '#FEE2E2', borderWidth: 1, borderColor: '#FCA5A5', borderRadius: 10, paddingHorizontal: 10, paddingVertical: 8, marginBottom: 10 },
+  logicoBlockerBanner: { backgroundColor: Colors.errorLight, borderWidth: 1, borderColor: '#FCA5A5', borderRadius: 10, paddingHorizontal: 10, paddingVertical: 8, marginBottom: 10 },
   logicoBlockerText: { fontSize: 12, fontWeight: '700', color: '#B91C1C' },
   logicoGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   logicoCard: { width: '48%', borderWidth: 1, borderColor: '#E2E8F0', borderRadius: 10, padding: 10, gap: 8, backgroundColor: '#FFFFFF' },
   logicoButtonCell: { gap: 8, alignItems: 'center', justifyContent: 'center' },
   logicoButtonLabel: { fontSize: 12, fontWeight: '700', color: '#334155', textAlign: 'center' },
   logicoSlotCell: { gap: 4 },
-  logicoSlotInput: { fontSize: 14, color: '#1a1a2e', fontWeight: '700', backgroundColor: '#F8F9FF', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 8, borderWidth: 1, borderColor: '#ECEEF4', textAlign: 'center' },
+  logicoSlotInput: { fontSize: 14, color: Colors.text, fontWeight: '700', backgroundColor: Colors.surfaceAlt, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 8, borderWidth: 1, borderColor: '#ECEEF4', textAlign: 'center' },
   logicoLabelCell: { flex: 1, gap: 4 },
   logicoButtonCircle: { borderWidth: 2, borderColor: '#1f2937', alignItems: 'center', justifyContent: 'center' },
   logicoButtonRingInner: { backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#9ca3af' },
@@ -6005,22 +6006,22 @@ const qFormS = StyleSheet.create({
   previewHero: { flexDirection: 'row', alignItems: 'flex-start', gap: 14, padding: 20 },
   previewTypeBadge: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 3, alignSelf: 'flex-start', marginBottom: 6 },
   previewTypeBadgeText: { fontSize: 11, fontWeight: '700' },
-  previewTitle: { fontSize: 17, fontWeight: '900', color: '#1a1a2e', lineHeight: 24 },
-  previewMeta: { fontSize: 12, color: '#525C6B', marginTop: 4 },
-  previewStats: { flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#F5F7FF' },
-  previewStat: { flex: 1, alignItems: 'center', paddingVertical: 14, borderRightWidth: 1, borderRightColor: '#F5F7FF', gap: 2 },
-  previewStatVal: { fontSize: 20, fontWeight: '900', color: '#1a1a2e' },
-  previewStatLabel: { fontSize: 10, fontWeight: '700', color: '#525C6B', textTransform: 'uppercase' },
-  previewInstBlock: { margin: 14, backgroundColor: '#F8F9FF', borderRadius: 12, padding: 12 },
+  previewTitle: { fontSize: 17, fontWeight: '900', color: Colors.text, lineHeight: 24 },
+  previewMeta: { fontSize: 12, color: Colors.textMuted, marginTop: 4 },
+  previewStats: { flexDirection: 'row', borderTopWidth: 1, borderTopColor: Colors.background },
+  previewStat: { flex: 1, alignItems: 'center', paddingVertical: 14, borderRightWidth: 1, borderRightColor: Colors.background, gap: 2 },
+  previewStatVal: { fontSize: 20, fontWeight: '900', color: Colors.text },
+  previewStatLabel: { fontSize: 10, fontWeight: '700', color: Colors.textMuted, textTransform: 'uppercase' },
+  previewInstBlock: { margin: 14, backgroundColor: Colors.surfaceAlt, borderRadius: 12, padding: 12 },
   previewInstText: { fontSize: 13, color: '#5A6A8A', lineHeight: 20 },
   previewImage: { width: '100%', height: 180, marginBottom: 8 },
-  previewOptRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF', borderRadius: 0 },
+  previewOptRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.background, borderRadius: 0 },
   previewOptDot: { width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
-  previewOptText: { flex: 1, fontSize: 14, fontWeight: '600', color: '#1a1a2e' },
+  previewOptText: { flex: 1, fontSize: 14, fontWeight: '600', color: Colors.text },
   // Darkened from #7DC67A (2.05:1 on white) to clear WCAG AA.
   previewCorrectBadge: { fontSize: 14, color: '#2F6B2D', fontWeight: '800' },
-  previewPairRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF', justifyContent: 'space-between' },
-  previewPairText: { fontSize: 13, fontWeight: '700', color: '#1a1a2e', flex: 1, textAlign: 'center' },
+  previewPairRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.background, justifyContent: 'space-between' },
+  previewPairText: { fontSize: 13, fontWeight: '700', color: Colors.text, flex: 1, textAlign: 'center' },
 });
 
 // ── Fill in the Blank creator styles ──────────────────────────────────────────
@@ -6030,37 +6031,37 @@ const fbS = StyleSheet.create({
     borderWidth: 1, borderColor: '#C5D8F8',
   },
   previewLabel: {
-    fontSize: 9, fontWeight: '800', color: '#2D5DC9', letterSpacing: 1,
+    fontSize: 9, fontWeight: '800', color: Colors.primary, letterSpacing: 1,
     marginBottom: 8, textTransform: 'uppercase',
   },
-  previewSentence: { fontSize: 17, fontWeight: '600', color: '#1a1a2e', lineHeight: 26, textAlign: 'center' },
+  previewSentence: { fontSize: 17, fontWeight: '600', color: Colors.text, lineHeight: 26, textAlign: 'center' },
   previewBlank:    { fontWeight: '900', borderBottomWidth: 2, paddingHorizontal: 4 },
   section:         { backgroundColor: '#fff', borderRadius: 16, padding: 16, borderWidth: 1, borderColor: '#EEF0F8' },
   sectionHeader:   { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 },
   sectionIcon:     { width: 36, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  sectionTitle:    { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
-  sectionHint:     { fontSize: 11, color: '#525C6B', marginTop: 2 },
+  sectionTitle:    { fontSize: 14, fontWeight: '800', color: Colors.text },
+  sectionHint:     { fontSize: 11, color: Colors.textMuted, marginTop: 2 },
   optional:        { fontWeight: '500', color: '#B0B8D0' },
-  textArea:        { borderWidth: 1.5, borderColor: '#E0E8F5', borderRadius: 12, padding: 12, fontSize: 14, color: '#1a1a2e', minHeight: 72, backgroundColor: '#FAFBFF' },
-  textInput:       { borderWidth: 1.5, borderColor: '#E0E8F5', borderRadius: 12, padding: 12, fontSize: 14, color: '#1a1a2e', backgroundColor: '#FAFBFF' },
+  textArea:        { borderWidth: 1.5, borderColor: '#E0E8F5', borderRadius: 12, padding: 12, fontSize: 14, color: Colors.text, minHeight: 72, backgroundColor: '#FAFBFF' },
+  textInput:       { borderWidth: 1.5, borderColor: '#E0E8F5', borderRadius: 12, padding: 12, fontSize: 14, color: Colors.text, backgroundColor: '#FAFBFF' },
   emptyOptions:    { alignItems: 'center', paddingVertical: 24, marginHorizontal: 14, marginBottom: 12, borderWidth: 1.5, borderColor: '#E0E8F5', borderStyle: 'dashed', borderRadius: 12, backgroundColor: '#FAFBFF' },
-  emptyOptionsTxt: { fontSize: 13, color: '#525C6B', fontWeight: '600' },
+  emptyOptionsTxt: { fontSize: 13, color: Colors.textMuted, fontWeight: '600' },
 });
 
 // ── Memory Match creator styles ────────────────────────────────────────────────
 const mmS = StyleSheet.create({
   // sections
   section: { backgroundColor: '#fff', borderRadius: 18, padding: 16, shadowColor: '#7B4FCA', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.07, shadowRadius: 10, elevation: 3 },
-  sectionTitle: { fontSize: 14, fontWeight: '800', color: '#1a1a2e', marginBottom: 3 },
-  sectionHint: { fontSize: 12, color: '#525C6B', fontWeight: '500', marginBottom: 12 },
+  sectionTitle: { fontSize: 14, fontWeight: '800', color: Colors.text, marginBottom: 3 },
+  sectionHint: { fontSize: 12, color: Colors.textMuted, fontWeight: '500', marginBottom: 12 },
   sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 },
   // grid size chips
   gridRow: { flexDirection: 'row', gap: 10 },
   gridChip: { borderRadius: 14, borderWidth: 1.5, borderColor: '#DDD8F0', backgroundColor: '#FAFBFF', paddingVertical: 14, alignItems: 'center', gap: 3 },
   gridChipSel: { borderRadius: 14, paddingVertical: 14, alignItems: 'center', gap: 3 },
-  gridChipMain: { fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
+  gridChipMain: { fontSize: 17, fontWeight: '900', color: Colors.text },
   gridChipMainSel: { fontSize: 17, fontWeight: '900', color: '#fff' },
-  gridChipSub: { fontSize: 10, fontWeight: '700', color: '#525C6B' },
+  gridChipSub: { fontSize: 10, fontWeight: '700', color: Colors.textMuted },
   gridChipSubSel: { fontSize: 10, fontWeight: '700', color: '#fff' },
   // randomize button
   randomBtn: { borderRadius: 11, paddingHorizontal: 14, paddingVertical: 9 },
@@ -6068,37 +6069,37 @@ const mmS = StyleSheet.create({
   // unlimited toggle
   unlimitedChip: { borderRadius: 10, borderWidth: 1.5, borderColor: '#DDD8F0', backgroundColor: '#FAFBFF', paddingVertical: 8, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   unlimitedChipSel: { borderRadius: 10, paddingVertical: 8, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  unlimitedChipText: { fontSize: 13, fontWeight: '800', color: '#1a1a2e' },
+  unlimitedChipText: { fontSize: 13, fontWeight: '800', color: Colors.text },
   unlimitedChipTextSel: { fontSize: 13, fontWeight: '800', color: '#fff' },
-  unlimitedChipSub: { fontSize: 10, fontWeight: '600', color: '#525C6B' },
+  unlimitedChipSub: { fontSize: 10, fontWeight: '600', color: Colors.textMuted },
   unlimitedChipSubSel: { fontSize: 10, fontWeight: '600', color: '#fff' },
   // 2×2 click limit grid
   clickGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   clickChip: { borderRadius: 10, borderWidth: 1.5, borderColor: '#DDD8F0', backgroundColor: '#FAFBFF', paddingVertical: 8, alignItems: 'center', gap: 1 },
   clickChipSel: { borderRadius: 10, paddingVertical: 8, alignItems: 'center', gap: 1 },
-  clickChipNum: { fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
+  clickChipNum: { fontSize: 17, fontWeight: '900', color: Colors.text },
   clickChipNumSel: { fontSize: 17, fontWeight: '900', color: '#fff' },
-  clickChipSub: { fontSize: 9, fontWeight: '700', color: '#525C6B' },
+  clickChipSub: { fontSize: 9, fontWeight: '700', color: Colors.textMuted },
   clickChipSubSel: { fontSize: 9, fontWeight: '700', color: '#fff' },
   // pair cards
-  pairCard: { backgroundColor: '#F8F9FF', borderRadius: 12, borderWidth: 1.5, borderColor: '#E2E8FF', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 4, gap: 5 },
+  pairCard: { backgroundColor: Colors.surfaceAlt, borderRadius: 12, borderWidth: 1.5, borderColor: '#E2E8FF', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 4, gap: 5 },
   pairCardEmpty: { borderStyle: 'dashed', borderColor: '#C8D0EE', backgroundColor: '#FAFBFF' },
   pairImgPlaceholder: { backgroundColor: '#EEF0FA', alignItems: 'center', justifyContent: 'center' },
   pairImgPlaceholderText: { fontSize: 22, color: '#C0C8E0', fontWeight: '300' },
-  pairLabel: { fontSize: 10, fontWeight: '700', color: '#1a1a2e', textAlign: 'center', paddingHorizontal: 2 },
+  pairLabel: { fontSize: 10, fontWeight: '700', color: Colors.text, textAlign: 'center', paddingHorizontal: 2 },
   // modal
   modalOverlay: { flex: 1, backgroundColor: 'rgba(15,10,40,0.55)', justifyContent: 'flex-end' },
   modalSheet: { backgroundColor: '#fff', borderTopLeftRadius: 26, borderTopRightRadius: 26, maxHeight: '85%' },
   modalHeaderGrad: { borderTopLeftRadius: 26, borderTopRightRadius: 26, paddingHorizontal: 20, paddingVertical: 16 },
   modalHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  modalTitle: { fontSize: 16, fontWeight: '900', color: '#1a1a2e' },
+  modalTitle: { fontSize: 16, fontWeight: '900', color: Colors.text },
   modalHint: { fontSize: 12, color: '#7B60B0', fontWeight: '500', marginTop: 2 },
   modalClose: { width: 32, height: 32, borderRadius: 16, backgroundColor: 'rgba(255,255,255,0.7)', alignItems: 'center', justifyContent: 'center' },
   modalCloseText: { fontSize: 13, fontWeight: '800', color: '#6A7280' },
   // asset cells
-  assetCell: { alignItems: 'center', backgroundColor: '#F8F9FF', borderRadius: 12, borderWidth: 1.5, borderColor: '#E2E8FF', padding: 8, gap: 5, overflow: 'hidden' },
-  assetCellCurrent: { borderColor: '#7B4FCA', backgroundColor: '#EDE4FF', borderWidth: 2 },
+  assetCell: { alignItems: 'center', backgroundColor: Colors.surfaceAlt, borderRadius: 12, borderWidth: 1.5, borderColor: '#E2E8FF', padding: 8, gap: 5, overflow: 'hidden' },
+  assetCellCurrent: { borderColor: '#7B4FCA', backgroundColor: Colors.purpleLight, borderWidth: 2 },
   assetCellUsed: { opacity: 0.32 },
-  assetLabel: { fontSize: 10, fontWeight: '700', color: '#1a1a2e', textAlign: 'center' },
+  assetLabel: { fontSize: 10, fontWeight: '700', color: Colors.text, textAlign: 'center' },
   assetCurrentRing: { position: 'absolute', top: 0, left: 0, right: 0, height: 3, borderTopLeftRadius: 10, borderTopRightRadius: 10 },
 });

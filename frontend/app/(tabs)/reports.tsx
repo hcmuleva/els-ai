@@ -47,7 +47,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SvgXml } from "react-native-svg";
 
 import { useAuth, API_BASE_URL } from "../../src/context/AuthContext";
-import { Colors, Radius, Shadow } from "../../src/theme";
+import { Colors, Radius, RoleColors, Shadow } from "../../src/theme";
 import {
   OWL,
   PENGUIN,
@@ -121,7 +121,7 @@ type ClassActivityStudent = {
 // ── PARENT REPORTS ────────────────────────────────────────────────────────────
 // Darkened so white childChipName/childChipSub text on the active solid chip
 // clears 4.5:1 (raw #7DC67A/#9B8EC4/#E6A020 were 2.0-2.2:1).
-const CHILD_COLORS_PR = ["#2D5DC9", "#2F6B2D", "#B03A19", "#6B5C97", "#8F680C"];
+const CHILD_COLORS_PR = [Colors.primary, "#2F6B2D", "#B03A19", Colors.purple, RoleColors.superadmin];
 type IconComp2 = React.ComponentType<{ size: number; color: string }>;
 const ACT_ICON_MAP: Record<string, IconComp2> = {
   content: BookOpen,
@@ -143,15 +143,15 @@ function ActIcon({
 const STATUS_CLR: Record<string, string> = {
   completed: "#4CAF50",
   attempted: "#E6A020",
-  pending: "#525C6B",
+  pending: Colors.textMuted,
 };
 // Darker variants for statusChipText, which renders these on top of a
 // 13%-alpha self-tint of the same color (2.0-2.5:1) — STATUS_CLR itself
 // stays vivid since it also feeds the icon fill and the tint background.
 const STATUS_TEXT_CLR: Record<string, string> = {
   completed: "#1B5E20",
-  attempted: "#8F680C",
-  pending: "#525C6B",
+  attempted: RoleColors.superadmin,
+  pending: Colors.textMuted,
 };
 const DAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -165,9 +165,9 @@ function fmtSec(sec: number) {
 // color is reused for both icon fill and text (scoreNum/scoreLabel) on top
 // of bg — Excellent/Average/Needs Work darkened for WCAG AA text contrast.
 function scoreGrade(pct: number): { label: string; color: string; bg: string } {
-  if (pct >= 90) return { label: "Excellent", color: "#176B47", bg: "#E8F5E9" };
-  if (pct >= 75) return { label: "Good", color: "#2D5DC9", bg: "#D6EAFF" };
-  if (pct >= 50) return { label: "Average", color: "#8F680C", bg: "#FFF5CC" };
+  if (pct >= 90) return { label: "Excellent", color: Colors.success, bg: "#E8F5E9" };
+  if (pct >= 75) return { label: "Good", color: Colors.primary, bg: "#D6EAFF" };
+  if (pct >= 50) return { label: "Average", color: RoleColors.superadmin, bg: "#FFF5CC" };
   return { label: "Needs Work", color: "#B03A19", bg: "#FFE8D6" };
 }
 
@@ -241,7 +241,7 @@ function ProperBarChart({
                 right: 0,
                 bottom: i === 0 ? 0 : (t / niceMax) * BAR_H,
                 height: 1,
-                backgroundColor: i === 0 ? "#D8D8E8" : "#F0F0F8",
+                backgroundColor: i === 0 ? "#D8D8E8" : Colors.borderLight,
               }}
             />
           ))}
@@ -291,7 +291,7 @@ function ProperBarChart({
                       width: "75%",
                       height: barH,
                       borderRadius: 5,
-                      backgroundColor: d.value > 0 ? color : "#F0F0F8",
+                      backgroundColor: d.value > 0 ? color : Colors.borderLight,
                       opacity: d.value > 0 ? 1 : 0.5,
                     }}
                   />
@@ -317,7 +317,7 @@ function ProperBarChart({
               flex: 1,
               textAlign: "center",
               fontSize: 9,
-              color: "#525C6B",
+              color: Colors.textMuted,
               fontWeight: "700",
             }}
           >
@@ -373,21 +373,21 @@ function StreakCalendar({
                 aspectRatio: 1,
                 borderRadius: 10,
                 backgroundColor: active
-                  ? "#2D5DC9"
+                  ? Colors.primary
                   : isToday
                     ? "#EBF4FF"
                     : "#F4F4FB",
                 alignItems: "center",
                 justifyContent: "center",
                 borderWidth: isToday && !active ? 1.5 : 0,
-                borderColor: "#2D5DC9",
+                borderColor: Colors.primary,
               }}
             >
               <Text
                 style={{
                   fontSize: 14,
                   fontWeight: "900",
-                  color: active ? "#fff" : isToday ? "#2D5DC9" : "#D0D0E0",
+                  color: active ? "#fff" : isToday ? Colors.primary : "#D0D0E0",
                 }}
               >
                 {active ? "✓" : "–"}
@@ -396,7 +396,7 @@ function StreakCalendar({
             <Text
               style={{
                 fontSize: 9,
-                color: active ? "#2D5DC9" : "#C0C0D0",
+                color: active ? Colors.primary : "#C0C0D0",
                 fontWeight: "700",
               }}
             >
@@ -631,7 +631,7 @@ function CounselingTab({
       </View>
 
       {loading ? (
-        <ActivityIndicator accessibilityLabel="Loading" color="#2D5DC9" style={{ marginVertical: 24 }} />
+        <ActivityIndicator accessibilityLabel="Loading" color={Colors.primary} style={{ marginVertical: 24 }} />
       ) : sessions.length === 0 ? (
         <View style={pr.emptyStateCard}>
           <SvgXml xml={OWL} width={64} height={64} />
@@ -653,7 +653,7 @@ function CounselingTab({
               disabled={!hasReport}
               onPress={() => hasReport && openReport(sn.id)}
             >
-              <View style={[pr.quizIconBox, { backgroundColor: "#EDE4FF" }]}>
+              <View style={[pr.quizIconBox, { backgroundColor: Colors.purpleLight }]}>
                 <Brain size={22} color="#9B8EC4" />
               </View>
               <View style={pr.quizInfo}>
@@ -668,7 +668,7 @@ function CounselingTab({
                   <Text style={pr.quizMeta}>Level: {sn.level}</Text>
                 ) : null}
                 <View style={pr.inlineMetaRow}>
-                  <Calendar size={11} color="#525C6B" />
+                  <Calendar size={11} color={Colors.textMuted} />
                   <Text style={pr.inlineMetaText}>
                     {fmtDate(sn.reportCreatedAt || sn.startedAt)}
                   </Text>
@@ -685,9 +685,9 @@ function CounselingTab({
                 </View>
               ) : (
                 <View
-                  style={[pr.statusChip, { backgroundColor: "#F0F0F8" }]}
+                  style={[pr.statusChip, { backgroundColor: Colors.borderLight }]}
                 >
-                  <Text style={[pr.statusChipText, { color: "#525C6B" }]}>
+                  <Text style={[pr.statusChipText, { color: Colors.textMuted }]}>
                     {sn.status}
                   </Text>
                 </View>
@@ -716,13 +716,13 @@ function CounselingTab({
                 <Text style={pr.modalSub}>{studentName}</Text>
               </View>
               <Pressable style={pr.modalClose} onPress={() => setReport(null)}>
-                <X size={18} color="#525C6B" />
+                <X size={18} color={Colors.textMuted} />
               </Pressable>
             </View>
 
             {loadingReport || !report ? (
               <ActivityIndicator accessibilityLabel="Loading"
-                color="#2D5DC9"
+                color={Colors.primary}
                 style={{ marginVertical: 40 }}
               />
             ) : (
@@ -796,7 +796,7 @@ function CounselingTab({
                       ...report.recommendations.skillLevel,
                     ].map((r, idx) => (
                       <View key={idx} style={cs.bullet}>
-                        <TrendingUp size={14} color="#2D5DC9" />
+                        <TrendingUp size={14} color={Colors.primary} />
                         <Text style={cs.bulletText}>{r}</Text>
                       </View>
                     ))}
@@ -1203,7 +1203,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
 
       {loadingStudents ? (
         <View style={pr.centerBlock}>
-          <ActivityIndicator accessibilityLabel="Loading" color="#2D5DC9" size="large" />
+          <ActivityIndicator accessibilityLabel="Loading" color={Colors.primary} size="large" />
         </View>
       ) : !activeStudent ? (
         <View style={pr.centerBlock}>
@@ -1269,7 +1269,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                         <Text
                           style={[
                             pr.childChipName,
-                            { color: isActive ? "#fff" : "#1a1a2e" },
+                            { color: isActive ? "#fff" : Colors.text },
                           ]}
                         >
                           {child.firstName}
@@ -1280,7 +1280,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                             {
                               color: isActive
                                 ? "rgba(255,255,255,0.7)"
-                                : "#525C6B",
+                                : Colors.textMuted,
                             },
                           ]}
                         >
@@ -1332,7 +1332,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                       <View style={pr.tabBtnIconWrap}>
                         <tab.Icon
                           size={16}
-                          color={isCurrent ? "#2D5DC9" : "#525C6B"}
+                          color={isCurrent ? Colors.primary : Colors.textMuted}
                         />
                         {dotCount > 0 && <View style={pr.tabDot} />}
                       </View>
@@ -1413,14 +1413,14 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                           Icon: Layers,
                           val: sum.attemptedCount,
                           label: "Attempted",
-                          color: "#2D5DC9",
+                          color: Colors.primary,
                           bg: "#D6EAFF",
                         },
                         {
                           Icon: CheckCircle,
                           val: sum.completedCount,
                           label: "Completed",
-                          color: "#176B47", // darkened from #4CAF50 (2.37:1) — WCAG AA text-on-tint fix
+                          color: Colors.success, // darkened from #4CAF50 (2.37:1) — WCAG AA text-on-tint fix
                           bg: "#D6F5D6",
                         },
                         {
@@ -1435,7 +1435,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                           val: fmtSec(sum.totalTimeSeconds),
                           label: "Time",
                           color: "#554E6C", // darkened from #9B8EC4 — WCAG AA text-on-tint fix
-                          bg: "#EDE4FF",
+                          bg: Colors.purpleLight,
                         },
                       ] as Array<{
                         Icon: IconComp;
@@ -1472,7 +1472,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                   />
                   <View style={pr.cardFooter}>
                     <Text style={pr.cardFooterText}>Consistency score</Text>
-                    <Text style={[pr.cardFooterVal, { color: "#2D5DC9" }]}>
+                    <Text style={[pr.cardFooterVal, { color: Colors.primary }]}>
                       {sum ? sum.consistencyScore.toFixed(0) : 0}%
                     </Text>
                   </View>
@@ -1499,7 +1499,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                     <View style={[pr.card, isLargeScreen && { marginHorizontal: 0 }]}>
                       <ProperBarChart
                         data={timeChartData}
-                        color="#2D5DC9"
+                        color={Colors.primary}
                         unit="m"
                         yTicks={4}
                         height={110}
@@ -1554,7 +1554,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                 </View>
                 {loadingActivity ? (
                   <ActivityIndicator accessibilityLabel="Loading"
-                    color="#2D5DC9"
+                    color={Colors.primary}
                     style={{ marginVertical: 24 }}
                   />
                 ) : quizAttempts.length === 0 ? (
@@ -1581,7 +1581,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                           <View
                             style={[
                               pr.quizIconBox,
-                              { backgroundColor: "#EDE4FF" },
+                              { backgroundColor: Colors.purpleLight },
                             ]}
                           >
                             <Layers size={22} color="#9B8EC4" />
@@ -1605,7 +1605,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                               correct
                             </Text>
                             <View style={pr.inlineMetaRow}>
-                              <Calendar size={11} color="#525C6B" />
+                              <Calendar size={11} color={Colors.textMuted} />
                               <Text style={pr.inlineMetaText}>
                                 {attended.date} · {attended.time}
                               </Text>
@@ -1663,7 +1663,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                         key={a.id}
                         style={[
                           pr.assignCard,
-                          { borderLeftWidth: 3, borderLeftColor: "#D33F13" },
+                          { borderLeftWidth: 3, borderLeftColor: Colors.accent },
                         ]}
                       >
                         <View
@@ -1672,7 +1672,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                             { backgroundColor: "#FFE8D6" },
                           ]}
                         >
-                          <ClipboardList size={20} color="#D33F13" />
+                          <ClipboardList size={20} color={Colors.accent} />
                         </View>
                         <View style={pr.assignInfo}>
                           <Text style={pr.assignTitle} numberOfLines={1}>
@@ -1729,7 +1729,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                               {a.title || "Untitled Assignment"}
                             </Text>
                             <View style={pr.inlineMetaRow}>
-                              <Calendar size={11} color="#525C6B" />
+                              <Calendar size={11} color={Colors.textMuted} />
                               <Text style={pr.inlineMetaText}>
                                 {submitted.date}
                               </Text>
@@ -1798,7 +1798,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                         onPress={openHistoryModal}
                         hitSlop={10}
                       >
-                        <History size={16} color="#2D5DC9" />
+                        <History size={16} color={Colors.primary} />
                         {newEndedCount > 0 && (
                           <View style={pr.historyIconDot} />
                         )}
@@ -1854,7 +1854,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                                 backgroundColor:
                                   cls.status === "active"
                                     ? "#D6F5D6"
-                                    : "#F0F0F8",
+                                    : Colors.borderLight,
                               },
                             ]}
                           >
@@ -1864,8 +1864,8 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                                 {
                                   color:
                                     cls.status === "active"
-                                      ? "#176B47" // darkened from #4CAF50 (2.37:1 on tint bg)
-                                      : "#525C6B",
+                                      ? Colors.success // darkened from #4CAF50 (2.37:1 on tint bg)
+                                      : Colors.textMuted,
                                 },
                               ]}
                             >
@@ -1906,7 +1906,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                 </View>
                 {loadingActivity ? (
                   <ActivityIndicator accessibilityLabel="Loading"
-                    color="#2D5DC9"
+                    color={Colors.primary}
                     style={{ marginVertical: 24 }}
                   />
                 ) : activity.length === 0 ? (
@@ -1921,7 +1921,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                   </View>
                 ) : (
                   activity.map((item) => {
-                    const dotColor = STATUS_CLR[item.status] ?? "#525C6B";
+                    const dotColor = STATUS_CLR[item.status] ?? Colors.textMuted;
                     return (
                       <View key={item.id} style={pr.actCard}>
                         <View
@@ -2016,7 +2016,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                 style={pr.modalClose}
                 onPress={() => setShowAllQuizzes(false)}
               >
-                <X size={18} color="#525C6B" />
+                <X size={18} color={Colors.textMuted} />
               </Pressable>
             </View>
             <ScrollView
@@ -2037,7 +2037,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                         style={{
                           fontSize: 12,
                           fontWeight: "800",
-                          color: "#525C6B",
+                          color: Colors.textMuted,
                         }}
                       >
                         #{idx + 1}
@@ -2061,12 +2061,12 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                       </Text>
                       <View style={pr.metaInfoStack}>
                         <View style={pr.metaInfoRow}>
-                          <Calendar size={12} color="#525C6B" />
+                          <Calendar size={12} color={Colors.textMuted} />
                           <Text style={pr.metaInfoLabel}>Date:</Text>
                           <Text style={pr.metaInfoValue}>{attended.date}</Text>
                         </View>
                         <View style={pr.metaInfoRow}>
-                          <Clock size={12} color="#525C6B" />
+                          <Clock size={12} color={Colors.textMuted} />
                           <Text style={pr.metaInfoLabel}>Time:</Text>
                           <Text style={pr.metaInfoValue}>{attended.time}</Text>
                         </View>
@@ -2111,7 +2111,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                 style={pr.modalClose}
                 onPress={() => setShowAllClassrooms(false)}
               >
-                <X size={18} color="#525C6B" />
+                <X size={18} color={Colors.textMuted} />
               </Pressable>
             </View>
             <ScrollView
@@ -2132,7 +2132,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                       style={{
                         fontSize: 12,
                         fontWeight: "800",
-                        color: "#525C6B",
+                        color: Colors.textMuted,
                       }}
                     >
                       #{idx + 1}
@@ -2151,7 +2151,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                     </Text>
                   </View>
                   <View style={pr.classStatusBadge}>
-                    <Text style={[pr.classStatusText, { color: "#2D5DC9" }]}>
+                    <Text style={[pr.classStatusText, { color: Colors.primary }]}>
                       Details
                     </Text>
                   </View>
@@ -2190,7 +2190,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                     style={pr.modalClose}
                     onPress={() => setClassroomDetail(null)}
                   >
-                    <X size={18} color="#525C6B" />
+                    <X size={18} color={Colors.textMuted} />
                   </Pressable>
                 </View>
                 <ScrollView
@@ -2224,7 +2224,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                           value: classroomDetail.scorePerformance ?? 0,
                         },
                       ]}
-                      color="#2D5DC9"
+                      color={Colors.primary}
                       unit="%"
                       yTicks={4}
                       height={100}
@@ -2327,9 +2327,9 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                   paddingVertical: 60,
                 }}
               >
-                <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
+                <ActivityIndicator accessibilityLabel="Loading" size="large" color={Colors.primary} />
                 <Text
-                  style={{ marginTop: 12, color: "#525C6B", fontWeight: "600" }}
+                  style={{ marginTop: 12, color: Colors.textMuted, fontWeight: "600" }}
                 >
                   Loading questions…
                 </Text>
@@ -2353,14 +2353,14 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                         </Text>
                         <View style={pr.modalMetaStack}>
                           <View style={pr.modalMetaRow}>
-                            <Calendar size={12} color="#525C6B" />
+                            <Calendar size={12} color={Colors.textMuted} />
                             <Text style={pr.modalMetaLabel}>Date:</Text>
                             <Text style={pr.modalMetaValue}>
                               {attended.date}
                             </Text>
                           </View>
                           <View style={pr.modalMetaRow}>
-                            <Clock size={12} color="#525C6B" />
+                            <Clock size={12} color={Colors.textMuted} />
                             <Text style={pr.modalMetaLabel}>Time:</Text>
                             <Text style={pr.modalMetaValue}>
                               {attended.time}
@@ -2372,7 +2372,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                         style={pr.modalClose}
                         onPress={() => setQuizDetail(null)}
                       >
-                        <X size={18} color="#525C6B" />
+                        <X size={18} color={Colors.textMuted} />
                       </Pressable>
                     </View>
                   );
@@ -2550,7 +2550,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                                     <View
                                       style={[
                                         gr.chip,
-                                        { backgroundColor: "#EDE4FF" },
+                                        { backgroundColor: Colors.purpleLight },
                                       ]}
                                     >
                                       <Text
@@ -2596,7 +2596,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                                       acc >= 80
                                         ? "#1B5E20"
                                         : acc >= 50
-                                          ? "#8F680C"
+                                          ? RoleColors.superadmin
                                           : "#C62828";
                                     return (
                                       <View style={{ gap: 4 }}>
@@ -2610,7 +2610,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                                             style={{
                                               fontSize: 11,
                                               fontWeight: "700",
-                                              color: "#525C6B",
+                                              color: Colors.textMuted,
                                               textTransform: "uppercase",
                                             }}
                                           >
@@ -2674,7 +2674,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                                                     : "#FFF3F0",
                                                   borderColor: isOk
                                                     ? "#4CAF50"
-                                                    : "#D33F13",
+                                                    : Colors.accent,
                                                 },
                                               ]}
                                             >
@@ -2759,7 +2759,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                                       {
                                         borderColor: isOk
                                           ? "#4CAF50"
-                                          : "#D33F13",
+                                          : Colors.accent,
                                       },
                                     ]}
                                   >
@@ -2795,7 +2795,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                                       <Text
                                         style={[
                                           gr.sentenceText,
-                                          { color: "#525C6B", fontSize: 11 },
+                                          { color: Colors.textMuted, fontSize: 11 },
                                         ]}
                                       >
                                         Correct answer:
@@ -2859,7 +2859,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                                   ? "#DCFCE7"
                                   : difficulty === "medium"
                                     ? "#FEF9C3"
-                                    : "#FEE2E2";
+                                    : Colors.errorLight;
                               const barColor = completed
                                 ? "#0EA5E9"
                                 : "#FF5252";
@@ -2958,7 +2958,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                                         style={{
                                           fontSize: 11,
                                           fontWeight: "700",
-                                          color: "#525C6B",
+                                          color: Colors.textMuted,
                                           textTransform: "uppercase",
                                         }}
                                       >
@@ -3034,7 +3034,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                                                         ? "#CBD5E1"
                                                         : isCorr
                                                           ? "#4CAF50"
-                                                          : "#D33F13",
+                                                          : Colors.accent,
                                                       backgroundColor: isEmpty
                                                         ? "#F0F4FF"
                                                         : undefined,
@@ -3356,7 +3356,7 @@ export default function ReportsScreen() {
   if (loading) {
     return (
       <View style={s.center}>
-        <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
+        <ActivityIndicator accessibilityLabel="Loading" size="large" color={Colors.primary} />
         <Text style={s.loadingText}>Loading report…</Text>
       </View>
     );
@@ -3389,18 +3389,18 @@ export default function ReportsScreen() {
           </View>
 
           {/* Teacher section switcher */}
-          <View style={{ flexDirection: 'row', marginHorizontal: 16, marginBottom: 12, backgroundColor: '#F5F7FF', borderRadius: 14, padding: 4 }}>
+          <View style={{ flexDirection: 'row', marginHorizontal: 16, marginBottom: 12, backgroundColor: Colors.background, borderRadius: 14, padding: 4 }}>
             <Pressable
               style={{ flex: 1, paddingVertical: 10, borderRadius: 11, alignItems: 'center', backgroundColor: teacherSection === 'dashboard' ? '#fff' : 'transparent' }}
               onPress={() => setTeacherSection('dashboard')}
             >
-              <Text style={{ fontSize: 12, fontWeight: teacherSection === 'dashboard' ? '800' : '600', color: teacherSection === 'dashboard' ? '#2D5DC9' : '#525C6B' }}>Dashboard</Text>
+              <Text style={{ fontSize: 12, fontWeight: teacherSection === 'dashboard' ? '800' : '600', color: teacherSection === 'dashboard' ? Colors.primary : Colors.textMuted }}>Dashboard</Text>
             </Pressable>
             <Pressable
               style={{ flex: 1, paddingVertical: 10, borderRadius: 11, alignItems: 'center', backgroundColor: teacherSection === 'feedback' ? '#fff' : 'transparent' }}
               onPress={() => setTeacherSection('feedback')}
             >
-              <Text style={{ fontSize: 12, fontWeight: teacherSection === 'feedback' ? '800' : '600', color: teacherSection === 'feedback' ? '#2D5DC9' : '#525C6B' }}>Feedback</Text>
+              <Text style={{ fontSize: 12, fontWeight: teacherSection === 'feedback' ? '800' : '600', color: teacherSection === 'feedback' ? Colors.primary : Colors.textMuted }}>Feedback</Text>
             </Pressable>
           </View>
 
@@ -3421,7 +3421,7 @@ export default function ReportsScreen() {
                     val: overview?.summary.total_quizzes ?? "0",
                     label: "Total Quizzes",
                     bg: "#D6EAFF",
-                    color: "#2D5DC9",
+                    color: Colors.primary,
                   },
                   {
                     val: overview?.summary.published_quizzes ?? "0",
@@ -3435,13 +3435,13 @@ export default function ReportsScreen() {
                     label: "Avg Score",
                     bg: "#FFF5CC",
                     // Darkened from #E6A817 (1.92:1 on this bg) to clear WCAG AA.
-                    color: "#8F680C",
+                    color: RoleColors.superadmin,
                   },
                   {
                     val: overview?.summary.total_attempts ?? "0",
                     label: "Attempts",
                     bg: "#FFE8D6",
-                    color: "#D33F13",
+                    color: Colors.accent,
                   },
                 ].map((item) => (
                   <View
@@ -3481,7 +3481,7 @@ export default function ReportsScreen() {
                           <Text style={s.pLabel}>
                             {getStandardLabel(cls.class_level)}
                           </Text>
-                          <Text style={[s.pPct, { color: "#2D5DC9" }]}>
+                          <Text style={[s.pPct, { color: Colors.primary }]}>
                             {pct}%
                           </Text>
                         </View>
@@ -3491,7 +3491,7 @@ export default function ReportsScreen() {
                               s.fill,
                               {
                                 width: `${Math.min(100, pct)}%`,
-                                backgroundColor: "#2D5DC9",
+                                backgroundColor: Colors.primary,
                               },
                             ]}
                           />
@@ -3660,7 +3660,7 @@ export default function ReportsScreen() {
                               <Text
                                 style={{
                                   fontSize: 11,
-                                  color: "#525C6B",
+                                  color: Colors.textMuted,
                                   fontWeight: "600",
                                 }}
                               >
@@ -3709,7 +3709,7 @@ export default function ReportsScreen() {
                               <View
                                 style={[
                                   gr.gameTagItem,
-                                  { backgroundColor: "#EDE4FF" },
+                                  { backgroundColor: Colors.purpleLight },
                                 ]}
                               >
                                 <Text style={gr.gameTagText}>
@@ -3757,7 +3757,7 @@ export default function ReportsScreen() {
                                   <Text
                                     style={{
                                       fontSize: 10,
-                                      color: "#525C6B",
+                                      color: Colors.textMuted,
                                       fontWeight: "600",
                                     }}
                                   >
@@ -3825,11 +3825,11 @@ export default function ReportsScreen() {
                     paddingVertical: 60,
                   }}
                 >
-                  <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
+                  <ActivityIndicator accessibilityLabel="Loading" size="large" color={Colors.primary} />
                   <Text
                     style={{
                       marginTop: 12,
-                      color: "#525C6B",
+                      color: Colors.textMuted,
                       fontWeight: "600",
                     }}
                   >
@@ -3853,7 +3853,7 @@ export default function ReportsScreen() {
                       style={pr.modalClose}
                       onPress={() => setTeacherQuizDetail(null)}
                     >
-                      <X size={18} color="#525C6B" />
+                      <X size={18} color={Colors.textMuted} />
                     </Pressable>
                   </View>
                   <ScrollView
@@ -4023,7 +4023,7 @@ export default function ReportsScreen() {
                                       <View
                                         style={[
                                           gr.chip,
-                                          { backgroundColor: "#EDE4FF" },
+                                          { backgroundColor: Colors.purpleLight },
                                         ]}
                                       >
                                         <Text
@@ -4068,7 +4068,7 @@ export default function ReportsScreen() {
                                         acc >= 80
                                           ? "#1B5E20"
                                           : acc >= 50
-                                            ? "#8F680C"
+                                            ? RoleColors.superadmin
                                             : "#C62828";
                                       return (
                                         <View style={{ gap: 4 }}>
@@ -4082,7 +4082,7 @@ export default function ReportsScreen() {
                                               style={{
                                                 fontSize: 11,
                                                 fontWeight: "700",
-                                                color: "#525C6B",
+                                                color: Colors.textMuted,
                                                 textTransform: "uppercase",
                                               }}
                                             >
@@ -4150,7 +4150,7 @@ export default function ReportsScreen() {
                                                       : "#FFF3F0",
                                                     borderColor: isOk
                                                       ? "#4CAF50"
-                                                      : "#D33F13",
+                                                      : Colors.accent,
                                                   },
                                                 ]}
                                               >
@@ -4236,7 +4236,7 @@ export default function ReportsScreen() {
                                         {
                                           borderColor: isOk
                                             ? "#4CAF50"
-                                            : "#D33F13",
+                                            : Colors.accent,
                                         },
                                       ]}
                                     >
@@ -4325,7 +4325,7 @@ export default function ReportsScreen() {
                                     ? "#DCFCE7"
                                     : difficulty === "medium"
                                       ? "#FEF9C3"
-                                      : "#FEE2E2";
+                                      : Colors.errorLight;
                                 const barColor = completed
                                   ? "#0EA5E9"
                                   : "#FF5252";
@@ -4426,7 +4426,7 @@ export default function ReportsScreen() {
                                           style={{
                                             fontSize: 11,
                                             fontWeight: "700",
-                                            color: "#525C6B",
+                                            color: Colors.textMuted,
                                             textTransform: "uppercase",
                                           }}
                                         >
@@ -4502,7 +4502,7 @@ export default function ReportsScreen() {
                                                           ? "#CBD5E1"
                                                           : isCorr
                                                             ? "#4CAF50"
-                                                            : "#D33F13",
+                                                            : Colors.accent,
                                                         backgroundColor: isEmpty
                                                           ? "#F0F4FF"
                                                           : undefined,
@@ -4703,10 +4703,10 @@ const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: "#FFFFFF" },
   scroll: { paddingBottom: 48 },
   center: { flex: 1, alignItems: "center", justifyContent: "center", gap: 12 },
-  loadingText: { fontSize: 13, color: "#525C6B" },
+  loadingText: { fontSize: 13, color: Colors.textMuted },
   errorText: {
     fontSize: 13,
-    color: "#D33F13",
+    color: Colors.accent,
     paddingHorizontal: 20,
     marginTop: 12,
   },
@@ -4780,7 +4780,7 @@ const s = StyleSheet.create({
   parentStatLabel: {
     fontSize: 10,
     fontWeight: "700",
-    color: "#525C6B",
+    color: Colors.textMuted,
     textTransform: "uppercase",
     textAlign: "center",
   },
@@ -4795,13 +4795,13 @@ const s = StyleSheet.create({
   parentSubjectName: {
     fontSize: 13,
     fontWeight: "600",
-    color: "#1a1a2e",
+    color: Colors.text,
     width: 80,
   },
   parentSubjectTrack: {
     flex: 1,
     height: 6,
-    backgroundColor: "#F0F0F8",
+    backgroundColor: Colors.borderLight,
     borderRadius: 999,
     overflow: "hidden",
   },
@@ -4821,7 +4821,7 @@ const s = StyleSheet.create({
     borderRadius: 14,
     padding: 12,
     borderWidth: 1,
-    borderColor: "#F0F0F8",
+    borderColor: Colors.borderLight,
   },
   activityDot: {
     width: 36,
@@ -4829,11 +4829,11 @@ const s = StyleSheet.create({
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#F0F0F8",
+    backgroundColor: Colors.borderLight,
   },
   activityBody: { flex: 1, gap: 2 },
-  activityTitle: { fontSize: 13, fontWeight: "700", color: "#1a1a2e" },
-  activityWhen: { fontSize: 11, color: "#525C6B", fontWeight: "500" },
+  activityTitle: { fontSize: 13, fontWeight: "700", color: Colors.text },
+  activityWhen: { fontSize: 11, color: Colors.textMuted, fontWeight: "500" },
   xpPill: { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
   xpPillText: { fontSize: 11, fontWeight: "800" },
 
@@ -4844,10 +4844,10 @@ const s = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 14,
   },
-  greetingSub: { fontSize: 12, color: "#525C6B", fontWeight: "500" },
+  greetingSub: { fontSize: 12, color: Colors.textMuted, fontWeight: "500" },
   greetingName: {
     fontSize: 22,
-    color: "#1a1a2e",
+    color: Colors.text,
     fontWeight: "900",
     lineHeight: 28,
   },
@@ -4855,7 +4855,7 @@ const s = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 5,
-    backgroundColor: "#2D5DC9",
+    backgroundColor: Colors.primary,
     borderRadius: 999,
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -4944,7 +4944,7 @@ const s = StyleSheet.create({
     borderRadius: 20,
     padding: 16,
     borderWidth: 1,
-    borderColor: "#F0F0F8",
+    borderColor: Colors.borderLight,
     shadowColor: "#C5D8F8",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.35,
@@ -4957,15 +4957,15 @@ const s = StyleSheet.create({
     alignItems: "flex-start",
     marginBottom: 8,
   },
-  chartTitle: { fontSize: 14, fontWeight: "800", color: "#1a1a2e" },
-  chartSub: { fontSize: 11, fontWeight: "500", color: "#525C6B", marginTop: 2 },
+  chartTitle: { fontSize: 14, fontWeight: "800", color: Colors.text },
+  chartSub: { fontSize: 11, fontWeight: "500", color: Colors.textMuted, marginTop: 2 },
   periodTotal: {
     fontSize: 20,
     fontWeight: "900",
-    color: "#1a1a2e",
+    color: Colors.text,
     marginBottom: 4,
   },
-  periodTotalSub: { fontSize: 13, fontWeight: "500", color: "#525C6B" },
+  periodTotalSub: { fontSize: 13, fontWeight: "500", color: Colors.textMuted },
 
   // Period tabs
   periodTabs: { flexDirection: "row", gap: 4 },
@@ -4973,10 +4973,10 @@ const s = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 999,
-    backgroundColor: "#F0F0F8",
+    backgroundColor: Colors.borderLight,
   },
-  periodTabActive: { backgroundColor: "#2D5DC9" },
-  periodTabText: { fontSize: 10, fontWeight: "700", color: "#525C6B" },
+  periodTabActive: { backgroundColor: Colors.primary },
+  periodTabText: { fontSize: 10, fontWeight: "700", color: Colors.textMuted },
   periodTabTextActive: { color: "#fff" },
 
   // Section header
@@ -4990,14 +4990,14 @@ const s = StyleSheet.create({
   secTitle: {
     fontSize: 17,
     fontWeight: "900",
-    color: "#1a1a2e",
+    color: Colors.text,
     paddingHorizontal: 20,
     marginBottom: 10,
   },
   secHint: {
     fontSize: 11,
     fontWeight: "600",
-    color: "#525C6B",
+    color: Colors.textMuted,
     paddingRight: 20,
   },
 
@@ -5015,7 +5015,7 @@ const s = StyleSheet.create({
   },
   subjectEmoji: { fontSize: 28 },
   subjectPct: { fontSize: 18, fontWeight: "900" },
-  subjectLabel: { fontSize: 13, fontWeight: "800", color: "#1a1a2e" },
+  subjectLabel: { fontSize: 13, fontWeight: "800", color: Colors.text },
   subjectMeta: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -5033,7 +5033,7 @@ const s = StyleSheet.create({
     padding: 16,
     gap: 12,
     borderWidth: 1,
-    borderColor: "#F0F0F8",
+    borderColor: Colors.borderLight,
     shadowColor: "#C5D8F8",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.35,
@@ -5048,12 +5048,12 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  pLabel: { fontSize: 13, fontWeight: "700", color: "#1a1a2e" },
+  pLabel: { fontSize: 13, fontWeight: "700", color: Colors.text },
   pPct: { fontSize: 13, fontWeight: "900" },
-  progressSub: { fontSize: 11, color: "#525C6B", fontWeight: "500" },
+  progressSub: { fontSize: 11, color: Colors.textMuted, fontWeight: "500" },
   track: {
     height: 8,
-    backgroundColor: "#F0F0F8",
+    backgroundColor: Colors.borderLight,
     borderRadius: 999,
     overflow: "hidden",
   },
@@ -5076,7 +5076,7 @@ const s = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     fontWeight: "800",
-    color: "#1a1a2e",
+    color: Colors.text,
   },
   classBadge: {
     backgroundColor: "#D6EAFF",
@@ -5084,22 +5084,22 @@ const s = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 3,
   },
-  classBadgeText: { fontSize: 11, fontWeight: "700", color: "#2D5DC9" },
+  classBadgeText: { fontSize: 11, fontWeight: "700", color: Colors.primary },
   countRow: {
     flexDirection: "row",
     paddingTop: 10,
     borderTopWidth: 1,
-    borderTopColor: "#F0F0F8",
+    borderTopColor: Colors.borderLight,
   },
   countItem: { flex: 1, alignItems: "center", gap: 2 },
   countVal: { fontSize: 20, fontWeight: "900" },
   countLabel: {
     fontSize: 9,
     fontWeight: "700",
-    color: "#525C6B",
+    color: Colors.textMuted,
     textTransform: "uppercase",
   },
-  countDivider: { width: 1, backgroundColor: "#F0F0F8", alignSelf: "stretch" },
+  countDivider: { width: 1, backgroundColor: Colors.borderLight, alignSelf: "stretch" },
 
   // Activity
   actRow: {
@@ -5112,7 +5112,7 @@ const s = StyleSheet.create({
     paddingBottom: 12,
     marginBottom: 2,
     borderBottomWidth: 1,
-    borderBottomColor: "#F0F0F8",
+    borderBottomColor: Colors.borderLight,
   },
   actIcon: {
     width: 44,
@@ -5125,10 +5125,10 @@ const s = StyleSheet.create({
   actTitle: {
     fontSize: 13,
     fontWeight: "700",
-    color: "#1a1a2e",
+    color: Colors.text,
     marginBottom: 2,
   },
-  actWhen: { fontSize: 11, fontWeight: "500", color: "#525C6B" },
+  actWhen: { fontSize: 11, fontWeight: "500", color: Colors.textMuted },
   xpBadge: {
     backgroundColor: "#D6F5D6",
     borderRadius: 999,
@@ -5144,8 +5144,8 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     gap: 8,
   },
-  gapLabel: { flex: 1, fontSize: 13, fontWeight: "600", color: "#1a1a2e" },
-  emptyText: { fontSize: 12, color: "#525C6B", fontWeight: "500" },
+  gapLabel: { flex: 1, fontSize: 13, fontWeight: "600", color: Colors.text },
+  emptyText: { fontSize: 12, color: Colors.textMuted, fontWeight: "500" },
   pill: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
   pillText: { fontSize: 11, fontWeight: "800" },
 
@@ -5179,13 +5179,13 @@ const s = StyleSheet.create({
   emptyTitle: {
     fontSize: 16,
     fontWeight: "800",
-    color: "#1a1a2e",
+    color: Colors.text,
     textAlign: "center",
   },
   emptyBody: {
     fontSize: 13,
     fontWeight: "500",
-    color: "#525C6B",
+    color: Colors.textMuted,
     textAlign: "center",
     lineHeight: 20,
   },
@@ -5206,7 +5206,7 @@ const gr = StyleSheet.create({
   boardLabel: {
     fontSize: 11,
     fontWeight: "700",
-    color: "#525C6B",
+    color: Colors.textMuted,
     textTransform: "uppercase",
     letterSpacing: 0.4,
   },
@@ -5230,12 +5230,12 @@ const gr = StyleSheet.create({
   },
   boardBadgeText: { fontSize: 12, fontWeight: "900", color: "#fff" },
   sentenceBox: {
-    backgroundColor: "#F8F9FF",
+    backgroundColor: Colors.surfaceAlt,
     borderRadius: 12,
     borderWidth: 1.5,
     padding: 14,
   },
-  sentenceText: { fontSize: 14, color: "#1a1a2e", lineHeight: 22 },
+  sentenceText: { fontSize: 14, color: Colors.text, lineHeight: 22 },
   blankFilled: {
     fontWeight: "900",
     borderRadius: 6,
@@ -5264,21 +5264,21 @@ const gr = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 21,
-    backgroundColor: "#EDE4FF",
+    backgroundColor: Colors.purpleLight,
     alignItems: "center",
     justifyContent: "center",
   },
-  studentName: { fontSize: 14, fontWeight: "800", color: "#1a1a2e" },
-  studentMeta: { fontSize: 11, color: "#525C6B", fontWeight: "600" },
+  studentName: { fontSize: 14, fontWeight: "800", color: Colors.text },
+  studentMeta: { fontSize: 11, color: Colors.textMuted, fontWeight: "600" },
   attemptRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
     paddingVertical: 7,
     borderTopWidth: 1,
-    borderTopColor: "#F5F7FF",
+    borderTopColor: Colors.background,
   },
-  attemptTitle: { flex: 1, fontSize: 12, fontWeight: "700", color: "#1a1a2e" },
+  attemptTitle: { flex: 1, fontSize: 12, fontWeight: "700", color: Colors.text },
   pctBadge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
   pctText: { fontSize: 11, fontWeight: "900" },
   gameTag: { flexDirection: "row", gap: 4, flexWrap: "wrap", marginTop: 4 },
@@ -5286,7 +5286,7 @@ const gr = StyleSheet.create({
     paddingHorizontal: 7,
     paddingVertical: 2,
     borderRadius: 99,
-    backgroundColor: "#EDE4FF",
+    backgroundColor: Colors.purpleLight,
   },
   gameTagText: { fontSize: 9, fontWeight: "800", color: "#7B4FCA" },
   newBadge: {
@@ -5318,26 +5318,26 @@ const pr = StyleSheet.create({
     paddingBottom: 14,
     backgroundColor: "#fff",
     borderBottomWidth: 1,
-    borderBottomColor: "#F0F0F8",
+    borderBottomColor: Colors.borderLight,
   },
   topBarSub: {
     fontSize: 11,
     fontWeight: "700",
-    color: "#525C6B",
+    color: Colors.textMuted,
     letterSpacing: 0.8,
     textTransform: "uppercase",
   },
   topBarTitle: {
     fontSize: 22,
     fontWeight: "900",
-    color: "#1a1a2e",
+    color: Colors.text,
     marginTop: 2,
   },
   refreshBtn: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: "#EDE4FF",
+    backgroundColor: Colors.purpleLight,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -5347,7 +5347,7 @@ const pr = StyleSheet.create({
   switcherBar: {
     backgroundColor: "#fff",
     borderBottomWidth: 1,
-    borderBottomColor: "#F0F0F8",
+    borderBottomColor: Colors.borderLight,
   },
   childChip: {
     flexDirection: "row",
@@ -5385,12 +5385,12 @@ const pr = StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: "900",
-    color: "#1a1a2e",
+    color: Colors.text,
     textAlign: "center",
   },
   emptySub: {
     fontSize: 13,
-    color: "#525C6B",
+    color: Colors.textMuted,
     fontWeight: "500",
     textAlign: "center",
     lineHeight: 20,
@@ -5402,12 +5402,12 @@ const pr = StyleSheet.create({
     marginTop: 0,
     marginBottom: 8,
     borderRadius: 22,
-    backgroundColor: "#2D5DC9",
+    backgroundColor: Colors.primary,
     padding: 20,
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
-    shadowColor: "#2D5DC9",
+    shadowColor: Colors.primary,
     shadowOpacity: 0.35,
     shadowOffset: { width: 0, height: 6 },
     shadowRadius: 14,
@@ -5481,7 +5481,7 @@ const pr = StyleSheet.create({
   statLabel: {
     fontSize: 8,
     fontWeight: "700",
-    color: "#525C6B",
+    color: Colors.textMuted,
     textTransform: "uppercase",
     textAlign: "center",
   },
@@ -5495,8 +5495,8 @@ const pr = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
   },
-  rowTitle: { fontSize: 17, fontWeight: "900", color: "#1a1a2e" },
-  rowChip: { fontSize: 12, fontWeight: "700", color: "#2D5DC9" },
+  rowTitle: { fontSize: 17, fontWeight: "900", color: Colors.text },
+  rowChip: { fontSize: 12, fontWeight: "700", color: Colors.primary },
 
   // Card — matches student dashboard gameCard shadow
   card: {
@@ -5505,7 +5505,7 @@ const pr = StyleSheet.create({
     borderRadius: 20,
     padding: 16,
     borderWidth: 1,
-    borderColor: "#F0F0F8",
+    borderColor: Colors.borderLight,
     shadowColor: "#C5D8F8",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
@@ -5521,7 +5521,7 @@ const pr = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: "#F4F4FB",
   },
-  cardFooterText: { fontSize: 12, color: "#525C6B", fontWeight: "600" },
+  cardFooterText: { fontSize: 12, color: Colors.textMuted, fontWeight: "600" },
   cardFooterVal: { fontSize: 14, fontWeight: "900" },
   chartNote: {
     fontSize: 10,
@@ -5538,7 +5538,7 @@ const pr = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
-  liveBadgeText: { fontSize: 11, fontWeight: "800", color: "#176B47" }, // darkened from #4CAF50 (2.37:1 on liveBadge bg)
+  liveBadgeText: { fontSize: 11, fontWeight: "800", color: Colors.success }, // darkened from #4CAF50 (2.37:1 on liveBadge bg)
 
   // Classroom card — matches gameCard
   classCard: {
@@ -5551,7 +5551,7 @@ const pr = StyleSheet.create({
     padding: 14,
     gap: 12,
     borderWidth: 1,
-    borderColor: "#F0F0F8",
+    borderColor: Colors.borderLight,
     shadowColor: "#C5D8F8",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.4,
@@ -5566,8 +5566,8 @@ const pr = StyleSheet.create({
     justifyContent: "center",
   },
   classInfo: { flex: 1, gap: 2 },
-  classTitle: { fontSize: 14, fontWeight: "800", color: "#1a1a2e" },
-  classMeta: { fontSize: 11, color: "#525C6B", fontWeight: "600" },
+  classTitle: { fontSize: 14, fontWeight: "800", color: Colors.text },
+  classMeta: { fontSize: 11, color: Colors.textMuted, fontWeight: "600" },
   classDesc: {
     fontSize: 11,
     color: "#B0B8CC",
@@ -5602,7 +5602,7 @@ const pr = StyleSheet.create({
     width: 9,
     height: 9,
     borderRadius: 5,
-    backgroundColor: "#2D5DC9",
+    backgroundColor: Colors.primary,
     borderWidth: 1.5,
     borderColor: "#fff",
   },
@@ -5617,22 +5617,22 @@ const pr = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 12,
     borderWidth: 1,
-    borderColor: "#F0F0F8",
+    borderColor: Colors.borderLight,
   },
   historyDot: {
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: "#2D5DC9",
+    backgroundColor: Colors.primary,
   },
-  historyTitle: { fontSize: 13, fontWeight: "800", color: "#1a1a2e" },
+  historyTitle: { fontSize: 13, fontWeight: "800", color: Colors.text },
   historyMeta: {
     fontSize: 11,
-    color: "#525C6B",
+    color: Colors.textMuted,
     fontWeight: "600",
     marginTop: 2,
   },
-  historyCta: { fontSize: 12, color: "#2D5DC9", fontWeight: "800" },
+  historyCta: { fontSize: 12, color: Colors.primary, fontWeight: "800" },
 
   // Quiz result card
   quizCard: {
@@ -5645,7 +5645,7 @@ const pr = StyleSheet.create({
     padding: 14,
     gap: 12,
     borderWidth: 1,
-    borderColor: "#F0F0F8",
+    borderColor: Colors.borderLight,
     shadowColor: "#C5D8F8",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.4,
@@ -5660,14 +5660,14 @@ const pr = StyleSheet.create({
     justifyContent: "center",
   },
   quizInfo: { flex: 1, gap: 3 },
-  quizTitle: { fontSize: 14, fontWeight: "800", color: "#1a1a2e" },
-  quizMeta: { fontSize: 11, color: "#525C6B", fontWeight: "600" },
+  quizTitle: { fontSize: 14, fontWeight: "800", color: Colors.text },
+  quizMeta: { fontSize: 11, color: Colors.textMuted, fontWeight: "600" },
   metaInfoStack: { gap: 2, marginTop: 2 },
   metaInfoRow: { flexDirection: "row", alignItems: "center", gap: 5 },
   metaInfoLabel: {
     fontSize: 10,
     fontWeight: "800",
-    color: "#525C6B",
+    color: Colors.textMuted,
     minWidth: 34,
   },
   metaInfoValue: {
@@ -5678,7 +5678,7 @@ const pr = StyleSheet.create({
   },
   quizProgressTrack: {
     height: 5,
-    backgroundColor: "#F0F0F8",
+    backgroundColor: Colors.borderLight,
     borderRadius: 999,
     overflow: "hidden",
     marginTop: 4,
@@ -5702,7 +5702,7 @@ const pr = StyleSheet.create({
   groupLabel: {
     fontSize: 11,
     fontWeight: "800",
-    color: "#525C6B",
+    color: Colors.textMuted,
     textTransform: "uppercase",
     letterSpacing: 0.8,
     marginBottom: 6,
@@ -5718,7 +5718,7 @@ const pr = StyleSheet.create({
     padding: 14,
     gap: 12,
     borderWidth: 1,
-    borderColor: "#F0F0F8",
+    borderColor: Colors.borderLight,
     shadowColor: "#C5D8F8",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.4,
@@ -5733,11 +5733,11 @@ const pr = StyleSheet.create({
     justifyContent: "center",
   },
   assignInfo: { flex: 1, gap: 3 },
-  assignTitle: { fontSize: 14, fontWeight: "800", color: "#1a1a2e" },
-  assignMeta: { fontSize: 11, color: "#525C6B", fontWeight: "600" },
+  assignTitle: { fontSize: 14, fontWeight: "800", color: Colors.text },
+  assignMeta: { fontSize: 11, color: Colors.textMuted, fontWeight: "600" },
   assignFeedback: {
     fontSize: 11,
-    color: "#176B47", // darkened from #4CAF50 (3.3:1 on white) — WCAG AA fix
+    color: Colors.success, // darkened from #4CAF50 (3.3:1 on white) — WCAG AA fix
     fontWeight: "600",
     marginTop: 2,
   },
@@ -5759,7 +5759,7 @@ const pr = StyleSheet.create({
     padding: 14,
     gap: 12,
     borderWidth: 1,
-    borderColor: "#F0F0F8",
+    borderColor: Colors.borderLight,
     shadowColor: "#C5D8F8",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
@@ -5774,9 +5774,9 @@ const pr = StyleSheet.create({
     justifyContent: "center",
   },
   actInfo: { flex: 1, gap: 2 },
-  actTitle: { fontSize: 13, fontWeight: "800", color: "#1a1a2e" },
-  actMeta: { fontSize: 11, color: "#525C6B", fontWeight: "600" },
-  actTime: { fontSize: 11, fontWeight: "800", color: "#2D5DC9" },
+  actTitle: { fontSize: 13, fontWeight: "800", color: Colors.text },
+  actMeta: { fontSize: 11, color: Colors.textMuted, fontWeight: "600" },
+  actTime: { fontSize: 11, fontWeight: "800", color: Colors.primary },
   statusPill: { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3 },
   statusPillText: { fontSize: 10, fontWeight: "800" },
 
@@ -5788,7 +5788,7 @@ const pr = StyleSheet.create({
     padding: 18,
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#F0F0F8",
+    borderColor: Colors.borderLight,
     marginBottom: 4,
   },
   emptyCardText: {
@@ -5803,7 +5803,7 @@ const pr = StyleSheet.create({
   tabBar: {
     backgroundColor: "#fff",
     borderBottomWidth: 1,
-    borderBottomColor: "#F0F0F8",
+    borderBottomColor: Colors.borderLight,
   },
   tabBarContent: {
     flexDirection: "row",
@@ -5829,8 +5829,8 @@ const pr = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  tabBtnText: { fontSize: 11, fontWeight: "700", color: "#525C6B" },
-  tabBtnTextActive: { color: "#2D5DC9", fontWeight: "800" },
+  tabBtnText: { fontSize: 11, fontWeight: "700", color: Colors.textMuted },
+  tabBtnTextActive: { color: Colors.primary, fontWeight: "800" },
   tabDot: {
     position: "absolute",
     top: -2,
@@ -5838,7 +5838,7 @@ const pr = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: "#D33F13",
+    backgroundColor: Colors.accent,
     borderWidth: 1.5,
     borderColor: "#fff",
   },
@@ -5852,8 +5852,8 @@ const pr = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
   },
-  sectionHdrTitle: { fontSize: 17, fontWeight: "900", color: "#1a1a2e" },
-  sectionHdrChip: { fontSize: 12, fontWeight: "700", color: "#2D5DC9" },
+  sectionHdrTitle: { fontSize: 17, fontWeight: "900", color: Colors.text },
+  sectionHdrChip: { fontSize: 12, fontWeight: "700", color: Colors.primary },
 
   // Wraps a pair of section-header+card blocks so they sit side by side on
   // large screens (row) but stack exactly as before on phones (column, no gap
@@ -5873,7 +5873,7 @@ const pr = StyleSheet.create({
   inlineMetaText: {
     fontSize: 11,
     fontWeight: "600",
-    color: "#525C6B",
+    color: Colors.textMuted,
     flexShrink: 1,
   },
 
@@ -5900,12 +5900,12 @@ const pr = StyleSheet.create({
     alignItems: "center",
     gap: 8,
     borderWidth: 1,
-    borderColor: "#F0F0F8",
+    borderColor: Colors.borderLight,
   },
   emptyStateTitle: {
     fontSize: 15,
     fontWeight: "900",
-    color: "#1a1a2e",
+    color: Colors.text,
     textAlign: "center",
   },
   emptyStateText: {
@@ -5920,7 +5920,7 @@ const pr = StyleSheet.create({
   stickyTabs: {
     backgroundColor: "#fff",
     borderBottomWidth: 1,
-    borderBottomColor: "#F0F0F8",
+    borderBottomColor: Colors.borderLight,
     zIndex: 10,
   },
   stickyTab: {
@@ -5932,15 +5932,15 @@ const pr = StyleSheet.create({
     borderRadius: 999,
     backgroundColor: "#F4F4FB",
   },
-  stickyTabActive: { backgroundColor: "#2D5DC9" },
-  stickyTabText: { fontSize: 12, fontWeight: "700", color: "#525C6B" },
+  stickyTabActive: { backgroundColor: Colors.primary },
+  stickyTabText: { fontSize: 12, fontWeight: "700", color: Colors.textMuted },
   stickyTabTextActive: { color: "#fff" },
 
   // View all / modals
   viewAllBtn: {
     marginHorizontal: 16,
     marginBottom: 8,
-    backgroundColor: "#EDE4FF",
+    backgroundColor: Colors.purpleLight,
     borderRadius: 14,
     paddingVertical: 14,
     alignItems: "center",
@@ -5964,16 +5964,16 @@ const pr = StyleSheet.create({
     alignItems: "center",
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: "#F0F0F8",
+    borderBottomColor: Colors.borderLight,
   },
-  modalTitle: { fontSize: 18, fontWeight: "900", color: "#1a1a2e" },
-  modalSub: { fontSize: 12, color: "#525C6B", fontWeight: "600", marginTop: 2 },
+  modalTitle: { fontSize: 18, fontWeight: "900", color: Colors.text },
+  modalSub: { fontSize: 12, color: Colors.textMuted, fontWeight: "600", marginTop: 2 },
   modalMetaStack: { gap: 2, marginTop: 4 },
   modalMetaRow: { flexDirection: "row", alignItems: "center", gap: 5 },
   modalMetaLabel: {
     fontSize: 11,
     fontWeight: "800",
-    color: "#525C6B",
+    color: Colors.textMuted,
     minWidth: 36,
   },
   modalMetaValue: {
@@ -6008,7 +6008,7 @@ const pr = StyleSheet.create({
     marginBottom: 14,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: "#F0F0F8",
+    borderColor: Colors.borderLight,
     shadowColor: "#C5D8F8",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.35,
@@ -6029,7 +6029,7 @@ const pr = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 8,
   },
-  detailQNum: { fontSize: 12, fontWeight: "900", color: "#525C6B" },
+  detailQNum: { fontSize: 12, fontWeight: "900", color: Colors.textMuted },
   detailQBadge: {
     borderRadius: 999,
     paddingHorizontal: 10,
@@ -6039,7 +6039,7 @@ const pr = StyleSheet.create({
   detailQTitle: {
     fontSize: 15,
     fontWeight: "700",
-    color: "#1a1a2e",
+    color: Colors.text,
     lineHeight: 22,
   },
   detailOption: {
@@ -6059,26 +6059,26 @@ const pr = StyleSheet.create({
     marginTop: 10,
     paddingTop: 10,
     borderTopWidth: 1,
-    borderTopColor: "#F0F0F8",
+    borderTopColor: Colors.borderLight,
   },
-  detailAnswerLabel: { fontSize: 12, color: "#525C6B", fontWeight: "600" },
+  detailAnswerLabel: { fontSize: 12, color: Colors.textMuted, fontWeight: "600" },
   detailAnswerVal: { fontSize: 12, fontWeight: "800" },
   detailPanel: {
     backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: "#F0F0F8",
+    borderColor: Colors.borderLight,
     borderRadius: 16,
     padding: 12,
   },
   detailPanelTitle: {
     fontSize: 13,
     fontWeight: "800",
-    color: "#1a1a2e",
+    color: Colors.text,
     marginBottom: 4,
   },
   detailBodyText: {
     fontSize: 12,
-    color: "#4B5563",
+    color: Colors.textSecondary,
     fontWeight: "500",
     lineHeight: 18,
   },
@@ -6107,7 +6107,7 @@ const pr = StyleSheet.create({
     backgroundColor: "#F4F4FB",
   },
   mediaBtn: {
-    backgroundColor: "#EDE4FF",
+    backgroundColor: Colors.purpleLight,
     borderRadius: 12,
     alignItems: "center",
     paddingVertical: 10,
