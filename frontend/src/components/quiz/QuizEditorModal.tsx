@@ -29,6 +29,9 @@ import {
   Trash2,
   X,
   Zap,
+  Check,
+  Play,
+  Sparkles,
 } from 'lucide-react-native';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
@@ -39,6 +42,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../../context/AuthContext';
 import SafeImage from './SafeImage';
 import { resolveMediaUrl } from '../../utils/media';
+import QuizRenderer from './QuizRenderer';
 
 type ApiFetch = (path: string, options?: RequestInit) => Promise<Response>;
 type Tab = 'setup' | 'questions';
@@ -163,6 +167,7 @@ export default function QuizEditorModal({
 
   const [previewQuestion, setPreviewQuestion] = useState<any | null>(null);
   const [loadingPreview, setLoadingPreview] = useState(false);
+  const [playInteractive, setPlayInteractive] = useState(false);
 
   const insets = useSafeAreaInsets();
   const PAGE_SIZE = 10;
@@ -656,35 +661,127 @@ export default function QuizEditorModal({
     </View>
   );
 
+  const totalPoints = useMemo(() => {
+    return attached.reduce((acc, q) => acc + (Number(q.points) || 1), 0);
+  }, [attached]);
+
   const renderPreviewContent = () => (
     <View style={s.card}>
-      <Text style={s.cardTitle}>2. Quiz Overview</Text>
-      <ScrollView style={s.innerScrollList} contentContainerStyle={{ gap: 10 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+        <Text style={s.cardTitle}>2. Quiz Preview</Text>
+        {quizId && (
+          <Pressable style={s.playInlineBtn} onPress={() => setPlayInteractive(true)}>
+            <Play size={12} color="#FFFFFF" fill="#FFFFFF" />
+            <Text style={s.playInlineBtnText}>Play Quiz</Text>
+          </Pressable>
+        )}
+      </View>
+      <ScrollView style={s.innerScrollList} contentContainerStyle={{ gap: 12, paddingBottom: 24 }} showsVerticalScrollIndicator={false}>
         {description ? <Text style={s.previewBody}>{description}</Text> : null}
         <View style={s.qBadgeRow}>
           <View style={s.qBadge}><Text style={s.qBadgeText}>{classLevel ? getStandardLabel(classLevel) : 'No class'}</Text></View>
           {subject ? <View style={s.qBadge}><Text style={s.qBadgeText}>{subject}</Text></View> : null}
           <View style={s.qBadge}><Text style={s.qBadgeText}>{difficulty}</Text></View>
           <View style={s.qBadge}><Text style={s.qBadgeText}>{isPublished ? 'Published' : 'Draft'}</Text></View>
+          <View style={[s.qBadge, { backgroundColor: '#FEF3C7' }]}>
+            <Zap size={11} color="#D97706" />
+            <Text style={[s.qBadgeText, { color: '#B45309', fontWeight: '800' }]}>{totalPoints} pts</Text>
+          </View>
         </View>
 
-        <Text style={[s.cardTitle, { marginTop: 12 }]}>Questions Summary ({attached.length})</Text>
+        <Text style={[s.cardTitle, { marginTop: 10 }]}>Questions Breakdown ({attached.length})</Text>
         {attached.length === 0 ? (
-          <Text style={s.emptyText}>No questions attached yet.</Text>
+          <Text style={s.emptyText}>No questions attached yet. Add questions from the Questions & Bank tab.</Text>
         ) : (
-          attached.map((q, i) => (
-            <View key={q.id} style={s.previewItem}>
-              <Text style={s.previewItemNum}>{i + 1}.</Text>
-              <LatexText
-                content={q.question_title || 'Untitled'}
-                style={s.previewItemTitle}
-                compact
-                compactHeight={36}
-                numberOfLines={1}
-                background="transparent"
-              />
-            </View>
-          ))
+          attached.map((q, i) => {
+            let qData: any = q.question_data;
+            if (typeof qData === 'string') {
+              try { qData = JSON.parse(qData); } catch { qData = {}; }
+            }
+            qData = qData || {};
+            const opts = Array.isArray(qData.options) ? qData.options : Array.isArray(qData.choices) ? qData.choices : [];
+            const pairs = Array.isArray(qData.pairs) ? qData.pairs : Array.isArray(qData.matching_pairs) ? qData.matching_pairs : [];
+            const promptImg = resolveMediaUrl(qData.prompt_image || qData.image || qData.media_url);
+
+            return (
+              <View key={q.id || i} style={s.detailedPreviewCard}>
+                <View style={s.detailedPreviewTop}>
+                  <View style={s.detailedPreviewIndexPill}>
+                    <Text style={s.detailedPreviewIndexText}>Q{i + 1}</Text>
+                  </View>
+                  <View style={s.detailedPreviewTypePill}>
+                    <Text style={s.detailedPreviewTypeText}>
+                      {QUIZ_TYPE_LABELS[q.question_type] || q.question_type}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1 }} />
+                  <View style={s.detailedPreviewPointsPill}>
+                    <Zap size={11} color="#D97706" />
+                    <Text style={s.detailedPreviewPointsText}>{q.points ?? 1} pts</Text>
+                  </View>
+                </View>
+
+                <LatexText
+                  content={q.question_title || 'Untitled'}
+                  style={s.detailedPreviewTitle}
+                  compact
+                  compactHeight={38}
+                  background="transparent"
+                />
+
+                {q.question_instruction ? (
+                  <Text style={s.detailedPreviewInstruction}>{q.question_instruction}</Text>
+                ) : null}
+
+                {promptImg ? (
+                  <View style={s.detailedPreviewImgWrap}>
+                    <SafeImage uri={promptImg} style={s.detailedPreviewImg} resizeMode="contain" />
+                  </View>
+                ) : null}
+
+                {opts.length > 0 && (
+                  <View style={s.detailedPreviewOptionsList}>
+                    {opts.map((opt: any, optIdx: number) => {
+                      const isCorrect = Boolean(
+                        opt.is_correct ?? opt.correct ?? opt.isCorrect ?? (qData.correct_option === optIdx)
+                      );
+                      const optText = opt.text || opt.label || opt.option_text || (typeof opt === 'string' ? opt : `Option ${optIdx + 1}`);
+                      return (
+                        <View key={optIdx} style={[s.detailedPreviewOptItem, isCorrect && s.detailedPreviewOptCorrect]}>
+                          <View style={[s.detailedPreviewOptBadge, isCorrect && s.detailedPreviewOptBadgeCorrect]}>
+                            <Text style={[s.detailedPreviewOptBadgeText, isCorrect && s.detailedPreviewOptBadgeTextCorrect]}>
+                              {String.fromCharCode(65 + optIdx)}
+                            </Text>
+                          </View>
+                          <Text style={[s.detailedPreviewOptText, isCorrect && s.detailedPreviewOptTextCorrect]} numberOfLines={2}>
+                            {String(optText)}
+                          </Text>
+                          {isCorrect && (
+                            <View style={s.detailedPreviewCorrectTag}>
+                              <Check size={11} color="#15803D" />
+                              <Text style={s.detailedPreviewCorrectTagText}>Correct</Text>
+                            </View>
+                          )}
+                        </View>
+                      );
+                    })}
+                  </View>
+                )}
+
+                {pairs.length > 0 && (
+                  <View style={s.detailedPreviewPairsList}>
+                    {pairs.map((p: any, pIdx: number) => (
+                      <View key={pIdx} style={s.detailedPreviewPairRow}>
+                        <Text style={s.detailedPreviewPairLeft}>{p.left || p.item || `Item ${pIdx + 1}`}</Text>
+                        <Text style={s.detailedPreviewPairArrow}>➔</Text>
+                        <Text style={s.detailedPreviewPairRight}>{p.right || p.pair || `Match ${pIdx + 1}`}</Text>
+                      </View>
+                    ))}
+                  </View>
+                )}
+              </View>
+            );
+          })
         )}
       </ScrollView>
     </View>
@@ -701,9 +798,21 @@ export default function QuizEditorModal({
             <Text style={s.headerTitle} numberOfLines={1}>Edit Quiz</Text>
             <Text style={s.headerSub} numberOfLines={1}>{title || 'Untitled'}</Text>
           </View>
-          <Pressable style={[s.saveBtn, saving && s.saveBtnDisabled]} onPress={handleSave} disabled={saving || loading}>
-            {saving ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" /> : <Text style={s.saveBtnText}>Save</Text>}
-          </Pressable>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            {quizId && (
+              <Pressable
+                style={s.playHeaderBtn}
+                onPress={() => setPlayInteractive(true)}
+                accessibilityLabel="Play Quiz Preview"
+              >
+                <Play size={13} color="#FFFFFF" fill="#FFFFFF" />
+                <Text style={s.playHeaderBtnText}>Play Preview</Text>
+              </Pressable>
+            )}
+            <Pressable style={[s.saveBtn, saving && s.saveBtnDisabled]} onPress={handleSave} disabled={saving || loading}>
+              {saving ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" /> : <Text style={s.saveBtnText}>Save</Text>}
+            </Pressable>
+          </View>
         </View>
 
         {toast && <View style={s.toast}><Text style={s.toastText}>{toast}</Text></View>}
@@ -762,6 +871,15 @@ export default function QuizEditorModal({
               </ScrollView>
             )}
           </View>
+        )}
+
+        {/* Interactive Play Preview Overlay */}
+        {quizId && playInteractive && (
+          <QuizRenderer
+            quizId={quizId}
+            visible={playInteractive}
+            onClose={() => setPlayInteractive(false)}
+          />
         )}
       </View>
 
@@ -1171,4 +1289,202 @@ const s = StyleSheet.create({
   pvModalFooter: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 10, padding: 16, borderTopWidth: 1, borderTopColor: '#F1F5F9', backgroundColor: '#FAFCFF' },
   pvCloseActionBtn: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 8, backgroundColor: '#E2E8F0' },
   pvCloseActionText: { fontSize: 13, fontWeight: '700', color: '#475569' },
+
+  playHeaderBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#2D5DC9',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  playHeaderBtnText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+  playInlineBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: '#2D5DC9',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 6,
+  },
+  playInlineBtnText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+
+  detailedPreviewCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    padding: 14,
+    gap: 10,
+  },
+  detailedPreviewTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  detailedPreviewIndexPill: {
+    backgroundColor: '#0F172A',
+    borderRadius: 4,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  detailedPreviewIndexText: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#FFFFFF',
+  },
+  detailedPreviewTypePill: {
+    backgroundColor: '#EFF6FF',
+    borderRadius: 4,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  detailedPreviewTypeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#2563EB',
+  },
+  detailedPreviewPointsPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    backgroundColor: '#FFFBEB',
+    borderWidth: 1,
+    borderColor: '#FDE68A',
+    borderRadius: 4,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  detailedPreviewPointsText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#B45309',
+  },
+  detailedPreviewTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#0F172A',
+  },
+  detailedPreviewInstruction: {
+    fontSize: 12,
+    color: '#64748B',
+    fontStyle: 'italic',
+  },
+  detailedPreviewImgWrap: {
+    height: 120,
+    borderRadius: 8,
+    overflow: 'hidden',
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  detailedPreviewImg: {
+    width: '100%',
+    height: '100%',
+  },
+  detailedPreviewOptionsList: {
+    gap: 6,
+  },
+  detailedPreviewOptItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    borderRadius: 8,
+    padding: 8,
+  },
+  detailedPreviewOptCorrect: {
+    backgroundColor: '#F0FDF4',
+    borderColor: '#86EFAC',
+  },
+  detailedPreviewOptBadge: {
+    width: 22,
+    height: 22,
+    borderRadius: 4,
+    backgroundColor: '#E2E8F0',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  detailedPreviewOptBadgeCorrect: {
+    backgroundColor: '#22C55E',
+  },
+  detailedPreviewOptBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#475569',
+  },
+  detailedPreviewOptBadgeTextCorrect: {
+    color: '#FFFFFF',
+  },
+  detailedPreviewOptText: {
+    flex: 1,
+    fontSize: 12,
+    color: '#1E293B',
+    fontWeight: '500',
+  },
+  detailedPreviewOptTextCorrect: {
+    color: '#15803D',
+    fontWeight: '700',
+  },
+  detailedPreviewCorrectTag: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    backgroundColor: '#DCFCE7',
+    borderWidth: 1,
+    borderColor: '#86EFAC',
+    borderRadius: 4,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  detailedPreviewCorrectTagText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#15803D',
+  },
+  detailedPreviewPairsList: {
+    gap: 4,
+  },
+  detailedPreviewPairRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  detailedPreviewPairLeft: {
+    flex: 1,
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    borderRadius: 6,
+    padding: 6,
+    fontSize: 11,
+    color: '#1E293B',
+  },
+  detailedPreviewPairArrow: {
+    fontSize: 12,
+    color: '#94A3B8',
+  },
+  detailedPreviewPairRight: {
+    flex: 1,
+    backgroundColor: '#F0FDF4',
+    borderWidth: 1,
+    borderColor: '#BBF7D0',
+    borderRadius: 6,
+    padding: 6,
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#15803D',
+  },
 });

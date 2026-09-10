@@ -12,10 +12,10 @@ export const chatRouter = Router();
 const chatRequestSchema = z.object({
   conversationId: z.string().uuid().optional(),
   message: z.string().trim().min(1).max(8000),
-  // Optional explicit provider id (e.g. "ollama") for the multi-agent
-  // router. Omit to use the default fallback chain. No frontend selector
-  // exists yet — this is the wire contract for when one is added.
+  // Optional explicit provider id (e.g. "factory", "ollama", "openai")
   provider: z.string().trim().min(1).max(64).optional(),
+  // Optional explicit model name (e.g. "gpt-4o", "claude-3-5-sonnet", etc.)
+  model: z.string().trim().min(1).max(128).optional(),
 });
 
 // GET /ai/chat/providers — registered providers the caller's role may use,
@@ -45,7 +45,7 @@ chatRouter.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
 
   const gatewayBaseUrl = process.env.API_GATEWAY_URL || 'http://localhost:4000';
   const role = req.user?.role;
-  const { conversationId, message, provider: requestedProvider } = parsed.data;
+  const { conversationId, message, provider: requestedProvider, model: requestedModel } = parsed.data;
 
   try {
     let activeConversationId = conversationId;
@@ -89,7 +89,7 @@ chatRouter.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
     let completionTokens: number | undefined;
     let runError: unknown;
     try {
-      for await (const event of agentRouter.run({ providerId: requestedProvider, role, messages: chatMessages })) {
+      for await (const event of agentRouter.run({ providerId: requestedProvider, model: requestedModel, role, messages: chatMessages })) {
         usedProviderId = event.providerId;
         if (event.type === 'delta') {
           fullReply += event.text;

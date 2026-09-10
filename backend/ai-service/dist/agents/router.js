@@ -1,3 +1,4 @@
+import { createDynamicProvider } from './dynamicModelProvider.js';
 import { createOllamaProvider } from './ollamaProvider.js';
 /**
  * Per-role provider allowlist. `undefined` for a role means "every
@@ -67,7 +68,7 @@ class AgentRouter {
             yield { type: 'attempt', providerId: provider.id };
             let yieldedAny = false;
             try {
-                for await (const event of provider.stream({ messages: params.messages, signal: params.signal })) {
+                for await (const event of provider.stream({ messages: params.messages, model: params.model, signal: params.signal })) {
                     yieldedAny = true;
                     yield { ...event, providerId: provider.id };
                 }
@@ -84,4 +85,49 @@ class AgentRouter {
     }
 }
 export const agentRouter = new AgentRouter();
+// 1. Groq Provider (prioritized if GROQ_API_KEY is configured)
+const groqApiKey = process.env.GROQ_API_KEY?.trim();
+if (groqApiKey) {
+    agentRouter.register(createDynamicProvider({
+        id: 'groq',
+        label: 'Groq',
+        apiKey: groqApiKey,
+        baseUrl: process.env.GROQ_BASE_URL || 'https://api.groq.com/openai/v1',
+        model: process.env.GROQ_MODEL,
+    }));
+}
+// 2. Factory AI Provider (if FACTORY_API_KEY is configured)
+const factoryApiKey = process.env.FACTORY_API_KEY?.trim();
+if (factoryApiKey) {
+    agentRouter.register(createDynamicProvider({
+        id: 'factory',
+        label: 'Factory AI',
+        apiKey: factoryApiKey,
+        baseUrl: process.env.FACTORY_BASE_URL || 'https://api.factory.ai/v1',
+        model: process.env.FACTORY_MODEL,
+    }));
+}
+// 2. Generic AI Provider (if AI_API_KEY is configured)
+const aiApiKey = process.env.AI_API_KEY?.trim();
+if (aiApiKey) {
+    agentRouter.register(createDynamicProvider({
+        id: 'ai',
+        label: 'Dynamic AI Provider',
+        apiKey: aiApiKey,
+        baseUrl: process.env.AI_BASE_URL || 'https://api.openai.com/v1',
+        model: process.env.AI_MODEL,
+    }));
+}
+// 3. OpenAI Provider (if OPENAI_API_KEY is configured)
+const openaiApiKey = process.env.OPENAI_API_KEY?.trim();
+if (openaiApiKey) {
+    agentRouter.register(createDynamicProvider({
+        id: 'openai',
+        label: 'OpenAI',
+        apiKey: openaiApiKey,
+        baseUrl: process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1',
+        model: process.env.OPENAI_MODEL,
+    }));
+}
+// 4. Local Ollama Provider (fallback)
 agentRouter.register(createOllamaProvider());

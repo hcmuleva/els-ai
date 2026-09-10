@@ -37,6 +37,7 @@ export type AgentRunEvent = (AgentStreamEvent & { providerId: string }) | { type
 
 export type AgentStreamParams = {
   messages: ChatMessage[];
+  model?: string;
   signal?: AbortSignal;
 };
 

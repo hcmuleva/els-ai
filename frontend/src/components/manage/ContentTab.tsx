@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import {
-  ChevronDown, ChevronUp, GripVertical, ChevronLeft,
+  ChevronDown, ChevronUp, GripVertical, ChevronLeft, ChevronRight,
   Play, Video as VideoIcon, Headphones, Image as ImageIcon, BookOpen,
   FileText, Film, Link, Layers, Plus, FolderOpen, Pencil, Trash2, Eye,
-  Filter, LayoutList, Trophy, ListChecks, Search, X, Info,
+  Filter, LayoutList, Trophy, ListChecks, Search, X, Info, Sparkles,
 } from 'lucide-react-native';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -37,6 +37,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import { Video, ResizeMode } from 'expo-av';
 import AudioPlayer from '../media/AudioPlayer';
+import DocumentViewer from '../media/DocumentViewer';
+import LatexText from '../common/LatexText';
 
 const getYouTubeVideoId = (url: string): string | null => {
   const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
@@ -46,6 +48,7 @@ const isYouTubeUrl = (url: string): boolean => /(?:youtube\.com|youtu\.be)/i.tes
 const isImageUrl = (url: string): boolean => /\.(png|jpe?g|gif|webp|bmp|svg)(?:$|[?#])/i.test(url);
 const isAudioUrl = (url: string): boolean => /\.(mp3|wav|ogg|aac|m4a|flac)(?:$|[?#])/i.test(url);
 const isVideoUrl = (url: string): boolean => /\.(mp4|mov|m4v|webm|avi|mkv)(?:$|[?#])/i.test(url);
+const isDocumentUrl = (url: string): boolean => /\.(pdf|docx?|pptx?|xlsx?)(?:$|[?#])/i.test(url);
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 export type LearningContentItem = {
@@ -121,6 +124,317 @@ const SECTION_TYPE_CHOICES: { value: SectionDraft['contentType']; label: string;
 
 // SelectorSheet → replaced by shared SelectorModal component
 
+// ── Responsive Media Stage (Matches Classroom Viewer) ─────────────────────────
+interface ResponsiveMediaStageProps {
+  content: {
+    title?: string;
+    contentType?: string;
+    mediaUrl?: string;
+    externalUrl?: string;
+    textContent?: string;
+    quizId?: string | null;
+  } | null;
+  sectionIndex: number;
+  totalSections: number;
+  classLevel?: string;
+  subject?: string;
+  hasPrev: boolean;
+  hasNext: boolean;
+  onPrev: () => void;
+  onNext: () => void;
+  onFullScreenPreview?: () => void;
+  videoSectionCount?: number;
+  effectiveContentId?: string | null;
+  apiFetch?: ApiFetch;
+}
+
+function ResponsiveMediaStage({
+  content,
+  sectionIndex,
+  totalSections,
+  classLevel,
+  subject,
+  hasPrev,
+  hasNext,
+  onPrev,
+  onNext,
+  onFullScreenPreview,
+  videoSectionCount = 0,
+  effectiveContentId,
+  apiFetch,
+}: ResponsiveMediaStageProps) {
+  const cfg = content?.contentType ? ts(content.contentType) : ts('');
+  const mediaUrl = content ? resolveUrl(content.externalUrl ?? content.mediaUrl) : '';
+  const ytId = mediaUrl ? getYouTubeVideoId(mediaUrl) : null;
+  const isVideo =
+    ['youtube_url', 'video', 'reel_url', 'reel'].includes(content?.contentType || '') ||
+    (!!mediaUrl && (isYouTubeUrl(mediaUrl) || isVideoUrl(mediaUrl)));
+  const isAudio =
+    content?.contentType === 'audio' ||
+    (!!mediaUrl && isAudioUrl(mediaUrl) && !isVideo);
+  const isImage =
+    (content?.contentType === 'image' || (!!mediaUrl && isImageUrl(mediaUrl))) && !isVideo && !isAudio && !isDocumentUrl(mediaUrl);
+  const isDoc =
+    (content?.contentType === 'document' || content?.contentType === 'pdf' || (!!mediaUrl && isDocumentUrl(mediaUrl))) && !isVideo && !isAudio;
+  const isReading =
+    !isVideo && !isAudio && !isImage && !isDoc && (content?.contentType === 'text' || !!content?.textContent);
+
+  return (
+    <View style={{ gap: 12 }}>
+      {/* Classroom Theatre Stage Card */}
+      <View style={c.stageCard}>
+        {/* Stage Top Bar */}
+        <View style={c.stageTopBar}>
+          <View style={c.stageTopBarLeft}>
+            <View style={c.lessonCounterPill}>
+              <Text style={c.lessonCounterText}>#{sectionIndex + 1} of {totalSections}</Text>
+            </View>
+            <Text style={c.stageSectionTitle} numberOfLines={1}>
+              {content?.title || `Section ${sectionIndex + 1}`}
+            </Text>
+          </View>
+          <View style={c.stageTopBarRight}>
+            <View style={[c.typeChip, { backgroundColor: cfg.bg, flexDirection: 'row', alignItems: 'center', gap: 4 }]}>
+              <cfg.Icon size={12} color={cfg.color} />
+              <Text style={[c.typeChipText, { color: cfg.color }]}>{cfg.label}</Text>
+            </View>
+            {subject ? (
+              <View style={c.subjectPill}>
+                <Text style={c.subjectPillText}>{subject}</Text>
+              </View>
+            ) : null}
+          </View>
+        </View>
+
+        {/* Dynamic Type-Adaptive Media Display Stage */}
+        {effectiveContentId && videoSectionCount > 0 && mediaUrl && apiFetch ? (
+          <StudentVideoLearningView
+            contentId={effectiveContentId}
+            contentSectionOrder={sectionIndex + 1}
+            videoUrl={mediaUrl}
+            apiFetch={apiFetch}
+          />
+        ) : isVideo ? (
+          <View style={c.stagePlayerWrapVideo}>
+            {mediaUrl ? (
+              ytId ? (
+                Platform.OS === 'web' ? (
+                  <iframe
+                    src={`https://www.youtube.com/embed/${ytId}?rel=0&controls=1`}
+                    style={{ width: '100%', height: '100%', border: 'none' } as any}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <YoutubePlayer height={260} videoId={ytId} />
+                )
+              ) : Platform.OS === 'web' ? (
+                <video src={mediaUrl} controls style={{ width: '100%', height: '100%', borderRadius: 0 }} />
+              ) : (
+                <Video source={{ uri: mediaUrl }} useNativeControls resizeMode={ResizeMode.CONTAIN} style={{ width: '100%', height: '100%' }} />
+              )
+            ) : (
+              <View style={c.stagePlaceholder}>
+                <View style={[c.stagePlaceholderIconBox, { backgroundColor: 'rgba(255,255,255,0.08)' }]}>
+                  <VideoIcon size={32} color="#94A3B8" />
+                </View>
+                <Text style={c.stagePlaceholderTitleDark}>Video Stage Ready</Text>
+                <Text style={c.stagePlaceholderSubDark}>Enter a YouTube or video URL to preview playback</Text>
+              </View>
+            )}
+          </View>
+        ) : isAudio ? (
+          <View style={c.stagePlayerWrapAudio}>
+            {mediaUrl ? (
+              <AudioPlayer
+                uri={mediaUrl}
+                title={content?.title || `Section ${sectionIndex + 1}`}
+                subtitle={subject || 'Audio Lesson'}
+                accentColor="#2D5DC9"
+                bgColor="#FAF5FF"
+              />
+            ) : (
+              <View style={c.stagePlaceholder}>
+                <View style={[c.stagePlaceholderIconBox, { backgroundColor: '#F3E8FF' }]}>
+                  <Headphones size={30} color="#7C3AED" />
+                </View>
+                <Text style={c.stagePlaceholderTitle}>Audio Stage Ready</Text>
+                <Text style={c.stagePlaceholderSub}>Add an audio URL or upload an audio file to preview</Text>
+              </View>
+            )}
+          </View>
+        ) : isImage ? (
+          <View style={c.stagePlayerWrapImage}>
+            {mediaUrl ? (
+              <Image
+                source={{ uri: mediaUrl }}
+                style={{ width: '100%', height: 320, maxHeight: 440 }}
+                resizeMode="contain"
+              />
+            ) : (
+              <View style={c.stagePlaceholder}>
+                <View style={[c.stagePlaceholderIconBox, { backgroundColor: '#EFF6FF' }]}>
+                  <ImageIcon size={30} color="#2563EB" />
+                </View>
+                <Text style={c.stagePlaceholderTitle}>Image Stage Ready</Text>
+                <Text style={c.stagePlaceholderSub}>Add an image URL or upload an image to preview</Text>
+              </View>
+            )}
+          </View>
+        ) : isDoc ? (
+          <View style={c.stagePlayerWrapDoc}>
+            {mediaUrl ? (
+              <DocumentViewer
+                uri={mediaUrl}
+                title={content?.title || `Section ${sectionIndex + 1}`}
+                accentColor="#2D5DC9"
+                bgColor="#D6EAFF"
+              />
+            ) : (
+              <View style={c.stagePlaceholder}>
+                <View style={[c.stagePlaceholderIconBox, { backgroundColor: '#EEF2FF' }]}>
+                  <FileText size={30} color="#4F46E5" />
+                </View>
+                <Text style={c.stagePlaceholderTitle}>Document Stage Ready</Text>
+                <Text style={c.stagePlaceholderSub}>Attach a document or PDF URL to preview document viewer</Text>
+              </View>
+            )}
+          </View>
+        ) : isReading ? (
+          <View style={c.stagePlayerWrapText}>
+            {content?.textContent ? (
+              <View style={{ gap: 10, width: '100%' }}>
+                <View style={c.readingBadge}>
+                  <BookOpen size={13} color="#2563EB" />
+                  <Text style={c.readingBadgeText}>Reading Lesson</Text>
+                </View>
+                <LatexText content={content.textContent} style={c.readingText} background="#FFFFFF" />
+              </View>
+            ) : (
+              <View style={c.stagePlaceholder}>
+                <View style={[c.stagePlaceholderIconBox, { backgroundColor: '#F1F5F9' }]}>
+                  <BookOpen size={30} color="#64748B" />
+                </View>
+                <Text style={c.stagePlaceholderTitle}>Reading Lesson Ready</Text>
+                <Text style={c.stagePlaceholderSub}>Add lesson text or LaTeX content to preview reading format</Text>
+              </View>
+            )}
+          </View>
+        ) : (
+          <View style={c.stagePlayerWrapFallback}>
+            {mediaUrl ? (
+              <View style={c.stagePlaceholder}>
+                <View style={[c.stagePlaceholderIconBox, { backgroundColor: '#EFF6FF' }]}>
+                  <Link size={28} color="#2563EB" />
+                </View>
+                <Text style={c.stagePlaceholderTitle}>External Link Resource</Text>
+                <Text style={c.stagePlaceholderSub} numberOfLines={1}>{mediaUrl}</Text>
+              </View>
+            ) : (
+              <View style={c.stagePlaceholder}>
+                <View style={[c.stagePlaceholderIconBox, { backgroundColor: '#F1F5F9' }]}>
+                  <Layers size={28} color="#94A3B8" />
+                </View>
+                <Text style={c.stagePlaceholderTitle}>Section Stage Ready</Text>
+                <Text style={c.stagePlaceholderSub}>Configure section content on the left to preview</Text>
+              </View>
+            )}
+          </View>
+        )}
+
+        {/* Stage Card Footer: Title, Meta, and Prev/Next */}
+        <View style={c.stageFooter}>
+          <View style={{ flex: 1, paddingRight: 10 }}>
+            <Text style={c.stageFooterTitle} numberOfLines={1}>
+              {content?.title || `Section ${sectionIndex + 1}`}
+            </Text>
+            <Text style={c.stageFooterMeta}>
+              {classLevel ? getStandardLabel(classLevel) : 'Class'} · {subject || 'Subject'} · Section {sectionIndex + 1} of {totalSections}
+            </Text>
+          </View>
+          {totalSections > 1 && (
+            <View style={c.stepBtnGroup}>
+              <Pressable
+                style={[c.stepBtn, !hasPrev && { opacity: 0.35 }]}
+                disabled={!hasPrev}
+                onPress={onPrev}
+              >
+                <ChevronLeft size={16} color="#2D5DC9" />
+                <Text style={c.stepBtnText}>Prev</Text>
+              </Pressable>
+              <Pressable
+                style={[c.stepBtn, !hasNext && { opacity: 0.35 }]}
+                disabled={!hasNext}
+                onPress={onNext}
+              >
+                <Text style={c.stepBtnText}>Next</Text>
+                <ChevronRight size={16} color="#2D5DC9" />
+              </Pressable>
+            </View>
+          )}
+        </View>
+      </View>
+
+      {/* Lesson Notes & Overview (if section has textContent and is not a pure reading lesson) */}
+      {content?.textContent && !isReading ? (
+        <View style={c.notesCard}>
+          <Text style={c.notesCardTitle}>Lesson Overview & Notes</Text>
+          <LatexText content={content.textContent} style={c.notesCardBody} background="#FFFFFF" />
+        </View>
+      ) : null}
+
+      {/* Play Quiz Section for Desktop (Classroom gamified style) */}
+      {content?.quizId ? (
+        <View style={c.desktopQuizSection}>
+          <View style={c.desktopQuizCard}>
+            <View style={c.desktopQuizLeft}>
+              <View style={c.desktopQuizIconBox}>
+                <Trophy size={24} color="#D97706" />
+              </View>
+              <View style={c.desktopQuizInfo}>
+                <View style={c.desktopQuizBadgeRow}>
+                  <View style={c.desktopQuizBadge}>
+                    <Sparkles size={11} color="#7C3AED" />
+                    <Text style={c.desktopQuizBadgeText}>Interactive Quiz</Text>
+                  </View>
+                  <View style={c.desktopQuizXpBadge}>
+                    <Text style={c.desktopQuizXpBadgeText}>⭐ Earn XP</Text>
+                  </View>
+                </View>
+                <Text style={c.desktopQuizTitle}>Ready to Test Your Knowledge?</Text>
+                <Text style={c.desktopQuizSub} numberOfLines={2}>
+                  Quick challenge quiz attached to this lesson
+                </Text>
+              </View>
+            </View>
+            <View style={c.desktopQuizPlayBtn}>
+              <Play size={13} color="#FFFFFF" fill="#FFFFFF" />
+              <Text style={c.desktopQuizPlayBtnText}>Attached Quiz</Text>
+            </View>
+          </View>
+        </View>
+      ) : null}
+
+      {/* Video Sections Timed Chapters Badge */}
+      {videoSectionCount > 0 ? (
+        <View style={c.chaptersCard}>
+          <View style={c.chaptersIconBox}>
+            <Film size={18} color="#16A34A" />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={c.chaptersTitle}>
+              🎬 {videoSectionCount} Timed Video Chapters
+            </Text>
+            <Text style={c.chaptersSub}>
+              Interactive checkpoints and quizzes attached at specific timestamps
+            </Text>
+          </View>
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
 // ── Content Details Modal ─────────────────────────────────────────────────────
 function ContentDetailsModal({ item, apiFetch, onClose, onEdit }: {
   item: LearningContentItem | null;
@@ -131,13 +445,15 @@ function ContentDetailsModal({ item, apiFetch, onClose, onEdit }: {
   const [loading, setLoading]       = useState(false);
   const [detail, setDetail]         = useState<LearningContentItem | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [detailSectionIdx, setDetailSectionIdx] = useState(0);
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const isDesktop = width >= 768;
 
   useEffect(() => {
-    if (!item) { setDetail(null); setPreviewOpen(false); return; }
+    if (!item) { setDetail(null); setPreviewOpen(false); setDetailSectionIdx(0); return; }
     setLoading(true);
+    setDetailSectionIdx(0);
     apiFetch(`/content/items/${item.id}`)
       .then((r) => r.ok ? r.json() : null)
       .then((d) => { if (d) setDetail(d as LearningContentItem); })
@@ -167,6 +483,7 @@ function ContentDetailsModal({ item, apiFetch, onClose, onEdit }: {
     subject: data?.subject ?? '',
     title: data?.title ?? '',
   };
+  const curDetailContent = previewContents[detailSectionIdx] || previewContents[0] || null;
 
   return (
     <Modal visible={!!item} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
@@ -174,11 +491,11 @@ function ContentDetailsModal({ item, apiFetch, onClose, onEdit }: {
         <View style={[c.modalInner, isDesktop && c.modalInnerDesktop]}>
           <View style={[c.modalHeader, { paddingTop: Math.max(insets.top, isDesktop ? 12 : 12) }]}>
             <Pressable onPress={onClose} style={c.modalBackBtn}><ChevronLeft size={24} color="#1a1a2e" /></Pressable>
-            <Text style={c.modalTitle} numberOfLines={1}>Content Details</Text>
+            <Text style={c.modalTitle} numberOfLines={1}>Content Preview</Text>
             {data && previewContents.length > 0 && (
               <Pressable style={c.previewBtn} onPress={() => setPreviewOpen(true)}>
                 <Eye size={14} color="#7DC67A" />
-                <Text style={c.previewBtnText}>Preview</Text>
+                <Text style={c.previewBtnText}>Theater View</Text>
               </Pressable>
             )}
             {data && (
@@ -191,83 +508,267 @@ function ContentDetailsModal({ item, apiFetch, onClose, onEdit }: {
           {loading ? (
             <View style={c.centerWrap}><ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" /><Text style={c.loadingText}>Loading…</Text></View>
           ) : data ? (
-            <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
-              {/* Hero */}
-              <View style={[c.detailHero, { backgroundColor: style.bg }]}>
-                <View style={c.detailHeroIcon}>
-                  <style.Icon size={48} color={style.color} />
-                </View>
-                <View style={c.detailHeroInfo}>
-                  <View style={c.detailBadgeRow}>
-                    <View style={[c.detailBadge, { backgroundColor: `${style.color}20` }]}>
-                      <Text style={[c.detailBadgeText, { color: style.color }]}>{style.label}</Text>
-                    </View>
-                    <View style={c.detailBadge}>
-                      <Text style={c.detailBadgeText}>{getStandardLabel(data.classLevel)} · {data.subject}</Text>
-                    </View>
-                  </View>
-                  <Text style={c.detailTitle}>{data.title}</Text>
-                </View>
-              </View>
-
-              {/* Stats */}
-              <View style={c.statsRow}>
-                <View style={c.statCard}>
-                  <Text style={c.statVal}>{sections.length || data.sectionCount || 1}</Text>
-                  <Text style={c.statLabel}>Sections</Text>
-                </View>
-                <View style={c.statCard}>
-                  <Text style={c.statVal}>{topics.length}</Text>
-                  <Text style={c.statLabel}>Topics</Text>
-                </View>
-              </View>
-
-              {/* Sections */}
-              <View style={c.detailSection}>
-                <View style={c.detailSectionTitleRow}>
-                  <LayoutList size={14} color="#2D5DC9" />
-                  <Text style={c.detailSectionTitle}>Sections</Text>
-                </View>
-                {sections.length === 0 ? (
-                  <View style={c.emptyCard}><Text style={c.emptyText}>No sections loaded.</Text></View>
-                ) : sections.map((sec, idx) => {
-                  const ss = ts(sec.contentType);
-                  const url = resolveUrl(sec.mediaUrl ?? sec.externalUrl);
-                  return (
-                    <View key={sec.id ?? idx} style={c.itemCard}>
-                      <View style={[c.itemIcon, { backgroundColor: ss.bg }]}>
-                        <ss.Icon size={20} color={ss.color} />
+            isDesktop ? (
+              <View style={c.desktopLayout}>
+                {/* Left Column: Details & Sections List */}
+                <View style={c.desktopLeftCol}>
+                  <ScrollView style={c.innerScrollList} contentContainerStyle={{ paddingBottom: 40, gap: 14 }}>
+                    {/* Hero */}
+                    <View style={[c.detailHero, { backgroundColor: style.bg, margin: 0 }]}>
+                      <View style={c.detailHeroIcon}>
+                        <style.Icon size={44} color={style.color} />
                       </View>
-                      <View style={c.itemInfo}>
-                        <Text style={c.itemTitle}>{sec.title || `Section ${idx + 1}`}</Text>
-                        <View style={[c.typeChip, { backgroundColor: ss.bg, alignSelf: 'flex-start' }]}>
-                          <Text style={[c.typeChipText, { color: ss.color }]}>{ss.label}</Text>
+                      <View style={c.detailHeroInfo}>
+                        <View style={c.detailBadgeRow}>
+                          <View style={[c.detailBadge, { backgroundColor: `${style.color}20` }]}>
+                            <Text style={[c.detailBadgeText, { color: style.color }]}>{style.label}</Text>
+                          </View>
+                          <View style={c.detailBadge}>
+                            <Text style={c.detailBadgeText}>{getStandardLabel(data.classLevel)} · {data.subject}</Text>
+                          </View>
                         </View>
-                        {sec.textContent ? <Text style={c.itemMeta} numberOfLines={2}>{sec.textContent}</Text> : null}
-                        {url ? <Text style={c.itemMeta} numberOfLines={1}>{url}</Text> : null}
+                        <Text style={c.detailTitle}>{data.title}</Text>
                       </View>
-                      <View style={c.orderBadge}><Text style={c.orderBadgeText}>{idx + 1}</Text></View>
                     </View>
-                  );
-                })}
-              </View>
 
-              {/* Assigned topics */}
-              {topics.length > 0 && (
+                    {/* Stats */}
+                    <View style={[c.statsRow, { marginHorizontal: 0, marginBottom: 0 }]}>
+                      <View style={c.statCard}>
+                        <Text style={c.statVal}>{sections.length || data.sectionCount || 1}</Text>
+                        <Text style={c.statLabel}>Sections</Text>
+                      </View>
+                      <View style={c.statCard}>
+                        <Text style={c.statVal}>{topics.length}</Text>
+                        <Text style={c.statLabel}>Topics</Text>
+                      </View>
+                    </View>
+
+                    {/* Sections List with Interactive Select */}
+                    <View style={[c.detailSection, { marginHorizontal: 0, marginBottom: 0 }]}>
+                      <View style={c.detailSectionTitleRow}>
+                        <LayoutList size={14} color="#2D5DC9" />
+                        <Text style={c.detailSectionTitle}>Sections ({sections.length})</Text>
+                      </View>
+                      {sections.length === 0 ? (
+                        <View style={c.emptyCard}><Text style={c.emptyText}>No sections loaded.</Text></View>
+                      ) : sections.map((sec, idx) => {
+                        const ss = ts(sec.contentType);
+                        const url = resolveUrl(sec.mediaUrl ?? sec.externalUrl);
+                        const isSelected = detailSectionIdx === idx;
+                        return (
+                          <Pressable
+                            key={sec.id ?? idx}
+                            style={[
+                              c.itemCard,
+                              isSelected && { borderColor: '#2563EB', borderWidth: 1.5, backgroundColor: '#F8FAFF' },
+                            ]}
+                            onPress={() => setDetailSectionIdx(idx)}
+                          >
+                            <View style={[c.itemIcon, { backgroundColor: ss.bg }]}>
+                              <ss.Icon size={20} color={ss.color} />
+                            </View>
+                            <View style={c.itemInfo}>
+                              <Text style={c.itemTitle}>{sec.title || `Section ${idx + 1}`}</Text>
+                              <View style={[c.typeChip, { backgroundColor: ss.bg, alignSelf: 'flex-start' }]}>
+                                <Text style={[c.typeChipText, { color: ss.color }]}>{ss.label}</Text>
+                              </View>
+                              {sec.textContent ? <Text style={c.itemMeta} numberOfLines={2}>{sec.textContent}</Text> : null}
+                              {url ? <Text style={c.itemMeta} numberOfLines={1}>{url}</Text> : null}
+                            </View>
+                            <View style={{ alignItems: 'flex-end', gap: 6 }}>
+                              <View style={[c.orderBadge, isSelected && { backgroundColor: '#2563EB' }]}>
+                                <Text style={[c.orderBadgeText, isSelected && { color: '#ffffff' }]}>{idx + 1}</Text>
+                              </View>
+                              {isSelected && (
+                                <View style={c.sectionPreviewBtnPill}>
+                                  <Eye size={11} color="#1D4ED8" />
+                                  <Text style={c.sectionPreviewBtnPillText}>Active</Text>
+                                </View>
+                              )}
+                            </View>
+                          </Pressable>
+                        );
+                      })}
+                    </View>
+
+                    {/* Assigned topics */}
+                    {topics.length > 0 && (
+                      <View style={[c.detailSection, { marginHorizontal: 0, marginBottom: 0 }]}>
+                        <View style={c.detailSectionTitleRow}>
+                          <FolderOpen size={14} color="#9B8EC4" />
+                          <Text style={c.detailSectionTitle}>Assigned Topics</Text>
+                        </View>
+                        {topics.map((t) => (
+                          <View key={t.topicId} style={c.topicRow}>
+                            <Text style={c.topicRowTitle}>{t.title}</Text>
+                            <Text style={c.topicRowMeta}>{getStandardLabel(t.classLevel)} · {t.subject}</Text>
+                          </View>
+                        ))}
+                      </View>
+                    )}
+                  </ScrollView>
+                </View>
+
+                {/* Right Column: Classroom Responsive Media Preview */}
+                <View style={c.desktopRightCol}>
+                  <View style={c.formCardWrap}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                        <Eye size={18} color="#2563EB" />
+                        <Text style={[c.cardTitleHeader, { fontSize: 15 }]}>Classroom Media Preview</Text>
+                      </View>
+                      <Pressable
+                        style={{ backgroundColor: '#2563EB', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, flexDirection: 'row', alignItems: 'center', gap: 6 }}
+                        onPress={() => setPreviewOpen(true)}
+                        disabled={previewContents.length === 0}
+                      >
+                        <Eye size={14} color="#ffffff" />
+                        <Text style={{ color: '#ffffff', fontWeight: '800', fontSize: 12 }}>Full Screen Preview</Text>
+                      </Pressable>
+                    </View>
+
+                    {previewContents.length > 1 && (
+                      <View style={{ marginBottom: 10 }}>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+                          {previewContents.map((sec, idx) => {
+                            const isActive = detailSectionIdx === idx;
+                            return (
+                              <Pressable
+                                key={sec.id || idx}
+                                style={{
+                                  paddingHorizontal: 14,
+                                  paddingVertical: 7,
+                                  borderRadius: 10,
+                                  backgroundColor: isActive ? '#2563EB' : '#EFF6FF',
+                                  borderWidth: 1.5,
+                                  borderColor: isActive ? '#2563EB' : '#BFDBFE',
+                                  flexDirection: 'row',
+                                  alignItems: 'center',
+                                  gap: 6,
+                                }}
+                                onPress={() => setDetailSectionIdx(idx)}
+                              >
+                                <Text style={{ fontSize: 12, fontWeight: '900', color: isActive ? '#ffffff' : '#1E40AF' }}>
+                                  Section {idx + 1}
+                                </Text>
+                              </Pressable>
+                            );
+                          })}
+                        </ScrollView>
+                      </View>
+                    )}
+
+                    <ScrollView style={c.innerScrollList} contentContainerStyle={{ gap: 12, paddingBottom: 24 }}>
+                      <ResponsiveMediaStage
+                        content={curDetailContent}
+                        sectionIndex={detailSectionIdx}
+                        totalSections={previewContents.length || 1}
+                        classLevel={data.classLevel}
+                        subject={data.subject}
+                        hasPrev={detailSectionIdx > 0}
+                        hasNext={detailSectionIdx < previewContents.length - 1}
+                        onPrev={() => setDetailSectionIdx((i) => Math.max(0, i - 1))}
+                        onNext={() => setDetailSectionIdx((i) => Math.min(previewContents.length - 1, i + 1))}
+                        onFullScreenPreview={() => setPreviewOpen(true)}
+                        apiFetch={apiFetch}
+                      />
+                    </ScrollView>
+                  </View>
+                </View>
+              </View>
+            ) : (
+              /* Mobile Single Column Scroll */
+              <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+                {/* Hero */}
+                <View style={[c.detailHero, { backgroundColor: style.bg }]}>
+                  <View style={c.detailHeroIcon}>
+                    <style.Icon size={48} color={style.color} />
+                  </View>
+                  <View style={c.detailHeroInfo}>
+                    <View style={c.detailBadgeRow}>
+                      <View style={[c.detailBadge, { backgroundColor: `${style.color}20` }]}>
+                        <Text style={[c.detailBadgeText, { color: style.color }]}>{style.label}</Text>
+                      </View>
+                      <View style={c.detailBadge}>
+                        <Text style={c.detailBadgeText}>{getStandardLabel(data.classLevel)} · {data.subject}</Text>
+                      </View>
+                    </View>
+                    <Text style={c.detailTitle}>{data.title}</Text>
+                  </View>
+                </View>
+
+                {/* Stats */}
+                <View style={c.statsRow}>
+                  <View style={c.statCard}>
+                    <Text style={c.statVal}>{sections.length || data.sectionCount || 1}</Text>
+                    <Text style={c.statLabel}>Sections</Text>
+                  </View>
+                  <View style={c.statCard}>
+                    <Text style={c.statVal}>{topics.length}</Text>
+                    <Text style={c.statLabel}>Topics</Text>
+                  </View>
+                </View>
+
+                {/* Sections */}
                 <View style={c.detailSection}>
                   <View style={c.detailSectionTitleRow}>
-                    <FolderOpen size={14} color="#9B8EC4" />
-                    <Text style={c.detailSectionTitle}>Assigned Topics</Text>
+                    <LayoutList size={14} color="#2D5DC9" />
+                    <Text style={c.detailSectionTitle}>Sections ({sections.length})</Text>
                   </View>
-                  {topics.map((t) => (
-                    <View key={t.topicId} style={c.topicRow}>
-                      <Text style={c.topicRowTitle}>{t.title}</Text>
-                      <Text style={c.topicRowMeta}>{getStandardLabel(t.classLevel)} · {t.subject}</Text>
-                    </View>
-                  ))}
+                  {sections.length === 0 ? (
+                    <View style={c.emptyCard}><Text style={c.emptyText}>No sections loaded.</Text></View>
+                  ) : sections.map((sec, idx) => {
+                    const ss = ts(sec.contentType);
+                    const url = resolveUrl(sec.mediaUrl ?? sec.externalUrl);
+                    return (
+                      <Pressable
+                        key={sec.id ?? idx}
+                        style={c.itemCard}
+                        onPress={() => {
+                          setDetailSectionIdx(idx);
+                          setPreviewOpen(true);
+                        }}
+                      >
+                        <View style={[c.itemIcon, { backgroundColor: ss.bg }]}>
+                          <ss.Icon size={20} color={ss.color} />
+                        </View>
+                        <View style={c.itemInfo}>
+                          <Text style={c.itemTitle}>{sec.title || `Section ${idx + 1}`}</Text>
+                          <View style={[c.typeChip, { backgroundColor: ss.bg, alignSelf: 'flex-start' }]}>
+                            <Text style={[c.typeChipText, { color: ss.color }]}>{ss.label}</Text>
+                          </View>
+                          {sec.textContent ? <Text style={c.itemMeta} numberOfLines={2}>{sec.textContent}</Text> : null}
+                          {url ? <Text style={c.itemMeta} numberOfLines={1}>{url}</Text> : null}
+                        </View>
+                        <View style={{ alignItems: 'flex-end', gap: 6 }}>
+                          <View style={c.orderBadge}><Text style={c.orderBadgeText}>{idx + 1}</Text></View>
+                          <View style={c.sectionPreviewBtnPill}>
+                            <Eye size={11} color="#1D4ED8" />
+                            <Text style={c.sectionPreviewBtnPillText}>Preview</Text>
+                          </View>
+                        </View>
+                      </Pressable>
+                    );
+                  })}
                 </View>
-              )}
-            </ScrollView>
+
+                {/* Assigned topics */}
+                {topics.length > 0 && (
+                  <View style={c.detailSection}>
+                    <View style={c.detailSectionTitleRow}>
+                      <FolderOpen size={14} color="#9B8EC4" />
+                      <Text style={c.detailSectionTitle}>Assigned Topics</Text>
+                    </View>
+                    {topics.map((t) => (
+                      <View key={t.topicId} style={c.topicRow}>
+                        <Text style={c.topicRowTitle}>{t.title}</Text>
+                        <Text style={c.topicRowMeta}>{getStandardLabel(t.classLevel)} · {t.subject}</Text>
+                      </View>
+                    ))}
+                  </View>
+                )}
+              </ScrollView>
+            )
           ) : null}
         </View>
       </View>
@@ -275,7 +776,7 @@ function ContentDetailsModal({ item, apiFetch, onClose, onEdit }: {
       <StudentContentViewer
         visible={previewOpen && previewContents.length > 0}
         contents={previewContents}
-        startIdx={0}
+        startIdx={detailSectionIdx}
         topic={previewTopic}
         onClose={() => setPreviewOpen(false)}
       />
@@ -655,17 +1156,9 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
   const [previewSectionIdx, setPreviewSectionIdx] = useState(0);
 
   const renderPreviewCard = () => {
-    const curContent = previewContents[previewSectionIdx] || previewContents[0];
+    const curContent = previewContents[previewSectionIdx] || previewContents[0] || null;
     const hasPrev = previewSectionIdx > 0;
     const hasNext = previewSectionIdx < previewContents.length - 1;
-    const cfg = curContent ? ts(curContent.contentType) : ts('');
-    const mediaUrl = curContent ? resolveUrl(curContent.externalUrl ?? curContent.mediaUrl) : '';
-    const ytId = mediaUrl ? getYouTubeVideoId(mediaUrl) : null;
-    const isYt = curContent?.contentType === 'youtube_url' || (!!mediaUrl && isYouTubeUrl(mediaUrl));
-    const isImg = curContent?.contentType === 'image' || (!!mediaUrl && isImageUrl(mediaUrl));
-    const isAud = curContent?.contentType === 'audio' || (!!mediaUrl && isAudioUrl(mediaUrl));
-    const isVid = curContent?.contentType === 'reel_url' || curContent?.contentType === 'reel' || curContent?.contentType === 'video' || (!!mediaUrl && isVideoUrl(mediaUrl));
-    const isTxt = curContent?.contentType === 'text' || !!curContent?.textContent;
 
     return (
       <View style={c.formCardWrap}>
@@ -725,174 +1218,27 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
           </View>
         )}
 
-        <ScrollView style={c.innerScrollList} contentContainerStyle={{ gap: 12 }}>
-          {/* Hero Student Banner */}
-          <View style={[c.previewCard, { borderRadius: 14, overflow: 'hidden' }]}>
-            <View style={[c.previewHeader, { backgroundColor: cfg.bg || '#4A7FE0', padding: 14 }]}>
-              <Text style={[c.previewTitle, { fontSize: 17, color: cfg.color || '#fff' }]}>{title || 'Untitled Content'}</Text>
-              <Text style={[c.previewSub, { color: cfg.color ? `${cfg.color}CC` : '#fff' }]}>
-                {classLevel ? getStandardLabel(classLevel) : 'Class'} · {subject || 'Subject'} · Section {previewSectionIdx + 1} of {previewContents.length || 1}
-              </Text>
-            </View>
-          </View>
-
-          {/* Active Section Student Renderer */}
+        <ScrollView style={c.innerScrollList} contentContainerStyle={{ gap: 12, paddingBottom: 24 }}>
           {!curContent || previewContents.length === 0 ? (
             <View style={c.emptyCard}>
               <Text style={c.emptyText}>No sections added yet. Add sections on the left to view the student preview.</Text>
             </View>
           ) : (
-            <View style={{ gap: 12 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#F8F9FF', padding: 10, borderRadius: 10, borderWidth: 1, borderColor: '#ECEEF4' }}>
-                <Text style={{ fontSize: 13, fontWeight: '800', color: '#1a1a2e' }}>
-                  {curContent.title || `Section ${previewSectionIdx + 1}`}
-                </Text>
-                <View style={[c.typeChip, { backgroundColor: cfg.bg }]}>
-                  <Text style={[c.typeChipText, { color: cfg.color }]}>{cfg.label}</Text>
-                </View>
-              </View>
-
-              {/* Video Player / Timed Video Learning Chapters */}
-              {effectiveContentId && (videoSectionCounts[previewSectionIdx + 1] || 0) > 0 && mediaUrl ? (
-                <StudentVideoLearningView
-                  contentId={effectiveContentId}
-                  contentSectionOrder={previewSectionIdx + 1}
-                  videoUrl={mediaUrl}
-                  apiFetch={apiFetch}
-                />
-              ) : (
-                <>
-                  {/* YouTube Player */}
-                  {isYt && ytId && (
-                    <View style={{ height: 220, borderRadius: 14, overflow: 'hidden', backgroundColor: '#000' }}>
-                      {Platform.OS === 'web' ? (
-                        <iframe
-                          src={`https://www.youtube.com/embed/${ytId}?rel=0&controls=1`}
-                          style={{ width: '100%', height: '100%', border: 'none' }}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
-                      ) : (
-                        <YoutubePlayer height={220} videoId={ytId} />
-                      )}
-                    </View>
-                  )}
-
-                  {/* Video / Reel View */}
-                  {isVid && mediaUrl && !isYt && (
-                    <View style={{ height: 220, borderRadius: 14, overflow: 'hidden', backgroundColor: '#000' }}>
-                      {Platform.OS === 'web' ? (
-                        <video src={mediaUrl} controls style={{ width: '100%', height: '100%', borderRadius: 14 }} />
-                      ) : (
-                        <Video source={{ uri: mediaUrl }} useNativeControls resizeMode={ResizeMode.CONTAIN} style={{ width: '100%', height: '100%' }} />
-                      )}
-                    </View>
-                  )}
-                </>
-              )}
-
-              {/* Image View */}
-              {isImg && mediaUrl && (
-                <View style={{ height: 220, borderRadius: 14, overflow: 'hidden', backgroundColor: '#F0F0F8' }}>
-                  <Image source={{ uri: mediaUrl }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
-                </View>
-              )}
-
-              {/* Audio View */}
-              {isAud && mediaUrl && (
-                <AudioPlayer uri={mediaUrl} title={curContent.title} subtitle={subject} accentColor="#2D5DC9" bgColor="#D6EAFF" />
-              )}
-
-              {/* Text View */}
-              {isTxt && curContent.textContent && (
-                <View style={{ backgroundColor: '#fff', borderRadius: 12, padding: 14, borderWidth: 1, borderColor: '#ECEEF4' }}>
-                  <Text style={{ fontSize: 13, color: '#2C3E50', lineHeight: 20 }}>{curContent.textContent}</Text>
-                </View>
-              )}
-
-              {/* Quiz CTA Preview */}
-              {curContent.quizId && (
-                <View style={c.quizAttachedCard}>
-                  <View style={c.quizAttachedIcon}><Trophy size={16} color="#7C3AED" /></View>
-                  <View style={{ flex: 1 }}>
-                    <Text style={c.quizAttachedTitle}>Quick Challenge Quiz</Text>
-                    <Text style={c.quizAttachedMeta}>Interactive quiz for students after this section</Text>
-                  </View>
-                </View>
-              )}
-
-              {/* Video Sections Interactive Chapter Badge in Preview */}
-              {(videoSectionCounts[previewSectionIdx + 1] || 0) > 0 && (
-                <View style={{ backgroundColor: '#F0FDF4', borderRadius: 12, padding: 12, borderWidth: 1, borderColor: '#BBF7D0', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                  <View style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: '#DCFCE7', alignItems: 'center', justifyContent: 'center' }}>
-                    <Film size={18} color="#16A34A" />
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Text style={{ fontSize: 13, fontWeight: '800', color: '#14532D' }}>
-                      🎬 {videoSectionCounts[previewSectionIdx + 1]} Timed Video Chapters
-                    </Text>
-                    <Text style={{ fontSize: 11, color: '#166534', marginTop: 2 }}>
-                      Interactive video checkpoints & quizzes attached to this section
-                    </Text>
-                  </View>
-                </View>
-              )}
-
-              {/* Explicit Prev / Next Navigation Bar */}
-              {previewContents.length > 1 && (
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12, marginTop: 8 }}>
-                  <Pressable
-                    style={{
-                      paddingHorizontal: 16,
-                      paddingVertical: 9,
-                      borderRadius: 10,
-                      backgroundColor: hasPrev ? '#EFF6FF' : '#F3F4F6',
-                      borderWidth: 1,
-                      borderColor: hasPrev ? '#BFDBFE' : '#E5E7EB',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexDirection: 'row',
-                      gap: 6,
-                      opacity: hasPrev ? 1 : 0.4,
-                    }}
-                    disabled={!hasPrev}
-                    onPress={() => setPreviewSectionIdx((i) => Math.max(0, i - 1))}
-                  >
-                    <ChevronLeft size={16} color={hasPrev ? '#1D4ED8' : '#9CA3AF'} />
-                    <Text style={{ fontSize: 13, fontWeight: '800', color: hasPrev ? '#1D4ED8' : '#9CA3AF', textAlign: 'center' }}>
-                      Previous
-                    </Text>
-                  </Pressable>
-
-                  <Text style={{ fontSize: 13, fontWeight: '800', color: '#4B5B78', minWidth: 40, textAlign: 'center' }}>
-                    {previewSectionIdx + 1} / {previewContents.length}
-                  </Text>
-
-                  <Pressable
-                    style={{
-                      paddingHorizontal: 16,
-                      paddingVertical: 9,
-                      borderRadius: 10,
-                      backgroundColor: hasNext ? '#2563EB' : '#F3F4F6',
-                      borderWidth: 1,
-                      borderColor: hasNext ? '#2563EB' : '#E5E7EB',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexDirection: 'row',
-                      gap: 6,
-                      opacity: hasNext ? 1 : 0.4,
-                    }}
-                    disabled={!hasNext}
-                    onPress={() => setPreviewSectionIdx((i) => Math.min(previewContents.length - 1, i + 1))}
-                  >
-                    <Text style={{ fontSize: 13, fontWeight: '800', color: hasNext ? '#ffffff' : '#9CA3AF', textAlign: 'center' }}>
-                      Next
-                    </Text>
-                    <ChevronLeft size={16} color={hasNext ? '#ffffff' : '#9CA3AF'} style={{ transform: [{ rotate: '180deg' }] }} />
-                  </Pressable>
-                </View>
-              )}
-            </View>
+            <ResponsiveMediaStage
+              content={curContent}
+              sectionIndex={previewSectionIdx}
+              totalSections={previewContents.length || 1}
+              classLevel={classLevel}
+              subject={subject}
+              hasPrev={hasPrev}
+              hasNext={hasNext}
+              onPrev={() => setPreviewSectionIdx((i) => Math.max(0, i - 1))}
+              onNext={() => setPreviewSectionIdx((i) => Math.min(previewContents.length - 1, i + 1))}
+              onFullScreenPreview={() => setStudentPreviewOpen(true)}
+              videoSectionCount={videoSectionCounts[previewSectionIdx + 1] || 0}
+              effectiveContentId={effectiveContentId}
+              apiFetch={apiFetch}
+            />
           )}
         </ScrollView>
       </View>
@@ -1287,7 +1633,7 @@ function ContentCard({ item, idx, onAction }: {
       <View style={c.cardFooter}>
         <Pressable style={[c.footerBtn, { backgroundColor: '#EBF4FF' }]} onPress={() => onAction('details')}>
           <Eye size={13} color="#1A4DA2" />
-          <Text style={[c.footerBtnText, { color: '#1A4DA2' }]}>Details</Text>
+          <Text style={[c.footerBtnText, { color: '#1A4DA2' }]}>Preview</Text>
         </Pressable>
         <Pressable style={[c.footerBtn, { backgroundColor: '#FFF3E0' }]} onPress={() => onAction('edit')}>
           <Pencil size={13} color="#B23D00" />
@@ -1772,4 +2118,368 @@ const c = StyleSheet.create({
   topicRow:      { backgroundColor: '#fff', borderRadius: 14, padding: 14, marginBottom: 8 },
   topicRowTitle: { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
   topicRowMeta:  { fontSize: 12, color: '#525C6B', marginTop: 2 },
+
+  // Responsive Classroom Media Stage Preview Styles
+  stageCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    overflow: 'hidden',
+    shadowColor: '#1a1a2e',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+    marginBottom: 4,
+  },
+  stageTopBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    backgroundColor: '#FAFBFD',
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F2F6',
+    gap: 8,
+  },
+  stageTopBarLeft: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    minWidth: 0,
+  },
+  lessonCounterPill: {
+    backgroundColor: '#EFF6FF',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#DBEAFE',
+  },
+  lessonCounterText: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#1D4ED8',
+  },
+  stageSectionTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: '#1E293B',
+    flex: 1,
+  },
+  stageTopBarRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  subjectPill: {
+    backgroundColor: '#F1F5F9',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  subjectPillText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#475569',
+  },
+  stagePlayerWrapVideo: {
+    width: '100%',
+    aspectRatio: 16 / 9,
+    backgroundColor: '#0B0F19',
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  stagePlayerWrapAudio: {
+    width: '100%',
+    backgroundColor: '#FAF5FF',
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  stagePlayerWrapImage: {
+    width: '100%',
+    backgroundColor: '#F8FAFC',
+    maxHeight: 460,
+    minHeight: 200,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+  },
+  stagePlayerWrapDoc: {
+    width: '100%',
+    backgroundColor: '#F8FAFC',
+    padding: 16,
+  },
+  stagePlayerWrapText: {
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    padding: 20,
+  },
+  stagePlayerWrapFallback: {
+    width: '100%',
+    backgroundColor: '#F8FAFC',
+    padding: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  stageFooter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    backgroundColor: '#FFFFFF',
+    borderTopWidth: 1,
+    borderTopColor: '#F0F2F6',
+    gap: 12,
+  },
+  stageFooterTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: '#1E293B',
+  },
+  stageFooterMeta: {
+    fontSize: 11,
+    color: '#64748B',
+    marginTop: 2,
+    fontWeight: '500',
+  },
+  stepBtnGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  stepBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: '#EFF6FF',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#DBEAFE',
+  },
+  stepBtnText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#2563EB',
+  },
+  stagePlaceholder: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 28,
+    gap: 8,
+  },
+  stagePlaceholderIconBox: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 4,
+  },
+  stagePlaceholderTitleDark: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#F8FAFC',
+  },
+  stagePlaceholderSubDark: {
+    fontSize: 12,
+    color: '#94A3B8',
+    textAlign: 'center',
+    maxWidth: 320,
+  },
+  stagePlaceholderTitle: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#1E293B',
+  },
+  stagePlaceholderSub: {
+    fontSize: 12,
+    color: '#64748B',
+    textAlign: 'center',
+    maxWidth: 320,
+  },
+  readingBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#EFF6FF',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+    borderWidth: 1,
+    borderColor: '#DBEAFE',
+  },
+  readingBadgeText: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#1D4ED8',
+  },
+  readingText: {
+    fontSize: 14,
+    color: '#1E293B',
+    lineHeight: 22,
+  },
+  notesCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    marginBottom: 12,
+    gap: 8,
+  },
+  notesCardTitle: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#525C6B',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  notesCardBody: {
+    fontSize: 13,
+    color: '#334155',
+    lineHeight: 20,
+  },
+  desktopQuizSection: {
+    marginBottom: 12,
+  },
+  desktopQuizCard: {
+    backgroundColor: '#FAF5FF',
+    borderRadius: 14,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: '#E9D5FF',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  desktopQuizLeft: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  desktopQuizIconBox: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#FEF3C7',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  desktopQuizInfo: {
+    flex: 1,
+    gap: 2,
+  },
+  desktopQuizBadgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 2,
+  },
+  desktopQuizBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: '#F3E8FF',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  desktopQuizBadgeText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#7C3AED',
+  },
+  desktopQuizXpBadge: {
+    backgroundColor: '#FEF3C7',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  desktopQuizXpBadgeText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#D97706',
+  },
+  desktopQuizTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: '#4C1D95',
+  },
+  desktopQuizSub: {
+    fontSize: 11,
+    color: '#6D28D9',
+  },
+  desktopQuizPlayBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#7C3AED',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  desktopQuizPlayBtnText: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#FFFFFF',
+  },
+  chaptersCard: {
+    backgroundColor: '#F0FDF4',
+    borderRadius: 14,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: '#BBF7D0',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 12,
+  },
+  chaptersIconBox: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#DCFCE7',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  chaptersTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: '#14532D',
+  },
+  chaptersSub: {
+    fontSize: 11,
+    color: '#166534',
+    marginTop: 2,
+  },
+  sectionPreviewBtnPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: '#EFF6FF',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#BFDBFE',
+  },
+  sectionPreviewBtnPillText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#1D4ED8',
+  },
 });

@@ -471,42 +471,44 @@ export default function QuizRenderer({ quizId, visible, onClose, onCompleted }: 
           <View style={[styles.blob, styles.blob2]} />
           <View style={[styles.blob, styles.blob3]} />
 
-          <View style={[styles.introTopBar, { paddingTop: Math.max(insets.top, 12) }]}>
-            <Pressable onPress={handleClose} style={styles.introCloseBtn}>
-              <X size={20} color="#4B5768" />
-            </Pressable>
-          </View>
-
-          <View style={styles.introBody}>
-            <View style={styles.mascotWrap}>
-              <View style={styles.mascotOuter}>
-                <View style={styles.mascotInner}>
-                  <Text style={styles.mascotEmoji}>🦒</Text>
-                </View>
-              </View>
-              <Text style={[styles.floatStar, { top: 4, right: 4 }]}>⭐</Text>
-              <Text style={[styles.floatStar, { top: 36, left: -4, fontSize: 18 }]}>✨</Text>
-            </View>
-
-            <Text style={styles.introTagline}>Let's be smart together!</Text>
-            <Text style={styles.introTitle}>{quiz?.title}</Text>
-
-            <View style={styles.badgeRow}>
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>🎯  {totalQuestions} Questions</Text>
-              </View>
-              <View style={[styles.badge, styles.badgeGreen]}>
-                <Text style={[styles.badgeText, { color: '#15803d' }]}>🏆  Earn Stars</Text>
-              </View>
-            </View>
-
-            <View style={styles.playBtnWrap}>
-              <Pressable style={styles.playBtn} onPress={handleStartGame}>
-                <Text style={styles.playBtnText}>▶  Play Now!</Text>
+          <View style={styles.introInnerShell}>
+            <View style={[styles.introTopBar, { paddingTop: Math.max(insets.top, 12) }]}>
+              <Pressable onPress={handleClose} style={styles.introCloseBtn}>
+                <X size={20} color="#4B5768" />
               </Pressable>
             </View>
 
-            <Text style={styles.introHint}>Tap play to start your adventure</Text>
+            <View style={styles.introBody}>
+              <View style={styles.mascotWrap}>
+                <View style={styles.mascotOuter}>
+                  <View style={styles.mascotInner}>
+                    <Text style={styles.mascotEmoji}>🦒</Text>
+                  </View>
+                </View>
+                <Text style={[styles.floatStar, { top: 4, right: 4 }]}>⭐</Text>
+                <Text style={[styles.floatStar, { top: 36, left: -4, fontSize: 18 }]}>✨</Text>
+              </View>
+
+              <Text style={styles.introTagline}>Let's be smart together!</Text>
+              <Text style={styles.introTitle}>{quiz?.title}</Text>
+
+              <View style={styles.badgeRow}>
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>🎯  {totalQuestions} Questions</Text>
+                </View>
+                <View style={[styles.badge, styles.badgeGreen]}>
+                  <Text style={[styles.badgeText, { color: '#15803d' }]}>🏆  Earn Stars</Text>
+                </View>
+              </View>
+
+              <View style={styles.playBtnWrap}>
+                <Pressable style={styles.playBtn} onPress={handleStartGame}>
+                  <Text style={styles.playBtnText}>▶  Play Now!</Text>
+                </Pressable>
+              </View>
+
+              <Text style={styles.introHint}>Tap play to start your adventure</Text>
+            </View>
           </View>
         </View>
       </Modal>
@@ -517,6 +519,7 @@ export default function QuizRenderer({ quizId, visible, onClose, onCompleted }: 
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="fullScreen" onRequestClose={handleClose}>
       <View style={styles.gameContainer}>
+        <View style={styles.gameInnerShell}>
 
         {/* Header */}
         <View style={[styles.gameHeader, { paddingTop: Math.max(insets.top, 12) }]}>
@@ -758,6 +761,7 @@ export default function QuizRenderer({ quizId, visible, onClose, onCompleted }: 
             </View>
           </>
         )}
+        </View>
 
         {/* Per-question explanation card (only when the question has one) */}
         {pendingExplanation && !showResultScreen && (
@@ -807,7 +811,8 @@ const styles = StyleSheet.create({
   loadingText: { fontSize: 15, fontWeight: '800', color: '#2D5DC9' },
 
   // ── INTRO ─────────────────────────────────────────────────────────────────
-  introContainer: { flex: 1, backgroundColor: '#F0F4FF', overflow: 'hidden' },
+  introContainer: { flex: 1, backgroundColor: '#F0F4FF', overflow: 'hidden', alignItems: 'center' },
+  introInnerShell: { flex: 1, width: '100%', maxWidth: 540 },
   blob: { position: 'absolute', borderRadius: 9999, opacity: 0.15 },
   blob1: { width: 260, height: 260, backgroundColor: '#2D5DC9', top: -100, right: -70 },
   blob2: { width: 180, height: 180, backgroundColor: '#D33F13', bottom: 80, left: -50 },
@@ -847,7 +852,7 @@ const styles = StyleSheet.create({
   badgeText: { fontSize: 12, fontWeight: '800', color: '#2D5DC9' },
   playBtnWrap: { width: '100%', alignItems: 'center' },
   playBtn: {
-    backgroundColor: '#D33F13', width: '82%', paddingVertical: 13, borderRadius: 999, alignItems: 'center',
+    backgroundColor: '#D33F13', width: '100%', maxWidth: 340, paddingVertical: 14, borderRadius: 999, alignItems: 'center',
     shadowColor: '#D33F13', shadowOpacity: 0.38, shadowOffset: { width: 0, height: 6 },
     shadowRadius: 14, elevation: 5,
   },
@@ -855,7 +860,8 @@ const styles = StyleSheet.create({
   introHint: { fontSize: 12, color: '#7A7A9A', fontWeight: '600' },
 
   // ── GAME CONTAINER ────────────────────────────────────────────────────────
-  gameContainer: { flex: 1, backgroundColor: '#D6EAFF' },
+  gameContainer: { flex: 1, backgroundColor: '#D6EAFF', alignItems: 'center' },
+  gameInnerShell: { flex: 1, width: '100%', maxWidth: 780 },
   gameHeader: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: 16, paddingBottom: 8,
@@ -901,9 +907,10 @@ const styles = StyleSheet.create({
   // ── QUESTION VIEW ─────────────────────────────────────────────────────────
   questionView: { flex: 1, paddingHorizontal: 12, gap: 8, paddingTop: 4, paddingBottom: 6, justifyContent: 'flex-start' },
   questionCard: {
-    backgroundColor: '#fff', borderRadius: 20, padding: 14,
+    backgroundColor: '#fff', borderRadius: 20, padding: 18,
     alignItems: 'center', gap: 8,
-    shadowColor: '#2D5DC9', shadowOpacity: 0.1, shadowOffset: { width: 0, height: 4 },
+    borderWidth: 1, borderColor: '#E8ECF4',
+    shadowColor: '#2D5DC9', shadowOpacity: 0.08, shadowOffset: { width: 0, height: 4 },
     shadowRadius: 12, elevation: 3,
   },
   questionTypePill: {
@@ -952,6 +959,7 @@ const styles = StyleSheet.create({
     flexGrow: 1, alignItems: 'center', paddingHorizontal: 24,
     paddingTop: 20, paddingBottom: 48, gap: 14,
     backgroundColor: '#E8F7E8',
+    width: '100%', maxWidth: 640, alignSelf: 'center',
   },
   celebChip: {
     backgroundColor: '#fff', borderRadius: 999, paddingHorizontal: 18, paddingVertical: 8,
@@ -967,7 +975,8 @@ const styles = StyleSheet.create({
   },
   statsCard: {
     backgroundColor: '#fff', borderRadius: 18, padding: 14,
-    flexDirection: 'row', gap: 8, width: '100%',
+    flexDirection: 'row', gap: 8, width: '100%', maxWidth: 520,
+    borderWidth: 1, borderColor: '#E8ECF4',
     shadowColor: '#000', shadowOpacity: 0.05, shadowOffset: { width: 0, height: 3 },
     shadowRadius: 8, elevation: 2,
   },
@@ -979,7 +988,7 @@ const styles = StyleSheet.create({
   starOff: { fontSize: 42, color: '#C8C8D8' },
   savingRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   savingText: { fontSize: 13, color: '#2D5DC9', fontWeight: '700' },
-  resultBtns: { width: '100%', gap: 10, alignItems: 'center' },
+  resultBtns: { width: '100%', maxWidth: 360, gap: 10, alignItems: 'center' },
   nextBtn: {
     backgroundColor: '#7DC67A', width: '100%', paddingVertical: 18,
     borderRadius: 999, alignItems: 'center',
@@ -1000,11 +1009,13 @@ const styles = StyleSheet.create({
   explnCard: {
     backgroundColor: '#fff', borderRadius: 22, padding: 20, width: '100%', maxWidth: 460,
     maxHeight: '80%', gap: 12,
+    borderWidth: 1, borderColor: '#E8ECF4',
     shadowColor: '#000', shadowOpacity: 0.18, shadowOffset: { width: 0, height: 8 },
     shadowRadius: 20, elevation: 8,
   },
   explnStatusPill: {
-    alignSelf: 'flex-start', borderRadius: 999, paddingHorizontal: 14, paddingVertical: 6,
+    paddingHorizontal: 14, paddingVertical: 6, borderRadius: 999,
+    alignSelf: 'flex-start',
   },
   explnStatusOk: { backgroundColor: '#E8F7E8' },
   explnStatusNo: { backgroundColor: '#FFF1F2' },
@@ -1025,7 +1036,8 @@ const styles = StyleSheet.create({
 
   // ── SOLUTIONS REVIEW (end-of-quiz) ─────────────────────────────────────────
   solutionsCard: {
-    backgroundColor: '#fff', borderRadius: 18, padding: 16, width: '100%', gap: 12,
+    backgroundColor: '#fff', borderRadius: 18, padding: 16, width: '100%', maxWidth: 580, gap: 12,
+    borderWidth: 1, borderColor: '#E8ECF4',
     shadowColor: '#000', shadowOpacity: 0.05, shadowOffset: { width: 0, height: 3 },
     shadowRadius: 8, elevation: 2,
   },

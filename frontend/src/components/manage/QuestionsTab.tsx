@@ -15,7 +15,7 @@ import { FlashList } from '@shopify/flash-list';
 import {
   ChevronLeft, ChevronRight, Search, Filter, X,
   Zap, Clock, Eye, Volume2, CheckSquare, SplitSquareHorizontal, ListChecks, Layers, HelpCircle, ClipboardList,
-  Play, Pause, Check, Image as ImageIcon,
+  Play, Pause, Check, Image as ImageIcon, Pencil, Trash2,
 } from 'lucide-react-native';
 import { Audio } from 'expo-av';
 import SelectorModal from '../SelectorModal';
@@ -23,8 +23,7 @@ import ConfirmModal from '../common/ConfirmModal';
 import PaginationControls from '../common/PaginationControls';
 import { usePaginatedResource } from '../../hooks/usePaginatedResource';
 import { createOffsetPageFetcher } from '../../utils/paginationFetcher';
-import JigsawRenderer from '../quiz/JigsawRenderer';
-import SingleQuestionPlayer from '../quiz/SingleQuestionPlayer';
+import QuestionPreviewModal from '../quiz/QuestionPreviewModal';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
 import { getAuthorizedClasses, getAuthorizedSubjects } from '../../utils/assignments';
@@ -110,515 +109,6 @@ type SubjectCatalogItem = { classLevel: string; title: string; coverImage?: stri
 
 
 
-// ── Compact inline audio player ───────────────────────────────────────────────
-function InlineAudio({ url, label = 'Audio', accentColor = '#9B8EC4' }: {
-  url: string; label?: string; accentColor?: string;
-}) {
-  const soundRef               = useRef<Audio.Sound | null>(null);
-  const [loaded, setLoaded]    = useState(false);
-  const [playing, setPlaying]  = useState(false);
-  const [loading, setLoading]  = useState(false);
-  const [error, setError]      = useState(false);
-  const [pos, setPos]          = useState(0);
-  const [dur, setDur]          = useState(0);
-
-  useEffect(() => {
-    return () => { soundRef.current?.unloadAsync(); };
-  }, []);
-
-  const load = async () => {
-    setLoading(true); setError(false);
-    try {
-      await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
-      const { sound } = await Audio.Sound.createAsync(
-        { uri: url },
-        { shouldPlay: true },
-        (s) => {
-          if (s.isLoaded) {
-            setPos(s.positionMillis ?? 0);
-            setDur(s.durationMillis ?? 0);
-            setPlaying(s.isPlaying);
-            if (s.didJustFinish) setPlaying(false);
-          }
-        },
-      );
-      soundRef.current = sound;
-      setLoaded(true); setPlaying(true);
-    } catch { setError(true); }
-    finally { setLoading(false); }
-  };
-
-  const togglePlay = async () => {
-    if (!loaded) { load(); return; }
-    if (playing) await soundRef.current?.pauseAsync();
-    else         await soundRef.current?.playAsync();
-  };
-
-  const fmt = (ms: number) => {
-    const t = Math.floor(ms / 1000);
-    return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
-  };
-  const pct = dur > 0 ? (pos / dur) * 100 : 0;
-
-  return (
-    <View style={[ia.wrap, { borderColor: `${accentColor}40`, backgroundColor: `${accentColor}10` }]}>
-      <TouchableOpacity
-        style={[ia.playBtn, { backgroundColor: accentColor }]}
-        onPress={togglePlay}
-        disabled={loading || error}
-      >
-        {loading
-          ? <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" />
-          : error
-            ? <Volume2 size={18} color="#fff" />
-            : playing
-              ? <Pause size={18} color="#fff" fill="#fff" />
-              : <Play  size={18} color="#fff" fill="#fff" />}
-      </TouchableOpacity>
-      <View style={ia.info}>
-        <Text style={[ia.label, { color: accentColor }]}>{label}</Text>
-        {error ? (
-          <Text style={ia.error}>Could not load audio</Text>
-        ) : (
-          <>
-            <View style={[ia.track, { backgroundColor: `${accentColor}25` }]}>
-              <View style={[ia.fill, { width: `${pct}%`, backgroundColor: accentColor }]} />
-            </View>
-            <Text style={ia.time}>{fmt(pos)}{dur > 0 ? ` / ${fmt(dur)}` : ''}</Text>
-          </>
-        )}
-      </View>
-    </View>
-  );
-}
-
-const ia = StyleSheet.create({
-  wrap:    { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 14, borderWidth: 1, marginTop: 6 },
-  playBtn: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center',
-             shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.15, shadowRadius: 4, elevation: 3 },
-  info:    { flex: 1, gap: 4 },
-  label:   { fontSize: 11, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5 },
-  track:   { height: 5, borderRadius: 999, overflow: 'hidden' },
-  fill:    { height: '100%', borderRadius: 999 },
-  time:    { fontSize: 11, color: '#525C6B', fontWeight: '500' },
-  error:   { fontSize: 11, color: '#B71C1C' },
-});
-
-// ── Question Details Modal ────────────────────────────────────────────────────
-function QuestionDetailsModal({ question, onClose, onEdit }: {
-  question: QuestionFull | null;
-  onClose: () => void;
-  onEdit: (q: QuestionFull) => void;
-}) {
-  const insets = useSafeAreaInsets();
-  const { width } = useWindowDimensions();
-  const isDesktop = width >= 768;
-  if (!question) return null;
-  const questionType = question.question_type === 'jigsaw_puzzle' ? 'jigsaw' : question.question_type;
-  const cfg  = qtypeCfg(questionType);
-  const data = question.question_data as Record<string, unknown> | null | undefined;
-
-  const promptImage = (data as any)?.prompt_image || (data as any)?.image || '';
-  const promptAudio = (data as any)?.prompt_audio || question.question_audio || '';
-  const options: any[] = (data as any)?.options ?? [];
-  const optionSlots: any[] = Array.isArray((data as any)?.option_slots) ? (data as any).option_slots : [];
-  const buttonSlotMap = ((data as any)?.button_slot_map && typeof (data as any).button_slot_map === 'object')
-    ? (data as any).button_slot_map as Record<string, number>
-    : {};
-  const dragItems: any[]  = (data as any)?.drag_items ?? [];
-  const dropTargets: any[] = (data as any)?.drop_targets ?? [];
-  const matchRules: any[]  = (data as any)?.match_rules ?? [];
-
-  return (
-    <Modal visible={!!question} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
-      <View style={[q.modalScreen, isDesktop && q.modalScreenDesktop]}>
-        <View style={[q.modalInner, isDesktop && q.modalInnerDesktop]}>
-          {/* Header */}
-          <View style={[q.modalHeader, { paddingTop: Math.max(insets.top, isDesktop ? 12 : 12) }]}>
-            <Pressable onPress={onClose} style={q.modalBack}>
-              <ChevronLeft size={24} color="#1a1a2e" />
-            </Pressable>
-            <Text style={q.modalTitle} numberOfLines={1}>Question Details</Text>
-            <Pressable style={q.modalEditBtn} onPress={() => { onClose(); onEdit(question); }}>
-              <Text style={q.modalEditText}>Edit</Text>
-            </Pressable>
-          </View>
-
-          <ScrollView contentContainerStyle={{ paddingBottom: 48 }}>
-          {/* Hero */}
-          <View style={[q.hero, { backgroundColor: cfg.bg }]}>
-            <View style={q.heroIconWrap}>
-              <cfg.Icon size={48} color={cfg.color} />
-            </View>
-            <View style={q.heroInfo}>
-              <View style={q.heroBadgeRow}>
-                <View style={[q.heroBadge, { backgroundColor: `${cfg.color}25` }]}>
-                  <Text style={[q.heroBadgeText, { color: cfg.color }]}>{cfg.label}</Text>
-                </View>
-                {question.class_level ? (
-                  <View style={q.heroBadge}>
-                    <Text style={q.heroBadgeText}>{getStandardLabel(question.class_level)} · {question.subject || '–'}</Text>
-                  </View>
-                ) : null}
-              </View>
-              <LatexText content={question.question_title || 'Untitled Question'} style={q.heroTitle} background="transparent" />
-            </View>
-          </View>
-
-          {/* Stats */}
-          <View style={q.statsRow}>
-            <View style={q.statCard}>
-              <Text style={q.statVal}>{question.points}</Text>
-              <Text style={q.statLabel}>Points</Text>
-            </View>
-            <View style={q.statCard}>
-              <Text style={q.statVal}>{question.time_limit_seconds}s</Text>
-              <Text style={q.statLabel}>Time</Text>
-            </View>
-            <View style={q.statCard}>
-              <Text style={q.statVal}>
-                {questionType === 'memory_match'
-                  ? (((data as any)?.pairs ?? []) as any[]).length || '–'
-                  : questionType === 'jigsaw'
-                    ? (() => {
-                        const grid = String((data as any)?.gridSize || '3x3');
-                        const size = Number(grid.split('x')[0] || 3);
-                        return Number.isFinite(size) ? size * size : 9;
-                      })()
-                    : (questionType === 'fill_blank' || questionType === 'fill_in_blank')
-                    ? (((data as any)?.options ?? []) as string[]).length || '–'
-                    : options.length || dragItems.length || '–'}
-              </Text>
-              <Text style={q.statLabel}>
-                {questionType === 'memory_match' ? 'Pairs' : questionType === 'jigsaw' ? 'Pieces' : 'Options'}
-              </Text>
-            </View>
-          </View>
-
-          {/* Instruction */}
-          {question.question_instruction ? (
-            <View style={q.detailSection}>
-              <Text style={q.detailSectionTitle}>Instruction</Text>
-              <View style={q.infoBlock}>
-                <Text style={q.infoBlockText}>{question.question_instruction}</Text>
-              </View>
-            </View>
-          ) : null}
-
-          {/* Prompt media */}
-          {promptImage ? (
-            <View style={q.detailSection}>
-              <Text style={q.detailSectionTitle}>Prompt Image</Text>
-              <SafeImage uri={resolveUrl(promptImage)} style={q.previewImage} resizeMode="contain" />
-            </View>
-          ) : null}
-
-          {promptAudio ? (
-            <View style={q.detailSection}>
-              <Text style={q.detailSectionTitle}>Prompt Audio</Text>
-              <InlineAudio url={resolveUrl(promptAudio)} label="Play audio prompt" accentColor="#9B8EC4" />
-            </View>
-          ) : null}
-
-          {questionType === 'logico' && (
-            <View style={q.detailSection}>
-              <Text style={q.detailSectionTitle}>Logico Mapping</Text>
-              {Array.from({ length: 10 }, (_, index) => {
-                const slotId = index + 1;
-                const mappedButton = Object.entries(buttonSlotMap).find(([, slot]) => Number(slot) === slotId)?.[0] ?? '';
-                const optionLabel =
-                  optionSlots.find((slot) => Number(slot?.id) === slotId)?.value ||
-                  `Position ${slotId}`;
-                return (
-                  <View key={`logico-slot-${slotId}`} style={q.optionRow}>
-                    <View style={q.optionDot}>
-                      <Text style={q.optionDotText}>{slotId}</Text>
-                    </View>
-                    <Text style={q.optionText}>{String(optionLabel)}</Text>
-                    <View style={q.correctBadge}>
-                      <Text style={q.correctBadgeText}>{mappedButton || 'Unmapped'}</Text>
-                    </View>
-                  </View>
-                );
-              })}
-            </View>
-          )}
-
-          {/* Memory Match */}
-          {questionType === 'memory_match' && (() => {
-            const GRID_COLS_MAP: Record<string, number> = { '2x2': 2, '4x4': 4, '6x6': 6 };
-            const GRID_PAIR_MAP: Record<string, number> = { '2x2': 2, '4x4': 4, '6x6': 6 };
-            const grid   = ((data as any)?.grid as string) || '4x4';
-            const pairs: any[] = (data as any)?.pairs ?? [];
-            const cols   = GRID_COLS_MAP[grid] ?? 4;
-            const needed = GRID_PAIR_MAP[grid] ?? 4;
-            const allCards = [...pairs, ...pairs].slice(0, needed * 2);
-            const previewW = Dimensions.get('window').width - 64;
-            const GAP = 6;
-            const pvCardW = Math.floor((previewW - GAP * (cols - 1)) / cols);
-            const rows: any[][] = [];
-            for (let i = 0; i < allCards.length; i += cols) rows.push(allCards.slice(i, i + cols));
-            return (
-              <View style={q.detailSection}>
-                <View style={{ padding: 14, backgroundColor: '#fff', borderRadius: 16, borderWidth: 1, borderColor: '#EEF0F8' }}>
-                  <Text style={{ fontSize: 11, fontWeight: '700', color: '#525C6B', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
-                    Board Preview — {pairs.length}/{needed} pairs · {needed * 2} cards
-                  </Text>
-                  <View style={{ alignItems: 'center' }}>
-                    <View style={{ width: previewW, gap: GAP }}>
-                      {rows.map((row, rIdx) => (
-                        <View key={rIdx} style={{ flexDirection: 'row', gap: GAP, justifyContent: 'center' }}>
-                          {row.map((card: any, cIdx: number) => {
-                            const imgUrl = card?.imageUrl ? resolveUrl(card.imageUrl) : undefined;
-                            return (
-                              <View key={cIdx} style={[mmDet.pairCard, { width: pvCardW, backgroundColor: '#2D5DC9', borderColor: '#3A7BD5', paddingVertical: 6 }]}>
-                                {imgUrl ? (
-                                  <Image source={{ uri: imgUrl }} style={{ width: pvCardW * 0.55, height: pvCardW * 0.55 }} resizeMode="contain" />
-                                ) : (
-                                  <Text style={{ fontSize: 9, color: '#fff', fontWeight: '700', textAlign: 'center' }}>?</Text>
-                                )}
-                                <Text style={{ fontSize: 8, color: '#fff', fontWeight: '700', textAlign: 'center' }} numberOfLines={1}>{card?.label ?? '?'}</Text>
-                              </View>
-                            );
-                          })}
-                        </View>
-                      ))}
-                    </View>
-                  </View>
-                  {pairs.length < needed && (
-                    <Text style={{ fontSize: 11, color: '#F97316', fontWeight: '700', textAlign: 'center', marginTop: 8 }}>
-                      {needed - pairs.length} more pair{needed - pairs.length > 1 ? 's' : ''} needed
-                    </Text>
-                  )}
-                  {pairs.length === 0 && (
-                    <Text style={{ color: '#525C6B', fontStyle: 'italic', textAlign: 'center', paddingVertical: 12 }}>No pairs defined</Text>
-                  )}
-                </View>
-              </View>
-            );
-          })()}
-
-          {/* Fill in the Blank */}
-          {(questionType === 'fill_blank' || questionType === 'fill_in_blank') && (() => {
-            const sentence: string = (data as any)?.sentence ?? '';
-            const answer: string   = (data as any)?.answer   ?? '';
-            const hint: string     = (data as any)?.hint     ?? '';
-            const fbOpts           = ((data as any)?.options ?? []) as string[];
-            const parts = sentence.split('___');
-            return (
-              <>
-                <View style={q.detailSection}>
-                  <Text style={q.detailSectionTitle}>Sentence</Text>
-                  <View style={{ backgroundColor: '#F0F7FF', borderRadius: 14, padding: 16, borderWidth: 1, borderColor: '#C5D8F8' }}>
-                    {sentence ? (
-                      <Text style={{ fontSize: 17, fontWeight: '600', color: '#1a1a2e', textAlign: 'center', lineHeight: 28 }}>
-                        <Text>{parts[0] ?? ''}</Text>
-                        <Text style={{ fontWeight: '900', color: '#2E7D32', borderBottomWidth: 2, borderBottomColor: '#4CAF50' }}>
-                          {' '}{answer || '___'}{' '}
-                        </Text>
-                        <Text>{parts[1] ?? ''}</Text>
-                      </Text>
-                    ) : (
-                      <Text style={{ color: '#525C6B', textAlign: 'center', fontStyle: 'italic' }}>No sentence defined</Text>
-                    )}
-                    {hint ? (
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 10, alignSelf: 'center', backgroundColor: '#FFF8E1', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 5 }}>
-                        <Text style={{ fontSize: 12 }}>💡</Text>
-                        <Text style={{ fontSize: 12, fontWeight: '600', color: '#E6A020' }}>Hint: "{hint}"</Text>
-                      </View>
-                    ) : null}
-                  </View>
-                </View>
-
-                {fbOpts.length > 0 && (
-                  <View style={q.detailSection}>
-                    <Text style={q.detailSectionTitle}>Answer Options</Text>
-                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-                      {fbOpts.map((opt, i) => {
-                        const isCorrect = answer && opt.toLowerCase() === answer.toLowerCase();
-                        return (
-                          <View key={i} style={{
-                            flexDirection: 'row', alignItems: 'center', gap: 6,
-                            paddingHorizontal: 14, paddingVertical: 10, borderRadius: 12,
-                            borderWidth: isCorrect ? 2 : 1.5,
-                            borderColor: isCorrect ? '#4CAF50' : '#D0D4E8',
-                            backgroundColor: isCorrect ? '#E8F5E9' : '#F4F6FF',
-                          }}>
-                            <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: isCorrect ? '#4CAF50' : '#C0C8D8' }} />
-                            <Text style={{ fontSize: 14, fontWeight: isCorrect ? '800' : '600', color: isCorrect ? '#2E7D32' : '#3A3A5A' }}>{opt}</Text>
-                            {isCorrect && <Check size={13} color="#4CAF50" strokeWidth={3} />}
-                          </View>
-                        );
-                      })}
-                    </View>
-                  </View>
-                )}
-              </>
-            );
-          })()}
-
-          {questionType === 'jigsaw' && (
-            <View style={q.detailSection}>
-              <Text style={q.detailSectionTitle}>Jigsaw Preview</Text>
-              <View style={q.jigsawMetaRow}>
-                <View style={q.jigsawMetaChip}>
-                  <Text style={q.jigsawMetaChipText}>Grid {(data as any)?.gridSize || '3x3'}</Text>
-                </View>
-                <View style={q.jigsawMetaChip}>
-                  <Text style={q.jigsawMetaChipText}>Difficulty {String((data as any)?.difficulty || 'medium')}</Text>
-                </View>
-                <View style={q.jigsawMetaChip}>
-                  <Text style={q.jigsawMetaChipText}>
-                    {Number((data as any)?.clickLimit || 0) > 0 ? `${Number((data as any)?.clickLimit)} moves` : 'Unlimited'}
-                  </Text>
-                </View>
-              </View>
-              <View style={q.jigsawCard}>
-                <JigsawRenderer
-                  questionData={data as any}
-                  onComplete={() => {}}
-                  theme={{ bg: '#E0F2FE', cardBg: '#F0F9FF', accent: '#0369A1', textColor: '#0C4A6E', emoji: '🧩', label: 'Rebuild the image!' }}
-                  autoStart
-                  showControls={false}
-                />
-              </View>
-            </View>
-          )}
-
-          {/* Options (MCQ / guess-image etc — not fill_blank) */}
-          {options.length > 0 && questionType !== 'fill_blank' && questionType !== 'fill_in_blank' && questionType !== 'jigsaw' && (
-            <View style={q.detailSection}>
-              <Text style={q.detailSectionTitle}>Options</Text>
-              {options.map((opt: any, idx: number) => {
-                const isCorrect = Boolean(opt.is_correct || opt.isCorrect);
-                const label = opt.label || opt.text || '';
-                return (
-                  <View key={idx} style={[q.optionRow, isCorrect && q.optionRowCorrect]}>
-                    <View style={[q.optionDot, { backgroundColor: isCorrect ? '#7DC67A' : '#E0E4F0' }]}>
-                      {isCorrect
-                        ? <Check size={14} color="#fff" strokeWidth={3} />
-                        : <Text style={q.optionDotText}>{String.fromCharCode(64 + idx + 1)}</Text>}
-                    </View>
-                    <View style={{ flex: 1, gap: 6 }}>
-                      {label ? <Text style={[q.optionText, isCorrect && q.optionTextCorrect]}>{label}</Text> : null}
-                      {opt.image ? <SafeImage uri={resolveUrl(opt.image)} style={q.optionThumb} resizeMode="contain" /> : null}
-                      {opt.audio ? <InlineAudio url={resolveUrl(opt.audio)} label="Option audio" accentColor={isCorrect ? '#7DC67A' : '#9B8EC4'} /> : null}
-                    </View>
-                    {isCorrect && (
-                      <View style={q.correctBadge}>
-                        <Check size={11} color="#fff" strokeWidth={3} />
-                        <Text style={q.correctBadgeText}>Correct</Text>
-                      </View>
-                    )}
-                  </View>
-                );
-              })}
-            </View>
-          )}
-
-          {/* Drag-drop pairs */}
-          {dragItems.length > 0 && (
-            <View style={q.detailSection}>
-              <Text style={q.detailSectionTitle}>Match Pairs</Text>
-              {dragItems.map((item: any, idx: number) => {
-                const rule = matchRules.find((r: any) => r.drag_item_id === item.id);
-                const target = rule ? dropTargets.find((t: any) => t.id === rule.drop_target_id) : null;
-                return (
-                  <View key={idx} style={q.pairRow}>
-                    <View style={q.pairCell}>
-                      {item.label ? <Text style={q.pairText}>{item.label}</Text> : null}
-                      {item.image ? <SafeImage uri={resolveUrl(item.image)} style={q.pairThumb} resizeMode="contain" /> : null}
-                      {item.sound ? <InlineAudio url={resolveUrl(item.sound)} label="Audio" accentColor="#9B8EC4" /> : null}
-                    </View>
-                    <View style={q.pairArrowWrap}>
-                      <SplitSquareHorizontal size={16} color="#525C6B" />
-                    </View>
-                    <View style={q.pairCell}>
-                      {target?.label ? <Text style={q.pairText}>{target.label}</Text> : <Text style={q.pairTextMuted}>–</Text>}
-                    </View>
-                  </View>
-                );
-              })}
-            </View>
-          )}
-
-          {/* True/False answer — only shown when options are absent (older format) */}
-          {questionType === 'true_false' && options.length === 0 ? (
-            <View style={q.detailSection}>
-              <Text style={q.detailSectionTitle}>Correct Answer</Text>
-              <View style={{ flexDirection: 'row', gap: 10 }}>
-                {['True', 'False'].map((val) => {
-                  const rawAnswer = (data as any)?.correctAnswer ?? (data as any)?.answer ?? '';
-                  const isAnswer = String(rawAnswer).toLowerCase() === val.toLowerCase();
-                  return (
-                    <View key={val} style={[q.tfChip, isAnswer && q.tfChipCorrect]}>
-                      {isAnswer && <Check size={14} color="#fff" strokeWidth={3} />}
-                      <Text style={[q.tfChipText, isAnswer && q.tfChipTextCorrect]}>{val}</Text>
-                    </View>
-                  );
-                })}
-              </View>
-            </View>
-          ) : null}
-
-          {/* Quiz */}
-          <View style={q.detailSection}>
-            <Text style={q.detailSectionTitle}>Parent Quiz</Text>
-            <View style={q.infoBlock}>
-              <Text style={q.infoBlockText}>{question.quiz_title}</Text>
-              <Text style={q.infoBlockMeta}>{question.quiz_type}</Text>
-            </View>
-          </View>
-          </ScrollView>
-        </View>
-      </View>
-    </Modal>
-  );
-}
-
-// ── Question Preview Modal — renders exactly what the student sees/plays ──────
-function QuestionPreviewModal({ question, onClose }: {
-  question: QuestionFull | null;
-  onClose: () => void;
-}) {
-  const insets = useSafeAreaInsets();
-  const { width } = useWindowDimensions();
-  const isDesktop = width >= 768;
-  if (!question) return null;
-  const questionType = question.question_type === 'jigsaw_puzzle' ? 'jigsaw' : question.question_type;
-
-  return (
-    <Modal visible={!!question} animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
-      <View style={[q.modalScreen, isDesktop && q.modalScreenDesktop]}>
-        <View style={[q.modalInner, isDesktop && q.modalInnerDesktop]}>
-          <View style={[q.modalHeader, { paddingTop: Math.max(insets.top, 12) }]}>
-            <Pressable onPress={onClose} style={q.modalBack}>
-              <ChevronLeft size={24} color="#1a1a2e" />
-            </Pressable>
-            <Text style={q.modalTitle} numberOfLines={1}>Student Preview</Text>
-            <View style={q.previewModeBadge}>
-              <Eye size={12} color="#6D28D9" />
-              <Text style={q.previewModeBadgeText}>Teacher view</Text>
-            </View>
-          </View>
-          <ScrollView contentContainerStyle={q.previewBody}>
-            <Text style={q.previewHint}>
-              This plays out exactly like it will for a student — answers here aren’t saved or scored.
-            </Text>
-            <SingleQuestionPlayer
-              questionType={questionType}
-              questionTitle={question.question_title}
-              questionInstruction={question.question_instruction}
-              questionAudio={question.question_audio}
-              questionData={question.question_data}
-            />
-          </ScrollView>
-        </View>
-      </View>
-    </Modal>
-  );
-}
-
 // ── Question Card ─────────────────────────────────────────────────────────────
 function QuestionCard({ question, idx, onAction }: {
   question: QuestionItem;
@@ -626,13 +116,12 @@ function QuestionCard({ question, idx, onAction }: {
   onAction: (a: 'view' | 'edit' | 'delete' | 'preview') => void;
 }) {
   const cfg = qtypeCfg(question.question_type);
-  const bg  = CARD_COLORS[idx % CARD_COLORS.length];
 
   return (
     <View style={q.card}>
       <View style={q.cardTop}>
-        <View style={[q.artBox, { backgroundColor: bg }]}>
-          <cfg.Icon size={24} color={cfg.color} />
+        <View style={[q.artBox, { backgroundColor: cfg.bg }]}>
+          <cfg.Icon size={22} color={cfg.color} />
         </View>
         <View style={q.cardInfo}>
           <LatexText content={question.question_title || 'Untitled Question'} style={q.cardTitle} compact compactHeight={46} numberOfLines={2} background="transparent" />
@@ -644,27 +133,37 @@ function QuestionCard({ question, idx, onAction }: {
               <cfg.Icon size={10} color={cfg.color} />
               <Text style={[q.typeTagText, { color: cfg.color }]}>{cfg.label}</Text>
             </View>
-            <View style={[q.cardChipRow]}><Zap size={10} color="#E6A817" fill="#E6A817" /><Text style={q.cardChip}>{question.points} pt{question.points !== 1 ? 's' : ''}</Text></View>
-            <View style={[q.cardChipRow]}><Clock size={10} color="#5A6A8A" /><Text style={q.cardChip}>{question.time_limit_seconds}s</Text></View>
+            <View style={q.cardChipRow}>
+              <Zap size={11} color="#D97706" />
+              <Text style={q.cardChip}>{question.points ?? 1} pt{question.points !== 1 ? 's' : ''}</Text>
+            </View>
+            {question.time_limit_seconds ? (
+              <View style={q.cardChipRow}>
+                <Clock size={11} color="#64748B" />
+                <Text style={q.cardChip}>{question.time_limit_seconds}s</Text>
+              </View>
+            ) : null}
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 2 }}>
-            <ClipboardList size={10} color="#525C6B" />
-            <Text style={q.quizTag} numberOfLines={1}>{question.quiz_title}</Text>
-          </View>
+          {question.quiz_title ? (
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 4 }}>
+              <ClipboardList size={11} color="#64748B" />
+              <Text style={q.quizTag} numberOfLines={1}>{question.quiz_title}</Text>
+            </View>
+          ) : null}
         </View>
       </View>
       <View style={q.cardFooter}>
-        <Pressable style={[q.footerBtn, { backgroundColor: '#EDE9FE' }]} onPress={() => onAction('preview')}>
-          <Text style={[q.footerBtnText, { color: '#6D28D9' }]}>Preview</Text>
+        <Pressable style={q.footerBtnPreview} onPress={() => onAction('preview')}>
+          <Eye size={13} color="#1D4ED8" />
+          <Text style={q.footerBtnTextPreview}>Preview</Text>
         </Pressable>
-        <Pressable style={[q.footerBtn, { backgroundColor: '#EBF4FF' }]} onPress={() => onAction('view')}>
-          <Text style={[q.footerBtnText, { color: '#1A4DA2' }]}>Details</Text>
+        <Pressable style={q.footerBtnEdit} onPress={() => onAction('edit')}>
+          <Pencil size={13} color="#334155" />
+          <Text style={q.footerBtnTextEdit}>Edit</Text>
         </Pressable>
-        <Pressable style={[q.footerBtn, { backgroundColor: '#FFF3E0' }]} onPress={() => onAction('edit')}>
-          <Text style={[q.footerBtnText, { color: '#B23D00' }]}>Edit</Text>
-        </Pressable>
-        <Pressable style={[q.footerBtn, { backgroundColor: '#FEF0ED' }]} onPress={() => onAction('delete')}>
-          <Text style={[q.footerBtnText, { color: '#B03A19' }]}>Delete</Text>
+        <Pressable style={q.footerBtnDelete} onPress={() => onAction('delete')}>
+          <Trash2 size={13} color="#DC2626" />
+          <Text style={q.footerBtnTextDelete}>Delete</Text>
         </Pressable>
       </View>
     </View>
@@ -697,7 +196,6 @@ export default function QuestionsTab({
 
   const [classOpen, setClassOpen]         = useState(false);
   const [subjectOpen, setSubjectOpen]     = useState(false);
-  const [detailsQuestion, setDetailsQuestion] = useState<QuestionFull | null>(null);
   const [previewQuestion, setPreviewQuestion] = useState<QuestionFull | null>(null);
   const [confirmDeleteQuestion, setConfirmDeleteQuestion] = useState<QuestionItem | null>(null);
   const [fetchingDetails, setFetchingDetails] = useState(false);
@@ -732,36 +230,17 @@ export default function QuestionsTab({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reloadToken]);
 
-  const openDetails = async (q: QuestionItem) => {
-    setFetchingDetails(true);
-    try {
-      const res = await apiFetch(`/questions/${q.id}`);
-      if (res.ok) {
-        const payload = await res.json();
-        setDetailsQuestion(payload.question as QuestionFull);
-      } else {
-        // fallback: show with whatever data we have
-        setDetailsQuestion({ ...q, question_data: q.question_data ?? {} } as QuestionFull);
-      }
-    } catch {
-      setDetailsQuestion({ ...q, question_data: q.question_data ?? {} } as QuestionFull);
-    } finally {
-      setFetchingDetails(false);
-    }
-  };
-
   const openPreview = async (q: QuestionItem) => {
+    setPreviewQuestion({ ...q, question_data: q.question_data ?? {} } as QuestionFull);
     setFetchingDetails(true);
     try {
       const res = await apiFetch(`/questions/${q.id}`);
       if (res.ok) {
         const payload = await res.json();
-        setPreviewQuestion(payload.question as QuestionFull);
-      } else {
-        setPreviewQuestion({ ...q, question_data: q.question_data ?? {} } as QuestionFull);
+        setPreviewQuestion((payload.question || payload) as QuestionFull);
       }
     } catch {
-      setPreviewQuestion({ ...q, question_data: q.question_data ?? {} } as QuestionFull);
+      // keep preview data
     } finally {
       setFetchingDetails(false);
     }
@@ -914,9 +393,7 @@ export default function QuestionsTab({
                 question={item}
                 idx={(pager.currentPage - 1) * pager.pageSize + index}
                 onAction={async (action) => {
-                  if (action === 'view') {
-                    openDetails(item);
-                  } else if (action === 'preview') {
+                  if (action === 'view' || action === 'preview') {
                     openPreview(item);
                   } else if (action === 'edit') {
                     setFetchingDetails(true);
@@ -924,7 +401,7 @@ export default function QuestionsTab({
                       const res = await apiFetch(`/questions/${item.id}`);
                       if (res.ok) {
                         const payload = await res.json();
-                        onQuestionAction(payload.question, 'edit');
+                        onQuestionAction(payload.question || payload, 'edit');
                       } else {
                         onQuestionAction(item, 'edit');
                       }
@@ -990,8 +467,8 @@ export default function QuestionsTab({
       <SelectorModal visible={classOpen}   title="Select Class"   options={classOptions}   selected={filters.classLevel} isSubject={false} anyLabel="All Classes"   onSelect={(v) => { onFiltersChange({ classLevel: v, subject: '' }); pager.goFirst(); }} onClose={() => setClassOpen(false)} />
       <SelectorModal visible={subjectOpen} title="Select Subject" options={subjectOptions} selected={filters.subject}     isSubject={true}  anyLabel="All Subjects" onSelect={(v) => { onFiltersChange({ subject: v }); pager.goFirst(); }}   onClose={() => setSubjectOpen(false)} />
 
-      {/* Fetching details overlay */}
-      {fetchingDetails && (
+      {/* Fetching details overlay (only when editing directly) */}
+      {fetchingDetails && !previewQuestion && (
         <View style={q.fetchingOverlay}>
           <View style={q.fetchingCard}>
             <ActivityIndicator accessibilityLabel="Loading" size="large" color="#2D5DC9" />
@@ -1000,17 +477,16 @@ export default function QuestionsTab({
         </View>
       )}
 
-      {/* Details modal (self-contained) */}
-      <QuestionDetailsModal
-        question={detailsQuestion}
-        onClose={() => setDetailsQuestion(null)}
-        onEdit={(item) => { setDetailsQuestion(null); onQuestionAction(item, 'edit'); }}
-      />
-
-      {/* Student preview modal (self-contained) */}
+      {/* Unified Question Preview Modal */}
       <QuestionPreviewModal
+        visible={previewQuestion !== null}
         question={previewQuestion}
+        loading={fetchingDetails}
         onClose={() => setPreviewQuestion(null)}
+        onEdit={(qItem) => {
+          setPreviewQuestion(null);
+          onQuestionAction(qItem as QuestionItem, 'edit');
+        }}
       />
 
       <ConfirmModal
@@ -1059,23 +535,19 @@ const q = StyleSheet.create({
 
   typeSection:  { paddingHorizontal: 16, marginBottom: 10, gap: 8 },
 
-  chip:           { borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: '#F0F0F8' },
-  chipActive:     { backgroundColor: '#D6EAFF' },
-  chipText:       { fontSize: 12, fontWeight: '600', color: '#525C6B' },
-  chipTextActive: { color: '#1A4DA2', fontWeight: '700' },
-  applyBtn:       { borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: '#2D5DC9' },
+  chip:           { borderRadius: 10, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#E8ECF4' },
+  chipActive:     { backgroundColor: '#EFF6FF', borderColor: '#93C5FD' },
+  chipText:       { fontSize: 12, fontWeight: '600', color: '#64748B' },
+  chipTextActive: { color: '#1D4ED8', fontWeight: '700' },
+  applyBtn:       { borderRadius: 10, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: '#2D5DC9' },
   applyBtnText:   { fontSize: 12, fontWeight: '700', color: '#fff' },
-  clearChip:      { borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: '#FEE2E2', justifyContent: 'center', alignItems: 'center' },
-  // #DC2626 only reaches 3.95:1 on the #FEE2E2 chip fill (text needs 4.5:1); darkened text-only.
+  clearChip:      { borderRadius: 10, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: '#FEE2E2', borderWidth: 1, borderColor: '#FECACA', justifyContent: 'center', alignItems: 'center' },
   clearChipText:  { fontSize: 12, fontWeight: '700', color: '#B71C1C' },
 
-  typeChip:      { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 999, paddingHorizontal: 12, paddingVertical: 7, backgroundColor: '#F0F0F8', borderWidth: 1.5, borderColor: 'transparent' },
-  typeChipText:  { fontSize: 12, fontWeight: '600', color: '#525C6B' },
+  typeChip:      { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 10, paddingHorizontal: 12, paddingVertical: 7, backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#E8ECF4' },
+  typeChipText:  { fontSize: 12, fontWeight: '600', color: '#64748B' },
 
-  cardChipRow:   { flexDirection: 'row', alignItems: 'center', gap: 3, backgroundColor: '#EEF4FF', borderRadius: 999, paddingHorizontal: 7, paddingVertical: 2 },
-  cardChipText2: { fontSize: 11, fontWeight: '700', color: '#3F5D8C' },
-
-  searchRow:           { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: '#F8F9FF', borderWidth: 1.5, borderColor: '#E0E4F0', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 9, marginBottom: 8 },
+  searchRow:           { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#E8ECF4', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 9, marginBottom: 8 },
   searchInput:         { flex: 1, fontSize: 13, color: '#1a1a2e', paddingVertical: 0 },
   paginationBar:       { paddingVertical: 14, borderTopWidth: 1, borderTopColor: '#F0F4FF', marginTop: 4, alignItems: 'center', gap: 10 },
   paginationButtonsRow:{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 8, width: '100%' },
@@ -1085,102 +557,151 @@ const q = StyleSheet.create({
   pageBtnTextDisabled: { color: '#9BAAC2' },
   pageIndicator:       { fontSize: 14, fontWeight: '700', color: '#4B5B78', textAlign: 'center' },
 
-
-
   emptyWrap:   { alignItems: 'center', paddingVertical: 60, gap: 8 },
-  loadingText: { fontSize: 13, color: '#525C6B', fontWeight: '500' },
+  loadingText: { fontSize: 13, color: '#64748B', fontWeight: '500' },
   emptyTitle:  { fontSize: 18, fontWeight: '900', color: '#1a1a2e', textAlign: 'center' },
-  emptySub:    { fontSize: 13, color: '#525C6B', textAlign: 'center', lineHeight: 20 },
+  emptySub:    { fontSize: 13, color: '#64748B', textAlign: 'center', lineHeight: 20 },
   emptyBtn:    { marginTop: 8, backgroundColor: '#2D5DC9', borderRadius: 14, paddingHorizontal: 24, paddingVertical: 12 },
   emptyBtnText:{ color: '#fff', fontWeight: '800', fontSize: 14 },
 
-  card:         { backgroundColor: '#fff', borderRadius: 20, marginBottom: 14, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.07, shadowRadius: 10, elevation: 3 },
-  cardTop:      { flexDirection: 'row', alignItems: 'flex-start', gap: 14, padding: 16, paddingBottom: 10 },
-  artBox:       { width: 52, height: 52, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-
-  cardInfo:     { flex: 1, gap: 3 },
-  cardTitle:    { fontSize: 15, fontWeight: '800', color: '#1a1a2e', lineHeight: 22 },
-  cardMeta:     { fontSize: 12, color: '#525C6B', fontWeight: '500' },
-  cardTagRow:   { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 2, flexWrap: 'wrap' },
-  typeTag:      { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 2 },
-  typeTagText:  { fontSize: 10, fontWeight: '800' },
-  cardChip:     { fontSize: 11, fontWeight: '700', color: '#3F5D8C' },
-  quizTag:      { fontSize: 11, color: '#525C6B', fontWeight: '500', marginTop: 2 },
-  cardFooter:   { flexDirection: 'row', gap: 6, paddingHorizontal: 14, paddingBottom: 14, paddingTop: 4 },
-  footerBtn:    { flex: 1, borderRadius: 10, paddingVertical: 8, alignItems: 'center' },
-  footerBtnText:{ fontSize: 11, fontWeight: '800' },
-
-
-
-  // Full-screen details modal
-  modalScreen:        { flex: 1, backgroundColor: '#F5F7FF' },
-  modalScreenDesktop: { flex: 1, backgroundColor: '#F5F7FF' },
-  modalInner:         { flex: 1, width: '100%', backgroundColor: '#F5F7FF', overflow: 'hidden' },
-  modalInnerDesktop:  { flex: 1, width: '100%', height: '100%', borderRadius: 0, overflow: 'hidden' },
-  modalHeader:    { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingBottom: 12, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  modalBack:      { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
-
-  modalTitle:     { flex: 1, fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
-  modalEditBtn:   { backgroundColor: '#2D5DC9', borderRadius: 10, paddingHorizontal: 18, paddingVertical: 8 },
-  modalEditText:  { color: '#fff', fontWeight: '800', fontSize: 13 },
-
-  // Student preview modal
-  previewModeBadge:     { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: '#EDE9FE', borderRadius: 999, paddingHorizontal: 10, paddingVertical: 6 },
-  previewModeBadgeText: { fontSize: 11, fontWeight: '800', color: '#6D28D9' },
-  previewBody:          { padding: 16, paddingBottom: 40, gap: 12 },
-  previewHint:          { fontSize: 12, color: '#525C6B', fontStyle: 'italic' },
-
-  hero:         { flexDirection: 'row', alignItems: 'center', gap: 16, margin: 16, borderRadius: 20, padding: 20 },
-  heroIconWrap: { width: 72, height: 72, alignItems: 'center', justifyContent: 'center' },
-  heroInfo:     { flex: 1, gap: 8 },
-  heroBadgeRow: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
-  heroBadge:    { backgroundColor: 'rgba(0,0,0,0.07)', borderRadius: 999, paddingHorizontal: 10, paddingVertical: 3 },
-  heroBadgeText:{ fontSize: 11, fontWeight: '700', color: '#5A6A8A' },
-  heroTitle:    { fontSize: 17, fontWeight: '900', color: '#1a1a2e', lineHeight: 24 },
-
-  statsRow:  { flexDirection: 'row', marginHorizontal: 16, marginBottom: 16, gap: 10 },
-  statCard:  { flex: 1, backgroundColor: '#fff', borderRadius: 16, padding: 14, alignItems: 'center', gap: 4, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 6, elevation: 2 },
-  statVal:   { fontSize: 22, fontWeight: '900', color: '#1a1a2e' },
-  statLabel: { fontSize: 11, fontWeight: '700', color: '#525C6B', textTransform: 'uppercase', letterSpacing: 0.5 },
-
-  detailSection:      { marginHorizontal: 16, marginBottom: 16 },
-  detailSectionTitle: { fontSize: 14, fontWeight: '900', color: '#1a1a2e', marginBottom: 10 },
-
-  infoBlock:     { backgroundColor: '#fff', borderRadius: 14, padding: 14, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 1 },
-  infoBlockText: { fontSize: 14, fontWeight: '600', color: '#1a1a2e', lineHeight: 22 },
-  infoBlockMeta: { fontSize: 12, color: '#525C6B', marginTop: 4 },
-
-
-  previewImage: { width: '100%', height: 200, borderRadius: 14, backgroundColor: '#F0F0F8' },
-  jigsawCard: { backgroundColor: '#fff', borderRadius: 14, borderWidth: 1, borderColor: '#E2E8F0', overflow: 'hidden' },
-  jigsawMetaRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 10 },
-  jigsawMetaChip: { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5, backgroundColor: '#E0F2FE' },
-  jigsawMetaChipText: { fontSize: 11, fontWeight: '700', color: '#0369A1' },
-
-  optionRow:        { flexDirection: 'row', alignItems: 'flex-start', gap: 12, backgroundColor: '#fff', borderRadius: 14, padding: 14, marginBottom: 8, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
-  optionRowCorrect: { borderWidth: 2, borderColor: '#7DC67A', backgroundColor: '#F2FDF2' },
-  optionDot:        { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 1 },
-  optionDotText:    { fontSize: 12, fontWeight: '800', color: '#525C6B' },
-  optionText:       { fontSize: 14, fontWeight: '600', color: '#1a1a2e', lineHeight: 21 },
-  optionTextCorrect:{ fontWeight: '800', color: '#1a6b1a' },
-  optionThumb:      { width: '100%', height: 120, borderRadius: 10, marginTop: 4 },
-  optionMeta:       { fontSize: 11, color: '#525C6B' },
-  correctBadge:     { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: '#7DC67A', borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5, marginTop: 1 },
-  correctBadgeText: { fontSize: 11, fontWeight: '800', color: '#fff' },
-
-  tfChip:        { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, backgroundColor: '#F0F0F8', borderRadius: 14, paddingVertical: 14, borderWidth: 2, borderColor: 'transparent' },
-  tfChipCorrect: { backgroundColor: '#7DC67A', borderColor: '#5AB55A' },
-  tfChipText:    { fontSize: 15, fontWeight: '700', color: '#525C6B' },
-  tfChipTextCorrect: { color: '#fff', fontWeight: '900' },
-
-  pairRow:      { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', borderRadius: 14, padding: 12, marginBottom: 8, gap: 6 },
-  pairCell:     { flex: 1, alignItems: 'center', gap: 4 },
-  pairText:     { fontSize: 13, fontWeight: '600', color: '#1a1a2e', textAlign: 'center' },
-  pairTextMuted:{ fontSize: 13, color: '#525C6B', textAlign: 'center' },
-  pairThumb:    { width: '100%', height: 80, borderRadius: 8 },
-  pairArrowWrap:{ width: 28, alignItems: 'center' },
-});
-
-const mmDet = StyleSheet.create({
-  pairCard: { backgroundColor: '#F8F9FF', borderRadius: 12, borderWidth: 1.5, borderColor: '#E2E8FF', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 4, gap: 5 },
+  card: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 6,
+    elevation: 2,
+    overflow: 'hidden',
+  },
+  cardTop: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 14,
+    padding: 16,
+    paddingBottom: 12,
+  },
+  artBox: {
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cardInfo: {
+    flex: 1,
+    gap: 4,
+  },
+  cardTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#0F172A',
+    lineHeight: 22,
+  },
+  cardMeta: {
+    fontSize: 12,
+    color: '#64748B',
+    fontWeight: '500',
+  },
+  cardTagRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginTop: 4,
+    flexWrap: 'wrap',
+  },
+  typeTag: {
+    borderRadius: 6,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+  },
+  typeTagText: {
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  cardChipRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: '#F8FAFC',
+    borderRadius: 6,
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  cardChip: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#475569',
+  },
+  quizTag: {
+    fontSize: 11,
+    color: '#64748B',
+    fontWeight: '500',
+  },
+  cardFooter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 14,
+    paddingBottom: 14,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#F1F5F9',
+  },
+  footerBtnPreview: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
+    borderRadius: 8,
+    paddingVertical: 8,
+    backgroundColor: '#EFF6FF',
+    borderWidth: 1,
+    borderColor: '#DBEAFE',
+  },
+  footerBtnTextPreview: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#1D4ED8',
+  },
+  footerBtnEdit: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
+    borderRadius: 8,
+    paddingVertical: 8,
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  footerBtnTextEdit: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#334155',
+  },
+  footerBtnDelete: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
+    borderRadius: 8,
+    paddingVertical: 8,
+    backgroundColor: '#FEF2F2',
+    borderWidth: 1,
+    borderColor: '#FEE2E2',
+  },
+  footerBtnTextDelete: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#DC2626',
+  },
 });

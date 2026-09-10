@@ -395,6 +395,9 @@ function renderSprinkle(sp: Sprinkle, key: number) {
 const styles = StyleSheet.create({
   wrap: {
     marginTop: 14,
+    width: '100%',
+    maxWidth: 680,
+    alignSelf: 'center',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.28,
     shadowRadius: 10,

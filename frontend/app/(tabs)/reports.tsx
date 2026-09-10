@@ -958,7 +958,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
   // Laptop/monitor-sized viewports get a 2-column dashboard grid for paired
   // content (e.g. side-by-side charts) instead of one full-width block per row.
   const { width: windowWidth } = useWindowDimensions();
-  const isLargeScreen = windowWidth >= 1024;
+  const isLargeScreen = windowWidth >= 900;
 
   const [activeTab, setActiveTab] = useState<ParentTab>("overview");
   const prevTab = useRef<ParentTab>("overview");
@@ -1186,19 +1186,21 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
       <View
         style={[pr.topBar, { paddingTop: Platform.OS === "ios" ? 52 : 18 }]}
       >
-        <View>
-          <Text style={pr.topBarSub}>Learning Reports</Text>
-          <Text style={pr.topBarTitle}>
-            {isStudentMode
-              ? "My Progress"
-              : activeStudent
-                ? `${activeStudent.firstName}'s Progress`
-                : "My Children"}
-          </Text>
+        <View style={pr.topBarInner}>
+          <View>
+            <Text style={pr.topBarSub}>Learning Reports</Text>
+            <Text style={pr.topBarTitle}>
+              {isStudentMode
+                ? "My Progress"
+                : activeStudent
+                  ? `${activeStudent.firstName}'s Progress`
+                  : "My Children"}
+            </Text>
+          </View>
+          <Pressable style={pr.refreshBtn} onPress={refreshAll}>
+            <RotateCw size={16} color="#7B4FCA" />
+          </Pressable>
         </View>
-        <Pressable style={pr.refreshBtn} onPress={refreshAll}>
-          <RotateCw size={16} color="#7B4FCA" />
-        </Pressable>
       </View>
 
       {loadingStudents ? (
@@ -1222,132 +1224,137 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
           {/* ── PINNED HEADER: child switcher (parent only) + tab bar ── */}
           <View style={{ flexShrink: 0 }}>
             {!isStudentMode && (
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                style={pr.switcherBar}
-                contentContainerStyle={{
-                  gap: 10,
-                  paddingHorizontal: 16,
-                  paddingVertical: 10,
-                }}
-              >
-                {linkedStudents.map((child, idx) => {
-                  const isActive = child.id === activeStudent?.id;
-                  const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
-                  return (
-                    <Pressable
-                      key={child.id}
-                      onPress={() => {
-                        switchToStudent(child.id);
-                        setActiveTab("overview");
-                      }}
-                      style={[
-                        pr.childChip,
-                        isActive
-                          ? { backgroundColor: cc }
-                          : {
-                              backgroundColor: "#fff",
-                              borderWidth: 1.5,
-                              borderColor: cc,
-                            },
-                      ]}
-                    >
-                      <View
-                        style={[
-                          pr.childChipAvatar,
-                          {
-                            backgroundColor: isActive
-                              ? "rgba(255,255,255,0.2)"
-                              : cc + "22",
-                          },
-                        ]}
-                      >
-                        <User size={14} color={isActive ? "#fff" : cc} />
-                      </View>
-                      <View>
-                        <Text
+              <View style={pr.switcherBar}>
+                <View style={pr.tabBarInner}>
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{
+                      gap: 10,
+                      paddingHorizontal: 16,
+                      paddingVertical: 10,
+                    }}
+                  >
+                    {linkedStudents.map((child, idx) => {
+                      const isActive = child.id === activeStudent?.id;
+                      const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
+                      return (
+                        <Pressable
+                          key={child.id}
+                          onPress={() => {
+                            switchToStudent(child.id);
+                            setActiveTab("overview");
+                          }}
                           style={[
-                            pr.childChipName,
-                            { color: isActive ? "#fff" : Colors.text },
+                            pr.childChip,
+                            isActive
+                              ? { backgroundColor: cc }
+                              : {
+                                  backgroundColor: "#fff",
+                                  borderWidth: 1.5,
+                                  borderColor: cc,
+                                },
                           ]}
                         >
-                          {child.firstName}
-                        </Text>
-                        <Text
-                          style={[
-                            pr.childChipSub,
-                            {
-                              color: isActive
-                                ? "rgba(255,255,255,0.7)"
-                                : Colors.textMuted,
-                            },
-                          ]}
-                        >
-                          {child.classLevel
-                            ? `Class ${child.classLevel}`
-                            : "No class"}
-                        </Text>
-                      </View>
-                      {isActive && <View style={pr.activeChipDot} />}
-                    </Pressable>
-                  );
-                })}
-              </ScrollView>
+                          <View
+                            style={[
+                              pr.childChipAvatar,
+                              {
+                                backgroundColor: isActive
+                                  ? "rgba(255,255,255,0.2)"
+                                  : cc + "22",
+                              },
+                            ]}
+                          >
+                            <User size={14} color={isActive ? "#fff" : cc} />
+                          </View>
+                          <View>
+                            <Text
+                              style={[
+                                pr.childChipName,
+                                { color: isActive ? "#fff" : Colors.text },
+                              ]}
+                            >
+                              {child.firstName}
+                            </Text>
+                            <Text
+                              style={[
+                                pr.childChipSub,
+                                {
+                                  color: isActive
+                                    ? "rgba(255,255,255,0.7)"
+                                    : Colors.textMuted,
+                                },
+                              ]}
+                            >
+                              {child.classLevel
+                                ? `Class ${child.classLevel}`
+                                : "No class"}
+                            </Text>
+                          </View>
+                          {isActive && <View style={pr.activeChipDot} />}
+                        </Pressable>
+                      );
+                    })}
+                  </ScrollView>
+                </View>
+              </View>
             )}
 
             {/* ── TAB BAR ── */}
             <View style={pr.tabBar}>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={pr.tabBarContent}
-              >
-                {PARENT_TABS.map((tab) => {
-                  const isCurrent = activeTab === tab.key;
-                  const dotCount =
-                    tab.key === "quizzes"
-                      ? recentQuizCount
-                      : tab.key === "assignments"
-                        ? newPendingCount
-                        : tab.key === "classroom"
-                          ? newEndedCount
-                          : 0;
-                  return (
-                    <Pressable
-                      key={tab.key}
-                      onPress={() => {
-                        if (
-                          tab.key === "quizzes" &&
-                          prevTab.current !== "quizzes"
-                        ) {
-                          refreshQuizAttempts();
-                        }
-                        prevTab.current = tab.key;
-                        setActiveTab(tab.key);
-                        markTabSeen(tab.key);
-                      }}
-                      style={[pr.tabBtn, isCurrent && pr.tabBtnActive]}
-                    >
-                      <View style={pr.tabBtnIconWrap}>
-                        <tab.Icon
-                          size={16}
-                          color={isCurrent ? Colors.primary : Colors.textMuted}
-                        />
-                        {dotCount > 0 && <View style={pr.tabDot} />}
-                      </View>
-                      <Text
-                        style={[
-                          pr.tabBtnText,
-                          isCurrent && pr.tabBtnTextActive,
-                        ]}
+              <View style={pr.tabBarInner}>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={pr.tabBarContent}
+                >
+                  {PARENT_TABS.map((tab) => {
+                    const isCurrent = activeTab === tab.key;
+                    const dotCount =
+                      tab.key === "quizzes"
+                        ? recentQuizCount
+                        : tab.key === "assignments"
+                          ? newPendingCount
+                          : tab.key === "classroom"
+                            ? newEndedCount
+                            : 0;
+                    return (
+                      <Pressable
+                        key={tab.key}
+                        onPress={() => {
+                          if (
+                            tab.key === "quizzes" &&
+                            prevTab.current !== "quizzes"
+                          ) {
+                            refreshQuizAttempts();
+                          }
+                          prevTab.current = tab.key;
+                          setActiveTab(tab.key);
+                          markTabSeen(tab.key);
+                        }}
+                        style={[pr.tabBtn, isCurrent && pr.tabBtnActive]}
                       >
-                        {tab.label}
-                      </Text>
-                    </Pressable>
-                  );
-                })}
-              </ScrollView>
+                        <View style={pr.tabBtnIconWrap}>
+                          <tab.Icon
+                            size={16}
+                            color={isCurrent ? Colors.primary : Colors.textMuted}
+                          />
+                          {dotCount > 0 && <View style={pr.tabDot} />}
+                        </View>
+                        <Text
+                          style={[
+                            pr.tabBtnText,
+                            isCurrent && pr.tabBtnTextActive,
+                          ]}
+                        >
+                          {tab.label}
+                        </Text>
+                      </Pressable>
+                    );
+                  })}
+                </ScrollView>
+              </View>
             </View>
           </View>
           {/* end pinned header */}
@@ -1362,19 +1369,22 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
             // this region — axe's `scrollable-region-focusable` rule (web only).
             {...(Platform.OS === "web" ? { tabIndex: 0 } : {})}
           >
+            <View style={pr.pageBody}>
+              <View style={isLargeScreen ? pr.theatreLayout : undefined}>
+                <View style={isLargeScreen ? pr.theatreLeftCol : undefined}>
             {/* OVERVIEW */}
             {activeTab === "overview" && (
               <>
-                <View style={pr.heroBanner}>
+                <View style={[pr.heroBanner, isLargeScreen && { marginHorizontal: 0, paddingVertical: 22, paddingHorizontal: 24 }]}>
                   <View style={pr.heroLeft}>
                     <View
                       style={{
                         flexDirection: "row",
                         alignItems: "center",
-                        gap: 5,
+                        gap: 6,
                       }}
                     >
-                      <BarChart2 size={11} color="rgba(255,255,255,0.65)" />
+                      <BarChart2 size={13} color="rgba(255,255,255,0.75)" />
                       <Text style={pr.heroSup}>Overall Progress</Text>
                     </View>
                     <Text style={pr.heroScore}>
@@ -1406,7 +1416,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                 </View>
 
                 {sum && (
-                  <View style={pr.statRow}>
+                  <View style={[pr.statRow, isLargeScreen && { paddingHorizontal: 0, gap: 10, marginBottom: 0 }]}>
                     {(
                       [
                         {
@@ -1420,21 +1430,21 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                           Icon: CheckCircle,
                           val: sum.completedCount,
                           label: "Completed",
-                          color: Colors.success, // darkened from #4CAF50 (2.37:1) — WCAG AA text-on-tint fix
+                          color: Colors.success,
                           bg: "#D6F5D6",
                         },
                         {
                           Icon: SkipForward,
                           val: sum.notAttemptedCount,
                           label: "Skipped",
-                          color: "#B03A19", // darkened from #D33F13 (3.96:1) — WCAG AA text-on-tint fix
+                          color: "#B03A19",
                           bg: "#FFE8D6",
                         },
                         {
                           Icon: Clock,
                           val: fmtSec(sum.totalTimeSeconds),
                           label: "Time",
-                          color: "#554E6C", // darkened from #9B8EC4 — WCAG AA text-on-tint fix
+                          color: "#554E6C",
                           bg: Colors.purpleLight,
                         },
                       ] as Array<{
@@ -1447,45 +1457,99 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                     ).map((st) => (
                       <View
                         key={st.label}
-                        style={[pr.statCard, { backgroundColor: st.bg }]}
+                        style={[
+                          pr.statCard,
+                          { backgroundColor: st.bg },
+                          isLargeScreen && {
+                            flexDirection: "row",
+                            paddingVertical: 14,
+                            paddingHorizontal: 12,
+                            gap: 10,
+                            borderRadius: 16,
+                            alignItems: "center",
+                            justifyContent: "flex-start",
+                          },
+                        ]}
                       >
-                        <st.Icon size={18} color={st.color} />
-                        <Text style={[pr.statVal, { color: st.color }]}>
-                          {st.val}
-                        </Text>
-                        <Text style={pr.statLabel}>{st.label}</Text>
+                        <View
+                          style={
+                            isLargeScreen
+                              ? {
+                                  width: 38,
+                                  height: 38,
+                                  borderRadius: 10,
+                                  backgroundColor: "#fff",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  shadowColor: "#000",
+                                  shadowOpacity: 0.04,
+                                  shadowRadius: 3,
+                                  shadowOffset: { width: 0, height: 1 },
+                                }
+                              : undefined
+                          }
+                        >
+                          <st.Icon
+                            size={isLargeScreen ? 20 : 18}
+                            color={st.color}
+                          />
+                        </View>
+                        <View style={isLargeScreen ? { gap: 1 } : { alignItems: "center", gap: 4 }}>
+                          <Text
+                            style={[
+                              pr.statVal,
+                              { color: st.color },
+                              isLargeScreen && { fontSize: 18, lineHeight: 22 },
+                            ]}
+                          >
+                            {st.val}
+                          </Text>
+                          <Text
+                            style={[
+                              pr.statLabel,
+                              isLargeScreen && { fontSize: 9, textAlign: "left" },
+                            ]}
+                          >
+                            {st.label}
+                          </Text>
+                        </View>
                       </View>
                     ))}
                   </View>
                 )}
 
-                <View style={pr.sectionHdr}>
-                  <Text style={pr.sectionHdrTitle}>Active Days This Week</Text>
-                  <Text style={pr.sectionHdrChip}>
-                    {activeDates.length}/7 active
-                  </Text>
-                </View>
-                <View style={pr.card}>
-                  <StreakCalendar
-                    activeDates={activeDates}
-                    streakDays={sum?.streakDays ?? 0}
-                  />
-                  <View style={pr.cardFooter}>
-                    <Text style={pr.cardFooterText}>Consistency score</Text>
-                    <Text style={[pr.cardFooterVal, { color: Colors.primary }]}>
-                      {sum ? sum.consistencyScore.toFixed(0) : 0}%
-                    </Text>
-                  </View>
-                </View>
+                {!isLargeScreen && (
+                  <>
+                    <View style={pr.sectionHdr}>
+                      <Text style={pr.sectionHdrTitle}>Active Days This Week</Text>
+                      <Text style={pr.sectionHdrChip}>
+                        {activeDates.length}/7 active
+                      </Text>
+                    </View>
+                    <View style={pr.card}>
+                      <StreakCalendar
+                        activeDates={activeDates}
+                        streakDays={sum?.streakDays ?? 0}
+                      />
+                      <View style={pr.cardFooter}>
+                        <Text style={pr.cardFooterText}>Consistency score</Text>
+                        <Text style={[pr.cardFooterVal, { color: Colors.primary }]}>
+                          {sum ? sum.consistencyScore.toFixed(0) : 0}%
+                        </Text>
+                      </View>
+                    </View>
+                  </>
+                )}
 
                 {/* Two comparable charts sit side by side on large screens
                     instead of stacking full-width, one under the other. */}
                 <View
                   style={[
                     pr.chartsGridRow,
+                    isLargeScreen && { paddingHorizontal: 0 },
                     {
                       flexDirection: isLargeScreen ? "row" : "column",
-                      gap: isLargeScreen ? 16 : 0,
+                      gap: isLargeScreen ? 14 : 0,
                     },
                   ]}
                 >
@@ -1502,7 +1566,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                         color={Colors.primary}
                         unit="m"
                         yTicks={4}
-                        height={110}
+                        height={120}
                       />
                       <Text style={pr.chartNote}>
                         Minutes of learning per day (last 7 days)
@@ -1523,7 +1587,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                         color="#7DC67A"
                         unit="%"
                         yTicks={4}
-                        height={110}
+                        height={120}
                       />
                       <Text style={pr.chartNote}>
                         Percentage of activities completed each day
@@ -1568,14 +1632,32 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                     </Text>
                   </View>
                 ) : (
-                  <>
+                  <View
+                    style={
+                      isLargeScreen
+                        ? {
+                            flexDirection: "row",
+                            flexWrap: "wrap",
+                            gap: 12,
+                            paddingHorizontal: 16,
+                          }
+                        : undefined
+                    }
+                  >
                     {quizAttempts.map((attempt) => {
                       const grade = scoreGrade(attempt.scorePct);
                       const attended = getDateTimeParts(attempt.attemptedAt);
                       return (
                         <Pressable
                           key={attempt.id}
-                          style={pr.quizCard}
+                          style={[
+                            pr.quizCard,
+                            isLargeScreen && {
+                              width: "49%",
+                              marginHorizontal: 0,
+                              marginBottom: 0,
+                            },
+                          ]}
                           onPress={() => openQuizDetail(attempt.id)}
                         >
                           <View
@@ -1640,7 +1722,7 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                         </Pressable>
                       );
                     })}
-                  </>
+                  </View>
                 )}
               </>
             )}
@@ -1658,42 +1740,59 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                         </Text>
                       </View>
                     </View>
-                    {pendingAssignments.map((a) => (
-                      <View
-                        key={a.id}
-                        style={[
-                          pr.assignCard,
-                          { borderLeftWidth: 3, borderLeftColor: Colors.accent },
-                        ]}
-                      >
+                    <View
+                      style={
+                        isLargeScreen
+                          ? {
+                              flexDirection: "row",
+                              flexWrap: "wrap",
+                              gap: 12,
+                              paddingHorizontal: 16,
+                            }
+                          : undefined
+                      }
+                    >
+                      {pendingAssignments.map((a) => (
                         <View
+                          key={a.id}
                           style={[
-                            pr.assignIconBox,
-                            { backgroundColor: "#FFE8D6" },
+                            pr.assignCard,
+                            isLargeScreen && {
+                              width: "49%",
+                              marginHorizontal: 0,
+                              marginBottom: 0,
+                            },
                           ]}
                         >
-                          <ClipboardList size={20} color={Colors.accent} />
-                        </View>
-                        <View style={pr.assignInfo}>
-                          <Text style={pr.assignTitle} numberOfLines={1}>
-                            {a.title || "Untitled Assignment"}
-                          </Text>
-                          <Text style={pr.assignMeta}>Not submitted yet</Text>
-                        </View>
-                        <View
-                          style={[
-                            pr.statusChip,
-                            { backgroundColor: "#FFE8D6" },
-                          ]}
-                        >
-                          <Text
-                            style={[pr.statusChipText, { color: "#B03A19" }]} // darkened from #D33F13 (3.96:1 on chip bg)
+                          <View
+                            style={[
+                              pr.assignIconBox,
+                              { backgroundColor: "#FFE8D6" },
+                            ]}
                           >
-                            Pending
-                          </Text>
+                            <ClipboardList size={20} color={Colors.accent} />
+                          </View>
+                          <View style={pr.assignInfo}>
+                            <Text style={pr.assignTitle} numberOfLines={1}>
+                              {a.title || "Untitled Assignment"}
+                            </Text>
+                            <Text style={pr.assignMeta}>Not submitted yet</Text>
+                          </View>
+                          <View
+                            style={[
+                              pr.statusChip,
+                              { backgroundColor: "#FFE8D6" },
+                            ]}
+                          >
+                            <Text
+                              style={[pr.statusChipText, { color: "#B03A19" }]} // darkened from #D33F13 (3.96:1 on chip bg)
+                            >
+                              Pending
+                            </Text>
+                          </View>
                         </View>
-                      </View>
-                    ))}
+                      ))}
+                    </View>
                   </>
                 )}
 
@@ -1710,56 +1809,79 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                         {submittedAssignments.length} done
                       </Text>
                     </View>
-                    {submittedAssignments.map((a) => {
-                      const grade =
-                        a.grade !== undefined ? scoreGrade(a.grade) : null;
-                      const submitted = getDateTimeParts(a.submittedAt);
-                      return (
-                        <View key={a.id} style={pr.assignCard}>
+                    <View
+                      style={
+                        isLargeScreen
+                          ? {
+                              flexDirection: "row",
+                              flexWrap: "wrap",
+                              gap: 12,
+                              paddingHorizontal: 16,
+                            }
+                          : undefined
+                      }
+                    >
+                      {submittedAssignments.map((a) => {
+                        const grade =
+                          a.grade !== undefined ? scoreGrade(a.grade) : null;
+                        const submitted = getDateTimeParts(a.submittedAt);
+                        return (
                           <View
+                            key={a.id}
                             style={[
-                              pr.assignIconBox,
-                              { backgroundColor: "#D6F5D6" },
+                              pr.assignCard,
+                              isLargeScreen && {
+                                width: "49%",
+                                marginHorizontal: 0,
+                                marginBottom: 0,
+                              },
                             ]}
                           >
-                            <CheckCircle size={20} color="#4CAF50" />
-                          </View>
-                          <View style={pr.assignInfo}>
-                            <Text style={pr.assignTitle} numberOfLines={1}>
-                              {a.title || "Untitled Assignment"}
-                            </Text>
-                            <View style={pr.inlineMetaRow}>
-                              <Calendar size={11} color={Colors.textMuted} />
-                              <Text style={pr.inlineMetaText}>
-                                {submitted.date}
-                              </Text>
-                            </View>
-                            {a.feedback && (
-                              <Text style={pr.assignFeedback} numberOfLines={1}>
-                                {a.feedback}
-                              </Text>
-                            )}
-                          </View>
-                          {grade && (
                             <View
                               style={[
-                                pr.scoreBadge,
-                                { backgroundColor: grade.bg },
+                                pr.assignIconBox,
+                                { backgroundColor: "#D6F5D6" },
                               ]}
                             >
-                              <Text
+                              <CheckCircle size={20} color="#4CAF50" />
+                            </View>
+                            <View style={pr.assignInfo}>
+                              <Text style={pr.assignTitle} numberOfLines={1}>
+                                {a.title || "Untitled Assignment"}
+                              </Text>
+                              <View style={pr.inlineMetaRow}>
+                                <Calendar size={11} color={Colors.textMuted} />
+                                <Text style={pr.inlineMetaText}>
+                                  {submitted.date}
+                                </Text>
+                              </View>
+                              {a.feedback && (
+                                <Text style={pr.assignFeedback} numberOfLines={1}>
+                                  {a.feedback}
+                                </Text>
+                              )}
+                            </View>
+                            {grade && (
+                              <View
                                 style={[
-                                  pr.scoreNum,
-                                  { color: grade.color, fontSize: 14 },
+                                  pr.scoreBadge,
+                                  { backgroundColor: grade.bg },
                                 ]}
                               >
-                                {a.grade}%
-                              </Text>
-                            </View>
-                          )}
-                        </View>
-                      );
-                    })}
+                                <Text
+                                  style={[
+                                    pr.scoreNum,
+                                    { color: grade.color, fontSize: 14 },
+                                  ]}
+                                >
+                                  {a.grade}%
+                                </Text>
+                              </View>
+                            )}
+                          </View>
+                        );
+                      })}
+                    </View>
                   </>
                 )}
 
@@ -1815,84 +1937,104 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                     </Text>
                   </View>
                 ) : (
-                  classroomCards.map((cls, idx) => {
-                    const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
-                    const avg = getClassroomAvgScore(cls);
-                    const grade = scoreGrade(avg);
-                    return (
-                      <Pressable
-                        key={cls.id}
-                        style={pr.classCard}
-                        onPress={() => setClassroomDetail(cls)}
-                      >
-                        <View
+                  <View
+                    style={
+                      isLargeScreen
+                        ? {
+                            flexDirection: "row",
+                            flexWrap: "wrap",
+                            gap: 12,
+                            paddingHorizontal: 16,
+                          }
+                        : undefined
+                    }
+                  >
+                    {classroomCards.map((cls, idx) => {
+                      const cc = CHILD_COLORS_PR[idx % CHILD_COLORS_PR.length];
+                      const avg = getClassroomAvgScore(cls);
+                      const grade = scoreGrade(avg);
+                      return (
+                        <Pressable
+                          key={cls.id}
                           style={[
-                            pr.classIconBox,
-                            { backgroundColor: cc + "22" },
+                            pr.classCard,
+                            isLargeScreen && {
+                              width: "49%",
+                              marginHorizontal: 0,
+                              marginBottom: 0,
+                            },
                           ]}
+                          onPress={() => setClassroomDetail(cls)}
                         >
-                          <Text style={{ fontSize: 22 }}>📚</Text>
-                        </View>
-                        <View style={pr.classInfo}>
-                          <Text style={pr.classTitle} numberOfLines={1}>
-                            {cls.title}
-                          </Text>
-                          <Text style={pr.classMeta}>
-                            Class {cls.classLevel} · {cls.status}
-                          </Text>
-                          <Text style={pr.classDesc} numberOfLines={1}>
-                            {cls.remarkText
-                              ? `Teacher: ${cls.remarkText}`
-                              : "Tap to see insights and teacher notes"}
-                          </Text>
-                        </View>
-                        <View style={{ alignItems: "flex-end", gap: 6 }}>
                           <View
                             style={[
-                              pr.classStatusBadge,
-                              {
-                                backgroundColor:
-                                  cls.status === "active"
-                                    ? "#D6F5D6"
-                                    : Colors.borderLight,
-                              },
+                              pr.classIconBox,
+                              { backgroundColor: cc + "22" },
                             ]}
                           >
-                            <Text
-                              style={[
-                                pr.classStatusText,
-                                {
-                                  color:
-                                    cls.status === "active"
-                                      ? Colors.success // darkened from #4CAF50 (2.37:1 on tint bg)
-                                      : Colors.textMuted,
-                                },
-                              ]}
-                            >
-                              {cls.status === "active" ? "Active" : cls.status}
+                            <Text style={{ fontSize: 22 }}>📚</Text>
+                          </View>
+                          <View style={pr.classInfo}>
+                            <Text style={pr.classTitle} numberOfLines={1}>
+                              {cls.title}
+                            </Text>
+                            <Text style={pr.classMeta}>
+                              Class {cls.classLevel} · {cls.status}
+                            </Text>
+                            <Text style={pr.classDesc} numberOfLines={1}>
+                              {cls.remarkText
+                                ? `Teacher: ${cls.remarkText}`
+                                : "Tap to see insights and teacher notes"}
                             </Text>
                           </View>
-                          {avg > 0 && (
+                          <View style={{ alignItems: "flex-end", gap: 6 }}>
                             <View
                               style={[
-                                pr.smallGradeBadge,
-                                { backgroundColor: grade.bg },
+                                pr.classStatusBadge,
+                                {
+                                  backgroundColor:
+                                    cls.status === "active"
+                                      ? "#D6F5D6"
+                                      : Colors.borderLight,
+                                },
                               ]}
                             >
                               <Text
                                 style={[
-                                  pr.smallGradeText,
-                                  { color: grade.color },
+                                  pr.classStatusText,
+                                  {
+                                    color:
+                                      cls.status === "active"
+                                        ? Colors.success // darkened from #4CAF50 (2.37:1 on tint bg)
+                                        : Colors.textMuted,
+                                  },
                                 ]}
                               >
-                                {avg}%
+                                {cls.status === "active" ? "Active" : cls.status}
                               </Text>
                             </View>
-                          )}
-                        </View>
-                      </Pressable>
-                    );
-                  })
+                            {avg > 0 && (
+                              <View
+                                style={[
+                                  pr.smallGradeBadge,
+                                  { backgroundColor: grade.bg },
+                                ]}
+                              >
+                                <Text
+                                  style={[
+                                    pr.smallGradeText,
+                                    { color: grade.color },
+                                  ]}
+                                >
+                                  {avg}%
+                                </Text>
+                              </View>
+                            )}
+                          </View>
+                        </Pressable>
+                      );
+                    })}
+                  </View>
                 )}
               </>
             )}
@@ -1920,58 +2062,81 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                     </Text>
                   </View>
                 ) : (
-                  activity.map((item) => {
-                    const dotColor = STATUS_CLR[item.status] ?? Colors.textMuted;
-                    return (
-                      <View key={item.id} style={pr.actCard}>
+                  <View
+                    style={
+                      isLargeScreen
+                        ? {
+                            flexDirection: "row",
+                            flexWrap: "wrap",
+                            gap: 12,
+                            paddingHorizontal: 16,
+                          }
+                        : undefined
+                    }
+                  >
+                    {activity.map((item) => {
+                      const dotColor = STATUS_CLR[item.status] ?? Colors.textMuted;
+                      return (
                         <View
+                          key={item.id}
                           style={[
-                            pr.actIconBox,
-                            { backgroundColor: dotColor + "22" },
+                            pr.actCard,
+                            isLargeScreen && {
+                              width: "49%",
+                              marginHorizontal: 0,
+                              marginBottom: 0,
+                            },
                           ]}
                         >
-                          <ActIcon
-                            type={item.activityType}
-                            size={18}
-                            color={dotColor}
-                          />
-                        </View>
-                        <View style={pr.actInfo}>
-                          <Text style={pr.actTitle} numberOfLines={1}>
-                            {item.referenceTitle ?? item.activityType}
-                          </Text>
-                          <Text style={pr.actMeta}>
-                            {item.activityDate}
-                            {item.score !== undefined
-                              ? ` · Score: ${item.score}%`
-                              : ""}
-                          </Text>
-                        </View>
-                        <View style={{ alignItems: "flex-end", gap: 4 }}>
                           <View
                             style={[
-                              pr.statusChip,
+                              pr.actIconBox,
                               { backgroundColor: dotColor + "22" },
                             ]}
                           >
-                            <Text
-                              style={[
-                                pr.statusChipText,
-                                { color: STATUS_TEXT_CLR[item.status] ?? dotColor },
-                              ]}
-                            >
-                              {item.status}
+                            <ActIcon
+                              type={item.activityType}
+                              size={18}
+                              color={dotColor}
+                            />
+                          </View>
+                          <View style={pr.actInfo}>
+                            <Text style={pr.actTitle} numberOfLines={1}>
+                              {item.referenceTitle ?? item.activityType}
+                            </Text>
+                            <Text style={pr.actMeta}>
+                              {item.activityDate}
+                              {item.score !== undefined
+                                ? ` · Score: ${item.score}%`
+                                : ""}
                             </Text>
                           </View>
-                          {item.timeSpentSeconds > 0 && (
-                            <Text style={pr.actTime}>
-                              {fmtSec(item.timeSpentSeconds)}
-                            </Text>
-                          )}
+                          <View style={{ alignItems: "flex-end", gap: 4 }}>
+                            <View
+                              style={[
+                                pr.statusChip,
+                                { backgroundColor: dotColor + "22" },
+                              ]}
+                            >
+                              <Text
+                                style={[
+                                  pr.statusChipText,
+                                  { color: STATUS_TEXT_CLR[item.status] ?? dotColor },
+                                ]}
+                              >
+                                {item.status}
+                              </Text>
+                            </View>
+                            {item.timeSpentSeconds > 0 && (
+                              <Text style={pr.actTime}>
+                                {fmtSec(item.timeSpentSeconds)}
+                              </Text>
+                            )}
+                          </View>
                         </View>
-                      </View>
-                    );
-                  })
+                      );
+                    })}
+                  </View>
                 )}
               </>
             )}
@@ -1992,6 +2157,230 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                 studentName={activeStudent.firstName}
               />
             )}
+                </View>
+
+                {/* ── SIDEBAR COLUMN (Desktop only) ── */}
+                {isLargeScreen && (
+                  <View style={pr.theatreRightCol}>
+                    {/* Student Profile Card */}
+                    <View style={pr.sidebarCard}>
+                      <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+                        <View
+                          style={{
+                            width: 44,
+                            height: 44,
+                            borderRadius: 14,
+                            backgroundColor: "#EBF4FF",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <User size={22} color={Colors.primary} />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                          <Text style={{ fontSize: 16, fontWeight: "900", color: Colors.text }}>
+                            {activeStudent.firstName}
+                          </Text>
+                          <Text style={{ fontSize: 12, fontWeight: "600", color: Colors.textMuted }}>
+                            Class {activeStudent.classLevel || "—"} · Student
+                          </Text>
+                        </View>
+                      </View>
+                      <View style={{ flexDirection: "row", gap: 8 }}>
+                        <View
+                          style={{
+                            flex: 1,
+                            backgroundColor: "#F8F9FC",
+                            padding: 10,
+                            borderRadius: 12,
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text style={{ fontSize: 16, fontWeight: "900", color: Colors.primary }}>
+                            {quizAttempts.length}
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 9,
+                              fontWeight: "700",
+                              color: Colors.textMuted,
+                              textTransform: "uppercase",
+                              marginTop: 2,
+                            }}
+                          >
+                            Quizzes
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flex: 1,
+                            backgroundColor: "#F8F9FC",
+                            padding: 10,
+                            borderRadius: 12,
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text style={{ fontSize: 16, fontWeight: "900", color: Colors.success }}>
+                            {classroomCards.length}
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 9,
+                              fontWeight: "700",
+                              color: Colors.textMuted,
+                              textTransform: "uppercase",
+                              marginTop: 2,
+                            }}
+                          >
+                            Classes
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flex: 1,
+                            backgroundColor: "#F8F9FC",
+                            padding: 10,
+                            borderRadius: 12,
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text style={{ fontSize: 16, fontWeight: "900", color: "#B03A19" }}>
+                            {pendingAssignments.length}
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 9,
+                              fontWeight: "700",
+                              color: Colors.textMuted,
+                              textTransform: "uppercase",
+                              marginTop: 2,
+                            }}
+                          >
+                            Pending
+                          </Text>
+                        </View>
+                      </View>
+                      <Pressable
+                        style={{
+                          backgroundColor: Colors.primary,
+                          paddingVertical: 10,
+                          borderRadius: 12,
+                          alignItems: "center",
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          gap: 6,
+                        }}
+                        onPress={() => router.push("/(tabs)/classroom" as any)}
+                      >
+                        <BookOpen size={15} color="#fff" />
+                        <Text style={{ color: "#fff", fontSize: 13, fontWeight: "800" }}>
+                          Open Classroom
+                        </Text>
+                      </Pressable>
+                    </View>
+
+                    {/* Weekly Activity & Consistency Card */}
+                    <View style={pr.sidebarCard}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                        }}
+                      >
+                        <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+                          <Zap size={16} color="#F59E0B" fill="#F59E0B" />
+                          <Text style={pr.sidebarCardTitle}>Weekly Activity</Text>
+                        </View>
+                        <View
+                          style={{
+                            backgroundColor: "#EFF6FF",
+                            paddingHorizontal: 8,
+                            paddingVertical: 3,
+                            borderRadius: 8,
+                          }}
+                        >
+                          <Text style={{ fontSize: 11, fontWeight: "700", color: Colors.primary }}>
+                            {activeDates.length}/7 days
+                          </Text>
+                        </View>
+                      </View>
+                      <StreakCalendar
+                        activeDates={activeDates}
+                        streakDays={sum?.streakDays ?? 0}
+                      />
+                      <View style={pr.cardFooter}>
+                        <Text style={pr.cardFooterText}>Consistency score</Text>
+                        <Text style={[pr.cardFooterVal, { color: Colors.primary }]}>
+                          {sum ? sum.consistencyScore.toFixed(0) : 0}%
+                        </Text>
+                      </View>
+                    </View>
+
+                    {/* Recent Quizzes Snapshot Card */}
+                    {quizAttempts.length > 0 && (
+                      <View style={pr.sidebarCard}>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text style={pr.sidebarCardTitle}>Recent Quizzes</Text>
+                          <Pressable onPress={() => setActiveTab("quizzes")}>
+                            <Text style={{ fontSize: 12, fontWeight: "700", color: Colors.primary }}>
+                              View all
+                            </Text>
+                          </Pressable>
+                        </View>
+                        {quizAttempts.slice(0, 3).map((q) => {
+                          const grItem = scoreGrade(q.scorePct);
+                          return (
+                            <Pressable
+                              key={q.id}
+                              style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                paddingVertical: 8,
+                                borderBottomWidth: 1,
+                                borderBottomColor: "#F0F4FF",
+                              }}
+                              onPress={() => openQuizDetail(q.id)}
+                            >
+                              <View style={{ flex: 1, marginRight: 8, gap: 2 }}>
+                                <Text
+                                  style={{ fontSize: 12, fontWeight: "700", color: Colors.text }}
+                                  numberOfLines={1}
+                                >
+                                  {q.quizTitle}
+                                </Text>
+                                <Text style={{ fontSize: 10, color: Colors.textMuted }}>
+                                  {q.correctCount}/{q.totalQuestions} correct
+                                </Text>
+                              </View>
+                              <View
+                                style={{
+                                  backgroundColor: grItem.bg,
+                                  paddingHorizontal: 8,
+                                  paddingVertical: 3,
+                                  borderRadius: 8,
+                                }}
+                              >
+                                <Text style={{ fontSize: 11, fontWeight: "800", color: grItem.color }}>
+                                  {q.scorePct}%
+                                </Text>
+                              </View>
+                            </Pressable>
+                          );
+                        })}
+                      </View>
+                    )}
+                  </View>
+                )}
+              </View>
+            </View>
           </ScrollView>
         </View>
       )}
@@ -3374,22 +3763,26 @@ export default function ReportsScreen() {
   if (isTeacherView) {
     return (
       <>
-        <ScrollView style={s.screen} contentContainerStyle={s.scroll}>
-          <View
-            style={[s.topBar, { paddingTop: Platform.OS === "ios" ? 2 : 8 }]}
-          >
-            <View>
-              <Text style={s.greetingSub}>Teacher Dashboard</Text>
-              <Text style={s.greetingName}>{user?.firstName ?? "Teacher"}</Text>
-            </View>
-            <View style={s.xpChip}>
-              <TrendingUp size={13} color="#fff" />
-              <Text style={s.xpLabel}>Reports</Text>
+        <ScrollView style={s.screen} contentContainerStyle={{ paddingBottom: 48 }}>
+          {/* ── Responsive Top Header ── */}
+          <View style={[s.topBar, { paddingTop: Math.max(insets.top, 8) }]}>
+            <View style={s.topBarInner}>
+              <View style={{ flex: 1 }}>
+                <Text style={s.greetingSub}>Teacher Dashboard</Text>
+                <Text style={s.greetingName}>{user?.firstName ?? 'Teacher'}</Text>
+              </View>
+              <View style={s.xpChip}>
+                <TrendingUp size={13} color="#fff" />
+                <Text style={s.xpLabel}>Reports</Text>
+              </View>
             </View>
           </View>
 
+          {/* ── Constrained content ── */}
+          <View style={s.pageBody}>
+
           {/* Teacher section switcher */}
-          <View style={{ flexDirection: 'row', marginHorizontal: 16, marginBottom: 12, backgroundColor: Colors.background, borderRadius: 14, padding: 4 }}>
+          <View style={{ flexDirection: 'row', marginBottom: 16, backgroundColor: Colors.background, borderRadius: 14, padding: 4 }}>
             <Pressable
               style={{ flex: 1, paddingVertical: 10, borderRadius: 11, alignItems: 'center', backgroundColor: teacherSection === 'dashboard' ? '#fff' : 'transparent' }}
               onPress={() => setTeacherSection('dashboard')}
@@ -3405,9 +3798,7 @@ export default function ReportsScreen() {
           </View>
 
           {teacherSection === 'feedback' ? (
-            <View style={{ paddingHorizontal: 16 }}>
-              <TeacherFeedbackTab />
-            </View>
+            <TeacherFeedbackTab />
           ) : (
           <>
 
@@ -3415,7 +3806,8 @@ export default function ReportsScreen() {
             <Text style={s.errorText}>{error}</Text>
           ) : (
             <>
-              <View style={s.grid2}>
+              {/* Stats row — 2-col mobile, 4-col desktop */}
+              <View style={[s.grid2, isLargeScreen && { flexWrap: 'nowrap' }]}>
                 {[
                   {
                     val: overview?.summary.total_quizzes ?? "0",
@@ -3466,12 +3858,11 @@ export default function ReportsScreen() {
                 style={{
                   flexDirection: isLargeScreen ? "row" : "column",
                   gap: isLargeScreen ? 16 : 0,
-                  paddingHorizontal: isLargeScreen ? 16 : 0,
                 }}
               >
               <View style={{ flex: 1, minWidth: 0 }}>
-              <Text style={[s.secTitle, isLargeScreen && { paddingHorizontal: 0 }]}>Class Performance</Text>
-              <View style={[s.card, isLargeScreen && { marginHorizontal: 0 }]}>
+              <Text style={s.secTitle}>Class Performance</Text>
+              <View style={s.card}>
                 {overview?.classPerformance?.length ? (
                   overview.classPerformance.map((cls) => {
                     const pct = Math.round(Number(cls.average_score_pct));
@@ -3509,8 +3900,8 @@ export default function ReportsScreen() {
               </View>
 
               <View style={{ flex: 1, minWidth: 0 }}>
-              <Text style={[s.secTitle, isLargeScreen && { paddingHorizontal: 0 }]}>Topic Gaps</Text>
-              <View style={[s.card, isLargeScreen && { marginHorizontal: 0 }]}>
+              <Text style={s.secTitle}>Topic Gaps</Text>
+              <View style={s.card}>
                 {overview?.topGaps?.length ? (
                   overview.topGaps.map((gap) => {
                     const pct = Number(gap.incorrect_pct);
@@ -3558,7 +3949,12 @@ export default function ReportsScreen() {
                 </View>
               ) : (
                 <View
-                  style={{ gap: 10, marginHorizontal: 16, marginBottom: 8 }}
+                  style={{
+                    flexDirection: isLargeScreen ? 'row' : 'column',
+                    flexWrap: isLargeScreen ? 'wrap' : 'nowrap',
+                    gap: 10,
+                    marginBottom: 8,
+                  }}
                 >
                   {sortedClassActivity.map(({ student, avgPct, risk }) => {
                     const latest = student.attempts[0];
@@ -3570,7 +3966,10 @@ export default function ReportsScreen() {
                         24 * 60 * 60 * 1000;
                     const isExpanded = expandedStudent === student.studentId;
                     return (
-                      <View key={student.studentId} style={gr.studentCard}>
+                      <View
+                        key={student.studentId}
+                        style={[gr.studentCard, isLargeScreen && { width: '48%' }]}
+                      >
                         <Pressable
                           onPress={() => {
                             setExpandedStudent(
@@ -3805,6 +4204,7 @@ export default function ReportsScreen() {
           )}
           </>
           )}
+          </View>
         </ScrollView>
 
         {/* ── Teacher quiz detail modal (same board UI as parent) ── */}
@@ -4838,11 +5238,26 @@ const s = StyleSheet.create({
   xpPillText: { fontSize: 11, fontWeight: "800" },
 
   topBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    backgroundColor: '#FFFFFF',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E8ECF4',
     paddingHorizontal: 20,
     paddingVertical: 14,
+  },
+  topBarInner: {
+    maxWidth: 1440,
+    width: '100%',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  pageBody: {
+    maxWidth: 1440,
+    width: '100%',
+    alignSelf: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 16,
   },
   greetingSub: { fontSize: 12, color: Colors.textMuted, fontWeight: "500" },
   greetingName: {
@@ -4923,11 +5338,11 @@ const s = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 10,
-    paddingHorizontal: 16,
     marginBottom: 20,
   },
   statCard2: {
-    width: "47%",
+    flex: 1,
+    minWidth: '45%',
     borderRadius: 20,
     paddingVertical: 16,
     paddingHorizontal: 14,
@@ -4938,7 +5353,6 @@ const s = StyleSheet.create({
 
   // Chart card
   chartCard: {
-    marginHorizontal: 16,
     marginBottom: 20,
     backgroundColor: "#FFFFFF",
     borderRadius: 20,
@@ -4991,7 +5405,6 @@ const s = StyleSheet.create({
     fontSize: 17,
     fontWeight: "900",
     color: Colors.text,
-    paddingHorizontal: 20,
     marginBottom: 10,
   },
   secHint: {
@@ -5026,7 +5439,6 @@ const s = StyleSheet.create({
 
   // Generic card
   card: {
-    marginHorizontal: 16,
     marginBottom: 20,
     backgroundColor: "#FFFFFF",
     borderRadius: 20,
@@ -5311,14 +5723,67 @@ const pr = StyleSheet.create({
 
   // Top bar — matches student dashboard
   topBar: {
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.borderLight,
+    paddingBottom: 14,
+  },
+  topBarInner: {
+    maxWidth: 1440,
+    width: "100%",
+    alignSelf: "center",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingBottom: 14,
+  },
+  tabBarInner: {
+    maxWidth: 1440,
+    width: "100%",
+    alignSelf: "center",
+    paddingHorizontal: 8,
+  },
+  pageBody: {
+    maxWidth: 1440,
+    width: "100%",
+    alignSelf: "center",
+    paddingBottom: 40,
+  },
+  theatreLayout: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 20,
+    paddingHorizontal: 16,
+    paddingTop: 8,
+  },
+  theatreLeftCol: {
+    flex: 1,
+    minWidth: 0,
+    gap: 16,
+  },
+  theatreRightCol: {
+    width: 360,
+    minWidth: 320,
+    maxWidth: 380,
+    gap: 16,
+  },
+  sidebarCard: {
     backgroundColor: "#fff",
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.borderLight,
+    borderRadius: 20,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: Colors.borderLight,
+    shadowColor: "#C5D8F8",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.35,
+    shadowRadius: 8,
+    elevation: 2,
+    gap: 12,
+  },
+  sidebarCardTitle: {
+    fontSize: 15,
+    fontWeight: "900",
+    color: Colors.text,
   },
   topBarSub: {
     fontSize: 11,
@@ -5949,13 +6414,18 @@ const pr = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(10,10,30,0.5)",
-    justifyContent: "flex-end",
+    justifyContent: Platform.OS === "web" ? "center" : "flex-end",
+    alignItems: Platform.OS === "web" ? "center" : "stretch",
+    padding: Platform.OS === "web" ? 20 : 0,
   },
   modalSheet: {
     backgroundColor: "#fff",
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
+    borderRadius: Platform.OS === "web" ? 24 : 0,
     maxHeight: "88%",
+    maxWidth: Platform.OS === "web" ? 720 : undefined,
+    width: "100%",
     overflow: "hidden",
   },
   modalHeader: {

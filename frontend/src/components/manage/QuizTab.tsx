@@ -48,6 +48,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Colors, Radius, Shadow } from '../../theme';
 import SelectorModal from '../SelectorModal';
 import QuizEditorModal from '../quiz/QuizEditorModal';
+import QuizPreviewModal from '../quiz/QuizPreviewModal';
 import ConfirmModal from '../common/ConfirmModal';
 import SafeImage from '../quiz/SafeImage';
 import { resolveMediaUrl } from '../../utils/media';
@@ -186,6 +187,8 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
   const [quizBankPage, setQuizBankPage]                   = useState(0);
   const [previewQuestion, setPreviewQuestion]             = useState<QuestionBankItem | null>(null);
   const [loadingPreview, setLoadingPreview]               = useState(false);
+  const [previewQuizId, setPreviewQuizId]                 = useState<string | null>(null);
+  const [previewDraftOpen, setPreviewDraftOpen]           = useState(false);
 
   const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
 
@@ -636,7 +639,7 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
                           <Pressable
                             style={s.editIconBtn}
                             onPress={() => setEditingQuizId(q.id)}
-                            title="Edit Quiz"
+                            accessibilityLabel="Edit Quiz"
                           >
                             <Pencil size={15} color="#2D5DC9" />
                           </Pressable>
@@ -654,9 +657,19 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
 
                           <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
                             <Pressable
+                              style={s.quizCardPreviewBtn}
+                              onPress={() => setPreviewQuizId(q.id)}
+                              accessibilityLabel="Preview Quiz"
+                            >
+                              <Eye size={13} color="#1D4ED8" />
+                              <Text style={s.quizCardPreviewBtnText}>Preview</Text>
+                            </Pressable>
+
+                            <Pressable
                               style={s.deleteIconBtn}
                               onPress={() => setConfirmDeleteQuiz(q)}
                               disabled={deletingQuizId === q.id}
+                              accessibilityLabel="Delete Quiz"
                             >
                               {deletingQuizId === q.id ? (
                                 <ActivityIndicator accessibilityLabel="Loading" size="small" color="#DC2626" />
@@ -776,7 +789,26 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
                 </View>
               </View>
 
-              <View>
+              <View style={{ gap: 8 }}>
+                <Pressable
+                  style={[
+                    s.previewDraftBtn,
+                    currentSelectedIds.length === 0 && s.previewDraftBtnDisabled,
+                  ]}
+                  onPress={() => setPreviewDraftOpen(true)}
+                  disabled={currentSelectedIds.length === 0}
+                >
+                  <Eye size={15} color={currentSelectedIds.length === 0 ? '#94A3B8' : '#1D4ED8'} />
+                  <Text
+                    style={[
+                      s.previewDraftBtnText,
+                      currentSelectedIds.length === 0 && s.previewDraftBtnTextDisabled,
+                    ]}
+                  >
+                    Preview Quiz ({currentSelectedIds.length})
+                  </Text>
+                </Pressable>
+
                 <Pressable style={s.createSubmitBtn} onPress={handleCreate} disabled={creating}>
                   {creating ? (
                     <ActivityIndicator accessibilityLabel="Loading" color="#fff" size="small" />
@@ -993,7 +1025,7 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
             ? subjectOptions
             : bankTypeOptions
         }
-        selectedValue={
+        selected={
           selectorField === 'quizClassLevel'
             ? currentDraft.classLevel
             : selectorField === 'quizSubject'
@@ -1044,6 +1076,33 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
           }}
         />
       )}
+
+      {/* Quiz Preview Modal for Quiz Bank */}
+      <QuizPreviewModal
+        visible={!!previewQuizId}
+        quizId={previewQuizId}
+        apiFetch={apiFetch}
+        onClose={() => setPreviewQuizId(null)}
+        onEdit={(id) => {
+          setPreviewQuizId(null);
+          setEditingQuizId(id);
+        }}
+      />
+
+      {/* Quiz Preview Modal for Creator Draft */}
+      <QuizPreviewModal
+        visible={previewDraftOpen}
+        draftQuiz={{
+          title: currentDraft.title || 'Untitled Quiz',
+          description: currentDraft.description,
+          classLevel: currentDraft.classLevel,
+          subject: currentDraft.subject,
+          difficultyLevel: currentDraft.difficultyLevel,
+          questions: questionBank.filter((q) => currentSelectedIds.includes(q.id)),
+        }}
+        apiFetch={apiFetch}
+        onClose={() => setPreviewDraftOpen(false)}
+      />
 
       {/* Delete Confirmation Modal */}
       <ConfirmModal
@@ -1336,7 +1395,6 @@ const s = StyleSheet.create({
   msgTextError: { color: '#B91C1C' },
 
   bankSection: { gap: 16 },
-  bankSearchRow: { flexDirection: 'row', gap: 10, alignItems: 'center' },
   searchWrap: {
     flex: 1,
     flexDirection: 'row',
@@ -1397,6 +1455,45 @@ const s = StyleSheet.create({
   quizCardFooter: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 8, borderTopWidth: 1, borderTopColor: '#F1F5F9' },
   quizMetaItem: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   quizMetaText: { fontSize: 12, fontWeight: '600', color: '#525C6B' },
+  quizCardPreviewBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: '#EFF6FF',
+    borderWidth: 1,
+    borderColor: '#BFDBFE',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+  },
+  quizCardPreviewBtnText: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#1D4ED8',
+  },
+  previewDraftBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#EFF6FF',
+    borderWidth: 1,
+    borderColor: '#93C5FD',
+    borderRadius: 12,
+    paddingVertical: 12,
+  },
+  previewDraftBtnDisabled: {
+    backgroundColor: '#F1F5F9',
+    borderColor: '#E2E8F0',
+  },
+  previewDraftBtnText: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#1D4ED8',
+  },
+  previewDraftBtnTextDisabled: {
+    color: '#94A3B8',
+  },
 
   creatorLayout: { flexDirection: 'row', gap: 16, flexWrap: 'wrap', width: '100%', alignItems: 'flex-start' },
   formCard: {

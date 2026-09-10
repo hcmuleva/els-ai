@@ -1,4 +1,4 @@
-import { useFocusEffect } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ModalHeader } from '../../src/components/common/ModalHeader';
@@ -93,6 +93,8 @@ function getDateTimeParts(value?: string | null): { date: string; time: string }
 // ─────────────────────────── main screen ──────────────────────
 export default function StoriesScreen() {
   const { apiFetch, user } = useAuth();
+  const role = user?.activeRole ?? 'student';
+  const isTeacherOrAdmin = role === 'teacher' || role === 'admin' || role === 'superadmin';
   const insets = useSafeAreaInsets();
 
   // list
@@ -262,6 +264,7 @@ export default function StoriesScreen() {
 
   // ── open editor ──
   const openNew = () => {
+    if (!isTeacherOrAdmin) return;
     setReadOnlyEndedView(false);
     setEditingId(null); setFTitle(''); setFDesc(''); setFCover(''); setFCoverLabel(''); setFClass(''); setSections([]);
     setStoryPreviewOpen(false);
@@ -269,6 +272,10 @@ export default function StoriesScreen() {
   };
 
   const openEdit = async (story: Story) => {
+    if (!isTeacherOrAdmin) {
+      router.push(`/story/${story.id}` as any);
+      return;
+    }
     setReadOnlyEndedView(story.status === 'ended');
     setEditingId(story.id); setFTitle(story.title); setFDesc(story.description || '');
     setFCover(story.coverImageUrl || '');
@@ -487,17 +494,39 @@ export default function StoriesScreen() {
           </View>
         </View>
         <View style={s.classCardFooter}>
-          <Pressable style={[s.footerBtn, { backgroundColor: '#EBF4FF' }]} onPress={() => openEdit(item)}>
-            <Text style={[s.footerBtnText, { color: '#1A4DA2' }]}>Edit</Text>
-          </Pressable>
-          {item.status === 'draft' && (
-            <Pressable style={[s.footerBtn, { backgroundColor: '#D6F5E0' }]} onPress={() => publish(item.id)}>
-              <Text style={[s.footerBtnText, { color: '#118650' }]}>Publish</Text>
-            </Pressable>
-          )}
-          {item.status === 'live' && (
-            <Pressable style={[s.footerBtn, { backgroundColor: '#FEE2E2' }]} onPress={() => endStory(item.id)}>
-              <Text style={[s.footerBtnText, { color: '#DC2626' }]}>End</Text>
+          {isTeacherOrAdmin ? (
+            <>
+              <Pressable style={[s.footerBtn, { backgroundColor: '#EBF4FF' }]} onPress={() => openEdit(item)}>
+                <Text style={[s.footerBtnText, { color: '#1A4DA2' }]}>Edit</Text>
+              </Pressable>
+              {item.status === 'draft' && (
+                <Pressable style={[s.footerBtn, { backgroundColor: '#D6F5E0' }]} onPress={() => publish(item.id)}>
+                  <Text style={[s.footerBtnText, { color: '#118650' }]}>Publish</Text>
+                </Pressable>
+              )}
+              {item.status === 'live' && (
+                <Pressable style={[s.footerBtn, { backgroundColor: '#FEE2E2' }]} onPress={() => endStory(item.id)}>
+                  <Text style={[s.footerBtnText, { color: '#DC2626' }]}>End</Text>
+                </Pressable>
+              )}
+            </>
+          ) : (
+            <Pressable
+              style={[
+                s.footerBtn,
+                {
+                  backgroundColor: item.status === 'live' ? '#DC2626' : '#2D5DC9',
+                  flex: 1,
+                  paddingVertical: 10,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                },
+              ]}
+              onPress={() => router.push(`/story/${item.id}` as any)}
+            >
+              <Text style={[s.footerBtnText, { color: '#fff', fontWeight: '700' }]}>
+                {item.status === 'live' ? 'Read Live Story' : 'Read Story'}
+              </Text>
             </Pressable>
           )}
         </View>
@@ -568,8 +597,18 @@ export default function StoriesScreen() {
         </View>
 
         <View style={s.historyCardFooter}>
-          <Pressable style={s.historyDetailBtn} onPress={() => { setHistoryOpen(false); openEdit(item); }}>
-            <Text style={s.historyDetailBtnText}>View Story</Text>
+          <Pressable
+            style={s.historyDetailBtn}
+            onPress={() => {
+              setHistoryOpen(false);
+              if (isTeacherOrAdmin) {
+                openEdit(item);
+              } else {
+                router.push(`/story/${item.id}` as any);
+              }
+            }}
+          >
+            <Text style={s.historyDetailBtnText}>{isTeacherOrAdmin ? 'View Story' : 'Read Story'}</Text>
           </Pressable>
         </View>
       </View>
@@ -603,16 +642,20 @@ export default function StoriesScreen() {
       <View style={[s.topHeader, { paddingTop: Math.max(insets.top, 8) }]}>
         <View style={s.topHeaderLeft}>
           <Text style={s.topHeading}>Stories</Text>
-          <Text style={s.topSub} numberOfLines={2}>Manage and schedule your story sessions</Text>
+          <Text style={s.topSub} numberOfLines={2}>
+            {isTeacherOrAdmin ? 'Manage and schedule your story sessions' : 'Explore and read interactive stories'}
+          </Text>
         </View>
         <View style={s.headerActionRow}>
           <Pressable style={s.historyBtnSmall} onPress={async () => { setHistoryOpen(true); await loadHistory(1); }}>
             <Clock size={13} color="#5A6A8A" />
             <Text style={s.historyBtnSmallText}>History</Text>
           </Pressable>
-          <Pressable style={s.newBtn} onPress={openNew}>
-            <Text style={s.newBtnText}>+ New</Text>
-          </Pressable>
+          {isTeacherOrAdmin && (
+            <Pressable style={s.newBtn} onPress={openNew}>
+              <Text style={s.newBtnText}>+ New</Text>
+            </Pressable>
+          )}
         </View>
       </View>
 
@@ -674,10 +717,16 @@ export default function StoriesScreen() {
         <View style={s.emptyBox}>
           <BookOpenCheck size={56} color="#D0D8F0" />
           <Text style={s.emptyTitle}>No stories yet</Text>
-          <Text style={s.emptySub}>Create your first immersive story experience for your class.</Text>
-          <Pressable style={s.newBtn} onPress={openNew}>
-            <Plus size={16} color="#fff" /><Text style={s.newBtnText}>Create First Story</Text>
-          </Pressable>
+          <Text style={s.emptySub}>
+            {isTeacherOrAdmin
+              ? 'Create your first immersive story experience for your class.'
+              : 'Check back soon for new stories from your teacher.'}
+          </Text>
+          {isTeacherOrAdmin && (
+            <Pressable style={s.newBtn} onPress={openNew}>
+              <Plus size={16} color="#fff" /><Text style={s.newBtnText}>Create First Story</Text>
+            </Pressable>
+          )}
         </View>
       ) : (
         <FlatList
@@ -716,7 +765,7 @@ export default function StoriesScreen() {
 
       {/* ════════════════ STORY EDITOR MODAL ════════════════ */}
       <Modal
-        visible={modalOpen}
+        visible={modalOpen && isTeacherOrAdmin}
         animationType="slide"
         presentationStyle="fullScreen"
         onRequestClose={() => { setStoryPreviewOpen(false); setModalOpen(false); }}

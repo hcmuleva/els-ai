@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Dimensions, Image, Linking, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Dimensions, Image, Linking, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from 'expo-router';
 import { ModalHeader } from '../../src/components/common/ModalHeader';
-import { ChevronRight, Play, Star, BookOpen, Clock, X, Trophy, GraduationCap, Layers, ClipboardList, CheckCircle, AlertCircle, School, FileText, Telescope, Video as VideoIcon, Headphones, Image as ImageIcon, Link, Calendar, Lock, Timer } from 'lucide-react-native';
+import { ChevronRight, Play, Star, BookOpen, Clock, X, Trophy, GraduationCap, Layers, ClipboardList, CheckCircle, AlertCircle, School, FileText, Telescope, Video as VideoIcon, Headphones, Image as ImageIcon, Link, Calendar, Lock, Timer, ChevronLeft, Maximize2, Pause, Volume2 } from 'lucide-react-native';
 import { SvgXml } from 'react-native-svg';
 import { Colors, Radius, Shadow } from '../../src/theme';
 import { GIRAFFE, OWL, PENGUIN, ELEPHANT, BUTTERFLY } from '../../src/assets/svgs';
@@ -143,20 +143,33 @@ function getYouTubeEmbedUrl(url: string): string {
   return videoId ? `https://www.youtube.com/embed/${videoId}?rel=0` : url;
 }
 
+function getYouTubeThumbnail(url: string): string | null {
+  const videoId = getYouTubeVideoId(url);
+  return videoId ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg` : null;
+}
+
 export default function ClassroomScreen() {
   const { apiFetch, isAuthenticated, user } = useAuth();
   const insets = useSafeAreaInsets();
+  const { width: windowWidth } = useWindowDimensions();
+  const isLargeScreen = windowWidth >= 900;
+  const isTabletOrLarger = windowWidth >= 640;
+
   const [loading, setLoading] = useState(true);
   const [savingSubmission, setSavingSubmission] = useState(false);
   const [classrooms, setClassrooms] = useState<ClassroomItem[]>([]);
   const [activeClassroomPage, setActiveClassroomPage] = useState(1);
   const [selectedClassroomId, setSelectedClassroomId] = useState<string | null>(null);
+  const [viewAllClasses, setViewAllClasses] = useState(false);
   const [nowTs, setNowTs] = useState<number>(Date.now());
   useEffect(() => {
     const id = setInterval(() => setNowTs(Date.now()), 1000);
     return () => clearInterval(id);
   }, []);
   const [activeTab, setActiveTab] = useState<StudentTab>('content');
+  const [activeContentIndex, setActiveContentIndex] = useState<number>(0);
+  const [activePanelTab, setActivePanelTab] = useState<'quiz' | 'assignments'>('quiz');
+
   const [selectedQuizId, setSelectedQuizId] = useState<string | null>(null);
   const [previewContentIndex, setPreviewContentIndex] = useState<number | null>(null);
   const [assignmentModal, setAssignmentModal] = useState<ClassroomAssignment | null>(null);
@@ -243,6 +256,12 @@ export default function ClassroomScreen() {
     [classrooms, selectedClassroomId, activeClassrooms],
   );
 
+  const activeContent = useMemo(() => {
+    if (!selectedClassroom || !selectedClassroom.contents.length) return null;
+    const idx = Math.min(Math.max(0, activeContentIndex), selectedClassroom.contents.length - 1);
+    return selectedClassroom.contents[idx] || null;
+  }, [selectedClassroom, activeContentIndex]);
+
   const historySelected = useMemo(
     () => historyClassrooms.find((c) => c.id === historySelectedId) ?? null,
     [historyClassrooms, historySelectedId],
@@ -267,7 +286,7 @@ export default function ClassroomScreen() {
   // checked independently for published sections.
   const [sectionedMap, setSectionedMap] = useState<Record<string, { url: string }>>({});
   useEffect(() => {
-    const c = previewContent as any;
+    const c = (previewContent || activeContent) as any;
     if (!c?.id) return undefined;
     const secs = c.sections?.length ? c.sections : [c];
     const baseId = baseContentId(c.id);
@@ -297,7 +316,7 @@ export default function ClassroomScreen() {
     return () => {
       cancelled = true;
     };
-  }, [previewContent, vsApi]);
+  }, [previewContent, activeContent, vsApi]);
 
   const pendingAssignments = useMemo(
     () => selectedClassroom?.assignments.filter((assignment) => assignment.status !== 'submitted').length || 0,
@@ -371,7 +390,6 @@ export default function ClassroomScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      setSelectedClassroomId(null);   // Always return to list on tab focus
       loadData();
     }, [loadData])
   );
@@ -383,13 +401,49 @@ export default function ClassroomScreen() {
 
 
         {/* Header */}
-        <View style={styles.headerRow}>
-          <Text style={styles.sectionTitle}>My Classes</Text>
-          <Pressable style={clStyles.historyBtnSmall} onPress={openHistory}>
-            <Clock size={13} color="#5A6A8A" />
-            <Text style={clStyles.historyBtnSmallText}>History</Text>
-          </Pressable>
-        </View>
+        {(viewAllClasses || (!selectedClassroomId && !isLargeScreen) || !selectedClassroom) ? (
+          <View style={clStyles.myClassesHeaderRow}>
+            <View>
+              <Text style={clStyles.myClassesTitle}>My Classes</Text>
+              <Text style={clStyles.myClassesSub}>
+                {activeClassrooms.length} active session{activeClassrooms.length !== 1 ? 's' : ''} available to learn
+              </Text>
+            </View>
+            <Pressable style={clStyles.historyBtnModern} onPress={openHistory}>
+              <Clock size={15} color="#2D5DC9" />
+              <Text style={clStyles.historyBtnModernText}>Class History</Text>
+            </Pressable>
+          </View>
+        ) : (
+          <View style={theaterStyles.classroomHeaderBar}>
+            <Pressable
+              style={theaterStyles.backBtn}
+              onPress={() => {
+                setViewAllClasses(true);
+                setSelectedClassroomId(null);
+              }}
+            >
+              <ChevronLeft size={16} color="#2D5DC9" />
+              <Text style={theaterStyles.backBtnText}>All Classes</Text>
+            </Pressable>
+
+            <View style={theaterStyles.classTitleWrap}>
+              <Text style={theaterStyles.headerClassTitle} numberOfLines={1}>
+                {selectedClassroom.title}
+              </Text>
+              <View style={theaterStyles.standardBadge}>
+                <Text style={theaterStyles.standardBadgeText}>
+                  {getStandardLabel(selectedClassroom.classLevel)}
+                </Text>
+              </View>
+            </View>
+
+            <Pressable style={clStyles.historyBtnSmall} onPress={openHistory}>
+              <Clock size={13} color="#5A6A8A" />
+              <Text style={clStyles.historyBtnSmallText}>History</Text>
+            </Pressable>
+          </View>
+        )}
 
         {message ? (
           <View style={[styles.messageCard, message.type === 'success' ? styles.successCard : styles.errorCard]}>
@@ -414,60 +468,127 @@ export default function ClassroomScreen() {
         ) : (
           <>
             {/* ── Active Classrooms List ── */}
-            {!selectedClassroomId || !classrooms.find((c) => c.id === selectedClassroomId) ? (
+            {(viewAllClasses || (!selectedClassroomId && !isLargeScreen) || !selectedClassroom) ? (
               <View style={clStyles.listSection}>
-                <Text style={clStyles.listSectionLabel}>{activeClassrooms.length} active session{activeClassrooms.length !== 1 ? 's' : ''}</Text>
-                {activeClassrooms.slice((activeClassroomPage - 1) * 10, activeClassroomPage * 10).map((room, idx) => {
-                  const curIdx = (activeClassroomPage - 1) * 10 + idx;
-                  const BG_COLORS    = ['#D6EAFF', '#D6F5D6', '#FFE8D6', '#EDE4FF', '#FFF5CC'];
-                  const ICON_COLORS  = ['#2D5DC9', '#4CAF50', '#D33F13', '#9B8EC4', '#E6A817'];
-                  const ICON_COMPS   = [BookOpen, School, Star, Layers, Telescope];
-                  const bg           = BG_COLORS[curIdx % BG_COLORS.length];
-                  const iconColor    = ICON_COLORS[curIdx % ICON_COLORS.length];
-                  const IconComp     = ICON_COMPS[curIdx % ICON_COMPS.length];
-                  const pending = room.assignments.filter((a) => a.status !== 'submitted').length;
-                  return (
-                    <Pressable key={room.id} style={[clStyles.roomCard, { backgroundColor: '#fff' }]}
-                      onPress={() => setSelectedClassroomId(room.id)}>
-                      <View style={[clStyles.roomCardArt, { backgroundColor: bg }]}>
-                        <IconComp size={26} color={iconColor} />
-                      </View>
-                      <View style={clStyles.roomCardInfo}>
-                        <Text style={clStyles.roomCardTitle} numberOfLines={1}>{room.title}</Text>
-                        <Text style={clStyles.roomCardMeta}>
-                          {getStandardLabel(room.classLevel)} · {room.scheduleType === 'instant' ? 'Instant' : 'Scheduled'}
-                        </Text>
-                        {room.scheduleType === 'scheduled' && room.startTime ? (
-                          <Text style={clStyles.roomCardMeta}>
-                            {new Date(room.startTime).toLocaleString()}
-                            {room.endTime ? ` → ${new Date(room.endTime).toLocaleString()}` : ''}
-                          </Text>
-                        ) : null}
-                        <View style={clStyles.roomCardChips}>
-                          <View style={clStyles.roomChip}>
-                            <BookOpen size={10} color="#3F5D8C" />
-                            <Text style={clStyles.roomChipText}>{room.contents.length}</Text>
+                <View style={clStyles.gridContainer}>
+                  {activeClassrooms.slice((activeClassroomPage - 1) * 10, activeClassroomPage * 10).map((room, idx) => {
+                    const curIdx = (activeClassroomPage - 1) * 10 + idx;
+                    const BG_COLORS    = ['#EBF3FF', '#E8F8F0', '#FFF2EA', '#F3ECFF', '#FFF8DB'];
+                    const ICON_COLORS  = ['#2D5DC9', '#176B47', '#D33F13', '#7C3AED', '#B45309'];
+                    const ICON_COMPS   = [BookOpen, School, Star, Layers, Telescope];
+                    const bg           = BG_COLORS[curIdx % BG_COLORS.length];
+                    const iconColor    = ICON_COLORS[curIdx % ICON_COLORS.length];
+                    const IconComp     = ICON_COMPS[curIdx % ICON_COMPS.length];
+                    const pending = room.assignments.filter((a) => a.status !== 'submitted').length;
+
+                    return (
+                      <Pressable
+                        key={room.id}
+                        style={[
+                          clStyles.modernClassCard,
+                          isTabletOrLarger && clStyles.modernClassCardDesktop,
+                        ]}
+                        onPress={() => {
+                          setSelectedClassroomId(room.id);
+                          setViewAllClasses(false);
+                          setActiveContentIndex(0);
+                        }}
+                      >
+                        {/* Top Card Header */}
+                        <View style={clStyles.classCardTop}>
+                          <View style={[clStyles.classCardIconWrap, { backgroundColor: bg }]}>
+                            <IconComp size={24} color={iconColor} />
                           </View>
-                          <View style={clStyles.roomChip}>
-                            <Trophy size={10} color="#3F5D8C" />
-                            <Text style={clStyles.roomChipText}>{room.quizzes.length} quiz</Text>
-                          </View>
-                          {pending > 0 && (
-                            <View style={[clStyles.roomChip, { backgroundColor: '#FFE8D6' }]}>
-                              <AlertCircle size={10} color="#B23D00" />
-                              <Text style={[clStyles.roomChipText, { color: '#B23D00' }]}>{pending} due</Text>
+                          <View style={clStyles.classCardBadges}>
+                            <View style={clStyles.classLevelBadge}>
+                              <Text style={clStyles.classLevelBadgeText}>
+                                {getStandardLabel(room.classLevel)}
+                              </Text>
                             </View>
+                            <View style={clStyles.classLiveBadge}>
+                              <View style={clStyles.classLiveDot} />
+                              <Text style={clStyles.classLiveBadgeText}>
+                                {room.scheduleType === 'instant' ? 'Instant' : 'Scheduled'}
+                              </Text>
+                            </View>
+                          </View>
+                        </View>
+
+                        {/* Title and Schedule Info */}
+                        <View style={clStyles.classCardMain}>
+                          <Text style={clStyles.classCardTitle} numberOfLines={2}>
+                            {room.title}
+                          </Text>
+                          {room.scheduleType === 'scheduled' && room.startTime ? (
+                            <View style={clStyles.classCardTimeRow}>
+                              <Calendar size={12} color="#525C6B" />
+                              <Text style={clStyles.classCardTimeText}>
+                                {new Date(room.startTime).toLocaleDateString()} • {new Date(room.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </Text>
+                            </View>
+                          ) : (
+                            <Text style={clStyles.classCardSub}>
+                              Self-paced interactive class
+                            </Text>
                           )}
                         </View>
-                      </View>
-                      <View style={clStyles.roomCardProgress}>
-                        <Text style={clStyles.roomCardPct}>{room.completionPct}%</Text>
-                        <Text style={clStyles.roomCardPctLabel}>done</Text>
-                        <ChevronRight size={16} color="#525C6B" style={{ marginTop: 4 }} />
-                      </View>
-                    </Pressable>
-                  );
-                })}
+
+                        {/* Key Metrics: Videos, Quizzes, Tasks */}
+                        <View style={clStyles.classMetricsRow}>
+                          <View style={clStyles.classMetricPill}>
+                            <VideoIcon size={12} color="#2D5DC9" />
+                            <Text style={clStyles.classMetricPillText}>
+                              {room.contents.length} video{room.contents.length !== 1 ? 's' : ''}
+                            </Text>
+                          </View>
+                          <View style={clStyles.classMetricPill}>
+                            <Trophy size={12} color="#D33F13" />
+                            <Text style={clStyles.classMetricPillText}>
+                              {room.quizzes.length} quiz{room.quizzes.length !== 1 ? 'zes' : ''}
+                            </Text>
+                          </View>
+                          {pending > 0 ? (
+                            <View style={[clStyles.classMetricPill, clStyles.classMetricPillDue]}>
+                              <AlertCircle size={12} color="#B23D00" />
+                              <Text style={[clStyles.classMetricPillText, { color: '#B23D00' }]}>
+                                {pending} task{pending !== 1 ? 's' : ''} due
+                              </Text>
+                            </View>
+                          ) : room.assignments.length > 0 ? (
+                            <View style={clStyles.classMetricPill}>
+                              <ClipboardList size={12} color="#525C6B" />
+                              <Text style={clStyles.classMetricPillText}>
+                                {room.assignments.length} tasks
+                              </Text>
+                            </View>
+                          ) : null}
+                        </View>
+
+                        {/* Progress Bar */}
+                        <View style={clStyles.classProgressSection}>
+                          <View style={clStyles.classProgressTop}>
+                            <Text style={clStyles.classProgressLabel}>Completion</Text>
+                            <Text style={clStyles.classProgressVal}>{room.completionPct}%</Text>
+                          </View>
+                          <View style={clStyles.progressBarTrack}>
+                            <View
+                              style={[
+                                clStyles.progressBarFill,
+                                { width: `${Math.min(100, Math.max(0, room.completionPct))}%` },
+                              ]}
+                            />
+                          </View>
+                        </View>
+
+                        {/* Card Action Button */}
+                        <View style={clStyles.classCardActionRow}>
+                          <Text style={clStyles.classCardActionText}>Enter Classroom</Text>
+                          <ChevronRight size={16} color="#2D5DC9" />
+                        </View>
+                      </Pressable>
+                    );
+                  })}
+                </View>
                 {(() => {
                   const itemsPerPage = 10;
                   const totalPages = Math.ceil(activeClassrooms.length / itemsPerPage);
@@ -495,33 +616,6 @@ export default function ClassroomScreen() {
               </View>
             ) : (
               <>
-                {/* Back to list */}
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Pressable style={clStyles.backToList} onPress={() => setSelectedClassroomId(null)}>
-                    <Text style={clStyles.backToListText}>‹ All Classes</Text>
-                  </Pressable>
-                  {selectedClassroom?.status === 'completed' && (
-                    <View style={{ backgroundColor: '#E5E7EB', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12 }}>
-                      <Text style={{ color: '#4B5563', fontSize: 11, fontWeight: '700' }}>ENDED</Text>
-                    </View>
-                  )}
-                </View>
-
-                {/* Classroom name + class */}
-                {selectedClassroom && (
-                  <View style={{ marginTop: 10, marginBottom: 20 }}>
-                    <Text style={{ fontSize: 20, fontWeight: '800', color: '#1a1a2e' }} numberOfLines={2}>
-                      {selectedClassroom.title}
-                    </Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 4 }}>
-                      <View style={{ backgroundColor: '#E0E7FF', paddingHorizontal: 10, paddingVertical: 3, borderRadius: 10 }}>
-                        <Text style={{ color: '#4f46e5', fontSize: 12, fontWeight: '700' }}>
-                          {getStandardLabel(selectedClassroom.classLevel)}
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                )}
 
                 {selectedClassroom && selectedClassroom.scheduleType === 'scheduled' && selectedClassroom.startTime && new Date(selectedClassroom.startTime).getTime() > nowTs ? (
                   <View style={clStyles.notStartedCard}>
@@ -572,161 +666,645 @@ export default function ClassroomScreen() {
                   </View>
                 ) : (
                   <>
+                    {isLargeScreen ? (
+                      /* ── 2-COLUMN THEATRE LAYOUT MATCHING REFERENCE DESIGN ── */
+                      (() => {
+                        const activeUrl = resolveMediaUrl(activeContent?.mediaUrl) || resolveMediaUrl(activeContent?.externalUrl) || '';
+                        const activeYtVideoId = getYouTubeVideoId(activeUrl);
+                        const activeSecKey = activeContent?.id ? `${baseContentId(activeContent.id)}:1` : '';
+                        const activeSectioned = activeSecKey ? sectionedMap[activeSecKey] : null;
+                        const isVideoContent = Boolean(activeSectioned || activeYtVideoId || (activeUrl && activeUrl.match(/\.(mp4|mov|webm|avi)/i)));
+                        const isAudioContent = Boolean(activeUrl && activeUrl.match(/\.(mp3|wav|ogg|aac|m4a|flac)/i));
+                        const isImageContent = Boolean(activeUrl && isImageUrl(activeUrl));
+                        const isDocContent = Boolean(activeUrl && activeUrl.match(/\.(pdf|doc|docx|ppt|pptx|txt|rtf)/i));
+                        const isTextOnlyContent = !isVideoContent && !isAudioContent && !isImageContent && !isDocContent && Boolean(activeContent?.textContent);
 
-            {/* Quick Categories Row */}
-            <View style={styles.categoriesRow}>
-              <Pressable style={[styles.categoryCard, activeTab === 'content' && styles.categoryCardActive]} onPress={() => setActiveTab('content')}>
-                <View style={[styles.categoryIconBg, { backgroundColor: '#e0e7ff' }]}>
-                   <BookOpen size={24} color="#4f46e5" />
-                </View>
-                <Text style={styles.categoryTitle}>Content</Text>
-              </Pressable>
-              
-              <Pressable style={[styles.categoryCard, activeTab === 'quiz' && styles.categoryCardActive]} onPress={() => setActiveTab('quiz')}>
-                <View style={[styles.categoryIconBg, { backgroundColor: '#fce7f3' }]}>
-                   <Trophy size={24} color="#db2777" />
-                </View>
-                <Text style={styles.categoryTitle}>Quiz</Text>
-              </Pressable>
+                        return (
+                          <View style={theaterStyles.container}>
+                            {/* LEFT COLUMN: Main Video Stage + Interactive Activities */}
+                            <View style={theaterStyles.leftCol}>
+                              {/* 1. Video Player Card */}
+                              <View style={theaterStyles.videoCard}>
+                                {/* Card Top Bar */}
+                                <View style={theaterStyles.videoTopBar}>
+                                  <View style={theaterStyles.videoTopBarLeft}>
+                                    {isAudioContent ? (
+                                      <Headphones size={16} color="#7C3AED" />
+                                    ) : isImageContent ? (
+                                      <ImageIcon size={16} color="#0D9488" />
+                                    ) : isDocContent ? (
+                                      <FileText size={16} color="#0284C7" />
+                                    ) : isTextOnlyContent ? (
+                                      <BookOpen size={16} color="#0D9488" />
+                                    ) : (
+                                      <VideoIcon size={16} color="#2D5DC9" />
+                                    )}
+                                    <Text style={theaterStyles.videoTopBarTitle} numberOfLines={1}>
+                                      {activeContent?.title || 'Learning Content'}
+                                    </Text>
+                                  </View>
+                                  <View style={theaterStyles.videoTopBarRight}>
+                                    {activeContent?.subject ? (
+                                      <View style={theaterStyles.videoTypeBadge}>
+                                        <Text style={theaterStyles.videoTypeBadgeText}>
+                                          {activeContent.subject}
+                                        </Text>
+                                      </View>
+                                    ) : null}
+                                    <Pressable
+                                      style={theaterStyles.fullscreenBtn}
+                                      onPress={() => openContentAt(activeContentIndex)}
+                                      accessibilityLabel="Open Fullscreen"
+                                    >
+                                      <Maximize2 size={15} color="#525C6B" />
+                                    </Pressable>
+                                  </View>
+                                </View>
 
-              <Pressable style={[styles.categoryCard, activeTab === 'assignments' && styles.categoryCardActive]} onPress={() => setActiveTab('assignments')}>
-                <View style={[styles.categoryIconBg, { backgroundColor: '#ffedd5' }]}>
-                   <Clock size={24} color="#ea580c" />
-                </View>
-                <Text style={styles.categoryTitle}>Assignment</Text>
-              </Pressable>
-            </View>
+                                {/* Media Display Area */}
+                                {(() => {
+                                  if (!activeContent) {
+                                    return (
+                                      <View style={theaterStyles.videoPlayerWrap}>
+                                        <View style={theaterStyles.emptyPlayer}>
+                                          <Text style={theaterStyles.emptyPlayerText}>No lesson selected</Text>
+                                        </View>
+                                      </View>
+                                    );
+                                  }
 
-            <View style={styles.spacer} />
+                                  if (activeSectioned) {
+                                    return (
+                                      <View style={theaterStyles.videoPlayerWrap}>
+                                        <StudentVideoLearningView
+                                          contentId={baseContentId(activeContent.id)}
+                                          contentSectionOrder={1}
+                                          videoUrl={activeSectioned.url}
+                                          apiFetch={apiFetch}
+                                        />
+                                      </View>
+                                    );
+                                  }
 
-            {/* List Views based on active tab */}
-            {activeTab === 'content' ? (
-              <View>
-                <View style={styles.sectionHeader}>
-                  <Text style={styles.sectionTitle}>Content</Text>
-                  <Text style={styles.seeAllText}>See All</Text>
-                </View>
+                                  if (activeYtVideoId) {
+                                    return (
+                                      <View style={theaterStyles.videoPlayerWrap}>
+                                        {Platform.OS === 'web' ? (
+                                          <View style={theaterStyles.webVideoFrame}>
+                                            <iframe
+                                              src={`https://www.youtube.com/embed/${activeYtVideoId}?rel=0&autoplay=0&controls=1`}
+                                              style={{ width: '100%', height: '100%', border: 'none' } as any}
+                                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                              allowFullScreen
+                                            />
+                                          </View>
+                                        ) : (
+                                          <YoutubePlayer
+                                            height={380}
+                                            videoId={activeYtVideoId}
+                                            webViewStyle={{ opacity: 0.99 }}
+                                          />
+                                        )}
+                                      </View>
+                                    );
+                                  }
 
-                {selectedClassroom.contents.length === 0 ? (
-                  <Text style={styles.emptyText}>No learning content available.</Text>
-                ) : (
-                  selectedClassroom.contents.map((content, idx) => {
-                    const mediaUrl = resolveMediaUrl(content.mediaUrl);
-                    const externalUrl = resolveMediaUrl(content.externalUrl);
-                    const previewImageUrl = isImageUrl(mediaUrl) ? mediaUrl : isImageUrl(externalUrl) ? externalUrl : '';
-                    const showImage = Boolean(previewImageUrl);
+                                  if (activeUrl && activeUrl.match(/\.(mp4|mov|webm|avi)/i)) {
+                                    return (
+                                      <View style={theaterStyles.videoPlayerWrap}>
+                                        <View style={theaterStyles.webVideoFrame}>
+                                          <Video
+                                            source={{ uri: activeUrl }}
+                                            useNativeControls
+                                            resizeMode={ResizeMode.CONTAIN}
+                                            style={{ width: '100%', height: '100%' }}
+                                          />
+                                        </View>
+                                      </View>
+                                    );
+                                  }
 
-                    const cardColors = ['#D6EAFF', '#FFE8D6', '#D6F5D6', '#EDE4FF', '#FFF5CC'];
-                    const CONTENT_SVGS = [GIRAFFE, OWL, ELEPHANT, BUTTERFLY, PENGUIN];
-                    const bgColor = cardColors[idx % cardColors.length];
-                    const contentSvg = CONTENT_SVGS[idx % CONTENT_SVGS.length];
+                                  if (isAudioContent) {
+                                    return (
+                                      <View style={theaterStyles.audioPlayerWrap}>
+                                        <AudioPlayer
+                                          uri={activeUrl}
+                                          title={activeContent.title}
+                                          subtitle={activeContent.subject ? `${activeContent.subject}` : 'Audio Lesson'}
+                                          emoji="🎵"
+                                          accentColor="#6B5C97"
+                                          bgColor="#EDE4FF"
+                                          hasPrev={activeContentIndex > 0}
+                                          hasNext={activeContentIndex < selectedClassroom.contents.length - 1}
+                                          onPrev={() => setActiveContentIndex((i) => Math.max(0, i - 1))}
+                                          onNext={() => setActiveContentIndex((i) => Math.min(selectedClassroom.contents.length - 1, i + 1))}
+                                        />
+                                      </View>
+                                    );
+                                  }
 
-                    return (
-                      <Pressable key={content.id} style={[styles.storyCard, { backgroundColor: bgColor }]} onPress={() => setPreviewContentIndex(idx)}>
-                        <View style={styles.storyContent}>
-                          <Text style={styles.storyLabel}>{content.subject || content.contentType || 'Content'}</Text>
-                          <Text style={styles.storyTitle}>{content.title}</Text>
-                          <View style={styles.storyMetaRow}>
-                            <Pressable style={styles.playMiniBtn} onPress={() => setPreviewContentIndex(idx)}>
-                              <Play size={11} color="#fff" fill="#fff" />
-                              <Text style={styles.playMiniBtnText}>Open</Text>
-                            </Pressable>
+                                  if (isImageContent) {
+                                    return (
+                                      <View style={theaterStyles.imagePlayerWrap}>
+                                        <Image source={{ uri: activeUrl }} style={theaterStyles.stageImage} resizeMode="contain" />
+                                      </View>
+                                    );
+                                  }
+
+                                  if (isDocContent) {
+                                    return (
+                                      <View style={theaterStyles.docPlayerWrap}>
+                                        <View style={theaterStyles.docCardInner}>
+                                          <View style={theaterStyles.docIconCircle}>
+                                            <FileText size={36} color="#0284C7" />
+                                          </View>
+                                          <Text style={theaterStyles.docTitleText}>{activeContent.title}</Text>
+                                          <Text style={theaterStyles.docSubtitleText}>Attached Document / Reading File</Text>
+                                          <Pressable
+                                            style={theaterStyles.docOpenBtn}
+                                            onPress={() => {
+                                              if (Platform.OS === 'web') {
+                                                window.open(activeUrl, '_blank');
+                                              } else {
+                                                Linking.openURL(activeUrl);
+                                              }
+                                            }}
+                                          >
+                                            <BookOpen size={16} color="#FFFFFF" />
+                                            <Text style={theaterStyles.docOpenBtnText}>Open Document</Text>
+                                          </Pressable>
+                                        </View>
+                                      </View>
+                                    );
+                                  }
+
+                                  if (isTextOnlyContent) {
+                                    return (
+                                      <View style={theaterStyles.textPlayerWrap}>
+                                        <View style={theaterStyles.textStageBadge}>
+                                          <BookOpen size={13} color="#0D9488" />
+                                          <Text style={theaterStyles.textStageBadgeText}>Reading & Study Material</Text>
+                                        </View>
+                                        <Text style={theaterStyles.textStageTitle}>{activeContent.title}</Text>
+                                        <Text style={theaterStyles.textStageContent}>{activeContent.textContent}</Text>
+                                      </View>
+                                    );
+                                  }
+
+                                  return (
+                                    <View style={[theaterStyles.emptyPlayer, { backgroundColor: '#F8FAFC' }]}>
+                                      <SvgXml xml={PENGUIN} width={72} height={72} />
+                                      <Text style={[theaterStyles.emptyPlayerText, { marginTop: 12, color: '#1a1a2e', fontWeight: '700' }]}>
+                                        {activeContent.title}
+                                      </Text>
+                                      <Text style={{ fontSize: 13, color: '#525C6B', marginTop: 4 }}>
+                                        Interactive Learning Item
+                                      </Text>
+                                    </View>
+                                  );
+                                })()}
+
+                                {/* Video Footer Info & Step Buttons */}
+                                <View style={theaterStyles.videoCardFooter}>
+                                  <View style={{ flex: 1 }}>
+                                    <Text style={theaterStyles.videoCardTitle}>{activeContent?.title}</Text>
+                                    <View style={theaterStyles.videoMetaRow}>
+                                      <View style={theaterStyles.subjectPill}>
+                                        <Text style={theaterStyles.subjectPillText}>{activeContent?.subject || 'Lesson'}</Text>
+                                      </View>
+                                      <Text style={theaterStyles.metaDot}>•</Text>
+                                      <Text style={theaterStyles.videoDurationText}>
+                                        Lesson {activeContentIndex + 1} of {selectedClassroom.contents.length}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                  <View style={theaterStyles.navBtnGroup}>
+                                    <Pressable
+                                      style={[theaterStyles.stepBtn, activeContentIndex === 0 && { opacity: 0.4 }]}
+                                      disabled={activeContentIndex === 0}
+                                      onPress={() => setActiveContentIndex((i) => Math.max(0, i - 1))}
+                                    >
+                                      <ChevronLeft size={16} color="#2D5DC9" />
+                                      <Text style={theaterStyles.stepBtnText}>Prev</Text>
+                                    </Pressable>
+                                    <Pressable
+                                      style={[theaterStyles.stepBtn, activeContentIndex >= selectedClassroom.contents.length - 1 && { opacity: 0.4 }]}
+                                      disabled={activeContentIndex >= selectedClassroom.contents.length - 1}
+                                      onPress={() => setActiveContentIndex((i) => Math.min(selectedClassroom.contents.length - 1, i + 1))}
+                                    >
+                                      <Text style={theaterStyles.stepBtnText}>Next</Text>
+                                      <ChevronRight size={16} color="#2D5DC9" />
+                                    </Pressable>
+                                  </View>
+                                </View>
+                              </View>
+
+                              {/* 2. Lesson Overview (if text content exists and not already displayed as full text-only lesson) */}
+                              {activeContent?.textContent && !isTextOnlyContent ? (
+                                <View style={[theaterStyles.panelCard, { marginBottom: 20 }]}>
+                                  <Text style={theaterStyles.textContentTitle}>Lesson Overview</Text>
+                                  <Text style={theaterStyles.textContentBody}>{activeContent.textContent}</Text>
+                                </View>
+                              ) : null}
+
+                          {/* 3. Real Classroom Activities (Quizzes & Tasks) */}
+                          {(selectedClassroom.quizzes.length > 0 || selectedClassroom.assignments.length > 0) && (
+                            <View style={theaterStyles.panelCard}>
+                              <View style={theaterStyles.panelHeader}>
+                                <Text style={theaterStyles.panelHeaderTitle}>Class Activities</Text>
+                                <View style={theaterStyles.panelTabs}>
+                                  {selectedClassroom.quizzes.length > 0 && (
+                                    <Pressable
+                                      style={[theaterStyles.panelTab, activePanelTab === 'quiz' && theaterStyles.panelTabActive]}
+                                      onPress={() => setActivePanelTab('quiz')}
+                                    >
+                                      <Trophy size={14} color={activePanelTab === 'quiz' ? '#FFFFFF' : '#525C6B'} />
+                                      <Text style={[theaterStyles.panelTabText, activePanelTab === 'quiz' && theaterStyles.panelTabTextActive]}>
+                                        Quizzes ({selectedClassroom.quizzes.length})
+                                      </Text>
+                                    </Pressable>
+                                  )}
+                                  {selectedClassroom.assignments.length > 0 && (
+                                    <Pressable
+                                      style={[theaterStyles.panelTab, activePanelTab === 'assignments' && theaterStyles.panelTabActive]}
+                                      onPress={() => setActivePanelTab('assignments')}
+                                    >
+                                      <ClipboardList size={14} color={activePanelTab === 'assignments' ? '#FFFFFF' : '#525C6B'} />
+                                      <Text style={[theaterStyles.panelTabText, activePanelTab === 'assignments' && theaterStyles.panelTabTextActive]}>
+                                        Tasks ({selectedClassroom.assignments.length})
+                                      </Text>
+                                    </Pressable>
+                                  )}
+                                </View>
+                              </View>
+
+                              {activePanelTab === 'quiz' && selectedClassroom.quizzes.length > 0 && (
+                                <View style={theaterStyles.quizBody}>
+                                  {selectedClassroom.quizzes.map((quiz) => {
+                                    const isDone = quiz.status === 'completed';
+                                    return (
+                                      <View key={quiz.id} style={theaterStyles.panelQuizCard}>
+                                        <View style={theaterStyles.panelQuizIconBox}>
+                                          <Trophy size={18} color="#D97706" />
+                                        </View>
+                                        <View style={{ flex: 1 }}>
+                                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                                            <Text style={theaterStyles.panelQuizTitle}>{quiz.title}</Text>
+                                            <View style={[theaterStyles.quizLevelBadge, { backgroundColor: isDone ? '#D1FAE5' : '#FEF3C7' }]}>
+                                              <Text style={[theaterStyles.quizLevelBadgeText, { color: isDone ? '#065F46' : '#92400E' }]}>
+                                                {isDone ? 'COMPLETED' : (quiz.difficultyLevel ? quiz.difficultyLevel.toUpperCase() : 'STANDARD')}
+                                              </Text>
+                                            </View>
+                                          </View>
+                                          <Text style={theaterStyles.panelQuizSub}>
+                                            {quiz.totalQuestions} questions • Test knowledge & earn XP
+                                          </Text>
+                                        </View>
+                                        <Pressable
+                                          style={[theaterStyles.panelQuizPlayBtn, isDone && { backgroundColor: '#059669' }]}
+                                          onPress={() => setSelectedQuizId(quiz.id)}
+                                        >
+                                          <Play size={12} color="#fff" fill="#fff" />
+                                          <Text style={theaterStyles.panelQuizPlayBtnText}>
+                                            {isDone ? 'Replay Quiz' : 'Play Quiz'}
+                                          </Text>
+                                          <ChevronRight size={12} color="#fff" />
+                                        </Pressable>
+                                      </View>
+                                    );
+                                  })}
+                                </View>
+                              )}
+
+                              {(activePanelTab === 'assignments' || selectedClassroom.quizzes.length === 0) && selectedClassroom.assignments.length > 0 && (
+                                <View style={theaterStyles.tasksBody}>
+                                  {selectedClassroom.assignments.map((assignment) => {
+                                    const isSubmitted = assignment.status === 'submitted';
+                                    return (
+                                      <View key={assignment.id} style={theaterStyles.panelTaskCard}>
+                                        <View style={{ flex: 1 }}>
+                                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                                            <Text style={theaterStyles.panelTaskTitle}>{assignment.title}</Text>
+                                            <View
+                                              style={[
+                                                theaterStyles.panelTaskBadge,
+                                                isSubmitted
+                                                  ? { backgroundColor: '#D4EFE3' }
+                                                  : { backgroundColor: '#FFE8DF' },
+                                              ]}
+                                            >
+                                              <Text
+                                                style={[
+                                                  theaterStyles.panelTaskBadgeText,
+                                                  isSubmitted ? { color: '#176B47' } : { color: '#D33F13' },
+                                                ]}
+                                              >
+                                                {assignment.status.toUpperCase()}
+                                              </Text>
+                                            </View>
+                                          </View>
+                                          <Text style={theaterStyles.panelTaskDue}>
+                                            Due: {assignment.dueDate ? new Date(assignment.dueDate).toLocaleDateString() : 'No due date'}
+                                          </Text>
+                                        </View>
+                                        <Pressable
+                                          style={theaterStyles.panelTaskBtn}
+                                          onPress={() => openAssignment(assignment)}
+                                        >
+                                          <Text style={theaterStyles.panelTaskBtnText}>
+                                            {isSubmitted ? 'View Submission' : 'Submit Task'}
+                                          </Text>
+                                        </Pressable>
+                                      </View>
+                                    );
+                                  })}
+                                </View>
+                              )}
+                            </View>
+                          )}
+                        </View>
+
+                        {/* RIGHT COLUMN: Upcoming Videos Sidebar */}
+                        <View style={theaterStyles.rightCol}>
+                          <View style={theaterStyles.sidebarCard}>
+                            {/* Playlist Header */}
+                            <View style={theaterStyles.sidebarHeader}>
+                              <View style={{ flex: 1 }}>
+                                <Text style={theaterStyles.playlistTitle}>Upcoming Videos</Text>
+                                <Text style={theaterStyles.playlistCount}>
+                                  {selectedClassroom.contents.length} video{selectedClassroom.contents.length !== 1 ? 's' : ''} in this class
+                                </Text>
+                              </View>
+                              <View style={theaterStyles.progressPill}>
+                                <Text style={theaterStyles.progressPillText}>{selectedClassroom.completionPct}%</Text>
+                              </View>
+                            </View>
+
+                            {/* Upcoming Videos List */}
+                            <View style={theaterStyles.playlistSection}>
+                              <ScrollView style={theaterStyles.playlistScroll} showsVerticalScrollIndicator={false}>
+                                {selectedClassroom.contents.length === 0 ? (
+                                  <Text style={styles.emptyText}>No videos in this classroom.</Text>
+                                ) : (
+                                  selectedClassroom.contents.map((content, idx) => {
+                                    const isCur = idx === activeContentIndex;
+
+                                    return (
+                                      <Pressable
+                                        key={content.id || idx}
+                                        style={[
+                                          theaterStyles.videoItemCard,
+                                          isCur && theaterStyles.videoItemCardActive,
+                                        ]}
+                                        onPress={() => setActiveContentIndex(idx)}
+                                      >
+                                        <View
+                                          style={[
+                                            theaterStyles.videoItemIconBox,
+                                            isCur && theaterStyles.videoItemIconBoxActive,
+                                          ]}
+                                        >
+                                          {isCur ? (
+                                            <Pause size={14} color="#FFFFFF" fill="#FFFFFF" />
+                                          ) : (
+                                            <Play size={14} color="#2D5DC9" fill="#2D5DC9" />
+                                          )}
+                                        </View>
+
+                                        <View style={{ flex: 1, paddingRight: 8 }}>
+                                          <Text
+                                            style={[
+                                              theaterStyles.videoItemTitle,
+                                              isCur && theaterStyles.videoItemTitleActive,
+                                            ]}
+                                            numberOfLines={2}
+                                          >
+                                            {content.title}
+                                          </Text>
+                                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 }}>
+                                            {isCur ? (
+                                              <View style={theaterStyles.playingNowBadge}>
+                                                <Text style={theaterStyles.playingNowText}>Playing Now</Text>
+                                              </View>
+                                            ) : (
+                                              <Text style={theaterStyles.videoItemSub}>
+                                                {content.subject || 'Video'}
+                                              </Text>
+                                            )}
+                                          </View>
+                                        </View>
+
+                                        <View style={theaterStyles.videoItemRight}>
+                                          <Text style={[theaterStyles.videoItemIndex, isCur && { color: '#2D5DC9', fontWeight: '800' }]}>
+                                            #{idx + 1}
+                                          </Text>
+                                        </View>
+                                      </Pressable>
+                                    );
+                                  })
+                                )}
+                              </ScrollView>
+                            </View>
+
+                            {/* Other Active Classrooms Switcher */}
+                            {activeClassrooms.length > 1 && (
+                              <View style={theaterStyles.otherClassesCard}>
+                                <Text style={theaterStyles.otherClassesTitle}>Other Active Sessions</Text>
+                                {activeClassrooms
+                                  .filter((c) => c.id !== selectedClassroom.id)
+                                  .slice(0, 3)
+                                  .map((other) => (
+                                    <Pressable
+                                      key={other.id}
+                                      style={theaterStyles.otherClassItem}
+                                      onPress={() => {
+                                        setSelectedClassroomId(other.id);
+                                        setActiveContentIndex(0);
+                                      }}
+                                    >
+                                      <View style={{ flex: 1 }}>
+                                        <Text style={theaterStyles.otherClassName} numberOfLines={1}>
+                                          {other.title}
+                                        </Text>
+                                        <Text style={theaterStyles.otherClassMeta}>
+                                          {getStandardLabel(other.classLevel)} • {other.contents.length} videos
+                                        </Text>
+                                      </View>
+                                      <ChevronRight size={14} color="#525C6B" />
+                                    </Pressable>
+                                  ))}
+                              </View>
+                            )}
                           </View>
                         </View>
-                        {showImage ? (
-                          <Image source={{ uri: previewImageUrl }} style={styles.storyImage} resizeMode="cover" />
-                        ) : (
-                          <View style={styles.storyImagePlaceholder}>
-                            <SvgXml xml={contentSvg} width={52} height={52} />
+                      </View>
+                    );
+                  })()
+                ) : (
+                      /* ── MOBILE / SINGLE COLUMN VIEW ── */
+                      <>
+                        <View style={styles.categoriesRow}>
+                          <Pressable style={[styles.categoryCard, activeTab === 'content' && styles.categoryCardActive]} onPress={() => setActiveTab('content')}>
+                            <View style={[styles.categoryIconBg, { backgroundColor: '#e0e7ff' }]}>
+                               <BookOpen size={24} color="#4f46e5" />
+                            </View>
+                            <Text style={styles.categoryTitle}>Content</Text>
+                          </Pressable>
+                          
+                          <Pressable style={[styles.categoryCard, activeTab === 'quiz' && styles.categoryCardActive]} onPress={() => setActiveTab('quiz')}>
+                            <View style={[styles.categoryIconBg, { backgroundColor: '#fce7f3' }]}>
+                               <Trophy size={24} color="#db2777" />
+                            </View>
+                            <Text style={styles.categoryTitle}>Quiz</Text>
+                          </Pressable>
+
+                          <Pressable style={[styles.categoryCard, activeTab === 'assignments' && styles.categoryCardActive]} onPress={() => setActiveTab('assignments')}>
+                            <View style={[styles.categoryIconBg, { backgroundColor: '#ffedd5' }]}>
+                               <Clock size={24} color="#ea580c" />
+                            </View>
+                            <Text style={styles.categoryTitle}>Assignment</Text>
+                          </Pressable>
+                        </View>
+
+                        <View style={styles.spacer} />
+
+                        {activeTab === 'content' ? (
+                          <View>
+                            <View style={styles.sectionHeader}>
+                              <Text style={styles.sectionTitle}>Content</Text>
+                              <Text style={styles.seeAllText}>See All</Text>
+                            </View>
+
+                            {selectedClassroom.contents.length === 0 ? (
+                              <Text style={styles.emptyText}>No learning content available.</Text>
+                            ) : (
+                              selectedClassroom.contents.map((content, idx) => {
+                                const mediaUrl = resolveMediaUrl(content.mediaUrl);
+                                const externalUrl = resolveMediaUrl(content.externalUrl);
+                                const ytThumb = getYouTubeThumbnail(externalUrl || mediaUrl);
+                                const previewImageUrl = isImageUrl(mediaUrl) ? mediaUrl : isImageUrl(externalUrl) ? externalUrl : (ytThumb || '');
+                                const showImage = Boolean(previewImageUrl);
+
+                                const cardColors = ['#D6EAFF', '#FFE8D6', '#D6F5D6', '#EDE4FF', '#FFF5CC'];
+                                const CONTENT_SVGS = [GIRAFFE, OWL, ELEPHANT, BUTTERFLY, PENGUIN];
+                                const bgColor = cardColors[idx % cardColors.length];
+                                const contentSvg = CONTENT_SVGS[idx % CONTENT_SVGS.length];
+
+                                return (
+                                  <Pressable key={content.id} style={[styles.storyCard, { backgroundColor: bgColor }]} onPress={() => setPreviewContentIndex(idx)}>
+                                    <View style={styles.storyContent}>
+                                      <Text style={styles.storyLabel}>{content.subject || content.contentType || 'Content'}</Text>
+                                      <Text style={styles.storyTitle}>{content.title}</Text>
+                                      <View style={styles.storyMetaRow}>
+                                        <Pressable style={styles.playMiniBtn} onPress={() => setPreviewContentIndex(idx)}>
+                                          <Play size={11} color="#fff" fill="#fff" />
+                                          <Text style={styles.playMiniBtnText}>Open</Text>
+                                        </Pressable>
+                                      </View>
+                                    </View>
+                                    {showImage ? (
+                                      <View style={{ position: 'relative' }}>
+                                        <Image source={{ uri: previewImageUrl }} style={styles.storyImage} resizeMode="cover" />
+                                        {Boolean(ytThumb) && (
+                                          <View style={styles.storyPlayBadge}>
+                                            <Play size={11} color="#FFFFFF" fill="#FFFFFF" />
+                                          </View>
+                                        )}
+                                      </View>
+                                    ) : (
+                                      <View style={styles.storyImagePlaceholder}>
+                                        <SvgXml xml={contentSvg} width={52} height={52} />
+                                      </View>
+                                    )}
+                                  </Pressable>
+                                );
+                              })
+                            )}
                           </View>
-                        )}
-                      </Pressable>
-                    );
-                  })
-                )}
-              </View>
-            ) : null}
+                        ) : null}
 
-            {activeTab === 'quiz' ? (
-              <View>
-                <View style={styles.sectionHeader}>
-                  <Text style={styles.sectionTitle}>Puzzle Games</Text>
-                  <Text style={styles.seeAllText}>See All</Text>
-                </View>
+                        {activeTab === 'quiz' ? (
+                          <View>
+                            <View style={styles.sectionHeader}>
+                              <Text style={styles.sectionTitle}>Puzzle Games</Text>
+                              <Text style={styles.seeAllText}>See All</Text>
+                            </View>
 
-                {selectedClassroom.quizzes.length === 0 ? (
-                  <Text style={styles.emptyText}>No games assigned yet.</Text>
-                ) : (
-                  selectedClassroom.quizzes.map((quiz) => {
-                    const isCompleted = quiz.status === 'completed';
-                    return (
-                      <View key={quiz.id} style={styles.gameCard}>
-                        <View style={[styles.gameIconBox, { backgroundColor: '#FFE8D6' }]}>
-                          <Trophy size={20} color="#D33F13" />
-                        </View>
-                        <View style={styles.gameInfo}>
-                          <Text style={styles.gameTitle}>{quiz.title}</Text>
-                          <Text style={styles.gameSubtitle}>{quiz.totalQuestions} questions · {quiz.difficultyLevel || 'Standard'}</Text>
-                        </View>
-                        <Pressable style={styles.playButton} onPress={() => setSelectedQuizId(quiz.id)}>
-                          <Play size={12} color="#fff" fill="#fff" />
-                          <Text style={styles.playButtonText}>{isCompleted ? 'Replay' : 'Play'}</Text>
-                        </Pressable>
-                      </View>
-                    );
-                  })
-                )}
-              </View>
-            ) : null}
+                            {selectedClassroom.quizzes.length === 0 ? (
+                              <Text style={styles.emptyText}>No games assigned yet.</Text>
+                            ) : (
+                              selectedClassroom.quizzes.map((quiz) => {
+                                const isCompleted = quiz.status === 'completed';
+                                return (
+                                  <View key={quiz.id} style={styles.gameCard}>
+                                    <View style={[styles.gameIconBox, { backgroundColor: '#FFE8D6' }]}>
+                                      <Trophy size={20} color="#D33F13" />
+                                    </View>
+                                    <View style={styles.gameInfo}>
+                                      <Text style={styles.gameTitle}>{quiz.title}</Text>
+                                      <Text style={styles.gameSubtitle}>{quiz.totalQuestions} questions · {quiz.difficultyLevel || 'Standard'}</Text>
+                                    </View>
+                                    <Pressable style={styles.playButton} onPress={() => setSelectedQuizId(quiz.id)}>
+                                      <Play size={12} color="#fff" fill="#fff" />
+                                      <Text style={styles.playButtonText}>{isCompleted ? 'Replay' : 'Play'}</Text>
+                                    </Pressable>
+                                  </View>
+                                );
+                              })
+                            )}
+                          </View>
+                        ) : null}
 
-            {activeTab === 'assignments' ? (
-              <View>
-                <View style={styles.sectionHeader}>
-                  <Text style={styles.sectionTitle}>My Tasks</Text>
-                </View>
+                        {activeTab === 'assignments' ? (
+                          <View>
+                            <View style={styles.sectionHeader}>
+                              <Text style={styles.sectionTitle}>My Tasks</Text>
+                            </View>
 
-                {selectedClassroom.assignments.length === 0 ? (
-                  <Text style={styles.emptyText}>No tasks available.</Text>
-                ) : (
-                  selectedClassroom.assignments.map((assignment) => (
-                    <View key={assignment.id} style={styles.taskCard}>
-                      <View style={styles.taskHeader}>
-                        <Text style={styles.taskTitle}>{assignment.title}</Text>
-                        <View
-                          style={[
-                            styles.statusPill,
-                            assignment.status === 'submitted'
-                              ? styles.statusPillSuccess
-                              : assignment.status === 'overdue'
-                                ? styles.statusPillWarning
-                                : styles.statusPillDanger,
-                          ]}
-                        >
-                          <Text
-                            style={[
-                              styles.statusPillText,
-                              assignment.status === 'submitted'
-                                ? styles.statusPillSuccessText
-                                : assignment.status === 'overdue'
-                                  ? styles.statusPillWarningText
-                                  : styles.statusPillDangerText,
-                            ]}
-                          >
-                            {assignment.status.toUpperCase()}
-                          </Text>
-                        </View>
-                      </View>
-                      <Text style={styles.taskMeta}>
-                        Due: {assignment.dueDate ? new Date(assignment.dueDate).toLocaleString() : 'No due date'}
-                      </Text>
-                      <Pressable style={styles.taskButton} onPress={() => openAssignment(assignment)}>
-                        <Text style={styles.taskButtonText}>{assignment.status === 'submitted' ? 'View Details' : 'Complete Task'}</Text>
-                      </Pressable>
-                    </View>
-                  ))
-                )}
-              </View>
-            ) : null}
+                            {selectedClassroom.assignments.length === 0 ? (
+                              <Text style={styles.emptyText}>No tasks available.</Text>
+                            ) : (
+                              selectedClassroom.assignments.map((assignment) => (
+                                <View key={assignment.id} style={styles.taskCard}>
+                                  <View style={styles.taskHeader}>
+                                    <Text style={styles.taskTitle}>{assignment.title}</Text>
+                                    <View
+                                      style={[
+                                        styles.statusPill,
+                                        assignment.status === 'submitted'
+                                          ? styles.statusPillSuccess
+                                          : assignment.status === 'overdue'
+                                            ? styles.statusPillWarning
+                                            : styles.statusPillDanger,
+                                      ]}
+                                    >
+                                      <Text
+                                        style={[
+                                          styles.statusPillText,
+                                          assignment.status === 'submitted'
+                                            ? styles.statusPillSuccessText
+                                            : assignment.status === 'overdue'
+                                              ? styles.statusPillWarningText
+                                              : styles.statusPillDangerText,
+                                        ]}
+                                      >
+                                        {assignment.status.toUpperCase()}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                  <Text style={styles.taskMeta}>
+                                    Due: {assignment.dueDate ? new Date(assignment.dueDate).toLocaleString() : 'No due date'}
+                                  </Text>
+                                  <Pressable style={styles.taskButton} onPress={() => openAssignment(assignment)}>
+                                    <Text style={styles.taskButtonText}>{assignment.status === 'submitted' ? 'View Details' : 'Complete Task'}</Text>
+                                  </Pressable>
+                                </View>
+                              ))
+                            )}
+                          </View>
+                        ) : null}
+                      </>
+                    )}
                   </>
                 )}
               </>
@@ -1366,6 +1944,9 @@ const styles = StyleSheet.create({
   content: {
     padding: 16,
     paddingBottom: 40,
+    width: '100%',
+    maxWidth: 1440,
+    alignSelf: 'center',
   },
   welcomeSection: {
     flexDirection: 'row',
@@ -1565,6 +2146,17 @@ const styles = StyleSheet.create({
     height: 72,
     backgroundColor: 'rgba(255,255,255,0.5)',
     borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  storyPlayBadge: {
+    position: 'absolute',
+    bottom: 6,
+    right: 6,
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: 'rgba(0,0,0,0.65)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -2151,7 +2743,13 @@ const aStyles = StyleSheet.create({
   statusBadgePending:   { borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5, backgroundColor: '#EEF4FF' },
   statusBadgeText:      { fontSize: 11, fontWeight: '800', color: '#1a1a2e' },
 
-  scrollContent: { padding: 16, gap: 16 },
+  scrollContent: {
+    padding: 16,
+    gap: 16,
+    maxWidth: 860,
+    width: '100%',
+    alignSelf: 'center',
+  },
 
   metaRow:       { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
   metaChip:      { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: '#fff', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 7, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 1 },
@@ -2196,7 +2794,16 @@ const aStyles = StyleSheet.create({
   mediaRemoveBtn: { paddingHorizontal: 12, paddingVertical: 8, borderRadius: 8, backgroundColor: '#FFE8E8', justifyContent: 'center', alignItems: 'center' },
   mediaRemoveBtnText: { fontSize: 12, fontWeight: '800', color: '#DC2626' },
 
-  footer:        { padding: 16, paddingBottom: Platform.OS === 'ios' ? 32 : 16, backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: '#F0F0F8' },
+  footer: {
+    padding: 16,
+    paddingBottom: Platform.OS === 'ios' ? 32 : 16,
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#F0F0F8',
+    maxWidth: 860,
+    width: '100%',
+    alignSelf: 'center',
+  },
   submitBtn:     { backgroundColor: '#2D5DC9', borderRadius: 16, paddingVertical: 16, alignItems: 'center' },
   submitBtnText: { color: '#fff', fontSize: 15, fontWeight: '900', letterSpacing: 0.3 },
 });
@@ -2210,21 +2817,227 @@ const clStyles = StyleSheet.create({
   historyLinkBtn:  { marginTop: 12, borderRadius: 12, backgroundColor: '#EBF4FF', paddingHorizontal: 16, paddingVertical: 10 },
   historyLinkText: { fontSize: 13, fontWeight: '800', color: '#1A4DA2' },
 
-  // Active classroom list
-  listSection:      { paddingBottom: 8 },
-  listSectionLabel: { fontSize: 12, fontWeight: '700', color: '#525C6B', marginBottom: 10, paddingHorizontal: 4 },
+  // Redesigned My Classes Header
+  myClassesHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    marginTop: 4,
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  myClassesTitle: {
+    fontSize: 24,
+    fontWeight: '800',
+    color: '#1a1a2e',
+    letterSpacing: -0.3,
+  },
+  myClassesSub: {
+    fontSize: 13,
+    color: '#525C6B',
+    fontWeight: '500',
+    marginTop: 4,
+  },
+  historyBtnModern: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 7,
+    borderRadius: 14,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    paddingHorizontal: 14,
+    paddingVertical: 9,
+    shadowColor: '#1A1D3A',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 6,
+    elevation: 2,
+  },
+  historyBtnModernText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#2D5DC9',
+  },
 
-  roomCard:     { flexDirection: 'row', alignItems: 'flex-start', gap: 14, borderRadius: 20, padding: 16, marginBottom: 12, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.07, shadowRadius: 10, elevation: 3 },
-  roomCardArt:  { width: 52, height: 52, borderRadius: 14, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  roomCardInfo: { flex: 1 },
-  roomCardTitle:{ fontSize: 15, fontWeight: '800', color: '#1a1a2e', lineHeight: 22 },
-  roomCardMeta: { fontSize: 12, color: '#525C6B', fontWeight: '500', marginTop: 2 },
-  roomCardChips:{ flexDirection: 'row', gap: 6, marginTop: 6, flexWrap: 'wrap' },
-  roomChip:     { flexDirection: 'row', alignItems: 'center', gap: 4, borderRadius: 999, paddingHorizontal: 8, paddingVertical: 3, backgroundColor: '#F0F4FF' },
-  roomChipText: { fontSize: 11, fontWeight: '700', color: '#3F5D8C' },
-  roomCardProgress: { alignItems: 'center', gap: 2, flexShrink: 0 },
-  roomCardPct:  { fontSize: 18, fontWeight: '900', color: '#2D5DC9' },
-  roomCardPctLabel: { fontSize: 9, fontWeight: '700', color: '#525C6B', textTransform: 'uppercase' },
+  // Active classroom list & grid
+  listSection: {
+    paddingBottom: 24,
+  },
+  gridContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 20,
+  },
+  modernClassCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    padding: 20,
+    width: '100%',
+    shadowColor: '#1A1D3A',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+    elevation: 3,
+  },
+  modernClassCardDesktop: {
+    flexBasis: '48%',
+    maxWidth: '49%',
+    minWidth: 280,
+    flexGrow: 1,
+  },
+  classCardTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 14,
+  },
+  classCardIconWrap: {
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  classCardBadges: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  classLevelBadge: {
+    backgroundColor: '#EFF6FF',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#D6E8FF',
+  },
+  classLevelBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#2D5DC9',
+  },
+  classLiveBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: '#E8F8F0',
+    paddingHorizontal: 9,
+    paddingVertical: 4,
+    borderRadius: 10,
+  },
+  classLiveDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#176B47',
+  },
+  classLiveBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#176B47',
+  },
+  classCardMain: {
+    marginBottom: 14,
+  },
+  classCardTitle: {
+    fontSize: 17,
+    fontWeight: '800',
+    color: '#1a1a2e',
+    lineHeight: 24,
+    marginBottom: 4,
+  },
+  classCardSub: {
+    fontSize: 12,
+    color: '#525C6B',
+    fontWeight: '500',
+  },
+  classCardTimeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    marginTop: 2,
+  },
+  classCardTimeText: {
+    fontSize: 12,
+    color: '#525C6B',
+    fontWeight: '600',
+  },
+  classMetricsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    flexWrap: 'wrap',
+    marginBottom: 16,
+  },
+  classMetricPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 12,
+  },
+  classMetricPillDue: {
+    backgroundColor: '#FFF2EA',
+    borderColor: '#FFD9C6',
+  },
+  classMetricPillText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#525C6B',
+  },
+  classProgressSection: {
+    marginBottom: 16,
+  },
+  classProgressTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+  classProgressLabel: {
+    fontSize: 11,
+    color: '#525C6B',
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  classProgressVal: {
+    fontSize: 12,
+    color: '#2D5DC9',
+    fontWeight: '800',
+  },
+  progressBarTrack: {
+    height: 6,
+    backgroundColor: '#EEF2F6',
+    borderRadius: 3,
+    overflow: 'hidden',
+  },
+  progressBarFill: {
+    height: '100%',
+    backgroundColor: '#2D5DC9',
+    borderRadius: 3,
+  },
+  classCardActionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#F0F4FF',
+  },
+  classCardActionText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#2D5DC9',
+  },
 
   backToList:     { flexDirection: 'row', alignItems: 'center', gap: 4, paddingVertical: 8, marginBottom: 6 },
   backToListText: { fontSize: 13, fontWeight: '700', color: '#2D5DC9' },
@@ -2264,7 +3077,14 @@ const clStyles = StyleSheet.create({
   historyCenter:    { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 8, paddingTop: 60 },
   historyEmptyTitle:{ fontSize: 18, fontWeight: '900', color: '#1a1a2e' },
   historyEmptySub:  { fontSize: 13, color: '#525C6B', textAlign: 'center' },
-  historyList:      { padding: 16, gap: 10, paddingBottom: 40 },
+  historyList: {
+    padding: 16,
+    gap: 10,
+    paddingBottom: 40,
+    maxWidth: 860,
+    width: '100%',
+    alignSelf: 'center',
+  },
 
   historyCard:      { flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: '#fff', borderRadius: 18, padding: 14, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 6, elevation: 2 },
   historyCardIcon:  { width: 48, height: 48, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
@@ -2275,7 +3095,13 @@ const clStyles = StyleSheet.create({
   historyChipText:  { fontSize: 10, fontWeight: '700', color: '#3F5D8C' },
 
   // History single classroom detail
-  historyDetail:    { padding: 16, paddingBottom: 48 },
+  historyDetail: {
+    padding: 16,
+    paddingBottom: 48,
+    maxWidth: 860,
+    width: '100%',
+    alignSelf: 'center',
+  },
   historyStatsRow:  { flexDirection: 'row', gap: 10, marginBottom: 16 },
   historyStat:      { flex: 1, backgroundColor: '#fff', borderRadius: 14, padding: 12, alignItems: 'center', gap: 3, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 1 },
   historyStatVal:   { fontSize: 22, fontWeight: '900', color: '#1a1a2e' },
@@ -2302,4 +3128,618 @@ const clStyles = StyleSheet.create({
 
   historyAssignCard: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#F5F7FF' },
   historyAssignTitle:{ fontSize: 13, fontWeight: '700', color: '#1a1a2e', flex: 1, marginRight: 8 },
+});
+
+const theaterStyles = StyleSheet.create({
+  classroomHeaderBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    marginBottom: 16,
+    gap: 8,
+    flexWrap: 'wrap',
+  },
+  backBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#F0F4FF',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 10,
+  },
+  backBtnText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#2D5DC9',
+  },
+  classTitleWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    flex: 1,
+    minWidth: 0,
+  },
+  headerClassTitle: {
+    fontSize: 17,
+    fontWeight: '800',
+    color: '#1a1a2e',
+  },
+  standardBadge: {
+    backgroundColor: '#EFF6FF',
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#D6E8FF',
+  },
+  standardBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#2D5DC9',
+  },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 20,
+  },
+  leftCol: {
+    flex: 1,
+    minWidth: 0,
+  },
+  rightCol: {
+    width: 350,
+    minWidth: 280,
+    maxWidth: 400,
+  },
+  videoCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    overflow: 'hidden',
+    marginBottom: 20,
+    shadowColor: '#1A1D3A',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  videoTopBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    backgroundColor: '#FFFFFF',
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F4FF',
+  },
+  videoTopBarLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    gap: 8,
+    marginRight: 12,
+  },
+  videoTopBarTitle: {
+    color: '#1a1a2e',
+    fontSize: 14,
+    fontWeight: '700',
+    flex: 1,
+  },
+  videoTopBarRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  videoTypeBadge: {
+    backgroundColor: '#F0F4FF',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 10,
+  },
+  videoTypeBadgeText: {
+    color: '#2D5DC9',
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  fullscreenBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#F8FAFC',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  videoPlayerWrap: {
+    width: '100%',
+    aspectRatio: 16 / 9,
+    backgroundColor: '#0B0F19',
+    overflow: 'hidden',
+  },
+  audioPlayerWrap: {
+    width: '100%',
+    backgroundColor: '#FAF5FF',
+    padding: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E8ECF4',
+  },
+  imagePlayerWrap: {
+    width: '100%',
+    minHeight: 280,
+    maxHeight: 520,
+    backgroundColor: '#0F172A',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  stageImage: {
+    width: '100%',
+    height: 480,
+  },
+  docPlayerWrap: {
+    width: '100%',
+    backgroundColor: '#F8FAFC',
+    padding: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E8ECF4',
+  },
+  docCardInner: {
+    alignItems: 'center',
+    maxWidth: 440,
+  },
+  docIconCircle: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: '#E0F2FE',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 14,
+  },
+  docTitleText: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#0F172A',
+    textAlign: 'center',
+    marginBottom: 4,
+  },
+  docSubtitleText: {
+    fontSize: 13,
+    color: '#64748B',
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  docOpenBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#0284C7',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 12,
+  },
+  docOpenBtnText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  textPlayerWrap: {
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    padding: 28,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E8ECF4',
+  },
+  textStageBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    alignSelf: 'flex-start',
+    backgroundColor: '#F0FDFA',
+    borderWidth: 1,
+    borderColor: '#99F6E4',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+    marginBottom: 12,
+  },
+  textStageBadgeText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#0D9488',
+  },
+  textStageTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#0F172A',
+    marginBottom: 12,
+  },
+  textStageContent: {
+    fontSize: 15,
+    lineHeight: 24,
+    color: '#334155',
+  },
+  webVideoFrame: {
+    width: '100%',
+    height: '100%',
+  },
+  emptyPlayer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+    backgroundColor: '#0B0F19',
+  },
+  emptyPlayerText: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  videoCardFooter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 16,
+    backgroundColor: '#FFFFFF',
+  },
+  videoCardTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#1a1a2e',
+    marginBottom: 4,
+  },
+  videoMetaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  subjectPill: {
+    backgroundColor: '#D6E8FF',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 8,
+  },
+  subjectPillText: {
+    color: '#2D5DC9',
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  metaDot: {
+    color: '#94A3B8',
+    fontSize: 12,
+  },
+  videoDurationText: {
+    fontSize: 12,
+    color: '#525C6B',
+    fontWeight: '600',
+  },
+  navBtnGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  stepBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 10,
+    backgroundColor: '#F0F4FF',
+  },
+  stepBtnText: {
+    color: '#2D5DC9',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  panelCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    padding: 18,
+    shadowColor: '#1A1D3A',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  panelHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  panelHeaderTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#1a1a2e',
+  },
+  panelTabs: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  panelTab: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    backgroundColor: '#F8FAFC',
+  },
+  panelTabActive: {
+    backgroundColor: '#2D5DC9',
+  },
+  panelTabText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#525C6B',
+  },
+  panelTabTextActive: {
+    color: '#FFFFFF',
+  },
+  textContentTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#1a1a2e',
+    marginBottom: 6,
+  },
+  textContentBody: {
+    fontSize: 13,
+    color: '#4B5563',
+    lineHeight: 20,
+  },
+  quizBody: {
+    gap: 10,
+  },
+  panelQuizCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    padding: 12,
+    borderRadius: 14,
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+  },
+  panelQuizIconBox: {
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    backgroundColor: '#FFE8DF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  panelQuizTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#1a1a2e',
+  },
+  panelQuizSub: {
+    fontSize: 12,
+    color: '#525C6B',
+    marginTop: 2,
+  },
+  quizLevelBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  quizLevelBadgeText: {
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.4,
+  },
+  panelQuizPlayBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#2D5DC9',
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 10,
+  },
+  panelQuizPlayBtnText: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  tasksBody: {
+    gap: 10,
+  },
+  panelTaskCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 14,
+    borderRadius: 14,
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+  },
+  panelTaskTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#1a1a2e',
+  },
+  panelTaskBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 8,
+  },
+  panelTaskBadgeText: {
+    fontSize: 10,
+    fontWeight: '800',
+  },
+  panelTaskDue: {
+    fontSize: 11,
+    color: '#525C6B',
+  },
+  panelTaskBtn: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#2D5DC9',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 10,
+  },
+  panelTaskBtnText: {
+    color: '#2D5DC9',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  sidebarCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    padding: 18,
+    shadowColor: '#1A1D3A',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  sidebarHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 14,
+  },
+  progressPill: {
+    backgroundColor: '#D4EFE3',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 10,
+  },
+  progressPillText: {
+    color: '#176B47',
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  playlistSection: {
+    gap: 8,
+  },
+  playlistTitle: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#1a1a2e',
+  },
+  playlistCount: {
+    fontSize: 12,
+    color: '#525C6B',
+    fontWeight: '500',
+    marginTop: 2,
+  },
+  playlistScroll: {
+    maxHeight: 480,
+  },
+  videoItemCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    padding: 10,
+    borderRadius: 14,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    marginBottom: 8,
+  },
+  videoItemCardActive: {
+    backgroundColor: '#F0F5FF',
+    borderColor: '#2D5DC9',
+    borderWidth: 1.5,
+  },
+  videoItemIconBox: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    backgroundColor: '#F0F4FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  videoItemIconBoxActive: {
+    backgroundColor: '#2D5DC9',
+  },
+  videoItemTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#1a1a2e',
+    lineHeight: 18,
+  },
+  videoItemTitleActive: {
+    color: '#2D5DC9',
+    fontWeight: '800',
+  },
+  videoItemSub: {
+    fontSize: 11,
+    color: '#525C6B',
+  },
+  playingNowBadge: {
+    backgroundColor: '#D6E8FF',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  playingNowText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#2D5DC9',
+  },
+  videoItemRight: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  videoItemIndex: {
+    fontSize: 11,
+    color: '#94A3B8',
+    fontWeight: '600',
+  },
+  otherClassesCard: {
+    marginTop: 16,
+    paddingTop: 14,
+    borderTopWidth: 1,
+    borderTopColor: '#F0F4FF',
+  },
+  otherClassesTitle: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#7A7A9A',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 8,
+  },
+  otherClassItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F8FAFC',
+  },
+  otherClassName: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#1a1a2e',
+  },
+  otherClassMeta: {
+    fontSize: 11,
+    color: '#525C6B',
+    marginTop: 2,
+  },
 });

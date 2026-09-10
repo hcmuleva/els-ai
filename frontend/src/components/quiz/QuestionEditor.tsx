@@ -35,6 +35,7 @@ import {
   TextInput,
   useWindowDimensions,
   View,
+  type DimensionValue,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -42,6 +43,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Maximize2, ZoomIn, X } from 'lucide-react-native';
 import SelectorModal, { SelectorOption } from '../SelectorModal';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import LatexText from '../common/LatexText';
 import SafeImage from './SafeImage';
 import MediaUploader from '../media/MediaUploader';
 import LogicoButtonBadge from './LogicoButtonBadge';
@@ -714,10 +716,16 @@ export default function QuestionEditor({
               <TextInput
                 value={draft.questionTitle}
                 onChangeText={(v) => updateField('questionTitle', v)}
-                placeholder="e.g. What animal says Moo?"
+                placeholder="e.g. What animal says Moo? or $x^2 + y^2 = r^2$"
                 style={qFormS.input}
                 placeholderTextColor="#B0B8D0"
               />
+              {draft.questionTitle.trim() ? (
+                <View style={{ marginTop: 6, padding: 10, borderRadius: 10, backgroundColor: '#F8FAFC', borderWidth: 1, borderColor: '#E2E8F0' }}>
+                  <Text style={{ fontSize: 10, fontWeight: '800', color: '#64748B', textTransform: 'uppercase', marginBottom: 4 }}>LaTeX Preview</Text>
+                  <LatexText content={draft.questionTitle} compact background="transparent" style={{ fontSize: 14, color: '#1E293B' }} />
+                </View>
+              ) : null}
               <View style={qFormS.divider} />
               <Text style={qFormS.fieldLabel}>Instruction (optional)</Text>
               <TextInput
@@ -738,6 +746,12 @@ export default function QuestionEditor({
                 multiline
                 placeholderTextColor="#B0B8D0"
               />
+              {draft.explanation.trim() ? (
+                <View style={{ marginTop: 6, padding: 10, borderRadius: 10, backgroundColor: '#EFF6FF', borderWidth: 1, borderColor: '#BFDBFE' }}>
+                  <Text style={{ fontSize: 10, fontWeight: '800', color: '#1D4ED8', textTransform: 'uppercase', marginBottom: 4 }}>Explanation Preview</Text>
+                  <LatexText content={draft.explanation} compact background="transparent" style={{ fontSize: 13, color: '#1E3A8A' }} />
+                </View>
+              ) : null}
             </View>
           </View>
 
@@ -1325,7 +1339,7 @@ function LogicoWorksheetImageOverlay({
   imageUri: string;
   options: OptionDraft[];
   onPress?: () => void;
-  height?: number | string;
+  height?: DimensionValue;
   showOverlay?: boolean;
 }) {
   const slotMap = useMemo(() => {

@@ -17,10 +17,10 @@ export const qFormS = StyleSheet.create({
   saveBtnDisabled: { opacity: 0.5 },
   saveBtnText: { color: '#fff', fontWeight: '800', fontSize: 13 },
 
-  tabBar: { flexDirection: 'row', backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
-  tab: { flex: 1, paddingVertical: 12, alignItems: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
-  tabActive: { borderBottomColor: '#2D5DC9' },
-  tabText: { fontSize: 13, fontWeight: '600', color: '#525C6B' },
+  tabBar: { flexDirection: 'row', backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#F0F0F8', paddingHorizontal: 12, paddingVertical: 8, gap: 8 },
+  tab: { flex: 1, paddingVertical: 8, alignItems: 'center', borderRadius: 8, backgroundColor: '#F8FAFC', borderWidth: 1, borderColor: '#E2E8F0' },
+  tabActive: { backgroundColor: '#EFF6FF', borderColor: '#BFDBFE' },
+  tabText: { fontSize: 13, fontWeight: '600', color: '#64748B' },
   tabTextActive: { color: '#2D5DC9', fontWeight: '800' },
 
   toast: { marginHorizontal: 16, marginTop: 8, borderRadius: 10, padding: 10, borderWidth: 1, borderColor: '#E0E4F0', backgroundColor: '#F0F4FF' },
@@ -33,7 +33,7 @@ export const qFormS = StyleSheet.create({
   tabContent: { padding: 16, gap: 16, paddingBottom: 40 },
   group: { gap: 8 },
   groupLabel: { fontSize: 10, fontWeight: '800', color: '#525C6B', letterSpacing: 1, textTransform: 'uppercase', paddingLeft: 4 },
-  fieldCard: { backgroundColor: '#fff', borderRadius: 16, padding: 14, gap: 10, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
+  fieldCard: { backgroundColor: '#fff', borderRadius: 14, padding: 14, gap: 10, borderWidth: 1, borderColor: '#E8ECF4', shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
   fieldLabel: { fontSize: 11, fontWeight: '700', color: '#525C6B', textTransform: 'uppercase', letterSpacing: 0.5 },
   input: { fontSize: 14, color: '#1a1a2e', fontWeight: '500', paddingVertical: 6 },
   divider: { height: 1, backgroundColor: '#F0F0F8' },
@@ -60,7 +60,7 @@ export const qFormS = StyleSheet.create({
   removeBtnWide: { borderRadius: 8, backgroundColor: '#FFE8E8', paddingHorizontal: 10, paddingVertical: 6 },
   removeBtnText: { fontSize: 11, fontWeight: '800', color: '#D33F13' },
 
-  secGroup: { backgroundColor: '#fff', borderRadius: 16, overflow: 'hidden' },
+  secGroup: { backgroundColor: '#fff', borderRadius: 14, borderWidth: 1, borderColor: '#E8ECF4', overflow: 'hidden' },
   secHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#F0F0F8' },
   secTitle: { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
   secHint: { fontSize: 12, color: '#525C6B', paddingHorizontal: 14, paddingVertical: 8 },

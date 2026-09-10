@@ -142,18 +142,6 @@ export default function LatexText({
   const fontSize: number = (style as any)?.fontSize ?? 15;
   const color: string = (style as any)?.color ?? '#1A2233';
 
-  // ── Fast path: no LaTeX ─────────────────────────────────────────────────────
-  if (!hasLatex(content || '')) {
-    return (
-      <Text style={style} numberOfLines={compact ? numberOfLines : undefined}>
-        {content}
-      </Text>
-    );
-  }
-
-  // ── LaTeX path via WebView ──────────────────────────────────────────────────
-  const html = buildKatexHtml(content, fontSize, color, background);
-
   const onMessage = useCallback(
     (event: WebViewMessageEvent) => {
       try {
@@ -177,6 +165,17 @@ export default function LatexText({
     [compact, compactHeight]
   );
 
+  // ── Fast path: no LaTeX ─────────────────────────────────────────────────────
+  if (!hasLatex(content || '')) {
+    return (
+      <Text style={style} numberOfLines={compact ? numberOfLines : undefined}>
+        {content}
+      </Text>
+    );
+  }
+
+  // ── LaTeX path via WebView ──────────────────────────────────────────────────
+  const html = buildKatexHtml(content, fontSize, color, background);
   const viewHeight = compact ? compactHeight : webViewHeight;
 
   return (
