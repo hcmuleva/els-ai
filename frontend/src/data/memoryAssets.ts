@@ -95,5 +95,5 @@ export const GRID_PAIR_COUNTS: Record<string, number> = {
 export const GRID_COLS: Record<string, number> = {
   '2x2': 2,
   '4x4': 4,
-  '6x6': 4,
+  '6x6': 6,
 };
