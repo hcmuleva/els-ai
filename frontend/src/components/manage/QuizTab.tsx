@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import LatexText from '../common/LatexText';
 import {
   ActivityIndicator,
+  DeviceEventEmitter,
   Modal,
   Platform,
   Pressable,
@@ -155,9 +156,16 @@ const DIFFICULTY_STYLE: Record<Difficulty, { bg: string; color: string }> = {
 export interface QuizTabProps {
   filters?: { classLevel: string; subject: string };
   onFiltersChange?: (filters: Partial<{ classLevel: string; subject: string }>) => void;
+  initialQuizId?: string;
+  initialAction?: 'preview' | 'edit';
 }
 
-export default function QuizTab({ filters: externalFilters, onFiltersChange }: QuizTabProps) {
+export default function QuizTab({
+  filters: externalFilters,
+  onFiltersChange,
+  initialQuizId,
+  initialAction,
+}: QuizTabProps) {
   const { width } = useWindowDimensions();
   const isMobile = width < 768;
 
@@ -177,17 +185,17 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
   const [quizSelectedQuestionIds, setQuizSelectedQuestionIds] = useState<string[]>([]);
   const [message, setMessage]                             = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [subjectCatalogItems, setSubjectCatalogItems]     = useState<SubjectCatalogItem[]>([]);
-  const [pageView, setPageView]                           = useState<PageView>('creator');
+  const [pageView, setPageView]                           = useState<PageView>(initialQuizId ? 'quiz_bank' : 'creator');
   const [quizBank, setQuizBank]                           = useState<QuizBankItem[]>([]);
   const [loadingQuizBank, setLoadingQuizBank]             = useState(false);
   const [quizBankSearch, setQuizBankSearch]               = useState('');
-  const [editingQuizId, setEditingQuizId]                 = useState<string | null>(null);
+  const [editingQuizId, setEditingQuizId]                 = useState<string | null>(initialAction === 'edit' ? initialQuizId || null : null);
   const [deletingQuizId, setDeletingQuizId]               = useState<string | null>(null);
   const [confirmDeleteQuiz, setConfirmDeleteQuiz]         = useState<QuizBankItem | null>(null);
   const [quizBankPage, setQuizBankPage]                   = useState(0);
   const [previewQuestion, setPreviewQuestion]             = useState<QuestionBankItem | null>(null);
   const [loadingPreview, setLoadingPreview]               = useState(false);
-  const [previewQuizId, setPreviewQuizId]                 = useState<string | null>(null);
+  const [previewQuizId, setPreviewQuizId]                 = useState<string | null>(initialAction !== 'edit' ? initialQuizId || null : null);
   const [previewDraftOpen, setPreviewDraftOpen]           = useState(false);
 
   const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
@@ -362,6 +370,36 @@ export default function QuizTab({ filters: externalFilters, onFiltersChange }: Q
       loadQuizBank();
     }
   }, [pageView, loadQuizBank]);
+
+  useEffect(() => {
+    if (initialQuizId) {
+      setPageView('quiz_bank');
+      if (initialAction === 'edit') {
+        setEditingQuizId(initialQuizId);
+      } else {
+        setPreviewQuizId(initialQuizId);
+      }
+      loadQuizBank();
+    }
+  }, [initialQuizId, initialAction, loadQuizBank]);
+
+  useEffect(() => {
+    const sub = DeviceEventEmitter.addListener(
+      'els_open_quiz_review',
+      (data: { quizId?: string; action?: 'preview' | 'edit' }) => {
+        if (data?.quizId) {
+          setPageView('quiz_bank');
+          if (data.action === 'edit') {
+            setEditingQuizId(data.quizId);
+          } else {
+            setPreviewQuizId(data.quizId);
+          }
+          loadQuizBank();
+        }
+      }
+    );
+    return () => sub.remove();
+  }, [loadQuizBank]);
 
   useEffect(() => {
     loadQuestionBank();

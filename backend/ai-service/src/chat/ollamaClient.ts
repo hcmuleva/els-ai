@@ -4,6 +4,8 @@ export type OllamaChatOptions = {
   baseUrl: string;
   model: string;
   messages: ChatMessage[];
+  format?: 'json';
+  maxTokens?: number;
   signal?: AbortSignal;
 };
 
@@ -21,14 +23,24 @@ export type OllamaStreamEvent =
  * callers don't need to know Ollama's wire format.
  */
 export async function* streamOllamaChat(options: OllamaChatOptions): AsyncGenerator<OllamaStreamEvent> {
-  const { baseUrl, model, messages, signal } = options;
+  const { baseUrl, model, messages, format, maxTokens, signal } = options;
 
   let response: Response;
   try {
     response = await fetch(`${baseUrl.replace(/\/$/, '')}/api/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model, messages, stream: true }),
+      body: JSON.stringify({
+        model,
+        messages,
+        stream: true,
+        format,
+        options: {
+          num_predict: maxTokens || 4000,
+          num_ctx: 8192,
+          temperature: 0.3,
+        },
+      }),
       signal,
     });
   } catch (cause) {

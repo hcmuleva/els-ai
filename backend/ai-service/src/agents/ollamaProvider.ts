@@ -24,8 +24,15 @@ export function createOllamaProvider(): AgentProvider {
       }
     },
 
-    async *stream({ messages, signal }: AgentStreamParams): AsyncGenerator<AgentStreamEvent> {
-      for await (const event of streamOllamaChat({ baseUrl, model, messages, signal })) {
+    async *stream({ messages, maxTokens, format, signal }: AgentStreamParams): AsyncGenerator<AgentStreamEvent> {
+      for await (const event of streamOllamaChat({
+        baseUrl,
+        model,
+        messages,
+        maxTokens,
+        format: format === 'json' ? 'json' : undefined,
+        signal,
+      })) {
         if (event.type === 'delta') {
           yield { type: 'delta', text: event.text };
         } else {

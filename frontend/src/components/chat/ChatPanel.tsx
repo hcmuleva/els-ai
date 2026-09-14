@@ -3,13 +3,50 @@ import {
   KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Bot, History, Plus, Send, Sparkles, Trash2, X } from 'lucide-react-native';
+import { Bot, Check, Copy, History, Plus, Send, Sparkles, Trash2, X } from 'lucide-react-native';
 import { useAiChat } from '../../context/AiChatContext';
 import { useAuth } from '../../context/AuthContext';
 import { Colors, Radius, Shadow, Spacing } from '../../theme';
+import { ChatMarkdown } from './ChatMarkdown';
+import { ProposalCard, extractProposalFromMessage } from './ProposalCard';
+import { EntityRevisionCard } from './EntityRevisionCard';
+import { ClarifyingQuestionCard } from './ClarifyingQuestionCard';
+import { ThinkingStream } from './ThinkingStream';
 
 const WIDE_BREAKPOINT = 768;
-const PANEL_WIDTH = 420;
+const PANEL_WIDTH = 480;
+
+function CopyMessageBtn({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    if (Platform.OS === 'web' && typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  return (
+    <Pressable
+      onPress={handleCopy}
+      style={s.bubbleCopyBtn}
+      hitSlop={6}
+      accessibilityLabel="Copy response"
+    >
+      {copied ? (
+        <>
+          <Check size={12} color={Colors.success} strokeWidth={2.5} />
+          <Text style={[s.bubbleCopyBtnText, { color: Colors.success }]}>Copied</Text>
+        </>
+      ) : (
+        <>
+          <Copy size={12} color={Colors.textMuted} strokeWidth={2} />
+          <Text style={s.bubbleCopyBtnText}>Copy</Text>
+        </>
+      )}
+    </Pressable>
+  );
+}
 
 const ROLE_GREETING: Record<string, string> = {
   teacher: "Ask me to help plan a lesson, draft questions, or make sense of class performance.",
@@ -29,7 +66,7 @@ export function ChatPanel() {
   const {
     isOpen, close, conversations, isLoadingConversations, activeConversationId,
     messages, isLoadingMessages, selectConversation, startNewConversation,
-    streamingReply, isSending, sendError, sendMessage, removeConversation,
+    streamingReply, streamingThinking, isThinking, isSending, sendError, sendMessage, removeConversation,
   } = useAiChat();
   const { user } = useAuth();
   const insets = useSafeAreaInsets();
@@ -160,28 +197,80 @@ export function ChatPanel() {
 
                 {isLoadingMessages ? <Text style={s.mutedText}>Loading conversation...</Text> : null}
 
-                {messages.map((m) => (
-                  <View key={m.id} style={[s.bubbleRow, m.role === 'user' ? s.bubbleRowUser : s.bubbleRowAssistant]}>
-                    <View style={[s.bubble, m.role === 'user' ? s.bubbleUser : s.bubbleAssistant]}>
-                      <Text style={m.role === 'user' ? s.bubbleTextUser : s.bubbleTextAssistant}>{m.content}</Text>
-                    </View>
-                  </View>
-                ))}
+                {messages.map((m) => {
+                  const { cleanedContent, proposal, entityRevision, clarifyingQuestion } = m.role === 'assistant'
+                    ? extractProposalFromMessage(m.content)
+                    : { cleanedContent: m.content, proposal: undefined, entityRevision: undefined, clarifyingQuestion: undefined };
 
-                {isSending && streamingReply ? (
-                  <View style={[s.bubbleRow, s.bubbleRowAssistant]}>
-                    <View style={[s.bubble, s.bubbleAssistant]}>
-                      <Text style={s.bubbleTextAssistant}>{streamingReply}</Text>
+                  return (
+                    <View key={m.id} style={[s.bubbleRow, m.role === 'user' ? s.bubbleRowUser : s.bubbleRowAssistant]}>
+                      <View style={[s.bubble, m.role === 'user' ? s.bubbleUser : s.bubbleAssistant]}>
+                        <ChatMarkdown content={cleanedContent} isUser={m.role === 'user'} />
+                        {clarifyingQuestion && (
+                          <ClarifyingQuestionCard
+                            data={clarifyingQuestion}
+                            onSelectOption={(val) => void sendMessage(val)}
+                            disabled={isSending}
+                          />
+                        )}
+                        {proposal && (
+                          <ProposalCard
+                            proposal={proposal}
+                            conversationId={activeConversationId || m.conversationId}
+                          />
+                        )}
+                        {entityRevision && (
+                          <EntityRevisionCard
+                            proposal={entityRevision}
+                            conversationId={activeConversationId || m.conversationId}
+                          />
+                        )}
+                        {m.role === 'assistant' && (
+                          <View style={s.bubbleFooter}>
+                            <CopyMessageBtn text={cleanedContent} />
+                          </View>
+                        )}
+                      </View>
                     </View>
-                  </View>
-                ) : null}
+                  );
+                })}
 
-                {isSending && !streamingReply ? (
-                  <View style={[s.bubbleRow, s.bubbleRowAssistant]}>
-                    <View style={[s.bubble, s.bubbleAssistant, s.bubbleThinking]}>
-                      <Text style={s.bubbleTextAssistant}>Thinking…</Text>
+                {isSending && streamingReply ? (() => {
+                  const { cleanedContent, proposal, entityRevision, clarifyingQuestion } = extractProposalFromMessage(streamingReply);
+                  return (
+                    <View style={[s.bubbleRow, s.bubbleRowAssistant]}>
+                      <View style={[s.bubble, s.bubbleAssistant]}>
+                        <ChatMarkdown content={cleanedContent} isUser={false} />
+                        {clarifyingQuestion && (
+                          <ClarifyingQuestionCard
+                            data={clarifyingQuestion}
+                            onSelectOption={(val) => void sendMessage(val)}
+                            disabled={isSending}
+                          />
+                        )}
+                        {proposal && (
+                          <ProposalCard
+                            proposal={proposal}
+                            conversationId={activeConversationId || undefined}
+                          />
+                        )}
+                        {entityRevision && (
+                          <EntityRevisionCard
+                            proposal={entityRevision}
+                            conversationId={activeConversationId || undefined}
+                          />
+                        )}
+                      </View>
                     </View>
-                  </View>
+                  );
+                })() : null}
+
+                {(isThinking || streamingThinking) ? (
+                  <ThinkingStream
+                    thinkingText={streamingThinking}
+                    isThinking={isThinking}
+                    hasReplyStarted={Boolean(streamingReply)}
+                  />
                 ) : null}
 
                 {sendError ? (
@@ -296,12 +385,38 @@ const s = StyleSheet.create({
   bubbleRow: { flexDirection: 'row' },
   bubbleRowUser: { justifyContent: 'flex-end' },
   bubbleRowAssistant: { justifyContent: 'flex-start' },
-  bubble: { maxWidth: '85%', borderRadius: Radius.lg, paddingHorizontal: Spacing.md, paddingVertical: Spacing.sm },
-  bubbleUser: { backgroundColor: Colors.primary, borderBottomRightRadius: 4 },
-  bubbleAssistant: { backgroundColor: Colors.surfaceAlt, borderBottomLeftRadius: 4, borderWidth: 1, borderColor: Colors.borderLight },
+  bubble: { borderRadius: Radius.lg, paddingHorizontal: Spacing.md, paddingVertical: Spacing.sm },
+  bubbleUser: { maxWidth: '85%', backgroundColor: Colors.primary, borderBottomRightRadius: 4 },
+  bubbleAssistant: {
+    maxWidth: '96%',
+    backgroundColor: Colors.surface,
+    borderBottomLeftRadius: 4,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    ...Shadow.sm,
+  },
   bubbleThinking: { opacity: 0.7 },
   bubbleTextUser: { color: '#FFFFFF', fontSize: 14, lineHeight: 20 },
   bubbleTextAssistant: { color: Colors.text, fontSize: 14, lineHeight: 20 },
+  bubbleFooter: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 6,
+  },
+  bubbleCopyBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 4,
+    backgroundColor: '#F4F6FC',
+  },
+  bubbleCopyBtnText: {
+    fontSize: 11,
+    color: Colors.textMuted,
+    fontWeight: '500',
+  },
 
   errorBanner: {
     backgroundColor: Colors.errorLight,

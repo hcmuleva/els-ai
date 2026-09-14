@@ -79,16 +79,16 @@ export function createDynamicProvider(config: DynamicProviderConfig): AgentProvi
 
     async isAvailable(): Promise<boolean> {
       if (!apiKey) return false;
-      // If we have an API key, check if /models or the endpoint responds
       try {
-        const models = await fetchAvailableModels(baseUrl, apiKey, 2500);
-        return models.length > 0 || true;
+        const models = await fetchAvailableModels(baseUrl, apiKey, 2000);
+        return models.length > 0;
       } catch {
-        return Boolean(apiKey);
+        return false;
       }
     },
 
-    async *stream({ messages, model: requestModel, signal }: AgentStreamParams): AsyncGenerator<AgentStreamEvent> {
+    async *stream(params: AgentStreamParams): AsyncGenerator<AgentStreamEvent> {
+      const { messages, model: requestModel, maxTokens, signal } = params;
       if (!apiKey) {
         throw new Error(`API key missing for provider "${config.id}"`);
       }
@@ -123,8 +123,10 @@ export function createDynamicProvider(config: DynamicProviderConfig): AgentProvi
           body: JSON.stringify({
             model: chosenModel,
             messages,
+            max_tokens: maxTokens || 4000,
             stream: true,
             stream_options: { include_usage: true },
+            ...(params.format === 'json' ? { response_format: { type: 'json_object' } } : {}),
           }),
           signal,
         });
@@ -173,9 +175,11 @@ export function createDynamicProvider(config: DynamicProviderConfig): AgentProvi
             }
 
             const delta = parsed?.choices?.[0]?.delta;
-            const textChunk = delta?.content || delta?.reasoning_content;
-            if (typeof textChunk === 'string' && textChunk.length > 0) {
-              yield { type: 'delta', text: textChunk };
+            if (typeof delta?.reasoning_content === 'string' && delta.reasoning_content.length > 0) {
+              yield { type: 'thinking', text: delta.reasoning_content };
+            }
+            if (typeof delta?.content === 'string' && delta.content.length > 0) {
+              yield { type: 'delta', text: delta.content };
             }
 
             if (parsed?.usage) {

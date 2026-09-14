@@ -1,3 +1,5 @@
+import { config } from 'dotenv';
+config();
 import { createDynamicProvider } from './dynamicModelProvider.js';
 import { createOllamaProvider } from './ollamaProvider.js';
 /**
@@ -65,10 +67,21 @@ class AgentRouter {
         }
         let lastError;
         for (const provider of chain) {
+            if (!params.providerId) {
+                const available = await provider.isAvailable().catch(() => false);
+                if (!available)
+                    continue;
+            }
             yield { type: 'attempt', providerId: provider.id };
             let yieldedAny = false;
             try {
-                for await (const event of provider.stream({ messages: params.messages, model: params.model, signal: params.signal })) {
+                for await (const event of provider.stream({
+                    messages: params.messages,
+                    model: params.model,
+                    maxTokens: params.maxTokens,
+                    format: params.format,
+                    signal: params.signal,
+                })) {
                     yieldedAny = true;
                     yield { ...event, providerId: provider.id };
                 }
@@ -96,14 +109,14 @@ if (groqApiKey) {
         model: process.env.GROQ_MODEL,
     }));
 }
-// 2. Factory AI Provider (if FACTORY_API_KEY is configured)
+// 2. Factory AI Provider (only if an explicit chat completions BASE_URL is configured)
 const factoryApiKey = process.env.FACTORY_API_KEY?.trim();
-if (factoryApiKey) {
+if (factoryApiKey && process.env.FACTORY_BASE_URL) {
     agentRouter.register(createDynamicProvider({
         id: 'factory',
         label: 'Factory AI',
         apiKey: factoryApiKey,
-        baseUrl: process.env.FACTORY_BASE_URL || 'https://api.factory.ai/v1',
+        baseUrl: process.env.FACTORY_BASE_URL,
         model: process.env.FACTORY_MODEL,
     }));
 }

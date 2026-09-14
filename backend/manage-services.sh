@@ -53,7 +53,11 @@ get_services() {
   local dir
   for dir in "$SCRIPT_DIR"/*; do
     if [ -d "$dir" ] && [ -f "$dir/package.json" ]; then
-      basename "$dir"
+      local base
+      base="$(basename "$dir")"
+      if [[ "$base" != *"ref"* ]] && [ "$base" != "shared" ]; then
+        echo "$base"
+      fi
     fi
   done
 }
@@ -267,12 +271,16 @@ start_service() {
       exit 1
     fi
 
+    local bg_pid=""
     if [ -n "$IP_ADDRESS" ]; then
-      HOST="$IP_ADDRESS" nohup npm start >>"$log_file" 2>>"$err_file" &
+      HOST="$IP_ADDRESS" setsid npm start >>"$log_file" 2>>"$err_file" &
+      bg_pid=$!
     else
-      nohup npm start >>"$log_file" 2>>"$err_file" &
+      setsid npm start >>"$log_file" 2>>"$err_file" &
+      bg_pid=$!
     fi
-    echo $! >"$pid_file"
+    disown "$bg_pid" 2>/dev/null || true
+    echo "$bg_pid" >"$pid_file"
   )
 
   local new_pid
