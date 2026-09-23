@@ -38,24 +38,24 @@ class AgentRouter {
         return this.allowedProviders(role).map((p) => ({ id: p.id, label: p.label }));
     }
     /**
-     * Builds the fallback chain for a request: the explicitly-requested
-     * provider first (if any and allowed for the role), then every other
-     * allowed provider in registration order.
+     * Candidate provider chain for this run, in priority order:
+     *   1. The explicitly-requested provider, if caller asked for one.
+     *   2. Fallbacks in registration order (filtered to providers the caller's role may use).
      */
     candidateChain(providerId, role) {
-        const allowed = this.allowedProviders(role);
+        const candidates = this.allowedProviders(role);
         if (!providerId)
-            return allowed;
-        const requested = allowed.find((p) => p.id === providerId);
+            return candidates;
+        const requested = candidates.find((p) => p.id === providerId);
         if (!requested) {
-            const existsAtAll = this.providers.some((p) => p.id === providerId);
-            throw new UnknownProviderError(providerId, existsAtAll ? 'not permitted for this role' : undefined);
+            throw new UnknownProviderError(providerId, `role "${role ?? 'unknown'}" cannot use it or it is not registered`);
         }
-        return [requested, ...allowed.filter((p) => p.id !== providerId)];
+        return [requested, ...candidates.filter((p) => p.id !== providerId)];
     }
     /**
-     * Streams a chat response, trying providers in order. Falls over to the
-     * next candidate only if a provider fails before yielding any content —
+     * Run a prompt against the candidate chain with automatic fallback.
+     *
+     * Fallback only happens if the primary provider fails to *start* responding;
      * once a provider has started streaming text to the caller, switching
      * mid-response would silently splice together two different replies, so
      * a failure at that point is surfaced as an error instead.
@@ -80,6 +80,7 @@ class AgentRouter {
                     model: params.model,
                     maxTokens: params.maxTokens,
                     format: params.format,
+                    temperature: params.temperature,
                     signal: params.signal,
                 })) {
                     yieldedAny = true;

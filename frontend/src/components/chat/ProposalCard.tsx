@@ -473,23 +473,9 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
     }
   };
 
-  const createQuizInLibrary = async (targetFullData?: any, targetResult?: any): Promise<string | null> => {
+  const createQuizInLibrary = async (targetFullData?: any, targetResult?: any, forceFresh = false): Promise<string | null> => {
     const dataToUse = targetFullData || fullData || result?.data;
     const resToUse = targetResult || result;
-
-    if (persistedQuizId) {
-      try {
-        const verifyRes = await apiFetch(`/quizzes/${persistedQuizId}`);
-        if (verifyRes.ok) {
-          const verifyJson = await verifyRes.json();
-          if (Array.isArray(verifyJson.questions) && verifyJson.questions.length > 0) {
-            return persistedQuizId;
-          }
-        }
-      } catch {
-        // Continue to attach questions
-      }
-    }
 
     const quizQuestions: any[] =
       (Array.isArray(dataToUse?.questions) && dataToUse.questions.length > 0)
@@ -502,6 +488,24 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
 
     if (quizQuestions.length === 0) {
       return null;
+    }
+
+    // Only reuse an already-persisted quiz if not forced fresh AND its first question matches this generation
+    if (persistedQuizId && !forceFresh) {
+      try {
+        const verifyRes = await apiFetch(`/quizzes/${persistedQuizId}`);
+        if (verifyRes.ok) {
+          const verifyJson = await verifyRes.json();
+          const dbQuestions = Array.isArray(verifyJson.questions) ? verifyJson.questions : [];
+          const firstDbTitle = (dbQuestions[0]?.question_title || dbQuestions[0]?.title || '').trim().toLowerCase();
+          const firstCurrentTitle = (quizQuestions[0]?.prompt || quizQuestions[0]?.question || '').trim().toLowerCase();
+          if (dbQuestions.length > 0 && (!firstCurrentTitle || firstDbTitle === firstCurrentTitle)) {
+            return persistedQuizId;
+          }
+        }
+      } catch {
+        // Continue to create a fresh quiz entity
+      }
     }
 
     const normalizedGrade = normalizeGradeLevel(
@@ -615,52 +619,40 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
 
     try {
       setIsSavingQuiz(true);
-      let targetQuizId = persistedQuizId;
 
-      if (!targetQuizId) {
-        const qRes = await apiFetch('/quizzes', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            title: quizTitle,
-            class_level: normalizedGrade,
-            subject: normalizedSubject,
-            quizType,
-            difficultyLevel: (proposal.params?.difficulty as string) || 'Medium',
-            isPublished: true,
-            isAiGenerated: true,
-            questions: formattedQuestions,
-          }),
-        });
+      const qRes = await apiFetch('/quizzes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: quizTitle,
+          class_level: normalizedGrade,
+          subject: normalizedSubject,
+          quizType,
+          difficultyLevel: (proposal.params?.difficulty as string) || 'Medium',
+          isPublished: true,
+          isAiGenerated: true,
+          questions: formattedQuestions,
+        }),
+      });
 
-        if (!qRes.ok) {
-          const errJson = await qRes.json().catch(() => ({}));
-          console.warn('[ProposalCard] Failed to create quiz in library:', errJson);
-          return null;
-        }
+      if (!qRes.ok) {
+        const errJson = await qRes.json().catch(() => ({}));
+        console.warn('[ProposalCard] Failed to create quiz in library:', errJson);
+        return null;
+      }
 
-        const createdQuiz = await qRes.json();
-        targetQuizId = String(createdQuiz.id);
-        setPersistedQuizId(targetQuizId);
+      const createdQuiz = await qRes.json();
+      const targetQuizId = String(createdQuiz.id);
+      setPersistedQuizId(targetQuizId);
 
-        // If backend didn't insert questions inline, insert them one by one
-        if (!createdQuiz.total_questions || createdQuiz.total_questions === 0) {
-          for (const fq of formattedQuestions) {
-            await apiFetch(`/quizzes/${targetQuizId}/questions`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(fq),
-            }).catch((err) => console.warn('[ProposalCard] Error adding question to quiz:', err));
-          }
-        }
-      } else {
-        // Persisted quiz existed but had 0 questions, attach them now
+      // If backend didn't insert questions inline, insert them one by one
+      if (!createdQuiz.total_questions || createdQuiz.total_questions === 0) {
         for (const fq of formattedQuestions) {
           await apiFetch(`/quizzes/${targetQuizId}/questions`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(fq),
-          }).catch((err) => console.warn('[ProposalCard] Error adding question to existing quiz:', err));
+          }).catch((err) => console.warn('[ProposalCard] Error adding question to quiz:', err));
         }
       }
 
@@ -848,10 +840,7 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
     }
 
     if (proposal.contentType === 'quiz') {
-      let targetQuizId = persistedQuizId;
-      if (!targetQuizId) {
-        targetQuizId = await createQuizInLibrary();
-      }
+      const targetQuizId = await createQuizInLibrary(fullData, result);
 
       closeChat();
 
@@ -912,6 +901,7 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
   };
 
   const handleGenerate = async () => {
+    setPersistedQuizId(null);
     setStatus('running');
     setError(null);
     setCompletedSteps([]);
@@ -945,7 +935,7 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
 
           let autoCreatedQuizId: string | null = null;
           if (proposal.contentType === 'quiz') {
-            autoCreatedQuizId = await createQuizInLibrary(full, res);
+            autoCreatedQuizId = await createQuizInLibrary(full, res, true);
           }
 
           AsyncStorage.setItem(
@@ -971,6 +961,9 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
   };
 
   const handleRegenerate = async () => {
+    setPersistedQuizId(null);
+    setResult(null);
+    setFullData(null);
     await AsyncStorage.removeItem(cacheKey).catch(() => {});
     handleGenerate();
   };

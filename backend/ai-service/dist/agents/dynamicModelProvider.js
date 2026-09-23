@@ -100,6 +100,7 @@ export function createDynamicProvider(config) {
                         model: chosenModel,
                         messages,
                         max_tokens: maxTokens || 4000,
+                        temperature: params.temperature !== undefined ? params.temperature : 0.75,
                         stream: true,
                         stream_options: { include_usage: true },
                         ...(params.format === 'json' ? { response_format: { type: 'json_object' } } : {}),

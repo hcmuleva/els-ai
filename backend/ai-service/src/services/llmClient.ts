@@ -90,14 +90,17 @@ export async function generateJson<T>(opts: {
   system: string;
   prompt: string;
   maxTokens?: number;
+  temperature?: number;
 }): Promise<T> {
   const maxTokens = opts.maxTokens || 4500;
+  const temperature = opts.temperature !== undefined ? opts.temperature : 0.75;
 
   // Attempt 1
   let fullText = '';
   for await (const event of agentRouter.run({
     maxTokens,
     format: 'json',
+    temperature,
     messages: [
       {
         role: 'system',

@@ -41,6 +41,7 @@ export type AgentStreamParams = {
   model?: string;
   maxTokens?: number;
   format?: 'json';
+  temperature?: number;
   signal?: AbortSignal;
 };
 

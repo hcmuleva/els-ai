@@ -8,7 +8,7 @@
  * callers don't need to know Ollama's wire format.
  */
 export async function* streamOllamaChat(options) {
-    const { baseUrl, model, messages, format, maxTokens, signal } = options;
+    const { baseUrl, model, messages, format, maxTokens, temperature, signal } = options;
     let response;
     try {
         response = await fetch(`${baseUrl.replace(/\/$/, '')}/api/chat`, {
@@ -22,7 +22,7 @@ export async function* streamOllamaChat(options) {
                 options: {
                     num_predict: maxTokens || 4000,
                     num_ctx: 8192,
-                    temperature: 0.3,
+                    temperature: temperature !== undefined ? temperature : 0.75,
                 },
             }),
             signal,

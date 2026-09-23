@@ -6,6 +6,7 @@ export type OllamaChatOptions = {
   messages: ChatMessage[];
   format?: 'json';
   maxTokens?: number;
+  temperature?: number;
   signal?: AbortSignal;
 };
 
@@ -23,7 +24,7 @@ export type OllamaStreamEvent =
  * callers don't need to know Ollama's wire format.
  */
 export async function* streamOllamaChat(options: OllamaChatOptions): AsyncGenerator<OllamaStreamEvent> {
-  const { baseUrl, model, messages, format, maxTokens, signal } = options;
+  const { baseUrl, model, messages, format, maxTokens, temperature, signal } = options;
 
   let response: Response;
   try {
@@ -38,7 +39,7 @@ export async function* streamOllamaChat(options: OllamaChatOptions): AsyncGenera
         options: {
           num_predict: maxTokens || 4000,
           num_ctx: 8192,
-          temperature: 0.3,
+          temperature: temperature !== undefined ? temperature : 0.75,
         },
       }),
       signal,

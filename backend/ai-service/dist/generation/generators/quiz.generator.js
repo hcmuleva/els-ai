@@ -33,12 +33,14 @@ export async function generateQuiz(params) {
                 `Difficulty: ${params.difficulty}`,
                 `Number of questions: ${params.questionCount}`,
                 params.timeLimitMinutes ? `Time limit: ${params.timeLimitMinutes} minutes` : "",
+                `Randomness seed: ${Date.now()}-${Math.floor(Math.random() * 100000)}`,
+                "IMPORTANT: Generate completely fresh, diverse, creative questions covering different subtopics and real-world situations. Avoid repetitive or boilerplate questions.",
             ]
                 .filter(Boolean)
                 .join("\n"),
+            temperature: 0.85,
             maxTokens: 4500,
         });
-        let cachedJigsawImage = null;
         const title = output.title || `${params.topic} — Mixed Challenge`;
         const questions = [];
         for (let idx = 0; idx < (output.questions || []).length; idx++) {
@@ -64,21 +66,23 @@ export async function generateQuiz(params) {
                 rawType = "multi_choice";
             }
             if (rawType === "jigsaw") {
-                if (!cachedJigsawImage) {
-                    cachedJigsawImage = await fetchAndUploadTopicImage(params.topic);
-                }
+                const puzzleSubtopic = q.prompt
+                    ? q.prompt.replace(/assemble the jigsaw puzzle for/gi, "").replace(/jigsaw puzzle/gi, "").replace(/puzzle/gi, "").trim()
+                    : "";
+                const imageTopic = puzzleSubtopic.length > 2 ? puzzleSubtopic : params.topic;
+                const jigsawImage = await fetchAndUploadTopicImage(imageTopic);
                 const gridSize = params.difficulty === "easy" ? "2x2" : params.difficulty === "hard" ? "4x4" : "3x3";
-                const qPrompt = q.prompt || `Jigsaw Puzzle: ${params.topic}`;
+                const qPrompt = q.prompt || `Jigsaw Puzzle: ${imageTopic}`;
                 questions.push({
                     prompt: qPrompt,
                     questionType: "jigsaw",
-                    image: cachedJigsawImage,
+                    image: jigsawImage,
                     gridSize,
                     difficulty: params.difficulty,
                     explanation: q.explanation || `Assemble the ${gridSize} jigsaw puzzle.`,
                     questionData: {
-                        image: cachedJigsawImage,
-                        prompt_image: cachedJigsawImage,
+                        image: jigsawImage,
+                        prompt_image: jigsawImage,
                         gridSize,
                         difficulty: params.difficulty === "mixed" ? "medium" : params.difficulty,
                     },
@@ -130,7 +134,7 @@ export async function generateQuiz(params) {
                 const drag_items = rawPairs.map((p, pIdx) => ({
                     id: `drag-${pIdx + 1}`,
                     label: String(p.item || p.label || `Item ${pIdx + 1}`).trim(),
-                    image: `https://placehold.co/160x160/EEF2FF/4338CA?text=${encodeURIComponent(String(p.item || p.label || "Item"))}`,
+                    image: p.image ? String(p.image).trim() : "",
                 }));
                 const drop_targets = rawPairs.map((p, pIdx) => ({
                     id: `target-${pIdx + 1}`,
@@ -234,11 +238,11 @@ export async function generateQuiz(params) {
     }
     // ── 1. JIGSAW PUZZLE QUIZ ──────────────────────────────────────────
     if (quizType === "jigsaw") {
-        const imageUrl = await fetchAndUploadTopicImage(params.topic);
         const gridSize = params.difficulty === "easy" ? "2x2" : params.difficulty === "hard" ? "4x4" : "3x3";
         const count = Math.min(params.questionCount, 3);
         const questions = [];
         for (let i = 0; i < count; i++) {
+            const imageUrl = await fetchAndUploadTopicImage(params.topic);
             const puzzleTitle = count > 1 ? `${params.topic} Puzzle #${i + 1}` : `Jigsaw Puzzle: ${params.topic}`;
             const qData = {
                 image: imageUrl,
@@ -287,7 +291,10 @@ export async function generateQuiz(params) {
                 `Topic: ${params.topic}`,
                 `Difficulty: ${params.difficulty}`,
                 `Number of questions: ${params.questionCount}`,
+                `Randomness seed: ${Date.now()}-${Math.floor(Math.random() * 100000)}`,
+                "IMPORTANT: Generate completely fresh, diverse, creative questions covering different subtopics. Avoid repetitive or boilerplate questions.",
             ].join("\n"),
+            temperature: 0.85,
             maxTokens: 4000,
         });
         const title = output.title || `${params.topic} — Fill in the Blanks`;
@@ -347,7 +354,10 @@ export async function generateQuiz(params) {
                 `Topic: ${params.topic}`,
                 `Difficulty: ${params.difficulty}`,
                 `Number of questions: ${Math.min(params.questionCount, 5)}`,
+                `Randomness seed: ${Date.now()}-${Math.floor(Math.random() * 100000)}`,
+                "IMPORTANT: Generate completely fresh, diverse, creative concept pairs. Avoid repetitive pairs.",
             ].join("\n"),
+            temperature: 0.85,
             maxTokens: 4000,
         });
         const title = output.title || `${params.topic} — Memory Match`;
@@ -401,7 +411,10 @@ export async function generateQuiz(params) {
                 `Topic: ${params.topic}`,
                 `Difficulty: ${params.difficulty}`,
                 `Number of questions: ${Math.min(params.questionCount, 5)}`,
+                `Randomness seed: ${Date.now()}-${Math.floor(Math.random() * 100000)}`,
+                "IMPORTANT: Generate completely fresh, diverse, creative matching pairs.",
             ].join("\n"),
+            temperature: 0.85,
             maxTokens: 4000,
         });
         const title = output.title || `${params.topic} — Matching Challenge`;
@@ -410,7 +423,7 @@ export async function generateQuiz(params) {
             const drag_items = rawPairs.map((p, pIdx) => ({
                 id: `drag-${pIdx + 1}`,
                 label: String(p.item).trim(),
-                image: `https://placehold.co/160x160/EEF2FF/4338CA?text=${encodeURIComponent(p.item)}`,
+                image: p.image ? String(p.image).trim() : "",
             }));
             const drop_targets = rawPairs.map((p, pIdx) => ({
                 id: `target-${pIdx + 1}`,
@@ -464,7 +477,10 @@ export async function generateQuiz(params) {
                 `Topic: ${params.topic}`,
                 `Difficulty: ${params.difficulty}`,
                 `Number of questions: ${params.questionCount}`,
+                `Randomness seed: ${Date.now()}-${Math.floor(Math.random() * 100000)}`,
+                "IMPORTANT: Generate fresh, distinct statements covering various aspects of the topic.",
             ].join("\n"),
+            temperature: 0.85,
             maxTokens: 4000,
         });
         const title = output.title || `${params.topic} — True or False`;
@@ -523,9 +539,12 @@ export async function generateQuiz(params) {
             `Difficulty: ${params.difficulty}`,
             `Number of questions: ${params.questionCount}`,
             params.timeLimitMinutes ? `Time limit: ${params.timeLimitMinutes} minutes` : "",
+            `Randomness seed: ${Date.now()}-${Math.floor(Math.random() * 100000)}`,
+            "IMPORTANT: Generate completely fresh, diverse, creative questions. Avoid repeating standard textbook questions.",
         ]
             .filter(Boolean)
             .join("\n"),
+        temperature: 0.85,
         maxTokens: 4000,
     });
     const title = output.title || `${params.topic} Quiz`;

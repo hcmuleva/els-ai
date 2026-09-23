@@ -5,6 +5,7 @@ import { aiRouter } from './routes/ai.js';
 import { chatRouter, aiConversationsProxyRouter } from './routes/chat.js';
 import { generationRouter } from './routes/generation.routes.js';
 import { searchRouter } from './routes/search.routes.js';
+import { jevRouter } from './routes/jev.routes.js';
 config();
 const PORT = process.env.PORT || 4003;
 const app = express();
@@ -19,6 +20,7 @@ app.use('/ai/chat', chatRouter);
 app.use('/ai/chat', aiConversationsProxyRouter);
 app.use('/ai/generation', generationRouter);
 app.use('/ai/search', searchRouter);
+app.use('/ai/jev', jevRouter);
 async function bootstrap() {
     app.listen(PORT, () => {
         console.log(`AI Service listening on http://localhost:${PORT}`);

@@ -20,13 +20,13 @@ export async function generateQuestions(
   const qType = params.questionType || "multi_choice";
 
   if (qType === "jigsaw") {
-    const imageUrl = await fetchAndUploadTopicImage(params.topic);
     const gridSize =
       params.difficulty === "easy" ? "2x2" : params.difficulty === "hard" ? "4x4" : "3x3";
     const count = Math.min(params.count, 3);
     const questions = [];
 
     for (let i = 0; i < count; i++) {
+      const imageUrl = await fetchAndUploadTopicImage(params.topic);
       const prompt = `Jigsaw Puzzle: ${params.topic}${count > 1 ? ` (${i + 1})` : ""}`;
       questions.push({
         prompt,
@@ -73,7 +73,10 @@ export async function generateQuestions(
         `Topic: ${params.topic}`,
         `Difficulty: ${params.difficulty}`,
         `Count: ${params.count}`,
+        `Randomness seed: ${Date.now()}-${Math.floor(Math.random() * 100000)}`,
+        "IMPORTANT: Generate completely fresh, diverse questions covering different aspects of the topic.",
       ].join("\n"),
+      temperature: 0.85,
       maxTokens: 3000,
     });
 
@@ -126,7 +129,10 @@ export async function generateQuestions(
         `Topic: ${params.topic}`,
         `Difficulty: ${params.difficulty}`,
         `Count: ${Math.min(params.count, 5)}`,
+        `Randomness seed: ${Date.now()}-${Math.floor(Math.random() * 100000)}`,
+        "IMPORTANT: Generate fresh, distinct concept pairs.",
       ].join("\n"),
+      temperature: 0.85,
       maxTokens: 3000,
     });
 
@@ -174,16 +180,19 @@ export async function generateQuestions(
         `Topic: ${params.topic}`,
         `Difficulty: ${params.difficulty}`,
         `Count: ${Math.min(params.count, 5)}`,
+        `Randomness seed: ${Date.now()}-${Math.floor(Math.random() * 100000)}`,
+        "IMPORTANT: Generate fresh, diverse matching pairs.",
       ].join("\n"),
+      temperature: 0.85,
       maxTokens: 3000,
     });
 
     const questions = (output.questions || []).map((q) => {
       const pairs = (q.pairs || []).slice(0, 4);
-      const drag_items = pairs.map((p, idx) => ({
+      const drag_items = pairs.map((p: any, idx) => ({
         id: `drag-${idx + 1}`,
         label: p.item,
-        image: `https://placehold.co/160x160/EEF2FF/4338CA?text=${encodeURIComponent(p.item)}`,
+        image: p.image ? String(p.image).trim() : "",
       }));
       const drop_targets = pairs.map((p, idx) => ({
         id: `target-${idx + 1}`,
@@ -236,7 +245,10 @@ export async function generateQuestions(
       `Question type: ${qType}`,
       `Difficulty: ${params.difficulty}`,
       `Count: ${params.count}`,
+      `Randomness seed: ${Date.now()}-${Math.floor(Math.random() * 100000)}`,
+      "IMPORTANT: Generate fresh, diverse questions covering different subtopics. Avoid repetition.",
     ].join("\n"),
+    temperature: 0.85,
     maxTokens: 3000,
   });
 

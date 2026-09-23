@@ -664,7 +664,9 @@ export default function QuestionPreviewModal({
                           <View key={idx} style={styles.pairRow}>
                             <View style={styles.pairItem}>
                               {item.label ? <Text style={styles.pairItemText}>{item.label}</Text> : null}
-                              {item.image ? <SafeImage uri={resolveMediaUrl(item.image)} style={styles.pairThumb} resizeMode="contain" /> : null}
+                              {item.image && typeof item.image === 'string' && item.image.trim() && !item.image.includes('placehold.co') ? (
+                                <SafeImage uri={resolveMediaUrl(item.image)} style={styles.pairThumb} resizeMode="contain" />
+                              ) : null}
                             </View>
                             <View style={styles.pairArrowBox}>
                               <SplitSquareHorizontal size={14} color="#64748B" />
