@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { requireAuth } from '../middleware/auth.js';
-import { systemPromptForRole, defaultTitleForRole } from '../chat/prompts.js';
+import { systemPromptForRole, defaultTitleForRole, canGenerateContent } from '../chat/prompts.js';
 import { appendMessage, createConversation, loadConversationMessages } from '../chat/persistClient.js';
 import { recordProviderUsage } from '../chat/usageClient.js';
 import { agentRouter } from '../agents/router.js';
@@ -74,23 +74,63 @@ chatRouter.post('/', requireAuth, async (req, res) => {
         let promptTokens;
         let completionTokens;
         let runError;
+        let hasReceivedContent = false;
+        let isInsideThink = false;
         try {
             for await (const event of agentRouter.run({ providerId: requestedProvider, model: requestedModel, role, messages: chatMessages })) {
                 usedProviderId = event.providerId;
-                if (event.type === 'delta') {
-                    fullReply += event.text;
-                    writeSse(res, { delta: event.text });
+                if (event.type === 'thinking') {
+                    writeSse(res, { thinking: event.text });
+                }
+                else if (event.type === 'delta') {
+                    let text = event.text;
+                    while (text.length > 0) {
+                        if (isInsideThink) {
+                            const closeIdx = text.indexOf('</think>');
+                            if (closeIdx !== -1) {
+                                const thoughtChunk = text.slice(0, closeIdx);
+                                if (thoughtChunk)
+                                    writeSse(res, { thinking: thoughtChunk });
+                                isInsideThink = false;
+                                text = text.slice(closeIdx + 8);
+                            }
+                            else {
+                                writeSse(res, { thinking: text });
+                                text = '';
+                            }
+                        }
+                        else {
+                            const openIdx = text.indexOf('<think>');
+                            if (openIdx !== -1) {
+                                const beforeThink = text.slice(0, openIdx);
+                                if (beforeThink) {
+                                    hasReceivedContent = true;
+                                    fullReply += beforeThink;
+                                    writeSse(res, { delta: beforeThink });
+                                }
+                                isInsideThink = true;
+                                text = text.slice(openIdx + 7);
+                            }
+                            else {
+                                hasReceivedContent = true;
+                                fullReply += text;
+                                writeSse(res, { delta: text });
+                                text = '';
+                            }
+                        }
+                    }
                 }
                 else if (event.type === 'usage') {
                     promptTokens = event.promptTokens;
                     completionTokens = event.completionTokens;
                 }
-                // 'attempt' events just update usedProviderId (above) for accurate
-                // usage-log attribution even if this candidate fails immediately.
             }
         }
         catch (error) {
             runError = error;
+        }
+        finally {
+            // cleanup if needed
         }
         await recordProviderUsage(gatewayBaseUrl, authorization, {
             provider: usedProviderId || 'unknown',
@@ -105,6 +145,23 @@ chatRouter.post('/', requireAuth, async (req, res) => {
             const errMessage = runError instanceof Error ? runError.message : 'AI provider request failed';
             writeSse(res, { error: errMessage });
             return res.end();
+        }
+        // Strip generation_proposal blocks for non-creator roles (student, parent, admin)
+        if (!canGenerateContent(role) && fullReply.includes('generation_proposal')) {
+            fullReply = fullReply.replace(/```json\s*\{[^`]*?\"type\"\s*:\s*\"generation_proposal\"[^`]*?\}\s*```/gs, '\n\n> ⚠️ Content creation is only available to teachers. I can help you understand this topic or find your weak areas instead!');
+        }
+        // Detect inline content written by model instead of a proposal (for creator roles)
+        // If the reply looks like full quiz/lesson content but has no generation_proposal JSON,
+        // append a warning + instruction SSE so the user knows to retry with a cleaner request.
+        const hasProposalBlock = fullReply.includes('"type": "generation_proposal"') || fullReply.includes('"type":"generation_proposal"');
+        const looksLikeInlineContent = !hasProposalBlock && canGenerateContent(role) && (/Q\d+\.\s+.+\n.*[A-D]\)/m.test(fullReply) || // quiz questions pattern
+            (fullReply.includes('Section') && fullReply.includes('Answer:')) || // worksheet pattern
+            (fullReply.includes('youtube.com/watch') && fullReply.includes('VIDEO_ID')) // fake video URL
+        );
+        if (looksLikeInlineContent) {
+            const notice = '\n\n---\n> ⚠️ **Note:** The AI wrote out content directly instead of creating a Generation Proposal. Please try again — say "Generate a quiz on [topic]" and it will show you the Generate Now button.';
+            fullReply += notice;
+            writeSse(res, { delta: notice });
         }
         if (fullReply.trim().length > 0) {
             await appendMessage(gatewayBaseUrl, authorization, activeConversationId, {

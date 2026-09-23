@@ -3,6 +3,9 @@ import { config } from 'dotenv';
 import express from 'express';
 import { aiRouter } from './routes/ai.js';
 import { chatRouter, aiConversationsProxyRouter } from './routes/chat.js';
+import { generationRouter } from './routes/generation.routes.js';
+import { searchRouter } from './routes/search.routes.js';
+import { jevRouter } from './routes/jev.routes.js';
 
 config();
 
@@ -20,6 +23,9 @@ app.get('/health', (_req, res) => {
 app.use('/ai', aiRouter);
 app.use('/ai/chat', chatRouter);
 app.use('/ai/chat', aiConversationsProxyRouter);
+app.use('/ai/generation', generationRouter);
+app.use('/ai/search', searchRouter);
+app.use('/ai/jev', jevRouter);
 
 async function bootstrap() {
   app.listen(PORT, () => {

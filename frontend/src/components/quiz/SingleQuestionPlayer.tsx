@@ -140,7 +140,8 @@ export default function SingleQuestionPlayer({
     setResult({ isCorrect, responseData });
   };
 
-  const rendererKey = `${normalizedType}-${session}`;
+  const qDataAny = questionData as any;
+  const rendererKey = `${normalizedType}-${session}-${qDataAny?.grid ?? ''}-${qDataAny?.pairs?.length ?? 0}`;
 
   return (
     <View style={s.card}>

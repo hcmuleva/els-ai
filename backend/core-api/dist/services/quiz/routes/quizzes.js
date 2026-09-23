@@ -29,13 +29,15 @@ const createQuizSchema = z.object({
         'logico',
         'jigsaw',
         'jigsaw_puzzle',
-    ]),
+        'mixed',
+    ]).default('multi_choice'),
     difficultyLevel: z.string().optional(),
     backgroundMusicUrl: z.string().optional(),
     theme: z.any().default({}),
     isPublished: z.boolean().default(false),
     isAiGenerated: z.boolean().default(false),
     isGlobal: z.boolean().default(false),
+    questions: z.array(z.any()).optional(),
 });
 const createQuestionSchema = z.object({
     questionType: z.string(),
@@ -89,6 +91,7 @@ const teacherLibraryQuerySchema = z.object({
         'logico',
         'jigsaw',
         'jigsaw_puzzle',
+        'mixed',
     ])
         .optional(),
     difficulty_level: z.string().trim().optional(),
@@ -121,6 +124,7 @@ const updateQuizSchema = z.object({
         'logico',
         'jigsaw',
         'jigsaw_puzzle',
+        'mixed',
     ]).optional(),
     difficultyLevel: z.string().nullable().optional(),
     backgroundMusicUrl: z.string().nullable().optional(),
@@ -756,7 +760,7 @@ quizzesRouter.post('/', requireAuth, async (req, res) => {
     if (!parsed.success) {
         return res.status(400).json({ message: 'Invalid payload', errors: parsed.error.issues });
     }
-    const { title, description, class_id, class_level, classLevel, subject_id, subject, quizType, difficultyLevel, backgroundMusicUrl, theme, isPublished, isAiGenerated, isGlobal } = parsed.data;
+    const { title, description, class_id, class_level, classLevel, subject_id, subject, quizType, difficultyLevel, backgroundMusicUrl, theme, isPublished, isAiGenerated, isGlobal, questions } = parsed.data;
     const normalizedQuizType = quizType === 'jigsaw_puzzle' ? 'jigsaw' : quizType;
     const targetClass = (class_id || class_level || classLevel || '').trim();
     const orgId = getOrganizationId(req);
@@ -768,18 +772,173 @@ quizzesRouter.post('/', requireAuth, async (req, res) => {
         return res.status(403).json({ message: 'Forbidden: global publish permission required' });
     }
     try {
+        // Robust subject_id resolution: handles "Math" vs "Mathematics", "EVS", etc.
+        let resolvedSubjectId = subject_id || null;
+        if (!resolvedSubjectId && subject) {
+            const cleanSubj = subject.trim();
+            // 1. Exact match for target class
+            let lookup = await db.query(`SELECT s.id FROM subjects s
+         WHERE (s.class_level = $1::varchar OR s.class_id::text = $1)
+           AND LOWER(s.title) = LOWER($2)
+           AND (s.organization_id = $3::uuid OR $4::boolean = true)
+         ORDER BY (s.organization_id = $3::uuid) DESC, s.updated_at DESC NULLS LAST
+         LIMIT 1`, [targetClass, cleanSubj, orgId, isGlobal]);
+            // 2. Fuzzy / Prefix / Common Alias match for target class
+            if (lookup.rows.length === 0) {
+                lookup = await db.query(`SELECT s.id FROM subjects s
+           WHERE (s.class_level = $1::varchar OR s.class_id::text = $1)
+             AND (
+               LOWER(s.title) LIKE LOWER($2) || '%'
+               OR LOWER($2) LIKE LOWER(s.title) || '%'
+               OR (LOWER($2) IN ('math', 'maths') AND LOWER(s.title) LIKE '%math%')
+               OR (LOWER($2) IN ('evs') AND LOWER(s.title) LIKE '%environmental%')
+               OR (LOWER($2) IN ('cs', 'comp', 'computer') AND LOWER(s.title) LIKE '%computer%')
+               OR (LOWER($2) IN ('ss', 'sst', 'social') AND LOWER(s.title) LIKE '%social%')
+               OR (LOWER($2) IN ('sci', 'science') AND LOWER(s.title) LIKE '%science%')
+             )
+             AND (s.organization_id = $3::uuid OR $4::boolean = true)
+           ORDER BY (s.organization_id = $3::uuid) DESC, s.updated_at DESC NULLS LAST
+           LIMIT 1`, [targetClass, cleanSubj, orgId, isGlobal]);
+            }
+            // 3. Match across ANY class in this org
+            if (lookup.rows.length === 0) {
+                lookup = await db.query(`SELECT s.id FROM subjects s
+           WHERE (
+             LOWER(s.title) = LOWER($1)
+             OR LOWER(s.title) LIKE LOWER($1) || '%'
+             OR LOWER($1) LIKE LOWER(s.title) || '%'
+             OR (LOWER($1) IN ('math', 'maths') AND LOWER(s.title) LIKE '%math%')
+           )
+           AND (s.organization_id = $2::uuid OR $3::boolean = true)
+           ORDER BY (s.organization_id = $2::uuid) DESC, s.updated_at DESC NULLS LAST
+           LIMIT 1`, [cleanSubj, orgId, isGlobal]);
+            }
+            // 4. Fallback: Any subject for this class level
+            if (lookup.rows.length === 0 && targetClass) {
+                lookup = await db.query(`SELECT s.id FROM subjects s
+           WHERE (s.class_level = $1::varchar OR s.class_id::text = $1)
+             AND (s.organization_id = $2::uuid OR $3::boolean = true)
+           ORDER BY (s.organization_id = $2::uuid) DESC, s.updated_at DESC NULLS LAST
+           LIMIT 1`, [targetClass, orgId, isGlobal]);
+            }
+            // 5. Ultimate fallback: Any subject in the organization
+            if (lookup.rows.length === 0) {
+                lookup = await db.query(`SELECT s.id FROM subjects s
+           WHERE (s.organization_id = $1::uuid OR $2::boolean = true)
+           ORDER BY (s.organization_id = $1::uuid) DESC, s.updated_at DESC NULLS LAST
+           LIMIT 1`, [orgId, isGlobal]);
+            }
+            resolvedSubjectId = lookup.rows[0]?.id || null;
+        }
         const result = await db.query(`INSERT INTO quizzes (organization_id, title, description, class_level, class_id, subject_id, quiz_type, difficulty_level, background_music_url, theme, is_published, is_ai_generated, created_by, is_global)
        VALUES (
          $1::uuid, $2, $3, $4::varchar,
          (SELECT id FROM class_levels WHERE id::text = $4 OR code = $4 OR LOWER(label) = LOWER($4) LIMIT 1),
-         COALESCE($5::uuid, (SELECT s.id FROM subjects s
-            WHERE (s.class_level = $4::varchar OR s.class_id::text = $4) AND LOWER(s.title) = LOWER($6::varchar)
-              AND (s.organization_id = $1::uuid OR $14::boolean = true)
-            ORDER BY (s.organization_id = $1::uuid) DESC, s.updated_at DESC NULLS LAST
-            LIMIT 1)),
-         $7, $8, $9, $10, $11, $12, $13, $14)
-       RETURNING *, (SELECT title FROM subjects WHERE id = quizzes.subject_id) AS subject`, [orgId, title, description || null, targetClass || null, subject_id || null, subject || null, normalizedQuizType, difficultyLevel || null, backgroundMusicUrl || null, theme, isPublished, isAiGenerated, userId, isGlobal]);
-        return res.status(201).json(result.rows[0]);
+         $5::uuid,
+         $6, $7, $8, $9, $10, $11, $12, $13)
+       RETURNING *, (SELECT title FROM subjects WHERE id = quizzes.subject_id) AS subject`, [orgId, title, description || null, targetClass || null, resolvedSubjectId, normalizedQuizType, difficultyLevel || null, backgroundMusicUrl || null, theme, isPublished, isAiGenerated, userId, isGlobal]);
+        const createdQuiz = result.rows[0];
+        const createdQuizId = createdQuiz.id;
+        const insertedQuestions = [];
+        if (Array.isArray(questions) && questions.length > 0) {
+            for (let i = 0; i < questions.length; i++) {
+                const q = questions[i];
+                const qTitle = q.prompt || q.question || q.questionTitle || q.title || `Question ${i + 1}`;
+                const rawOpts = Array.isArray(q.options) ? q.options : [];
+                const formattedOptions = rawOpts.map((opt, optIdx) => {
+                    const optText = typeof opt === 'string' ? opt : (opt?.text || opt?.label || opt?.option_text || String(opt));
+                    const isCorrect = q.correctAnswer !== undefined && q.correctAnswer !== null && q.correctAnswer !== ''
+                        ? optText.trim().toLowerCase() === String(q.correctAnswer).trim().toLowerCase()
+                        : optIdx === (q.correctOptionIndex ?? 0);
+                    return {
+                        id: `opt-${optIdx + 1}`,
+                        label: optText,
+                        text: optText,
+                        is_correct: isCorrect,
+                        correct: isCorrect,
+                    };
+                });
+                const isBoolQuestion = formattedOptions.length === 2 &&
+                    formattedOptions.every((o) => /^(true|false|yes|no)$/i.test(String(o.text || '').trim()));
+                if (!isBoolQuestion && formattedOptions.length > 1) {
+                    for (let j = formattedOptions.length - 1; j > 0; j--) {
+                        const k = Math.floor(Math.random() * (j + 1));
+                        [formattedOptions[j], formattedOptions[k]] = [formattedOptions[k], formattedOptions[j]];
+                    }
+                    formattedOptions.forEach((opt, idx) => {
+                        opt.id = `opt-${idx + 1}`;
+                    });
+                }
+                const correctIdx = formattedOptions.findIndex((o) => o.is_correct);
+                const fallbackCorrect = correctIdx >= 0 ? correctIdx : 0;
+                if (formattedOptions[fallbackCorrect]) {
+                    formattedOptions[fallbackCorrect].is_correct = true;
+                    formattedOptions[fallbackCorrect].correct = true;
+                }
+                const qType = q.questionType || normalizedQuizType;
+                const qExplanation = q.explanation || '';
+                let qData = q.questionData;
+                if (!qData) {
+                    if (qType === 'fill_blank') {
+                        qData = {
+                            sentence: q.sentence || qTitle,
+                            answer: q.answer || q.correctAnswer || (formattedOptions[0]?.text || ''),
+                            options: rawOpts.length > 0 ? rawOpts : formattedOptions.map((o) => o.text),
+                            hint: q.hint || qExplanation,
+                            _meta: { creatorId: userId, organizationId: orgId, classLevel: targetClass, subject },
+                        };
+                    }
+                    else if (qType === 'memory_match') {
+                        qData = {
+                            grid: q.grid || '4x4',
+                            pairs: q.pairs || [],
+                            _meta: { creatorId: userId, organizationId: orgId, classLevel: targetClass, subject },
+                        };
+                    }
+                    else if (qType === 'drag_drop_match') {
+                        qData = {
+                            drag_items: q.drag_items || [],
+                            drop_targets: q.drop_targets || [],
+                            match_rules: q.match_rules || [],
+                            _meta: { creatorId: userId, organizationId: orgId, classLevel: targetClass, subject },
+                        };
+                    }
+                    else if (qType === 'jigsaw') {
+                        qData = {
+                            image: q.image || q.prompt_image || '',
+                            gridSize: q.gridSize || '3x3',
+                            difficulty: q.difficulty || difficultyLevel || 'medium',
+                            _meta: { creatorId: userId, organizationId: orgId, classLevel: targetClass, subject },
+                        };
+                    }
+                    else {
+                        qData = {
+                            question: qTitle,
+                            options: formattedOptions,
+                            correctOptionIndex: fallbackCorrect,
+                            correct_option: fallbackCorrect,
+                            explanation: qExplanation,
+                            _meta: { creatorId: userId, organizationId: orgId, classLevel: targetClass, subject },
+                        };
+                    }
+                }
+                else if (typeof qData === 'object' && !qData._meta) {
+                    qData._meta = { creatorId: userId, organizationId: orgId, classLevel: targetClass, subject };
+                }
+                const insResult = await db.query(`INSERT INTO quiz_questions (quiz_id, question_type, question_title, question_instruction, explanation, question_audio, time_limit_seconds, points, sort_order, question_data)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+           RETURNING *`, [createdQuizId, qType, qTitle, q.questionInstruction || null, qExplanation, q.questionAudio || null, q.timeLimitSeconds || 30, q.points || 10, i + 1, qData]);
+                if (insResult.rows[0]) {
+                    insertedQuestions.push(insResult.rows[0]);
+                }
+            }
+            await db.query(`UPDATE quizzes SET total_questions = $1, updated_at = NOW() WHERE id = $2`, [insertedQuestions.length, createdQuizId]);
+            createdQuiz.total_questions = insertedQuestions.length;
+        }
+        return res.status(201).json({
+            ...createdQuiz,
+            questions: insertedQuestions,
+        });
     }
     catch (error) {
         console.error(error);
@@ -989,9 +1148,10 @@ quizzesRouter.post('/:id/questions', requireAuth, async (req, res) => {
                 _meta: {
                     ...(questionData._meta || {}),
                     creatorId: userId,
+                    organizationId: orgId,
                 },
             }
-            : { payload: questionData, _meta: { creatorId: userId } };
+            : { payload: questionData, _meta: { creatorId: userId, organizationId: orgId } };
         const result = await db.query(`INSERT INTO quiz_questions (quiz_id, question_type, question_title, question_instruction, explanation, question_audio, time_limit_seconds, points, sort_order, question_data)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
        RETURNING *`, [id, questionType, questionTitle || null, questionInstruction || null, explanation || null, questionAudio || null, timeLimitSeconds, points, sortOrder || null, preparedQuestionData]);

@@ -39,7 +39,7 @@ type Props = {
 const GRID_CONFIG: Record<string, { cols: number; totalCards: number; pairsNeeded: number }> = {
   '2x2': { cols: 2, totalCards: 4,  pairsNeeded: 2 },
   '4x4': { cols: 4, totalCards: 8,  pairsNeeded: 4 },
-  '6x6': { cols: 4, totalCards: 12, pairsNeeded: 6 },
+  '6x6': { cols: 6, totalCards: 12, pairsNeeded: 6 },
 };
 
 const SFX_CORRECT = resolveMediaUrl('/media/sound-effects/correct.mp3');
@@ -89,7 +89,8 @@ function FlipCard({
     ]).start();
   }, [isMatched, scaleAnim]);
 
-  const fontSize = size > 64 ? 32 : size > 44 ? 22 : 16;
+  const fontSize = size > 64 ? 22 : size > 44 ? 17 : 13;
+  const iconW = Math.min(26, Math.max(16, size * 0.44));
 
   return (
     <Pressable
@@ -105,19 +106,19 @@ function FlipCard({
     >
       <Animated.View style={[fc.inner, { transform: [{ scale: scaleAnim }] }]}>
         {!isFlipped && !isMatched ? (
-          <Text style={[fc.backText, { fontSize: fontSize + 2 }]}>?</Text>
+          <Text style={[fc.backText, { fontSize: Math.min(22, Math.max(14, size * 0.34)) }]}>?</Text>
         ) : (
           <View style={fc.frontContent}>
             {card.imageUrl ? (
               <Image
                 source={{ uri: card.imageUrl.startsWith('/media') ? `${apiBase}${card.imageUrl}` : card.imageUrl }}
-                style={{ width: size * 0.58, height: size * 0.58 }}
+                style={{ width: iconW, height: iconW }}
                 resizeMode="contain"
               />
             ) : card.emoji ? (
               <Text style={{ fontSize }}>{card.emoji}</Text>
             ) : (
-              <Text style={[fc.label, { fontSize: Math.max(9, size / 6) }]} numberOfLines={2}>
+              <Text style={[fc.label, { fontSize: Math.max(8, Math.min(10, size / 7)) }]} numberOfLines={2}>
                 {card.label}
               </Text>
             )}
@@ -131,20 +132,22 @@ function FlipCard({
 
 const fc = StyleSheet.create({
   card: {
-    borderRadius: 12, alignItems: 'center', justifyContent: 'center',
+    borderRadius: 10, alignItems: 'center', justifyContent: 'center',
     backgroundColor: '#2D5DC9',
-    shadowColor: '#1a2e6a', shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.25, shadowRadius: 6, elevation: 4,
+    borderWidth: 1,
+    borderColor: '#3B82F6',
+    shadowColor: '#1a2e6a', shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.18, shadowRadius: 4, elevation: 3,
   },
-  cardFlipped: { backgroundColor: '#fff', borderWidth: 2, borderColor: '#2D5DC9' },
-  cardMatched: { backgroundColor: '#D6F5D6', borderWidth: 2, borderColor: '#4CAF50' },
+  cardFlipped: { backgroundColor: '#fff', borderWidth: 1.5, borderColor: '#2D5DC9' },
+  cardMatched: { backgroundColor: '#D6F5D6', borderWidth: 1.5, borderColor: '#4CAF50' },
   cardPressed: { opacity: 0.75, transform: [{ scale: 0.94 }] },
   inner:       { alignItems: 'center', justifyContent: 'center', flex: 1, width: '100%' },
   backText:    { fontWeight: '900', color: '#fff' },
   frontContent:{ alignItems: 'center', justifyContent: 'center', gap: 2 },
-  label:       { fontWeight: '800', color: '#1a1a2e', textAlign: 'center', paddingHorizontal: 4 },
-  matchTickBadge: { position: 'absolute', bottom: 3, right: 3, backgroundColor: '#4CAF50', borderRadius: 99, width: 14, height: 14, alignItems: 'center', justifyContent: 'center' },
-  matchTick:   { fontSize: 8, color: '#fff', fontWeight: '900' },
+  label:       { fontWeight: '700', color: '#1a1a2e', textAlign: 'center', paddingHorizontal: 2 },
+  matchTickBadge: { position: 'absolute', bottom: 2, right: 2, backgroundColor: '#4CAF50', borderRadius: 99, width: 12, height: 12, alignItems: 'center', justifyContent: 'center' },
+  matchTick:   { fontSize: 7, color: '#fff', fontWeight: '900' },
 });
 
 // ── Main Renderer ─────────────────────────────────────────────────────────────
@@ -165,14 +168,16 @@ export default function MemoryMatchRenderer({ questionData, onComplete, theme, a
     return padded.slice(0, cfg.pairsNeeded);
   }, [questionData.pairs, cfg.pairsNeeded]);
 
-  const [cards] = useState<GameCard[]>(() =>
-    shuffle(
-      usedPairs.flatMap((p) => [
-        { uniqueId: p.id * 2 - 1, pairId: p.id, label: p.label, emoji: p.emoji, imageUrl: p.imageUrl },
-        { uniqueId: p.id * 2,     pairId: p.id, label: p.label, emoji: p.emoji, imageUrl: p.imageUrl },
+  const generateCards = useCallback((pairs: MemoryPair[]): GameCard[] => {
+    return shuffle(
+      pairs.flatMap((p, pIdx) => [
+        { uniqueId: pIdx * 2 + 1, pairId: p.id ?? (pIdx + 1), label: p.label, emoji: p.emoji, imageUrl: p.imageUrl },
+        { uniqueId: pIdx * 2 + 2, pairId: p.id ?? (pIdx + 1), label: p.label, emoji: p.emoji, imageUrl: p.imageUrl },
       ]),
-    ),
-  );
+    );
+  }, []);
+
+  const [cards, setCards] = useState<GameCard[]>(() => generateCards(usedPairs));
 
   const [flipped,      setFlipped]     = useState<Set<number>>(new Set());
   const [matched,      setMatched]     = useState<Set<number>>(new Set());
@@ -184,6 +189,23 @@ export default function MemoryMatchRenderer({ questionData, onComplete, theme, a
 
   const pendingRef       = useRef<number[]>([]);
   const wrongAttemptsRef = useRef<number>(0);
+
+  const pairsSignature = useMemo(() => {
+    return `${grid}:${cfg.pairsNeeded}:${usedPairs.map((p) => `${p.id}-${p.label}-${p.imageUrl || (p as any).image || p.emoji || ''}`).join('|')}`;
+  }, [grid, cfg.pairsNeeded, usedPairs]);
+
+  useEffect(() => {
+    setCards(generateCards(usedPairs));
+    setFlipped(new Set());
+    setMatched(new Set());
+    setDisabled(false);
+    setMoves(0);
+    setClickCount(0);
+    setCompleted(false);
+    setLimitHit(false);
+    pendingRef.current = [];
+    wrongAttemptsRef.current = 0;
+  }, [pairsSignature, generateCards]);
 
   const buildResult = useCallback((
     finalMatched: Set<number>,
@@ -268,11 +290,13 @@ export default function MemoryMatchRenderer({ questionData, onComplete, theme, a
     }
   }, [disabled, matched, flipped, cards, moves, clickCount, clickLimit, limitHit, completed, usedPairs, onComplete, buildResult]);
 
-  const GAP = 8;
-  const fallbackWidth = Math.max(220, screenWidth - 72);
-  const availableWidth = boardContainerWidth > 0 ? boardContainerWidth : fallbackWidth;
-  const cardSize = Math.max(1, Math.floor((availableWidth - GAP * (cfg.cols - 1)) / cfg.cols));
+  const GAP = cfg.cols === 6 ? 6 : 8;
+  const fallbackWidth = Math.max(220, Math.min(screenWidth - 48, 520));
+  const availableWidth = boardContainerWidth > 0 ? Math.min(boardContainerWidth, 520) : fallbackWidth;
+  const maxCardSize = cfg.cols === 6 ? 52 : cfg.cols === 4 ? 66 : 84;
+  const cardSize = Math.min(maxCardSize, Math.max(30, Math.floor((availableWidth - GAP * (cfg.cols - 1)) / cfg.cols)));
   const gridW = cardSize * cfg.cols + GAP * (cfg.cols - 1);
+  const boardW = Math.max(260, gridW);
 
   // Split flat cards array into rows
   const rows: GameCard[][] = [];
@@ -290,17 +314,17 @@ export default function MemoryMatchRenderer({ questionData, onComplete, theme, a
   const clickColor    = clickPct >= 1 ? '#D32F2F' : clickPct >= 0.75 ? '#D33F13' : clickPct >= 0.5 ? '#E6A020' : '#4CAF50';
 
   // Fixed chip width so both sides are identical
-  const CHIP_W = Math.floor(gridW * 0.22);
+  const CHIP_W = Math.max(68, Math.floor(boardW * 0.22));
 
   return (
     <View style={mm.wrapper}>
-      {/* Everything is centred and locked to gridW */}
+      {/* Everything is centred and locked to boardW */}
       <View style={{ alignItems: 'center' }}>
         <View
           style={{ width: '100%' }}
           onLayout={(event) => setBoardContainerWidth(event.nativeEvent.layout.width)}
         >
-          <View style={{ width: gridW, alignSelf: 'center' }}>
+          <View style={{ width: boardW, alignSelf: 'center' }}>
 
           {/* ── Stats row ── */}
           <View style={mm.statsRow}>
@@ -365,9 +389,9 @@ export default function MemoryMatchRenderer({ questionData, onComplete, theme, a
           )}
 
           {/* ── Grid ── */}
-          <View style={{ gap: GAP }}>
+          <View style={{ gap: GAP, alignSelf: 'center' }}>
             {rows.map((row, rIdx) => (
-              <View key={rIdx} style={{ flexDirection: 'row', gap: GAP }}>
+              <View key={rIdx} style={{ flexDirection: 'row', gap: GAP, justifyContent: 'center' }}>
                 {row.map((card) => (
                   <FlipCard
                     key={card.uniqueId}

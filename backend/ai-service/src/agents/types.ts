@@ -24,6 +24,7 @@ export type ChatMessage = { role: 'system' | 'user' | 'assistant'; content: stri
 
 export type AgentStreamEvent =
   | { type: 'delta'; text: string }
+  | { type: 'thinking'; text: string }
   | { type: 'usage'; promptTokens?: number; completionTokens?: number };
 
 /**
@@ -38,6 +39,9 @@ export type AgentRunEvent = (AgentStreamEvent & { providerId: string }) | { type
 export type AgentStreamParams = {
   messages: ChatMessage[];
   model?: string;
+  maxTokens?: number;
+  format?: 'json';
+  temperature?: number;
   signal?: AbortSignal;
 };
 

@@ -390,16 +390,33 @@ function QuizQuestionDetailCard({
     return rawOpts;
   }, [qData]);
 
-  // Extract pairs for matching
+  // Extract pairs for matching (handles pairs, matching_pairs, and drag_items/drop_targets)
   const pairs = useMemo(() => {
-    const rawPairs = qData.pairs || qData.matching_pairs || qData.match_pairs || [];
-    if (!Array.isArray(rawPairs)) return [];
-    return rawPairs;
+    if (Array.isArray(qData.pairs) && qData.pairs.length > 0) return qData.pairs;
+    if (Array.isArray(qData.matching_pairs) && qData.matching_pairs.length > 0) return qData.matching_pairs;
+    if (Array.isArray(qData.match_pairs) && qData.match_pairs.length > 0) return qData.match_pairs;
+    if (Array.isArray(qData.drag_items) && qData.drag_items.length > 0) {
+      const targets = Array.isArray(qData.drop_targets) ? qData.drop_targets : [];
+      const rules = Array.isArray(qData.match_rules) ? qData.match_rules : [];
+      return qData.drag_items.map((item: any) => {
+        const rule = rules.find((r: any) => r.drag_item_id === item.id);
+        const target = rule ? targets.find((t: any) => t.id === rule.drop_target_id) : null;
+        return {
+          left: item.label || item.item || item.id,
+          right: target?.label || target?.target || '',
+          image: item.image,
+        };
+      });
+    }
+    return [];
   }, [qData]);
 
-  // Extract prompt image & audio
+  // Extract prompt image (ignores empty, null, and dummy placehold.co images)
   const promptImage = useMemo(() => {
     const raw = qData.prompt_image || qData.image || qData.media_url || qData.imageUrl;
+    if (!raw || typeof raw !== 'string' || !raw.trim() || raw.includes('placehold.co') || raw === 'null' || raw === 'undefined') {
+      return null;
+    }
     return resolveMediaUrl(raw);
   }, [qData]);
 

@@ -633,6 +633,195 @@ export function draftToPayload(draft: QuestionDraft) {
   return payload;
 }
 
+export type DraftPreviewPayloadResult = {
+  isComplete: boolean;
+  error: string;
+  questionType: string;
+  questionAudio?: string;
+  questionData: any;
+};
+
+export function buildDraftPreviewPayload(
+  draft: QuestionDraft,
+  fallbackQuestionType?: string,
+): DraftPreviewPayloadResult {
+  const normalizedType = normalizeQuestionType(draft.questionType.trim() || fallbackQuestionType || 'single_choice');
+  const mode = getQuestionEditorMode(normalizedType);
+
+  // 1. Try strict payload conversion first
+  try {
+    const payload = draftToPayload(draft) as {
+      questionType?: unknown;
+      questionAudio?: unknown;
+      questionData?: unknown;
+    };
+    return {
+      isComplete: true,
+      error: '',
+      questionType: String(payload.questionType || normalizedType),
+      questionAudio: typeof payload.questionAudio === 'string' ? payload.questionAudio : undefined,
+      questionData: payload.questionData ?? {},
+    };
+  } catch (err) {
+    // 2. Generate resilient simulation payload so player and preview ALWAYS work live while drafting
+    const errorMsg = err instanceof Error ? err.message : 'Incomplete question configuration.';
+    const mainImg = draft.mainImage.trim();
+    const mainAud = draft.mainAudio.trim();
+    let simulatedData: Record<string, any> = {};
+
+    if (mode === 'memory_match') {
+      const raw = (draft.rawQuestionData as any) ?? {};
+      const grid = (['2x2', '4x4', '6x6'].includes(raw.grid) ? raw.grid : '4x4') as '2x2' | '4x4' | '6x6';
+      const needed = grid === '2x2' ? 2 : grid === '6x6' ? 6 : 4;
+      const userPairs = Array.isArray(raw.pairs) ? raw.pairs : [];
+      const normalizedUserPairs = userPairs.map((p: any, i: number) => ({
+        id: p.id ?? i + 1,
+        label: p.label || `Pair ${i + 1}`,
+        imageUrl: p.imageUrl || p.image ? resolveMediaUrl(p.imageUrl || p.image) : undefined,
+        emoji: p.emoji || (p.imageUrl || p.image ? undefined : ['🌟', '🍎', '🚀', '🐱', '🎨', '⚽', '🎸', '🌈'][i % 8]),
+      }));
+
+      const starterEmojis = ['🌟', '🍎', '🚀', '🐱', '🎨', '⚽', '🎸', '🌈', '🍦', '🚗', '🔔', '💎'];
+      const starterLabels = ['Star', 'Apple', 'Rocket', 'Cat', 'Art', 'Ball', 'Music', 'Rainbow', 'Ice Cream', 'Car', 'Bell', 'Gem'];
+      const pairs = [...normalizedUserPairs];
+      while (pairs.length < needed) {
+        const idx = pairs.length;
+        pairs.push({
+          id: idx + 1,
+          label: starterLabels[idx % starterLabels.length],
+          emoji: starterEmojis[idx % starterEmojis.length],
+        });
+      }
+      simulatedData = {
+        grid,
+        pairs: pairs.slice(0, needed),
+        clickLimit: Number(raw.clickLimit ?? 0),
+      };
+    } else if (mode === 'logico') {
+      const buttonSlotMap: Record<string, number> = {};
+      const usedSlots = new Set<number>();
+      LOGICO_BUTTON_ORDER.forEach((btn) => {
+        const mapped = draft.options.find((o) => o.id === btn);
+        const slot = Number(mapped?.slotPosition);
+        if (Number.isInteger(slot) && slot >= 1 && slot <= 10 && !usedSlots.has(slot)) {
+          buttonSlotMap[btn] = slot;
+          usedSlots.add(slot);
+        }
+      });
+      // Fill any remaining unassigned slots 1..10
+      let nextSlot = 1;
+      LOGICO_BUTTON_ORDER.forEach((btn) => {
+        if (!buttonSlotMap[btn]) {
+          while (usedSlots.has(nextSlot) && nextSlot <= 10) nextSlot++;
+          buttonSlotMap[btn] = nextSlot <= 10 ? nextSlot : 1;
+          usedSlots.add(buttonSlotMap[btn]);
+        }
+      });
+      const optionSlots = Array.from({ length: 10 }, (_, i) => {
+        const slotId = i + 1;
+        const mapped = draft.options.find((o) => Number(o.slotPosition) === slotId);
+        return {
+          id: slotId,
+          value: mapped?.label?.trim() || `Position ${slotId}`,
+        };
+      });
+      simulatedData = {
+        variant: 'logico',
+        prompt_image: mainImg ? resolveMediaUrl(mainImg) : 'https://placehold.co/526x725/EEF2FF/3730A3?text=Logico+Worksheet+Preview',
+        button_slot_map: buttonSlotMap,
+        option_slots: optionSlots,
+        logico_buttons: LOGICO_BUTTON_ORDER,
+      };
+    } else if (mode === 'jigsaw') {
+      const raw = (draft.rawQuestionData as any) ?? {};
+      const rawGridSize = String(raw.gridSize ?? '3x3');
+      const gridSize = ['2x2', '3x3', '4x4', '5x5'].includes(rawGridSize) ? rawGridSize : '3x3';
+      const rawDifficulty = String(raw.difficulty ?? 'medium');
+      const difficulty = ['easy', 'medium', 'hard'].includes(rawDifficulty) ? rawDifficulty : 'medium';
+      simulatedData = {
+        image: mainImg ? resolveMediaUrl(mainImg) : 'https://placehold.co/600x600/E0F2FE/0369A1?text=Jigsaw+Puzzle+Preview',
+        gridSize,
+        difficulty,
+        clickLimit: Number(raw.clickLimit ?? 0),
+      };
+    } else if (mode === 'fill_blank') {
+      const raw = (draft.rawQuestionData as any) ?? {};
+      const sentence = String(raw.sentence ?? '').trim();
+      const answer = String(raw.answer ?? '').trim();
+      const rawOptions = Array.isArray(raw.options) ? raw.options.filter(Boolean) : [];
+      const simSentence = sentence.includes('___')
+        ? sentence
+        : sentence
+        ? `${sentence} ___`
+        : 'The sun shines bright in the ___ sky.';
+      const simAnswer = answer || (rawOptions[0] ? String(rawOptions[0]) : 'blue');
+      const simOptions = rawOptions.length >= 2
+        ? rawOptions
+        : [simAnswer, 'green', 'yellow', 'night'];
+      simulatedData = {
+        sentence: simSentence,
+        answer: simAnswer,
+        hint: raw.hint ? String(raw.hint).trim() : undefined,
+        options: simOptions,
+      };
+    } else if (mode === 'drag_drop') {
+      const userPairs = draft.matchPairs.filter((p) => p.itemLabel || p.targetLabel || p.image || p.audio);
+      const basePairs = userPairs.length > 0 ? userPairs : [
+        { id: 'item_1', itemLabel: 'Sun', targetLabel: 'Day', image: 'https://placehold.co/200x200/FEF3C7/D97706?text=Sun' },
+        { id: 'item_2', itemLabel: 'Moon', targetLabel: 'Night', image: 'https://placehold.co/200x200/EDE9FE/6D28D9?text=Moon' },
+      ];
+      const dragItems = basePairs.map((p, idx) => ({
+        id: p.id || `item_${idx + 1}`,
+        label: p.itemLabel || `Item ${idx + 1}`,
+        image: p.image ? resolveMediaUrl(p.image) : 'https://placehold.co/200x200/EFF6FF/2563EB?text=Match',
+        ...(p.audio ? { sound: resolveMediaUrl(p.audio) } : {}),
+      }));
+      const dropTargets = basePairs.map((p, idx) => ({
+        id: dragItems[idx].id,
+        label: p.targetLabel || `Target ${idx + 1}`,
+      }));
+      simulatedData = {
+        drag_items: dragItems,
+        drop_targets: dropTargets,
+        match_rules: dragItems.map((item) => ({ drag_item_id: item.id, drop_target_id: item.id })),
+      };
+    } else {
+      // Choice questions
+      const userOptions = draft.options.filter((o) => o.label || o.image || o.audio);
+      const baseOptions = userOptions.length >= 2
+        ? userOptions
+        : [
+            { id: 'opt_1', slotPosition: 1, label: userOptions[0]?.label || 'Choice A', isCorrect: true },
+            { id: 'opt_2', slotPosition: 2, label: userOptions[1]?.label || 'Choice B', isCorrect: false },
+          ];
+      const normalizedOptions = baseOptions.map((o, idx) => ({
+        id: o.id || `opt_${idx + 1}`,
+        slot_position: o.slotPosition || idx + 1,
+        label: o.label || `Option ${idx + 1}`,
+        image: o.image ? resolveMediaUrl(o.image) : undefined,
+        audio: o.audio ? resolveMediaUrl(o.audio) : undefined,
+        is_correct: o.isCorrect ?? (idx === 0),
+      }));
+      simulatedData = {
+        options: normalizedOptions,
+        ...(normalizedType === 'guess_image'
+          ? { prompt_image: mainImg ? resolveMediaUrl(mainImg) : 'https://placehold.co/400x400/EFF6FF/2563EB?text=Stimulus+Image' }
+          : {}),
+        ...(normalizedType === 'guess_audio' && mainAud ? { prompt_audio: resolveMediaUrl(mainAud) } : {}),
+        variant: normalizedType,
+      };
+    }
+
+    return {
+      isComplete: false,
+      error: errorMsg,
+      questionType: normalizedType,
+      questionAudio: mainAud ? resolveMediaUrl(mainAud) : undefined,
+      questionData: simulatedData,
+    };
+  }
+}
+
 export type { PickedFile };
 export { pickFileAsDataUrl };
 

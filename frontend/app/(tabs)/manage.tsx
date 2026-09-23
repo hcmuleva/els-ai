@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import { ModalHeader } from '../../src/components/common/ModalHeader';
 import { Card } from '../../src/components/common/Card';
@@ -7,8 +7,9 @@ import { Colors } from '../../src/theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Linking from 'expo-linking';
-import {
+import {  
   ActivityIndicator,
+  DeviceEventEmitter,
   Dimensions,
   Image,
   Modal,
@@ -1117,11 +1118,26 @@ export default function QuestionManagementScreen() {
   const [selectorField, setSelectorField] = useState<SelectorField | null>(null);
   const [activeLearningTab, setActiveLearningTab] = useState<LearningTab>('topic');
 
+  const searchParams = useLocalSearchParams<{ tab?: string; quizId?: string; action?: string; _ts?: string }>();
+
   // Persist and restore the active learning tab
   useEffect(() => {
+    if (searchParams.tab && ['topic', 'content', 'question', 'quiz', 'stories', 'bookmark'].includes(searchParams.tab)) {
+      setActiveLearningTab(searchParams.tab as LearningTab);
+      AsyncStorage.setItem('manage_active_tab', searchParams.tab);
+      return;
+    }
     AsyncStorage.getItem('manage_active_tab').then((v) => {
       if (v) setActiveLearningTab(v as LearningTab);
     });
+  }, [searchParams.tab]);
+
+  useEffect(() => {
+    const sub = DeviceEventEmitter.addListener('els_open_quiz_review', () => {
+      setActiveLearningTab('quiz');
+      AsyncStorage.setItem('manage_active_tab', 'quiz');
+    });
+    return () => sub.remove();
   }, []);
   const handleSetActiveLearningTab = useCallback((tab: LearningTab) => {
     setActiveLearningTab(tab);
@@ -4283,6 +4299,8 @@ export default function QuestionManagementScreen() {
             setContentFilters((p) => ({ ...p, ...f }));
             setFilters((p) => ({ ...p, ...f }));
           }}
+          initialQuizId={searchParams.quizId}
+          initialAction={searchParams.action as any}
         />
       ) : null}
 

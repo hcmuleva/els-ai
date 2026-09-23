@@ -4,7 +4,7 @@
  */
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import {
-  ActivityIndicator, Image, Modal, Platform, Pressable,
+  ActivityIndicator, DeviceEventEmitter, Image, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
   useWindowDimensions,
 } from 'react-native';
@@ -16,6 +16,7 @@ import {
   Filter, LayoutList, Trophy, ListChecks, Search, X, Info, Sparkles,
 } from 'lucide-react-native';
 import React from 'react';
+import { useLocalSearchParams } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
 import { getAuthorizedClasses, getAuthorizedSubjects } from '../../utils/assignments';
@@ -39,6 +40,7 @@ import { Video, ResizeMode } from 'expo-av';
 import AudioPlayer from '../media/AudioPlayer';
 import DocumentViewer from '../media/DocumentViewer';
 import LatexText from '../common/LatexText';
+import { ChatMarkdown } from '../chat/ChatMarkdown';
 
 const getYouTubeVideoId = (url: string): string | null => {
   const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
@@ -308,7 +310,7 @@ function ResponsiveMediaStage({
                   <BookOpen size={13} color="#2563EB" />
                   <Text style={c.readingBadgeText}>Reading Lesson</Text>
                 </View>
-                <LatexText content={content.textContent} style={c.readingText} background="#FFFFFF" />
+                <ChatMarkdown content={content.textContent} isUser={false} />
               </View>
             ) : (
               <View style={c.stagePlaceholder}>
@@ -379,7 +381,7 @@ function ResponsiveMediaStage({
       {content?.textContent && !isReading ? (
         <View style={c.notesCard}>
           <Text style={c.notesCardTitle}>Lesson Overview & Notes</Text>
-          <LatexText content={content.textContent} style={c.notesCardBody} background="#FFFFFF" />
+          <ChatMarkdown content={content.textContent} isUser={false} />
         </View>
       ) : null}
 
@@ -1682,6 +1684,35 @@ export default function ContentTab({
   const [detailsItem, setDetailsItem]               = useState<LearningContentItem | null>(null);
   const [confirmDeleteItem, setConfirmDeleteItem]   = useState<LearningContentItem | null>(null);
   const [searchQuery, setSearchQuery]               = useState('');
+
+  const searchParams = useLocalSearchParams<{ action?: string; tab?: string; _ts?: string }>();
+  const handledActionRef = useRef<string | null>(null);
+
+  // Direct in-memory open event from AI assistant or other components
+  useEffect(() => {
+    const sub = DeviceEventEmitter.addListener('els_open_content_create', () => {
+      setEditingItem('new');
+    });
+    return () => {
+      sub.remove();
+    };
+  }, []);
+
+  // Auto-open create modal if navigated with action=create or els_auto_open_create flag
+  useEffect(() => {
+    if (!enabled) return;
+    AsyncStorage.getItem('els_auto_open_create').then((val) => {
+      if (val === 'true') {
+        AsyncStorage.removeItem('els_auto_open_create');
+        setEditingItem('new');
+      }
+    });
+    const actionKey = `${searchParams.action}_${searchParams._ts || ''}`;
+    if (searchParams.action === 'create' && handledActionRef.current !== actionKey) {
+      handledActionRef.current = actionKey;
+      setEditingItem('new');
+    }
+  }, [enabled, searchParams.action, searchParams._ts]);
 
   const classOptions = useMemo(() =>
     getAuthorizedClasses(user, STANDARD_OPTIONS.map((o) => o.value))

@@ -78,6 +78,7 @@ import {
 } from './questionEditor.types';
 import { uploadPickedFileToS3 } from '../../utils/fileUpload';
 import {
+  buildDraftPreviewPayload,
   draftToPayload,
   getDefaultInstructionByType,
   getQuestionEditorMode,
@@ -668,214 +669,272 @@ export default function QuestionEditor({
       ) : null}
 
       {/* SETUP TAB */}
-      {tab === 'setup' && (
-        <ScrollView contentContainerStyle={qFormS.tabContent}>
-          {mode === 'create' && !hideTypeSelector ? (
-            <View style={qFormS.group}>
-              <Text style={qFormS.groupLabel}>QUESTION TYPE</Text>
-              <View style={qFormS.fieldCard}>
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={{ gap: 8, paddingVertical: 4 }}
-                >
-                  {QUESTION_TYPE_CHOICES.map((choice) => {
-                    const sel = draft.questionType === choice.value;
-                    const ec = QTYPES_COLOR[choice.value] ?? '#2D5DC9';
-                    const eb = QTYPES_BG[choice.value] ?? '#D6EAFF';
-                    const ee = QTYPES_EMOJI[choice.value] ?? '';
-                    return (
-                      <Pressable
-                        key={choice.value}
-                        style={[qFormS.qtypeChip, sel && { backgroundColor: eb, borderColor: ec }]}
-                        onPress={() => setQuestionType(choice.value)}
-                      >
-                        <Text style={qFormS.qtypeEmoji}>{ee}</Text>
-                        <Text
-                          style={[qFormS.qtypeLabel, sel && { color: ec, fontWeight: '800' }]}
+      {(() => {
+        const renderSetupContent = () => (
+          <>
+            {mode === 'create' && !hideTypeSelector ? (
+              <View style={qFormS.group}>
+                <Text style={qFormS.groupLabel}>QUESTION TYPE</Text>
+                <View style={qFormS.fieldCard}>
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ gap: 8, paddingVertical: 4 }}
+                  >
+                    {QUESTION_TYPE_CHOICES.map((choice) => {
+                      const sel = draft.questionType === choice.value;
+                      const ec = QTYPES_COLOR[choice.value] ?? '#2D5DC9';
+                      const eb = QTYPES_BG[choice.value] ?? '#D6EAFF';
+                      const ee = QTYPES_EMOJI[choice.value] ?? '';
+                      return (
+                        <Pressable
+                          key={choice.value}
+                          style={[qFormS.qtypeChip, sel && { backgroundColor: eb, borderColor: ec }]}
+                          onPress={() => setQuestionType(choice.value)}
                         >
-                          {choice.label}
-                        </Text>
-                      </Pressable>
-                    );
-                  })}
-                </ScrollView>
-                {QUESTION_TYPE_CHOICES.find((c) => c.value === draft.questionType) ? (
-                  <Text style={qFormS.qtypeDesc}>
-                    {QUESTION_TYPE_CHOICES.find((c) => c.value === draft.questionType)!.description}
-                  </Text>
+                          <Text style={qFormS.qtypeEmoji}>{ee}</Text>
+                          <Text
+                            style={[qFormS.qtypeLabel, sel && { color: ec, fontWeight: '800' }]}
+                          >
+                            {choice.label}
+                          </Text>
+                        </Pressable>
+                      );
+                    })}
+                  </ScrollView>
+                  {QUESTION_TYPE_CHOICES.find((c) => c.value === draft.questionType) ? (
+                    <Text style={qFormS.qtypeDesc}>
+                      {QUESTION_TYPE_CHOICES.find((c) => c.value === draft.questionType)!.description}
+                    </Text>
+                  ) : null}
+                </View>
+              </View>
+            ) : null}
+
+            <View style={qFormS.group}>
+              <Text style={qFormS.groupLabel}>BASIC INFO</Text>
+              <View style={qFormS.fieldCard}>
+                <Text style={qFormS.fieldLabel}>Question Title</Text>
+                <TextInput
+                  value={draft.questionTitle}
+                  onChangeText={(v) => updateField('questionTitle', v)}
+                  placeholder="e.g. What animal says Moo? or $x^2 + y^2 = r^2$"
+                  style={qFormS.input}
+                  placeholderTextColor="#B0B8D0"
+                />
+                {draft.questionTitle.trim() ? (
+                  <View style={{ marginTop: 6, padding: 10, borderRadius: 10, backgroundColor: '#F8FAFC', borderWidth: 1, borderColor: '#E2E8F0' }}>
+                    <Text style={{ fontSize: 10, fontWeight: '800', color: '#64748B', textTransform: 'uppercase', marginBottom: 4 }}>LaTeX Preview</Text>
+                    <LatexText content={draft.questionTitle} compact background="transparent" style={{ fontSize: 14, color: '#1E293B' }} />
+                  </View>
+                ) : null}
+                <View style={qFormS.divider} />
+                <Text style={qFormS.fieldLabel}>Instruction (optional)</Text>
+                <TextInput
+                  value={draft.questionInstruction}
+                  onChangeText={(v) => updateField('questionInstruction', v)}
+                  placeholder="e.g. Listen and choose the correct animal"
+                  style={[qFormS.input, { minHeight: 52 }]}
+                  multiline
+                  placeholderTextColor="#B0B8D0"
+                />
+                <View style={qFormS.divider} />
+                <Text style={qFormS.fieldLabel}>Explanation (optional)</Text>
+                <TextInput
+                  value={draft.explanation}
+                  onChangeText={(v) => updateField('explanation', v)}
+                  placeholder="Explain why the correct answer is right. Shown to students as the solution."
+                  style={[qFormS.input, { minHeight: 72 }]}
+                  multiline
+                  placeholderTextColor="#B0B8D0"
+                />
+                {draft.explanation.trim() ? (
+                  <View style={{ marginTop: 6, padding: 10, borderRadius: 10, backgroundColor: '#EFF6FF', borderWidth: 1, borderColor: '#BFDBFE' }}>
+                    <Text style={{ fontSize: 10, fontWeight: '800', color: '#1D4ED8', textTransform: 'uppercase', marginBottom: 4 }}>Explanation Preview</Text>
+                    <LatexText content={draft.explanation} compact background="transparent" style={{ fontSize: 13, color: '#1E3A8A' }} />
+                  </View>
                 ) : null}
               </View>
             </View>
-          ) : null}
 
-          <View style={qFormS.group}>
-            <Text style={qFormS.groupLabel}>BASIC INFO</Text>
-            <View style={qFormS.fieldCard}>
-              <Text style={qFormS.fieldLabel}>Question Title</Text>
-              <TextInput
-                value={draft.questionTitle}
-                onChangeText={(v) => updateField('questionTitle', v)}
-                placeholder="e.g. What animal says Moo? or $x^2 + y^2 = r^2$"
-                style={qFormS.input}
-                placeholderTextColor="#B0B8D0"
-              />
-              {draft.questionTitle.trim() ? (
-                <View style={{ marginTop: 6, padding: 10, borderRadius: 10, backgroundColor: '#F8FAFC', borderWidth: 1, borderColor: '#E2E8F0' }}>
-                  <Text style={{ fontSize: 10, fontWeight: '800', color: '#64748B', textTransform: 'uppercase', marginBottom: 4 }}>LaTeX Preview</Text>
-                  <LatexText content={draft.questionTitle} compact background="transparent" style={{ fontSize: 14, color: '#1E293B' }} />
-                </View>
-              ) : null}
-              <View style={qFormS.divider} />
-              <Text style={qFormS.fieldLabel}>Instruction (optional)</Text>
-              <TextInput
-                value={draft.questionInstruction}
-                onChangeText={(v) => updateField('questionInstruction', v)}
-                placeholder="e.g. Listen and choose the correct animal"
-                style={[qFormS.input, { minHeight: 52 }]}
-                multiline
-                placeholderTextColor="#B0B8D0"
-              />
-              <View style={qFormS.divider} />
-              <Text style={qFormS.fieldLabel}>Explanation (optional)</Text>
-              <TextInput
-                value={draft.explanation}
-                onChangeText={(v) => updateField('explanation', v)}
-                placeholder="Explain why the correct answer is right. Shown to students as the solution."
-                style={[qFormS.input, { minHeight: 72 }]}
-                multiline
-                placeholderTextColor="#B0B8D0"
-              />
-              {draft.explanation.trim() ? (
-                <View style={{ marginTop: 6, padding: 10, borderRadius: 10, backgroundColor: '#EFF6FF', borderWidth: 1, borderColor: '#BFDBFE' }}>
-                  <Text style={{ fontSize: 10, fontWeight: '800', color: '#1D4ED8', textTransform: 'uppercase', marginBottom: 4 }}>Explanation Preview</Text>
-                  <LatexText content={draft.explanation} compact background="transparent" style={{ fontSize: 13, color: '#1E3A8A' }} />
-                </View>
-              ) : null}
-            </View>
-          </View>
-
-          <View style={qFormS.group}>
-            <Text style={qFormS.groupLabel}>CLASS SETTINGS</Text>
-            <View style={qFormS.fieldCard}>
-              <Text style={qFormS.fieldLabel}>Standard / Class</Text>
-              <Pressable
-                style={qFormS.selectorRow}
-                onPress={() => setSelectorField('classLevel')}
-              >
-                <Text
-                  style={draft.classLevel ? qFormS.selectorVal : qFormS.selectorPlaceholder}
+            <View style={qFormS.group}>
+              <Text style={qFormS.groupLabel}>CLASS SETTINGS</Text>
+              <View style={qFormS.fieldCard}>
+                <Text style={qFormS.fieldLabel}>Standard / Class</Text>
+                <Pressable
+                  style={qFormS.selectorRow}
+                  onPress={() => setSelectorField('classLevel')}
                 >
-                  {draft.classLevel ? getStandardLabel(draft.classLevel) : 'Select Standard'}
-                </Text>
-                <Text style={{ color: '#B0B8D0', fontSize: 16 }}>›</Text>
-              </Pressable>
-              <View style={qFormS.divider} />
-              <Text style={qFormS.fieldLabel}>Subject</Text>
-              <Pressable
-                style={qFormS.selectorRow}
-                onPress={() => setSelectorField('subject')}
-              >
-                <Text style={draft.subject ? qFormS.selectorVal : qFormS.selectorPlaceholder}>
-                  {draft.subject || 'Select Subject'}
-                </Text>
-                <Text style={{ color: '#B0B8D0', fontSize: 16 }}>›</Text>
-              </Pressable>
+                  <Text
+                    style={draft.classLevel ? qFormS.selectorVal : qFormS.selectorPlaceholder}
+                  >
+                    {draft.classLevel ? getStandardLabel(draft.classLevel) : 'Select Standard'}
+                  </Text>
+                  <Text style={{ color: '#B0B8D0', fontSize: 16 }}>›</Text>
+                </Pressable>
+                <View style={qFormS.divider} />
+                <Text style={qFormS.fieldLabel}>Subject</Text>
+                <Pressable
+                  style={qFormS.selectorRow}
+                  onPress={() => setSelectorField('subject')}
+                >
+                  <Text style={draft.subject ? qFormS.selectorVal : qFormS.selectorPlaceholder}>
+                    {draft.subject || 'Select Subject'}
+                  </Text>
+                  <Text style={{ color: '#B0B8D0', fontSize: 16 }}>›</Text>
+                </Pressable>
+              </View>
             </View>
-          </View>
 
-          <View style={qFormS.group}>
-            <Text style={qFormS.groupLabel}>SCORING</Text>
-            <View style={qFormS.fieldCard}>
-              <View style={qFormS.twoCol}>
-                <View style={{ flex: 1 }}>
-                  <Text style={qFormS.fieldLabel}>Points</Text>
-                  <TextInput
-                    value={draft.points}
-                    onChangeText={(v) => updateField('points', v)}
-                    placeholder="10"
-                    style={qFormS.input}
-                    keyboardType="numeric"
-                    placeholderTextColor="#B0B8D0"
+            <View style={qFormS.group}>
+              <Text style={qFormS.groupLabel}>SCORING</Text>
+              <View style={qFormS.fieldCard}>
+                <View style={qFormS.twoCol}>
+                  <View style={{ flex: 1 }}>
+                    <Text style={qFormS.fieldLabel}>Points</Text>
+                    <TextInput
+                      value={draft.points}
+                      onChangeText={(v) => updateField('points', v)}
+                      placeholder="10"
+                      style={qFormS.input}
+                      keyboardType="numeric"
+                      placeholderTextColor="#B0B8D0"
+                    />
+                  </View>
+                  <View style={qFormS.colDivider} />
+                  <View style={{ flex: 1 }}>
+                    <Text style={qFormS.fieldLabel}>Time Limit (s)</Text>
+                    <TextInput
+                      value={draft.timeLimitSeconds}
+                      onChangeText={(v) => updateField('timeLimitSeconds', v)}
+                      placeholder="30"
+                      style={qFormS.input}
+                      keyboardType="numeric"
+                      placeholderTextColor="#B0B8D0"
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+
+            {(normalizedQuestionType === 'guess_image' ||
+              normalizedQuestionType === 'logico' ||
+              normalizedQuestionType === 'jigsaw') && (
+              <View style={qFormS.group}>
+                <Text style={qFormS.groupLabel}>
+                  {normalizedQuestionType === 'logico'
+                    ? 'WORKSHEET IMAGE'
+                    : normalizedQuestionType === 'jigsaw'
+                    ? 'PUZZLE IMAGE'
+                    : 'PROMPT IMAGE / VIDEO'}
+                </Text>
+                <View style={qFormS.fieldCard}>
+                  <MediaUploader
+                    accept={normalizedQuestionType === 'logico' || normalizedQuestionType === 'jigsaw' ? 'image/*' : 'image/*,video/*'}
+                    mediaType="image"
+                    value={draft.mainImage.trim() || null}
+                    fileName={draft.mainImageLabel || (draft.mainImage.trim() ? draft.mainImage.split('/').pop() : '')}
+                    thumbnailUrl={draft.mainImage.trim() ? resolveMediaUrl(draft.mainImage.trim()) : undefined}
+                    onUploadSuccess={(url, name) => {
+                      updateField('mainImage', url);
+                      updateField('mainImageLabel', name);
+                    }}
+                    onClear={() => requestMediaRemoval({ scope: 'question', mediaType: 'image' })}
+                    buttonLabel={
+                      normalizedQuestionType === 'logico'
+                        ? 'Upload Worksheet Image'
+                        : normalizedQuestionType === 'jigsaw'
+                        ? 'Upload Puzzle Image'
+                        : 'Upload Prompt Image / Video'
+                    }
                   />
                 </View>
-                <View style={qFormS.colDivider} />
-                <View style={{ flex: 1 }}>
-                  <Text style={qFormS.fieldLabel}>Time Limit (s)</Text>
-                  <TextInput
-                    value={draft.timeLimitSeconds}
-                    onChangeText={(v) => updateField('timeLimitSeconds', v)}
-                    placeholder="30"
-                    style={qFormS.input}
-                    keyboardType="numeric"
-                    placeholderTextColor="#B0B8D0"
+              </View>
+            )}
+
+            {normalizedQuestionType === 'guess_audio' && (
+              <View style={qFormS.group}>
+                <Text style={qFormS.groupLabel}>PROMPT AUDIO</Text>
+                <View style={qFormS.fieldCard}>
+                  <MediaUploader
+                    accept="audio/*"
+                    mediaType="audio"
+                    value={draft.mainAudio.trim() || null}
+                    fileName={draft.mainAudioLabel || (draft.mainAudio.trim() ? draft.mainAudio.split('/').pop() : '')}
+                    onPlayPreview={() => playAudioPreview(draft.mainAudio)}
+                    onUploadSuccess={(url, name) => {
+                      updateField('mainAudio', url);
+                      updateField('mainAudioLabel', name);
+                    }}
+                    onClear={() => requestMediaRemoval({ scope: 'question', mediaType: 'audio' })}
+                    buttonLabel="Upload Prompt Audio"
                   />
                 </View>
               </View>
-            </View>
-          </View>
+            )}
+          </>
+        );
 
-          {(normalizedQuestionType === 'guess_image' ||
-            normalizedQuestionType === 'logico' ||
-            normalizedQuestionType === 'jigsaw') && (
-            <View style={qFormS.group}>
-              <Text style={qFormS.groupLabel}>
-                {normalizedQuestionType === 'logico'
-                  ? 'WORKSHEET IMAGE'
-                  : normalizedQuestionType === 'jigsaw'
-                  ? 'PUZZLE IMAGE'
-                  : 'PROMPT IMAGE / VIDEO'}
-              </Text>
-              <View style={qFormS.fieldCard}>
-                <MediaUploader
-                  accept={normalizedQuestionType === 'logico' || normalizedQuestionType === 'jigsaw' ? 'image/*' : 'image/*,video/*'}
-                  mediaType="image"
-                  value={draft.mainImage.trim() || null}
-                  fileName={draft.mainImageLabel || (draft.mainImage.trim() ? draft.mainImage.split('/').pop() : '')}
-                  thumbnailUrl={draft.mainImage.trim() ? resolveMediaUrl(draft.mainImage.trim()) : undefined}
-                  onUploadSuccess={(url, name) => {
-                    updateField('mainImage', url);
-                    updateField('mainImageLabel', name);
-                  }}
-                  onClear={() => requestMediaRemoval({ scope: 'question', mediaType: 'image' })}
-                  buttonLabel={
-                    normalizedQuestionType === 'logico'
-                      ? 'Upload Worksheet Image'
-                      : normalizedQuestionType === 'jigsaw'
-                      ? 'Upload Puzzle Image'
-                      : 'Upload Prompt Image / Video'
-                  }
-                />
+        if (tab !== 'setup') return null;
+
+        if (isDesktop) {
+          return (
+            <View style={qFormS.desktopLayout}>
+              <View style={qFormS.desktopLeftCol}>
+                <View style={qFormS.formCardWrap}>
+                  <View style={qFormS.formCardHeader}>
+                    <Text style={qFormS.cardTitleHeader}>Question Setup</Text>
+                    <Text style={qFormS.cardSubHeader}>Configure core details, stimulus & scoring</Text>
+                  </View>
+                  <ScrollView
+                    style={qFormS.innerScrollList}
+                    contentContainerStyle={{ gap: 14, paddingBottom: 32 }}
+                    showsVerticalScrollIndicator={false}
+                  >
+                    {renderSetupContent()}
+                  </ScrollView>
+                </View>
+              </View>
+              <View style={qFormS.desktopRightCol}>
+                <View style={qFormS.formCardWrap}>
+                  <View style={qFormS.formCardHeader}>
+                    <Text style={qFormS.cardTitleHeader}>Live Preview Stage</Text>
+                    <Text style={qFormS.cardSubHeader}>Real-time interactive student perspective</Text>
+                  </View>
+                  <ScrollView
+                    style={qFormS.innerScrollList}
+                    contentContainerStyle={{ paddingBottom: 32 }}
+                    showsVerticalScrollIndicator={false}
+                  >
+                    <PreviewTab
+                      draft={draft}
+                      editorMode={editorMode}
+                      isLogicoMode={isLogicoMode}
+                      isMemoryMatchMode={isMemoryMatchMode}
+                      isFillBlankMode={isFillBlankMode}
+                      isJigsawMode={isJigsawMode}
+                      hasOptions={hasOptions}
+                      hasPairs={hasPairs}
+                      normalizedQuestionType={normalizedQuestionType}
+                      compact
+                    />
+                  </ScrollView>
+                </View>
               </View>
             </View>
-          )}
+          );
+        }
 
-          {normalizedQuestionType === 'guess_audio' && (
-            <View style={qFormS.group}>
-              <Text style={qFormS.groupLabel}>PROMPT AUDIO</Text>
-              <View style={qFormS.fieldCard}>
-                <MediaUploader
-                  accept="audio/*"
-                  mediaType="audio"
-                  value={draft.mainAudio.trim() || null}
-                  fileName={draft.mainAudioLabel || (draft.mainAudio.trim() ? draft.mainAudio.split('/').pop() : '')}
-                  onPlayPreview={() => playAudioPreview(draft.mainAudio)}
-                  onUploadSuccess={(url, name) => {
-                    updateField('mainAudio', url);
-                    updateField('mainAudioLabel', name);
-                  }}
-                  onClear={() => requestMediaRemoval({ scope: 'question', mediaType: 'audio' })}
-                  buttonLabel="Upload Prompt Audio"
-                />
-              </View>
-            </View>
-          )}
-        </ScrollView>
-      )}
+        return (
+          <ScrollView contentContainerStyle={qFormS.tabContent}>
+            {renderSetupContent()}
+          </ScrollView>
+        );
+      })()}
 
-      {/* OPTIONS TAB - choice/logico */}
-      {tab === 'options' && hasOptions && (
-        <ScrollView contentContainerStyle={qFormS.tabContent}>
+      {/* OPTIONS TAB */}
+      {tab === 'options' && (() => {
+        const renderChoiceOptionsContent = () => (
           <View style={qFormS.secGroup}>
             <View style={qFormS.secHeader}>
               <Text style={qFormS.secTitle}>
@@ -948,33 +1007,37 @@ export default function QuestionEditor({
                   {/* RIGHT COLUMN: Worksheet Image Preview with Logico Slot Numbers & Expand */}
                   <View style={isDesktop ? qFormS.logicoRightCol : { marginTop: 16 }}>
                     <View style={qFormS.logicoImageCardHeader}>
-                      <Text style={qFormS.logicoImageCardTitle}>Worksheet Image</Text>
+                      <Text style={qFormS.fieldLabel}>Worksheet Reference</Text>
                       <View style={qFormS.logicoHeaderActions}>
                         <Pressable
                           style={[
                             qFormS.logicoToggleBtn,
                             showLogicoPositionNumbers && qFormS.logicoToggleBtnActive,
                           ]}
-                          onPress={() => setShowLogicoPositionNumbers((prev) => !prev)}
+                          onPress={() =>
+                            setShowLogicoPositionNumbers((prev) => !prev)
+                          }
                         >
                           <Text
                             style={[
                               qFormS.logicoToggleBtnText,
-                              showLogicoPositionNumbers && qFormS.logicoToggleBtnTextActive,
+                              showLogicoPositionNumbers &&
+                                qFormS.logicoToggleBtnTextActive,
                             ]}
                           >
-                            {showLogicoPositionNumbers ? 'Numbers 1-10 ✓' : 'Numbers 1-10'}
+                            {showLogicoPositionNumbers ? 'Hide Slots' : 'Show Slots'}
                           </Text>
                         </Pressable>
                         {draft.mainImage.trim() ? (
-                          <Pressable style={qFormS.expandBtn} onPress={() => setIsLogicoImageExpanded(true)}>
-                            <Maximize2 size={13} color="#4F46E5" />
-                            <Text style={qFormS.expandBtnText}>Expand</Text>
+                          <Pressable
+                            style={qFormS.expandBtn}
+                            onPress={() => setIsLogicoImageExpanded(true)}
+                          >
+                            <Text style={qFormS.expandBtnText}>⤢ Expand</Text>
                           </Pressable>
                         ) : null}
                       </View>
                     </View>
-
                     {draft.mainImage.trim() ? (
                       <LogicoWorksheetImageOverlay
                         imageUri={resolveMediaUrl(draft.mainImage.trim())}
@@ -1048,6 +1111,12 @@ export default function QuestionEditor({
                       )}
                     </View>
                     <View style={{ paddingHorizontal: 14, paddingBottom: 12 }}>
+                      {option.label.trim() ? (
+                        <View style={{ marginBottom: 10, padding: 8, borderRadius: 8, backgroundColor: '#F8FAFC', borderWidth: 1, borderColor: '#E2E8F0' }}>
+                          <Text style={{ fontSize: 10, fontWeight: '800', color: '#64748B', textTransform: 'uppercase', marginBottom: 2 }}>LaTeX Preview</Text>
+                          <LatexText content={option.label} compact background="transparent" style={{ fontSize: 13, color: '#1E293B' }} />
+                        </View>
+                      ) : null}
                       <MediaUploader
                         accept="image/*,audio/*"
                         mediaType={option.image.trim() ? 'image' : option.audio.trim() ? 'audio' : 'document'}
@@ -1059,8 +1128,10 @@ export default function QuestionEditor({
                           if (kind === 'image') updateOption(index, { image: url, imageLabel: name, audio: '', audioLabel: '' });
                           else if (kind === 'audio') updateOption(index, { audio: url, audioLabel: name, image: '', imageLabel: '' });
                         }}
-                        onClear={() => clearOptionMedia(index, option.image.trim() ? 'image' : 'audio')}
-                        buttonLabel={normalizedQuestionType === 'guess_audio' ? 'Upload Option Audio / Image' : 'Upload Option Image / Audio'}
+                        onClear={() => {
+                          requestMediaRemoval({ scope: 'option', index, mediaType: option.image.trim() ? 'image' : 'audio' });
+                        }}
+                        buttonLabel="Upload Image / Audio"
                       />
                     </View>
                   </View>
@@ -1068,12 +1139,9 @@ export default function QuestionEditor({
               </>
             )}
           </View>
-        </ScrollView>
-      )}
+        );
 
-      {/* OPTIONS TAB - drag/drop pairs */}
-      {tab === 'options' && hasPairs && (
-        <ScrollView contentContainerStyle={qFormS.tabContent}>
+        const renderPairsContent = () => (
           <View style={qFormS.secGroup}>
             <View style={qFormS.secHeader}>
               <Text style={qFormS.secTitle}>🔀 Match Pairs</Text>
@@ -1136,62 +1204,215 @@ export default function QuestionEditor({
               </View>
             ))}
           </View>
-        </ScrollView>
-      )}
+        );
 
-      {/* OPTIONS TAB - memory match */}
-      {tab === 'options' && isMemoryMatchMode && (
-        <MemoryMatchTab
-          draft={draft}
-          updateRaw={(patch) =>
-            updateField('rawQuestionData', { ...((draft.rawQuestionData as any) ?? {}), ...patch })
-          }
-          assetPickerOpen={assetPickerOpen}
-          assetPickerTarget={assetPickerTarget}
-          openAssetPicker={(pairIdx) => {
-            setAssetPickerTarget({ pairIdx });
-            setAssetPickerOpen(true);
-          }}
-          closeAssetPicker={() => {
-            setAssetPickerOpen(false);
-            setAssetPickerTarget(null);
-          }}
-        />
-      )}
+        if (isDesktop) {
+          return (
+            <View style={qFormS.desktopLayout}>
+              <View style={qFormS.desktopLeftCol}>
+                <View style={qFormS.formCardWrap}>
+                  <View style={qFormS.formCardHeader}>
+                    <Text style={qFormS.cardTitleHeader}>{tab2Label}</Text>
+                    <Text style={qFormS.cardSubHeader}>Configure response choices & answer keys</Text>
+                  </View>
+                  <View style={qFormS.innerScrollList}>
+                    {hasOptions && (
+                      <ScrollView contentContainerStyle={{ gap: 14, paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
+                        {renderChoiceOptionsContent()}
+                      </ScrollView>
+                    )}
+                    {hasPairs && (
+                      <ScrollView contentContainerStyle={{ gap: 14, paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
+                        {renderPairsContent()}
+                      </ScrollView>
+                    )}
+                    {isMemoryMatchMode && (
+                      <MemoryMatchTab
+                        draft={draft}
+                        updateRaw={(patch) =>
+                          updateField('rawQuestionData', { ...((draft.rawQuestionData as any) ?? {}), ...patch })
+                        }
+                        assetPickerOpen={assetPickerOpen}
+                        assetPickerTarget={assetPickerTarget}
+                        openAssetPicker={(pairIdx) => {
+                          setAssetPickerTarget({ pairIdx });
+                          setAssetPickerOpen(true);
+                        }}
+                        closeAssetPicker={() => {
+                          setAssetPickerOpen(false);
+                          setAssetPickerTarget(null);
+                        }}
+                      />
+                    )}
+                    {isJigsawMode && (
+                      <JigsawConfigTab
+                        draft={draft}
+                        updateRaw={(patch) =>
+                          updateField('rawQuestionData', { ...((draft.rawQuestionData as any) ?? {}), ...patch })
+                        }
+                      />
+                    )}
+                    {isFillBlankMode && (
+                      <FillBlankTab
+                        draft={draft}
+                        updateRaw={(patch) =>
+                          updateField('rawQuestionData', { ...((draft.rawQuestionData as any) ?? {}), ...patch })
+                        }
+                      />
+                    )}
+                  </View>
+                </View>
+              </View>
+              <View style={qFormS.desktopRightCol}>
+                <View style={qFormS.formCardWrap}>
+                  <View style={qFormS.formCardHeader}>
+                    <Text style={qFormS.cardTitleHeader}>Live Preview Stage</Text>
+                    <Text style={qFormS.cardSubHeader}>Real-time student perspective & player</Text>
+                  </View>
+                  <ScrollView
+                    style={qFormS.innerScrollList}
+                    contentContainerStyle={{ paddingBottom: 32 }}
+                    showsVerticalScrollIndicator={false}
+                  >
+                    <PreviewTab
+                      draft={draft}
+                      editorMode={editorMode}
+                      isLogicoMode={isLogicoMode}
+                      isMemoryMatchMode={isMemoryMatchMode}
+                      isFillBlankMode={isFillBlankMode}
+                      isJigsawMode={isJigsawMode}
+                      hasOptions={hasOptions}
+                      hasPairs={hasPairs}
+                      normalizedQuestionType={normalizedQuestionType}
+                      compact
+                    />
+                  </ScrollView>
+                </View>
+              </View>
+            </View>
+          );
+        }
 
-      {/* OPTIONS TAB - jigsaw */}
-      {tab === 'options' && isJigsawMode && (
-        <JigsawConfigTab
-          draft={draft}
-          updateRaw={(patch) =>
-            updateField('rawQuestionData', { ...((draft.rawQuestionData as any) ?? {}), ...patch })
-          }
-        />
-      )}
-
-      {/* OPTIONS TAB - fill in the blank */}
-      {tab === 'options' && isFillBlankMode && (
-        <FillBlankTab
-          draft={draft}
-          updateRaw={(patch) =>
-            updateField('rawQuestionData', { ...((draft.rawQuestionData as any) ?? {}), ...patch })
-          }
-        />
-      )}
+        return (
+          <>
+            {hasOptions && (
+              <ScrollView contentContainerStyle={qFormS.tabContent}>
+                {renderChoiceOptionsContent()}
+              </ScrollView>
+            )}
+            {hasPairs && (
+              <ScrollView contentContainerStyle={qFormS.tabContent}>
+                {renderPairsContent()}
+              </ScrollView>
+            )}
+            {isMemoryMatchMode && (
+              <MemoryMatchTab
+                draft={draft}
+                updateRaw={(patch) =>
+                  updateField('rawQuestionData', { ...((draft.rawQuestionData as any) ?? {}), ...patch })
+                }
+                assetPickerOpen={assetPickerOpen}
+                assetPickerTarget={assetPickerTarget}
+                openAssetPicker={(pairIdx) => {
+                  setAssetPickerTarget({ pairIdx });
+                  setAssetPickerOpen(true);
+                }}
+                closeAssetPicker={() => {
+                  setAssetPickerOpen(false);
+                  setAssetPickerTarget(null);
+                }}
+              />
+            )}
+            {isJigsawMode && (
+              <JigsawConfigTab
+                draft={draft}
+                updateRaw={(patch) =>
+                  updateField('rawQuestionData', { ...((draft.rawQuestionData as any) ?? {}), ...patch })
+                }
+              />
+            )}
+            {isFillBlankMode && (
+              <FillBlankTab
+                draft={draft}
+                updateRaw={(patch) =>
+                  updateField('rawQuestionData', { ...((draft.rawQuestionData as any) ?? {}), ...patch })
+                }
+              />
+            )}
+          </>
+        );
+      })()}
 
       {/* PREVIEW TAB */}
       {tab === 'preview' && (
-        <PreviewTab
-          draft={draft}
-          editorMode={editorMode}
-          isLogicoMode={isLogicoMode}
-          isMemoryMatchMode={isMemoryMatchMode}
-          isFillBlankMode={isFillBlankMode}
-          isJigsawMode={isJigsawMode}
-          hasOptions={hasOptions}
-          hasPairs={hasPairs}
-          normalizedQuestionType={normalizedQuestionType}
-        />
+        isDesktop ? (
+          <View style={qFormS.desktopLayout}>
+            <View style={qFormS.desktopLeftCol}>
+              <View style={qFormS.formCardWrap}>
+                <View style={qFormS.formCardHeader}>
+                  <Text style={qFormS.cardTitleHeader}>Question Prompt & Stimulus</Text>
+                  <Text style={qFormS.cardSubHeader}>Stimulus material & question context</Text>
+                </View>
+                <ScrollView
+                  style={qFormS.innerScrollList}
+                  contentContainerStyle={{ paddingBottom: 32 }}
+                  showsVerticalScrollIndicator={false}
+                >
+                  <PreviewTab
+                    draft={draft}
+                    editorMode={editorMode}
+                    isLogicoMode={isLogicoMode}
+                    isMemoryMatchMode={isMemoryMatchMode}
+                    isFillBlankMode={isFillBlankMode}
+                    isJigsawMode={isJigsawMode}
+                    hasOptions={hasOptions}
+                    hasPairs={hasPairs}
+                    normalizedQuestionType={normalizedQuestionType}
+                    stage="prompt"
+                  />
+                </ScrollView>
+              </View>
+            </View>
+            <View style={qFormS.desktopRightCol}>
+              <View style={qFormS.formCardWrap}>
+                <View style={qFormS.formCardHeader}>
+                  <Text style={qFormS.cardTitleHeader}>Interactive Player & Solution</Text>
+                  <Text style={qFormS.cardSubHeader}>Student response & verification stage</Text>
+                </View>
+                <ScrollView
+                  style={qFormS.innerScrollList}
+                  contentContainerStyle={{ paddingBottom: 32 }}
+                  showsVerticalScrollIndicator={false}
+                >
+                  <PreviewTab
+                    draft={draft}
+                    editorMode={editorMode}
+                    isLogicoMode={isLogicoMode}
+                    isMemoryMatchMode={isMemoryMatchMode}
+                    isFillBlankMode={isFillBlankMode}
+                    isJigsawMode={isJigsawMode}
+                    hasOptions={hasOptions}
+                    hasPairs={hasPairs}
+                    normalizedQuestionType={normalizedQuestionType}
+                    stage="response"
+                  />
+                </ScrollView>
+              </View>
+            </View>
+          </View>
+        ) : (
+          <PreviewTab
+            draft={draft}
+            editorMode={editorMode}
+            isLogicoMode={isLogicoMode}
+            isMemoryMatchMode={isMemoryMatchMode}
+            isFillBlankMode={isFillBlankMode}
+            isJigsawMode={isJigsawMode}
+            hasOptions={hasOptions}
+            hasPairs={hasPairs}
+            normalizedQuestionType={normalizedQuestionType}
+          />
+        )
       )}
 
       {/* Selector modal */}
@@ -1396,7 +1617,14 @@ function LogicoWorksheetImageOverlay({
 
 // ── Sub-components ────────────────────────────────────────────────────────
 
-type MMPair = { id: number; label: string; imageUrl?: string };
+type MMPair = {
+  id: number;
+  label: string;
+  imageUrl?: string;
+  image?: string;
+  emoji?: string;
+  isPlaceholder?: boolean;
+};
 
 function MemoryMatchTab({
   draft,
@@ -1438,7 +1666,7 @@ function MemoryMatchTab({
   };
 
   const handleGridChange = (g: string) => {
-    const need = GRID_PAIR_COUNTS[g] ?? 8;
+    const need = GRID_PAIR_COUNTS[g] ?? 6;
     let newPairs = [...mmPairs];
     if (newPairs.length > need) newPairs = newPairs.slice(0, need);
     if (newPairs.length < need) {
@@ -1446,23 +1674,29 @@ function MemoryMatchTab({
         need - newPairs.length,
         newPairs.map((p) => p.imageUrl?.split('/').pop()?.replace('.svg', '') ?? ''),
       );
-      extra.forEach((a, i) =>
-        newPairs.push({ id: newPairs.length + i + 1, label: a.label, imageUrl: a.mediaPath }),
+      extra.forEach((a) =>
+        newPairs.push({ id: newPairs.length + 1, label: a.label, imageUrl: a.mediaPath }),
       );
     }
-    updateRaw({ grid: g, pairs: newPairs });
+    const cleanPairs = newPairs.slice(0, need).map((p, idx) => ({ ...p, id: idx + 1 }));
+    updateRaw({ grid: g, pairs: cleanPairs });
   };
+
+  const [pairsContainerWidth, setPairsContainerWidth] = useState(0);
 
   const SW = Dimensions.get('window').width;
   const SECTION_H_PAD = 16;
   const TAB_H_PAD = 16;
-  const innerW = SW - TAB_H_PAD * 2 - SECTION_H_PAD * 2;
-  const CARD_GAP = 8;
-  const cardW = Math.floor((innerW - CARD_GAP * (cols - 1)) / cols);
+  const fallbackAvailW = Math.max(220, Math.min(SW - TAB_H_PAD * 2 - SECTION_H_PAD * 2, 500));
+  const availW = pairsContainerWidth > 0 ? Math.min(pairsContainerWidth, 500) : fallbackAvailW;
+  const CARD_GAP = cols === 6 ? 6 : 8;
+  const maxCardW = cols === 6 ? 60 : cols === 4 ? 74 : 92;
+  const cardW = Math.min(maxCardW, Math.max(34, Math.floor((availW - CARD_GAP * (cols - 1)) / cols)));
+  const pairIconW = Math.min(24, Math.max(14, cardW * 0.44));
 
   const MODAL_ASSET_COLS = 4;
-  const MODAL_H_PAD = 12;
-  const assetInnerW = SW - MODAL_H_PAD * 2;
+  const MODAL_H_PAD = 16;
+  const assetInnerW = Math.min(SW - MODAL_H_PAD * 2, 460);
   const ASSET_GAP = 8;
   const assetCellW = Math.floor(
     (assetInnerW - ASSET_GAP * (MODAL_ASSET_COLS - 1)) / MODAL_ASSET_COLS,
@@ -1562,7 +1796,15 @@ function MemoryMatchTab({
             </LinearGradient>
           </Pressable>
         </View>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: CARD_GAP }}>
+        <View
+          style={{ flexDirection: 'row', flexWrap: 'wrap', gap: CARD_GAP }}
+          onLayout={(e) => {
+            const w = e.nativeEvent.layout.width;
+            if (w > 0 && Math.abs(w - pairsContainerWidth) > 2) {
+              setPairsContainerWidth(w);
+            }
+          }}
+        >
           {Array.from({ length: required }).map((_, idx) => {
             const pair = mmPairs[idx];
             const imgUrl = pair?.imageUrl ? `${API_BASE_URL}${pair.imageUrl}` : undefined;
@@ -1575,20 +1817,20 @@ function MemoryMatchTab({
                 {imgUrl ? (
                   <Image
                     source={{ uri: imgUrl }}
-                    style={{ width: cardW * 0.6, height: cardW * 0.6 }}
+                    style={{ width: pairIconW, height: pairIconW }}
                     resizeMode="contain"
                   />
                 ) : (
                   <View
                     style={[
                       mmS.pairImgPlaceholder,
-                      { width: cardW * 0.6, height: cardW * 0.6, borderRadius: 10 },
+                      { width: pairIconW + 8, height: pairIconW + 8, borderRadius: 8 },
                     ]}
                   >
                     <Text style={mmS.pairImgPlaceholderText}>+</Text>
                   </View>
                 )}
-                <Text style={mmS.pairLabel} numberOfLines={1}>
+                <Text style={[mmS.pairLabel, cols === 6 && { fontSize: 8 }]} numberOfLines={1}>
                   {pair?.label ?? '—'}
                 </Text>
               </Pressable>
@@ -1652,7 +1894,9 @@ function MemoryMatchTab({
                     ]}
                   >
                     {isCurrent && (
-                      <LinearGradient colors={['#9B6CF5', '#7B4FCA']} style={mmS.assetCurrentRing} />
+                      <View style={mmS.assetCurrentBadge}>
+                        <Text style={mmS.assetCurrentBadgeText}>✓</Text>
+                      </View>
                     )}
                     <Image
                       source={{ uri: `${API_BASE_URL}${asset.mediaPath}` }}
@@ -1953,6 +2197,8 @@ function PreviewTab({
   hasOptions,
   hasPairs,
   normalizedQuestionType,
+  stage = 'all',
+  compact = false,
 }: {
   draft: QuestionDraft;
   editorMode: ReturnType<typeof getQuestionEditorMode>;
@@ -1963,149 +2209,250 @@ function PreviewTab({
   hasOptions: boolean;
   hasPairs: boolean;
   normalizedQuestionType: string;
+  stage?: 'prompt' | 'response' | 'all';
+  compact?: boolean;
 }) {
   const [memoryPreviewWidth, setMemoryPreviewWidth] = useState(0);
   const livePlayerConfig = useMemo(() => {
-    try {
-      const payload = draftToPayload(draft) as {
-        questionType?: unknown;
-        questionAudio?: unknown;
-        questionData?: unknown;
-      };
-      return {
-        enabled: true,
-        error: '',
-        questionType: String(payload.questionType || normalizedQuestionType),
-        questionAudio:
-          typeof payload.questionAudio === 'string' ? payload.questionAudio : undefined,
-        questionData: payload.questionData ?? {},
-      };
-    } catch (error) {
-      return {
-        enabled: false,
-        error:
-          error instanceof Error
-            ? error.message
-            : 'Complete required fields to enable live question player.',
-        questionType: normalizedQuestionType,
-        questionAudio: undefined,
-        questionData: {},
-      };
-    }
+    return buildDraftPreviewPayload(draft, normalizedQuestionType);
   }, [draft, normalizedQuestionType]);
 
-  return (
-    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
-      <View style={qFormS.previewCard}>
-        <View
-          style={[
-            qFormS.previewHero,
-            { backgroundColor: QTYPES_BG[normalizedQuestionType] ?? '#D6EAFF' },
-          ]}
-        >
-          <Text style={{ fontSize: 42 }}>{QTYPES_EMOJI[normalizedQuestionType] ?? ''}</Text>
-          <View style={{ flex: 1 }}>
-            <View
+  const renderPromptStage = () => (
+    <View style={qFormS.previewCard}>
+      <View
+        style={[
+          qFormS.previewHero,
+          { backgroundColor: QTYPES_BG[normalizedQuestionType] ?? '#D6EAFF' },
+        ]}
+      >
+        <Text style={{ fontSize: compact ? 32 : 42 }}>{QTYPES_EMOJI[normalizedQuestionType] ?? ''}</Text>
+        <View style={{ flex: 1 }}>
+          <View
+            style={[
+              qFormS.previewTypeBadge,
+              {
+                backgroundColor: `${QTYPES_COLOR[normalizedQuestionType] ?? '#2D5DC9'}25`,
+              },
+            ]}
+          >
+            <Text
               style={[
-                qFormS.previewTypeBadge,
-                {
-                  backgroundColor: `${QTYPES_COLOR[normalizedQuestionType] ?? '#2D5DC9'}25`,
-                },
+                qFormS.previewTypeBadgeText,
+                { color: QTYPES_COLOR[normalizedQuestionType] ?? '#2D5DC9' },
               ]}
             >
-              <Text
-                style={[
-                  qFormS.previewTypeBadgeText,
-                  { color: QTYPES_COLOR[normalizedQuestionType] ?? '#2D5DC9' },
-                ]}
-              >
-                {getQuestionTypeLabel(draft.questionType)}
-              </Text>
+              {getQuestionTypeLabel(draft.questionType)}
+            </Text>
+          </View>
+          <LatexText
+            content={draft.questionTitle || 'Untitled Question'}
+            style={qFormS.previewTitle}
+            background="transparent"
+          />
+          {draft.classLevel ? (
+            <Text style={qFormS.previewMeta}>
+              {getStandardLabel(draft.classLevel)} · {draft.subject}
+            </Text>
+          ) : null}
+        </View>
+      </View>
+      <View style={qFormS.previewStats}>
+        <View style={qFormS.previewStat}>
+          <Text style={qFormS.previewStatVal}>{draft.points || '–'}</Text>
+          <Text style={qFormS.previewStatLabel}>pts</Text>
+        </View>
+        <View style={qFormS.previewStat}>
+          <Text style={qFormS.previewStatVal}>{draft.timeLimitSeconds || '–'}s</Text>
+          <Text style={qFormS.previewStatLabel}>time</Text>
+        </View>
+        <View style={qFormS.previewStat}>
+          <Text style={qFormS.previewStatVal}>
+            {isFillBlankMode
+              ? (((draft.rawQuestionData as any)?.options ?? []) as string[]).length
+              : isJigsawMode
+              ? Number(
+                  (((draft.rawQuestionData as any)?.gridSize ?? '3x3').split('x')[0]) ** 2 || 9,
+                )
+              : isMemoryMatchMode
+              ? (((draft.rawQuestionData as any)?.pairs ?? []) as MMPair[]).length
+              : isLogicoMode
+              ? 10
+              : hasOptions
+              ? draft.options.length
+              : hasPairs
+              ? draft.matchPairs.length
+              : '–'}
+          </Text>
+          <Text style={qFormS.previewStatLabel}>
+            {hasPairs
+              ? 'pairs'
+              : isMemoryMatchMode
+              ? 'pairs'
+              : isLogicoMode
+              ? 'slots'
+              : isJigsawMode
+              ? 'pieces'
+              : 'opts'}
+          </Text>
+        </View>
+      </View>
+      {draft.questionInstruction ? (
+        <View style={qFormS.previewInstBlock}>
+          <Text style={qFormS.previewInstText}>💬 {draft.questionInstruction}</Text>
+        </View>
+      ) : null}
+      {draft.mainImage.trim() ? (
+        <View style={{ padding: 14 }}>
+          <SafeImage
+            uri={resolveMediaUrl(draft.mainImage.trim())}
+            style={[qFormS.previewImage, { borderRadius: 12 }]}
+            resizeMode="contain"
+          />
+        </View>
+      ) : null}
+      {draft.explanation.trim() ? (
+        <View
+          style={{
+            marginHorizontal: 14,
+            marginBottom: 14,
+            padding: 12,
+            borderRadius: 12,
+            backgroundColor: '#EFF6FF',
+            borderWidth: 1,
+            borderColor: '#BFDBFE',
+            gap: 4,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 10,
+              fontWeight: '800',
+              color: '#1D4ED8',
+              textTransform: 'uppercase',
+            }}
+          >
+            Solution Explanation
+          </Text>
+          <LatexText
+            content={draft.explanation}
+            background="transparent"
+            style={{ fontSize: 13, color: '#1E3A8A' }}
+          />
+        </View>
+      ) : null}
+    </View>
+  );
+
+  const renderResponseStage = () => (
+    <View style={qFormS.previewCard}>
+      <View style={{ paddingHorizontal: 14, paddingTop: 14, paddingBottom: 12, gap: 10 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Text style={qFormS.groupLabel}>LIVE STUDENT PLAYER</Text>
+          {livePlayerConfig.isComplete ? (
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 4,
+                backgroundColor: '#ECFDF5',
+                paddingHorizontal: 8,
+                paddingVertical: 3,
+                borderRadius: 999,
+                borderWidth: 1,
+                borderColor: '#A7F3D0',
+              }}
+            >
+              <Text style={{ fontSize: 10, fontWeight: '800', color: '#047857' }}>✓ Ready to Play</Text>
             </View>
-            <Text style={qFormS.previewTitle}>{draft.questionTitle || 'Untitled Question'}</Text>
-            {draft.classLevel ? (
-              <Text style={qFormS.previewMeta}>
-                {getStandardLabel(draft.classLevel)} · {draft.subject}
-              </Text>
-            ) : null}
-          </View>
-        </View>
-        <View style={qFormS.previewStats}>
-          <View style={qFormS.previewStat}>
-            <Text style={qFormS.previewStatVal}>{draft.points || '–'}</Text>
-            <Text style={qFormS.previewStatLabel}>pts</Text>
-          </View>
-          <View style={qFormS.previewStat}>
-            <Text style={qFormS.previewStatVal}>{draft.timeLimitSeconds || '–'}s</Text>
-            <Text style={qFormS.previewStatLabel}>time</Text>
-          </View>
-          <View style={qFormS.previewStat}>
-            <Text style={qFormS.previewStatVal}>
-              {isFillBlankMode
-                ? (((draft.rawQuestionData as any)?.options ?? []) as string[]).length
-                : isJigsawMode
-                ? Number(
-                    (((draft.rawQuestionData as any)?.gridSize ?? '3x3').split('x')[0]) ** 2 || 9,
-                  )
-                : hasOptions
-                ? draft.options.length
-                : hasPairs
-                ? draft.matchPairs.length
-                : '–'}
-            </Text>
-            <Text style={qFormS.previewStatLabel}>
-              {hasPairs
-                ? 'pairs'
-                : isLogicoMode
-                ? 'maps'
-                : isJigsawMode
-                ? 'pieces'
-                : 'opts'}
-            </Text>
-          </View>
-        </View>
-        {draft.questionInstruction ? (
-          <View style={qFormS.previewInstBlock}>
-            <Text style={qFormS.previewInstText}>💬 {draft.questionInstruction}</Text>
-          </View>
-        ) : null}
-        <View style={{ paddingHorizontal: 14, paddingBottom: 12, gap: 8 }}>
-          <Text style={qFormS.groupLabel}>LIVE PLAYER</Text>
-          {livePlayerConfig.enabled ? (
-            <SingleQuestionPlayer
-              questionType={livePlayerConfig.questionType}
-              questionTitle={draft.questionTitle}
-              questionInstruction={draft.questionInstruction}
-              questionAudio={livePlayerConfig.questionAudio}
-              questionData={livePlayerConfig.questionData}
-            />
           ) : (
             <View
               style={{
-                borderRadius: 12,
-                borderWidth: 1,
-                borderColor: '#FECACA',
-                backgroundColor: '#FEF2F2',
-                paddingHorizontal: 12,
-                paddingVertical: 10,
+                flexDirection: 'row',
+                alignItems: 'center',
                 gap: 4,
+                backgroundColor: '#FEF3C7',
+                paddingHorizontal: 8,
+                paddingVertical: 3,
+                borderRadius: 999,
+                borderWidth: 1,
+                borderColor: '#FDE68A',
               }}
             >
-              <Text style={{ fontSize: 12, fontWeight: '800', color: '#B91C1C' }}>
-                Complete required fields to play this question.
-              </Text>
-              <Text style={{ fontSize: 12, color: '#991B1B' }}>{livePlayerConfig.error}</Text>
+              <Text style={{ fontSize: 10, fontWeight: '800', color: '#B45309' }}>Interactive Draft</Text>
             </View>
           )}
         </View>
-        {draft.mainImage.trim() ? (
-          <SafeImage
-            uri={resolveMediaUrl(draft.mainImage.trim())}
-            style={qFormS.previewImage}
-            resizeMode="contain"
-          />
-        ) : null}
-        {isLogicoMode ? (
+
+        {!livePlayerConfig.isComplete && (
+          <View
+            style={{
+              borderRadius: 10,
+              borderWidth: 1,
+              borderColor: '#FED7AA',
+              backgroundColor: '#FFFBEB',
+              paddingHorizontal: 10,
+              paddingVertical: 7,
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 8,
+            }}
+          >
+            <Text style={{ fontSize: 13 }}>💡</Text>
+            <Text style={{ fontSize: 11, color: '#92400E', flex: 1, fontWeight: '500' }}>
+              Draft preview simulation active. To finalize: {livePlayerConfig.error}
+            </Text>
+          </View>
+        )}
+
+        <SingleQuestionPlayer
+          key={`live-${livePlayerConfig.questionType}-${(livePlayerConfig.questionData as any)?.grid ?? ''}-${((livePlayerConfig.questionData as any)?.pairs?.length ?? 0)}`}
+          questionType={livePlayerConfig.questionType}
+          questionTitle={draft.questionTitle || 'Untitled Question'}
+          questionInstruction={draft.questionInstruction}
+          questionAudio={livePlayerConfig.questionAudio}
+          questionData={livePlayerConfig.questionData}
+        />
+      </View>
+
+      {/* Logico Type Stage */}
+      {isLogicoMode && (
+        <View style={{ padding: 14, gap: 12, borderTopWidth: 1, borderTopColor: '#F1F5F9' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Text style={qFormS.groupLabel}>LOGICO WORKSHEET & BUTTON MAPPINGS</Text>
+            <Text style={{ fontSize: 11, fontWeight: '700', color: '#64748B' }}>
+              10 Buttons · 10 Slots
+            </Text>
+          </View>
+
+          {draft.mainImage.trim() ? (
+            <View style={{ alignItems: 'center' }}>
+              <LogicoWorksheetImageOverlay
+                imageUri={resolveMediaUrl(draft.mainImage.trim())}
+                options={draft.options}
+                height={280}
+              />
+            </View>
+          ) : (
+            <View
+              style={{
+                backgroundColor: '#F8FAFC',
+                borderRadius: 12,
+                borderWidth: 1,
+                borderColor: '#E2E8F0',
+                padding: 16,
+                alignItems: 'center',
+                gap: 6,
+              }}
+            >
+              <Text style={{ fontSize: 13, fontWeight: '700', color: '#475569' }}>
+                No Worksheet Image Set
+              </Text>
+              <Text style={{ fontSize: 11, color: '#64748B', textAlign: 'center' }}>
+                Add your Logico card image in the Setup tab to see the interactive overlay preview here.
+              </Text>
+            </View>
+          )}
+
           <View style={qFormS.logicoPreviewWrap}>
             {Array.from({ length: 10 }, (_, index) => {
               const slotId = index + 1;
@@ -2117,12 +2464,14 @@ function PreviewTab({
                   key={`logico-preview-slot-${slotId}`}
                   style={qFormS.logicoPreviewRow}
                 >
-                  <Text style={qFormS.logicoPreviewSlotText}>{slotId}</Text>
-                  <Text style={qFormS.logicoPreviewOptionText}>
+                  <View style={qFormS.logicoPositionBadge}>
+                    <Text style={qFormS.logicoPositionBadgeText}>{slotId}</Text>
+                  </View>
+                  <Text style={qFormS.logicoPreviewOptionText} numberOfLines={1}>
                     {mapped?.label || `Position ${slotId}`}
                   </Text>
                   {mapped ? (
-                    <LogicoButtonBadge buttonId={mapped.id} />
+                    <LogicoButtonBadge buttonId={mapped.id} size={24} />
                   ) : (
                     <View style={qFormS.logicoPreviewEmptyButton} />
                   )}
@@ -2130,8 +2479,19 @@ function PreviewTab({
               );
             })}
           </View>
-        ) : hasOptions ? (
-          draft.options.map((opt, i) => (
+        </View>
+      )}
+
+      {/* Choice Questions Type Stage */}
+      {hasOptions && !isLogicoMode && (
+        <View style={{ padding: 14, gap: 8, borderTopWidth: 1, borderTopColor: '#F1F5F9' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+            <Text style={qFormS.groupLabel}>ANSWER OPTIONS & SOLUTION KEY</Text>
+            <Text style={{ fontSize: 11, fontWeight: '700', color: '#64748B' }}>
+              {draft.options.length} options
+            </Text>
+          </View>
+          {draft.options.map((opt, i) => (
             <View
               key={i}
               style={[
@@ -2152,317 +2512,468 @@ function PreviewTab({
                     fontWeight: '800',
                   }}
                 >
-                  {i + 1}
+                  {String.fromCharCode(65 + i)}
                 </Text>
               </View>
-              <Text style={qFormS.previewOptText}>{opt.label || `Option ${i + 1}`}</Text>
+              <View style={{ flex: 1, gap: 4 }}>
+                <Text style={qFormS.previewOptText}>{opt.label || `Option ${i + 1}`}</Text>
+                {opt.image ? (
+                  <SafeImage
+                    uri={resolveMediaUrl(opt.image)}
+                    style={{ width: 44, height: 44, borderRadius: 6 }}
+                    resizeMode="contain"
+                  />
+                ) : null}
+              </View>
               {opt.isCorrect ? (
-                <Text style={qFormS.previewCorrectBadge}>✓</Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 3,
+                    backgroundColor: '#ECFDF5',
+                    paddingHorizontal: 8,
+                    paddingVertical: 3,
+                    borderRadius: 999,
+                    borderWidth: 1,
+                    borderColor: '#A7F3D0',
+                  }}
+                >
+                  <Text style={{ fontSize: 11, color: '#047857', fontWeight: '800' }}>✓ Correct</Text>
+                </View>
               ) : null}
             </View>
-          ))
-        ) : null}
-        {hasPairs &&
-          draft.matchPairs.map((pair, i) => (
-            <View key={i} style={qFormS.previewPairRow}>
-              <Text style={qFormS.previewPairText}>
-                {pair.itemLabel || `Item ${i + 1}`}
-              </Text>
-              <Text style={{ color: '#525C6B', fontWeight: '700' }}>↔</Text>
-              <Text style={qFormS.previewPairText}>
-                {pair.targetLabel || `Target ${i + 1}`}
-              </Text>
-            </View>
           ))}
+        </View>
+      )}
 
-        {isFillBlankMode && (() => {
-          const sentence: string = (draft.rawQuestionData as any)?.sentence ?? '';
-          const answer: string = (draft.rawQuestionData as any)?.answer ?? '';
-          const hint: string = (draft.rawQuestionData as any)?.hint ?? '';
-          const fbOpts = (((draft.rawQuestionData as any)?.options ?? []) as string[]);
-          const parts = sentence.split('___');
-          return (
-            <View style={{ padding: 14, gap: 12 }}>
+      {/* Drag & Drop Pairs Type Stage */}
+      {hasPairs && (
+        <View style={{ padding: 14, gap: 10, borderTopWidth: 1, borderTopColor: '#F1F5F9' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Text style={qFormS.groupLabel}>MATCHING PAIRS & DROP TARGETS</Text>
+            <Text style={{ fontSize: 11, fontWeight: '700', color: '#64748B' }}>
+              {draft.matchPairs.length} pair{draft.matchPairs.length !== 1 ? 's' : ''}
+            </Text>
+          </View>
+          {draft.matchPairs.map((pair, i) => (
+            <View
+              key={i}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 8,
+                backgroundColor: '#F8FAFC',
+                borderRadius: 12,
+                borderWidth: 1,
+                borderColor: '#E8ECF4',
+                padding: 10,
+              }}
+            >
               <View
                 style={{
-                  backgroundColor: '#F0F7FF',
-                  borderRadius: 14,
-                  padding: 16,
+                  flex: 1,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8,
+                  backgroundColor: '#fff',
+                  borderRadius: 10,
                   borderWidth: 1,
-                  borderColor: '#C5D8F8',
+                  borderColor: '#E8ECF4',
+                  padding: 8,
                 }}
               >
+                {pair.image ? (
+                  <SafeImage
+                    uri={resolveMediaUrl(pair.image)}
+                    style={{ width: 36, height: 36, borderRadius: 6 }}
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <View
+                    style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 6,
+                      backgroundColor: '#EFF6FF',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Text style={{ fontSize: 16 }}>🎯</Text>
+                  </View>
+                )}
+                <View style={{ flex: 1 }}>
+                  <Text style={{ fontSize: 12, fontWeight: '700', color: '#1E293B' }} numberOfLines={1}>
+                    {pair.itemLabel || `Item ${i + 1}`}
+                  </Text>
+                  {pair.audio ? (
+                    <Text style={{ fontSize: 10, color: '#2563EB', fontWeight: '600' }}>🎵 Audio</Text>
+                  ) : null}
+                </View>
+              </View>
+
+              <Text style={{ color: '#64748B', fontWeight: '800', fontSize: 14 }}>↔</Text>
+
+              <View
+                style={{
+                  flex: 1,
+                  backgroundColor: '#EFF6FF',
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: '#BFDBFE',
+                  padding: 10,
+                  justifyContent: 'center',
+                }}
+              >
+                <Text style={{ fontSize: 12, fontWeight: '700', color: '#1D4ED8' }} numberOfLines={1}>
+                  {pair.targetLabel || `Target ${i + 1}`}
+                </Text>
+              </View>
+            </View>
+          ))}
+        </View>
+      )}
+
+      {/* Fill in the Blank Type Stage */}
+      {isFillBlankMode && (() => {
+        const sentence: string = (draft.rawQuestionData as any)?.sentence ?? '';
+        const answer: string = (draft.rawQuestionData as any)?.answer ?? '';
+        const hint: string = (draft.rawQuestionData as any)?.hint ?? '';
+        const fbOpts = (((draft.rawQuestionData as any)?.options ?? []) as string[]);
+        const parts = sentence.split('___');
+        return (
+          <View style={{ padding: 14, gap: 12, borderTopWidth: 1, borderTopColor: '#F1F5F9' }}>
+            <View
+              style={{
+                backgroundColor: '#F0F7FF',
+                borderRadius: 14,
+                padding: 16,
+                borderWidth: 1,
+                borderColor: '#C5D8F8',
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 11,
+                  fontWeight: '800',
+                  color: '#2D5DC9',
+                  letterSpacing: 1,
+                  marginBottom: 8,
+                  textTransform: 'uppercase',
+                }}
+              >
+                Sentence Preview
+              </Text>
+              {sentence ? (
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: '600',
+                    color: '#1a1a2e',
+                    textAlign: 'center',
+                    lineHeight: 26,
+                  }}
+                >
+                  <Text>{parts[0] ?? ''}</Text>
+                  <Text
+                    style={{
+                      fontWeight: '900',
+                      color: answer ? '#2E7D32' : '#2D5DC9',
+                      borderBottomWidth: 2,
+                      borderBottomColor: answer ? '#4CAF50' : '#2D5DC9',
+                    }}
+                  >
+                    {' '}
+                    {answer || (hint ? `${hint}___` : '___')}{' '}
+                  </Text>
+                  <Text>{parts[1] ?? ''}</Text>
+                </Text>
+              ) : (
+                <Text
+                  style={{
+                    color: '#525C6B',
+                    textAlign: 'center',
+                    fontStyle: 'italic',
+                  }}
+                >
+                  No sentence yet — use ___ to mark the blank
+                </Text>
+              )}
+              {hint ? (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 6,
+                    marginTop: 10,
+                    alignSelf: 'center',
+                    backgroundColor: '#FFF8E1',
+                    borderRadius: 8,
+                    paddingHorizontal: 10,
+                    paddingVertical: 4,
+                  }}
+                >
+                  <Text style={{ fontSize: 12 }}>💡</Text>
+                  <Text style={{ fontSize: 12, fontWeight: '600', color: '#E6A020' }}>
+                    Hint: "{hint}"
+                  </Text>
+                </View>
+              ) : null}
+            </View>
+            {fbOpts.length > 0 && (
+              <View style={{ gap: 8 }}>
                 <Text
                   style={{
                     fontSize: 11,
-                    fontWeight: '800',
-                    color: '#2D5DC9',
-                    letterSpacing: 1,
-                    marginBottom: 8,
+                    fontWeight: '700',
+                    color: '#525C6B',
                     textTransform: 'uppercase',
+                    letterSpacing: 0.4,
                   }}
                 >
-                  Sentence Preview
+                  Options
                 </Text>
-                {sentence ? (
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: '600',
-                      color: '#1a1a2e',
-                      textAlign: 'center',
-                      lineHeight: 26,
-                    }}
-                  >
-                    <Text>{parts[0] ?? ''}</Text>
-                    <Text
-                      style={{
-                        fontWeight: '900',
-                        color: answer ? '#2E7D32' : '#2D5DC9',
-                        borderBottomWidth: 2,
-                        borderBottomColor: answer ? '#4CAF50' : '#2D5DC9',
-                      }}
-                    >
-                      {' '}
-                      {answer || (hint ? `${hint}___` : '___')}{' '}
-                    </Text>
-                    <Text>{parts[1] ?? ''}</Text>
-                  </Text>
-                ) : (
-                  <Text
-                    style={{
-                      color: '#525C6B',
-                      textAlign: 'center',
-                      fontStyle: 'italic',
-                    }}
-                  >
-                    No sentence yet — use ___ to mark the blank
-                  </Text>
-                )}
-                {hint ? (
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 6,
-                      marginTop: 10,
-                      alignSelf: 'center',
-                      backgroundColor: '#FFF8E1',
-                      borderRadius: 8,
-                      paddingHorizontal: 10,
-                      paddingVertical: 4,
-                    }}
-                  >
-                    <Text style={{ fontSize: 12 }}>💡</Text>
-                    <Text style={{ fontSize: 12, fontWeight: '600', color: '#E6A020' }}>
-                      Hint: "{hint}"
-                    </Text>
-                  </View>
-                ) : null}
-              </View>
-              {fbOpts.length > 0 && (
-                <View style={{ gap: 8 }}>
-                  <Text
-                    style={{
-                      fontSize: 11,
-                      fontWeight: '700',
-                      color: '#525C6B',
-                      textTransform: 'uppercase',
-                      letterSpacing: 0.4,
-                    }}
-                  >
-                    Options
-                  </Text>
-                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-                    {fbOpts.map((opt, i) => {
-                      const isCorrect =
-                        answer && opt.toLowerCase() === answer.toLowerCase();
-                      return (
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                  {fbOpts.map((opt, i) => {
+                    const isCorrect =
+                      answer && opt.toLowerCase() === answer.toLowerCase();
+                    return (
+                      <View
+                        key={i}
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          gap: 6,
+                          paddingHorizontal: 14,
+                          paddingVertical: 9,
+                          borderRadius: 12,
+                          borderWidth: isCorrect ? 2 : 1.5,
+                          borderColor: isCorrect ? '#4CAF50' : '#D0D4E8',
+                          backgroundColor: isCorrect ? '#E8F5E9' : '#F4F6FF',
+                        }}
+                      >
                         <View
-                          key={i}
                           style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            gap: 6,
-                            paddingHorizontal: 14,
-                            paddingVertical: 9,
-                            borderRadius: 12,
-                            borderWidth: isCorrect ? 2 : 1.5,
-                            borderColor: isCorrect ? '#4CAF50' : '#D0D4E8',
-                            backgroundColor: isCorrect ? '#E8F5E9' : '#F4F6FF',
+                            width: 8,
+                            height: 8,
+                            borderRadius: 4,
+                            backgroundColor: isCorrect ? '#4CAF50' : '#C0C8D8',
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            fontWeight: isCorrect ? '800' : '600',
+                            color: isCorrect ? '#2E7D32' : '#3A3A5A',
                           }}
                         >
-                          <View
-                            style={{
-                              width: 8,
-                              height: 8,
-                              borderRadius: 4,
-                              backgroundColor: isCorrect ? '#4CAF50' : '#C0C8D8',
-                            }}
-                          />
+                          {opt}
+                        </Text>
+                        {isCorrect && (
+                          <Text style={{ fontSize: 13, color: '#4CAF50', fontWeight: '900' }}>
+                            ✓
+                          </Text>
+                        )}
+                      </View>
+                    );
+                  })}
+                </View>
+                {!answer && (
+                  <Text style={{ fontSize: 11, color: '#F97316', fontWeight: '600' }}>
+                    ⚠ No correct answer selected yet
+                  </Text>
+                )}
+              </View>
+            )}
+            {fbOpts.length === 0 && (
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: '#525C6B',
+                  fontStyle: 'italic',
+                  textAlign: 'center',
+                }}
+              >
+                No options added yet
+              </Text>
+            )}
+          </View>
+        );
+      })()}
+
+      {/* Memory Match Type Stage */}
+      {isMemoryMatchMode && (() => {
+        const pvGrid = ((draft.rawQuestionData as any)?.grid as string) || '4x4';
+        const pvPairs = (((draft.rawQuestionData as any)?.pairs ?? []) as MMPair[]);
+        const pvCols = GRID_COLS[pvGrid] ?? 4;
+        const pvNeeded = GRID_PAIR_COUNTS[pvGrid] ?? 4;
+
+        const displayPairs = [...pvPairs];
+        const starterEmojis = ['🌟', '🍎', '🚀', '🐱', '🎨', '⚽', '🎸', '🌈'];
+        const starterLabels = ['Star', 'Apple', 'Rocket', 'Cat', 'Art', 'Ball', 'Music', 'Rainbow'];
+        while (displayPairs.length < pvNeeded) {
+          const idx = displayPairs.length;
+          displayPairs.push({
+            id: 2000 + idx,
+            label: `${starterLabels[idx % starterLabels.length]} (Slot ${idx + 1})`,
+            emoji: starterEmojis[idx % starterEmojis.length],
+          } as MMPair);
+        }
+
+        const allCards: (MMPair & { isPlaceholder?: boolean })[] = [];
+        displayPairs.slice(0, pvNeeded).forEach((pair, pIdx) => {
+          const isPlaceholder = pIdx >= pvPairs.length;
+          allCards.push({ ...pair, isPlaceholder });
+          allCards.push({ ...pair, isPlaceholder });
+        });
+
+        const fallbackW = Math.max(220, Math.min(Dimensions.get('window').width - 96, 520));
+        const previewW = memoryPreviewWidth > 0 ? Math.min(memoryPreviewWidth, 520) : fallbackW;
+        const GAP = pvCols === 6 ? 6 : 8;
+        const maxPvCardW = pvCols === 6 ? 50 : pvCols === 4 ? 64 : 84;
+        const pvCardW = Math.min(maxPvCardW, Math.max(30, Math.floor((previewW - GAP * (pvCols - 1)) / pvCols)));
+        const pvRows: (MMPair & { isPlaceholder?: boolean })[][] = [];
+        for (let i = 0; i < allCards.length; i += pvCols) {
+          pvRows.push(allCards.slice(i, i + pvCols));
+        }
+
+        return (
+          <View style={{ padding: 14, gap: 12, borderTopWidth: 1, borderTopColor: '#F1F5F9' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Text style={qFormS.groupLabel}>MEMORY MATCH BOARD PREVIEW</Text>
+              <View style={{ flexDirection: 'row', gap: 6 }}>
+                <View
+                  style={{
+                    backgroundColor: '#EDE9FE',
+                    borderRadius: 8,
+                    paddingHorizontal: 8,
+                    paddingVertical: 2,
+                  }}
+                >
+                  <Text style={{ fontSize: 10, fontWeight: '800', color: '#6D28D9' }}>Grid {pvGrid}</Text>
+                </View>
+                <View
+                  style={{
+                    backgroundColor: '#F1F5F9',
+                    borderRadius: 8,
+                    paddingHorizontal: 8,
+                    paddingVertical: 2,
+                  }}
+                >
+                  <Text style={{ fontSize: 10, fontWeight: '800', color: '#475569' }}>
+                    {pvPairs.length}/{pvNeeded} Pairs
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            <View style={{ alignItems: 'center' }}>
+              <View
+                style={{ width: '100%', gap: GAP }}
+                onLayout={(event) =>
+                  setMemoryPreviewWidth(Math.max(220, event.nativeEvent.layout.width))
+                }
+              >
+                {pvRows.map((row, rIdx) => (
+                  <View
+                    key={rIdx}
+                    style={{ flexDirection: 'row', gap: GAP, justifyContent: 'center' }}
+                  >
+                    {row.map((card, cIdx) => {
+                      const imgUrl = (card?.imageUrl || card?.image)
+                        ? resolveMediaUrl(card.imageUrl || card.image || '')
+                        : undefined;
+                      const isPlaceholder = card.isPlaceholder;
+                      const pvIconW = Math.min(22, Math.max(13, pvCardW * 0.42));
+
+                      return (
+                        <View
+                          key={cIdx}
+                          style={{
+                            width: pvCardW,
+                            height: pvCardW,
+                            backgroundColor: isPlaceholder ? '#F8FAFC' : '#EFF6FF',
+                            borderRadius: 10,
+                            borderWidth: 1,
+                            borderColor: isPlaceholder ? '#CBD5E1' : '#BFDBFE',
+                            borderStyle: isPlaceholder ? 'dashed' : 'solid',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: 2,
+                            gap: 2,
+                          }}
+                        >
+                          {imgUrl ? (
+                            <SafeImage
+                              uri={imgUrl}
+                              style={{ width: pvIconW, height: pvIconW, borderRadius: 4 }}
+                              resizeMode="contain"
+                            />
+                          ) : card.emoji ? (
+                            <Text style={{ fontSize: Math.min(18, Math.max(11, pvCardW * 0.35)) }}>{card.emoji}</Text>
+                          ) : (
+                            <Text style={{ fontSize: 13, color: '#94A3B8' }}>🃏</Text>
+                          )}
                           <Text
                             style={{
-                              fontSize: 14,
-                              fontWeight: isCorrect ? '800' : '600',
-                              color: isCorrect ? '#2E7D32' : '#3A3A5A',
+                              fontSize: pvCols === 6 ? 7.5 : 8.5,
+                              fontWeight: '700',
+                              color: isPlaceholder ? '#64748B' : '#1E40AF',
+                              textAlign: 'center',
                             }}
+                            numberOfLines={1}
                           >
-                            {opt}
+                            {card.label || `Card`}
                           </Text>
-                          {isCorrect && (
-                            <Text style={{ fontSize: 13, color: '#4CAF50', fontWeight: '900' }}>
-                              ✓
-                            </Text>
-                          )}
                         </View>
                       );
                     })}
                   </View>
-                  {!answer && (
-                    <Text style={{ fontSize: 11, color: '#F97316', fontWeight: '600' }}>
-                      ⚠ No correct answer selected yet
-                    </Text>
-                  )}
-                </View>
-              )}
-              {fbOpts.length === 0 && (
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: '#525C6B',
-                    fontStyle: 'italic',
-                    textAlign: 'center',
-                  }}
-                >
-                  No options added yet
-                </Text>
-              )}
+                ))}
+              </View>
             </View>
-          );
-        })()}
 
-        {isMemoryMatchMode && (() => {
-          const pvGrid = ((draft.rawQuestionData as any)?.grid as string) || '4x4';
-          const pvPairs = (((draft.rawQuestionData as any)?.pairs ?? []) as MMPair[]);
-          const pvCols = GRID_COLS[pvGrid] ?? 4;
-          const pvNeeded = GRID_PAIR_COUNTS[pvGrid] ?? 4;
-          const allCards = [...pvPairs, ...pvPairs].slice(0, pvNeeded * 2);
-          const fallbackW = Math.max(220, Dimensions.get('window').width - 96);
-          const previewW = memoryPreviewWidth > 0 ? memoryPreviewWidth : fallbackW;
-          const GAP = 6;
-          const pvCardW = Math.floor((previewW - GAP * (pvCols - 1)) / pvCols);
-          const pvRows: MMPair[][] = [];
-          for (let i = 0; i < allCards.length; i += pvCols)
-            pvRows.push(allCards.slice(i, i + pvCols));
-          return (
-            <View style={{ padding: 14 }}>
-              <Text
+            {pvPairs.length < pvNeeded && (
+              <View
                 style={{
-                  fontSize: 11,
-                  fontWeight: '700',
-                  color: '#525C6B',
-                  marginBottom: 10,
-                  textTransform: 'uppercase',
-                  letterSpacing: 0.5,
+                  backgroundColor: '#FFFBEB',
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: '#FDE68A',
+                  paddingHorizontal: 10,
+                  paddingVertical: 8,
+                  alignItems: 'center',
                 }}
               >
-                Board Preview — {pvPairs.length}/{pvNeeded} pairs · {pvNeeded * 2} cards
-              </Text>
-              <View style={{ alignItems: 'center' }}>
-                <View
-                  style={{ width: '100%', gap: GAP }}
-                  onLayout={(event) =>
-                    setMemoryPreviewWidth(Math.max(220, event.nativeEvent.layout.width))
-                  }
-                >
-                  {pvRows.map((row, rIdx) => (
-                    <View
-                      key={rIdx}
-                      style={{ flexDirection: 'row', gap: GAP, justifyContent: 'center' }}
-                    >
-                      {row.map((card, cIdx) => {
-                        const imgUrl = card?.imageUrl
-                          ? `${API_BASE_URL}${card.imageUrl}`
-                          : undefined;
-                        return (
-                          <View
-                            key={cIdx}
-                            style={[
-                              mmS.pairCard,
-                              {
-                                width: pvCardW,
-                                backgroundColor: '#2D5DC9',
-                                borderColor: '#3A7BD5',
-                                paddingVertical: 6,
-                              },
-                            ]}
-                          >
-                            {imgUrl ? (
-                              <Image
-                                source={{ uri: imgUrl }}
-                                style={{ width: pvCardW * 0.55, height: pvCardW * 0.55 }}
-                                resizeMode="contain"
-                              />
-                            ) : (
-                              <Text
-                                style={{
-                                  fontSize: 9,
-                                  color: '#fff',
-                                  fontWeight: '700',
-                                  textAlign: 'center',
-                                }}
-                              >
-                                ?
-                              </Text>
-                            )}
-                            <Text
-                              style={{
-                                fontSize: 8,
-                                color: '#fff',
-                                fontWeight: '700',
-                                textAlign: 'center',
-                              }}
-                              numberOfLines={1}
-                            >
-                              {card?.label ?? '?'}
-                            </Text>
-                          </View>
-                        );
-                      })}
-                    </View>
-                  ))}
-                </View>
-              </View>
-              {pvPairs.length < pvNeeded && (
-                <Text
-                  style={{
-                    fontSize: 11,
-                    color: '#F97316',
-                    fontWeight: '700',
-                    textAlign: 'center',
-                    marginTop: 8,
-                  }}
-                >
-                  {pvNeeded - pvPairs.length} more pair
-                  {pvNeeded - pvPairs.length > 1 ? 's' : ''} needed
+                <Text style={{ fontSize: 11, color: '#92400E', fontWeight: '700' }}>
+                  {pvNeeded - pvPairs.length} more pair{pvNeeded - pvPairs.length > 1 ? 's' : ''} needed to complete the {pvGrid} board ({pvNeeded * 2} cards total).
                 </Text>
-              )}
-            </View>
-          );
-        })()}
+              </View>
+            )}
+          </View>
+        );
+      })()}
 
-        {isJigsawMode && (() => {
-          const raw = (draft.rawQuestionData as any) ?? {};
-          const gridSize = ['2x2', '3x3', '4x4', '5x5'].includes(raw.gridSize)
-            ? raw.gridSize
-            : '3x3';
-          const difficulty = ['easy', 'medium', 'hard'].includes(raw.difficulty)
-            ? raw.difficulty
-            : 'medium';
-          const clickLimit = Number(raw.clickLimit ?? 20);
-          return (
-            <View style={{ padding: 14, gap: 10 }}>
-              <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+      {/* Jigsaw Type Stage */}
+      {isJigsawMode && (() => {
+        const raw = (draft.rawQuestionData as any) ?? {};
+        const gridSize = ['2x2', '3x3', '4x4', '5x5'].includes(raw.gridSize)
+          ? raw.gridSize
+          : '3x3';
+        const difficulty = ['easy', 'medium', 'hard'].includes(raw.difficulty)
+          ? raw.difficulty
+          : 'medium';
+        const clickLimit = Number(raw.clickLimit ?? 20);
+        const puzzleImg = draft.mainImage.trim()
+          ? resolveMediaUrl(draft.mainImage.trim())
+          : 'https://placehold.co/600x600/E0F2FE/0369A1?text=Jigsaw+Puzzle+Preview';
+
+        return (
+          <View style={{ padding: 14, gap: 10, borderTopWidth: 1, borderTopColor: '#F1F5F9' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Text style={qFormS.groupLabel}>JIGSAW PUZZLE BOARD</Text>
+              <View style={{ flexDirection: 'row', gap: 6 }}>
                 <View style={qFormS.previewTypeBadge}>
                   <Text style={qFormS.previewTypeBadgeText}>Grid {gridSize}</Text>
                 </View>
@@ -2475,40 +2986,68 @@ function PreviewTab({
                   </Text>
                 </View>
               </View>
-              <Text style={{ fontSize: 12, color: '#4B5768' }}>
-                Students will drag puzzle pieces and snap/swap into the board.
-              </Text>
-              <View
-                style={{
-                  backgroundColor: '#fff',
-                  borderRadius: 12,
-                  borderWidth: 1,
-                  borderColor: '#E2E8F0',
-                  overflow: 'hidden',
-                }}
-              >
-                <JigsawRenderer
-                  questionData={{
-                    image: draft.mainImage.trim(),
-                    gridSize,
-                    difficulty,
-                    clickLimit,
-                  }}
-                  onComplete={() => {}}
-                  theme={{
-                    bg: '#E0F2FE',
-                    cardBg: '#F0F9FF',
-                    accent: '#0EA5E9',
-                    textColor: '#0C4A6E',
-                    emoji: '🧩',
-                    label: 'Jigsaw Puzzle',
-                  }}
-                />
-              </View>
             </View>
-          );
-        })()}
+
+            <View
+              style={{
+                backgroundColor: '#fff',
+                borderRadius: 12,
+                borderWidth: 1,
+                borderColor: '#E8ECF4',
+                overflow: 'hidden',
+              }}
+            >
+              <JigsawRenderer
+                questionData={{
+                  image: puzzleImg,
+                  gridSize,
+                  difficulty,
+                  clickLimit,
+                }}
+                onComplete={() => {}}
+                theme={{
+                  bg: '#E0F2FE',
+                  cardBg: '#F0F9FF',
+                  accent: '#0EA5E9',
+                  textColor: '#0C4A6E',
+                  emoji: '🧩',
+                  label: 'Jigsaw Puzzle',
+                }}
+              />
+            </View>
+          </View>
+        );
+      })()}
+    </View>
+  );
+
+  if (stage === 'prompt') {
+    return renderPromptStage();
+  }
+  if (stage === 'response') {
+    return renderResponseStage();
+  }
+  if (compact) {
+    return (
+      <View style={{ gap: 14 }}>
+        {renderPromptStage()}
+        {renderResponseStage()}
       </View>
+    );
+  }
+  return (
+    <ScrollView
+      contentContainerStyle={{
+        padding: 16,
+        paddingBottom: 40,
+        width: '100%',
+        maxWidth: 960,
+        alignSelf: 'center',
+        gap: 14,
+      }}
+    >
+      {renderPromptStage()}
+      {renderResponseStage()}
     </ScrollView>
   );
 }

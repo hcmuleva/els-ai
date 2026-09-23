@@ -4,8 +4,9 @@
  * Sections tab: assign content + quizzes with order management (planner style).
  */
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
-  ActivityIndicator, Image, Modal, Platform, Pressable,
+  ActivityIndicator, DeviceEventEmitter, Image, Modal, Platform, Pressable,
   ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
   useWindowDimensions,
 } from 'react-native';
@@ -599,12 +600,43 @@ export default function TopicsTab({
     };
   }, [apiFetch, classLevel, isOpen, quizSubjectFilter]);
 
-  const openCreate = () => {
-    setEditingId(null); setTitle(''); setClassLevel(''); setSubject('');
-    setCoverImage(''); setContentIds([]); setQuizIds([]);
-    setTopicPreviewOpen(false); setTopicPreviewItems([]);
-    setModalTab('setup'); setIsOpen(true);
+  const openCreate = (initial?: { title?: string; classLevel?: string; subject?: string }) => {
+    setEditingId(null);
+    setTitle(initial?.title || '');
+    setClassLevel(initial?.classLevel || '');
+    setSubject(initial?.subject || '');
+    setCoverImage('');
+    setContentIds([]);
+    setQuizIds([]);
+    setTopicPreviewOpen(false);
+    setTopicPreviewItems([]);
+    setModalTab('setup');
+    setIsOpen(true);
   };
+
+  useEffect(() => {
+    const sub = DeviceEventEmitter.addListener('els_open_topic_create', (data) => {
+      openCreate(data);
+    });
+    return () => {
+      sub.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
+    AsyncStorage.getItem('els_auto_open_create_topic').then((str) => {
+      if (str) {
+        AsyncStorage.removeItem('els_auto_open_create_topic');
+        try {
+          const parsed = JSON.parse(str);
+          openCreate(parsed);
+        } catch {
+          openCreate();
+        }
+      }
+    });
+  }, [enabled]);
 
   const openEdit = async (topic: ContentTopic) => {
     setEditingId(topic.id);
@@ -842,7 +874,7 @@ export default function TopicsTab({
           <Text style={s.pageTitle}>Topics</Text>
           <Text style={s.pageSub}>{pager.totalCount} topic{pager.totalCount !== 1 ? 's' : ''}</Text>
         </View>
-        <Pressable style={s.createBtn} onPress={openCreate}>
+        <Pressable style={s.createBtn} onPress={() => openCreate()}>
           <Plus size={14} color="#fff" />
           <Text style={s.createBtnText}>New Topic</Text>
         </Pressable>
@@ -943,7 +975,7 @@ export default function TopicsTab({
                 </View>
                 <Text style={s.emptyTitle}>{appliedSearch ? `No topics match "${appliedSearch}"` : 'No topics yet'}</Text>
                 <Text style={s.emptySub}>{appliedSearch ? 'Try a different search or clear filters.' : 'Create your first topic to get started.'}</Text>
-                <Pressable style={s.emptyBtn} onPress={openCreate}><Text style={s.emptyBtnText}>Create Topic</Text></Pressable>
+                <Pressable style={s.emptyBtn} onPress={() => openCreate()}><Text style={s.emptyBtnText}>Create Topic</Text></Pressable>
               </View>
             )
           }

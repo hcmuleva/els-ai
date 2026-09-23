@@ -36,6 +36,7 @@ import LatexText from '../common/LatexText';
 import SafeImage from './SafeImage';
 import SingleQuestionPlayer from './SingleQuestionPlayer';
 import JigsawRenderer from './JigsawRenderer';
+import LogicoButtonBadge from './LogicoButtonBadge';
 import { resolveMediaUrl } from '../../utils/media';
 import { getStandardLabel } from '../../constants/standards';
 
@@ -286,6 +287,35 @@ export default function QuestionPreviewModal({
 
   const explanation = question?.explanation || qData.explanation;
 
+  const normalizedPlayerQuestionData = useMemo(() => {
+    if (qType === 'memory_match') {
+      const rawPairs = Array.isArray(qData.pairs) ? qData.pairs : [];
+      return {
+        ...qData,
+        grid: qData.grid || '4x4',
+        pairs: rawPairs.map((p: any, i: number) => ({
+          ...p,
+          id: p.id ?? i + 1,
+          label: p.label || `Pair ${i + 1}`,
+          imageUrl: p.imageUrl || p.image ? resolveMediaUrl(p.imageUrl || p.image) : undefined,
+        })),
+      };
+    }
+    if (qType === 'logico') {
+      return {
+        ...qData,
+        prompt_image: promptImage || qData.prompt_image,
+      };
+    }
+    if (qType === 'jigsaw') {
+      return {
+        ...qData,
+        image: promptImage || qData.image,
+      };
+    }
+    return qData;
+  }, [qType, qData, promptImage]);
+
   if (!visible) return null;
 
   return (
@@ -324,6 +354,8 @@ export default function QuestionPreviewModal({
                 <Pressable
                   style={[styles.modeToggleBtn, activeMode === 'data' && styles.modeToggleBtnActive]}
                   onPress={() => setActiveMode('data')}
+                  accessibilityRole="button"
+                  accessibilityLabel="Data and Solution Key mode"
                 >
                   <Eye size={13} color={activeMode === 'data' ? '#2D5DC9' : '#64748B'} />
                   <Text style={[styles.modeToggleText, activeMode === 'data' && styles.modeToggleTextActive]}>
@@ -333,6 +365,8 @@ export default function QuestionPreviewModal({
                 <Pressable
                   style={[styles.modeToggleBtn, activeMode === 'play' && styles.modeToggleBtnActive]}
                   onPress={() => setActiveMode('play')}
+                  accessibilityRole="button"
+                  accessibilityLabel="Test Play mode"
                 >
                   <Play size={13} color={activeMode === 'play' ? '#2D5DC9' : '#64748B'} fill={activeMode === 'play' ? '#2D5DC9' : 'transparent'} />
                   <Text style={[styles.modeToggleText, activeMode === 'play' && styles.modeToggleTextActive]}>
@@ -348,6 +382,8 @@ export default function QuestionPreviewModal({
                     onClose();
                     onEdit(question);
                   }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Edit question"
                 >
                   <Pencil size={13} color="#1E293B" />
                   <Text style={styles.editBtnText}>Edit</Text>
@@ -371,381 +407,477 @@ export default function QuestionPreviewModal({
               <FileQuestion size={48} color="#CBD5E1" />
               <Text style={styles.emptyTitle}>Question not found</Text>
             </View>
-          ) : activeMode === 'play' ? (
-            /* Interactive Student Player Mode */
-            <ScrollView
-              style={styles.scrollArea}
-              contentContainerStyle={styles.playScrollContent}
-              showsVerticalScrollIndicator={false}
-            >
-              <View style={styles.playHintCard}>
-                <Sparkles size={16} color="#2D5DC9" />
-                <Text style={styles.playHintText}>
-                  Interactive Student Test Mode — play through this question exactly as a student would. Answers here are not saved.
-                </Text>
-              </View>
-
-              <SingleQuestionPlayer
-                questionType={qType}
-                questionTitle={question.question_title}
-                questionInstruction={question.question_instruction}
-                questionAudio={question.question_audio ?? undefined}
-                questionData={question.question_data}
-              />
-            </ScrollView>
-          ) : (
-            /* Data & Solution Key Mode */
-            <ScrollView
-              style={styles.scrollArea}
-              contentContainerStyle={styles.scrollContent}
-              showsVerticalScrollIndicator={false}
-            >
-              {/* Question Hero Card */}
-              <View style={styles.heroCard}>
-                <View style={styles.heroHeaderRow}>
-                  <View style={[styles.heroIconBox, { backgroundColor: typeCfg.bg }]}>
-                    <FileQuestion size={22} color={typeCfg.color} />
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <LatexText
-                      content={question.question_title || 'Untitled Question'}
-                      style={styles.heroTitleText}
-                      background="transparent"
-                    />
-                  </View>
-                </View>
-
-                {/* Metadata Pills */}
-                <View style={styles.metaRow}>
-                  {question.class_level ? (
-                    <View style={styles.metaPill}>
-                      <Text style={styles.metaPillLabel}>Class</Text>
-                      <Text style={styles.metaPillValue}>{getStandardLabel(question.class_level)}</Text>
+          ) : (() => {
+            // ── Left Column: Question Prompt & Stimulus ──
+            const renderPromptStimulus = () => (
+              <>
+                {/* Question Hero Card */}
+                <View style={styles.heroCard}>
+                  <View style={styles.heroHeaderRow}>
+                    <View style={[styles.heroIconBox, { backgroundColor: typeCfg.bg }]}>
+                      <FileQuestion size={22} color={typeCfg.color} />
                     </View>
-                  ) : null}
-
-                  {question.subject ? (
-                    <View style={styles.metaPill}>
-                      <Text style={styles.metaPillLabel}>Subject</Text>
-                      <Text style={styles.metaPillValue}>{question.subject}</Text>
+                    <View style={{ flex: 1 }}>
+                      <LatexText
+                        content={question.question_title || 'Untitled Question'}
+                        style={styles.heroTitleText}
+                        background="transparent"
+                      />
                     </View>
-                  ) : null}
-
-                  <View style={styles.metaPill}>
-                    <Zap size={12} color="#D97706" />
-                    <Text style={styles.metaPillValue}>{question.points ?? 1} pt{question.points !== 1 ? 's' : ''}</Text>
                   </View>
 
-                  {question.time_limit_seconds ? (
-                    <View style={styles.metaPill}>
-                      <Clock size={12} color="#64748B" />
-                      <Text style={styles.metaPillValue}>{question.time_limit_seconds}s</Text>
-                    </View>
-                  ) : null}
-
-                  {question.quiz_title ? (
-                    <View style={styles.metaPill}>
-                      <Text style={styles.metaPillLabel}>Quiz</Text>
-                      <Text style={styles.metaPillValue} numberOfLines={1}>{question.quiz_title}</Text>
-                    </View>
-                  ) : null}
-                </View>
-              </View>
-
-              {/* Instruction Stimulus */}
-              {question.question_instruction ? (
-                <View style={styles.sectionCard}>
-                  <Text style={styles.sectionLabel}>Instruction Stimulus</Text>
-                  <Text style={styles.instructionText}>{question.question_instruction}</Text>
-                </View>
-              ) : null}
-
-              {/* Prompt Image Stimulus */}
-              {promptImage ? (
-                <View style={styles.sectionCard}>
-                  <Text style={styles.sectionLabel}>Prompt Image</Text>
-                  <View style={styles.promptImgBox}>
-                    <SafeImage uri={promptImage} style={styles.promptImg} resizeMode="contain" />
-                  </View>
-                </View>
-              ) : null}
-
-              {/* Prompt Audio Stimulus */}
-              {promptAudio ? (
-                <View style={styles.sectionCard}>
-                  <Text style={styles.sectionLabel}>Prompt Audio</Text>
-                  <PreviewInlineAudio url={promptAudio} label="Audio Prompt" accentColor="#2D5DC9" />
-                </View>
-              ) : null}
-
-              {/* Choice Questions (Single / Multi / True-False / Guess-Image / Guess-Audio) */}
-              {options.length > 0 && qType !== 'fill_blank' && qType !== 'jigsaw' && (
-                <View style={styles.sectionCard}>
-                  <View style={styles.sectionHeaderRow}>
-                    <Text style={styles.sectionLabel}>Options & Answer Key</Text>
-                    <Text style={styles.sectionSubCount}>{options.length} options</Text>
-                  </View>
-                  <View style={styles.optionsList}>
-                    {options.map((opt: any, idx: number) => {
-                      const isCorrect = Boolean(
-                        opt.is_correct ?? opt.correct ?? opt.isCorrect ?? (qData.correct_option === idx)
-                      );
-                      const optText =
-                        opt.text || opt.label || opt.option_text || (typeof opt === 'string' ? opt : `Option ${idx + 1}`);
-                      const optImg = opt.image ? resolveMediaUrl(opt.image) : '';
-                      const optAudio = opt.audio ? resolveMediaUrl(opt.audio) : '';
-
-                      return (
-                        <View
-                          key={idx}
-                          style={[styles.optionItem, isCorrect && styles.optionItemCorrect]}
-                        >
-                          <View style={[styles.optLetterBadge, isCorrect && styles.optLetterBadgeCorrect]}>
-                            <Text style={[styles.optLetterText, isCorrect && styles.optLetterTextCorrect]}>
-                              {String.fromCharCode(65 + idx)}
-                            </Text>
-                          </View>
-
-                          <View style={{ flex: 1, gap: 6 }}>
-                            <LatexText
-                              content={String(optText)}
-                              style={StyleSheet.flatten([styles.optText, isCorrect && styles.optTextCorrect])}
-                              background="transparent"
-                              compact
-                            />
-                            {optImg ? (
-                              <SafeImage uri={optImg} style={styles.optImg} resizeMode="contain" />
-                            ) : null}
-                            {optAudio ? (
-                              <PreviewInlineAudio url={optAudio} label="Option audio" accentColor={isCorrect ? '#15803D' : '#64748B'} />
-                            ) : null}
-                          </View>
-
-                          {isCorrect ? (
-                            <View style={styles.correctBadge}>
-                              <Check size={12} color="#15803D" strokeWidth={2.5} />
-                              <Text style={styles.correctBadgeText}>Correct</Text>
-                            </View>
-                          ) : null}
-                        </View>
-                      );
-                    })}
-                  </View>
-                </View>
-              )}
-
-              {/* Fill in the Blank */}
-              {qType === 'fill_blank' && (() => {
-                const sentence: string = qData.sentence || '';
-                const answer: string = qData.answer || qData.blank_answer || qData.correct_answer || '';
-                const hint: string = qData.hint || '';
-                const fbOpts: string[] = Array.isArray(qData.options) ? qData.options : [];
-                const parts = sentence.split('___');
-
-                return (
-                  <View style={styles.sectionCard}>
-                    <Text style={styles.sectionLabel}>Sentence & Target</Text>
-                    <View style={styles.sentenceBox}>
-                      {sentence ? (
-                        <Text style={styles.sentenceText}>
-                          <Text>{parts[0] ?? ''}</Text>
-                          <Text style={styles.sentenceHighlight}>
-                            {' '}{answer || '___'}{' '}
-                          </Text>
-                          <Text>{parts[1] ?? ''}</Text>
-                        </Text>
-                      ) : (
-                        <Text style={styles.mutedText}>No sentence text defined</Text>
-                      )}
-
-                      {hint ? (
-                        <View style={styles.hintPill}>
-                          <Text style={{ fontSize: 12 }}>💡</Text>
-                          <Text style={styles.hintText}>Hint: "{hint}"</Text>
-                        </View>
-                      ) : null}
-                    </View>
-
-                    {fbOpts.length > 0 && (
-                      <View style={{ marginTop: 14, gap: 8 }}>
-                        <Text style={styles.sectionSubLabel}>Choice Options</Text>
-                        <View style={styles.pillCloud}>
-                          {fbOpts.map((opt, i) => {
-                            const isCorrect = answer && opt.trim().toLowerCase() === answer.trim().toLowerCase();
-                            return (
-                              <View
-                                key={i}
-                                style={[styles.choiceCloudPill, isCorrect && styles.choiceCloudPillCorrect]}
-                              >
-                                <Text style={[styles.choiceCloudText, isCorrect && styles.choiceCloudTextCorrect]}>
-                                  {opt}
-                                </Text>
-                                {isCorrect && <Check size={12} color="#15803D" strokeWidth={2.5} />}
-                              </View>
-                            );
-                          })}
-                        </View>
+                  {/* Metadata Pills */}
+                  <View style={styles.metaRow}>
+                    {question.class_level ? (
+                      <View style={styles.metaPill}>
+                        <Text style={styles.metaPillLabel}>Class</Text>
+                        <Text style={styles.metaPillValue}>{getStandardLabel(question.class_level)}</Text>
                       </View>
-                    )}
-                  </View>
-                );
-              })()}
+                    ) : null}
 
-              {/* Drag and Drop / Matching Pairs */}
-              {pairs.length > 0 && (
-                <View style={styles.sectionCard}>
-                  <Text style={styles.sectionLabel}>Matching Pairs</Text>
-                  <View style={styles.pairsList}>
-                    {pairs.map((p: any, pIdx: number) => {
-                      const left = p.left || p.item || p.leftText || `Item ${pIdx + 1}`;
-                      const right = p.right || p.pair || p.rightText || `Match ${pIdx + 1}`;
-                      return (
-                        <View key={pIdx} style={styles.pairRow}>
-                          <View style={styles.pairItem}>
-                            <Text style={styles.pairItemText}>{String(left)}</Text>
-                          </View>
-                          <View style={styles.pairArrowBox}>
-                            <SplitSquareHorizontal size={14} color="#64748B" />
-                          </View>
-                          <View style={[styles.pairItem, styles.pairItemTarget]}>
-                            <Text style={styles.pairItemTextTarget}>{String(right)}</Text>
-                          </View>
-                        </View>
-                      );
-                    })}
+                    {question.subject ? (
+                      <View style={styles.metaPill}>
+                        <Text style={styles.metaPillLabel}>Subject</Text>
+                        <Text style={styles.metaPillValue}>{question.subject}</Text>
+                      </View>
+                    ) : null}
+
+                    <View style={styles.metaPill}>
+                      <Zap size={12} color="#D97706" />
+                      <Text style={styles.metaPillValue}>{question.points ?? 1} pt{question.points !== 1 ? 's' : ''}</Text>
+                    </View>
+
+                    {question.time_limit_seconds ? (
+                      <View style={styles.metaPill}>
+                        <Clock size={12} color="#64748B" />
+                        <Text style={styles.metaPillValue}>{question.time_limit_seconds}s</Text>
+                      </View>
+                    ) : null}
+
+                    {question.quiz_title ? (
+                      <View style={styles.metaPill}>
+                        <Text style={styles.metaPillLabel}>Quiz</Text>
+                        <Text style={styles.metaPillValue} numberOfLines={1}>{question.quiz_title}</Text>
+                      </View>
+                    ) : null}
                   </View>
                 </View>
-              )}
 
-              {dragItems.length > 0 && (
-                <View style={styles.sectionCard}>
-                  <Text style={styles.sectionLabel}>Drag & Drop Match Rules</Text>
-                  <View style={styles.pairsList}>
-                    {dragItems.map((item: any, idx: number) => {
-                      const rule = matchRules.find((r: any) => r.drag_item_id === item.id);
-                      const target = rule ? dropTargets.find((t: any) => t.id === rule.drop_target_id) : null;
-                      return (
-                        <View key={idx} style={styles.pairRow}>
-                          <View style={styles.pairItem}>
-                            {item.label ? <Text style={styles.pairItemText}>{item.label}</Text> : null}
-                            {item.image ? <SafeImage uri={resolveMediaUrl(item.image)} style={styles.pairThumb} resizeMode="contain" /> : null}
+                {/* Instruction Stimulus */}
+                {question.question_instruction ? (
+                  <View style={styles.sectionCard}>
+                    <Text style={styles.sectionLabel}>Instruction Stimulus</Text>
+                    <Text style={styles.instructionText}>{question.question_instruction}</Text>
+                  </View>
+                ) : null}
+
+                {/* Prompt Image Stimulus */}
+                {promptImage ? (
+                  <View style={styles.sectionCard}>
+                    <Text style={styles.sectionLabel}>Prompt Image</Text>
+                    <View style={styles.promptImgBox}>
+                      <SafeImage uri={promptImage} style={styles.promptImg} resizeMode="contain" />
+                    </View>
+                  </View>
+                ) : null}
+
+                {/* Prompt Audio Stimulus */}
+                {promptAudio ? (
+                  <View style={styles.sectionCard}>
+                    <Text style={styles.sectionLabel}>Prompt Audio</Text>
+                    <PreviewInlineAudio url={promptAudio} label="Audio Prompt" accentColor="#2D5DC9" />
+                  </View>
+                ) : null}
+              </>
+            );
+
+            // ── Right Column: Interactive Test Player ──
+            const renderInteractivePlayer = () => (
+              <>
+                <View style={styles.playHintCard}>
+                  <Sparkles size={16} color="#2D5DC9" />
+                  <Text style={styles.playHintText}>
+                    Interactive Student Test Mode — play through this question exactly as a student would. Answers here are not saved.
+                  </Text>
+                </View>
+
+                <SingleQuestionPlayer
+                  questionType={qType}
+                  questionTitle={question.question_title}
+                  questionInstruction={question.question_instruction}
+                  questionAudio={question.question_audio ?? undefined}
+                  questionData={normalizedPlayerQuestionData}
+                />
+              </>
+            );
+
+            // ── Right Column: Data & Solution Key ──
+            const renderDataSolutionKey = () => (
+              <>
+                {/* Choice Questions (Single / Multi / True-False / Guess-Image / Guess-Audio) */}
+                {options.length > 0 && qType !== 'fill_blank' && qType !== 'jigsaw' && (
+                  <View style={styles.sectionCard}>
+                    <View style={styles.sectionHeaderRow}>
+                      <Text style={styles.sectionLabel}>Options & Answer Key</Text>
+                      <Text style={styles.sectionSubCount}>{options.length} options</Text>
+                    </View>
+                    <View style={styles.optionsList}>
+                      {options.map((opt: any, idx: number) => {
+                        const isCorrect = Boolean(
+                          opt.is_correct ?? opt.correct ?? opt.isCorrect ?? (qData.correct_option === idx)
+                        );
+                        const optText =
+                          opt.text || opt.label || opt.option_text || (typeof opt === 'string' ? opt : `Option ${idx + 1}`);
+                        const optImg = opt.image ? resolveMediaUrl(opt.image) : '';
+                        const optAudio = opt.audio ? resolveMediaUrl(opt.audio) : '';
+
+                        return (
+                          <View
+                            key={idx}
+                            style={[styles.optionItem, isCorrect && styles.optionItemCorrect]}
+                          >
+                            <View style={[styles.optLetterBadge, isCorrect && styles.optLetterBadgeCorrect]}>
+                              <Text style={[styles.optLetterText, isCorrect && styles.optLetterTextCorrect]}>
+                                {String.fromCharCode(65 + idx)}
+                              </Text>
+                            </View>
+
+                            <View style={{ flex: 1, gap: 6 }}>
+                              <LatexText
+                                content={String(optText)}
+                                style={StyleSheet.flatten([styles.optText, isCorrect && styles.optTextCorrect])}
+                                background="transparent"
+                                compact
+                              />
+                              {optImg ? (
+                                <SafeImage uri={optImg} style={styles.optImg} resizeMode="contain" />
+                              ) : null}
+                              {optAudio ? (
+                                <PreviewInlineAudio url={optAudio} label="Option audio" accentColor={isCorrect ? '#15803D' : '#64748B'} />
+                              ) : null}
+                            </View>
+
+                            {isCorrect ? (
+                              <View style={styles.correctBadge}>
+                                <Check size={12} color="#15803D" strokeWidth={2.5} />
+                                <Text style={styles.correctBadgeText}>Correct</Text>
+                              </View>
+                            ) : null}
                           </View>
-                          <View style={styles.pairArrowBox}>
-                            <SplitSquareHorizontal size={14} color="#64748B" />
+                        );
+                      })}
+                    </View>
+                  </View>
+                )}
+
+                {/* Fill in the Blank */}
+                {qType === 'fill_blank' && (() => {
+                  const sentence: string = qData.sentence || '';
+                  const answer: string = qData.answer || qData.blank_answer || qData.correct_answer || '';
+                  const hint: string = qData.hint || '';
+                  const fbOpts: string[] = Array.isArray(qData.options) ? qData.options : [];
+                  const parts = sentence.split('___');
+
+                  return (
+                    <View style={styles.sectionCard}>
+                      <Text style={styles.sectionLabel}>Sentence & Target</Text>
+                      <View style={styles.sentenceBox}>
+                        {sentence ? (
+                          <Text style={styles.sentenceText}>
+                            <Text>{parts[0] ?? ''}</Text>
+                            <Text style={styles.sentenceHighlight}>
+                              {' '}{answer || '___'}{' '}
+                            </Text>
+                            <Text>{parts[1] ?? ''}</Text>
+                          </Text>
+                        ) : (
+                          <Text style={styles.mutedText}>No sentence text defined</Text>
+                        )}
+
+                        {hint ? (
+                          <View style={styles.hintPill}>
+                            <Text style={{ fontSize: 12 }}>💡</Text>
+                            <Text style={styles.hintText}>Hint: "{hint}"</Text>
                           </View>
-                          <View style={[styles.pairItem, styles.pairItemTarget]}>
-                            {target?.label ? (
-                              <Text style={styles.pairItemTextTarget}>{target.label}</Text>
+                        ) : null}
+                      </View>
+
+                      {fbOpts.length > 0 && (
+                        <View style={{ marginTop: 14, gap: 8 }}>
+                          <Text style={styles.sectionSubLabel}>Choice Options</Text>
+                          <View style={styles.pillCloud}>
+                            {fbOpts.map((opt, i) => {
+                              const isCorrect = answer && opt.trim().toLowerCase() === answer.trim().toLowerCase();
+                              return (
+                                <View
+                                  key={i}
+                                  style={[styles.choiceCloudPill, isCorrect && styles.choiceCloudPillCorrect]}
+                                >
+                                  <Text style={[styles.choiceCloudText, isCorrect && styles.choiceCloudTextCorrect]}>
+                                    {opt}
+                                  </Text>
+                                  {isCorrect && <Check size={12} color="#15803D" strokeWidth={2.5} />}
+                                </View>
+                              );
+                            })}
+                          </View>
+                        </View>
+                      )}
+                    </View>
+                  );
+                })()}
+
+                {/* Drag and Drop / Matching Pairs */}
+                {pairs.length > 0 && (
+                  <View style={styles.sectionCard}>
+                    <Text style={styles.sectionLabel}>Matching Pairs</Text>
+                    <View style={styles.pairsList}>
+                      {pairs.map((p: any, pIdx: number) => {
+                        const left = p.left || p.item || p.leftText || `Item ${pIdx + 1}`;
+                        const right = p.right || p.pair || p.rightText || `Match ${pIdx + 1}`;
+                        return (
+                          <View key={pIdx} style={styles.pairRow}>
+                            <View style={styles.pairItem}>
+                              <Text style={styles.pairItemText}>{String(left)}</Text>
+                            </View>
+                            <View style={styles.pairArrowBox}>
+                              <SplitSquareHorizontal size={14} color="#64748B" />
+                            </View>
+                            <View style={[styles.pairItem, styles.pairItemTarget]}>
+                              <Text style={styles.pairItemTextTarget}>{String(right)}</Text>
+                            </View>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  </View>
+                )}
+
+                {dragItems.length > 0 && (
+                  <View style={styles.sectionCard}>
+                    <Text style={styles.sectionLabel}>Drag & Drop Match Rules</Text>
+                    <View style={styles.pairsList}>
+                      {dragItems.map((item: any, idx: number) => {
+                        const rule = matchRules.find((r: any) => r.drag_item_id === item.id);
+                        const target = rule ? dropTargets.find((t: any) => t.id === rule.drop_target_id) : null;
+                        return (
+                          <View key={idx} style={styles.pairRow}>
+                            <View style={styles.pairItem}>
+                              {item.label ? <Text style={styles.pairItemText}>{item.label}</Text> : null}
+                              {item.image && typeof item.image === 'string' && item.image.trim() && !item.image.includes('placehold.co') ? (
+                                <SafeImage uri={resolveMediaUrl(item.image)} style={styles.pairThumb} resizeMode="contain" />
+                              ) : null}
+                            </View>
+                            <View style={styles.pairArrowBox}>
+                              <SplitSquareHorizontal size={14} color="#64748B" />
+                            </View>
+                            <View style={[styles.pairItem, styles.pairItemTarget]}>
+                              {target?.label ? (
+                                <Text style={styles.pairItemTextTarget}>{target.label}</Text>
+                              ) : (
+                                <Text style={styles.mutedText}>–</Text>
+                              )}
+                            </View>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  </View>
+                )}
+
+                {/* Logico Matrix */}
+                {qType === 'logico' && (
+                  <View style={styles.sectionCard}>
+                    <Text style={styles.sectionLabel}>Logico Slot Mapping (1-10)</Text>
+                    {promptImage ? (
+                      <View style={{ marginBottom: 14, borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: '#E8ECF4', maxHeight: 220, backgroundColor: '#fff', alignItems: 'center' }}>
+                        <SafeImage uri={promptImage} style={{ width: '100%', height: 200 }} resizeMode="contain" />
+                      </View>
+                    ) : null}
+                    <View style={styles.logicoList}>
+                      {Array.from({ length: 10 }, (_, index) => {
+                        const slotId = index + 1;
+                        const mappedButton = Object.entries(buttonSlotMap).find(([, slot]) => Number(slot) === slotId)?.[0] ?? '';
+                        const optionLabel =
+                          optionSlots.find((slot) => Number(slot?.id) === slotId)?.value ||
+                          `Position ${slotId}`;
+                        return (
+                          <View key={`logico-slot-${slotId}`} style={styles.logicoRow}>
+                            <View style={styles.logicoSlotBadge}>
+                              <Text style={styles.logicoSlotBadgeText}>{slotId}</Text>
+                            </View>
+                            <Text style={styles.logicoOptionText}>{String(optionLabel)}</Text>
+                            {mappedButton ? (
+                              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: '#F8FAFC', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 8, borderWidth: 1, borderColor: '#E8ECF4' }}>
+                                <LogicoButtonBadge buttonId={mappedButton} size={20} />
+                                <Text style={{ fontSize: 11, fontWeight: '700', color: '#1E293B' }}>{mappedButton}</Text>
+                              </View>
                             ) : (
-                              <Text style={styles.mutedText}>–</Text>
+                              <View style={[styles.logicoButtonPill, styles.logicoButtonPillUnmapped]}>
+                                <Text style={[styles.logicoButtonPillText, styles.logicoButtonPillTextUnmapped]}>
+                                  Unmapped
+                                </Text>
+                              </View>
                             )}
                           </View>
-                        </View>
-                      );
-                    })}
+                        );
+                      })}
+                    </View>
                   </View>
-                </View>
-              )}
+                )}
 
-              {/* Logico Matrix */}
-              {qType === 'logico' && (
-                <View style={styles.sectionCard}>
-                  <Text style={styles.sectionLabel}>Logico Slot Mapping (1-10)</Text>
-                  <View style={styles.logicoList}>
-                    {Array.from({ length: 10 }, (_, index) => {
-                      const slotId = index + 1;
-                      const mappedButton = Object.entries(buttonSlotMap).find(([, slot]) => Number(slot) === slotId)?.[0] ?? '';
-                      const optionLabel =
-                        optionSlots.find((slot) => Number(slot?.id) === slotId)?.value ||
-                        `Position ${slotId}`;
-                      return (
-                        <View key={`logico-slot-${slotId}`} style={styles.logicoRow}>
-                          <View style={styles.logicoSlotBadge}>
-                            <Text style={styles.logicoSlotBadgeText}>{slotId}</Text>
-                          </View>
-                          <Text style={styles.logicoOptionText}>{String(optionLabel)}</Text>
-                          <View style={[styles.logicoButtonPill, mappedButton ? styles.logicoButtonPillMapped : styles.logicoButtonPillUnmapped]}>
-                            <Text style={[styles.logicoButtonPillText, mappedButton ? styles.logicoButtonPillTextMapped : styles.logicoButtonPillTextUnmapped]}>
-                              {mappedButton || 'Unmapped'}
-                            </Text>
+                {/* Memory Match */}
+                {qType === 'memory_match' && (() => {
+                  const grid = String(qData.grid || '4x4');
+                  const memPairs: any[] = Array.isArray(qData.pairs) ? qData.pairs : [];
+                  return (
+                    <View style={styles.sectionCard}>
+                      <Text style={styles.sectionLabel}>Memory Match Configuration</Text>
+                      <View style={styles.metaRow}>
+                        <View style={styles.metaPill}>
+                          <Text style={styles.metaPillLabel}>Grid</Text>
+                          <Text style={styles.metaPillValue}>{grid}</Text>
+                        </View>
+                        <View style={styles.metaPill}>
+                          <Text style={styles.metaPillLabel}>Pairs</Text>
+                          <Text style={styles.metaPillValue}>{memPairs.length}</Text>
+                        </View>
+                        <View style={styles.metaPill}>
+                          <Text style={styles.metaPillLabel}>Cards</Text>
+                          <Text style={styles.metaPillValue}>{memPairs.length * 2}</Text>
+                        </View>
+                      </View>
+                      {memPairs.length > 0 && (
+                        <View style={{ marginTop: 14, gap: 10 }}>
+                          <Text style={styles.sectionSubLabel}>Configured Pairs ({memPairs.length})</Text>
+                          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                            {memPairs.map((p: any, i: number) => {
+                              const img = (p.imageUrl || p.image) ? resolveMediaUrl(p.imageUrl || p.image) : '';
+                              return (
+                                <View
+                                  key={i}
+                                  style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    gap: 6,
+                                    backgroundColor: '#fff',
+                                    borderRadius: 10,
+                                    borderWidth: 1,
+                                    borderColor: '#E8ECF4',
+                                    padding: 6,
+                                    minWidth: 110,
+                                  }}
+                                >
+                                  {img ? (
+                                    <SafeImage uri={img} style={{ width: 24, height: 24, borderRadius: 5 }} resizeMode="contain" />
+                                  ) : p.emoji ? (
+                                    <Text style={{ fontSize: 16 }}>{p.emoji}</Text>
+                                  ) : (
+                                    <Text style={{ fontSize: 14 }}>🃏</Text>
+                                  )}
+                                  <View style={{ flex: 1 }}>
+                                    <Text style={{ fontSize: 11, fontWeight: '700', color: '#1E293B' }} numberOfLines={1}>{p.label || `Pair ${i + 1}`}</Text>
+                                    <Text style={{ fontSize: 9, color: '#64748B', fontWeight: '600' }}>Pair #{i + 1}</Text>
+                                  </View>
+                                </View>
+                              );
+                            })}
                           </View>
                         </View>
-                      );
-                    })}
-                  </View>
-                </View>
-              )}
+                      )}
+                    </View>
+                  );
+                })()}
 
-              {/* Memory Match */}
-              {qType === 'memory_match' && (() => {
-                const grid = String(qData.grid || '4x4');
-                const memPairs: any[] = Array.isArray(qData.pairs) ? qData.pairs : [];
-                return (
+                {/* Jigsaw Puzzle */}
+                {qType === 'jigsaw' && (
                   <View style={styles.sectionCard}>
-                    <Text style={styles.sectionLabel}>Memory Match Configuration</Text>
+                    <Text style={styles.sectionLabel}>Jigsaw Puzzle Configuration</Text>
                     <View style={styles.metaRow}>
                       <View style={styles.metaPill}>
                         <Text style={styles.metaPillLabel}>Grid</Text>
-                        <Text style={styles.metaPillValue}>{grid}</Text>
+                        <Text style={styles.metaPillValue}>{String(qData.gridSize || '3x3')}</Text>
                       </View>
                       <View style={styles.metaPill}>
-                        <Text style={styles.metaPillLabel}>Pairs</Text>
-                        <Text style={styles.metaPillValue}>{memPairs.length}</Text>
+                        <Text style={styles.metaPillLabel}>Difficulty</Text>
+                        <Text style={styles.metaPillValue}>{String(qData.difficulty || 'medium')}</Text>
                       </View>
                       <View style={styles.metaPill}>
-                        <Text style={styles.metaPillLabel}>Cards</Text>
-                        <Text style={styles.metaPillValue}>{memPairs.length * 2}</Text>
+                        <Text style={styles.metaPillLabel}>Moves Limit</Text>
+                        <Text style={styles.metaPillValue}>{Number(qData.clickLimit || 0) > 0 ? `${qData.clickLimit} moves` : 'Unlimited'}</Text>
                       </View>
                     </View>
-                    {memPairs.length > 0 && (
-                      <View style={{ marginTop: 12, gap: 8 }}>
-                        <Text style={styles.sectionSubLabel}>Configured Pairs</Text>
-                        <View style={styles.pillCloud}>
-                          {memPairs.map((p: any, i: number) => (
-                            <View key={i} style={styles.choiceCloudPill}>
-                              <Text style={styles.choiceCloudText}>{p.label || `Pair ${i + 1}`}</Text>
-                            </View>
-                          ))}
-                        </View>
+                    {promptImage ? (
+                      <View style={{ marginTop: 12, borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: '#E8ECF4', maxHeight: 220, backgroundColor: '#fff', alignItems: 'center' }}>
+                        <SafeImage uri={promptImage} style={{ width: '100%', height: 200 }} resizeMode="contain" />
                       </View>
-                    )}
+                    ) : null}
                   </View>
-                );
-              })()}
+                )}
 
-              {/* Jigsaw Puzzle */}
-              {qType === 'jigsaw' && (
-                <View style={styles.sectionCard}>
-                  <Text style={styles.sectionLabel}>Jigsaw Puzzle Configuration</Text>
-                  <View style={styles.metaRow}>
-                    <View style={styles.metaPill}>
-                      <Text style={styles.metaPillLabel}>Grid</Text>
-                      <Text style={styles.metaPillValue}>{String(qData.gridSize || '3x3')}</Text>
+                {/* Explanation Card */}
+                {explanation ? (
+                  <View style={styles.explanationCard}>
+                    <View style={styles.explanationHeader}>
+                      <Sparkles size={16} color="#2563EB" />
+                      <Text style={styles.explanationLabel}>Solution Explanation</Text>
                     </View>
-                    <View style={styles.metaPill}>
-                      <Text style={styles.metaPillLabel}>Difficulty</Text>
-                      <Text style={styles.metaPillValue}>{String(qData.difficulty || 'medium')}</Text>
-                    </View>
-                    <View style={styles.metaPill}>
-                      <Text style={styles.metaPillLabel}>Moves Limit</Text>
-                      <Text style={styles.metaPillValue}>{Number(qData.clickLimit || 0) > 0 ? `${qData.clickLimit} moves` : 'Unlimited'}</Text>
-                    </View>
+                    <Text style={styles.explanationText}>{explanation}</Text>
+                  </View>
+                ) : null}
+              </>
+            );
+
+            if (isDesktop) {
+              return (
+                /* Desktop Responsive Multi-Column Layout (Matches Classroom Media Stage) */
+                <View style={styles.desktopLayout}>
+                  {/* Left Column: Question Prompt & Media Stimulus Stage */}
+                  <View style={styles.desktopLeftCol}>
+                    <ScrollView
+                      style={styles.columnScroll}
+                      contentContainerStyle={styles.columnScrollContent}
+                      showsVerticalScrollIndicator={false}
+                    >
+                      {renderPromptStimulus()}
+                    </ScrollView>
+                  </View>
+
+                  {/* Right Column: Interactive Player OR Data & Solution Key */}
+                  <View style={styles.desktopRightCol}>
+                    <ScrollView
+                      style={styles.columnScroll}
+                      contentContainerStyle={styles.columnScrollContent}
+                      showsVerticalScrollIndicator={false}
+                    >
+                      {activeMode === 'play' ? renderInteractivePlayer() : renderDataSolutionKey()}
+                    </ScrollView>
                   </View>
                 </View>
-              )}
+              );
+            }
 
-              {/* Explanation Card */}
-              {explanation ? (
-                <View style={styles.explanationCard}>
-                  <View style={styles.explanationHeader}>
-                    <Sparkles size={16} color="#2563EB" />
-                    <Text style={styles.explanationLabel}>Solution Explanation</Text>
-                  </View>
-                  <Text style={styles.explanationText}>{explanation}</Text>
-                </View>
-              ) : null}
-            </ScrollView>
-          )}
+            return (
+              /* Mobile Single-Column Scroll */
+              <ScrollView
+                style={styles.scrollArea}
+                contentContainerStyle={styles.scrollContent}
+                showsVerticalScrollIndicator={false}
+              >
+                {activeMode === 'play' ? (
+                  <>
+                    {renderInteractivePlayer()}
+                    {renderPromptStimulus()}
+                  </>
+                ) : (
+                  <>
+                    {renderPromptStimulus()}
+                    {renderDataSolutionKey()}
+                  </>
+                )}
+              </ScrollView>
+            );
+          })()}
         </View>
       </View>
     </Modal>
@@ -770,8 +902,8 @@ const styles = StyleSheet.create({
   },
   containerDesktop: {
     flex: undefined as any,
-    width: '100%',
-    maxWidth: 960,
+    width: '95%',
+    maxWidth: 1240,
     height: '92%',
     borderRadius: 20,
     overflow: 'hidden',
@@ -782,6 +914,31 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.18,
     shadowRadius: 28,
     elevation: 12,
+  },
+  desktopLayout: {
+    flex: 1,
+    flexDirection: 'row',
+    gap: 16,
+    padding: 16,
+    backgroundColor: '#F8FAFC',
+    overflow: 'hidden',
+  },
+  desktopLeftCol: {
+    flex: 1,
+    minWidth: 360,
+    height: '100%',
+  },
+  desktopRightCol: {
+    flex: 1.15,
+    minWidth: 400,
+    height: '100%',
+  },
+  columnScroll: {
+    flex: 1,
+  },
+  columnScrollContent: {
+    gap: 14,
+    paddingBottom: 32,
   },
   header: {
     flexDirection: 'row',

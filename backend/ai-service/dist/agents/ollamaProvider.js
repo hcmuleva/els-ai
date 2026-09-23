@@ -20,8 +20,16 @@ export function createOllamaProvider() {
                 return false;
             }
         },
-        async *stream({ messages, signal }) {
-            for await (const event of streamOllamaChat({ baseUrl, model, messages, signal })) {
+        async *stream({ messages, maxTokens, format, temperature, signal }) {
+            for await (const event of streamOllamaChat({
+                baseUrl,
+                model,
+                messages,
+                maxTokens,
+                format: format === 'json' ? 'json' : undefined,
+                temperature,
+                signal,
+            })) {
                 if (event.type === 'delta') {
                     yield { type: 'delta', text: event.text };
                 }

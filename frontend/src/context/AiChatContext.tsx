@@ -24,6 +24,8 @@ type AiChatContextValue = {
   startNewConversation: () => void;
 
   streamingReply: string;
+  streamingThinking: string;
+  isThinking: boolean;
   isSending: boolean;
   sendError: string | null;
   sendMessage: (text: string) => Promise<void>;
@@ -41,6 +43,8 @@ export function AiChatProvider({ children }: PropsWithChildren) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
   const [streamingReply, setStreamingReply] = useState('');
+  const [streamingThinking, setStreamingThinking] = useState('');
+  const [isThinking, setIsThinking] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [sendError, setSendError] = useState<string | null>(null);
 
@@ -141,6 +145,8 @@ export function AiChatProvider({ children }: PropsWithChildren) {
     };
     setMessages((prev) => [...prev, optimisticMessage]);
     setStreamingReply('');
+    setStreamingThinking('');
+    setIsThinking(true);
     setSendError(null);
     setIsSending(true);
 
@@ -159,12 +165,32 @@ export function AiChatProvider({ children }: PropsWithChildren) {
             void loadConversations();
           }
         },
+        onThinking: (thought) => {
+          if (!isCurrent()) return;
+          setIsThinking(true);
+          setStreamingThinking((prev) => {
+            if (
+              thought.endsWith('...') ||
+              thought.startsWith('Analyzing') ||
+              thought.startsWith('Understanding') ||
+              thought.startsWith('Synthesizing') ||
+              thought.startsWith('Structuring') ||
+              thought.startsWith('Formulating')
+            ) {
+              return thought;
+            }
+            return prev ? `${prev} ${thought}` : thought;
+          });
+        },
         onDelta: (chunk) => {
           if (!isCurrent()) return;
+          setIsThinking(false);
           setStreamingReply((prev) => prev + chunk);
         },
         onDone: () => {
           if (!isCurrent()) return;
+          setIsThinking(false);
+          setStreamingThinking('');
           setStreamingReply((finalText) => {
             if (finalText) {
               setMessages((prev) => [...prev, {
@@ -182,6 +208,8 @@ export function AiChatProvider({ children }: PropsWithChildren) {
         },
         onError: (message) => {
           if (!isCurrent()) return;
+          setIsThinking(false);
+          setStreamingThinking('');
           setSendError(message);
           setIsSending(false);
         },
@@ -193,12 +221,12 @@ export function AiChatProvider({ children }: PropsWithChildren) {
     isOpen, open, close, toggle,
     conversations, isLoadingConversations, loadConversations, removeConversation,
     activeConversationId, messages, isLoadingMessages, selectConversation, startNewConversation,
-    streamingReply, isSending, sendError, sendMessage,
+    streamingReply, streamingThinking, isThinking, isSending, sendError, sendMessage,
   }), [
     isOpen, open, close, toggle,
     conversations, isLoadingConversations, loadConversations, removeConversation,
     activeConversationId, messages, isLoadingMessages, selectConversation, startNewConversation,
-    streamingReply, isSending, sendError, sendMessage,
+    streamingReply, streamingThinking, isThinking, isSending, sendError, sendMessage,
   ]);
 
   return <AiChatContext.Provider value={value}>{children}</AiChatContext.Provider>;

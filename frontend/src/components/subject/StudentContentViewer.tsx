@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import LatexText from '../common/LatexText';
+import { ChatMarkdown } from '../chat/ChatMarkdown';
 import { Dimensions, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { ChevronLeft, ChevronRight, BookOpen, Play, Pause, Film, Headphones, Image as ImageIcon, FileText, Layers, X, Trophy, Sparkles } from 'lucide-react-native';
@@ -249,7 +250,7 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
             <BookOpen size={14} color={cfg.accent} />
             <Text style={[s.readingBadgeText, { color: cfg.accent }]}>Reading Lesson</Text>
           </View>
-          <LatexText content={content.textContent || ''} style={s.readingText} background="#FFFFFF" />
+          <ChatMarkdown content={content.textContent || ''} isUser={false} />
         </View>
       );
     }
@@ -371,7 +372,7 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
                     {content.textContent && !isReading ? (
                       <View style={s.notesCard}>
                         <Text style={s.notesCardTitle}>Lesson Overview & Notes</Text>
-                        <LatexText content={content.textContent} style={s.notesCardBody} background="#FFFFFF" />
+                        <ChatMarkdown content={content.textContent} isUser={false} />
                       </View>
                     ) : null}
 
@@ -560,7 +561,7 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
                   {content.textContent && !isReading ? (
                     <View style={s.notesCard}>
                       <Text style={s.notesCardTitle}>Lesson Overview</Text>
-                      <LatexText content={content.textContent} style={s.notesCardBody} background="#FFFFFF" />
+                      <ChatMarkdown content={content.textContent} isUser={false} />
                     </View>
                   ) : null}
 
