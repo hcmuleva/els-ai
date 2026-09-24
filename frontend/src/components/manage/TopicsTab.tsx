@@ -16,7 +16,7 @@ import {
   Play, Video as VideoIcon, Headphones, Image as ImageIcon, BookOpen,
   FileText, Film, Link, Trophy, GraduationCap, ClipboardList, BarChart2, PenLine,
   Layers, Search, Filter, X, RefreshCw, Plus, FolderOpen, Pencil, Trash2, Eye,
-  Star, Leaf, Telescope, Music, Palette, ChevronLeft,
+  Star, Leaf, Telescope, Music, Palette, ChevronLeft, Link2, UploadCloud,
 } from 'lucide-react-native';
 
 import { STANDARD_OPTIONS, getStandardLabel } from '../../constants/standards';
@@ -107,14 +107,16 @@ const TOPIC_ICONS: { Icon: LucideIcon; color: string }[] = [
 // ── Topic Details Modal ───────────────────────────────────────────────────────
 type TypeCfg = { Icon: LucideIcon; color: string; bg: string };
 const CONTENT_TYPE_STYLE: Record<string, TypeCfg> = {
-  video:       { Icon: Play,       color: '#B71C1C', bg: '#FFE8D6' },
-  youtube_url: { Icon: Play,       color: '#B71C1C', bg: '#FFE8D6' },
-  reel_url:    { Icon: Film,       color: '#A81762', bg: '#FFE0F0' },
-  reel:        { Icon: Film,       color: '#A81762', bg: '#FFE0F0' },
-  audio:       { Icon: Headphones, color: '#554E6C', bg: '#EDE4FF' },
-  image:       { Icon: ImageIcon,  color: '#2D5DC9', bg: '#D6EAFF' },
-  text:        { Icon: BookOpen,   color: '#2F6B2D', bg: '#D6F5D6' },
-  document:    { Icon: FileText,   color: '#2D5DC9', bg: '#D6EAFF' },
+  links:       { Icon: Link2,       color: '#0284C7', bg: '#E0F2FE' },
+  file_upload: { Icon: UploadCloud, color: '#2D5DC9', bg: '#D6EAFF' },
+  text:        { Icon: BookOpen,    color: '#16A34A', bg: '#DCFCE7' },
+  video:       { Icon: Play,        color: '#0284C7', bg: '#E0F2FE' },
+  youtube_url: { Icon: Play,        color: '#0284C7', bg: '#E0F2FE' },
+  reel_url:    { Icon: Film,        color: '#0284C7', bg: '#E0F2FE' },
+  reel:        { Icon: Film,        color: '#0284C7', bg: '#E0F2FE' },
+  audio:       { Icon: Headphones,  color: '#554E6C', bg: '#EDE4FF' },
+  image:       { Icon: ImageIcon,   color: '#2D5DC9', bg: '#D6EAFF' },
+  document:    { Icon: FileText,    color: '#2D5DC9', bg: '#D6EAFF' },
 };
 const DEFAULT_CT_STYLE: TypeCfg = { Icon: Layers, color: '#525C6B', bg: '#F4F4FB' };
 function ctStyle(t: string): TypeCfg { return CONTENT_TYPE_STYLE[t] ?? DEFAULT_CT_STYLE; }
@@ -1291,8 +1293,8 @@ export default function TopicsTab({
               </ScrollView>
             </View>
           </View>
-          <SelectorModal visible={contentClassPickerOpen} title="Filter by Class" options={classOptions} selected={contentPickerClass} anyLabel="All Classes" onSelect={(v) => { setContentPickerClass(v); setContentClassPickerOpen(false); }} onClose={() => setContentClassPickerOpen(false)} />
-          <SelectorModal visible={contentSubjectPickerOpen} title="Filter by Subject" options={contentPickerSubjectOptions} selected={contentPickerSubject} anyLabel="All Subjects" isSubject onSelect={(v) => { setContentPickerSubject(v); setContentSubjectPickerOpen(false); }} onClose={() => setContentSubjectPickerOpen(false)} />
+          <SelectorModal visible={contentClassPickerOpen} title="Filter by Class" options={classOptions} selected={contentPickerClass} anyLabel="All Classes" useModal={false} onSelect={(v) => { setContentPickerClass(v); setContentClassPickerOpen(false); }} onClose={() => setContentClassPickerOpen(false)} />
+          <SelectorModal visible={contentSubjectPickerOpen} title="Filter by Subject" options={contentPickerSubjectOptions} selected={contentPickerSubject} anyLabel="All Subjects" isSubject useModal={false} onSelect={(v) => { setContentPickerSubject(v); setContentSubjectPickerOpen(false); }} onClose={() => setContentSubjectPickerOpen(false)} />
         </Modal>
 
         {/* ── Quiz picker (bottom sheet) ── */}
@@ -1332,7 +1334,7 @@ export default function TopicsTab({
               </ScrollView>
             </View>
           </View>
-          <SelectorModal visible={quizSubjectOpen} title="Filter by Subject" options={quizSubjectOptions} selected={quizSubjectFilter} anyLabel="All Subjects" isSubject onSelect={(v) => { setQuizSubjectFilter(v); setQuizSubjectOpen(false); }} onClose={() => setQuizSubjectOpen(false)} />
+          <SelectorModal visible={quizSubjectOpen} title="Filter by Subject" options={quizSubjectOptions} selected={quizSubjectFilter} anyLabel="All Subjects" isSubject useModal={false} onSelect={(v) => { setQuizSubjectFilter(v); setQuizSubjectOpen(false); }} onClose={() => setQuizSubjectOpen(false)} />
         </Modal>
 
         <StudentContentViewer
@@ -1344,8 +1346,8 @@ export default function TopicsTab({
         />
 
         {/* Draft selectors */}
-        <SelectorModal visible={draftClassOpen} title="Select Class" options={classOptions} selected={classLevel} onSelect={(v) => { setClassLevel(v); setSubject(''); setDraftClassOpen(false); }} onClose={() => setDraftClassOpen(false)} />
-        <SelectorModal visible={draftSubjectOpen} title="Select Subject" options={draftSubjectOptions} selected={subject} isSubject onSelect={(v) => { setSubject(v); setDraftSubjectOpen(false); }} onClose={() => setDraftSubjectOpen(false)} />
+        <SelectorModal visible={draftClassOpen} title="Select Class" options={classOptions} selected={classLevel} useModal={false} onSelect={(v) => { setClassLevel(v); setSubject(''); setDraftClassOpen(false); }} onClose={() => setDraftClassOpen(false)} />
+        <SelectorModal visible={draftSubjectOpen} title="Select Subject" options={draftSubjectOptions} selected={subject} isSubject useModal={false} onSelect={(v) => { setSubject(v); setDraftSubjectOpen(false); }} onClose={() => setDraftSubjectOpen(false)} />
       </View>
       </Modal>
 

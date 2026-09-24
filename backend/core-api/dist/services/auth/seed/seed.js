@@ -492,17 +492,6 @@ export async function initSchemaAndSeed() {
       UNIQUE(teacher_user_id, organization_id, class_level)
     );
   `);
-    await db.query(`
-    CREATE TABLE teacher_standard_subjects (
-      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-      teacher_user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
-      class_level VARCHAR(50) NOT NULL,
-      subject_id UUID REFERENCES subjects(id) ON DELETE RESTRICT,
-      created_at TIMESTAMP DEFAULT NOW(),
-      UNIQUE(teacher_user_id, organization_id, class_level, subject_id)
-    );
-  `);
     // 5.3 Subject catalog by standard
     await db.query(`
     CREATE TABLE subjects (
@@ -517,10 +506,21 @@ export async function initSchemaAndSeed() {
       author_user_id UUID REFERENCES users(id) ON DELETE SET NULL,
       is_external_author BOOLEAN DEFAULT false,
       class_level VARCHAR(50) NOT NULL,
-      class_id UUID REFERENCES class_levels(id) ON DELETE SET NULL,
+      class_id UUID,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW(),
       UNIQUE(organization_id, class_level, title)
+    );
+  `);
+    await db.query(`
+    CREATE TABLE teacher_standard_subjects (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      teacher_user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+      organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+      class_level VARCHAR(50) NOT NULL,
+      subject_id UUID REFERENCES subjects(id) ON DELETE RESTRICT,
+      created_at TIMESTAMP DEFAULT NOW(),
+      UNIQUE(teacher_user_id, organization_id, class_level, subject_id)
     );
   `);
     // 5.4 Content topics
@@ -529,7 +529,7 @@ export async function initSchemaAndSeed() {
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
       class_level VARCHAR(50) NOT NULL,
-      class_id UUID REFERENCES class_levels(id) ON DELETE SET NULL,
+      class_id UUID,
       subject_id UUID REFERENCES subjects(id) ON DELETE RESTRICT,
       title VARCHAR(255) NOT NULL,
       cover_image TEXT,
@@ -559,7 +559,7 @@ export async function initSchemaAndSeed() {
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
       class_level VARCHAR(50) NOT NULL,
-      class_id UUID REFERENCES class_levels(id) ON DELETE SET NULL,
+      class_id UUID,
       subject_id UUID REFERENCES subjects(id) ON DELETE RESTRICT,
       title VARCHAR(255) NOT NULL,
       content_type VARCHAR(50) NOT NULL,
@@ -644,7 +644,7 @@ export async function initSchemaAndSeed() {
       thumbnail_image TEXT,
       created_by UUID, -- Can refer to a user ID or be null if system/AI
       class_level VARCHAR(50),
-      class_id UUID REFERENCES class_levels(id) ON DELETE SET NULL,
+      class_id UUID,
       subject_id UUID REFERENCES subjects(id) ON DELETE RESTRICT,
       quiz_type VARCHAR(100) NOT NULL, -- drag_drop, image_select, sound_match, memory_game
       difficulty_level VARCHAR(50),
@@ -673,7 +673,7 @@ export async function initSchemaAndSeed() {
       question_data JSONB NOT NULL,
       -- First-class subject / class columns (also mirrored in question_data->_meta for legacy compat)
       class_level VARCHAR(50),
-      class_id UUID REFERENCES class_levels(id) ON DELETE SET NULL,
+      class_id UUID,
       subject_id UUID REFERENCES subjects(id) ON DELETE SET NULL,
       created_at TIMESTAMP DEFAULT NOW()
     );
@@ -1129,10 +1129,8 @@ async function ensureDefaultOrgAndPlanSeeds() {
 }
 async function ensureAdminDemoUser() {
     const passwordHash = await bcrypt.hash('welcome', 10);
-    const defaultOrgResult = await db.query(`SELECT id FROM organizations WHERE is_default = true LIMIT 1`);
-    const fallbackOrgResult = (defaultOrgResult.rowCount ?? 0) > 0
-        ? defaultOrgResult
-        : await db.query(`SELECT id FROM organizations WHERE subdomain = 'els-academy' LIMIT 1`);
+    const defaultOrgResult = await db.query(`SELECT id FROM organizations WHERE subdomain = 'els-academy' LIMIT 1`);
+    const fallbackOrgResult = defaultOrgResult;
     const organizationId = fallbackOrgResult.rows[0]?.id;
     if (!organizationId)
         return;
@@ -1165,10 +1163,8 @@ async function ensureAdminDemoUser() {
 }
 async function ensureSuperAdminDemoUser() {
     const passwordHash = await bcrypt.hash('welcome', 10);
-    const defaultOrgResult = await db.query(`SELECT id FROM organizations WHERE is_default = true LIMIT 1`);
-    const fallbackOrgResult = (defaultOrgResult.rowCount ?? 0) > 0
-        ? defaultOrgResult
-        : await db.query(`SELECT id FROM organizations WHERE subdomain = 'els-academy' LIMIT 1`);
+    const defaultOrgResult = await db.query(`SELECT id FROM organizations WHERE subdomain = 'els-academy' LIMIT 1`);
+    const fallbackOrgResult = defaultOrgResult;
     const organizationId = fallbackOrgResult.rows[0]?.id;
     if (!organizationId)
         return;

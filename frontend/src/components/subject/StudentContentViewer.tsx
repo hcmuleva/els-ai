@@ -3,7 +3,7 @@ import LatexText from '../common/LatexText';
 import { ChatMarkdown } from '../chat/ChatMarkdown';
 import { Dimensions, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { ChevronLeft, ChevronRight, BookOpen, Play, Pause, Film, Headphones, Image as ImageIcon, FileText, Layers, X, Trophy, Sparkles } from 'lucide-react-native';
+import { ChevronLeft, ChevronRight, BookOpen, Play, Pause, Film, Headphones, Image as ImageIcon, FileText, Layers, X, Trophy, Sparkles, Link2, UploadCloud } from 'lucide-react-native';
 import { Video, ResizeMode } from 'expo-av';
 import * as Linking from 'expo-linking';
 import YoutubePlayer from 'react-native-youtube-iframe';
@@ -12,6 +12,9 @@ import QuizRenderer from '../quiz/QuizRenderer';
 import PlayQuizCTA from '../quiz/PlayQuizCTA';
 import AudioPlayer from '../media/AudioPlayer';
 import DocumentViewer from '../media/DocumentViewer';
+import UniversalLinkPlayer from '../media/UniversalLinkPlayer';
+import UniversalFileViewer from '../media/UniversalFileViewer';
+import RichTextRenderer from '../text/RichTextRenderer';
 import StudentVideoLearningView from '../student/StudentVideoLearningView';
 import { createVideoSectionsApi } from '../../api/videoSections';
 import { API_BASE_URL, useAuth } from '../../context/AuthContext';
@@ -47,13 +50,15 @@ type Props = {
 
 type TypeCfg = { label: string; Icon: LucideIcon; accent: string; bg: string };
 const TYPE_CONFIG: Record<string, TypeCfg> = {
-  video: { label: 'YouTube Video', Icon: Play, accent: '#B71C1C', bg: '#FFE8D6' },
-  youtube_url: { label: 'YouTube Video', Icon: Play, accent: '#B71C1C', bg: '#FFE8D6' },
-  reel_url: { label: 'Reel', Icon: Film, accent: '#A81762', bg: '#FFE0F0' },
-  reel: { label: 'Reel', Icon: Film, accent: '#A81762', bg: '#FFE0F0' },
+  links: { label: 'Links', Icon: Link2, accent: '#0284C7', bg: '#E0F2FE' },
+  file_upload: { label: 'File', Icon: UploadCloud, accent: '#2D5DC9', bg: '#D6EAFF' },
+  text: { label: 'Text', Icon: BookOpen, accent: '#16A34A', bg: '#DCFCE7' },
+  video: { label: 'Video', Icon: Play, accent: '#0284C7', bg: '#E0F2FE' },
+  youtube_url: { label: 'YouTube Video', Icon: Play, accent: '#0284C7', bg: '#E0F2FE' },
+  reel_url: { label: 'Reel', Icon: Film, accent: '#0284C7', bg: '#E0F2FE' },
+  reel: { label: 'Reel', Icon: Film, accent: '#0284C7', bg: '#E0F2FE' },
   audio: { label: 'Audio', Icon: Headphones, accent: '#554E6C', bg: '#EDE4FF' },
-  image: { label: 'Image / Video', Icon: ImageIcon, accent: '#2D5DC9', bg: '#D6EAFF' },
-  text: { label: 'Reading', Icon: BookOpen, accent: '#2F6B2D', bg: '#D6F5D6' },
+  image: { label: 'File', Icon: ImageIcon, accent: '#2D5DC9', bg: '#D6EAFF' },
   document: { label: 'Document', Icon: FileText, accent: '#2D5DC9', bg: '#D6EAFF' },
 };
 const DEFAULT_TYPE: TypeCfg = { label: 'Content', Icon: Layers, accent: '#2D5DC9', bg: '#D6EAFF' };
@@ -78,7 +83,13 @@ const sectionOrderFromId = (id: string): number | undefined => {
 };
 
 const isYouTubeUrl = (url: string): boolean => /(?:youtube\.com|youtu\.be)/i.test(url);
-const isImageUrl = (url: string): boolean => /\.(png|jpe?g|gif|webp|bmp|svg)(?:$|[?#])/i.test(url);
+const isImageUrl = (url: string): boolean =>
+  /\.(png|jpe?g|gif|webp|bmp|svg|avif|ico)(?:$|[?#])/i.test(url) ||
+  /images\.unsplash\.com/i.test(url) ||
+  /^data:image\//i.test(url) ||
+  /(?:auto|format)=(?:jpg|jpeg|png|webp|avif)/i.test(url) ||
+  /\/images?\//i.test(url) ||
+  /\b(photo|image|picture|graphic)\b/i.test(url);
 const isAudioUrl = (url: string): boolean => /\.(mp3|wav|ogg|aac|m4a|flac)(?:$|[?#])/i.test(url);
 const isVideoUrl = (url: string): boolean => /\.(mp4|mov|m4v|webm|avi|mkv)(?:$|[?#])/i.test(url);
 const isDocumentUrl = (url: string): boolean => /\.(pdf|doc|docx|xls|xlsx|ppt|pptx|zip|rar)(?:$|[?#])/i.test(url);
@@ -167,18 +178,14 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
   const url = resolveMediaUrl(content.externalUrl ?? content.mediaUrl);
   const isSectioned = !!hasSections[content.id];
 
-  const isVideo =
-    ['youtube_url', 'video', 'reel_url', 'reel'].includes(content.contentType) ||
-    (!!url && (isYouTubeUrl(url) || isVideoUrl(url)));
-  const isAudio =
-    content.contentType === 'audio' ||
-    (!!url && isAudioUrl(url) && !isVideo);
-  const isImage =
-    (content.contentType === 'image' || (!!url && isImageUrl(url))) && !isVideo && !isAudio && !isDocumentUrl(url);
-  const isDoc =
-    (content.contentType === 'document' || (!!url && isDocumentUrl(url))) && !isVideo && !isAudio;
+  const isLinkType =
+    ['links', 'youtube_url', 'video', 'reel_url', 'reel'].includes(content.contentType) ||
+    (!!url && (isYouTubeUrl(url) || (!content.contentType && !content.textContent)));
+  const isFileType =
+    ['file_upload', 'image', 'document', 'pdf', 'audio'].includes(content.contentType) ||
+    (!!url && !isLinkType);
   const isReading =
-    !isVideo && !isAudio && !isImage && !isDoc && (content.contentType === 'text' || !!content.textContent);
+    !isLinkType && !isFileType && (content.contentType === 'text' || !!content.textContent);
 
   const renderPlayer = (isTheater: boolean) => {
     if (isSectioned && url) {
@@ -192,82 +199,50 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
       );
     }
 
-    if (isVideo && url) {
-      const videoId = getYouTubeVideoId(url);
-      if (videoId) {
-        return Platform.OS === 'web' ? (
-          <View style={s.webVideoFrame}>
-            <iframe
-              src={`https://www.youtube.com/embed/${videoId}?rel=0&controls=1`}
-              style={{ width: '100%', height: '100%', border: 'none' } as any}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </View>
-        ) : (
-          <YoutubePlayer
-            height={isTheater ? 420 : (Dimensions.get('window').width - 32) * (9 / 16)}
-            videoId={videoId}
-            webViewStyle={{ opacity: 0.99 }}
-          />
-        );
-      }
-      return Platform.OS === 'web' ? (
-        <video src={url} controls style={{ width: '100%', height: '100%', borderRadius: 0 }} />
-      ) : (
-        <Video source={{ uri: url }} useNativeControls resizeMode={ResizeMode.CONTAIN} style={{ width: '100%', height: '100%' }} />
+    if (isLinkType && url) {
+      return (
+        <UniversalLinkPlayer
+          url={url}
+          title={content.title}
+          showBadge={false}
+          fillContainer
+        />
       );
     }
 
-    if (isAudio && url) {
+    if (isFileType && url) {
       return (
-        <View style={s.audioStageContainer}>
-          <AudioPlayer uri={url} title={content.title} subtitle={topic.subject} accentColor="#2D5DC9" bgColor="#EDE4FF" />
-        </View>
-      );
-    }
-
-    if (isImage && url) {
-      return (
-        <View style={s.imageStageFrame}>
-          <Image source={{ uri: url }} style={s.imageStageImg} resizeMode="contain" />
-        </View>
-      );
-    }
-
-    if (isDoc && url) {
-      return (
-        <View style={s.docStageContainer}>
-          <DocumentViewer uri={url} title={content.title} accentColor="#2D5DC9" bgColor="#D6EAFF" />
-        </View>
+        <UniversalFileViewer
+          uri={url}
+          title={content.title}
+          textContent={content.textContent}
+          height={isTheater ? 420 : 320}
+        />
       );
     }
 
     if (isReading) {
       return (
         <View style={s.readingStageBody}>
-          <View style={[s.readingBadge, { backgroundColor: `${cfg.accent}15` }]}>
-            <BookOpen size={14} color={cfg.accent} />
-            <Text style={[s.readingBadgeText, { color: cfg.accent }]}>Reading Lesson</Text>
+          <View style={[s.readingBadge, { backgroundColor: '#DCFCE7' }]}>
+            <BookOpen size={14} color="#16A34A" />
+            <Text style={[s.readingBadgeText, { color: '#16A34A' }]}>Text Lesson</Text>
           </View>
-          <ChatMarkdown content={content.textContent || ''} isUser={false} />
+          <RichTextRenderer content={content.textContent || ''} isUser={false} />
         </View>
       );
     }
 
     if (url) {
       return (
-        <View style={s.emptyPlayer}>
-          <Pressable style={s.openBtn} onPress={() => openExternalResource(url)}>
-            <Text style={s.openBtnText}>Open Resource Link</Text>
-          </Pressable>
-        </View>
+        <UniversalLinkPlayer url={url} title={content.title} showBadge={false} fillContainer />
       );
     }
 
     return (
       <View style={s.emptyPlayer}>
-        <Text style={s.emptyPlayerText}>{content.title}</Text>
+        <Layers size={36} color="#8A8AA0" />
+        <Text style={s.emptyPlayerText}>No media available for this section</Text>
       </View>
     );
   };
@@ -328,12 +303,10 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
                       {/* Video / Media Player Display Area */}
                       <View
                         style={[
-                          isVideo && s.stagePlayerWrapVideo,
-                          isAudio && s.stagePlayerWrapAudio,
-                          isImage && s.stagePlayerWrapImage,
-                          isDoc && s.stagePlayerWrapDoc,
+                          isLinkType && s.stagePlayerWrapVideo,
+                          isFileType && s.stagePlayerWrapImage,
                           isReading && s.stagePlayerWrapText,
-                          !isVideo && !isAudio && !isImage && !isDoc && !isReading && s.stagePlayerWrapFallback,
+                          !isLinkType && !isFileType && !isReading && s.stagePlayerWrapFallback,
                         ]}
                       >
                         {renderPlayer(true)}
@@ -372,7 +345,7 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
                     {content.textContent && !isReading ? (
                       <View style={s.notesCard}>
                         <Text style={s.notesCardTitle}>Lesson Overview & Notes</Text>
-                        <ChatMarkdown content={content.textContent} isUser={false} />
+                        <RichTextRenderer content={content.textContent} isUser={false} />
                       </View>
                     ) : null}
 
@@ -520,12 +493,10 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
                   <View style={s.stageCard}>
                     <View
                       style={[
-                        isVideo && s.stagePlayerWrapVideo,
-                        isAudio && s.stagePlayerWrapAudio,
-                        isImage && s.stagePlayerWrapImage,
-                        isDoc && s.stagePlayerWrapDoc,
+                        isLinkType && s.stagePlayerWrapVideo,
+                        isFileType && s.stagePlayerWrapImage,
                         isReading && s.stagePlayerWrapText,
-                        !isVideo && !isAudio && !isImage && !isDoc && !isReading && s.stagePlayerWrapFallback,
+                        !isLinkType && !isFileType && !isReading && s.stagePlayerWrapFallback,
                       ]}
                     >
                       {renderPlayer(false)}
@@ -561,7 +532,7 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
                   {content.textContent && !isReading ? (
                     <View style={s.notesCard}>
                       <Text style={s.notesCardTitle}>Lesson Overview</Text>
-                      <ChatMarkdown content={content.textContent} isUser={false} />
+                      <RichTextRenderer content={content.textContent} isUser={false} />
                     </View>
                   ) : null}
 
@@ -756,12 +727,14 @@ const s = StyleSheet.create({
   scrollContainer: {
     paddingBottom: 48,
     paddingTop: 16,
+    ...(Platform.OS === 'web' ? ({ userSelect: 'text' as any }) : {}),
   },
   bodyConstrained: {
     maxWidth: 1440,
     width: '100%',
     alignSelf: 'center',
     paddingHorizontal: 16,
+    ...(Platform.OS === 'web' ? ({ userSelect: 'text' as any }) : {}),
   },
 
   /* ── 2-Column Theatre Layout ── */

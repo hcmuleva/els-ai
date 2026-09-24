@@ -8,7 +8,12 @@ const resolveApiBaseUrl = () => {
   const configuredUrl = process.env.EXPO_PUBLIC_API_BASE_URL || process.env.EXPO_PUBLIC_API_URL;
   if (configuredUrl && configuredUrl.trim().length > 0) return trimTrailingSlash(configuredUrl.trim());
 
-  if (typeof window !== 'undefined') return '/els-ai/api';
+  if (typeof window !== 'undefined') {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      return 'http://localhost:4000';
+    }
+    return '/els-ai/api';
+  }
   return 'http://localhost:4000';
 };
 
@@ -82,7 +87,7 @@ type AuthContextValue = {
   changePassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; error?: string }>;
 };
 
-const AuthContext = createContext<AuthContextValue | null>(null);
+export const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<AppUser | null>(null);

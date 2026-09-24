@@ -12,6 +12,39 @@
 
 BEGIN;
 
+ALTER TABLE learning_content_sections ADD COLUMN IF NOT EXISTS title VARCHAR(255);
+ALTER TABLE learning_content_sections ADD COLUMN IF NOT EXISTS quiz_id UUID;
+ALTER TABLE topic_content_sections ADD COLUMN IF NOT EXISTS title VARCHAR(255);
+ALTER TABLE quizzes ADD COLUMN IF NOT EXISTS kind VARCHAR(100);
+
+ALTER TABLE classroom_assignments ADD COLUMN IF NOT EXISTS description TEXT;
+ALTER TABLE classroom_assignments ADD COLUMN IF NOT EXISTS attachment_url TEXT;
+ALTER TABLE classroom_assignments ADD COLUMN IF NOT EXISTS instructions TEXT;
+ALTER TABLE classroom_assignments ADD COLUMN IF NOT EXISTS due_date TIMESTAMP;
+ALTER TABLE classroom_assignments ADD COLUMN IF NOT EXISTS is_time_bound BOOLEAN DEFAULT false;
+ALTER TABLE classroom_assignments ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT NOW();
+
+ALTER TABLE classroom_assignment_submissions ADD COLUMN IF NOT EXISTS submission_text TEXT;
+ALTER TABLE classroom_assignment_submissions ADD COLUMN IF NOT EXISTS attachment_url TEXT;
+ALTER TABLE classroom_assignment_submissions ADD COLUMN IF NOT EXISTS submitted_at TIMESTAMP DEFAULT NOW();
+ALTER TABLE classroom_assignment_submissions ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT NOW();
+
+CREATE TABLE IF NOT EXISTS classroom_contents (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  classroom_id UUID REFERENCES classrooms(id) ON DELETE CASCADE,
+  content_id UUID REFERENCES learning_contents(id) ON DELETE CASCADE,
+  sort_order INTEGER DEFAULT 0,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS classroom_quizzes (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  classroom_id UUID REFERENCES classrooms(id) ON DELETE CASCADE,
+  quiz_id UUID REFERENCES quizzes(id) ON DELETE CASCADE,
+  sort_order INTEGER DEFAULT 0,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
 -- ── v_subjects ─────────────────────────────────────────────────────────
 -- 1:1 alias of `subjects` plus alias rows from subject_aliases collapsed
 -- into a comma-separated string (handy for display/filter dropdowns).

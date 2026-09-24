@@ -14,6 +14,7 @@ import {
   Play, Video as VideoIcon, Headphones, Image as ImageIcon, BookOpen,
   FileText, Film, Link, Layers, Plus, FolderOpen, Pencil, Trash2, Eye,
   Filter, LayoutList, Trophy, ListChecks, Search, X, Info, Sparkles,
+  Link2, UploadCloud, Clipboard,
 } from 'lucide-react-native';
 import React from 'react';
 import { useLocalSearchParams } from 'expo-router';
@@ -35,10 +36,11 @@ import StudentVideoLearningView from '../student/StudentVideoLearningView';
 import QuizAttachPanel from '../content/QuizAttachPanel';
 import { createVideoSectionsApi } from '../../api/videoSections';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import YoutubePlayer from 'react-native-youtube-iframe';
-import { Video, ResizeMode } from 'expo-av';
-import AudioPlayer from '../media/AudioPlayer';
-import DocumentViewer from '../media/DocumentViewer';
+import UniversalLinkPlayer from '../media/UniversalLinkPlayer';
+import UniversalFileViewer from '../media/UniversalFileViewer';
+import RichTextRenderer, { detectTextFormat } from '../text/RichTextRenderer';
+import { parseLink } from '../../utils/linkPreviewUtils';
+import { ALL_SUPPORTED_FILE_TYPES } from '../../utils/fileUpload';
 import LatexText from '../common/LatexText';
 import { ChatMarkdown } from '../chat/ChatMarkdown';
 
@@ -47,7 +49,13 @@ const getYouTubeVideoId = (url: string): string | null => {
   return match ? match[1] : null;
 };
 const isYouTubeUrl = (url: string): boolean => /(?:youtube\.com|youtu\.be)/i.test(url);
-const isImageUrl = (url: string): boolean => /\.(png|jpe?g|gif|webp|bmp|svg)(?:$|[?#])/i.test(url);
+const isImageUrl = (url: string): boolean =>
+  /\.(png|jpe?g|gif|webp|bmp|svg|avif|ico)(?:$|[?#])/i.test(url) ||
+  /images\.unsplash\.com/i.test(url) ||
+  /^data:image\//i.test(url) ||
+  /(?:auto|format)=(?:jpg|jpeg|png|webp|avif)/i.test(url) ||
+  /\/images?\//i.test(url) ||
+  /\b(photo|image|picture|graphic)\b/i.test(url);
 const isAudioUrl = (url: string): boolean => /\.(mp3|wav|ogg|aac|m4a|flac)(?:$|[?#])/i.test(url);
 const isVideoUrl = (url: string): boolean => /\.(mp4|mov|m4v|webm|avi|mkv)(?:$|[?#])/i.test(url);
 const isDocumentUrl = (url: string): boolean => /\.(pdf|docx?|pptx?|xlsx?)(?:$|[?#])/i.test(url);
@@ -69,7 +77,7 @@ type ContentSection = {
 
 type SectionDraft = {
   draftId: string; title: string;
-  contentType: 'youtube_url' | 'reel_url' | 'image' | 'audio' | 'text';
+  contentType: 'links' | 'file_upload' | 'text' | 'youtube_url' | 'reel_url' | 'image' | 'audio';
   mediaUrl: string; externalUrl: string; textContent: string;
   quizId: string | null;
 };
@@ -80,6 +88,45 @@ type ModalTab = 'setup' | 'sections' | 'preview';
 type ApiFetch = (path: string, options?: RequestInit) => Promise<Response>;
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
+const readFromClipboard = async (): Promise<string | null> => {
+  try {
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.readText) {
+      const text = await navigator.clipboard.readText();
+      return text || null;
+    }
+  } catch (err) {
+    console.warn('Clipboard read failed:', err);
+  }
+  return null;
+};
+
+const pickTextFromFile = (): Promise<string | null> => {
+  return new Promise((resolve) => {
+    if (typeof document === 'undefined') {
+      resolve(null);
+      return;
+    }
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.html,.htm,.md,.markdown,.txt,.mmd,.mermaid';
+    input.onchange = (e: any) => {
+      const file = e.target?.files?.[0];
+      if (!file) {
+        resolve(null);
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const text = event.target?.result;
+        resolve(typeof text === 'string' ? text : null);
+      };
+      reader.onerror = () => resolve(null);
+      reader.readAsText(file);
+    };
+    input.click();
+  });
+};
+
 function resolveUrl(url?: string) {
   if (!url) return '';
   return url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
@@ -87,7 +134,7 @@ function resolveUrl(url?: string) {
 let _uid = 0;
 function uid() { return `d-${++_uid}`; }
 function makeSection(): SectionDraft {
-  return { draftId: uid(), title: '', contentType: 'youtube_url', mediaUrl: '', externalUrl: '', textContent: '', quizId: null };
+  return { draftId: uid(), title: '', contentType: 'links', mediaUrl: '', externalUrl: '', textContent: '', quizId: null };
 }
 function moveUp<T>(arr: T[], idx: number): T[] {
   if (idx === 0) return arr;
@@ -104,24 +151,24 @@ type SubjectCatalogItem = { classLevel: string; title: string; coverImage?: stri
 type LucideIcon = React.ComponentType<{ size?: number; color?: string }>;
 type TypeCfg = { Icon: LucideIcon; color: string; bg: string; label: string };
 const TYPE_STYLE: Record<string, TypeCfg> = {
-  video:       { Icon: Play,       color: '#B71C1C', bg: '#FFE8D6', label: 'Video' },
-  youtube_url: { Icon: Play,       color: '#B71C1C', bg: '#FFE8D6', label: 'YouTube' },
-  reel_url:    { Icon: Film,       color: '#A81762', bg: '#FFE0F0', label: 'Reel' },
-  reel:        { Icon: Film,       color: '#A81762', bg: '#FFE0F0', label: 'Reel' },
-  audio:       { Icon: Headphones, color: '#554E6C', bg: '#EDE4FF', label: 'Audio' },
-  image:       { Icon: ImageIcon,  color: '#2D5DC9', bg: '#D6EAFF', label: 'Image / Video' },
-  text:        { Icon: BookOpen,   color: '#2F6B2D', bg: '#D6F5D6', label: 'Text' },
-  document:    { Icon: FileText,   color: '#2D5DC9', bg: '#D6EAFF', label: 'Doc' },
+  links:       { Icon: Link2,       color: '#0284C7', bg: '#E0F2FE', label: 'Links' },
+  file_upload: { Icon: UploadCloud, color: '#2D5DC9', bg: '#D6EAFF', label: 'File Upload' },
+  text:        { Icon: BookOpen,    color: '#16A34A', bg: '#DCFCE7', label: 'Text' },
+  video:       { Icon: Play,        color: '#0284C7', bg: '#E0F2FE', label: 'Video' },
+  youtube_url: { Icon: Play,        color: '#0284C7', bg: '#E0F2FE', label: 'YouTube' },
+  reel_url:    { Icon: Film,        color: '#0284C7', bg: '#E0F2FE', label: 'Reel' },
+  reel:        { Icon: Film,        color: '#0284C7', bg: '#E0F2FE', label: 'Reel' },
+  audio:       { Icon: Headphones,  color: '#554E6C', bg: '#EDE4FF', label: 'Audio' },
+  image:       { Icon: ImageIcon,   color: '#2D5DC9', bg: '#D6EAFF', label: 'File Upload' },
+  document:    { Icon: FileText,    color: '#2D5DC9', bg: '#D6EAFF', label: 'Doc' },
 };
 const DEFAULT_TYPE: TypeCfg = { Icon: Layers, color: '#525C6B', bg: '#F4F4FB', label: '' };
 function ts(t: string): TypeCfg { return TYPE_STYLE[t] ?? { ...DEFAULT_TYPE, label: t }; }
 
 const SECTION_TYPE_CHOICES: { value: SectionDraft['contentType']; label: string; Icon: LucideIcon; color: string }[] = [
-  { value: 'youtube_url', label: 'YouTube', Icon: Play,       color: '#B71C1C' },
-  { value: 'reel_url',    label: 'Reel URL', Icon: Film,      color: '#A81762' },
-  { value: 'image',       label: 'Image / Video',    Icon: ImageIcon, color: '#2D5DC9' },
-  { value: 'audio',       label: 'Audio',    Icon: Headphones,color: '#554E6C' },
-  { value: 'text',        label: 'Text',     Icon: BookOpen,  color: '#2F6B2D' },
+  { value: 'links',       label: 'Links',        Icon: Link2,       color: '#0284C7' },
+  { value: 'file_upload', label: 'File Upload',  Icon: UploadCloud, color: '#2D5DC9' },
+  { value: 'text',        label: 'Text',         Icon: BookOpen,    color: '#16A34A' },
 ];
 
 // SelectorSheet → replaced by shared SelectorModal component
@@ -167,19 +214,14 @@ function ResponsiveMediaStage({
 }: ResponsiveMediaStageProps) {
   const cfg = content?.contentType ? ts(content.contentType) : ts('');
   const mediaUrl = content ? resolveUrl(content.externalUrl ?? content.mediaUrl) : '';
-  const ytId = mediaUrl ? getYouTubeVideoId(mediaUrl) : null;
-  const isVideo =
-    ['youtube_url', 'video', 'reel_url', 'reel'].includes(content?.contentType || '') ||
-    (!!mediaUrl && (isYouTubeUrl(mediaUrl) || isVideoUrl(mediaUrl)));
-  const isAudio =
-    content?.contentType === 'audio' ||
-    (!!mediaUrl && isAudioUrl(mediaUrl) && !isVideo);
-  const isImage =
-    (content?.contentType === 'image' || (!!mediaUrl && isImageUrl(mediaUrl))) && !isVideo && !isAudio && !isDocumentUrl(mediaUrl);
-  const isDoc =
-    (content?.contentType === 'document' || content?.contentType === 'pdf' || (!!mediaUrl && isDocumentUrl(mediaUrl))) && !isVideo && !isAudio;
+  const isLinkType =
+    ['links', 'youtube_url', 'video', 'reel_url', 'reel'].includes(content?.contentType || '') ||
+    (!!mediaUrl && (isYouTubeUrl(mediaUrl) || (!content?.contentType && !content?.textContent)));
+  const isFileType =
+    ['file_upload', 'image', 'document', 'pdf', 'audio'].includes(content?.contentType || '') ||
+    (!!mediaUrl && !isLinkType);
   const isReading =
-    !isVideo && !isAudio && !isImage && !isDoc && (content?.contentType === 'text' || !!content?.textContent);
+    !isLinkType && !isFileType && (content?.contentType === 'text' || !!content?.textContent);
 
   return (
     <View style={{ gap: 12 }}>
@@ -216,131 +258,47 @@ function ResponsiveMediaStage({
             videoUrl={mediaUrl}
             apiFetch={apiFetch}
           />
-        ) : isVideo ? (
+        ) : isLinkType ? (
           <View style={c.stagePlayerWrapVideo}>
-            {mediaUrl ? (
-              ytId ? (
-                Platform.OS === 'web' ? (
-                  <iframe
-                    src={`https://www.youtube.com/embed/${ytId}?rel=0&controls=1`}
-                    style={{ width: '100%', height: '100%', border: 'none' } as any}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                ) : (
-                  <YoutubePlayer height={260} videoId={ytId} />
-                )
-              ) : Platform.OS === 'web' ? (
-                <video src={mediaUrl} controls style={{ width: '100%', height: '100%', borderRadius: 0 }} />
-              ) : (
-                <Video source={{ uri: mediaUrl }} useNativeControls resizeMode={ResizeMode.CONTAIN} style={{ width: '100%', height: '100%' }} />
-              )
-            ) : (
-              <View style={c.stagePlaceholder}>
-                <View style={[c.stagePlaceholderIconBox, { backgroundColor: 'rgba(255,255,255,0.08)' }]}>
-                  <VideoIcon size={32} color="#94A3B8" />
-                </View>
-                <Text style={c.stagePlaceholderTitleDark}>Video Stage Ready</Text>
-                <Text style={c.stagePlaceholderSubDark}>Enter a YouTube or video URL to preview playback</Text>
-              </View>
-            )}
+            <UniversalLinkPlayer
+              url={mediaUrl}
+              title={content?.title || `Section ${sectionIndex + 1}`}
+              showBadge={false}
+              fillContainer
+            />
           </View>
-        ) : isAudio ? (
-          <View style={c.stagePlayerWrapAudio}>
-            {mediaUrl ? (
-              <AudioPlayer
-                uri={mediaUrl}
-                title={content?.title || `Section ${sectionIndex + 1}`}
-                subtitle={subject || 'Audio Lesson'}
-                accentColor="#2D5DC9"
-                bgColor="#FAF5FF"
-              />
-            ) : (
-              <View style={c.stagePlaceholder}>
-                <View style={[c.stagePlaceholderIconBox, { backgroundColor: '#F3E8FF' }]}>
-                  <Headphones size={30} color="#7C3AED" />
-                </View>
-                <Text style={c.stagePlaceholderTitle}>Audio Stage Ready</Text>
-                <Text style={c.stagePlaceholderSub}>Add an audio URL or upload an audio file to preview</Text>
-              </View>
-            )}
-          </View>
-        ) : isImage ? (
+        ) : isFileType ? (
           <View style={c.stagePlayerWrapImage}>
-            {mediaUrl ? (
-              <Image
-                source={{ uri: mediaUrl }}
-                style={{ width: '100%', height: 320, maxHeight: 440 }}
-                resizeMode="contain"
-              />
-            ) : (
-              <View style={c.stagePlaceholder}>
-                <View style={[c.stagePlaceholderIconBox, { backgroundColor: '#EFF6FF' }]}>
-                  <ImageIcon size={30} color="#2563EB" />
-                </View>
-                <Text style={c.stagePlaceholderTitle}>Image Stage Ready</Text>
-                <Text style={c.stagePlaceholderSub}>Add an image URL or upload an image to preview</Text>
-              </View>
-            )}
-          </View>
-        ) : isDoc ? (
-          <View style={c.stagePlayerWrapDoc}>
-            {mediaUrl ? (
-              <DocumentViewer
-                uri={mediaUrl}
-                title={content?.title || `Section ${sectionIndex + 1}`}
-                accentColor="#2D5DC9"
-                bgColor="#D6EAFF"
-              />
-            ) : (
-              <View style={c.stagePlaceholder}>
-                <View style={[c.stagePlaceholderIconBox, { backgroundColor: '#EEF2FF' }]}>
-                  <FileText size={30} color="#4F46E5" />
-                </View>
-                <Text style={c.stagePlaceholderTitle}>Document Stage Ready</Text>
-                <Text style={c.stagePlaceholderSub}>Attach a document or PDF URL to preview document viewer</Text>
-              </View>
-            )}
+            <UniversalFileViewer
+              uri={mediaUrl}
+              title={content?.title || `Section ${sectionIndex + 1}`}
+              textContent={content?.textContent}
+              height={320}
+            />
           </View>
         ) : isReading ? (
           <View style={c.stagePlayerWrapText}>
             {content?.textContent ? (
               <View style={{ gap: 10, width: '100%' }}>
                 <View style={c.readingBadge}>
-                  <BookOpen size={13} color="#2563EB" />
-                  <Text style={c.readingBadgeText}>Reading Lesson</Text>
+                  <BookOpen size={13} color="#16A34A" />
+                  <Text style={[c.readingBadgeText, { color: '#16A34A' }]}>Text Lesson</Text>
                 </View>
-                <ChatMarkdown content={content.textContent} isUser={false} />
+                <RichTextRenderer content={content.textContent} isUser={false} />
               </View>
             ) : (
               <View style={c.stagePlaceholder}>
                 <View style={[c.stagePlaceholderIconBox, { backgroundColor: '#F1F5F9' }]}>
                   <BookOpen size={30} color="#64748B" />
                 </View>
-                <Text style={c.stagePlaceholderTitle}>Reading Lesson Ready</Text>
-                <Text style={c.stagePlaceholderSub}>Add lesson text or LaTeX content to preview reading format</Text>
+                <Text style={c.stagePlaceholderTitle}>Text Lesson Ready</Text>
+                <Text style={c.stagePlaceholderSub}>Add lesson text (plain, markdown, or HTML) to preview</Text>
               </View>
             )}
           </View>
         ) : (
           <View style={c.stagePlayerWrapFallback}>
-            {mediaUrl ? (
-              <View style={c.stagePlaceholder}>
-                <View style={[c.stagePlaceholderIconBox, { backgroundColor: '#EFF6FF' }]}>
-                  <Link size={28} color="#2563EB" />
-                </View>
-                <Text style={c.stagePlaceholderTitle}>External Link Resource</Text>
-                <Text style={c.stagePlaceholderSub} numberOfLines={1}>{mediaUrl}</Text>
-              </View>
-            ) : (
-              <View style={c.stagePlaceholder}>
-                <View style={[c.stagePlaceholderIconBox, { backgroundColor: '#F1F5F9' }]}>
-                  <Layers size={28} color="#94A3B8" />
-                </View>
-                <Text style={c.stagePlaceholderTitle}>Section Stage Ready</Text>
-                <Text style={c.stagePlaceholderSub}>Configure section content on the left to preview</Text>
-              </View>
-            )}
+            <UniversalLinkPlayer url={mediaUrl} title={content?.title} height={260} />
           </View>
         )}
 
@@ -381,7 +339,7 @@ function ResponsiveMediaStage({
       {content?.textContent && !isReading ? (
         <View style={c.notesCard}>
           <Text style={c.notesCardTitle}>Lesson Overview & Notes</Text>
-          <ChatMarkdown content={content.textContent} isUser={false} />
+          <RichTextRenderer content={content.textContent} isUser={false} />
         </View>
       ) : null}
 
@@ -795,7 +753,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
   user: AppUser | null;
   onClose: () => void;
   onSuccess: () => void;
-  onUploadMedia: (sectionDraftId: string, onProgress?: (pct: number) => void) => Promise<{ url: string; contentType: SectionDraft['contentType'] }>;
+  onUploadMedia: (sectionDraftId: string, onProgress?: (pct: number) => void) => Promise<{ url: string; contentType?: string; textContent?: string }>;
 }) {
   const { width } = useWindowDimensions();
   const isDesktop = width >= 768;
@@ -1053,8 +1011,13 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
   const handleUploadMedia = async (draftId: string) => {
     setUploadingId(draftId);
     try {
-      const { url, contentType } = await onUploadMedia(draftId, setUploadProgress);
-      updateSection(draftId, { mediaUrl: url, contentType, externalUrl: '', textContent: '' });
+      const { url, contentType, textContent } = await onUploadMedia(draftId, setUploadProgress);
+      updateSection(draftId, {
+        mediaUrl: url,
+        contentType: (contentType as SectionDraft['contentType']) || 'file_upload',
+        externalUrl: '',
+        textContent: textContent || '',
+      });
     } catch (e: any) {
       if (e?.message !== 'UPLOAD_CANCELLED') setToast('Upload failed.');
     }
@@ -1072,7 +1035,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
     }
     const normalized = sections.map((s) => {
       const url = s.externalUrl.trim() || s.mediaUrl.trim() || undefined;
-      const isExternalType = s.contentType === 'youtube_url' || s.contentType === 'reel_url';
+      const isExternalType = s.contentType === 'links' || s.contentType === 'youtube_url' || s.contentType === 'reel_url';
       return {
         title: s.title.trim() || undefined,
         contentType: s.contentType,
@@ -1272,10 +1235,12 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
 
       <ScrollView style={c.innerScrollList} contentContainerStyle={{ gap: 12, paddingTop: 10 }}>
         {sections.map((sec, idx) => {
-          const isUrl  = sec.contentType === 'youtube_url' || sec.contentType === 'reel_url';
+          const isUrl  = sec.contentType === 'links' || sec.contentType === 'youtube_url' || sec.contentType === 'reel_url';
           const isText = sec.contentType === 'text';
           const isMedia = !isUrl && !isText;
           const hasVideoSections = (videoSectionCounts[idx + 1] || 0) > 0;
+          const detectedFmt = isText && sec.textContent ? detectTextFormat(sec.textContent) : null;
+          const linkMeta = isUrl && sec.externalUrl ? parseLink(sec.externalUrl) : null;
 
           return (
             <View key={sec.draftId} style={c.sectionBlock}>
@@ -1323,42 +1288,173 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
               {/* Content input */}
               <View style={{ paddingHorizontal: 14, paddingBottom: 14 }}>
                 {isText ? (
-                  <TextInput
-                    value={sec.textContent}
-                    onChangeText={(v) => updateSection(sec.draftId, { textContent: v })}
-                    placeholder="Enter text content…"
-                    multiline style={[c.fieldInput, { minHeight: 80, backgroundColor: '#F8F9FF', borderRadius: 10, padding: 12, borderWidth: 1, borderColor: '#ECEEF4' }]}
-                    placeholderTextColor="#B0B8D0"
-                  />
+                  <View style={{ gap: 8 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                        {detectedFmt ? (
+                          <View style={{
+                            backgroundColor:
+                              detectedFmt === 'html'
+                                ? '#F3E8FF'
+                                : detectedFmt === 'markdown'
+                                ? '#EFF6FF'
+                                : detectedFmt === 'mermaid'
+                                ? '#FDF2F8'
+                                : '#DCFCE7',
+                            paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6
+                          }}>
+                            <Text style={{
+                              fontSize: 11, fontWeight: '700',
+                              color:
+                                detectedFmt === 'html'
+                                  ? '#7C3AED'
+                                  : detectedFmt === 'markdown'
+                                  ? '#2563EB'
+                                  : detectedFmt === 'mermaid'
+                                  ? '#DB2777'
+                                  : '#16A34A'
+                            }}>
+                              {detectedFmt === 'html'
+                                ? 'HTML Detected'
+                                : detectedFmt === 'markdown'
+                                ? 'Markdown Detected'
+                                : detectedFmt === 'mermaid'
+                                ? 'Mermaid Diagram'
+                                : 'Plain Text'}
+                            </Text>
+                          </View>
+                        ) : null}
+                        {sec.textContent ? (
+                          <Text style={{ fontSize: 11, color: '#64748B' }}>
+                            {sec.textContent.length.toLocaleString()} chars · {sec.textContent.split('\n').length} lines
+                          </Text>
+                        ) : null}
+                      </View>
+
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                        <TouchableOpacity
+                          activeOpacity={0.7}
+                          onPress={async () => {
+                            const clip = await readFromClipboard();
+                            if (clip) {
+                              updateSection(sec.draftId, { textContent: clip });
+                            }
+                          }}
+                          style={{
+                            flexDirection: 'row', alignItems: 'center', gap: 4,
+                            backgroundColor: '#EFF6FF', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
+                            borderWidth: 1, borderColor: '#DBEAFE'
+                          }}
+                        >
+                          <Clipboard size={12} color="#2563EB" />
+                          <Text style={{ fontSize: 11, fontWeight: '600', color: '#2563EB' }}>Paste Clipboard</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                          activeOpacity={0.7}
+                          onPress={async () => {
+                            const fileContent = await pickTextFromFile();
+                            if (fileContent) {
+                              updateSection(sec.draftId, { textContent: fileContent });
+                            }
+                          }}
+                          style={{
+                            flexDirection: 'row', alignItems: 'center', gap: 4,
+                            backgroundColor: '#F8FAFC', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
+                            borderWidth: 1, borderColor: '#E2E8F0'
+                          }}
+                        >
+                          <UploadCloud size={12} color="#475569" />
+                          <Text style={{ fontSize: 11, fontWeight: '600', color: '#475569' }}>Load File</Text>
+                        </TouchableOpacity>
+
+                        {sec.textContent ? (
+                          <TouchableOpacity
+                            activeOpacity={0.7}
+                            onPress={() => updateSection(sec.draftId, { textContent: '' })}
+                            style={{
+                              flexDirection: 'row', alignItems: 'center', gap: 4,
+                              backgroundColor: '#FEF2F2', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
+                              borderWidth: 1, borderColor: '#FEE2E2'
+                            }}
+                          >
+                            <Trash2 size={12} color="#EF4444" />
+                            <Text style={{ fontSize: 11, fontWeight: '600', color: '#EF4444' }}>Clear</Text>
+                          </TouchableOpacity>
+                        ) : null}
+                      </View>
+                    </View>
+
+                    <TextInput
+                      value={sec.textContent}
+                      onChangeText={(v) => updateSection(sec.draftId, { textContent: v })}
+                      placeholder="Type, paste large text/HTML, or load a file (.html, .md, .txt)..."
+                      multiline
+                      numberOfLines={10}
+                      scrollEnabled={true}
+                      textAlignVertical="top"
+                      style={[
+                        c.fieldInput,
+                        {
+                          minHeight: 180,
+                          maxHeight: 360,
+                          backgroundColor: '#F8F9FF',
+                          borderRadius: 10,
+                          padding: 12,
+                          borderWidth: 1,
+                          borderColor: '#ECEEF4',
+                          fontSize: 13,
+                          lineHeight: 20,
+                          fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
+                        }
+                      ]}
+                      placeholderTextColor="#B0B8D0"
+                    />
+                  </View>
                 ) : isUrl ? (
-                  <TextInput
-                    value={sec.externalUrl}
-                    onChangeText={(v) => updateSection(sec.draftId, { externalUrl: v })}
-                    placeholder={sec.contentType === 'youtube_url' ? 'https://youtube.com/watch?v=...' : 'https://...'}
-                    autoCapitalize="none"
-                    style={[c.fieldInput, { backgroundColor: '#F8F9FF', borderRadius: 10, padding: 12, borderWidth: 1, borderColor: '#ECEEF4' }]}
-                    placeholderTextColor="#B0B8D0"
-                  />
+                  <View style={{ gap: 6 }}>
+                    <TextInput
+                      value={sec.externalUrl}
+                      onChangeText={(v) => updateSection(sec.draftId, { externalUrl: v })}
+                      placeholder="https://youtube.com/watch?v=..., Vimeo, Reel, or web link"
+                      autoCapitalize="none"
+                      style={[c.fieldInput, { backgroundColor: '#F8F9FF', borderRadius: 10, padding: 12, borderWidth: 1, borderColor: '#ECEEF4' }]}
+                      placeholderTextColor="#B0B8D0"
+                    />
+                    {linkMeta && sec.externalUrl ? (
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                        <View style={{ backgroundColor: '#E0F2FE', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6 }}>
+                          <Text style={{ fontSize: 11, fontWeight: '700', color: '#0284C7' }}>{linkMeta.label}</Text>
+                        </View>
+                        <Text style={{ fontSize: 11, color: '#64748B' }}>Domain: {linkMeta.domain}</Text>
+                      </View>
+                    ) : null}
+                  </View>
                 ) : (
                   <View style={{ gap: 8 }}>
                     {!sec.mediaUrl && (
                       <TextInput
                         value={sec.mediaUrl}
                         onChangeText={(v) => updateSection(sec.draftId, { mediaUrl: v })}
-                        placeholder="Or paste media URL…"
+                        placeholder="Paste file or media URL…"
                         autoCapitalize="none"
                         style={[c.fieldInput, { backgroundColor: '#F8F9FF', borderRadius: 10, padding: 12, borderWidth: 1, borderColor: '#ECEEF4' }]}
                         placeholderTextColor="#B0B8D0"
                       />
                     )}
                     <MediaUploader
-                      accept={sec.contentType === 'audio' ? 'audio/*' : 'image/*,video/*'}
-                      mediaType={sec.contentType === 'audio' ? 'audio' : 'image'}
+                      accept={ALL_SUPPORTED_FILE_TYPES}
+                      mediaType="document"
                       value={sec.mediaUrl}
                       fileName={sec.mediaUrl ? sec.mediaUrl.split('/').pop() : ''}
-                      onUploadSuccess={(url) => updateSection(sec.draftId, { mediaUrl: url })}
-                      onClear={() => updateSection(sec.draftId, { mediaUrl: '' })}
-                      buttonLabel={`Upload ${sec.contentType === 'audio' ? 'Audio' : 'Image / Video'}`}
+                      onUploadSuccess={(url, fileName, kind) => {
+                        updateSection(sec.draftId, {
+                          mediaUrl: url,
+                          contentType: 'file_upload',
+                        });
+                      }}
+                      onClear={() => updateSection(sec.draftId, { mediaUrl: '', textContent: '' })}
+                      buttonLabel="Upload File (Image, Video, Doc, PDF, Text, MD)"
                     />
                   </View>
                 )}
@@ -1500,8 +1596,8 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
           )}
         </View>
 
-      <SelectorModal visible={classOpen}   title="Select Class"   options={classOptions}   selected={classLevel} onSelect={(v) => { setClass(v); setSubject(''); }}   onClose={() => setClassOpen(false)} />
-      <SelectorModal visible={subjectOpen} title="Select Subject" options={subjectOptions} selected={subject}     isSubject onSelect={setSubject} onClose={() => setSubjectOpen(false)} />
+      <SelectorModal visible={classOpen}   title="Select Class"   options={classOptions}   selected={classLevel} useModal={false} onSelect={(v) => { setClass(v); setSubject(''); }}   onClose={() => setClassOpen(false)} />
+      <SelectorModal visible={subjectOpen} title="Select Subject" options={subjectOptions} selected={subject}     isSubject useModal={false} onSelect={setSubject} onClose={() => setSubjectOpen(false)} />
 
       {/* Per-content-section video learning sections builder */}
       <Modal
@@ -1664,7 +1760,7 @@ type Props = {
   onApplyFilters: () => void;
   onDeleteContent: (id: string) => void;
   onRefresh: () => void;
-  onUploadMedia: (draftId: string) => Promise<{ url: string; contentType: 'youtube_url' | 'reel_url' | 'image' | 'audio' | 'text' }>;
+  onUploadMedia: (draftId: string, onProgress?: (pct: number) => void) => Promise<{ url: string; contentType?: string; textContent?: string }>;
   message?: { type: 'success' | 'error'; text: string } | null;
 };
 

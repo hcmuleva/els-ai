@@ -16,7 +16,19 @@ export const topicsRouter = Router();
 export const catalogRouter = Router();
 export const studentsRouter = Router();
 
-const contentTypeSchema = z.enum(['reel', 'image', 'text', 'audio', 'youtube_url', 'reel_url']);
+const contentTypeSchema = z.enum([
+  'links',
+  'file_upload',
+  'text',
+  'reel',
+  'image',
+  'audio',
+  'youtube_url',
+  'reel_url',
+  'video',
+  'document',
+  'pdf',
+]);
 
 const listContentTopicsQuerySchema = z.object({
   class_level: z.string().trim().optional(),
@@ -57,8 +69,10 @@ const contentSectionSchema = z
   .refine(
     (value) => {
       if (value.contentType === 'text') return !!value.textContent?.trim();
-      if (value.contentType === 'youtube_url' || value.contentType === 'reel_url') return !!value.externalUrl?.trim();
-      return !!value.mediaUrl?.trim();
+      if (value.contentType === 'links' || value.contentType === 'youtube_url' || value.contentType === 'reel_url') {
+        return !!(value.externalUrl?.trim() || value.mediaUrl?.trim());
+      }
+      return !!(value.mediaUrl?.trim() || value.externalUrl?.trim());
     },
     { message: 'Missing required field for selected content type' },
   );
@@ -944,9 +958,9 @@ catalogRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
 
   try {
     const result = await db.query(
-      `SELECT s.id, s.class_level, s.class_id, cl.id AS resolved_class_id, s.title, s.cover_image, s.icon_image, s.icon_bg_color
+      `SELECT s.id, s.class_level, s.class_id, cl.code AS resolved_class_id, s.title, s.cover_image, s.icon_image, s.icon_bg_color
        FROM subjects s
-       LEFT JOIN class_levels cl ON (cl.id = s.class_id OR cl.code = s.class_level)
+       LEFT JOIN class_levels cl ON cl.code = s.class_level
        WHERE ${whereClause}
        ORDER BY cl.display_order ASC NULLS LAST, s.class_level ASC, s.title ASC`,
       params,

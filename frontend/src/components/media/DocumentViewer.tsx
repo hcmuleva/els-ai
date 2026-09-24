@@ -12,6 +12,7 @@ type Props = {
 
 function getDocEmoji(uri: string): string {
   const u = uri.toLowerCase();
+  if (u.match(/\.(html?)/))                 return '🌐';
   if (u.endsWith('.pdf'))                    return '📄';
   if (u.match(/\.(doc|docx)/))              return '📝';
   if (u.match(/\.(xls|xlsx)/))              return '📊';
@@ -22,6 +23,7 @@ function getDocEmoji(uri: string): string {
 
 function getDocLabel(uri: string): string {
   const u = uri.toLowerCase();
+  if (u.match(/\.(html?)/))           return 'HTML Web Page';
   if (u.endsWith('.pdf'))             return 'PDF Document';
   if (u.match(/\.(doc|docx)/))       return 'Word Document';
   if (u.match(/\.(xls|xlsx)/))       return 'Spreadsheet';
@@ -34,13 +36,19 @@ function isPdf(uri: string) {
   return uri.toLowerCase().endsWith('.pdf');
 }
 
+function isHtml(uri: string) {
+  return /\.(html?)(?:$|[?#])/i.test(uri);
+}
+
 export default function DocumentViewer({ uri, title, accentColor = '#2D5DC9', bgColor = '#D6EAFF' }: Props) {
   const emoji    = getDocEmoji(uri);
   const docLabel = getDocLabel(uri);
-  const canPreview = isPdf(uri);
+  const canPreview = isPdf(uri) || isHtml(uri);
 
-  // Google Docs viewer for PDF preview on mobile
-  const previewUrl = `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(uri)}`;
+  // Google Docs viewer for PDF preview on mobile, or direct URL for HTML
+  const previewUrl = isHtml(uri)
+    ? uri
+    : `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(uri)}`;
 
   const openExternal = () => Linking.openURL(uri).catch(() => {});
 

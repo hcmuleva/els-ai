@@ -7,10 +7,10 @@ import { getStorageItem } from '../../utils/storage';
 
 export type MediaUploaderProps = {
   accept?: string;
-  mediaType?: 'image' | 'audio' | 'video' | 'document';
+  mediaType?: 'image' | 'audio' | 'video' | 'document' | 'text' | 'pdf';
   value: string | null;
   fileName?: string | null;
-  onUploadSuccess: (url: string, fileName: string, kind: 'image' | 'audio' | 'video' | 'document') => void;
+  onUploadSuccess: (url: string, fileName: string, kind: 'image' | 'audio' | 'video' | 'document' | 'text' | 'pdf') => void;
   onClear: () => void;
   buttonLabel?: string;
   unsupportedMessage?: string;

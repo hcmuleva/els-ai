@@ -1465,7 +1465,7 @@ usersRouter.get('/subjects', requireAuth, async (req: AuthenticatedRequest, res)
          s.author,
          s.class_level,
          s.class_id,
-         cl.id AS resolved_class_id,
+         cl.code AS resolved_class_id,
          s.author_user_id,
          s.is_external_author,
          s.created_at,
@@ -1475,7 +1475,7 @@ usersRouter.get('/subjects', requireAuth, async (req: AuthenticatedRequest, res)
          au.mobile_number AS author_mobile_number,
          au.profile_image AS author_profile_image
        FROM subjects s
-       LEFT JOIN class_levels cl ON (cl.id = s.class_id OR cl.code = s.class_level)
+       LEFT JOIN class_levels cl ON cl.code = s.class_level
        LEFT JOIN users au ON au.id = s.author_user_id
        WHERE ${whereClauses.join(' AND ')}
        ORDER BY s.class_level ASC, s.title ASC

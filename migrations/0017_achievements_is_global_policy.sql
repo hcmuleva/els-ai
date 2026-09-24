@@ -23,6 +23,9 @@
 --   c. The org-service warning will stop because the orphan rows it
 --      tried to backfill are gone.
 
+ALTER TABLE public.achievements ADD COLUMN IF NOT EXISTS name VARCHAR(255);
+UPDATE public.achievements SET name = title WHERE name IS NULL AND title IS NOT NULL;
+
 -- (a) Allow tenants to read globally-published achievements.
 DROP POLICY IF EXISTS achievements_tenant_select ON public.achievements;
 CREATE POLICY achievements_tenant_select ON public.achievements

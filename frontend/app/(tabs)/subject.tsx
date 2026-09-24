@@ -10,6 +10,7 @@ import {
   ChevronLeft, ChevronRight, BookOpen, Play, Video as VideoIcon, Headphones,
   Image as ImageIcon, FileText, Film, Layers, ArrowRight, Sparkles,
   Hash, FlaskConical, Languages, Leaf, Monitor, Globe, GraduationCap,
+  Link2, UploadCloud,
 } from 'lucide-react-native';
 import { SvgXml } from 'react-native-svg';
 
@@ -73,14 +74,16 @@ function subjectStyle(sub: string) { return SUBJECT_STYLE[sub] ?? SUBJECT_STYLE.
 
 type TypeCfg = { label: string; Icon: LucideIcon; accent: string; bg: string };
 const TYPE_CONFIG: Record<string, TypeCfg> = {
-  video:       { label: 'YouTube Video', Icon: Play,       accent: '#B71C1C', bg: '#FFE8D6' },
-  youtube_url: { label: 'YouTube Video', Icon: Play,       accent: '#B71C1C', bg: '#FFE8D6' },
-  reel_url:    { label: 'Reel',          Icon: Film,       accent: '#A81762', bg: '#FFE0F0' },
-  reel:        { label: 'Reel',          Icon: Film,       accent: '#A81762', bg: '#FFE0F0' },
-  audio:       { label: 'Audio',         Icon: Headphones, accent: '#554E6C', bg: '#EDE4FF' },
-  image:       { label: 'Image',         Icon: ImageIcon,  accent: '#2D5DC9', bg: '#D6EAFF' },
-  text:        { label: 'Reading',       Icon: FileText,   accent: '#2F6B2D', bg: '#D6F5D6' },
-  document:    { label: 'Document',      Icon: FileText,   accent: '#2D5DC9', bg: '#D6EAFF' },
+  links:       { label: 'Links',         Icon: Link2,       accent: '#0284C7', bg: '#E0F2FE' },
+  file_upload: { label: 'File',          Icon: UploadCloud, accent: '#2D5DC9', bg: '#D6EAFF' },
+  text:        { label: 'Text',          Icon: BookOpen,    accent: '#16A34A', bg: '#DCFCE7' },
+  video:       { label: 'Video',         Icon: Play,        accent: '#0284C7', bg: '#E0F2FE' },
+  youtube_url: { label: 'YouTube Video', Icon: Play,        accent: '#0284C7', bg: '#E0F2FE' },
+  reel_url:    { label: 'Reel',          Icon: Film,        accent: '#0284C7', bg: '#E0F2FE' },
+  reel:        { label: 'Reel',          Icon: Film,        accent: '#0284C7', bg: '#E0F2FE' },
+  audio:       { label: 'Audio',         Icon: Headphones,  accent: '#554E6C', bg: '#EDE4FF' },
+  image:       { label: 'File',          Icon: ImageIcon,   accent: '#2D5DC9', bg: '#D6EAFF' },
+  document:    { label: 'Document',      Icon: FileText,    accent: '#2D5DC9', bg: '#D6EAFF' },
 };
 const DEFAULT_TYPE: TypeCfg = { label: 'Content', Icon: Layers, accent: '#2D5DC9', bg: '#D6EAFF' };
 function typeCfg(t: string): TypeCfg { return TYPE_CONFIG[t] ?? DEFAULT_TYPE; }

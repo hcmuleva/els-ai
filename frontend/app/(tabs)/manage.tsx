@@ -24,12 +24,12 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-import { FolderOpen, Video as VideoIcon, HelpCircle, BookOpen as BookOpenIcon, Trophy as TrophyIcon, ListChecks, SplitSquareHorizontal, Eye as EyeIcon, Volume2, CheckSquare, Image as ImageIcon, BookOpenCheck as StoriesIcon, Bookmark as BookmarkIcon } from 'lucide-react-native';
+import { FolderOpen, Video as VideoIcon, HelpCircle, BookOpen as BookOpenIcon, Trophy as TrophyIcon, ListChecks, SplitSquareHorizontal, Eye as EyeIcon, Volume2, CheckSquare, Image as ImageIcon, BookOpenCheck as StoriesIcon, Bookmark as BookmarkIcon, Clipboard, UploadCloud, Trash2 } from 'lucide-react-native';
 import SelectorModal from '../../src/components/SelectorModal';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { getAuthorizedClasses, getAuthorizedSubjects } from '../../src/utils/assignments';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
-import { PickedFile, pickFileAsDataUrl, uploadPickedFileToS3 } from '../../src/utils/fileUpload';
+import { PickedFile, pickFileAsDataUrl, uploadPickedFileToS3, ALL_SUPPORTED_FILE_TYPES, resolveMediaType } from '../../src/utils/fileUpload';
 import { AudioManager } from '../../src/utils/audio';
 import TopicsTab from '../../src/components/manage/TopicsTab';
 import ContentTab from '../../src/components/manage/ContentTab';
@@ -39,6 +39,9 @@ import QuizTab from '../../src/components/manage/QuizTab';
 import { Video, ResizeMode } from 'expo-av';
 import AudioPlayer from '../../src/components/media/AudioPlayer';
 import DocumentViewer from '../../src/components/media/DocumentViewer';
+import UniversalLinkPlayer from '../../src/components/media/UniversalLinkPlayer';
+import UniversalFileViewer from '../../src/components/media/UniversalFileViewer';
+import RichTextRenderer, { detectTextFormat } from '../../src/components/text/RichTextRenderer';
 import JigsawRenderer from '../../src/components/quiz/JigsawRenderer';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
 import QuestionEditor from '../../src/components/quiz/QuestionEditor';
@@ -166,7 +169,7 @@ type TopicContentSection = {
   id: string;
   sectionOrder: number;
   title?: string;
-  contentType: 'reel' | 'image' | 'text' | 'audio' | 'youtube_url' | 'reel_url';
+  contentType: string;
   mediaUrl?: string;
   externalUrl?: string;
   textContent?: string;
@@ -212,7 +215,7 @@ type TopicDraft = {
 type TopicSectionDraft = {
   id: string;
   title?: string;
-  contentType: 'reel' | 'image' | 'text' | 'audio' | 'youtube_url' | 'reel_url';
+  contentType: 'links' | 'file_upload' | 'text' | 'reel' | 'image' | 'audio' | 'youtube_url' | 'reel_url';
   mediaUrl: string;
   mediaLabel: string;
   externalUrl: string;
@@ -220,6 +223,9 @@ type TopicSectionDraft = {
 };
 
 const CONTENT_TYPE_CHOICES: Array<{ value: TopicSectionDraft['contentType']; label: string }> = [
+  { value: 'links', label: 'Links (YouTube, Reel, Web)' },
+  { value: 'file_upload', label: 'File Upload (Image, Video, Doc, PDF, Text)' },
+  { value: 'text', label: 'Text' },
   { value: 'reel', label: 'Reel (Video Upload)' },
   { value: 'image', label: 'Image / Video Upload' },
   { value: 'text', label: 'Text' },
@@ -227,11 +233,10 @@ const CONTENT_TYPE_CHOICES: Array<{ value: TopicSectionDraft['contentType']; lab
   { value: 'youtube_url', label: 'Youtube URL' },
   { value: 'reel_url', label: 'Reel URL' },
 ];
-const CREATE_CONTENT_TYPE_CHOICES: Array<{ value: 'media' | 'text' | 'youtube_url' | 'reel_url'; label: string }> = [
-  { value: 'media', label: 'Media Upload' },
+const CREATE_CONTENT_TYPE_CHOICES: Array<{ value: 'links' | 'file_upload' | 'text' | 'media' | 'youtube_url' | 'reel_url'; label: string }> = [
+  { value: 'links', label: 'Links' },
+  { value: 'file_upload', label: 'File Upload' },
   { value: 'text', label: 'Text' },
-  { value: 'youtube_url', label: 'Youtube URL' },
-  { value: 'reel_url', label: 'Reel URL' },
 ];
 
 const QUESTION_TYPE_CHOICES: Array<{ value: SupportedQuestionType; label: string; description: string }> = [
@@ -496,10 +501,52 @@ const makeEmptyTopicSection = (): TopicSectionDraft => ({
 });
 
 const isMediaContentType = (contentType: TopicSectionDraft['contentType']) =>
-  contentType === 'image' || contentType === 'audio' || contentType === 'reel';
+  contentType === 'file_upload' || contentType === 'image' || contentType === 'audio' || contentType === 'reel';
 
-const getCreateSectionChoiceValue = (contentType: TopicSectionDraft['contentType']) =>
-  isMediaContentType(contentType) ? 'media' : contentType;
+const getCreateSectionChoiceValue = (contentType: TopicSectionDraft['contentType']) => {
+  if (contentType === 'links' || contentType === 'youtube_url' || contentType === 'reel_url') return 'links';
+  if (isMediaContentType(contentType)) return 'file_upload';
+  return contentType;
+};
+
+const readFromClipboard = async (): Promise<string | null> => {
+  try {
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.readText) {
+      const text = await navigator.clipboard.readText();
+      return text || null;
+    }
+  } catch (err) {
+    console.warn('Clipboard read failed:', err);
+  }
+  return null;
+};
+
+const pickTextFromFile = (): Promise<string | null> => {
+  return new Promise((resolve) => {
+    if (typeof document === 'undefined') {
+      resolve(null);
+      return;
+    }
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.html,.htm,.md,.markdown,.txt,.mmd,.mermaid';
+    input.onchange = (e: any) => {
+      const file = e.target?.files?.[0];
+      if (!file) {
+        resolve(null);
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const text = event.target?.result;
+        resolve(typeof text === 'string' ? text : null);
+      };
+      reader.onerror = () => resolve(null);
+      reader.readAsText(file);
+    };
+    input.click();
+  });
+};
 
 function questionDataToOptions(questionData: unknown): OptionDraft[] {
   if (!questionData || typeof questionData !== 'object' || Array.isArray(questionData)) {
@@ -1048,7 +1095,15 @@ function isYouTubeUrl(url: string): boolean {
 }
 
 function isImageUrl(url: string): boolean {
-  return /\.(png|jpe?g|gif|webp|bmp|svg)(?:$|[?#])/i.test(url);
+  if (!url) return false;
+  return (
+    /\.(png|jpe?g|gif|webp|bmp|svg|avif|ico)(?:$|[?#])/i.test(url) ||
+    /images\.unsplash\.com/i.test(url) ||
+    /^data:image\//i.test(url) ||
+    /(?:auto|format)=(?:jpg|jpeg|png|webp|avif)/i.test(url) ||
+    /\/images?\//i.test(url) ||
+    /\b(photo|image|picture|graphic)\b/i.test(url)
+  );
 }
 
 function isVideoContentType(type: string): boolean {
@@ -1063,8 +1118,6 @@ function openExternalResource(url: string): void {
   }
   void Linking.openURL(url);
 }
-
-type PickedFile = { dataUrl: string; fileName: string; mimeType: string };
 
 function resolvePickedMediaKind(file: PickedFile): 'image' | 'audio' | null {
   const mimeType = file.mimeType.toLowerCase();
@@ -1627,7 +1680,7 @@ export default function QuestionManagementScreen() {
     }));
     const missing = normalizedSections.some((section) => {
       if (section.contentType === 'text') return !section.textContent;
-      if (section.contentType === 'youtube_url' || section.contentType === 'reel_url') return !section.externalUrl;
+      if (section.contentType === 'links' || section.contentType === 'youtube_url' || section.contentType === 'reel_url') return !section.externalUrl;
       return !section.mediaUrl;
     });
     if (missing) {
@@ -1714,7 +1767,7 @@ export default function QuestionManagementScreen() {
     }));
     const invalidIndex = normalizedSections.findIndex((section) => {
       if (section.contentType === 'text') return !section.textContent;
-      if (section.contentType === 'youtube_url' || section.contentType === 'reel_url') return !section.externalUrl;
+      if (section.contentType === 'links' || section.contentType === 'youtube_url' || section.contentType === 'reel_url') return !section.externalUrl;
       return !section.mediaUrl;
     });
     if (invalidIndex > -1) {
@@ -3963,20 +4016,16 @@ export default function QuestionManagementScreen() {
           onRefresh={() => { loadContentItems(); loadTopics(); }}
           onUploadMedia={async (_draftId, onProgress) => {
             const picked = await pickFileAsDataUrl(
-              'image/*,audio/*,video/*',
+              ALL_SUPPORTED_FILE_TYPES,
               'Media upload is currently available on web. On mobile, provide URL-based content.',
             );
-            const lm = picked.mimeType.toLowerCase();
-            const ln = picked.fileName.toLowerCase();
-            const mediaType: 'image' | 'audio' | 'video' = lm.startsWith('video/') || /\.(mp4|mov|m4v|webm|mkv)$/.test(ln)
-              ? 'video'
-              : lm.startsWith('audio/') || /\.(mp3|wav|ogg|aac|m4a|flac)$/.test(ln)
-                ? 'audio'
-                : 'image';
+            const mediaType = resolveMediaType(picked);
             const uploaded = await uploadPickedFileToS3(picked, mediaType, onProgress);
-            const contentType: 'reel_url' | 'audio' | 'image' | 'youtube_url' | 'text' =
-              mediaType === 'video' ? 'image' : mediaType === 'audio' ? 'audio' : 'image';
-            return { url: uploaded.url, contentType };
+            return {
+              url: uploaded.url,
+              contentType: 'file_upload',
+              textContent: picked.textContent,
+            };
           }}
           message={message}
         />
@@ -4626,18 +4675,117 @@ export default function QuestionManagementScreen() {
                     </ScrollView>
 
                     {activeChoice === 'text' ? (
-                      <TextInput
-                        value={section.textContent}
-                        onChangeText={(value) => updateCreateSection(section.id, { textContent: value })}
-                        placeholder="Enter content text"
-                        multiline
-                        style={[styles.input, styles.richTextInput]}
-                      />
-                    ) : activeChoice === 'youtube_url' || activeChoice === 'reel_url' ? (
+                      <View style={{ gap: 8 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6 }}>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                            {section.textContent ? (
+                              (() => {
+                                const detectedFmt = detectTextFormat(section.textContent);
+                                return (
+                                  <View style={{
+                                    backgroundColor:
+                                      detectedFmt === 'html'
+                                        ? '#F3E8FF'
+                                        : detectedFmt === 'markdown'
+                                        ? '#EFF6FF'
+                                        : detectedFmt === 'mermaid'
+                                        ? '#FDF2F8'
+                                        : '#DCFCE7',
+                                    paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6
+                                  }}>
+                                    <Text style={{
+                                      fontSize: 11, fontWeight: '700',
+                                      color:
+                                        detectedFmt === 'html'
+                                          ? '#7C3AED'
+                                          : detectedFmt === 'markdown'
+                                          ? '#2563EB'
+                                          : detectedFmt === 'mermaid'
+                                          ? '#DB2777'
+                                          : '#16A34A'
+                                    }}>
+                                      {detectedFmt === 'html'
+                                        ? 'HTML Detected'
+                                        : detectedFmt === 'markdown'
+                                        ? 'Markdown Detected'
+                                        : detectedFmt === 'mermaid'
+                                        ? 'Mermaid Diagram'
+                                        : 'Plain Text'}
+                                    </Text>
+                                  </View>
+                                );
+                              })()
+                            ) : null}
+                            {section.textContent ? (
+                              <Text style={{ fontSize: 11, color: '#64748B' }}>
+                                {section.textContent.length.toLocaleString()} chars · {section.textContent.split('\n').length} lines
+                              </Text>
+                            ) : null}
+                          </View>
+
+                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                            <Pressable
+                              onPress={async () => {
+                                const clip = await readFromClipboard();
+                                if (clip) updateCreateSection(section.id, { textContent: clip });
+                              }}
+                              style={{
+                                flexDirection: 'row', alignItems: 'center', gap: 4,
+                                backgroundColor: '#EFF6FF', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
+                                borderWidth: 1, borderColor: '#DBEAFE'
+                              }}
+                            >
+                              <Clipboard size={12} color="#2563EB" />
+                              <Text style={{ fontSize: 11, fontWeight: '600', color: '#2563EB' }}>Paste Clipboard</Text>
+                            </Pressable>
+
+                            <Pressable
+                              onPress={async () => {
+                                const fileContent = await pickTextFromFile();
+                                if (fileContent) updateCreateSection(section.id, { textContent: fileContent });
+                              }}
+                              style={{
+                                flexDirection: 'row', alignItems: 'center', gap: 4,
+                                backgroundColor: '#F8FAFC', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
+                                borderWidth: 1, borderColor: '#E2E8F0'
+                              }}
+                            >
+                              <UploadCloud size={12} color="#475569" />
+                              <Text style={{ fontSize: 11, fontWeight: '600', color: '#475569' }}>Load File</Text>
+                            </Pressable>
+
+                            {section.textContent ? (
+                              <Pressable
+                                onPress={() => updateCreateSection(section.id, { textContent: '' })}
+                                style={{
+                                  flexDirection: 'row', alignItems: 'center', gap: 4,
+                                  backgroundColor: '#FEF2F2', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
+                                  borderWidth: 1, borderColor: '#FEE2E2'
+                                }}
+                              >
+                                <Trash2 size={12} color="#EF4444" />
+                                <Text style={{ fontSize: 11, fontWeight: '600', color: '#EF4444' }}>Clear</Text>
+                              </Pressable>
+                            ) : null}
+                          </View>
+                        </View>
+
+                        <TextInput
+                          value={section.textContent}
+                          onChangeText={(value) => updateCreateSection(section.id, { textContent: value })}
+                          placeholder="Type, paste large text/HTML, or load a file (.html, .md, .txt)..."
+                          multiline
+                          numberOfLines={10}
+                          scrollEnabled={true}
+                          textAlignVertical="top"
+                          style={[styles.input, styles.richTextInput]}
+                        />
+                      </View>
+                    ) : activeChoice === 'links' || (activeChoice as string) === 'youtube_url' || (activeChoice as string) === 'reel_url' ? (
                       <TextInput
                         value={section.externalUrl}
                         onChangeText={(value) => updateCreateSection(section.id, { externalUrl: value })}
-                        placeholder="Enter URL"
+                        placeholder="Enter URL (YouTube, Vimeo, Reel, or Web Link)"
                         autoCapitalize="none"
                         style={styles.input}
                       />
@@ -4712,7 +4860,11 @@ export default function QuestionManagementScreen() {
                 {(previewContentItem.sections || []).map((section, index) => (
                   <View key={`preview-content-section-${section.id}-${index}`} style={styles.previewMediaCard}>
                     <Text style={styles.previewMediaLabel}>{section.title ? `${section.title} — ` : `Section ${section.sectionOrder || index + 1} — `}{section.contentType}</Text>
-                    {section.textContent ? <Text style={styles.previewInstruction}>{section.textContent}</Text> : null}
+                    {section.textContent ? (
+                      <View style={{ marginVertical: 6 }}>
+                        <RichTextRenderer content={section.textContent} />
+                      </View>
+                    ) : null}
                     {(() => {
                       const mUrl = section.mediaUrl ? resolveMediaUrl(section.mediaUrl) : '';
                       const eUrl = section.externalUrl ? resolveMediaUrl(section.externalUrl) : '';
@@ -4720,71 +4872,17 @@ export default function QuestionManagementScreen() {
                       
                       if (!url) return null;
 
-                      if (section.contentType === 'image' || isImageUrl(url)) {
-                        return <SafeImage uri={url} style={styles.previewImage} resizeMode="contain" />;
-                      }
-
-                      if (section.contentType === 'youtube_url' || isYouTubeUrl(url)) {
-                        const embedUrl = getYouTubeEmbedUrl(url);
-                        if (embedUrl) {
-                          return (
-                            <View style={styles.previewVideoEmbed}>
-                              {Platform.OS === 'web' ? (
-                                <iframe
-                                  src={embedUrl + `&controls=1&modestbranding=1`}
-                                  style={{ width: '100%', height: '100%', border: 'none', borderRadius: 16 }}
-                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                  allowFullScreen
-                                />
-                              ) : (
-                                <WebView
-                                  source={{ uri: embedUrl + `&controls=1` }}
-                                  style={{ width: '100%', height: '100%', borderRadius: 16 }}
-                                  allowsFullscreenVideo
-                                  allowsInlineMediaPlayback
-                                />
-                              )}
-                            </View>
-                          );
-                        }
-                      }
-
-                      if (section.contentType === 'audio' || url.match(/\.(mp3|wav|ogg|aac|m4a|flac)/i)) {
-                        return (
-                          <View style={{ marginTop: 10 }}>
-                            <AudioPlayer
-                              uri={url}
-                              title={section.title || previewContentItem.title}
-                              subtitle={previewContentItem.subject}
-                              emoji="🎵"
-                              accentColor={Colors.primary}
-                              bgColor="#D6EAFF"
-                            />
-                          </View>
-                        );
-                      }
-
-                      if (section.contentType === 'reel' || url.match(/\.(mp4|mov|webm|avi)/i)) {
-                        return (
-                          <View style={styles.previewVideoEmbed}>
-                            <Video
-                              source={{ uri: url }}
-                              useNativeControls
-                              resizeMode={ResizeMode.CONTAIN}
-                              style={{ width: '100%', height: '100%' }}
-                            />
-                          </View>
-                        );
-                      }
-
-                      if (url.match(/\.(pdf|doc|docx|xls|xlsx|ppt|pptx|zip|rar)/i)) {
-                        return <DocumentViewer uri={url} title={section.title} accentColor={Colors.primary} bgColor="#D6EAFF" />;
+                      if (section.contentType === 'links' || section.contentType === 'youtube_url' || section.contentType === 'reel_url') {
+                        return <UniversalLinkPlayer url={url} title={section.title} height={240} />;
                       }
 
                       return (
-                        <Pressable style={[styles.primaryButton, { marginTop: 10 }]} onPress={() => openExternalResource(url)}>
-                          <Text style={styles.primaryButtonText}>Open Resource Link</Text>
-                        </Pressable>
+                        <UniversalFileViewer
+                          uri={url}
+                          title={section.title}
+                          textContent={section.textContent}
+                          height={240}
+                        />
                       );
                     })()}
                   </View>
@@ -4864,16 +4962,115 @@ export default function QuestionManagementScreen() {
                   </ScrollView>
 
                   {section.contentType === 'text' ? (
-                    <TextInput
-                      value={section.textContent}
-                      onChangeText={(value) => updateSectionDraft(section.id, { textContent: value })}
-                      placeholder="Enter rich text content"
-                      multiline
-                      style={[styles.input, styles.richTextInput]}
-                    />
+                    <View style={{ gap: 8 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                          {section.textContent ? (
+                            (() => {
+                              const detectedFmt = detectTextFormat(section.textContent);
+                              return (
+                                <View style={{
+                                  backgroundColor:
+                                    detectedFmt === 'html'
+                                      ? '#F3E8FF'
+                                      : detectedFmt === 'markdown'
+                                      ? '#EFF6FF'
+                                      : detectedFmt === 'mermaid'
+                                      ? '#FDF2F8'
+                                      : '#DCFCE7',
+                                  paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6
+                                }}>
+                                  <Text style={{
+                                    fontSize: 11, fontWeight: '700',
+                                    color:
+                                      detectedFmt === 'html'
+                                        ? '#7C3AED'
+                                        : detectedFmt === 'markdown'
+                                        ? '#2563EB'
+                                        : detectedFmt === 'mermaid'
+                                        ? '#DB2777'
+                                        : '#16A34A'
+                                  }}>
+                                    {detectedFmt === 'html'
+                                      ? 'HTML Detected'
+                                      : detectedFmt === 'markdown'
+                                      ? 'Markdown Detected'
+                                      : detectedFmt === 'mermaid'
+                                      ? 'Mermaid Diagram'
+                                      : 'Plain Text'}
+                                  </Text>
+                                </View>
+                              );
+                            })()
+                          ) : null}
+                          {section.textContent ? (
+                            <Text style={{ fontSize: 11, color: '#64748B' }}>
+                              {section.textContent.length.toLocaleString()} chars · {section.textContent.split('\n').length} lines
+                            </Text>
+                          ) : null}
+                        </View>
+
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                          <Pressable
+                            onPress={async () => {
+                              const clip = await readFromClipboard();
+                              if (clip) updateSectionDraft(section.id, { textContent: clip });
+                            }}
+                            style={{
+                              flexDirection: 'row', alignItems: 'center', gap: 4,
+                              backgroundColor: '#EFF6FF', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
+                              borderWidth: 1, borderColor: '#DBEAFE'
+                            }}
+                          >
+                            <Clipboard size={12} color="#2563EB" />
+                            <Text style={{ fontSize: 11, fontWeight: '600', color: '#2563EB' }}>Paste Clipboard</Text>
+                          </Pressable>
+
+                          <Pressable
+                            onPress={async () => {
+                              const fileContent = await pickTextFromFile();
+                              if (fileContent) updateSectionDraft(section.id, { textContent: fileContent });
+                            }}
+                            style={{
+                              flexDirection: 'row', alignItems: 'center', gap: 4,
+                              backgroundColor: '#F8FAFC', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
+                              borderWidth: 1, borderColor: '#E2E8F0'
+                            }}
+                          >
+                            <UploadCloud size={12} color="#475569" />
+                            <Text style={{ fontSize: 11, fontWeight: '600', color: '#475569' }}>Load File</Text>
+                          </Pressable>
+
+                          {section.textContent ? (
+                            <Pressable
+                              onPress={() => updateSectionDraft(section.id, { textContent: '' })}
+                              style={{
+                                flexDirection: 'row', alignItems: 'center', gap: 4,
+                                backgroundColor: '#FEF2F2', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
+                                borderWidth: 1, borderColor: '#FEE2E2'
+                              }}
+                            >
+                              <Trash2 size={12} color="#EF4444" />
+                              <Text style={{ fontSize: 11, fontWeight: '600', color: '#EF4444' }}>Clear</Text>
+                            </Pressable>
+                          ) : null}
+                        </View>
+                      </View>
+
+                      <TextInput
+                        value={section.textContent}
+                        onChangeText={(value) => updateSectionDraft(section.id, { textContent: value })}
+                        placeholder="Type, paste large text/HTML, or load a file (.html, .md, .txt)..."
+                        multiline
+                        numberOfLines={10}
+                        scrollEnabled={true}
+                        textAlignVertical="top"
+                        style={[styles.input, styles.richTextInput]}
+                      />
+                    </View>
                   ) : null}
 
-                  {section.contentType === 'youtube_url' || section.contentType === 'reel_url' ? (
+                  {section.contentType === 'links' || section.contentType === 'youtube_url' || section.contentType === 'reel_url' ? (
                     <TextInput
                       value={section.externalUrl}
                       onChangeText={(value) => updateSectionDraft(section.id, { externalUrl: value })}
@@ -4883,7 +5080,7 @@ export default function QuestionManagementScreen() {
                     />
                   ) : null}
 
-                  {section.contentType === 'image' || section.contentType === 'audio' || section.contentType === 'reel' ? (
+                  {section.contentType === 'file_upload' || section.contentType === 'image' || section.contentType === 'audio' || section.contentType === 'reel' ? (
                     <View style={styles.fieldGroup}>
                       <View style={styles.mediaActionRow}>
                         <Pressable
@@ -5271,8 +5468,12 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   richTextInput: {
-    minHeight: 120,
+    minHeight: 180,
+    maxHeight: 360,
     textAlignVertical: 'top',
+    fontSize: 13,
+    lineHeight: 20,
+    fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
   },
   readonlyTag: {
     alignSelf: 'flex-start',

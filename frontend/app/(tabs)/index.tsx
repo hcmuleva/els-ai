@@ -570,7 +570,7 @@ export default function HomeScreen() {
                         />
                       </View>
                       <View style={s.tileBody}>
-                        <Text style={s.tileLabel} numberOfLines={1}>
+                        <Text style={s.tileLabel} numberOfLines={2} ellipsizeMode="tail">
                           {tile.subject}
                         </Text>
                         <View style={[s.tileIndicator, { backgroundColor: palette.iconColor }]} />
@@ -1131,11 +1131,12 @@ const s = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1.5,
     borderColor: '#E8ECF4',
-    paddingVertical: 20,
-    paddingHorizontal: 14,
+    paddingVertical: 18,
+    paddingHorizontal: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 12,
+    gap: 10,
+    overflow: 'hidden',
     shadowColor: '#1A1D3A',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.05,
@@ -1166,13 +1167,19 @@ const s = StyleSheet.create({
   },
   tileBody: {
     alignItems: 'center',
+    justifyContent: 'center',
     gap: 6,
+    width: '100%',
+    maxWidth: '100%',
   },
   tileLabel: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '800',
     color: '#0F172A',
     textAlign: 'center',
+    width: '100%',
+    maxWidth: '100%',
+    lineHeight: 17,
   },
   tileIndicator: {
     width: 20,

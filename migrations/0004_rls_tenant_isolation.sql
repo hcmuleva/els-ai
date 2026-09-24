@@ -166,6 +166,26 @@ CREATE POLICY stories_tenant_modify ON stories FOR ALL
   );
 
 -- notifications
+CREATE TABLE IF NOT EXISTS notifications (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  type VARCHAR(50) DEFAULT 'info',
+  category VARCHAR(50) DEFAULT 'general',
+  title VARCHAR(255),
+  message TEXT,
+  status VARCHAR(20) DEFAULT 'unread',
+  is_read BOOLEAN DEFAULT false,
+  cta_label TEXT,
+  cta_route TEXT,
+  metadata JSONB DEFAULT '{}',
+  source_event_id UUID,
+  parent_notification_id UUID,
+  read_at TIMESTAMP,
+  expiry_at TIMESTAMP DEFAULT (NOW() + INTERVAL '30 days'),
+  deleted_at TIMESTAMP,
+  created_at TIMESTAMP DEFAULT NOW()
+);
 ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS notifications_tenant_select ON notifications;
 CREATE POLICY notifications_tenant_select ON notifications FOR SELECT
