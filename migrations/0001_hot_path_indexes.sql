@@ -5,6 +5,49 @@
 
 BEGIN;
 
+-- Ensure referenced columns & tables exist
+ALTER TABLE users ADD COLUMN IF NOT EXISTS primary_organization_id UUID REFERENCES organizations(id) ON DELETE SET NULL;
+ALTER TABLE content_topics ADD COLUMN IF NOT EXISTS is_global BOOLEAN DEFAULT false;
+ALTER TABLE quizzes ADD COLUMN IF NOT EXISTS is_global BOOLEAN DEFAULT false;
+ALTER TABLE learning_contents ADD COLUMN IF NOT EXISTS subject VARCHAR(255);
+ALTER TABLE quizzes ADD COLUMN IF NOT EXISTS subject VARCHAR(255);
+
+CREATE TABLE IF NOT EXISTS classrooms (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  title VARCHAR(255),
+  class_level VARCHAR(50),
+  is_global BOOLEAN DEFAULT false,
+  created_by UUID REFERENCES users(id) ON DELETE SET NULL,
+  status VARCHAR(50) DEFAULT 'active',
+  start_time TIMESTAMP,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS classroom_assignments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  classroom_id UUID REFERENCES classrooms(id) ON DELETE CASCADE,
+  title VARCHAR(255),
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS classroom_assignment_submissions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  classroom_assignment_id UUID REFERENCES classroom_assignments(id) ON DELETE CASCADE,
+  student_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS stories (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  title VARCHAR(255),
+  status VARCHAR(50) DEFAULT 'draft',
+  scheduled_at TIMESTAMP,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
 -- subjects: every join from content_topics / learning_contents / quizzes uses
 -- (class_level + LOWER(title)). The UNIQUE(org, class_level, title) covers the
 -- exact-match case but not LOWER().

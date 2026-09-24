@@ -711,7 +711,7 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
           sectionsDraft.push({
             draftId: sec.draftId || `sec-ai-${idx + 1}`,
             title: sec.title || sec.heading || `Section ${idx + 1}`,
-            contentType: sec.contentType || (sec.externalUrl ? 'youtube_url' : 'text'),
+            contentType: sec.contentType || (sec.externalUrl ? 'links' : 'text'),
             mediaUrl: sec.mediaUrl || '',
             externalUrl: sec.externalUrl || '',
             textContent: sec.textContent || sec.content || sec.body || '',
@@ -734,7 +734,7 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
             sectionsDraft.push({
               draftId: `sec-ai-yt-${idx + 1}`,
               title: v.title || `Video Lesson ${idx + 1}`,
-              contentType: 'youtube_url',
+              contentType: 'links',
               mediaUrl: '',
               externalUrl: v.url,
               textContent: '',
@@ -766,7 +766,7 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
       // Quiz is created as a real entity via POST /quizzes above.
       // Attach createdQuizId to the first video section if not already set.
       if (createdQuizId && sectionsDraft.length > 0) {
-        const firstVideoSec = sectionsDraft.find((s) => s.contentType === 'youtube_url');
+        const firstVideoSec = sectionsDraft.find((s) => s.contentType === 'links' || s.contentType === 'youtube_url');
         if (firstVideoSec && !firstVideoSec.quizId) {
           firstVideoSec.quizId = createdQuizId;
         } else if (!sectionsDraft[0].quizId) {
@@ -778,7 +778,7 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
         sectionsDraft.push({
           draftId: 'sec-ai-1',
           title: '',
-          contentType: 'youtube_url',
+          contentType: 'links',
           mediaUrl: '',
           externalUrl: '',
           textContent: '',

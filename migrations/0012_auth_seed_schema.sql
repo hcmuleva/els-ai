@@ -293,6 +293,7 @@ CREATE TABLE IF NOT EXISTS invoices (
   updated_at TIMESTAMP DEFAULT NOW()
 );
 
+ALTER TABLE invoices ADD COLUMN IF NOT EXISTS issued_at TIMESTAMP DEFAULT NOW();
 CREATE INDEX IF NOT EXISTS idx_invoices_org    ON invoices(organization_id);
 CREATE INDEX IF NOT EXISTS idx_invoices_status ON invoices(status);
 CREATE INDEX IF NOT EXISTS idx_invoices_issued ON invoices(issued_at DESC);

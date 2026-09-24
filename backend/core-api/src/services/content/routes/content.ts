@@ -6,7 +6,19 @@ import { getSignedMediaUrlIfNeeded, toPersistentMediaUrl } from '../services/s3.
 
 export const contentRouter = Router();
 
-const contentTypeSchema = z.enum(['reel', 'image', 'text', 'audio', 'youtube_url', 'reel_url']);
+const contentTypeSchema = z.enum([
+  'links',
+  'file_upload',
+  'text',
+  'reel',
+  'image',
+  'audio',
+  'youtube_url',
+  'reel_url',
+  'video',
+  'document',
+  'pdf',
+]);
 
 const listSubjectCatalogQuerySchema = z.object({
   class_id: z.string().trim().optional(),
@@ -151,9 +163,9 @@ contentRouter.get('/subjects', requireAuth, async (req: any, res) => {
 
   try {
     const result = await db.query(
-      `SELECT s.id, s.title, s.class_level, s.class_id, cl.id AS resolved_class_id, s.cover_image, s.icon_image, s.icon_bg_color
+      `SELECT s.id, s.title, s.class_level, s.class_id, cl.code AS resolved_class_id, s.cover_image, s.icon_image, s.icon_bg_color
        FROM subjects s
-       LEFT JOIN class_levels cl ON (cl.id = s.class_id OR cl.code = s.class_level)
+       LEFT JOIN class_levels cl ON cl.code = s.class_level
        WHERE ${whereClauses.join(' AND ')}
        ORDER BY cl.display_order ASC NULLS LAST, s.class_level ASC, s.title ASC`,
       params,

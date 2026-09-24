@@ -9,6 +9,11 @@
 
 BEGIN;
 
+-- Ensure legacy subject text columns exist for backfill queries
+ALTER TABLE content_topics ADD COLUMN IF NOT EXISTS subject VARCHAR(255);
+ALTER TABLE teacher_standard_subjects ADD COLUMN IF NOT EXISTS subject VARCHAR(255);
+ALTER TABLE learning_contents ADD COLUMN IF NOT EXISTS is_global BOOLEAN DEFAULT false;
+
 -- ── 1. Add subject_id columns ─────────────────────────────────────────────
 ALTER TABLE content_topics
   ADD COLUMN IF NOT EXISTS subject_id UUID REFERENCES subjects(id) ON DELETE RESTRICT;

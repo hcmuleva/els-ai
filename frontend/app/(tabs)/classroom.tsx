@@ -3,7 +3,7 @@ import { ActivityIndicator, Dimensions, Image, Linking, Modal, Platform, Pressab
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from 'expo-router';
 import { ModalHeader } from '../../src/components/common/ModalHeader';
-import { ChevronRight, Play, Star, BookOpen, Clock, X, Trophy, GraduationCap, Layers, ClipboardList, CheckCircle, AlertCircle, School, FileText, Telescope, Video as VideoIcon, Headphones, Image as ImageIcon, Link, Calendar, Lock, Timer, ChevronLeft, Maximize2, Pause, Volume2 } from 'lucide-react-native';
+import { ChevronRight, Play, Star, BookOpen, Clock, X, Trophy, GraduationCap, Layers, ClipboardList, CheckCircle, AlertCircle, School, FileText, Telescope, Video as VideoIcon, Headphones, Image as ImageIcon, Link, Link2, UploadCloud, Calendar, Lock, Timer, ChevronLeft, Maximize2, Pause, Volume2 } from 'lucide-react-native';
 import { SvgXml } from 'react-native-svg';
 import { Colors, Radius, Shadow } from '../../src/theme';
 import { GIRAFFE, OWL, PENGUIN, ELEPHANT, BUTTERFLY } from '../../src/assets/svgs';
@@ -13,6 +13,9 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 
 import AudioPlayer from '../../src/components/media/AudioPlayer';
 import DocumentViewer from '../../src/components/media/DocumentViewer';
+import UniversalLinkPlayer from '../../src/components/media/UniversalLinkPlayer';
+import UniversalFileViewer from '../../src/components/media/UniversalFileViewer';
+import RichTextRenderer from '../../src/components/text/RichTextRenderer';
 
 import { getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
@@ -123,8 +126,14 @@ function isUuid(id: string): boolean {
 
 function isImageUrl(url: string): boolean {
   if (!url) return false;
-  const sanitized = url.split('?')[0].toLowerCase();
-  return /\.(png|jpe?g|gif|webp|bmp|svg)$/.test(sanitized);
+  return (
+    /\.(png|jpe?g|gif|webp|bmp|svg|avif|ico)(?:$|[?#])/i.test(url) ||
+    /images\.unsplash\.com/i.test(url) ||
+    /^data:image\//i.test(url) ||
+    /(?:auto|format)=(?:jpg|jpeg|png|webp|avif)/i.test(url) ||
+    /\/images?\//i.test(url) ||
+    /\b(photo|image|picture|graphic)\b/i.test(url)
+  );
 }
 
 function isYouTubeUrl(url: string): boolean {
@@ -670,6 +679,8 @@ export default function ClassroomScreen() {
                       /* ── 2-COLUMN THEATRE LAYOUT MATCHING REFERENCE DESIGN ── */
                       (() => {
                         const activeUrl = resolveMediaUrl(activeContent?.mediaUrl) || resolveMediaUrl(activeContent?.externalUrl) || '';
+                        const isLinksContent = activeContent?.contentType === 'links';
+                        const isFileUploadContent = activeContent?.contentType === 'file_upload';
                         const activeYtVideoId = getYouTubeVideoId(activeUrl);
                         const activeSecKey = activeContent?.id ? `${baseContentId(activeContent.id)}:1` : '';
                         const activeSectioned = activeSecKey ? sectionedMap[activeSecKey] : null;
@@ -688,7 +699,11 @@ export default function ClassroomScreen() {
                                 {/* Card Top Bar */}
                                 <View style={theaterStyles.videoTopBar}>
                                   <View style={theaterStyles.videoTopBarLeft}>
-                                    {isAudioContent ? (
+                                    {isLinksContent ? (
+                                      <Link2 size={16} color="#0284C7" />
+                                    ) : isFileUploadContent ? (
+                                      <UploadCloud size={16} color="#2D5DC9" />
+                                    ) : isAudioContent ? (
                                       <Headphones size={16} color="#7C3AED" />
                                     ) : isImageContent ? (
                                       <ImageIcon size={16} color="#0D9488" />
@@ -729,6 +744,31 @@ export default function ClassroomScreen() {
                                         <View style={theaterStyles.emptyPlayer}>
                                           <Text style={theaterStyles.emptyPlayerText}>No lesson selected</Text>
                                         </View>
+                                      </View>
+                                    );
+                                  }
+
+                                  if (isLinksContent && activeUrl) {
+                                    return (
+                                      <View style={theaterStyles.videoPlayerWrap}>
+                                        <UniversalLinkPlayer
+                                          url={activeUrl}
+                                          title={activeContent.title}
+                                          showBadge={false}
+                                          fillContainer
+                                        />
+                                      </View>
+                                    );
+                                  }
+
+                                  if (isFileUploadContent) {
+                                    return (
+                                      <View style={{ minHeight: 320, padding: 12 }}>
+                                        <UniversalFileViewer
+                                          mediaUrl={activeContent.mediaUrl || activeUrl}
+                                          fileName={activeContent.title}
+                                          textContent={activeContent.textContent}
+                                        />
                                       </View>
                                     );
                                   }
@@ -838,16 +878,16 @@ export default function ClassroomScreen() {
                                     );
                                   }
 
-                                  if (isTextOnlyContent) {
+                                  if (isTextOnlyContent || activeContent.contentType === 'text') {
                                     return (
-                                      <View style={theaterStyles.textPlayerWrap}>
+                                      <ScrollView style={theaterStyles.textPlayerWrap} contentContainerStyle={{ padding: 16 }}>
                                         <View style={theaterStyles.textStageBadge}>
                                           <BookOpen size={13} color="#0D9488" />
                                           <Text style={theaterStyles.textStageBadgeText}>Reading & Study Material</Text>
                                         </View>
                                         <Text style={theaterStyles.textStageTitle}>{activeContent.title}</Text>
-                                        <Text style={theaterStyles.textStageContent}>{activeContent.textContent}</Text>
-                                      </View>
+                                        <RichTextRenderer text={activeContent.textContent || ''} />
+                                      </ScrollView>
                                     );
                                   }
 
@@ -1474,7 +1514,8 @@ export default function ClassroomScreen() {
           const BG_CARDS = ['#FAFAC8', '#D6EAFF', '#D6F5D6', '#FFE8D6', '#EDE4FF'];
           type TypeCfgEntry = { label: string; IconComp: React.ComponentType<{ size?: number; color?: string }>; accentColor: string; bgColor: string };
           const TYPE_CONFIG: Record<string, TypeCfgEntry> = {
-            // Darkened from #D33F13 (3.96:1 on this bg, short of the 4.5:1 needed at this text size).
+            links:       { label: 'Links',       IconComp: Link2,       accentColor: '#0284C7', bgColor: '#E0F2FE' },
+            file_upload: { label: 'File Upload', IconComp: UploadCloud, accentColor: '#2D5DC9', bgColor: '#D6EAFF' },
             video:    { label: 'Video',    IconComp: VideoIcon,  accentColor: '#B03A19', bgColor: '#FFE8D6' },
             audio:    { label: 'Audio',    IconComp: Headphones, accentColor: '#554E6C', bgColor: '#EDE4FF' },
             image:    { label: 'Image',    IconComp: ImageIcon,  accentColor: '#2D5DC9', bgColor: '#D6EAFF' },
@@ -1494,6 +1535,9 @@ export default function ClassroomScreen() {
           const sections = content?.sections?.length ? content.sections : [content];
           const detectType = (s: typeof sections[0]) => {
             if (!s) return 'text';
+            if (s.contentType === 'links') return 'links';
+            if (s.contentType === 'file_upload') return 'file_upload';
+            if (s.contentType === 'text') return 'text';
             const mUrl = resolveMediaUrl(s?.mediaUrl);
             const eUrl = resolveMediaUrl(s?.externalUrl);
             const url = mUrl || eUrl || '';
@@ -1621,15 +1665,29 @@ export default function ClassroomScreen() {
                         />
                       ) : (
                       <>
-                      {/* IMAGE */}
-                      {url && isImageUrl(url) && (
+                      {/* LINKS TYPE */}
+                      {section.contentType === 'links' && (
+                        <UniversalLinkPlayer url={url} title={(section as any).title || content?.title} />
+                      )}
+
+                      {/* FILE UPLOAD TYPE */}
+                      {section.contentType === 'file_upload' && (
+                        <UniversalFileViewer
+                          mediaUrl={section.mediaUrl || url}
+                          fileName={(section as any).title || content?.title}
+                          textContent={section.textContent}
+                        />
+                      )}
+
+                      {/* LEGACY IMAGE */}
+                      {section.contentType !== 'links' && section.contentType !== 'file_upload' && url && isImageUrl(url) && (
                         <View style={styles.vImgWrap}>
                           <Image source={{ uri: url }} style={styles.vImg} resizeMode="cover" />
                         </View>
                       )}
 
-                      {/* YOUTUBE */}
-                      {url && isYouTubeUrl(url) && (() => {
+                      {/* LEGACY YOUTUBE */}
+                      {section.contentType !== 'links' && section.contentType !== 'file_upload' && url && isYouTubeUrl(url) && (() => {
                         const videoId = getYouTubeVideoId(url);
                         if (!videoId) return null;
                         return (
@@ -1654,8 +1712,8 @@ export default function ClassroomScreen() {
                         );
                       })()}
 
-                      {/* AUDIO */}
-                      {url && url.match(/\.(mp3|wav|ogg|aac|m4a|flac)/i) && (
+                      {/* LEGACY AUDIO */}
+                      {section.contentType !== 'links' && section.contentType !== 'file_upload' && url && url.match(/\.(mp3|wav|ogg|aac|m4a|flac)/i) && (
                         <AudioPlayer
                           uri={url}
                           title={content?.title || 'Audio'}
@@ -1670,8 +1728,8 @@ export default function ClassroomScreen() {
                         />
                       )}
 
-                      {/* VIDEO (non-YouTube, non-audio) */}
-                      {url && !isImageUrl(url) && !isYouTubeUrl(url) && !url.match(/\.(mp3|wav|ogg|aac|m4a|flac)/i) && url.match(/\.(mp4|mov|webm|avi)/i) && (
+                      {/* LEGACY VIDEO (non-YouTube, non-audio) */}
+                      {section.contentType !== 'links' && section.contentType !== 'file_upload' && url && !isImageUrl(url) && !isYouTubeUrl(url) && !url.match(/\.(mp3|wav|ogg|aac|m4a|flac)/i) && url.match(/\.(mp4|mov|webm|avi)/i) && (
                         <View style={styles.vVideoWrap}>
                           <View style={[styles.vVideoFrame, { borderColor: `${sCfg.accentColor}30` }]}>
                             <Video
@@ -1685,15 +1743,15 @@ export default function ClassroomScreen() {
                         </View>
                       )}
 
-                      {/* TEXT */}
-                      {section.textContent ? (
+                      {/* TEXT (RichTextRenderer) */}
+                      {section.textContent && section.contentType !== 'file_upload' && section.contentType !== 'links' ? (
                         <View style={styles.vTextBlock}>
-                          <Text style={styles.vTextBody}>{section.textContent}</Text>
+                          <RichTextRenderer text={section.textContent} />
                         </View>
                       ) : null}
 
-                      {/* DOCUMENT / EXTERNAL LINK */}
-                      {eUrl && !isYouTubeUrl(eUrl) && !isImageUrl(eUrl) && !url.match(/\.(mp4|mov|webm|mp3|wav|ogg|aac|m4a|flac)/i) ? (
+                      {/* LEGACY DOCUMENT / EXTERNAL LINK */}
+                      {section.contentType !== 'links' && section.contentType !== 'file_upload' && eUrl && !isYouTubeUrl(eUrl) && !isImageUrl(eUrl) && !url.match(/\.(mp4|mov|webm|mp3|wav|ogg|aac|m4a|flac)/i) ? (
                         eUrl.match(/\.(pdf|doc|docx|xls|xlsx|ppt|pptx|zip|rar)/i) ? (
                           <DocumentViewer
                             uri={eUrl}

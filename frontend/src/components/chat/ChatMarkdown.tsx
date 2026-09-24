@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { Check, Copy } from 'lucide-react-native';
 import { Colors, Radius, Shadow, Spacing } from '../../theme';
+import MermaidViewer, { isMermaid } from '../media/MermaidViewer';
 
 interface ChatMarkdownProps {
   content: string;
@@ -266,7 +267,7 @@ export function FormattedInlineText({
   const boldTextColor = isUser ? '#FFFFFF' : '#0F172A';
 
   return (
-    <Text style={[styles.inlineBase, { color: defaultTextColor }, baseStyle]}>
+    <Text style={[styles.inlineBase, { color: defaultTextColor }, baseStyle]} selectable>
       {tokens.map((token, idx) => {
         if (token.code) {
           return (
@@ -321,6 +322,10 @@ export function FormattedInlineText({
 function CodeBlock({ code, language, isUser }: { code: string; language: string; isUser?: boolean }) {
   const [copied, setCopied] = useState(false);
 
+  if ((language && language.toLowerCase() === 'mermaid') || isMermaid(code)) {
+    return <MermaidViewer code={code} />;
+  }
+
   const handleCopy = () => {
     if (Platform.OS === 'web' && typeof navigator !== 'undefined' && navigator.clipboard) {
       navigator.clipboard.writeText(code);
@@ -345,7 +350,7 @@ function CodeBlock({ code, language, isUser }: { code: string; language: string;
         </Pressable>
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.codeScroll}>
-        <Text style={styles.codeText}>{code}</Text>
+        <Text style={styles.codeText} selectable>{code}</Text>
       </ScrollView>
     </View>
   );
@@ -707,11 +712,11 @@ const styles = StyleSheet.create({
 
   // Code Block
   codeBlockCard: {
-    marginVertical: 6,
+    marginVertical: 8,
     borderRadius: Radius.md,
-    backgroundColor: '#1E2433',
+    backgroundColor: '#F8FAFC',
     borderWidth: 1,
-    borderColor: '#2D3748',
+    borderColor: '#CBD5E1',
     overflow: 'hidden',
   },
   codeBlockHeader: {
@@ -719,39 +724,42 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: Spacing.md,
-    paddingVertical: 5,
-    backgroundColor: '#161B26',
+    paddingVertical: 6,
+    backgroundColor: '#F1F5F9',
     borderBottomWidth: 1,
-    borderBottomColor: '#2D3748',
+    borderBottomColor: '#E2E8F0',
   },
   codeBlockLang: {
     fontSize: 11,
-    fontWeight: '600',
-    color: '#94A3B8',
+    fontWeight: '700',
+    color: '#475569',
     textTransform: 'lowercase',
   },
   codeCopyBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    paddingVertical: 2,
-    paddingHorizontal: 6,
-    borderRadius: 4,
-    backgroundColor: 'rgba(255,255,255,0.06)',
+    paddingVertical: 3,
+    paddingHorizontal: 8,
+    borderRadius: 6,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#CBD5E1',
   },
   codeCopyText: {
     fontSize: 11,
-    color: '#94A3B8',
-    fontWeight: '500',
+    color: '#475569',
+    fontWeight: '600',
   },
   codeScroll: {
     padding: Spacing.md,
   },
   codeText: {
     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
-    fontSize: 12,
-    lineHeight: 18,
-    color: '#E2E8F0',
+    fontSize: 12.5,
+    lineHeight: 19,
+    color: '#0F172A',
+    ...(Platform.OS === 'web' ? ({ userSelect: 'text' as any }) : {}),
   },
 
   // Inline Code

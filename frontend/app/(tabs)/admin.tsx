@@ -1933,6 +1933,16 @@ export default function AdminScreen() {
               </View>
             </View>
           </View>
+          <SelectorModal
+            visible={standardSelectorTarget === 'viewMoreClassLevel'}
+            title="Select Standard"
+            options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
+            selected={viewMoreClassFilter}
+            showAny={true}
+            useModal={false}
+            onSelect={applyStandardSelection}
+            onClose={() => setStandardSelectorTarget(null)}
+          />
         </View>
         </Modal>
       )}
@@ -2037,6 +2047,16 @@ export default function AdminScreen() {
               {savingUser ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={styles.primaryButtonText}>Save User</Text>}
             </Pressable>
           </View>
+          <SelectorModal
+            visible={standardSelectorTarget === 'userFormClassLevel'}
+            title="Select Standard"
+            options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
+            selected={userForm.classLevel}
+            showAny={false}
+            useModal={false}
+            onSelect={applyStandardSelection}
+            onClose={() => setStandardSelectorTarget(null)}
+          />
         </View>
         </Modal>
       )}
@@ -2287,39 +2307,50 @@ export default function AdminScreen() {
               {savingSubject ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={styles.primaryButtonText}>Save Subject</Text>}
             </Pressable>
           </View>
-        </View>
-        </Modal>
-      )}
 
-      {subjectLogoLibraryOpen && (
-        <Modal visible transparent animationType="slide" onRequestClose={() => setSubjectLogoLibraryOpen(false)}>
-        <View style={styles.logoPickerOverlay}>
-          <View style={[styles.logoPickerSheet, { paddingBottom: Math.max(insets.bottom, 14) }]}>
-            <View style={styles.logoPickerHeader}>
-              <Text style={styles.sheetTitle}>Pick Subject Logo</Text>
-              <Pressable style={styles.sheetCloseButton} onPress={() => setSubjectLogoLibraryOpen(false)}>
-                <X size={18} color={Colors.textSecondary} />
-              </Pressable>
-            </View>
-            <ScrollView contentContainerStyle={styles.logoGrid}>
-              {SUBJECT_ICON_LIBRARY.map((asset) => {
-                const selected = subjectForm.iconImage.trim() === `symbol:${asset.key}`;
-                return (
-                  <Pressable
-                    key={asset.key}
-                    style={[styles.logoItem, selected && styles.logoItemActive]}
-                    onPress={() => {
-                      setSubjectForm((current) => ({ ...current, iconImage: `symbol:${asset.key}` }));
-                      setSubjectLogoLibraryOpen(false);
-                    }}
-                  >
-                    <asset.Icon size={24} color={asset.color} />
-                    <Text style={styles.logoLabel} numberOfLines={1}>{asset.label}</Text>
+          {/* Logo Picker inside Subject modal */}
+          {subjectLogoLibraryOpen && (
+            <Pressable style={styles.logoPickerOverlay} onPress={() => setSubjectLogoLibraryOpen(false)}>
+              <Pressable style={[styles.logoPickerSheet, { paddingBottom: Math.max(insets.bottom, 14) }]} onPress={(e) => e.stopPropagation()}>
+                <View style={styles.logoPickerHeader}>
+                  <Text style={styles.sheetTitle}>Pick Subject Logo</Text>
+                  <Pressable style={styles.sheetCloseButton} onPress={() => setSubjectLogoLibraryOpen(false)}>
+                    <X size={18} color={Colors.textSecondary} />
                   </Pressable>
-                );
-              })}
-            </ScrollView>
-          </View>
+                </View>
+                <ScrollView contentContainerStyle={styles.logoGrid}>
+                  {SUBJECT_ICON_LIBRARY.map((asset) => {
+                    const selected = subjectForm.iconImage.trim() === `symbol:${asset.key}`;
+                    return (
+                      <Pressable
+                        key={asset.key}
+                        style={[styles.logoItem, selected && styles.logoItemActive]}
+                        onPress={() => {
+                          setSubjectForm((current) => ({ ...current, iconImage: `symbol:${asset.key}` }));
+                          setSubjectLogoLibraryOpen(false);
+                        }}
+                      >
+                        <asset.Icon size={24} color={asset.color} />
+                        <Text style={styles.logoLabel} numberOfLines={1}>{asset.label}</Text>
+                      </Pressable>
+                    );
+                  })}
+                </ScrollView>
+              </Pressable>
+            </Pressable>
+          )}
+
+          {/* Standard selector inside Subject modal */}
+          <SelectorModal
+            visible={standardSelectorTarget === 'subjectFormClassLevel'}
+            title="Select Standard"
+            options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
+            selected={subjectForm.classLevel}
+            showAny={false}
+            useModal={false}
+            onSelect={applyStandardSelection}
+            onClose={() => setStandardSelectorTarget(null)}
+          />
         </View>
         </Modal>
       )}
@@ -2453,6 +2484,16 @@ export default function AdminScreen() {
               )}
             </View>
           </ScrollView>
+          <SelectorModal
+            visible={standardSelectorTarget === 'viewMoreTeacherClassLevel'}
+            title="Select Standard"
+            options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
+            selected={viewMoreTeacherClassFilter}
+            showAny={true}
+            useModal={false}
+            onSelect={applyStandardSelection}
+            onClose={() => setStandardSelectorTarget(null)}
+          />
         </View>
         </Modal>
       )}
@@ -2833,6 +2874,16 @@ export default function AdminScreen() {
             </View>
           )}
 
+          <SelectorModal
+            visible={standardSelectorTarget === 'teacherAssignClass'}
+            title="Select Standard"
+            options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
+            selected=""
+            showAny={false}
+            useModal={false}
+            onSelect={applyStandardSelection}
+            onClose={() => setStandardSelectorTarget(null)}
+          />
         </View>
         </Modal>
       )}
@@ -2913,16 +2964,27 @@ export default function AdminScreen() {
               {savingParentStudents ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={styles.primaryButtonText}>Save Mapping</Text>}
             </Pressable>
           </View>
+          <SelectorModal
+            visible={standardSelectorTarget === 'parentStudentClassLevel'}
+            title="Select Standard"
+            options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
+            selected={parentStudentClassLevel}
+            showAny={true}
+            useModal={false}
+            onSelect={applyStandardSelection}
+            onClose={() => setStandardSelectorTarget(null)}
+          />
         </View>
         </Modal>
       )}
 
+      {/* Root-level standard selector for page filters */}
       <SelectorModal
-        visible={standardSelectorTarget !== null}
+        visible={standardSelectorTarget === 'subjectFilterClassLevel' || standardSelectorTarget === 'studentFilterClassLevel'}
         title="Select Standard"
         options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
-        selected={''}
-        showAny={standardSelectorTarget === 'parentStudentClassLevel' || standardSelectorTarget === 'subjectFilterClassLevel' || standardSelectorTarget === 'studentFilterClassLevel' || standardSelectorTarget === 'viewMoreClassLevel'}
+        selected={standardSelectorTarget === 'subjectFilterClassLevel' ? subjectClassFilter : studentFilters.classLevel}
+        showAny={true}
         onSelect={applyStandardSelection}
         onClose={() => setStandardSelectorTarget(null)}
       />
@@ -3947,9 +4009,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   logoPickerOverlay: {
-    flex: 1,
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(15, 23, 42, 0.45)',
     justifyContent: 'flex-end',
+    zIndex: 1000,
   },
   logoPickerSheet: {
     backgroundColor: '#fff',

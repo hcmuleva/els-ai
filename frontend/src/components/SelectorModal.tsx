@@ -12,6 +12,7 @@
  *     onClose={() => setOpen(false)}
  *   />
  */
+import React, { useEffect, useRef } from 'react';
 import { Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
@@ -32,6 +33,8 @@ export type SelectorModalProps = {
   showAny?: boolean;
   /** Label for the clear option (default "Any") */
   anyLabel?: string;
+  /** When false, renders as an absolute overlay View instead of a native Modal. Useful inside existing modals to prevent modal-on-modal stacking issues. Default: true */
+  useModal?: boolean;
   onSelect: (value: string) => void;
   onClose: () => void;
 };
@@ -93,89 +96,122 @@ export default function SelectorModal({
   isSubject = false,
   showAny = true,
   anyLabel = 'Any',
+  useModal = true,
   onSelect,
   onClose,
 }: SelectorModalProps) {
   const insets = useSafeAreaInsets();
+  const overlayRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (Platform.OS === 'web' && visible && useModal && overlayRef.current) {
+      try {
+        let el: HTMLElement | null = overlayRef.current as any;
+        while (el && el.parentElement && el.parentElement !== document.body) {
+          el = el.parentElement;
+        }
+        if (el) {
+          el.style.zIndex = '999999';
+          el.style.position = 'relative';
+        }
+      } catch (_) {}
+    }
+  }, [visible, useModal]);
+
+  if (!visible) return null;
+
+  const content = (
+    <Pressable
+      ref={overlayRef}
+      style={useModal ? s.overlay : s.overlayInline}
+      onPress={onClose}
+    >
+      <Pressable style={[s.sheet, { paddingBottom: Math.max(insets.bottom, 16) }]} onPress={(e) => e.stopPropagation()}>
+        {/* Handle */}
+        <View style={s.handle} />
+
+        {/* Header */}
+        <View style={s.header}>
+          <View style={[s.headerIcon, { backgroundColor: isSubject ? '#EDE4FF' : '#D6EAFF' }]}>
+            {isSubject ? <BookOpen size={20} color="#9B8EC4" /> : <School size={20} color="#2D5DC9" />}
+          </View>
+          <Text style={s.headerTitle}>{title}</Text>
+          <Pressable onPress={onClose} style={s.closeBtn}>
+            <X size={18} color="#5A6A8A" />
+          </Pressable>
+        </View>
+
+        {/* List */}
+        <ScrollView
+          style={s.list}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={s.listContent}
+        >
+          {/* Any / clear option */}
+          {showAny && (
+            <Pressable
+              style={[s.item, !selected && s.itemActive]}
+              onPress={() => { onSelect(''); onClose(); }}
+            >
+              <View style={[s.itemIcon, { backgroundColor: '#F0F0F8' }]}>
+                <X size={14} color="#525C6B" />
+              </View>
+              <Text style={[s.itemText, !selected && s.itemTextActive]}>{anyLabel}</Text>
+              {!selected && <Check size={16} color="#2D5DC9" />}
+            </Pressable>
+          )}
+
+          {options.map((option) => {
+            const isActive = selected === option.value;
+            const entry    = getIconEntry(isSubject);
+            const coverUrl = isSubject ? resolveOptionIconUrl(option.coverImage) : null;
+            const iconSymbol = isSubject ? resolveIconSymbol(option.iconUrl) : null;
+            const symbolEntry = iconSymbol ? SUBJECT_SYMBOL_ICONS[iconSymbol] : null;
+            const iconUrl = isSubject ? resolveOptionIconUrl(option.iconUrl) : null;
+            const iconBgColor = isSubject ? resolveOptionBgColor(option.iconBgColor) : null;
+            return (
+              <Pressable
+                key={option.value}
+                style={[s.item, isActive && s.itemActive]}
+                onPress={() => { onSelect(option.value); onClose(); }}
+              >
+                <View style={[s.itemIcon, { backgroundColor: iconBgColor || symbolEntry?.bg || entry.bg }]}>
+                  {coverUrl ? (
+                    <Image source={{ uri: coverUrl }} style={s.optionImage} resizeMode="cover" />
+                  ) : iconSymbol && symbolEntry ? (
+                    <symbolEntry.Icon size={16} color={symbolEntry.color} />
+                  ) : iconUrl ? (
+                    <Image source={{ uri: iconUrl }} style={s.optionImage} resizeMode="cover" />
+                  ) : isSubject ? (
+                    <Text style={s.initialText}>{getInitials(option.label)}</Text>
+                  ) : (
+                    <entry.Icon size={16} color={entry.color} />
+                  )}
+                </View>
+                <Text style={[s.itemText, isActive && s.itemTextActive]}>{option.label}</Text>
+                {isActive && <Check size={16} color="#2D5DC9" />}
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      </Pressable>
+    </Pressable>
+  );
+
+  if (!useModal) {
+    return content;
+  }
+
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
-      <Pressable style={s.overlay} onPress={onClose}>
-        <Pressable style={[s.sheet, { paddingBottom: Math.max(insets.bottom, 16) }]} onPress={(e) => e.stopPropagation()}>
-          {/* Handle */}
-          <View style={s.handle} />
-
-          {/* Header */}
-          <View style={s.header}>
-            <View style={[s.headerIcon, { backgroundColor: isSubject ? '#EDE4FF' : '#D6EAFF' }]}>
-              {isSubject ? <BookOpen size={20} color="#9B8EC4" /> : <School size={20} color="#2D5DC9" />}
-            </View>
-            <Text style={s.headerTitle}>{title}</Text>
-            <Pressable onPress={onClose} style={s.closeBtn}>
-              <X size={18} color="#5A6A8A" />
-            </Pressable>
-          </View>
-
-          {/* List */}
-          <ScrollView
-            style={s.list}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={s.listContent}
-          >
-            {/* Any / clear option */}
-            {showAny && (
-              <Pressable
-                style={[s.item, !selected && s.itemActive]}
-                onPress={() => { onSelect(''); onClose(); }}
-              >
-                <View style={[s.itemIcon, { backgroundColor: '#F0F0F8' }]}>
-                  <X size={14} color="#525C6B" />
-                </View>
-                <Text style={[s.itemText, !selected && s.itemTextActive]}>{anyLabel}</Text>
-                {!selected && <Check size={16} color="#2D5DC9" />}
-              </Pressable>
-            )}
-
-            {options.map((option) => {
-              const isActive = selected === option.value;
-              const entry    = getIconEntry(isSubject);
-              const coverUrl = isSubject ? resolveOptionIconUrl(option.coverImage) : null;
-              const iconSymbol = isSubject ? resolveIconSymbol(option.iconUrl) : null;
-              const symbolEntry = iconSymbol ? SUBJECT_SYMBOL_ICONS[iconSymbol] : null;
-              const iconUrl = isSubject ? resolveOptionIconUrl(option.iconUrl) : null;
-              const iconBgColor = isSubject ? resolveOptionBgColor(option.iconBgColor) : null;
-              return (
-                <Pressable
-                  key={option.value}
-                  style={[s.item, isActive && s.itemActive]}
-                  onPress={() => { onSelect(option.value); onClose(); }}
-                >
-                  <View style={[s.itemIcon, { backgroundColor: iconBgColor || symbolEntry?.bg || entry.bg }]}>
-                    {coverUrl ? (
-                      <Image source={{ uri: coverUrl }} style={s.optionImage} resizeMode="cover" />
-                    ) : iconSymbol && symbolEntry ? (
-                      <symbolEntry.Icon size={16} color={symbolEntry.color} />
-                    ) : iconUrl ? (
-                      <Image source={{ uri: iconUrl }} style={s.optionImage} resizeMode="cover" />
-                    ) : isSubject ? (
-                      <Text style={s.initialText}>{getInitials(option.label)}</Text>
-                    ) : (
-                      <entry.Icon size={16} color={entry.color} />
-                    )}
-                  </View>
-                  <Text style={[s.itemText, isActive && s.itemTextActive]}>{option.label}</Text>
-                  {isActive && <Check size={16} color="#2D5DC9" />}
-                </Pressable>
-              );
-            })}
-          </ScrollView>
-        </Pressable>
-      </Pressable>
+      {content}
     </Modal>
   );
 }
 
 const s = StyleSheet.create({
   overlay:    { flex: 1, backgroundColor: 'rgba(15,23,42,0.45)', justifyContent: 'flex-end', ...(Platform.OS === 'web' ? { zIndex: 99999, position: 'fixed' as any, top: 0, left: 0, right: 0, bottom: 0 } : {}) },
+  overlayInline: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(15,23,42,0.45)', justifyContent: 'flex-end', zIndex: 1000 },
   sheet:      { backgroundColor: '#fff', borderTopLeftRadius: 24, borderTopRightRadius: 24, maxHeight: '82%', paddingBottom: Platform.OS === 'ios' ? 34 : 16 },
   handle:     { width: 40, height: 4, borderRadius: 2, backgroundColor: '#E0E4F0', alignSelf: 'center', marginTop: 12, marginBottom: 8 },
   header:     { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 18, paddingBottom: 12 },
