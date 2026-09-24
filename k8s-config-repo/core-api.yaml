@@ -21,7 +21,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: core-api
-          image: harishdell/els-ai-core-api:sha-98ac792
+          image: harishdell/els-ai-core-api:sha-03f9dce
           imagePullPolicy: Always
           ports:
             - name: http
