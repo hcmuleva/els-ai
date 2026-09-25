@@ -42,6 +42,56 @@ export async function deleteConversation(apiFetch: ApiFetch, conversationId: str
   if (!res.ok && res.status !== 204) throw new Error('Failed to delete conversation');
 }
 
+export interface StudentPerformanceSummaryData {
+  student: {
+    id: string;
+    name: string;
+    firstName?: string;
+    lastName?: string;
+    classLevel: string;
+    email: string;
+    profileImage?: string | null;
+  };
+  metrics: {
+    totalQuizzes: number;
+    averageScorePct: number;
+    bestQuiz: {
+      quizId: string;
+      title: string;
+      scorePct: number;
+      score: number;
+      totalPoints: number;
+      completedAt: string;
+    } | null;
+    lowestQuizzes: Array<{
+      quizId: string;
+      title: string;
+      scorePct: number;
+      score: number;
+      totalPoints: number;
+      completedAt: string;
+    }>;
+    weakQuestions: Array<{
+      title: string;
+      type: string;
+      missedCount: number;
+    }>;
+    latestRemarks: Array<{
+      remark: string;
+      category: string;
+      createdAt: string;
+    }>;
+  };
+  jevDiagnosis: {
+    masteryTier: string;
+    riskScore: number;
+    primaryWeakDomain: string;
+    recommendedIntervention: string;
+    confidence: number;
+    source: string;
+  };
+}
+
 export type StreamChatHandlers = {
   onConversationId?: (id: string) => void;
   onThinking?: (thought: string) => void;
@@ -49,6 +99,33 @@ export type StreamChatHandlers = {
   onDone: () => void;
   onError: (message: string) => void;
 };
+
+export async function searchStudents(
+  apiFetch: (path: string, options?: RequestInit) => Promise<Response>,
+  query: string = '',
+): Promise<Array<{ id: string; firstName: string; lastName: string; email: string; classLevel?: string }>> {
+  try {
+    const res = await apiFetch(`/feedback/students?query=${encodeURIComponent(query)}&limit=12`);
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.students || [];
+  } catch {
+    return [];
+  }
+}
+
+export async function fetchStudentPerformanceSummary(
+  apiFetch: (path: string, options?: RequestInit) => Promise<Response>,
+  studentId: string,
+): Promise<StudentPerformanceSummaryData | null> {
+  try {
+    const res = await apiFetch(`/students/${studentId}/ai-performance-summary`);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Sends a chat message and streams the assistant's reply.
@@ -63,7 +140,11 @@ export type StreamChatHandlers = {
  * other screen's `apiFetch` call has since refreshed.
  */
 export async function streamChatMessage(
-  input: { conversationId?: string; message: string },
+  input: {
+    conversationId?: string;
+    message: string;
+    studentContext?: StudentPerformanceSummaryData | null;
+  },
   handlers: StreamChatHandlers,
 ): Promise<void> {
   const token = await getStorageItem('accessToken');

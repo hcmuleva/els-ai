@@ -45,6 +45,7 @@ import {
   type EntityRevisionProposalData,
 } from '../../services/aiChat';
 import type { ClarifyingQuestionData } from './ClarifyingQuestionCard';
+import type { LearningGapSummaryData } from './LearningGapCard';
 import { ChatMarkdown } from './ChatMarkdown';
 
 interface ProposalCardProps {
@@ -105,13 +106,16 @@ const ORDERED_STEPS = [
 function normalizeContentType(
   raw?: string,
 ): 'topic' | 'content' | 'quiz' | 'question' | 'classroom' | 'story' {
-  const lower = (raw || '').toLowerCase().replace(/[-_]/g, '');
-  if (lower.includes('lesson') || lower.includes('content') || lower.includes('plan')) return 'content';
+  const lower = (raw || '').toLowerCase().replace(/[-_ ]/g, '');
+  if (lower.includes('performance') || lower.includes('report') || lower.includes('diagnostic') || lower.includes('analytics')) {
+    return 'content';
+  }
+  if (lower.includes('quiz') || lower.includes('assessment')) return 'quiz';
   if (lower.includes('topic')) return 'topic';
-  if (lower.includes('quiz')) return 'quiz';
   if (lower.includes('question')) return 'question';
   if (lower.includes('class')) return 'classroom';
   if (lower.includes('story') || lower.includes('stories')) return 'story';
+  // Default lessons, summaries, performance summaries, reports, content to 'content'
   return 'content';
 }
 
@@ -126,29 +130,73 @@ function normalizeGradeLevel(val?: string | number): string {
   return str;
 }
 
+function robustJsonParse(str: string): any {
+  if (!str) return null;
+  const trimmed = str.trim();
+  try {
+    return JSON.parse(trimmed);
+  } catch {
+    try {
+      // 1. Remove comments: // ... or /* ... */
+      let sanitized = trimmed.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
+      // 2. Remove trailing commas before } or ]
+      sanitized = sanitized.replace(/,\s*([}\]])/g, '$1');
+      return JSON.parse(sanitized);
+    } catch {
+      return null;
+    }
+  }
+}
+
 export function extractProposalFromMessage(content: string): {
   cleanedContent: string;
   proposal?: GenerationProposalData;
   revision?: RevisionProposalData;
   entityRevision?: EntityRevisionProposalData;
   clarifyingQuestion?: ClarifyingQuestionData;
+  learningGapSummary?: LearningGapSummaryData;
 } {
   if (!content) return { cleanedContent: content };
 
-  // 1. Try markdown code block: ```(?:json)? ... ```
-  const codeBlockRegex = /```(?:json)?\s*([\s\S]*?)```/g;
+  // 1. Try markdown code block: ```(?:json[a-z0-9_-]*)? ... ```
+  const codeBlockRegex = /```(?:json[a-z0-9_-]*)?\s*([\s\S]*?)```/gi;
   let blockMatch: RegExpExecArray | null;
   while ((blockMatch = codeBlockRegex.exec(content)) !== null) {
     try {
-      let parsed = JSON.parse(blockMatch[1].trim());
-      if (parsed) {
-        // Robustness: if model outputted "type": "content" or "type": "topic" etc., normalize to generation_proposal
+      let rawInner = blockMatch[1].trim();
+      rawInner = rawInner.replace(/^(?:json|javascript)\s*/i, '');
+      let parsed = robustJsonParse(rawInner);
+      if (parsed && typeof parsed === 'object') {
+        const rawType = String(parsed.type || '').toLowerCase().trim();
+
+        // 1a. Check for learning gap / weak areas summary
         if (
-          !parsed.type ||
-          ['content', 'topic', 'quiz', 'question', 'classroom', 'story'].includes(parsed.type)
+          rawType.includes('learning_gap') ||
+          rawType.includes('weak_area') ||
+          (Array.isArray(parsed.weak_areas) && parsed.weak_areas.length > 0)
         ) {
-          if (parsed.contentType || parsed.params || parsed.title) {
-            parsed.contentType = normalizeContentType(parsed.contentType || parsed.type);
+          let cleaned = (
+            content.substring(0, blockMatch.index) +
+            content.substring(blockMatch.index + blockMatch[0].length)
+          ).trim();
+          return {
+            cleanedContent: cleaned,
+            learningGapSummary: parsed as LearningGapSummaryData,
+          };
+        }
+
+        // Robustness: normalize loose proposal types (e.g. "summary_report", "summary proposal", "summary", "report", "lesson", etc.)
+        const isProposalLike =
+          !parsed.type ||
+          rawType.includes('proposal') ||
+          rawType.includes('report') ||
+          rawType.includes('summary') ||
+          rawType.includes('diagnostic') ||
+          ['content', 'topic', 'quiz', 'question', 'classroom', 'story', 'lesson', 'worksheet', 'assessment'].includes(rawType);
+
+        if (isProposalLike && rawType !== 'clarifying_question' && rawType !== 'revision_proposal' && rawType !== 'entity_revision_proposal') {
+          if (parsed.contentType || parsed.params || parsed.title || parsed.summary || rawType.includes('proposal') || rawType.includes('report')) {
+            parsed.contentType = normalizeContentType(parsed.contentType || parsed.type || (parsed.params && parsed.params.contentType) || 'content');
             parsed.type = 'generation_proposal';
           }
         }
@@ -198,16 +246,25 @@ export function extractProposalFromMessage(content: string): {
     }
   }
 
-  // 2. Try raw JSON object containing "type": "generation_proposal", "revision_proposal", "entity_revision_proposal", or "clarifying_question"
-  const targetIndex = content.search(
-    /"(?:type|contentType)"\s*:\s*"(?:generation_proposal|revision_proposal|entity_revision_proposal|clarifying_question|content|topic|quiz|question|classroom|story)"/,
+  // 2. Try raw JSON object containing "type", "contentType", or "weak_areas"
+  let targetIndex = content.search(
+    /"(?:type|contentType)"\s*:\s*"(?:generation_proposal|revision_proposal|entity_revision_proposal|clarifying_question|content|topic|quiz|question|classroom|story|summary_report|summary\s*proposal|summary|report|diagnostic|learning_gap_summary|learning_gap|weak_areas?)"/i,
   );
+  if (targetIndex === -1) {
+    targetIndex = content.search(/"weak_areas"\s*:/i);
+  }
   if (targetIndex !== -1) {
     let startIndex = -1;
+    let braceBalance = 0;
     for (let i = targetIndex; i >= 0; i--) {
-      if (content[i] === '{') {
-        startIndex = i;
-        break;
+      if (content[i] === '}') {
+        braceBalance++;
+      } else if (content[i] === '{') {
+        if (braceBalance === 0) {
+          startIndex = i;
+          break;
+        }
+        braceBalance--;
       }
     }
 
@@ -246,14 +303,39 @@ export function extractProposalFromMessage(content: string): {
       if (endIndex !== -1) {
         try {
           const rawJson = content.substring(startIndex, endIndex);
-          let parsed = JSON.parse(rawJson);
-          if (parsed) {
+          let parsed = robustJsonParse(rawJson);
+          if (parsed && typeof parsed === 'object') {
+            const rawType = String(parsed.type || '').toLowerCase().trim();
+
+            // 2a. Check for learning gap / weak areas summary
             if (
-              !parsed.type ||
-              ['content', 'topic', 'quiz', 'question', 'classroom', 'story'].includes(parsed.type)
+              rawType.includes('learning_gap') ||
+              rawType.includes('weak_area') ||
+              (Array.isArray(parsed.weak_areas) && parsed.weak_areas.length > 0)
             ) {
-              if (parsed.contentType || parsed.params || parsed.title) {
-                parsed.contentType = normalizeContentType(parsed.contentType || parsed.type);
+              let cleaned = (content.substring(0, startIndex) + content.substring(endIndex)).trim();
+              return {
+                cleanedContent: cleaned,
+                learningGapSummary: parsed as LearningGapSummaryData,
+              };
+            }
+
+            const isStudentReportOrSummary =
+              rawType.includes('report') ||
+              rawType.includes('diagnostic') ||
+              rawType.includes('summary') ||
+              rawType.includes('student') ||
+              rawType.includes('performance');
+
+            const isProposalLike =
+              !isStudentReportOrSummary &&
+              (!parsed.type ||
+                rawType.includes('proposal') ||
+                ['content', 'topic', 'quiz', 'question', 'classroom', 'story', 'lesson', 'worksheet', 'assessment'].includes(rawType));
+
+            if (isProposalLike && rawType !== 'clarifying_question' && rawType !== 'revision_proposal' && rawType !== 'entity_revision_proposal') {
+              if (parsed.contentType || parsed.params || parsed.title || parsed.summary || rawType.includes('proposal')) {
+                parsed.contentType = normalizeContentType(parsed.contentType || parsed.type || (parsed.params && parsed.params.contentType) || 'content');
                 parsed.type = 'generation_proposal';
               }
             }
@@ -295,28 +377,30 @@ export function extractProposalFromMessage(content: string): {
         } catch {
           // ignore parsing error
         }
-      } else if (
-        content.includes('"type": "generation_proposal"') ||
-        content.includes('"type": "entity_revision_proposal"') ||
-        content.includes('"contentType": "content"') ||
-        content.includes('"type": "content"')
-      ) {
-        // Stream in progress: hide partial raw JSON
-        const cleaned = content.substring(0, startIndex).trim();
-        return { cleanedContent: cleaned || 'Drafting proposal...' };
       }
     }
   }
 
-  // 3. Handle unclosed streaming markdown fence
-  const unclosedMatch = content.match(/```(?:json)?\s*(\{[\s\S]*)$/);
+  // 3. Handle unclosed streaming markdown fence or raw JSON in progress (strictly for creation proposals or gap summaries)
+  const unclosedMatch = content.match(/```(?:json[a-z0-9_-]*)?\s*(\{[\s\S]*)$/i);
   if (
     unclosedMatch &&
-    (content.includes('"type": "generation_proposal"') ||
-      content.includes('"type": "entity_revision_proposal"'))
+    (content.includes('"generation_proposal"') ||
+      content.includes('"revision_proposal"') ||
+      content.includes('"entity_revision_proposal"') ||
+      content.includes('"clarifying_question"') ||
+      content.includes('"learning_gap_summary"') ||
+      content.includes('"weak_areas"') ||
+      (content.includes('"type"') && content.includes('"contentType"')))
   ) {
     const cleaned = content.substring(0, content.indexOf(unclosedMatch[0])).trim();
-    return { cleanedContent: cleaned || 'Drafting proposal...' };
+    return {
+      cleanedContent:
+        cleaned ||
+        (content.includes('"weak_areas"') || content.includes('"learning_gap"')
+          ? 'Analyzing student learning gaps...'
+          : 'Drafting proposal...'),
+    };
   }
 
   return { cleanedContent: content };

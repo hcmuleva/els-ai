@@ -24,7 +24,15 @@
 --      tried to backfill are gone.
 
 ALTER TABLE public.achievements ADD COLUMN IF NOT EXISTS name VARCHAR(255);
-UPDATE public.achievements SET name = title WHERE name IS NULL AND title IS NOT NULL;
+DO $$
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_schema = 'public' AND table_name = 'achievements' AND column_name = 'title'
+  ) THEN
+    EXECUTE 'UPDATE public.achievements SET name = title WHERE name IS NULL AND title IS NOT NULL';
+  END IF;
+END $$;
 
 -- (a) Allow tenants to read globally-published achievements.
 DROP POLICY IF EXISTS achievements_tenant_select ON public.achievements;

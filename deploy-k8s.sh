@@ -20,7 +20,7 @@ rsync -avz --delete \
 echo "----------------------------------------"
 echo "⚙️  Applying kubectl on $SSH_HOST..."
 echo "----------------------------------------"
-ssh els "sudo kubectl apply -k $REMOTE_DIR/ && sudo kubectl rollout restart deployment -n els-ai"
+ssh els "sudo kubectl delete job els-migrations -n els-ai --ignore-not-found && sudo kubectl apply -k $REMOTE_DIR/ && sudo kubectl rollout restart deployment -n els-ai"
 
 echo "========================================"
 echo "✅ K8s deployment complete!"

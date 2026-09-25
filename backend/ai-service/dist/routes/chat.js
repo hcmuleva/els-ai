@@ -2,7 +2,8 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { requireAuth } from '../middleware/auth.js';
 import { systemPromptForRole, defaultTitleForRole, canGenerateContent } from '../chat/prompts.js';
-import { appendMessage, createConversation, loadConversationMessages } from '../chat/persistClient.js';
+import { appendMessage, createConversation, loadConversationMessages, updateConversationTitle } from '../chat/persistClient.js';
+import { generateFastTitle, generateLlmTitle } from '../chat/titleGenerator.js';
 import { recordProviderUsage } from '../chat/usageClient.js';
 import { agentRouter } from '../agents/router.js';
 export const chatRouter = Router();
@@ -13,6 +14,8 @@ const chatRequestSchema = z.object({
     provider: z.string().trim().min(1).max(64).optional(),
     // Optional explicit model name (e.g. "gpt-4o", "claude-3-5-sonnet", etc.)
     model: z.string().trim().min(1).max(128).optional(),
+    // Optional active student context with verified DB metrics & Jev diagnosis
+    studentContext: z.record(z.string(), z.any()).optional(),
 });
 // GET /ai/chat/providers — registered providers the caller's role may use,
 // for a future provider-selector UI.
@@ -37,7 +40,7 @@ chatRouter.post('/', requireAuth, async (req, res) => {
     }
     const gatewayBaseUrl = process.env.API_GATEWAY_URL || 'http://localhost:4000';
     const role = req.user?.role;
-    const { conversationId, message, provider: requestedProvider, model: requestedModel } = parsed.data;
+    const { conversationId, message, provider: requestedProvider, model: requestedModel, studentContext, } = parsed.data;
     try {
         let activeConversationId = conversationId;
         let priorMessages = [];
@@ -52,14 +55,61 @@ chatRouter.post('/', requireAuth, async (req, res) => {
             });
             activeConversationId = conversation.id;
         }
-        const titleHint = priorMessages.length === 0 ? message.slice(0, 60) : undefined;
+        const titleHint = priorMessages.length === 0 ? generateFastTitle(message) : undefined;
         await appendMessage(gatewayBaseUrl, authorization, activeConversationId, {
             role: 'user',
             content: message,
             titleHint,
         });
+        let systemPrompt = systemPromptForRole(role);
+        if (studentContext) {
+            const ctx = studentContext;
+            const studentName = ctx.student?.name || 'Selected Student';
+            const studentClass = ctx.student?.classLevel ? `(Grade: ${ctx.student.classLevel})` : '';
+            const metrics = ctx.metrics || {};
+            const jev = ctx.jevDiagnosis || {};
+            const bestQuizStr = metrics.bestQuiz ? `${metrics.bestQuiz.title} (Score: ${metrics.bestQuiz.scorePct}%)` : 'None logged';
+            const lowestQuizzesStr = metrics.lowestQuizzes?.length
+                ? metrics.lowestQuizzes.map((q) => `${q.title} (${q.scorePct}%)`).join(', ')
+                : 'None';
+            const weakQuestionsStr = metrics.weakQuestions?.length
+                ? metrics.weakQuestions.map((q) => `${q.title} (Missed ${q.missedCount}x)`).join('; ')
+                : 'No recurring question errors';
+            const remarksStr = metrics.latestRemarks?.length
+                ? metrics.latestRemarks.map((r) => `"${r.remark}"`).join('; ')
+                : 'None';
+            systemPrompt += `\n\n## ACTIVE STUDENT CONTEXT (VERIFIED DB METRICS & DIAGNOSTIC EVALUATION):
+- Student: ${studentName} ${studentClass}
+- Total Quizzes Attempted: ${metrics.totalQuizzes ?? 0}
+- Overall Average Accuracy: ${metrics.averageScorePct ?? 0}%
+- Best Performed Quiz: ${bestQuizStr}
+- Lowest Scoring Quizzes: ${lowestQuizzesStr}
+- Top Missed Concepts / Weak Questions: ${weakQuestionsStr}
+- Teacher Remarks: ${remarksStr}
+- Academic Mastery Standing: ${jev.masteryTier || 'N/A'} (Struggle Risk: ${jev.riskScore ?? 0}/3)
+- Primary Learning Gap / Struggle Domain: ${jev.primaryWeakDomain || 'None'}
+- Recommended Action Plan: ${jev.recommendedIntervention || 'None'}
+
+CRITICAL RULES FOR THIS STUDENT:
+1. The teacher is asking specifically about ${studentName}.
+2. ALWAYS ground your answers in the verified database metrics and diagnostic evaluation above.
+3. When asked for weak areas, performance summaries, or report cards, cite these exact numbers, titles, and insights directly in clean, beautifully structured Markdown (with bold stats, bullet lists, and clear sections).
+4. When asked for weak areas or learning gaps, you can output a structured learning gap card using:
+\`\`\`json
+{
+  "type": "learning_gap_summary",
+  "weak_areas": [
+    { "title": "<Topic / Concept Title>", "description": "<Diagnosed struggle details>" }
+  ],
+  "learning_gap": "<Brief pedagogical synthesis of the core struggle>"
+}
+\`\`\`
+followed by a 1-2 sentence pedagogical note, OR clean Markdown. NEVER output a \`generation_proposal\` for student summaries or report cards.
+5. NEVER mention the internal engine name "Jev" to the user. Refer to it naturally as "Academic Diagnostics", "Learning Insights", or "Pedagogical Recommendations".
+6. If the teacher asks to create a remedial quiz or lesson, then and only then propose a standard generation proposal.`;
+        }
         const chatMessages = [
-            { role: 'system', content: systemPromptForRole(role) },
+            { role: 'system', content: systemPrompt },
             ...priorMessages,
             { role: 'user', content: message },
         ];
@@ -170,6 +220,14 @@ chatRouter.post('/', requireAuth, async (req, res) => {
             }).catch((err) => {
                 console.error('[ai-chat] failed to persist assistant reply', err);
             });
+            // Refine conversation title with intelligent LLM label after the first turn
+            if (priorMessages.length === 0 && activeConversationId) {
+                void generateLlmTitle(message, fullReply).then((refined) => {
+                    if (refined && activeConversationId) {
+                        void updateConversationTitle(gatewayBaseUrl, authorization, activeConversationId, refined).catch(() => { });
+                    }
+                });
+            }
         }
         writeSse(res, { done: true, conversationId: activeConversationId });
         return res.end();

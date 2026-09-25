@@ -1,4 +1,12 @@
-export type MediaType = 'image' | 'audio' | 'video';
+export type MediaType =
+  | 'image'
+  | 'audio'
+  | 'video'
+  | 'document'
+  | 'text'
+  | 'pdf'
+  | 'html'
+  | 'file_upload';
 
 export type UploadMediaInput = {
   organizationId: string;

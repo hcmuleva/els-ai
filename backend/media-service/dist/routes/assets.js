@@ -12,12 +12,22 @@ function requireInternalSecret(req, res, next) {
     }
     return next();
 }
+export const ALLOWED_MEDIA_TYPES = [
+    'image',
+    'audio',
+    'video',
+    'document',
+    'text',
+    'pdf',
+    'html',
+    'file_upload',
+];
 const internalUploadSchema = z.object({
     organizationId: z.string().uuid(),
     dataUrl: z.string().trim().min(1),
     fileName: z.string().trim().min(1).max(255),
     mimeType: z.string().trim().optional(),
-    mediaType: z.enum(['image', 'audio', 'video']),
+    mediaType: z.enum(ALLOWED_MEDIA_TYPES),
 });
 const internalResolveSchema = z.object({
     url: z.string().trim().min(1),
@@ -29,7 +39,7 @@ const uploadAssetSchema = z.object({
     dataUrl: z.string().trim().min(1),
     fileName: z.string().trim().min(1).max(255),
     mimeType: z.string().trim().optional(),
-    mediaType: z.enum(['image', 'audio', 'video']),
+    mediaType: z.enum(ALLOWED_MEDIA_TYPES),
     context: z.string().trim().optional(),
 });
 const resolveUrlSchema = z.object({

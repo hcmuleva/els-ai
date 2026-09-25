@@ -69,6 +69,9 @@ import TeacherFeedbackTab from "../../src/components/feedback/TeacherFeedbackTab
 import TrendAnalysisTab from "../../src/components/reports/TrendAnalysisTab";
 import { RISK_CLR } from "../../src/components/reports/charts";
 import { riskFromScore } from "../../src/utils/riskForecast";
+import { SurveyChatScreen } from "../../src/components/chat/SurveyChatScreen";
+import { PerformanceChatScreen } from "../../src/components/chat/PerformanceChatScreen";
+import { ReviewQueueScreen } from "../../src/components/chat/ReviewQueueScreen";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type TeacherOverview = {
@@ -538,6 +541,8 @@ function CounselingTab({
   const [report, setReport] = useState<CounselingReportData | null>(null);
   const [loadingReport, setLoadingReport] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [showSurveyModal, setShowSurveyModal] = useState(false);
+  const [showPerformanceChatModal, setShowPerformanceChatModal] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -603,15 +608,55 @@ function CounselingTab({
 
   return (
     <>
-      {/* Intro hero */}
+      {/* AI Survey Chat Hero */}
+      <View style={[cs.intro, { backgroundColor: '#F0FDF4', borderWidth: 1, borderColor: '#BBF7D0', marginBottom: 10 }]}>
+        <View style={[cs.introIcon, { backgroundColor: Colors.success }]}>
+          <MessageCircle size={22} color="#fff" />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={[cs.introTitle, { color: '#166534' }]}>Parent Survey Chat</Text>
+          <Text style={[cs.introSub, { color: '#15803D' }]}>
+            Share home & study observations that log directly for teachers.
+          </Text>
+        </View>
+        <Pressable
+          style={[cs.introBtn, { borderWidth: 1, borderColor: '#BBF7D0' }]}
+          onPress={() => setShowSurveyModal(true)}
+        >
+          <Sparkles size={14} color={Colors.success} />
+          <Text style={[cs.introBtnText, { color: Colors.success }]}>Chat</Text>
+        </Pressable>
+      </View>
+
+      {/* Performance Intelligence Deep-Dive Hero */}
+      <View style={[cs.intro, { backgroundColor: '#EFF6FF', borderWidth: 1, borderColor: '#BFDBFE', marginBottom: 12 }]}>
+        <View style={[cs.introIcon, { backgroundColor: Colors.primary }]}>
+          <Sparkles size={22} color="#fff" />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={[cs.introTitle, { color: '#1E40AF' }]}>Performance Intelligence</Text>
+          <Text style={[cs.introSub, { color: '#1D4ED8' }]}>
+            Interactive Q&A and comprehensive progress report breakdown.
+          </Text>
+        </View>
+        <Pressable
+          style={[cs.introBtn, { borderWidth: 1, borderColor: '#BFDBFE' }]}
+          onPress={() => setShowPerformanceChatModal(true)}
+        >
+          <Sparkles size={14} color={Colors.primary} />
+          <Text style={[cs.introBtnText, { color: Colors.primary }]}>Explore</Text>
+        </Pressable>
+      </View>
+
+      {/* Traditional Intro hero */}
       <View style={cs.intro}>
         <View style={cs.introIcon}>
           <Brain size={24} color="#fff" />
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={cs.introTitle}>AI Counseling</Text>
+          <Text style={cs.introTitle}>AI Counseling Questionnaire</Text>
           <Text style={cs.introSub}>
-            Guided check-in and a holistic AI report card.
+            Standard guided check-in and holistic AI report card.
           </Text>
         </View>
         <Pressable
@@ -821,6 +866,27 @@ function CounselingTab({
             )}
           </View>
         </View>
+      </Modal>
+
+      {/* Survey Chat Modal */}
+      <Modal visible={showSurveyModal} animationType="slide">
+        <SurveyChatScreen
+          studentId={studentId}
+          studentName={studentName}
+          onClose={() => {
+            setShowSurveyModal(false);
+            load();
+          }}
+        />
+      </Modal>
+
+      {/* Performance Chat Modal */}
+      <Modal visible={showPerformanceChatModal} animationType="slide">
+        <PerformanceChatScreen
+          studentId={studentId}
+          studentName={studentName}
+          onClose={() => setShowPerformanceChatModal(false)}
+        />
       </Modal>
     </>
   );
@@ -3667,7 +3733,7 @@ export default function ReportsScreen() {
   const [seenStudentAttempts, setSeenStudentAttempts] = useState<Set<string>>(
     new Set(),
   );
-  const [teacherSection, setTeacherSection] = useState<"dashboard" | "feedback">("feedback");
+  const [teacherSection, setTeacherSection] = useState<"dashboard" | "feedback" | "review">("feedback");
 
   // Load persisted seen attempts for this teacher on mount
   useEffect(() => {
@@ -3795,9 +3861,17 @@ export default function ReportsScreen() {
             >
               <Text style={{ fontSize: 12, fontWeight: teacherSection === 'feedback' ? '800' : '600', color: teacherSection === 'feedback' ? Colors.primary : Colors.textMuted }}>Feedback</Text>
             </Pressable>
+            <Pressable
+              style={{ flex: 1, paddingVertical: 10, borderRadius: 11, alignItems: 'center', backgroundColor: teacherSection === 'review' ? '#fff' : 'transparent' }}
+              onPress={() => setTeacherSection('review')}
+            >
+              <Text style={{ fontSize: 12, fontWeight: teacherSection === 'review' ? '800' : '600', color: teacherSection === 'review' ? Colors.primary : Colors.textMuted }}>Review Queue</Text>
+            </Pressable>
           </View>
 
-          {teacherSection === 'feedback' ? (
+          {teacherSection === 'review' ? (
+            <ReviewQueueScreen />
+          ) : teacherSection === 'feedback' ? (
             <TeacherFeedbackTab />
           ) : (
           <>

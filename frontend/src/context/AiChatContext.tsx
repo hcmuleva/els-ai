@@ -4,6 +4,7 @@ import {
 import { useAuth } from './AuthContext';
 import {
   ChatConversation, ChatMessage, deleteConversation, fetchConversationMessages, listConversations, streamChatMessage,
+  type StudentPerformanceSummaryData,
 } from '../services/aiChat';
 
 type AiChatContextValue = {
@@ -28,7 +29,7 @@ type AiChatContextValue = {
   isThinking: boolean;
   isSending: boolean;
   sendError: string | null;
-  sendMessage: (text: string) => Promise<void>;
+  sendMessage: (text: string, studentContext?: StudentPerformanceSummaryData | null) => Promise<void>;
 };
 
 const AiChatContext = createContext<AiChatContextValue | null>(null);
@@ -128,7 +129,7 @@ export function AiChatProvider({ children }: PropsWithChildren) {
     }
   }, [apiFetch, loadConversations, startNewConversation]);
 
-  const sendMessage = useCallback(async (text: string) => {
+  const sendMessage = useCallback(async (text: string, studentContext?: StudentPerformanceSummaryData | null) => {
     const trimmed = text.trim();
     if (!trimmed || isSending) return;
 
@@ -143,22 +144,24 @@ export function AiChatProvider({ children }: PropsWithChildren) {
       content: trimmed,
       createdAt: new Date().toISOString(),
     };
+    const isGenerativeOrComplexWork =
+      /generate|create|draft|lesson plan|curriculum|build|worksheet|assignment|quiz|proposal/i.test(trimmed);
+
     setMessages((prev) => [...prev, optimisticMessage]);
     setStreamingReply('');
     setStreamingThinking('');
-    setIsThinking(true);
+    setIsThinking(false);
     setSendError(null);
     setIsSending(true);
 
     await streamChatMessage(
-      { conversationId: conversationIdAtSend || undefined, message: trimmed },
+      {
+        conversationId: conversationIdAtSend || undefined,
+        message: trimmed,
+        studentContext: studentContext || undefined,
+      },
       {
         onConversationId: (id) => {
-          // First message of a brand-new conversation: adopt the id the
-          // server assigned so subsequent turns stay in the same thread, and
-          // refresh the history list now — the conversation + user message
-          // are already persisted server-side at this point regardless of
-          // whether the model call that follows succeeds or errors out.
           if (isCurrent() && !activeConversationRef.current) {
             activeConversationRef.current = id;
             setActiveConversationId(id);
@@ -166,21 +169,10 @@ export function AiChatProvider({ children }: PropsWithChildren) {
           }
         },
         onThinking: (thought) => {
-          if (!isCurrent()) return;
+          if (!isCurrent() || !isGenerativeOrComplexWork) return;
+          if (!thought || !thought.trim()) return;
           setIsThinking(true);
-          setStreamingThinking((prev) => {
-            if (
-              thought.endsWith('...') ||
-              thought.startsWith('Analyzing') ||
-              thought.startsWith('Understanding') ||
-              thought.startsWith('Synthesizing') ||
-              thought.startsWith('Structuring') ||
-              thought.startsWith('Formulating')
-            ) {
-              return thought;
-            }
-            return prev ? `${prev} ${thought}` : thought;
-          });
+          setStreamingThinking((prev) => (prev ? `${prev} ${thought}` : thought));
         },
         onDelta: (chunk) => {
           if (!isCurrent()) return;
@@ -205,6 +197,7 @@ export function AiChatProvider({ children }: PropsWithChildren) {
           });
           setIsSending(false);
           void loadConversations();
+          setTimeout(() => void loadConversations(), 1600);
         },
         onError: (message) => {
           if (!isCurrent()) return;

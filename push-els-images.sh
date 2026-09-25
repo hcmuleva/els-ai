@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-IMAGE_TAG="${IMAGE_TAG:-2.1}"
+IMAGE_TAG="${IMAGE_TAG:-2.3}"
 IMAGE_PREFIX="${IMAGE_PREFIX:-harishdell/els-ai}"
 
 IMAGES=(
