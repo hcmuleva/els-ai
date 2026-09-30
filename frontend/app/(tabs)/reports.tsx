@@ -5175,7 +5175,7 @@ export default function ReportsScreen() {
 // ── Main Styles ───────────────────────────────────────────────────────────────
 const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: "#FFFFFF" },
-  scroll: { paddingBottom: 48 },
+  scroll: { paddingBottom: 110 },
   center: { flex: 1, alignItems: "center", justifyContent: "center", gap: 12 },
   loadingText: { fontSize: 13, color: Colors.textMuted },
   errorText: {
@@ -5793,7 +5793,7 @@ const gr = StyleSheet.create({
 // ── ParentReports Styles ──────────────────────────────────────────────────────
 const pr = StyleSheet.create({
   screen: { flex: 1, backgroundColor: "#F8F9FC" },
-  scroll: { paddingBottom: 48, paddingTop: 0 },
+  scroll: { paddingBottom: 110, paddingTop: 0 },
 
   // Top bar — matches student dashboard
   topBar: {

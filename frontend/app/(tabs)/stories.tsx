@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ModalHeader } from '../../src/components/common/ModalHeader';
 import {
   ActivityIndicator, Alert, Dimensions, FlatList, Image, Modal, Platform, Pressable,
-  ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
+  ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, useWindowDimensions,
 } from 'react-native';
 import {
   BookOpen, BookOpenCheck, Calendar, ChevronDown, ChevronUp, Clock, Eye,
@@ -149,7 +149,7 @@ export default function StoriesScreen() {
 
   // class selector
   const [classSelectorOpen, setClassSelectorOpen] = useState(false);
-  const viewportWidth = Dimensions.get('window').width;
+  const { width: viewportWidth } = useWindowDimensions();
   const storiesColumns = viewportWidth >= 760 ? 2 : 1;
   const storyCardWidth = storiesColumns === 2 ? '48.5%' : '100%';
   const historyCardWidth = viewportWidth >= 760 ? '48.5%' : '100%';
@@ -735,7 +735,7 @@ export default function StoriesScreen() {
           numColumns={storiesColumns}
           keyExtractor={(x) => x.id}
           renderItem={renderCard}
-          contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 80 }}
+          contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 110 }}
           columnWrapperStyle={storiesColumns === 2 ? { justifyContent: 'space-between' } : undefined}
           refreshing={refreshing}
           onRefresh={async () => { setRefreshing(true); await loadStories(1); setRefreshing(false); }}
@@ -1592,7 +1592,7 @@ const s = StyleSheet.create({
   modalTabActive: { borderBottomColor: '#2D5DC9' },
   modalTabText:   { fontSize: 13, fontWeight: '600', color: '#525C6B' },
   modalTabTextActive: { color: '#2D5DC9', fontWeight: '800' },
-  tabContent:     { padding: 16, gap: 16, paddingBottom: 48 },
+  tabContent:     { padding: 16, gap: 16, paddingBottom: 110 },
   storyPreviewCard:      { backgroundColor: '#fff', borderRadius: 20, overflow: 'hidden' },
   storyPreviewHeader:    { padding: 20, gap: 6 },
   storyPreviewTitle:     { fontSize: 20, fontWeight: '900', color: '#fff' },

@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { LayoutChangeEvent, Modal, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { LayoutChangeEvent, Modal, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, {
   Easing, useAnimatedStyle, useSharedValue, withTiming,
 } from 'react-native-reanimated';
-import { Link } from 'expo-router';
 import { MoreHorizontal } from 'lucide-react-native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
 import { useAuth } from '../../context/AuthContext';
 import { roleTabs } from '../../config/roleTabs';
-import { Colors, RoleColors } from '../../theme';
+import { Colors, Radius, RoleColors, Shadow } from '../../theme';
+import { ChatButton } from '../chat/ChatButton';
 
 // ── Config ────────────────────────────────────────────────────────────────────
 const TAB_COLORS: Record<string, string> = {
@@ -23,15 +23,13 @@ const TAB_COLORS: Record<string, string> = {
   manage:        RoleColors.superadmin,
   assessment:    RoleColors.admin,
   evaluation:    RoleColors.student,
-  admin:         RoleColors.teacher,
+  admin:         Colors.primary,
+  superadmin:    '#8F680C',
   practice:      RoleColors.parent,
 };
 
-const SLOT_H     = 52;
-const ICON_SIZE  = 20;
-const BAR_H_PAD  = 12;
-const BAR_V_PAD  = 6;
-const PILL_INSET = 6;
+const BAR_H_PAD  = 6;
+const PILL_INSET = 4;
 // Max tabs shown inline (not counting the More button)
 const MAX_INLINE = 3;
 
@@ -62,6 +60,12 @@ function MoreItem({
 
 // ── CustomTabBar ──────────────────────────────────────────────────────────────
 export default function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
+  const { width: windowWidth } = useWindowDimensions();
+  const isDesktop = windowWidth >= 768;
+  const slotH     = isDesktop ? 42 : 46;
+  const barVPad   = isDesktop ? 4 : 4;
+  const iconSize  = isDesktop ? 16 : 18;
+
   const insets = useSafeAreaInsets();
   const { user }   = useAuth();
   const activeRole = user?.activeRole ?? 'student';
@@ -76,10 +80,15 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
   const activeInVisibleTabs = activeVisibleIndex >= 0;
 
   // Split: primary tabs (inline) vs overflow (in More panel)
-  const hasMore     = visibleTabs.length > MAX_INLINE;
-  const primaryTabs = hasMore ? visibleTabs.slice(0, MAX_INLINE) : visibleTabs;
+  // On desktop, show more tabs inline since there is ample horizontal screen width
+  const maxInline   = isDesktop ? 6 : MAX_INLINE;
+  const hasMore     = visibleTabs.length > maxInline;
+  const primaryTabs = hasMore ? visibleTabs.slice(0, maxInline) : visibleTabs;
   // Total slots = primary tabs + (More button if needed)
   const slotCount   = primaryTabs.length + (hasMore ? 1 : 0);
+
+  // Desktop width calculation: comfortable fixed width proportional to slot count
+  const desktopBarWidth = Math.min(Math.max(windowWidth - 140, 200), slotCount * 124 + BAR_H_PAD * 2);
 
   // Is the active route one of the primary tabs?
   const primaryIndex = primaryTabs.findIndex((r) => r.name === activeRouteName);
@@ -99,14 +108,14 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
   const pillW  = useSharedValue(0);
 
   useEffect(() => {
-    if (barWidth === 0 || slotCount === 0) return;
+    if (!isDesktop || barWidth === 0 || slotCount === 0) return;
     const targetX = activeSlotIndex >= 0
       ? BAR_H_PAD + activeSlotIndex * slotW + PILL_INSET
       : BAR_H_PAD + PILL_INSET;
     const pw = activeSlotIndex >= 0 ? Math.max(slotW - PILL_INSET * 2, 0) : 0;
     slideX.value = withTiming(targetX, { duration: 250, easing: Easing.out(Easing.cubic) });
     pillW.value  = withTiming(pw,      { duration: 230, easing: Easing.out(Easing.cubic) });
-  }, [activeSlotIndex, slotW, barWidth, slotCount]);
+  }, [activeSlotIndex, slotW, barWidth, slotCount, isDesktop]);
 
   const pillStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: slideX.value }],
@@ -122,95 +131,247 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
     if (!isFocused && !ev.defaultPrevented) navigation.navigate(route.name);
   };
 
-  // Real anchor href for each route, so the primary tabs render as genuine
-  // <a> elements on web (via Link asChild) instead of relying solely on
-  // Pressable's pointer-responder press detection for activation.
-  const hrefFor = (routeName: string) => (routeName === 'index' ? '/(tabs)' : `/(tabs)/${routeName}`);
-
   // Allow screens to hide the tab bar via options.tabBarStyle = { display: 'none' }.
   const focusedKey = state.routes[state.index]?.key;
   const focusedTabBarStyle = focusedKey ? (descriptors[focusedKey]?.options?.tabBarStyle as { display?: string } | undefined) : undefined;
   if (focusedTabBarStyle?.display === 'none') return null;
 
-  return (
-    <View style={[s.safeArea, { paddingBottom: Math.max(insets.bottom, 8) }]}>
-      {/* ── More panel modal ── */}
-      <Modal
-        visible={moreOpen}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setMoreOpen(false)}
-      >
-        <Pressable style={s.moreBackdrop} onPress={() => setMoreOpen(false)}>
-          <View style={[s.morePanel, { paddingBottom: Math.max(insets.bottom, 20) }]} onStartShouldSetResponder={() => true}>
-            <View style={s.morePanelHandle} />
-            <Text style={s.morePanelTitle}>All Tabs</Text>
-            {visibleTabs.map((route) => {
-              const roleTab = roleTabs[activeRole]?.find((r) => r.route === route.name);
-              const label   = roleTab?.label ?? descriptors[route.key]?.options?.title ?? route.name;
-              const IconC   = roleTab?.icon as React.ComponentType<{ size: number; color: string; strokeWidth?: number }> | undefined;
-              const color   = TAB_COLORS[route.name] ?? '#2D5DC9';
-              if (!IconC) return null;
-              return (
-                <MoreItem
-                  key={route.key}
-                  label={label}
-                  icon={IconC}
-                  active={route.name === activeRouteName}
-                  color={color}
-                  onPress={() => navigate(route)}
-                />
-              );
-            })}
-          </View>
-        </Pressable>
-      </Modal>
-
-      {/* ── Tab bar ── */}
-      <View style={s.barOuter} onLayout={onBarLayout}>
-        {/* Sliding pill */}
-        <Animated.View
-          style={[s.pill, { backgroundColor: activeColor, top: BAR_V_PAD, height: SLOT_H }, pillStyle]}
-          pointerEvents="none"
-        />
-
-        <View style={s.fixedRow}>
-          {/* Primary inline tabs */}
-          {primaryTabs.map((route) => {
-            const isFocused = route.name === activeRouteName;
-            const roleTab   = roleTabs[activeRole]?.find((r) => r.route === route.name);
-            const label     = roleTab?.label ?? descriptors[route.key]?.options?.title ?? route.name;
-            const IconC     = roleTab?.icon as React.ComponentType<{ size: number; color: string; strokeWidth?: number }> | undefined;
+  const renderMoreModal = () => (
+    <Modal
+      visible={moreOpen}
+      transparent
+      animationType="fade"
+      onRequestClose={() => setMoreOpen(false)}
+    >
+      <Pressable style={s.moreBackdrop} onPress={() => setMoreOpen(false)}>
+        <View style={[s.morePanel, { paddingBottom: Math.max(insets.bottom, 20) }]} onStartShouldSetResponder={() => true}>
+          <View style={s.morePanelHandle} />
+          <Text style={s.morePanelTitle}>All Tabs</Text>
+          {visibleTabs.map((route) => {
+            const roleTab = roleTabs[activeRole]?.find((r) => r.route === route.name);
+            const label   = roleTab?.label ?? descriptors[route.key]?.options?.title ?? route.name;
+            const IconC   = roleTab?.icon as React.ComponentType<{ size: number; color: string; strokeWidth?: number }> | undefined;
+            const color   = TAB_COLORS[route.name] ?? '#2D5DC9';
             if (!IconC) return null;
             return (
-              <Link key={route.key} href={hrefFor(route.name) as any} asChild>
+              <MoreItem
+                key={route.key}
+                label={label}
+                icon={IconC}
+                active={route.name === activeRouteName}
+                color={color}
+                onPress={() => navigate(route)}
+              />
+            );
+          })}
+        </View>
+      </Pressable>
+    </Modal>
+  );
+
+  // ── MOBILE TAB BAR ─────────────────────────────────────────────────────────
+  if (!isDesktop) {
+    return (
+      <View
+        style={StyleSheet.flatten([
+          s.mobileBarContainer,
+          { paddingBottom: Math.max(insets.bottom, 8) },
+        ])}
+      >
+        {renderMoreModal()}
+
+        {slotCount <= 1 ? (
+          // Single tab presentation: centered, soft-tinted pill badge — never a screen-wide blob or broken cramped oval
+          <View style={s.mobileSingleTabContainer}>
+            {primaryTabs.map((route) => {
+              const roleTab   = roleTabs[activeRole]?.find((r) => r.route === route.name);
+              const label     = roleTab?.label ?? descriptors[route.key]?.options?.title ?? route.name;
+              const IconC     = roleTab?.icon as React.ComponentType<{ size: number; color: string; strokeWidth?: number }> | undefined;
+              if (!IconC) return null;
+              const tabColor  = TAB_COLORS[route.name] ?? Colors.primary;
+              return (
                 <Pressable
+                  key={route.key}
                   onPress={() => navigate(route)}
                   onLongPress={() => navigation.emit({ type: 'tabLongPress', target: route.key })}
-                  style={s.fixedSlot}
+                  style={StyleSheet.flatten([s.mobileSingleTabPill, { backgroundColor: `${tabColor}14` }])}
                   accessibilityRole="button"
                   accessibilityLabel={label}
                 >
-                  <IconC size={ICON_SIZE} color={isFocused ? '#fff' : '#525C6B'} strokeWidth={isFocused ? 2.5 : 2} />
-                  <Text style={[s.slotLabel, isFocused ? s.slotLabelActive : s.slotLabelInactive]} numberOfLines={1}>{label}</Text>
+                  <IconC size={18} color={tabColor} strokeWidth={2.5} />
+                  <Text style={[s.mobileSingleTabLabel, { color: tabColor }]}>
+                    {label}
+                  </Text>
                 </Pressable>
-              </Link>
-            );
-          })}
+              );
+            })}
+          </View>
+        ) : (
+          // Multi-tab presentation: evenly distributed native bottom navigation bar
+          <View style={s.mobileTabsRow}>
+            {primaryTabs.map((route) => {
+              const isFocused = route.name === activeRouteName;
+              const roleTab   = roleTabs[activeRole]?.find((r) => r.route === route.name);
+              const label     = roleTab?.label ?? descriptors[route.key]?.options?.title ?? route.name;
+              const IconC     = roleTab?.icon as React.ComponentType<{ size: number; color: string; strokeWidth?: number }> | undefined;
+              if (!IconC) return null;
+              const tabColor  = TAB_COLORS[route.name] ?? Colors.primary;
+              return (
+                <Pressable
+                  key={route.key}
+                  onPress={() => navigate(route)}
+                  onLongPress={() => navigation.emit({ type: 'tabLongPress', target: route.key })}
+                  style={s.mobileTabSlot}
+                  accessibilityRole="button"
+                  accessibilityLabel={label}
+                >
+                  <View style={StyleSheet.flatten([s.mobileIconBox, isFocused ? { backgroundColor: `${tabColor}16` } : undefined])}>
+                    <IconC size={20} color={isFocused ? tabColor : '#64748B'} strokeWidth={isFocused ? 2.5 : 2} />
+                  </View>
+                  <Text
+                    style={[
+                      s.mobileTabLabel,
+                      {
+                        color: isFocused ? tabColor : '#64748B',
+                        fontWeight: isFocused ? '700' : '500',
+                      },
+                    ]}
+                    numberOfLines={1}
+                  >
+                    {label}
+                  </Text>
+                </Pressable>
+              );
+            })}
 
-          {/* More button */}
-          {hasMore && (
-            <Pressable
-              style={s.fixedSlot}
-              onPress={() => setMoreOpen(true)}
-              accessibilityRole="button"
-              accessibilityLabel="More"
-            >
-              <MoreHorizontal size={ICON_SIZE} color={overflowActive ? '#fff' : '#525C6B'} strokeWidth={2} />
-              <Text style={[s.slotLabel, overflowActive ? s.slotLabelActive : s.slotLabelInactive]}>More</Text>
-            </Pressable>
-          )}
+            {/* More button */}
+            {hasMore && (
+              <Pressable
+                style={s.mobileTabSlot}
+                onPress={() => setMoreOpen(true)}
+                accessibilityRole="button"
+                accessibilityLabel="More"
+              >
+                <View style={StyleSheet.flatten([s.mobileIconBox, overflowActive ? { backgroundColor: 'rgba(100, 116, 139, 0.15)' } : undefined])}>
+                  <MoreHorizontal size={20} color={overflowActive ? '#1E293B' : '#64748B'} strokeWidth={2} />
+                </View>
+                <Text
+                  style={[
+                    s.mobileTabLabel,
+                    {
+                      color: overflowActive ? '#1E293B' : '#64748B',
+                      fontWeight: overflowActive ? '700' : '500',
+                    },
+                  ]}
+                >
+                  More
+                </Text>
+              </Pressable>
+            )}
+          </View>
+        )}
+      </View>
+    );
+  }
+
+  // ── DESKTOP FLOATING DOCK ──────────────────────────────────────────────────
+  const safeAreaStyle = StyleSheet.flatten([
+    s.safeArea,
+    {
+      position: Platform.OS === 'web' ? ('fixed' as any) : 'absolute',
+      bottom: 24,
+    },
+  ]);
+
+  const barOuterStyle = StyleSheet.flatten([
+    s.barOuter,
+    {
+      paddingVertical: barVPad,
+      width: desktopBarWidth,
+    },
+  ]);
+
+  const slotStyle = StyleSheet.flatten([s.fixedSlot, { height: slotH }]);
+
+  return (
+    <View style={safeAreaStyle} pointerEvents="box-none">
+      {renderMoreModal()}
+
+      {/* Tab bar dock row (wraps nav capsule + AI button on desktop) */}
+      <View style={s.dockRowDesktop} pointerEvents="box-none">
+        <View
+          style={barOuterStyle}
+          onLayout={onBarLayout}
+          pointerEvents="auto"
+        >
+          {/* Sliding pill */}
+          <Animated.View
+            style={[s.pill, { backgroundColor: activeColor, top: barVPad, height: slotH }, pillStyle]}
+            pointerEvents="none"
+          />
+
+          <View style={s.fixedRow}>
+            {/* Primary inline tabs */}
+            {primaryTabs.map((route) => {
+              const isFocused = route.name === activeRouteName;
+              const roleTab   = roleTabs[activeRole]?.find((r) => r.route === route.name);
+              const label     = roleTab?.label ?? descriptors[route.key]?.options?.title ?? route.name;
+              const IconC     = roleTab?.icon as React.ComponentType<{ size: number; color: string; strokeWidth?: number }> | undefined;
+              if (!IconC) return null;
+              return (
+                <Pressable
+                  key={route.key}
+                  onPress={() => navigate(route)}
+                  onLongPress={() => navigation.emit({ type: 'tabLongPress', target: route.key })}
+                  style={slotStyle}
+                  accessibilityRole="button"
+                  accessibilityLabel={label}
+                >
+                  <IconC size={iconSize} color={isFocused ? '#fff' : '#525C6B'} strokeWidth={isFocused ? 2.5 : 2} />
+                  <Text
+                    style={[
+                      s.slotLabel,
+                      {
+                        fontSize: 12.5,
+                        color: isFocused ? '#fff' : '#525C6B',
+                        fontWeight: isFocused ? '700' : '600',
+                      },
+                    ]}
+                    numberOfLines={1}
+                  >
+                    {label}
+                  </Text>
+                </Pressable>
+              );
+            })}
+
+            {/* More button */}
+            {hasMore && (
+              <Pressable
+                style={slotStyle}
+                onPress={() => setMoreOpen(true)}
+                accessibilityRole="button"
+                accessibilityLabel="More"
+              >
+                <MoreHorizontal size={iconSize} color={overflowActive ? '#fff' : '#525C6B'} strokeWidth={2} />
+                <Text
+                  style={[
+                    s.slotLabel,
+                    {
+                      fontSize: 12.5,
+                      color: overflowActive ? '#fff' : '#525C6B',
+                      fontWeight: overflowActive ? '700' : '600',
+                    },
+                  ]}
+                >
+                  More
+                </Text>
+              </Pressable>
+            )}
+          </View>
         </View>
+
+        <ChatButton isDesktopDock />
       </View>
     </View>
   );
@@ -218,22 +379,102 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
 
 // ── Styles ────────────────────────────────────────────────────────────────────
 const s = StyleSheet.create({
-  safeArea: {
-    backgroundColor: Colors.surface,
-    shadowColor: '#1a1a3e',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 16,
+  // Mobile styles
+  mobileBarContainer: {
+    position: Platform.OS === 'web' ? ('fixed' as any) : 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#FFFFFF',
     borderTopWidth: 1,
-    borderColor: Colors.borderLight,
+    borderTopColor: '#E8ECF4',
+    paddingTop: 8,
+    zIndex: 1000,
+    ...Shadow.md,
+  },
+  mobileTabsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    width: '100%',
+    paddingHorizontal: 8,
+  },
+  mobileTabSlot: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 4,
+    gap: 3,
+  },
+  mobileIconBox: {
+    paddingHorizontal: 14,
+    paddingVertical: 4,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mobileTabLabel: {
+    fontSize: 11,
+    includeFontPadding: false,
+    letterSpacing: 0.1,
+  },
+  mobileSingleTabContainer: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 4,
+  },
+  mobileSingleTabPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingHorizontal: 22,
+    paddingVertical: 9,
+    borderRadius: Radius.full,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+  },
+  mobileSingleTabLabel: {
+    fontSize: 13,
+    fontWeight: '700',
+    includeFontPadding: false,
+    letterSpacing: 0.2,
+  },
+
+  // Desktop styles
+  safeArea: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    backgroundColor: 'transparent',
+    borderTopWidth: 0,
+    shadowOpacity: 0,
+    elevation: 0,
+    paddingTop: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1000,
+  },
+  dockRowDesktop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+    maxWidth: '96%',
+    alignSelf: 'center',
   },
   barOuter: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: BAR_V_PAD,
     position: 'relative',
     overflow: 'hidden',
+    backgroundColor: '#FFFFFF',
+    borderRadius: Radius.full,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    alignSelf: 'center',
+    ...Shadow.lg,
   },
   pill: {
     position: 'absolute',
@@ -248,25 +489,17 @@ const s = StyleSheet.create({
   },
   fixedSlot: {
     flex: 1,
-    height: SLOT_H,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 3,
+    gap: 7,
+    paddingHorizontal: 8,
     zIndex: 1,
   },
   slotLabel: {
+    fontSize: 12.5,
     includeFontPadding: false,
     letterSpacing: 0.1,
-  },
-  slotLabelActive: {
-    fontSize: 11,
-    fontWeight: '700',
-    color: Colors.surface,
-  },
-  slotLabelInactive: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: Colors.textMuted,
   },
   // ── More panel ──
   moreBackdrop: {

@@ -919,7 +919,7 @@ export default function HomeScreen() {
 // ── Styles ────────────────────────────────────────────────────────────────────
 const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: '#F0F4FF' },
-  scroll: { paddingBottom: 48 },
+  scroll: { paddingBottom: 110 },
   mainContainer: {
     width: '100%',
     maxWidth: 1440,

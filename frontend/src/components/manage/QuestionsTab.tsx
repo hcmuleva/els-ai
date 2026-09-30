@@ -512,7 +512,7 @@ const q = StyleSheet.create({
   fetchingOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(15,23,42,0.35)', alignItems: 'center', justifyContent: 'center', zIndex: 999 },
   fetchingCard:    { backgroundColor: '#fff', borderRadius: 20, padding: 28, alignItems: 'center', gap: 12, shadowColor: '#000', shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.15, shadowRadius: 16, elevation: 10 },
   fetchingText:    { fontSize: 14, fontWeight: '700', color: '#1a1a2e' },
-  list: { padding: 16, paddingBottom: 40 },
+  list: { padding: 16, paddingBottom: 110 },
 
   pageHeader:    { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', paddingHorizontal: 20, paddingVertical: 16 },
   pageTitle:     { fontSize: 22, fontWeight: '900', color: '#1a1a2e' },

@@ -437,6 +437,7 @@ export function ChatPanel() {
   };
 
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const isFullscreenEffective = isWide && isFullscreen;
   const [showSidebar, setShowSidebar] = useState(true);
   const [searchFilter, setSearchFilter] = useState('');
   const [view, setView] = useState<'chat' | 'history'>('chat');
@@ -451,7 +452,9 @@ export function ChatPanel() {
         if (raw) {
           const parsed = JSON.parse(raw);
           if (typeof parsed.isFullscreen === 'boolean') {
-            setIsFullscreen(parsed.isFullscreen);
+            if (isWide) {
+              setIsFullscreen(parsed.isFullscreen);
+            }
           }
           if (typeof parsed.showSidebar === 'boolean') {
             setShowSidebar(parsed.showSidebar);
@@ -459,7 +462,20 @@ export function ChatPanel() {
         }
       })
       .catch(() => {});
-  }, []);
+  }, [isWide]);
+
+  // ── Auto-reset to clean mobile view when resizing window down to mobile ──
+  useEffect(() => {
+    if (!isWide) {
+      if (isFullscreen) {
+        setIsFullscreen(false);
+        persistViewState(false, showSidebar);
+      }
+      if (view !== 'chat') {
+        setView('chat');
+      }
+    }
+  }, [isWide]);
 
   const persistViewState = (fullscreen: boolean, sidebar: boolean) => {
     AsyncStorage.setItem(
@@ -648,7 +664,7 @@ export function ChatPanel() {
     <KeyboardAvoidingView
       style={s.body}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? (isFullscreen ? 30 : 60) : 0}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? (isFullscreenEffective ? 30 : 60) : 0}
     >
       {/* ── Student Context Selector Bar (Teachers & Staff) ── */}
       {isTeacherOrStaff && (
@@ -938,30 +954,27 @@ export function ChatPanel() {
           <Send size={18} color="#FFFFFF" />
         </Pressable>
       </View>
-      <Text style={s.inputDisclaimer}>
-        ELS AI assists with learning & diagnostics • Always verify with official school reports
-      </Text>
     </KeyboardAvoidingView>
   );
 
   return (
     <Modal visible={isOpen} transparent animationType="fade" onRequestClose={close}>
-      <View style={[s.overlay, isWide && !isFullscreen && s.overlayWide]}>
+      <View style={[s.overlay, isWide && !isFullscreenEffective && s.overlayWide]}>
         {/* Backdrop for floating panel */}
-        {isWide && !isFullscreen ? <Pressable style={s.backdrop} onPress={close} /> : null}
+        {isWide && !isFullscreenEffective ? <Pressable style={s.backdrop} onPress={close} /> : null}
 
         <View
           style={[
             s.panel,
-            isFullscreen
+            isFullscreenEffective
               ? s.panelFullscreen
               : isWide
               ? { width: PANEL_WIDTH, paddingTop: Math.max(insets.top, 12) }
-              : { width: '100%', height: '100%', paddingTop: Math.max(insets.top, 12) },
+              : { width: '100%', height: '100%', flex: 1, borderRadius: 0, paddingTop: Math.max(insets.top, 12) },
           ]}
         >
           {/* ── Main Layout: Split Screen in Fullscreen, Drawer/Single in Floating ── */}
-          {isFullscreen ? (
+          {isFullscreenEffective ? (
             <View style={s.fullscreenLayout}>
               {/* Left Sidebar (ChatGPT-style) */}
               {showSidebar && <View style={s.fullscreenSidebar}>{renderSidebar()}</View>}
@@ -1052,13 +1065,15 @@ export function ChatPanel() {
                   >
                     <Plus size={18} color="#5A5A7A" />
                   </Pressable>
-                  <Pressable
-                    onPress={() => handleToggleFullscreen(true)}
-                    style={s.iconBtn}
-                    accessibilityLabel="Expand full screen"
-                  >
-                    <Maximize2 size={17} color="#5A5A7A" />
-                  </Pressable>
+                  {isWide && (
+                    <Pressable
+                      onPress={() => handleToggleFullscreen(true)}
+                      style={s.iconBtn}
+                      accessibilityLabel="Expand full screen"
+                    >
+                      <Maximize2 size={17} color="#5A5A7A" />
+                    </Pressable>
+                  )}
                   <Pressable onPress={close} style={s.iconBtn} accessibilityLabel="Close AI assistant">
                     <X size={18} color="#5A5A7A" />
                   </Pressable>
@@ -1242,6 +1257,8 @@ const s = StyleSheet.create({
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(15,23,42,0.45)',
+    width: '100%',
+    height: '100%',
   },
   overlayWide: {
     flexDirection: 'row',
@@ -1662,6 +1679,7 @@ const s = StyleSheet.create({
     gap: Spacing.sm,
     paddingHorizontal: Spacing.base,
     paddingTop: 6,
+    paddingBottom: Spacing.md,
     backgroundColor: Colors.surface,
   },
   input: {

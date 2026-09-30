@@ -603,7 +603,7 @@ function BookmarkEditorModal({ editing, apiFetch, user, catalog, onClose, onSave
 
 const c = StyleSheet.create({
   root: { flex: 1, backgroundColor: '#F5F7FF' },
-  list: { padding: 16, paddingBottom: 40 },
+  list: { padding: 16, paddingBottom: 110 },
 
   pageHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', paddingHorizontal: 20, paddingVertical: 16 },
   pageTitle: { fontSize: 22, fontWeight: '900', color: '#1a1a2e' },

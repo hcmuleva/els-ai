@@ -581,7 +581,7 @@ export default function CounselingScreen() {
 
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[styles.scrollContent, { paddingBottom: insets.bottom + 28 }]}
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: Math.max(insets.bottom + 28, 110) }]}
       >
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
 

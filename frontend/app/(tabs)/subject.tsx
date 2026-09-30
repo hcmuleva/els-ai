@@ -20,8 +20,6 @@ import { useAuth } from '../../src/context/AuthContext';
 import { GIRAFFE, OWL, PANDA, PENGUIN, ELEPHANT, BUTTERFLY } from '../../src/assets/svgs';
 import StudentContentViewer from '../../src/components/subject/StudentContentViewer';
 
-const SCREEN_H = Dimensions.get('window').height;
-
 // ── Types ─────────────────────────────────────────────────────────────────────
 type ContentItem = {
   id: string;
@@ -590,7 +588,7 @@ const sc = StyleSheet.create({
   },
 
   // Lesson list
-  contentScroll: { paddingBottom: 48 },
+  contentScroll: { paddingBottom: 110 },
   lessonSection: { marginTop: 8 },
   sectionHeaderRow: {
     flexDirection: 'row',
@@ -690,7 +688,7 @@ const sc = StyleSheet.create({
   },
 
   // Subject list scroll
-  listScroll: { paddingVertical: 16, paddingBottom: 48 },
+  listScroll: { paddingVertical: 16, paddingBottom: 110 },
   subjectGroupWrap: { marginBottom: 20 },
   subjectGroupRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 8, marginBottom: 14 },
   subjectIconBox: { width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },

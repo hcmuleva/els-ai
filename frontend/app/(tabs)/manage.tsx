@@ -3217,7 +3217,7 @@ export default function QuestionManagementScreen() {
           };
 
           // ── pixel-perfect sizing ──────────────────────────────────────────
-          const SW = Dimensions.get('window').width;
+          const SW = width;
           // section padding (16) × 2 sides + tabContent padding (16) × 2 sides
           const SECTION_H_PAD = 16;
           const TAB_H_PAD = 16;
@@ -3783,7 +3783,7 @@ export default function QuestionManagementScreen() {
                 const pvNeeded = GRID_PAIR_COUNTS[pvGrid] ?? 4;
                 // duplicate pairs (each pair appears twice)
                 const allCards = [...pvPairs, ...pvPairs].slice(0, pvNeeded * 2);
-                const previewW = Dimensions.get('window').width - 64;
+                const previewW = width - 64;
                 const GAP = 6;
                 const pvCardW = Math.floor((previewW - GAP * (pvCols - 1)) / pvCols);
                 const pvRows: MMPair[][] = [];
@@ -6148,7 +6148,7 @@ const qFormS = StyleSheet.create({
   toastSuccess: { backgroundColor: '#D6F5D6', borderColor: '#7DC67A' },
   toastSuccessText: { color: '#1A6B1A' },
 
-  tabContent: { padding: 16, gap: 16, paddingBottom: 40 },
+  tabContent: { padding: 16, gap: 16, paddingBottom: 110 },
   group: { gap: 8 },
   groupLabel: { fontSize: 10, fontWeight: '800', color: Colors.textMuted, letterSpacing: 1, textTransform: 'uppercase', paddingLeft: 4 },
   fieldCard: { backgroundColor: '#fff', borderRadius: 16, padding: 14, gap: 10, shadowColor: Colors.text, shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
