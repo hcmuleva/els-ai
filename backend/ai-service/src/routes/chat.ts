@@ -96,35 +96,81 @@ chatRouter.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
         ? metrics.latestRemarks.map((r: any) => `"${r.remark}"`).join('; ')
         : 'None';
 
-      systemPrompt += `\n\n## ACTIVE STUDENT CONTEXT (VERIFIED DB METRICS & DIAGNOSTIC EVALUATION):
+      const weakDomainsList = (metrics.weakDomains || jev.weakDomains || []) as Array<{
+        subject: string;
+        accuracyPct: number | null;
+        missedCount: number;
+        gaps: string[];
+        priority: string;
+      }>;
+
+      const weakDomainsFormatted =
+        weakDomainsList.length > 0
+          ? weakDomainsList
+              .map(
+                (d, i) =>
+                  `${i + 1}. ${d.subject} (${d.accuracyPct !== null ? `${d.accuracyPct}% accuracy` : 'diagnostic gap'}, ${d.priority} Risk) — Gaps: ${d.gaps.join('; ')}`
+              )
+              .join('\n')
+          : 'None isolated';
+
+      const resolvedWeakDomain =
+        jev.primaryWeakDomain && jev.primaryWeakDomain !== 'None' && jev.primaryWeakDomain !== 'None identified'
+          ? jev.primaryWeakDomain
+          : (metrics.weakQuestions?.length ? metrics.weakQuestions[0].title : 'Foundational Practice');
+
+      systemPrompt += `\n\n## ACTIVE STUDENT CONTEXT (VERIFIED DB METRICS & MULTI-SUBJECT DIAGNOSTIC EVALUATION):
 - Student: ${studentName} ${studentClass}
 - Total Quizzes Attempted: ${metrics.totalQuizzes ?? 0}
 - Overall Average Accuracy: ${metrics.averageScorePct ?? 0}%
 - Best Performed Quiz: ${bestQuizStr}
 - Lowest Scoring Quizzes: ${lowestQuizzesStr}
 - Top Missed Concepts / Weak Questions: ${weakQuestionsStr}
-- Teacher Remarks: ${remarksStr}
+- Multi-Subject Weak Domains Analyzed:
+${weakDomainsFormatted}
 - Academic Mastery Standing: ${jev.masteryTier || 'N/A'} (Struggle Risk: ${jev.riskScore ?? 0}/3)
-- Primary Learning Gap / Struggle Domain: ${jev.primaryWeakDomain || 'None'}
-- Recommended Action Plan: ${jev.recommendedIntervention || 'None'}
+- Primary Focus Domain: ${resolvedWeakDomain}
+- Secondary Focus Domain: ${jev.secondaryWeakDomain || 'None'}
+- Recommended Action Plan: ${jev.recommendedIntervention || 'Targeted multi-domain review'}
 
 CRITICAL RULES FOR THIS STUDENT:
 1. The teacher is asking specifically about ${studentName}.
 2. ALWAYS ground your answers in the verified database metrics and diagnostic evaluation above.
-3. When asked for weak areas, performance summaries, or report cards, cite these exact numbers, titles, and insights directly in clean, beautifully structured Markdown (with bold stats, bullet lists, and clear sections).
+3. MULTI-SUBJECT LEARNING GAP ANALYSIS:
+   - Notice that ${studentName} has learning gaps across MULTIPLE distinct subjects and topics (e.g. Mathematics, Science & Nature, and General Knowledge).
+   - When asked for weak areas, learning gaps, or performance summaries, analyze ALL diagnosed subjects with their respective scores and concept gaps. Do NOT reduce their struggle to only one subject.
+   - Present your analysis clearly with bold subject headings, accuracy percentages, and bulleted lists of specific errors.
 4. When asked for weak areas or learning gaps, you can output a structured learning gap card using:
 \`\`\`json
 {
   "type": "learning_gap_summary",
   "weak_areas": [
-    { "title": "<Topic / Concept Title>", "description": "<Diagnosed struggle details>" }
+    { "title": "<Subject / Topic Title>", "description": "<Diagnosed struggle details and accuracy>" }
   ],
-  "learning_gap": "<Brief pedagogical synthesis of the core struggle>"
+  "learning_gap": "<Brief pedagogical synthesis of the core multi-subject struggle>"
 }
 \`\`\`
 followed by a 1-2 sentence pedagogical note, OR clean Markdown. NEVER output a \`generation_proposal\` for student summaries or report cards.
 5. NEVER mention the internal engine name "Jev" to the user. Refer to it naturally as "Academic Diagnostics", "Learning Insights", or "Pedagogical Recommendations".
-6. If the teacher asks to create a remedial quiz or lesson, then and only then propose a standard generation proposal.`;
+6. REMEDIAL QUIZ & CONTENT GENERATION RULES:
+   - When the user asks to generate, create, or draft questions/a quiz/practice for ${studentName}:
+   - DO NOT WRITE OUT QUESTIONS, MULTIPLE-CHOICE OPTIONS (A, B, C, D), OR QUESTION TEXT IN THE CHAT BODY!
+   - The user interface already provides an interactive proposal card with an "Open Preview" modal and "Generate Now" workflow.
+   - Writing question text directly in markdown is strictly forbidden: it wastes tokens, causes premature truncation, and clutters the screen.
+   - Your response MUST consist solely of a 1-sentence friendly intro (e.g. "I've drafted a 5-question remedial quiz for ${studentName} targeting their learning gaps in ${resolvedWeakDomain}.") followed IMMEDIATELY by the \`\`\`json generation_proposal block.
+   - If the request is comprehensive or does not specify a single subject, tailor the generation proposal across their primary weak areas (e.g. Mathematics and Science)!
+   - For "params.topic": Set this to the specific diagnosed weak concepts (e.g. "Grade 4 Remedial: Mathematics (${weakDomainsList[0]?.gaps[0] || 'Multiplication'}) and Science (${weakDomainsList[1]?.gaps[0] || 'Acids & pH'})").
+   - If the user specifically asks for one subject (e.g. Math or Science), focus strictly on that subject's diagnosed gaps.
+   - NEVER use "None" or a bare generic subject like "Math" or "Science". Always specify the concrete concept gaps!
+   - For "title": Formulate as "${studentName}'s Remedial Quiz: [Specific Concepts]".
+   - For "summary": Explicitly explain which diagnosed multi-subject struggles this quiz addresses.
+   - For "params.gradeLevel": Use "${ctx.student?.classLevel || 'Primary'}".
+   - For "params.difficulty": Calibrate to their risk level (${jev.riskScore ?? 0}/3) — use "easy" or "medium" with clear step-by-step scaffolds to rebuild mastery.
+   - For "params.questionCount": Default to 5 questions unless specifically asked for more.`;
+    } else {
+      systemPrompt += `\n\n## NO ACTIVE STUDENT SELECTED:
+- If the user asks about "this student", a student's weak areas, report card, or asks to "generate a quiz for this student" without an active student selected:
+  Politely inform them that no student is currently selected. Ask them to select the student from the student selector bar at the top of the chat, or tell you the student's name, grade, and specific topic so you can pull their verified records and generate a targeted quiz. DO NOT invent fake quiz metrics or generate random unrelated quizzes.`;
     }
 
     const chatMessages: ChatMessage[] = [
@@ -235,6 +281,20 @@ followed by a 1-2 sentence pedagogical note, OR clean Markdown. NEVER output a \
       const notice = '\n\n---\n> ⚠️ **Note:** The AI wrote out content directly instead of creating a Generation Proposal. Please try again — say "Generate a quiz on [topic]" and it will show you the Generate Now button.';
       fullReply += notice;
       writeSse(res, { delta: notice });
+    }
+
+    if (hasProposalBlock) {
+      // If the model dumped draft questions before the proposal JSON, strip them before persisting
+      const proposalBlockIdx = fullReply.search(/```(?:json)?\s*\{[\s\S]*?"type"\s*:\s*"generation_proposal"/i);
+      if (proposalBlockIdx > 0) {
+        const introPart = fullReply.substring(0, proposalBlockIdx);
+        const jsonPart = fullReply.substring(proposalBlockIdx);
+        const questionCutoff = introPart.search(/(?:\n\s*(?:#{1,4}\s*)?(?:[^\n]*(?:remedial quiz|practice quiz|assessment quiz|sample quiz|question bank|quiz:|\bquestions:)\b[^\n]*|\*{0,2}(?:Question\s*\d+|\d+[\.\)]|Q\d+[\.\:]|\*\*\d+[\.\)])\s+|[A-D]\)\s+))/i);
+        if (questionCutoff !== -1) {
+          const cleanedIntro = introPart.substring(0, questionCutoff).trim();
+          fullReply = (cleanedIntro ? cleanedIntro + '\n\n' : '') + jsonPart;
+        }
+      }
     }
 
     if (fullReply.trim().length > 0) {

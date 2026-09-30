@@ -804,10 +804,13 @@ catalogRouter.get('/', requireAuth, async (req, res) => {
     // sees a class-3 subject they can't actually use.
     const classLevelFilter = String(req.query.class_level ?? req.query.classLevel ?? '').trim();
     const params = [orgId];
-    let whereClause = `organization_id = $1::uuid`;
-    if (classLevelFilter) {
+    let whereClause = `s.organization_id = $1::uuid`;
+    if (classLevelFilter && classLevelFilter.toUpperCase() !== 'ALL' && classLevelFilter.toUpperCase() !== 'ANY') {
         params.push(classLevelFilter);
-        whereClause += ` AND class_level = $${params.length}`;
+        whereClause += ` AND (s.class_level = $${params.length} OR s.class_level = 'ANY' OR s.class_level IS NULL)`;
+    }
+    else if (classLevelFilter.toUpperCase() === 'ANY') {
+        whereClause += ` AND (s.class_level = 'ANY')`;
     }
     try {
         const result = await db.query(`SELECT s.id, s.class_level, s.class_id, cl.code AS resolved_class_id, s.title, s.cover_image, s.icon_image, s.icon_bg_color
@@ -847,10 +850,18 @@ studentsRouter.get('/', requireAuth, async (req, res) => {
     if (!orgId || !userId)
         return res.status(400).json({ message: 'Organization/user not found' });
     try {
-        const userRow = await db.query(`SELECT class_level FROM users WHERE id = $1 LIMIT 1`, [userId]);
-        const classLevel = userRow.rows[0]?.class_level;
-        if (!classLevel)
-            return res.json({ subjects: [], classLevel: null });
+        let classLevel = String(req.query.class_level ?? req.query.classLevel ?? '').trim();
+        if (!classLevel) {
+            const userRow = await db.query(`SELECT class_level, active_role FROM users WHERE id = $1 LIMIT 1`, [userId]);
+            classLevel = userRow.rows[0]?.class_level || '';
+            if (!classLevel && userRow.rows[0]?.active_role === 'parent') {
+                const childRow = await db.query(`SELECT u.class_level FROM parent_student_mapping psm
+           JOIN users u ON u.id = psm.student_user_id
+           WHERE psm.parent_user_id = $1 AND u.class_level IS NOT NULL
+           LIMIT 1`, [userId]);
+                classLevel = childRow.rows[0]?.class_level || '';
+            }
+        }
         const result = await db.query(`SELECT
          ct.id, ct.class_level, s.title AS subject, ct.title, ct.cover_image,
          ct.created_at, ct.updated_at,
@@ -859,7 +870,7 @@ studentsRouter.get('/', requireAuth, async (req, res) => {
        LEFT JOIN subjects s ON s.id = ct.subject_id
        LEFT JOIN topic_content_assignments tca ON tca.topic_id = ct.id
        WHERE (ct.organization_id = $1::uuid OR ct.is_global = true)
-         AND (ct.class_level = $2 OR ct.class_level = 'ANY')
+         AND ($2 = '' OR ct.class_level = $2 OR ct.class_level = 'ANY')
        GROUP BY ct.id, s.title
        ORDER BY s.title, ct.title`, [orgId, classLevel]);
         const distinctSubjectTitles = Array.from(new Set(result.rows
@@ -873,7 +884,7 @@ studentsRouter.get('/', requireAuth, async (req, res) => {
             // seed/system org) still get cover_image / icon / icon_bg_color.
             const subjectsMetaResult = await db.query(`SELECT title, cover_image, icon_image, icon_bg_color, organization_id, updated_at
          FROM subjects
-         WHERE class_level IN ($1, 'ANY')
+         WHERE ($1 = '' OR class_level IN ($1, 'ANY'))
            AND LOWER(title) = ANY($2::text[])
          ORDER BY
            CASE WHEN organization_id = $3::uuid THEN 0 ELSE 1 END,
@@ -895,6 +906,8 @@ studentsRouter.get('/', requireAuth, async (req, res) => {
         const subjectMap = {};
         for (const row of result.rows) {
             const sub = row.subject;
+            if (!sub)
+                continue;
             if (!subjectMap[sub]) {
                 const meta = subjectsMeta.get(sub.trim().toLowerCase());
                 subjectMap[sub] = {
@@ -916,8 +929,31 @@ studentsRouter.get('/', requireAuth, async (req, res) => {
                 updatedAt: row.updated_at,
             });
         }
+        // Also include all direct database subjects from the subjects table (even if 0 topics are created yet)
+        const directSubjectsResult = await db.query(`SELECT s.id, s.title, s.class_level, s.cover_image, s.icon_image, s.icon_bg_color
+       FROM subjects s
+       WHERE (s.organization_id = $1::uuid OR s.organization_id IS NULL)
+         AND ($2 = '' OR s.class_level = $2 OR s.class_level = 'ANY' OR s.class_level IS NULL)
+       ORDER BY s.title ASC`, [orgId, classLevel]);
+        for (const row of directSubjectsResult.rows) {
+            const sub = String(row.title || '').trim();
+            if (!sub)
+                continue;
+            if (!subjectMap[sub]) {
+                const signedCover = row.cover_image
+                    ? await getSignedMediaUrlIfNeeded(row.cover_image)
+                    : null;
+                subjectMap[sub] = {
+                    subject: sub,
+                    coverImage: signedCover,
+                    icon: row.icon_image || null,
+                    iconBgColor: row.icon_bg_color || null,
+                    topics: [],
+                };
+            }
+        }
         return res.json({
-            classLevel,
+            classLevel: classLevel || null,
             subjects: Object.values(subjectMap),
         });
     }

@@ -74,7 +74,15 @@ export interface StudentPerformanceSummaryData {
     weakQuestions: Array<{
       title: string;
       type: string;
+      quizTitle?: string;
       missedCount: number;
+    }>;
+    weakDomains?: Array<{
+      subject: string;
+      accuracyPct: number | null;
+      missedCount: number;
+      gaps: string[];
+      priority: 'High' | 'Medium' | 'Low';
     }>;
     latestRemarks: Array<{
       remark: string;
@@ -86,6 +94,14 @@ export interface StudentPerformanceSummaryData {
     masteryTier: string;
     riskScore: number;
     primaryWeakDomain: string;
+    secondaryWeakDomain?: string;
+    weakDomains?: Array<{
+      subject: string;
+      accuracyPct: number | null;
+      missedCount: number;
+      gaps: string[];
+      priority: 'High' | 'Medium' | 'Low';
+    }>;
     recommendedIntervention: string;
     confidence: number;
     source: string;

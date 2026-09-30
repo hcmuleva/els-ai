@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Activity, BookOpen, ChevronLeft, ChevronRight, CreditCard, FileSpreadsheet, Flag, FlaskConical, Globe, GraduationCap, Hash, Languages, Leaf, Monitor, Palette, Plus, Search, Shield, Sparkles, Users, UserCheck, X, Check, Trash2, ShieldCheck, CheckCircle2 } from 'lucide-react-native';
+import { Activity, BookOpen, ChevronLeft, ChevronRight, CreditCard, FileSpreadsheet, Flag, FlaskConical, Globe, GraduationCap, Hash, Languages, Leaf, Monitor, Palette, Plus, Search, Shield, Sparkles, Users, UserCheck, X, Check, Trash2, ShieldCheck, CheckCircle2, AlertCircle } from 'lucide-react-native';
 
 import { ScreenTemplate } from '../../src/components/ScreenTemplate';
 import SelectorModal from '../../src/components/SelectorModal';
@@ -355,6 +355,7 @@ export default function AdminScreen() {
   const [dialogMode, setDialogMode] = useState<DialogMode | null>(null);
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
   const [userForm, setUserForm] = useState<UserFormState>(EMPTY_USER_FORM);
+  const [userDialogError, setUserDialogError] = useState<string | null>(null);
   const [subjectDialogMode, setSubjectDialogMode] = useState<DialogMode | null>(null);
   const [editingSubjectId, setEditingSubjectId] = useState<string | null>(null);
   const [subjectForm, setSubjectForm] = useState<SubjectFormState>(EMPTY_SUBJECT_FORM);
@@ -605,6 +606,7 @@ export default function AdminScreen() {
     setDialogMode('create');
     setEditingUserId(null);
     setUserForm({ ...EMPTY_USER_FORM, role });
+    setUserDialogError(null);
     setMessage(null);
   };
 
@@ -624,16 +626,18 @@ export default function AdminScreen() {
       password: '',
       role: roleFallback,
     });
+    setUserDialogError(null);
     setMessage(null);
   };
 
   const submitUserDialog = async () => {
     if (!userForm.firstName.trim() || !userForm.lastName.trim() || !userForm.email.trim()) {
-      setMessage({ type: 'error', text: 'First name, last name, and email are required.' });
+      setUserDialogError('First name, last name, and email are required.');
       return;
     }
 
     setSavingUser(true);
+    setUserDialogError(null);
     setMessage(null);
     try {
       if (dialogMode === 'create') {
@@ -672,14 +676,16 @@ export default function AdminScreen() {
         }
       }
 
+      const successToastText = dialogMode === 'create' ? 'User created successfully.' : 'User updated successfully.';
+      setUserDialogError(null);
       setDialogMode(null);
       setEditingUserId(null);
       setUserForm(EMPTY_USER_FORM);
-      showToast(dialogMode === 'create' ? 'User created successfully.' : 'User updated successfully.');
-      await Promise.all([loadStudents(), loadTeachers(), loadParents(), loadAdminCounts()]);
+      showToast(successToastText);
+      Promise.all([loadStudents(), loadTeachers(), loadParents(), loadAdminCounts()]).catch(console.error);
     } catch (error) {
       const text = error instanceof Error ? error.message : dialogMode === 'create' ? 'Failed to create user' : 'Failed to update user';
-      setMessage({ type: 'error', text });
+      setUserDialogError(text);
     } finally {
       setSavingUser(false);
     }
@@ -918,9 +924,11 @@ export default function AdminScreen() {
   };
 
   const assignAllSubjectsForClass = (classLevel: string) => {
-    const allSubjectsForClass = assignmentCatalog
-      .filter(a => a.classLevel === classLevel)
-      .map(a => a.subject);
+    const allSubjectsForClass = Array.from(new Set(
+      assignmentCatalog
+        .filter(a => a.classLevel === classLevel || a.classLevel === 'ANY')
+        .map(a => a.subject)
+    ));
     setTeacherSelectedClasses(current => current.map(c =>
       c.classLevel === classLevel ? { ...c, assignedSubjects: allSubjectsForClass } : c
     ));
@@ -1732,7 +1740,7 @@ export default function AdminScreen() {
       ) : null}
 
       {activeTab === 'question_dump' ? (
-        <QuestionDumpTab apiFetch={apiFetch} subjectCatalog={assignmentCatalog} />
+        <QuestionDumpTab apiFetch={apiFetch} subjectCatalog={assignmentCatalog.map(a => ({ title: a.subject, classLevel: a.classLevel }))} />
       ) : null}
 
       {activeTab === 'analytics' ? <SchoolAnalyticsTab apiFetch={apiFetch} /> : null}
@@ -1966,6 +1974,12 @@ export default function AdminScreen() {
             </Pressable>
           </View>
           <ScrollView style={styles.sheetBody} contentContainerStyle={styles.sheetBodyContent} showsVerticalScrollIndicator={false}>
+            {userDialogError ? (
+              <View style={styles.modalAlertError}>
+                <AlertCircle size={16} color="#DC2626" />
+                <Text style={styles.modalAlertErrorText}>{userDialogError}</Text>
+              </View>
+            ) : null}
             <View style={styles.row}>
               <View style={styles.half}>
                 <Text style={styles.fieldLabel}>First Name *</Text>
@@ -2655,7 +2669,7 @@ export default function AdminScreen() {
                           {(() => {
                             const currentClass = teacherSelectedClasses.find(c => c.classLevel === teacherSubjectTargetClass);
                             const assigned = new Set(currentClass?.assignedSubjects || []);
-                            let avail = assignmentCatalog.filter(a => a.classLevel === teacherSubjectTargetClass && !assigned.has(a.subject));
+                            let avail = assignmentCatalog.filter(a => (a.classLevel === teacherSubjectTargetClass || a.classLevel === 'ANY') && !assigned.has(a.subject));
                             if (teacherAssignSearch.trim()) {
                               const q = teacherAssignSearch.toLowerCase().trim();
                               avail = avail.filter(a => (a.subject || '').toLowerCase().includes(q));
@@ -4112,4 +4126,21 @@ const styles = StyleSheet.create({
   toastText: { color: Colors.success, fontSize: 14, fontWeight: '700', flex: 1 },
   subjectChip: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, borderWidth: 1 },
   subjectChipText: { fontSize: 12, fontWeight: '600' },
+  modalAlertError: {
+    backgroundColor: '#FEE2E2',
+    borderWidth: 1,
+    borderColor: '#FECACA',
+    borderRadius: Radius.md,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 16,
+  },
+  modalAlertErrorText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#B91C1C',
+    flex: 1,
+  },
 });

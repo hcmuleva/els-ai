@@ -64,7 +64,8 @@ const GENERATION_CAPABILITY_PROMPT = `
 - ONLY output a \`\`\`json generation_proposal when the user specifically asks to create, build, draft, or generate teaching content (e.g. "Create a quiz", "Draft a lesson plan", "Make 5 questions", "Create a topic", "Build a story").
 
 WHEN THE USER ASKS YOU TO CREATE OR GENERATE ANY CONTENT (quiz, lesson, topic, question, story, classroom):
-- DO NOT write out questions, answers, text, video URLs, or any content in your reply.
+- DO NOT write out questions, multiple choice options (A, B, C, D), answers, text, video URLs, or any draft content in your reply.
+- The user interface already provides an interactive proposal card with an "Open Preview" modal and "Generate Now" button. Writing questions in markdown wastes tokens, causes truncation, and clutters the chat.
 - You MUST output ONLY a short 1-2 sentence intro + the \`\`\`json generation_proposal block below.
 - The platform engine generates the actual content after the user clicks "Generate Now".
 

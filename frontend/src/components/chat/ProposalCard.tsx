@@ -148,6 +148,23 @@ function robustJsonParse(str: string): any {
   }
 }
 
+function cleanIntroForProposal(text: string): string {
+  if (!text) return '';
+  // Cut off at quiz title header, numbered questions, or options:
+  // e.g. "Rishabh Singh's Remedial Quiz", "1. What is...", "**1. ", "Q1.", "Question 1:", "A) "
+  const questionCutoffRegex = /(?:\n\s*(?:#{1,4}\s*)?(?:[^\n]*(?:remedial quiz|practice quiz|assessment quiz|sample quiz|question bank|quiz:|\bquestions:)\b[^\n]*|\*{0,2}(?:Question\s*\d+|\d+[\.\)]|Q\d+[\.\:]|\*\*\d+[\.\)])\s+|[A-D]\)\s+))/i;
+  const match = text.match(questionCutoffRegex);
+  if (match && match.index !== undefined) {
+    text = text.substring(0, match.index).trim();
+  }
+  const draftCutoffRegex = /(?:Here(?:'s| is) (?:the )?content:?|Here are the \d+ questions|Notes for |Question Bank:|### Video 1)/i;
+  const cutoffMatch = text.match(draftCutoffRegex);
+  if (cutoffMatch && cutoffMatch.index !== undefined && cutoffMatch.index > 20) {
+    text = text.substring(0, cutoffMatch.index).trim();
+  }
+  return text.trim();
+}
+
 export function extractProposalFromMessage(content: string): {
   cleanedContent: string;
   proposal?: GenerationProposalData;
@@ -218,12 +235,15 @@ export function extractProposalFromMessage(content: string): {
             content.substring(blockMatch.index + blockMatch[0].length)
           ).trim();
 
-          // If the model dumped a full content draft before the proposal JSON, truncate the draft
-          // so the user gets a clean, professional proposal card rather than messy draft text
-          const draftCutoffRegex = /(?:Here(?:'s| is) (?:the )?content:?|Here are the \d+ questions|Notes for |Question Bank:|### Video 1)/i;
-          const cutoffMatch = cleaned.match(draftCutoffRegex);
-          if (cutoffMatch && cutoffMatch.index !== undefined && cutoffMatch.index > 20) {
-            cleaned = cleaned.substring(0, cutoffMatch.index).trim();
+          // If the model dumped questions or full draft text before the proposal JSON, clean it
+          if (parsed.type === 'generation_proposal') {
+            cleaned = cleanIntroForProposal(cleaned);
+          } else {
+            const draftCutoffRegex = /(?:Here(?:'s| is) (?:the )?content:?|Here are the \d+ questions|Notes for |Question Bank:|### Video 1)/i;
+            const cutoffMatch = cleaned.match(draftCutoffRegex);
+            if (cutoffMatch && cutoffMatch.index !== undefined && cutoffMatch.index > 20) {
+              cleaned = cleaned.substring(0, cutoffMatch.index).trim();
+            }
           }
 
           return {
@@ -353,10 +373,14 @@ export function extractProposalFromMessage(content: string): {
                 }
               }
               let cleaned = (content.substring(0, startIndex) + content.substring(endIndex)).trim();
-              const draftCutoffRegex = /(?:Here(?:'s| is) (?:the )?content:?|Here are the \d+ questions|Notes for |Question Bank:|### Video 1)/i;
-              const cutoffMatch = cleaned.match(draftCutoffRegex);
-              if (cutoffMatch && cutoffMatch.index !== undefined && cutoffMatch.index > 20) {
-                cleaned = cleaned.substring(0, cutoffMatch.index).trim();
+              if (parsed.type === 'generation_proposal') {
+                cleaned = cleanIntroForProposal(cleaned);
+              } else {
+                const draftCutoffRegex = /(?:Here(?:'s| is) (?:the )?content:?|Here are the \d+ questions|Notes for |Question Bank:|### Video 1)/i;
+                const cutoffMatch = cleaned.match(draftCutoffRegex);
+                if (cutoffMatch && cutoffMatch.index !== undefined && cutoffMatch.index > 20) {
+                  cleaned = cleaned.substring(0, cutoffMatch.index).trim();
+                }
               }
 
               return {
@@ -393,7 +417,10 @@ export function extractProposalFromMessage(content: string): {
       content.includes('"weak_areas"') ||
       (content.includes('"type"') && content.includes('"contentType"')))
   ) {
-    const cleaned = content.substring(0, content.indexOf(unclosedMatch[0])).trim();
+    let cleaned = content.substring(0, content.indexOf(unclosedMatch[0])).trim();
+    if (content.includes('"generation_proposal"')) {
+      cleaned = cleanIntroForProposal(cleaned);
+    }
     return {
       cleanedContent:
         cleaned ||

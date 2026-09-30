@@ -441,12 +441,6 @@ export default function QuizTab({
       });
     });
 
-    GLOBAL_SUBJECTS.forEach((sub) => {
-      if (!byTitle.has(sub)) {
-        byTitle.set(sub, {});
-      }
-    });
-
     return Array.from(byTitle.entries())
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([subject, meta]) => ({

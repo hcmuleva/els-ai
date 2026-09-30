@@ -270,10 +270,39 @@ RECOMMENDED ACTION PLAN:
             <View style={s.sectionCard}>
               <View style={s.sectionHeader}>
                 <AlertTriangle size={16} color="#D97706" />
-                <Text style={s.sectionTitle}>Learning Gaps & Recurring Missed Questions</Text>
+                <Text style={s.sectionTitle}>Learning Gaps & Multi-Subject Analysis</Text>
               </View>
+
+              {/* Multi-Subject Breakdown Cards */}
+              {metrics.weakDomains && metrics.weakDomains.length > 0 && (
+                <View style={{ gap: 8, marginBottom: 12 }}>
+                  {metrics.weakDomains.map((dom, idx) => (
+                    <View key={idx} style={s.subjectDomainCard}>
+                      <View style={s.subjectDomainHeader}>
+                        <Text style={s.subjectDomainTitle}>{dom.subject}</Text>
+                        <View style={[s.subjectDomainBadge, dom.priority === 'High' ? s.badgeHigh : s.badgeMed]}>
+                          <Text style={[s.subjectDomainBadgeText, dom.priority === 'High' ? s.badgeHighText : s.badgeMedText]}>
+                            {dom.accuracyPct !== null ? `${dom.accuracyPct}% Accuracy` : 'Struggle Area'} • {dom.priority === 'High' ? 'High Risk' : 'Needs Review'}
+                          </Text>
+                        </View>
+                      </View>
+                      <View style={s.subjectDomainGapsList}>
+                        {dom.gaps.map((gap, gIdx) => (
+                          <View key={gIdx} style={s.gapBulletRow}>
+                            <View style={s.gapDot} />
+                            <Text style={s.gapText}>{gap}</Text>
+                          </View>
+                        ))}
+                      </View>
+                    </View>
+                  ))}
+                </View>
+              )}
+
+              {/* Recurring Missed Questions List */}
+              <Text style={s.subSectionTitle}>Recurring Missed Practice Questions:</Text>
               {metrics.weakQuestions && metrics.weakQuestions.length > 0 ? (
-                <View style={{ gap: 8 }}>
+                <View style={{ gap: 8, marginTop: 6 }}>
                   {metrics.weakQuestions.map((q, idx) => (
                     <View key={idx} style={s.weakQuestionItem}>
                       <View style={s.bulletCircle}>
@@ -281,7 +310,10 @@ RECOMMENDED ACTION PLAN:
                       </View>
                       <View style={{ flex: 1 }}>
                         <Text style={s.weakQuestionTitle}>{q.title}</Text>
-                        <Text style={s.weakQuestionCount}>Missed {q.missedCount} time{q.missedCount !== 1 ? 's' : ''} in practice</Text>
+                        <Text style={s.weakQuestionCount}>
+                          Missed {q.missedCount} time{q.missedCount !== 1 ? 's' : ''} in practice
+                          {q.quizTitle ? ` • ${q.quizTitle}` : ''}
+                        </Text>
                       </View>
                     </View>
                   ))}
@@ -318,33 +350,66 @@ RECOMMENDED ACTION PLAN:
             <View style={s.actionPlanCard}>
               <View style={s.actionPlanHeader}>
                 <Sparkles size={16} color={Colors.primary} />
-                <Text style={s.actionPlanTitle}>Recommended Action Plan</Text>
+                <Text style={s.actionPlanTitle}>Targeted Remedial Action Plan</Text>
               </View>
               <View style={s.actionPlanBody}>
                 <View style={s.actionPlanField}>
-                  <Text style={s.actionPlanFieldLabel}>Primary Domain:</Text>
+                  <Text style={s.actionPlanFieldLabel}>Primary Focus:</Text>
                   <Text style={s.actionPlanFieldValue}>{jevDiagnosis.primaryWeakDomain || 'Foundational Practice'}</Text>
                 </View>
+                {jevDiagnosis.secondaryWeakDomain && (
+                  <View style={s.actionPlanField}>
+                    <Text style={s.actionPlanFieldLabel}>Secondary Focus:</Text>
+                    <Text style={s.actionPlanFieldValue}>{jevDiagnosis.secondaryWeakDomain}</Text>
+                  </View>
+                )}
                 <View style={s.actionPlanField}>
                   <Text style={s.actionPlanFieldLabel}>Pedagogical Action:</Text>
-                  <Text style={s.actionPlanFieldValue}>{jevDiagnosis.recommendedIntervention || 'Targeted 5-question review'}</Text>
+                  <Text style={s.actionPlanFieldValue}>{jevDiagnosis.recommendedIntervention || 'Targeted multi-domain review'}</Text>
                 </View>
               </View>
 
               {onDraftRemedialQuiz && (
-                <Pressable
-                  style={({ pressed }) => [s.remedialQuizBtn, pressed && { opacity: 0.85 }]}
-                  onPress={() => {
-                    onClose();
-                    onDraftRemedialQuiz(
-                      `Draft a 5-question remedial practice quiz for ${student.name} targeting ${jevDiagnosis.primaryWeakDomain || 'their learning gaps'}`
-                    );
-                  }}
-                  accessibilityRole="button"
-                >
-                  <Sparkles size={15} color="#FFFFFF" />
-                  <Text style={s.remedialQuizBtnText}>Draft Remedial Quiz for {student.firstName || student.name}</Text>
-                </Pressable>
+                <View style={{ gap: 8 }}>
+                  {/* Button 1: Comprehensive Multi-Subject Quiz */}
+                  <Pressable
+                    style={({ pressed }) => [s.remedialQuizBtn, pressed && { opacity: 0.85 }]}
+                    onPress={() => {
+                      onClose();
+                      const multiSubjStr =
+                        (metrics.weakDomains || []).map((d) => d.subject).slice(0, 2).join(' and ') ||
+                        'Mathematics and Science';
+                      onDraftRemedialQuiz(
+                        `Draft a 5-question comprehensive remedial quiz for ${student.name} covering their verified learning gaps across ${multiSubjStr}.`
+                      );
+                    }}
+                    accessibilityRole="button"
+                  >
+                    <Sparkles size={15} color="#FFFFFF" />
+                    <Text style={s.remedialQuizBtnText}>
+                      Draft Comprehensive Remedial Quiz ({metrics.weakDomains?.map((d) => d.subject).slice(0, 2).join(' + ') || 'Multi-Subject'})
+                    </Text>
+                  </Pressable>
+
+                  {/* Button 2 & 3: Subject-Specific Focus Buttons */}
+                  {(metrics.weakDomains || []).slice(0, 2).map((dom) => (
+                    <Pressable
+                      key={dom.subject}
+                      style={({ pressed }) => [s.remedialSubjectBtn, pressed && { opacity: 0.85 }]}
+                      onPress={() => {
+                        onClose();
+                        onDraftRemedialQuiz(
+                          `Draft a 5-question remedial quiz for ${student.name} focusing specifically on ${dom.subject}: ${dom.gaps.join(', ')}.`
+                        );
+                      }}
+                      accessibilityRole="button"
+                    >
+                      <Text style={s.remedialSubjectBtnText}>
+                        Focus on {dom.subject} ({dom.accuracyPct !== null ? `${dom.accuracyPct}% Accuracy` : 'Review'}) →
+                      </Text>
+                    </Pressable>
+                  ))}
+                </View>
               )}
             </View>
           </ScrollView>
@@ -743,6 +808,89 @@ const s = StyleSheet.create({
     fontSize: 13,
     fontWeight: '700',
     color: '#FFFFFF',
+  },
+  remedialSubjectBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: Radius.md,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+  },
+  remedialSubjectBtnText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: Colors.primary,
+  },
+  subSectionTitle: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: Colors.textSecondary,
+    marginBottom: 6,
+  },
+  subjectDomainCard: {
+    backgroundColor: '#F8FAFC',
+    borderRadius: Radius.sm,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    padding: 10,
+  },
+  subjectDomainHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 6,
+  },
+  subjectDomainTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: Colors.text,
+  },
+  subjectDomainBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: Radius.full,
+    borderWidth: 1,
+  },
+  badgeHigh: {
+    backgroundColor: '#FEF2F2',
+    borderColor: '#FCA5A5',
+  },
+  badgeMed: {
+    backgroundColor: '#FEF3C7',
+    borderColor: '#FCD34D',
+  },
+  subjectDomainBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  badgeHighText: {
+    color: '#DC2626',
+  },
+  badgeMedText: {
+    color: '#B45309',
+  },
+  subjectDomainGapsList: {
+    gap: 4,
+  },
+  gapBulletRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  gapDot: {
+    width: 5,
+    height: 5,
+    borderRadius: Radius.full,
+    backgroundColor: Colors.textSecondary,
+  },
+  gapText: {
+    fontSize: 12,
+    color: Colors.text,
+    fontWeight: '500',
   },
   modalFooter: {
     flexDirection: 'row',

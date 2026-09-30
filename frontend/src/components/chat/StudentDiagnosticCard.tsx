@@ -126,6 +126,16 @@ export function StudentDiagnosticCard({ data, onActionPress, onOpenReportCard }:
           <Text style={s.actionPlanTitle}>Diagnostic Action Plan</Text>
         </View>
         <Text style={s.actionPlanText}>
+          <Text style={{ fontWeight: '700', color: Colors.text }}>Primary Focus: </Text>
+          {jevDiagnosis.primaryWeakDomain || 'Multi-subject review'}
+        </Text>
+        {jevDiagnosis.secondaryWeakDomain ? (
+          <Text style={[s.actionPlanText, { marginTop: 3 }]}>
+            <Text style={{ fontWeight: '700', color: Colors.text }}>Secondary Focus: </Text>
+            {jevDiagnosis.secondaryWeakDomain}
+          </Text>
+        ) : null}
+        <Text style={[s.actionPlanText, { marginTop: 4 }]}>
           <Text style={{ fontWeight: '700', color: Colors.text }}>Intervention: </Text>
           {jevDiagnosis.recommendedIntervention}
         </Text>
@@ -141,18 +151,22 @@ export function StudentDiagnosticCard({ data, onActionPress, onOpenReportCard }:
             accessibilityLabel="View full report card"
           >
             <FileText size={14} color={Colors.primary} />
-            <Text style={s.reportCardBtnText}>View Report Card</Text>
+            <Text style={s.reportCardBtnText}>View Full Report Card</Text>
           </Pressable>
         )}
 
         {onActionPress && (
           <Pressable
             style={({ pressed }) => [s.remedialBtn, pressed && { opacity: 0.85 }]}
-            onPress={() =>
+            onPress={() => {
+              const multiSubj =
+                (metrics.weakDomains || []).map((d) => d.subject).slice(0, 2).join(' and ') ||
+                jevDiagnosis.primaryWeakDomain ||
+                'their learning gaps';
               onActionPress(
-                `Draft a 5-question remedial quiz for ${student.name} targeting ${jevDiagnosis.primaryWeakDomain || 'their weak areas'}.`
-              )
-            }
+                `Draft a 5-question comprehensive remedial quiz for ${student.name} targeting their learning gaps in ${multiSubj}.`
+              );
+            }}
             accessibilityRole="button"
             accessibilityLabel="Draft remedial quiz"
           >

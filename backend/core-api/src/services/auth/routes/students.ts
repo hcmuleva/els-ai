@@ -607,13 +607,28 @@ studentsRouter.get('/:id/ai-performance-summary', requireAuth, async (req: Authe
     }
     const student = studentRes.rows[0];
 
-    // 2. Student quiz attempts
+    // 1b. Fetch organization's dynamic subjects directly from database
+    const orgSubjectsRes = await db.query<{ id: string; title: string }>(
+      `SELECT DISTINCT id, title FROM subjects 
+       WHERE organization_id = $1::uuid AND title IS NOT NULL 
+       ORDER BY title`,
+      [organizationId]
+    );
+    const dynamicSubjectList = orgSubjectsRes.rows;
+    const dynamicSubjectTitles = Array.from(
+      new Set(dynamicSubjectList.map((s) => s.title.trim()).filter(Boolean))
+    );
+
+    // 2. Student quiz attempts (joined directly with dynamic subjects table)
     const quizAttemptsRes = await db.query(
-      `SELECT sa.id, sa.quiz_id, q.title as quiz_title, q.subject_id, sa.score, sa.total_points,
+      `SELECT sa.id, sa.quiz_id, q.title as quiz_title, q.subject_id,
+              COALESCE(s.title, '') as subject_title,
+              sa.score, sa.total_points,
               ROUND((sa.score::numeric / NULLIF(sa.total_points, 0)::numeric) * 100, 1) as score_pct,
               sa.completed_at
        FROM student_attempts sa
        JOIN quizzes q ON q.id = sa.quiz_id
+       LEFT JOIN subjects s ON s.id = q.subject_id
        WHERE sa.student_id = $1
        ORDER BY sa.completed_at DESC NULLS LAST
        LIMIT 50`,
@@ -657,26 +672,132 @@ studentsRouter.get('/:id/ai-performance-summary', requireAuth, async (req: Authe
             }))
         : [];
 
-    // 3. Top missed questions / weak areas
+    // 3. Top missed questions / weak areas with dynamic subject context
     const missedRes = await db.query(
       `SELECT COALESCE(qq.question_title, 'Question') AS question_title,
               COALESCE(qq.question_type, 'multi_choice') AS question_type,
+              COALESCE(q.title, '') AS quiz_title,
+              COALESCE(s.title, '') AS subject_title,
               COUNT(*)::int AS missed_count
        FROM question_attempts qa
        INNER JOIN student_attempts sa ON sa.id = qa.attempt_id
        LEFT JOIN quiz_questions qq ON qq.id = qa.question_id
+       LEFT JOIN quizzes q ON q.id = qq.quiz_id
+       LEFT JOIN subjects s ON s.id = q.subject_id
        WHERE sa.student_id = $1 AND qa.is_correct = false
-       GROUP BY qq.question_title, qq.question_type
+       GROUP BY qq.question_title, qq.question_type, q.title, s.title
        ORDER BY missed_count DESC
-       LIMIT 5`,
+       LIMIT 10`,
       [studentId],
     );
 
     const weakQuestions = missedRes.rows.map((r: any) => ({
       title: r.question_title,
       type: r.question_type,
+      quizTitle: r.quiz_title,
+      subjectTitle: r.subject_title,
       missedCount: Number(r.missed_count),
     }));
+
+    const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:4003';
+
+    // AI & Dynamic DB Subject Resolver: eliminates hardcoded subjects
+    async function resolveSubjectDynamically(
+      questionTitle: string,
+      quizTitle: string,
+      explicitSubject: string
+    ): Promise<string> {
+      if (explicitSubject && explicitSubject.trim().length > 0) {
+        return explicitSubject.trim();
+      }
+      if (dynamicSubjectTitles.length === 0) {
+        return 'General Studies';
+      }
+
+      const combined = `${questionTitle} ${quizTitle}`.toLowerCase();
+      const directMatch = dynamicSubjectTitles.find((s) => combined.includes(s.toLowerCase()));
+      if (directMatch) return directMatch;
+
+      // Ask AI / Jev to classify against the school's live dynamic subject list
+      try {
+        const jevClassify = await fetch(`${AI_SERVICE_URL}/ai/jev/classify`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text: `Question: ${questionTitle}. Quiz: ${quizTitle}`,
+            choices: dynamicSubjectTitles.slice(0, 15),
+          }),
+          signal: AbortSignal.timeout(1500),
+        });
+        if (jevClassify.ok) {
+          const body: any = await jevClassify.json();
+          if (body?.choice && body.choice !== 'unclear') {
+            return body.choice;
+          }
+        }
+      } catch {}
+
+      return dynamicSubjectTitles[0] || 'General Studies';
+    }
+
+    // Compute subject-level performance metrics & group learning gaps using real dynamic subjects
+    const subjectStats: Record<
+      string,
+      { totalPoints: number; scoredPoints: number; quizTitles: string[]; gaps: string[]; missedTotal: number }
+    > = {};
+
+    for (const a of attempts) {
+      const subj =
+        a.subject_title && a.subject_title.trim().length > 0
+          ? a.subject_title.trim()
+          : await resolveSubjectDynamically('', a.quiz_title, '');
+
+      if (!subjectStats[subj]) {
+        subjectStats[subj] = { totalPoints: 0, scoredPoints: 0, quizTitles: [], gaps: [], missedTotal: 0 };
+      }
+      subjectStats[subj].totalPoints += Number(a.total_points || 0);
+      subjectStats[subj].scoredPoints += Number(a.score || 0);
+      if (!subjectStats[subj].quizTitles.includes(a.quiz_title)) {
+        subjectStats[subj].quizTitles.push(a.quiz_title);
+      }
+    }
+
+    for (const w of weakQuestions) {
+      const subj =
+        w.subjectTitle && w.subjectTitle.trim().length > 0
+          ? w.subjectTitle.trim()
+          : await resolveSubjectDynamically(w.title, w.quizTitle, '');
+
+      if (!subjectStats[subj]) {
+        subjectStats[subj] = { totalPoints: 0, scoredPoints: 0, quizTitles: [], gaps: [], missedTotal: 0 };
+      }
+      subjectStats[subj].missedTotal += w.missedCount;
+      if (!subjectStats[subj].gaps.includes(w.title)) {
+        subjectStats[subj].gaps.push(w.title);
+      }
+    }
+
+    const weakDomains = Object.entries(subjectStats)
+      .map(([subject, stats]) => {
+        const accuracyPct =
+          stats.totalPoints > 0 ? Math.round((stats.scoredPoints / stats.totalPoints) * 100) : null;
+        const isUrgent = (accuracyPct !== null && accuracyPct < 40) || stats.missedTotal >= 6;
+        const isModerate = (accuracyPct !== null && accuracyPct < 75) || stats.missedTotal >= 3;
+        const priority: 'High' | 'Medium' | 'Low' = isUrgent ? 'High' : isModerate ? 'Medium' : 'Low';
+        return {
+          subject,
+          accuracyPct,
+          missedCount: stats.missedTotal,
+          gaps: stats.gaps.slice(0, 3),
+          priority,
+        };
+      })
+      .filter((d) => d.gaps.length > 0 || (d.accuracyPct !== null && d.accuracyPct < 75))
+      .sort((a, b) => {
+        if (a.priority === 'High' && b.priority !== 'High') return -1;
+        if (b.priority === 'High' && a.priority !== 'High') return 1;
+        return (a.accuracyPct ?? 50) - (b.accuracyPct ?? 50);
+      });
 
     // 4. Latest teacher remarks
     const remarksRes = await db.query(
@@ -697,6 +818,30 @@ studentsRouter.get('/:id/ai-performance-summary', requireAuth, async (req: Authe
     }));
 
     // 5. Jev Evaluation (with deterministic heuristic fallback)
+    const topDomain = weakDomains[0];
+    const secondDomain = weakDomains[1];
+
+    const firstWeakConcept =
+      topDomain && topDomain.gaps[0]
+        ? `${topDomain.subject}: ${topDomain.gaps[0].length > 40 ? topDomain.gaps[0].slice(0, 40) + '...' : topDomain.gaps[0]}`
+        : weakQuestions.length > 0
+        ? weakQuestions[0].title.length > 45
+          ? weakQuestions[0].title.slice(0, 45) + '...'
+          : weakQuestions[0].title
+        : 'Foundational Practice';
+
+    const secondaryWeakConcept =
+      secondDomain && secondDomain.gaps[0]
+        ? `${secondDomain.subject}: ${secondDomain.gaps[0].length > 40 ? secondDomain.gaps[0].slice(0, 40) + '...' : secondDomain.gaps[0]}`
+        : undefined;
+
+    const recommendedAction =
+      weakDomains.length > 1
+        ? `Assign targeted remedial practice in ${weakDomains.map((d) => d.subject).slice(0, 2).join(' & ')}`
+        : averageScorePct >= 75
+        ? 'Independent enrichment practice'
+        : 'Assign 5-question remedial quiz';
+
     let jevDiagnosis = {
       masteryTier:
         averageScorePct >= 80
@@ -707,23 +852,20 @@ studentsRouter.get('/:id/ai-performance-summary', requireAuth, async (req: Authe
           ? 'Needs Targeted Support'
           : 'Critical Intervention Required',
       riskScore: averageScorePct >= 75 ? 0 : averageScorePct >= 60 ? 1 : averageScorePct >= 45 ? 2 : 3,
-      primaryWeakDomain:
-        weakQuestions.length > 0
-          ? weakQuestions[0].title.length > 40
-            ? weakQuestions[0].title.slice(0, 40) + '...'
-            : weakQuestions[0].title
-          : 'None identified',
-      recommendedIntervention:
-        averageScorePct >= 75
-          ? 'Independent enrichment practice'
-          : 'Assign 5-question remedial quiz',
+      primaryWeakDomain: firstWeakConcept,
+      secondaryWeakDomain: secondaryWeakConcept,
+      weakDomains,
+      recommendedIntervention: recommendedAction,
       confidence: 0.88,
       source: 'heuristic_fallback',
     };
 
-    const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:4003';
     try {
-      const stateStr = `Student: ${student.first_name} ${student.last_name}, Grade: ${student.class_level || 'N/A'}. Total Quizzes: ${totalQuizzes}, Average Accuracy: ${averageScorePct}%. Best Quiz: ${bestQuiz?.title || 'None'} (${bestQuiz?.scorePct || 0}%). Weakest Quiz: ${lowestQuizzes[0]?.title || 'None'} (${lowestQuizzes[0]?.scorePct || 0}%). Missed Concepts: ${weakQuestions.map((q) => q.title).join(', ') || 'None'}. Remarks: ${latestRemarks.map((r) => r.remark).join('; ') || 'None'}.`;
+      const weakDomainsSummary = weakDomains
+        .map((d) => `${d.subject} (Accuracy: ${d.accuracyPct ?? 'N/A'}%, Gaps: ${d.gaps.join('; ')})`)
+        .join(' | ');
+
+      const stateStr = `Student: ${student.first_name} ${student.last_name}, Grade: ${student.class_level || 'N/A'}. Total Quizzes: ${totalQuizzes}, Average Accuracy: ${averageScorePct}%. Subject Gaps: ${weakDomainsSummary || 'None'}. Best Quiz: ${bestQuiz?.title || 'None'} (${bestQuiz?.scorePct || 0}%). Weakest Quiz: ${lowestQuizzes[0]?.title || 'None'} (${lowestQuizzes[0]?.scorePct || 0}%). Remarks: ${latestRemarks.map((r) => r.remark).join('; ') || 'None'}.`;
 
       const jevRes = await fetch(`${AI_SERVICE_URL}/ai/jev/evaluate`, {
         method: 'POST',
@@ -749,14 +891,8 @@ studentsRouter.get('/:id/ai-performance-summary', requireAuth, async (req: Authe
             },
             primary_weak_domain: {
               type: 'choice',
-              instructions: 'Identify primary domain of struggle',
-              choices: [
-                'Foundational Concepts',
-                'Problem Solving & Calculation',
-                'Reading & Comprehension',
-                'Assessment Completion',
-                'None',
-              ],
+              instructions: 'Identify primary domain of struggle among the school dynamic subjects',
+              choices: dynamicSubjectTitles.length > 0 ? dynamicSubjectTitles.slice(0, 10) : ['General Studies'],
             },
             recommended_intervention: {
               type: 'choice',
@@ -777,10 +913,18 @@ studentsRouter.get('/:id/ai-performance-summary', requireAuth, async (req: Authe
         const jevBody: any = await jevRes.json();
         const evalData = jevBody?.data || {};
         if (evalData.mastery_tier?.choice) {
+          const rawChoice = evalData.primary_weak_domain?.choice;
+          const resolvedDomain =
+            rawChoice && rawChoice !== 'None' && rawChoice !== 'unclear'
+              ? `${rawChoice} (${firstWeakConcept})`
+              : firstWeakConcept;
+
           jevDiagnosis = {
             masteryTier: evalData.mastery_tier.choice,
             riskScore: Number(evalData.risk_score?.value ?? jevDiagnosis.riskScore),
-            primaryWeakDomain: evalData.primary_weak_domain?.choice || jevDiagnosis.primaryWeakDomain,
+            primaryWeakDomain: resolvedDomain,
+            secondaryWeakDomain: secondaryWeakConcept,
+            weakDomains,
             recommendedIntervention:
               evalData.recommended_intervention?.choice || jevDiagnosis.recommendedIntervention,
             confidence: 0.94,
@@ -793,9 +937,15 @@ studentsRouter.get('/:id/ai-performance-summary', requireAuth, async (req: Authe
     }
 
     // Mathematical calibration guards to ensure AI diagnosis never contradicts database metrics
+    if (weakQuestions.length > 0 && (!jevDiagnosis.primaryWeakDomain || jevDiagnosis.primaryWeakDomain === 'None' || jevDiagnosis.primaryWeakDomain === 'None identified')) {
+      jevDiagnosis.primaryWeakDomain = firstWeakConcept;
+      jevDiagnosis.weakDomains = weakDomains;
+    }
+
     if (totalQuizzes === 0) {
       jevDiagnosis.masteryTier = 'No Quizzes Attempted';
       jevDiagnosis.riskScore = 1;
+      jevDiagnosis.primaryWeakDomain = 'Initial Diagnostic';
       jevDiagnosis.recommendedIntervention = 'Assign initial diagnostic assessment';
     } else if (averageScorePct < 40) {
       jevDiagnosis.masteryTier = 'Critical Intervention Required';
@@ -824,6 +974,7 @@ studentsRouter.get('/:id/ai-performance-summary', requireAuth, async (req: Authe
         bestQuiz,
         lowestQuizzes,
         weakQuestions,
+        weakDomains,
         latestRemarks,
       },
       jevDiagnosis,
