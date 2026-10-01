@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: education-ai-api
-          image: harishdell/els-ai-education-ai-api:sha-98ac792
+          image: harishdell/els-ai-education-ai-api:sha-4c6b65c
           imagePullPolicy: Always
           ports:
             - containerPort: 4003
