@@ -20,39 +20,43 @@ export function getAuthorizedCatalogItems<T>(
   let filtered = catalog;
 
   // Class-level pre-filter
-  if (selectedClassLevel && selectedClassLevel.trim() !== '' && selectedClassLevel.trim() !== 'ALL') {
+  const clUpper = (selectedClassLevel || '').trim().toUpperCase();
+  if (selectedClassLevel && selectedClassLevel.trim() !== '' && clUpper !== 'ALL' && clUpper !== 'ANY') {
     filtered = filtered.filter(item => {
       const itemCl = getClassLevel(item).trim();
-      return itemCl === selectedClassLevel.trim() || itemCl === 'ANY';
+      return itemCl === selectedClassLevel.trim() || itemCl === 'ANY' || !itemCl;
     });
   }
 
   // Teacher access restriction: build allowed (classLevel, subject) pairs
   if (user?.activeRole === 'teacher' && user.classAssignments && user.classAssignments.length > 0) {
-    const allowedKeys = new Set<string>();
+    const hasGlobalAll = user.classAssignments.some((ca: any) => (ca.classLevel === 'ANY' || !ca.classLevel) && ca.allSubjects);
+    if (!hasGlobalAll) {
+      const allowedKeys = new Set<string>();
 
-    user.classAssignments.forEach((ca: any) => {
-      if (ca.allSubjects) {
-        catalog.forEach(item => {
-          const itemCl = getClassLevel(item).trim();
-          if (itemCl === ca.classLevel || itemCl === 'ANY') {
-            allowedKeys.add(`${ca.classLevel}|${getSubject(item).trim()}`);
-            allowedKeys.add(`ANY|${getSubject(item).trim()}`);
-          }
-        });
-      } else {
-        (ca.assignedSubjects as string[]).forEach(sub => {
-          allowedKeys.add(`${ca.classLevel}|${sub.trim()}`);
-          allowedKeys.add(`ANY|${sub.trim()}`);
-        });
-      }
-    });
+      user.classAssignments.forEach((ca: any) => {
+        if (ca.allSubjects) {
+          catalog.forEach(item => {
+            const itemCl = getClassLevel(item).trim();
+            if (itemCl === ca.classLevel || itemCl === 'ANY' || ca.classLevel === 'ANY') {
+              allowedKeys.add(`${ca.classLevel}|${getSubject(item).trim()}`);
+              allowedKeys.add(`ANY|${getSubject(item).trim()}`);
+            }
+          });
+        } else {
+          (ca.assignedSubjects as string[] || []).forEach(sub => {
+            allowedKeys.add(`${ca.classLevel}|${sub.trim()}`);
+            allowedKeys.add(`ANY|${sub.trim()}`);
+          });
+        }
+      });
 
-    filtered = filtered.filter(item => {
-      const itemCl = getClassLevel(item).trim();
-      if (itemCl === 'ANY') return true;
-      return allowedKeys.has(`${itemCl}|${getSubject(item).trim()}`);
-    });
+      filtered = filtered.filter(item => {
+        const itemCl = getClassLevel(item).trim();
+        if (itemCl === 'ANY') return true;
+        return allowedKeys.has(`${itemCl}|${getSubject(item).trim()}`) || allowedKeys.has(`ANY|${getSubject(item).trim()}`);
+      });
+    }
   }
 
   return filtered;

@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS classroom_quizzes (
 -- ── v_subjects ─────────────────────────────────────────────────────────
 -- 1:1 alias of `subjects` plus alias rows from subject_aliases collapsed
 -- into a comma-separated string (handy for display/filter dropdowns).
+DROP VIEW IF EXISTS v_subjects CASCADE;
 CREATE OR REPLACE VIEW v_subjects AS
 SELECT
   s.id,
@@ -74,6 +75,7 @@ FROM subjects s;
 -- ── v_topics ───────────────────────────────────────────────────────────
 -- Renames `content_topics` → `topics` (drops the redundant `content_` prefix)
 -- and joins through to the subject for friendly display.
+DROP VIEW IF EXISTS v_topics CASCADE;
 CREATE OR REPLACE VIEW v_topics AS
 SELECT
   t.id              AS topic_id,
@@ -95,6 +97,7 @@ LEFT JOIN subjects s ON s.id = t.subject_id;
 -- Renames `learning_contents` → `lessons`. A lesson is a reusable learning
 -- item (text, video, audio, jigsaw, etc) that can appear in any number of
 -- topics or directly inside a classroom.
+DROP VIEW IF EXISTS v_lessons CASCADE;
 CREATE OR REPLACE VIEW v_lessons AS
 SELECT
   lc.id              AS lesson_id,
@@ -117,6 +120,7 @@ LEFT JOIN subjects s ON s.id = lc.subject_id;
 
 -- ── v_lesson_sections ──────────────────────────────────────────────────
 -- Renames `learning_content_sections` → `lesson_sections`.
+DROP VIEW IF EXISTS v_lesson_sections CASCADE;
 CREATE OR REPLACE VIEW v_lesson_sections AS
 SELECT
   lcs.id            AS section_id,
@@ -137,6 +141,7 @@ FROM learning_content_sections lcs;
 -- a link table — it's sections that live INSIDE a topic, not as part of any
 -- shared lesson). Naming as `topic_inline_sections` makes the difference
 -- with `lesson_sections` obvious.
+DROP VIEW IF EXISTS v_topic_inline_sections CASCADE;
 CREATE OR REPLACE VIEW v_topic_inline_sections AS
 SELECT
   tcs.id            AS section_id,
@@ -155,6 +160,7 @@ FROM topic_content_sections tcs;
 -- Renames `topic_content_assignments` (a link/join table whose name
 -- collides with `classroom_assignments`/homework) to `topic_lessons`.
 -- This is the topic ↔ lesson many-to-many bridge.
+DROP VIEW IF EXISTS v_topic_lessons CASCADE;
 CREATE OR REPLACE VIEW v_topic_lessons AS
 SELECT
   tca.id          AS link_id,
@@ -167,6 +173,7 @@ FROM topic_content_assignments tca;
 -- ── v_quizzes ──────────────────────────────────────────────────────────
 -- Joined view: quiz + its topic + its subject. The single most asked
 -- question ("which subject does this quiz belong to") is now one SELECT.
+DROP VIEW IF EXISTS v_quizzes CASCADE;
 CREATE OR REPLACE VIEW v_quizzes AS
 SELECT
   q.id              AS quiz_id,
@@ -199,6 +206,7 @@ LEFT JOIN content_topics t ON t.id = q.topic_id;
 -- ── v_questions ────────────────────────────────────────────────────────
 -- Renames `quiz_questions` → `questions`. The current name implies it's a
 -- join table, but it's actually the question rows themselves.
+DROP VIEW IF EXISTS v_questions CASCADE;
 CREATE OR REPLACE VIEW v_questions AS
 SELECT
   qq.id              AS question_id,
@@ -217,6 +225,7 @@ FROM quiz_questions qq;
 -- ── v_quiz_attempts ────────────────────────────────────────────────────
 -- Renames `student_attempts` → `quiz_attempts` (clearer scope) and joins
 -- through to the quiz/student for friendly reporting.
+DROP VIEW IF EXISTS v_quiz_attempts CASCADE;
 CREATE OR REPLACE VIEW v_quiz_attempts AS
 SELECT
   sa.id                AS attempt_id,
@@ -237,6 +246,7 @@ LEFT JOIN quizzes q ON q.id = sa.quiz_id;
 -- ── v_question_responses ───────────────────────────────────────────────
 -- Renames `question_attempts` → `question_responses` (an attempt isn't a
 -- thing a student does to a question; a response is).
+DROP VIEW IF EXISTS v_question_responses CASCADE;
 CREATE OR REPLACE VIEW v_question_responses AS
 SELECT
   qa.id                AS response_id,
@@ -249,6 +259,7 @@ FROM question_attempts qa;
 
 -- ── v_classroom_lessons / v_classroom_quizzes / v_classroom_homeworks ──
 -- Renames the classroom-side tables to friendlier names.
+DROP VIEW IF EXISTS v_classroom_lessons CASCADE;
 CREATE OR REPLACE VIEW v_classroom_lessons AS
 SELECT
   cc.id           AS link_id,
@@ -258,6 +269,7 @@ SELECT
   cc.created_at
 FROM classroom_contents cc;
 
+DROP VIEW IF EXISTS v_classroom_quizzes CASCADE;
 CREATE OR REPLACE VIEW v_classroom_quizzes AS
 SELECT
   cq.id           AS link_id,
@@ -267,6 +279,7 @@ SELECT
   cq.created_at
 FROM classroom_quizzes cq;
 
+DROP VIEW IF EXISTS v_classroom_homeworks CASCADE;
 CREATE OR REPLACE VIEW v_classroom_homeworks AS
 SELECT
   ca.id              AS homework_id,
@@ -281,6 +294,7 @@ SELECT
   ca.updated_at
 FROM classroom_assignments ca;
 
+DROP VIEW IF EXISTS v_homework_submissions CASCADE;
 CREATE OR REPLACE VIEW v_homework_submissions AS
 SELECT
   cas.id                          AS submission_id,

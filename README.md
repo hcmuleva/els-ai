@@ -5,6 +5,7 @@ Shree Ganeshay Namah 🙏
 ELS-AI is a next-generation, multi-tenant EdTech platform powered by AI. It focuses on personalized, experiential learning for students across all grades, with a specialized "Interactive Playroom" for KIDS (LKG–5th).
 
 ## 🚀 Quick Links
+- **[Jev System One Guide](./README_JEV.md)**: Fast structured evaluation, chatbot cascade, diagnostics, and content generation.
 - **[Agent Implementation Roadmap](./docs/agents/MASTER_GUIDE.md)**: Step-by-step guide for developers and AI agents.
 - **[Architecture & Guidelines](./docs/README-AGENTS.md)**: Style guides, API specs, and quality controls.
 - **[System Design](./docs/SystemDesign.md)**: Architectural overview and diagrams.
@@ -47,32 +48,49 @@ npm run services:status
 Logs are generated in `logs/*.log` for each running service.
 
 
-  Done. Here's what I found and added.
+## 🤖 Jev System One Integration in Chatbot & Content Generation
 
-   Key finding
+### 1. Two-Tier Architecture (Jev + LLM Verified Cascade)
+- **Role Separation**:
+  - **System One (Jev)**: Fast (<1s), deterministic, structured classification, confidence scoring, and fact validation. Jev answers structured queries (`choice`, `boolean`/`noul`, `score`) and never generates conversational text directly.
+  - **System Two (LLM - GPT/Claude/Gemini)**: Handles natural conversational dialogue, empathetic tutoring, context synthesis, and rich content generation.
+- **Provider-Agnostic Gateway**: The backend `JevClient` (`backend/ai-service/src/services/jevClient.ts`) supports OpenJev (`openjev.sh`), OpenRouter (`typesafe/jev-1.13`), Vercel AI Gateway, or local deterministic heuristic fallback if third-party endpoints are unreachable.
+- **Client Security Boundary**: The frontend (React Native / Expo) never communicates directly with Jev or LLMs. All calls route securely through `core-api` and `ai-service` to protect API keys and validate organization/tenant authorization.
 
-   Your DB tables are owned by the postgres superuser. The app roles els_app (services) and els_admin (a few services) are not owners and cannot run DDL (ERROR: must be owner of table). This is a deliberate RLS decision (see 
-   docs/RLS_ROLLOUT.md), so on-boot per-service schema creation isn't possible — schema must be applied by the file-based runner as postgres.
+### 2. How Information is Gathered & Extracted
+- **Survey Observation Categorization**: During parent/student survey check-ins, the chatbot sends the user's raw message and conversation state to Jev via `POST /ai/jev/evaluate`.
+- **Structured Evaluation Primitives**:
+  - `category` (`choice`): Classifies observations into `weakness_academic`, `strength_academic`, `behavior`, or `unclear`.
+  - `specific_enough` (`boolean`/`noul`): Validates whether the observation contains enough actionable evidence to record without immediate follow-up.
+  - `concern_level` (`score` 0–3): Rates concern severity (`No concern`, `Mild, monitor`, `Moderate, worth flagging`, `Needs teacher attention`).
+- **Automated Clarification Loop**: If `specific_enough === false` and no clarification is pending, the chatbot immediately asks an automated clarifying follow-up before moving to the next survey topic.
+- **Quality Gating & Teacher Review**:
+  - High-confidence, specific entries are saved as `auto_accepted` in `chat_survey_entries`.
+  - Ambiguous (`unclear`) or low-specificity entries are marked `pending_review` and dispatched via Ably (`chat.reviews.{orgId}`) to the teacher review queue.
+- **Student Diagnostic Synthesis (`students.ts`)**:
+  - The backend aggregates quiz history, average accuracy %, missed concepts, and teacher remarks into an evaluation state.
+  - Jev evaluates this state in sub-second latency to produce:
+    - `masteryTier` (*High Mastery*, *Steady Progress*, *Needs Targeted Support*, *Critical Intervention Required*)
+    - `riskScore` (0 to 3 scale)
+    - `primaryWeakDomain` (e.g., *Foundational Concepts*, *Problem Solving & Calculation*)
+    - `recommendedIntervention` (e.g., *Assign 5-question remedial quiz*, *1-on-1 tutoring check-in*)
 
-   I also discovered migrations 0022-0026 existed physically but were never recorded in the schema_migrations tracker (they'd been applied by hand). I synced them.
+### 3. How Content is Generated
+- **Targeted Remedial Quizzes**:
+  - The chatbot UI (`StudentDiagnosticCard`, `StudentReportCardModal`, `ChatPanel`) consumes Jev's `primaryWeakDomain` and `riskScore`.
+  - Quick-action prompts feed this diagnostic directly into the quiz generator: `Draft a 5-question remedial quiz for {student} targeting {primaryWeakDomain}`.
+  - Quizzes and worksheets are tailored to the student's exact learning gap rather than generic grade-level material.
+- **Action Plans & Comprehensive Report Cards**:
+  - Jev pedagogical interventions and risk scores populate student report cards and action plans.
+  - The LLM synthesizes structured Jev diagnostic facts with historical metrics to produce teacher-ready narratives, progress summaries, and study recommendations.
 
-   What I did
+---
 
-   1. `migrations/README.md` (new) - how migrations work (ordered files, schema_migrations tracker, checksums, idempotent DDL), which role can run them (superuser/owner, not els_app/els_admin), the exact commands, how to write a new 
-      migration (naming, IF NOT EXISTS, RLS pattern for new tenant tables), and a reference table for 0022-0026.
+## 🗄️ Database Migrations
+- **How Migrations Work**: Ordered SQL files in `/migrations` tracked via `schema_migrations`.
+- **DDL Permissions**: App roles (`els_app`, `els_admin`) cannot run DDL under RLS policy. Migrations must be run as the database owner/superuser.
+- **Commands**:
+  - Apply migrations: `DB_USER=postgres DB_PASSWORD=<pw> npm run migrate`
+  - Check migration status: `npm run migrate:status`
+  - Service runner integration: `MIGRATE_DB_USER=postgres MIGRATE_DB_PASSWORD=<pw> ./backend/manage-services.sh start`
 
-   2. `scripts/migrate.cjs` - added a read-only --status mode so npm run migrate:status reports applied/pending/drifted without applying anything (previously it would have applied).
-
-   3. `backend/manage-services.sh` - added an opt-in, non-breaking auto-migrate step on start/restart. It runs only when you provide superuser creds and never blocks startup otherwise:
-
-        MIGRATE_DB_USER=postgres MIGRATE_DB_PASSWORD=<pw> ./backend/manage-services.sh start
-
-      Without those vars it prints a hint and continues.
-
-   4. Synced the tracker - ran DB_USER=postgres DB_PASSWORD=postgres npm run migrate; 0022-0026 are now recorded and npm run migrate:status reports "DB is up to date." (the DDL is IF NOT EXISTS/DROP IF EXISTS, so re-running didn't change 
-      existing schema).
-
-   How you do a migration going forward
-   •  Create migrations/NNNN_description.sql with idempotent DDL.
-   •  Apply: DB_USER=postgres DB_PASSWORD=<pw> npm run migrate
-   •  Check: npm run migrate:status

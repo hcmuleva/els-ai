@@ -2,12 +2,22 @@ import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { randomUUID } from 'crypto';
 
+export type MediaType =
+  | 'image'
+  | 'audio'
+  | 'video'
+  | 'document'
+  | 'text'
+  | 'pdf'
+  | 'html'
+  | 'file_upload';
+
 type UploadMediaInput = {
   organizationId: string;
   dataUrl: string;
   fileName: string;
   mimeType?: string;
-  mediaType: 'image' | 'audio' | 'video';
+  mediaType: MediaType;
 };
 
 type UploadMediaResult = {
@@ -15,7 +25,7 @@ type UploadMediaResult = {
   canonicalUrl: string;
   key: string;
   fileName: string;
-  mediaType: 'image' | 'audio' | 'video';
+  mediaType: MediaType;
   mimeType: string;
 };
 
@@ -46,6 +56,18 @@ const MIME_EXTENSION_MAP: Record<string, string> = {
   'video/webm': 'webm',
   'video/quicktime': 'mov',
   'video/x-msvideo': 'avi',
+  'text/html': 'html',
+  'text/plain': 'txt',
+  'text/markdown': 'md',
+  'text/csv': 'csv',
+  'application/pdf': 'pdf',
+  'application/json': 'json',
+  'application/msword': 'doc',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
+  'application/vnd.ms-excel': 'xls',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+  'application/vnd.ms-powerpoint': 'ppt',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'pptx',
 };
 
 function assertS3Configured() {
@@ -80,7 +102,7 @@ function parseDataUrl(dataUrl: string, overrideMimeType?: string) {
   return { mimeType, body };
 }
 
-function ensureMediaType(mimeType: string, mediaType: 'image' | 'audio' | 'video') {
+function ensureMediaType(mimeType: string, mediaType: MediaType) {
   if (mediaType === 'image' && !mimeType.startsWith('image/')) {
     throw new Error('Uploaded file is not an image.');
   }
@@ -90,22 +112,34 @@ function ensureMediaType(mimeType: string, mediaType: 'image' | 'audio' | 'video
   if (mediaType === 'video' && !mimeType.startsWith('video/')) {
     throw new Error('Uploaded file is not a video file.');
   }
+  if (mediaType === 'html' && !mimeType.includes('html') && !mimeType.startsWith('text/') && mimeType !== 'application/octet-stream') {
+    throw new Error('Uploaded file is not an HTML document.');
+  }
+  if (mediaType === 'pdf' && !mimeType.includes('pdf') && mimeType !== 'application/octet-stream') {
+    throw new Error('Uploaded file is not a PDF document.');
+  }
+  if (mediaType === 'text' && !mimeType.startsWith('text/') && !mimeType.includes('json') && !mimeType.includes('markdown') && mimeType !== 'application/octet-stream') {
+    throw new Error('Uploaded file is not a text document.');
+  }
 }
 
 function getExtension(mimeType: string, originalName: string) {
-  const mapped = MIME_EXTENSION_MAP[mimeType];
-  if (mapped) return mapped;
   const fromName = originalName.split('.').pop()?.toLowerCase();
   if (fromName && /^[a-z0-9]{2,8}$/.test(fromName)) {
     return fromName;
   }
+  const mapped = MIME_EXTENSION_MAP[mimeType];
+  if (mapped) return mapped;
+  if (mimeType.includes('html')) return 'html';
+  if (mimeType.includes('pdf')) return 'pdf';
+  if (mimeType.startsWith('text/')) return 'txt';
   if (mimeType.startsWith('image/')) return 'png';
   if (mimeType.startsWith('audio/')) return 'mp3';
   if (mimeType.startsWith('video/')) return 'mp4';
   return 'bin';
 }
 
-function buildS3Key(organizationId: string, mediaType: 'image' | 'audio' | 'video', fileName: string, mimeType: string) {
+function buildS3Key(organizationId: string, mediaType: MediaType, fileName: string, mimeType: string) {
   const now = new Date();
   const year = now.getUTCFullYear();
   const month = String(now.getUTCMonth() + 1).padStart(2, '0');

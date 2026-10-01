@@ -152,11 +152,22 @@ const reuseQuestionSchema = z.object({
   question_data: z.any().optional(),
 });
 
+const ALLOWED_UPLOAD_MEDIA_TYPES = [
+  'image',
+  'audio',
+  'video',
+  'document',
+  'text',
+  'pdf',
+  'html',
+  'file_upload',
+] as const;
+
 const uploadMediaSchema = z.object({
   dataUrl: z.string().trim().min(1),
   fileName: z.string().trim().min(1).max(255),
   mimeType: z.string().trim().optional(),
-  mediaType: z.enum(['image', 'audio', 'video']),
+  mediaType: z.enum(ALLOWED_UPLOAD_MEDIA_TYPES),
 });
 
 

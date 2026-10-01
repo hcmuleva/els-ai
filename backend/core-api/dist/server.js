@@ -31,6 +31,9 @@ import { tokenRouter } from './services/notification/routes/token.js';
 import { aiConversationsRouter } from './services/aichat/routes/conversations.js';
 import { aiUsageRouter } from './services/aichat/routes/usage.js';
 import { ensureSchema as ensureAiChatSchema } from './services/aichat/db.js';
+import { chatSessionsRouter } from './services/chat/routes/sessions.js';
+import { chatReviewRouter } from './services/chat/routes/review.js';
+import { ensureChatSchema } from './services/chat/db.js';
 import { featureFlagsRouter } from './services/featureFlags/routes/featureFlags.js';
 import { ensureSchema as ensureFeatureFlagsSchema } from './services/featureFlags/db.js';
 config();
@@ -80,6 +83,8 @@ app.use('/notifications', notificationsRouter);
 // AI chat
 app.use('/ai-conversations', aiConversationsRouter);
 app.use('/ai-usage', aiUsageRouter);
+app.use('/chat/sessions', chatSessionsRouter);
+app.use('/chat/review', chatReviewRouter);
 // Feature flags (per-organization overrides of services/featureFlags/registry.ts)
 app.use('/feature-flags', featureFlagsRouter);
 app.use((error, _req, res, _next) => {
@@ -90,6 +95,9 @@ let server;
 Promise.all([
     ensureAiChatSchema().catch((error) => {
         console.error('[els-core-api] failed to ensure ai-chat schema', error);
+    }),
+    ensureChatSchema().catch((error) => {
+        console.error('[els-core-api] failed to ensure chat schema', error);
     }),
     ensureFeatureFlagsSchema().catch((error) => {
         console.error('[els-core-api] failed to ensure feature-flags schema', error);

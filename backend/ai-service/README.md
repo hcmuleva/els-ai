@@ -15,6 +15,10 @@ Stateless AI capabilities only — generates drafts/suggestions/insights. Owning
 | POST | `/ai/content-generator/run` | Run ELS content ingestion-validation-classification-planning pipeline from `{ subject, candidates[], human_review? }`. |
 | POST | `/ai/content-generator/persist` | Persist approved pipeline results to topic/content services from `{ classLevel, subject, topicTitle, pipelineOutput }`. |
 | POST | `/ai/content-generator/run-and-persist` | Run pipeline and persist approved results in one call from `{ runRequest, persistTarget }`. |
+| POST | `/ai/jev/evaluate` | Run fast TypeSafe System One evaluations (`choice`, `boolean`/`noul`, `score`) with heuristic fallback. |
+| POST | `/ai/jev/classify` | Quick single-question Jev classification. |
+| POST | `/ai/jev/verify` | Fast Jev fact/statement verification. |
+| GET  | `/ai/jev/status` | Health check for Jev provider connectivity and configuration. |
 
 ### Planned
 - `POST /ai/recommend` — next-topic recommendation.

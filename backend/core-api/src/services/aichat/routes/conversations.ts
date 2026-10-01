@@ -70,6 +70,29 @@ aiConversationsRouter.post('/', requireAuth, async (req, res) => {
   return res.status(201).json({ conversation: toConversation(rows[0]) });
 });
 
+const updateConversationSchema = z.object({
+  title: z.string().trim().min(1).max(200),
+});
+
+// PATCH /ai-conversations/:id — update conversation title
+aiConversationsRouter.patch('/:id', requireAuth, async (req, res) => {
+  const userId = getUserId(req);
+  if (!userId) return res.status(400).json({ message: 'User not found in auth context' });
+  const parsed = updateConversationSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json({ message: 'Invalid payload', errors: parsed.error.issues });
+
+  const conversationId = String(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id);
+  const { rows } = await db.query(
+    `UPDATE ai_conversations
+     SET title = $1, updated_at = NOW()
+     WHERE id = $2 AND user_id = $3 AND deleted_at IS NULL
+     RETURNING *`,
+    [parsed.data.title, conversationId, userId]
+  );
+  if (rows.length === 0) return res.status(404).json({ message: 'Conversation not found' });
+  return res.json({ conversation: toConversation(rows[0]) });
+});
+
 async function loadOwnedConversation(conversationId: string, userId: string) {
   const { rows } = await db.query(
     `SELECT * FROM ai_conversations WHERE id = $1 AND user_id = $2 AND deleted_at IS NULL`,

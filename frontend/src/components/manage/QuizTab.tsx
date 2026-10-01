@@ -441,12 +441,6 @@ export default function QuizTab({
       });
     });
 
-    GLOBAL_SUBJECTS.forEach((sub) => {
-      if (!byTitle.has(sub)) {
-        byTitle.set(sub, {});
-      }
-    });
-
     return Array.from(byTitle.entries())
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([subject, meta]) => ({
@@ -1383,7 +1377,7 @@ const s = StyleSheet.create({
   tabBtnText: { fontSize: 13, fontWeight: '600', color: '#525C6B' },
   tabBtnTextActive: { color: '#1A4DA2', fontWeight: '800' },
 
-  content: { padding: 16, gap: 16 },
+  content: { padding: 16, gap: 16, paddingBottom: 110 },
 
   heroCard: {
     backgroundColor: '#fff',

@@ -160,7 +160,7 @@ function getYouTubeThumbnail(url: string): string | null {
 export default function ClassroomScreen() {
   const { apiFetch, isAuthenticated, user } = useAuth();
   const insets = useSafeAreaInsets();
-  const { width: windowWidth } = useWindowDimensions();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const isLargeScreen = windowWidth >= 900;
   const isTabletOrLarger = windowWidth >= 640;
 
@@ -193,7 +193,7 @@ export default function ClassroomScreen() {
   // Viewer scroll-based playback tracking
   const [viewerScrollY, setViewerScrollY] = useState(0);
   const sectionYsRef = useRef<Record<string, number>>({});
-  const SCREEN_H = Dimensions.get('window').height;
+  const SCREEN_H = windowHeight;
 
   const isMediaInView = (key: string) => {
     const y = sectionYsRef.current[key] ?? -1;
@@ -1702,7 +1702,7 @@ export default function ClassroomScreen() {
                                 />
                               ) : (
                                 <YoutubePlayer
-                                  height={(Dimensions.get('window').width - 32) * (9 / 16)}
+                                  height={(windowWidth - 32) * (9 / 16)}
                                   videoId={videoId}
                                   webViewStyle={{ opacity: 0.99 }}
                                 />
@@ -2001,7 +2001,7 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
-    paddingBottom: 40,
+    paddingBottom: 110,
     width: '100%',
     maxWidth: 1440,
     alignSelf: 'center',
@@ -3138,7 +3138,7 @@ const clStyles = StyleSheet.create({
   historyList: {
     padding: 16,
     gap: 10,
-    paddingBottom: 40,
+    paddingBottom: 110,
     maxWidth: 860,
     width: '100%',
     alignSelf: 'center',
@@ -3155,7 +3155,7 @@ const clStyles = StyleSheet.create({
   // History single classroom detail
   historyDetail: {
     padding: 16,
-    paddingBottom: 48,
+    paddingBottom: 110,
     maxWidth: 860,
     width: '100%',
     alignSelf: 'center',

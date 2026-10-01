@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  ActivityIndicator, Alert, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View,
+  ActivityIndicator, Alert, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions,
 } from 'react-native';
 import {
-  ArrowRight, Building2, Check, ChevronDown, CreditCard, Image as ImageIcon, Layers, Mail, Pencil,
+  ArrowRight, Building2, Check, ChevronDown, CreditCard, Eye, EyeOff, Image as ImageIcon, Layers, Mail, Pencil,
   Search, ShieldCheck, Trash2, UploadCloud, UserPlus, Users, X,
 } from 'lucide-react-native';
 
@@ -83,6 +83,7 @@ export default function SuperadminPage() {
   const [userEmail, setUserEmail] = useState('');
   const [userMobile, setUserMobile] = useState('');
   const [userPassword, setUserPassword] = useState('');
+  const [showUserPassword, setShowUserPassword] = useState(false);
   const [userRole, setUserRole] = useState<CreatableRole>('student');
   const [userClassLevel, setUserClassLevel] = useState('');
   const [userBranch, setUserBranch] = useState('');
@@ -279,6 +280,7 @@ export default function SuperadminPage() {
     setUserFirstName(''); setUserLastName(''); setUserEmail('');
     setUserMobile(''); setUserPassword(''); setUserRole('student');
     setUserClassLevel(''); setUserBranch('');
+    setShowUserPassword(false);
     setAddUserOpen(true);
   };
 
@@ -400,8 +402,11 @@ export default function SuperadminPage() {
     );
   }
 
+  const { width: windowWidth } = useWindowDimensions();
+  const isDesktop = windowWidth >= 768;
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={[styles.container, isDesktop && styles.containerDesktop]}>
       <View style={styles.heroCard}>
         <View style={styles.heroIcon}>
           <ShieldCheck size={22} color={Colors.primary} />
@@ -816,14 +821,29 @@ export default function SuperadminPage() {
           </Field>
 
           <Field label="Password" hint="Leave blank to use the default ‘welcome’ password." last>
-            <TextInput
-              style={styles.fieldInput}
-              placeholder="Set a custom password"
-              placeholderTextColor={Colors.textDisabled}
-              value={userPassword}
-              onChangeText={setUserPassword}
-              secureTextEntry
-            />
+            <View style={styles.passwordFieldWrapper}>
+              <TextInput
+                style={styles.passwordFieldInput}
+                placeholder="Set a custom password"
+                placeholderTextColor={Colors.textDisabled}
+                value={userPassword}
+                onChangeText={setUserPassword}
+                secureTextEntry={!showUserPassword}
+                autoCapitalize="none"
+              />
+              <Pressable
+                onPress={() => setShowUserPassword((prev) => !prev)}
+                style={styles.passwordEyeBtn}
+                accessibilityRole="button"
+                accessibilityLabel={showUserPassword ? 'Hide password' : 'Show password'}
+              >
+                {showUserPassword ? (
+                  <EyeOff size={18} color={Colors.textMuted} />
+                ) : (
+                  <Eye size={18} color={Colors.textMuted} />
+                )}
+              </Pressable>
+            </View>
           </Field>
         </FormSection>
 
@@ -1215,7 +1235,16 @@ function LogoUploader({ url, uploading, onPick, onClear }: { url: string; upload
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 14, paddingBottom: 32, gap: 14 },
+  container: { padding: 14, paddingBottom: 130, gap: 14 },
+  containerDesktop: {
+    paddingHorizontal: 32,
+    paddingTop: 24,
+    paddingBottom: 130,
+    gap: 20,
+    maxWidth: 1240,
+    alignSelf: 'center',
+    width: '100%',
+  },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
   restrictedText: { fontSize: 14, fontWeight: '700', color: Colors.textSecondary },
   heroCard: {
@@ -1357,6 +1386,27 @@ const styles = StyleSheet.create({
     borderWidth: 1.5, borderColor: Colors.border, backgroundColor: Colors.surfaceAlt,
     borderRadius: Radius.md, paddingHorizontal: 12, paddingVertical: 10,
     fontSize: 13, color: Colors.text, width: '100%',
+  },
+  passwordFieldWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1.5,
+    borderColor: Colors.border,
+    backgroundColor: Colors.surfaceAlt,
+    borderRadius: Radius.md,
+    paddingLeft: 12,
+    paddingRight: 8,
+  },
+  passwordFieldInput: {
+    flex: 1,
+    paddingVertical: 10,
+    fontSize: 13,
+    color: Colors.text,
+  },
+  passwordEyeBtn: {
+    padding: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
 

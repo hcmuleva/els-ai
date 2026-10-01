@@ -26,6 +26,18 @@ const MIME_EXTENSION_MAP = {
     'video/webm': 'webm',
     'video/quicktime': 'mov',
     'video/x-msvideo': 'avi',
+    'text/html': 'html',
+    'text/plain': 'txt',
+    'text/markdown': 'md',
+    'text/csv': 'csv',
+    'application/pdf': 'pdf',
+    'application/json': 'json',
+    'application/msword': 'doc',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
+    'application/vnd.ms-excel': 'xls',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+    'application/vnd.ms-powerpoint': 'ppt',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'pptx',
 };
 function assertS3Configured() {
     if (!USE_S3) {
@@ -66,15 +78,30 @@ function ensureMediaType(mimeType, mediaType) {
     if (mediaType === 'video' && !mimeType.startsWith('video/')) {
         throw new Error('Uploaded file is not a video file.');
     }
+    if (mediaType === 'html' && !mimeType.includes('html') && !mimeType.startsWith('text/') && mimeType !== 'application/octet-stream') {
+        throw new Error('Uploaded file is not an HTML document.');
+    }
+    if (mediaType === 'pdf' && !mimeType.includes('pdf') && mimeType !== 'application/octet-stream') {
+        throw new Error('Uploaded file is not a PDF document.');
+    }
+    if (mediaType === 'text' && !mimeType.startsWith('text/') && !mimeType.includes('json') && !mimeType.includes('markdown') && mimeType !== 'application/octet-stream') {
+        throw new Error('Uploaded file is not a text document.');
+    }
 }
 function getExtension(mimeType, originalName) {
-    const mapped = MIME_EXTENSION_MAP[mimeType];
-    if (mapped)
-        return mapped;
     const fromName = originalName.split('.').pop()?.toLowerCase();
     if (fromName && /^[a-z0-9]{2,8}$/.test(fromName)) {
         return fromName;
     }
+    const mapped = MIME_EXTENSION_MAP[mimeType];
+    if (mapped)
+        return mapped;
+    if (mimeType.includes('html'))
+        return 'html';
+    if (mimeType.includes('pdf'))
+        return 'pdf';
+    if (mimeType.startsWith('text/'))
+        return 'txt';
     if (mimeType.startsWith('image/'))
         return 'png';
     if (mimeType.startsWith('audio/'))

@@ -36,3 +36,6 @@ export async function appendMessage(gatewayBaseUrl, authorization, conversationI
     }
     return result.data.message;
 }
+export async function updateConversationTitle(gatewayBaseUrl, authorization, conversationId, title) {
+    await requestJson(gatewayBaseUrl, authorization, `/ai-conversations/${conversationId}`, { method: 'PATCH', body: { title } });
+}

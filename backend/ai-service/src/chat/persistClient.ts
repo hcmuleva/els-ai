@@ -88,3 +88,17 @@ export async function appendMessage(
   }
   return result.data.message;
 }
+
+export async function updateConversationTitle(
+  gatewayBaseUrl: string,
+  authorization: string,
+  conversationId: string,
+  title: string,
+): Promise<void> {
+  await requestJson(
+    gatewayBaseUrl,
+    authorization,
+    `/ai-conversations/${conversationId}`,
+    { method: 'PATCH' as any, body: { title } },
+  );
+}

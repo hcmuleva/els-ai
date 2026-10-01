@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
-import { ActivityIndicator, Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, GripVertical, Clock, BookOpen, Trophy, ClipboardList, Settings, Eye, Zap, Calendar, Users, CheckCircle, School, Bookmark, FileText } from 'lucide-react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import SelectorModal from '../../src/components/SelectorModal';
@@ -1017,7 +1017,7 @@ export default function PlannerScreen() {
     completed: { bg: Colors.borderLight, text: '#6B6B8A', label: 'Done' },
     draft:     { bg: '#D6EAFF', text: '#1A4DA2', label: 'Draft' },
   };
-  const viewportWidth = Dimensions.get('window').width;
+  const { width: viewportWidth } = useWindowDimensions();
   const classCardWidth = viewportWidth >= 720 ? '48.5%' : '100%';
   const historyCardWidth = viewportWidth >= 760 ? '48.5%' : '100%';
 
@@ -2082,7 +2082,7 @@ export default function PlannerScreen() {
 
 const p = StyleSheet.create({
   screen:       { flex: 1, backgroundColor: Colors.background },
-  scroll:       { paddingBottom: 40 },
+  scroll:       { paddingBottom: 110 },
   noPermText:   { margin: 24, color: Colors.textMuted, fontSize: 14 },
 
   // ── Header ──
@@ -2186,7 +2186,7 @@ const p = StyleSheet.create({
   modalTabTextActive: { color: Colors.primary, fontWeight: '800' },
 
   // ── Tab content ──
-  tabContent: { padding: 16, gap: 16, paddingBottom: 40 },
+  tabContent: { padding: 16, gap: 16, paddingBottom: 110 },
 
   // ── Field groups (modal form) ──
   fieldGroup:   { gap: 8 },
@@ -2368,7 +2368,7 @@ const p = StyleSheet.create({
   historyCenter:     { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 10, paddingTop: 60 },
   historyEmptyTitle: { fontSize: 18, fontWeight: '900', color: Colors.text },
   historyEmptyText:  { fontSize: 13, color: Colors.textMuted, textAlign: 'center' },
-  historyList:       { flexDirection: 'row', flexWrap: 'wrap', padding: 16, gap: 12, paddingBottom: 40 },
+  historyList:       { flexDirection: 'row', flexWrap: 'wrap', padding: 16, gap: 12, paddingBottom: 110 },
 
   historyCard:       { backgroundColor: '#fff', borderRadius: 20, shadowColor: Colors.text, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2, overflow: 'hidden' },
   historyCardTop:    { flexDirection: 'row', alignItems: 'flex-start', gap: 14, padding: 16, paddingBottom: 8 },

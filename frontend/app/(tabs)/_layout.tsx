@@ -1,6 +1,6 @@
 import { Redirect, Tabs } from 'expo-router';
 import { useState } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Circle } from 'lucide-react-native';
 
 import { NotificationBell } from '../../src/components/header/NotificationBell';
@@ -14,6 +14,8 @@ import { useAuth } from '../../src/context/AuthContext';
 import { Colors } from '../../src/theme';
 
 export default function TabsLayout() {
+  const { width: windowWidth } = useWindowDimensions();
+  const isDesktop = windowWidth >= 768;
   const { isAuthenticated, user } = useAuth();
   const [openMenu, setOpenMenu] = useState<'role' | 'profile' | null>(null);
   const activeTabs = roleTabs[user?.activeRole || 'student'];
@@ -33,6 +35,7 @@ export default function TabsLayout() {
       <Tabs
         tabBar={(props) => <CustomTabBar {...props} />}
       screenOptions={{
+
         headerTitle: '',
         headerStyle: {
           backgroundColor: Colors.surface,

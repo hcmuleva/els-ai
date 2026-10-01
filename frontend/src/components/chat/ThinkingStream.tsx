@@ -69,16 +69,12 @@ export function ThinkingStream({
     }
   }, [isThinking, pulseAnim]);
 
-  if (!isThinking && !thinkingText && !hasReplyStarted) {
+  // Only display if there is genuine thinking text for generative/complex tasks
+  if (!thinkingText || !thinkingText.trim()) {
     return null;
   }
 
-  // If thinking is done and there's no thinking text, don't show an empty box
-  if (!isThinking && !thinkingText) {
-    return null;
-  }
-
-  const displayText = thinkingText.trim() || 'Analyzing curriculum structure and planning response...';
+  const displayText = thinkingText.trim();
 
   return (
     <View style={styles.container}>

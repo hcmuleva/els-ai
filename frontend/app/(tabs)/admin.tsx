@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Activity, BookOpen, ChevronLeft, ChevronRight, CreditCard, FileSpreadsheet, Flag, FlaskConical, Globe, GraduationCap, Hash, Languages, Leaf, Monitor, Palette, Plus, Search, Shield, Sparkles, Users, UserCheck, X, Check, Trash2, ShieldCheck, CheckCircle2 } from 'lucide-react-native';
+import { Activity, BookOpen, ChevronDown, ChevronLeft, ChevronRight, CreditCard, Eye, EyeOff, FileSpreadsheet, Flag, FlaskConical, Globe, GraduationCap, Hash, Languages, Leaf, Monitor, Palette, Plus, Search, Shield, Sparkles, Users, UserCheck, X, Check, Trash2, ShieldCheck, CheckCircle2, AlertCircle } from 'lucide-react-native';
 
 import { ScreenTemplate } from '../../src/components/ScreenTemplate';
 import SelectorModal from '../../src/components/SelectorModal';
@@ -80,6 +80,8 @@ type StudentSearchResult = {
   id: string;
   firstName: string;
   lastName: string;
+  email?: string;
+  mobileNumber?: string;
   classLevel?: string;
 };
 
@@ -304,6 +306,11 @@ async function pickImageAsDataUrl(): Promise<PickedFile> {
 }
 
 export default function AdminScreen() {
+  const { width: windowWidth } = useWindowDimensions();
+  const isDesktop = windowWidth >= 1024;
+  const isTablet = windowWidth >= 640 && windowWidth < 1024;
+  const isMobile = windowWidth < 640;
+
   const { user, apiFetch } = useAuth();
   const insets = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState<AdminTab>('subject');
@@ -355,6 +362,8 @@ export default function AdminScreen() {
   const [dialogMode, setDialogMode] = useState<DialogMode | null>(null);
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
   const [userForm, setUserForm] = useState<UserFormState>(EMPTY_USER_FORM);
+  const [userDialogError, setUserDialogError] = useState<string | null>(null);
+  const [showUserPassword, setShowUserPassword] = useState(false);
   const [subjectDialogMode, setSubjectDialogMode] = useState<DialogMode | null>(null);
   const [editingSubjectId, setEditingSubjectId] = useState<string | null>(null);
   const [subjectForm, setSubjectForm] = useState<SubjectFormState>(EMPTY_SUBJECT_FORM);
@@ -376,6 +385,7 @@ export default function AdminScreen() {
   const [parentStudentResults, setParentStudentResults] = useState<StudentSearchResult[]>([]);
   const [parentSelectedStudentIds, setParentSelectedStudentIds] = useState<string[]>([]);
   const [loadingParentStudents, setLoadingParentStudents] = useState(false);
+  const [parentStudentPage, setParentStudentPage] = useState(1);
   const [viewMoreParent, setViewMoreParent] = useState<ParentAssignmentUser | null>(null);
   const [viewMoreSearch, setViewMoreSearch] = useState('');
   const [viewMoreClassFilter, setViewMoreClassFilter] = useState('');
@@ -605,6 +615,8 @@ export default function AdminScreen() {
     setDialogMode('create');
     setEditingUserId(null);
     setUserForm({ ...EMPTY_USER_FORM, role });
+    setUserDialogError(null);
+    setShowUserPassword(false);
     setMessage(null);
   };
 
@@ -624,16 +636,19 @@ export default function AdminScreen() {
       password: '',
       role: roleFallback,
     });
+    setUserDialogError(null);
+    setShowUserPassword(false);
     setMessage(null);
   };
 
   const submitUserDialog = async () => {
     if (!userForm.firstName.trim() || !userForm.lastName.trim() || !userForm.email.trim()) {
-      setMessage({ type: 'error', text: 'First name, last name, and email are required.' });
+      setUserDialogError('First name, last name, and email are required.');
       return;
     }
 
     setSavingUser(true);
+    setUserDialogError(null);
     setMessage(null);
     try {
       if (dialogMode === 'create') {
@@ -672,14 +687,16 @@ export default function AdminScreen() {
         }
       }
 
+      const successToastText = dialogMode === 'create' ? 'User created successfully.' : 'User updated successfully.';
+      setUserDialogError(null);
       setDialogMode(null);
       setEditingUserId(null);
       setUserForm(EMPTY_USER_FORM);
-      showToast(dialogMode === 'create' ? 'User created successfully.' : 'User updated successfully.');
-      await Promise.all([loadStudents(), loadTeachers(), loadParents(), loadAdminCounts()]);
+      showToast(successToastText);
+      Promise.all([loadStudents(), loadTeachers(), loadParents(), loadAdminCounts()]).catch(console.error);
     } catch (error) {
       const text = error instanceof Error ? error.message : dialogMode === 'create' ? 'Failed to create user' : 'Failed to update user';
-      setMessage({ type: 'error', text });
+      setUserDialogError(text);
     } finally {
       setSavingUser(false);
     }
@@ -918,9 +935,11 @@ export default function AdminScreen() {
   };
 
   const assignAllSubjectsForClass = (classLevel: string) => {
-    const allSubjectsForClass = assignmentCatalog
-      .filter(a => a.classLevel === classLevel)
-      .map(a => a.subject);
+    const allSubjectsForClass = Array.from(new Set(
+      assignmentCatalog
+        .filter(a => a.classLevel === classLevel || a.classLevel === 'ANY')
+        .map(a => a.subject)
+    ));
     setTeacherSelectedClasses(current => current.map(c =>
       c.classLevel === classLevel ? { ...c, assignedSubjects: allSubjectsForClass } : c
     ));
@@ -987,6 +1006,7 @@ export default function AdminScreen() {
         }
         const payload = await res.json();
         setParentStudentResults((payload.students || []) as StudentSearchResult[]);
+        setParentStudentPage(1);
       } catch (error) {
         const text = error instanceof Error ? error.message : 'Failed to search students';
         setMessage({ type: 'error', text });
@@ -1002,6 +1022,7 @@ export default function AdminScreen() {
     setParentSelectedStudentIds(parent.students.map((student) => student.id));
     setParentStudentSearch('');
     setParentStudentClassLevel('');
+    setParentStudentPage(1);
     await searchStudentsForParent('', '');
   };
 
@@ -1060,10 +1081,33 @@ export default function AdminScreen() {
     return list;
   }, [availableTeacherPairs, teacherAssignSearch]);
 
+  const PARENT_STUDENTS_PAGE_SIZE = 8;
+
   const filteredParentStudentResults = useMemo(() => {
-    if (!parentStudentClassLevel) return parentStudentResults;
-    return parentStudentResults.filter((student) => (student.classLevel || '') === parentStudentClassLevel);
-  }, [parentStudentClassLevel, parentStudentResults]);
+    let list = parentStudentResults;
+    if (parentStudentClassLevel) {
+      list = list.filter((student) => (student.classLevel || '') === parentStudentClassLevel);
+    }
+    if (parentStudentSearch.trim()) {
+      const q = parentStudentSearch.toLowerCase().trim();
+      list = list.filter((student) =>
+        `${student.firstName} ${student.lastName}`.toLowerCase().includes(q) ||
+        (student.email || '').toLowerCase().includes(q) ||
+        (student.mobileNumber || '').includes(q)
+      );
+    }
+    return list;
+  }, [parentStudentClassLevel, parentStudentResults, parentStudentSearch]);
+
+  const paginatedParentStudents = useMemo(() => {
+    const totalItems = filteredParentStudentResults.length;
+    const totalPages = Math.max(1, Math.ceil(totalItems / PARENT_STUDENTS_PAGE_SIZE));
+    const page = Math.max(1, Math.min(parentStudentPage, totalPages));
+    const from = totalItems === 0 ? 0 : (page - 1) * PARENT_STUDENTS_PAGE_SIZE + 1;
+    const to = totalItems === 0 ? 0 : Math.min(page * PARENT_STUDENTS_PAGE_SIZE, totalItems);
+    const items = filteredParentStudentResults.slice((page - 1) * PARENT_STUDENTS_PAGE_SIZE, page * PARENT_STUDENTS_PAGE_SIZE);
+    return { page, totalPages, from, to, totalItems, items };
+  }, [filteredParentStudentResults, parentStudentPage]);
 
   useEffect(() => {
     setTabPage((current) => ({ ...current, [activeTab]: 1 }));
@@ -1199,13 +1243,28 @@ export default function AdminScreen() {
   const activeTabMeta = useMemo(() => TAB_OPTIONS.find((item) => item.key === activeTab) || TAB_OPTIONS[0], [activeTab]);
   const dashboardStats = useMemo(
     () => [
-      { key: 'subjects', label: 'Subjects', value: adminCounts.subjects, tint: Colors.accent, tintLight: Colors.accentLight },
-      { key: 'students', label: 'Students', value: adminCounts.students, tint: Colors.primary, tintLight: Colors.primaryLight },
-      { key: 'teachers', label: 'Teachers', value: adminCounts.teachers, tint: Colors.purple, tintLight: Colors.purpleLight },
-      { key: 'parents', label: 'Parents', value: adminCounts.parents, tint: Colors.success, tintLight: Colors.successLight },
+      { key: 'subjects', label: 'Subjects', subLabel: 'Curriculum courses', value: adminCounts.subjects, tint: Colors.accent, tintLight: Colors.accentLight, Icon: BookOpen, targetTab: 'subject' as const },
+      { key: 'students', label: 'Students', subLabel: 'Enrolled learners', value: adminCounts.students, tint: Colors.primary, tintLight: Colors.primaryLight, Icon: GraduationCap, targetTab: 'student' as const },
+      { key: 'teachers', label: 'Teachers', subLabel: 'Faculty mentors', value: adminCounts.teachers, tint: Colors.purple, tintLight: Colors.purpleLight, Icon: UserCheck, targetTab: 'teacher' as const },
+      { key: 'parents', label: 'Parents', subLabel: 'Family portals', value: adminCounts.parents, tint: Colors.success, tintLight: Colors.successLight, Icon: Users, targetTab: 'parent' as const },
     ],
     [adminCounts.subjects, adminCounts.students, adminCounts.teachers, adminCounts.parents],
   );
+
+  const activeTabCta = useMemo(() => {
+    switch (activeTab) {
+      case 'subject':
+        return { label: 'New Subject', onPress: openCreateSubjectDialog, Icon: Plus, tint: Colors.accent };
+      case 'student':
+        return { label: 'New Student', onPress: () => openCreateDialog('student'), Icon: Plus, tint: Colors.primary };
+      case 'teacher':
+        return { label: 'New Teacher', onPress: () => openCreateDialog('teacher'), Icon: Plus, tint: Colors.purple };
+      case 'parent':
+        return { label: 'New Parent', onPress: () => openCreateDialog('parent'), Icon: Plus, tint: Colors.success };
+      default:
+        return null;
+    }
+  }, [activeTab]);
 
   const viewMoreGroupedClasses = useMemo(() => {
     if (!viewMoreTeacher) return [];
@@ -1256,6 +1315,7 @@ export default function AdminScreen() {
     }
     if (standardSelectorTarget === 'parentStudentClassLevel') {
       setParentStudentClassLevel(value);
+      setParentStudentPage(1);
     }
     if (standardSelectorTarget === 'subjectFormClassLevel') {
       setSubjectForm((current) => ({ ...current, classLevel: value }));
@@ -1363,65 +1423,109 @@ export default function AdminScreen() {
         </View>
       )}
       
-      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <View style={styles.heroBanner}>
-        <View style={styles.heroLeft}>
-          <View style={styles.heroBadge}>
-            <Shield size={12} color="#fff" />
-            <Text style={styles.heroBadgeText}>Admin Console</Text>
-          </View>
-          <Text style={styles.heroTitle}>Welcome back,{'\n'}{user?.firstName || 'Admin'}</Text>
-          <Text style={styles.heroSub}>{activeTabMeta.description}</Text>
-        </View>
-        <View style={styles.heroIconWrap}>
-          <Sparkles size={36} color="#fff" />
-        </View>
-      </View>
-
-      <View style={styles.metricRow}>
-        {dashboardStats.map((item) => (
-          <View key={item.key} style={[styles.metricCard, { backgroundColor: item.tintLight }]}>
-            <Text style={[styles.metricValue, { color: item.tint }]}>{item.value}</Text>
-            <Text style={styles.metricLabel}>{item.label}</Text>
-          </View>
-        ))}
-      </View>
-
-      {message && (
-        <View style={[styles.message, message.type === 'success' ? styles.successBox : styles.errorBox]}>
-          <Text style={[styles.messageText, message.type === 'success' ? styles.successText : styles.errorText]}>
-            {message.text}
-          </Text>
-        </View>
-      )}
-
-
-      <View style={styles.tabGrid}>
-        {visibleTabOptions.map((tab) => {
-          const active = activeTab === tab.key;
-          const TabIcon = tab.Icon;
-          return (
-            <Pressable
-              key={tab.key}
-              style={[
-                styles.tabTile,
-                { backgroundColor: active ? (tab.activeFill ?? tab.tint) : Colors.surface, borderColor: active ? tab.tint : Colors.borderLight },
-              ]}
-              onPress={() => setActiveTab(tab.key)}
-            >
-              <View
-                style={[
-                  styles.tabTileIcon,
-                  { backgroundColor: active ? 'rgba(255,255,255,0.22)' : tab.tintLight },
-                ]}
-              >
-                <TabIcon size={20} color={active ? '#fff' : tab.tint} />
+      <ScrollView style={styles.container} contentContainerStyle={[styles.content, isDesktop && styles.contentDesktop]}>
+        <View style={[styles.mainWrapper, isDesktop && styles.mainWrapperDesktop]}>
+          {/* Header Greeting Banner (Lumina Style) */}
+          <View style={[styles.heroBanner, isMobile && styles.heroBannerMobile]}>
+            <View style={styles.heroLeft}>
+              <View style={styles.heroBadge}>
+                <Shield size={12} color={Colors.primary} />
+                <Text style={styles.heroBadgeText}>Admin Console</Text>
               </View>
-              <Text style={[styles.tabTileText, { color: active ? '#fff' : Colors.textSecondary }]}>{tab.label}</Text>
-            </Pressable>
-          );
-        })}
-      </View>
+              <Text style={[styles.heroTitle, isMobile && styles.heroTitleMobile]}>
+                Welcome back, {user?.firstName || 'Admin'} 👋
+              </Text>
+              <Text style={styles.heroSub}>{activeTabMeta.description}</Text>
+            </View>
+            {activeTabCta && isDesktop ? (
+              <Pressable
+                style={[styles.heroCta, { backgroundColor: activeTabCta.tint }]}
+                onPress={activeTabCta.onPress}
+              >
+                <activeTabCta.Icon size={16} color="#FFFFFF" />
+                <Text style={styles.heroCtaText}>{activeTabCta.label}</Text>
+              </Pressable>
+            ) : null}
+          </View>
+
+          {/* Overview Metric Cards (Lumina Style) */}
+          <View style={[styles.metricRow, isMobile && styles.metricRowMobile]}>
+            {dashboardStats.map((item) => {
+              const StatIcon = item.Icon;
+              const isStatActive = activeTab === item.targetTab;
+              return (
+                <Pressable
+                  key={item.key}
+                  style={[
+                    styles.metricCard,
+                    isMobile && styles.metricCardMobile,
+                    isStatActive && styles.metricCardActive,
+                  ]}
+                  onPress={() => setActiveTab(item.targetTab)}
+                >
+                  <View style={styles.metricCardTop}>
+                    <View style={styles.metricCardLeft}>
+                      <Text style={[styles.metricValue, isMobile && styles.metricValueMobile]}>
+                        {item.value}
+                      </Text>
+                      <Text style={styles.metricLabel}>{item.label}</Text>
+                    </View>
+                    <View style={[styles.metricIconWrap, { backgroundColor: item.tintLight }]}>
+                      <StatIcon size={20} color={item.tint} />
+                    </View>
+                  </View>
+                  <View style={styles.metricCardBottom}>
+                    <View style={[styles.metricDot, { backgroundColor: item.tint }]} />
+                    <Text style={styles.metricSubLabel}>{item.subLabel}</Text>
+                  </View>
+                </Pressable>
+              );
+            })}
+          </View>
+
+          {message && (
+            <View style={[styles.message, message.type === 'success' ? styles.successBox : styles.errorBox]}>
+              <Text style={[styles.messageText, message.type === 'success' ? styles.successText : styles.errorText]}>
+                {message.text}
+              </Text>
+            </View>
+          )}
+
+          {/* Navigation Pill Bar (Growly & Lumina Style) */}
+          <View style={styles.navPillContainer}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={[styles.navPillTrack, isDesktop && styles.navPillTrackDesktop]}
+            >
+              {visibleTabOptions.map((tab) => {
+                const active = activeTab === tab.key;
+                const TabIcon = tab.Icon;
+                return (
+                  <Pressable
+                    key={tab.key}
+                    style={[
+                      styles.navPill,
+                      active ? [styles.navPillActive, { backgroundColor: tab.activeFill ?? tab.tint }] : styles.navPillInactive,
+                    ]}
+                    onPress={() => setActiveTab(tab.key)}
+                  >
+                    <View
+                      style={[
+                        styles.navPillIcon,
+                        active ? styles.navPillIconActive : { backgroundColor: tab.tintLight },
+                      ]}
+                    >
+                      <TabIcon size={15} color={active ? '#FFFFFF' : tab.tint} />
+                    </View>
+                    <Text style={[styles.navPillText, active ? styles.navPillTextActive : styles.navPillTextInactive]}>
+                      {tab.label}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
+          </View>
 
       {activeTab === 'subject' ? (
         <View style={styles.card}>
@@ -1441,7 +1545,7 @@ export default function AdminScreen() {
             </Pressable>
           </View>
           <Text style={styles.sectionHint}>Keep subject title, class standard, and author details up to date for smooth content publishing.</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+          <View style={[styles.filterToolbar, isMobile && styles.filterToolbarMobile]}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Pressable style={styles.filterChipBtn} onPress={() => setStandardSelectorTarget('subjectFilterClassLevel')}>
                 <Text style={subjectClassFilter ? styles.filterChipActive : styles.filterChipPlaceholder}>
@@ -1542,7 +1646,7 @@ export default function AdminScreen() {
             </Pressable>
           </View>
           <Text style={styles.sectionHint}>Use this table to update student profile details and verify standard assignments quickly.</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+          <View style={[styles.filterToolbar, isMobile && styles.filterToolbarMobile]}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Pressable style={styles.filterChipBtn} onPress={() => setStandardSelectorTarget('studentFilterClassLevel')}>
                 <Text style={studentFilters.classLevel ? styles.filterChipActive : styles.filterChipPlaceholder}>
@@ -1732,7 +1836,7 @@ export default function AdminScreen() {
       ) : null}
 
       {activeTab === 'question_dump' ? (
-        <QuestionDumpTab apiFetch={apiFetch} subjectCatalog={assignmentCatalog} />
+        <QuestionDumpTab apiFetch={apiFetch} subjectCatalog={assignmentCatalog.map(a => ({ title: a.subject, classLevel: a.classLevel }))} />
       ) : null}
 
       {activeTab === 'analytics' ? <SchoolAnalyticsTab apiFetch={apiFetch} /> : null}
@@ -1793,11 +1897,17 @@ export default function AdminScreen() {
                       </View>
                       <View style={styles.listMeta}>
                         <Text style={styles.listTitle}>{parent.firstName} {parent.lastName}</Text>
-                        <Text style={styles.listSub} numberOfLines={1}>{parent.email}</Text>
+                        <Text style={styles.listSub} numberOfLines={1}>
+                          {parent.email}{parent.mobileNumber ? ` • ${parent.mobileNumber}` : ''}
+                        </Text>
                       </View>
                       <View style={styles.listActions}>
-                        <Pressable style={styles.actionBtn} onPress={() => openParentAssignmentDialog(parent)}>
-                          <Text style={styles.actionBtnText}>Students</Text>
+                        <Pressable
+                          style={[styles.actionBtn, { flexDirection: 'row', alignItems: 'center', gap: 6 }]}
+                          onPress={() => openParentAssignmentDialog(parent)}
+                        >
+                          <Users size={13} color="#fff" />
+                          <Text style={styles.actionBtnText}>Students ({parent.students.length})</Text>
                         </Pressable>
                         <Pressable style={styles.ghostBtn} onPress={() => openEditDialog({ id: parent.id, firstName: parent.firstName, lastName: parent.lastName, email: parent.email, mobileNumber: parent.mobileNumber, classLevel: '', activeRole: 'parent', roles: ['parent'] })}>
                           <Text style={styles.ghostBtnText}>Edit</Text>
@@ -1806,10 +1916,10 @@ export default function AdminScreen() {
                     </View>
                     <View style={styles.listPillsWrap}>
                       {parent.students.length === 0 ? (
-                        <Text style={styles.metaText}>No students assigned</Text>
+                        <Text style={[styles.metaText, { fontStyle: 'italic' }]}>No students assigned</Text>
                       ) : (
                         <>
-                          {parent.students.slice(0, 1).map((student) => (
+                          {parent.students.slice(0, 3).map((student) => (
                             <View key={student.id} style={styles.pill}>
                               <Text style={styles.pillText}>
                                 {student.firstName} {student.lastName}
@@ -1817,9 +1927,9 @@ export default function AdminScreen() {
                               </Text>
                             </View>
                           ))}
-                          {parent.students.length > 1 && (
+                          {parent.students.length > 3 && (
                             <Pressable style={styles.pillMore} onPress={() => { setViewMoreParent(parent); setViewMoreSearch(''); setViewMoreClassFilter(''); setViewMorePage(1); }}>
-                              <Text style={styles.pillMoreText}>+{parent.students.length - 1} more</Text>
+                              <Text style={styles.pillMoreText}>+{parent.students.length - 3} more</Text>
                             </Pressable>
                           )}
                         </>
@@ -1966,6 +2076,12 @@ export default function AdminScreen() {
             </Pressable>
           </View>
           <ScrollView style={styles.sheetBody} contentContainerStyle={styles.sheetBodyContent} showsVerticalScrollIndicator={false}>
+            {userDialogError ? (
+              <View style={styles.modalAlertError}>
+                <AlertCircle size={16} color="#DC2626" />
+                <Text style={styles.modalAlertErrorText}>{userDialogError}</Text>
+              </View>
+            ) : null}
             <View style={styles.row}>
               <View style={styles.half}>
                 <Text style={styles.fieldLabel}>First Name *</Text>
@@ -2014,13 +2130,29 @@ export default function AdminScreen() {
               </>
             ) : null}
             <Text style={styles.fieldLabel}>Password</Text>
-            <TextInput
-              value={userForm.password}
-              onChangeText={(password) => setUserForm((current) => ({ ...current, password }))}
-              placeholder={dialogMode === 'create' ? 'Password (optional)' : 'New password (optional)'}
-              secureTextEntry
-              style={styles.input}
-            />
+            <View style={styles.passwordInputContainer}>
+              <TextInput
+                value={userForm.password}
+                onChangeText={(password) => setUserForm((current) => ({ ...current, password }))}
+                placeholder={dialogMode === 'create' ? 'Password (optional)' : 'New password (optional)'}
+                placeholderTextColor={Colors.textDisabled}
+                secureTextEntry={!showUserPassword}
+                autoCapitalize="none"
+                style={styles.passwordInput}
+              />
+              <Pressable
+                onPress={() => setShowUserPassword((prev) => !prev)}
+                style={styles.passwordToggleBtn}
+                accessibilityRole="button"
+                accessibilityLabel={showUserPassword ? 'Hide password' : 'Show password'}
+              >
+                {showUserPassword ? (
+                  <EyeOff size={18} color={Colors.textMuted} />
+                ) : (
+                  <Eye size={18} color={Colors.textMuted} />
+                )}
+              </Pressable>
+            </View>
             <Text style={styles.fieldLabel}>Role *</Text>
             <View style={styles.roleRow}>
               {(['student', 'teacher', 'parent', 'admin'] as const).map((r) => {
@@ -2655,7 +2787,7 @@ export default function AdminScreen() {
                           {(() => {
                             const currentClass = teacherSelectedClasses.find(c => c.classLevel === teacherSubjectTargetClass);
                             const assigned = new Set(currentClass?.assignedSubjects || []);
-                            let avail = assignmentCatalog.filter(a => a.classLevel === teacherSubjectTargetClass && !assigned.has(a.subject));
+                            let avail = assignmentCatalog.filter(a => (a.classLevel === teacherSubjectTargetClass || a.classLevel === 'ANY') && !assigned.has(a.subject));
                             if (teacherAssignSearch.trim()) {
                               const q = teacherAssignSearch.toLowerCase().trim();
                               avail = avail.filter(a => (a.subject || '').toLowerCase().includes(q));
@@ -2899,69 +3031,210 @@ export default function AdminScreen() {
               </View>
               <View style={styles.sheetHeaderTextWrap}>
                 <Text style={styles.sheetTitle} numberOfLines={1}>Assign Students</Text>
-                <Text style={styles.sheetSubtitle} numberOfLines={1}>{parentModalUser?.firstName} {parentModalUser?.lastName}</Text>
+                <Text style={styles.sheetSubtitle} numberOfLines={1}>
+                  Parent: {parentModalUser?.firstName} {parentModalUser?.lastName}
+                  {parentModalUser?.email ? ` • ${parentModalUser.email}` : ''}
+                </Text>
               </View>
             </View>
             <Pressable style={styles.sheetCloseButton} onPress={() => setParentModalUser(null)}>
               <X size={18} color={Colors.textSecondary} />
             </Pressable>
           </View>
-          <ScrollView style={styles.sheetBody} contentContainerStyle={styles.sheetBodyContent} showsVerticalScrollIndicator={false}>
-            <Text style={styles.fieldLabel}>Search Student</Text>
-            <TextInput
-              value={parentStudentSearch}
-              onChangeText={setParentStudentSearch}
-              placeholder="Search by name or email"
-              autoCapitalize="none"
-              style={styles.input}
-            />
-            <View style={styles.row}>
-              <View style={styles.half}>
-                <Text style={styles.fieldLabel}>Standard</Text>
-                <Pressable
-                  style={styles.selectorInput}
-                  onPress={() => setStandardSelectorTarget('parentStudentClassLevel')}
-                >
-                  <Text style={parentStudentClassLevel ? styles.selectorText : styles.selectorPlaceholder}>
-                    {parentStudentClassLevel ? getStandardLabel(parentStudentClassLevel) : 'Standard (any)'}
-                  </Text>
+
+          <View style={styles.parentFilterHeader}>
+            <View style={styles.parentSearchWrap}>
+              <Search size={16} color={Colors.textMuted} />
+              <TextInput
+                value={parentStudentSearch}
+                onChangeText={(text) => {
+                  setParentStudentSearch(text);
+                  setParentStudentPage(1);
+                }}
+                placeholder="Search by student name or email..."
+                placeholderTextColor={Colors.textMuted}
+                autoCapitalize="none"
+                style={styles.parentSearchInput}
+                onSubmitEditing={() => searchStudentsForParent(parentStudentSearch, parentStudentClassLevel)}
+                returnKeyType="search"
+              />
+              {parentStudentSearch ? (
+                <Pressable onPress={() => { setParentStudentSearch(''); setParentStudentPage(1); }} style={{ padding: 4 }}>
+                  <X size={16} color={Colors.textMuted} />
                 </Pressable>
-              </View>
+              ) : null}
+            </View>
+
+            <View style={styles.parentFilterRow}>
               <Pressable
-                style={[styles.secondaryButton, styles.half, styles.alignBottomButton]}
+                style={[
+                  styles.parentStandardBtn,
+                  parentStudentClassLevel ? styles.parentStandardBtnActive : null,
+                ]}
+                onPress={() => setStandardSelectorTarget('parentStudentClassLevel')}
+              >
+                <Text
+                  style={[
+                    styles.parentStandardBtnText,
+                    parentStudentClassLevel ? styles.parentStandardBtnTextActive : null,
+                  ]}
+                  numberOfLines={1}
+                >
+                  {parentStudentClassLevel ? getStandardLabel(parentStudentClassLevel) : 'Filter by Standard'}
+                </Text>
+                <ChevronDown size={14} color={parentStudentClassLevel ? Colors.primary : Colors.textMuted} />
+              </Pressable>
+
+              {parentStudentClassLevel ? (
+                <Pressable
+                  style={[styles.ghostBtn, { height: 40, paddingHorizontal: 12, justifyContent: 'center' }]}
+                  onPress={() => {
+                    setParentStudentClassLevel('');
+                    setParentStudentPage(1);
+                  }}
+                >
+                  <Text style={[styles.ghostBtnText, { color: '#DC2626' }]}>Clear</Text>
+                </Pressable>
+              ) : null}
+
+              <Pressable
+                style={styles.parentSearchBtn}
                 onPress={() => searchStudentsForParent(parentStudentSearch, parentStudentClassLevel)}
                 disabled={loadingParentStudents}
               >
-                {loadingParentStudents ? <ActivityIndicator accessibilityLabel="Loading" color={Colors.primary} /> : <Text style={styles.secondaryButtonText}>Search</Text>}
+                {loadingParentStudents ? (
+                  <ActivityIndicator accessibilityLabel="Loading" size="small" color="#fff" />
+                ) : (
+                  <>
+                    <Search size={14} color="#fff" />
+                    <Text style={styles.parentSearchBtnText}>Search</Text>
+                  </>
+                )}
               </Pressable>
             </View>
-            <ScrollView style={styles.transferList}>
-              {filteredParentStudentResults.map((student) => {
+
+            <View style={styles.parentSelectionToolbar}>
+              <View style={styles.parentSelectionBadge}>
+                <CheckCircle2 size={13} color={Colors.primary} />
+                <Text style={styles.parentSelectionBadgeText}>
+                  {parentSelectedStudentIds.length} {parentSelectedStudentIds.length === 1 ? 'student' : 'students'} selected
+                </Text>
+              </View>
+              {parentSelectedStudentIds.length > 0 ? (
+                <Pressable
+                  onPress={() => setParentSelectedStudentIds([])}
+                  style={{ paddingVertical: 4, paddingHorizontal: 6 }}
+                >
+                  <Text style={styles.clearSelectionBtnText}>Deselect all</Text>
+                </Pressable>
+              ) : (
+                <Text style={styles.paginationInfo}>
+                  {paginatedParentStudents.totalItems} available
+                </Text>
+              )}
+            </View>
+          </View>
+
+          <ScrollView style={styles.sheetBody} contentContainerStyle={styles.sheetBodyContent} showsVerticalScrollIndicator={false}>
+            {loadingParentStudents ? (
+              <View style={{ paddingVertical: 32, alignItems: 'center', gap: 10 }}>
+                <ActivityIndicator size="small" color={Colors.primary} />
+                <Text style={styles.metaText}>Searching students...</Text>
+              </View>
+            ) : paginatedParentStudents.items.length === 0 ? (
+              <View style={{ paddingVertical: 36, alignItems: 'center', gap: 8 }}>
+                <GraduationCap size={32} color={Colors.textMuted} />
+                <Text style={{ fontSize: 14, fontWeight: '700', color: Colors.text }}>No students found</Text>
+                <Text style={styles.metaText}>Try searching with another name or clearing the standard filter</Text>
+              </View>
+            ) : (
+              paginatedParentStudents.items.map((student) => {
                 const selected = parentSelectedStudentIds.includes(student.id);
                 return (
-                  <Pressable key={student.id} style={styles.studentSelectRow} onPress={() => toggleParentStudent(student.id)}>
-                    <View style={[styles.checkbox, selected && styles.checkboxSelected]}>
-                      {selected ? <Text style={styles.checkboxTick}>✓</Text> : null}
+                  <Pressable
+                    key={student.id}
+                    style={[
+                      styles.studentAssignCard,
+                      selected && styles.studentAssignCardSelected,
+                    ]}
+                    onPress={() => toggleParentStudent(student.id)}
+                  >
+                    <View style={[styles.studentCheckbox, selected && styles.studentCheckboxSelected]}>
+                      {selected ? <Check size={12} color="#fff" strokeWidth={3} /> : null}
                     </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={styles.transferItemText}>
+                    <View style={[styles.studentAssignAvatar, selected && { backgroundColor: Colors.primaryLight }]}>
+                      <Text style={[styles.studentAssignAvatarText, selected && { color: Colors.primary }]}>
+                        {(student.firstName?.[0] || '').toUpperCase()}{(student.lastName?.[0] || '').toUpperCase()}
+                      </Text>
+                    </View>
+                    <View style={styles.studentAssignMeta}>
+                      <Text style={styles.studentAssignName} numberOfLines={1}>
                         {student.firstName} {student.lastName}
                       </Text>
-                      <Text style={styles.metaText}>
-                        {student.id} {student.classLevel ? `• ${getStandardLabel(student.classLevel)}` : ''}
+                      <Text style={styles.studentAssignEmail} numberOfLines={1}>
+                        {student.email || student.mobileNumber || 'No contact email'}
                       </Text>
                     </View>
+                    {student.classLevel ? (
+                      <View style={[styles.studentStandardBadge, selected && styles.studentStandardBadgeSelected]}>
+                        <Text style={[styles.studentStandardBadgeText, selected && styles.studentStandardBadgeTextSelected]}>
+                          {getStandardLabel(student.classLevel)}
+                        </Text>
+                      </View>
+                    ) : null}
                   </Pressable>
                 );
-              })}
-            </ScrollView>
+              })
+            )}
+
+            {paginatedParentStudents.totalItems > 0 && (
+              <View style={styles.assignPaginationRow}>
+                <Text style={styles.paginationInfo}>
+                  Showing {paginatedParentStudents.from}–{paginatedParentStudents.to} of {paginatedParentStudents.totalItems}
+                </Text>
+                {paginatedParentStudents.totalPages > 1 && (
+                  <View style={styles.paginationControls}>
+                    <Pressable
+                      style={[styles.paginationButton, paginatedParentStudents.page <= 1 && styles.paginationButtonDisabled]}
+                      disabled={paginatedParentStudents.page <= 1}
+                      onPress={() => setParentStudentPage((p) => Math.max(1, p - 1))}
+                    >
+                      <ChevronLeft size={14} color={paginatedParentStudents.page <= 1 ? Colors.textMuted : Colors.primaryDark} />
+                      <Text style={[styles.paginationButtonText, paginatedParentStudents.page <= 1 && styles.paginationButtonTextDisabled]}>Prev</Text>
+                    </Pressable>
+                    <Text style={styles.paginationPageText}>
+                      Page {paginatedParentStudents.page} of {paginatedParentStudents.totalPages}
+                    </Text>
+                    <Pressable
+                      style={[styles.paginationButton, paginatedParentStudents.page >= paginatedParentStudents.totalPages && styles.paginationButtonDisabled]}
+                      disabled={paginatedParentStudents.page >= paginatedParentStudents.totalPages}
+                      onPress={() => setParentStudentPage((p) => Math.min(paginatedParentStudents.totalPages, p + 1))}
+                    >
+                      <Text style={[styles.paginationButtonText, paginatedParentStudents.page >= paginatedParentStudents.totalPages && styles.paginationButtonTextDisabled]}>Next</Text>
+                      <ChevronRight size={14} color={paginatedParentStudents.page >= paginatedParentStudents.totalPages ? Colors.textMuted : Colors.primaryDark} />
+                    </Pressable>
+                  </View>
+                )}
+              </View>
+            )}
           </ScrollView>
+
           <View style={styles.sheetFooter}>
             <Pressable style={[styles.secondaryButton, styles.half]} onPress={() => setParentModalUser(null)}>
               <Text style={styles.secondaryButtonText}>Cancel</Text>
             </Pressable>
-            <Pressable style={[styles.primaryButton, styles.half]} onPress={saveParentStudents} disabled={savingParentStudents}>
-              {savingParentStudents ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={styles.primaryButtonText}>Save Mapping</Text>}
+            <Pressable
+              style={[styles.primaryButton, styles.half]}
+              onPress={saveParentStudents}
+              disabled={savingParentStudents}
+            >
+              {savingParentStudents ? (
+                <ActivityIndicator accessibilityLabel="Loading" color="#fff" />
+              ) : (
+                <Text style={styles.primaryButtonText}>
+                  Save Mapping {parentSelectedStudentIds.length > 0 ? `(${parentSelectedStudentIds.length})` : ''}
+                </Text>
+              )}
             </Pressable>
           </View>
           <SelectorModal
@@ -2988,6 +3261,7 @@ export default function AdminScreen() {
         onSelect={applyStandardSelection}
         onClose={() => setStandardSelectorTarget(null)}
       />
+        </View>
       </ScrollView>
     </View>
   );
@@ -2999,38 +3273,60 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   content: {
-    padding: 16,
-    gap: 14,
+    padding: 14,
+    paddingBottom: 130,
+    gap: 16,
+  },
+  contentDesktop: {
+    paddingHorizontal: 32,
+    paddingTop: 24,
+    paddingBottom: 130,
+    gap: 20,
+  },
+  mainWrapper: {
+    width: '100%',
+    gap: 16,
+  },
+  mainWrapperDesktop: {
+    maxWidth: 1240,
+    alignSelf: 'center',
+    gap: 20,
   },
   heroBanner: {
-    backgroundColor: Colors.primary,
-    borderRadius: Radius.xxl,
-    padding: 20,
+    backgroundColor: Colors.surface,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: Radius.xl,
+    padding: 24,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    gap: 16,
+    ...Shadow.sm,
+  },
+  heroBannerMobile: {
+    padding: 16,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    borderRadius: Radius.lg,
     gap: 12,
-    ...Shadow.md,
-    shadowColor: Colors.primary,
   },
   heroLeft: {
     flex: 1,
-    gap: 8,
+    gap: 6,
   },
   heroBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
+    gap: 6,
     alignSelf: 'flex-start',
-    // Darkening (not lightening) overlay so white text keeps WCAG AA
-    // contrast against the (already-dark) hero background.
-    backgroundColor: 'rgba(0,0,0,0.18)',
+    backgroundColor: Colors.primaryLight,
     borderRadius: Radius.full,
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
   heroBadgeText: {
-    color: '#fff',
+    color: Colors.primaryDark,
     fontSize: 11,
     fontWeight: '800',
     textTransform: 'uppercase',
@@ -3039,81 +3335,175 @@ const styles = StyleSheet.create({
   heroTitle: {
     fontSize: 22,
     fontWeight: '900',
-    color: '#fff',
+    color: Colors.text,
     lineHeight: 28,
+    letterSpacing: -0.3,
+  },
+  heroTitleMobile: {
+    fontSize: 20,
+    lineHeight: 26,
   },
   heroSub: {
     fontSize: 13,
-    color: '#fff',
+    color: Colors.textSecondary,
     fontWeight: '500',
     lineHeight: 18,
   },
-  heroIconWrap: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: 'rgba(255,255,255,0.18)',
+  heroCta: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    gap: 8,
+    borderRadius: Radius.full,
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    ...Shadow.sm,
+  },
+  heroCtaText: {
+    color: '#FFFFFF',
+    fontWeight: '800',
+    fontSize: 13,
   },
   metricRow: {
     flexDirection: 'row',
+    gap: 12,
     flexWrap: 'wrap',
+  },
+  metricRowMobile: {
     gap: 10,
   },
   metricCard: {
-    flexGrow: 1,
-    flexBasis: '22%',
-    minWidth: 80,
+    flex: 1,
+    minWidth: 180,
+    backgroundColor: Colors.surface,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: Radius.xl,
+    padding: 16,
+    justifyContent: 'space-between',
+    gap: 12,
+    ...Shadow.sm,
+  },
+  metricCardMobile: {
+    flexBasis: '48%',
+    minWidth: 135,
+    padding: 14,
     borderRadius: Radius.lg,
-    paddingHorizontal: 12,
-    paddingVertical: 14,
-    gap: 2,
+  },
+  metricCardActive: {
+    borderColor: Colors.primary,
+    backgroundColor: Colors.surfaceAlt,
+  },
+  metricCardTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'flex-start',
   },
+  metricCardLeft: {
+    gap: 2,
+  },
   metricValue: {
-    fontSize: 22,
+    fontSize: 26,
     fontWeight: '900',
+    color: Colors.text,
+  },
+  metricValueMobile: {
+    fontSize: 22,
   },
   metricLabel: {
     color: Colors.textSecondary,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: 0.2,
   },
-  tabGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
-  },
-  tabTile: {
-    flexGrow: 1,
-    flexBasis: '30%',
-    minWidth: 100,
-    borderWidth: 1.5,
-    borderRadius: Radius.lg,
-    paddingVertical: 14,
-    paddingHorizontal: 10,
-    alignItems: 'center',
-    gap: 8,
-    ...Shadow.sm,
-  },
-  tabTileIcon: {
-    width: 40,
-    height: 40,
+  metricIconWrap: {
+    width: 42,
+    height: 42,
     borderRadius: Radius.md,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  tabTileText: {
+  metricCardBottom: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    borderTopWidth: 1,
+    borderTopColor: Colors.borderLight,
+    paddingTop: 8,
+  },
+  metricDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+  },
+  metricSubLabel: {
+    fontSize: 11,
+    color: Colors.textMuted,
+    fontWeight: '600',
+  },
+  navPillContainer: {
+    width: '100%',
+  },
+  navPillTrack: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingVertical: 2,
+  },
+  navPillTrackDesktop: {
+    flexWrap: 'wrap',
+  },
+  navPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    borderRadius: Radius.full,
+    paddingHorizontal: 16,
+    paddingVertical: 9,
+    borderWidth: 1,
+  },
+  navPillActive: {
+    borderColor: 'transparent',
+    ...Shadow.sm,
+  },
+  navPillInactive: {
+    backgroundColor: Colors.surface,
+    borderColor: Colors.border,
+  },
+  navPillIcon: {
+    width: 26,
+    height: 26,
+    borderRadius: 999,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  navPillIconActive: {
+    backgroundColor: 'rgba(255,255,255,0.22)',
+  },
+  navPillText: {
     fontSize: 13,
-    fontWeight: '800',
+    fontWeight: '700',
+  },
+  navPillTextActive: {
+    color: '#FFFFFF',
+  },
+  navPillTextInactive: {
+    color: Colors.textSecondary,
+  },
+  filterToolbar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 12,
+  },
+  filterToolbarMobile: {
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    gap: 8,
   },
   card: {
     backgroundColor: Colors.surface,
     borderWidth: 1,
-    borderColor: Colors.borderLight,
+    borderColor: Colors.border,
     borderRadius: Radius.xl,
     padding: 16,
     gap: 12,
@@ -3182,6 +3572,29 @@ const styles = StyleSheet.create({
     color: Colors.text,
     backgroundColor: Colors.surface,
     minHeight: 40,
+  },
+  passwordInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: Radius.md,
+    backgroundColor: Colors.surface,
+    paddingLeft: 12,
+    paddingRight: 8,
+    minHeight: 40,
+  },
+  passwordInput: {
+    flex: 1,
+    fontSize: 13,
+    color: Colors.text,
+    paddingVertical: 9,
+    paddingHorizontal: 0,
+  },
+  passwordToggleBtn: {
+    padding: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   textAreaInput: {
     minHeight: 84,
@@ -3733,6 +4146,9 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: Radius.xxl,
     borderTopRightRadius: Radius.xxl,
     overflow: 'hidden',
+    width: '100%',
+    maxWidth: 640,
+    alignSelf: 'center',
   },
   sheetHandle: {
     alignSelf: 'center',
@@ -4112,4 +4528,203 @@ const styles = StyleSheet.create({
   toastText: { color: Colors.success, fontSize: 14, fontWeight: '700', flex: 1 },
   subjectChip: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, borderWidth: 1 },
   subjectChipText: { fontSize: 12, fontWeight: '600' },
+  modalAlertError: {
+    backgroundColor: '#FEE2E2',
+    borderWidth: 1,
+    borderColor: '#FECACA',
+    borderRadius: Radius.md,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 16,
+  },
+  modalAlertErrorText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#B91C1C',
+    flex: 1,
+  },
+  parentFilterHeader: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.borderLight,
+    backgroundColor: Colors.surface,
+    gap: 10,
+  },
+  parentSearchWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: Radius.md,
+    paddingHorizontal: 12,
+    backgroundColor: Colors.surfaceAlt,
+    minHeight: 42,
+  },
+  parentSearchInput: {
+    flex: 1,
+    fontSize: 13,
+    color: Colors.text,
+    paddingVertical: Platform.OS === 'web' ? 8 : 6,
+    ...(Platform.OS === 'web' ? ({ outlineStyle: 'none' } as any) : {}),
+  },
+  parentFilterRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  parentStandardBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 12,
+    height: 40,
+    borderRadius: Radius.md,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    backgroundColor: Colors.surfaceAlt,
+  },
+  parentStandardBtnActive: {
+    borderColor: Colors.primary,
+    backgroundColor: Colors.primaryLight,
+  },
+  parentStandardBtnText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: Colors.textSecondary,
+  },
+  parentStandardBtnTextActive: {
+    color: Colors.primary,
+    fontWeight: '700',
+  },
+  parentSearchBtn: {
+    height: 40,
+    paddingHorizontal: 16,
+    borderRadius: Radius.md,
+    backgroundColor: Colors.primary,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+  },
+  parentSearchBtnText: {
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  parentSelectionToolbar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: 2,
+  },
+  parentSelectionBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: Radius.full,
+    backgroundColor: Colors.primaryLight,
+  },
+  parentSelectionBadgeText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: Colors.primary,
+  },
+  clearSelectionBtnText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: Colors.textMuted,
+  },
+  studentAssignCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: Radius.md,
+    padding: 12,
+    backgroundColor: Colors.surface,
+    marginBottom: 8,
+  },
+  studentAssignCardSelected: {
+    borderColor: Colors.primary,
+    backgroundColor: '#F0F7FF',
+  },
+  studentCheckbox: {
+    width: 22,
+    height: 22,
+    borderRadius: 6,
+    borderWidth: 1.5,
+    borderColor: '#94A3B8',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
+  studentCheckboxSelected: {
+    borderColor: Colors.primary,
+    backgroundColor: Colors.primary,
+  },
+  studentAssignAvatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: Colors.surfaceAlt,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  studentAssignAvatarText: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    fontWeight: '800',
+  },
+  studentAssignMeta: {
+    flex: 1,
+    gap: 2,
+    minWidth: 0,
+  },
+  studentAssignName: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: Colors.text,
+  },
+  studentAssignEmail: {
+    fontSize: 12,
+    color: Colors.textMuted,
+  },
+  studentStandardBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: Radius.full,
+    backgroundColor: Colors.surfaceAlt,
+    borderWidth: 1,
+    borderColor: Colors.borderLight,
+  },
+  studentStandardBadgeSelected: {
+    backgroundColor: '#DBEAFE',
+    borderColor: '#93C5FD',
+  },
+  studentStandardBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: Colors.textSecondary,
+  },
+  studentStandardBadgeTextSelected: {
+    color: Colors.primaryDark,
+  },
+  assignPaginationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    marginTop: 4,
+    borderTopWidth: 1,
+    borderTopColor: Colors.borderLight,
+  },
 });

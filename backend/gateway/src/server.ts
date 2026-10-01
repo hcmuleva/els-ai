@@ -93,6 +93,7 @@ app.use('/students/subjects', makeProxy(CORE_API_URL, '/students/subjects'));
 app.use('/assignments', makeProxy(CORE_API_URL, '/assignments'));
 app.use('/students', makeProxy(CORE_API_URL, '/students'));
 app.use('/counseling', makeProxy(CORE_API_URL, '/counseling'));
+app.use('/chat', makeProxy(CORE_API_URL, '/chat'));
 app.use('/feedback', makeProxy(CORE_API_URL, '/feedback'));
 app.use('/quizzes', makeProxy(CORE_API_URL, '/quizzes'));
 app.use('/ai', makeProxy(EDUCATION_AI_API_URL, '/ai'));

@@ -656,13 +656,14 @@ feedbackRouter.get('/topics', requireAuth, async (req: AuthenticatedRequest, res
 
   try {
     // Academic topics: from subjects table, filtered by class_level
+    const isSpecificClass = classLevel && classLevel.toUpperCase() !== 'ALL' && classLevel.toUpperCase() !== 'ANY';
     const academicResult = await db.query(
       `SELECT id, title, class_level
        FROM subjects
        WHERE organization_id = $1::uuid
-         ${classLevel ? `AND class_level = $2` : ''}
+         ${isSpecificClass ? `AND (class_level = $2 OR class_level = 'ANY' OR class_level IS NULL)` : ''}
        ORDER BY title ASC`,
-      classLevel ? [organizationId, classLevel] : [organizationId],
+      isSpecificClass ? [organizationId, classLevel] : [organizationId],
     );
 
     // Non-academic topics: from feedback_topics, class_level = 'any' or matching

@@ -950,10 +950,12 @@ catalogRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
   // sees a class-3 subject they can't actually use.
   const classLevelFilter = String(req.query.class_level ?? req.query.classLevel ?? '').trim();
   const params: any[] = [orgId];
-  let whereClause = `organization_id = $1::uuid`;
-  if (classLevelFilter) {
+  let whereClause = `s.organization_id = $1::uuid`;
+  if (classLevelFilter && classLevelFilter.toUpperCase() !== 'ALL' && classLevelFilter.toUpperCase() !== 'ANY') {
     params.push(classLevelFilter);
-    whereClause += ` AND class_level = $${params.length}`;
+    whereClause += ` AND (s.class_level = $${params.length} OR s.class_level = 'ANY' OR s.class_level IS NULL)`;
+  } else if (classLevelFilter.toUpperCase() === 'ANY') {
+    whereClause += ` AND (s.class_level = 'ANY')`;
   }
 
   try {
@@ -999,12 +1001,24 @@ studentsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
   if (!orgId || !userId) return res.status(400).json({ message: 'Organization/user not found' });
 
   try {
-    const userRow = await db.query(
-      `SELECT class_level FROM users WHERE id = $1 LIMIT 1`,
-      [userId],
-    );
-    const classLevel = userRow.rows[0]?.class_level as string | null;
-    if (!classLevel) return res.json({ subjects: [], classLevel: null });
+    let classLevel = String(req.query.class_level ?? req.query.classLevel ?? '').trim();
+    if (!classLevel) {
+      const userRow = await db.query(
+        `SELECT class_level, active_role FROM users WHERE id = $1 LIMIT 1`,
+        [userId],
+      );
+      classLevel = (userRow.rows[0]?.class_level as string) || '';
+      if (!classLevel && userRow.rows[0]?.active_role === 'parent') {
+        const childRow = await db.query(
+          `SELECT u.class_level FROM parent_student_mapping psm
+           JOIN users u ON u.id = psm.student_user_id
+           WHERE psm.parent_user_id = $1 AND u.class_level IS NOT NULL
+           LIMIT 1`,
+          [userId],
+        );
+        classLevel = (childRow.rows[0]?.class_level as string) || '';
+      }
+    }
 
     const result = await db.query(
       `SELECT
@@ -1015,7 +1029,7 @@ studentsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
        LEFT JOIN subjects s ON s.id = ct.subject_id
        LEFT JOIN topic_content_assignments tca ON tca.topic_id = ct.id
        WHERE (ct.organization_id = $1::uuid OR ct.is_global = true)
-         AND (ct.class_level = $2 OR ct.class_level = 'ANY')
+         AND ($2 = '' OR ct.class_level = $2 OR ct.class_level = 'ANY')
        GROUP BY ct.id, s.title
        ORDER BY s.title, ct.title`,
       [orgId, classLevel],
@@ -1043,7 +1057,7 @@ studentsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
       const subjectsMetaResult = await db.query(
         `SELECT title, cover_image, icon_image, icon_bg_color, organization_id, updated_at
          FROM subjects
-         WHERE class_level IN ($1, 'ANY')
+         WHERE ($1 = '' OR class_level IN ($1, 'ANY'))
            AND LOWER(title) = ANY($2::text[])
          ORDER BY
            CASE WHEN organization_id = $3::uuid THEN 0 ELSE 1 END,
@@ -1074,6 +1088,7 @@ studentsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
     const subjectMap: Record<string, SubjectGroup> = {};
     for (const row of result.rows) {
       const sub = row.subject as string;
+      if (!sub) continue;
       if (!subjectMap[sub]) {
         const meta = subjectsMeta.get(sub.trim().toLowerCase());
         subjectMap[sub] = {
@@ -1096,8 +1111,34 @@ studentsRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
       });
     }
 
+    // Also include all direct database subjects from the subjects table (even if 0 topics are created yet)
+    const directSubjectsResult = await db.query(
+      `SELECT s.id, s.title, s.class_level, s.cover_image, s.icon_image, s.icon_bg_color
+       FROM subjects s
+       WHERE (s.organization_id = $1::uuid OR s.organization_id IS NULL)
+         AND ($2 = '' OR s.class_level = $2 OR s.class_level = 'ANY' OR s.class_level IS NULL)
+       ORDER BY s.title ASC`,
+      [orgId, classLevel],
+    );
+    for (const row of directSubjectsResult.rows) {
+      const sub = String(row.title || '').trim();
+      if (!sub) continue;
+      if (!subjectMap[sub]) {
+        const signedCover = row.cover_image
+          ? await getSignedMediaUrlIfNeeded(row.cover_image as string)
+          : null;
+        subjectMap[sub] = {
+          subject: sub,
+          coverImage: signedCover,
+          icon: (row.icon_image as string | null) || null,
+          iconBgColor: (row.icon_bg_color as string | null) || null,
+          topics: [],
+        };
+      }
+    }
+
     return res.json({
-      classLevel,
+      classLevel: classLevel || null,
       subjects: Object.values(subjectMap),
     });
   } catch (err) {
