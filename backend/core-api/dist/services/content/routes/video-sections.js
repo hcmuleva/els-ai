@@ -1,10 +1,13 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { db } from '../db.js';
+import { requireAuth } from '../middleware/auth.js';
 // Router for paths nested under an existing content item: /content/:contentId/...
 export const videoContentRouter = Router();
 // Router for section-scoped paths: /video-sections/:sectionId/...
 export const videoSectionsRouter = Router();
+videoContentRouter.use(requireAuth);
+videoSectionsRouter.use(requireAuth);
 function getOrganizationId(req) {
     return req?.user?.organizationId || null;
 }

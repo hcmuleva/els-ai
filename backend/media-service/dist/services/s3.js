@@ -6,7 +6,10 @@ const REGION = process.env.AWS_REGION || process.env.S3_REGION || 'us-east-1';
 const BUCKET = process.env.S3_BUCKET_NAME || process.env.AWS_S3_BUCKET || '';
 const PUBLIC_BASE_URL = process.env.S3_PUBLIC_BASE_URL || '';
 const SIGNED_URL_TTL_SECONDS = Number(process.env.S3_SIGNED_URL_TTL_SECONDS || '3600');
-const s3Client = new S3Client({ region: REGION });
+const s3Client = new S3Client({
+    region: REGION,
+    useDualstackEndpoint: true,
+});
 const MIME_EXTENSION_MAP = {
     'image/jpeg': 'jpg',
     'image/jpg': 'jpg',
@@ -159,11 +162,16 @@ function extractKeyFromS3LikeUrl(url) {
     const virtualHostedHosts = [
         `${BUCKET}.s3.${REGION}.amazonaws.com`.toLowerCase(),
         `${BUCKET}.s3.amazonaws.com`.toLowerCase(),
+        `${BUCKET}.s3.dualstack.${REGION}.amazonaws.com`.toLowerCase(),
     ];
     if (virtualHostedHosts.includes(host)) {
         return decodeURIComponent(path);
     }
-    const pathStyleHosts = [`s3.${REGION}.amazonaws.com`.toLowerCase(), 's3.amazonaws.com'];
+    const pathStyleHosts = [
+        `s3.${REGION}.amazonaws.com`.toLowerCase(),
+        `s3.dualstack.${REGION}.amazonaws.com`.toLowerCase(),
+        's3.amazonaws.com',
+    ];
     if (pathStyleHosts.includes(host)) {
         const [bucket, ...rest] = path.split('/');
         if (bucket === BUCKET && rest.length > 0) {
