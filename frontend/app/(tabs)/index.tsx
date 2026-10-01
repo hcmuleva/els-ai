@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  ActivityIndicator, FlatList, Modal, Platform, Pressable, ScrollView,
+  ActivityIndicator, FlatList, Modal, Platform, Pressable, RefreshControl, ScrollView,
   StyleSheet, Text, View, useWindowDimensions,
 } from 'react-native';
 import { Redirect, router } from 'expo-router';
@@ -107,6 +107,10 @@ function ParentDashboard() {
     activity, analytics,
     switchToStudent, refreshAll,
   } = useStudentProfile();
+  const insets = useSafeAreaInsets();
+  const { width: windowWidth } = useWindowDimensions();
+  const isTablet = windowWidth >= 768;
+  const isDesktop = windowWidth >= 1024;
 
   const [counselingDone, setCounselingDone] = useState<Record<string, boolean>>({});
 
@@ -135,204 +139,347 @@ function ParentDashboard() {
     }, [activeStudent?.id, checkCounseling]),
   );
 
-  return (
-    <View style={s.screen}>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={s.scroll}>
+  const renderChildOverview = () => {
+    if (!activeStudent) return null;
+    return (
+      <View style={s.parentCard}>
+        <View style={s.activeChildHeaderRow}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, flex: 1 }}>
+            <View style={[s.avatarCircle, { backgroundColor: CHILD_COLORS[0], width: 44, height: 44, borderRadius: 22 }]}>
+              <User size={22} color="#fff" />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={s.activeChildName} numberOfLines={1}>
+                {activeStudent.firstName} {activeStudent.lastName}
+              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 3 }}>
+                <View style={s.studentClassBadge}>
+                  <Text style={s.studentClassBadgeText}>
+                    {activeStudent.classLevel ? `Class ${activeStudent.classLevel}` : 'Student'}
+                  </Text>
+                </View>
+                <Text style={s.activeChildMetaDot}>•</Text>
+                <Text style={s.activeChildMetaSub}>Enrolled</Text>
+              </View>
+            </View>
+          </View>
+          <Pressable style={s.viewReportBtn} onPress={() => router.push('/(tabs)/reports')}>
+            <Text style={s.viewReportBtnText}>Full Report</Text>
+            <ChevronRight size={13} color="#fff" />
+          </Pressable>
+        </View>
 
-        {/* Top bar */}
-        <View style={[s.topBar, { paddingTop: Platform.OS === 'ios' ? 2 : 8 }]}>
+        {analytics?.summary && (
+          <View style={s.statsStripInner}>
+            <View style={[s.statPill, { backgroundColor: Colors.primaryLight }]}>
+              <Zap size={14} color={Colors.primary} />
+              <Text style={[s.statPillVal, { color: Colors.primary }]}>{analytics.summary.streakDays}</Text>
+              <Text style={s.statPillLbl}>Streak</Text>
+            </View>
+            <View style={[s.statPill, { backgroundColor: Colors.successLight }]}>
+              <CheckCircle size={14} color={Colors.success} />
+              <Text style={[s.statPillVal, { color: Colors.success }]}>{analytics.summary.completionRate.toFixed(0)}%</Text>
+              <Text style={s.statPillLbl}>Done</Text>
+            </View>
+            <View style={[s.statPill, { backgroundColor: Colors.warningLight }]}>
+              <Star size={14} color={Colors.warning} fill={Colors.warning} />
+              <Text style={[s.statPillVal, { color: '#8F4A17' }]}>{analytics.summary.attemptedCount}</Text>
+              <Text style={s.statPillLbl}>Tried</Text>
+            </View>
+            <View style={[s.statPill, { backgroundColor: Colors.purpleLight }]}>
+              <Clock size={14} color={Colors.purple} />
+              <Text style={[s.statPillVal, { color: Colors.purple }]}>{fmtSec(analytics.summary.totalTimeSeconds)}</Text>
+              <Text style={s.statPillLbl}>Time</Text>
+            </View>
+          </View>
+        )}
+      </View>
+    );
+  };
+
+  const renderBreakdown = () => {
+    if (!activeStudent || !analytics?.breakdown || Object.keys(analytics.breakdown).length === 0) return null;
+    return (
+      <View style={s.parentCard}>
+        <View style={s.cardHeaderRow}>
           <View>
-            <Text style={s.greetingSub}>{getGreeting()},</Text>
-            <Text style={s.greetingName}>{user?.firstName ?? 'Parent'}</Text>
+            <Text style={s.cardSectionTitle}>Activity Breakdown</Text>
+            <Text style={s.cardSectionSub}>Performance & activity completion</Text>
           </View>
         </View>
-
-        {/* Child switcher */}
-        <View style={s.profileSwitcherWrap}>
-          <Text style={s.profileSwitcherLabel}>My Children</Text>
-          {loadingStudents ? (
-            <ActivityIndicator accessibilityLabel="Loading" color={Colors.purple} size="small" style={{ marginTop: 8 }} />
-          ) : linkedStudents.length === 0 ? (
-            <View style={s.emptyBlock}>
-              <SvgXml xml={PENGUIN} width={80} height={80} />
-              <Text style={s.emptyTitle}>No children linked yet</Text>
-              <Text style={s.emptyBody}>Ask your school admin to link your account.</Text>
+        <View style={s.breakdownGrid}>
+          {Object.entries(analytics.breakdown).map(([type, data]) => (
+            <View key={type} style={s.breakdownCard}>
+              <View style={s.breakdownIconWrap}>
+                <ActivityTypeIcon type={type} size={18} color={Colors.primary} />
+              </View>
+              <Text style={s.breakdownCount}>{data.count}</Text>
+              <Text style={s.breakdownLabel}>{type.charAt(0).toUpperCase() + type.slice(1)}</Text>
+              {data.avgScore !== null && (
+                <View style={s.breakdownScoreBadge}>
+                  <Text style={s.breakdownScore}>avg {data.avgScore}%</Text>
+                </View>
+              )}
             </View>
-          ) : (
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={s.avatarScroll}
-              contentContainerStyle={{ gap: 16, paddingHorizontal: 16, paddingVertical: 8 }}
-            >
-              {linkedStudents.map((child, idx) => {
-                const isActive = child.id === activeStudent?.id;
-                const chipColor = CHILD_COLORS[idx % CHILD_COLORS.length];
-                return (
-                  <Pressable key={child.id} style={s.avatarItem} onPress={() => switchToStudent(child.id)}>
-                    <View style={[s.avatarCircle, { backgroundColor: chipColor, borderWidth: isActive ? 3 : 0, borderColor: Colors.text }]}>
-                      <User size={22} color="#fff" />
-                    </View>
-                    <Text style={[s.avatarName, isActive && { fontWeight: '900', color: Colors.text }]} numberOfLines={1}>
-                      {child.firstName}
-                    </Text>
-                    {isActive && <View style={[s.avatarActiveDot, { backgroundColor: chipColor }]} />}
-                  </Pressable>
-                );
-              })}
-            </ScrollView>
-          )}
-        </View>
-
-        {/* Active child detail */}
-        {activeStudent && (
-          <>
-            <View style={s.activeChildHeader}>
-              <View>
-                <Text style={s.activeChildName}>{activeStudent.firstName} {activeStudent.lastName}</Text>
-                <Text style={s.activeChildMeta}>
-                  {activeStudent.classLevel ? `Class ${activeStudent.classLevel}` : 'No class assigned'}
-                </Text>
-              </View>
-              <Pressable style={s.viewReportBtn} onPress={() => router.push('/(tabs)/reports')}>
-                <Text style={s.viewReportBtnText}>Full Report</Text>
-                <ChevronRight size={12} color="#fff" />
-              </Pressable>
-            </View>
-
-            {/* Start Counseling CTA — hidden once a session is completed */}
-            {!counselingDone[activeStudent.id] && (
-            <Pressable
-              onPress={() => router.push('/(tabs)/counseling')}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 12,
-                backgroundColor: Colors.accent,
-                borderRadius: Radius.card,
-                paddingVertical: 14,
-                paddingHorizontal: 16,
-                marginHorizontal: 16,
-                marginBottom: 12,
-                ...Shadow.sm,
-              }}
-            >
-              <View style={{ width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.22)' }}>
-                <ClipboardList size={22} color="#fff" />
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 15, fontWeight: '800', color: '#fff' }}>Start Counseling</Text>
-                <Text style={{ fontSize: 12, color: '#fff', marginTop: 2 }}>
-                  5–10 min guided check-in + AI report for {activeStudent.firstName}
-                </Text>
-              </View>
-              <ChevronRight size={18} color="#fff" />
-            </Pressable>
-            )}
-
-            {/* Analytics strip */}
-            {analytics?.summary && (
-              <View style={s.statsStrip}>
-                <View style={[s.statPill, { backgroundColor: Colors.primaryLight }]}>
-                  <Zap size={13} color={Colors.primary} />
-                  <Text style={[s.statPillVal, { color: Colors.primary }]}>{analytics.summary.streakDays}</Text>
-                  <Text style={s.statPillLbl}>Streak</Text>
-                </View>
-                <View style={[s.statPill, { backgroundColor: Colors.successLight }]}>
-                  <CheckCircle size={13} color={Colors.success} />
-                  <Text style={[s.statPillVal, { color: Colors.success }]}>{analytics.summary.completionRate.toFixed(0)}%</Text>
-                  <Text style={s.statPillLbl}>Done</Text>
-                </View>
-                <View style={[s.statPill, { backgroundColor: Colors.warningLight }]}>
-                  <Star size={13} color={Colors.warning} fill={Colors.warning} />
-                  {/* Colors.warning on warningLight is 1.84:1 — too low for text; darkened for the count only */}
-                  <Text style={[s.statPillVal, { color: '#8F4A17' }]}>{analytics.summary.attemptedCount}</Text>
-                  <Text style={s.statPillLbl}>Tried</Text>
-                </View>
-                <View style={[s.statPill, { backgroundColor: Colors.purpleLight }]}>
-                  <Clock size={13} color={Colors.purple} />
-                  <Text style={[s.statPillVal, { color: Colors.purple }]}>{fmtSec(analytics.summary.totalTimeSeconds)}</Text>
-                  <Text style={s.statPillLbl}>Time</Text>
-                </View>
-              </View>
-            )}
-
-            {/* Breakdown */}
-            {analytics?.breakdown && Object.keys(analytics.breakdown).length > 0 && (
-              <>
-                <View style={s.rowHeader}>
-                  <Text style={s.rowTitle}>Activity Breakdown</Text>
-                </View>
-                <View style={s.breakdownRow}>
-                  {Object.entries(analytics.breakdown).map(([type, data]) => (
-                    <View key={type} style={[s.breakdownCard, { backgroundColor: Colors.surface }]}>
-                      <ActivityTypeIcon type={type} size={22} color={Colors.primary} />
-                      <Text style={s.breakdownCount}>{data.count}</Text>
-                      <Text style={s.breakdownLabel}>{type.charAt(0).toUpperCase() + type.slice(1)}</Text>
-                      {data.avgScore !== null && (
-                        <Text style={s.breakdownScore}>avg {data.avgScore}%</Text>
-                      )}
-                    </View>
-                  ))}
-                </View>
-              </>
-            )}
-
-            {/* Recent activity */}
-            <View style={s.rowHeader}>
-              <Text style={s.rowTitle}>Recent Activity</Text>
-              <Pressable onPress={() => router.push('/(tabs)/reports')}>
-                <Text style={s.rowLink}>See All</Text>
-              </Pressable>
-            </View>
-            {loadingActivity ? (
-              <ActivityIndicator accessibilityLabel="Loading" color={Colors.primary} style={{ marginVertical: 16 }} />
-            ) : activity.length === 0 ? (
-              <View style={s.emptyBlock}>
-                <Text style={s.emptyTitle}>No activity yet</Text>
-              </View>
-            ) : (
-              activity.slice(0, 6).map((item) => {
-                const dotColor = STATUS_COLOR[item.status] ?? Colors.textMuted;
-                return (
-                  <View key={item.id} style={s.activityRow}>
-                    <View style={[s.activityIconWrap, { backgroundColor: dotColor + '18' }]}>
-                      <ActivityTypeIcon type={item.activityType} size={14} color={dotColor} />
-                    </View>
-                    <View style={s.activityInfo}>
-                      <Text style={s.activityTitle} numberOfLines={1}>
-                        {item.referenceTitle ?? item.activityType}
-                      </Text>
-                      <Text style={s.activityMeta}>
-                        {item.status} · {item.activityDate}
-                        {item.score !== undefined ? ` · ${item.score}%` : ''}
-                      </Text>
-                    </View>
-                    {item.timeSpentSeconds > 0 && (
-                      <Text style={s.activityTime}>{fmtSec(item.timeSpentSeconds)}</Text>
-                    )}
-                  </View>
-                );
-              })
-            )}
-          </>
-        )}
-
-        {/* Quick actions */}
-        <View style={s.rowHeader}>
-          <Text style={s.rowTitle}>Quick Actions</Text>
-        </View>
-        <View style={s.quickActionsGrid}>
-          {QUICK_ACTIONS.map((qa) => (
-            <Pressable key={qa.label} style={[s.quickActionTile, { backgroundColor: qa.bg }]} onPress={() => router.push(qa.route)}>
-              <View style={[s.quickActionIcon, { backgroundColor: qa.color + '20' }]}>
-                <qa.Icon size={22} color={qa.color} />
-              </View>
-              <Text style={[s.quickActionLabel, { color: qa.textColor ?? qa.color }]}>{qa.label}</Text>
-            </Pressable>
           ))}
         </View>
+      </View>
+    );
+  };
 
+  const renderRecentActivity = () => {
+    if (!activeStudent) return null;
+    return (
+      <View style={s.parentCard}>
+        <View style={s.cardHeaderRow}>
+          <View>
+            <Text style={s.cardSectionTitle}>Recent Activity</Text>
+            <Text style={s.cardSectionSub}>Latest learning exercises & submissions</Text>
+          </View>
+          <Pressable onPress={() => router.push('/(tabs)/reports')} hitSlop={8}>
+            <Text style={s.rowLink}>See All</Text>
+          </Pressable>
+        </View>
+        {loadingActivity ? (
+          <ActivityIndicator accessibilityLabel="Loading" color={Colors.primary} style={{ marginVertical: 18 }} />
+        ) : activity.length === 0 ? (
+          <View style={s.emptyRecentBlock}>
+            <Text style={s.emptyTitle}>No activity yet</Text>
+            <Text style={s.emptyBody}>Activity will appear here as your child completes tasks.</Text>
+          </View>
+        ) : (
+          <View style={{ gap: 8 }}>
+            {activity.slice(0, 6).map((item) => {
+              const dotColor = STATUS_COLOR[item.status] ?? Colors.textMuted;
+              return (
+                <View key={item.id} style={s.activityRowItem}>
+                  <View style={[s.activityIconWrap, { backgroundColor: dotColor + '18' }]}>
+                    <ActivityTypeIcon type={item.activityType} size={15} color={dotColor} />
+                  </View>
+                  <View style={s.activityInfo}>
+                    <Text style={s.activityTitle} numberOfLines={1}>
+                      {item.referenceTitle ?? item.activityType}
+                    </Text>
+                    <Text style={s.activityMeta}>
+                      {item.status} · {item.activityDate}
+                      {item.score !== undefined ? ` · ${item.score}%` : ''}
+                    </Text>
+                  </View>
+                  {item.timeSpentSeconds > 0 && (
+                    <Text style={s.activityTime}>{fmtSec(item.timeSpentSeconds)}</Text>
+                  )}
+                </View>
+              );
+            })}
+          </View>
+        )}
+      </View>
+    );
+  };
+
+  const renderCounselingCta = () => {
+    if (!activeStudent || counselingDone[activeStudent.id]) return null;
+    return (
+      <Pressable
+        onPress={() => router.push('/(tabs)/counseling')}
+        style={s.counselingCtaCard}
+      >
+        <View style={s.counselingIconWrap}>
+          <ClipboardList size={22} color="#fff" />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={s.counselingTitle}>Start Counseling</Text>
+          <Text style={s.counselingSub}>
+            5–10 min guided check-in + AI report for {activeStudent.firstName}
+          </Text>
+        </View>
+        <ChevronRight size={18} color="#fff" />
+      </Pressable>
+    );
+  };
+
+  const renderQuickActions = () => (
+    <View style={s.parentCard}>
+      <View style={s.cardHeaderRow}>
+        <View>
+          <Text style={s.cardSectionTitle}>Quick Actions</Text>
+          <Text style={s.cardSectionSub}>Jump to parent tools</Text>
+        </View>
+      </View>
+      <View style={s.quickActionsGrid}>
+        {QUICK_ACTIONS.map((qa) => (
+          <Pressable
+            key={qa.label}
+            style={[s.quickActionTile, { backgroundColor: qa.bg }]}
+            onPress={() => router.push(qa.route)}
+          >
+            <View style={[s.quickActionIcon, { backgroundColor: qa.color + '20' }]}>
+              <qa.Icon size={20} color={qa.color} />
+            </View>
+            <Text style={[s.quickActionLabel, { color: qa.textColor ?? qa.color }]}>{qa.label}</Text>
+          </Pressable>
+        ))}
+      </View>
+    </View>
+  );
+
+  const renderParentTips = () => (
+    <View style={s.parentGuidanceCard}>
+      <View style={s.guidanceIconBox}>
+        <BookOpenCheck size={20} color={Colors.primary} />
+      </View>
+      <View style={{ flex: 1, gap: 4 }}>
+        <Text style={s.guidanceTitle}>Parent Insight</Text>
+        <Text style={s.guidanceBody}>
+          Consistent short study habits build stronger retention than marathon sessions. Review reports weekly to celebrate streaks and support difficult topics.
+        </Text>
+      </View>
+    </View>
+  );
+
+  return (
+    <View style={s.screen}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={loadingActivity}
+            onRefresh={refreshAll}
+            colors={[Colors.primary]}
+            tintColor={Colors.primary}
+          />
+        }
+        contentContainerStyle={[
+          s.scroll,
+          { paddingBottom: Math.max(insets.bottom, 24) + 90 },
+        ]}
+      >
+        <View
+          style={[
+            s.parentMainContainer,
+            {
+              maxWidth: isDesktop ? 1200 : isTablet ? 960 : '100%',
+              paddingHorizontal: isDesktop ? 32 : isTablet ? 24 : 16,
+              paddingTop: Platform.OS === 'ios' ? Math.max(insets.top, 8) : 12,
+            },
+          ]}
+        >
+          {/* Top Bar */}
+          <View style={s.parentTopBar}>
+            <View>
+              <Text style={s.greetingSub}>{getGreeting()},</Text>
+              <Text style={s.greetingName}>{user?.firstName ?? 'Parent'}</Text>
+            </View>
+            <View style={s.parentPortalBadge}>
+              <Users size={14} color={Colors.primary} />
+              <Text style={s.parentPortalBadgeText}>Parent Portal</Text>
+            </View>
+          </View>
+
+          {/* Child Switcher Card */}
+          <View style={s.childSwitcherCard}>
+            <View style={s.childSwitcherHeader}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                <Users size={16} color={Colors.primary} />
+                <Text style={s.childSwitcherTitle}>Linked Children</Text>
+                {linkedStudents.length > 0 && (
+                  <View style={s.childCountPill}>
+                    <Text style={s.childCountPillText}>{linkedStudents.length}</Text>
+                  </View>
+                )}
+              </View>
+              {activeStudent && (
+                <Text style={s.childSwitcherActiveHint}>
+                  Active:{' '}
+                  <Text style={{ fontWeight: '800', color: Colors.primary }}>
+                    {activeStudent.firstName}
+                  </Text>
+                </Text>
+              )}
+            </View>
+
+            {loadingStudents ? (
+              <ActivityIndicator
+                accessibilityLabel="Loading"
+                color={Colors.primary}
+                size="small"
+                style={{ marginVertical: 14 }}
+              />
+            ) : linkedStudents.length === 0 ? (
+              <View style={s.emptyBlock}>
+                <SvgXml xml={PENGUIN} width={70} height={70} />
+                <Text style={s.emptyTitle}>No children linked yet</Text>
+                <Text style={s.emptyBody}>Ask your school admin to link your student to your account.</Text>
+              </View>
+            ) : (
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={s.childrenScrollContent}
+              >
+                {linkedStudents.map((child, idx) => {
+                  const isActive = child.id === activeStudent?.id;
+                  const chipColor = CHILD_COLORS[idx % CHILD_COLORS.length];
+                  return (
+                    <Pressable
+                      key={child.id}
+                      style={[s.childCardChip, isActive && s.childCardChipActive]}
+                      onPress={() => switchToStudent(child.id)}
+                    >
+                      <View style={[s.avatarCircle, { backgroundColor: chipColor }]}>
+                        <User size={18} color="#fff" />
+                      </View>
+                      <View style={{ flexShrink: 1 }}>
+                        <Text
+                          style={[s.childChipName, isActive && s.childChipNameActive]}
+                          numberOfLines={1}
+                        >
+                          {child.firstName} {child.lastName?.charAt(0) ? `${child.lastName.charAt(0)}.` : ''}
+                        </Text>
+                        <Text style={s.childChipClass} numberOfLines={1}>
+                          {child.classLevel ? `Class ${child.classLevel}` : 'Student'}
+                        </Text>
+                      </View>
+                      {isActive && (
+                        <View style={s.activeBadgeDot}>
+                          <CheckCircle size={14} color={Colors.primary} />
+                        </View>
+                      )}
+                    </Pressable>
+                  );
+                })}
+              </ScrollView>
+            )}
+          </View>
+
+          {/* Body Content */}
+          {isTablet ? (
+            <View style={s.parentDesktopRow}>
+              {/* Left Column */}
+              <View style={s.parentDesktopLeft}>
+                {renderChildOverview()}
+                {renderBreakdown()}
+                {renderRecentActivity()}
+              </View>
+
+              {/* Right Column */}
+              <View style={s.parentDesktopRight}>
+                {renderCounselingCta()}
+                {renderQuickActions()}
+                {renderParentTips()}
+              </View>
+            </View>
+          ) : (
+            <View style={s.parentMobileCol}>
+              {renderChildOverview()}
+              {renderCounselingCta()}
+              {renderBreakdown()}
+              {renderRecentActivity()}
+              {renderQuickActions()}
+              {renderParentTips()}
+            </View>
+          )}
+        </View>
       </ScrollView>
     </View>
   );
@@ -1623,71 +1770,418 @@ const s = StyleSheet.create({
 
 
   // ── Parent-specific ──────────────────────────────────────────────────────
-  profileSwitcherWrap: { marginHorizontal: 16, marginBottom: 4, marginTop: 4 },
-  profileSwitcherLabel: { fontSize: 12, fontWeight: '800', color: Colors.textMuted, letterSpacing: 0.8, textTransform: 'uppercase', marginBottom: 4, marginLeft: 2 },
-  avatarScroll: { marginHorizontal: -16 },
-  avatarItem: { alignItems: 'center', gap: 4, width: 64 },
-  avatarCircle: {
-    width: 52, height: 52, borderRadius: 26,
-    alignItems: 'center', justifyContent: 'center',
-    ...Shadow.sm,
+  parentMainContainer: {
+    width: '100%',
+    alignSelf: 'center',
   },
-  avatarName: { fontSize: 11, fontWeight: '600', color: Colors.textSecondary, textAlign: 'center' },
-  avatarActiveDot: { width: 8, height: 8, borderRadius: 4 },
-
-  activeChildHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 16, marginTop: 12, marginBottom: 8 },
-  activeChildName: { fontSize: 18, fontWeight: '900', color: Colors.text },
-  activeChildMeta: { fontSize: 12, color: Colors.textMuted, fontWeight: '600', marginTop: 2 },
-  viewReportBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: Colors.primary, borderRadius: Radius.full, paddingHorizontal: 12, paddingVertical: 7 },
-  viewReportBtnText: { fontSize: 12, fontWeight: '800', color: '#fff' },
-
-  statsStrip: { flexDirection: 'row', gap: 8, marginHorizontal: 16, marginBottom: 8 },
-  statPill: { flex: 1, borderRadius: Radius.md, paddingVertical: 10, paddingHorizontal: 6, alignItems: 'center', gap: 4 },
-  statPillVal: { fontSize: 15, fontWeight: '900' },
-  statPillLbl: { fontSize: 9, fontWeight: '700', color: Colors.textMuted, textTransform: 'uppercase' },
-
-  breakdownRow: { flexDirection: 'row', gap: 10, marginHorizontal: 16, marginBottom: 8 },
-  breakdownCard: { flex: 1, borderRadius: Radius.lg, padding: 12, alignItems: 'center', gap: 3, borderWidth: 1, borderColor: Colors.borderLight, ...Shadow.sm },
-  breakdownCount: { fontSize: 20, fontWeight: '900', color: Colors.text },
-  breakdownLabel: { fontSize: 10, fontWeight: '700', color: Colors.textMuted, textTransform: 'uppercase' },
-  breakdownScore: { fontSize: 10, fontWeight: '700', color: Colors.success, marginTop: 2 },
-
-  activityRow: {
-    flexDirection: 'row', alignItems: 'center', gap: 10,
-    marginHorizontal: 16, marginBottom: 8,
-    backgroundColor: Colors.surface, borderRadius: Radius.md, padding: 12,
-    ...Shadow.sm,
+  parentTopBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 12,
+    marginBottom: 12,
   },
-  activityIconWrap: { width: 32, height: 32, borderRadius: Radius.sm, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  activityInfo: { flex: 1, gap: 2 },
-  activityTitle: { fontSize: 13, fontWeight: '700', color: Colors.text },
-  activityMeta: { fontSize: 11, color: Colors.textMuted, fontWeight: '500' },
-  activityTime: { fontSize: 11, fontWeight: '700', color: Colors.primary },
+  parentPortalBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#EEF2FF',
+    borderWidth: 1,
+    borderColor: '#C7D2FE',
+    borderRadius: Radius.full,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  parentPortalBadgeText: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#4338CA',
+  },
 
-  quickActionsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, paddingHorizontal: 16, marginBottom: 24 },
-  quickActionTile: { width: '47%', borderRadius: Radius.xl, paddingVertical: 18, paddingHorizontal: 14, alignItems: 'center', gap: 8, ...Shadow.sm },
-  quickActionIcon: { width: 44, height: 44, borderRadius: Radius.md, alignItems: 'center', justifyContent: 'center' },
-  quickActionLabel: { fontSize: 13, fontWeight: '800' },
-
-  logicoCard: {
-    marginHorizontal: 16,
-    marginBottom: 20,
+  // Child switcher card
+  childSwitcherCard: {
+    backgroundColor: '#FFFFFF',
     borderRadius: Radius.xl,
-    backgroundColor: '#2D5DC9',
-    padding: 14,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    marginBottom: 16,
+    ...Shadow.sm,
+  },
+  childSwitcherHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  childSwitcherTitle: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: Colors.text,
+  },
+  childCountPill: {
+    backgroundColor: '#EEF2FF',
+    borderRadius: Radius.full,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  },
+  childCountPillText: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: Colors.primary,
+  },
+  childSwitcherActiveHint: {
+    fontSize: 12,
+    color: Colors.textMuted,
+    fontWeight: '600',
+  },
+  childrenScrollContent: {
+    gap: 10,
+    paddingVertical: 2,
+  },
+  childCardChip: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
+    backgroundColor: '#F8FAFC',
+    borderRadius: Radius.lg,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    minWidth: 150,
+  },
+  childCardChipActive: {
+    backgroundColor: '#EFF6FF',
+    borderColor: Colors.primary,
+  },
+  avatarCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  childChipName: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: Colors.text,
+  },
+  childChipNameActive: {
+    color: Colors.primary,
+    fontWeight: '800',
+  },
+  childChipClass: {
+    fontSize: 11,
+    color: Colors.textMuted,
+    fontWeight: '500',
+    marginTop: 1,
+  },
+  activeBadgeDot: {
+    marginLeft: 'auto',
+    paddingLeft: 4,
+  },
+
+  // Layout structures
+  parentDesktopRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 20,
+  },
+  parentDesktopLeft: {
+    flex: 1.35,
+    gap: 16,
+  },
+  parentDesktopRight: {
+    flex: 1,
+    gap: 16,
+  },
+  parentMobileCol: {
+    gap: 16,
+  },
+
+  // Cards
+  parentCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: Radius.xl,
+    padding: 18,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
     ...Shadow.sm,
   },
-  logicoCardIcon: {
+  activeChildHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 14,
+  },
+  activeChildName: {
+    fontSize: 18,
+    fontWeight: '900',
+    color: Colors.text,
+  },
+  studentClassBadge: {
+    backgroundColor: '#EEF2FF',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: Radius.full,
+  },
+  studentClassBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: Colors.primary,
+  },
+  activeChildMetaDot: {
+    fontSize: 12,
+    color: Colors.textMuted,
+  },
+  activeChildMetaSub: {
+    fontSize: 12,
+    color: Colors.textMuted,
+    fontWeight: '500',
+  },
+  viewReportBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: Colors.primary,
+    borderRadius: Radius.full,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+  },
+  viewReportBtnText: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#fff',
+  },
+
+  // Stats strip inside card
+  statsStripInner: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 12,
+  },
+  statPill: {
+    flex: 1,
+    borderRadius: Radius.md,
+    paddingVertical: 10,
+    paddingHorizontal: 6,
+    alignItems: 'center',
+    gap: 4,
+  },
+  statPillVal: {
+    fontSize: 15,
+    fontWeight: '900',
+  },
+  statPillLbl: {
+    fontSize: 9,
+    fontWeight: '700',
+    color: Colors.textMuted,
+    textTransform: 'uppercase',
+  },
+
+  // Breakdown
+  cardHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 14,
+  },
+  cardSectionTitle: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: Colors.text,
+  },
+  cardSectionSub: {
+    fontSize: 12,
+    color: Colors.textMuted,
+    marginTop: 2,
+    fontWeight: '500',
+  },
+  breakdownGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  breakdownCard: {
+    flex: 1,
+    minWidth: 100,
+    borderRadius: Radius.lg,
+    padding: 12,
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+  },
+  breakdownIconWrap: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#EEF2FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  breakdownCount: {
+    fontSize: 18,
+    fontWeight: '900',
+    color: Colors.text,
+  },
+  breakdownLabel: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: Colors.textMuted,
+    textTransform: 'uppercase',
+  },
+  breakdownScoreBadge: {
+    backgroundColor: '#ECFDF5',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: Radius.full,
+    marginTop: 2,
+  },
+  breakdownScore: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: Colors.success,
+  },
+
+  // Activity list inside card
+  emptyRecentBlock: {
+    alignItems: 'center',
+    paddingVertical: 20,
+    gap: 4,
+  },
+  activityRowItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: '#F8FAFC',
+    borderRadius: Radius.md,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+  },
+  activityIconWrap: {
+    width: 32,
+    height: 32,
+    borderRadius: Radius.sm,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+  },
+  activityInfo: {
+    flex: 1,
+    gap: 2,
+  },
+  activityTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: Colors.text,
+  },
+  activityMeta: {
+    fontSize: 11,
+    color: Colors.textMuted,
+    fontWeight: '500',
+  },
+  activityTime: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: Colors.primary,
+  },
+
+  // Counseling CTA Card
+  counselingCtaCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    backgroundColor: Colors.accent,
+    borderRadius: Radius.xl,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
+    ...Shadow.sm,
+  },
+  counselingIconWrap: {
+    width: 42,
+    height: 42,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.22)',
+  },
+  counselingTitle: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#fff',
+  },
+  counselingSub: {
+    fontSize: 12,
+    color: '#fff',
+    marginTop: 2,
+    opacity: 0.92,
+  },
+
+  // Quick actions
+  quickActionsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  quickActionTile: {
+    flex: 1,
+    minWidth: '46%',
+    borderRadius: Radius.lg,
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    gap: 6,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    ...Shadow.sm,
+  },
+  quickActionIcon: {
     width: 40,
     height: 40,
     borderRadius: Radius.md,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0.24)',
   },
-  logicoCardTitle: { color: '#fff', fontSize: 14, fontWeight: '900' },
-  logicoCardSubtitle: { color: '#fff', fontSize: 11, fontWeight: '600', marginTop: 2 },
+  quickActionLabel: {
+    fontSize: 12,
+    fontWeight: '800',
+  },
+
+  // Parent guidance / tips
+  parentGuidanceCard: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 12,
+    backgroundColor: '#F8FAFC',
+    borderRadius: Radius.xl,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    ...Shadow.sm,
+  },
+  guidanceIconBox: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: '#EFF6FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 2,
+  },
+  guidanceTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: Colors.text,
+  },
+  guidanceBody: {
+    fontSize: 12,
+    color: Colors.textSecondary,
+    lineHeight: 18,
+  },
 });

@@ -14,7 +14,7 @@ import {
   Play, Video as VideoIcon, Headphones, Image as ImageIcon, BookOpen,
   FileText, Film, Link, Layers, Plus, FolderOpen, Pencil, Trash2, Eye,
   Filter, LayoutList, Trophy, ListChecks, Search, X, Info, Sparkles,
-  Link2, UploadCloud, Clipboard,
+  Link2, UploadCloud, Clipboard, Copy, Check, Maximize2, Minimize2,
 } from 'lucide-react-native';
 import React from 'react';
 import { useLocalSearchParams } from 'expo-router';
@@ -98,6 +98,18 @@ const readFromClipboard = async (): Promise<string | null> => {
     console.warn('Clipboard read failed:', err);
   }
   return null;
+};
+
+const writeToClipboard = async (text: string): Promise<boolean> => {
+  try {
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch (err) {
+    console.warn('Clipboard write failed:', err);
+  }
+  return false;
 };
 
 const pickTextFromFile = (): Promise<string | null> => {
@@ -259,7 +271,7 @@ function ResponsiveMediaStage({
             apiFetch={apiFetch}
           />
         ) : isLinkType ? (
-          <View style={c.stagePlayerWrapVideo}>
+          <View style={[c.stagePlayerWrapVideo, !mediaUrl && { backgroundColor: '#F8FAFC' }]}>
             <UniversalLinkPlayer
               url={mediaUrl}
               title={content?.title || `Section ${sectionIndex + 1}`}
@@ -338,7 +350,10 @@ function ResponsiveMediaStage({
       {/* Lesson Notes & Overview (if section has textContent and is not a pure reading lesson) */}
       {content?.textContent && !isReading ? (
         <View style={c.notesCard}>
-          <Text style={c.notesCardTitle}>Lesson Overview & Notes</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+            <FileText size={14} color="#2563EB" />
+            <Text style={c.notesCardTitle}>Lesson Overview & Notes</Text>
+          </View>
           <RichTextRenderer content={content.textContent} isUser={false} />
         </View>
       ) : null}
@@ -383,7 +398,7 @@ function ResponsiveMediaStage({
           </View>
           <View style={{ flex: 1 }}>
             <Text style={c.chaptersTitle}>
-              🎬 {videoSectionCount} Timed Video Chapters
+              {videoSectionCount} Timed Video Chapters
             </Text>
             <Text style={c.chaptersSub}>
               Interactive checkpoints and quizzes attached at specific timestamps
@@ -744,6 +759,196 @@ function ContentDetailsModal({ item, apiFetch, onClose, onEdit }: {
   );
 }
 
+// ── Reusable Resizable Section Text Editor ──────────────────────────────────────
+function SectionTextEditor({
+  value,
+  onChangeText,
+  placeholder,
+  label,
+  minHeight = 84,
+  defaultHeight = 120,
+}: {
+  value: string;
+  onChangeText: (val: string) => void;
+  placeholder: string;
+  label?: string;
+  minHeight?: number;
+  defaultHeight?: number;
+}) {
+  const [copied, setCopied] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const detectedFmt = value ? detectTextFormat(value) : null;
+
+  const handleCopy = async () => {
+    if (!value) return;
+    const ok = await writeToClipboard(value);
+    if (ok) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const handlePaste = async () => {
+    const clip = await readFromClipboard();
+    if (clip) onChangeText(clip);
+  };
+
+  const handleLoadFile = async () => {
+    const fileContent = await pickTextFromFile();
+    if (fileContent) onChangeText(fileContent);
+  };
+
+  const handleClear = () => {
+    onChangeText('');
+  };
+
+  return (
+    <View style={{ gap: 6, marginTop: 4 }}>
+      {/* Top Header Row with Label, Badges & Action Buttons */}
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+          {label && <Text style={c.fieldSubLabel}>{label}</Text>}
+          {detectedFmt && (
+            <View style={{
+              backgroundColor:
+                detectedFmt === 'html' ? '#F3E8FF' :
+                detectedFmt === 'markdown' ? '#EFF6FF' :
+                detectedFmt === 'mermaid' ? '#FDF2F8' : '#DCFCE7',
+              paddingHorizontal: 7, paddingVertical: 1, borderRadius: 5
+            }}>
+              <Text style={{
+                fontSize: 10, fontWeight: '700',
+                color:
+                  detectedFmt === 'html' ? '#7C3AED' :
+                  detectedFmt === 'markdown' ? '#2563EB' :
+                  detectedFmt === 'mermaid' ? '#DB2777' : '#16A34A'
+              }}>
+                {detectedFmt === 'html' ? 'HTML' :
+                 detectedFmt === 'markdown' ? 'Markdown' :
+                 detectedFmt === 'mermaid' ? 'Mermaid' : 'Text'}
+              </Text>
+            </View>
+          )}
+          {value ? (
+            <Text style={{ fontSize: 10, color: '#64748B', fontWeight: '500' }}>
+              {value.length.toLocaleString()} chars · {value.split('\n').length} lines
+            </Text>
+          ) : null}
+        </View>
+
+        {/* Action Toolbar */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+          {value ? (
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={handleCopy}
+              style={{
+                flexDirection: 'row', alignItems: 'center', gap: 4,
+                backgroundColor: copied ? '#ECFDF5' : '#F1F5F9',
+                paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
+                borderWidth: 1, borderColor: copied ? '#A7F3D0' : '#E2E8F0',
+              }}
+            >
+              {copied ? <Check size={12} color="#16A34A" /> : <Copy size={12} color="#475569" />}
+              <Text style={{ fontSize: 11, fontWeight: '600', color: copied ? '#16A34A' : '#475569' }}>
+                {copied ? 'Copied' : 'Copy'}
+              </Text>
+            </TouchableOpacity>
+          ) : null}
+
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={handlePaste}
+            style={{
+              flexDirection: 'row', alignItems: 'center', gap: 4,
+              backgroundColor: '#EFF6FF', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
+              borderWidth: 1, borderColor: '#DBEAFE'
+            }}
+          >
+            <Clipboard size={12} color="#2563EB" />
+            <Text style={{ fontSize: 11, fontWeight: '600', color: '#2563EB' }}>Paste</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={handleLoadFile}
+            style={{
+              flexDirection: 'row', alignItems: 'center', gap: 4,
+              backgroundColor: '#F8FAFC', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
+              borderWidth: 1, borderColor: '#E2E8F0'
+            }}
+          >
+            <UploadCloud size={12} color="#475569" />
+            <Text style={{ fontSize: 11, fontWeight: '600', color: '#475569' }}>Load File</Text>
+          </TouchableOpacity>
+
+          {value ? (
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={handleClear}
+              style={{
+                flexDirection: 'row', alignItems: 'center', gap: 4,
+                backgroundColor: '#FEF2F2', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
+                borderWidth: 1, borderColor: '#FEE2E2'
+              }}
+            >
+              <Trash2 size={12} color="#EF4444" />
+              <Text style={{ fontSize: 11, fontWeight: '600', color: '#EF4444' }}>Clear</Text>
+            </TouchableOpacity>
+          ) : null}
+
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => setExpanded((p) => !p)}
+            style={{
+              flexDirection: 'row', alignItems: 'center', gap: 4,
+              backgroundColor: '#F1F5F9', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
+              borderWidth: 1, borderColor: '#E2E8F0'
+            }}
+          >
+            {expanded ? <Minimize2 size={12} color="#475569" /> : <Maximize2 size={12} color="#475569" />}
+            <Text style={{ fontSize: 11, fontWeight: '600', color: '#475569' }}>
+              {expanded ? 'Collapse' : 'Expand'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Resizable Text Input Box */}
+      <TextInput
+        value={value}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        multiline
+        scrollEnabled={true}
+        textAlignVertical="top"
+        style={[
+          c.fieldInput,
+          {
+            minHeight: expanded ? 300 : minHeight,
+            height: expanded ? 300 : defaultHeight,
+            backgroundColor: '#F8F9FF',
+            borderRadius: 10,
+            padding: 12,
+            borderWidth: 1,
+            borderColor: '#ECEEF4',
+            fontSize: 13,
+            lineHeight: 20,
+            fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
+            ...(Platform.OS === 'web'
+              ? ({
+                  resize: 'vertical',
+                  overflow: 'auto',
+                } as any)
+              : {}),
+          },
+        ]}
+        placeholderTextColor="#B0B8D0"
+      />
+    </View>
+  );
+}
+
 // ── Content Create/Edit Modal ─────────────────────────────────────────────────
 function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user, onClose, onSuccess, onUploadMedia }: {
   editingItem: LearningContentItem | null | 'new';
@@ -756,7 +961,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
   onUploadMedia: (sectionDraftId: string, onProgress?: (pct: number) => void) => Promise<{ url: string; contentType?: string; textContent?: string }>;
 }) {
   const { width } = useWindowDimensions();
-  const isDesktop = width >= 768;
+  const isDesktop = width >= 900;
   const isOpen   = editingItem !== null;
   const isEdit   = editingItem !== null && editingItem !== 'new';
   const editId   = isEdit ? (editingItem as LearningContentItem).id : null;
@@ -1090,7 +1295,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
   const renderSetupCard = () => (
     <View style={c.formCardWrap}>
       <Text style={c.cardTitleHeader}>1. Basic Info & Settings</Text>
-      <ScrollView style={c.innerScrollList} contentContainerStyle={{ gap: 12 }}>
+      <ScrollView style={c.innerScrollList} contentContainerStyle={{ gap: 12, paddingBottom: 24 }}>
         <View style={c.fieldGroup}>
           <Text style={c.groupLabel}>BASIC INFO</Text>
           <View style={c.fieldCard}>
@@ -1114,6 +1319,25 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
             </Pressable>
           </View>
         </View>
+        {!isDesktop && (
+          <Pressable
+            style={{
+              backgroundColor: '#2563EB',
+              borderRadius: 12,
+              paddingVertical: 12,
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 10,
+              flexDirection: 'row',
+              gap: 6,
+            }}
+            onPress={() => setTab('sections')}
+          >
+            <Text style={{ color: '#FFFFFF', fontWeight: '800', fontSize: 14 }}>
+              Continue to Sections ›
+            </Text>
+          </Pressable>
+        )}
       </ScrollView>
     </View>
   );
@@ -1128,10 +1352,10 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
     return (
       <View style={c.formCardWrap}>
         {/* Header */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexShrink: 1 }}>
             <Eye size={18} color="#2563EB" />
-            <Text style={[c.cardTitleHeader, { fontSize: 15 }]}>Student View Preview</Text>
+            <Text style={[c.cardTitleHeader, { fontSize: 15 }]} numberOfLines={1}>Student View Preview</Text>
           </View>
           <Pressable
             style={{ backgroundColor: '#2563EB', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, flexDirection: 'row', alignItems: 'center', gap: 6 }}
@@ -1213,7 +1437,13 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
   const renderSectionsCard = () => (
     <View style={c.formCardWrap}>
       <View style={c.secGroupHeader}>
-        <Text style={c.cardTitleHeader}>📄 Content Sections ({sections.length})</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flexShrink: 1 }}>
+          <Layers size={17} color="#2563EB" />
+          <Text style={c.cardTitleHeader}>Content Sections</Text>
+          <View style={c.countBadge}>
+            <Text style={c.countBadgeText}>{sections.length}</Text>
+          </View>
+        </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
           <Pressable onPress={() => setShowSectionInfo((v) => !v)} hitSlop={8} style={c.secInfoBtn}>
             <Info size={18} color="#2D5DC9" />
@@ -1239,180 +1469,73 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
           const isText = sec.contentType === 'text';
           const isMedia = !isUrl && !isText;
           const hasVideoSections = (videoSectionCounts[idx + 1] || 0) > 0;
-          const detectedFmt = isText && sec.textContent ? detectTextFormat(sec.textContent) : null;
           const linkMeta = isUrl && sec.externalUrl ? parseLink(sec.externalUrl) : null;
 
           return (
             <View key={sec.draftId} style={c.sectionBlock}>
-              {/* Section header with order controls */}
-              <View style={c.sectionBlockHeader}>
-                <View style={c.dragHandle}><GripVertical size={16} color="#B0B8D0" /><Text style={c.sectionItemOrder}>{idx + 1}</Text></View>
-                <TextInput
-                  value={sec.title}
-                  onChangeText={(v) => updateSection(sec.draftId, { title: v })}
-                  placeholder={`Section ${idx + 1} title (optional)`}
-                  style={c.sectionTitleInput}
-                  placeholderTextColor="#B0B8D0"
-                />
-                <View style={c.sectionHeaderActions}>
-                  <TouchableOpacity onPress={() => setSections((p) => moveUp(p, idx))} disabled={idx === 0} style={[c.orderBtn, idx === 0 && { opacity: 0.2 }]}>
-                    <ChevronUp size={14} color="#2D5DC9" />
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setSections((p) => moveDown(p, idx))} disabled={idx === sections.length - 1} style={[c.orderBtn, idx === sections.length - 1 && { opacity: 0.2 }]}>
-                    <ChevronDown size={14} color="#2D5DC9" />
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setSections((p) => p.length > 1 ? p.filter((_, i) => i !== idx) : p)} style={c.removeBtn}>
-                    <Text style={c.removeBtnText}>✕</Text>
-                  </TouchableOpacity>
+              {/* Section header with order controls and clear label */}
+              <View style={{ paddingHorizontal: 14, paddingTop: 14, paddingBottom: 6, gap: 4 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <Text style={c.fieldSubLabel}>Section #{idx + 1} Title (Optional)</Text>
+                  <View style={c.sectionHeaderActions}>
+                    <TouchableOpacity onPress={() => setSections((p) => moveUp(p, idx))} disabled={idx === 0} style={[c.orderBtn, idx === 0 && { opacity: 0.2 }]}>
+                      <ChevronUp size={14} color="#2D5DC9" />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setSections((p) => moveDown(p, idx))} disabled={idx === sections.length - 1} style={[c.orderBtn, idx === sections.length - 1 && { opacity: 0.2 }]}>
+                      <ChevronDown size={14} color="#2D5DC9" />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setSections((p) => p.length > 1 ? p.filter((_, i) => i !== idx) : p)} style={c.removeBtn}>
+                      <Text style={c.removeBtnText}>✕</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                  <View style={c.dragHandle}><GripVertical size={16} color="#B0B8D0" /><Text style={c.sectionItemOrder}>{idx + 1}</Text></View>
+                  <TextInput
+                    value={sec.title}
+                    onChangeText={(v) => updateSection(sec.draftId, { title: v })}
+                    placeholder={`e.g. Chapter ${idx + 1}: Introduction`}
+                    style={c.sectionTitleInput}
+                    placeholderTextColor="#B0B8D0"
+                  />
                 </View>
               </View>
 
-              {/* Type chips */}
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6, paddingHorizontal: 14, paddingBottom: 10 }}>
-                {SECTION_TYPE_CHOICES.map((choice) => {
-                  const active = sec.contentType === choice.value;
-                  const cs = ts(choice.value);
-                  return (
-                    <Pressable
-                      key={choice.value}
-                      style={[c.typeChipBtn, active && { backgroundColor: cs.bg, borderColor: cs.color }]}
-                      onPress={() => updateSection(sec.draftId, { contentType: choice.value, mediaUrl: '', externalUrl: '', textContent: '' })}
-                    >
-                      <choice.Icon size={14} color={active ? cs.color : '#525C6B'} />
-                      <Text style={[c.typeChipBtnText, active && { color: cs.color, fontWeight: '800' }]}>{choice.label}</Text>
-                    </Pressable>
-                  );
-                })}
-              </ScrollView>
+              {/* Type chips with label */}
+              <View style={{ paddingHorizontal: 14, paddingTop: 4, paddingBottom: 6, gap: 4 }}>
+                <Text style={c.fieldSubLabel}>Section Content Type</Text>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6, paddingBottom: 4 }}>
+                  {SECTION_TYPE_CHOICES.map((choice) => {
+                    const active = sec.contentType === choice.value;
+                    const cs = ts(choice.value);
+                    return (
+                      <Pressable
+                        key={choice.value}
+                        style={[c.typeChipBtn, active && { backgroundColor: cs.bg, borderColor: cs.color }]}
+                        onPress={() => updateSection(sec.draftId, { contentType: choice.value })}
+                      >
+                        <choice.Icon size={14} color={active ? cs.color : '#525C6B'} />
+                        <Text style={[c.typeChipBtnText, active && { color: cs.color, fontWeight: '800' }]}>{choice.label}</Text>
+                      </Pressable>
+                    );
+                  })}
+                </ScrollView>
+              </View>
 
               {/* Content input */}
               <View style={{ paddingHorizontal: 14, paddingBottom: 14 }}>
                 {isText ? (
-                  <View style={{ gap: 8 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6 }}>
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                        {detectedFmt ? (
-                          <View style={{
-                            backgroundColor:
-                              detectedFmt === 'html'
-                                ? '#F3E8FF'
-                                : detectedFmt === 'markdown'
-                                ? '#EFF6FF'
-                                : detectedFmt === 'mermaid'
-                                ? '#FDF2F8'
-                                : '#DCFCE7',
-                            paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6
-                          }}>
-                            <Text style={{
-                              fontSize: 11, fontWeight: '700',
-                              color:
-                                detectedFmt === 'html'
-                                  ? '#7C3AED'
-                                  : detectedFmt === 'markdown'
-                                  ? '#2563EB'
-                                  : detectedFmt === 'mermaid'
-                                  ? '#DB2777'
-                                  : '#16A34A'
-                            }}>
-                              {detectedFmt === 'html'
-                                ? 'HTML Detected'
-                                : detectedFmt === 'markdown'
-                                ? 'Markdown Detected'
-                                : detectedFmt === 'mermaid'
-                                ? 'Mermaid Diagram'
-                                : 'Plain Text'}
-                            </Text>
-                          </View>
-                        ) : null}
-                        {sec.textContent ? (
-                          <Text style={{ fontSize: 11, color: '#64748B' }}>
-                            {sec.textContent.length.toLocaleString()} chars · {sec.textContent.split('\n').length} lines
-                          </Text>
-                        ) : null}
-                      </View>
-
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                        <TouchableOpacity
-                          activeOpacity={0.7}
-                          onPress={async () => {
-                            const clip = await readFromClipboard();
-                            if (clip) {
-                              updateSection(sec.draftId, { textContent: clip });
-                            }
-                          }}
-                          style={{
-                            flexDirection: 'row', alignItems: 'center', gap: 4,
-                            backgroundColor: '#EFF6FF', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
-                            borderWidth: 1, borderColor: '#DBEAFE'
-                          }}
-                        >
-                          <Clipboard size={12} color="#2563EB" />
-                          <Text style={{ fontSize: 11, fontWeight: '600', color: '#2563EB' }}>Paste Clipboard</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                          activeOpacity={0.7}
-                          onPress={async () => {
-                            const fileContent = await pickTextFromFile();
-                            if (fileContent) {
-                              updateSection(sec.draftId, { textContent: fileContent });
-                            }
-                          }}
-                          style={{
-                            flexDirection: 'row', alignItems: 'center', gap: 4,
-                            backgroundColor: '#F8FAFC', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
-                            borderWidth: 1, borderColor: '#E2E8F0'
-                          }}
-                        >
-                          <UploadCloud size={12} color="#475569" />
-                          <Text style={{ fontSize: 11, fontWeight: '600', color: '#475569' }}>Load File</Text>
-                        </TouchableOpacity>
-
-                        {sec.textContent ? (
-                          <TouchableOpacity
-                            activeOpacity={0.7}
-                            onPress={() => updateSection(sec.draftId, { textContent: '' })}
-                            style={{
-                              flexDirection: 'row', alignItems: 'center', gap: 4,
-                              backgroundColor: '#FEF2F2', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6,
-                              borderWidth: 1, borderColor: '#FEE2E2'
-                            }}
-                          >
-                            <Trash2 size={12} color="#EF4444" />
-                            <Text style={{ fontSize: 11, fontWeight: '600', color: '#EF4444' }}>Clear</Text>
-                          </TouchableOpacity>
-                        ) : null}
-                      </View>
-                    </View>
-
-                    <TextInput
-                      value={sec.textContent}
-                      onChangeText={(v) => updateSection(sec.draftId, { textContent: v })}
-                      placeholder="Type, paste large text/HTML, or load a file (.html, .md, .txt)..."
-                      multiline
-                      numberOfLines={10}
-                      scrollEnabled={true}
-                      textAlignVertical="top"
-                      style={[
-                        c.fieldInput,
-                        {
-                          minHeight: 180,
-                          maxHeight: 360,
-                          backgroundColor: '#F8F9FF',
-                          borderRadius: 10,
-                          padding: 12,
-                          borderWidth: 1,
-                          borderColor: '#ECEEF4',
-                          fontSize: 13,
-                          lineHeight: 20,
-                          fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
-                        }
-                      ]}
-                      placeholderTextColor="#B0B8D0"
-                    />
-                  </View>
+                  <SectionTextEditor
+                    label="Lesson Text Content *"
+                    value={sec.textContent}
+                    onChangeText={(v) => updateSection(sec.draftId, { textContent: v })}
+                    placeholder="Type, paste large text/HTML, or load a file (.html, .md, .txt)..."
+                    minHeight={140}
+                    defaultHeight={200}
+                  />
                 ) : isUrl ? (
-                  <View style={{ gap: 6 }}>
+                  <View style={{ gap: 8 }}>
+                    <Text style={c.fieldSubLabel}>Video / Resource URL *</Text>
                     <TextInput
                       value={sec.externalUrl}
                       onChangeText={(v) => updateSection(sec.draftId, { externalUrl: v })}
@@ -1429,9 +1552,19 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
                         <Text style={{ fontSize: 11, color: '#64748B' }}>Domain: {linkMeta.domain}</Text>
                       </View>
                     ) : null}
+
+                    <SectionTextEditor
+                      label="Video / Link Description & Notes (Optional)"
+                      value={sec.textContent}
+                      onChangeText={(v) => updateSection(sec.draftId, { textContent: v })}
+                      placeholder="Add lesson explanation, summary, or student instructions for this video (Markdown supported)..."
+                      minHeight={84}
+                      defaultHeight={120}
+                    />
                   </View>
                 ) : (
                   <View style={{ gap: 8 }}>
+                    <Text style={c.fieldSubLabel}>File / Media URL (Or Upload Below)</Text>
                     {!sec.mediaUrl && (
                       <TextInput
                         value={sec.mediaUrl}
@@ -1453,8 +1586,17 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
                           contentType: 'file_upload',
                         });
                       }}
-                      onClear={() => updateSection(sec.draftId, { mediaUrl: '', textContent: '' })}
+                      onClear={() => updateSection(sec.draftId, { mediaUrl: '' })}
                       buttonLabel="Upload File (Image, Video, Doc, PDF, Text, MD)"
+                    />
+
+                    <SectionTextEditor
+                      label="File Description & Notes (Optional)"
+                      value={sec.textContent}
+                      onChangeText={(v) => updateSection(sec.draftId, { textContent: v })}
+                      placeholder="Add explanation, context, or instructions for this file (Markdown supported)..."
+                      minHeight={84}
+                      defaultHeight={120}
                     />
                   </View>
                 )}
@@ -1514,6 +1656,27 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
             </View>
           );
         })}
+        {!isDesktop && (
+          <Pressable
+            style={{
+              backgroundColor: '#2563EB',
+              borderRadius: 12,
+              paddingVertical: 12,
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 10,
+              marginBottom: 20,
+              flexDirection: 'row',
+              gap: 6,
+            }}
+            onPress={() => setTab('preview')}
+          >
+            <Eye size={16} color="#FFFFFF" />
+            <Text style={{ color: '#FFFFFF', fontWeight: '800', fontSize: 14 }}>
+              Preview in Student View ›
+            </Text>
+          </Pressable>
+        )}
       </ScrollView>
     </View>
   );
@@ -1533,20 +1696,35 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
 
           {/* Tab bar */}
           <View style={c.modalTabBar}>
-            {([
-              ['setup', '⚙ Setup & Basic Info'],
-              ['sections', '📄 Content Sections & Preview'],
-            ] as [ModalTab, string][]).map(([t, l]) => (
-              <Pressable
-                key={t}
-                style={[c.modalTab, tab === t && c.modalTabActive]}
-                onPress={() => {
-                  setTab(t as ModalTab);
-                }}
-              >
-                <Text style={[c.modalTabText, tab === t && c.modalTabTextActive]}>{l}</Text>
-              </Pressable>
-            ))}
+            {(isDesktop
+              ? [
+                  { id: 'setup', label: 'Setup & Basic Info', count: null },
+                  { id: 'sections', label: 'Sections', count: sections.length },
+                ]
+              : [
+                  { id: 'setup', label: 'Setup', count: null },
+                  { id: 'sections', label: 'Sections', count: sections.length },
+                  { id: 'preview', label: 'Preview', count: null },
+                ]
+            ).map((t) => {
+              const active = tab === t.id;
+              return (
+                <Pressable
+                  key={t.id}
+                  style={[c.modalTab, active && c.modalTabActive]}
+                  onPress={() => setTab(t.id as ModalTab)}
+                >
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                    <Text style={[c.modalTabText, active && c.modalTabTextActive]}>{t.label}</Text>
+                    {t.count !== null && (
+                      <View style={[c.tabBadge, active && c.tabBadgeActive]}>
+                        <Text style={[c.tabBadgeText, active && c.tabBadgeTextActive]}>{t.count}</Text>
+                      </View>
+                    )}
+                  </View>
+                </Pressable>
+              );
+            })}
           </View>
 
           {toast && (
@@ -1579,19 +1757,11 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
               )}
             </View>
           ) : (
-            /* Mobile View */
+            /* Mobile View: Clean single card per tab, fills container without double scrollbars */
             <View style={{ flex: 1, padding: 12 }}>
-              {tab === 'setup' && (
-                <ScrollView contentContainerStyle={{ gap: 12, paddingBottom: 40 }}>
-                  {renderSetupCard()}
-                  {renderPreviewCard()}
-                </ScrollView>
-              )}
-              {tab === 'sections' && (
-                <ScrollView contentContainerStyle={{ gap: 12, paddingBottom: 40 }}>
-                  {renderSectionsCard()}
-                </ScrollView>
-              )}
+              {tab === 'setup' && renderSetupCard()}
+              {tab === 'sections' && renderSectionsCard()}
+              {tab === 'preview' && renderPreviewCard()}
             </View>
           )}
         </View>
@@ -1612,7 +1782,7 @@ function ContentFormModal({ editingItem, apiFetch, topics, subjectCatalog, user,
             <Pressable onPress={() => { setVideoSectionModalFor(null); loadVideoSectionCounts(); }} style={c.modalBackBtn}>
               <ChevronLeft size={24} color="#1a1a2e" />
             </Pressable>
-            <Text style={c.modalTitle} numberOfLines={1}>🎬 Video Sections</Text>
+            <Text style={c.modalTitle} numberOfLines={1}>Video Sections</Text>
             <View style={{ width: 40 }} />
           </View>
           <ScrollView contentContainerStyle={c.tabContent}>
@@ -2108,7 +2278,7 @@ const c = StyleSheet.create({
   desktopLayout: { flex: 1, flexDirection: 'row', gap: 16, padding: 16, overflow: 'hidden' },
   desktopLeftCol: { flex: 1, minWidth: 340, height: '100%' },
   desktopRightCol: { flex: 1.2, minWidth: 380, height: '100%' },
-  formCardWrap: { flex: 1, backgroundColor: '#fff', borderRadius: 16, padding: 16, gap: 10, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 6, elevation: 2, overflow: 'hidden' },
+  formCardWrap: { flex: 1, backgroundColor: '#fff', borderRadius: 16, borderWidth: 1, borderColor: '#E8ECF4', padding: 16, gap: 10, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 6, elevation: 2, overflow: 'hidden' },
   cardTitleHeader: { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
   innerScrollList: { flex: 1, width: '100%' },
   previewBtn:        { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: '#EDF9F2', borderRadius: 10, paddingHorizontal: 12, paddingVertical: 7, borderWidth: 1, borderColor: '#BFE6D2' },
@@ -2125,6 +2295,10 @@ const c = StyleSheet.create({
   modalTabActive:    { borderBottomColor: '#2D5DC9' },
   modalTabText:      { fontSize: 13, fontWeight: '600', color: '#525C6B' },
   modalTabTextActive:{ color: '#2D5DC9', fontWeight: '800' },
+  tabBadge:          { backgroundColor: '#F1F5F9', paddingHorizontal: 7, paddingVertical: 1, borderRadius: 999, borderWidth: 1, borderColor: '#E2E8F0' },
+  tabBadgeActive:    { backgroundColor: '#EFF6FF', borderColor: '#BFDBFE' },
+  tabBadgeText:      { fontSize: 11, fontWeight: '700', color: '#64748B' },
+  tabBadgeTextActive:{ color: '#2563EB', fontWeight: '800' },
 
   centerWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 10 },
   loadingText2:{ fontSize: 13, color: '#525C6B' },
@@ -2137,6 +2311,7 @@ const c = StyleSheet.create({
   groupLabel:  { fontSize: 10, fontWeight: '800', color: '#525C6B', letterSpacing: 1, textTransform: 'uppercase', paddingLeft: 4 },
   fieldCard:   { backgroundColor: '#fff', borderRadius: 16, padding: 14, gap: 10, shadowColor: '#1a1a2e', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
   fieldLabel:  { fontSize: 11, fontWeight: '700', color: '#525C6B', textTransform: 'uppercase', letterSpacing: 0.5 },
+  fieldSubLabel:{ fontSize: 11, fontWeight: '700', color: '#525C6B', textTransform: 'uppercase', letterSpacing: 0.5 },
   fieldInput:  { fontSize: 14, color: '#1a1a2e', fontWeight: '500', paddingVertical: 6 },
   fieldDivider:{ height: 1, backgroundColor: '#F0F0F8' },
   selectorRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 6 },
@@ -2151,6 +2326,8 @@ const c = StyleSheet.create({
   secInfoNoteText:{ flex: 1, fontSize: 12, color: '#2A5F9E', fontWeight: '500', lineHeight: 17 },
   addSecBtn:      { backgroundColor: '#D6EAFF', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5 },
   addSecBtnText:  { fontSize: 12, fontWeight: '800', color: '#1A4DA2' },
+  countBadge:     { backgroundColor: '#EFF6FF', borderRadius: 999, paddingHorizontal: 8, paddingVertical: 2, borderWidth: 1, borderColor: '#DBEAFE', alignItems: 'center', justifyContent: 'center' },
+  countBadgeText: { fontSize: 11, fontWeight: '800', color: '#1D4ED8' },
   quizBlockedNote:{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 10, paddingHorizontal: 12, borderRadius: 10, backgroundColor: '#F5F6FA', borderWidth: 1, borderColor: '#ECEEF4' },
   quizBlockedNoteText:{ flex: 1, fontSize: 12, color: '#525C6B', fontWeight: '600' },
 
@@ -2269,6 +2446,7 @@ const c = StyleSheet.create({
     backgroundColor: '#FAFBFD',
     borderBottomWidth: 1,
     borderBottomColor: '#F0F2F6',
+    flexWrap: 'wrap',
     gap: 8,
   },
   stageTopBarLeft: {

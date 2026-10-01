@@ -20,6 +20,8 @@ import {
   type LucideIcon,
 } from 'lucide-react-native';
 
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 import { useAuth } from '../../src/context/AuthContext';
 import { useStudentProfile } from '../../src/context/StudentProfileContext';
 import { UserRole } from '../../src/types/roles';
@@ -39,6 +41,7 @@ const ROLE_ICONS: Record<string, LucideIcon> = {
 };
 
 export default function ProfileScreen() {
+  const insets = useSafeAreaInsets();
   const { user, setActiveRole, signOut, apiFetch, deleteAccount, deleteChildAccount } = useAuth();
   const { refreshAll } = useStudentProfile();
   const [connectId, setConnectId] = useState('');
@@ -130,7 +133,19 @@ export default function ProfileScreen() {
 
 
   return (
-    <ScrollView style={s.screen} contentContainerStyle={s.scroll}>
+    <ScrollView
+      style={s.screen}
+      contentContainerStyle={[
+        s.scroll,
+        {
+          paddingBottom: Math.max(140, insets.bottom + 100),
+          maxWidth: 760,
+          width: '100%',
+          alignSelf: 'center',
+        },
+      ]}
+      showsVerticalScrollIndicator={false}
+    >
 
       {/* ─── Hero card ─────────────────────────────────────────────────── */}
       <View style={[s.heroCard, { backgroundColor: roleColor }]}>
@@ -216,11 +231,15 @@ export default function ProfileScreen() {
       <Text style={s.sectionTitle}>Account</Text>
       <View style={s.menuCard}>
         {[
-          { Icon: Lock, label: 'Change Password', sub: 'Update your password', color: '#2D5DC9' },
+          { Icon: Lock, label: 'Change Password', sub: 'Update your password', color: '#2D5DC9', onPress: () => router.push('/(tabs)/settings') },
           { Icon: Mail, label: 'Update Email',     sub: user?.email ?? '',      color: '#7DC67A' },
-          { Icon: Bell, label: 'Notifications',    sub: 'Manage alerts',        color: '#E6A817' },
+          { Icon: Bell, label: 'Notifications',    sub: 'Manage alerts',        color: '#E6A817', onPress: () => router.push('/(tabs)/settings') },
         ].map((item, idx, arr) => (
-          <Pressable key={item.label} style={[s.menuRow, idx < arr.length - 1 && s.menuBorder]}>
+          <Pressable
+            key={item.label}
+            style={[s.menuRow, idx < arr.length - 1 && s.menuBorder]}
+            onPress={item.onPress}
+          >
             <View style={[s.menuIconBox, { backgroundColor: `${item.color}18` }]}>
               <item.Icon size={18} color={item.color} />
             </View>
@@ -282,6 +301,12 @@ export default function ProfileScreen() {
           </View>
         </>
       )}
+
+      {/* ─── Log Out ──────────────────────────────────────────────────────────── */}
+      <Pressable style={s.logOutBtn} onPress={() => signOut()}>
+        <LogOut size={18} color="#2D5DC9" />
+        <Text style={s.logOutText}>Log Out</Text>
+      </Pressable>
 
       {/* ─── Delete Account ──────────────────────────────────────────────────── */}
       <Pressable style={s.signOutBtn} onPress={handleDeleteAccount}>
@@ -470,6 +495,14 @@ const s = StyleSheet.create({
   deleteBtnText: { color: '#fff', fontSize: 13, fontWeight: '800' },
 
   // Sign out / Delete Account
+  logOutBtn: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
+    marginHorizontal: 16, marginBottom: 12,
+    backgroundColor: '#EEF2FF', borderRadius: 16,
+    paddingVertical: 14,
+    borderWidth: 1, borderColor: '#C7D2FE',
+  },
+  logOutText: { fontSize: 14, fontWeight: '800', color: '#2D5DC9' },
   signOutBtn: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
     marginHorizontal: 16, marginBottom: 12,

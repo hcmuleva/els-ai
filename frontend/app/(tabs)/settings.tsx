@@ -18,6 +18,8 @@ import {
   type LucideIcon,
 } from 'lucide-react-native';
 
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 import { useAuth } from '../../src/context/AuthContext';
 import { useNotifications } from '../../src/context/NotificationContext';
 
@@ -72,6 +74,7 @@ const SECTIONS: { title: string; rows: SettingRow[] }[] = [
 ];
 
 export default function SettingsScreen() {
+  const insets = useSafeAreaInsets();
   const { user, changePassword } = useAuth();
   const { deleteRange } = useNotifications();
   const [toggles, setToggles] = useState<Record<string, boolean>>({
@@ -128,7 +131,19 @@ export default function SettingsScreen() {
   };
 
   return (
-    <ScrollView style={s.screen} contentContainerStyle={s.scroll}>
+    <ScrollView
+      style={s.screen}
+      contentContainerStyle={[
+        s.scroll,
+        {
+          paddingBottom: Math.max(140, insets.bottom + 100),
+          maxWidth: 760,
+          width: '100%',
+          alignSelf: 'center',
+        },
+      ]}
+      showsVerticalScrollIndicator={false}
+    >
 
       {/* ─── Header card ───────────────────────────────────────────────── */}
       <View style={s.headerCard}>

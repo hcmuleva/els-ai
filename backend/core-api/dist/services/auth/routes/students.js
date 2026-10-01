@@ -314,7 +314,7 @@ studentsRouter.get('/:id/activity', requireAuth, async (req, res) => {
     let isParentOfStudent = false;
     if (!isAdmin && !isSelf) {
         const parentCheck = await db.query(`SELECT 1 FROM parent_student_links
-       WHERE parent_user_id = $1 AND student_user_id = $2 AND organization_id = $3::uuid LIMIT 1`, [req.user?.userId, studentId, organizationId]);
+       WHERE parent_user_id = $1 AND student_user_id = $2 AND ($3::uuid IS NULL OR organization_id = $3::uuid) LIMIT 1`, [req.user?.userId, studentId, organizationId]);
         isParentOfStudent = (parentCheck.rowCount ?? 0) > 0;
         if (!isParentOfStudent) {
             return res.status(403).json({ message: 'Forbidden' });
@@ -400,7 +400,7 @@ studentsRouter.get('/:id/analytics', requireAuth, async (req, res) => {
     const isSelf = req.user?.userId === studentId;
     if (!isAdmin && !isSelf) {
         const parentCheck = await db.query(`SELECT 1 FROM parent_student_links
-       WHERE parent_user_id = $1 AND student_user_id = $2 AND organization_id = $3::uuid LIMIT 1`, [req.user?.userId, studentId, organizationId]);
+       WHERE parent_user_id = $1 AND student_user_id = $2 AND ($3::uuid IS NULL OR organization_id = $3::uuid) LIMIT 1`, [req.user?.userId, studentId, organizationId]);
         if ((parentCheck.rowCount ?? 0) === 0) {
             return res.status(403).json({ message: 'Forbidden' });
         }
@@ -410,7 +410,7 @@ studentsRouter.get('/:id/analytics', requireAuth, async (req, res) => {
     try {
         // Daily analytics over date range
         const params = [studentId, organizationId];
-        const whereClauses = ['sa.student_id = $1', 'sa.organization_id = $2::uuid'];
+        const whereClauses = ['sa.student_id = $1', '($2::uuid IS NULL OR sa.organization_id = $2::uuid)'];
         if (fromDate) {
             params.push(fromDate);
             whereClauses.push(`sa.analytics_date >= $${params.length}::date`);
@@ -442,7 +442,7 @@ studentsRouter.get('/:id/analytics', requireAuth, async (req, res) => {
          AVG(score) FILTER (WHERE score IS NOT NULL) AS avg_score
        FROM student_activity
        WHERE student_id = $1
-         AND organization_id = $2::uuid
+         AND ($2::uuid IS NULL OR organization_id = $2::uuid)
          AND activity_date >= CURRENT_DATE - INTERVAL '30 days'
        GROUP BY activity_type`, [studentId, organizationId]);
         const breakdown = breakdownResult.rows.reduce((acc, row) => {
@@ -504,7 +504,7 @@ studentsRouter.get('/:id/ai-performance-summary', requireAuth, async (req, res) 
     const isSelf = req.user?.userId === studentId;
     if (!isTeacherOrAdmin && !isSelf) {
         const parentCheck = await db.query(`SELECT 1 FROM parent_student_links
-       WHERE parent_user_id = $1 AND student_user_id = $2 AND organization_id = $3::uuid LIMIT 1`, [req.user?.userId, studentId, organizationId]);
+       WHERE parent_user_id = $1 AND student_user_id = $2 AND ($3::uuid IS NULL OR organization_id = $3::uuid) LIMIT 1`, [req.user?.userId, studentId, organizationId]);
         if ((parentCheck.rowCount ?? 0) === 0) {
             return res.status(403).json({ message: 'Forbidden' });
         }
@@ -848,7 +848,7 @@ studentsRouter.get('/:id/assignments', requireAuth, async (req, res) => {
     const isSelf = req.user?.userId === studentId;
     if (!isAdmin && !isSelf) {
         const parentCheck = await db.query(`SELECT 1 FROM parent_student_links
-       WHERE parent_user_id = $1 AND student_user_id = $2 AND organization_id = $3::uuid LIMIT 1`, [req.user?.userId, studentId, organizationId]);
+       WHERE parent_user_id = $1 AND student_user_id = $2 AND ($3::uuid IS NULL OR organization_id = $3::uuid) LIMIT 1`, [req.user?.userId, studentId, organizationId]);
         if ((parentCheck.rowCount ?? 0) === 0)
             return res.status(403).json({ message: 'Forbidden' });
     }
@@ -912,7 +912,7 @@ studentsRouter.get('/:id/quiz-attempts', requireAuth, async (req, res) => {
     const isSelf = req.user?.userId === studentId;
     if (!isAdmin && !isSelf) {
         const parentCheck = await db.query(`SELECT 1 FROM parent_student_links
-       WHERE parent_user_id = $1 AND student_user_id = $2 AND organization_id = $3::uuid LIMIT 1`, [req.user?.userId, studentId, organizationId]);
+       WHERE parent_user_id = $1 AND student_user_id = $2 AND ($3::uuid IS NULL OR organization_id = $3::uuid) LIMIT 1`, [req.user?.userId, studentId, organizationId]);
         if ((parentCheck.rowCount ?? 0) === 0)
             return res.status(403).json({ message: 'Forbidden' });
     }
@@ -969,7 +969,7 @@ studentsRouter.get('/:id/quiz-attempts/:attemptId', requireAuth, async (req, res
     const isSelf = req.user?.userId === studentId;
     if (!isAdmin && !isSelf) {
         const parentCheck = await db.query(`SELECT 1 FROM parent_student_links
-       WHERE parent_user_id = $1 AND student_user_id = $2 AND organization_id = $3::uuid LIMIT 1`, [req.user?.userId, studentId, organizationId]);
+       WHERE parent_user_id = $1 AND student_user_id = $2 AND ($3::uuid IS NULL OR organization_id = $3::uuid) LIMIT 1`, [req.user?.userId, studentId, organizationId]);
         if ((parentCheck.rowCount ?? 0) === 0)
             return res.status(403).json({ message: 'Forbidden' });
     }
@@ -1042,7 +1042,7 @@ studentsRouter.get('/:id/upcoming-classrooms', requireAuth, async (req, res) => 
     const isSelf = req.user?.userId === studentId;
     if (!isAdmin && !isSelf) {
         const parentCheck = await db.query(`SELECT 1 FROM parent_student_links
-       WHERE parent_user_id = $1 AND student_user_id = $2 AND organization_id = $3::uuid LIMIT 1`, [req.user?.userId, studentId, organizationId]);
+       WHERE parent_user_id = $1 AND student_user_id = $2 AND ($3::uuid IS NULL OR organization_id = $3::uuid) LIMIT 1`, [req.user?.userId, studentId, organizationId]);
         if ((parentCheck.rowCount ?? 0) === 0)
             return res.status(403).json({ message: 'Forbidden' });
     }
@@ -1083,7 +1083,7 @@ studentsRouter.get('/:id/classroom-remarks', requireAuth, async (req, res) => {
     const isAdmin = req.user?.role === 'admin' || req.user?.role === 'superadmin';
     const isSelf = req.user?.userId === studentId;
     if (!isAdmin && !isSelf) {
-        const parentCheck = await db.query(`SELECT 1 FROM parent_student_links WHERE parent_user_id=$1 AND student_user_id=$2 AND organization_id=$3::uuid LIMIT 1`, [req.user?.userId, studentId, organizationId]);
+        const parentCheck = await db.query(`SELECT 1 FROM parent_student_links WHERE parent_user_id=$1 AND student_user_id=$2 AND ($3::uuid IS NULL OR organization_id=$3::uuid) LIMIT 1`, [req.user?.userId, studentId, organizationId]);
         if ((parentCheck.rowCount ?? 0) === 0)
             return res.status(403).json({ message: 'Forbidden' });
     }
