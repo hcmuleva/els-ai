@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/name: core-api
     app.kubernetes.io/part-of: els
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: core-api
@@ -50,8 +50,8 @@ spec:
             timeoutSeconds: 3
           resources:
             requests:
-              cpu: 250m
-              memory: 512Mi
+              cpu: 100m
+              memory: 256Mi
             limits:
               cpu: "1"
               memory: 1Gi
