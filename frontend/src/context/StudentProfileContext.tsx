@@ -196,6 +196,8 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
     }
   }, [user, isParent, apiFetch, activeStudentId, restoredId, linkedStudents.length]);
 
+  const activeStudentIdRef = useRef<string | null>(null);
+
   // Fetch activity for active student
   const fetchActivity = useCallback(async (studentId: string) => {
     setLoadingActivity(true);
@@ -203,40 +205,64 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
       const res = await apiFetch(`/students/${studentId}/activity?limit=30`);
       if (res.ok) {
         const data = await res.json();
-        setActivity(data.activities || []);
+        if (activeStudentIdRef.current === studentId) {
+          setActivity(data.activities || []);
+        }
       }
     } catch (e) {
       console.warn('[StudentProfile] fetchActivity error:', e);
     } finally {
-      setLoadingActivity(false);
+      if (activeStudentIdRef.current === studentId) {
+        setLoadingActivity(false);
+      }
     }
   }, [apiFetch]);
 
   const fetchQuizAttempts = useCallback(async (studentId: string) => {
     try {
       const res = await apiFetch(`/students/${studentId}/quiz-attempts?limit=100`);
-      if (res.ok) { const d = await res.json(); setQuizAttempts(d.attempts || []); }
+      if (res.ok) {
+        const d = await res.json();
+        if (activeStudentIdRef.current === studentId) {
+          setQuizAttempts(d.attempts || []);
+        }
+      }
     } catch { /* silent */ }
   }, [apiFetch]);
 
   const fetchAssignments = useCallback(async (studentId: string) => {
     try {
       const res = await apiFetch(`/students/${studentId}/assignments`);
-      if (res.ok) { const d = await res.json(); setAssignments(d.assignments || []); }
+      if (res.ok) {
+        const d = await res.json();
+        if (activeStudentIdRef.current === studentId) {
+          setAssignments(d.assignments || []);
+        }
+      }
     } catch { /* silent */ }
   }, [apiFetch]);
 
   const fetchUpcoming = useCallback(async (studentId: string) => {
     try {
       const res = await apiFetch(`/students/${studentId}/upcoming-classrooms`);
-      if (res.ok) { const d = await res.json(); setUpcomingClassrooms(d.classrooms || []); }
+      if (res.ok) {
+        const d = await res.json();
+        if (activeStudentIdRef.current === studentId) {
+          setUpcomingClassrooms(d.classrooms || []);
+        }
+      }
     } catch { /* silent */ }
   }, [apiFetch]);
 
   const fetchClassroomRemarks = useCallback(async (studentId: string) => {
     try {
       const res = await apiFetch(`/students/${studentId}/classroom-remarks`);
-      if (res.ok) { const d = await res.json(); setClassroomRemarks({ active: d.active ?? [], completed: d.completed ?? [] }); }
+      if (res.ok) {
+        const d = await res.json();
+        if (activeStudentIdRef.current === studentId) {
+          setClassroomRemarks({ active: d.active ?? [], completed: d.completed ?? [] });
+        }
+      }
     } catch { /* silent */ }
   }, [apiFetch]);
 
@@ -247,14 +273,31 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
       const res = await apiFetch(`/students/${studentId}/analytics`);
       if (res.ok) {
         const data = await res.json();
-        setAnalytics(data);
+        if (activeStudentIdRef.current === studentId) {
+          setAnalytics(data);
+        }
       }
     } catch (e) {
       console.warn('[StudentProfile] fetchAnalytics error:', e);
     } finally {
-      setLoadingAnalytics(false);
+      if (activeStudentIdRef.current === studentId) {
+        setLoadingAnalytics(false);
+      }
     }
   }, [apiFetch]);
+
+  const fetchStudentData = useCallback(async (studentId: string) => {
+    if (!studentId) return;
+    activeStudentIdRef.current = studentId;
+    await Promise.allSettled([
+      fetchActivity(studentId),
+      fetchAnalytics(studentId),
+      fetchQuizAttempts(studentId),
+      fetchAssignments(studentId),
+      fetchUpcoming(studentId),
+      fetchClassroomRemarks(studentId),
+    ]);
+  }, [fetchActivity, fetchAnalytics, fetchQuizAttempts, fetchAssignments, fetchUpcoming, fetchClassroomRemarks]);
 
   // Load students on mount (parent view)
   useEffect(() => {
@@ -276,45 +319,33 @@ export function StudentProfileProvider({ children }: { children: React.ReactNode
   }, [user?.id, isParent, isStudent]);
 
   // Load data whenever active student changes
-  const loadingRef = useRef(false);
   useEffect(() => {
-    if (!activeStudentId || loadingRef.current) return;
-    loadingRef.current = true;
-    Promise.all([
-      fetchActivity(activeStudentId),
-      fetchAnalytics(activeStudentId),
-      fetchQuizAttempts(activeStudentId),
-      fetchAssignments(activeStudentId),
-      fetchUpcoming(activeStudentId),
-      fetchClassroomRemarks(activeStudentId),
-    ]).finally(() => { loadingRef.current = false; });
-  }, [activeStudentId]);
+    if (!activeStudentId) return;
+    fetchStudentData(activeStudentId);
+  }, [activeStudentId, fetchStudentData]);
 
   const activeStudent = linkedStudents.find((s) => s.id === activeStudentId) ?? null;
 
   const switchToStudent = useCallback((studentId: string) => {
-    if (studentId === activeStudentId) return;
+    if (!studentId) return;
+    activeStudentIdRef.current = studentId;
+    setActiveStudentId(studentId);
     setActivity([]);
     setAnalytics(null);
     setQuizAttempts([]);
     setAssignments([]);
     setUpcomingClassrooms([]);
     setClassroomRemarks({ active: [], completed: [] });
-    setActiveStudentId(studentId);
     AsyncStorage.setItem(SELECTED_STUDENT_KEY, studentId).catch(() => {});
-  }, [activeStudentId]);
+    fetchStudentData(studentId);
+  }, [fetchStudentData]);
 
   const refreshAll = useCallback(() => {
     if (isParent) fetchLinkedStudents();
     if (activeStudentId) {
-      fetchActivity(activeStudentId);
-      fetchAnalytics(activeStudentId);
-      fetchQuizAttempts(activeStudentId);
-      fetchAssignments(activeStudentId);
-      fetchUpcoming(activeStudentId);
-      fetchClassroomRemarks(activeStudentId);
+      fetchStudentData(activeStudentId);
     }
-  }, [isParent, activeStudentId, fetchLinkedStudents, fetchActivity, fetchAnalytics, fetchQuizAttempts, fetchAssignments, fetchUpcoming, fetchClassroomRemarks]);
+  }, [isParent, activeStudentId, fetchLinkedStudents, fetchStudentData]);
 
   const logActivity = useCallback(async (payload: {
     activityType: 'content' | 'quiz' | 'assignment';

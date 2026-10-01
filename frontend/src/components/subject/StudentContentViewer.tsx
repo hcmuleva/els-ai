@@ -264,7 +264,9 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
                   <cfg.Icon size={12} color={cfg.accent} />
                   <Text style={[s.typeBadgeText, { color: cfg.accent }]}>{cfg.label}</Text>
                 </View>
-                <LatexText content={content.title} style={s.headerTitle} compact compactHeight={22} numberOfLines={1} background="transparent" />
+                {isLargeScreen ? (
+                  <LatexText content={content.title} style={s.headerTitle} compact compactHeight={22} numberOfLines={1} background="transparent" />
+                ) : null}
               </View>
 
               <View style={s.counterBadge}>
@@ -314,29 +316,31 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
 
                       {/* Stage Card Footer: Title, Meta, and Prev/Next */}
                       <View style={s.stageFooter}>
-                        <View style={{ flex: 1, paddingRight: 12 }}>
+                        <View style={s.stageFooterTitleWrap}>
                           <Text style={s.stageFooterTitle}>{content.title}</Text>
+                        </View>
+                        <View style={s.stageFooterActionRow}>
                           <Text style={s.stageFooterMeta}>
                             {topic.title} · Class {topic.classLevel} • Lesson {curIdx + 1} of {contents.length}
                           </Text>
-                        </View>
-                        <View style={s.stepBtnGroup}>
-                          <Pressable
-                            style={[s.stepBtn, !hasPrev && { opacity: 0.35 }]}
-                            disabled={!hasPrev}
-                            onPress={() => goTo(curIdx - 1)}
-                          >
-                            <ChevronLeft size={16} color="#2D5DC9" />
-                            <Text style={s.stepBtnText}>Prev</Text>
-                          </Pressable>
-                          <Pressable
-                            style={[s.stepBtn, !hasNext && { opacity: 0.35 }]}
-                            disabled={!hasNext}
-                            onPress={() => goTo(curIdx + 1)}
-                          >
-                            <Text style={s.stepBtnText}>Next</Text>
-                            <ChevronRight size={16} color="#2D5DC9" />
-                          </Pressable>
+                          <View style={s.stepBtnGroup}>
+                            <Pressable
+                              style={[s.stepBtn, !hasPrev && { opacity: 0.35 }]}
+                              disabled={!hasPrev}
+                              onPress={() => goTo(curIdx - 1)}
+                            >
+                              <ChevronLeft size={16} color="#2D5DC9" />
+                              <Text style={s.stepBtnText}>Prev</Text>
+                            </Pressable>
+                            <Pressable
+                              style={[s.stepBtn, !hasNext && { opacity: 0.35 }]}
+                              disabled={!hasNext}
+                              onPress={() => goTo(curIdx + 1)}
+                            >
+                              <Text style={s.stepBtnText}>Next</Text>
+                              <ChevronRight size={16} color="#2D5DC9" />
+                            </Pressable>
+                          </View>
                         </View>
                       </View>
                     </View>
@@ -502,29 +506,31 @@ export default function StudentContentViewer({ visible, contents, startIdx, topi
                       {renderPlayer(false)}
                     </View>
                     <View style={s.stageFooter}>
-                      <View style={{ flex: 1, paddingRight: 8 }}>
+                      <View style={s.stageFooterTitleWrap}>
                         <Text style={s.stageFooterTitle}>{content.title}</Text>
-                        <Text style={s.stageFooterMeta}>
-                          {topic.subject} · Lesson {curIdx + 1} of {contents.length}
-                        </Text>
                       </View>
-                      <View style={s.stepBtnGroup}>
-                        <Pressable
-                          style={[s.stepBtn, !hasPrev && { opacity: 0.35 }]}
-                          disabled={!hasPrev}
-                          onPress={() => goTo(curIdx - 1)}
-                        >
-                          <ChevronLeft size={16} color="#2D5DC9" />
-                          <Text style={s.stepBtnText}>Prev</Text>
-                        </Pressable>
-                        <Pressable
-                          style={[s.stepBtn, !hasNext && { opacity: 0.35 }]}
-                          disabled={!hasNext}
-                          onPress={() => goTo(curIdx + 1)}
-                        >
-                          <Text style={s.stepBtnText}>Next</Text>
-                          <ChevronRight size={16} color="#2D5DC9" />
-                        </Pressable>
+                      <View style={s.stageFooterActionRow}>
+                        <Text style={s.stageFooterMeta}>
+                          {topic.subject ? `${topic.subject} · ` : ''}Lesson {curIdx + 1} of {contents.length}
+                        </Text>
+                        <View style={s.stepBtnGroup}>
+                          <Pressable
+                            style={[s.stepBtn, !hasPrev && { opacity: 0.35 }]}
+                            disabled={!hasPrev}
+                            onPress={() => goTo(curIdx - 1)}
+                          >
+                            <ChevronLeft size={16} color="#2D5DC9" />
+                            <Text style={s.stepBtnText}>Prev</Text>
+                          </Pressable>
+                          <Pressable
+                            style={[s.stepBtn, !hasNext && { opacity: 0.35 }]}
+                            disabled={!hasNext}
+                            onPress={() => goTo(curIdx + 1)}
+                          >
+                            <Text style={s.stepBtnText}>Next</Text>
+                            <ChevronRight size={16} color="#2D5DC9" />
+                          </Pressable>
+                        </View>
                       </View>
                     </View>
                   </View>
@@ -902,24 +908,33 @@ const s = StyleSheet.create({
     fontWeight: '600',
   },
   stageFooter: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     padding: 16,
     backgroundColor: '#FFFFFF',
     borderTopWidth: 1,
     borderTopColor: '#F0F4FF',
+    gap: 10,
+  },
+  stageFooterTitleWrap: {
+    width: '100%',
   },
   stageFooterTitle: {
     fontSize: 16,
     fontWeight: '800',
     color: '#1a1a2e',
-    marginBottom: 4,
+    lineHeight: 22,
+  },
+  stageFooterActionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 10,
+    width: '100%',
   },
   stageFooterMeta: {
     fontSize: 12,
     color: '#525C6B',
-    fontWeight: '500',
+    fontWeight: '600',
+    flex: 1,
   },
   stepBtnGroup: {
     flexDirection: 'row',

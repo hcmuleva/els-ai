@@ -3829,7 +3829,7 @@ export default function ReportsScreen() {
   if (isTeacherView) {
     return (
       <>
-        <ScrollView style={s.screen} contentContainerStyle={{ paddingBottom: 48 }}>
+        <ScrollView style={s.screen} contentContainerStyle={{ paddingBottom: Math.max(130, insets.bottom + 90) }}>
           {/* ── Responsive Top Header ── */}
           <View style={[s.topBar, { paddingTop: Math.max(insets.top, 8) }]}>
             <View style={s.topBarInner}>

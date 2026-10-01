@@ -33,7 +33,15 @@ export default function UniversalLinkPlayer({
 
   if (!url || typeof url !== 'string' || !url.trim()) {
     return (
-      <View style={[styles.placeholder, fillContainer ? styles.fillContainer : { minHeight: effectiveHeight }, style]}>
+      <View
+        style={[
+          styles.placeholder,
+          fillContainer
+            ? [styles.fillContainer, { borderRadius: 0, borderWidth: 0, minHeight: '100%' }]
+            : { minHeight: effectiveHeight },
+          style,
+        ]}
+      >
         <View style={styles.placeholderIconBox}>
           <VideoIcon size={28} color="#94A3B8" />
         </View>
@@ -182,8 +190,8 @@ export default function UniversalLinkPlayer({
 
   // Fallback for Generic Web Links: Rich Interactive Link Card
   return (
-    <View style={styles.container}>
-      <View style={styles.webLinkCard}>
+    <View style={[fillContainer ? styles.fillContainer : styles.container, style]}>
+      <View style={[styles.webLinkCard, fillContainer && { flex: 1, borderRadius: 0, borderWidth: 0 }]}>
         <View style={styles.cardHeaderRow}>
           <View style={styles.domainBadge}>
             <Globe size={13} color="#0284C7" />
