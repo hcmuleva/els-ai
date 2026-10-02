@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: harishdell/els-ai-frontend:sha-0335316
+          image: harishdell/els-ai-frontend:sha-3214c2d
           imagePullPolicy: Always
           ports:
             - containerPort: 80
