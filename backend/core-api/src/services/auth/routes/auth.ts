@@ -10,6 +10,7 @@ import {
   requireRole as sharedRequireRole,
 } from '@els-ai/internal-auth';
 import { eventBus } from '../events/bus.js';
+import { getSignedMediaUrlIfNeeded } from '../services/s3.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'els-secret-key-super-secure';
 export const authRouter = Router();
@@ -382,36 +383,40 @@ authRouter.post('/login', async (req: Request, res: Response) => {
       userId: user.id,
       organizationId,
       payload: { email: user.email, role: user.active_role, isSuperAdmin },
-    });
+      });
 
-    return res.json({
-      accessToken,
-      refreshToken: rawRefreshToken,
-      user: {
-        id: user.id,
-        firstName: user.first_name,
-        lastName: user.last_name,
-        email: user.email,
-        mobileNumber: user.mobile_number,
-        classLevel: user.class_level,
-        registrationId: user.unique_registration_id,
-        activeRole: user.active_role,
-        roles: rolesList,
-        profileImage: user.profile_image,
-        organizationId,
-        canPublishGlobal,
-        isSuperAdmin,
-        classAssignments,
-        studentClasses,
-        isAllStudentClasses,
-      },
-      subscription,
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Login failed' });
-  }
-});
+      const signedProfileImage = user.profile_image
+        ? await getSignedMediaUrlIfNeeded(user.profile_image).catch(() => user.profile_image)
+        : null;
+
+      return res.json({
+        accessToken,
+        refreshToken: rawRefreshToken,
+        user: {
+          id: user.id,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          email: user.email,
+          mobileNumber: user.mobile_number,
+          classLevel: user.class_level,
+          registrationId: user.unique_registration_id,
+          activeRole: user.active_role,
+          roles: rolesList,
+          profileImage: signedProfileImage,
+          organizationId,
+          canPublishGlobal,
+          isSuperAdmin,
+          classAssignments,
+          studentClasses,
+          isAllStudentClasses,
+        },
+        subscription,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Login failed' });
+    }
+  });
 
 // 3. Refresh Token Endpoint
 authRouter.post('/refresh', async (req, res) => {

@@ -457,7 +457,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       const updatedUser = data.user
         ? { ...data.user, profileImage: resolvedImage }
         : (userRef.current ? { ...userRef.current, profileImage: resolvedImage } : null);
-      if (updatedUser) {
+        if (updatedUser) {
         await setStorageItem('user', JSON.stringify(updatedUser));
         setUser(updatedUser);
       }

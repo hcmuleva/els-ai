@@ -767,20 +767,24 @@ usersRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
       params,
     );
 
-    const users = usersResult.rows.map((row) => ({
-      id: row.id as string,
-      firstName: row.first_name as string,
-      lastName: row.last_name as string,
-      email: row.email as string,
-      mobileNumber: (row.mobile_number as string | null) || undefined,
-      classLevel: (row.class_level as string | null) || undefined,
-      branch: (row.branch as string | null) || undefined,
-      activeRole: row.active_role as UserRole,
-      roles: row.roles as UserRole[],
-      profileImage: (row.profile_image as string | null) || undefined,
-      organizationId: (row.organization_id as string | null) || undefined,
-      isActive: row.is_active as boolean,
-    }));
+    const users = await Promise.all(
+      usersResult.rows.map(async (row) => ({
+        id: row.id as string,
+        firstName: row.first_name as string,
+        lastName: row.last_name as string,
+        email: row.email as string,
+        mobileNumber: (row.mobile_number as string | null) || undefined,
+        classLevel: (row.class_level as string | null) || undefined,
+        branch: (row.branch as string | null) || undefined,
+        activeRole: row.active_role as UserRole,
+        roles: row.roles as UserRole[],
+        profileImage: row.profile_image
+          ? await getSignedMediaUrlIfNeeded(row.profile_image as string).catch(() => row.profile_image as string)
+          : undefined,
+        organizationId: (row.organization_id as string | null) || undefined,
+        isActive: row.is_active as boolean,
+      }))
+    );
 
     return res.json({ users });
   } catch (error) {
@@ -2233,8 +2237,29 @@ usersRouter.patch('/:id/organization-membership', requireAuth, async (req: Authe
   }
 });
 
+usersRouter.get('/me', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const userId = req.user?.userId;
+  if (!userId) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  const organizationId = getRequestOrganizationId(req);
+  try {
+    const user = await getUserWithRoles(userId, organizationId || undefined);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    return res.json({ success: true, user });
+  } catch (error) {
+    console.error('Failed to get /users/me:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 usersRouter.get('/:id', requireAuth, async (req: AuthenticatedRequest, res) => {
-  const userId = getSingleParam(req.params.id);
+  let userId = getSingleParam(req.params.id);
+  if (userId === 'me') {
+    userId = req.user?.userId || null;
+  }
   const organizationId = getRequestOrganizationId(req);
 
   // Simple check for string ID

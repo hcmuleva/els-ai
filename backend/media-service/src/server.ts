@@ -4,7 +4,7 @@ import express from 'express';
 import { createTenantContextMiddleware } from '@els-ai/db-tenant';
 import { db } from './db.js';
 import { requireAuth } from './middleware/auth.js';
-import { assetsRouter, internalAssetsRouter } from './routes/assets.js';
+import { assetsRouter, internalAssetsRouter, publicAssetsRouter } from './routes/assets.js';
 
 config();
 
@@ -20,6 +20,7 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', service: 'media-service' });
 });
 
+app.use('/assets/public', publicAssetsRouter);
 app.use('/assets/internal', internalAssetsRouter);
 app.use('/assets', requireAuth, tenantContext, assetsRouter);
 

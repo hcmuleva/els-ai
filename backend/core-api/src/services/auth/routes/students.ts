@@ -317,23 +317,27 @@ studentsRouter.get('/parent/:parentId/students', requireAuth, async (req: Authen
       [parentId, organizationId],
     );
 
-    const students = result.rows.map((row) => ({
-      id: row.id as string,
-      firstName: row.first_name as string,
-      lastName: row.last_name as string,
-      email: row.email as string,
-      mobileNumber: (row.mobile_number as string | null) || undefined,
-      classLevel: (row.class_level as string | null) || undefined,
-      profileImage: (row.profile_image as string | null) || undefined,
-      analytics: {
-        streakDays: Number(row.streak_days || 0),
-        consistencyScore: Number(row.consistency_score || 0),
-        completionRate: Number(row.completion_rate || 0),
-        attemptedCount: Number(row.attempted_count || 0),
-        completedCount: Number(row.completed_count || 0),
-        totalTimeSeconds: Number(row.total_time_seconds || 0),
-      },
-    }));
+    const students = await Promise.all(
+      result.rows.map(async (row) => ({
+        id: row.id as string,
+        firstName: row.first_name as string,
+        lastName: row.last_name as string,
+        email: row.email as string,
+        mobileNumber: (row.mobile_number as string | null) || undefined,
+        classLevel: (row.class_level as string | null) || undefined,
+        profileImage: row.profile_image
+          ? await getSignedMediaUrlIfNeeded(row.profile_image as string).catch(() => row.profile_image as string)
+          : undefined,
+        analytics: {
+          streakDays: Number(row.streak_days || 0),
+          consistencyScore: Number(row.consistency_score || 0),
+          completionRate: Number(row.completion_rate || 0),
+          attemptedCount: Number(row.attempted_count || 0),
+          completedCount: Number(row.completed_count || 0),
+          totalTimeSeconds: Number(row.total_time_seconds || 0),
+        },
+      }))
+    );
 
     return res.json({ students });
   } catch (error) {
@@ -966,7 +970,9 @@ studentsRouter.get('/:id/ai-performance-summary', requireAuth, async (req: Authe
         lastName: student.last_name,
         classLevel: student.class_level || '',
         email: student.email || '',
-        profileImage: student.profile_image || null,
+        profileImage: student.profile_image
+          ? await getSignedMediaUrlIfNeeded(student.profile_image).catch(() => student.profile_image)
+          : null,
       },
       metrics: {
         totalQuizzes,

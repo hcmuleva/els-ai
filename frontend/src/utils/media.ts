@@ -20,5 +20,16 @@ export function resolveMediaUrl(url: string | undefined | null): string | undefi
     const frontendBaseUrl = API_BASE_URL.replace(/\/api\/?$/, '');
     return `${frontendBaseUrl}${cleanUrl}`;
   }
+  // Route unsigned private S3 URLs through our public asset redirect endpoint
+  // so browsers and mobile clients never receive 403 Forbidden
+  if (
+    url.includes('amazonaws.com') &&
+    !url.includes('X-Amz-Signature') &&
+    !url.includes('X-Amz-Algorithm') &&
+    !url.includes('Signature=')
+  ) {
+    return `${API_BASE_URL}/assets/public/view?url=${encodeURIComponent(url)}`;
+  }
   return url;
 }
+

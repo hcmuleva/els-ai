@@ -297,3 +297,29 @@ internalAssetsRouter.post('/canonicalize', requireInternalSecret, (req, res) => 
     return res.status(500).json({ message });
   }
 });
+
+export const publicAssetsRouter = Router();
+
+publicAssetsRouter.get('/view', async (req: Request, res: Response) => {
+  const rawUrl = typeof req.query.url === 'string' ? req.query.url.trim() : null;
+  const rawKey = typeof req.query.key === 'string' ? req.query.key.trim() : null;
+  const target = rawUrl || rawKey;
+
+  if (!target) {
+    return res.status(400).json({ message: 'Missing url or key parameter' });
+  }
+
+  try {
+    const canonicalUrl = toPersistentMediaUrl(target);
+    const signedUrl = await getSignedMediaUrlIfNeeded(canonicalUrl);
+    if (!signedUrl || (signedUrl === target && !signedUrl.includes('X-Amz-Signature'))) {
+      return res.redirect(302, canonicalUrl);
+    }
+    res.setHeader('Cache-Control', 'public, max-age=300');
+    return res.redirect(302, signedUrl);
+  } catch (error) {
+    console.error('Failed to resolve public media view:', error);
+    return res.status(500).json({ message: 'Failed to resolve media' });
+  }
+});
+
