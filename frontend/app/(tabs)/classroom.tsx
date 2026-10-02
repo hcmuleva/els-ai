@@ -169,7 +169,7 @@ export default function ClassroomScreen() {
   const [classrooms, setClassrooms] = useState<ClassroomItem[]>([]);
   const [activeClassroomPage, setActiveClassroomPage] = useState(1);
   const [selectedClassroomId, setSelectedClassroomId] = useState<string | null>(null);
-  const [viewAllClasses, setViewAllClasses] = useState(false);
+  const [viewAllClasses, setViewAllClasses] = useState(true);
   const [nowTs, setNowTs] = useState<number>(Date.now());
   useEffect(() => {
     const id = setInterval(() => setNowTs(Date.now()), 1000);
@@ -266,9 +266,11 @@ export default function ClassroomScreen() {
   );
 
   const selectedClassroom = useMemo(
-    () => classrooms.find((item) => item.id === selectedClassroomId) || activeClassrooms[0] || null,
-    [classrooms, selectedClassroomId, activeClassrooms],
+    () => (selectedClassroomId ? classrooms.find((item) => item.id === selectedClassroomId) || null : null),
+    [classrooms, selectedClassroomId],
   );
+
+  const showClassList = viewAllClasses || !selectedClassroomId || !selectedClassroom;
 
   const activeContent = useMemo(() => {
     if (!selectedClassroom || !selectedClassroom.contents.length) return null;
@@ -400,11 +402,13 @@ export default function ClassroomScreen() {
     } finally {
       setSavingSubmission(false);
     }
-  };
-
-  useFocusEffect(
+  };  useFocusEffect(
     useCallback(() => {
       loadData();
+      return () => {
+        setSelectedClassroomId(null);
+        setViewAllClasses(true);
+      };
     }, [loadData])
   );
 
@@ -414,8 +418,9 @@ export default function ClassroomScreen() {
         
 
 
+
         {/* Header */}
-        {(viewAllClasses || (!selectedClassroomId && !isLargeScreen) || !selectedClassroom) ? (
+        {showClassList ? (
           <View style={clStyles.myClassesHeaderRow}>
             <View>
               <Text style={clStyles.myClassesTitle}>My Classes</Text>
@@ -428,7 +433,7 @@ export default function ClassroomScreen() {
               <Text style={clStyles.historyBtnModernText}>Class History</Text>
             </Pressable>
           </View>
-        ) : (
+        ) : selectedClassroom ? (
           <View style={theaterStyles.classroomHeaderBar}>
             <Pressable
               style={theaterStyles.backBtn}
@@ -457,7 +462,7 @@ export default function ClassroomScreen() {
               <Text style={clStyles.historyBtnSmallText}>History</Text>
             </Pressable>
           </View>
-        )}
+        ) : null}
 
         {message ? (
           <View style={[styles.messageCard, message.type === 'success' ? styles.successCard : styles.errorCard]}>
@@ -482,7 +487,7 @@ export default function ClassroomScreen() {
         ) : (
           <>
             {/* ── Active Classrooms List ── */}
-            {(viewAllClasses || (!selectedClassroomId && !isLargeScreen) || !selectedClassroom) ? (
+            {showClassList ? (
               <View style={clStyles.listSection}>
                 <View style={clStyles.gridContainer}>
                   {activeClassrooms.slice((activeClassroomPage - 1) * 10, activeClassroomPage * 10).map((room, idx) => {
