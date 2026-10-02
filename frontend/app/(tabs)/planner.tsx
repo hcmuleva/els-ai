@@ -297,6 +297,9 @@ function DateTimeInput({ kind, value, onChange, placeholder, minDate }: {
 export default function PlannerScreen() {
   const { user, apiFetch } = useAuth();
   const insets = useSafeAreaInsets();
+  const { width: viewportWidth } = useWindowDimensions();
+  const classCardWidth = viewportWidth >= 720 ? '48.5%' : '100%';
+  const historyCardWidth = viewportWidth >= 760 ? '48.5%' : '100%';
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deletingClassroomId, setDeletingClassroomId] = useState<string | null>(null);
@@ -342,7 +345,7 @@ export default function PlannerScreen() {
   const [restartingId, setRestartingId]            = useState<string | null>(null);
   const [activityCounts, setActivityCounts]        = useState<Record<string, number>>({});
 
-  const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin';
+  const isTeacherView = user?.activeRole === 'teacher' || user?.activeRole === 'admin' || user?.activeRole === 'superadmin' || (!user?.activeRole && Boolean(user?.roles?.some((r) => r === 'teacher' || r === 'admin' || r === 'superadmin')));
 
   // React Query owns the classrooms list: it's read from 3 render sites and
   // re-fetched from 4 mutation handlers below via `classroomsQuery.refetch()`,
@@ -365,6 +368,7 @@ export default function PlannerScreen() {
   const classrooms = classroomsQuery.data ?? [];
 
   const loadActivityCounts = useCallback(async () => {
+    if (!isTeacherView) return;
     try {
       const res = await apiFetch('/notifications/teacher-activity');
       if (!res.ok) return;
@@ -377,9 +381,10 @@ export default function PlannerScreen() {
     } catch (_e) {
       /* silent */
     }
-  }, [apiFetch]);
+  }, [apiFetch, isTeacherView]);
 
   const loadResources = useCallback(async () => {
+    if (!isTeacherView) return;
     const fetchPagedRows = async (
       endpoint: string,
       key: 'items' | 'quizzes',
@@ -390,12 +395,13 @@ export default function PlannerScreen() {
       let offset = 0;
       let guard = 0;
       while (guard < 1000) {
+        if (!isTeacherView) break;
         const query = new URLSearchParams(baseQuery);
         query.set('limit', String(chunkSize));
         query.set('offset', String(offset));
         const res = await apiFetch(`${endpoint}?${query.toString()}`);
         if (!res.ok) break;
-        const payload = await res.json();
+        const payload = await res.json().catch(() => ({}));
         const rows = Array.isArray(payload[key]) ? payload[key] : [];
         merged.push(...rows);
         if (rows.length === 0) break;
@@ -417,6 +423,8 @@ export default function PlannerScreen() {
       apiFetch('/catalog/subjects'),
     ]);
 
+    if (!isTeacherView) return;
+
     setContentItems(contentRows as ContentItem[]);
     setQuizItems(quizRows as QuizItem[]);
 
@@ -435,10 +443,13 @@ export default function PlannerScreen() {
           .filter((item: SubjectCatalogItem) => item.classLevel && item.subject),
       );
     }
-  }, [apiFetch]);
+  }, [apiFetch, isTeacherView]);
 
   const loadData = useCallback(async () => {
-    if (!isTeacherView) return;
+    if (!isTeacherView) {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     setMessage(null);
     try {
@@ -452,8 +463,10 @@ export default function PlannerScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      loadData();
-    }, [loadData]),
+      if (isTeacherView) {
+        loadData();
+      }
+    }, [loadData, isTeacherView]),
   );
 
   const classLevelOptions = useMemo(
@@ -1017,9 +1030,6 @@ export default function PlannerScreen() {
     completed: { bg: Colors.borderLight, text: '#6B6B8A', label: 'Done' },
     draft:     { bg: '#D6EAFF', text: '#1A4DA2', label: 'Draft' },
   };
-  const { width: viewportWidth } = useWindowDimensions();
-  const classCardWidth = viewportWidth >= 720 ? '48.5%' : '100%';
-  const historyCardWidth = viewportWidth >= 760 ? '48.5%' : '100%';
 
   return (
     <ScrollView style={p.screen} contentContainerStyle={p.scroll}>

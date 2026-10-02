@@ -370,6 +370,7 @@ export function ChatPanel() {
     isSending,
     sendError,
     sendMessage,
+    stopGenerating,
     removeConversation,
   } = useAiChat();
   const { user, apiFetch } = useAuth();
@@ -884,6 +885,15 @@ export function ChatPanel() {
               <AnimatedTypingDots />
               <Text style={s.loadingLabel}>ELS AI is writing...</Text>
             </View>
+            <Pressable
+              onPress={stopGenerating}
+              style={({ pressed }) => [s.stopPillInline, pressed && s.stopPillInlinePressed]}
+              accessibilityRole="button"
+              accessibilityLabel="Stop generating"
+            >
+              <View style={s.stopPillDot} />
+              <Text style={s.stopPillInlineText}>Stop</Text>
+            </Pressable>
           </View>
         ) : null}
 
@@ -893,6 +903,20 @@ export function ChatPanel() {
             isThinking={isThinking}
             hasReplyStarted={Boolean(streamingReply)}
           />
+        ) : null}
+
+        {isSending && (Boolean(streamingReply) || Boolean(streamingThinking)) ? (
+          <View style={s.stopPillContainer}>
+            <Pressable
+              onPress={stopGenerating}
+              style={({ pressed }) => [s.stopPillBtn, pressed && s.stopPillBtnPressed]}
+              accessibilityRole="button"
+              accessibilityLabel="Stop generating"
+            >
+              <View style={s.stopPillDot} />
+              <Text style={s.stopPillText}>Stop generating</Text>
+            </Pressable>
+          </View>
         ) : null}
 
         {sendError ? (
@@ -928,11 +952,10 @@ export function ChatPanel() {
           style={s.input}
           value={draft}
           onChangeText={setDraft}
-          placeholder="Message ELS AI..."
+          placeholder={isSending ? "ELS AI is generating..." : "Message ELS AI..."}
           placeholderTextColor="#94A3B8"
           multiline
-          editable={!isSending}
-          onSubmitEditing={() => handleSend()}
+          onSubmitEditing={() => !isSending && handleSend()}
           blurOnSubmit={false}
           onKeyPress={(e) => {
             if (Platform.OS === 'web') {
@@ -940,19 +963,31 @@ export function ChatPanel() {
               if (nativeEvent?.key === 'Enter' && !nativeEvent?.shiftKey) {
                 (e as any).preventDefault?.();
                 nativeEvent?.preventDefault?.();
-                handleSend();
+                if (!isSending) handleSend();
               }
             }
           }}
         />
-        <Pressable
-          onPress={() => handleSend()}
-          disabled={!draft.trim() || isSending}
-          style={[s.sendBtn, (!draft.trim() || isSending) && s.sendBtnDisabled]}
-          accessibilityLabel="Send message"
-        >
-          <Send size={18} color="#FFFFFF" />
-        </Pressable>
+        {isSending ? (
+          <Pressable
+            onPress={stopGenerating}
+            style={[s.sendBtn, s.stopBtn]}
+            accessibilityLabel="Stop generating"
+            accessibilityRole="button"
+          >
+            <View style={s.stopSquareIcon} />
+          </Pressable>
+        ) : (
+          <Pressable
+            onPress={() => handleSend()}
+            disabled={!draft.trim()}
+            style={[s.sendBtn, !draft.trim() && s.sendBtnDisabled]}
+            accessibilityLabel="Send message"
+            accessibilityRole="button"
+          >
+            <Send size={18} color="#FFFFFF" />
+          </Pressable>
+        )}
       </View>
     </KeyboardAvoidingView>
   );
@@ -1704,6 +1739,81 @@ const s = StyleSheet.create({
   },
   sendBtnDisabled: {
     backgroundColor: Colors.textDisabled,
+  },
+  stopBtn: {
+    backgroundColor: '#0F172A',
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  stopSquareIcon: {
+    width: 12,
+    height: 12,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 2,
+  },
+  stopPillContainer: {
+    alignItems: 'center',
+    marginVertical: 8,
+  },
+  stopPillBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 14,
+    paddingVertical: 7,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.06,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  stopPillBtnPressed: {
+    backgroundColor: '#F8FAFC',
+    transform: [{ scale: 0.98 }],
+  },
+  stopPillDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 2,
+    backgroundColor: '#0F172A',
+  },
+  stopPillText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#334155',
+  },
+  stopPillInline: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    marginLeft: 8,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  stopPillInlinePressed: {
+    backgroundColor: '#F8FAFC',
+    transform: [{ scale: 0.98 }],
+  },
+  stopPillInlineText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#475569',
   },
   inputDisclaimer: {
     fontSize: 10,

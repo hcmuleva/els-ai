@@ -6,6 +6,7 @@ import { Circle } from 'lucide-react-native';
 import { NotificationBell } from '../../src/components/header/NotificationBell';
 import { ProfileMenu } from '../../src/components/header/ProfileMenu';
 import { RoleSwitcher } from '../../src/components/header/RoleSwitcher';
+import { ClassSwitcher } from '../../src/components/header/ClassSwitcher';
 import { ChatButton } from '../../src/components/chat/ChatButton';
 import { ChatPanel } from '../../src/components/chat/ChatPanel';
 import CustomTabBar from '../../src/components/nav/CustomTabBar';
@@ -17,7 +18,7 @@ export default function TabsLayout() {
   const { width: windowWidth } = useWindowDimensions();
   const isDesktop = windowWidth >= 768;
   const { isAuthenticated, user } = useAuth();
-  const [openMenu, setOpenMenu] = useState<'role' | 'profile' | null>(null);
+  const [openMenu, setOpenMenu] = useState<'role' | 'profile' | 'class' | null>(null);
   const activeTabs = roleTabs[user?.activeRole || 'student'];
   const tabRoutes = new Set(activeTabs.map((item) => item.route));
 
@@ -62,6 +63,13 @@ export default function TabsLayout() {
               onToggle={() => setOpenMenu((prev) => (prev === 'role' ? null : 'role'))}
               onClose={() => setOpenMenu(null)}
             />
+            {user?.activeRole === 'student' && (
+              <ClassSwitcher
+                isOpen={openMenu === 'class'}
+                onToggle={() => setOpenMenu((prev) => (prev === 'class' ? null : 'class'))}
+                onClose={() => setOpenMenu(null)}
+              />
+            )}
             <NotificationBell />
             <ProfileMenu
               isOpen={openMenu === 'profile'}

@@ -364,7 +364,7 @@ function TopicScreen({ topic, onBack }: { topic: TopicDetail; onBack: () => void
 
 // ── Subject List Screen ───────────────────────────────────────────────────────
 export default function SubjectScreen() {
-  const { apiFetch } = useAuth();
+  const { apiFetch, studentSelectedClass } = useAuth();
   const params = useLocalSearchParams<{ subject?: string }>();
   const filterSubject = params.subject;
   const { width: windowWidth } = useWindowDimensions();
@@ -379,13 +379,18 @@ export default function SubjectScreen() {
   const [topicPages, setTopicPages] = useState<Record<string, number>>({});
   const TOPIC_PAGE_SIZE = 12;
 
+  const activeClassQuery = studentSelectedClass && studentSelectedClass !== 'ANY'
+    ? `?class_level=${encodeURIComponent(studentSelectedClass)}`
+    : '';
+
   useEffect(() => {
-    apiFetch('/students/subjects')
+    setLoading(true);
+    apiFetch(`/students/subjects${activeClassQuery}`)
       .then((r) => r.ok ? r.json() : null)
       .then((d) => { if (d) { setClassLevel(d.classLevel); setSubjects(d.subjects ?? []); } })
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, [apiFetch]);
+  }, [apiFetch, activeClassQuery]);
 
   useEffect(() => {
     setSelectedTopic(null);

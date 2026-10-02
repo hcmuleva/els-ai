@@ -157,10 +157,14 @@ function cleanIntroForProposal(text: string): string {
   if (match && match.index !== undefined) {
     text = text.substring(0, match.index).trim();
   }
-  const draftCutoffRegex = /(?:Here(?:'s| is) (?:the )?content:?|Here are the \d+ questions|Notes for |Question Bank:|### Video 1)/i;
+  const draftCutoffRegex = /(?:Here(?:'s| is) (?:a |the )?(?:comprehensive |detailed )?(?:lesson|content|module|quiz|questions?):?|Here are the \d+ questions|Notes for |Question Bank:|### Video 1|\*\*Lesson Title:\*\*|Lesson Title:|###?\s*Section\s*\d+|\*\*Section\s*\d+:)/i;
   const cutoffMatch = text.match(draftCutoffRegex);
-  if (cutoffMatch && cutoffMatch.index !== undefined && cutoffMatch.index > 20) {
-    text = text.substring(0, cutoffMatch.index).trim();
+  if (cutoffMatch && cutoffMatch.index !== undefined) {
+    if (cutoffMatch.index > 20) {
+      text = text.substring(0, cutoffMatch.index).trim();
+    } else {
+      text = '';
+    }
   }
   return text.trim();
 }
@@ -584,12 +588,19 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
     }
   };
 
-  const createQuizInLibrary = async (targetFullData?: any, targetResult?: any, forceFresh = false): Promise<string | null> => {
+  const createQuizInLibrary = async (
+    targetFullData?: any,
+    targetResult?: any,
+    forceFresh = false,
+    customQuiz?: { questions?: any[]; title?: string }
+  ): Promise<string | null> => {
     const dataToUse = targetFullData || fullData || result?.data;
     const resToUse = targetResult || result;
 
     const quizQuestions: any[] =
-      (Array.isArray(dataToUse?.questions) && dataToUse.questions.length > 0)
+      (Array.isArray(customQuiz?.questions) && customQuiz.questions.length > 0)
+        ? customQuiz.questions
+        : (Array.isArray(dataToUse?.questions) && dataToUse.questions.length > 0)
         ? dataToUse.questions
         : (Array.isArray(dataToUse?.quiz?.questions) && dataToUse.quiz.questions.length > 0)
         ? dataToUse.quiz.questions
@@ -601,8 +612,8 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
       return null;
     }
 
-    // Only reuse an already-persisted quiz if not forced fresh AND its first question matches this generation
-    if (persistedQuizId && !forceFresh) {
+    // Only reuse an already-persisted quiz if not forced fresh, no customQuiz, AND its first question matches this generation
+    if (persistedQuizId && !forceFresh && !customQuiz) {
       try {
         const verifyRes = await apiFetch(`/quizzes/${persistedQuizId}`);
         if (verifyRes.ok) {
@@ -630,6 +641,7 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
       : /^social(\s*studies|\s*sci(ence)?)?$/i.test(rawSubject) || /^sst$/i.test(rawSubject) ? 'Social Science'
       : rawSubject;
     const quizTitle =
+      customQuiz?.title ||
       dataToUse?.title ||
       dataToUse?.quiz?.title ||
       resToUse?.name ||
@@ -810,23 +822,59 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
             }
           : null);
 
-      // Auto-create persistent quiz in teacher library if questions exist
-      let createdQuizId: string | null = persistedQuizId;
-      if (!createdQuizId && quizInfo && Array.isArray(quizInfo.questions) && quizInfo.questions.length > 0) {
-        createdQuizId = await createQuizInLibrary(fullData, result);
+      const quizStrategy =
+        fullData?.quizStrategy ||
+        (fullData?.sections?.some((s: any) => s.draftId === 'sec-quiz') ? 'separate_section' : 'attach_to_video');
+
+      const quizzesList: any[] =
+        Array.isArray(fullData?.quizzes) && fullData.quizzes.length > 0
+          ? fullData.quizzes
+          : quizInfo && quizInfo.questions?.length > 0
+          ? [
+              {
+                draftId: 'quiz-main',
+                targetSectionDraftId: quizStrategy === 'attach_to_video' ? 'sec-yt-1' : 'sec-quiz',
+                title: quizInfo.title,
+                questions: quizInfo.questions,
+                yearsCovered: quizInfo.yearsCovered,
+              },
+            ]
+          : [];
+
+      // Auto-create persistent quizzes in teacher library
+      const createdQuizMap = new Map<string, string>(); // draftId -> createdQuizId
+      for (const qItem of quizzesList) {
+        let qId: string | null = null;
+        if (quizzesList.length === 1 && persistedQuizId) {
+          qId = persistedQuizId;
+        } else {
+          qId = await createQuizInLibrary(fullData, result, false, {
+            title: qItem.title,
+            questions: qItem.questions,
+          });
+        }
+        if (qId) {
+          createdQuizMap.set(qItem.draftId, qId);
+          if (!persistedQuizId) setPersistedQuizId(qId);
+        }
       }
 
       // Case 1: Structured sections already generated
       if (Array.isArray(fullData?.sections) && fullData.sections.length > 0) {
         fullData.sections.forEach((sec: any, idx: number) => {
+          const isVideoOrLink = sec.contentType === 'links' || sec.contentType === 'youtube_url' || sec.contentType === 'reel_url';
+          const desc = isVideoOrLink
+            ? (sec.textContent || sec.content || sec.body || fullData?.overview || `Video lesson explaining ${sec.title || proposal.title}.`)
+            : (sec.textContent || sec.content || sec.body || '');
+
           sectionsDraft.push({
             draftId: sec.draftId || `sec-ai-${idx + 1}`,
-            title: sec.title || sec.heading || `Section ${idx + 1}`,
+            title: sec.title || sec.heading || (isVideoOrLink ? `Video Lesson ${idx + 1}` : `Section ${idx + 1}`),
             contentType: sec.contentType || (sec.externalUrl ? 'links' : 'text'),
             mediaUrl: sec.mediaUrl || '',
             externalUrl: sec.externalUrl || '',
-            textContent: sec.textContent || sec.content || sec.body || '',
-            quizId: sec.quizId || (idx === 0 ? createdQuizId : null),
+            textContent: desc,
+            quizId: null,
           });
         });
       } else {
@@ -848,8 +896,8 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
               contentType: 'links',
               mediaUrl: '',
               externalUrl: v.url,
-              textContent: '',
-              quizId: idx === 0 ? createdQuizId : null,
+              textContent: fullData?.overview || result?.preview?.excerpt || `Detailed video lesson explaining ${v.title || proposal.title}.`,
+              quizId: null,
             });
           }
         });
@@ -874,16 +922,36 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
         }
       }
 
-      // Quiz is created as a real entity via POST /quizzes above.
-      // Attach createdQuizId to the first video section if not already set.
-      if (createdQuizId && sectionsDraft.length > 0) {
-        const firstVideoSec = sectionsDraft.find((s) => s.contentType === 'links' || s.contentType === 'youtube_url');
-        if (firstVideoSec && !firstVideoSec.quizId) {
-          firstVideoSec.quizId = createdQuizId;
-        } else if (!sectionsDraft[0].quizId) {
-          sectionsDraft[0].quizId = createdQuizId;
+      // Link each created quiz to its target section based on situational strategy
+      quizzesList.forEach((qItem) => {
+        const targetQId = createdQuizMap.get(qItem.draftId);
+        if (!targetQId) return;
+
+        let targetSec = sectionsDraft.find((s) => s.draftId === qItem.targetSectionDraftId);
+
+        if (!targetSec) {
+          if (quizStrategy === 'attach_to_video') {
+            targetSec = sectionsDraft.find((s) => (s.contentType === 'links' || s.contentType === 'youtube_url') && !s.quizId);
+          } else {
+            targetSec = sectionsDraft.find((s) => s.contentType === 'text' && /quiz|assessment|pyq|test|challenge/i.test(s.title));
+          }
         }
-      }
+
+        if (targetSec) {
+          targetSec.quizId = targetQId;
+        } else if (quizStrategy === 'separate_section') {
+          // If separate quiz section wasn't in template, append it
+          sectionsDraft.push({
+            draftId: `sec-quiz-${qItem.draftId}`,
+            title: qItem.title || 'Practice Quiz & Assessment',
+            contentType: 'text',
+            mediaUrl: '',
+            externalUrl: '',
+            textContent: `### Assessment Overview & Instructions\n\nComplete this interactive challenge quiz covering key concepts from this lesson.`,
+            quizId: targetQId,
+          });
+        }
+      });
 
       if (sectionsDraft.length === 0) {
         sectionsDraft.push({
@@ -1045,7 +1113,12 @@ export function ProposalCard({ proposal, conversationId }: ProposalCardProps) {
           setStatus('completed');
 
           let autoCreatedQuizId: string | null = null;
-          if (proposal.contentType === 'quiz') {
+          const hasQuizQuestions =
+            (Array.isArray(full?.questions) && full.questions.length > 0) ||
+            (Array.isArray(full?.quiz?.questions) && full.quiz.questions.length > 0) ||
+            (Array.isArray(res?.preview?.sampleQuestions) && res.preview.sampleQuestions.length > 0);
+
+          if (proposal.contentType === 'quiz' || (proposal.contentType === 'content' && hasQuizQuestions)) {
             autoCreatedQuizId = await createQuizInLibrary(full, res, true);
           }
 

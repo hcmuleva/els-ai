@@ -185,6 +185,7 @@ function toContentPayload(source: PipelineResultLike, target: PersistTarget, top
           title: 'Video',
           contentType: 'youtube_url',
           externalUrl: url,
+          textContent: description || null,
         },
       ],
     };

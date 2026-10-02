@@ -1764,6 +1764,7 @@ export default function QuestionManagementScreen() {
       mediaUrl: section.mediaUrl.trim() ? toPersistentMediaUrl(section.mediaUrl.trim()) : undefined,
       externalUrl: section.externalUrl.trim() || undefined,
       textContent: section.textContent.trim() || undefined,
+      quizId: (section as any).quizId || undefined,
     }));
     const invalidIndex = normalizedSections.findIndex((section) => {
       if (section.contentType === 'text') return !section.textContent;

@@ -90,6 +90,7 @@ function toContentPayload(source, target, topicId) {
                     title: 'Video',
                     contentType: 'youtube_url',
                     externalUrl: url,
+                    textContent: description || null,
                 },
             ],
         };

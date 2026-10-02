@@ -10,11 +10,13 @@ import {
   Star, Users, BookOpen, TrendingUp, Calendar,
   ChevronRight, Clock, Zap, CheckCircle,
   Trophy, PlayCircle,
-  Target, Layers, BarChart2, ClipboardList, User, History, BookOpenCheck, Plus,
+  Target, Layers, BarChart2, ClipboardList, User, History, BookOpenCheck, Plus, ChevronDown,
 } from 'lucide-react-native';
 
 import { useAuth } from '../../src/context/AuthContext';
 import { useStudentProfile } from '../../src/context/StudentProfileContext';
+import SelectorModal from '../../src/components/SelectorModal';
+import { useClassLevels } from '../../src/hooks/useClassLevels';
 import QuizRenderer from '../../src/components/quiz/QuizRenderer';
 import SubjectVisual from '../../src/components/subject/SubjectVisual';
 import { SvgXml } from 'react-native-svg';
@@ -487,7 +489,32 @@ function ParentDashboard() {
 
 // ── Main Screen ───────────────────────────────────────────────────────────────
 export default function HomeScreen() {
-  const { user, apiFetch } = useAuth();
+  const { user, apiFetch, studentSelectedClass, setStudentSelectedClass } = useAuth();
+  const { classLevels } = useClassLevels();
+  const [classPickerOpen, setClassPickerOpen] = useState(false);
+
+  const studentAvailableClasses = useMemo(() => {
+    if (!user) return [];
+    if (user.isAllStudentClasses || (!user.studentClasses?.length && !user.classLevel)) {
+      return [
+        { value: 'ANY', label: 'All Classes' },
+        ...classLevels.filter((c) => !c.isAny && c.value !== 'ANY').map((c) => ({ value: c.value, label: c.label })),
+      ];
+    }
+    const assigned = user.studentClasses && user.studentClasses.length > 0
+      ? user.studentClasses
+      : user.classLevel ? [user.classLevel] : [];
+
+    return assigned.map((val) => {
+      const found = classLevels.find((c) => c.value === val);
+      return { value: val, label: found ? found.label : `Class ${val}` };
+    });
+  }, [user, classLevels]);
+
+  const activeClassQuery = studentSelectedClass && studentSelectedClass !== 'ANY'
+    ? `?class_level=${encodeURIComponent(studentSelectedClass)}`
+    : '';
+
   const role = user?.activeRole ?? 'student';
   const isTeacherOrAdmin = role === 'teacher' || role === 'admin' || role === 'superadmin';
   const insets = useSafeAreaInsets();
@@ -510,18 +537,18 @@ export default function HomeScreen() {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [historyPage, setHistoryPage] = useState<{ items: typeof previousStories; total: number; loading: boolean; page: number }>({ items: [], total: 0, loading: false, page: 1 });
 
-
+  const userId = user?.id;
   const loadData = useCallback(async () => {
-    if (!user) return;
+    if (!userId) return;
     if (role === 'teacher' || role === 'admin' || role === 'superadmin') return;
     setLoading(true);
     try {
       if (role === 'student') {
         const [classroomsRes, subjectsRes, achievRes, storyFeedRes] = await Promise.all([
-          apiFetch('/classrooms/student'),
-          apiFetch('/students/subjects'),
+          apiFetch(`/classrooms/student${activeClassQuery}`),
+          apiFetch(`/students/subjects${activeClassQuery}`),
           apiFetch('/achievements/my'),
-          apiFetch('/stories/home/feed'),
+          apiFetch(`/stories/home/feed${activeClassQuery}`),
         ]);
         if (storyFeedRes.ok) {
           const sd = await storyFeedRes.json();
@@ -557,7 +584,7 @@ export default function HomeScreen() {
         }
       }
     } catch { /* silent */ } finally { setLoading(false); }
-  }, [apiFetch, user, role]);
+  }, [apiFetch, userId, role, activeClassQuery]);
 
   useFocusEffect(useCallback(() => { loadData(); }, [loadData]));
 
@@ -689,6 +716,20 @@ export default function HomeScreen() {
                 <View style={s.sectionTitleRow}>
                   <Layers size={18} color="#2563EB" />
                   <Text style={s.rowTitle}>Subjects</Text>
+                  {studentAvailableClasses.length > 0 && (
+                    <Pressable
+                      style={s.classPickerBadge}
+                      onPress={() => setClassPickerOpen(true)}
+                      accessibilityRole="button"
+                      accessibilityLabel="Filter subjects by class"
+                    >
+                      <Text style={s.classPickerBadgeText} numberOfLines={1}>
+                        {studentAvailableClasses.find((c) => c.value === studentSelectedClass)?.label ||
+                         (studentSelectedClass === 'ANY' ? 'All Classes' : studentSelectedClass ? `Class ${studentSelectedClass}` : 'Select Class')}
+                      </Text>
+                      <ChevronDown size={13} color="#2563EB" />
+                    </Pressable>
+                  )}
                 </View>
                 <Pressable onPress={() => router.push('/(tabs)/subject')}>
                   <Text style={s.rowLink}>See All</Text>
@@ -1059,12 +1100,42 @@ export default function HomeScreen() {
           onClose={() => { setSelectedQuizId(null); loadData(); }}
         />
       )}
+
+      <SelectorModal
+        visible={classPickerOpen}
+        title="Select Class"
+        options={studentAvailableClasses}
+        selected={studentSelectedClass || 'ANY'}
+        showAny={false}
+        onSelect={(val) => {
+          setStudentSelectedClass(val);
+          setClassPickerOpen(false);
+        }}
+        onClose={() => setClassPickerOpen(false)}
+      />
     </View>
   );
 }
 
 // ── Styles ────────────────────────────────────────────────────────────────────
 const s = StyleSheet.create({
+  classPickerBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: Radius.full,
+    borderWidth: 1,
+    borderColor: '#DBEAFE',
+    backgroundColor: '#EFF6FF',
+    marginLeft: 8,
+  },
+  classPickerBadgeText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#2563EB',
+  },
   screen: { flex: 1, backgroundColor: '#F0F4FF' },
   scroll: { paddingBottom: 110 },
   mainContainer: {

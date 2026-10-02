@@ -153,13 +153,14 @@ export const ContentParams = z.preprocess((raw: any) => {
     if (typeof v === 'string') return parseInt(v, 10) || 1;
     return v;
   }, z.number().int().min(0).max(5).default(1).optional()),
-  includeQuiz: z.boolean().default(false).optional(),
+  includeQuiz: z.boolean().default(true).optional(),
   quizQuestionCount: z.preprocess((v) => {
     if (typeof v === 'string') return parseInt(v, 10) || 5;
     return v;
   }, z.number().int().min(1).max(25).default(5).optional()),
   isExamPrep: z.boolean().default(false).optional(),
   examName: z.string().optional(),
+  quizStrategy: z.enum(['auto', 'attach_to_video', 'separate_section', 'per_video']).default('auto').optional(),
 }));
 
 export const StoryParams = z.preprocess((raw: any) => {

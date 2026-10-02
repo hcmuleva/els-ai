@@ -1,5 +1,5 @@
 import { router, useFocusEffect } from 'expo-router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ModalHeader } from '../../src/components/common/ModalHeader';
 import {
@@ -92,7 +92,7 @@ function getDateTimeParts(value?: string | null): { date: string; time: string }
 
 // ─────────────────────────── main screen ──────────────────────
 export default function StoriesScreen() {
-  const { apiFetch, user } = useAuth();
+  const { apiFetch, user, studentSelectedClass } = useAuth();
   const role = user?.activeRole ?? 'student';
   const isTeacherOrAdmin = role === 'teacher' || role === 'admin' || role === 'superadmin';
   const insets = useSafeAreaInsets();
@@ -155,13 +155,19 @@ export default function StoriesScreen() {
   const historyCardWidth = viewportWidth >= 760 ? '48.5%' : '100%';
 
   // ── data loading ──
+  const classParam = useMemo(() => {
+    return role === 'student' && studentSelectedClass && studentSelectedClass !== 'ANY'
+      ? `&class_level=${encodeURIComponent(studentSelectedClass)}`
+      : '';
+  }, [role, studentSelectedClass]);
+
   const loadStories = useCallback(async (page = 1) => {
     setLoading(true);
     try {
       const [liveR, scheduledR, draftR] = await Promise.all([
-        apiFetch('/stories?status=live&limit=200'),
-        apiFetch('/stories?status=scheduled&limit=200'),
-        apiFetch('/stories?status=draft&limit=200'),
+        apiFetch(`/stories?status=live&limit=200${classParam}`),
+        apiFetch(`/stories?status=scheduled&limit=200${classParam}`),
+        apiFetch(`/stories?status=draft&limit=200${classParam}`),
       ]);
       const readStories = async (r: Response) => (r.ok ? ((await r.json()).stories || []) : []);
       const allActive = [
@@ -194,7 +200,7 @@ export default function StoriesScreen() {
       setStoriesTotal(total);
       setStoriesPage(safePage);
     } finally { setLoading(false); }
-  }, [apiFetch]);
+  }, [apiFetch, classParam]);
 
   const loadQuizLibrary = useCallback(async () => {
     try {
@@ -229,7 +235,7 @@ export default function StoriesScreen() {
   const loadHistory = useCallback(async (page = 1) => {
     setHistoryLoading(true);
     try {
-      const r = await apiFetch('/stories?status=ended&limit=400&offset=0');
+      const r = await apiFetch(`/stories?status=ended&limit=400&offset=0${classParam}`);
       if (!r.ok) return;
       const data = await r.json();
       const allEnded = (data.stories || []) as Story[];
@@ -256,7 +262,7 @@ export default function StoriesScreen() {
       setHistoryTotal(total);
       setHistoryPage(safePage);
     } finally { setHistoryLoading(false); }
-  }, [apiFetch]);
+  }, [apiFetch, classParam]);
 
   useFocusEffect(useCallback(() => {
     loadStories(1); loadQuizLibrary();

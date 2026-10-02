@@ -160,6 +160,7 @@ export async function streamChatMessage(
     conversationId?: string;
     message: string;
     studentContext?: StudentPerformanceSummaryData | null;
+    signal?: AbortSignal;
   },
   handlers: StreamChatHandlers,
 ): Promise<void> {
@@ -174,9 +175,18 @@ export async function streamChatMessage(
     response = await expoFetch(`${API_BASE_URL}/ai/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-      body: JSON.stringify(input),
+      body: JSON.stringify({
+        conversationId: input.conversationId,
+        message: input.message,
+        studentContext: input.studentContext,
+      }),
+      signal: input.signal,
     });
   } catch (e) {
+    if (input.signal?.aborted || (e instanceof Error && e.name === 'AbortError')) {
+      handlers.onDone();
+      return;
+    }
     handlers.onError(e instanceof Error ? e.message : 'Network error');
     return;
   }
@@ -198,6 +208,15 @@ export async function streamChatMessage(
   try {
     // eslint-disable-next-line no-constant-condition
     while (true) {
+      if (input.signal?.aborted) {
+        try {
+          await reader.cancel();
+        } catch {
+          // ignore cancel error
+        }
+        break;
+      }
+
       const { value, done } = await reader.read();
       if (done) break;
       buffer += decoder.decode(value, { stream: true });
@@ -240,8 +259,18 @@ export async function streamChatMessage(
       }
     }
     handlers.onDone();
+  } catch (e) {
+    if (input.signal?.aborted || (e instanceof Error && e.name === 'AbortError')) {
+      handlers.onDone();
+      return;
+    }
+    handlers.onError(e instanceof Error ? e.message : 'Stream error');
   } finally {
-    reader.releaseLock();
+    try {
+      reader.releaseLock();
+    } catch {
+      // ignore release error
+    }
   }
 }
 

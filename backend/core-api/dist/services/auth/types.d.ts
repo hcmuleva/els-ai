@@ -19,6 +19,8 @@ export type UserWithRoles = {
     activeRole: UserRole;
     roles: UserRole[];
     classAssignments?: any[];
+    studentClasses?: string[];
+    isAllStudentClasses?: boolean;
     profileImage?: string;
     organizationId?: string;
     isActive: boolean;

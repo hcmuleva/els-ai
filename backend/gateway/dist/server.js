@@ -17,7 +17,7 @@ const CORE_API_URL = process.env.CORE_API_URL || process.env.AUTH_SERVICE_URL ||
 const EDUCATION_AI_API_URL = process.env.EDUCATION_AI_API_URL || process.env.AI_SERVICE_URL || 'http://localhost:4003';
 const MEDIA_API_URL = process.env.MEDIA_API_URL || process.env.MEDIA_SERVICE_URL || 'http://localhost:4004';
 const INTERNAL_SECRET = process.env.INTERNAL_SECRET || 'els-internal-secret-change-me';
-const PUBLIC_PATH_PREFIXES = ['/auth/login', '/auth/register', '/auth/refresh', '/health', '/media', '/assets/public'];
+const PUBLIC_PATH_PREFIXES = ['/auth/login', '/auth/register', '/auth/refresh', '/health', '/media', '/assets/public', '/class-levels'];
 const app = express();
 app.use(cors());
 app.use((req, _res, next) => {
@@ -89,6 +89,7 @@ app.use('/feature-flags', makeProxy(CORE_API_URL, '/feature-flags'));
 app.use('/assets', makeProxy(MEDIA_API_URL, '/assets'));
 app.use('/notifications', makeProxy(CORE_API_URL, '/notifications'));
 app.use('/stories', makeProxy(CORE_API_URL, '/stories'));
+app.use('/class-levels', makeProxy(CORE_API_URL, '/class-levels'));
 app.listen(PORT, () => {
     console.log(`API Gateway listening on port ${PORT} (${NODE_ENV})`);
 });

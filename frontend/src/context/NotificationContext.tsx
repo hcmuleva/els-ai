@@ -58,6 +58,22 @@ export function NotificationProvider({ children }: PropsWithChildren) {
     refreshUserRef.current = refreshUser;
   }, [refreshUser]);
 
+  const userRef = useRef(user);
+  useEffect(() => {
+    userRef.current = user;
+  }, [user]);
+
+  const refreshTimerRef = useRef<any>(null);
+  const debouncedRefreshUser = useCallback(() => {
+    if (refreshTimerRef.current) {
+      clearTimeout(refreshTimerRef.current);
+    }
+    refreshTimerRef.current = setTimeout(() => {
+      refreshTimerRef.current = null;
+      refreshUserRef.current?.();
+    }, 300);
+  }, []);
+
   const fetchInitial = useCallback(async () => {
     if (!isAuthenticated) return;
     setLoading(true);
@@ -81,8 +97,28 @@ export function NotificationProvider({ children }: PropsWithChildren) {
     }
   }, [apiFetch, isAuthenticated]);
 
+  // Global safeguard against unhandled Ably "Connection closed" promises
+  useEffect(() => {
+    const handleUnhandledRejection = (event: any) => {
+      const msg = event?.reason?.message || (typeof event?.reason === 'string' ? event.reason : '');
+      if (typeof msg === 'string' && (msg.includes('Connection closed') || msg.includes('Connection is closed') || event?.reason?.code === 80017)) {
+        event.preventDefault?.();
+      }
+    };
+    if (typeof window !== 'undefined' && window.addEventListener) {
+      window.addEventListener('unhandledrejection', handleUnhandledRejection);
+      return () => window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+    }
+  }, []);
+
   const startRealtime = useCallback(async () => {
     if (!isAuthenticated || !user?.id) return;
+    if (ablyRef.current) {
+      const state = ablyRef.current?.connection?.state;
+      if (state === 'connected' || state === 'connecting') {
+        return;
+      }
+    }
     try {
       const tokenRes = await apiFetch('/notifications/ably-token', { method: 'POST' });
       if (!tokenRes.ok) {
@@ -108,12 +144,6 @@ export function NotificationProvider({ children }: PropsWithChildren) {
               return;
             }
             const refreshRes = await apiFetch('/notifications/ably-token', { method: 'POST' });
-            // The client may have been torn down (stopRealtime) while this
-            // request was in flight. Calling cb() on a closed client throws
-            // an uncaught "Connection closed" error from inside the Ably SDK
-            // that this try/catch can't intercept (it fires asynchronously,
-            // after this callback has already returned), so bail out early
-            // instead of handing fresh auth data to a dead connection.
             if (ablyRef.current !== client) return;
             if (!refreshRes.ok) throw new Error('token refresh failed');
             const refreshed = await refreshRes.json();
@@ -129,8 +159,13 @@ export function NotificationProvider({ children }: PropsWithChildren) {
       client.connection.on('connected', () => console.log('[notifications] ABLY CONNECTED'));
       client.connection.on('failed', (err: any) => console.error('[notifications] ABLY FAILED', err));
       client.connection.on('disconnected', () => console.warn('[notifications] ABLY DISCONNECTED'));
+      client.connection.on('error', (err: any) => {
+        if (err?.message?.includes?.('Connection closed') || err?.code === 80017) return;
+        console.warn('[notifications] ABLY connection error:', err);
+      });
       const ch = client.channels.get(channel);
       channelRef.current = ch;
+      try { ch.unsubscribe(); } catch (_e) {}
       ch.subscribe('new_notification', (msg: any) => {
         console.log('[notifications] ← new_notification', msg?.data);
         const incoming: AppNotification | undefined = msg?.data?.notification;
@@ -167,7 +202,23 @@ export function NotificationProvider({ children }: PropsWithChildren) {
       });
       ch.subscribe('teacher_assignments_updated', (msg: any) => {
         console.log('[notifications] ← teacher_assignments_updated', msg?.data);
-        refreshUserRef.current?.();
+        debouncedRefreshUser();
+      });
+      ch.subscribe('user_roles_updated', (msg: any) => {
+        console.log('[notifications] ← user_roles_updated', msg?.data);
+        const incoming = msg?.data;
+        const currentUser = userRef.current;
+        if (currentUser && incoming) {
+          const rolesMatch = JSON.stringify(currentUser.roles || []) === JSON.stringify(incoming.roles || []);
+          const activeRoleMatch = currentUser.activeRole === incoming.activeRole;
+          const classMatch = (currentUser.classLevel || null) === (incoming.classLevel || null);
+          const studentClassesMatch = JSON.stringify(currentUser.studentClasses || []) === JSON.stringify(incoming.studentClasses || []);
+          if (rolesMatch && activeRoleMatch && classMatch && studentClassesMatch) {
+            // Already updated locally in AuthContext, do not trigger redundant network refresh!
+            return;
+          }
+        }
+        debouncedRefreshUser();
       });
       ch.subscribe('feedback_new_message', (msg: any) => {
         const data = msg?.data as FeedbackMessageEvent | undefined;
@@ -181,7 +232,7 @@ export function NotificationProvider({ children }: PropsWithChildren) {
       console.warn('[notifications] realtime init failed, polling instead', err);
       startPolling();
     }
-  }, [apiFetch, isAuthenticated, user?.id, fetchInitial]);
+  }, [apiFetch, isAuthenticated, user?.id, fetchInitial, debouncedRefreshUser]);
 
   const startPolling = useCallback(() => {
     if (pollTimerRef.current) return;
@@ -192,25 +243,34 @@ export function NotificationProvider({ children }: PropsWithChildren) {
 
   const stopRealtime = useCallback(() => {
     try { channelRef.current?.unsubscribe?.(); } catch (_e) { /* ignore */ }
-    try {
-      const state = ablyRef.current?.connection?.state;
-      // Closing a connection that's already closing/closed/failed re-triggers
-      // Ably's internal teardown and is what surfaces the "Connection closed"
-      // error; only close a connection that's actually still live.
-      if (ablyRef.current && state !== 'closed' && state !== 'closing' && state !== 'failed') {
-        ablyRef.current.close();
+    const client = ablyRef.current;
+    if (client) {
+      try {
+        client.connection?.off?.();
+        client.connection?.on?.('error', () => {});
+        const state = client.connection?.state;
+        if (state !== 'closed' && state !== 'closing' && state !== 'failed') {
+          client.close();
+        }
+      } catch (_e) {
+        /* ignore */
       }
-    } catch (_e) { /* ignore */ }
+    }
     channelRef.current = null;
     ablyRef.current = null;
     if (pollTimerRef.current) {
       clearInterval(pollTimerRef.current);
       pollTimerRef.current = null;
     }
+    if (refreshTimerRef.current) {
+      clearTimeout(refreshTimerRef.current);
+      refreshTimerRef.current = null;
+    }
   }, []);
 
+  const userId = user?.id;
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated || !userId) {
       setNotifications([]);
       setUnreadCount(0);
       stopRealtime();
@@ -219,7 +279,7 @@ export function NotificationProvider({ children }: PropsWithChildren) {
     fetchInitial();
     startRealtime();
     return () => stopRealtime();
-  }, [isAuthenticated, user?.id, fetchInitial, startRealtime, stopRealtime]);
+  }, [isAuthenticated, userId, fetchInitial, startRealtime, stopRealtime]);
 
   const markRead = useCallback(async (id: string) => {
     setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, status: 'read' } : n)));

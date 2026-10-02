@@ -25,6 +25,100 @@ chatRouter.get('/providers', requireAuth, (req, res) => {
 function writeSse(res, event) {
     res.write(`data: ${JSON.stringify(event)}\n\n`);
 }
+function synthesizeGenerationProposal(message, fullReply, priorMessages, studentContext) {
+    const combinedContext = [
+        message,
+        fullReply,
+        ...priorMessages.slice(-2).map((m) => m.content),
+    ].join('\n');
+    // Detect grade / class
+    const classMatch = combinedContext.match(/(?:class|grade)\s*(\d+|ukg|lkg|nursery)/i);
+    const gradeLevel = classMatch
+        ? classMatch[1].toUpperCase()
+        : studentContext?.student?.classLevel
+            ? String(studentContext.student.classLevel)
+            : '6';
+    // Detect subject
+    let subject = 'General Knowledge';
+    if (/jnvst|navodaya/i.test(combinedContext)) {
+        subject = 'Navodaya (JNVST)';
+    }
+    else if (/math(?:s|ematics)?|arithmetic|algebra|fraction|geometry/i.test(combinedContext)) {
+        subject = 'Mathematics';
+    }
+    else if (/science|physics|chemistry|biology|nature/i.test(combinedContext)) {
+        subject = 'Science';
+    }
+    else if (/evs|environmental/i.test(combinedContext)) {
+        subject = 'Environmental Studies (EVS)';
+    }
+    else if (/english|grammar|comprehension|passage/i.test(combinedContext)) {
+        subject = 'English';
+    }
+    else if (/social\s*studies|history|geography|civics|sst/i.test(combinedContext)) {
+        subject = 'Social Science';
+    }
+    else if (/comp(?:uter)?(?:\s*sci)?/i.test(combinedContext)) {
+        subject = 'Computer Science';
+    }
+    // Detect exam prep
+    const isExamPrep = /jnvst|navodaya|sainik|olympiad|entrance\s*exam/i.test(combinedContext);
+    const examName = /jnvst|navodaya/i.test(combinedContext)
+        ? 'Navodaya Vidyalaya (JNVST)'
+        : /sainik/i.test(combinedContext)
+            ? 'Sainik School Entrance'
+            : /olympiad/i.test(combinedContext)
+                ? 'Olympiad Assessment'
+                : undefined;
+    // Detect content type
+    let contentType = 'content';
+    if (/\b(?:story|tale|adventure)\b/i.test(message) && !/lesson|quiz|module/i.test(message)) {
+        contentType = 'story';
+    }
+    else if (/\b(?:only\s+quiz|quiz\s+only|just\s+a\s+quiz)\b/i.test(message)) {
+        contentType = 'quiz';
+    }
+    else if (/\b(?:topic\s+only)\b/i.test(message)) {
+        contentType = 'topic';
+    }
+    // Extract title
+    const titleMatch = fullReply.match(/(?:\*\*Lesson Title:\*\*|Lesson Title:|\*\*Title:\*\*|Title:)\s*([^\n]+)/i);
+    let title = titleMatch ? titleMatch[1].replace(/[*#]/g, '').trim() : '';
+    if (!title) {
+        title = isExamPrep
+            ? `Class ${gradeLevel} ${subject} Review & Exam Prep`
+            : `Class ${gradeLevel} ${subject} Learning Module`;
+    }
+    // Extract topic
+    const focusMatch = fullReply.match(/(?:\*\*Focus Area:\*\*|Focus Area:|\*\*Topic:\*\*|Topic:)\s*([^\n]+)/i);
+    let topic = focusMatch ? focusMatch[1].replace(/[*#]/g, '').trim() : '';
+    if (!topic) {
+        topic = title;
+    }
+    // Count sections / video count
+    const sectionMatches = fullReply.match(/(?:section\s*\d+|###\s*section|\*\*section\s*\d+)/gi);
+    const sectionCount = sectionMatches ? sectionMatches.length : 1;
+    const videoCount = Math.max(1, Math.min(4, sectionCount > 1 ? Math.min(sectionCount, 3) : 1));
+    // Determine quiz strategy
+    const quizStrategy = videoCount > 1 || isExamPrep ? 'separate_section' : 'attach_to_video';
+    return {
+        type: 'generation_proposal',
+        contentType,
+        title,
+        summary: `Structured ${contentType === 'content' ? 'module' : contentType} covering ${topic} with curated instructional video and attached practice quiz.`,
+        params: {
+            subject,
+            gradeLevel,
+            topic,
+            format: 'lesson',
+            videoCount,
+            quizStrategy,
+            includeQuiz: true,
+            quizQuestionCount: isExamPrep ? 10 : 5,
+            ...(isExamPrep ? { isExamPrep: true, examName } : {}),
+        },
+    };
+}
 // POST /ai/chat — send a message, get a streamed (SSE) assistant reply.
 // Creates a conversation on first message if `conversationId` is omitted.
 // Role-aware: the system prompt and conversation title derive from the
@@ -233,29 +327,36 @@ followed by a 1-2 sentence pedagogical note, OR clean Markdown. NEVER output a \
         if (!canGenerateContent(role) && fullReply.includes('generation_proposal')) {
             fullReply = fullReply.replace(/```json\s*\{[^`]*?\"type\"\s*:\s*\"generation_proposal\"[^`]*?\}\s*```/gs, '\n\n> ⚠️ Content creation is only available to teachers. I can help you understand this topic or find your weak areas instead!');
         }
-        // Detect inline content written by model instead of a proposal (for creator roles)
-        // If the reply looks like full quiz/lesson content but has no generation_proposal JSON,
-        // append a warning + instruction SSE so the user knows to retry with a cleaner request.
-        const hasProposalBlock = fullReply.includes('"type": "generation_proposal"') || fullReply.includes('"type":"generation_proposal"');
-        const looksLikeInlineContent = !hasProposalBlock && canGenerateContent(role) && (/Q\d+\.\s+.+\n.*[A-D]\)/m.test(fullReply) || // quiz questions pattern
-            (fullReply.includes('Section') && fullReply.includes('Answer:')) || // worksheet pattern
-            (fullReply.includes('youtube.com/watch') && fullReply.includes('VIDEO_ID')) // fake video URL
-        );
-        if (looksLikeInlineContent) {
-            const notice = '\n\n---\n> ⚠️ **Note:** The AI wrote out content directly instead of creating a Generation Proposal. Please try again — say "Generate a quiz on [topic]" and it will show you the Generate Now button.';
-            fullReply += notice;
-            writeSse(res, { delta: notice });
+        // Auto-heal / Intercept inline content or generation confirmation when no proposal JSON was outputted
+        let hasProposalBlock = fullReply.includes('"type": "generation_proposal"') || fullReply.includes('"type":"generation_proposal"');
+        if (!hasProposalBlock && canGenerateContent(role)) {
+            const userAskedForContent = /(?:generate|generte|create|build|make|draft|design|provide|act\s+as).*(?:content|lesson|module|quiz|questions?|topic|story|test|exam)/i.test(message) ||
+                /^(?:ok|yes|please|proceed)?\s*(?:gener[ae]te|create|make|build)\b/i.test(message.trim());
+            const looksLikeDraftContent = /Q\d+\.\s+.+\n.*[A-D]\)/m.test(fullReply) ||
+                /(?:Section\s*\d+|###\s*Section|\*\*Section)/i.test(fullReply) ||
+                /(?:Lesson Title|Focus Area|Key Concept Simplified)/i.test(fullReply) ||
+                /(?:Answer:\s*[A-D]|Explanation:)/i.test(fullReply) ||
+                (fullReply.includes('youtube.com/watch') && fullReply.includes('VIDEO_ID'));
+            if (userAskedForContent || looksLikeDraftContent) {
+                const synthesized = synthesizeGenerationProposal(message, fullReply, priorMessages, studentContext);
+                if (synthesized) {
+                    const proposalBlock = `\n\n\`\`\`json\n${JSON.stringify(synthesized, null, 2)}\n\`\`\``;
+                    fullReply += proposalBlock;
+                    writeSse(res, { delta: proposalBlock });
+                    hasProposalBlock = true;
+                }
+            }
         }
         if (hasProposalBlock) {
-            // If the model dumped draft questions before the proposal JSON, strip them before persisting
+            // If the model dumped draft questions or verbose lesson text before the proposal JSON, strip them before persisting
             const proposalBlockIdx = fullReply.search(/```(?:json)?\s*\{[\s\S]*?"type"\s*:\s*"generation_proposal"/i);
             if (proposalBlockIdx > 0) {
                 const introPart = fullReply.substring(0, proposalBlockIdx);
                 const jsonPart = fullReply.substring(proposalBlockIdx);
-                const questionCutoff = introPart.search(/(?:\n\s*(?:#{1,4}\s*)?(?:[^\n]*(?:remedial quiz|practice quiz|assessment quiz|sample quiz|question bank|quiz:|\bquestions:)\b[^\n]*|\*{0,2}(?:Question\s*\d+|\d+[\.\)]|Q\d+[\.\:]|\*\*\d+[\.\)])\s+|[A-D]\)\s+))/i);
+                const questionCutoff = introPart.search(/(?:\n\s*(?:#{1,4}\s*)?(?:[^\n]*(?:remedial quiz|practice quiz|assessment quiz|sample quiz|question bank|quiz:|\bquestions:)\b[^\n]*|\*{0,2}(?:Question\s*\d+|\d+[\.\)]|Q\d+[\.\:]|\*\*\d+[\.\)])\s+|[A-D]\)\s+|(?:\*\*Lesson Title:\*\*|Lesson Title:|###?\s*Section|\*\*Section\s*\d+:)|Here(?:'s| is) (?:a |the )?(?:comprehensive |detailed )?(?:lesson|content|module|quiz)))/i);
                 if (questionCutoff !== -1) {
                     const cleanedIntro = introPart.substring(0, questionCutoff).trim();
-                    fullReply = (cleanedIntro ? cleanedIntro + '\n\n' : '') + jsonPart;
+                    fullReply = (cleanedIntro ? cleanedIntro + '\n\n' : "I have prepared a generation proposal for this lesson:\n\n") + jsonPart;
                 }
             }
         }

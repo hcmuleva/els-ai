@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import { db } from '../db.js';
 import { eventBus } from '../events/bus.js';
 import { AblyEventBus, PushChannel } from '@els-ai/event-bus';
+import * as Ably from 'ably';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'els-secret-key-super-secure';
 import { UserRole, UserWithRoles } from '../types.js';
@@ -27,12 +28,18 @@ const createUserSchema = z.object({
   mobileNumber: z.string().trim().min(6).max(20).optional(),
   password: z.string().min(4).max(72).optional(),
   role: managedRoleSchema,
+  roles: z.array(managedRoleSchema).min(1).optional(),
+  studentClasses: z.array(z.string().trim().min(1).max(50)).optional(),
+  isAllStudentClasses: z.boolean().optional(),
   classLevel: z.string().trim().optional(),
   branch: z.string().trim().max(100).optional(),
   organizationId: z.string().uuid().optional(),
 });
 const assignRolesSchema = z.object({
   roles: z.array(managedRoleSchema).min(1),
+  activeRole: managedRoleSchema.optional(),
+  studentClasses: z.array(z.string().trim().min(1).max(50)).optional(),
+  isAllStudentClasses: z.boolean().optional(),
 });
 const updateUserSchema = z
   .object({
@@ -44,6 +51,9 @@ const updateUserSchema = z
     classLevel: z.string().trim().optional(),
     branch: z.string().trim().max(100).optional(),
     activeRole: managedRoleSchema.optional(),
+    roles: z.array(managedRoleSchema).min(1).optional(),
+    studentClasses: z.array(z.string().trim().min(1).max(50)).optional(),
+    isAllStudentClasses: z.boolean().optional(),
     isActive: z.boolean().optional(),
   })
   .refine((value) => Object.values(value).some((item) => item !== undefined), {
@@ -195,6 +205,37 @@ async function getUserWithRoles(userId: string, organizationId?: string): Promis
     classAssignments = classAssigmentsResult.rows[0]?.assignments || [];
   }
 
+  let studentClasses: string[] = [];
+  let isAllStudentClasses = false;
+
+  if (roles.includes('student') && resolvedOrgId) {
+    const studentAssignmentsResult = await db.query(
+      `SELECT class_level, is_all_classes
+       FROM student_class_assignments
+       WHERE student_user_id = $1::uuid
+         AND organization_id = $2::uuid`,
+      [userId, resolvedOrgId],
+    );
+    if (studentAssignmentsResult.rowCount && studentAssignmentsResult.rowCount > 0) {
+      const hasAll = studentAssignmentsResult.rows.some((r: any) => r.is_all_classes || r.class_level === 'ALL');
+      if (hasAll) {
+        isAllStudentClasses = true;
+        studentClasses = [];
+      } else {
+        isAllStudentClasses = false;
+        studentClasses = studentAssignmentsResult.rows.map((r: any) => r.class_level);
+      }
+    } else {
+      if (user.class_level) {
+        studentClasses = [user.class_level];
+        isAllStudentClasses = false;
+      } else {
+        isAllStudentClasses = true;
+        studentClasses = [];
+      }
+    }
+  }
+
   const isSuperAdmin = roles.includes('superadmin');
   
   let canPublishGlobal = false;
@@ -222,6 +263,8 @@ async function getUserWithRoles(userId: string, organizationId?: string): Promis
     activeRole: user.active_role as UserRole,
     roles,
     classAssignments,
+    studentClasses,
+    isAllStudentClasses,
     profileImage: user.profile_image,
     organizationId: resolvedOrgId || undefined,
     isActive: user.is_active,
@@ -287,6 +330,51 @@ async function userHasRoleInOrg(userId: string, organizationId: string, roleName
     [userId, organizationId, roleName],
   );
   return (result.rowCount ?? 0) > 0;
+}
+
+let ablyRest: any = null;
+function getAblyRest(): any {
+  const key = process.env.ABLY_API_KEY;
+  if (!key) return null;
+  if (!ablyRest) {
+    try {
+      ablyRest = new Ably.Rest({ key });
+    } catch (e) {
+      console.warn('[auth-service] failed to init Ably REST client', e);
+    }
+  }
+  return ablyRest;
+}
+
+async function publishUserRealtimeUpdate(organizationId: string, userId: string, updatedUser: UserWithRoles) {
+  const payload = {
+    userId,
+    roles: updatedUser.roles,
+    activeRole: updatedUser.activeRole,
+    studentClasses: updatedUser.studentClasses || [],
+    isAllStudentClasses: Boolean(updatedUser.isAllStudentClasses),
+    classAssignments: updatedUser.classAssignments || [],
+    classLevel: updatedUser.classLevel || null,
+  };
+
+  try {
+    if (eventBus instanceof AblyEventBus) {
+      const push: PushChannel = {
+        channel: `notification:${organizationId}:${userId}`,
+        name: 'user_roles_updated',
+        data: payload,
+      };
+      await eventBus.notify(push).catch((err: any) => console.error('[auth-service] eventBus push error', err));
+    } else {
+      const rest = getAblyRest();
+      if (rest) {
+        const ch = rest.channels.get(`notification:${organizationId}:${userId}`);
+        await ch.publish('user_roles_updated', payload);
+      }
+    }
+  } catch (err) {
+    console.error('[auth-service] Realtime publish error', err);
+  }
 }
 
 type SubjectRow = {
@@ -662,6 +750,21 @@ usersRouter.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
   }
 });
 
+usersRouter.get('/class-levels', async (_req, res) => {
+  try {
+    const result = await db.query(
+      `SELECT code, label, display_order, is_any, is_active
+       FROM class_levels
+       WHERE is_active = true
+       ORDER BY display_order ASC`,
+    );
+    return res.json({ classLevels: result.rows });
+  } catch (error) {
+    console.error('Failed to get class levels', error);
+    return res.status(500).json({ message: 'Failed to fetch class levels' });
+  }
+});
+
 usersRouter.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
   const parsedBody = createUserSchema.safeParse(req.body);
   if (!parsedBody.success) {
@@ -681,7 +784,8 @@ usersRouter.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
     return res.status(403).json({ message: 'Forbidden: admin role required' });
   }
 
-  if (parsedBody.data.role === 'superadmin' && !callerSuper) {
+  const rolesToAssign = [...new Set(parsedBody.data.roles && parsedBody.data.roles.length > 0 ? parsedBody.data.roles : [parsedBody.data.role])];
+  if (rolesToAssign.includes('superadmin') && !callerSuper) {
     return res.status(403).json({ message: 'Forbidden: only a superadmin can create a superadmin' });
   }
 
@@ -703,12 +807,6 @@ usersRouter.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
       }
     }
 
-    const roleResult = await db.query('SELECT id FROM roles WHERE role_name = $1', [role]);
-    if (roleResult.rowCount === 0) {
-      return res.status(400).json({ message: 'Invalid role' });
-    }
-    const roleId = roleResult.rows[0].id as string;
-
     const passwordHash = await bcrypt.hash(password || 'welcome', 10);
 
     const createdUserResult = await db.query(
@@ -719,11 +817,38 @@ usersRouter.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
     );
     const userId = createdUserResult.rows[0].id as string;
 
-    await db.query(
-      `INSERT INTO user_roles (user_id, role_id, organization_id)
-       VALUES ($1, $2, $3)`,
-      [userId, roleId, organizationId],
-    );
+    for (const rName of rolesToAssign) {
+      const roleResult = await db.query('SELECT id FROM roles WHERE role_name = $1', [rName]);
+      if (roleResult.rowCount && roleResult.rowCount > 0) {
+        const roleId = roleResult.rows[0].id as string;
+        await db.query(
+          `INSERT INTO user_roles (user_id, role_id, organization_id)
+           VALUES ($1, $2, $3)
+           ON CONFLICT (user_id, role_id, organization_id) DO NOTHING`,
+          [userId, roleId, organizationId],
+        );
+      }
+    }
+
+    if (rolesToAssign.includes('student')) {
+      if (parsedBody.data.isAllStudentClasses || !parsedBody.data.studentClasses || parsedBody.data.studentClasses.length === 0) {
+        await db.query(
+          `INSERT INTO student_class_assignments (student_user_id, organization_id, class_level, is_all_classes)
+           VALUES ($1::uuid, $2::uuid, 'ALL', true)
+           ON CONFLICT (student_user_id, organization_id, class_level) DO NOTHING`,
+          [userId, organizationId],
+        );
+      } else {
+        for (const cl of [...new Set(parsedBody.data.studentClasses)]) {
+          await db.query(
+            `INSERT INTO student_class_assignments (student_user_id, organization_id, class_level, is_all_classes)
+             VALUES ($1::uuid, $2::uuid, $3::varchar, false)
+             ON CONFLICT (student_user_id, organization_id, class_level) DO NOTHING`,
+            [userId, organizationId, cl],
+          );
+        }
+      }
+    }
 
     await db.query(
       `INSERT INTO user_org_mapping (user_id, organization_id, is_primary)
@@ -770,7 +895,12 @@ usersRouter.patch('/:id/roles', requireAuth, async (req: AuthenticatedRequest, r
     return res.status(403).json({ message: 'Forbidden: admin role required' });
   }
 
+  const callerSuper = await isSuperAdmin(req.user?.userId);
   const roles = [...new Set(parsedBody.data.roles)];
+
+  if (roles.includes('superadmin') && !callerSuper) {
+    return res.status(403).json({ message: 'Forbidden: only a superadmin can assign the superadmin role' });
+  }
 
   const client = await db.connect();
   try {
@@ -787,6 +917,19 @@ usersRouter.patch('/:id/roles', requireAuth, async (req: AuthenticatedRequest, r
     if (membershipResult.rowCount === 0) {
       await client.query('ROLLBACK');
       return res.status(404).json({ message: 'User not found in your organization' });
+    }
+
+    const targetUserRolesResult = await client.query(
+      `SELECT r.role_name
+       FROM user_roles ur
+       INNER JOIN roles r ON r.id = ur.role_id
+       WHERE ur.user_id = $1`,
+      [userId],
+    );
+    const targetIsSuperAdmin = targetUserRolesResult.rows.some((r: any) => r.role_name === 'superadmin');
+    if (targetIsSuperAdmin && !callerSuper) {
+      await client.query('ROLLBACK');
+      return res.status(403).json({ message: 'Forbidden: only a superadmin can modify a superadmin account' });
     }
 
     await client.query(
@@ -815,13 +958,45 @@ usersRouter.patch('/:id/roles', requireAuth, async (req: AuthenticatedRequest, r
       );
     }
 
+    if (roles.includes('student')) {
+      await client.query(
+        `DELETE FROM student_class_assignments
+         WHERE student_user_id = $1::uuid
+           AND organization_id = $2::uuid`,
+        [userId, organizationId],
+      );
+
+      if (parsedBody.data.isAllStudentClasses || !parsedBody.data.studentClasses || parsedBody.data.studentClasses.length === 0) {
+        await client.query(
+          `INSERT INTO student_class_assignments (student_user_id, organization_id, class_level, is_all_classes)
+           VALUES ($1::uuid, $2::uuid, 'ALL', true)
+           ON CONFLICT (student_user_id, organization_id, class_level) DO NOTHING`,
+          [userId, organizationId],
+        );
+      } else {
+        for (const cl of [...new Set(parsedBody.data.studentClasses)]) {
+          await client.query(
+            `INSERT INTO student_class_assignments (student_user_id, organization_id, class_level, is_all_classes)
+             VALUES ($1::uuid, $2::uuid, $3::varchar, false)
+             ON CONFLICT (student_user_id, organization_id, class_level) DO NOTHING`,
+            [userId, organizationId, cl],
+          );
+        }
+      }
+    }
+
     const currentUserResult = await client.query(
       `SELECT active_role FROM users WHERE id = $1`,
       [userId],
     );
     const currentActiveRole = currentUserResult.rows[0]?.active_role as UserRole | undefined;
 
-    if (!currentActiveRole || !roles.includes(currentActiveRole as z.infer<typeof managedRoleSchema>)) {
+    if (parsedBody.data.activeRole && roles.includes(parsedBody.data.activeRole)) {
+      await client.query(
+        `UPDATE users SET active_role = $1 WHERE id = $2`,
+        [parsedBody.data.activeRole, userId],
+      );
+    } else if (!currentActiveRole || !roles.includes(currentActiveRole as z.infer<typeof managedRoleSchema>)) {
       await client.query(
         `UPDATE users SET active_role = $1 WHERE id = $2`,
         [roles[0], userId],
@@ -831,6 +1006,9 @@ usersRouter.patch('/:id/roles', requireAuth, async (req: AuthenticatedRequest, r
     await client.query('COMMIT');
 
     const updatedUser = await getUserWithRoles(userId, organizationId);
+    if (updatedUser) {
+      await publishUserRealtimeUpdate(organizationId, userId, updatedUser);
+    }
     return res.json(updatedUser);
   } catch (error) {
     await client.query('ROLLBACK');
@@ -871,7 +1049,20 @@ usersRouter.patch('/:id', requireAuth, async (req: AuthenticatedRequest, res) =>
     return res.status(404).json({ message: 'User not found in your organization' });
   }
 
-  const { firstName, lastName, email, mobileNumber, password, classLevel, branch, activeRole, isActive } = parsedBody.data;
+  const { firstName, lastName, email, mobileNumber, password, classLevel, branch, activeRole, roles, studentClasses, isAllStudentClasses, isActive } = parsedBody.data;
+
+  const callerSuper = await isSuperAdmin(req.user?.userId);
+  const targetUserRolesResult = await db.query(
+    `SELECT r.role_name
+     FROM user_roles ur
+     INNER JOIN roles r ON r.id = ur.role_id
+     WHERE ur.user_id = $1`,
+    [userId],
+  );
+  const targetIsSuperAdmin = targetUserRolesResult.rows.some((r: any) => r.role_name === 'superadmin');
+  if (targetIsSuperAdmin && !callerSuper) {
+    return res.status(403).json({ message: 'Forbidden: only a superadmin can modify a superadmin account' });
+  }
 
   if (email) {
     const emailExists = await db.query('SELECT 1 FROM users WHERE email = $1 AND id <> $2', [email, userId]);
@@ -885,19 +1076,65 @@ usersRouter.patch('/:id', requireAuth, async (req: AuthenticatedRequest, res) =>
       return res.status(400).json({ message: 'Mobile number already registered' });
     }
   }
-  if (activeRole) {
+
+  if (roles && roles.length > 0) {
+    const uniqueRoles = [...new Set(roles)];
+    if (uniqueRoles.includes('superadmin') && !callerSuper) {
+      return res.status(403).json({ message: 'Forbidden: only a superadmin can assign the superadmin role' });
+    }
+
+    await db.query(
+      `DELETE FROM user_roles ur
+       USING roles r
+       WHERE ur.role_id = r.id
+         AND ur.user_id = $1
+         AND ur.organization_id = $2
+         AND r.role_name = ANY($3::text[])`,
+      [userId, organizationId, managedRoleSchema.options],
+    );
+
+    for (const roleName of uniqueRoles) {
+      const roleResult = await db.query('SELECT id FROM roles WHERE role_name = $1', [roleName]);
+      if (roleResult.rowCount && roleResult.rowCount > 0) {
+        await db.query(
+          `INSERT INTO user_roles (user_id, role_id, organization_id)
+           VALUES ($1, $2, $3)
+           ON CONFLICT (user_id, role_id, organization_id) DO NOTHING`,
+          [userId, roleResult.rows[0].id, organizationId],
+        );
+      }
+    }
+
+    if (uniqueRoles.includes('student')) {
+      await db.query(
+        `DELETE FROM student_class_assignments
+         WHERE student_user_id = $1::uuid
+           AND organization_id = $2::uuid`,
+        [userId, organizationId],
+      );
+
+      if (isAllStudentClasses || !studentClasses || studentClasses.length === 0) {
+        await db.query(
+          `INSERT INTO student_class_assignments (student_user_id, organization_id, class_level, is_all_classes)
+           VALUES ($1::uuid, $2::uuid, 'ALL', true)
+           ON CONFLICT (student_user_id, organization_id, class_level) DO NOTHING`,
+          [userId, organizationId],
+        );
+      } else {
+        for (const cl of [...new Set(studentClasses)]) {
+          await db.query(
+            `INSERT INTO student_class_assignments (student_user_id, organization_id, class_level, is_all_classes)
+             VALUES ($1::uuid, $2::uuid, $3::varchar, false)
+             ON CONFLICT (student_user_id, organization_id, class_level) DO NOTHING`,
+            [userId, organizationId, cl],
+          );
+        }
+      }
+    }
+  } else if (activeRole) {
     const roleResult = await db.query('SELECT id FROM roles WHERE role_name = $1', [activeRole]);
     if (roleResult.rowCount && roleResult.rowCount > 0) {
       const roleId = roleResult.rows[0].id as string;
-      await db.query(
-        `DELETE FROM user_roles ur
-         USING roles r
-         WHERE ur.role_id = r.id
-           AND ur.user_id = $1
-           AND ur.organization_id = $2
-           AND r.role_name = ANY($3::text[])`,
-        [userId, organizationId, managedRoleSchema.options],
-      );
       await db.query(
         `INSERT INTO user_roles (user_id, role_id, organization_id)
          VALUES ($1, $2, $3)
@@ -941,6 +1178,12 @@ usersRouter.patch('/:id', requireAuth, async (req: AuthenticatedRequest, res) =>
   if (activeRole !== undefined) {
     params.push(activeRole);
     updates.push(`active_role = $${params.length}`);
+  } else if (roles && roles.length > 0) {
+    const currentActive = targetUserRolesResult.rows[0]?.active_role;
+    if (!currentActive || !roles.includes(currentActive)) {
+      params.push(roles[0]);
+      updates.push(`active_role = $${params.length}`);
+    }
   }
   if (isActive !== undefined) {
     params.push(isActive);
@@ -955,6 +1198,7 @@ usersRouter.patch('/:id', requireAuth, async (req: AuthenticatedRequest, res) =>
     if (!updatedUser) {
       return res.status(404).json({ message: 'User not found' });
     }
+    await publishUserRealtimeUpdate(organizationId, userId, updatedUser);
     return res.json(updatedUser);
   } catch (error) {
     console.error(error);
@@ -2060,3 +2304,63 @@ usersRouter.patch('/:id/active-role', requireAuth, async (req: AuthenticatedRequ
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+usersRouter.patch('/:id/active-class', requireAuth, async (req: AuthenticatedRequest, res) => {
+  const userId = getSingleParam(req.params.id);
+  const organizationId = getRequestOrganizationId(req);
+  const { classLevel } = req.body || {};
+
+  if (!userId) {
+    return res.status(400).json({ message: 'Invalid user id' });
+  }
+
+  if (typeof classLevel !== 'string') {
+    return res.status(400).json({ message: 'Invalid classLevel payload' });
+  }
+
+  try {
+    const isAdmin = await hasAdminAccess(req);
+    if (!isAdmin && req.user?.userId !== userId) {
+      return res.status(403).json({ message: 'Forbidden: cannot update another user active class' });
+    }
+
+    if (classLevel && classLevel !== 'ANY') {
+      const assignmentRes = await db.query(
+        `SELECT is_all_classes, class_level FROM student_class_assignments WHERE student_user_id = $1`,
+        [userId]
+      );
+      if (assignmentRes.rowCount && assignmentRes.rowCount > 0) {
+        const hasAll = assignmentRes.rows.some((r: any) => r.is_all_classes || r.class_level === 'ALL');
+        if (!hasAll) {
+          const allowed = assignmentRes.rows.some((r: any) => r.class_level === classLevel);
+          if (!allowed) {
+            return res.status(403).json({ message: 'Class not assigned to this student' });
+          }
+        }
+      }
+    }
+
+    await db.query(
+      `UPDATE users
+       SET class_level = $1
+       WHERE id = $2`,
+      [classLevel === 'ANY' ? null : classLevel, userId]
+    );
+
+    const updatedUser = await getUserWithRoles(userId, organizationId || undefined);
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    await publishUserRealtimeUpdate(organizationId || updatedUser.organizationId || '', userId, updatedUser);
+
+    return res.json({
+      success: true,
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error('Error updating active class:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+

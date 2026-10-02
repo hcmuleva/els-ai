@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState, useCallback } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState, useCallback, useRef } from 'react';
 import { AppUser, UserRole } from '../types/roles';
 import { getStorageItem, setStorageItem, deleteStorageItem } from '../utils/storage';
 
@@ -84,7 +84,10 @@ type AuthContextValue = {
   refreshUser: () => Promise<void>;
   apiFetch: (path: string, options?: RequestInit) => Promise<Response>;
   deleteChildAccount: (registrationId: string) => Promise<{ success: boolean; error?: string }>;
+  deleteAccount: () => Promise<{ success: boolean; error?: string }>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; error?: string }>;
+  studentSelectedClass: string;
+  setStudentSelectedClass: (cls: string) => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthContextValue | null>(null);
@@ -93,6 +96,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<AppUser | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [studentSelectedClass, setStudentSelectedClassState] = useState<string>('');
 
   // Helper: Get cached tokens
   const getAccessToken = async () => getStorageItem('accessToken');
@@ -126,8 +130,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
             });
             if (res.ok) {
               const freshUser = await res.json();
-              await setStorageItem('user', JSON.stringify(freshUser));
-              setUser(freshUser);
+              if (JSON.stringify(parsedUser) !== JSON.stringify(freshUser)) {
+                await setStorageItem('user', JSON.stringify(freshUser));
+                setUser(freshUser);
+              }
             }
           }
         } catch (_e) {
@@ -138,35 +144,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
     loadUser();
   }, []);
 
-  // Authenticated fetch wrapper with automatic token refresh rotation
-  const apiFetch = async (path: string, options: RequestInit = {}): Promise<Response> => {
-    let token = await getAccessToken();
-    const headers = new Headers(options.headers || {});
-    if (token) {
-      headers.set('Authorization', `Bearer ${token}`);
-    }
-    headers.set('Content-Type', 'application/json');
+  const userRef = useRef<AppUser | null>(user);
+  useEffect(() => {
+    userRef.current = user;
+  }, [user]);
 
-    const fetchOptions = { ...options, headers };
-    let response = await fetch(`${API_BASE_URL}${path}`, fetchOptions);
-
-    // If unauthorized, run a single shared token refresh and retry once.
-    if (response.status === 401) {
-      const { accessToken, revoked } = await refreshAccessTokenOnce();
-      if (accessToken) {
-        headers.set('Authorization', `Bearer ${accessToken}`);
-        response = await fetch(`${API_BASE_URL}${path}`, fetchOptions);
-      } else if (revoked) {
-        // Only sign out when the refresh token is genuinely revoked/expired —
-        // never on a transient network/server error.
-        await cleanAuth();
-      }
-    }
-
-    return response;
-  };
-
-  const cleanAuth = async () => {
+  const cleanAuth = useCallback(async () => {
     await deleteStorageItem('accessToken');
     await deleteStorageItem('refreshToken');
     await deleteStorageItem('user');
@@ -213,7 +196,35 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
     setUser(null);
     setIsAuthenticated(false);
-  };
+  }, []);
+
+  // Authenticated fetch wrapper with automatic token refresh rotation
+  const apiFetch = useCallback(async (path: string, options: RequestInit = {}): Promise<Response> => {
+    let token = await getAccessToken();
+    const headers = new Headers(options.headers || {});
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
+    headers.set('Content-Type', 'application/json');
+
+    const fetchOptions = { ...options, headers };
+    let response = await fetch(`${API_BASE_URL}${path}`, fetchOptions);
+
+    // If unauthorized, run a single shared token refresh and retry once.
+    if (response.status === 401) {
+      const { accessToken, revoked } = await refreshAccessTokenOnce();
+      if (accessToken) {
+        headers.set('Authorization', `Bearer ${accessToken}`);
+        response = await fetch(`${API_BASE_URL}${path}`, fetchOptions);
+      } else if (revoked) {
+        // Only sign out when the refresh token is genuinely revoked/expired —
+        // never on a transient network/server error.
+        await cleanAuth();
+      }
+    }
+
+    return response;
+  }, [cleanAuth]);
 
   const signIn = async (identifier: string, password = 'welcome') => {
     try {
@@ -311,19 +322,79 @@ export function AuthProvider({ children }: PropsWithChildren) {
     }
   };
 
+  const hydratedUserIdRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!user?.id) {
+      hydratedUserIdRef.current = null;
+      setStudentSelectedClassState('');
+      return;
+    }
+    // Only re-hydrate from storage when the user ID changes (initial load or account switch)
+    if (hydratedUserIdRef.current !== user.id) {
+      hydratedUserIdRef.current = user.id;
+      getStorageItem(`student_selected_class_${user.id}`).then((saved) => {
+        if (saved) {
+          setStudentSelectedClassState((prev) => (prev !== saved ? saved : prev));
+        } else if (user.classLevel) {
+          setStudentSelectedClassState((prev) => (prev !== user.classLevel ? user.classLevel! : prev));
+        } else if (user.studentClasses && user.studentClasses.length > 0) {
+          setStudentSelectedClassState((prev) => (prev !== user.studentClasses![0] ? user.studentClasses![0] : prev));
+        } else {
+          setStudentSelectedClassState((prev) => (prev !== 'ANY' ? 'ANY' : prev));
+        }
+      });
+    }
+  }, [user?.id]);
+
+  const setStudentSelectedClass = useCallback(async (cls: string) => {
+    setStudentSelectedClassState((prev) => (prev !== cls ? cls : prev));
+    const currUser = userRef.current;
+    if (currUser?.id) {
+      await setStorageItem(`student_selected_class_${currUser.id}`, cls);
+      try {
+        const res = await apiFetch(`/users/${currUser.id}/active-class`, {
+          method: 'PATCH',
+          body: JSON.stringify({ classLevel: cls }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.user) {
+            const prevJson = JSON.stringify(userRef.current);
+            const nextJson = JSON.stringify(data.user);
+            if (prevJson !== nextJson) {
+              await setStorageItem('user', nextJson);
+              setUser(data.user);
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Network error setting active class', e);
+      }
+    }
+  }, [apiFetch]);
+
   const refreshUser = useCallback(async () => {
-    if (!user) return;
+    const currUser = userRef.current;
+    if (!currUser?.id) return;
     try {
-      const res = await apiFetch(`/users/${user.id}`);
+      const res = await apiFetch(`/users/${currUser.id}`);
       if (res.ok) {
         const updatedUser = await res.json();
-        await setStorageItem('user', JSON.stringify(updatedUser));
-        setUser(updatedUser);
+        if (updatedUser.roles && updatedUser.roles.length > 0 && !updatedUser.roles.includes(updatedUser.activeRole)) {
+          updatedUser.activeRole = updatedUser.roles[0];
+        }
+        const prevJson = JSON.stringify(userRef.current);
+        const nextJson = JSON.stringify(updatedUser);
+        if (prevJson !== nextJson) {
+          await setStorageItem('user', nextJson);
+          setUser(updatedUser);
+        }
       }
     } catch (e) {
       console.warn('Network error refreshing user', e);
     }
-  }, [user, apiFetch]);
+  }, [apiFetch]);
 
   const deleteAccount = async () => {
     try {
@@ -384,8 +455,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
       deleteAccount,
       deleteChildAccount,
       changePassword,
+      studentSelectedClass,
+      setStudentSelectedClass,
     }),
-    [isAuthenticated, isLoading, user, refreshUser, apiFetch],
+    [isAuthenticated, isLoading, user, refreshUser, apiFetch, studentSelectedClass, setStudentSelectedClass],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

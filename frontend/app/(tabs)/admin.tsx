@@ -11,6 +11,7 @@ import { QuestionDumpTab } from '../../src/components/admin/QuestionDumpTab';
 import { SchoolAnalyticsTab } from '../../src/components/admin/SchoolAnalyticsTab';
 import { FeatureFlagsTab } from '../../src/components/admin/FeatureFlagsTab';
 import { useFeatureFlag } from '../../src/hooks/useFeatureFlags';
+import { useClassLevels } from '../../src/hooks/useClassLevels';
 import { STANDARD_OPTIONS, getStandardLabel } from '../../src/constants/standards';
 import { API_BASE_URL, useAuth } from '../../src/context/AuthContext';
 import { Colors, Radius, Shadow } from '../../src/theme';
@@ -18,7 +19,7 @@ import { UserRole } from '../../src/types/roles';
 
 type IconComp = React.ComponentType<{ size?: number; color?: string }>;
 
-type ManagedRole = Extract<UserRole, 'student' | 'teacher' | 'parent' | 'admin'>;
+type ManagedRole = UserRole;
 type AdminTab = 'subject' | 'student' | 'teacher' | 'parent' | 'billing' | 'question_dump' | 'analytics' | 'feature_flags';
 type DialogMode = 'create' | 'edit';
 
@@ -92,7 +93,10 @@ type UserFormState = {
   mobileNumber: string;
   classLevel: string;
   password: string;
-  role: ManagedRole;
+  role: UserRole;
+  roles: UserRole[];
+  studentAllClasses: boolean;
+  studentClasses: string[];
 };
 
 type SubjectAuthorUser = {
@@ -171,6 +175,9 @@ const EMPTY_USER_FORM: UserFormState = {
   classLevel: '',
   password: '',
   role: 'student',
+  roles: ['student'],
+  studentAllClasses: true,
+  studentClasses: [],
 };
 
 const EMPTY_SUBJECT_FORM: SubjectFormState = {
@@ -312,8 +319,23 @@ export default function AdminScreen() {
   const isMobile = windowWidth < 640;
 
   const { user, apiFetch } = useAuth();
+  const { classLevels } = useClassLevels();
   const insets = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState<AdminTab>('subject');
+
+  const dynamicStandardOptions = useMemo(
+    () => (classLevels.length > 0 ? classLevels.map((s) => ({ label: s.label, value: s.value })) : STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))),
+    [classLevels],
+  );
+  const dynamicClassOptions = useMemo(
+    () => classLevels.filter((s) => !s.isAny && s.value !== 'ANY'),
+    [classLevels],
+  );
+  const canAssignSuperAdmin = Boolean(user?.activeRole === 'superadmin' || user?.roles?.includes('superadmin'));
+  const availableUserRoles: UserRole[] = useMemo(
+    () => (canAssignSuperAdmin ? ['student', 'teacher', 'parent', 'admin', 'superadmin'] : ['student', 'teacher', 'parent', 'admin']),
+    [canAssignSuperAdmin],
+  );
   // Demonstrates the feature-flags mechanism end-to-end: the Analytics tab
   // (the most recently-added, explicitly-heuristic-based feature — see
   // PENDING_ITEMS.md #10) can be turned off per-organization from the new
@@ -614,17 +636,21 @@ export default function AdminScreen() {
       roleFromTab || (activeTab === 'student' ? 'student' : activeTab === 'teacher' ? 'teacher' : activeTab === 'parent' ? 'parent' : 'student');
     setDialogMode('create');
     setEditingUserId(null);
-    setUserForm({ ...EMPTY_USER_FORM, role });
+    setUserForm({
+      ...EMPTY_USER_FORM,
+      role,
+      roles: [role],
+      studentAllClasses: true,
+      studentClasses: [],
+    });
     setUserDialogError(null);
     setShowUserPassword(false);
     setMessage(null);
   };
 
-  const openEditDialog = (managedUser: ManagedUser) => {
-    const roleFallback: ManagedRole =
-      managedUser.activeRole === 'student' || managedUser.activeRole === 'teacher' || managedUser.activeRole === 'parent' || managedUser.activeRole === 'admin'
-        ? managedUser.activeRole
-        : 'student';
+  const openEditDialog = async (managedUser: ManagedUser) => {
+    const roleFallback: UserRole = managedUser.activeRole || 'student';
+    const initialRoles = managedUser.roles && managedUser.roles.length > 0 ? managedUser.roles : [roleFallback];
     setDialogMode('edit');
     setEditingUserId(managedUser.id);
     setUserForm({
@@ -635,10 +661,34 @@ export default function AdminScreen() {
       classLevel: managedUser.classLevel || '',
       password: '',
       role: roleFallback,
+      roles: initialRoles,
+      studentAllClasses: true,
+      studentClasses: managedUser.classLevel ? [managedUser.classLevel] : [],
     });
     setUserDialogError(null);
     setShowUserPassword(false);
     setMessage(null);
+
+    try {
+      const res = await apiFetch(`/users/${managedUser.id}`);
+      if (res.ok) {
+        const fullUser = await res.json();
+        setUserForm({
+          firstName: fullUser.firstName || managedUser.firstName,
+          lastName: fullUser.lastName || managedUser.lastName,
+          email: fullUser.email || managedUser.email,
+          mobileNumber: fullUser.mobileNumber || managedUser.mobileNumber || '',
+          classLevel: fullUser.classLevel || managedUser.classLevel || '',
+          password: '',
+          role: fullUser.activeRole || roleFallback,
+          roles: fullUser.roles && fullUser.roles.length > 0 ? fullUser.roles : initialRoles,
+          studentAllClasses: fullUser.isAllStudentClasses ?? (fullUser.studentClasses && fullUser.studentClasses.length > 0 ? false : true),
+          studentClasses: fullUser.studentClasses || (fullUser.classLevel ? [fullUser.classLevel] : []),
+        });
+      }
+    } catch (e) {
+      console.warn('Failed to fetch full user for edit modal', e);
+    }
   };
 
   const submitUserDialog = async () => {
@@ -662,6 +712,9 @@ export default function AdminScreen() {
             classLevel: userForm.classLevel.trim() || undefined,
             password: userForm.password.trim() || undefined,
             role: userForm.role,
+            roles: userForm.roles,
+            studentClasses: userForm.studentAllClasses ? [] : userForm.studentClasses,
+            isAllStudentClasses: userForm.studentAllClasses,
           }),
         });
         if (!res.ok) {
@@ -679,6 +732,9 @@ export default function AdminScreen() {
             classLevel: userForm.classLevel.trim() || undefined,
             password: userForm.password.trim() || undefined,
             activeRole: userForm.role,
+            roles: userForm.roles,
+            studentClasses: userForm.studentAllClasses ? [] : userForm.studentClasses,
+            isAllStudentClasses: userForm.studentAllClasses,
           }),
         });
         if (!res.ok) {
@@ -2046,7 +2102,7 @@ export default function AdminScreen() {
           <SelectorModal
             visible={standardSelectorTarget === 'viewMoreClassLevel'}
             title="Select Standard"
-            options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
+            options={dynamicStandardOptions}
             selected={viewMoreClassFilter}
             showAny={true}
             useModal={false}
@@ -2153,23 +2209,411 @@ export default function AdminScreen() {
                 )}
               </Pressable>
             </View>
-            <Text style={styles.fieldLabel}>Role *</Text>
-            <View style={styles.roleRow}>
-              {(['student', 'teacher', 'parent', 'admin'] as const).map((r) => {
-                const isActive = userForm.role === r;
-                return (
-                  <Pressable
-                    key={r}
-                    style={[styles.roleChip, isActive && styles.roleChipActive]}
-                    onPress={() => setUserForm((current) => ({ ...current, role: r }))}
-                  >
-                    <Text style={[styles.roleChipText, isActive && styles.roleChipTextActive]}>
-                      {r === 'student' ? 'Student' : r === 'teacher' ? 'Teacher' : r === 'parent' ? 'Parent' : 'Admin'}
-                    </Text>
-                  </Pressable>
-                );
-              })}
+            {/* ─── Assigned Roles (Multi-select) ────────────────── */}
+            <View style={{ marginTop: 14 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                <Text style={styles.fieldLabel}>Assigned Roles *</Text>
+                <Text style={{ fontSize: 11, fontWeight: '600', color: Colors.primary }}>
+                  {userForm.roles.length} selected
+                </Text>
+              </View>
+              <Text style={{ fontSize: 12, color: Colors.textMuted, marginBottom: 10 }}>
+                Select all roles this user is granted. Users can switch between assigned roles.
+              </Text>
+
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                {availableUserRoles.map((r) => {
+                  const isSelected = userForm.roles.includes(r);
+                  return (
+                    <Pressable
+                      key={r}
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 7,
+                        paddingHorizontal: 12,
+                        paddingVertical: 7,
+                        borderRadius: 10,
+                        borderWidth: 1.5,
+                        borderColor: isSelected ? Colors.primary : '#E2E8F0',
+                        backgroundColor: isSelected ? '#EFF6FF' : '#FFFFFF',
+                      }}
+                      onPress={() => {
+                        setUserForm((prev) => {
+                          const exists = prev.roles.includes(r);
+                          if (exists) {
+                            if (prev.roles.length <= 1) return prev;
+                            const nextRoles = prev.roles.filter((x) => x !== r);
+                            const nextActive = prev.role === r ? nextRoles[0] : prev.role;
+                            return { ...prev, roles: nextRoles, role: nextActive };
+                          } else {
+                            const nextRoles = [...prev.roles, r];
+                            return { ...prev, roles: nextRoles };
+                          }
+                        });
+                      }}
+                    >
+                      <View
+                        style={{
+                          width: 16,
+                          height: 16,
+                          borderRadius: 4,
+                          borderWidth: isSelected ? 0 : 1.5,
+                          borderColor: '#94A3B8',
+                          backgroundColor: isSelected ? Colors.primary : 'transparent',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {isSelected && <Check size={11} color="#FFFFFF" strokeWidth={3} />}
+                      </View>
+                      <Text
+                        style={{
+                          fontSize: 12,
+                          fontWeight: isSelected ? '700' : '500',
+                          color: isSelected ? '#1E40AF' : '#475569',
+                          textTransform: 'capitalize',
+                        }}
+                      >
+                        {r === 'student' ? 'Student' : r === 'teacher' ? 'Teacher' : r === 'parent' ? 'Parent' : r === 'admin' ? 'Admin' : 'Superadmin'}
+                      </Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
             </View>
+
+            {/* ─── Primary / Initial Active Role ─────────────────── */}
+            {userForm.roles.length > 1 && (
+              <View
+                style={{
+                  marginTop: 16,
+                  padding: 14,
+                  borderRadius: 12,
+                  backgroundColor: '#F8FAFC',
+                  borderWidth: 1,
+                  borderColor: '#E8ECF4',
+                }}
+              >
+                <View style={{ marginBottom: 8 }}>
+                  <Text style={{ fontSize: 13, fontWeight: '700', color: '#0F172A', marginBottom: 2 }}>
+                    Primary / Initial Active Role
+                  </Text>
+                  <Text style={{ fontSize: 11, color: Colors.textMuted }}>
+                    Default role active when this user signs in
+                  </Text>
+                </View>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                  {userForm.roles.map((r) => {
+                    const isActive = userForm.role === r;
+                    return (
+                      <Pressable
+                        key={r}
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          gap: 6,
+                          paddingHorizontal: 14,
+                          paddingVertical: 7,
+                          borderRadius: 999,
+                          borderWidth: isActive ? 1.5 : 1,
+                          borderColor: isActive ? Colors.primary : '#CBD5E1',
+                          backgroundColor: isActive ? Colors.primary : '#FFFFFF',
+                        }}
+                        onPress={() => setUserForm((prev) => ({ ...prev, role: r }))}
+                      >
+                        {isActive && <Check size={12} color="#FFFFFF" strokeWidth={3} />}
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            fontWeight: isActive ? '700' : '500',
+                            color: isActive ? '#FFFFFF' : '#334155',
+                            textTransform: 'capitalize',
+                          }}
+                        >
+                          {r}
+                        </Text>
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              </View>
+            )}
+
+            {/* ─── Student Class Access Card ────────────────────── */}
+            {userForm.roles.includes('student') && (
+              <View
+                style={{
+                  marginTop: 18,
+                  padding: 16,
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: 16,
+                  borderWidth: 1,
+                  borderColor: '#E2E8F0',
+                  shadowColor: '#0F172A',
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.05,
+                  shadowRadius: 8,
+                  elevation: 2,
+                }}
+              >
+                {/* Header with Icon, Title, and Segmented Toggle */}
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: 10,
+                  }}
+                >
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                    <View
+                      style={{
+                        width: 34,
+                        height: 34,
+                        borderRadius: 10,
+                        backgroundColor: '#EFF6FF',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderWidth: 1,
+                        borderColor: '#DBEAFE',
+                      }}
+                    >
+                      <GraduationCap size={18} color={Colors.primary} />
+                    </View>
+                    <View>
+                      <Text style={{ fontSize: 14, fontWeight: '700', color: '#0F172A' }}>
+                        Student Class Access
+                      </Text>
+                      <Text style={{ fontSize: 11, color: Colors.textMuted, marginTop: 1 }}>
+                        Allowed grade levels for this student
+                      </Text>
+                    </View>
+                  </View>
+
+                  {/* Segmented Control Pill */}
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      backgroundColor: '#F1F5F9',
+                      borderRadius: 999,
+                      padding: 3,
+                      borderWidth: 1,
+                      borderColor: '#E2E8F0',
+                    }}
+                  >
+                    <Pressable
+                      style={{
+                        paddingHorizontal: 12,
+                        paddingVertical: 6,
+                        borderRadius: 999,
+                        backgroundColor: userForm.studentAllClasses ? Colors.primary : 'transparent',
+                        shadowColor: userForm.studentAllClasses ? Colors.primary : 'transparent',
+                        shadowOffset: { width: 0, height: 1 },
+                        shadowOpacity: userForm.studentAllClasses ? 0.25 : 0,
+                        shadowRadius: 3,
+                        elevation: userForm.studentAllClasses ? 1 : 0,
+                      }}
+                      onPress={() => setUserForm((prev) => ({ ...prev, studentAllClasses: true, studentClasses: [] }))}
+                    >
+                      <Text
+                        style={{
+                          fontSize: 12,
+                          fontWeight: '700',
+                          color: userForm.studentAllClasses ? '#FFFFFF' : '#64748B',
+                        }}
+                      >
+                        All Classes
+                      </Text>
+                    </Pressable>
+
+                    <Pressable
+                      style={{
+                        paddingHorizontal: 12,
+                        paddingVertical: 6,
+                        borderRadius: 999,
+                        backgroundColor: !userForm.studentAllClasses ? Colors.primary : 'transparent',
+                        shadowColor: !userForm.studentAllClasses ? Colors.primary : 'transparent',
+                        shadowOffset: { width: 0, height: 1 },
+                        shadowOpacity: !userForm.studentAllClasses ? 0.25 : 0,
+                        shadowRadius: 3,
+                        elevation: !userForm.studentAllClasses ? 1 : 0,
+                      }}
+                      onPress={() =>
+                        setUserForm((prev) => ({
+                          ...prev,
+                          studentAllClasses: false,
+                          studentClasses:
+                            prev.studentClasses.length > 0
+                              ? prev.studentClasses
+                              : prev.classLevel
+                              ? [prev.classLevel]
+                              : [],
+                        }))
+                      }
+                    >
+                      <Text
+                        style={{
+                          fontSize: 12,
+                          fontWeight: '700',
+                          color: !userForm.studentAllClasses ? '#FFFFFF' : '#64748B',
+                        }}
+                      >
+                        Specific Classes
+                      </Text>
+                    </Pressable>
+                  </View>
+                </View>
+
+                {/* Subtle Divider */}
+                <View style={{ height: 1, backgroundColor: '#F1F5F9', marginVertical: 14 }} />
+
+                {/* Body Content */}
+                {userForm.studentAllClasses ? (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 10,
+                      backgroundColor: '#F0FDF4',
+                      borderWidth: 1,
+                      borderColor: '#BBF7D0',
+                      borderRadius: 12,
+                      padding: 12,
+                    }}
+                  >
+                    <CheckCircle2 size={18} color="#16A34A" />
+                    <View style={{ flex: 1 }}>
+                      <Text style={{ fontSize: 12, fontWeight: '700', color: '#15803D' }}>
+                        Full Grade-Level Access
+                      </Text>
+                      <Text style={{ fontSize: 11, color: '#166534', marginTop: 1 }}>
+                        Student can view and study content, subjects, classrooms, and stories across all classes.
+                      </Text>
+                    </View>
+                  </View>
+                ) : (
+                  <View>
+                    {/* Subheader with Count & Quick Actions */}
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: 10,
+                      }}
+                    >
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                        <Text style={{ fontSize: 12, fontWeight: '600', color: '#334155' }}>
+                          Allowed Classes
+                        </Text>
+                        <View
+                          style={{
+                            paddingHorizontal: 7,
+                            paddingVertical: 2,
+                            borderRadius: 999,
+                            backgroundColor: '#EFF6FF',
+                          }}
+                        >
+                          <Text style={{ fontSize: 11, fontWeight: '700', color: Colors.primary }}>
+                            {userForm.studentClasses.length} of {dynamicClassOptions.length}
+                          </Text>
+                        </View>
+                      </View>
+
+                      <View style={{ flexDirection: 'row', gap: 6 }}>
+                        <Pressable
+                          style={{
+                            paddingHorizontal: 9,
+                            paddingVertical: 4,
+                            borderRadius: 6,
+                            backgroundColor: '#EFF6FF',
+                            borderWidth: 1,
+                            borderColor: '#DBEAFE',
+                          }}
+                          onPress={() =>
+                            setUserForm((prev) => ({
+                              ...prev,
+                              studentClasses: dynamicClassOptions.map((c) => c.value),
+                            }))
+                          }
+                        >
+                          <Text style={{ fontSize: 11, color: Colors.primary, fontWeight: '700' }}>
+                            Select All
+                          </Text>
+                        </Pressable>
+
+                        <Pressable
+                          style={{
+                            paddingHorizontal: 9,
+                            paddingVertical: 4,
+                            borderRadius: 6,
+                            backgroundColor: '#F1F5F9',
+                            borderWidth: 1,
+                            borderColor: '#E2E8F0',
+                          }}
+                          onPress={() => setUserForm((prev) => ({ ...prev, studentClasses: [] }))}
+                        >
+                          <Text style={{ fontSize: 11, color: '#64748B', fontWeight: '700' }}>
+                            Clear
+                          </Text>
+                        </Pressable>
+                      </View>
+                    </View>
+
+                    {/* Class Chips Grid */}
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                      {dynamicClassOptions.map((cl) => {
+                        const isAssigned = userForm.studentClasses.includes(cl.value);
+                        return (
+                          <Pressable
+                            key={cl.value}
+                            style={{
+                              minWidth: 70,
+                              paddingHorizontal: 12,
+                              paddingVertical: 7,
+                              borderRadius: 10,
+                              borderWidth: isAssigned ? 1.5 : 1,
+                              borderColor: isAssigned ? Colors.primary : '#E2E8F0',
+                              backgroundColor: isAssigned ? '#EFF6FF' : '#F8FAFC',
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              gap: 5,
+                            }}
+                            onPress={() => {
+                              setUserForm((prev) => {
+                                const exists = prev.studentClasses.includes(cl.value);
+                                const next = exists
+                                  ? prev.studentClasses.filter((x) => x !== cl.value)
+                                  : [...prev.studentClasses, cl.value];
+                                return {
+                                  ...prev,
+                                  studentClasses: next,
+                                  classLevel: next.length === 1 ? next[0] : prev.classLevel,
+                                };
+                              });
+                            }}
+                          >
+                            {isAssigned && <Check size={12} color={Colors.primary} strokeWidth={2.5} />}
+                            <Text
+                              style={{
+                                fontSize: 12,
+                                fontWeight: isAssigned ? '700' : '500',
+                                color: isAssigned ? '#1E40AF' : '#475569',
+                              }}
+                            >
+                              {cl.label}
+                            </Text>
+                          </Pressable>
+                        );
+                      })}
+                    </View>
+                  </View>
+                )}
+              </View>
+            )}
           </ScrollView>
           <View style={styles.sheetFooter}>
             <Pressable style={[styles.secondaryButton, styles.half]} onPress={() => setDialogMode(null)}>
@@ -2182,7 +2626,7 @@ export default function AdminScreen() {
           <SelectorModal
             visible={standardSelectorTarget === 'userFormClassLevel'}
             title="Select Standard"
-            options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
+            options={dynamicStandardOptions}
             selected={userForm.classLevel}
             showAny={false}
             useModal={false}
@@ -2476,7 +2920,7 @@ export default function AdminScreen() {
           <SelectorModal
             visible={standardSelectorTarget === 'subjectFormClassLevel'}
             title="Select Standard"
-            options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
+            options={dynamicStandardOptions}
             selected={subjectForm.classLevel}
             showAny={false}
             useModal={false}
@@ -2619,7 +3063,7 @@ export default function AdminScreen() {
           <SelectorModal
             visible={standardSelectorTarget === 'viewMoreTeacherClassLevel'}
             title="Select Standard"
-            options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
+            options={dynamicStandardOptions}
             selected={viewMoreTeacherClassFilter}
             showAny={true}
             useModal={false}
@@ -3009,7 +3453,7 @@ export default function AdminScreen() {
           <SelectorModal
             visible={standardSelectorTarget === 'teacherAssignClass'}
             title="Select Standard"
-            options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
+            options={dynamicStandardOptions}
             selected=""
             showAny={false}
             useModal={false}
@@ -3240,7 +3684,7 @@ export default function AdminScreen() {
           <SelectorModal
             visible={standardSelectorTarget === 'parentStudentClassLevel'}
             title="Select Standard"
-            options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
+            options={dynamicStandardOptions}
             selected={parentStudentClassLevel}
             showAny={true}
             useModal={false}
@@ -3255,7 +3699,7 @@ export default function AdminScreen() {
       <SelectorModal
         visible={standardSelectorTarget === 'subjectFilterClassLevel' || standardSelectorTarget === 'studentFilterClassLevel'}
         title="Select Standard"
-        options={STANDARD_OPTIONS.map((s) => ({ label: s.label, value: s.value }))}
+        options={dynamicStandardOptions}
         selected={standardSelectorTarget === 'subjectFilterClassLevel' ? subjectClassFilter : studentFilters.classLevel}
         showAny={true}
         onSelect={applyStandardSelection}

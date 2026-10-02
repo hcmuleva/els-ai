@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, View, Modal } from 'react-native';
 import { router } from 'expo-router';
 import {
@@ -24,8 +24,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAuth } from '../../src/context/AuthContext';
 import { useStudentProfile } from '../../src/context/StudentProfileContext';
+import { useClassLevels } from '../../src/hooks/useClassLevels';
 import { UserRole } from '../../src/types/roles';
-import { RoleColors } from '../../src/theme';
+import { RoleColors, Colors } from '../../src/theme';
 
 // Was a hardcoded duplicate of `RoleColors` with stale (pre-a11y-fix)
 // parent/admin/superadmin values that failed WCAG AA as a solid hero-card
@@ -42,8 +43,37 @@ const ROLE_ICONS: Record<string, LucideIcon> = {
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
-  const { user, setActiveRole, signOut, apiFetch, deleteAccount, deleteChildAccount } = useAuth();
+  const { user, setActiveRole, signOut, apiFetch, deleteAccount, deleteChildAccount, studentSelectedClass, setStudentSelectedClass } = useAuth();
+  const { classLevels } = useClassLevels();
   const { refreshAll } = useStudentProfile();
+
+  const availableClassOptions = useMemo(() => {
+    const isAll = user?.isAllStudentClasses || !user?.studentClasses || user.studentClasses.length === 0;
+
+    if (isAll) {
+      const dbOptions = classLevels
+        .filter((lvl) => !lvl.isAny && lvl.value !== 'ANY')
+        .map((lvl) => ({
+          key: lvl.value,
+          label: lvl.label,
+        }));
+      return [{ key: 'ANY', label: 'All Classes' }, ...dbOptions];
+    }
+
+    const assigned = user.studentClasses || [];
+    const options = assigned.map((code) => {
+      const match = classLevels.find((lvl) => lvl.value.toLowerCase() === code.toLowerCase());
+      return {
+        key: code,
+        label: match ? match.label : code,
+      };
+    });
+
+    if (options.length > 1) {
+      return [{ key: 'ANY', label: 'All My Classes' }, ...options];
+    }
+    return options;
+  }, [user?.isAllStudentClasses, user?.studentClasses, classLevels]);
   const [connectId, setConnectId] = useState('');
   const [connectMessage, setConnectMessage] = useState('');
   const [connectError, setConnectError] = useState('');
@@ -220,6 +250,41 @@ export default function ProfileScreen() {
                       </View>
                     )
                     : <ChevronRight size={16} color="#C0C8D8" />}
+                </Pressable>
+              );
+            })}
+          </View>
+        </>
+      )}
+
+      {/* ─── Switch class (student only) ────────────────────────────── */}
+      {user?.activeRole === 'student' && availableClassOptions.length > 1 && (
+        <>
+          <Text style={s.sectionTitle}>Select Class</Text>
+          <View style={s.rolesCard}>
+            {availableClassOptions.map((opt, idx, arr) => {
+              const isSelected = (!studentSelectedClass && opt.key === 'ANY') || studentSelectedClass === opt.key;
+              const color = Colors.primary;
+              return (
+                <Pressable
+                  key={opt.key}
+                  onPress={() => setStudentSelectedClass(opt.key)}
+                  style={[s.roleRow, idx < arr.length - 1 && s.roleRowBorder]}
+                >
+                  <View style={[s.roleIcon, { backgroundColor: '#EEF2FF' }]}>
+                    <GraduationCap size={18} color={color} />
+                  </View>
+                  <View style={s.roleInfo}>
+                    <Text style={s.roleName}>{opt.label}</Text>
+                    <Text style={s.roleDesc}>{isSelected ? 'Currently active class' : 'Tap to switch'}</Text>
+                  </View>
+                  {isSelected ? (
+                    <View style={[s.activeCheck, { backgroundColor: color }]}>
+                      <Check size={13} color="#fff" strokeWidth={3} />
+                    </View>
+                  ) : (
+                    <ChevronRight size={16} color="#C0C8D8" />
+                  )}
                 </Pressable>
               );
             })}

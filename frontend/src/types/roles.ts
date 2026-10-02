@@ -21,4 +21,6 @@ export type AppUser = {
   profileImage?: string;
   organizationId?: string;
   classAssignments?: Array<{ classLevel: string; allSubjects: boolean; assignedSubjects: string[] }>;
+  studentClasses?: string[];
+  isAllStudentClasses?: boolean;
 };

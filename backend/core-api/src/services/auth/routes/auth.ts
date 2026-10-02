@@ -322,6 +322,37 @@ authRouter.post('/login', async (req: Request, res: Response) => {
       classAssignments = classAssigmentsResult.rows[0]?.assignments || [];
     }
 
+    let studentClasses: string[] = [];
+    let isAllStudentClasses = false;
+
+    if (rolesList.includes('student') && organizationId) {
+      const studentAssignmentsResult = await db.query(
+        `SELECT class_level, is_all_classes
+         FROM student_class_assignments
+         WHERE student_user_id = $1::uuid
+           AND organization_id = $2::uuid`,
+        [user.id, organizationId]
+      );
+      if (studentAssignmentsResult.rowCount && studentAssignmentsResult.rowCount > 0) {
+        const hasAll = studentAssignmentsResult.rows.some((r: any) => r.is_all_classes || r.class_level === 'ALL');
+        if (hasAll) {
+          isAllStudentClasses = true;
+          studentClasses = [];
+        } else {
+          isAllStudentClasses = false;
+          studentClasses = studentAssignmentsResult.rows.map((r: any) => r.class_level);
+        }
+      } else {
+        if (user.class_level) {
+          studentClasses = [user.class_level];
+          isAllStudentClasses = false;
+        } else {
+          isAllStudentClasses = true;
+          studentClasses = [];
+        }
+      }
+    }
+
     // Generate tokens
     const tokenPayload = {
       userId: user.id,
@@ -371,6 +402,8 @@ authRouter.post('/login', async (req: Request, res: Response) => {
         canPublishGlobal,
         isSuperAdmin,
         classAssignments,
+        studentClasses,
+        isAllStudentClasses,
       },
       subscription,
     });

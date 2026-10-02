@@ -158,7 +158,7 @@ function getYouTubeThumbnail(url: string): string | null {
 }
 
 export default function ClassroomScreen() {
-  const { apiFetch, isAuthenticated, user } = useAuth();
+  const { apiFetch, isAuthenticated, user, studentSelectedClass } = useAuth();
   const insets = useSafeAreaInsets();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const isLargeScreen = windowWidth >= 900;
@@ -208,9 +208,14 @@ export default function ClassroomScreen() {
     setPreviewContentIndex(idx);
   };
 
+  const studentClassQuery = useMemo(() => {
+    if (!studentSelectedClass || studentSelectedClass === 'ANY') return '';
+    return `?class_level=${encodeURIComponent(studentSelectedClass)}`;
+  }, [studentSelectedClass]);
+
   const loadClassrooms = useCallback(
     async () => {
-      const res = await apiFetch('/classrooms/student');
+      const res = await apiFetch(`/classrooms/student${studentClassQuery}`);
       if (!res.ok) {
         const payload = await res.json().catch(() => ({}));
         throw new Error(payload.message || 'Failed to load classroom data');
@@ -224,7 +229,7 @@ export default function ClassroomScreen() {
         return null;
       });
     },
-    [apiFetch],
+    [apiFetch, studentClassQuery],
   );
 
   const loadData = useCallback(async () => {
@@ -243,7 +248,7 @@ export default function ClassroomScreen() {
   const loadHistory = async () => {
     setHistoryLoading(true);
     try {
-      const res = await apiFetch('/classrooms/student');
+      const res = await apiFetch(`/classrooms/student${studentClassQuery}`);
       if (res.ok) {
         const d = await res.json();
         const all = (d.classrooms ?? []) as ClassroomItem[];

@@ -30,6 +30,7 @@ type AiChatContextValue = {
   isSending: boolean;
   sendError: string | null;
   sendMessage: (text: string, studentContext?: StudentPerformanceSummaryData | null) => Promise<void>;
+  stopGenerating: () => void;
 };
 
 const AiChatContext = createContext<AiChatContextValue | null>(null);
@@ -48,6 +49,7 @@ export function AiChatProvider({ children }: PropsWithChildren) {
   const [isThinking, setIsThinking] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [sendError, setSendError] = useState<string | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   // Avoids appending a stream chunk that arrives after the user has already
   // switched to a different (or no) conversation.
@@ -57,6 +59,12 @@ export function AiChatProvider({ children }: PropsWithChildren) {
   // Guards against a stale in-flight stream's callbacks mutating state after
   // the user has since switched conversations or started a new one.
   const requestIdRef = useRef(0);
+
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -94,6 +102,8 @@ export function AiChatProvider({ children }: PropsWithChildren) {
   }, [loadConversations]);
 
   const selectConversation = useCallback(async (id: string) => {
+    abortControllerRef.current?.abort();
+    abortControllerRef.current = null;
     requestIdRef.current += 1; // invalidate any in-flight stream from the previous conversation
     setActiveConversationId(id);
     setStreamingReply('');
@@ -111,6 +121,8 @@ export function AiChatProvider({ children }: PropsWithChildren) {
   }, [apiFetch]);
 
   const startNewConversation = useCallback(() => {
+    abortControllerRef.current?.abort();
+    abortControllerRef.current = null;
     requestIdRef.current += 1; // invalidate any in-flight stream from the previous conversation
     setActiveConversationId(null);
     setMessages([]);
@@ -129,9 +141,43 @@ export function AiChatProvider({ children }: PropsWithChildren) {
     }
   }, [apiFetch, loadConversations, startNewConversation]);
 
+  const stopGenerating = useCallback(() => {
+    requestIdRef.current += 1;
+    if (abortControllerRef.current) {
+      try {
+        abortControllerRef.current.abort();
+      } catch (e) {
+        console.warn('Failed to abort stream', e);
+      }
+      abortControllerRef.current = null;
+    }
+    setIsThinking(false);
+    setStreamingThinking('');
+    setStreamingReply((finalText) => {
+      if (finalText && finalText.trim()) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `local-assistant-${Date.now()}`,
+            conversationId: activeConversationRef.current || '',
+            role: 'assistant',
+            content: finalText.trim(),
+            createdAt: new Date().toISOString(),
+          },
+        ]);
+      }
+      return '';
+    });
+    setIsSending(false);
+  }, []);
+
   const sendMessage = useCallback(async (text: string, studentContext?: StudentPerformanceSummaryData | null) => {
     const trimmed = text.trim();
     if (!trimmed || isSending) return;
+
+    abortControllerRef.current?.abort();
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
 
     const requestId = ++requestIdRef.current;
     const isCurrent = () => requestIdRef.current === requestId;
@@ -159,6 +205,7 @@ export function AiChatProvider({ children }: PropsWithChildren) {
         conversationId: conversationIdAtSend || undefined,
         message: trimmed,
         studentContext: studentContext || undefined,
+        signal: abortController.signal,
       },
       {
         onConversationId: (id) => {
@@ -180,6 +227,9 @@ export function AiChatProvider({ children }: PropsWithChildren) {
           setStreamingReply((prev) => prev + chunk);
         },
         onDone: () => {
+          if (abortControllerRef.current === abortController) {
+            abortControllerRef.current = null;
+          }
           if (!isCurrent()) return;
           setIsThinking(false);
           setStreamingThinking('');
@@ -200,6 +250,9 @@ export function AiChatProvider({ children }: PropsWithChildren) {
           setTimeout(() => void loadConversations(), 1600);
         },
         onError: (message) => {
+          if (abortControllerRef.current === abortController) {
+            abortControllerRef.current = null;
+          }
           if (!isCurrent()) return;
           setIsThinking(false);
           setStreamingThinking('');
@@ -214,12 +267,12 @@ export function AiChatProvider({ children }: PropsWithChildren) {
     isOpen, open, close, toggle,
     conversations, isLoadingConversations, loadConversations, removeConversation,
     activeConversationId, messages, isLoadingMessages, selectConversation, startNewConversation,
-    streamingReply, streamingThinking, isThinking, isSending, sendError, sendMessage,
+    streamingReply, streamingThinking, isThinking, isSending, sendError, sendMessage, stopGenerating,
   }), [
     isOpen, open, close, toggle,
     conversations, isLoadingConversations, loadConversations, removeConversation,
     activeConversationId, messages, isLoadingMessages, selectConversation, startNewConversation,
-    streamingReply, streamingThinking, isThinking, isSending, sendError, sendMessage,
+    streamingReply, streamingThinking, isThinking, isSending, sendError, sendMessage, stopGenerating,
   ]);
 
   return <AiChatContext.Provider value={value}>{children}</AiChatContext.Provider>;

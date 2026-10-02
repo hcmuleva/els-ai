@@ -11,6 +11,7 @@ config();
 import cors from 'cors';
 import express, { type Request, type Response } from 'express';
 import { closeDb } from '@els-ai/db-runtime';
+import { db } from './services/auth/db.js';
 
 import { authRouter } from './services/auth/routes/auth.js';
 import { usersRouter } from './services/auth/routes/users.js';
@@ -82,6 +83,22 @@ app.use('/counseling', counselingRouter);
 app.use('/feedback', feedbackRouter);
 app.use('/billing', billingRouter);
 app.use('/organizations', organizationsRouter);
+
+// Canonical class levels from database
+app.get('/class-levels', async (_req, res) => {
+  try {
+    const result = await db.query(
+      `SELECT code, label, display_order, is_any, is_active
+       FROM class_levels
+       WHERE is_active = true
+       ORDER BY display_order ASC`
+    );
+    return res.json({ classLevels: result.rows });
+  } catch (error) {
+    console.error('[els-core-api] failed to get class levels', error);
+    return res.status(500).json({ message: 'Failed to fetch class levels' });
+  }
+});
 
 // Learning catalog and content
 app.use('/topics', topicsRouter);
