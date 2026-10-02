@@ -11,6 +11,7 @@ import * as Ably from 'ably';
 const JWT_SECRET = process.env.JWT_SECRET || 'els-secret-key-super-secure';
 import { UserRole, UserWithRoles } from '../types.js';
 import { AuthenticatedRequest, requireAuth } from './auth.js';
+import { getSignedMediaUrlIfNeeded, toPersistentMediaUrl } from '../services/s3.js';
 
 const roleSchema = z.enum(['student', 'teacher', 'parent', 'admin', 'superadmin']);
 const managedRoleSchema = z.enum(['student', 'teacher', 'parent', 'admin', 'superadmin']);
@@ -252,6 +253,10 @@ async function getUserWithRoles(userId: string, organizationId?: string): Promis
     canPublishGlobal = Boolean(globalPublishPermissionResult.rows[0]?.enabled);
   }
 
+  const signedProfileImage = user.profile_image
+    ? await getSignedMediaUrlIfNeeded(user.profile_image).catch(() => user.profile_image)
+    : null;
+
   return {
     id: user.id,
     firstName: user.first_name,
@@ -266,7 +271,7 @@ async function getUserWithRoles(userId: string, organizationId?: string): Promis
     classAssignments,
     studentClasses,
     isAllStudentClasses,
-    profileImage: user.profile_image,
+    profileImage: signedProfileImage,
     organizationId: resolvedOrgId || undefined,
     isActive: user.is_active,
     isSuperAdmin,
@@ -540,11 +545,12 @@ usersRouter.patch('/me/profile-image', requireAuth, async (req: AuthenticatedReq
 
   try {
     const cleanImage = typeof profileImage === 'string' && profileImage.trim().length > 0 ? profileImage.trim() : null;
+    const persistentUrl = cleanImage ? toPersistentMediaUrl(cleanImage) : null;
     await db.query(
       `UPDATE users
        SET profile_image = $1, updated_at = NOW()
        WHERE id = $2`,
-      [cleanImage, userId],
+      [persistentUrl, userId],
     );
 
     const organizationId = getRequestOrganizationId(req);
@@ -1223,7 +1229,7 @@ usersRouter.patch('/:id', requireAuth, async (req: AuthenticatedRequest, res) =>
     updates.push(`is_active = $${params.length}`);
   }
   if (profileImage !== undefined) {
-    params.push(profileImage || null);
+    params.push(profileImage ? toPersistentMediaUrl(profileImage) : null);
     updates.push(`profile_image = $${params.length}`);
   }
   params.push(userId);

@@ -284,8 +284,9 @@ export default function ProfileScreen() {
         mimeType: 'image/jpeg',
       };
       const uploadRes = await uploadPickedFileToS3(picked, 'image', 'profile_photo');
-      const savedUrl = uploadRes.canonicalUrl || uploadRes.url;
-      const updateRes = await updateProfileImage(savedUrl);
+      const canonicalUrl = uploadRes.canonicalUrl || uploadRes.url;
+      const signedUrl = uploadRes.url || canonicalUrl;
+      const updateRes = await updateProfileImage(canonicalUrl, signedUrl);
       if (!updateRes.success) {
         setPhotoError(updateRes.error || 'Failed to update profile photo');
       } else {

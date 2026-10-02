@@ -8,6 +8,7 @@ import { AblyEventBus } from '@els-ai/event-bus';
 import * as Ably from 'ably';
 const JWT_SECRET = process.env.JWT_SECRET || 'els-secret-key-super-secure';
 import { requireAuth } from './auth.js';
+import { getSignedMediaUrlIfNeeded, toPersistentMediaUrl } from '../services/s3.js';
 const roleSchema = z.enum(['student', 'teacher', 'parent', 'admin', 'superadmin']);
 const managedRoleSchema = z.enum(['student', 'teacher', 'parent', 'admin', 'superadmin']);
 const listUsersQuerySchema = z.object({
@@ -219,6 +220,9 @@ async function getUserWithRoles(userId, organizationId) {
        LIMIT 1`, [userId, resolvedOrgId]);
         canPublishGlobal = Boolean(globalPublishPermissionResult.rows[0]?.enabled);
     }
+    const signedProfileImage = user.profile_image
+        ? await getSignedMediaUrlIfNeeded(user.profile_image).catch(() => user.profile_image)
+        : null;
     return {
         id: user.id,
         firstName: user.first_name,
@@ -233,7 +237,7 @@ async function getUserWithRoles(userId, organizationId) {
         classAssignments,
         studentClasses,
         isAllStudentClasses,
-        profileImage: user.profile_image,
+        profileImage: signedProfileImage,
         organizationId: resolvedOrgId || undefined,
         isActive: user.is_active,
         isSuperAdmin,
@@ -451,9 +455,10 @@ usersRouter.patch('/me/profile-image', requireAuth, async (req, res) => {
     }
     try {
         const cleanImage = typeof profileImage === 'string' && profileImage.trim().length > 0 ? profileImage.trim() : null;
+        const persistentUrl = cleanImage ? toPersistentMediaUrl(cleanImage) : null;
         await db.query(`UPDATE users
        SET profile_image = $1, updated_at = NOW()
-       WHERE id = $2`, [cleanImage, userId]);
+       WHERE id = $2`, [persistentUrl, userId]);
         const organizationId = getRequestOrganizationId(req);
         const updatedUser = await getUserWithRoles(userId, organizationId || undefined);
         if (!updatedUser) {
@@ -968,7 +973,7 @@ usersRouter.patch('/:id', requireAuth, async (req, res) => {
         updates.push(`is_active = $${params.length}`);
     }
     if (profileImage !== undefined) {
-        params.push(profileImage || null);
+        params.push(profileImage ? toPersistentMediaUrl(profileImage) : null);
         updates.push(`profile_image = $${params.length}`);
     }
     params.push(userId);
