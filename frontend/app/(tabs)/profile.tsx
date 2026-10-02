@@ -514,61 +514,67 @@ export default function ProfileScreen() {
         <View style={s.cardBody}>
           {/* Linked Children List for Parents */}
           {isParentRole && (
-            <View style={s.linkedChildrenContainer}>
-              <View style={s.linkedChildrenHeader}>
-                <Text style={s.linkedChildrenTitle}>Linked Children</Text>
-                <View style={s.childCountPill}>
-                  <Text style={s.childCountPillText}>{linkedStudents.length}</Text>
+            <>
+              <View style={s.linkedChildrenContainer}>
+                <View style={s.linkedChildrenHeader}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <Text style={s.linkedChildrenTitle}>Linked Children</Text>
+                    <View style={s.childCountPill}>
+                      <Text style={s.childCountPillText}>{linkedStudents.length}</Text>
+                    </View>
+                  </View>
                 </View>
-              </View>
 
-              {linkedStudents.length === 0 ? (
-                <Text style={s.noChildrenText}>No children linked yet. Connect a child below using their Registration ID.</Text>
-              ) : (
-                <View style={s.childList}>
-                  {linkedStudents.map((child, idx) => {
-                    const avatarUri = resolveMediaUrl(child.profileImage);
-                    const childIdDisplay = child.registrationId || (child.id ? `ID: ${child.id.slice(0, 8)}...` : 'Unknown ID');
-                    return (
-                      <View key={child.id || idx} style={[s.childRow, idx < linkedStudents.length - 1 && s.childRowBorder]}>
-                        <View style={s.childAvatarBox}>
-                          {avatarUri ? (
-                            <Image source={{ uri: avatarUri }} style={s.childAvatarImg} />
-                          ) : (
-                            <Text style={s.childAvatarInitials}>
-                              {child.firstName?.charAt(0) || 'S'}
-                            </Text>
-                          )}
-                        </View>
-                        <View style={s.childInfo}>
-                          <Text style={s.childNameText} numberOfLines={1}>
-                            {child.firstName} {child.lastName || ''}
-                          </Text>
-                          <View style={s.childMetaRow}>
-                            {child.classLevel && (
-                              <View style={s.childClassBadge}>
-                                <Text style={s.childClassBadgeText}>Class {child.classLevel}</Text>
-                              </View>
+                {linkedStudents.length === 0 ? (
+                  <View style={s.noChildrenBox}>
+                    <Text style={s.noChildrenText}>No children linked yet. Connect a child below using their Registration ID.</Text>
+                  </View>
+                ) : (
+                  <View style={s.childList}>
+                    {linkedStudents.map((child, idx) => {
+                      const avatarUri = resolveMediaUrl(child.profileImage);
+                      const childIdDisplay = child.registrationId || (child.id ? `ID: ${child.id.slice(0, 8)}...` : 'Unknown ID');
+                      return (
+                        <View key={child.id || idx} style={s.childRow}>
+                          <View style={s.childAvatarBox}>
+                            {avatarUri ? (
+                              <Image source={{ uri: avatarUri }} style={s.childAvatarImg} />
+                            ) : (
+                              <Text style={s.childAvatarInitials}>
+                                {child.firstName?.charAt(0) || 'S'}
+                              </Text>
                             )}
-                            <View style={s.childIdBadge}>
-                              <Text style={s.childIdBadgeText}>{childIdDisplay}</Text>
+                          </View>
+                          <View style={s.childInfo}>
+                            <Text style={s.childNameText} numberOfLines={1}>
+                              {child.firstName} {child.lastName || ''}
+                            </Text>
+                            <View style={s.childMetaRow}>
+                              {child.classLevel && (
+                                <View style={s.childClassBadge}>
+                                  <Text style={s.childClassBadgeText}>Class {child.classLevel}</Text>
+                                </View>
+                              )}
+                              <View style={s.childIdBadge}>
+                                <Text style={s.childIdBadgeText}>{childIdDisplay}</Text>
+                              </View>
                             </View>
                           </View>
+                          <Pressable
+                            style={s.removeChildBtn}
+                            onPress={() => handleInitiateRemoveChild(child)}
+                          >
+                            <Trash2 size={13} color="#DC2626" />
+                            <Text style={s.removeChildBtnText}>Remove</Text>
+                          </Pressable>
                         </View>
-                        <Pressable
-                          style={s.removeChildBtn}
-                          onPress={() => handleInitiateRemoveChild(child)}
-                        >
-                          <Trash2 size={14} color="#DC2626" />
-                          <Text style={s.removeChildBtnText}>Remove</Text>
-                        </Pressable>
-                      </View>
-                    );
-                  })}
-                </View>
-              )}
+                      );
+                    })}
+                  </View>
+                )}
+              </View>
               <View style={s.divider} />
-            </View>
+            </>
           )}
 
           <View style={s.connectInner}>
@@ -1441,24 +1447,26 @@ const s = StyleSheet.create({
     marginTop: 1,
   },
   linkedChildrenContainer: {
-    marginBottom: 16,
+    padding: 16,
+    paddingBottom: 4,
   },
   linkedChildrenHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginBottom: 12,
   },
   linkedChildrenTitle: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#1E293B',
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#0F172A',
+    letterSpacing: -0.2,
   },
   childCountPill: {
     backgroundColor: '#EFF6FF',
     borderRadius: 12,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
+    paddingHorizontal: 9,
+    paddingVertical: 3,
     borderWidth: 1,
     borderColor: '#BFDBFE',
   },
@@ -1467,18 +1475,23 @@ const s = StyleSheet.create({
     fontWeight: '700',
     color: '#2563EB',
   },
+  noChildrenBox: {
+    padding: 16,
+    backgroundColor: '#F8FAFC',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
   noChildrenText: {
     fontSize: 13,
     color: '#64748B',
-    fontStyle: 'italic',
-    marginBottom: 12,
+    textAlign: 'center',
+    lineHeight: 18,
   },
   childList: {
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#E8ECF4',
-    backgroundColor: '#F8FAFC',
-    overflow: 'hidden',
+    gap: 10,
     marginBottom: 12,
   },
   childRow: {
@@ -1486,27 +1499,30 @@ const s = StyleSheet.create({
     alignItems: 'center',
     padding: 12,
     gap: 12,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F8FAFC',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
   },
   childRowBorder: {
     borderBottomWidth: 1,
     borderBottomColor: '#E8ECF4',
   },
   childAvatarBox: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: '#EFF6FF',
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: '#DBEAFE',
   },
   childAvatarImg: {
     width: '100%',
     height: '100%',
-    borderRadius: 21,
+    borderRadius: 22,
   },
   childAvatarInitials: {
     fontSize: 16,
@@ -1515,12 +1531,12 @@ const s = StyleSheet.create({
   },
   childInfo: {
     flex: 1,
+    gap: 4,
   },
   childNameText: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#1E293B',
-    marginBottom: 4,
+    color: '#0F172A',
   },
   childMetaRow: {
     flexDirection: 'row',
@@ -1529,42 +1545,42 @@ const s = StyleSheet.create({
     flexWrap: 'wrap',
   },
   childClassBadge: {
-    backgroundColor: '#F1F5F9',
+    backgroundColor: '#EFF6FF',
     borderRadius: 6,
-    paddingHorizontal: 6,
+    paddingHorizontal: 7,
+    paddingVertical: 2,
+    borderWidth: 1,
+    borderColor: '#BFDBFE',
+  },
+  childClassBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#1D4ED8',
+  },
+  childIdBadge: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 6,
+    paddingHorizontal: 7,
     paddingVertical: 2,
     borderWidth: 1,
     borderColor: '#E2E8F0',
   },
-  childClassBadgeText: {
+  childIdBadgeText: {
     fontSize: 11,
     fontWeight: '600',
     color: '#475569',
-  },
-  childIdBadge: {
-    backgroundColor: '#EEF2FF',
-    borderRadius: 6,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderWidth: 1,
-    borderColor: '#C7D2FE',
-  },
-  childIdBadgeText: {
-    fontSize: 11,
-    fontWeight: '700',
-    color: '#4F46E5',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
   },
   removeChildBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: 5,
     paddingHorizontal: 10,
-    paddingVertical: 6,
+    paddingVertical: 7,
     borderRadius: 8,
     backgroundColor: '#FEF2F2',
     borderWidth: 1,
-    borderColor: '#FCA5A5',
+    borderColor: '#FECACA',
   },
   removeChildBtnText: {
     fontSize: 12,
@@ -1574,6 +1590,6 @@ const s = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: '#E8ECF4',
-    marginVertical: 14,
+    marginHorizontal: 16,
   },
 });

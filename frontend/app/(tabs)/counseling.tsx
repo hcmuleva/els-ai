@@ -876,13 +876,13 @@ export default function CounselingScreen() {
         {step === 7 && report && (
           <View style={styles.stepBody}>
             <View style={[styles.card, styles.summaryCard]}>
-              <ScoreGauge score={report.summary.overallScore} />
+              <ScoreGauge score={report.summary?.overallScore ?? 0} />
               <View style={styles.summaryMeta}>
                 <Text style={styles.summaryLabel}>OVERALL READINESS</Text>
                 <View style={styles.pillWrap}>
-                  <View style={styles.pill}><Text style={styles.pillText}>Level: {report.summary.level}</Text></View>
-                  <View style={styles.pill}><Text style={styles.pillText}>Growth: {report.summary.growthPotential}</Text></View>
-                  <View style={styles.pill}><Text style={styles.pillText}>{report.summary.studyPatternType}</Text></View>
+                  <View style={styles.pill}><Text style={styles.pillText}>Level: {report.summary?.level ?? '—'}</Text></View>
+                  <View style={styles.pill}><Text style={styles.pillText}>Growth: {report.summary?.growthPotential ?? '—'}</Text></View>
+                  <View style={styles.pill}><Text style={styles.pillText}>{report.summary?.studyPatternType ?? '—'}</Text></View>
                 </View>
               </View>
             </View>

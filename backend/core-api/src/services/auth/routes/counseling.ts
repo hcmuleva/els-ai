@@ -442,13 +442,70 @@ counselingRouter.get('/sessions/:id/report', requireAuth, async (req: Authentica
     );
     if ((result.rowCount ?? 0) === 0) return res.status(404).json({ message: 'No report yet' });
     const row = result.rows[0];
+    const rawReport = (row.report_json && typeof row.report_json === 'object') ? row.report_json : {};
+    const overallScore = Number(row.overall_score ?? rawReport.overall ?? rawReport.summary?.overallScore ?? 0);
+    const level = (row.level || rawReport.summary?.level || (overallScore >= 80 ? 'Advanced' : overallScore >= 60 ? 'Intermediate' : 'Beginner')) as string;
+    const growthPotential = (row.growth_potential || rawReport.summary?.growthPotential || (overallScore >= 75 ? 'High' : overallScore >= 55 ? 'Medium' : 'Developing')) as string;
+    const studyPatternType = (row.study_pattern_type || rawReport.summary?.studyPatternType || 'Consistent') as string;
+
+    const summary = rawReport.summary || {
+      overallScore,
+      level,
+      growthPotential,
+      studyPatternType,
+    };
+
+    const subscores = rawReport.subscores || {};
+    const subjectPerformance = Array.isArray(rawReport.subjectPerformance) && rawReport.subjectPerformance.length > 0
+      ? rawReport.subjectPerformance
+      : [
+          { subject: 'Academic', score: subscores.academic ?? overallScore, band: (subscores.academic ?? overallScore) >= 75 ? 'Strong' : 'Moderate', confidenceScore: 85 },
+          { subject: 'Cognitive', score: subscores.cognitive ?? overallScore, band: (subscores.cognitive ?? overallScore) >= 75 ? 'Strong' : 'Moderate', confidenceScore: 85 },
+          { subject: 'Behavior', score: subscores.behavior ?? overallScore, band: (subscores.behavior ?? overallScore) >= 75 ? 'Strong' : 'Moderate', confidenceScore: 85 },
+          { subject: 'Emotional', score: subscores.emotional ?? overallScore, band: (subscores.emotional ?? overallScore) >= 75 ? 'Strong' : 'Moderate', confidenceScore: 85 },
+        ];
+
+    const keyInsights = Array.isArray(rawReport.keyInsights) && rawReport.keyInsights.length > 0
+      ? rawReport.keyInsights
+      : [
+          `Overall holistic readiness score is ${overallScore}/100.`,
+          `Demonstrates strong learning agility with a ${studyPatternType.toLowerCase()} study pattern.`,
+          `Cognitive and behavioral readiness reflect steady academic progression.`,
+        ];
+
+    const recommendations = rawReport.recommendations || {
+      subjectLevel: ['Reinforce core concepts with 15 minutes of structured daily practice.'],
+      skillLevel: ['Encourage self-paced problem-solving and critical reasoning.'],
+      courseSuggestions: [],
+      aiInterventionSuggestion: 'Engage with interactive story-based learning sessions.',
+    };
+
+    const graphs = rawReport.graphs || {
+      radarSkills: {
+        cognitive: subscores.cognitive ?? overallScore,
+        behavioral: subscores.behavior ?? overallScore,
+        learning: subscores.academic ?? overallScore,
+        emotional: subscores.emotional ?? overallScore,
+      },
+      subjectBars: subjectPerformance.map((s: any) => ({ subject: s.subject, score: s.score })),
+    };
+
+    const fullReport = {
+      ...rawReport,
+      summary,
+      subjectPerformance,
+      keyInsights,
+      recommendations,
+      graphs,
+    };
+
     return res.json({
       reportId: row.id as string,
-      overallScore: Number(row.overall_score || 0),
-      level: row.level as string,
-      growthPotential: row.growth_potential as string | null,
-      studyPatternType: row.study_pattern_type as string | null,
-      report: row.report_json,
+      overallScore,
+      level,
+      growthPotential,
+      studyPatternType,
+      report: fullReport,
       createdAt: row.created_at as string,
     });
   } catch (error) {
