@@ -75,7 +75,7 @@ export default function ProfileScreen() {
     updateProfileImage,
   } = useAuth();
   const { classLevels } = useClassLevels();
-  const { refreshAll } = useStudentProfile();
+  const { linkedStudents, refreshAll } = useStudentProfile();
 
   const [photoModalVisible, setPhotoModalVisible] = useState(false);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
@@ -115,14 +115,14 @@ export default function ProfileScreen() {
   const [connectMessage, setConnectMessage] = useState('');
   const [connectError, setConnectError] = useState('');
   const [connecting, setConnecting] = useState(false);
-  const [deleteChildId, setDeleteChildId] = useState('');
+  const [childToRemove, setChildToRemove] = useState<any | null>(null);
   const [deleteChildLoading, setDeleteChildLoading] = useState(false);
   const [deleteChildError, setDeleteChildError] = useState('');
+  const [deleteChildModalVisible, setDeleteChildModalVisible] = useState(false);
 
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [deleteAccountLoading, setDeleteAccountLoading] = useState(false);
   const [deleteAccountError, setDeleteAccountError] = useState('');
-  const [deleteChildModalVisible, setDeleteChildModalVisible] = useState(false);
 
   const handleRoleSelect = (role: UserRole) => {
     setActiveRole(role);
@@ -165,11 +165,8 @@ export default function ProfileScreen() {
     }
   };
 
-  const handleDeleteChildAccount = () => {
-    if (!deleteChildId.trim()) {
-      setDeleteChildError("Please enter child's registration ID");
-      return;
-    }
+  const handleInitiateRemoveChild = (child: any) => {
+    setChildToRemove(child);
     setDeleteChildError('');
     setDeleteChildModalVisible(true);
   };
@@ -193,15 +190,19 @@ export default function ProfileScreen() {
   };
 
   const confirmDeleteChildAccount = async () => {
+    if (!childToRemove) return;
     setDeleteChildLoading(true);
     setDeleteChildError('');
-    const res = await deleteChildAccount(deleteChildId.trim());
+    const regId = childToRemove.registrationId || '';
+    const childId = childToRemove.id;
+    const res = await deleteChildAccount(regId, childId);
     setDeleteChildLoading(false);
     if (res.success) {
       setDeleteChildModalVisible(false);
-      setDeleteChildId('');
+      setChildToRemove(null);
+      await refreshAll();
     } else {
-      setDeleteChildError(res.error || "Failed to delete child account");
+      setDeleteChildError(res.error || "Failed to remove child account");
     }
   };
 
@@ -505,13 +506,74 @@ export default function ProfileScreen() {
 
   const renderConnectCard = () => {
     if (!canConnect) return null;
+    const isParentRole = user?.activeRole === 'parent';
+
     return (
       <View style={s.cardWrapper}>
         <Text style={s.cardHeaderTitle}>Family Connections</Text>
         <View style={s.cardBody}>
+          {/* Linked Children List for Parents */}
+          {isParentRole && (
+            <View style={s.linkedChildrenContainer}>
+              <View style={s.linkedChildrenHeader}>
+                <Text style={s.linkedChildrenTitle}>Linked Children</Text>
+                <View style={s.childCountPill}>
+                  <Text style={s.childCountPillText}>{linkedStudents.length}</Text>
+                </View>
+              </View>
+
+              {linkedStudents.length === 0 ? (
+                <Text style={s.noChildrenText}>No children linked yet. Connect a child below using their Registration ID.</Text>
+              ) : (
+                <View style={s.childList}>
+                  {linkedStudents.map((child, idx) => {
+                    const avatarUri = resolveMediaUrl(child.profileImage);
+                    const childIdDisplay = child.registrationId || (child.id ? `ID: ${child.id.slice(0, 8)}...` : 'Unknown ID');
+                    return (
+                      <View key={child.id || idx} style={[s.childRow, idx < linkedStudents.length - 1 && s.childRowBorder]}>
+                        <View style={s.childAvatarBox}>
+                          {avatarUri ? (
+                            <Image source={{ uri: avatarUri }} style={s.childAvatarImg} />
+                          ) : (
+                            <Text style={s.childAvatarInitials}>
+                              {child.firstName?.charAt(0) || 'S'}
+                            </Text>
+                          )}
+                        </View>
+                        <View style={s.childInfo}>
+                          <Text style={s.childNameText} numberOfLines={1}>
+                            {child.firstName} {child.lastName || ''}
+                          </Text>
+                          <View style={s.childMetaRow}>
+                            {child.classLevel && (
+                              <View style={s.childClassBadge}>
+                                <Text style={s.childClassBadgeText}>Class {child.classLevel}</Text>
+                              </View>
+                            )}
+                            <View style={s.childIdBadge}>
+                              <Text style={s.childIdBadgeText}>{childIdDisplay}</Text>
+                            </View>
+                          </View>
+                        </View>
+                        <Pressable
+                          style={s.removeChildBtn}
+                          onPress={() => handleInitiateRemoveChild(child)}
+                        >
+                          <Trash2 size={14} color="#DC2626" />
+                          <Text style={s.removeChildBtnText}>Remove</Text>
+                        </Pressable>
+                      </View>
+                    );
+                  })}
+                </View>
+              )}
+              <View style={s.divider} />
+            </View>
+          )}
+
           <View style={s.connectInner}>
             <Text style={s.connectTitle}>
-              {user?.activeRole === 'parent' ? 'Add Kid by Registration ID' : 'Add Parent by Registration ID'}
+              {isParentRole ? 'Add Another Child by Registration ID' : 'Add Parent by Registration ID'}
             </Text>
             <Text style={s.connectSubtitle}>
               Link family members to view academic progress, assignments, and test reports.
@@ -545,42 +607,7 @@ export default function ProfileScreen() {
     );
   };
 
-  const renderParentDangerCard = () => {
-    if (user?.activeRole !== 'parent') return null;
-    return (
-      <View style={s.cardWrapper}>
-        <Text style={s.cardHeaderTitle}>Manage Child Account</Text>
-        <View style={s.cardBody}>
-          <View style={s.connectInner}>
-            <Text style={s.connectTitle}>Delete Child's Account</Text>
-            <Text style={s.connectSubtitle}>Enter child's registration ID to remove their account from the platform.</Text>
-            <View style={s.connectInputRow}>
-              <TextInput
-                value={deleteChildId}
-                onChangeText={setDeleteChildId}
-                autoCapitalize="characters"
-                placeholder="ELS-XXXXXXXXXX"
-                placeholderTextColor="#94A3B8"
-                style={s.connectInput}
-              />
-              <Pressable
-                style={[s.deleteChildBtn, deleteChildLoading && s.btnDisabled]}
-                onPress={handleDeleteChildAccount}
-                disabled={deleteChildLoading}
-              >
-                {deleteChildLoading ? (
-                  <ActivityIndicator size="small" color="#fff" />
-                ) : (
-                  <Text style={s.deleteChildBtnText}>Delete</Text>
-                )}
-              </Pressable>
-            </View>
-            {!!deleteChildError && <Text style={s.connectError}>{deleteChildError}</Text>}
-          </View>
-        </View>
-      </View>
-    );
-  };
+  const renderParentDangerCard = () => null;
 
   const renderAccountCard = () => (
     <View style={s.cardWrapper}>
@@ -704,18 +731,22 @@ export default function ProfileScreen() {
       >
         <View style={s.modalOverlay}>
           <View style={s.modalContent}>
-            <Text style={s.modalTitle}>Delete Child's Account</Text>
+            <Text style={s.modalTitle}>Remove Child Account</Text>
             <Text style={s.modalText}>
-              Are you sure you want to delete this child's account?{'\n\n'}
-              This will permanently delete their profile, learning progress, scores, and all associated data. This action cannot be undone.
+              Are you sure you want to remove{' '}
+              <Text style={{ fontWeight: '800', color: Colors.text }}>
+                {childToRemove ? `${childToRemove.firstName} ${childToRemove.lastName || ''}`.trim() : 'this child'}
+              </Text>
+              {childToRemove?.registrationId ? ` (${childToRemove.registrationId})` : ''} from your linked accounts?{'\n\n'}
+              This will unlink and remove this child from your parent dashboard.
             </Text>
             {!!deleteChildError && <Text style={s.connectError}>{deleteChildError}</Text>}
             <View style={s.modalActions}>
-              <Pressable style={s.modalBtnCancel} onPress={() => setDeleteChildModalVisible(false)}>
+              <Pressable style={s.modalBtnCancel} onPress={() => { setDeleteChildModalVisible(false); setChildToRemove(null); }}>
                 <Text style={s.modalBtnCancelText}>Cancel</Text>
               </Pressable>
               <Pressable style={s.modalBtnDelete} onPress={confirmDeleteChildAccount} disabled={deleteChildLoading}>
-                {deleteChildLoading ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={s.modalBtnDeleteText}>Delete</Text>}
+                {deleteChildLoading ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={s.modalBtnDeleteText}>Remove Child</Text>}
               </Pressable>
             </View>
           </View>
@@ -1408,5 +1439,141 @@ const s = StyleSheet.create({
     fontSize: 11,
     color: '#64748B',
     marginTop: 1,
+  },
+  linkedChildrenContainer: {
+    marginBottom: 16,
+  },
+  linkedChildrenHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  linkedChildrenTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#1E293B',
+  },
+  childCountPill: {
+    backgroundColor: '#EFF6FF',
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderWidth: 1,
+    borderColor: '#BFDBFE',
+  },
+  childCountPillText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#2563EB',
+  },
+  noChildrenText: {
+    fontSize: 13,
+    color: '#64748B',
+    fontStyle: 'italic',
+    marginBottom: 12,
+  },
+  childList: {
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    backgroundColor: '#F8FAFC',
+    overflow: 'hidden',
+    marginBottom: 12,
+  },
+  childRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    gap: 12,
+    backgroundColor: '#FFFFFF',
+  },
+  childRowBorder: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#E8ECF4',
+  },
+  childAvatarBox: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: '#EFF6FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  childAvatarImg: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 21,
+  },
+  childAvatarInitials: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#2563EB',
+  },
+  childInfo: {
+    flex: 1,
+  },
+  childNameText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#1E293B',
+    marginBottom: 4,
+  },
+  childMetaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    flexWrap: 'wrap',
+  },
+  childClassBadge: {
+    backgroundColor: '#F1F5F9',
+    borderRadius: 6,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  childClassBadgeText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#475569',
+  },
+  childIdBadge: {
+    backgroundColor: '#EEF2FF',
+    borderRadius: 6,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderWidth: 1,
+    borderColor: '#C7D2FE',
+  },
+  childIdBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#4F46E5',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  removeChildBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    backgroundColor: '#FEF2F2',
+    borderWidth: 1,
+    borderColor: '#FCA5A5',
+  },
+  removeChildBtnText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#DC2626',
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#E8ECF4',
+    marginVertical: 14,
   },
 });

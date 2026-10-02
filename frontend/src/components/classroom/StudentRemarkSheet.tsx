@@ -8,6 +8,7 @@ import {
   ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { resolveMediaUrl } from '../../utils/media';
 
 export type Achievement = {
   id: string; name: string; emoji: string; color: string; description?: string; count?: number;
@@ -17,6 +18,7 @@ export type StudentRemarkData = {
   studentId: string;
   name: string;
   email?: string;
+  profileImage?: string | null;
   remarkText?: string;
   parentNote?: string;
   remarkMediaUrl?: string;
@@ -170,8 +172,15 @@ export default function StudentRemarkSheet({
 
           {/* ── Student header ── */}
           <View style={sh.studentBar}>
-            <View style={[sh.avatar, { backgroundColor: student ? `#${((student.name.charCodeAt(0) * 1234567) % 0xffffff).toString(16).padStart(6, '0')}40` : '#D6EAFF' }]}>
-              <Text style={sh.avatarText}>{(student?.name ?? '?')[0].toUpperCase()}</Text>
+            <View style={[sh.avatar, { backgroundColor: student ? `#${((student.name.charCodeAt(0) * 1234567) % 0xffffff).toString(16).padStart(6, '0')}40` : '#D6EAFF', overflow: 'hidden' }]}>
+              {student?.profileImage ? (
+                <Image
+                  source={{ uri: resolveMediaUrl(student.profileImage) }}
+                  style={{ width: '100%', height: '100%', borderRadius: 23 }}
+                />
+              ) : (
+                <Text style={sh.avatarText}>{(student?.name ?? '?')[0].toUpperCase()}</Text>
+              )}
             </View>
             <View style={{ flex: 1 }}>
               <Text style={sh.studentName}>{student?.name ?? ''}</Text>

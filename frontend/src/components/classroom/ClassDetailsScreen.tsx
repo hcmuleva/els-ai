@@ -26,7 +26,7 @@ type DetailTab = 'overview' | 'students' | 'analytics';
 type StudentFilter = 'all' | 'not_remarked' | 'remarked' | 'task_completed' | 'task_pending' | 'quiz_completed' | 'quiz_pending';
 
 type Student = {
-  studentId: string; name: string; email?: string;
+  studentId: string; name: string; email?: string; profileImage?: string | null;
   assignmentsSubmitted: number; quizzesCompleted: number; avgScore: number;
   remark?: {
     remarkText?: string; parentNote?: string; remarkMediaUrl?: string;
@@ -205,8 +205,15 @@ function StudentRow({ student, totalAssignments, totalQuizzes, onRemark, onQuizD
     <View style={ds.studentCard}>
       {/* Top row: avatar + name + completion badge */}
       <View style={ds.studentTopRow}>
-        <View style={[ds.studentAvatar, { backgroundColor: completionPct === 100 ? '#7DC67A' : '#2D5DC9' }]}>
-          <Text style={ds.studentAvatarText}>{student.name[0]?.toUpperCase() ?? '?'}</Text>
+        <View style={[ds.studentAvatar, { backgroundColor: completionPct === 100 ? '#7DC67A' : '#2D5DC9', overflow: 'hidden' }]}>
+          {student.profileImage ? (
+            <Image
+              source={{ uri: resolveMediaUrl(student.profileImage) }}
+              style={{ width: '100%', height: '100%', borderRadius: 999 }}
+            />
+          ) : (
+            <Text style={ds.studentAvatarText}>{student.name[0]?.toUpperCase() ?? '?'}</Text>
+          )}
         </View>
         <View style={{ flex: 1 }}>
           <Text style={ds.studentName} numberOfLines={1}>{student.name}</Text>

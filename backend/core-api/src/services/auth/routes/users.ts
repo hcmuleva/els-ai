@@ -600,19 +600,22 @@ usersRouter.post('/me/delete-child', requireAuth, async (req: AuthenticatedReque
     return res.status(403).json({ message: 'Only parents can delete child accounts' });
   }
 
-  const { registrationId } = req.body;
-  if (!registrationId) {
-    return res.status(400).json({ message: 'Registration ID is required' });
+  const { registrationId, childId: directChildId } = req.body;
+  if (!registrationId && !directChildId) {
+    return res.status(400).json({ message: 'Registration ID or Child ID is required' });
   }
 
   try {
     const childResult = await db.query(
       `SELECT u.id FROM users u
        INNER JOIN parent_student_links psl ON psl.student_user_id = u.id AND psl.parent_user_id = $1
-       WHERE u.unique_registration_id = $2
+       WHERE (
+         ($2::text IS NOT NULL AND (lower(u.unique_registration_id) = lower($2::text) OR u.id::text = $2::text))
+         OR ($3::text IS NOT NULL AND u.id::text = $3::text)
+       )
          AND u.deleted_at IS NULL
        LIMIT 1`,
-      [parentUserId, registrationId.trim().toUpperCase()]
+      [parentUserId, registrationId?.trim() || null, directChildId?.trim() || null]
     );
 
     if ((childResult.rowCount ?? 0) === 0) {

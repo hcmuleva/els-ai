@@ -18,6 +18,7 @@ export type StudentProfile = {
   email: string;
   mobileNumber?: string;
   classLevel?: string;
+  registrationId?: string;
   profileImage?: string;
   analytics: {
     streakDays: number;

@@ -83,7 +83,7 @@ type AuthContextValue = {
   setActiveRole: (role: UserRole) => Promise<void>;
   refreshUser: () => Promise<void>;
   apiFetch: (path: string, options?: RequestInit) => Promise<Response>;
-  deleteChildAccount: (registrationId: string) => Promise<{ success: boolean; error?: string }>;
+  deleteChildAccount: (registrationId: string, childId?: string) => Promise<{ success: boolean; error?: string }>;
   deleteAccount: () => Promise<{ success: boolean; error?: string }>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; error?: string }>;
   updateProfileImage: (profileImage: string | null, immediateSignedUrl?: string | null) => Promise<{ success: boolean; error?: string }>;
@@ -411,11 +411,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
     }
   };
 
-  const deleteChildAccount = async (registrationId: string) => {
+  const deleteChildAccount = async (registrationId: string, childId?: string) => {
     try {
       const res = await apiFetch('/users/me/delete-child', {
         method: 'POST',
-        body: JSON.stringify({ registrationId }),
+        body: JSON.stringify({ registrationId, childId }),
       });
       if (!res.ok) {
         const err = await res.json();

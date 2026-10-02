@@ -591,7 +591,9 @@ quizzesRouter.get('/teacher/class-activity', requireAuth, async (req: any, res) 
           firstName: row.first_name as string,
           lastName: row.last_name as string,
           classLevel: row.class_level as string | null,
-          profileImage: row.profile_image as string | null,
+          profileImage: row.profile_image
+            ? await getSignedMediaUrlIfNeeded(row.profile_image as string).catch(() => row.profile_image as string)
+            : null,
           attempts: [],
         });
       }

@@ -493,7 +493,9 @@ quizzesRouter.get('/teacher/class-activity', requireAuth, async (req, res) => {
                     firstName: row.first_name,
                     lastName: row.last_name,
                     classLevel: row.class_level,
-                    profileImage: row.profile_image,
+                    profileImage: row.profile_image
+                        ? await getSignedMediaUrlIfNeeded(row.profile_image).catch(() => row.profile_image)
+                        : null,
                     attempts: [],
                 });
             }

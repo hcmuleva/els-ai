@@ -1213,6 +1213,7 @@ classroomsRouter.get('/:classroomId/class-details', requireAuth, async (req, res
        SELECT p.student_id,
               TRIM(CONCAT(u.first_name, ' ', COALESCE(u.last_name, ''))) AS student_name,
               u.email AS student_email,
+              u.profile_image AS student_profile_image,
               COALESCE((
                 SELECT COUNT(DISTINCT cas2.classroom_assignment_id)::int
                 FROM classroom_assignment_submissions cas2
@@ -1266,7 +1267,7 @@ classroomsRouter.get('/:classroomId/class-details', requireAuth, async (req, res
         const achievMap = {};
         for (const row of achievRes.rows)
             achievMap[row.student_id] = row.achievements;
-        const students = studentsRes.rows.map((s) => {
+        const students = await Promise.all(studentsRes.rows.map(async (s) => {
             const rawRemark = remarkMap[s.student_id];
             const mappedRemark = rawRemark ? {
                 id: rawRemark.id,
@@ -1278,17 +1279,21 @@ classroomsRouter.get('/:classroomId/class-details', requireAuth, async (req, res
                 scoreParticipation: rawRemark.score_participation !== null ? Number(rawRemark.score_participation) : null,
                 scorePerformance: rawRemark.score_performance !== null ? Number(rawRemark.score_performance) : null,
             } : null;
-            return ({
+            const studentProfileImage = s.student_profile_image
+                ? await getSignedMediaUrlIfNeeded(s.student_profile_image).catch(() => s.student_profile_image)
+                : null;
+            return {
                 studentId: s.student_id,
                 name: (s.student_name && s.student_name.trim()) || s.student_email || 'Unknown Student',
                 email: s.student_email,
+                profileImage: studentProfileImage,
                 assignmentsSubmitted: Number(s.assignments_submitted),
                 quizzesCompleted: quizMap[s.student_id]?.quizzes_completed ?? 0,
                 avgScore: quizMap[s.student_id]?.avg_score ?? 0,
                 remark: mappedRemark,
                 achievements: achievMap[s.student_id] ?? [],
-            });
-        });
+            };
+        }));
         const totalAssignments = Number(classroom.assignment_count);
         const totalQuizzes = Number(classroom.quiz_count);
         const totalContents = Number(classroom.content_count);

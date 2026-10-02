@@ -296,6 +296,7 @@ studentsRouter.get('/parent/:parentId/students', requireAuth, async (req: Authen
          u.email,
          u.mobile_number,
          u.class_level,
+         u.unique_registration_id,
          u.profile_image,
          sa.streak_days,
          sa.consistency_score,
@@ -325,6 +326,7 @@ studentsRouter.get('/parent/:parentId/students', requireAuth, async (req: Authen
         email: row.email as string,
         mobileNumber: (row.mobile_number as string | null) || undefined,
         classLevel: (row.class_level as string | null) || undefined,
+        registrationId: (row.unique_registration_id as string | null) || undefined,
         profileImage: row.profile_image
           ? await getSignedMediaUrlIfNeeded(row.profile_image as string).catch(() => row.profile_image as string)
           : undefined,

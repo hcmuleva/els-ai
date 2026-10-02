@@ -255,6 +255,7 @@ studentsRouter.get('/parent/:parentId/students', requireAuth, async (req, res) =
          u.email,
          u.mobile_number,
          u.class_level,
+         u.unique_registration_id,
          u.profile_image,
          sa.streak_days,
          sa.consistency_score,
@@ -273,14 +274,17 @@ studentsRouter.get('/parent/:parentId/students', requireAuth, async (req, res) =
          AND psl.organization_id = $2::uuid
          AND u.deleted_at IS NULL
        ORDER BY u.first_name ASC`, [parentId, organizationId]);
-        const students = result.rows.map((row) => ({
+        const students = await Promise.all(result.rows.map(async (row) => ({
             id: row.id,
             firstName: row.first_name,
             lastName: row.last_name,
             email: row.email,
             mobileNumber: row.mobile_number || undefined,
             classLevel: row.class_level || undefined,
-            profileImage: row.profile_image || undefined,
+            registrationId: row.unique_registration_id || undefined,
+            profileImage: row.profile_image
+                ? await getSignedMediaUrlIfNeeded(row.profile_image).catch(() => row.profile_image)
+                : undefined,
             analytics: {
                 streakDays: Number(row.streak_days || 0),
                 consistencyScore: Number(row.consistency_score || 0),
@@ -289,7 +293,7 @@ studentsRouter.get('/parent/:parentId/students', requireAuth, async (req, res) =
                 completedCount: Number(row.completed_count || 0),
                 totalTimeSeconds: Number(row.total_time_seconds || 0),
             },
-        }));
+        })));
         return res.json({ students });
     }
     catch (error) {
@@ -818,7 +822,9 @@ studentsRouter.get('/:id/ai-performance-summary', requireAuth, async (req, res) 
                 lastName: student.last_name,
                 classLevel: student.class_level || '',
                 email: student.email || '',
-                profileImage: student.profile_image || null,
+                profileImage: student.profile_image
+                    ? await getSignedMediaUrlIfNeeded(student.profile_image).catch(() => student.profile_image)
+                    : null,
             },
             metrics: {
                 totalQuizzes,

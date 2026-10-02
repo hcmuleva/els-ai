@@ -47,6 +47,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SvgXml } from "react-native-svg";
 
 import { useAuth, API_BASE_URL } from "../../src/context/AuthContext";
+import { resolveMediaUrl } from "../../src/utils/media";
 import { Colors, Radius, RoleColors, Shadow } from "../../src/theme";
 import {
   OWL,
@@ -1329,10 +1330,18 @@ function ParentReports({ mode = "parent" }: { mode?: "parent" | "student" }) {
                                 backgroundColor: isActive
                                   ? "rgba(255,255,255,0.2)"
                                   : cc + "22",
+                                overflow: "hidden",
                               },
                             ]}
                           >
-                            <User size={14} color={isActive ? "#fff" : cc} />
+                            {child.profileImage ? (
+                              <Image
+                                source={{ uri: resolveMediaUrl(child.profileImage) }}
+                                style={{ width: "100%", height: "100%", borderRadius: 14 }}
+                              />
+                            ) : (
+                              <User size={14} color={isActive ? "#fff" : cc} />
+                            )}
                           </View>
                           <View>
                             <Text
@@ -4054,17 +4063,24 @@ export default function ReportsScreen() {
                           }}
                         >
                           <View style={gr.studentRow}>
-                            <View style={gr.studentAvatar}>
-                              <Text
-                                style={{
-                                  fontSize: 16,
-                                  fontWeight: "900",
-                                  color: "#7B4FCA",
-                                }}
-                              >
-                                {student.firstName[0]}
-                                {student.lastName[0]}
-                              </Text>
+                            <View style={[gr.studentAvatar, { overflow: "hidden" }]}>
+                              {student.profileImage ? (
+                                <Image
+                                  source={{ uri: resolveMediaUrl(student.profileImage) }}
+                                  style={{ width: "100%", height: "100%", borderRadius: 21 }}
+                                />
+                              ) : (
+                                <Text
+                                  style={{
+                                    fontSize: 16,
+                                    fontWeight: "900",
+                                    color: "#7B4FCA",
+                                  }}
+                                >
+                                  {student.firstName[0]}
+                                  {student.lastName[0]}
+                                </Text>
+                              )}
                             </View>
                             <View style={{ flex: 1 }}>
                               <View

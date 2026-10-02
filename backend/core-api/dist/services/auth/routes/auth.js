@@ -6,6 +6,7 @@ import { db } from '../db.js';
 import { enforceSubscriptionState } from '../services/billing.js';
 import { createRequireAuth, requireRole as sharedRequireRole, } from '@els-ai/internal-auth';
 import { eventBus } from '../events/bus.js';
+import { getSignedMediaUrlIfNeeded } from '../services/s3.js';
 const JWT_SECRET = process.env.JWT_SECRET || 'els-secret-key-super-secure';
 export const authRouter = Router();
 // Zod validation schemas
@@ -308,6 +309,9 @@ authRouter.post('/login', async (req, res) => {
             organizationId,
             payload: { email: user.email, role: user.active_role, isSuperAdmin },
         });
+        const signedProfileImage = user.profile_image
+            ? await getSignedMediaUrlIfNeeded(user.profile_image).catch(() => user.profile_image)
+            : null;
         return res.json({
             accessToken,
             refreshToken: rawRefreshToken,
@@ -321,7 +325,7 @@ authRouter.post('/login', async (req, res) => {
                 registrationId: user.unique_registration_id,
                 activeRole: user.active_role,
                 roles: rolesList,
-                profileImage: user.profile_image,
+                profileImage: signedProfileImage,
                 organizationId,
                 canPublishGlobal,
                 isSuperAdmin,

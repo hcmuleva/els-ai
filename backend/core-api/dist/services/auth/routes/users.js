@@ -497,16 +497,19 @@ usersRouter.post('/me/delete-child', requireAuth, async (req, res) => {
     if (!parentUserId || req.user?.role !== 'parent') {
         return res.status(403).json({ message: 'Only parents can delete child accounts' });
     }
-    const { registrationId } = req.body;
-    if (!registrationId) {
-        return res.status(400).json({ message: 'Registration ID is required' });
+    const { registrationId, childId: directChildId } = req.body;
+    if (!registrationId && !directChildId) {
+        return res.status(400).json({ message: 'Registration ID or Child ID is required' });
     }
     try {
         const childResult = await db.query(`SELECT u.id FROM users u
        INNER JOIN parent_student_links psl ON psl.student_user_id = u.id AND psl.parent_user_id = $1
-       WHERE u.unique_registration_id = $2
+       WHERE (
+         ($2::text IS NOT NULL AND (lower(u.unique_registration_id) = lower($2::text) OR u.id::text = $2::text))
+         OR ($3::text IS NOT NULL AND u.id::text = $3::text)
+       )
          AND u.deleted_at IS NULL
-       LIMIT 1`, [parentUserId, registrationId.trim().toUpperCase()]);
+       LIMIT 1`, [parentUserId, registrationId?.trim() || null, directChildId?.trim() || null]);
         if ((childResult.rowCount ?? 0) === 0) {
             return res.status(404).json({ message: 'Child account not found or not linked to you' });
         }
@@ -626,7 +629,7 @@ usersRouter.get('/', requireAuth, async (req, res) => {
        WHERE ${whereClauses.join(' AND ')}
        GROUP BY u.id, u.first_name, u.last_name, u.email, u.mobile_number, u.class_level, u.branch, u.active_role, u.profile_image, u.is_active
        ORDER BY u.first_name ASC, u.last_name ASC`, params);
-        const users = usersResult.rows.map((row) => ({
+        const users = await Promise.all(usersResult.rows.map(async (row) => ({
             id: row.id,
             firstName: row.first_name,
             lastName: row.last_name,
@@ -636,10 +639,12 @@ usersRouter.get('/', requireAuth, async (req, res) => {
             branch: row.branch || undefined,
             activeRole: row.active_role,
             roles: row.roles,
-            profileImage: row.profile_image || undefined,
+            profileImage: row.profile_image
+                ? await getSignedMediaUrlIfNeeded(row.profile_image).catch(() => row.profile_image)
+                : undefined,
             organizationId: row.organization_id || undefined,
             isActive: row.is_active,
-        }));
+        })));
         return res.json({ users });
     }
     catch (error) {
@@ -1804,8 +1809,29 @@ usersRouter.patch('/:id/organization-membership', requireAuth, async (req, res) 
         client.release();
     }
 });
+usersRouter.get('/me', requireAuth, async (req, res) => {
+    const userId = req.user?.userId;
+    if (!userId) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+    const organizationId = getRequestOrganizationId(req);
+    try {
+        const user = await getUserWithRoles(userId, organizationId || undefined);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        return res.json({ success: true, user });
+    }
+    catch (error) {
+        console.error('Failed to get /users/me:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+});
 usersRouter.get('/:id', requireAuth, async (req, res) => {
-    const userId = getSingleParam(req.params.id);
+    let userId = getSingleParam(req.params.id);
+    if (userId === 'me') {
+        userId = req.user?.userId || null;
+    }
     const organizationId = getRequestOrganizationId(req);
     // Simple check for string ID
     if (!userId) {

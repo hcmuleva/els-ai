@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  ActivityIndicator, FlatList, Modal, Platform, Pressable, RefreshControl, ScrollView,
+  ActivityIndicator, FlatList, Image, Modal, Platform, Pressable, RefreshControl, ScrollView,
   StyleSheet, Text, View, useWindowDimensions,
 } from 'react-native';
 import { Redirect, router } from 'expo-router';
@@ -23,6 +23,7 @@ import { SvgXml } from 'react-native-svg';
 
 import { Colors, Radius, Shadow } from '../../src/theme';
 import { GIRAFFE, OWL, BUTTERFLY, PENGUIN } from '../../src/assets/svgs';
+import { resolveMediaUrl } from '../../src/utils/media';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type IconComp = React.ComponentType<{ size: number; color: string }>;
@@ -422,14 +423,24 @@ function ParentDashboard() {
                 {linkedStudents.map((child, idx) => {
                   const isActive = child.id === activeStudent?.id;
                   const chipColor = CHILD_COLORS[idx % CHILD_COLORS.length];
+                  const avatarUrl = resolveMediaUrl(child.profileImage);
                   return (
                     <Pressable
                       key={child.id}
                       style={[s.childCardChip, isActive && s.childCardChipActive]}
                       onPress={() => switchToStudent(child.id)}
                     >
-                      <View style={[s.avatarCircle, { backgroundColor: chipColor }]}>
-                        <User size={18} color="#fff" />
+                      <View style={[s.avatarCircle, { backgroundColor: chipColor, overflow: 'hidden' }]}>
+                        {avatarUrl ? (
+                          <Image
+                            source={{ uri: avatarUrl }}
+                            style={{ width: '100%', height: '100%', borderRadius: 999 }}
+                          />
+                        ) : (
+                          <Text style={{ color: '#fff', fontWeight: '800', fontSize: 14 }}>
+                            {child.firstName?.charAt(0) || 'S'}
+                          </Text>
+                        )}
                       </View>
                       <View style={{ flexShrink: 1 }}>
                         <Text
